@@ -39,7 +39,7 @@ public interface ClassPara extends Para
    *
    * @return the Name element.
    */
-  public net.sourceforge.czt.z.ast.DeclName getName();
+  net.sourceforge.czt.z.ast.DeclName getName();
 
   /**
    * Sets the Name element.
@@ -47,14 +47,14 @@ public interface ClassPara extends Para
    * @param name   the Name element.
    * @see #getName
    */
-  public void setName(net.sourceforge.czt.z.ast.DeclName name);
+  void setName(net.sourceforge.czt.z.ast.DeclName name);
 
   /**
    * Returns the FormalParameters element.
    *
    * @return the FormalParameters element.
    */
-  public FormalParameters getFormalParameters();
+  FormalParameters getFormalParameters();
 
   /**
    * Sets the FormalParameters element.
@@ -62,14 +62,14 @@ public interface ClassPara extends Para
    * @param formalParameters   the FormalParameters element.
    * @see #getFormalParameters
    */
-  public void setFormalParameters(FormalParameters formalParameters);
+  void setFormalParameters(FormalParameters formalParameters);
 
   /**
    * Returns the VisibilityList element.
    *
    * @return the VisibilityList element.
    */
-  public DeclNameList getVisibilityList();
+  RefNameList getVisibilityList();
 
   /**
    * Sets the VisibilityList element.
@@ -77,7 +77,7 @@ public interface ClassPara extends Para
    * @param visibilityList   the VisibilityList element.
    * @see #getVisibilityList
    */
-  public void setVisibilityList(DeclNameList visibilityList);
+  void setVisibilityList(RefNameList visibilityList);
 
   /**
    * <p>Returns the InheritedClass elements.</p>
@@ -87,14 +87,14 @@ public interface ClassPara extends Para
    *
    * @return a list of InheritedClass elements.
    */
-  public java.util.List getInheritedClass();
+  java.util.List getInheritedClass();
 
   /**
    * Returns the LocalDef element.
    *
    * @return the LocalDef element.
    */
-  public LocalDef getLocalDef();
+  LocalDef getLocalDef();
 
   /**
    * Sets the LocalDef element.
@@ -102,14 +102,14 @@ public interface ClassPara extends Para
    * @param localDef   the LocalDef element.
    * @see #getLocalDef
    */
-  public void setLocalDef(LocalDef localDef);
+  void setLocalDef(LocalDef localDef);
 
   /**
    * Returns the State element.
    *
    * @return the State element.
    */
-  public State getState();
+  State getState();
 
   /**
    * Sets the State element.
@@ -117,14 +117,14 @@ public interface ClassPara extends Para
    * @param state   the State element.
    * @see #getState
    */
-  public void setState(State state);
+  void setState(State state);
 
   /**
    * Returns the InitialState element.
    *
    * @return the InitialState element.
    */
-  public InitialState getInitialState();
+  InitialState getInitialState();
 
   /**
    * Sets the InitialState element.
@@ -132,7 +132,7 @@ public interface ClassPara extends Para
    * @param initialState   the InitialState element.
    * @see #getInitialState
    */
-  public void setInitialState(InitialState initialState);
+  void setInitialState(InitialState initialState);
 
   /**
    * <p>Returns the Operation elements.</p>
@@ -142,5 +142,5 @@ public interface ClassPara extends Para
    *
    * @return a list of Operation elements.
    */
-  public java.util.List getOperation();
+  java.util.List getOperation();
 }

@@ -29,28 +29,47 @@ package net.sourceforge.czt.z.ast;
  *
  * @author Gnast version 0.1
  */
-public class Cat
+public final class Cat
 {
   public final static Cat Relation = new Cat("Relation");
   public final static Cat Function = new Cat("Function");
   public final static Cat Generic = new Cat("Generic");
-  private final String name;
+  private final String name_;
 
   /**
    * Only this class can construct instances.
    */
-  private Cat(String name) { this.name = name; }
+  private Cat(String name)
+  {
+    name_ = name;
+  }
 
-  public String toString() { return name; }
+  public String toString()
+  {
+    return name_;
+  }
 
-  public final int hashCode() { return super.hashCode(); }
+  public final int hashCode()
+  {
+    return super.hashCode();
+  }
 
-  public final boolean equals(java.lang.Object o) { return super.equals(o); }
+  public final boolean equals(java.lang.Object o)
+  {
+    return super.equals(o);
+  }
 
-  public static Cat fromString(java.lang.String value) {
-    if (value.equals("Relation")) return Relation;
-    if (value.equals("Function")) return Function;
-    if (value.equals("Generic")) return Generic;
+  public static Cat fromString(java.lang.String value)
+  {
+    if (value.equals("Relation")) {
+      return Relation;
+    }
+    if (value.equals("Function")) {
+      return Function;
+    }
+    if (value.equals("Generic")) {
+      return Generic;
+    }
     throw new IllegalArgumentException();
   }
 }

@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.AndPredVisitor;
  * @author Gnast version 0.1
  */
 public class AndPredImpl
-extends Pred2Impl implements AndPred
+  extends Pred2Impl   implements AndPred
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends Pred2Impl implements AndPred
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected AndPredImpl() { }
+  protected AndPredImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this AndPredImpl
@@ -60,16 +63,20 @@ extends Pred2Impl implements AndPred
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      AndPredImpl object = (AndPredImpl) obj;
-      if((mOp == null && object.mOp != null) ||
-         (mOp != null &&
-         ! mOp.equals(object.mOp))) return false;
-      if(mOp == null && object.mOp != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        AndPredImpl object = (AndPredImpl) obj;
+        if (op_ != null) {
+          if (!op_.equals(object.op_)) {
+            return false;
+          }
+        } else {
+          if (object.op_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -83,10 +90,12 @@ extends Pred2Impl implements AndPred
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "AndPredImpl".hashCode();
-    if(mOp != null) {
-      hashCode += 31*mOp.hashCode();
+    if (op_ != null) {
+      hashCode += constant * op_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +105,7 @@ extends Pred2Impl implements AndPred
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof AndPredVisitor)
-    {
+    if (v instanceof AndPredVisitor) {
       AndPredVisitor visitor = (AndPredVisitor) v;
       return visitor.visitAndPred(this);
     }
@@ -107,7 +115,8 @@ extends Pred2Impl implements AndPred
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     AndPred zedObject = null;
     try {
       Pred leftPred = (Pred) args[0];
@@ -131,15 +140,15 @@ extends Pred2Impl implements AndPred
     return erg;
   }
 
-  private Op mOp;
+  private Op op_;
 
   public Op getOp()
   {
-    return mOp;
+    return op_;
   }
 
   public void setOp(Op op)
   {
-    mOp = op;
+    op_ = op;
   }
 }

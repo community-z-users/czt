@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.FreeParaVisitor;
  * @author Gnast version 0.1
  */
 public class FreeParaImpl
-extends ParaImpl implements FreePara
+  extends ParaImpl   implements FreePara
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends ParaImpl implements FreePara
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected FreeParaImpl() { }
+  protected FreeParaImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this FreeParaImpl
@@ -60,16 +63,20 @@ extends ParaImpl implements FreePara
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      FreeParaImpl object = (FreeParaImpl) obj;
-      if((mFreetype == null && object.mFreetype != null) ||
-         (mFreetype != null &&
-         ! mFreetype.equals(object.mFreetype))) return false;
-      if(mFreetype == null && object.mFreetype != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        FreeParaImpl object = (FreeParaImpl) obj;
+        if (freetype_ != null) {
+          if (!freetype_.equals(object.freetype_)) {
+            return false;
+          }
+        } else {
+          if (object.freetype_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -83,10 +90,12 @@ extends ParaImpl implements FreePara
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "FreeParaImpl".hashCode();
-    if(mFreetype != null) {
-      hashCode += 31*mFreetype.hashCode();
+    if (freetype_ != null) {
+      hashCode += constant * freetype_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +105,7 @@ extends ParaImpl implements FreePara
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof FreeParaVisitor)
-    {
+    if (v instanceof FreeParaVisitor) {
       FreeParaVisitor visitor = (FreeParaVisitor) v;
       return visitor.visitFreePara(this);
     }
@@ -107,12 +115,13 @@ extends ParaImpl implements FreePara
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     FreePara zedObject = null;
     try {
       java.util.List freetype = (java.util.List) args[0];
       zedObject = new FreeParaImpl();
-      if(freetype != null) {
+      if (freetype != null) {
         zedObject.getFreetype().addAll(freetype);
       }
     } catch (IndexOutOfBoundsException e) {
@@ -129,10 +138,12 @@ extends ParaImpl implements FreePara
     return erg;
   }
 
-  private java.util.List mFreetype = new net.sourceforge.czt.util.TypesafeList(Freetype.class);
+
+  private java.util.List freetype_ =
+    new TypesafeList(Freetype.class);
 
   public java.util.List getFreetype()
   {
-    return mFreetype;
+    return freetype_;
   }
 }

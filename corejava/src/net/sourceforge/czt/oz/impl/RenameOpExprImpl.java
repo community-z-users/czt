@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.oz.ast.*;
@@ -43,7 +44,7 @@ import net.sourceforge.czt.oz.visitor.RenameOpExprVisitor;
  * @author Gnast version 0.1
  */
 public class RenameOpExprImpl
-extends OperationExprImpl implements RenameOpExpr
+  extends OperationExprImpl   implements RenameOpExpr
 {
   /**
    * The default constructor.
@@ -52,7 +53,9 @@ extends OperationExprImpl implements RenameOpExpr
    * If you want to create an instance of this class, please use the
    * {@link OzFactory object factory}.
    */
-  protected RenameOpExprImpl() { }
+  protected RenameOpExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this RenameOpExprImpl
@@ -62,21 +65,29 @@ extends OperationExprImpl implements RenameOpExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      RenameOpExprImpl object = (RenameOpExprImpl) obj;
-      if((mOperationExpr == null && object.mOperationExpr != null) ||
-         (mOperationExpr != null &&
-         ! mOperationExpr.equals(object.mOperationExpr))) return false;
-      if(mOperationExpr == null && object.mOperationExpr != null)
-        return false;
-      if((mRenameList == null && object.mRenameList != null) ||
-         (mRenameList != null &&
-         ! mRenameList.equals(object.mRenameList))) return false;
-      if(mRenameList == null && object.mRenameList != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        RenameOpExprImpl object = (RenameOpExprImpl) obj;
+        if (operationExpr_ != null) {
+          if (!operationExpr_.equals(object.operationExpr_)) {
+            return false;
+          }
+        } else {
+          if (object.operationExpr_ != null) {
+            return false;
+          }
+        }
+        if (renameExpr_ != null) {
+          if (!renameExpr_.equals(object.renameExpr_)) {
+            return false;
+          }
+        } else {
+          if (object.renameExpr_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -90,13 +101,15 @@ extends OperationExprImpl implements RenameOpExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "RenameOpExprImpl".hashCode();
-    if(mOperationExpr != null) {
-      hashCode += 31*mOperationExpr.hashCode();
+    if (operationExpr_ != null) {
+      hashCode += constant * operationExpr_.hashCode();
     }
-    if(mRenameList != null) {
-      hashCode += 31*mRenameList.hashCode();
+    if (renameExpr_ != null) {
+      hashCode += constant * renameExpr_.hashCode();
     }
     return hashCode;
   }
@@ -106,8 +119,7 @@ extends OperationExprImpl implements RenameOpExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof RenameOpExprVisitor)
-    {
+    if (v instanceof RenameOpExprVisitor) {
       RenameOpExprVisitor visitor = (RenameOpExprVisitor) v;
       return visitor.visitRenameOpExpr(this);
     }
@@ -117,14 +129,15 @@ extends OperationExprImpl implements RenameOpExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     RenameOpExpr zedObject = null;
     try {
       OperationExpr operationExpr = (OperationExpr) args[0];
-      RenameList renameList = (RenameList) args[1];
+      net.sourceforge.czt.z.ast.RenameExpr renameExpr = (net.sourceforge.czt.z.ast.RenameExpr) args[1];
       zedObject = new RenameOpExprImpl();
       zedObject.setOperationExpr(operationExpr);
-      zedObject.setRenameList(renameList);
+      zedObject.setRenameExpr(renameExpr);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
@@ -135,31 +148,31 @@ extends OperationExprImpl implements RenameOpExpr
 
   public Object[] getChildren()
   {
-    Object[] erg = { getOperationExpr(), getRenameList() };
+    Object[] erg = { getOperationExpr(), getRenameExpr() };
     return erg;
   }
 
-  private OperationExpr mOperationExpr;
+  private OperationExpr operationExpr_;
 
   public OperationExpr getOperationExpr()
   {
-    return mOperationExpr;
+    return operationExpr_;
   }
 
   public void setOperationExpr(OperationExpr operationExpr)
   {
-    mOperationExpr = operationExpr;
+    operationExpr_ = operationExpr;
   }
 
-  private RenameList mRenameList;
+  private net.sourceforge.czt.z.ast.RenameExpr renameExpr_;
 
-  public RenameList getRenameList()
+  public net.sourceforge.czt.z.ast.RenameExpr getRenameExpr()
   {
-    return mRenameList;
+    return renameExpr_;
   }
 
-  public void setRenameList(RenameList renameList)
+  public void setRenameExpr(net.sourceforge.czt.z.ast.RenameExpr renameExpr)
   {
-    mRenameList = renameList;
+    renameExpr_ = renameExpr;
   }
 }

@@ -39,7 +39,7 @@ public interface NegPred extends Pred
    *
    * @return the Pred element.
    */
-  public Pred getPred();
+  Pred getPred();
 
   /**
    * Sets the Pred element.
@@ -47,5 +47,5 @@ public interface NegPred extends Pred
    * @param pred   the Pred element.
    * @see #getPred
    */
-  public void setPred(Pred pred);
+  void setPred(Pred pred);
 }

@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.Qnt1ExprVisitor;
  * @author Gnast version 0.1
  */
 public abstract class Qnt1ExprImpl
-extends QntExprImpl implements Qnt1Expr
+  extends QntExprImpl   implements Qnt1Expr
 {
 
   /**
@@ -52,11 +53,11 @@ extends QntExprImpl implements Qnt1Expr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      Qnt1ExprImpl object = (Qnt1ExprImpl) obj;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        Qnt1ExprImpl object = (Qnt1ExprImpl) obj;
+        return true;
+      }
     }
     return false;
   }
@@ -70,6 +71,8 @@ extends QntExprImpl implements Qnt1Expr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "Qnt1ExprImpl".hashCode();
     return hashCode;
@@ -80,8 +83,7 @@ extends QntExprImpl implements Qnt1Expr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof Qnt1ExprVisitor)
-    {
+    if (v instanceof Qnt1ExprVisitor) {
       Qnt1ExprVisitor visitor = (Qnt1ExprVisitor) v;
       return visitor.visitQnt1Expr(this);
     }

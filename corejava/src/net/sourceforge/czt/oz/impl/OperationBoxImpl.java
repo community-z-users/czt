@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.oz.ast.*;
@@ -43,7 +44,7 @@ import net.sourceforge.czt.oz.visitor.OperationBoxVisitor;
  * @author Gnast version 0.1
  */
 public class OperationBoxImpl
-extends OperationBoxExprImpl implements OperationBox
+  extends OperationBoxExprImpl   implements OperationBox
 {
   /**
    * The default constructor.
@@ -52,7 +53,9 @@ extends OperationBoxExprImpl implements OperationBox
    * If you want to create an instance of this class, please use the
    * {@link OzFactory object factory}.
    */
-  protected OperationBoxImpl() { }
+  protected OperationBoxImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this OperationBoxImpl
@@ -62,26 +65,38 @@ extends OperationBoxExprImpl implements OperationBox
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      OperationBoxImpl object = (OperationBoxImpl) obj;
-      if((mDeltaList == null && object.mDeltaList != null) ||
-         (mDeltaList != null &&
-         ! mDeltaList.equals(object.mDeltaList))) return false;
-      if(mDeltaList == null && object.mDeltaList != null)
-        return false;
-      if((mDecl == null && object.mDecl != null) ||
-         (mDecl != null &&
-         ! mDecl.equals(object.mDecl))) return false;
-      if(mDecl == null && object.mDecl != null)
-        return false;
-      if((mPred == null && object.mPred != null) ||
-         (mPred != null &&
-         ! mPred.equals(object.mPred))) return false;
-      if(mPred == null && object.mPred != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        OperationBoxImpl object = (OperationBoxImpl) obj;
+        if (deltaList_ != null) {
+          if (!deltaList_.equals(object.deltaList_)) {
+            return false;
+          }
+        } else {
+          if (object.deltaList_ != null) {
+            return false;
+          }
+        }
+        if (decl_ != null) {
+          if (!decl_.equals(object.decl_)) {
+            return false;
+          }
+        } else {
+          if (object.decl_ != null) {
+            return false;
+          }
+        }
+        if (pred_ != null) {
+          if (!pred_.equals(object.pred_)) {
+            return false;
+          }
+        } else {
+          if (object.pred_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -95,16 +110,18 @@ extends OperationBoxExprImpl implements OperationBox
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "OperationBoxImpl".hashCode();
-    if(mDeltaList != null) {
-      hashCode += 31*mDeltaList.hashCode();
+    if (deltaList_ != null) {
+      hashCode += constant * deltaList_.hashCode();
     }
-    if(mDecl != null) {
-      hashCode += 31*mDecl.hashCode();
+    if (decl_ != null) {
+      hashCode += constant * decl_.hashCode();
     }
-    if(mPred != null) {
-      hashCode += 31*mPred.hashCode();
+    if (pred_ != null) {
+      hashCode += constant * pred_.hashCode();
     }
     return hashCode;
   }
@@ -114,8 +131,7 @@ extends OperationBoxExprImpl implements OperationBox
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof OperationBoxVisitor)
-    {
+    if (v instanceof OperationBoxVisitor) {
       OperationBoxVisitor visitor = (OperationBoxVisitor) v;
       return visitor.visitOperationBox(this);
     }
@@ -125,7 +141,8 @@ extends OperationBoxExprImpl implements OperationBox
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     OperationBox zedObject = null;
     try {
       RefNameList deltaList = (RefNameList) args[0];
@@ -133,10 +150,10 @@ extends OperationBoxExprImpl implements OperationBox
       java.util.List pred = (java.util.List) args[2];
       zedObject = new OperationBoxImpl();
       zedObject.setDeltaList(deltaList);
-      if(decl != null) {
+      if (decl != null) {
         zedObject.getDecl().addAll(decl);
       }
-      if(pred != null) {
+      if (pred != null) {
         zedObject.getPred().addAll(pred);
       }
     } catch (IndexOutOfBoundsException e) {
@@ -153,29 +170,33 @@ extends OperationBoxExprImpl implements OperationBox
     return erg;
   }
 
-  private RefNameList mDeltaList;
+  private RefNameList deltaList_;
 
   public RefNameList getDeltaList()
   {
-    return mDeltaList;
+    return deltaList_;
   }
 
   public void setDeltaList(RefNameList deltaList)
   {
-    mDeltaList = deltaList;
+    deltaList_ = deltaList;
   }
 
-  private java.util.List mDecl = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.Decl.class);
+
+  private java.util.List decl_ =
+    new TypesafeList(net.sourceforge.czt.z.ast.Decl.class);
 
   public java.util.List getDecl()
   {
-    return mDecl;
+    return decl_;
   }
 
-  private java.util.List mPred = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.Pred.class);
+
+  private java.util.List pred_ =
+    new TypesafeList(net.sourceforge.czt.z.ast.Pred.class);
 
   public java.util.List getPred()
   {
-    return mPred;
+    return pred_;
   }
 }

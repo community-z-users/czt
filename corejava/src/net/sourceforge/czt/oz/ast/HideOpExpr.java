@@ -39,7 +39,7 @@ public interface HideOpExpr extends OperationExpr
    *
    * @return the OperationExpr element.
    */
-  public OperationExpr getOperationExpr();
+  OperationExpr getOperationExpr();
 
   /**
    * Sets the OperationExpr element.
@@ -47,7 +47,7 @@ public interface HideOpExpr extends OperationExpr
    * @param operationExpr   the OperationExpr element.
    * @see #getOperationExpr
    */
-  public void setOperationExpr(OperationExpr operationExpr);
+  void setOperationExpr(OperationExpr operationExpr);
 
   /**
    * <p>Returns the HideName elements.</p>
@@ -57,5 +57,5 @@ public interface HideOpExpr extends OperationExpr
    *
    * @return a list of RefName elements.
    */
-  public java.util.List getHideName();
+  java.util.List getHideName();
 }

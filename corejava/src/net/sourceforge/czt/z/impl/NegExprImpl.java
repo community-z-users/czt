@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.NegExprVisitor;
  * @author Gnast version 0.1
  */
 public class NegExprImpl
-extends Expr1Impl implements NegExpr
+  extends Expr1Impl   implements NegExpr
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends Expr1Impl implements NegExpr
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected NegExprImpl() { }
+  protected NegExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this NegExprImpl
@@ -60,11 +63,11 @@ extends Expr1Impl implements NegExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      NegExprImpl object = (NegExprImpl) obj;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        NegExprImpl object = (NegExprImpl) obj;
+        return true;
+      }
     }
     return false;
   }
@@ -78,6 +81,8 @@ extends Expr1Impl implements NegExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "NegExprImpl".hashCode();
     return hashCode;
@@ -88,8 +93,7 @@ extends Expr1Impl implements NegExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof NegExprVisitor)
-    {
+    if (v instanceof NegExprVisitor) {
       NegExprVisitor visitor = (NegExprVisitor) v;
       return visitor.visitNegExpr(this);
     }
@@ -99,7 +103,8 @@ extends Expr1Impl implements NegExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     NegExpr zedObject = null;
     try {
       Expr expr = (Expr) args[0];

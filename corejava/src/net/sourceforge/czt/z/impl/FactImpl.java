@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.FactVisitor;
  * @author Gnast version 0.1
  */
 public abstract class FactImpl
-extends PredImpl implements Fact
+  extends PredImpl   implements Fact
 {
 
   /**
@@ -52,11 +53,11 @@ extends PredImpl implements Fact
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      FactImpl object = (FactImpl) obj;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        FactImpl object = (FactImpl) obj;
+        return true;
+      }
     }
     return false;
   }
@@ -70,6 +71,8 @@ extends PredImpl implements Fact
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "FactImpl".hashCode();
     return hashCode;
@@ -80,8 +83,7 @@ extends PredImpl implements Fact
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof FactVisitor)
-    {
+    if (v instanceof FactVisitor) {
       FactVisitor visitor = (FactVisitor) v;
       return visitor.visitFact(this);
     }

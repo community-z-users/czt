@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.Exists1PredVisitor;
  * @author Gnast version 0.1
  */
 public class Exists1PredImpl
-extends QntPredImpl implements Exists1Pred
+  extends QntPredImpl   implements Exists1Pred
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends QntPredImpl implements Exists1Pred
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected Exists1PredImpl() { }
+  protected Exists1PredImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this Exists1PredImpl
@@ -60,11 +63,11 @@ extends QntPredImpl implements Exists1Pred
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      Exists1PredImpl object = (Exists1PredImpl) obj;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        Exists1PredImpl object = (Exists1PredImpl) obj;
+        return true;
+      }
     }
     return false;
   }
@@ -78,6 +81,8 @@ extends QntPredImpl implements Exists1Pred
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "Exists1PredImpl".hashCode();
     return hashCode;
@@ -88,8 +93,7 @@ extends QntPredImpl implements Exists1Pred
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof Exists1PredVisitor)
-    {
+    if (v instanceof Exists1PredVisitor) {
       Exists1PredVisitor visitor = (Exists1PredVisitor) v;
       return visitor.visitExists1Pred(this);
     }
@@ -99,7 +103,8 @@ extends QntPredImpl implements Exists1Pred
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     Exists1Pred zedObject = null;
     try {
       SchText schText = (SchText) args[0];

@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.ProdTypeVisitor;
  * @author Gnast version 0.1
  */
 public class ProdTypeImpl
-extends TypeImpl implements ProdType
+  extends TypeImpl   implements ProdType
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends TypeImpl implements ProdType
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected ProdTypeImpl() { }
+  protected ProdTypeImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this ProdTypeImpl
@@ -60,16 +63,20 @@ extends TypeImpl implements ProdType
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      ProdTypeImpl object = (ProdTypeImpl) obj;
-      if((mType == null && object.mType != null) ||
-         (mType != null &&
-         ! mType.equals(object.mType))) return false;
-      if(mType == null && object.mType != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        ProdTypeImpl object = (ProdTypeImpl) obj;
+        if (type_ != null) {
+          if (!type_.equals(object.type_)) {
+            return false;
+          }
+        } else {
+          if (object.type_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -83,10 +90,12 @@ extends TypeImpl implements ProdType
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "ProdTypeImpl".hashCode();
-    if(mType != null) {
-      hashCode += 31*mType.hashCode();
+    if (type_ != null) {
+      hashCode += constant * type_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +105,7 @@ extends TypeImpl implements ProdType
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof ProdTypeVisitor)
-    {
+    if (v instanceof ProdTypeVisitor) {
       ProdTypeVisitor visitor = (ProdTypeVisitor) v;
       return visitor.visitProdType(this);
     }
@@ -107,12 +115,13 @@ extends TypeImpl implements ProdType
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     ProdType zedObject = null;
     try {
       java.util.List type = (java.util.List) args[0];
       zedObject = new ProdTypeImpl();
-      if(type != null) {
+      if (type != null) {
         zedObject.getType().addAll(type);
       }
     } catch (IndexOutOfBoundsException e) {
@@ -129,10 +138,12 @@ extends TypeImpl implements ProdType
     return erg;
   }
 
-  private java.util.List mType = new net.sourceforge.czt.util.TypesafeList(Type.class);
+
+  private java.util.List type_ =
+    new TypesafeList(Type.class);
 
   public java.util.List getType()
   {
-    return mType;
+    return type_;
   }
 }

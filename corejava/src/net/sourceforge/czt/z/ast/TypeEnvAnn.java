@@ -42,5 +42,5 @@ public interface TypeEnvAnn extends Term
    *
    * @return a list of NameTypePair elements.
    */
-  public java.util.List getNameTypePair();
+  java.util.List getNameTypePair();
 }

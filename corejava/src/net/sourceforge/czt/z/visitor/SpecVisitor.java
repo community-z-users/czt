@@ -26,6 +26,9 @@ package net.sourceforge.czt.z.visitor;
 
 import net.sourceforge.czt.util.Visitor;
 
+/**
+ * A(n) Spec visitor.
+ */
 public interface SpecVisitor extends Visitor
 {
   /**

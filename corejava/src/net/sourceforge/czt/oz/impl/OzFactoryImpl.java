@@ -48,22 +48,9 @@ public class OzFactoryImpl
   public RefNameList createRefNameList(java.util.List name)
   {
     RefNameList zedObject = createRefNameList();
-    if(name != null) {
+    if (name != null) {
       zedObject.getName().addAll(name);
     }
-    return zedObject;
-  }
-
-  public RenameList createRenameList()
-  {
-    RenameList zedObject = new RenameListImpl();
-    return zedObject;
-  }
-
-  public RenameList createRenameList(net.sourceforge.czt.z.ast.RenameExpr renameExpr)
-  {
-    RenameList zedObject = createRenameList();
-    zedObject.setRenameExpr(renameExpr);
     return zedObject;
   }
 
@@ -76,7 +63,7 @@ public class OzFactoryImpl
   public ActualParameters createActualParameters(java.util.List expr)
   {
     ActualParameters zedObject = createActualParameters();
-    if(expr != null) {
+    if (expr != null) {
       zedObject.getExpr().addAll(expr);
     }
     return zedObject;
@@ -133,7 +120,7 @@ public class OzFactoryImpl
   {
     HideOpExpr zedObject = createHideOpExpr();
     zedObject.setOperationExpr(operationExpr);
-    if(hideName != null) {
+    if (hideName != null) {
       zedObject.getHideName().addAll(hideName);
     }
     return zedObject;
@@ -159,12 +146,12 @@ public class OzFactoryImpl
     return zedObject;
   }
 
-  public InheritedClass createInheritedClass(net.sourceforge.czt.z.ast.RefName name, ActualParameters actualParameters, RenameList renameList)
+  public InheritedClass createInheritedClass(net.sourceforge.czt.z.ast.RefName name, ActualParameters actualParameters, net.sourceforge.czt.z.ast.RenameExpr renameExpr)
   {
     InheritedClass zedObject = createInheritedClass();
     zedObject.setName(name);
     zedObject.setActualParameters(actualParameters);
-    zedObject.setRenameList(renameList);
+    zedObject.setRenameExpr(renameExpr);
     return zedObject;
   }
 
@@ -201,16 +188,14 @@ public class OzFactoryImpl
     return zedObject;
   }
 
-  public State createState(java.util.List decl, java.util.List secondaryAttributes, java.util.List pred)
+  public State createState(java.util.List decl, SecondaryAttributes secondaryAttributes, java.util.List pred)
   {
     State zedObject = createState();
-    if(decl != null) {
+    if (decl != null) {
       zedObject.getDecl().addAll(decl);
     }
-    if(secondaryAttributes != null) {
-      zedObject.getSecondaryAttributes().addAll(secondaryAttributes);
-    }
-    if(pred != null) {
+    zedObject.setSecondaryAttributes(secondaryAttributes);
+    if (pred != null) {
       zedObject.getPred().addAll(pred);
     }
     return zedObject;
@@ -250,19 +235,19 @@ public class OzFactoryImpl
     return zedObject;
   }
 
-  public ClassPara createClassPara(net.sourceforge.czt.z.ast.DeclName name, FormalParameters formalParameters, DeclNameList visibilityList, java.util.List inheritedClass, LocalDef localDef, State state, InitialState initialState, java.util.List operation)
+  public ClassPara createClassPara(net.sourceforge.czt.z.ast.DeclName name, FormalParameters formalParameters, RefNameList visibilityList, java.util.List inheritedClass, LocalDef localDef, State state, InitialState initialState, java.util.List operation)
   {
     ClassPara zedObject = createClassPara();
     zedObject.setName(name);
     zedObject.setFormalParameters(formalParameters);
     zedObject.setVisibilityList(visibilityList);
-    if(inheritedClass != null) {
+    if (inheritedClass != null) {
       zedObject.getInheritedClass().addAll(inheritedClass);
     }
     zedObject.setLocalDef(localDef);
     zedObject.setState(state);
     zedObject.setInitialState(initialState);
-    if(operation != null) {
+    if (operation != null) {
       zedObject.getOperation().addAll(operation);
     }
     return zedObject;
@@ -297,29 +282,14 @@ public class OzFactoryImpl
   public LocalDef createLocalDef(java.util.List givenPara, java.util.List axPara, java.util.List freePara)
   {
     LocalDef zedObject = createLocalDef();
-    if(givenPara != null) {
+    if (givenPara != null) {
       zedObject.getGivenPara().addAll(givenPara);
     }
-    if(axPara != null) {
+    if (axPara != null) {
       zedObject.getAxPara().addAll(axPara);
     }
-    if(freePara != null) {
+    if (freePara != null) {
       zedObject.getFreePara().addAll(freePara);
-    }
-    return zedObject;
-  }
-
-  public InitialState createInitialState()
-  {
-    InitialState zedObject = new InitialStateImpl();
-    return zedObject;
-  }
-
-  public InitialState createInitialState(java.util.List pred)
-  {
-    InitialState zedObject = createInitialState();
-    if(pred != null) {
-      zedObject.getPred().addAll(pred);
     }
     return zedObject;
   }
@@ -334,10 +304,25 @@ public class OzFactoryImpl
   {
     OperationBox zedObject = createOperationBox();
     zedObject.setDeltaList(deltaList);
-    if(decl != null) {
+    if (decl != null) {
       zedObject.getDecl().addAll(decl);
     }
-    if(pred != null) {
+    if (pred != null) {
+      zedObject.getPred().addAll(pred);
+    }
+    return zedObject;
+  }
+
+  public InitialState createInitialState()
+  {
+    InitialState zedObject = new InitialStateImpl();
+    return zedObject;
+  }
+
+  public InitialState createInitialState(java.util.List pred)
+  {
+    InitialState zedObject = createInitialState();
+    if (pred != null) {
       zedObject.getPred().addAll(pred);
     }
     return zedObject;
@@ -370,24 +355,18 @@ public class OzFactoryImpl
     return zedObject;
   }
 
-  public DeclNameList createDeclNameList()
-  {
-    DeclNameList zedObject = new DeclNameListImpl();
-    return zedObject;
-  }
-
-  public DeclNameList createDeclNameList(java.util.List name)
-  {
-    DeclNameList zedObject = createDeclNameList();
-    if(name != null) {
-      zedObject.getName().addAll(name);
-    }
-    return zedObject;
-  }
-
   public SecondaryAttributes createSecondaryAttributes()
   {
     SecondaryAttributes zedObject = new SecondaryAttributesImpl();
+    return zedObject;
+  }
+
+  public SecondaryAttributes createSecondaryAttributes(java.util.List varDecl)
+  {
+    SecondaryAttributes zedObject = createSecondaryAttributes();
+    if (varDecl != null) {
+      zedObject.getVarDecl().addAll(varDecl);
+    }
     return zedObject;
   }
 
@@ -397,11 +376,11 @@ public class OzFactoryImpl
     return zedObject;
   }
 
-  public RenameOpExpr createRenameOpExpr(OperationExpr operationExpr, RenameList renameList)
+  public RenameOpExpr createRenameOpExpr(OperationExpr operationExpr, net.sourceforge.czt.z.ast.RenameExpr renameExpr)
   {
     RenameOpExpr zedObject = createRenameOpExpr();
     zedObject.setOperationExpr(operationExpr);
-    zedObject.setRenameList(renameList);
+    zedObject.setRenameExpr(renameExpr);
     return zedObject;
   }
 
@@ -442,7 +421,7 @@ public class OzFactoryImpl
   public FormalParameters createFormalParameters(java.util.List refName)
   {
     FormalParameters zedObject = createFormalParameters();
-    if(refName != null) {
+    if (refName != null) {
       zedObject.getRefName().addAll(refName);
     }
     return zedObject;

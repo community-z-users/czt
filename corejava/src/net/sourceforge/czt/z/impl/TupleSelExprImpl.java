@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.TupleSelExprVisitor;
  * @author Gnast version 0.1
  */
 public class TupleSelExprImpl
-extends Expr1Impl implements TupleSelExpr
+  extends Expr1Impl   implements TupleSelExpr
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends Expr1Impl implements TupleSelExpr
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected TupleSelExprImpl() { }
+  protected TupleSelExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this TupleSelExprImpl
@@ -60,16 +63,20 @@ extends Expr1Impl implements TupleSelExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      TupleSelExprImpl object = (TupleSelExprImpl) obj;
-      if((mSelect == null && object.mSelect != null) ||
-         (mSelect != null &&
-         ! mSelect.equals(object.mSelect))) return false;
-      if(mSelect == null && object.mSelect != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        TupleSelExprImpl object = (TupleSelExprImpl) obj;
+        if (select_ != null) {
+          if (!select_.equals(object.select_)) {
+            return false;
+          }
+        } else {
+          if (object.select_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -83,10 +90,12 @@ extends Expr1Impl implements TupleSelExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "TupleSelExprImpl".hashCode();
-    if(mSelect != null) {
-      hashCode += 31*mSelect.hashCode();
+    if (select_ != null) {
+      hashCode += constant * select_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +105,7 @@ extends Expr1Impl implements TupleSelExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof TupleSelExprVisitor)
-    {
+    if (v instanceof TupleSelExprVisitor) {
       TupleSelExprVisitor visitor = (TupleSelExprVisitor) v;
       return visitor.visitTupleSelExpr(this);
     }
@@ -107,7 +115,8 @@ extends Expr1Impl implements TupleSelExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     TupleSelExpr zedObject = null;
     try {
       Expr expr = (Expr) args[0];
@@ -129,15 +138,15 @@ extends Expr1Impl implements TupleSelExpr
     return erg;
   }
 
-  private Integer mSelect;
+  private Integer select_;
 
   public Integer getSelect()
   {
-    return mSelect;
+    return select_;
   }
 
   public void setSelect(Integer select)
   {
-    mSelect = select;
+    select_ = select;
   }
 }

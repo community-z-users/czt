@@ -42,5 +42,5 @@ public interface NarrPara extends Para
    *
    * @return a list of java.lang.Object elements.
    */
-  public java.util.List getContent();
+  java.util.List getContent();
 }

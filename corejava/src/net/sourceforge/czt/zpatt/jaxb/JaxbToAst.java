@@ -57,13 +57,14 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     return Logger.getLogger("net.sourceforge.czt.zpatt.jaxb.JaxbToAst");
   }
 
-  public Object visitObject(Object object) {
+  public Object visitObject(Object object)
+  {
     getLogger().fine("Visit " + object.getClass().toString());
-    if (object instanceof String ||
-        object instanceof Boolean ||
-        object instanceof List ||
-        object instanceof Integer ||
-        object instanceof java.math.BigInteger) {
+    if (object instanceof String
+        || object instanceof Boolean
+        || object instanceof List
+        || object instanceof Integer
+        || object instanceof java.math.BigInteger) {
       return object;
     }
     throw new UnsupportedOperationException("Unexpected element "
@@ -84,13 +85,13 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
   {
     getLogger().entering("JaxbToAst", "visitSubstitute", jaxbObject);
     java.util.List expr = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getExpr().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getExpr().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       expr.add(o);
     }
     java.util.List pred = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getPred().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getPred().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       pred.add(o);
@@ -114,7 +115,7 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
   {
     getLogger().entering("JaxbToAst", "visitSubstList", jaxbObject);
     java.util.List substitute = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getSubstitute().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getSubstitute().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       substitute.add(o);

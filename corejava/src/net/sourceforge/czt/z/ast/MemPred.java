@@ -39,7 +39,7 @@ public interface MemPred extends Pred
    *
    * @return the LeftExpr element.
    */
-  public Expr getLeftExpr();
+  Expr getLeftExpr();
 
   /**
    * Sets the LeftExpr element.
@@ -47,14 +47,14 @@ public interface MemPred extends Pred
    * @param leftExpr   the LeftExpr element.
    * @see #getLeftExpr
    */
-  public void setLeftExpr(Expr leftExpr);
+  void setLeftExpr(Expr leftExpr);
 
   /**
    * Returns the RightExpr element.
    *
    * @return the RightExpr element.
    */
-  public Expr getRightExpr();
+  Expr getRightExpr();
 
   /**
    * Sets the RightExpr element.
@@ -62,14 +62,14 @@ public interface MemPred extends Pred
    * @param rightExpr   the RightExpr element.
    * @see #getRightExpr
    */
-  public void setRightExpr(Expr rightExpr);
+  void setRightExpr(Expr rightExpr);
 
   /**
    * Returns the Mixfix element.
    *
    * @return the Mixfix element.
    */
-  public Boolean getMixfix();
+  Boolean getMixfix();
 
   /**
    * Sets the Mixfix element.
@@ -77,5 +77,5 @@ public interface MemPred extends Pred
    * @param mixfix   the Mixfix element.
    * @see #getMixfix
    */
-  public void setMixfix(Boolean mixfix);
+  void setMixfix(Boolean mixfix);
 }

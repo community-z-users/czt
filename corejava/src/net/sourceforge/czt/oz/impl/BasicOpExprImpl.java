@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.oz.ast.*;
@@ -43,7 +44,7 @@ import net.sourceforge.czt.oz.visitor.BasicOpExprVisitor;
  * @author Gnast version 0.1
  */
 public class BasicOpExprImpl
-extends OperationExprImpl implements BasicOpExpr
+  extends OperationExprImpl   implements BasicOpExpr
 {
   /**
    * The default constructor.
@@ -52,7 +53,9 @@ extends OperationExprImpl implements BasicOpExpr
    * If you want to create an instance of this class, please use the
    * {@link OzFactory object factory}.
    */
-  protected BasicOpExprImpl() { }
+  protected BasicOpExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this BasicOpExprImpl
@@ -62,21 +65,29 @@ extends OperationExprImpl implements BasicOpExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      BasicOpExprImpl object = (BasicOpExprImpl) obj;
-      if((mDeltaList == null && object.mDeltaList != null) ||
-         (mDeltaList != null &&
-         ! mDeltaList.equals(object.mDeltaList))) return false;
-      if(mDeltaList == null && object.mDeltaList != null)
-        return false;
-      if((mSchText == null && object.mSchText != null) ||
-         (mSchText != null &&
-         ! mSchText.equals(object.mSchText))) return false;
-      if(mSchText == null && object.mSchText != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        BasicOpExprImpl object = (BasicOpExprImpl) obj;
+        if (deltaList_ != null) {
+          if (!deltaList_.equals(object.deltaList_)) {
+            return false;
+          }
+        } else {
+          if (object.deltaList_ != null) {
+            return false;
+          }
+        }
+        if (schText_ != null) {
+          if (!schText_.equals(object.schText_)) {
+            return false;
+          }
+        } else {
+          if (object.schText_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -90,13 +101,15 @@ extends OperationExprImpl implements BasicOpExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "BasicOpExprImpl".hashCode();
-    if(mDeltaList != null) {
-      hashCode += 31*mDeltaList.hashCode();
+    if (deltaList_ != null) {
+      hashCode += constant * deltaList_.hashCode();
     }
-    if(mSchText != null) {
-      hashCode += 31*mSchText.hashCode();
+    if (schText_ != null) {
+      hashCode += constant * schText_.hashCode();
     }
     return hashCode;
   }
@@ -106,8 +119,7 @@ extends OperationExprImpl implements BasicOpExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof BasicOpExprVisitor)
-    {
+    if (v instanceof BasicOpExprVisitor) {
       BasicOpExprVisitor visitor = (BasicOpExprVisitor) v;
       return visitor.visitBasicOpExpr(this);
     }
@@ -117,7 +129,8 @@ extends OperationExprImpl implements BasicOpExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     BasicOpExpr zedObject = null;
     try {
       RefNameList deltaList = (RefNameList) args[0];
@@ -139,27 +152,27 @@ extends OperationExprImpl implements BasicOpExpr
     return erg;
   }
 
-  private RefNameList mDeltaList;
+  private RefNameList deltaList_;
 
   public RefNameList getDeltaList()
   {
-    return mDeltaList;
+    return deltaList_;
   }
 
   public void setDeltaList(RefNameList deltaList)
   {
-    mDeltaList = deltaList;
+    deltaList_ = deltaList;
   }
 
-  private net.sourceforge.czt.z.ast.SchText mSchText;
+  private net.sourceforge.czt.z.ast.SchText schText_;
 
   public net.sourceforge.czt.z.ast.SchText getSchText()
   {
-    return mSchText;
+    return schText_;
   }
 
   public void setSchText(net.sourceforge.czt.z.ast.SchText schText)
   {
-    mSchText = schText;
+    schText_ = schText;
   }
 }

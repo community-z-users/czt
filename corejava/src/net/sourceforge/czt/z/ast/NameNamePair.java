@@ -39,7 +39,7 @@ public interface NameNamePair extends Term
    *
    * @return the OldName element.
    */
-  public RefName getOldName();
+  RefName getOldName();
 
   /**
    * Sets the OldName element.
@@ -47,14 +47,14 @@ public interface NameNamePair extends Term
    * @param oldName   the OldName element.
    * @see #getOldName
    */
-  public void setOldName(RefName oldName);
+  void setOldName(RefName oldName);
 
   /**
    * Returns the NewName element.
    *
    * @return the NewName element.
    */
-  public DeclName getNewName();
+  DeclName getNewName();
 
   /**
    * Sets the NewName element.
@@ -62,5 +62,5 @@ public interface NameNamePair extends Term
    * @param newName   the NewName element.
    * @see #getNewName
    */
-  public void setNewName(DeclName newName);
+  void setNewName(DeclName newName);
 }

@@ -39,7 +39,7 @@ public interface Freetype extends TermA
    *
    * @return the DeclName element.
    */
-  public DeclName getDeclName();
+  DeclName getDeclName();
 
   /**
    * Sets the DeclName element.
@@ -47,7 +47,7 @@ public interface Freetype extends TermA
    * @param declName   the DeclName element.
    * @see #getDeclName
    */
-  public void setDeclName(DeclName declName);
+  void setDeclName(DeclName declName);
 
   /**
    * <p>Returns the Branch elements.</p>
@@ -57,5 +57,5 @@ public interface Freetype extends TermA
    *
    * @return a list of Branch elements.
    */
-  public java.util.List getBranch();
+  java.util.List getBranch();
 }

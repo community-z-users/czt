@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.SpecVisitor;
  * @author Gnast version 0.1
  */
 public class SpecImpl
-extends TermAImpl implements Spec
+  extends TermAImpl   implements Spec
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends TermAImpl implements Spec
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected SpecImpl() { }
+  protected SpecImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this SpecImpl
@@ -60,36 +63,56 @@ extends TermAImpl implements Spec
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      SpecImpl object = (SpecImpl) obj;
-      if((mSect == null && object.mSect != null) ||
-         (mSect != null &&
-         ! mSect.equals(object.mSect))) return false;
-      if(mSect == null && object.mSect != null)
-        return false;
-      if((mVersion == null && object.mVersion != null) ||
-         (mVersion != null &&
-         ! mVersion.equals(object.mVersion))) return false;
-      if(mVersion == null && object.mVersion != null)
-        return false;
-      if((mAuthor == null && object.mAuthor != null) ||
-         (mAuthor != null &&
-         ! mAuthor.equals(object.mAuthor))) return false;
-      if(mAuthor == null && object.mAuthor != null)
-        return false;
-      if((mModified == null && object.mModified != null) ||
-         (mModified != null &&
-         ! mModified.equals(object.mModified))) return false;
-      if(mModified == null && object.mModified != null)
-        return false;
-      if((mSource == null && object.mSource != null) ||
-         (mSource != null &&
-         ! mSource.equals(object.mSource))) return false;
-      if(mSource == null && object.mSource != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        SpecImpl object = (SpecImpl) obj;
+        if (sect_ != null) {
+          if (!sect_.equals(object.sect_)) {
+            return false;
+          }
+        } else {
+          if (object.sect_ != null) {
+            return false;
+          }
+        }
+        if (version_ != null) {
+          if (!version_.equals(object.version_)) {
+            return false;
+          }
+        } else {
+          if (object.version_ != null) {
+            return false;
+          }
+        }
+        if (author_ != null) {
+          if (!author_.equals(object.author_)) {
+            return false;
+          }
+        } else {
+          if (object.author_ != null) {
+            return false;
+          }
+        }
+        if (modified_ != null) {
+          if (!modified_.equals(object.modified_)) {
+            return false;
+          }
+        } else {
+          if (object.modified_ != null) {
+            return false;
+          }
+        }
+        if (source_ != null) {
+          if (!source_.equals(object.source_)) {
+            return false;
+          }
+        } else {
+          if (object.source_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -103,22 +126,24 @@ extends TermAImpl implements Spec
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "SpecImpl".hashCode();
-    if(mSect != null) {
-      hashCode += 31*mSect.hashCode();
+    if (sect_ != null) {
+      hashCode += constant * sect_.hashCode();
     }
-    if(mVersion != null) {
-      hashCode += 31*mVersion.hashCode();
+    if (version_ != null) {
+      hashCode += constant * version_.hashCode();
     }
-    if(mAuthor != null) {
-      hashCode += 31*mAuthor.hashCode();
+    if (author_ != null) {
+      hashCode += constant * author_.hashCode();
     }
-    if(mModified != null) {
-      hashCode += 31*mModified.hashCode();
+    if (modified_ != null) {
+      hashCode += constant * modified_.hashCode();
     }
-    if(mSource != null) {
-      hashCode += 31*mSource.hashCode();
+    if (source_ != null) {
+      hashCode += constant * source_.hashCode();
     }
     return hashCode;
   }
@@ -128,8 +153,7 @@ extends TermAImpl implements Spec
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof SpecVisitor)
-    {
+    if (v instanceof SpecVisitor) {
       SpecVisitor visitor = (SpecVisitor) v;
       return visitor.visitSpec(this);
     }
@@ -139,7 +163,8 @@ extends TermAImpl implements Spec
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     Spec zedObject = null;
     try {
       java.util.List sect = (java.util.List) args[0];
@@ -148,7 +173,7 @@ extends TermAImpl implements Spec
       java.util.Calendar modified = (java.util.Calendar) args[3];
       String source = (String) args[4];
       zedObject = new SpecImpl();
-      if(sect != null) {
+      if (sect != null) {
         zedObject.getSect().addAll(sect);
       }
       zedObject.setVersion(version);
@@ -169,58 +194,60 @@ extends TermAImpl implements Spec
     return erg;
   }
 
-  private java.util.List mSect = new net.sourceforge.czt.util.TypesafeList(Sect.class);
+
+  private java.util.List sect_ =
+    new TypesafeList(Sect.class);
 
   public java.util.List getSect()
   {
-    return mSect;
+    return sect_;
   }
 
-  private String mVersion;
+  private String version_;
 
   public String getVersion()
   {
-    return mVersion;
+    return version_;
   }
 
   public void setVersion(String version)
   {
-    mVersion = version;
+    version_ = version;
   }
 
-  private String mAuthor;
+  private String author_;
 
   public String getAuthor()
   {
-    return mAuthor;
+    return author_;
   }
 
   public void setAuthor(String author)
   {
-    mAuthor = author;
+    author_ = author;
   }
 
-  private java.util.Calendar mModified;
+  private java.util.Calendar modified_;
 
   public java.util.Calendar getModified()
   {
-    return mModified;
+    return modified_;
   }
 
   public void setModified(java.util.Calendar modified)
   {
-    mModified = modified;
+    modified_ = modified;
   }
 
-  private String mSource;
+  private String source_;
 
   public String getSource()
   {
-    return mSource;
+    return source_;
   }
 
   public void setSource(String source)
   {
-    mSource = source;
+    source_ = source;
   }
 }

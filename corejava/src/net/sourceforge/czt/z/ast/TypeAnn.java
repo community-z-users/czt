@@ -39,7 +39,7 @@ public interface TypeAnn extends Term
    *
    * @return the Type element.
    */
-  public Type getType();
+  Type getType();
 
   /**
    * Sets the Type element.
@@ -47,5 +47,5 @@ public interface TypeAnn extends Term
    * @param type   the Type element.
    * @see #getType
    */
-  public void setType(Type type);
+  void setType(Type type);
 }

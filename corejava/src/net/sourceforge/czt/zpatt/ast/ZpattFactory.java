@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.zpatt.ast;
 
 /**
- * <p>The object factory for the AST. 
+ * <p>The object factory for the AST.
  * This interface contains factory methods
  * for each concrete Z term.</p>
  *
@@ -42,60 +42,60 @@ package net.sourceforge.czt.zpatt.ast;
 public interface ZpattFactory
   extends net.sourceforge.czt.z.ast.ZFactory
 {
-    /**
-     * Creates an instance of {@link JokerExpr}.
-     *
-     * @return the new instance of JokerExpr.
-     */
-    public JokerExpr createJokerExpr();
+  /**
+   * Creates an instance of {@link JokerExpr}.
+   *
+   * @return the new instance of JokerExpr.
+   */
+  JokerExpr createJokerExpr();
 
-    /**
-     * Creates an instance of {@link JokerExpr} with the given children.
-     *
-     * @return the new instance of JokerExpr.
-     */
-    public JokerExpr createJokerExpr(String name);
+  /**
+   * Creates an instance of {@link JokerExpr} with the given children.
+   *
+   * @return the new instance of JokerExpr.
+   */
+  JokerExpr createJokerExpr(String name);
 
-    /**
-     * Creates an instance of {@link Substitute}.
-     *
-     * @return the new instance of Substitute.
-     */
-    public Substitute createSubstitute();
+  /**
+   * Creates an instance of {@link Substitute}.
+   *
+   * @return the new instance of Substitute.
+   */
+  Substitute createSubstitute();
 
-    /**
-     * Creates an instance of {@link Substitute} with the given children.
-     *
-     * @return the new instance of Substitute.
-     */
-    public Substitute createSubstitute(java.util.List expr, java.util.List pred);
+  /**
+   * Creates an instance of {@link Substitute} with the given children.
+   *
+   * @return the new instance of Substitute.
+   */
+  Substitute createSubstitute(java.util.List expr, java.util.List pred);
 
-    /**
-     * Creates an instance of {@link JokerPred}.
-     *
-     * @return the new instance of JokerPred.
-     */
-    public JokerPred createJokerPred();
+  /**
+   * Creates an instance of {@link JokerPred}.
+   *
+   * @return the new instance of JokerPred.
+   */
+  JokerPred createJokerPred();
 
-    /**
-     * Creates an instance of {@link JokerPred} with the given children.
-     *
-     * @return the new instance of JokerPred.
-     */
-    public JokerPred createJokerPred(String name);
+  /**
+   * Creates an instance of {@link JokerPred} with the given children.
+   *
+   * @return the new instance of JokerPred.
+   */
+  JokerPred createJokerPred(String name);
 
-    /**
-     * Creates an instance of {@link SubstList}.
-     *
-     * @return the new instance of SubstList.
-     */
-    public SubstList createSubstList();
+  /**
+   * Creates an instance of {@link SubstList}.
+   *
+   * @return the new instance of SubstList.
+   */
+  SubstList createSubstList();
 
-    /**
-     * Creates an instance of {@link SubstList} with the given children.
-     *
-     * @return the new instance of SubstList.
-     */
-    public SubstList createSubstList(java.util.List substitute);
+  /**
+   * Creates an instance of {@link SubstList} with the given children.
+   *
+   * @return the new instance of SubstList.
+   */
+  SubstList createSubstList(java.util.List substitute);
 
 }

@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.PipeExprVisitor;
  * @author Gnast version 0.1
  */
 public class PipeExprImpl
-extends SchExpr2Impl implements PipeExpr
+  extends SchExpr2Impl   implements PipeExpr
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends SchExpr2Impl implements PipeExpr
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected PipeExprImpl() { }
+  protected PipeExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this PipeExprImpl
@@ -60,11 +63,11 @@ extends SchExpr2Impl implements PipeExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      PipeExprImpl object = (PipeExprImpl) obj;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        PipeExprImpl object = (PipeExprImpl) obj;
+        return true;
+      }
     }
     return false;
   }
@@ -78,6 +81,8 @@ extends SchExpr2Impl implements PipeExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "PipeExprImpl".hashCode();
     return hashCode;
@@ -88,8 +93,7 @@ extends SchExpr2Impl implements PipeExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof PipeExprVisitor)
-    {
+    if (v instanceof PipeExprVisitor) {
       PipeExprVisitor visitor = (PipeExprVisitor) v;
       return visitor.visitPipeExpr(this);
     }
@@ -99,7 +103,8 @@ extends SchExpr2Impl implements PipeExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     PipeExpr zedObject = null;
     try {
       Expr leftExpr = (Expr) args[0];

@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.oz.ast.*;
@@ -43,7 +44,7 @@ import net.sourceforge.czt.oz.visitor.ActualParametersVisitor;
  * @author Gnast version 0.1
  */
 public class ActualParametersImpl
-extends TermAImpl implements ActualParameters
+  extends TermAImpl   implements ActualParameters
 {
   /**
    * The default constructor.
@@ -52,7 +53,9 @@ extends TermAImpl implements ActualParameters
    * If you want to create an instance of this class, please use the
    * {@link OzFactory object factory}.
    */
-  protected ActualParametersImpl() { }
+  protected ActualParametersImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this ActualParametersImpl
@@ -62,16 +65,20 @@ extends TermAImpl implements ActualParameters
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      ActualParametersImpl object = (ActualParametersImpl) obj;
-      if((mExpr == null && object.mExpr != null) ||
-         (mExpr != null &&
-         ! mExpr.equals(object.mExpr))) return false;
-      if(mExpr == null && object.mExpr != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        ActualParametersImpl object = (ActualParametersImpl) obj;
+        if (expr_ != null) {
+          if (!expr_.equals(object.expr_)) {
+            return false;
+          }
+        } else {
+          if (object.expr_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -85,10 +92,12 @@ extends TermAImpl implements ActualParameters
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "ActualParametersImpl".hashCode();
-    if(mExpr != null) {
-      hashCode += 31*mExpr.hashCode();
+    if (expr_ != null) {
+      hashCode += constant * expr_.hashCode();
     }
     return hashCode;
   }
@@ -98,8 +107,7 @@ extends TermAImpl implements ActualParameters
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof ActualParametersVisitor)
-    {
+    if (v instanceof ActualParametersVisitor) {
       ActualParametersVisitor visitor = (ActualParametersVisitor) v;
       return visitor.visitActualParameters(this);
     }
@@ -109,12 +117,13 @@ extends TermAImpl implements ActualParameters
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     ActualParameters zedObject = null;
     try {
       java.util.List expr = (java.util.List) args[0];
       zedObject = new ActualParametersImpl();
-      if(expr != null) {
+      if (expr != null) {
         zedObject.getExpr().addAll(expr);
       }
     } catch (IndexOutOfBoundsException e) {
@@ -131,10 +140,12 @@ extends TermAImpl implements ActualParameters
     return erg;
   }
 
-  private java.util.List mExpr = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.Expr.class);
+
+  private java.util.List expr_ =
+    new TypesafeList(net.sourceforge.czt.z.ast.Expr.class);
 
   public java.util.List getExpr()
   {
-    return mExpr;
+    return expr_;
   }
 }

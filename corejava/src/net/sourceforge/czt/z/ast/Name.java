@@ -39,7 +39,7 @@ public interface Name extends TermA
    *
    * @return the Word element.
    */
-  public String getWord();
+  String getWord();
 
   /**
    * Sets the Word element.
@@ -47,7 +47,7 @@ public interface Name extends TermA
    * @param word   the Word element.
    * @see #getWord
    */
-  public void setWord(String word);
+  void setWord(String word);
 
   /**
    * <p>Returns the Stroke elements.</p>
@@ -57,5 +57,5 @@ public interface Name extends TermA
    *
    * @return a list of Stroke elements.
    */
-  public java.util.List getStroke();
+  java.util.List getStroke();
 }

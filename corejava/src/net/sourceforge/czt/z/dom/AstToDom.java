@@ -29,6 +29,10 @@ import java.util.logging.Logger;
 import java.util.*;
 import org.w3c.dom.*;
 
+import net.sourceforge.czt.base.ast.Term;
+
+import net.sourceforge.czt.util.CztException;
+
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -37,148 +41,195 @@ import net.sourceforge.czt.z.visitor.*;
  *
  * @author Gnast version 0.1
  */
-public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisitor
+public class AstToDom
+  implements net.sourceforge.czt.base.dom.DomVisitor, ZVisitor
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.z.dom.AstToDom");
+  private Logger getLogger()
+  {
+    return Logger.getLogger("net.sourceforge.czt.z.dom.AstToDom");
+  }
 
-  private Document mDocument;
+  private Document document_;
 
   public Document getDocument()
   {
-    return mDocument;
+    return document_;
   }
 
-  public void setDocument(Document doc)
+  public void setDocument(Document document)
   {
-    mDocument = doc;
+    document_ = document;
   }
 
 
   public Object visitFreetype(Freetype zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitFreetype", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Freetype");
+    getLogger().entering("dom.AstToDom", "visitFreetype", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "Freetype");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getDeclName()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getDeclName()).accept(this));
+      if (zedObject.getDeclName() != null) {
+        Term term = (Term) zedObject.getDeclName();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      for(Iterator iter=zedObject.getBranch().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      for (Iterator iter = zedObject.getBranch().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        } else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a Freetype to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitFreetype", elem);
+    getLogger().exiting("dom.AstToDom", "visitFreetype", elem);
     return elem;
   }
 
   public Object visitExists1Expr(Exists1Expr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitExists1Expr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Exists1Expr");
+    getLogger().entering("dom.AstToDom", "visitExists1Expr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "Exists1Expr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getSchText()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getSchText()).accept(this));
+      if (zedObject.getSchText() != null) {
+        Term term = (Term) zedObject.getSchText();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      if (zedObject.getExpr() != null) {
+        Term term = (Term) zedObject.getExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a Exists1Expr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitExists1Expr", elem);
+    getLogger().exiting("dom.AstToDom", "visitExists1Expr", elem);
     return elem;
   }
 
   public Object visitParenAnn(ParenAnn zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitParenAnn", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "ParenAnn");
+    getLogger().entering("dom.AstToDom", "visitParenAnn", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "ParenAnn");
     try {
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a ParenAnn to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitParenAnn", elem);
+    getLogger().exiting("dom.AstToDom", "visitParenAnn", elem);
     return elem;
   }
 
   public Object visitNameNamePair(NameNamePair zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitNameNamePair", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "NameNamePair");
+    getLogger().entering("dom.AstToDom", "visitNameNamePair", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "NameNamePair");
     try {
-      if (zedObject.getOldName()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getOldName()).accept(this));
+      if (zedObject.getOldName() != null) {
+        Term term = (Term) zedObject.getOldName();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getNewName()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getNewName()).accept(this));
+      if (zedObject.getNewName() != null) {
+        Term term = (Term) zedObject.getNewName();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a NameNamePair to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitNameNamePair", elem);
+    getLogger().exiting("dom.AstToDom", "visitNameNamePair", elem);
     return elem;
   }
 
   public Object visitApplExpr(ApplExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitApplExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "ApplExpr");
+    getLogger().entering("dom.AstToDom", "visitApplExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "ApplExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getLeftExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftExpr()).accept(this));
+      if (zedObject.getLeftExpr() != null) {
+        Term term = (Term) zedObject.getLeftExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getRightExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightExpr()).accept(this));
+      if (zedObject.getRightExpr() != null) {
+        Term term = (Term) zedObject.getRightExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getMixfix()!=null) {
-        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Mixfix", zedObject.getMixfix().toString());
+      if (zedObject.getMixfix() != null) {
+        elem.setAttributeNS(ns, "Mixfix", zedObject.getMixfix().toString());
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a ApplExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitApplExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitApplExpr", elem);
     return elem;
   }
 
@@ -189,210 +240,271 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 
   public Object visitLetExpr(LetExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitLetExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "LetExpr");
+    getLogger().entering("dom.AstToDom", "visitLetExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "LetExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getSchText()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getSchText()).accept(this));
+      if (zedObject.getSchText() != null) {
+        Term term = (Term) zedObject.getSchText();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      if (zedObject.getExpr() != null) {
+        Term term = (Term) zedObject.getExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a LetExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitLetExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitLetExpr", elem);
     return elem;
   }
 
   public Object visitSignature(Signature zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitSignature", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Signature");
+    getLogger().entering("dom.AstToDom", "visitSignature", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "Signature");
     try {
-      for(Iterator iter=zedObject.getNameTypePair().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      for (Iterator iter = zedObject.getNameTypePair().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        } else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a Signature to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitSignature", elem);
+    getLogger().exiting("dom.AstToDom", "visitSignature", elem);
     return elem;
   }
 
   public Object visitConstDecl(ConstDecl zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitConstDecl", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "ConstDecl");
+    getLogger().entering("dom.AstToDom", "visitConstDecl", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "ConstDecl");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getDeclName()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getDeclName()).accept(this));
+      if (zedObject.getDeclName() != null) {
+        Term term = (Term) zedObject.getDeclName();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      if (zedObject.getExpr() != null) {
+        Term term = (Term) zedObject.getExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a ConstDecl to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitConstDecl", elem);
+    getLogger().exiting("dom.AstToDom", "visitConstDecl", elem);
     return elem;
   }
 
   public Object visitNextStroke(NextStroke zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitNextStroke", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "NextStroke");
+    getLogger().entering("dom.AstToDom", "visitNextStroke", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "NextStroke");
     try {
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a NextStroke to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitNextStroke", elem);
+    getLogger().exiting("dom.AstToDom", "visitNextStroke", elem);
     return elem;
   }
 
   public Object visitInStroke(InStroke zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitInStroke", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "InStroke");
+    getLogger().entering("dom.AstToDom", "visitInStroke", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "InStroke");
     try {
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a InStroke to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitInStroke", elem);
+    getLogger().exiting("dom.AstToDom", "visitInStroke", elem);
     return elem;
   }
 
   public Object visitRefName(RefName zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitRefName", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "RefName");
+    getLogger().entering("dom.AstToDom", "visitRefName", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "RefName");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getWord()!=null) {
-	Element child = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Word");
-	child.appendChild(getDocument().createTextNode(zedObject.getWord().toString()));
-	elem.appendChild(child);
+      if (zedObject.getWord() != null) {
+        Element child = getDocument().createElementNS(ns, "Word");
+        String string = zedObject.getWord().toString();
+        child.appendChild(getDocument().createTextNode(string));
+        elem.appendChild(child);
       }
-      for(Iterator iter=zedObject.getStroke().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      for (Iterator iter = zedObject.getStroke().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        } else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
       if (zedObject.getDecl() != null) {
-	elem.setAttributeNS("http://czt.sourceforge.net/zml", "Decl", zedObject.getDecl().getId());
+        elem.setAttributeNS(ns, "Decl", zedObject.getDecl().getId());
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a RefName to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitRefName", elem);
+    getLogger().exiting("dom.AstToDom", "visitRefName", elem);
     return elem;
   }
 
   public Object visitMemPred(MemPred zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitMemPred", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "MemPred");
+    getLogger().entering("dom.AstToDom", "visitMemPred", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "MemPred");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getLeftExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftExpr()).accept(this));
+      if (zedObject.getLeftExpr() != null) {
+        Term term = (Term) zedObject.getLeftExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getRightExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightExpr()).accept(this));
+      if (zedObject.getRightExpr() != null) {
+        Term term = (Term) zedObject.getRightExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getMixfix()!=null) {
-        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Mixfix", zedObject.getMixfix().toString());
+      if (zedObject.getMixfix() != null) {
+        elem.setAttributeNS(ns, "Mixfix", zedObject.getMixfix().toString());
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a MemPred to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitMemPred", elem);
+    getLogger().exiting("dom.AstToDom", "visitMemPred", elem);
     return elem;
   }
 
   public Object visitProdType(ProdType zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitProdType", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "ProdType");
+    getLogger().entering("dom.AstToDom", "visitProdType", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "ProdType");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      for(Iterator iter=zedObject.getType().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      for (Iterator iter = zedObject.getType().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        } else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a ProdType to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitProdType", elem);
+    getLogger().exiting("dom.AstToDom", "visitProdType", elem);
     return elem;
   }
 
@@ -403,61 +515,81 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 
   public Object visitImpliesExpr(ImpliesExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitImpliesExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "ImpliesExpr");
+    getLogger().entering("dom.AstToDom", "visitImpliesExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "ImpliesExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getLeftExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftExpr()).accept(this));
+      if (zedObject.getLeftExpr() != null) {
+        Term term = (Term) zedObject.getLeftExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getRightExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightExpr()).accept(this));
+      if (zedObject.getRightExpr() != null) {
+        Term term = (Term) zedObject.getRightExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a ImpliesExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitImpliesExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitImpliesExpr", elem);
     return elem;
   }
 
   public Object visitMuExpr(MuExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitMuExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "MuExpr");
+    getLogger().entering("dom.AstToDom", "visitMuExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "MuExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getSchText()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getSchText()).accept(this));
+      if (zedObject.getSchText() != null) {
+        Term term = (Term) zedObject.getSchText();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      if (zedObject.getExpr() != null) {
+        Term term = (Term) zedObject.getExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a MuExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitMuExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitMuExpr", elem);
     return elem;
   }
 
@@ -473,61 +605,81 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 
   public Object visitOrPred(OrPred zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitOrPred", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "OrPred");
+    getLogger().entering("dom.AstToDom", "visitOrPred", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "OrPred");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getLeftPred()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftPred()).accept(this));
+      if (zedObject.getLeftPred() != null) {
+        Term term = (Term) zedObject.getLeftPred();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getRightPred()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightPred()).accept(this));
+      if (zedObject.getRightPred() != null) {
+        Term term = (Term) zedObject.getRightPred();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a OrPred to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitOrPred", elem);
+    getLogger().exiting("dom.AstToDom", "visitOrPred", elem);
     return elem;
   }
 
   public Object visitExistsExpr(ExistsExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitExistsExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "ExistsExpr");
+    getLogger().entering("dom.AstToDom", "visitExistsExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "ExistsExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getSchText()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getSchText()).accept(this));
+      if (zedObject.getSchText() != null) {
+        Term term = (Term) zedObject.getSchText();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      if (zedObject.getExpr() != null) {
+        Term term = (Term) zedObject.getExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a ExistsExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitExistsExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitExistsExpr", elem);
     return elem;
   }
 
@@ -538,37 +690,45 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 
   public Object visitVarDecl(VarDecl zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitVarDecl", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "VarDecl");
+    getLogger().entering("dom.AstToDom", "visitVarDecl", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "VarDecl");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      for(Iterator iter=zedObject.getDeclName().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      for (Iterator iter = zedObject.getDeclName().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        } else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
-      if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      if (zedObject.getExpr() != null) {
+        Term term = (Term) zedObject.getExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a VarDecl to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitVarDecl", elem);
+    getLogger().exiting("dom.AstToDom", "visitVarDecl", elem);
     return elem;
   }
 
@@ -584,132 +744,160 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 
   public Object visitNarrSect(NarrSect zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitNarrSect", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "NarrSect");
+    getLogger().entering("dom.AstToDom", "visitNarrSect", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "NarrSect");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      Node content = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Content");
-      for(Iterator iter=zedObject.getContent().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  content.appendChild(node);
-	} else {
-	  content.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      Node content = getDocument().createElementNS(ns, "Content");
+      for (Iterator iter = zedObject.getContent().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          content.appendChild(node);
+        } else {
+          content.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
       elem.appendChild(content);
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a NarrSect to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitNarrSect", elem);
+    getLogger().exiting("dom.AstToDom", "visitNarrSect", elem);
     return elem;
   }
 
   public Object visitFreePara(FreePara zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitFreePara", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "FreePara");
+    getLogger().entering("dom.AstToDom", "visitFreePara", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "FreePara");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      for(Iterator iter=zedObject.getFreetype().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      for (Iterator iter = zedObject.getFreetype().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        } else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a FreePara to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitFreePara", elem);
+    getLogger().exiting("dom.AstToDom", "visitFreePara", elem);
     return elem;
   }
 
   public Object visitCompExpr(CompExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitCompExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "CompExpr");
+    getLogger().entering("dom.AstToDom", "visitCompExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "CompExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getLeftExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftExpr()).accept(this));
+      if (zedObject.getLeftExpr() != null) {
+        Term term = (Term) zedObject.getLeftExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getRightExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightExpr()).accept(this));
+      if (zedObject.getRightExpr() != null) {
+        Term term = (Term) zedObject.getRightExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a CompExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitCompExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitCompExpr", elem);
     return elem;
   }
 
   public Object visitBindExpr(BindExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitBindExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "BindExpr");
+    getLogger().entering("dom.AstToDom", "visitBindExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "BindExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      for(Iterator iter=zedObject.getNameExprPair().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      for (Iterator iter = zedObject.getNameExprPair().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        } else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a BindExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitBindExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitBindExpr", elem);
     return elem;
   }
 
@@ -720,123 +908,157 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 
   public Object visitCondExpr(CondExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitCondExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "CondExpr");
+    getLogger().entering("dom.AstToDom", "visitCondExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "CondExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getPred()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getPred()).accept(this));
+      if (zedObject.getPred() != null) {
+        Term term = (Term) zedObject.getPred();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getLeftExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftExpr()).accept(this));
+      if (zedObject.getLeftExpr() != null) {
+        Term term = (Term) zedObject.getLeftExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getRightExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightExpr()).accept(this));
+      if (zedObject.getRightExpr() != null) {
+        Term term = (Term) zedObject.getRightExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a CondExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitCondExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitCondExpr", elem);
     return elem;
   }
 
   public Object visitForallExpr(ForallExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitForallExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "ForallExpr");
+    getLogger().entering("dom.AstToDom", "visitForallExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "ForallExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getSchText()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getSchText()).accept(this));
+      if (zedObject.getSchText() != null) {
+        Term term = (Term) zedObject.getSchText();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      if (zedObject.getExpr() != null) {
+        Term term = (Term) zedObject.getExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a ForallExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitForallExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitForallExpr", elem);
     return elem;
   }
 
   public Object visitNarrPara(NarrPara zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitNarrPara", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "NarrPara");
+    getLogger().entering("dom.AstToDom", "visitNarrPara", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "NarrPara");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      Node content = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Content");
-      for(Iterator iter=zedObject.getContent().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  content.appendChild(node);
-	} else {
-	  content.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      Node content = getDocument().createElementNS(ns, "Content");
+      for (Iterator iter = zedObject.getContent().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          content.appendChild(node);
+        } else {
+          content.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
       elem.appendChild(content);
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a NarrPara to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitNarrPara", elem);
+    getLogger().exiting("dom.AstToDom", "visitNarrPara", elem);
     return elem;
   }
 
   public Object visitTruePred(TruePred zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitTruePred", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "TruePred");
+    getLogger().entering("dom.AstToDom", "visitTruePred", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "TruePred");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a TruePred to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitTruePred", elem);
+    getLogger().exiting("dom.AstToDom", "visitTruePred", elem);
     return elem;
   }
 
@@ -847,209 +1069,275 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 
   public Object visitNumExpr(NumExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitNumExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "NumExpr");
+    getLogger().entering("dom.AstToDom", "visitNumExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "NumExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getValue()!=null) {
-        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Value", zedObject.getValue().toString());
+      if (zedObject.getValue() != null) {
+        elem.setAttributeNS(ns, "Value", zedObject.getValue().toString());
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a NumExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitNumExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitNumExpr", elem);
     return elem;
   }
 
   public Object visitNameExprPair(NameExprPair zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitNameExprPair", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "NameExprPair");
+    getLogger().entering("dom.AstToDom", "visitNameExprPair", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "NameExprPair");
     try {
-      if (zedObject.getName()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getName()).accept(this));
+      if (zedObject.getName() != null) {
+        Term term = (Term) zedObject.getName();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      if (zedObject.getExpr() != null) {
+        Term term = (Term) zedObject.getExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a NameExprPair to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitNameExprPair", elem);
+    getLogger().exiting("dom.AstToDom", "visitNameExprPair", elem);
     return elem;
   }
 
   public Object visitTupleSelExpr(TupleSelExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitTupleSelExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "TupleSelExpr");
+    getLogger().entering("dom.AstToDom", "visitTupleSelExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "TupleSelExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      if (zedObject.getExpr() != null) {
+        Term term = (Term) zedObject.getExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getSelect()!=null) {
-        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Select", zedObject.getSelect().toString());
+      if (zedObject.getSelect() != null) {
+        elem.setAttributeNS(ns, "Select", zedObject.getSelect().toString());
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a TupleSelExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitTupleSelExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitTupleSelExpr", elem);
     return elem;
   }
 
   public Object visitLambdaExpr(LambdaExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitLambdaExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "LambdaExpr");
+    getLogger().entering("dom.AstToDom", "visitLambdaExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "LambdaExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getSchText()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getSchText()).accept(this));
+      if (zedObject.getSchText() != null) {
+        Term term = (Term) zedObject.getSchText();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      if (zedObject.getExpr() != null) {
+        Term term = (Term) zedObject.getExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a LambdaExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitLambdaExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitLambdaExpr", elem);
     return elem;
   }
 
   public Object visitIffExpr(IffExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitIffExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "IffExpr");
+    getLogger().entering("dom.AstToDom", "visitIffExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "IffExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getLeftExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftExpr()).accept(this));
+      if (zedObject.getLeftExpr() != null) {
+        Term term = (Term) zedObject.getLeftExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getRightExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightExpr()).accept(this));
+      if (zedObject.getRightExpr() != null) {
+        Term term = (Term) zedObject.getRightExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a IffExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitIffExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitIffExpr", elem);
     return elem;
   }
 
   public Object visitIffPred(IffPred zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitIffPred", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "IffPred");
+    getLogger().entering("dom.AstToDom", "visitIffPred", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "IffPred");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getLeftPred()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftPred()).accept(this));
+      if (zedObject.getLeftPred() != null) {
+        Term term = (Term) zedObject.getLeftPred();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getRightPred()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightPred()).accept(this));
+      if (zedObject.getRightPred() != null) {
+        Term term = (Term) zedObject.getRightPred();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a IffPred to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitIffPred", elem);
+    getLogger().exiting("dom.AstToDom", "visitIffPred", elem);
     return elem;
   }
 
   public Object visitFalsePred(FalsePred zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitFalsePred", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "FalsePred");
+    getLogger().entering("dom.AstToDom", "visitFalsePred", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "FalsePred");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a FalsePred to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitFalsePred", elem);
+    getLogger().exiting("dom.AstToDom", "visitFalsePred", elem);
     return elem;
   }
 
   public Object visitTypeEnvAnn(TypeEnvAnn zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitTypeEnvAnn", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "TypeEnvAnn");
+    getLogger().entering("dom.AstToDom", "visitTypeEnvAnn", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "TypeEnvAnn");
     try {
-      for(Iterator iter=zedObject.getNameTypePair().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      for (Iterator iter = zedObject.getNameTypePair().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        } else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a TypeEnvAnn to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitTypeEnvAnn", elem);
+    getLogger().exiting("dom.AstToDom", "visitTypeEnvAnn", elem);
     return elem;
   }
 
@@ -1060,118 +1348,150 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 
   public Object visitUnparsedZSect(UnparsedZSect zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitUnparsedZSect", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "UnparsedZSect");
+    getLogger().entering("dom.AstToDom", "visitUnparsedZSect", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "UnparsedZSect");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      Node content = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Content");
-      for(Iterator iter=zedObject.getContent().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  content.appendChild(node);
-	} else {
-	  content.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      Node content = getDocument().createElementNS(ns, "Content");
+      for (Iterator iter = zedObject.getContent().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          content.appendChild(node);
+        } else {
+          content.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
       elem.appendChild(content);
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a UnparsedZSect to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitUnparsedZSect", elem);
+    getLogger().exiting("dom.AstToDom", "visitUnparsedZSect", elem);
     return elem;
   }
 
   public Object visitUnparsedPara(UnparsedPara zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitUnparsedPara", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "UnparsedPara");
+    getLogger().entering("dom.AstToDom", "visitUnparsedPara", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "UnparsedPara");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      Node content = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Content");
-      for(Iterator iter=zedObject.getContent().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  content.appendChild(node);
-	} else {
-	  content.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      Node content = getDocument().createElementNS(ns, "Content");
+      for (Iterator iter = zedObject.getContent().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          content.appendChild(node);
+        } else {
+          content.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
       elem.appendChild(content);
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a UnparsedPara to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitUnparsedPara", elem);
+    getLogger().exiting("dom.AstToDom", "visitUnparsedPara", elem);
     return elem;
   }
 
   public Object visitImpliesPred(ImpliesPred zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitImpliesPred", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "ImpliesPred");
+    getLogger().entering("dom.AstToDom", "visitImpliesPred", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "ImpliesPred");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getLeftPred()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftPred()).accept(this));
+      if (zedObject.getLeftPred() != null) {
+        Term term = (Term) zedObject.getLeftPred();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getRightPred()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightPred()).accept(this));
+      if (zedObject.getRightPred() != null) {
+        Term term = (Term) zedObject.getRightPred();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a ImpliesPred to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitImpliesPred", elem);
+    getLogger().exiting("dom.AstToDom", "visitImpliesPred", elem);
     return elem;
   }
 
   public Object visitNameTypePair(NameTypePair zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitNameTypePair", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "NameTypePair");
+    getLogger().entering("dom.AstToDom", "visitNameTypePair", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "NameTypePair");
     try {
-      if (zedObject.getName()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getName()).accept(this));
+      if (zedObject.getName() != null) {
+        Term term = (Term) zedObject.getName();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getType()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getType()).accept(this));
+      if (zedObject.getType() != null) {
+        Term term = (Term) zedObject.getType();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a NameTypePair to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitNameTypePair", elem);
+    getLogger().exiting("dom.AstToDom", "visitNameTypePair", elem);
     return elem;
   }
 
@@ -1182,37 +1502,45 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 
   public Object visitSchText(SchText zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitSchText", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "SchText");
+    getLogger().entering("dom.AstToDom", "visitSchText", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "SchText");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      for(Iterator iter=zedObject.getDecl().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      for (Iterator iter = zedObject.getDecl().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        } else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
-      if (zedObject.getPred()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getPred()).accept(this));
+      if (zedObject.getPred() != null) {
+        Term term = (Term) zedObject.getPred();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a SchText to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitSchText", elem);
+    getLogger().exiting("dom.AstToDom", "visitSchText", elem);
     return elem;
   }
 
@@ -1223,116 +1551,158 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 
   public Object visitOperand(Operand zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitOperand", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Operand");
+    getLogger().entering("dom.AstToDom", "visitOperand", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "Operand");
     try {
-      if (zedObject.getList()!=null) {
-        elem.setAttributeNS("http://czt.sourceforge.net/zml", "List", zedObject.getList().toString());
+      if (zedObject.getList() != null) {
+        elem.setAttributeNS(ns, "List", zedObject.getList().toString());
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a Operand to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitOperand", elem);
+    getLogger().exiting("dom.AstToDom", "visitOperand", elem);
     return elem;
   }
 
   public Object visitProjExpr(ProjExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitProjExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "ProjExpr");
+    getLogger().entering("dom.AstToDom", "visitProjExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "ProjExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getLeftExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftExpr()).accept(this));
+      if (zedObject.getLeftExpr() != null) {
+        Term term = (Term) zedObject.getLeftExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getRightExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightExpr()).accept(this));
+      if (zedObject.getRightExpr() != null) {
+        Term term = (Term) zedObject.getRightExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a ProjExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitProjExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitProjExpr", elem);
     return elem;
   }
 
   public Object visitBranch(Branch zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitBranch", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Branch");
+    getLogger().entering("dom.AstToDom", "visitBranch", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "Branch");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getDeclName()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getDeclName()).accept(this));
+      if (zedObject.getDeclName() != null) {
+        Term term = (Term) zedObject.getDeclName();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      if (zedObject.getExpr() != null) {
+        Term term = (Term) zedObject.getExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a Branch to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitBranch", elem);
+    getLogger().exiting("dom.AstToDom", "visitBranch", elem);
     return elem;
   }
 
   public Object visitTypeAnn(TypeAnn zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitTypeAnn", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "TypeAnn");
+    getLogger().entering("dom.AstToDom", "visitTypeAnn", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "TypeAnn");
     try {
-      if (zedObject.getType()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getType()).accept(this));
+      if (zedObject.getType() != null) {
+        Term term = (Term) zedObject.getType();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a TypeAnn to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitTypeAnn", elem);
+    getLogger().exiting("dom.AstToDom", "visitTypeAnn", elem);
     return elem;
   }
 
   public Object visitGenType(GenType zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitGenType", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "GenType");
+    getLogger().entering("dom.AstToDom", "visitGenType", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "GenType");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getName()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getName()).accept(this));
+      if (zedObject.getName() != null) {
+        Term term = (Term) zedObject.getName();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a GenType to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitGenType", elem);
+    getLogger().exiting("dom.AstToDom", "visitGenType", elem);
     return elem;
   }
 
@@ -1343,95 +1713,122 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 
   public Object visitOptempPara(OptempPara zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitOptempPara", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "OptempPara");
+    getLogger().entering("dom.AstToDom", "visitOptempPara", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "OptempPara");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      for(Iterator iter=zedObject.getWordOrOperand().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      for (Iterator iter = zedObject.getWordOrOperand().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        } else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
-      if (zedObject.getCat()!=null) {
-        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Cat", zedObject.getCat().toString());
+      if (zedObject.getCat() != null) {
+        elem.setAttributeNS(ns, "Cat", zedObject.getCat().toString());
       }
-      if (zedObject.getAssoc()!=null) {
-        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Assoc", zedObject.getAssoc().toString());
+      if (zedObject.getAssoc() != null) {
+        elem.setAttributeNS(ns, "Assoc", zedObject.getAssoc().toString());
       }
-      if (zedObject.getPrec()!=null) {
-        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Prec", zedObject.getPrec().toString());
+      if (zedObject.getPrec() != null) {
+        elem.setAttributeNS(ns, "Prec", zedObject.getPrec().toString());
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a OptempPara to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitOptempPara", elem);
+    getLogger().exiting("dom.AstToDom", "visitOptempPara", elem);
     return elem;
   }
 
   public Object visitExistsPred(ExistsPred zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitExistsPred", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "ExistsPred");
+    getLogger().entering("dom.AstToDom", "visitExistsPred", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "ExistsPred");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getSchText()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getSchText()).accept(this));
+      if (zedObject.getSchText() != null) {
+        Term term = (Term) zedObject.getSchText();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getPred()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getPred()).accept(this));
+      if (zedObject.getPred() != null) {
+        Term term = (Term) zedObject.getPred();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a ExistsPred to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitExistsPred", elem);
+    getLogger().exiting("dom.AstToDom", "visitExistsPred", elem);
     return elem;
   }
 
   public Object visitNameSectTypeTriple(NameSectTypeTriple zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitNameSectTypeTriple", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "NameSectTypeTriple");
+    getLogger().entering("dom.AstToDom", "visitNameSectTypeTriple", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "NameSectTypeTriple");
     try {
-      if (zedObject.getName()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getName()).accept(this));
+      if (zedObject.getName() != null) {
+        Term term = (Term) zedObject.getName();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getSect()!=null) {
-	Element child = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Sect");
-	child.appendChild(getDocument().createTextNode(zedObject.getSect().toString()));
-	elem.appendChild(child);
+      if (zedObject.getSect() != null) {
+        Element child = getDocument().createElementNS(ns, "Sect");
+        String string = zedObject.getSect().toString();
+        child.appendChild(getDocument().createTextNode(string));
+        elem.appendChild(child);
       }
-      if (zedObject.getType()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getType()).accept(this));
+      if (zedObject.getType() != null) {
+        Term term = (Term) zedObject.getType();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a NameSectTypeTriple to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitNameSectTypeTriple", elem);
+    getLogger().exiting("dom.AstToDom", "visitNameSectTypeTriple", elem);
     return elem;
   }
 
@@ -1442,156 +1839,202 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 
   public Object visitNegPred(NegPred zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitNegPred", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "NegPred");
+    getLogger().entering("dom.AstToDom", "visitNegPred", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "NegPred");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getPred()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getPred()).accept(this));
+      if (zedObject.getPred() != null) {
+        Term term = (Term) zedObject.getPred();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a NegPred to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitNegPred", elem);
+    getLogger().exiting("dom.AstToDom", "visitNegPred", elem);
     return elem;
   }
 
   public Object visitPreExpr(PreExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitPreExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "PreExpr");
+    getLogger().entering("dom.AstToDom", "visitPreExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "PreExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      if (zedObject.getExpr() != null) {
+        Term term = (Term) zedObject.getExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a PreExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitPreExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitPreExpr", elem);
     return elem;
   }
 
   public Object visitSectTypeEnvAnn(SectTypeEnvAnn zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitSectTypeEnvAnn", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "SectTypeEnvAnn");
+    getLogger().entering("dom.AstToDom", "visitSectTypeEnvAnn", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "SectTypeEnvAnn");
     try {
-      for(Iterator iter=zedObject.getNameSectTypeTriple().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      for (Iterator iter = zedObject.getNameSectTypeTriple().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        } else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a SectTypeEnvAnn to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitSectTypeEnvAnn", elem);
+    getLogger().exiting("dom.AstToDom", "visitSectTypeEnvAnn", elem);
     return elem;
   }
 
   public Object visitExprPred(ExprPred zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitExprPred", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "ExprPred");
+    getLogger().entering("dom.AstToDom", "visitExprPred", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "ExprPred");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      if (zedObject.getExpr() != null) {
+        Term term = (Term) zedObject.getExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a ExprPred to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitExprPred", elem);
+    getLogger().exiting("dom.AstToDom", "visitExprPred", elem);
     return elem;
   }
 
   public Object visitGivenType(GivenType zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitGivenType", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "GivenType");
+    getLogger().entering("dom.AstToDom", "visitGivenType", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "GivenType");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getName()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getName()).accept(this));
+      if (zedObject.getName() != null) {
+        Term term = (Term) zedObject.getName();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a GivenType to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitGivenType", elem);
+    getLogger().exiting("dom.AstToDom", "visitGivenType", elem);
     return elem;
   }
 
   public Object visitInclDecl(InclDecl zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitInclDecl", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "InclDecl");
+    getLogger().entering("dom.AstToDom", "visitInclDecl", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "InclDecl");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      if (zedObject.getExpr() != null) {
+        Term term = (Term) zedObject.getExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a InclDecl to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitInclDecl", elem);
+    getLogger().exiting("dom.AstToDom", "visitInclDecl", elem);
     return elem;
   }
 
@@ -1602,543 +2045,681 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 
   public Object visitSchemaType(SchemaType zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitSchemaType", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "SchemaType");
+    getLogger().entering("dom.AstToDom", "visitSchemaType", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "SchemaType");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getSignature()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getSignature()).accept(this));
+      if (zedObject.getSignature() != null) {
+        Term term = (Term) zedObject.getSignature();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a SchemaType to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitSchemaType", elem);
+    getLogger().exiting("dom.AstToDom", "visitSchemaType", elem);
     return elem;
   }
 
   public Object visitBindSelExpr(BindSelExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitBindSelExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "BindSelExpr");
+    getLogger().entering("dom.AstToDom", "visitBindSelExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "BindSelExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      if (zedObject.getExpr() != null) {
+        Term term = (Term) zedObject.getExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getName()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getName()).accept(this));
+      if (zedObject.getName() != null) {
+        Term term = (Term) zedObject.getName();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a BindSelExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitBindSelExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitBindSelExpr", elem);
     return elem;
   }
 
   public Object visitDeclName(DeclName zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitDeclName", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "DeclName");
+    getLogger().entering("dom.AstToDom", "visitDeclName", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "DeclName");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getWord()!=null) {
-	Element child = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Word");
-	child.appendChild(getDocument().createTextNode(zedObject.getWord().toString()));
-	elem.appendChild(child);
+      if (zedObject.getWord() != null) {
+        Element child = getDocument().createElementNS(ns, "Word");
+        String string = zedObject.getWord().toString();
+        child.appendChild(getDocument().createTextNode(string));
+        elem.appendChild(child);
       }
-      for(Iterator iter=zedObject.getStroke().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      for (Iterator iter = zedObject.getStroke().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        } else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
-      if (zedObject.getId()!=null) {
-        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Id", zedObject.getId().toString());
+      if (zedObject.getId() != null) {
+        elem.setAttributeNS(ns, "Id", zedObject.getId().toString());
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a DeclName to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitDeclName", elem);
+    getLogger().exiting("dom.AstToDom", "visitDeclName", elem);
     return elem;
   }
 
   public Object visitForallPred(ForallPred zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitForallPred", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "ForallPred");
+    getLogger().entering("dom.AstToDom", "visitForallPred", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "ForallPred");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getSchText()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getSchText()).accept(this));
+      if (zedObject.getSchText() != null) {
+        Term term = (Term) zedObject.getSchText();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getPred()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getPred()).accept(this));
+      if (zedObject.getPred() != null) {
+        Term term = (Term) zedObject.getPred();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a ForallPred to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitForallPred", elem);
+    getLogger().exiting("dom.AstToDom", "visitForallPred", elem);
     return elem;
   }
 
   public Object visitOrExpr(OrExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitOrExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "OrExpr");
+    getLogger().entering("dom.AstToDom", "visitOrExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "OrExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getLeftExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftExpr()).accept(this));
+      if (zedObject.getLeftExpr() != null) {
+        Term term = (Term) zedObject.getLeftExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getRightExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightExpr()).accept(this));
+      if (zedObject.getRightExpr() != null) {
+        Term term = (Term) zedObject.getRightExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a OrExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitOrExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitOrExpr", elem);
     return elem;
   }
 
   public Object visitSpec(Spec zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitSpec", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Spec");
+    getLogger().entering("dom.AstToDom", "visitSpec", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "Spec");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      for(Iterator iter=zedObject.getSect().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      for (Iterator iter = zedObject.getSect().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        } else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
-      if (zedObject.getVersion()!=null) {
-        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Version", zedObject.getVersion().toString());
+      if (zedObject.getVersion() != null) {
+        elem.setAttributeNS(ns, "Version", zedObject.getVersion().toString());
       }
-      if (zedObject.getAuthor()!=null) {
-        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Author", zedObject.getAuthor().toString());
+      if (zedObject.getAuthor() != null) {
+        elem.setAttributeNS(ns, "Author", zedObject.getAuthor().toString());
       }
-      if (zedObject.getModified()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getModified()).accept(this));
+      if (zedObject.getModified() != null) {
+        Term term = (Term) zedObject.getModified();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getSource()!=null) {
-        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Source", zedObject.getSource().toString());
+      if (zedObject.getSource() != null) {
+        elem.setAttributeNS(ns, "Source", zedObject.getSource().toString());
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a Spec to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitSpec", elem);
+    getLogger().exiting("dom.AstToDom", "visitSpec", elem);
     return elem;
   }
 
   public Object visitLocAnn(LocAnn zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitLocAnn", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "LocAnn");
+    getLogger().entering("dom.AstToDom", "visitLocAnn", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "LocAnn");
     try {
-      if (zedObject.getLoc()!=null) {
-        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Loc", zedObject.getLoc().toString());
+      if (zedObject.getLoc() != null) {
+        elem.setAttributeNS(ns, "Loc", zedObject.getLoc().toString());
       }
-      if (zedObject.getLine()!=null) {
-        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Line", zedObject.getLine().toString());
+      if (zedObject.getLine() != null) {
+        elem.setAttributeNS(ns, "Line", zedObject.getLine().toString());
       }
-      if (zedObject.getCol()!=null) {
-        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Col", zedObject.getCol().toString());
+      if (zedObject.getCol() != null) {
+        elem.setAttributeNS(ns, "Col", zedObject.getCol().toString());
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a LocAnn to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitLocAnn", elem);
+    getLogger().exiting("dom.AstToDom", "visitLocAnn", elem);
     return elem;
   }
 
   public Object visitPowerExpr(PowerExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitPowerExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "PowerExpr");
+    getLogger().entering("dom.AstToDom", "visitPowerExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "PowerExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      if (zedObject.getExpr() != null) {
+        Term term = (Term) zedObject.getExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a PowerExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitPowerExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitPowerExpr", elem);
     return elem;
   }
 
   public Object visitHideExpr(HideExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitHideExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "HideExpr");
+    getLogger().entering("dom.AstToDom", "visitHideExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "HideExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      if (zedObject.getExpr() != null) {
+        Term term = (Term) zedObject.getExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      for(Iterator iter=zedObject.getName().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      for (Iterator iter = zedObject.getName().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        } else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a HideExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitHideExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitHideExpr", elem);
     return elem;
   }
 
   public Object visitGivenPara(GivenPara zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitGivenPara", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "GivenPara");
+    getLogger().entering("dom.AstToDom", "visitGivenPara", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "GivenPara");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      for(Iterator iter=zedObject.getDeclName().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      for (Iterator iter = zedObject.getDeclName().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        } else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a GivenPara to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitGivenPara", elem);
+    getLogger().exiting("dom.AstToDom", "visitGivenPara", elem);
     return elem;
   }
 
   public Object visitPowerType(PowerType zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitPowerType", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "PowerType");
+    getLogger().entering("dom.AstToDom", "visitPowerType", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "PowerType");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getType()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getType()).accept(this));
+      if (zedObject.getType() != null) {
+        Term term = (Term) zedObject.getType();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a PowerType to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitPowerType", elem);
+    getLogger().exiting("dom.AstToDom", "visitPowerType", elem);
     return elem;
   }
 
   public Object visitAndExpr(AndExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitAndExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "AndExpr");
+    getLogger().entering("dom.AstToDom", "visitAndExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "AndExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getLeftExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftExpr()).accept(this));
+      if (zedObject.getLeftExpr() != null) {
+        Term term = (Term) zedObject.getLeftExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getRightExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightExpr()).accept(this));
+      if (zedObject.getRightExpr() != null) {
+        Term term = (Term) zedObject.getRightExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a AndExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitAndExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitAndExpr", elem);
     return elem;
   }
 
   public Object visitRenameExpr(RenameExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitRenameExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "RenameExpr");
+    getLogger().entering("dom.AstToDom", "visitRenameExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "RenameExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      if (zedObject.getExpr() != null) {
+        Term term = (Term) zedObject.getExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      for(Iterator iter=zedObject.getNameNamePair().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      for (Iterator iter = zedObject.getNameNamePair().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        } else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a RenameExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitRenameExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitRenameExpr", elem);
     return elem;
   }
 
   public Object visitAndPred(AndPred zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitAndPred", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "AndPred");
+    getLogger().entering("dom.AstToDom", "visitAndPred", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "AndPred");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getLeftPred()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftPred()).accept(this));
+      if (zedObject.getLeftPred() != null) {
+        Term term = (Term) zedObject.getLeftPred();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getRightPred()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightPred()).accept(this));
+      if (zedObject.getRightPred() != null) {
+        Term term = (Term) zedObject.getRightPred();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getOp()!=null) {
-        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Op", zedObject.getOp().toString());
+      if (zedObject.getOp() != null) {
+        elem.setAttributeNS(ns, "Op", zedObject.getOp().toString());
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a AndPred to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitAndPred", elem);
+    getLogger().exiting("dom.AstToDom", "visitAndPred", elem);
     return elem;
   }
 
   public Object visitConjPara(ConjPara zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitConjPara", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "ConjPara");
+    getLogger().entering("dom.AstToDom", "visitConjPara", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "ConjPara");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      for(Iterator iter=zedObject.getDeclName().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      for (Iterator iter = zedObject.getDeclName().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        } else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
-      if (zedObject.getPred()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getPred()).accept(this));
+      if (zedObject.getPred() != null) {
+        Term term = (Term) zedObject.getPred();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a ConjPara to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitConjPara", elem);
+    getLogger().exiting("dom.AstToDom", "visitConjPara", elem);
     return elem;
   }
 
   public Object visitNumStroke(NumStroke zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitNumStroke", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "NumStroke");
+    getLogger().entering("dom.AstToDom", "visitNumStroke", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "NumStroke");
     try {
-      if (zedObject.getNumber()!=null) {
-        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Number", zedObject.getNumber().toString());
+      if (zedObject.getNumber() != null) {
+        elem.setAttributeNS(ns, "Number", zedObject.getNumber().toString());
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a NumStroke to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitNumStroke", elem);
+    getLogger().exiting("dom.AstToDom", "visitNumStroke", elem);
     return elem;
   }
 
   public Object visitZSect(ZSect zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitZSect", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "ZSect");
+    getLogger().entering("dom.AstToDom", "visitZSect", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "ZSect");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getName()!=null) {
-	Element child = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Name");
-	child.appendChild(getDocument().createTextNode(zedObject.getName().toString()));
-	elem.appendChild(child);
+      if (zedObject.getName() != null) {
+        Element child = getDocument().createElementNS(ns, "Name");
+        String string = zedObject.getName().toString();
+        child.appendChild(getDocument().createTextNode(string));
+        elem.appendChild(child);
       }
-      for(Iterator iter=zedObject.getParent().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      for (Iterator iter = zedObject.getParent().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        } else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
-      for(Iterator iter=zedObject.getPara().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      for (Iterator iter = zedObject.getPara().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        } else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a ZSect to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitZSect", elem);
+    getLogger().exiting("dom.AstToDom", "visitZSect", elem);
     return elem;
   }
 
@@ -2154,70 +2735,84 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 
   public Object visitThetaExpr(ThetaExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitThetaExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "ThetaExpr");
+    getLogger().entering("dom.AstToDom", "visitThetaExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "ThetaExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      if (zedObject.getExpr() != null) {
+        Term term = (Term) zedObject.getExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      for(Iterator iter=zedObject.getStroke().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      for (Iterator iter = zedObject.getStroke().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        } else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a ThetaExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitThetaExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitThetaExpr", elem);
     return elem;
   }
 
   public Object visitSetExpr(SetExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitSetExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "SetExpr");
+    getLogger().entering("dom.AstToDom", "visitSetExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "SetExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      for(Iterator iter=zedObject.getExpr().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      for (Iterator iter = zedObject.getExpr().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        } else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a SetExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitSetExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitSetExpr", elem);
     return elem;
   }
 
@@ -2228,359 +2823,456 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 
   public Object visitSetCompExpr(SetCompExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitSetCompExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "SetCompExpr");
+    getLogger().entering("dom.AstToDom", "visitSetCompExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "SetCompExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getSchText()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getSchText()).accept(this));
+      if (zedObject.getSchText() != null) {
+        Term term = (Term) zedObject.getSchText();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      if (zedObject.getExpr() != null) {
+        Term term = (Term) zedObject.getExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a SetCompExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitSetCompExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitSetCompExpr", elem);
     return elem;
   }
 
   public Object visitPipeExpr(PipeExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitPipeExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "PipeExpr");
+    getLogger().entering("dom.AstToDom", "visitPipeExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "PipeExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getLeftExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftExpr()).accept(this));
+      if (zedObject.getLeftExpr() != null) {
+        Term term = (Term) zedObject.getLeftExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getRightExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightExpr()).accept(this));
+      if (zedObject.getRightExpr() != null) {
+        Term term = (Term) zedObject.getRightExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a PipeExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitPipeExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitPipeExpr", elem);
     return elem;
   }
 
   public Object visitRefExpr(RefExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitRefExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "RefExpr");
+    getLogger().entering("dom.AstToDom", "visitRefExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "RefExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getRefName()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRefName()).accept(this));
+      if (zedObject.getRefName() != null) {
+        Term term = (Term) zedObject.getRefName();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      for(Iterator iter=zedObject.getExpr().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      for (Iterator iter = zedObject.getExpr().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        } else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
-      if (zedObject.getMixfix()!=null) {
-        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Mixfix", zedObject.getMixfix().toString());
+      if (zedObject.getMixfix() != null) {
+        elem.setAttributeNS(ns, "Mixfix", zedObject.getMixfix().toString());
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a RefExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitRefExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitRefExpr", elem);
     return elem;
   }
 
   public Object visitNegExpr(NegExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitNegExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "NegExpr");
+    getLogger().entering("dom.AstToDom", "visitNegExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "NegExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      if (zedObject.getExpr() != null) {
+        Term term = (Term) zedObject.getExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a NegExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitNegExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitNegExpr", elem);
     return elem;
   }
 
   public Object visitProdExpr(ProdExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitProdExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "ProdExpr");
+    getLogger().entering("dom.AstToDom", "visitProdExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "ProdExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      for(Iterator iter=zedObject.getExpr().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      for (Iterator iter = zedObject.getExpr().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        } else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a ProdExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitProdExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitProdExpr", elem);
     return elem;
   }
 
   public Object visitDecorExpr(DecorExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitDecorExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "DecorExpr");
+    getLogger().entering("dom.AstToDom", "visitDecorExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "DecorExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      if (zedObject.getExpr() != null) {
+        Term term = (Term) zedObject.getExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getStroke()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getStroke()).accept(this));
+      if (zedObject.getStroke() != null) {
+        Term term = (Term) zedObject.getStroke();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a DecorExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitDecorExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitDecorExpr", elem);
     return elem;
   }
 
   public Object visitOutStroke(OutStroke zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitOutStroke", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "OutStroke");
+    getLogger().entering("dom.AstToDom", "visitOutStroke", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "OutStroke");
     try {
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a OutStroke to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitOutStroke", elem);
+    getLogger().exiting("dom.AstToDom", "visitOutStroke", elem);
     return elem;
   }
 
   public Object visitParent(Parent zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitParent", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Parent");
+    getLogger().entering("dom.AstToDom", "visitParent", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "Parent");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getWord()!=null) {
-	Element child = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Word");
-	child.appendChild(getDocument().createTextNode(zedObject.getWord().toString()));
-	elem.appendChild(child);
+      if (zedObject.getWord() != null) {
+        Element child = getDocument().createElementNS(ns, "Word");
+        String string = zedObject.getWord().toString();
+        child.appendChild(getDocument().createTextNode(string));
+        elem.appendChild(child);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a Parent to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitParent", elem);
+    getLogger().exiting("dom.AstToDom", "visitParent", elem);
     return elem;
   }
 
   public Object visitExists1Pred(Exists1Pred zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitExists1Pred", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Exists1Pred");
+    getLogger().entering("dom.AstToDom", "visitExists1Pred", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "Exists1Pred");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getSchText()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getSchText()).accept(this));
+      if (zedObject.getSchText() != null) {
+        Term term = (Term) zedObject.getSchText();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getPred()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getPred()).accept(this));
+      if (zedObject.getPred() != null) {
+        Term term = (Term) zedObject.getPred();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a Exists1Pred to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitExists1Pred", elem);
+    getLogger().exiting("dom.AstToDom", "visitExists1Pred", elem);
     return elem;
   }
 
   public Object visitAxPara(AxPara zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitAxPara", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "AxPara");
+    getLogger().entering("dom.AstToDom", "visitAxPara", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "AxPara");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      for(Iterator iter=zedObject.getDeclName().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      for (Iterator iter = zedObject.getDeclName().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        } else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
-      if (zedObject.getSchText()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getSchText()).accept(this));
+      if (zedObject.getSchText() != null) {
+        Term term = (Term) zedObject.getSchText();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-      if (zedObject.getBox()!=null) {
-        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Box", zedObject.getBox().toString());
+      if (zedObject.getBox() != null) {
+        elem.setAttributeNS(ns, "Box", zedObject.getBox().toString());
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a AxPara to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitAxPara", elem);
+    getLogger().exiting("dom.AstToDom", "visitAxPara", elem);
     return elem;
   }
 
   public Object visitSchExpr(SchExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitSchExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "SchExpr");
+    getLogger().entering("dom.AstToDom", "visitSchExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "SchExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      if (zedObject.getSchText()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getSchText()).accept(this));
+      if (zedObject.getSchText() != null) {
+        Term term = (Term) zedObject.getSchText();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a SchExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitSchExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitSchExpr", elem);
     return elem;
   }
 
   public Object visitTupleExpr(TupleExpr zedObject)
   {
-    sLogger.entering("dom.AstToDom", "visitTupleExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "TupleExpr");
+    getLogger().entering("dom.AstToDom", "visitTupleExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "TupleExpr");
     try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
-      for(Iterator iter=zedObject.getExpr().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      for (Iterator iter = zedObject.getExpr().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        } else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a TupleExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("dom.AstToDom", "visitTupleExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitTupleExpr", elem);
     return elem;
   }
 }

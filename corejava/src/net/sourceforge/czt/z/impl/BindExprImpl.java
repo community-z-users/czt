@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.BindExprVisitor;
  * @author Gnast version 0.1
  */
 public class BindExprImpl
-extends ExprImpl implements BindExpr
+  extends ExprImpl   implements BindExpr
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends ExprImpl implements BindExpr
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected BindExprImpl() { }
+  protected BindExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this BindExprImpl
@@ -60,16 +63,20 @@ extends ExprImpl implements BindExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      BindExprImpl object = (BindExprImpl) obj;
-      if((mNameExprPair == null && object.mNameExprPair != null) ||
-         (mNameExprPair != null &&
-         ! mNameExprPair.equals(object.mNameExprPair))) return false;
-      if(mNameExprPair == null && object.mNameExprPair != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        BindExprImpl object = (BindExprImpl) obj;
+        if (nameExprPair_ != null) {
+          if (!nameExprPair_.equals(object.nameExprPair_)) {
+            return false;
+          }
+        } else {
+          if (object.nameExprPair_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -83,10 +90,12 @@ extends ExprImpl implements BindExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "BindExprImpl".hashCode();
-    if(mNameExprPair != null) {
-      hashCode += 31*mNameExprPair.hashCode();
+    if (nameExprPair_ != null) {
+      hashCode += constant * nameExprPair_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +105,7 @@ extends ExprImpl implements BindExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof BindExprVisitor)
-    {
+    if (v instanceof BindExprVisitor) {
       BindExprVisitor visitor = (BindExprVisitor) v;
       return visitor.visitBindExpr(this);
     }
@@ -107,12 +115,13 @@ extends ExprImpl implements BindExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     BindExpr zedObject = null;
     try {
       java.util.List nameExprPair = (java.util.List) args[0];
       zedObject = new BindExprImpl();
-      if(nameExprPair != null) {
+      if (nameExprPair != null) {
         zedObject.getNameExprPair().addAll(nameExprPair);
       }
     } catch (IndexOutOfBoundsException e) {
@@ -129,10 +138,12 @@ extends ExprImpl implements BindExpr
     return erg;
   }
 
-  private java.util.List mNameExprPair = new net.sourceforge.czt.util.TypesafeList(NameExprPair.class);
+
+  private java.util.List nameExprPair_ =
+    new TypesafeList(NameExprPair.class);
 
   public java.util.List getNameExprPair()
   {
-    return mNameExprPair;
+    return nameExprPair_;
   }
 }

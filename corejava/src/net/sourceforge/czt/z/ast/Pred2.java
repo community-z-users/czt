@@ -39,7 +39,7 @@ public interface Pred2 extends Pred
    *
    * @return the LeftPred element.
    */
-  public Pred getLeftPred();
+  Pred getLeftPred();
 
   /**
    * Sets the LeftPred element.
@@ -47,14 +47,14 @@ public interface Pred2 extends Pred
    * @param leftPred   the LeftPred element.
    * @see #getLeftPred
    */
-  public void setLeftPred(Pred leftPred);
+  void setLeftPred(Pred leftPred);
 
   /**
    * Returns the RightPred element.
    *
    * @return the RightPred element.
    */
-  public Pred getRightPred();
+  Pred getRightPred();
 
   /**
    * Sets the RightPred element.
@@ -62,5 +62,5 @@ public interface Pred2 extends Pred
    * @param rightPred   the RightPred element.
    * @see #getRightPred
    */
-  public void setRightPred(Pred rightPred);
+  void setRightPred(Pred rightPred);
 }

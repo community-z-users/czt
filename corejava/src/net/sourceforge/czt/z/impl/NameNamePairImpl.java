@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.NameNamePairVisitor;
  * @author Gnast version 0.1
  */
 public class NameNamePairImpl
-extends TermImpl implements NameNamePair
+  extends TermImpl   implements NameNamePair
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends TermImpl implements NameNamePair
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected NameNamePairImpl() { }
+  protected NameNamePairImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this NameNamePairImpl
@@ -60,21 +63,29 @@ extends TermImpl implements NameNamePair
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      NameNamePairImpl object = (NameNamePairImpl) obj;
-      if((mOldName == null && object.mOldName != null) ||
-         (mOldName != null &&
-         ! mOldName.equals(object.mOldName))) return false;
-      if(mOldName == null && object.mOldName != null)
-        return false;
-      if((mNewName == null && object.mNewName != null) ||
-         (mNewName != null &&
-         ! mNewName.equals(object.mNewName))) return false;
-      if(mNewName == null && object.mNewName != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        NameNamePairImpl object = (NameNamePairImpl) obj;
+        if (oldName_ != null) {
+          if (!oldName_.equals(object.oldName_)) {
+            return false;
+          }
+        } else {
+          if (object.oldName_ != null) {
+            return false;
+          }
+        }
+        if (newName_ != null) {
+          if (!newName_.equals(object.newName_)) {
+            return false;
+          }
+        } else {
+          if (object.newName_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -88,13 +99,15 @@ extends TermImpl implements NameNamePair
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "NameNamePairImpl".hashCode();
-    if(mOldName != null) {
-      hashCode += 31*mOldName.hashCode();
+    if (oldName_ != null) {
+      hashCode += constant * oldName_.hashCode();
     }
-    if(mNewName != null) {
-      hashCode += 31*mNewName.hashCode();
+    if (newName_ != null) {
+      hashCode += constant * newName_.hashCode();
     }
     return hashCode;
   }
@@ -104,8 +117,7 @@ extends TermImpl implements NameNamePair
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof NameNamePairVisitor)
-    {
+    if (v instanceof NameNamePairVisitor) {
       NameNamePairVisitor visitor = (NameNamePairVisitor) v;
       return visitor.visitNameNamePair(this);
     }
@@ -115,7 +127,8 @@ extends TermImpl implements NameNamePair
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     NameNamePair zedObject = null;
     try {
       RefName oldName = (RefName) args[0];
@@ -137,27 +150,27 @@ extends TermImpl implements NameNamePair
     return erg;
   }
 
-  private RefName mOldName;
+  private RefName oldName_;
 
   public RefName getOldName()
   {
-    return mOldName;
+    return oldName_;
   }
 
   public void setOldName(RefName oldName)
   {
-    mOldName = oldName;
+    oldName_ = oldName;
   }
 
-  private DeclName mNewName;
+  private DeclName newName_;
 
   public DeclName getNewName()
   {
-    return mNewName;
+    return newName_;
   }
 
   public void setNewName(DeclName newName)
   {
-    mNewName = newName;
+    newName_ = newName;
   }
 }

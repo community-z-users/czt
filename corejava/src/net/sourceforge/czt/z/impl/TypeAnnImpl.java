@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.TypeAnnVisitor;
  * @author Gnast version 0.1
  */
 public class TypeAnnImpl
-extends TermImpl implements TypeAnn
+  extends TermImpl   implements TypeAnn
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends TermImpl implements TypeAnn
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected TypeAnnImpl() { }
+  protected TypeAnnImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this TypeAnnImpl
@@ -60,16 +63,20 @@ extends TermImpl implements TypeAnn
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      TypeAnnImpl object = (TypeAnnImpl) obj;
-      if((mType == null && object.mType != null) ||
-         (mType != null &&
-         ! mType.equals(object.mType))) return false;
-      if(mType == null && object.mType != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        TypeAnnImpl object = (TypeAnnImpl) obj;
+        if (type_ != null) {
+          if (!type_.equals(object.type_)) {
+            return false;
+          }
+        } else {
+          if (object.type_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -83,10 +90,12 @@ extends TermImpl implements TypeAnn
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "TypeAnnImpl".hashCode();
-    if(mType != null) {
-      hashCode += 31*mType.hashCode();
+    if (type_ != null) {
+      hashCode += constant * type_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +105,7 @@ extends TermImpl implements TypeAnn
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof TypeAnnVisitor)
-    {
+    if (v instanceof TypeAnnVisitor) {
       TypeAnnVisitor visitor = (TypeAnnVisitor) v;
       return visitor.visitTypeAnn(this);
     }
@@ -107,7 +115,8 @@ extends TermImpl implements TypeAnn
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     TypeAnn zedObject = null;
     try {
       Type type = (Type) args[0];
@@ -127,15 +136,15 @@ extends TermImpl implements TypeAnn
     return erg;
   }
 
-  private Type mType;
+  private Type type_;
 
   public Type getType()
   {
-    return mType;
+    return type_;
   }
 
   public void setType(Type type)
   {
-    mType = type;
+    type_ = type;
   }
 }

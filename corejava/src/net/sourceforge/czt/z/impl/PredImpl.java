@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.PredVisitor;
  * @author Gnast version 0.1
  */
 public abstract class PredImpl
-extends TermAImpl implements Pred
+  extends TermAImpl   implements Pred
 {
 
   /**
@@ -52,11 +53,11 @@ extends TermAImpl implements Pred
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      PredImpl object = (PredImpl) obj;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        PredImpl object = (PredImpl) obj;
+        return true;
+      }
     }
     return false;
   }
@@ -70,6 +71,8 @@ extends TermAImpl implements Pred
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "PredImpl".hashCode();
     return hashCode;
@@ -80,8 +83,7 @@ extends TermAImpl implements Pred
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof PredVisitor)
-    {
+    if (v instanceof PredVisitor) {
       PredVisitor visitor = (PredVisitor) v;
       return visitor.visitPred(this);
     }

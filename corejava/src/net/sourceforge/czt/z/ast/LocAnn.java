@@ -39,7 +39,7 @@ public interface LocAnn extends Term
    *
    * @return the Loc element.
    */
-  public String getLoc();
+  String getLoc();
 
   /**
    * Sets the Loc element.
@@ -47,14 +47,14 @@ public interface LocAnn extends Term
    * @param loc   the Loc element.
    * @see #getLoc
    */
-  public void setLoc(String loc);
+  void setLoc(String loc);
 
   /**
    * Returns the Line element.
    *
    * @return the Line element.
    */
-  public Integer getLine();
+  Integer getLine();
 
   /**
    * Sets the Line element.
@@ -62,14 +62,14 @@ public interface LocAnn extends Term
    * @param line   the Line element.
    * @see #getLine
    */
-  public void setLine(Integer line);
+  void setLine(Integer line);
 
   /**
    * Returns the Col element.
    *
    * @return the Col element.
    */
-  public Integer getCol();
+  Integer getCol();
 
   /**
    * Sets the Col element.
@@ -77,5 +77,5 @@ public interface LocAnn extends Term
    * @param col   the Col element.
    * @see #getCol
    */
-  public void setCol(Integer col);
+  void setCol(Integer col);
 }

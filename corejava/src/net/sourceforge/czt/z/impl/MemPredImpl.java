@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.MemPredVisitor;
  * @author Gnast version 0.1
  */
 public class MemPredImpl
-extends PredImpl implements MemPred
+  extends PredImpl   implements MemPred
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends PredImpl implements MemPred
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected MemPredImpl() { }
+  protected MemPredImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this MemPredImpl
@@ -60,26 +63,38 @@ extends PredImpl implements MemPred
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      MemPredImpl object = (MemPredImpl) obj;
-      if((mLeftExpr == null && object.mLeftExpr != null) ||
-         (mLeftExpr != null &&
-         ! mLeftExpr.equals(object.mLeftExpr))) return false;
-      if(mLeftExpr == null && object.mLeftExpr != null)
-        return false;
-      if((mRightExpr == null && object.mRightExpr != null) ||
-         (mRightExpr != null &&
-         ! mRightExpr.equals(object.mRightExpr))) return false;
-      if(mRightExpr == null && object.mRightExpr != null)
-        return false;
-      if((mMixfix == null && object.mMixfix != null) ||
-         (mMixfix != null &&
-         ! mMixfix.equals(object.mMixfix))) return false;
-      if(mMixfix == null && object.mMixfix != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        MemPredImpl object = (MemPredImpl) obj;
+        if (leftExpr_ != null) {
+          if (!leftExpr_.equals(object.leftExpr_)) {
+            return false;
+          }
+        } else {
+          if (object.leftExpr_ != null) {
+            return false;
+          }
+        }
+        if (rightExpr_ != null) {
+          if (!rightExpr_.equals(object.rightExpr_)) {
+            return false;
+          }
+        } else {
+          if (object.rightExpr_ != null) {
+            return false;
+          }
+        }
+        if (mixfix_ != null) {
+          if (!mixfix_.equals(object.mixfix_)) {
+            return false;
+          }
+        } else {
+          if (object.mixfix_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -93,16 +108,18 @@ extends PredImpl implements MemPred
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "MemPredImpl".hashCode();
-    if(mLeftExpr != null) {
-      hashCode += 31*mLeftExpr.hashCode();
+    if (leftExpr_ != null) {
+      hashCode += constant * leftExpr_.hashCode();
     }
-    if(mRightExpr != null) {
-      hashCode += 31*mRightExpr.hashCode();
+    if (rightExpr_ != null) {
+      hashCode += constant * rightExpr_.hashCode();
     }
-    if(mMixfix != null) {
-      hashCode += 31*mMixfix.hashCode();
+    if (mixfix_ != null) {
+      hashCode += constant * mixfix_.hashCode();
     }
     return hashCode;
   }
@@ -112,8 +129,7 @@ extends PredImpl implements MemPred
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof MemPredVisitor)
-    {
+    if (v instanceof MemPredVisitor) {
       MemPredVisitor visitor = (MemPredVisitor) v;
       return visitor.visitMemPred(this);
     }
@@ -123,7 +139,8 @@ extends PredImpl implements MemPred
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     MemPred zedObject = null;
     try {
       Expr leftExpr = (Expr) args[0];
@@ -147,39 +164,39 @@ extends PredImpl implements MemPred
     return erg;
   }
 
-  private Expr mLeftExpr;
+  private Expr leftExpr_;
 
   public Expr getLeftExpr()
   {
-    return mLeftExpr;
+    return leftExpr_;
   }
 
   public void setLeftExpr(Expr leftExpr)
   {
-    mLeftExpr = leftExpr;
+    leftExpr_ = leftExpr;
   }
 
-  private Expr mRightExpr;
+  private Expr rightExpr_;
 
   public Expr getRightExpr()
   {
-    return mRightExpr;
+    return rightExpr_;
   }
 
   public void setRightExpr(Expr rightExpr)
   {
-    mRightExpr = rightExpr;
+    rightExpr_ = rightExpr;
   }
 
-  private Boolean mMixfix;
+  private Boolean mixfix_;
 
   public Boolean getMixfix()
   {
-    return mMixfix;
+    return mixfix_;
   }
 
   public void setMixfix(Boolean mixfix)
   {
-    mMixfix = mixfix;
+    mixfix_ = mixfix;
   }
 }

@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.BindSelExprVisitor;
  * @author Gnast version 0.1
  */
 public class BindSelExprImpl
-extends Expr1Impl implements BindSelExpr
+  extends Expr1Impl   implements BindSelExpr
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends Expr1Impl implements BindSelExpr
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected BindSelExprImpl() { }
+  protected BindSelExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this BindSelExprImpl
@@ -60,16 +63,20 @@ extends Expr1Impl implements BindSelExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      BindSelExprImpl object = (BindSelExprImpl) obj;
-      if((mName == null && object.mName != null) ||
-         (mName != null &&
-         ! mName.equals(object.mName))) return false;
-      if(mName == null && object.mName != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        BindSelExprImpl object = (BindSelExprImpl) obj;
+        if (name_ != null) {
+          if (!name_.equals(object.name_)) {
+            return false;
+          }
+        } else {
+          if (object.name_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -83,10 +90,12 @@ extends Expr1Impl implements BindSelExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "BindSelExprImpl".hashCode();
-    if(mName != null) {
-      hashCode += 31*mName.hashCode();
+    if (name_ != null) {
+      hashCode += constant * name_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +105,7 @@ extends Expr1Impl implements BindSelExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof BindSelExprVisitor)
-    {
+    if (v instanceof BindSelExprVisitor) {
       BindSelExprVisitor visitor = (BindSelExprVisitor) v;
       return visitor.visitBindSelExpr(this);
     }
@@ -107,7 +115,8 @@ extends Expr1Impl implements BindSelExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     BindSelExpr zedObject = null;
     try {
       Expr expr = (Expr) args[0];
@@ -129,15 +138,15 @@ extends Expr1Impl implements BindSelExpr
     return erg;
   }
 
-  private RefName mName;
+  private RefName name_;
 
   public RefName getName()
   {
-    return mName;
+    return name_;
   }
 
   public void setName(RefName name)
   {
-    mName = name;
+    name_ = name;
   }
 }

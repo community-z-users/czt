@@ -42,14 +42,14 @@ public interface SchText extends TermA
    *
    * @return a list of Decl elements.
    */
-  public java.util.List getDecl();
+  java.util.List getDecl();
 
   /**
    * Returns the Pred element.
    *
    * @return the Pred element.
    */
-  public Pred getPred();
+  Pred getPred();
 
   /**
    * Sets the Pred element.
@@ -57,5 +57,5 @@ public interface SchText extends TermA
    * @param pred   the Pred element.
    * @see #getPred
    */
-  public void setPred(Pred pred);
+  void setPred(Pred pred);
 }

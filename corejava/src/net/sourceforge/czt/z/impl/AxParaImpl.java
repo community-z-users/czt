@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.AxParaVisitor;
  * @author Gnast version 0.1
  */
 public class AxParaImpl
-extends ParaImpl implements AxPara
+  extends ParaImpl   implements AxPara
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends ParaImpl implements AxPara
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected AxParaImpl() { }
+  protected AxParaImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this AxParaImpl
@@ -60,26 +63,38 @@ extends ParaImpl implements AxPara
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      AxParaImpl object = (AxParaImpl) obj;
-      if((mDeclName == null && object.mDeclName != null) ||
-         (mDeclName != null &&
-         ! mDeclName.equals(object.mDeclName))) return false;
-      if(mDeclName == null && object.mDeclName != null)
-        return false;
-      if((mSchText == null && object.mSchText != null) ||
-         (mSchText != null &&
-         ! mSchText.equals(object.mSchText))) return false;
-      if(mSchText == null && object.mSchText != null)
-        return false;
-      if((mBox == null && object.mBox != null) ||
-         (mBox != null &&
-         ! mBox.equals(object.mBox))) return false;
-      if(mBox == null && object.mBox != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        AxParaImpl object = (AxParaImpl) obj;
+        if (declName_ != null) {
+          if (!declName_.equals(object.declName_)) {
+            return false;
+          }
+        } else {
+          if (object.declName_ != null) {
+            return false;
+          }
+        }
+        if (schText_ != null) {
+          if (!schText_.equals(object.schText_)) {
+            return false;
+          }
+        } else {
+          if (object.schText_ != null) {
+            return false;
+          }
+        }
+        if (box_ != null) {
+          if (!box_.equals(object.box_)) {
+            return false;
+          }
+        } else {
+          if (object.box_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -93,16 +108,18 @@ extends ParaImpl implements AxPara
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "AxParaImpl".hashCode();
-    if(mDeclName != null) {
-      hashCode += 31*mDeclName.hashCode();
+    if (declName_ != null) {
+      hashCode += constant * declName_.hashCode();
     }
-    if(mSchText != null) {
-      hashCode += 31*mSchText.hashCode();
+    if (schText_ != null) {
+      hashCode += constant * schText_.hashCode();
     }
-    if(mBox != null) {
-      hashCode += 31*mBox.hashCode();
+    if (box_ != null) {
+      hashCode += constant * box_.hashCode();
     }
     return hashCode;
   }
@@ -112,8 +129,7 @@ extends ParaImpl implements AxPara
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof AxParaVisitor)
-    {
+    if (v instanceof AxParaVisitor) {
       AxParaVisitor visitor = (AxParaVisitor) v;
       return visitor.visitAxPara(this);
     }
@@ -123,14 +139,15 @@ extends ParaImpl implements AxPara
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     AxPara zedObject = null;
     try {
       java.util.List declName = (java.util.List) args[0];
       SchText schText = (SchText) args[1];
       Box box = (Box) args[2];
       zedObject = new AxParaImpl();
-      if(declName != null) {
+      if (declName != null) {
         zedObject.getDeclName().addAll(declName);
       }
       zedObject.setSchText(schText);
@@ -149,34 +166,36 @@ extends ParaImpl implements AxPara
     return erg;
   }
 
-  private java.util.List mDeclName = new net.sourceforge.czt.util.TypesafeList(DeclName.class);
+
+  private java.util.List declName_ =
+    new TypesafeList(DeclName.class);
 
   public java.util.List getDeclName()
   {
-    return mDeclName;
+    return declName_;
   }
 
-  private SchText mSchText;
+  private SchText schText_;
 
   public SchText getSchText()
   {
-    return mSchText;
+    return schText_;
   }
 
   public void setSchText(SchText schText)
   {
-    mSchText = schText;
+    schText_ = schText;
   }
 
-  private Box mBox;
+  private Box box_;
 
   public Box getBox()
   {
-    return mBox;
+    return box_;
   }
 
   public void setBox(Box box)
   {
-    mBox = box;
+    box_ = box;
   }
 }

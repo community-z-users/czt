@@ -39,7 +39,7 @@ public interface ApplExpr extends Expr2
    *
    * @return the Mixfix element.
    */
-  public Boolean getMixfix();
+  Boolean getMixfix();
 
   /**
    * Sets the Mixfix element.
@@ -47,5 +47,5 @@ public interface ApplExpr extends Expr2
    * @param mixfix   the Mixfix element.
    * @see #getMixfix
    */
-  public void setMixfix(Boolean mixfix);
+  void setMixfix(Boolean mixfix);
 }

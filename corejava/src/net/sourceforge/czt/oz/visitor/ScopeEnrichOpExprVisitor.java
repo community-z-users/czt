@@ -26,6 +26,9 @@ package net.sourceforge.czt.oz.visitor;
 
 import net.sourceforge.czt.util.Visitor;
 
+/**
+ * A(n) ScopeEnrichOpExpr visitor.
+ */
 public interface ScopeEnrichOpExprVisitor extends Visitor
 {
   /**

@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.CompExprVisitor;
  * @author Gnast version 0.1
  */
 public class CompExprImpl
-extends SchExpr2Impl implements CompExpr
+  extends SchExpr2Impl   implements CompExpr
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends SchExpr2Impl implements CompExpr
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected CompExprImpl() { }
+  protected CompExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this CompExprImpl
@@ -60,11 +63,11 @@ extends SchExpr2Impl implements CompExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      CompExprImpl object = (CompExprImpl) obj;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        CompExprImpl object = (CompExprImpl) obj;
+        return true;
+      }
     }
     return false;
   }
@@ -78,6 +81,8 @@ extends SchExpr2Impl implements CompExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "CompExprImpl".hashCode();
     return hashCode;
@@ -88,8 +93,7 @@ extends SchExpr2Impl implements CompExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof CompExprVisitor)
-    {
+    if (v instanceof CompExprVisitor) {
       CompExprVisitor visitor = (CompExprVisitor) v;
       return visitor.visitCompExpr(this);
     }
@@ -99,7 +103,8 @@ extends SchExpr2Impl implements CompExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     CompExpr zedObject = null;
     try {
       Expr leftExpr = (Expr) args[0];

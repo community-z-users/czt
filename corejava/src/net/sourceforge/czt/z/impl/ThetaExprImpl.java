@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.ThetaExprVisitor;
  * @author Gnast version 0.1
  */
 public class ThetaExprImpl
-extends Expr1Impl implements ThetaExpr
+  extends Expr1Impl   implements ThetaExpr
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends Expr1Impl implements ThetaExpr
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected ThetaExprImpl() { }
+  protected ThetaExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this ThetaExprImpl
@@ -60,16 +63,20 @@ extends Expr1Impl implements ThetaExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      ThetaExprImpl object = (ThetaExprImpl) obj;
-      if((mStroke == null && object.mStroke != null) ||
-         (mStroke != null &&
-         ! mStroke.equals(object.mStroke))) return false;
-      if(mStroke == null && object.mStroke != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        ThetaExprImpl object = (ThetaExprImpl) obj;
+        if (stroke_ != null) {
+          if (!stroke_.equals(object.stroke_)) {
+            return false;
+          }
+        } else {
+          if (object.stroke_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -83,10 +90,12 @@ extends Expr1Impl implements ThetaExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "ThetaExprImpl".hashCode();
-    if(mStroke != null) {
-      hashCode += 31*mStroke.hashCode();
+    if (stroke_ != null) {
+      hashCode += constant * stroke_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +105,7 @@ extends Expr1Impl implements ThetaExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof ThetaExprVisitor)
-    {
+    if (v instanceof ThetaExprVisitor) {
       ThetaExprVisitor visitor = (ThetaExprVisitor) v;
       return visitor.visitThetaExpr(this);
     }
@@ -107,14 +115,15 @@ extends Expr1Impl implements ThetaExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     ThetaExpr zedObject = null;
     try {
       Expr expr = (Expr) args[0];
       java.util.List stroke = (java.util.List) args[1];
       zedObject = new ThetaExprImpl();
       zedObject.setExpr(expr);
-      if(stroke != null) {
+      if (stroke != null) {
         zedObject.getStroke().addAll(stroke);
       }
     } catch (IndexOutOfBoundsException e) {
@@ -131,10 +140,12 @@ extends Expr1Impl implements ThetaExpr
     return erg;
   }
 
-  private java.util.List mStroke = new net.sourceforge.czt.util.TypesafeList(Stroke.class);
+
+  private java.util.List stroke_ =
+    new TypesafeList(Stroke.class);
 
   public java.util.List getStroke()
   {
-    return mStroke;
+    return stroke_;
   }
 }

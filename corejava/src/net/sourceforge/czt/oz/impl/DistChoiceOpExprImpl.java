@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.oz.ast.*;
@@ -43,7 +44,7 @@ import net.sourceforge.czt.oz.visitor.DistChoiceOpExprVisitor;
  * @author Gnast version 0.1
  */
 public class DistChoiceOpExprImpl
-extends OperationExprImpl implements DistChoiceOpExpr
+  extends OperationExprImpl   implements DistChoiceOpExpr
 {
   /**
    * The default constructor.
@@ -52,7 +53,9 @@ extends OperationExprImpl implements DistChoiceOpExpr
    * If you want to create an instance of this class, please use the
    * {@link OzFactory object factory}.
    */
-  protected DistChoiceOpExprImpl() { }
+  protected DistChoiceOpExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this DistChoiceOpExprImpl
@@ -62,16 +65,20 @@ extends OperationExprImpl implements DistChoiceOpExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      DistChoiceOpExprImpl object = (DistChoiceOpExprImpl) obj;
-      if((mMainOpExpr == null && object.mMainOpExpr != null) ||
-         (mMainOpExpr != null &&
-         ! mMainOpExpr.equals(object.mMainOpExpr))) return false;
-      if(mMainOpExpr == null && object.mMainOpExpr != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        DistChoiceOpExprImpl object = (DistChoiceOpExprImpl) obj;
+        if (mainOpExpr_ != null) {
+          if (!mainOpExpr_.equals(object.mainOpExpr_)) {
+            return false;
+          }
+        } else {
+          if (object.mainOpExpr_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -85,10 +92,12 @@ extends OperationExprImpl implements DistChoiceOpExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "DistChoiceOpExprImpl".hashCode();
-    if(mMainOpExpr != null) {
-      hashCode += 31*mMainOpExpr.hashCode();
+    if (mainOpExpr_ != null) {
+      hashCode += constant * mainOpExpr_.hashCode();
     }
     return hashCode;
   }
@@ -98,8 +107,7 @@ extends OperationExprImpl implements DistChoiceOpExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof DistChoiceOpExprVisitor)
-    {
+    if (v instanceof DistChoiceOpExprVisitor) {
       DistChoiceOpExprVisitor visitor = (DistChoiceOpExprVisitor) v;
       return visitor.visitDistChoiceOpExpr(this);
     }
@@ -109,7 +117,8 @@ extends OperationExprImpl implements DistChoiceOpExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     DistChoiceOpExpr zedObject = null;
     try {
       MainOpExpr mainOpExpr = (MainOpExpr) args[0];
@@ -129,15 +138,15 @@ extends OperationExprImpl implements DistChoiceOpExpr
     return erg;
   }
 
-  private MainOpExpr mMainOpExpr;
+  private MainOpExpr mainOpExpr_;
 
   public MainOpExpr getMainOpExpr()
   {
-    return mMainOpExpr;
+    return mainOpExpr_;
   }
 
   public void setMainOpExpr(MainOpExpr mainOpExpr)
   {
-    mMainOpExpr = mainOpExpr;
+    mainOpExpr_ = mainOpExpr;
   }
 }

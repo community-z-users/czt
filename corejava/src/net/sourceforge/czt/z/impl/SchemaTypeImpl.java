@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.SchemaTypeVisitor;
  * @author Gnast version 0.1
  */
 public class SchemaTypeImpl
-extends TypeImpl implements SchemaType
+  extends TypeImpl   implements SchemaType
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends TypeImpl implements SchemaType
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected SchemaTypeImpl() { }
+  protected SchemaTypeImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this SchemaTypeImpl
@@ -60,16 +63,20 @@ extends TypeImpl implements SchemaType
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      SchemaTypeImpl object = (SchemaTypeImpl) obj;
-      if((mSignature == null && object.mSignature != null) ||
-         (mSignature != null &&
-         ! mSignature.equals(object.mSignature))) return false;
-      if(mSignature == null && object.mSignature != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        SchemaTypeImpl object = (SchemaTypeImpl) obj;
+        if (signature_ != null) {
+          if (!signature_.equals(object.signature_)) {
+            return false;
+          }
+        } else {
+          if (object.signature_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -83,10 +90,12 @@ extends TypeImpl implements SchemaType
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "SchemaTypeImpl".hashCode();
-    if(mSignature != null) {
-      hashCode += 31*mSignature.hashCode();
+    if (signature_ != null) {
+      hashCode += constant * signature_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +105,7 @@ extends TypeImpl implements SchemaType
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof SchemaTypeVisitor)
-    {
+    if (v instanceof SchemaTypeVisitor) {
       SchemaTypeVisitor visitor = (SchemaTypeVisitor) v;
       return visitor.visitSchemaType(this);
     }
@@ -107,7 +115,8 @@ extends TypeImpl implements SchemaType
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     SchemaType zedObject = null;
     try {
       Signature signature = (Signature) args[0];
@@ -127,15 +136,15 @@ extends TypeImpl implements SchemaType
     return erg;
   }
 
-  private Signature mSignature;
+  private Signature signature_;
 
   public Signature getSignature()
   {
-    return mSignature;
+    return signature_;
   }
 
   public void setSignature(Signature signature)
   {
-    mSignature = signature;
+    signature_ = signature;
   }
 }

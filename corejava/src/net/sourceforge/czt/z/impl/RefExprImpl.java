@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.RefExprVisitor;
  * @author Gnast version 0.1
  */
 public class RefExprImpl
-extends ExprImpl implements RefExpr
+  extends ExprImpl   implements RefExpr
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends ExprImpl implements RefExpr
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected RefExprImpl() { }
+  protected RefExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this RefExprImpl
@@ -60,26 +63,38 @@ extends ExprImpl implements RefExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      RefExprImpl object = (RefExprImpl) obj;
-      if((mRefName == null && object.mRefName != null) ||
-         (mRefName != null &&
-         ! mRefName.equals(object.mRefName))) return false;
-      if(mRefName == null && object.mRefName != null)
-        return false;
-      if((mExpr == null && object.mExpr != null) ||
-         (mExpr != null &&
-         ! mExpr.equals(object.mExpr))) return false;
-      if(mExpr == null && object.mExpr != null)
-        return false;
-      if((mMixfix == null && object.mMixfix != null) ||
-         (mMixfix != null &&
-         ! mMixfix.equals(object.mMixfix))) return false;
-      if(mMixfix == null && object.mMixfix != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        RefExprImpl object = (RefExprImpl) obj;
+        if (refName_ != null) {
+          if (!refName_.equals(object.refName_)) {
+            return false;
+          }
+        } else {
+          if (object.refName_ != null) {
+            return false;
+          }
+        }
+        if (expr_ != null) {
+          if (!expr_.equals(object.expr_)) {
+            return false;
+          }
+        } else {
+          if (object.expr_ != null) {
+            return false;
+          }
+        }
+        if (mixfix_ != null) {
+          if (!mixfix_.equals(object.mixfix_)) {
+            return false;
+          }
+        } else {
+          if (object.mixfix_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -93,16 +108,18 @@ extends ExprImpl implements RefExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "RefExprImpl".hashCode();
-    if(mRefName != null) {
-      hashCode += 31*mRefName.hashCode();
+    if (refName_ != null) {
+      hashCode += constant * refName_.hashCode();
     }
-    if(mExpr != null) {
-      hashCode += 31*mExpr.hashCode();
+    if (expr_ != null) {
+      hashCode += constant * expr_.hashCode();
     }
-    if(mMixfix != null) {
-      hashCode += 31*mMixfix.hashCode();
+    if (mixfix_ != null) {
+      hashCode += constant * mixfix_.hashCode();
     }
     return hashCode;
   }
@@ -112,8 +129,7 @@ extends ExprImpl implements RefExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof RefExprVisitor)
-    {
+    if (v instanceof RefExprVisitor) {
       RefExprVisitor visitor = (RefExprVisitor) v;
       return visitor.visitRefExpr(this);
     }
@@ -123,7 +139,8 @@ extends ExprImpl implements RefExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     RefExpr zedObject = null;
     try {
       RefName refName = (RefName) args[0];
@@ -131,7 +148,7 @@ extends ExprImpl implements RefExpr
       Boolean mixfix = (Boolean) args[2];
       zedObject = new RefExprImpl();
       zedObject.setRefName(refName);
-      if(expr != null) {
+      if (expr != null) {
         zedObject.getExpr().addAll(expr);
       }
       zedObject.setMixfix(mixfix);
@@ -149,34 +166,36 @@ extends ExprImpl implements RefExpr
     return erg;
   }
 
-  private RefName mRefName;
+  private RefName refName_;
 
   public RefName getRefName()
   {
-    return mRefName;
+    return refName_;
   }
 
   public void setRefName(RefName refName)
   {
-    mRefName = refName;
+    refName_ = refName;
   }
 
-  private java.util.List mExpr = new net.sourceforge.czt.util.TypesafeList(Expr.class);
+
+  private java.util.List expr_ =
+    new TypesafeList(Expr.class);
 
   public java.util.List getExpr()
   {
-    return mExpr;
+    return expr_;
   }
 
-  private Boolean mMixfix;
+  private Boolean mixfix_;
 
   public Boolean getMixfix()
   {
-    return mMixfix;
+    return mixfix_;
   }
 
   public void setMixfix(Boolean mixfix)
   {
-    mMixfix = mixfix;
+    mixfix_ = mixfix;
   }
 }

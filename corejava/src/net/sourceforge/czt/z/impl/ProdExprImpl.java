@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.ProdExprVisitor;
  * @author Gnast version 0.1
  */
 public class ProdExprImpl
-extends Expr2NImpl implements ProdExpr
+  extends Expr2NImpl   implements ProdExpr
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends Expr2NImpl implements ProdExpr
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected ProdExprImpl() { }
+  protected ProdExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this ProdExprImpl
@@ -60,11 +63,11 @@ extends Expr2NImpl implements ProdExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      ProdExprImpl object = (ProdExprImpl) obj;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        ProdExprImpl object = (ProdExprImpl) obj;
+        return true;
+      }
     }
     return false;
   }
@@ -78,6 +81,8 @@ extends Expr2NImpl implements ProdExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "ProdExprImpl".hashCode();
     return hashCode;
@@ -88,8 +93,7 @@ extends Expr2NImpl implements ProdExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof ProdExprVisitor)
-    {
+    if (v instanceof ProdExprVisitor) {
       ProdExprVisitor visitor = (ProdExprVisitor) v;
       return visitor.visitProdExpr(this);
     }
@@ -99,12 +103,13 @@ extends Expr2NImpl implements ProdExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     ProdExpr zedObject = null;
     try {
       java.util.List expr = (java.util.List) args[0];
       zedObject = new ProdExprImpl();
-      if(expr != null) {
+      if (expr != null) {
         zedObject.getExpr().addAll(expr);
       }
     } catch (IndexOutOfBoundsException e) {

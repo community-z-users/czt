@@ -26,6 +26,9 @@ package net.sourceforge.czt.z.visitor;
 
 import net.sourceforge.czt.util.Visitor;
 
+/**
+ * A(n) Exists1Pred visitor.
+ */
 public interface Exists1PredVisitor extends Visitor
 {
   /**

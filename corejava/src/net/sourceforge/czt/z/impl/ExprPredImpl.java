@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.ExprPredVisitor;
  * @author Gnast version 0.1
  */
 public class ExprPredImpl
-extends PredImpl implements ExprPred
+  extends PredImpl   implements ExprPred
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends PredImpl implements ExprPred
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected ExprPredImpl() { }
+  protected ExprPredImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this ExprPredImpl
@@ -60,16 +63,20 @@ extends PredImpl implements ExprPred
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      ExprPredImpl object = (ExprPredImpl) obj;
-      if((mExpr == null && object.mExpr != null) ||
-         (mExpr != null &&
-         ! mExpr.equals(object.mExpr))) return false;
-      if(mExpr == null && object.mExpr != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        ExprPredImpl object = (ExprPredImpl) obj;
+        if (expr_ != null) {
+          if (!expr_.equals(object.expr_)) {
+            return false;
+          }
+        } else {
+          if (object.expr_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -83,10 +90,12 @@ extends PredImpl implements ExprPred
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "ExprPredImpl".hashCode();
-    if(mExpr != null) {
-      hashCode += 31*mExpr.hashCode();
+    if (expr_ != null) {
+      hashCode += constant * expr_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +105,7 @@ extends PredImpl implements ExprPred
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof ExprPredVisitor)
-    {
+    if (v instanceof ExprPredVisitor) {
       ExprPredVisitor visitor = (ExprPredVisitor) v;
       return visitor.visitExprPred(this);
     }
@@ -107,7 +115,8 @@ extends PredImpl implements ExprPred
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     ExprPred zedObject = null;
     try {
       Expr expr = (Expr) args[0];
@@ -127,15 +136,15 @@ extends PredImpl implements ExprPred
     return erg;
   }
 
-  private Expr mExpr;
+  private Expr expr_;
 
   public Expr getExpr()
   {
-    return mExpr;
+    return expr_;
   }
 
   public void setExpr(Expr expr)
   {
-    mExpr = expr;
+    expr_ = expr;
   }
 }

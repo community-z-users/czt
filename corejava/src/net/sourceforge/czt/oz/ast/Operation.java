@@ -39,7 +39,7 @@ public interface Operation extends TermA
    *
    * @return the Name element.
    */
-  public net.sourceforge.czt.z.ast.DeclName getName();
+  net.sourceforge.czt.z.ast.DeclName getName();
 
   /**
    * Sets the Name element.
@@ -47,14 +47,14 @@ public interface Operation extends TermA
    * @param name   the Name element.
    * @see #getName
    */
-  public void setName(net.sourceforge.czt.z.ast.DeclName name);
+  void setName(net.sourceforge.czt.z.ast.DeclName name);
 
   /**
    * Returns the OperationBoxExpr element.
    *
    * @return the OperationBoxExpr element.
    */
-  public OperationBoxExpr getOperationBoxExpr();
+  OperationBoxExpr getOperationBoxExpr();
 
   /**
    * Sets the OperationBoxExpr element.
@@ -62,5 +62,5 @@ public interface Operation extends TermA
    * @param operationBoxExpr   the OperationBoxExpr element.
    * @see #getOperationBoxExpr
    */
-  public void setOperationBoxExpr(OperationBoxExpr operationBoxExpr);
+  void setOperationBoxExpr(OperationBoxExpr operationBoxExpr);
 }

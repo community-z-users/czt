@@ -42,14 +42,14 @@ public interface OptempPara extends Para
    *
    * @return a list of java.lang.Object elements.
    */
-  public java.util.List getWordOrOperand();
+  java.util.List getWordOrOperand();
 
   /**
    * Returns the Cat element.
    *
    * @return the Cat element.
    */
-  public Cat getCat();
+  Cat getCat();
 
   /**
    * Sets the Cat element.
@@ -57,14 +57,14 @@ public interface OptempPara extends Para
    * @param cat   the Cat element.
    * @see #getCat
    */
-  public void setCat(Cat cat);
+  void setCat(Cat cat);
 
   /**
    * Returns the Assoc element.
    *
    * @return the Assoc element.
    */
-  public Assoc getAssoc();
+  Assoc getAssoc();
 
   /**
    * Sets the Assoc element.
@@ -72,14 +72,14 @@ public interface OptempPara extends Para
    * @param assoc   the Assoc element.
    * @see #getAssoc
    */
-  public void setAssoc(Assoc assoc);
+  void setAssoc(Assoc assoc);
 
   /**
    * Returns the Prec element.
    *
    * @return the Prec element.
    */
-  public Integer getPrec();
+  Integer getPrec();
 
   /**
    * Sets the Prec element.
@@ -87,5 +87,5 @@ public interface OptempPara extends Para
    * @param prec   the Prec element.
    * @see #getPrec
    */
-  public void setPrec(Integer prec);
+  void setPrec(Integer prec);
 }

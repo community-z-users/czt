@@ -39,7 +39,7 @@ public interface InheritedClass extends TermA
    *
    * @return the Name element.
    */
-  public net.sourceforge.czt.z.ast.RefName getName();
+  net.sourceforge.czt.z.ast.RefName getName();
 
   /**
    * Sets the Name element.
@@ -47,14 +47,14 @@ public interface InheritedClass extends TermA
    * @param name   the Name element.
    * @see #getName
    */
-  public void setName(net.sourceforge.czt.z.ast.RefName name);
+  void setName(net.sourceforge.czt.z.ast.RefName name);
 
   /**
    * Returns the ActualParameters element.
    *
    * @return the ActualParameters element.
    */
-  public ActualParameters getActualParameters();
+  ActualParameters getActualParameters();
 
   /**
    * Sets the ActualParameters element.
@@ -62,20 +62,20 @@ public interface InheritedClass extends TermA
    * @param actualParameters   the ActualParameters element.
    * @see #getActualParameters
    */
-  public void setActualParameters(ActualParameters actualParameters);
+  void setActualParameters(ActualParameters actualParameters);
 
   /**
-   * Returns the RenameList element.
+   * Returns the RenameExpr element.
    *
-   * @return the RenameList element.
+   * @return the RenameExpr element.
    */
-  public RenameList getRenameList();
+  net.sourceforge.czt.z.ast.RenameExpr getRenameExpr();
 
   /**
-   * Sets the RenameList element.
+   * Sets the RenameExpr element.
    *
-   * @param renameList   the RenameList element.
-   * @see #getRenameList
+   * @param renameExpr   the RenameExpr element.
+   * @see #getRenameExpr
    */
-  public void setRenameList(RenameList renameList);
+  void setRenameExpr(net.sourceforge.czt.z.ast.RenameExpr renameExpr);
 }

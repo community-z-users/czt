@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.ParaVisitor;
  * @author Gnast version 0.1
  */
 public abstract class ParaImpl
-extends TermAImpl implements Para
+  extends TermAImpl   implements Para
 {
 
   /**
@@ -52,11 +53,11 @@ extends TermAImpl implements Para
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      ParaImpl object = (ParaImpl) obj;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        ParaImpl object = (ParaImpl) obj;
+        return true;
+      }
     }
     return false;
   }
@@ -70,6 +71,8 @@ extends TermAImpl implements Para
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "ParaImpl".hashCode();
     return hashCode;
@@ -80,8 +83,7 @@ extends TermAImpl implements Para
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof ParaVisitor)
-    {
+    if (v instanceof ParaVisitor) {
       ParaVisitor visitor = (ParaVisitor) v;
       return visitor.visitPara(this);
     }

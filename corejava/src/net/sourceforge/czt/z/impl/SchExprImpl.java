@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.SchExprVisitor;
  * @author Gnast version 0.1
  */
 public class SchExprImpl
-extends ExprImpl implements SchExpr
+  extends ExprImpl   implements SchExpr
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends ExprImpl implements SchExpr
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected SchExprImpl() { }
+  protected SchExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this SchExprImpl
@@ -60,16 +63,20 @@ extends ExprImpl implements SchExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      SchExprImpl object = (SchExprImpl) obj;
-      if((mSchText == null && object.mSchText != null) ||
-         (mSchText != null &&
-         ! mSchText.equals(object.mSchText))) return false;
-      if(mSchText == null && object.mSchText != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        SchExprImpl object = (SchExprImpl) obj;
+        if (schText_ != null) {
+          if (!schText_.equals(object.schText_)) {
+            return false;
+          }
+        } else {
+          if (object.schText_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -83,10 +90,12 @@ extends ExprImpl implements SchExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "SchExprImpl".hashCode();
-    if(mSchText != null) {
-      hashCode += 31*mSchText.hashCode();
+    if (schText_ != null) {
+      hashCode += constant * schText_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +105,7 @@ extends ExprImpl implements SchExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof SchExprVisitor)
-    {
+    if (v instanceof SchExprVisitor) {
       SchExprVisitor visitor = (SchExprVisitor) v;
       return visitor.visitSchExpr(this);
     }
@@ -107,7 +115,8 @@ extends ExprImpl implements SchExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     SchExpr zedObject = null;
     try {
       SchText schText = (SchText) args[0];
@@ -127,15 +136,15 @@ extends ExprImpl implements SchExpr
     return erg;
   }
 
-  private SchText mSchText;
+  private SchText schText_;
 
   public SchText getSchText()
   {
-    return mSchText;
+    return schText_;
   }
 
   public void setSchText(SchText schText)
   {
-    mSchText = schText;
+    schText_ = schText;
   }
 }

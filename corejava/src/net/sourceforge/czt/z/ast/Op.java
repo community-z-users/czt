@@ -29,30 +29,51 @@ package net.sourceforge.czt.z.ast;
  *
  * @author Gnast version 0.1
  */
-public class Op
+public final class Op
 {
   public final static Op And = new Op("And");
   public final static Op NL = new Op("NL");
   public final static Op Semi = new Op("Semi");
   public final static Op Chain = new Op("Chain");
-  private final String name;
+  private final String name_;
 
   /**
    * Only this class can construct instances.
    */
-  private Op(String name) { this.name = name; }
+  private Op(String name)
+  {
+    name_ = name;
+  }
 
-  public String toString() { return name; }
+  public String toString()
+  {
+    return name_;
+  }
 
-  public final int hashCode() { return super.hashCode(); }
+  public final int hashCode()
+  {
+    return super.hashCode();
+  }
 
-  public final boolean equals(java.lang.Object o) { return super.equals(o); }
+  public final boolean equals(java.lang.Object o)
+  {
+    return super.equals(o);
+  }
 
-  public static Op fromString(java.lang.String value) {
-    if (value.equals("And")) return And;
-    if (value.equals("NL")) return NL;
-    if (value.equals("Semi")) return Semi;
-    if (value.equals("Chain")) return Chain;
+  public static Op fromString(java.lang.String value)
+  {
+    if (value.equals("And")) {
+      return And;
+    }
+    if (value.equals("NL")) {
+      return NL;
+    }
+    if (value.equals("Semi")) {
+      return Semi;
+    }
+    if (value.equals("Chain")) {
+      return Chain;
+    }
     throw new IllegalArgumentException();
   }
 }

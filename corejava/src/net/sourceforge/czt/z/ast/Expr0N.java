@@ -42,5 +42,5 @@ public interface Expr0N extends Expr
    *
    * @return a list of Expr elements.
    */
-  public java.util.List getExpr();
+  java.util.List getExpr();
 }

@@ -26,6 +26,9 @@ package net.sourceforge.czt.zpatt.visitor;
 
 import net.sourceforge.czt.util.Visitor;
 
+/**
+ * A(n) Substitute visitor.
+ */
 public interface SubstituteVisitor extends Visitor
 {
   /**

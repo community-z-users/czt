@@ -57,13 +57,14 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     return Logger.getLogger("net.sourceforge.czt.oz.jaxb.JaxbToAst");
   }
 
-  public Object visitObject(Object object) {
+  public Object visitObject(Object object)
+  {
     getLogger().fine("Visit " + object.getClass().toString());
-    if (object instanceof String ||
-        object instanceof Boolean ||
-        object instanceof List ||
-        object instanceof Integer ||
-        object instanceof java.math.BigInteger) {
+    if (object instanceof String
+        || object instanceof Boolean
+        || object instanceof List
+        || object instanceof Integer
+        || object instanceof java.math.BigInteger) {
       return object;
     }
     throw new UnsupportedOperationException("Unexpected element "
@@ -74,41 +75,22 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
   {
     getLogger().entering("JaxbToAst", "visitRefNameList", jaxbObject);
     java.util.List name = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getName().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getName().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       name.add(o);
     }
     RefNameList erg = mOzFactory_.createRefNameList(name);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitRefNameList", erg);
-    return erg;
-  }
-
-  public Object visitRenameList(net.sourceforge.czt.oz.jaxb.gen.RenameList jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitRenameList", jaxbObject);
-    net.sourceforge.czt.z.ast.RenameExpr renameExpr =
-      (net.sourceforge.czt.z.ast.RenameExpr) dispatch(jaxbObject.getRenameExpr());
-    RenameList erg = mOzFactory_.createRenameList(renameExpr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitRenameList", erg);
     return erg;
   }
 
@@ -116,19 +98,19 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
   {
     getLogger().entering("JaxbToAst", "visitActualParameters", jaxbObject);
     java.util.List expr = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getExpr().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getExpr().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       expr.add(o);
     }
     ActualParameters erg = mOzFactory_.createActualParameters(expr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitActualParameters", erg);
@@ -141,13 +123,13 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     MainOpExpr mainOpExpr =
       (MainOpExpr) dispatch(jaxbObject.getMainOpExpr());
     DistConjOpExpr erg = mOzFactory_.createDistConjOpExpr(mainOpExpr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitDistConjOpExpr", erg);
@@ -162,13 +144,13 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     net.sourceforge.czt.z.ast.SchText schText =
       (net.sourceforge.czt.z.ast.SchText) dispatch(jaxbObject.getSchText());
     BasicOpExpr erg = mOzFactory_.createBasicOpExpr(deltaList, schText);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitBasicOpExpr", erg);
@@ -183,13 +165,13 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     OperationExpr operationExpr =
       (OperationExpr) dispatch(jaxbObject.getOperationExpr());
     MainOpExpr erg = mOzFactory_.createMainOpExpr(schText, operationExpr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitMainOpExpr", erg);
@@ -202,19 +184,19 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     OperationExpr operationExpr =
       (OperationExpr) dispatch(jaxbObject.getOperationExpr());
     java.util.List hideName = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getHideName().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getHideName().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       hideName.add(o);
     }
     HideOpExpr erg = mOzFactory_.createHideOpExpr(operationExpr, hideName);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitHideOpExpr", erg);
@@ -229,13 +211,13 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     OperationExpr rightOperationExpr =
       (OperationExpr) dispatch(jaxbObject.getRightOperationExpr());
     SeqOpExpr erg = mOzFactory_.createSeqOpExpr(leftOperationExpr, rightOperationExpr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitSeqOpExpr", erg);
@@ -249,16 +231,16 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
       (net.sourceforge.czt.z.ast.RefName) dispatch(jaxbObject.getName());
     ActualParameters actualParameters =
       (ActualParameters) dispatch(jaxbObject.getActualParameters());
-    RenameList renameList =
-      (RenameList) dispatch(jaxbObject.getRenameList());
-    InheritedClass erg = mOzFactory_.createInheritedClass(name, actualParameters, renameList);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    net.sourceforge.czt.z.ast.RenameExpr renameExpr =
+      (net.sourceforge.czt.z.ast.RenameExpr) dispatch(jaxbObject.getRenameExpr());
+    InheritedClass erg = mOzFactory_.createInheritedClass(name, actualParameters, renameExpr);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitInheritedClass", erg);
@@ -271,13 +253,13 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     MainOpExpr mainOpExpr =
       (MainOpExpr) dispatch(jaxbObject.getMainOpExpr());
     DistChoiceOpExpr erg = mOzFactory_.createDistChoiceOpExpr(mainOpExpr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitDistChoiceOpExpr", erg);
@@ -292,13 +274,13 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     OperationExpr rightOperationExpr =
       (OperationExpr) dispatch(jaxbObject.getRightOperationExpr());
     AssoParallelOpExpr erg = mOzFactory_.createAssoParallelOpExpr(leftOperationExpr, rightOperationExpr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitAssoParallelOpExpr", erg);
@@ -309,31 +291,27 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
   {
     getLogger().entering("JaxbToAst", "visitState", jaxbObject);
     java.util.List decl = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getDecl().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getDecl().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       decl.add(o);
     }
-    java.util.List secondaryAttributes = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getSecondaryAttributes().iterator(); iter.hasNext();) {
-      Object obj = iter.next();
-      Object o = dispatch(obj);
-      secondaryAttributes.add(o);
-    }
+    SecondaryAttributes secondaryAttributes =
+      (SecondaryAttributes) dispatch(jaxbObject.getSecondaryAttributes());
     java.util.List pred = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getPred().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getPred().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       pred.add(o);
     }
     State erg = mOzFactory_.createState(decl, secondaryAttributes, pred);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitState", erg);
@@ -348,13 +326,13 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     OperationExpr rightOperationExpr =
       (OperationExpr) dispatch(jaxbObject.getRightOperationExpr());
     ConjOpExpr erg = mOzFactory_.createConjOpExpr(leftOperationExpr, rightOperationExpr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitConjOpExpr", erg);
@@ -369,13 +347,13 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     net.sourceforge.czt.z.ast.RefName opName =
       (net.sourceforge.czt.z.ast.RefName) dispatch(jaxbObject.getOpName());
     OpPromotionExpr erg = mOzFactory_.createOpPromotionExpr(expr, opName);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitOpPromotionExpr", erg);
@@ -389,10 +367,10 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
       (net.sourceforge.czt.z.ast.DeclName) dispatch(jaxbObject.getName());
     FormalParameters formalParameters =
       (FormalParameters) dispatch(jaxbObject.getFormalParameters());
-    DeclNameList visibilityList =
-      (DeclNameList) dispatch(jaxbObject.getVisibilityList());
+    RefNameList visibilityList =
+      (RefNameList) dispatch(jaxbObject.getVisibilityList());
     java.util.List inheritedClass = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getInheritedClass().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getInheritedClass().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       inheritedClass.add(o);
@@ -404,7 +382,7 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     InitialState initialState =
       (InitialState) dispatch(jaxbObject.getInitialState());
     java.util.List operation = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getOperation().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getOperation().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       operation.add(o);
@@ -418,13 +396,13 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
   {
     getLogger().entering("JaxbToAst", "visitParenOpExpr", jaxbObject);
     ParenOpExpr erg = mOzFactory_.createParenOpExpr();
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitParenOpExpr", erg);
@@ -439,13 +417,13 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     OperationBoxExpr operationBoxExpr =
       (OperationBoxExpr) dispatch(jaxbObject.getOperationBoxExpr());
     Operation erg = mOzFactory_.createOperation(name, operationBoxExpr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitOperation", erg);
@@ -456,57 +434,34 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
   {
     getLogger().entering("JaxbToAst", "visitLocalDef", jaxbObject);
     java.util.List givenPara = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getGivenPara().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getGivenPara().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       givenPara.add(o);
     }
     java.util.List axPara = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getAxPara().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getAxPara().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       axPara.add(o);
     }
     java.util.List freePara = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getFreePara().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getFreePara().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       freePara.add(o);
     }
     LocalDef erg = mOzFactory_.createLocalDef(givenPara, axPara, freePara);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitLocalDef", erg);
-    return erg;
-  }
-
-  public Object visitInitialState(net.sourceforge.czt.oz.jaxb.gen.InitialState jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitInitialState", jaxbObject);
-    java.util.List pred = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getPred().iterator(); iter.hasNext();) {
-      Object obj = iter.next();
-      Object o = dispatch(obj);
-      pred.add(o);
-    }
-    InitialState erg = mOzFactory_.createInitialState(pred);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitInitialState", erg);
     return erg;
   }
 
@@ -516,28 +471,51 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     RefNameList deltaList =
       (RefNameList) dispatch(jaxbObject.getDeltaList());
     java.util.List decl = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getDecl().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getDecl().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       decl.add(o);
     }
     java.util.List pred = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getPred().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getPred().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       pred.add(o);
     }
     OperationBox erg = mOzFactory_.createOperationBox(deltaList, decl, pred);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitOperationBox", erg);
+    return erg;
+  }
+
+  public Object visitInitialState(net.sourceforge.czt.oz.jaxb.gen.InitialState jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitInitialState", jaxbObject);
+    java.util.List pred = new java.util.Vector();
+    for (Iterator iter = jaxbObject.getPred().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      pred.add(o);
+    }
+    InitialState erg = mOzFactory_.createInitialState(pred);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitInitialState", erg);
     return erg;
   }
 
@@ -547,13 +525,13 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     MainOpExpr mainOpExpr =
       (MainOpExpr) dispatch(jaxbObject.getMainOpExpr());
     DistSeqOpExpr erg = mOzFactory_.createDistSeqOpExpr(mainOpExpr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitDistSeqOpExpr", erg);
@@ -568,46 +546,38 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     OperationExpr rightOperationExpr =
       (OperationExpr) dispatch(jaxbObject.getRightOperationExpr());
     ScopeEnrichOpExpr erg = mOzFactory_.createScopeEnrichOpExpr(leftOperationExpr, rightOperationExpr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitScopeEnrichOpExpr", erg);
     return erg;
   }
 
-  public Object visitDeclNameList(net.sourceforge.czt.oz.jaxb.gen.DeclNameList jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitDeclNameList", jaxbObject);
-    java.util.List name = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getName().iterator(); iter.hasNext();) {
-      Object obj = iter.next();
-      Object o = dispatch(obj);
-      name.add(o);
-    }
-    DeclNameList erg = mOzFactory_.createDeclNameList(name);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitDeclNameList", erg);
-    return erg;
-  }
-
   public Object visitSecondaryAttributes(net.sourceforge.czt.oz.jaxb.gen.SecondaryAttributes jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitSecondaryAttributes", jaxbObject);
-    SecondaryAttributes erg = mOzFactory_.createSecondaryAttributes();
+    java.util.List varDecl = new java.util.Vector();
+    for (Iterator iter = jaxbObject.getVarDecl().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      varDecl.add(o);
+    }
+    SecondaryAttributes erg = mOzFactory_.createSecondaryAttributes(varDecl);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
     getLogger().exiting("JaxbToAst", "visitSecondaryAttributes", erg);
     return erg;
   }
@@ -617,16 +587,16 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     getLogger().entering("JaxbToAst", "visitRenameOpExpr", jaxbObject);
     OperationExpr operationExpr =
       (OperationExpr) dispatch(jaxbObject.getOperationExpr());
-    RenameList renameList =
-      (RenameList) dispatch(jaxbObject.getRenameList());
-    RenameOpExpr erg = mOzFactory_.createRenameOpExpr(operationExpr, renameList);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    net.sourceforge.czt.z.ast.RenameExpr renameExpr =
+      (net.sourceforge.czt.z.ast.RenameExpr) dispatch(jaxbObject.getRenameExpr());
+    RenameOpExpr erg = mOzFactory_.createRenameOpExpr(operationExpr, renameExpr);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitRenameOpExpr", erg);
@@ -641,13 +611,13 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     OperationExpr rightOperationExpr =
       (OperationExpr) dispatch(jaxbObject.getRightOperationExpr());
     ExChoiceOpExpr erg = mOzFactory_.createExChoiceOpExpr(leftOperationExpr, rightOperationExpr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitExChoiceOpExpr", erg);
@@ -662,13 +632,13 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     OperationExpr rightOperationExpr =
       (OperationExpr) dispatch(jaxbObject.getRightOperationExpr());
     ParallelOpExpr erg = mOzFactory_.createParallelOpExpr(leftOperationExpr, rightOperationExpr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitParallelOpExpr", erg);
@@ -679,19 +649,19 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
   {
     getLogger().entering("JaxbToAst", "visitFormalParameters", jaxbObject);
     java.util.List refName = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getRefName().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getRefName().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       refName.add(o);
     }
     FormalParameters erg = mOzFactory_.createFormalParameters(refName);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitFormalParameters", erg);

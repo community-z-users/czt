@@ -29,26 +29,43 @@ package net.sourceforge.czt.z.ast;
  *
  * @author Gnast version 0.1
  */
-public class Assoc
+public final class Assoc
 {
   public final static Assoc Left = new Assoc("Left");
   public final static Assoc Right = new Assoc("Right");
-  private final String name;
+  private final String name_;
 
   /**
    * Only this class can construct instances.
    */
-  private Assoc(String name) { this.name = name; }
+  private Assoc(String name)
+  {
+    name_ = name;
+  }
 
-  public String toString() { return name; }
+  public String toString()
+  {
+    return name_;
+  }
 
-  public final int hashCode() { return super.hashCode(); }
+  public final int hashCode()
+  {
+    return super.hashCode();
+  }
 
-  public final boolean equals(java.lang.Object o) { return super.equals(o); }
+  public final boolean equals(java.lang.Object o)
+  {
+    return super.equals(o);
+  }
 
-  public static Assoc fromString(java.lang.String value) {
-    if (value.equals("Left")) return Left;
-    if (value.equals("Right")) return Right;
+  public static Assoc fromString(java.lang.String value)
+  {
+    if (value.equals("Left")) {
+      return Left;
+    }
+    if (value.equals("Right")) {
+      return Right;
+    }
     throw new IllegalArgumentException();
   }
 }

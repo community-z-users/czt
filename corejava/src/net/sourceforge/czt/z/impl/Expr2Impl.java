@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.Expr2Visitor;
  * @author Gnast version 0.1
  */
 public abstract class Expr2Impl
-extends ExprImpl implements Expr2
+  extends ExprImpl   implements Expr2
 {
 
   /**
@@ -52,21 +53,29 @@ extends ExprImpl implements Expr2
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      Expr2Impl object = (Expr2Impl) obj;
-      if((mLeftExpr == null && object.mLeftExpr != null) ||
-         (mLeftExpr != null &&
-         ! mLeftExpr.equals(object.mLeftExpr))) return false;
-      if(mLeftExpr == null && object.mLeftExpr != null)
-        return false;
-      if((mRightExpr == null && object.mRightExpr != null) ||
-         (mRightExpr != null &&
-         ! mRightExpr.equals(object.mRightExpr))) return false;
-      if(mRightExpr == null && object.mRightExpr != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        Expr2Impl object = (Expr2Impl) obj;
+        if (leftExpr_ != null) {
+          if (!leftExpr_.equals(object.leftExpr_)) {
+            return false;
+          }
+        } else {
+          if (object.leftExpr_ != null) {
+            return false;
+          }
+        }
+        if (rightExpr_ != null) {
+          if (!rightExpr_.equals(object.rightExpr_)) {
+            return false;
+          }
+        } else {
+          if (object.rightExpr_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -80,13 +89,15 @@ extends ExprImpl implements Expr2
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "Expr2Impl".hashCode();
-    if(mLeftExpr != null) {
-      hashCode += 31*mLeftExpr.hashCode();
+    if (leftExpr_ != null) {
+      hashCode += constant * leftExpr_.hashCode();
     }
-    if(mRightExpr != null) {
-      hashCode += 31*mRightExpr.hashCode();
+    if (rightExpr_ != null) {
+      hashCode += constant * rightExpr_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +107,7 @@ extends ExprImpl implements Expr2
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof Expr2Visitor)
-    {
+    if (v instanceof Expr2Visitor) {
       Expr2Visitor visitor = (Expr2Visitor) v;
       return visitor.visitExpr2(this);
     }
@@ -105,27 +115,27 @@ extends ExprImpl implements Expr2
   }
 
 
-  private Expr mLeftExpr;
+  private Expr leftExpr_;
 
   public Expr getLeftExpr()
   {
-    return mLeftExpr;
+    return leftExpr_;
   }
 
   public void setLeftExpr(Expr leftExpr)
   {
-    mLeftExpr = leftExpr;
+    leftExpr_ = leftExpr;
   }
 
-  private Expr mRightExpr;
+  private Expr rightExpr_;
 
   public Expr getRightExpr()
   {
-    return mRightExpr;
+    return rightExpr_;
   }
 
   public void setRightExpr(Expr rightExpr)
   {
-    mRightExpr = rightExpr;
+    rightExpr_ = rightExpr;
   }
 }

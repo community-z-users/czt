@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.DecorExprVisitor;
  * @author Gnast version 0.1
  */
 public class DecorExprImpl
-extends Expr1Impl implements DecorExpr
+  extends Expr1Impl   implements DecorExpr
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends Expr1Impl implements DecorExpr
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected DecorExprImpl() { }
+  protected DecorExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this DecorExprImpl
@@ -60,16 +63,20 @@ extends Expr1Impl implements DecorExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      DecorExprImpl object = (DecorExprImpl) obj;
-      if((mStroke == null && object.mStroke != null) ||
-         (mStroke != null &&
-         ! mStroke.equals(object.mStroke))) return false;
-      if(mStroke == null && object.mStroke != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        DecorExprImpl object = (DecorExprImpl) obj;
+        if (stroke_ != null) {
+          if (!stroke_.equals(object.stroke_)) {
+            return false;
+          }
+        } else {
+          if (object.stroke_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -83,10 +90,12 @@ extends Expr1Impl implements DecorExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "DecorExprImpl".hashCode();
-    if(mStroke != null) {
-      hashCode += 31*mStroke.hashCode();
+    if (stroke_ != null) {
+      hashCode += constant * stroke_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +105,7 @@ extends Expr1Impl implements DecorExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof DecorExprVisitor)
-    {
+    if (v instanceof DecorExprVisitor) {
       DecorExprVisitor visitor = (DecorExprVisitor) v;
       return visitor.visitDecorExpr(this);
     }
@@ -107,7 +115,8 @@ extends Expr1Impl implements DecorExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     DecorExpr zedObject = null;
     try {
       Expr expr = (Expr) args[0];
@@ -129,15 +138,15 @@ extends Expr1Impl implements DecorExpr
     return erg;
   }
 
-  private Stroke mStroke;
+  private Stroke stroke_;
 
   public Stroke getStroke()
   {
-    return mStroke;
+    return stroke_;
   }
 
   public void setStroke(Stroke stroke)
   {
-    mStroke = stroke;
+    stroke_ = stroke;
   }
 }

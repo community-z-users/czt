@@ -42,7 +42,7 @@ public interface Substitute extends Term
    *
    * @return a list of Expr elements.
    */
-  public java.util.List getExpr();
+  java.util.List getExpr();
 
   /**
    * <p>Returns the Pred elements.</p>
@@ -52,5 +52,5 @@ public interface Substitute extends Term
    *
    * @return a list of Pred elements.
    */
-  public java.util.List getPred();
+  java.util.List getPred();
 }

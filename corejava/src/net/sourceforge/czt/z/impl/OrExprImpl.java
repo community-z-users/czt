@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.OrExprVisitor;
  * @author Gnast version 0.1
  */
 public class OrExprImpl
-extends SchExpr2Impl implements OrExpr
+  extends SchExpr2Impl   implements OrExpr
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends SchExpr2Impl implements OrExpr
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected OrExprImpl() { }
+  protected OrExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this OrExprImpl
@@ -60,11 +63,11 @@ extends SchExpr2Impl implements OrExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      OrExprImpl object = (OrExprImpl) obj;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        OrExprImpl object = (OrExprImpl) obj;
+        return true;
+      }
     }
     return false;
   }
@@ -78,6 +81,8 @@ extends SchExpr2Impl implements OrExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "OrExprImpl".hashCode();
     return hashCode;
@@ -88,8 +93,7 @@ extends SchExpr2Impl implements OrExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof OrExprVisitor)
-    {
+    if (v instanceof OrExprVisitor) {
       OrExprVisitor visitor = (OrExprVisitor) v;
       return visitor.visitOrExpr(this);
     }
@@ -99,7 +103,8 @@ extends SchExpr2Impl implements OrExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     OrExpr zedObject = null;
     try {
       Expr leftExpr = (Expr) args[0];

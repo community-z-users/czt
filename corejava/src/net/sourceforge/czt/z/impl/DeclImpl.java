@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.DeclVisitor;
  * @author Gnast version 0.1
  */
 public abstract class DeclImpl
-extends TermAImpl implements Decl
+  extends TermAImpl   implements Decl
 {
 
   /**
@@ -52,11 +53,11 @@ extends TermAImpl implements Decl
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      DeclImpl object = (DeclImpl) obj;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        DeclImpl object = (DeclImpl) obj;
+        return true;
+      }
     }
     return false;
   }
@@ -70,6 +71,8 @@ extends TermAImpl implements Decl
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "DeclImpl".hashCode();
     return hashCode;
@@ -80,8 +83,7 @@ extends TermAImpl implements Decl
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof DeclVisitor)
-    {
+    if (v instanceof DeclVisitor) {
       DeclVisitor visitor = (DeclVisitor) v;
       return visitor.visitDecl(this);
     }

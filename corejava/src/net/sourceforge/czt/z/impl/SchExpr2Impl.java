@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.SchExpr2Visitor;
  * @author Gnast version 0.1
  */
 public abstract class SchExpr2Impl
-extends Expr2Impl implements SchExpr2
+  extends Expr2Impl   implements SchExpr2
 {
 
   /**
@@ -52,11 +53,11 @@ extends Expr2Impl implements SchExpr2
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      SchExpr2Impl object = (SchExpr2Impl) obj;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        SchExpr2Impl object = (SchExpr2Impl) obj;
+        return true;
+      }
     }
     return false;
   }
@@ -70,6 +71,8 @@ extends Expr2Impl implements SchExpr2
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "SchExpr2Impl".hashCode();
     return hashCode;
@@ -80,8 +83,7 @@ extends Expr2Impl implements SchExpr2
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof SchExpr2Visitor)
-    {
+    if (v instanceof SchExpr2Visitor) {
       SchExpr2Visitor visitor = (SchExpr2Visitor) v;
       return visitor.visitSchExpr2(this);
     }

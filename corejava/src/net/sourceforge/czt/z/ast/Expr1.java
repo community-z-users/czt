@@ -39,7 +39,7 @@ public interface Expr1 extends Expr
    *
    * @return the Expr element.
    */
-  public Expr getExpr();
+  Expr getExpr();
 
   /**
    * Sets the Expr element.
@@ -47,5 +47,5 @@ public interface Expr1 extends Expr
    * @param expr   the Expr element.
    * @see #getExpr
    */
-  public void setExpr(Expr expr);
+  void setExpr(Expr expr);
 }

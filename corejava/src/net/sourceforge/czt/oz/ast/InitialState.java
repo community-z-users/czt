@@ -42,5 +42,5 @@ public interface InitialState extends TermA
    *
    * @return a list of Pred elements.
    */
-  public java.util.List getPred();
+  java.util.List getPred();
 }

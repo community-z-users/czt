@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.IffExprVisitor;
  * @author Gnast version 0.1
  */
 public class IffExprImpl
-extends SchExpr2Impl implements IffExpr
+  extends SchExpr2Impl   implements IffExpr
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends SchExpr2Impl implements IffExpr
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected IffExprImpl() { }
+  protected IffExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this IffExprImpl
@@ -60,11 +63,11 @@ extends SchExpr2Impl implements IffExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      IffExprImpl object = (IffExprImpl) obj;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        IffExprImpl object = (IffExprImpl) obj;
+        return true;
+      }
     }
     return false;
   }
@@ -78,6 +81,8 @@ extends SchExpr2Impl implements IffExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "IffExprImpl".hashCode();
     return hashCode;
@@ -88,8 +93,7 @@ extends SchExpr2Impl implements IffExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof IffExprVisitor)
-    {
+    if (v instanceof IffExprVisitor) {
       IffExprVisitor visitor = (IffExprVisitor) v;
       return visitor.visitIffExpr(this);
     }
@@ -99,7 +103,8 @@ extends SchExpr2Impl implements IffExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     IffExpr zedObject = null;
     try {
       Expr leftExpr = (Expr) args[0];

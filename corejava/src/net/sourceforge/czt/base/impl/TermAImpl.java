@@ -66,9 +66,10 @@ public abstract class TermAImpl extends TermImpl implements TermA
 
   public int hashCode()
   {
+    final int constant = 31;
     int erg = super.hashCode();
     String s = "TermA";
-    erg += 31 * s.hashCode();
+    erg += constant * s.hashCode();
     return erg;
   }
 }

@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.oz.ast.*;
@@ -43,7 +44,7 @@ import net.sourceforge.czt.oz.visitor.LocalDefVisitor;
  * @author Gnast version 0.1
  */
 public class LocalDefImpl
-extends TermAImpl implements LocalDef
+  extends TermAImpl   implements LocalDef
 {
   /**
    * The default constructor.
@@ -52,7 +53,9 @@ extends TermAImpl implements LocalDef
    * If you want to create an instance of this class, please use the
    * {@link OzFactory object factory}.
    */
-  protected LocalDefImpl() { }
+  protected LocalDefImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this LocalDefImpl
@@ -62,26 +65,38 @@ extends TermAImpl implements LocalDef
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      LocalDefImpl object = (LocalDefImpl) obj;
-      if((mGivenPara == null && object.mGivenPara != null) ||
-         (mGivenPara != null &&
-         ! mGivenPara.equals(object.mGivenPara))) return false;
-      if(mGivenPara == null && object.mGivenPara != null)
-        return false;
-      if((mAxPara == null && object.mAxPara != null) ||
-         (mAxPara != null &&
-         ! mAxPara.equals(object.mAxPara))) return false;
-      if(mAxPara == null && object.mAxPara != null)
-        return false;
-      if((mFreePara == null && object.mFreePara != null) ||
-         (mFreePara != null &&
-         ! mFreePara.equals(object.mFreePara))) return false;
-      if(mFreePara == null && object.mFreePara != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        LocalDefImpl object = (LocalDefImpl) obj;
+        if (givenPara_ != null) {
+          if (!givenPara_.equals(object.givenPara_)) {
+            return false;
+          }
+        } else {
+          if (object.givenPara_ != null) {
+            return false;
+          }
+        }
+        if (axPara_ != null) {
+          if (!axPara_.equals(object.axPara_)) {
+            return false;
+          }
+        } else {
+          if (object.axPara_ != null) {
+            return false;
+          }
+        }
+        if (freePara_ != null) {
+          if (!freePara_.equals(object.freePara_)) {
+            return false;
+          }
+        } else {
+          if (object.freePara_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -95,16 +110,18 @@ extends TermAImpl implements LocalDef
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "LocalDefImpl".hashCode();
-    if(mGivenPara != null) {
-      hashCode += 31*mGivenPara.hashCode();
+    if (givenPara_ != null) {
+      hashCode += constant * givenPara_.hashCode();
     }
-    if(mAxPara != null) {
-      hashCode += 31*mAxPara.hashCode();
+    if (axPara_ != null) {
+      hashCode += constant * axPara_.hashCode();
     }
-    if(mFreePara != null) {
-      hashCode += 31*mFreePara.hashCode();
+    if (freePara_ != null) {
+      hashCode += constant * freePara_.hashCode();
     }
     return hashCode;
   }
@@ -114,8 +131,7 @@ extends TermAImpl implements LocalDef
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof LocalDefVisitor)
-    {
+    if (v instanceof LocalDefVisitor) {
       LocalDefVisitor visitor = (LocalDefVisitor) v;
       return visitor.visitLocalDef(this);
     }
@@ -125,20 +141,21 @@ extends TermAImpl implements LocalDef
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     LocalDef zedObject = null;
     try {
       java.util.List givenPara = (java.util.List) args[0];
       java.util.List axPara = (java.util.List) args[1];
       java.util.List freePara = (java.util.List) args[2];
       zedObject = new LocalDefImpl();
-      if(givenPara != null) {
+      if (givenPara != null) {
         zedObject.getGivenPara().addAll(givenPara);
       }
-      if(axPara != null) {
+      if (axPara != null) {
         zedObject.getAxPara().addAll(axPara);
       }
-      if(freePara != null) {
+      if (freePara != null) {
         zedObject.getFreePara().addAll(freePara);
       }
     } catch (IndexOutOfBoundsException e) {
@@ -155,24 +172,30 @@ extends TermAImpl implements LocalDef
     return erg;
   }
 
-  private java.util.List mGivenPara = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.GivenPara.class);
+
+  private java.util.List givenPara_ =
+    new TypesafeList(net.sourceforge.czt.z.ast.GivenPara.class);
 
   public java.util.List getGivenPara()
   {
-    return mGivenPara;
+    return givenPara_;
   }
 
-  private java.util.List mAxPara = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.AxPara.class);
+
+  private java.util.List axPara_ =
+    new TypesafeList(net.sourceforge.czt.z.ast.AxPara.class);
 
   public java.util.List getAxPara()
   {
-    return mAxPara;
+    return axPara_;
   }
 
-  private java.util.List mFreePara = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.FreePara.class);
+
+  private java.util.List freePara_ =
+    new TypesafeList(net.sourceforge.czt.z.ast.FreePara.class);
 
   public java.util.List getFreePara()
   {
-    return mFreePara;
+    return freePara_;
   }
 }

@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.base.ast.Term;
 
 import net.sourceforge.czt.z.jaxb.gen.*;
 import net.sourceforge.czt.zpatt.jaxb.gen.*;
@@ -44,26 +45,33 @@ public class AstToJaxb
   implements net.sourceforge.czt.zpatt.visitor.ZpattVisitor,
              net.sourceforge.czt.base.visitor.TermVisitor
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.zpatt.jaxb.AstToJaxb");
-
   /**
    * The ObjectFactory instances for generating Jaxb objects.
    */
-  protected net.sourceforge.czt.zpatt.jaxb.gen.ObjectFactory
-    mObjectFactory = new net.sourceforge.czt.zpatt.jaxb.gen.ObjectFactory();
-  protected net.sourceforge.czt.z.jaxb.gen.ObjectFactory
-    mAnnsObjectFactory = new net.sourceforge.czt.z.jaxb.gen.ObjectFactory();
-  protected org.w3._2001.xmlschema.ObjectFactory
-    mAnyTypeObjectFactory = new org.w3._2001.xmlschema.ObjectFactory();
+  private net.sourceforge.czt.zpatt.jaxb.gen.ObjectFactory
+    objectFactory_ = new net.sourceforge.czt.zpatt.jaxb.gen.ObjectFactory();
+  private net.sourceforge.czt.z.jaxb.gen.ObjectFactory
+    annsObjectFactory_ = new net.sourceforge.czt.z.jaxb.gen.ObjectFactory();
+  private org.w3._2001.xmlschema.ObjectFactory
+    anyTypeObjectFactory_ = new org.w3._2001.xmlschema.ObjectFactory();
 
   /**
-   * A map that maps id's to the corresponding Object
+   * A map that maps id's to the corresponding Object.
    */
-  protected Map mHash = new HashMap();
+  private Map hash_ = new HashMap();
+
+  private String getClassName()
+  {
+    return "net.sourceforge.czt.zpatt.jaxb.AstToJaxb";
+  }
+
+  private Logger getLogger()
+  {
+    return Logger.getLogger(getClassName());
+  }
 
 
-  public Object visitTerm(net.sourceforge.czt.base.ast.Term zedObject)
+  public Object visitTerm(Term zedObject)
   {
     throw(new UnsupportedOperationException("Unexpected element "
                                             + zedObject.getClass().getName()));
@@ -72,115 +80,127 @@ public class AstToJaxb
 
   public Object visitJokerExpr(net.sourceforge.czt.zpatt.ast.JokerExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.zpatt.jaxb.AstToJaxb", "visitJokerExpr", zedObject);
+    getLogger().entering(getClassName(), "visitJokerExpr", zedObject);
 
     JokerExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createJokerExprElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createJokerExpr();
+      jaxbObject = objectFactory_.createJokerExprElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createJokerExpr();
+      }
       createElement_ = false;
-      if (zedObject.getName()!=null) {
+      if (zedObject.getName() != null) {
         jaxbObject.setName(zedObject.getName());
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a JokerExpr to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a JokerExpr to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
 
-    sLogger.exiting("net.sourceforge.czt.zpatt.jaxb.AstToJaxb", "visitJokerExpr", jaxbObject);
+    getLogger().exiting(getClassName(), "visitJokerExpr", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitSubstitute(net.sourceforge.czt.zpatt.ast.Substitute zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.zpatt.jaxb.AstToJaxb", "visitSubstitute", zedObject);
+    getLogger().entering(getClassName(), "visitSubstitute", zedObject);
 
     Substitute jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createSubstituteElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createSubstitute();
+      jaxbObject = objectFactory_.createSubstituteElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createSubstitute();
+      }
       {
         java.util.List list = zedObject.getExpr();
         java.util.List newlist = jaxbObject.getExpr();
-        for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Term term = (Term) iter.next();
           createElement_ = true;
           java.lang.Object o = term.accept(this);
-	  newlist.add(o);
+          newlist.add(o);
         }
       }
       {
         java.util.List list = zedObject.getPred();
         java.util.List newlist = jaxbObject.getPred();
-        for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Term term = (Term) iter.next();
           createElement_ = true;
           java.lang.Object o = term.accept(this);
-	  newlist.add(o);
+          newlist.add(o);
         }
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a Substitute to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a Substitute to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
 
-    sLogger.exiting("net.sourceforge.czt.zpatt.jaxb.AstToJaxb", "visitSubstitute", jaxbObject);
+    getLogger().exiting(getClassName(), "visitSubstitute", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitJokerPred(net.sourceforge.czt.zpatt.ast.JokerPred zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.zpatt.jaxb.AstToJaxb", "visitJokerPred", zedObject);
+    getLogger().entering(getClassName(), "visitJokerPred", zedObject);
 
     JokerPred jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createJokerPredElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createJokerPred();
+      jaxbObject = objectFactory_.createJokerPredElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createJokerPred();
+      }
       createElement_ = false;
-      if (zedObject.getName()!=null) {
+      if (zedObject.getName() != null) {
         jaxbObject.setName(zedObject.getName());
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a JokerPred to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a JokerPred to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
 
-    sLogger.exiting("net.sourceforge.czt.zpatt.jaxb.AstToJaxb", "visitJokerPred", jaxbObject);
+    getLogger().exiting(getClassName(), "visitJokerPred", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitSubstList(net.sourceforge.czt.zpatt.ast.SubstList zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.zpatt.jaxb.AstToJaxb", "visitSubstList", zedObject);
+    getLogger().entering(getClassName(), "visitSubstList", zedObject);
 
     SubstList jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createSubstListElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createSubstList();
+      jaxbObject = objectFactory_.createSubstListElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createSubstList();
+      }
       {
         java.util.List list = zedObject.getSubstitute();
         java.util.List newlist = jaxbObject.getSubstitute();
-        for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Term term = (Term) iter.next();
           createElement_ = true;
           java.lang.Object o = term.accept(this);
-	  newlist.add(o);
+          newlist.add(o);
         }
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a SubstList to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a SubstList to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
 
-    sLogger.exiting("net.sourceforge.czt.zpatt.jaxb.AstToJaxb", "visitSubstList", jaxbObject);
+    getLogger().exiting(getClassName(), "visitSubstList", jaxbObject);
     return jaxbObject;
   }
 }

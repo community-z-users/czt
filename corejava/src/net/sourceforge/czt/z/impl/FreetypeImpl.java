@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.FreetypeVisitor;
  * @author Gnast version 0.1
  */
 public class FreetypeImpl
-extends TermAImpl implements Freetype
+  extends TermAImpl   implements Freetype
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends TermAImpl implements Freetype
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected FreetypeImpl() { }
+  protected FreetypeImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this FreetypeImpl
@@ -60,21 +63,29 @@ extends TermAImpl implements Freetype
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      FreetypeImpl object = (FreetypeImpl) obj;
-      if((mDeclName == null && object.mDeclName != null) ||
-         (mDeclName != null &&
-         ! mDeclName.equals(object.mDeclName))) return false;
-      if(mDeclName == null && object.mDeclName != null)
-        return false;
-      if((mBranch == null && object.mBranch != null) ||
-         (mBranch != null &&
-         ! mBranch.equals(object.mBranch))) return false;
-      if(mBranch == null && object.mBranch != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        FreetypeImpl object = (FreetypeImpl) obj;
+        if (declName_ != null) {
+          if (!declName_.equals(object.declName_)) {
+            return false;
+          }
+        } else {
+          if (object.declName_ != null) {
+            return false;
+          }
+        }
+        if (branch_ != null) {
+          if (!branch_.equals(object.branch_)) {
+            return false;
+          }
+        } else {
+          if (object.branch_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -88,13 +99,15 @@ extends TermAImpl implements Freetype
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "FreetypeImpl".hashCode();
-    if(mDeclName != null) {
-      hashCode += 31*mDeclName.hashCode();
+    if (declName_ != null) {
+      hashCode += constant * declName_.hashCode();
     }
-    if(mBranch != null) {
-      hashCode += 31*mBranch.hashCode();
+    if (branch_ != null) {
+      hashCode += constant * branch_.hashCode();
     }
     return hashCode;
   }
@@ -104,8 +117,7 @@ extends TermAImpl implements Freetype
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof FreetypeVisitor)
-    {
+    if (v instanceof FreetypeVisitor) {
       FreetypeVisitor visitor = (FreetypeVisitor) v;
       return visitor.visitFreetype(this);
     }
@@ -115,14 +127,15 @@ extends TermAImpl implements Freetype
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     Freetype zedObject = null;
     try {
       DeclName declName = (DeclName) args[0];
       java.util.List branch = (java.util.List) args[1];
       zedObject = new FreetypeImpl();
       zedObject.setDeclName(declName);
-      if(branch != null) {
+      if (branch != null) {
         zedObject.getBranch().addAll(branch);
       }
     } catch (IndexOutOfBoundsException e) {
@@ -139,22 +152,24 @@ extends TermAImpl implements Freetype
     return erg;
   }
 
-  private DeclName mDeclName;
+  private DeclName declName_;
 
   public DeclName getDeclName()
   {
-    return mDeclName;
+    return declName_;
   }
 
   public void setDeclName(DeclName declName)
   {
-    mDeclName = declName;
+    declName_ = declName;
   }
 
-  private java.util.List mBranch = new net.sourceforge.czt.util.TypesafeList(Branch.class);
+
+  private java.util.List branch_ =
+    new TypesafeList(Branch.class);
 
   public java.util.List getBranch()
   {
-    return mBranch;
+    return branch_;
   }
 }

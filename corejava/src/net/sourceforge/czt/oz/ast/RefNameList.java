@@ -42,5 +42,5 @@ public interface RefNameList extends TermA
    *
    * @return a list of RefName elements.
    */
-  public java.util.List getName();
+  java.util.List getName();
 }

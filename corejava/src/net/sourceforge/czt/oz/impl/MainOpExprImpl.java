@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.oz.ast.*;
@@ -43,7 +44,7 @@ import net.sourceforge.czt.oz.visitor.MainOpExprVisitor;
  * @author Gnast version 0.1
  */
 public class MainOpExprImpl
-extends TermAImpl implements MainOpExpr
+  extends TermAImpl   implements MainOpExpr
 {
   /**
    * The default constructor.
@@ -52,7 +53,9 @@ extends TermAImpl implements MainOpExpr
    * If you want to create an instance of this class, please use the
    * {@link OzFactory object factory}.
    */
-  protected MainOpExprImpl() { }
+  protected MainOpExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this MainOpExprImpl
@@ -62,21 +65,29 @@ extends TermAImpl implements MainOpExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      MainOpExprImpl object = (MainOpExprImpl) obj;
-      if((mSchText == null && object.mSchText != null) ||
-         (mSchText != null &&
-         ! mSchText.equals(object.mSchText))) return false;
-      if(mSchText == null && object.mSchText != null)
-        return false;
-      if((mOperationExpr == null && object.mOperationExpr != null) ||
-         (mOperationExpr != null &&
-         ! mOperationExpr.equals(object.mOperationExpr))) return false;
-      if(mOperationExpr == null && object.mOperationExpr != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        MainOpExprImpl object = (MainOpExprImpl) obj;
+        if (schText_ != null) {
+          if (!schText_.equals(object.schText_)) {
+            return false;
+          }
+        } else {
+          if (object.schText_ != null) {
+            return false;
+          }
+        }
+        if (operationExpr_ != null) {
+          if (!operationExpr_.equals(object.operationExpr_)) {
+            return false;
+          }
+        } else {
+          if (object.operationExpr_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -90,13 +101,15 @@ extends TermAImpl implements MainOpExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "MainOpExprImpl".hashCode();
-    if(mSchText != null) {
-      hashCode += 31*mSchText.hashCode();
+    if (schText_ != null) {
+      hashCode += constant * schText_.hashCode();
     }
-    if(mOperationExpr != null) {
-      hashCode += 31*mOperationExpr.hashCode();
+    if (operationExpr_ != null) {
+      hashCode += constant * operationExpr_.hashCode();
     }
     return hashCode;
   }
@@ -106,8 +119,7 @@ extends TermAImpl implements MainOpExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof MainOpExprVisitor)
-    {
+    if (v instanceof MainOpExprVisitor) {
       MainOpExprVisitor visitor = (MainOpExprVisitor) v;
       return visitor.visitMainOpExpr(this);
     }
@@ -117,7 +129,8 @@ extends TermAImpl implements MainOpExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     MainOpExpr zedObject = null;
     try {
       net.sourceforge.czt.z.ast.SchText schText = (net.sourceforge.czt.z.ast.SchText) args[0];
@@ -139,27 +152,27 @@ extends TermAImpl implements MainOpExpr
     return erg;
   }
 
-  private net.sourceforge.czt.z.ast.SchText mSchText;
+  private net.sourceforge.czt.z.ast.SchText schText_;
 
   public net.sourceforge.czt.z.ast.SchText getSchText()
   {
-    return mSchText;
+    return schText_;
   }
 
   public void setSchText(net.sourceforge.czt.z.ast.SchText schText)
   {
-    mSchText = schText;
+    schText_ = schText;
   }
 
-  private OperationExpr mOperationExpr;
+  private OperationExpr operationExpr_;
 
   public OperationExpr getOperationExpr()
   {
-    return mOperationExpr;
+    return operationExpr_;
   }
 
   public void setOperationExpr(OperationExpr operationExpr)
   {
-    mOperationExpr = operationExpr;
+    operationExpr_ = operationExpr;
   }
 }

@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.oz.ast.*;
@@ -43,7 +44,7 @@ import net.sourceforge.czt.oz.visitor.OperationBoxExprVisitor;
  * @author Gnast version 0.1
  */
 public abstract class OperationBoxExprImpl
-extends TermAImpl implements OperationBoxExpr
+  extends TermAImpl   implements OperationBoxExpr
 {
 
   /**
@@ -54,11 +55,11 @@ extends TermAImpl implements OperationBoxExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      OperationBoxExprImpl object = (OperationBoxExprImpl) obj;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        OperationBoxExprImpl object = (OperationBoxExprImpl) obj;
+        return true;
+      }
     }
     return false;
   }
@@ -72,6 +73,8 @@ extends TermAImpl implements OperationBoxExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "OperationBoxExprImpl".hashCode();
     return hashCode;
@@ -82,8 +85,7 @@ extends TermAImpl implements OperationBoxExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof OperationBoxExprVisitor)
-    {
+    if (v instanceof OperationBoxExprVisitor) {
       OperationBoxExprVisitor visitor = (OperationBoxExprVisitor) v;
       return visitor.visitOperationBoxExpr(this);
     }

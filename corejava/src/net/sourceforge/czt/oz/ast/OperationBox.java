@@ -39,7 +39,7 @@ public interface OperationBox extends OperationBoxExpr
    *
    * @return the DeltaList element.
    */
-  public RefNameList getDeltaList();
+  RefNameList getDeltaList();
 
   /**
    * Sets the DeltaList element.
@@ -47,7 +47,7 @@ public interface OperationBox extends OperationBoxExpr
    * @param deltaList   the DeltaList element.
    * @see #getDeltaList
    */
-  public void setDeltaList(RefNameList deltaList);
+  void setDeltaList(RefNameList deltaList);
 
   /**
    * <p>Returns the Decl elements.</p>
@@ -57,7 +57,7 @@ public interface OperationBox extends OperationBoxExpr
    *
    * @return a list of Decl elements.
    */
-  public java.util.List getDecl();
+  java.util.List getDecl();
 
   /**
    * <p>Returns the Pred elements.</p>
@@ -67,5 +67,5 @@ public interface OperationBox extends OperationBoxExpr
    *
    * @return a list of Pred elements.
    */
-  public java.util.List getPred();
+  java.util.List getPred();
 }

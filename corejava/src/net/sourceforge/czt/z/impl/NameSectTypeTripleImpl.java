@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.NameSectTypeTripleVisitor;
  * @author Gnast version 0.1
  */
 public class NameSectTypeTripleImpl
-extends TermImpl implements NameSectTypeTriple
+  extends TermImpl   implements NameSectTypeTriple
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends TermImpl implements NameSectTypeTriple
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected NameSectTypeTripleImpl() { }
+  protected NameSectTypeTripleImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this NameSectTypeTripleImpl
@@ -60,26 +63,38 @@ extends TermImpl implements NameSectTypeTriple
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      NameSectTypeTripleImpl object = (NameSectTypeTripleImpl) obj;
-      if((mName == null && object.mName != null) ||
-         (mName != null &&
-         ! mName.equals(object.mName))) return false;
-      if(mName == null && object.mName != null)
-        return false;
-      if((mSect == null && object.mSect != null) ||
-         (mSect != null &&
-         ! mSect.equals(object.mSect))) return false;
-      if(mSect == null && object.mSect != null)
-        return false;
-      if((mType == null && object.mType != null) ||
-         (mType != null &&
-         ! mType.equals(object.mType))) return false;
-      if(mType == null && object.mType != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        NameSectTypeTripleImpl object = (NameSectTypeTripleImpl) obj;
+        if (name_ != null) {
+          if (!name_.equals(object.name_)) {
+            return false;
+          }
+        } else {
+          if (object.name_ != null) {
+            return false;
+          }
+        }
+        if (sect_ != null) {
+          if (!sect_.equals(object.sect_)) {
+            return false;
+          }
+        } else {
+          if (object.sect_ != null) {
+            return false;
+          }
+        }
+        if (type_ != null) {
+          if (!type_.equals(object.type_)) {
+            return false;
+          }
+        } else {
+          if (object.type_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -93,16 +108,18 @@ extends TermImpl implements NameSectTypeTriple
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "NameSectTypeTripleImpl".hashCode();
-    if(mName != null) {
-      hashCode += 31*mName.hashCode();
+    if (name_ != null) {
+      hashCode += constant * name_.hashCode();
     }
-    if(mSect != null) {
-      hashCode += 31*mSect.hashCode();
+    if (sect_ != null) {
+      hashCode += constant * sect_.hashCode();
     }
-    if(mType != null) {
-      hashCode += 31*mType.hashCode();
+    if (type_ != null) {
+      hashCode += constant * type_.hashCode();
     }
     return hashCode;
   }
@@ -112,8 +129,7 @@ extends TermImpl implements NameSectTypeTriple
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof NameSectTypeTripleVisitor)
-    {
+    if (v instanceof NameSectTypeTripleVisitor) {
       NameSectTypeTripleVisitor visitor = (NameSectTypeTripleVisitor) v;
       return visitor.visitNameSectTypeTriple(this);
     }
@@ -123,7 +139,8 @@ extends TermImpl implements NameSectTypeTriple
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     NameSectTypeTriple zedObject = null;
     try {
       DeclName name = (DeclName) args[0];
@@ -147,39 +164,39 @@ extends TermImpl implements NameSectTypeTriple
     return erg;
   }
 
-  private DeclName mName;
+  private DeclName name_;
 
   public DeclName getName()
   {
-    return mName;
+    return name_;
   }
 
   public void setName(DeclName name)
   {
-    mName = name;
+    name_ = name;
   }
 
-  private String mSect;
+  private String sect_;
 
   public String getSect()
   {
-    return mSect;
+    return sect_;
   }
 
   public void setSect(String sect)
   {
-    mSect = sect;
+    sect_ = sect;
   }
 
-  private Type mType;
+  private Type type_;
 
   public Type getType()
   {
-    return mType;
+    return type_;
   }
 
   public void setType(Type type)
   {
-    mType = type;
+    type_ = type;
   }
 }

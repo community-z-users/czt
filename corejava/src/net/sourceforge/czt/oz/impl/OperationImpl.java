@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.oz.ast.*;
@@ -43,7 +44,7 @@ import net.sourceforge.czt.oz.visitor.OperationVisitor;
  * @author Gnast version 0.1
  */
 public class OperationImpl
-extends TermAImpl implements Operation
+  extends TermAImpl   implements Operation
 {
   /**
    * The default constructor.
@@ -52,7 +53,9 @@ extends TermAImpl implements Operation
    * If you want to create an instance of this class, please use the
    * {@link OzFactory object factory}.
    */
-  protected OperationImpl() { }
+  protected OperationImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this OperationImpl
@@ -62,21 +65,29 @@ extends TermAImpl implements Operation
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      OperationImpl object = (OperationImpl) obj;
-      if((mName == null && object.mName != null) ||
-         (mName != null &&
-         ! mName.equals(object.mName))) return false;
-      if(mName == null && object.mName != null)
-        return false;
-      if((mOperationBoxExpr == null && object.mOperationBoxExpr != null) ||
-         (mOperationBoxExpr != null &&
-         ! mOperationBoxExpr.equals(object.mOperationBoxExpr))) return false;
-      if(mOperationBoxExpr == null && object.mOperationBoxExpr != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        OperationImpl object = (OperationImpl) obj;
+        if (name_ != null) {
+          if (!name_.equals(object.name_)) {
+            return false;
+          }
+        } else {
+          if (object.name_ != null) {
+            return false;
+          }
+        }
+        if (operationBoxExpr_ != null) {
+          if (!operationBoxExpr_.equals(object.operationBoxExpr_)) {
+            return false;
+          }
+        } else {
+          if (object.operationBoxExpr_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -90,13 +101,15 @@ extends TermAImpl implements Operation
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "OperationImpl".hashCode();
-    if(mName != null) {
-      hashCode += 31*mName.hashCode();
+    if (name_ != null) {
+      hashCode += constant * name_.hashCode();
     }
-    if(mOperationBoxExpr != null) {
-      hashCode += 31*mOperationBoxExpr.hashCode();
+    if (operationBoxExpr_ != null) {
+      hashCode += constant * operationBoxExpr_.hashCode();
     }
     return hashCode;
   }
@@ -106,8 +119,7 @@ extends TermAImpl implements Operation
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof OperationVisitor)
-    {
+    if (v instanceof OperationVisitor) {
       OperationVisitor visitor = (OperationVisitor) v;
       return visitor.visitOperation(this);
     }
@@ -117,7 +129,8 @@ extends TermAImpl implements Operation
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     Operation zedObject = null;
     try {
       net.sourceforge.czt.z.ast.DeclName name = (net.sourceforge.czt.z.ast.DeclName) args[0];
@@ -139,27 +152,27 @@ extends TermAImpl implements Operation
     return erg;
   }
 
-  private net.sourceforge.czt.z.ast.DeclName mName;
+  private net.sourceforge.czt.z.ast.DeclName name_;
 
   public net.sourceforge.czt.z.ast.DeclName getName()
   {
-    return mName;
+    return name_;
   }
 
   public void setName(net.sourceforge.czt.z.ast.DeclName name)
   {
-    mName = name;
+    name_ = name;
   }
 
-  private OperationBoxExpr mOperationBoxExpr;
+  private OperationBoxExpr operationBoxExpr_;
 
   public OperationBoxExpr getOperationBoxExpr()
   {
-    return mOperationBoxExpr;
+    return operationBoxExpr_;
   }
 
   public void setOperationBoxExpr(OperationBoxExpr operationBoxExpr)
   {
-    mOperationBoxExpr = operationBoxExpr;
+    operationBoxExpr_ = operationBoxExpr;
   }
 }

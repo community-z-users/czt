@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.oz.ast.*;
@@ -43,7 +44,7 @@ import net.sourceforge.czt.oz.visitor.SecondaryAttributesVisitor;
  * @author Gnast version 0.1
  */
 public class SecondaryAttributesImpl
-extends TermImpl implements SecondaryAttributes
+  extends TermAImpl   implements SecondaryAttributes
 {
   /**
    * The default constructor.
@@ -52,7 +53,9 @@ extends TermImpl implements SecondaryAttributes
    * If you want to create an instance of this class, please use the
    * {@link OzFactory object factory}.
    */
-  protected SecondaryAttributesImpl() { }
+  protected SecondaryAttributesImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this SecondaryAttributesImpl
@@ -62,11 +65,20 @@ extends TermImpl implements SecondaryAttributes
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      SecondaryAttributesImpl object = (SecondaryAttributesImpl) obj;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        SecondaryAttributesImpl object = (SecondaryAttributesImpl) obj;
+        if (varDecl_ != null) {
+          if (!varDecl_.equals(object.varDecl_)) {
+            return false;
+          }
+        } else {
+          if (object.varDecl_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -80,8 +92,13 @@ extends TermImpl implements SecondaryAttributes
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "SecondaryAttributesImpl".hashCode();
+    if (varDecl_ != null) {
+      hashCode += constant * varDecl_.hashCode();
+    }
     return hashCode;
   }
 
@@ -90,8 +107,7 @@ extends TermImpl implements SecondaryAttributes
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof SecondaryAttributesVisitor)
-    {
+    if (v instanceof SecondaryAttributesVisitor) {
       SecondaryAttributesVisitor visitor = (SecondaryAttributesVisitor) v;
       return visitor.visitSecondaryAttributes(this);
     }
@@ -101,10 +117,15 @@ extends TermImpl implements SecondaryAttributes
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     SecondaryAttributes zedObject = null;
     try {
+      java.util.List varDecl = (java.util.List) args[0];
       zedObject = new SecondaryAttributesImpl();
+      if (varDecl != null) {
+        zedObject.getVarDecl().addAll(varDecl);
+      }
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
@@ -115,7 +136,16 @@ extends TermImpl implements SecondaryAttributes
 
   public Object[] getChildren()
   {
-    Object[] erg = {  };
+    Object[] erg = { getVarDecl() };
     return erg;
+  }
+
+
+  private java.util.List varDecl_ =
+    new TypesafeList(net.sourceforge.czt.z.ast.VarDecl.class);
+
+  public java.util.List getVarDecl()
+  {
+    return varDecl_;
   }
 }

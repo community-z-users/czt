@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.BranchVisitor;
  * @author Gnast version 0.1
  */
 public class BranchImpl
-extends TermAImpl implements Branch
+  extends TermAImpl   implements Branch
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends TermAImpl implements Branch
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected BranchImpl() { }
+  protected BranchImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this BranchImpl
@@ -60,21 +63,29 @@ extends TermAImpl implements Branch
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      BranchImpl object = (BranchImpl) obj;
-      if((mDeclName == null && object.mDeclName != null) ||
-         (mDeclName != null &&
-         ! mDeclName.equals(object.mDeclName))) return false;
-      if(mDeclName == null && object.mDeclName != null)
-        return false;
-      if((mExpr == null && object.mExpr != null) ||
-         (mExpr != null &&
-         ! mExpr.equals(object.mExpr))) return false;
-      if(mExpr == null && object.mExpr != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        BranchImpl object = (BranchImpl) obj;
+        if (declName_ != null) {
+          if (!declName_.equals(object.declName_)) {
+            return false;
+          }
+        } else {
+          if (object.declName_ != null) {
+            return false;
+          }
+        }
+        if (expr_ != null) {
+          if (!expr_.equals(object.expr_)) {
+            return false;
+          }
+        } else {
+          if (object.expr_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -88,13 +99,15 @@ extends TermAImpl implements Branch
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "BranchImpl".hashCode();
-    if(mDeclName != null) {
-      hashCode += 31*mDeclName.hashCode();
+    if (declName_ != null) {
+      hashCode += constant * declName_.hashCode();
     }
-    if(mExpr != null) {
-      hashCode += 31*mExpr.hashCode();
+    if (expr_ != null) {
+      hashCode += constant * expr_.hashCode();
     }
     return hashCode;
   }
@@ -104,8 +117,7 @@ extends TermAImpl implements Branch
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof BranchVisitor)
-    {
+    if (v instanceof BranchVisitor) {
       BranchVisitor visitor = (BranchVisitor) v;
       return visitor.visitBranch(this);
     }
@@ -115,7 +127,8 @@ extends TermAImpl implements Branch
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     Branch zedObject = null;
     try {
       DeclName declName = (DeclName) args[0];
@@ -137,27 +150,27 @@ extends TermAImpl implements Branch
     return erg;
   }
 
-  private DeclName mDeclName;
+  private DeclName declName_;
 
   public DeclName getDeclName()
   {
-    return mDeclName;
+    return declName_;
   }
 
   public void setDeclName(DeclName declName)
   {
-    mDeclName = declName;
+    declName_ = declName;
   }
 
-  private Expr mExpr;
+  private Expr expr_;
 
   public Expr getExpr()
   {
-    return mExpr;
+    return expr_;
   }
 
   public void setExpr(Expr expr)
   {
-    mExpr = expr;
+    expr_ = expr;
   }
 }

@@ -42,14 +42,14 @@ public interface ConjPara extends Para
    *
    * @return a list of DeclName elements.
    */
-  public java.util.List getDeclName();
+  java.util.List getDeclName();
 
   /**
    * Returns the Pred element.
    *
    * @return the Pred element.
    */
-  public Pred getPred();
+  Pred getPred();
 
   /**
    * Sets the Pred element.
@@ -57,5 +57,5 @@ public interface ConjPara extends Para
    * @param pred   the Pred element.
    * @see #getPred
    */
-  public void setPred(Pred pred);
+  void setPred(Pred pred);
 }

@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.VarDeclVisitor;
  * @author Gnast version 0.1
  */
 public class VarDeclImpl
-extends DeclImpl implements VarDecl
+  extends DeclImpl   implements VarDecl
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends DeclImpl implements VarDecl
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected VarDeclImpl() { }
+  protected VarDeclImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this VarDeclImpl
@@ -60,21 +63,29 @@ extends DeclImpl implements VarDecl
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      VarDeclImpl object = (VarDeclImpl) obj;
-      if((mDeclName == null && object.mDeclName != null) ||
-         (mDeclName != null &&
-         ! mDeclName.equals(object.mDeclName))) return false;
-      if(mDeclName == null && object.mDeclName != null)
-        return false;
-      if((mExpr == null && object.mExpr != null) ||
-         (mExpr != null &&
-         ! mExpr.equals(object.mExpr))) return false;
-      if(mExpr == null && object.mExpr != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        VarDeclImpl object = (VarDeclImpl) obj;
+        if (declName_ != null) {
+          if (!declName_.equals(object.declName_)) {
+            return false;
+          }
+        } else {
+          if (object.declName_ != null) {
+            return false;
+          }
+        }
+        if (expr_ != null) {
+          if (!expr_.equals(object.expr_)) {
+            return false;
+          }
+        } else {
+          if (object.expr_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -88,13 +99,15 @@ extends DeclImpl implements VarDecl
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "VarDeclImpl".hashCode();
-    if(mDeclName != null) {
-      hashCode += 31*mDeclName.hashCode();
+    if (declName_ != null) {
+      hashCode += constant * declName_.hashCode();
     }
-    if(mExpr != null) {
-      hashCode += 31*mExpr.hashCode();
+    if (expr_ != null) {
+      hashCode += constant * expr_.hashCode();
     }
     return hashCode;
   }
@@ -104,8 +117,7 @@ extends DeclImpl implements VarDecl
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof VarDeclVisitor)
-    {
+    if (v instanceof VarDeclVisitor) {
       VarDeclVisitor visitor = (VarDeclVisitor) v;
       return visitor.visitVarDecl(this);
     }
@@ -115,13 +127,14 @@ extends DeclImpl implements VarDecl
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     VarDecl zedObject = null;
     try {
       java.util.List declName = (java.util.List) args[0];
       Expr expr = (Expr) args[1];
       zedObject = new VarDeclImpl();
-      if(declName != null) {
+      if (declName != null) {
         zedObject.getDeclName().addAll(declName);
       }
       zedObject.setExpr(expr);
@@ -139,22 +152,24 @@ extends DeclImpl implements VarDecl
     return erg;
   }
 
-  private java.util.List mDeclName = new net.sourceforge.czt.util.TypesafeList(DeclName.class);
+
+  private java.util.List declName_ =
+    new TypesafeList(DeclName.class);
 
   public java.util.List getDeclName()
   {
-    return mDeclName;
+    return declName_;
   }
 
-  private Expr mExpr;
+  private Expr expr_;
 
   public Expr getExpr()
   {
-    return mExpr;
+    return expr_;
   }
 
   public void setExpr(Expr expr)
   {
-    mExpr = expr;
+    expr_ = expr;
   }
 }

@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.NameExprPairVisitor;
  * @author Gnast version 0.1
  */
 public class NameExprPairImpl
-extends TermImpl implements NameExprPair
+  extends TermImpl   implements NameExprPair
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends TermImpl implements NameExprPair
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected NameExprPairImpl() { }
+  protected NameExprPairImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this NameExprPairImpl
@@ -60,21 +63,29 @@ extends TermImpl implements NameExprPair
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      NameExprPairImpl object = (NameExprPairImpl) obj;
-      if((mName == null && object.mName != null) ||
-         (mName != null &&
-         ! mName.equals(object.mName))) return false;
-      if(mName == null && object.mName != null)
-        return false;
-      if((mExpr == null && object.mExpr != null) ||
-         (mExpr != null &&
-         ! mExpr.equals(object.mExpr))) return false;
-      if(mExpr == null && object.mExpr != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        NameExprPairImpl object = (NameExprPairImpl) obj;
+        if (name_ != null) {
+          if (!name_.equals(object.name_)) {
+            return false;
+          }
+        } else {
+          if (object.name_ != null) {
+            return false;
+          }
+        }
+        if (expr_ != null) {
+          if (!expr_.equals(object.expr_)) {
+            return false;
+          }
+        } else {
+          if (object.expr_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -88,13 +99,15 @@ extends TermImpl implements NameExprPair
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "NameExprPairImpl".hashCode();
-    if(mName != null) {
-      hashCode += 31*mName.hashCode();
+    if (name_ != null) {
+      hashCode += constant * name_.hashCode();
     }
-    if(mExpr != null) {
-      hashCode += 31*mExpr.hashCode();
+    if (expr_ != null) {
+      hashCode += constant * expr_.hashCode();
     }
     return hashCode;
   }
@@ -104,8 +117,7 @@ extends TermImpl implements NameExprPair
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof NameExprPairVisitor)
-    {
+    if (v instanceof NameExprPairVisitor) {
       NameExprPairVisitor visitor = (NameExprPairVisitor) v;
       return visitor.visitNameExprPair(this);
     }
@@ -115,7 +127,8 @@ extends TermImpl implements NameExprPair
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     NameExprPair zedObject = null;
     try {
       DeclName name = (DeclName) args[0];
@@ -137,27 +150,27 @@ extends TermImpl implements NameExprPair
     return erg;
   }
 
-  private DeclName mName;
+  private DeclName name_;
 
   public DeclName getName()
   {
-    return mName;
+    return name_;
   }
 
   public void setName(DeclName name)
   {
-    mName = name;
+    name_ = name;
   }
 
-  private Expr mExpr;
+  private Expr expr_;
 
   public Expr getExpr()
   {
-    return mExpr;
+    return expr_;
   }
 
   public void setExpr(Expr expr)
   {
-    mExpr = expr;
+    expr_ = expr;
   }
 }

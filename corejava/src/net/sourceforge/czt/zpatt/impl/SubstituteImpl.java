@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.zpatt.ast.*;
@@ -43,7 +44,7 @@ import net.sourceforge.czt.zpatt.visitor.SubstituteVisitor;
  * @author Gnast version 0.1
  */
 public class SubstituteImpl
-extends TermImpl implements Substitute
+  extends TermImpl   implements Substitute
 {
   /**
    * The default constructor.
@@ -52,7 +53,9 @@ extends TermImpl implements Substitute
    * If you want to create an instance of this class, please use the
    * {@link ZpattFactory object factory}.
    */
-  protected SubstituteImpl() { }
+  protected SubstituteImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this SubstituteImpl
@@ -62,21 +65,29 @@ extends TermImpl implements Substitute
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      SubstituteImpl object = (SubstituteImpl) obj;
-      if((mExpr == null && object.mExpr != null) ||
-         (mExpr != null &&
-         ! mExpr.equals(object.mExpr))) return false;
-      if(mExpr == null && object.mExpr != null)
-        return false;
-      if((mPred == null && object.mPred != null) ||
-         (mPred != null &&
-         ! mPred.equals(object.mPred))) return false;
-      if(mPred == null && object.mPred != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        SubstituteImpl object = (SubstituteImpl) obj;
+        if (expr_ != null) {
+          if (!expr_.equals(object.expr_)) {
+            return false;
+          }
+        } else {
+          if (object.expr_ != null) {
+            return false;
+          }
+        }
+        if (pred_ != null) {
+          if (!pred_.equals(object.pred_)) {
+            return false;
+          }
+        } else {
+          if (object.pred_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -90,13 +101,15 @@ extends TermImpl implements Substitute
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "SubstituteImpl".hashCode();
-    if(mExpr != null) {
-      hashCode += 31*mExpr.hashCode();
+    if (expr_ != null) {
+      hashCode += constant * expr_.hashCode();
     }
-    if(mPred != null) {
-      hashCode += 31*mPred.hashCode();
+    if (pred_ != null) {
+      hashCode += constant * pred_.hashCode();
     }
     return hashCode;
   }
@@ -106,8 +119,7 @@ extends TermImpl implements Substitute
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof SubstituteVisitor)
-    {
+    if (v instanceof SubstituteVisitor) {
       SubstituteVisitor visitor = (SubstituteVisitor) v;
       return visitor.visitSubstitute(this);
     }
@@ -117,16 +129,17 @@ extends TermImpl implements Substitute
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     Substitute zedObject = null;
     try {
       java.util.List expr = (java.util.List) args[0];
       java.util.List pred = (java.util.List) args[1];
       zedObject = new SubstituteImpl();
-      if(expr != null) {
+      if (expr != null) {
         zedObject.getExpr().addAll(expr);
       }
-      if(pred != null) {
+      if (pred != null) {
         zedObject.getPred().addAll(pred);
       }
     } catch (IndexOutOfBoundsException e) {
@@ -143,17 +156,21 @@ extends TermImpl implements Substitute
     return erg;
   }
 
-  private java.util.List mExpr = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.Expr.class);
+
+  private java.util.List expr_ =
+    new TypesafeList(net.sourceforge.czt.z.ast.Expr.class);
 
   public java.util.List getExpr()
   {
-    return mExpr;
+    return expr_;
   }
 
-  private java.util.List mPred = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.Pred.class);
+
+  private java.util.List pred_ =
+    new TypesafeList(net.sourceforge.czt.z.ast.Pred.class);
 
   public java.util.List getPred()
   {
-    return mPred;
+    return pred_;
   }
 }

@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.LocAnnVisitor;
  * @author Gnast version 0.1
  */
 public class LocAnnImpl
-extends TermImpl implements LocAnn
+  extends TermImpl   implements LocAnn
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends TermImpl implements LocAnn
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected LocAnnImpl() { }
+  protected LocAnnImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this LocAnnImpl
@@ -60,26 +63,38 @@ extends TermImpl implements LocAnn
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      LocAnnImpl object = (LocAnnImpl) obj;
-      if((mLoc == null && object.mLoc != null) ||
-         (mLoc != null &&
-         ! mLoc.equals(object.mLoc))) return false;
-      if(mLoc == null && object.mLoc != null)
-        return false;
-      if((mLine == null && object.mLine != null) ||
-         (mLine != null &&
-         ! mLine.equals(object.mLine))) return false;
-      if(mLine == null && object.mLine != null)
-        return false;
-      if((mCol == null && object.mCol != null) ||
-         (mCol != null &&
-         ! mCol.equals(object.mCol))) return false;
-      if(mCol == null && object.mCol != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        LocAnnImpl object = (LocAnnImpl) obj;
+        if (loc_ != null) {
+          if (!loc_.equals(object.loc_)) {
+            return false;
+          }
+        } else {
+          if (object.loc_ != null) {
+            return false;
+          }
+        }
+        if (line_ != null) {
+          if (!line_.equals(object.line_)) {
+            return false;
+          }
+        } else {
+          if (object.line_ != null) {
+            return false;
+          }
+        }
+        if (col_ != null) {
+          if (!col_.equals(object.col_)) {
+            return false;
+          }
+        } else {
+          if (object.col_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -93,16 +108,18 @@ extends TermImpl implements LocAnn
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "LocAnnImpl".hashCode();
-    if(mLoc != null) {
-      hashCode += 31*mLoc.hashCode();
+    if (loc_ != null) {
+      hashCode += constant * loc_.hashCode();
     }
-    if(mLine != null) {
-      hashCode += 31*mLine.hashCode();
+    if (line_ != null) {
+      hashCode += constant * line_.hashCode();
     }
-    if(mCol != null) {
-      hashCode += 31*mCol.hashCode();
+    if (col_ != null) {
+      hashCode += constant * col_.hashCode();
     }
     return hashCode;
   }
@@ -112,8 +129,7 @@ extends TermImpl implements LocAnn
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof LocAnnVisitor)
-    {
+    if (v instanceof LocAnnVisitor) {
       LocAnnVisitor visitor = (LocAnnVisitor) v;
       return visitor.visitLocAnn(this);
     }
@@ -123,7 +139,8 @@ extends TermImpl implements LocAnn
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     LocAnn zedObject = null;
     try {
       String loc = (String) args[0];
@@ -147,39 +164,39 @@ extends TermImpl implements LocAnn
     return erg;
   }
 
-  private String mLoc;
+  private String loc_;
 
   public String getLoc()
   {
-    return mLoc;
+    return loc_;
   }
 
   public void setLoc(String loc)
   {
-    mLoc = loc;
+    loc_ = loc;
   }
 
-  private Integer mLine;
+  private Integer line_;
 
   public Integer getLine()
   {
-    return mLine;
+    return line_;
   }
 
   public void setLine(Integer line)
   {
-    mLine = line;
+    line_ = line;
   }
 
-  private Integer mCol;
+  private Integer col_;
 
   public Integer getCol()
   {
-    return mCol;
+    return col_;
   }
 
   public void setCol(Integer col)
   {
-    mCol = col;
+    col_ = col;
   }
 }

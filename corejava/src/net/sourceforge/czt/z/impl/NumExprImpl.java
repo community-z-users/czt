@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.NumExprVisitor;
  * @author Gnast version 0.1
  */
 public class NumExprImpl
-extends ExprImpl implements NumExpr
+  extends ExprImpl   implements NumExpr
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends ExprImpl implements NumExpr
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected NumExprImpl() { }
+  protected NumExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this NumExprImpl
@@ -60,16 +63,20 @@ extends ExprImpl implements NumExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      NumExprImpl object = (NumExprImpl) obj;
-      if((mValue == null && object.mValue != null) ||
-         (mValue != null &&
-         ! mValue.equals(object.mValue))) return false;
-      if(mValue == null && object.mValue != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        NumExprImpl object = (NumExprImpl) obj;
+        if (value_ != null) {
+          if (!value_.equals(object.value_)) {
+            return false;
+          }
+        } else {
+          if (object.value_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -83,10 +90,12 @@ extends ExprImpl implements NumExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "NumExprImpl".hashCode();
-    if(mValue != null) {
-      hashCode += 31*mValue.hashCode();
+    if (value_ != null) {
+      hashCode += constant * value_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +105,7 @@ extends ExprImpl implements NumExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof NumExprVisitor)
-    {
+    if (v instanceof NumExprVisitor) {
       NumExprVisitor visitor = (NumExprVisitor) v;
       return visitor.visitNumExpr(this);
     }
@@ -107,7 +115,8 @@ extends ExprImpl implements NumExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     NumExpr zedObject = null;
     try {
       java.math.BigInteger value = (java.math.BigInteger) args[0];
@@ -127,15 +136,15 @@ extends ExprImpl implements NumExpr
     return erg;
   }
 
-  private java.math.BigInteger mValue;
+  private java.math.BigInteger value_;
 
   public java.math.BigInteger getValue()
   {
-    return mValue;
+    return value_;
   }
 
   public void setValue(java.math.BigInteger value)
   {
-    mValue = value;
+    value_ = value;
   }
 }

@@ -38,7 +38,7 @@ public interface Operand extends Term
    *
    * @return the List element.
    */
-  public Boolean getList();
+  Boolean getList();
 
   /**
    * Sets the List element.
@@ -46,5 +46,5 @@ public interface Operand extends Term
    * @param list   the List element.
    * @see #getList
    */
-  public void setList(Boolean list);
+  void setList(Boolean list);
 }

@@ -31,6 +31,16 @@ import net.sourceforge.czt.z.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface SecondaryAttributes extends Term
+public interface SecondaryAttributes extends TermA
 {
+
+  /**
+   * <p>Returns the VarDecl elements.</p>
+   * <p>To add or remove elements, use the methods provided by
+   * the List interface (that's why there is no need for a setter
+   * method).</p>
+   *
+   * @return a list of VarDecl elements.
+   */
+  java.util.List getVarDecl();
 }

@@ -39,7 +39,7 @@ public interface DecorExpr extends Expr1
    *
    * @return the Stroke element.
    */
-  public Stroke getStroke();
+  Stroke getStroke();
 
   /**
    * Sets the Stroke element.
@@ -47,5 +47,5 @@ public interface DecorExpr extends Expr1
    * @param stroke   the Stroke element.
    * @see #getStroke
    */
-  public void setStroke(Stroke stroke);
+  void setStroke(Stroke stroke);
 }

@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.oz.ast.*;
@@ -43,7 +44,7 @@ import net.sourceforge.czt.oz.visitor.StateVisitor;
  * @author Gnast version 0.1
  */
 public class StateImpl
-extends TermAImpl implements State
+  extends TermAImpl   implements State
 {
   /**
    * The default constructor.
@@ -52,7 +53,9 @@ extends TermAImpl implements State
    * If you want to create an instance of this class, please use the
    * {@link OzFactory object factory}.
    */
-  protected StateImpl() { }
+  protected StateImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this StateImpl
@@ -62,26 +65,38 @@ extends TermAImpl implements State
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      StateImpl object = (StateImpl) obj;
-      if((mDecl == null && object.mDecl != null) ||
-         (mDecl != null &&
-         ! mDecl.equals(object.mDecl))) return false;
-      if(mDecl == null && object.mDecl != null)
-        return false;
-      if((mSecondaryAttributes == null && object.mSecondaryAttributes != null) ||
-         (mSecondaryAttributes != null &&
-         ! mSecondaryAttributes.equals(object.mSecondaryAttributes))) return false;
-      if(mSecondaryAttributes == null && object.mSecondaryAttributes != null)
-        return false;
-      if((mPred == null && object.mPred != null) ||
-         (mPred != null &&
-         ! mPred.equals(object.mPred))) return false;
-      if(mPred == null && object.mPred != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        StateImpl object = (StateImpl) obj;
+        if (decl_ != null) {
+          if (!decl_.equals(object.decl_)) {
+            return false;
+          }
+        } else {
+          if (object.decl_ != null) {
+            return false;
+          }
+        }
+        if (secondaryAttributes_ != null) {
+          if (!secondaryAttributes_.equals(object.secondaryAttributes_)) {
+            return false;
+          }
+        } else {
+          if (object.secondaryAttributes_ != null) {
+            return false;
+          }
+        }
+        if (pred_ != null) {
+          if (!pred_.equals(object.pred_)) {
+            return false;
+          }
+        } else {
+          if (object.pred_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -95,16 +110,18 @@ extends TermAImpl implements State
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "StateImpl".hashCode();
-    if(mDecl != null) {
-      hashCode += 31*mDecl.hashCode();
+    if (decl_ != null) {
+      hashCode += constant * decl_.hashCode();
     }
-    if(mSecondaryAttributes != null) {
-      hashCode += 31*mSecondaryAttributes.hashCode();
+    if (secondaryAttributes_ != null) {
+      hashCode += constant * secondaryAttributes_.hashCode();
     }
-    if(mPred != null) {
-      hashCode += 31*mPred.hashCode();
+    if (pred_ != null) {
+      hashCode += constant * pred_.hashCode();
     }
     return hashCode;
   }
@@ -114,8 +131,7 @@ extends TermAImpl implements State
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof StateVisitor)
-    {
+    if (v instanceof StateVisitor) {
       StateVisitor visitor = (StateVisitor) v;
       return visitor.visitState(this);
     }
@@ -125,20 +141,19 @@ extends TermAImpl implements State
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     State zedObject = null;
     try {
       java.util.List decl = (java.util.List) args[0];
-      java.util.List secondaryAttributes = (java.util.List) args[1];
+      SecondaryAttributes secondaryAttributes = (SecondaryAttributes) args[1];
       java.util.List pred = (java.util.List) args[2];
       zedObject = new StateImpl();
-      if(decl != null) {
+      if (decl != null) {
         zedObject.getDecl().addAll(decl);
       }
-      if(secondaryAttributes != null) {
-        zedObject.getSecondaryAttributes().addAll(secondaryAttributes);
-      }
-      if(pred != null) {
+      zedObject.setSecondaryAttributes(secondaryAttributes);
+      if (pred != null) {
         zedObject.getPred().addAll(pred);
       }
     } catch (IndexOutOfBoundsException e) {
@@ -155,24 +170,33 @@ extends TermAImpl implements State
     return erg;
   }
 
-  private java.util.List mDecl = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.Decl.class);
+
+  private java.util.List decl_ =
+    new TypesafeList(net.sourceforge.czt.z.ast.Decl.class);
 
   public java.util.List getDecl()
   {
-    return mDecl;
+    return decl_;
   }
 
-  private java.util.List mSecondaryAttributes = new net.sourceforge.czt.util.TypesafeList(SecondaryAttributes.class);
+  private SecondaryAttributes secondaryAttributes_;
 
-  public java.util.List getSecondaryAttributes()
+  public SecondaryAttributes getSecondaryAttributes()
   {
-    return mSecondaryAttributes;
+    return secondaryAttributes_;
   }
 
-  private java.util.List mPred = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.Pred.class);
+  public void setSecondaryAttributes(SecondaryAttributes secondaryAttributes)
+  {
+    secondaryAttributes_ = secondaryAttributes;
+  }
+
+
+  private java.util.List pred_ =
+    new TypesafeList(net.sourceforge.czt.z.ast.Pred.class);
 
   public java.util.List getPred()
   {
-    return mPred;
+    return pred_;
   }
 }

@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.NameTypePairVisitor;
  * @author Gnast version 0.1
  */
 public class NameTypePairImpl
-extends TermImpl implements NameTypePair
+  extends TermImpl   implements NameTypePair
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends TermImpl implements NameTypePair
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected NameTypePairImpl() { }
+  protected NameTypePairImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this NameTypePairImpl
@@ -60,21 +63,29 @@ extends TermImpl implements NameTypePair
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      NameTypePairImpl object = (NameTypePairImpl) obj;
-      if((mName == null && object.mName != null) ||
-         (mName != null &&
-         ! mName.equals(object.mName))) return false;
-      if(mName == null && object.mName != null)
-        return false;
-      if((mType == null && object.mType != null) ||
-         (mType != null &&
-         ! mType.equals(object.mType))) return false;
-      if(mType == null && object.mType != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        NameTypePairImpl object = (NameTypePairImpl) obj;
+        if (name_ != null) {
+          if (!name_.equals(object.name_)) {
+            return false;
+          }
+        } else {
+          if (object.name_ != null) {
+            return false;
+          }
+        }
+        if (type_ != null) {
+          if (!type_.equals(object.type_)) {
+            return false;
+          }
+        } else {
+          if (object.type_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -88,13 +99,15 @@ extends TermImpl implements NameTypePair
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "NameTypePairImpl".hashCode();
-    if(mName != null) {
-      hashCode += 31*mName.hashCode();
+    if (name_ != null) {
+      hashCode += constant * name_.hashCode();
     }
-    if(mType != null) {
-      hashCode += 31*mType.hashCode();
+    if (type_ != null) {
+      hashCode += constant * type_.hashCode();
     }
     return hashCode;
   }
@@ -104,8 +117,7 @@ extends TermImpl implements NameTypePair
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof NameTypePairVisitor)
-    {
+    if (v instanceof NameTypePairVisitor) {
       NameTypePairVisitor visitor = (NameTypePairVisitor) v;
       return visitor.visitNameTypePair(this);
     }
@@ -115,7 +127,8 @@ extends TermImpl implements NameTypePair
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     NameTypePair zedObject = null;
     try {
       DeclName name = (DeclName) args[0];
@@ -137,27 +150,27 @@ extends TermImpl implements NameTypePair
     return erg;
   }
 
-  private DeclName mName;
+  private DeclName name_;
 
   public DeclName getName()
   {
-    return mName;
+    return name_;
   }
 
   public void setName(DeclName name)
   {
-    mName = name;
+    name_ = name;
   }
 
-  private Type mType;
+  private Type type_;
 
   public Type getType()
   {
-    return mType;
+    return type_;
   }
 
   public void setType(Type type)
   {
-    mType = type;
+    type_ = type;
   }
 }

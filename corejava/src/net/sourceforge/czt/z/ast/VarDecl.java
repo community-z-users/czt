@@ -42,14 +42,14 @@ public interface VarDecl extends Decl
    *
    * @return a list of DeclName elements.
    */
-  public java.util.List getDeclName();
+  java.util.List getDeclName();
 
   /**
    * Returns the Expr element.
    *
    * @return the Expr element.
    */
-  public Expr getExpr();
+  Expr getExpr();
 
   /**
    * Sets the Expr element.
@@ -57,5 +57,5 @@ public interface VarDecl extends Decl
    * @param expr   the Expr element.
    * @see #getExpr
    */
-  public void setExpr(Expr expr);
+  void setExpr(Expr expr);
 }

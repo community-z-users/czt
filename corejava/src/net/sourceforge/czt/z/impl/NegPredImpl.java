@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.NegPredVisitor;
  * @author Gnast version 0.1
  */
 public class NegPredImpl
-extends PredImpl implements NegPred
+  extends PredImpl   implements NegPred
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends PredImpl implements NegPred
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected NegPredImpl() { }
+  protected NegPredImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this NegPredImpl
@@ -60,16 +63,20 @@ extends PredImpl implements NegPred
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      NegPredImpl object = (NegPredImpl) obj;
-      if((mPred == null && object.mPred != null) ||
-         (mPred != null &&
-         ! mPred.equals(object.mPred))) return false;
-      if(mPred == null && object.mPred != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        NegPredImpl object = (NegPredImpl) obj;
+        if (pred_ != null) {
+          if (!pred_.equals(object.pred_)) {
+            return false;
+          }
+        } else {
+          if (object.pred_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -83,10 +90,12 @@ extends PredImpl implements NegPred
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "NegPredImpl".hashCode();
-    if(mPred != null) {
-      hashCode += 31*mPred.hashCode();
+    if (pred_ != null) {
+      hashCode += constant * pred_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +105,7 @@ extends PredImpl implements NegPred
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof NegPredVisitor)
-    {
+    if (v instanceof NegPredVisitor) {
       NegPredVisitor visitor = (NegPredVisitor) v;
       return visitor.visitNegPred(this);
     }
@@ -107,7 +115,8 @@ extends PredImpl implements NegPred
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     NegPred zedObject = null;
     try {
       Pred pred = (Pred) args[0];
@@ -127,15 +136,15 @@ extends PredImpl implements NegPred
     return erg;
   }
 
-  private Pred mPred;
+  private Pred pred_;
 
   public Pred getPred()
   {
-    return mPred;
+    return pred_;
   }
 
   public void setPred(Pred pred)
   {
-    mPred = pred;
+    pred_ = pred;
   }
 }

@@ -42,5 +42,5 @@ public interface ActualParameters extends TermA
    *
    * @return a list of Expr elements.
    */
-  public java.util.List getExpr();
+  java.util.List getExpr();
 }

@@ -39,7 +39,7 @@ public interface OpPromotionExpr extends OperationExpr
    *
    * @return the Expr element.
    */
-  public net.sourceforge.czt.z.ast.Expr getExpr();
+  net.sourceforge.czt.z.ast.Expr getExpr();
 
   /**
    * Sets the Expr element.
@@ -47,14 +47,14 @@ public interface OpPromotionExpr extends OperationExpr
    * @param expr   the Expr element.
    * @see #getExpr
    */
-  public void setExpr(net.sourceforge.czt.z.ast.Expr expr);
+  void setExpr(net.sourceforge.czt.z.ast.Expr expr);
 
   /**
    * Returns the OpName element.
    *
    * @return the OpName element.
    */
-  public net.sourceforge.czt.z.ast.RefName getOpName();
+  net.sourceforge.czt.z.ast.RefName getOpName();
 
   /**
    * Sets the OpName element.
@@ -62,5 +62,5 @@ public interface OpPromotionExpr extends OperationExpr
    * @param opName   the OpName element.
    * @see #getOpName
    */
-  public void setOpName(net.sourceforge.czt.z.ast.RefName opName);
+  void setOpName(net.sourceforge.czt.z.ast.RefName opName);
 }

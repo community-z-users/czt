@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.zpatt.ast.*;
@@ -43,7 +44,7 @@ import net.sourceforge.czt.zpatt.visitor.SubstListVisitor;
  * @author Gnast version 0.1
  */
 public class SubstListImpl
-extends TermImpl implements SubstList
+  extends TermImpl   implements SubstList
 {
   /**
    * The default constructor.
@@ -52,7 +53,9 @@ extends TermImpl implements SubstList
    * If you want to create an instance of this class, please use the
    * {@link ZpattFactory object factory}.
    */
-  protected SubstListImpl() { }
+  protected SubstListImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this SubstListImpl
@@ -62,16 +65,20 @@ extends TermImpl implements SubstList
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      SubstListImpl object = (SubstListImpl) obj;
-      if((mSubstitute == null && object.mSubstitute != null) ||
-         (mSubstitute != null &&
-         ! mSubstitute.equals(object.mSubstitute))) return false;
-      if(mSubstitute == null && object.mSubstitute != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        SubstListImpl object = (SubstListImpl) obj;
+        if (substitute_ != null) {
+          if (!substitute_.equals(object.substitute_)) {
+            return false;
+          }
+        } else {
+          if (object.substitute_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -85,10 +92,12 @@ extends TermImpl implements SubstList
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "SubstListImpl".hashCode();
-    if(mSubstitute != null) {
-      hashCode += 31*mSubstitute.hashCode();
+    if (substitute_ != null) {
+      hashCode += constant * substitute_.hashCode();
     }
     return hashCode;
   }
@@ -98,8 +107,7 @@ extends TermImpl implements SubstList
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof SubstListVisitor)
-    {
+    if (v instanceof SubstListVisitor) {
       SubstListVisitor visitor = (SubstListVisitor) v;
       return visitor.visitSubstList(this);
     }
@@ -109,12 +117,13 @@ extends TermImpl implements SubstList
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     SubstList zedObject = null;
     try {
       java.util.List substitute = (java.util.List) args[0];
       zedObject = new SubstListImpl();
-      if(substitute != null) {
+      if (substitute != null) {
         zedObject.getSubstitute().addAll(substitute);
       }
     } catch (IndexOutOfBoundsException e) {
@@ -131,10 +140,12 @@ extends TermImpl implements SubstList
     return erg;
   }
 
-  private java.util.List mSubstitute = new net.sourceforge.czt.util.TypesafeList(Substitute.class);
+
+  private java.util.List substitute_ =
+    new TypesafeList(Substitute.class);
 
   public java.util.List getSubstitute()
   {
-    return mSubstitute;
+    return substitute_;
   }
 }

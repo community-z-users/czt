@@ -42,5 +42,5 @@ public interface GivenPara extends Para
    *
    * @return a list of DeclName elements.
    */
-  public java.util.List getDeclName();
+  java.util.List getDeclName();
 }

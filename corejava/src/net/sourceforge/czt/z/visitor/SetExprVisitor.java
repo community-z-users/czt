@@ -26,6 +26,9 @@ package net.sourceforge.czt.z.visitor;
 
 import net.sourceforge.czt.util.Visitor;
 
+/**
+ * A(n) SetExpr visitor.
+ */
 public interface SetExprVisitor extends Visitor
 {
   /**

@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.oz.ast.*;
@@ -43,7 +44,7 @@ import net.sourceforge.czt.oz.visitor.InheritedClassVisitor;
  * @author Gnast version 0.1
  */
 public class InheritedClassImpl
-extends TermAImpl implements InheritedClass
+  extends TermAImpl   implements InheritedClass
 {
   /**
    * The default constructor.
@@ -52,7 +53,9 @@ extends TermAImpl implements InheritedClass
    * If you want to create an instance of this class, please use the
    * {@link OzFactory object factory}.
    */
-  protected InheritedClassImpl() { }
+  protected InheritedClassImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this InheritedClassImpl
@@ -62,26 +65,38 @@ extends TermAImpl implements InheritedClass
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      InheritedClassImpl object = (InheritedClassImpl) obj;
-      if((mName == null && object.mName != null) ||
-         (mName != null &&
-         ! mName.equals(object.mName))) return false;
-      if(mName == null && object.mName != null)
-        return false;
-      if((mActualParameters == null && object.mActualParameters != null) ||
-         (mActualParameters != null &&
-         ! mActualParameters.equals(object.mActualParameters))) return false;
-      if(mActualParameters == null && object.mActualParameters != null)
-        return false;
-      if((mRenameList == null && object.mRenameList != null) ||
-         (mRenameList != null &&
-         ! mRenameList.equals(object.mRenameList))) return false;
-      if(mRenameList == null && object.mRenameList != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        InheritedClassImpl object = (InheritedClassImpl) obj;
+        if (name_ != null) {
+          if (!name_.equals(object.name_)) {
+            return false;
+          }
+        } else {
+          if (object.name_ != null) {
+            return false;
+          }
+        }
+        if (actualParameters_ != null) {
+          if (!actualParameters_.equals(object.actualParameters_)) {
+            return false;
+          }
+        } else {
+          if (object.actualParameters_ != null) {
+            return false;
+          }
+        }
+        if (renameExpr_ != null) {
+          if (!renameExpr_.equals(object.renameExpr_)) {
+            return false;
+          }
+        } else {
+          if (object.renameExpr_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -95,16 +110,18 @@ extends TermAImpl implements InheritedClass
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "InheritedClassImpl".hashCode();
-    if(mName != null) {
-      hashCode += 31*mName.hashCode();
+    if (name_ != null) {
+      hashCode += constant * name_.hashCode();
     }
-    if(mActualParameters != null) {
-      hashCode += 31*mActualParameters.hashCode();
+    if (actualParameters_ != null) {
+      hashCode += constant * actualParameters_.hashCode();
     }
-    if(mRenameList != null) {
-      hashCode += 31*mRenameList.hashCode();
+    if (renameExpr_ != null) {
+      hashCode += constant * renameExpr_.hashCode();
     }
     return hashCode;
   }
@@ -114,8 +131,7 @@ extends TermAImpl implements InheritedClass
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof InheritedClassVisitor)
-    {
+    if (v instanceof InheritedClassVisitor) {
       InheritedClassVisitor visitor = (InheritedClassVisitor) v;
       return visitor.visitInheritedClass(this);
     }
@@ -125,16 +141,17 @@ extends TermAImpl implements InheritedClass
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     InheritedClass zedObject = null;
     try {
       net.sourceforge.czt.z.ast.RefName name = (net.sourceforge.czt.z.ast.RefName) args[0];
       ActualParameters actualParameters = (ActualParameters) args[1];
-      RenameList renameList = (RenameList) args[2];
+      net.sourceforge.czt.z.ast.RenameExpr renameExpr = (net.sourceforge.czt.z.ast.RenameExpr) args[2];
       zedObject = new InheritedClassImpl();
       zedObject.setName(name);
       zedObject.setActualParameters(actualParameters);
-      zedObject.setRenameList(renameList);
+      zedObject.setRenameExpr(renameExpr);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
@@ -145,43 +162,43 @@ extends TermAImpl implements InheritedClass
 
   public Object[] getChildren()
   {
-    Object[] erg = { getName(), getActualParameters(), getRenameList() };
+    Object[] erg = { getName(), getActualParameters(), getRenameExpr() };
     return erg;
   }
 
-  private net.sourceforge.czt.z.ast.RefName mName;
+  private net.sourceforge.czt.z.ast.RefName name_;
 
   public net.sourceforge.czt.z.ast.RefName getName()
   {
-    return mName;
+    return name_;
   }
 
   public void setName(net.sourceforge.czt.z.ast.RefName name)
   {
-    mName = name;
+    name_ = name;
   }
 
-  private ActualParameters mActualParameters;
+  private ActualParameters actualParameters_;
 
   public ActualParameters getActualParameters()
   {
-    return mActualParameters;
+    return actualParameters_;
   }
 
   public void setActualParameters(ActualParameters actualParameters)
   {
-    mActualParameters = actualParameters;
+    actualParameters_ = actualParameters;
   }
 
-  private RenameList mRenameList;
+  private net.sourceforge.czt.z.ast.RenameExpr renameExpr_;
 
-  public RenameList getRenameList()
+  public net.sourceforge.czt.z.ast.RenameExpr getRenameExpr()
   {
-    return mRenameList;
+    return renameExpr_;
   }
 
-  public void setRenameList(RenameList renameList)
+  public void setRenameExpr(net.sourceforge.czt.z.ast.RenameExpr renameExpr)
   {
-    mRenameList = renameList;
+    renameExpr_ = renameExpr;
   }
 }

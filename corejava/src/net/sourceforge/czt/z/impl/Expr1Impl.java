@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.Expr1Visitor;
  * @author Gnast version 0.1
  */
 public abstract class Expr1Impl
-extends ExprImpl implements Expr1
+  extends ExprImpl   implements Expr1
 {
 
   /**
@@ -52,16 +53,20 @@ extends ExprImpl implements Expr1
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      Expr1Impl object = (Expr1Impl) obj;
-      if((mExpr == null && object.mExpr != null) ||
-         (mExpr != null &&
-         ! mExpr.equals(object.mExpr))) return false;
-      if(mExpr == null && object.mExpr != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        Expr1Impl object = (Expr1Impl) obj;
+        if (expr_ != null) {
+          if (!expr_.equals(object.expr_)) {
+            return false;
+          }
+        } else {
+          if (object.expr_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -75,10 +80,12 @@ extends ExprImpl implements Expr1
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "Expr1Impl".hashCode();
-    if(mExpr != null) {
-      hashCode += 31*mExpr.hashCode();
+    if (expr_ != null) {
+      hashCode += constant * expr_.hashCode();
     }
     return hashCode;
   }
@@ -88,8 +95,7 @@ extends ExprImpl implements Expr1
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof Expr1Visitor)
-    {
+    if (v instanceof Expr1Visitor) {
       Expr1Visitor visitor = (Expr1Visitor) v;
       return visitor.visitExpr1(this);
     }
@@ -97,15 +103,15 @@ extends ExprImpl implements Expr1
   }
 
 
-  private Expr mExpr;
+  private Expr expr_;
 
   public Expr getExpr()
   {
-    return mExpr;
+    return expr_;
   }
 
   public void setExpr(Expr expr)
   {
-    mExpr = expr;
+    expr_ = expr;
   }
 }

@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.ImpliesPredVisitor;
  * @author Gnast version 0.1
  */
 public class ImpliesPredImpl
-extends Pred2Impl implements ImpliesPred
+  extends Pred2Impl   implements ImpliesPred
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends Pred2Impl implements ImpliesPred
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected ImpliesPredImpl() { }
+  protected ImpliesPredImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this ImpliesPredImpl
@@ -60,11 +63,11 @@ extends Pred2Impl implements ImpliesPred
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      ImpliesPredImpl object = (ImpliesPredImpl) obj;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        ImpliesPredImpl object = (ImpliesPredImpl) obj;
+        return true;
+      }
     }
     return false;
   }
@@ -78,6 +81,8 @@ extends Pred2Impl implements ImpliesPred
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "ImpliesPredImpl".hashCode();
     return hashCode;
@@ -88,8 +93,7 @@ extends Pred2Impl implements ImpliesPred
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof ImpliesPredVisitor)
-    {
+    if (v instanceof ImpliesPredVisitor) {
       ImpliesPredVisitor visitor = (ImpliesPredVisitor) v;
       return visitor.visitImpliesPred(this);
     }
@@ -99,7 +103,8 @@ extends Pred2Impl implements ImpliesPred
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     ImpliesPred zedObject = null;
     try {
       Pred leftPred = (Pred) args[0];

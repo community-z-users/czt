@@ -42,5 +42,5 @@ public interface SubstList extends Term
    *
    * @return a list of Substitute elements.
    */
-  public java.util.List getSubstitute();
+  java.util.List getSubstitute();
 }

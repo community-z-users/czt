@@ -39,7 +39,7 @@ public interface MainOpExpr extends TermA
    *
    * @return the SchText element.
    */
-  public net.sourceforge.czt.z.ast.SchText getSchText();
+  net.sourceforge.czt.z.ast.SchText getSchText();
 
   /**
    * Sets the SchText element.
@@ -47,14 +47,14 @@ public interface MainOpExpr extends TermA
    * @param schText   the SchText element.
    * @see #getSchText
    */
-  public void setSchText(net.sourceforge.czt.z.ast.SchText schText);
+  void setSchText(net.sourceforge.czt.z.ast.SchText schText);
 
   /**
    * Returns the OperationExpr element.
    *
    * @return the OperationExpr element.
    */
-  public OperationExpr getOperationExpr();
+  OperationExpr getOperationExpr();
 
   /**
    * Sets the OperationExpr element.
@@ -62,5 +62,5 @@ public interface MainOpExpr extends TermA
    * @param operationExpr   the OperationExpr element.
    * @see #getOperationExpr
    */
-  public void setOperationExpr(OperationExpr operationExpr);
+  void setOperationExpr(OperationExpr operationExpr);
 }

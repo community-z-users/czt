@@ -39,7 +39,7 @@ public interface RefName extends Name
    *
    * @return the Decl element.
    */
-  public DeclName getDecl();
+  DeclName getDecl();
 
   /**
    * Sets the Decl element.
@@ -47,5 +47,5 @@ public interface RefName extends Name
    * @param decl   the Decl element.
    * @see #getDecl
    */
-  public void setDecl(DeclName decl);
+  void setDecl(DeclName decl);
 }

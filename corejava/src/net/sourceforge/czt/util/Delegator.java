@@ -21,19 +21,20 @@ package net.sourceforge.czt.util;
 
 import java.lang.reflect.*;
 import java.util.*;
-import java.util.logging.Logger;
 
 /**
  * A simple delegator.
  *
  * @author Petra Malik
  */
-public class Delegator
-  implements java.lang.reflect.InvocationHandler
+public final class Delegator
+  implements InvocationHandler
 {
-  private Map mMap = new HashMap();
+  private Map map_ = new HashMap();
 
   /**
+   * Creates a new delegator.
+   *
    * @see #newInstance
    */
   private Delegator(Class[] interfaces, Object[] impls)
@@ -42,24 +43,24 @@ public class Delegator
       throw new IllegalArgumentException();
     }
     for (int i = 0; i < interfaces.length; i++) {
-      if (! interfaces[i].isAssignableFrom(impls[i].getClass())) {
-	throw new IllegalArgumentException(impls[i].getClass().toString()
-					   + " is not an instance of "
-					   + interfaces[i].toString());
+      if (!interfaces[i].isAssignableFrom(impls[i].getClass())) {
+        throw new IllegalArgumentException(impls[i].getClass().toString()
+                                           + " is not an instance of "
+                                           + interfaces[i].toString());
       }
       Method[] methods = interfaces[i].getMethods();
       for (int j = 0; j < methods.length; j++) {
-	String methodName = methods[j].getName();
-	if (mMap.get(methodName) != null && mMap.get(methodName) != impls[i]) {
-	  String message = methodName
-	    + " is defined in more than one interface.";
-	  throw new IllegalArgumentException(message);
-	}
-	mMap.put(methodName, impls[i]);
+        String methodName = methods[j].getName();
+        if (map_.get(methodName) != null && map_.get(methodName) != impls[i]) {
+          String message = methodName
+            + " is defined in more than one interface.";
+          throw new IllegalArgumentException(message);
+        }
+        map_.put(methodName, impls[i]);
       }
     }
   }
-  
+
   /**
    * @throws NullPointerException if <code>interfaces</code> or
    *         <code>impls</code> is <code>null</code>.
@@ -71,17 +72,17 @@ public class Delegator
    *         <code>interfaces[i]</code>.
    */
   public static Object newInstance(Class[] interfaces,
-				   Object[] implementations)
+                                   Object[] implementations)
   {
     return Proxy.newProxyInstance(interfaces[0].getClassLoader(),
-				  interfaces,
-				  new Delegator(interfaces, implementations));
+                                  interfaces,
+                                  new Delegator(interfaces, implementations));
   }
-  
+
   public Object invoke(Object proxy, Method m, Object[] args)
     throws Throwable
   {
-    Object impl = mMap.get(m.getName());
+    Object impl = map_.get(m.getName());
     if (impl != null) {
       return m.invoke(impl, args);
     }

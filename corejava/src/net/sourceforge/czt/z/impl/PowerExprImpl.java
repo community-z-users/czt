@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.PowerExprVisitor;
  * @author Gnast version 0.1
  */
 public class PowerExprImpl
-extends Expr1Impl implements PowerExpr
+  extends Expr1Impl   implements PowerExpr
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends Expr1Impl implements PowerExpr
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected PowerExprImpl() { }
+  protected PowerExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this PowerExprImpl
@@ -60,11 +63,11 @@ extends Expr1Impl implements PowerExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      PowerExprImpl object = (PowerExprImpl) obj;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        PowerExprImpl object = (PowerExprImpl) obj;
+        return true;
+      }
     }
     return false;
   }
@@ -78,6 +81,8 @@ extends Expr1Impl implements PowerExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "PowerExprImpl".hashCode();
     return hashCode;
@@ -88,8 +93,7 @@ extends Expr1Impl implements PowerExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof PowerExprVisitor)
-    {
+    if (v instanceof PowerExprVisitor) {
       PowerExprVisitor visitor = (PowerExprVisitor) v;
       return visitor.visitPowerExpr(this);
     }
@@ -99,7 +103,8 @@ extends Expr1Impl implements PowerExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     PowerExpr zedObject = null;
     try {
       Expr expr = (Expr) args[0];

@@ -26,6 +26,9 @@ package net.sourceforge.czt.z.visitor;
 
 import net.sourceforge.czt.util.Visitor;
 
+/**
+ * A(n) NegPred visitor.
+ */
 public interface NegPredVisitor extends Visitor
 {
   /**

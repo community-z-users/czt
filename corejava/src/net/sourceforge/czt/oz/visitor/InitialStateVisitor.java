@@ -26,6 +26,9 @@ package net.sourceforge.czt.oz.visitor;
 
 import net.sourceforge.czt.util.Visitor;
 
+/**
+ * A(n) InitialState visitor.
+ */
 public interface InitialStateVisitor extends Visitor
 {
   /**

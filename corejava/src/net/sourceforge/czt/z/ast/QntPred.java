@@ -39,7 +39,7 @@ public interface QntPred extends Pred
    *
    * @return the SchText element.
    */
-  public SchText getSchText();
+  SchText getSchText();
 
   /**
    * Sets the SchText element.
@@ -47,14 +47,14 @@ public interface QntPred extends Pred
    * @param schText   the SchText element.
    * @see #getSchText
    */
-  public void setSchText(SchText schText);
+  void setSchText(SchText schText);
 
   /**
    * Returns the Pred element.
    *
    * @return the Pred element.
    */
-  public Pred getPred();
+  Pred getPred();
 
   /**
    * Sets the Pred element.
@@ -62,5 +62,5 @@ public interface QntPred extends Pred
    * @param pred   the Pred element.
    * @see #getPred
    */
-  public void setPred(Pred pred);
+  void setPred(Pred pred);
 }

@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.oz.ast.*;
@@ -43,7 +44,7 @@ import net.sourceforge.czt.oz.visitor.InitialStateVisitor;
  * @author Gnast version 0.1
  */
 public class InitialStateImpl
-extends TermAImpl implements InitialState
+  extends TermAImpl   implements InitialState
 {
   /**
    * The default constructor.
@@ -52,7 +53,9 @@ extends TermAImpl implements InitialState
    * If you want to create an instance of this class, please use the
    * {@link OzFactory object factory}.
    */
-  protected InitialStateImpl() { }
+  protected InitialStateImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this InitialStateImpl
@@ -62,16 +65,20 @@ extends TermAImpl implements InitialState
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      InitialStateImpl object = (InitialStateImpl) obj;
-      if((mPred == null && object.mPred != null) ||
-         (mPred != null &&
-         ! mPred.equals(object.mPred))) return false;
-      if(mPred == null && object.mPred != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        InitialStateImpl object = (InitialStateImpl) obj;
+        if (pred_ != null) {
+          if (!pred_.equals(object.pred_)) {
+            return false;
+          }
+        } else {
+          if (object.pred_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -85,10 +92,12 @@ extends TermAImpl implements InitialState
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "InitialStateImpl".hashCode();
-    if(mPred != null) {
-      hashCode += 31*mPred.hashCode();
+    if (pred_ != null) {
+      hashCode += constant * pred_.hashCode();
     }
     return hashCode;
   }
@@ -98,8 +107,7 @@ extends TermAImpl implements InitialState
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof InitialStateVisitor)
-    {
+    if (v instanceof InitialStateVisitor) {
       InitialStateVisitor visitor = (InitialStateVisitor) v;
       return visitor.visitInitialState(this);
     }
@@ -109,12 +117,13 @@ extends TermAImpl implements InitialState
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     InitialState zedObject = null;
     try {
       java.util.List pred = (java.util.List) args[0];
       zedObject = new InitialStateImpl();
-      if(pred != null) {
+      if (pred != null) {
         zedObject.getPred().addAll(pred);
       }
     } catch (IndexOutOfBoundsException e) {
@@ -131,10 +140,12 @@ extends TermAImpl implements InitialState
     return erg;
   }
 
-  private java.util.List mPred = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.Pred.class);
+
+  private java.util.List pred_ =
+    new TypesafeList(net.sourceforge.czt.z.ast.Pred.class);
 
   public java.util.List getPred()
   {
-    return mPred;
+    return pred_;
   }
 }

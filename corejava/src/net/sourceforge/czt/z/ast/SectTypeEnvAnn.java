@@ -42,5 +42,5 @@ public interface SectTypeEnvAnn extends Term
    *
    * @return a list of NameSectTypeTriple elements.
    */
-  public java.util.List getNameSectTypeTriple();
+  java.util.List getNameSectTypeTriple();
 }

@@ -39,7 +39,7 @@ public interface CondExpr extends Expr
    *
    * @return the Pred element.
    */
-  public Pred getPred();
+  Pred getPred();
 
   /**
    * Sets the Pred element.
@@ -47,14 +47,14 @@ public interface CondExpr extends Expr
    * @param pred   the Pred element.
    * @see #getPred
    */
-  public void setPred(Pred pred);
+  void setPred(Pred pred);
 
   /**
    * Returns the LeftExpr element.
    *
    * @return the LeftExpr element.
    */
-  public Expr getLeftExpr();
+  Expr getLeftExpr();
 
   /**
    * Sets the LeftExpr element.
@@ -62,14 +62,14 @@ public interface CondExpr extends Expr
    * @param leftExpr   the LeftExpr element.
    * @see #getLeftExpr
    */
-  public void setLeftExpr(Expr leftExpr);
+  void setLeftExpr(Expr leftExpr);
 
   /**
    * Returns the RightExpr element.
    *
    * @return the RightExpr element.
    */
-  public Expr getRightExpr();
+  Expr getRightExpr();
 
   /**
    * Sets the RightExpr element.
@@ -77,5 +77,5 @@ public interface CondExpr extends Expr
    * @param rightExpr   the RightExpr element.
    * @see #getRightExpr
    */
-  public void setRightExpr(Expr rightExpr);
+  void setRightExpr(Expr rightExpr);
 }

@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.NarrSectVisitor;
  * @author Gnast version 0.1
  */
 public class NarrSectImpl
-extends SectImpl implements NarrSect
+  extends SectImpl   implements NarrSect
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends SectImpl implements NarrSect
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected NarrSectImpl() { }
+  protected NarrSectImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this NarrSectImpl
@@ -60,16 +63,20 @@ extends SectImpl implements NarrSect
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      NarrSectImpl object = (NarrSectImpl) obj;
-      if((mContent == null && object.mContent != null) ||
-         (mContent != null &&
-         ! mContent.equals(object.mContent))) return false;
-      if(mContent == null && object.mContent != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        NarrSectImpl object = (NarrSectImpl) obj;
+        if (content_ != null) {
+          if (!content_.equals(object.content_)) {
+            return false;
+          }
+        } else {
+          if (object.content_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -83,10 +90,12 @@ extends SectImpl implements NarrSect
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "NarrSectImpl".hashCode();
-    if(mContent != null) {
-      hashCode += 31*mContent.hashCode();
+    if (content_ != null) {
+      hashCode += constant * content_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +105,7 @@ extends SectImpl implements NarrSect
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof NarrSectVisitor)
-    {
+    if (v instanceof NarrSectVisitor) {
       NarrSectVisitor visitor = (NarrSectVisitor) v;
       return visitor.visitNarrSect(this);
     }
@@ -107,12 +115,13 @@ extends SectImpl implements NarrSect
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     NarrSect zedObject = null;
     try {
       java.util.List content = (java.util.List) args[0];
       zedObject = new NarrSectImpl();
-      if(content != null) {
+      if (content != null) {
         zedObject.getContent().addAll(content);
       }
     } catch (IndexOutOfBoundsException e) {
@@ -129,10 +138,12 @@ extends SectImpl implements NarrSect
     return erg;
   }
 
-  private java.util.List mContent = new net.sourceforge.czt.util.TypesafeList(java.lang.Object.class);
+
+  private java.util.List content_ =
+    new TypesafeList(java.lang.Object.class);
 
   public java.util.List getContent()
   {
-    return mContent;
+    return content_;
   }
 }

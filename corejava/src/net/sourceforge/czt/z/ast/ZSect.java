@@ -39,7 +39,7 @@ public interface ZSect extends Sect
    *
    * @return the Name element.
    */
-  public String getName();
+  String getName();
 
   /**
    * Sets the Name element.
@@ -47,7 +47,7 @@ public interface ZSect extends Sect
    * @param name   the Name element.
    * @see #getName
    */
-  public void setName(String name);
+  void setName(String name);
 
   /**
    * <p>Returns the Parent elements.</p>
@@ -57,7 +57,7 @@ public interface ZSect extends Sect
    *
    * @return a list of Parent elements.
    */
-  public java.util.List getParent();
+  java.util.List getParent();
 
   /**
    * <p>Returns the Para elements.</p>
@@ -67,5 +67,5 @@ public interface ZSect extends Sect
    *
    * @return a list of Para elements.
    */
-  public java.util.List getPara();
+  java.util.List getPara();
 }

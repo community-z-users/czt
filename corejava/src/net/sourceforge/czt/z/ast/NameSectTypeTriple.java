@@ -39,7 +39,7 @@ public interface NameSectTypeTriple extends Term
    *
    * @return the Name element.
    */
-  public DeclName getName();
+  DeclName getName();
 
   /**
    * Sets the Name element.
@@ -47,14 +47,14 @@ public interface NameSectTypeTriple extends Term
    * @param name   the Name element.
    * @see #getName
    */
-  public void setName(DeclName name);
+  void setName(DeclName name);
 
   /**
    * Returns the Sect element.
    *
    * @return the Sect element.
    */
-  public String getSect();
+  String getSect();
 
   /**
    * Sets the Sect element.
@@ -62,14 +62,14 @@ public interface NameSectTypeTriple extends Term
    * @param sect   the Sect element.
    * @see #getSect
    */
-  public void setSect(String sect);
+  void setSect(String sect);
 
   /**
    * Returns the Type element.
    *
    * @return the Type element.
    */
-  public Type getType();
+  Type getType();
 
   /**
    * Sets the Type element.
@@ -77,5 +77,5 @@ public interface NameSectTypeTriple extends Term
    * @param type   the Type element.
    * @see #getType
    */
-  public void setType(Type type);
+  void setType(Type type);
 }

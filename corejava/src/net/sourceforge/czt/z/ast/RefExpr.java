@@ -39,7 +39,7 @@ public interface RefExpr extends Expr
    *
    * @return the RefName element.
    */
-  public RefName getRefName();
+  RefName getRefName();
 
   /**
    * Sets the RefName element.
@@ -47,7 +47,7 @@ public interface RefExpr extends Expr
    * @param refName   the RefName element.
    * @see #getRefName
    */
-  public void setRefName(RefName refName);
+  void setRefName(RefName refName);
 
   /**
    * <p>Returns the Expr elements.</p>
@@ -57,14 +57,14 @@ public interface RefExpr extends Expr
    *
    * @return a list of Expr elements.
    */
-  public java.util.List getExpr();
+  java.util.List getExpr();
 
   /**
    * Returns the Mixfix element.
    *
    * @return the Mixfix element.
    */
-  public Boolean getMixfix();
+  Boolean getMixfix();
 
   /**
    * Sets the Mixfix element.
@@ -72,5 +72,5 @@ public interface RefExpr extends Expr
    * @param mixfix   the Mixfix element.
    * @see #getMixfix
    */
-  public void setMixfix(Boolean mixfix);
+  void setMixfix(Boolean mixfix);
 }

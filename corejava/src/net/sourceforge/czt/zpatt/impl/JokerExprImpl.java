@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.zpatt.ast.*;
@@ -43,7 +44,7 @@ import net.sourceforge.czt.zpatt.visitor.JokerExprVisitor;
  * @author Gnast version 0.1
  */
 public class JokerExprImpl
-extends ExprImpl implements JokerExpr
+  extends ExprImpl   implements JokerExpr
 {
   /**
    * The default constructor.
@@ -52,7 +53,9 @@ extends ExprImpl implements JokerExpr
    * If you want to create an instance of this class, please use the
    * {@link ZpattFactory object factory}.
    */
-  protected JokerExprImpl() { }
+  protected JokerExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this JokerExprImpl
@@ -62,16 +65,20 @@ extends ExprImpl implements JokerExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      JokerExprImpl object = (JokerExprImpl) obj;
-      if((mName == null && object.mName != null) ||
-         (mName != null &&
-         ! mName.equals(object.mName))) return false;
-      if(mName == null && object.mName != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        JokerExprImpl object = (JokerExprImpl) obj;
+        if (name_ != null) {
+          if (!name_.equals(object.name_)) {
+            return false;
+          }
+        } else {
+          if (object.name_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -85,10 +92,12 @@ extends ExprImpl implements JokerExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "JokerExprImpl".hashCode();
-    if(mName != null) {
-      hashCode += 31*mName.hashCode();
+    if (name_ != null) {
+      hashCode += constant * name_.hashCode();
     }
     return hashCode;
   }
@@ -98,8 +107,7 @@ extends ExprImpl implements JokerExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof JokerExprVisitor)
-    {
+    if (v instanceof JokerExprVisitor) {
       JokerExprVisitor visitor = (JokerExprVisitor) v;
       return visitor.visitJokerExpr(this);
     }
@@ -109,7 +117,8 @@ extends ExprImpl implements JokerExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     JokerExpr zedObject = null;
     try {
       String name = (String) args[0];
@@ -129,15 +138,15 @@ extends ExprImpl implements JokerExpr
     return erg;
   }
 
-  private String mName;
+  private String name_;
 
   public String getName()
   {
-    return mName;
+    return name_;
   }
 
   public void setName(String name)
   {
-    mName = name;
+    name_ = name;
   }
 }

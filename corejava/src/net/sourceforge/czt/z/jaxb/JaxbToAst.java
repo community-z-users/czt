@@ -56,13 +56,14 @@ public class JaxbToAst extends ReflectiveVisitor
     return Logger.getLogger("net.sourceforge.czt.z.jaxb.JaxbToAst");
   }
 
-  public Object visitObject(Object object) {
+  public Object visitObject(Object object)
+  {
     getLogger().fine("Visit " + object.getClass().toString());
-    if (object instanceof String ||
-        object instanceof Boolean ||
-        object instanceof List ||
-        object instanceof Integer ||
-        object instanceof java.math.BigInteger) {
+    if (object instanceof String
+        || object instanceof Boolean
+        || object instanceof List
+        || object instanceof Integer
+        || object instanceof java.math.BigInteger) {
       return object;
     }
     throw new UnsupportedOperationException("Unexpected element "
@@ -75,19 +76,19 @@ public class JaxbToAst extends ReflectiveVisitor
     DeclName declName =
       (DeclName) dispatch(jaxbObject.getDeclName());
     java.util.List branch = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getBranch().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getBranch().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       branch.add(o);
     }
     Freetype erg = mZFactory_.createFreetype(declName, branch);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitFreetype", erg);
@@ -102,13 +103,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Expr expr =
       (Expr) dispatch(jaxbObject.getExpr());
     Exists1Expr erg = mZFactory_.createExists1Expr(schText, expr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitExists1Expr", erg);
@@ -145,13 +146,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Boolean mixfix =
       (Boolean) dispatch(jaxbObject.getMixfix());
     ApplExpr erg = mZFactory_.createApplExpr(leftExpr, rightExpr, mixfix);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitApplExpr", erg);
@@ -166,13 +167,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Expr expr =
       (Expr) dispatch(jaxbObject.getExpr());
     LetExpr erg = mZFactory_.createLetExpr(schText, expr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitLetExpr", erg);
@@ -183,7 +184,7 @@ public class JaxbToAst extends ReflectiveVisitor
   {
     getLogger().entering("JaxbToAst", "visitSignature", jaxbObject);
     java.util.List nameTypePair = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getNameTypePair().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getNameTypePair().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       nameTypePair.add(o);
@@ -201,13 +202,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Expr expr =
       (Expr) dispatch(jaxbObject.getExpr());
     ConstDecl erg = mZFactory_.createConstDecl(declName, expr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitConstDecl", erg);
@@ -236,7 +237,7 @@ public class JaxbToAst extends ReflectiveVisitor
     String word =
       (String) dispatch(jaxbObject.getWord());
     java.util.List stroke = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getStroke().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getStroke().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       stroke.add(o);
@@ -244,13 +245,13 @@ public class JaxbToAst extends ReflectiveVisitor
     DeclName decl =
       (DeclName) dispatch(jaxbObject.getDecl());
     RefName erg = mZFactory_.createRefName(word, stroke, decl);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitRefName", erg);
@@ -267,13 +268,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Boolean mixfix =
       (Boolean) dispatch(jaxbObject.getMixfix());
     MemPred erg = mZFactory_.createMemPred(leftExpr, rightExpr, mixfix);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitMemPred", erg);
@@ -284,19 +285,19 @@ public class JaxbToAst extends ReflectiveVisitor
   {
     getLogger().entering("JaxbToAst", "visitProdType", jaxbObject);
     java.util.List type = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getType().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getType().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       type.add(o);
     }
     ProdType erg = mZFactory_.createProdType(type);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitProdType", erg);
@@ -311,13 +312,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Expr rightExpr =
       (Expr) dispatch(jaxbObject.getRightExpr());
     ImpliesExpr erg = mZFactory_.createImpliesExpr(leftExpr, rightExpr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitImpliesExpr", erg);
@@ -332,13 +333,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Expr expr =
       (Expr) dispatch(jaxbObject.getExpr());
     MuExpr erg = mZFactory_.createMuExpr(schText, expr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitMuExpr", erg);
@@ -353,13 +354,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Pred rightPred =
       (Pred) dispatch(jaxbObject.getRightPred());
     OrPred erg = mZFactory_.createOrPred(leftPred, rightPred);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitOrPred", erg);
@@ -374,13 +375,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Expr expr =
       (Expr) dispatch(jaxbObject.getExpr());
     ExistsExpr erg = mZFactory_.createExistsExpr(schText, expr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitExistsExpr", erg);
@@ -391,7 +392,7 @@ public class JaxbToAst extends ReflectiveVisitor
   {
     getLogger().entering("JaxbToAst", "visitVarDecl", jaxbObject);
     java.util.List declName = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getDeclName().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getDeclName().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       declName.add(o);
@@ -399,13 +400,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Expr expr =
       (Expr) dispatch(jaxbObject.getExpr());
     VarDecl erg = mZFactory_.createVarDecl(declName, expr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitVarDecl", erg);
@@ -416,22 +417,22 @@ public class JaxbToAst extends ReflectiveVisitor
   {
     getLogger().entering("JaxbToAst", "visitNarrSect", jaxbObject);
     java.util.List content = new java.util.Vector();
-    if(jaxbObject.getContent() != null &&
-       jaxbObject.getContent().getContent() != null) {
-      for(Iterator iter=jaxbObject.getContent().getContent().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	content.add(o);
+    if (jaxbObject.getContent() != null
+        && jaxbObject.getContent().getContent() != null) {
+      for (Iterator iter = jaxbObject.getContent().getContent().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        content.add(o);
       }
     }
     NarrSect erg = mZFactory_.createNarrSect(content);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitNarrSect", erg);
@@ -442,19 +443,19 @@ public class JaxbToAst extends ReflectiveVisitor
   {
     getLogger().entering("JaxbToAst", "visitFreePara", jaxbObject);
     java.util.List freetype = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getFreetype().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getFreetype().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       freetype.add(o);
     }
     FreePara erg = mZFactory_.createFreePara(freetype);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitFreePara", erg);
@@ -469,13 +470,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Expr rightExpr =
       (Expr) dispatch(jaxbObject.getRightExpr());
     CompExpr erg = mZFactory_.createCompExpr(leftExpr, rightExpr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitCompExpr", erg);
@@ -486,19 +487,19 @@ public class JaxbToAst extends ReflectiveVisitor
   {
     getLogger().entering("JaxbToAst", "visitBindExpr", jaxbObject);
     java.util.List nameExprPair = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getNameExprPair().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getNameExprPair().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       nameExprPair.add(o);
     }
     BindExpr erg = mZFactory_.createBindExpr(nameExprPair);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitBindExpr", erg);
@@ -515,13 +516,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Expr rightExpr =
       (Expr) dispatch(jaxbObject.getRightExpr());
     CondExpr erg = mZFactory_.createCondExpr(pred, leftExpr, rightExpr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitCondExpr", erg);
@@ -536,13 +537,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Expr expr =
       (Expr) dispatch(jaxbObject.getExpr());
     ForallExpr erg = mZFactory_.createForallExpr(schText, expr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitForallExpr", erg);
@@ -553,22 +554,22 @@ public class JaxbToAst extends ReflectiveVisitor
   {
     getLogger().entering("JaxbToAst", "visitNarrPara", jaxbObject);
     java.util.List content = new java.util.Vector();
-    if(jaxbObject.getContent() != null &&
-       jaxbObject.getContent().getContent() != null) {
-      for(Iterator iter=jaxbObject.getContent().getContent().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	content.add(o);
+    if (jaxbObject.getContent() != null
+        && jaxbObject.getContent().getContent() != null) {
+      for (Iterator iter = jaxbObject.getContent().getContent().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        content.add(o);
       }
     }
     NarrPara erg = mZFactory_.createNarrPara(content);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitNarrPara", erg);
@@ -579,13 +580,13 @@ public class JaxbToAst extends ReflectiveVisitor
   {
     getLogger().entering("JaxbToAst", "visitTruePred", jaxbObject);
     TruePred erg = mZFactory_.createTruePred();
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitTruePred", erg);
@@ -598,13 +599,13 @@ public class JaxbToAst extends ReflectiveVisitor
     java.math.BigInteger value =
       (java.math.BigInteger) dispatch(jaxbObject.getValue());
     NumExpr erg = mZFactory_.createNumExpr(value);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitNumExpr", erg);
@@ -631,13 +632,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Integer select =
       (Integer) dispatch(jaxbObject.getSelect());
     TupleSelExpr erg = mZFactory_.createTupleSelExpr(expr, select);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitTupleSelExpr", erg);
@@ -652,13 +653,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Expr expr =
       (Expr) dispatch(jaxbObject.getExpr());
     LambdaExpr erg = mZFactory_.createLambdaExpr(schText, expr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitLambdaExpr", erg);
@@ -673,13 +674,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Expr rightExpr =
       (Expr) dispatch(jaxbObject.getRightExpr());
     IffExpr erg = mZFactory_.createIffExpr(leftExpr, rightExpr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitIffExpr", erg);
@@ -694,13 +695,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Pred rightPred =
       (Pred) dispatch(jaxbObject.getRightPred());
     IffPred erg = mZFactory_.createIffPred(leftPred, rightPred);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitIffPred", erg);
@@ -711,13 +712,13 @@ public class JaxbToAst extends ReflectiveVisitor
   {
     getLogger().entering("JaxbToAst", "visitFalsePred", jaxbObject);
     FalsePred erg = mZFactory_.createFalsePred();
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitFalsePred", erg);
@@ -728,7 +729,7 @@ public class JaxbToAst extends ReflectiveVisitor
   {
     getLogger().entering("JaxbToAst", "visitTypeEnvAnn", jaxbObject);
     java.util.List nameTypePair = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getNameTypePair().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getNameTypePair().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       nameTypePair.add(o);
@@ -742,22 +743,22 @@ public class JaxbToAst extends ReflectiveVisitor
   {
     getLogger().entering("JaxbToAst", "visitUnparsedZSect", jaxbObject);
     java.util.List content = new java.util.Vector();
-    if(jaxbObject.getContent() != null &&
-       jaxbObject.getContent().getContent() != null) {
-      for(Iterator iter=jaxbObject.getContent().getContent().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	content.add(o);
+    if (jaxbObject.getContent() != null
+        && jaxbObject.getContent().getContent() != null) {
+      for (Iterator iter = jaxbObject.getContent().getContent().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        content.add(o);
       }
     }
     UnparsedZSect erg = mZFactory_.createUnparsedZSect(content);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitUnparsedZSect", erg);
@@ -768,22 +769,22 @@ public class JaxbToAst extends ReflectiveVisitor
   {
     getLogger().entering("JaxbToAst", "visitUnparsedPara", jaxbObject);
     java.util.List content = new java.util.Vector();
-    if(jaxbObject.getContent() != null &&
-       jaxbObject.getContent().getContent() != null) {
-      for(Iterator iter=jaxbObject.getContent().getContent().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	content.add(o);
+    if (jaxbObject.getContent() != null
+        && jaxbObject.getContent().getContent() != null) {
+      for (Iterator iter = jaxbObject.getContent().getContent().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        content.add(o);
       }
     }
     UnparsedPara erg = mZFactory_.createUnparsedPara(content);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitUnparsedPara", erg);
@@ -798,13 +799,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Pred rightPred =
       (Pred) dispatch(jaxbObject.getRightPred());
     ImpliesPred erg = mZFactory_.createImpliesPred(leftPred, rightPred);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitImpliesPred", erg);
@@ -827,7 +828,7 @@ public class JaxbToAst extends ReflectiveVisitor
   {
     getLogger().entering("JaxbToAst", "visitSchText", jaxbObject);
     java.util.List decl = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getDecl().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getDecl().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       decl.add(o);
@@ -835,13 +836,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Pred pred =
       (Pred) dispatch(jaxbObject.getPred());
     SchText erg = mZFactory_.createSchText(decl, pred);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitSchText", erg);
@@ -866,13 +867,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Expr rightExpr =
       (Expr) dispatch(jaxbObject.getRightExpr());
     ProjExpr erg = mZFactory_.createProjExpr(leftExpr, rightExpr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitProjExpr", erg);
@@ -887,13 +888,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Expr expr =
       (Expr) dispatch(jaxbObject.getExpr());
     Branch erg = mZFactory_.createBranch(declName, expr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitBranch", erg);
@@ -916,13 +917,13 @@ public class JaxbToAst extends ReflectiveVisitor
     DeclName name =
       (DeclName) dispatch(jaxbObject.getName());
     GenType erg = mZFactory_.createGenType(name);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitGenType", erg);
@@ -933,7 +934,7 @@ public class JaxbToAst extends ReflectiveVisitor
   {
     getLogger().entering("JaxbToAst", "visitOptempPara", jaxbObject);
     java.util.List wordOrOperand = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getWordOrOperand().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getWordOrOperand().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       wordOrOperand.add(o);
@@ -943,13 +944,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Integer prec =
       (Integer) dispatch(jaxbObject.getPrec());
     OptempPara erg = mZFactory_.createOptempPara(wordOrOperand, cat, assoc, prec);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitOptempPara", erg);
@@ -964,13 +965,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Pred pred =
       (Pred) dispatch(jaxbObject.getPred());
     ExistsPred erg = mZFactory_.createExistsPred(schText, pred);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitExistsPred", erg);
@@ -997,13 +998,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Pred pred =
       (Pred) dispatch(jaxbObject.getPred());
     NegPred erg = mZFactory_.createNegPred(pred);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitNegPred", erg);
@@ -1016,13 +1017,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Expr expr =
       (Expr) dispatch(jaxbObject.getExpr());
     PreExpr erg = mZFactory_.createPreExpr(expr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitPreExpr", erg);
@@ -1033,7 +1034,7 @@ public class JaxbToAst extends ReflectiveVisitor
   {
     getLogger().entering("JaxbToAst", "visitSectTypeEnvAnn", jaxbObject);
     java.util.List nameSectTypeTriple = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getNameSectTypeTriple().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getNameSectTypeTriple().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       nameSectTypeTriple.add(o);
@@ -1049,13 +1050,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Expr expr =
       (Expr) dispatch(jaxbObject.getExpr());
     ExprPred erg = mZFactory_.createExprPred(expr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitExprPred", erg);
@@ -1068,13 +1069,13 @@ public class JaxbToAst extends ReflectiveVisitor
     DeclName name =
       (DeclName) dispatch(jaxbObject.getName());
     GivenType erg = mZFactory_.createGivenType(name);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitGivenType", erg);
@@ -1087,13 +1088,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Expr expr =
       (Expr) dispatch(jaxbObject.getExpr());
     InclDecl erg = mZFactory_.createInclDecl(expr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitInclDecl", erg);
@@ -1106,13 +1107,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Signature signature =
       (Signature) dispatch(jaxbObject.getSignature());
     SchemaType erg = mZFactory_.createSchemaType(signature);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitSchemaType", erg);
@@ -1127,13 +1128,13 @@ public class JaxbToAst extends ReflectiveVisitor
     RefName name =
       (RefName) dispatch(jaxbObject.getName());
     BindSelExpr erg = mZFactory_.createBindSelExpr(expr, name);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitBindSelExpr", erg);
@@ -1146,7 +1147,7 @@ public class JaxbToAst extends ReflectiveVisitor
     String word =
       (String) dispatch(jaxbObject.getWord());
     java.util.List stroke = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getStroke().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getStroke().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       stroke.add(o);
@@ -1154,13 +1155,13 @@ public class JaxbToAst extends ReflectiveVisitor
     String id =
       (String) dispatch(jaxbObject.getId());
     DeclName erg = mZFactory_.createDeclName(word, stroke, id);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitDeclName", erg);
@@ -1175,13 +1176,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Pred pred =
       (Pred) dispatch(jaxbObject.getPred());
     ForallPred erg = mZFactory_.createForallPred(schText, pred);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitForallPred", erg);
@@ -1196,13 +1197,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Expr rightExpr =
       (Expr) dispatch(jaxbObject.getRightExpr());
     OrExpr erg = mZFactory_.createOrExpr(leftExpr, rightExpr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitOrExpr", erg);
@@ -1213,7 +1214,7 @@ public class JaxbToAst extends ReflectiveVisitor
   {
     getLogger().entering("JaxbToAst", "visitSpec", jaxbObject);
     java.util.List sect = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getSect().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getSect().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       sect.add(o);
@@ -1227,13 +1228,13 @@ public class JaxbToAst extends ReflectiveVisitor
     String source =
       (String) dispatch(jaxbObject.getSource());
     Spec erg = mZFactory_.createSpec(sect, version, author, modified, source);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitSpec", erg);
@@ -1260,13 +1261,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Expr expr =
       (Expr) dispatch(jaxbObject.getExpr());
     PowerExpr erg = mZFactory_.createPowerExpr(expr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitPowerExpr", erg);
@@ -1279,19 +1280,19 @@ public class JaxbToAst extends ReflectiveVisitor
     Expr expr =
       (Expr) dispatch(jaxbObject.getExpr());
     java.util.List name = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getName().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getName().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       name.add(o);
     }
     HideExpr erg = mZFactory_.createHideExpr(expr, name);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitHideExpr", erg);
@@ -1302,19 +1303,19 @@ public class JaxbToAst extends ReflectiveVisitor
   {
     getLogger().entering("JaxbToAst", "visitGivenPara", jaxbObject);
     java.util.List declName = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getDeclName().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getDeclName().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       declName.add(o);
     }
     GivenPara erg = mZFactory_.createGivenPara(declName);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitGivenPara", erg);
@@ -1327,13 +1328,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Type type =
       (Type) dispatch(jaxbObject.getType());
     PowerType erg = mZFactory_.createPowerType(type);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitPowerType", erg);
@@ -1348,13 +1349,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Expr rightExpr =
       (Expr) dispatch(jaxbObject.getRightExpr());
     AndExpr erg = mZFactory_.createAndExpr(leftExpr, rightExpr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitAndExpr", erg);
@@ -1367,19 +1368,19 @@ public class JaxbToAst extends ReflectiveVisitor
     Expr expr =
       (Expr) dispatch(jaxbObject.getExpr());
     java.util.List nameNamePair = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getNameNamePair().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getNameNamePair().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       nameNamePair.add(o);
     }
     RenameExpr erg = mZFactory_.createRenameExpr(expr, nameNamePair);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitRenameExpr", erg);
@@ -1395,13 +1396,13 @@ public class JaxbToAst extends ReflectiveVisitor
       (Pred) dispatch(jaxbObject.getRightPred());
     Op op = Op.fromString(jaxbObject.getOp());
     AndPred erg = mZFactory_.createAndPred(leftPred, rightPred, op);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitAndPred", erg);
@@ -1412,7 +1413,7 @@ public class JaxbToAst extends ReflectiveVisitor
   {
     getLogger().entering("JaxbToAst", "visitConjPara", jaxbObject);
     java.util.List declName = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getDeclName().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getDeclName().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       declName.add(o);
@@ -1420,13 +1421,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Pred pred =
       (Pred) dispatch(jaxbObject.getPred());
     ConjPara erg = mZFactory_.createConjPara(declName, pred);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitConjPara", erg);
@@ -1449,25 +1450,25 @@ public class JaxbToAst extends ReflectiveVisitor
     String name =
       (String) dispatch(jaxbObject.getName());
     java.util.List parent = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getParent().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getParent().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       parent.add(o);
     }
     java.util.List para = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getPara().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getPara().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       para.add(o);
     }
     ZSect erg = mZFactory_.createZSect(name, parent, para);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitZSect", erg);
@@ -1480,19 +1481,19 @@ public class JaxbToAst extends ReflectiveVisitor
     Expr expr =
       (Expr) dispatch(jaxbObject.getExpr());
     java.util.List stroke = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getStroke().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getStroke().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       stroke.add(o);
     }
     ThetaExpr erg = mZFactory_.createThetaExpr(expr, stroke);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitThetaExpr", erg);
@@ -1503,19 +1504,19 @@ public class JaxbToAst extends ReflectiveVisitor
   {
     getLogger().entering("JaxbToAst", "visitSetExpr", jaxbObject);
     java.util.List expr = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getExpr().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getExpr().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       expr.add(o);
     }
     SetExpr erg = mZFactory_.createSetExpr(expr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitSetExpr", erg);
@@ -1530,13 +1531,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Expr expr =
       (Expr) dispatch(jaxbObject.getExpr());
     SetCompExpr erg = mZFactory_.createSetCompExpr(schText, expr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitSetCompExpr", erg);
@@ -1551,13 +1552,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Expr rightExpr =
       (Expr) dispatch(jaxbObject.getRightExpr());
     PipeExpr erg = mZFactory_.createPipeExpr(leftExpr, rightExpr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitPipeExpr", erg);
@@ -1570,7 +1571,7 @@ public class JaxbToAst extends ReflectiveVisitor
     RefName refName =
       (RefName) dispatch(jaxbObject.getRefName());
     java.util.List expr = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getExpr().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getExpr().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       expr.add(o);
@@ -1578,13 +1579,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Boolean mixfix =
       (Boolean) dispatch(jaxbObject.getMixfix());
     RefExpr erg = mZFactory_.createRefExpr(refName, expr, mixfix);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitRefExpr", erg);
@@ -1597,13 +1598,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Expr expr =
       (Expr) dispatch(jaxbObject.getExpr());
     NegExpr erg = mZFactory_.createNegExpr(expr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitNegExpr", erg);
@@ -1614,19 +1615,19 @@ public class JaxbToAst extends ReflectiveVisitor
   {
     getLogger().entering("JaxbToAst", "visitProdExpr", jaxbObject);
     java.util.List expr = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getExpr().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getExpr().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       expr.add(o);
     }
     ProdExpr erg = mZFactory_.createProdExpr(expr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitProdExpr", erg);
@@ -1641,13 +1642,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Stroke stroke =
       (Stroke) dispatch(jaxbObject.getStroke());
     DecorExpr erg = mZFactory_.createDecorExpr(expr, stroke);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitDecorExpr", erg);
@@ -1668,13 +1669,13 @@ public class JaxbToAst extends ReflectiveVisitor
     String word =
       (String) dispatch(jaxbObject.getWord());
     Parent erg = mZFactory_.createParent(word);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitParent", erg);
@@ -1689,13 +1690,13 @@ public class JaxbToAst extends ReflectiveVisitor
     Pred pred =
       (Pred) dispatch(jaxbObject.getPred());
     Exists1Pred erg = mZFactory_.createExists1Pred(schText, pred);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitExists1Pred", erg);
@@ -1706,7 +1707,7 @@ public class JaxbToAst extends ReflectiveVisitor
   {
     getLogger().entering("JaxbToAst", "visitAxPara", jaxbObject);
     java.util.List declName = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getDeclName().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getDeclName().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       declName.add(o);
@@ -1715,13 +1716,13 @@ public class JaxbToAst extends ReflectiveVisitor
       (SchText) dispatch(jaxbObject.getSchText());
     Box box = Box.fromString(jaxbObject.getBox());
     AxPara erg = mZFactory_.createAxPara(declName, schText, box);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitAxPara", erg);
@@ -1734,13 +1735,13 @@ public class JaxbToAst extends ReflectiveVisitor
     SchText schText =
       (SchText) dispatch(jaxbObject.getSchText());
     SchExpr erg = mZFactory_.createSchExpr(schText);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitSchExpr", erg);
@@ -1751,19 +1752,19 @@ public class JaxbToAst extends ReflectiveVisitor
   {
     getLogger().entering("JaxbToAst", "visitTupleExpr", jaxbObject);
     java.util.List expr = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getExpr().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.getExpr().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       expr.add(o);
     }
     TupleExpr erg = mZFactory_.createTupleExpr(expr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
     getLogger().exiting("JaxbToAst", "visitTupleExpr", erg);

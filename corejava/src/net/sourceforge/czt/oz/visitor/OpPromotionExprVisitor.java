@@ -26,6 +26,9 @@ package net.sourceforge.czt.oz.visitor;
 
 import net.sourceforge.czt.util.Visitor;
 
+/**
+ * A(n) OpPromotionExpr visitor.
+ */
 public interface OpPromotionExprVisitor extends Visitor
 {
   /**

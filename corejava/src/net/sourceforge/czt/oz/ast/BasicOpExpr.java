@@ -39,7 +39,7 @@ public interface BasicOpExpr extends OperationExpr
    *
    * @return the DeltaList element.
    */
-  public RefNameList getDeltaList();
+  RefNameList getDeltaList();
 
   /**
    * Sets the DeltaList element.
@@ -47,14 +47,14 @@ public interface BasicOpExpr extends OperationExpr
    * @param deltaList   the DeltaList element.
    * @see #getDeltaList
    */
-  public void setDeltaList(RefNameList deltaList);
+  void setDeltaList(RefNameList deltaList);
 
   /**
    * Returns the SchText element.
    *
    * @return the SchText element.
    */
-  public net.sourceforge.czt.z.ast.SchText getSchText();
+  net.sourceforge.czt.z.ast.SchText getSchText();
 
   /**
    * Sets the SchText element.
@@ -62,5 +62,5 @@ public interface BasicOpExpr extends OperationExpr
    * @param schText   the SchText element.
    * @see #getSchText
    */
-  public void setSchText(net.sourceforge.czt.z.ast.SchText schText);
+  void setSchText(net.sourceforge.czt.z.ast.SchText schText);
 }

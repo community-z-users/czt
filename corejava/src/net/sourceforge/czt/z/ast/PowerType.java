@@ -39,7 +39,7 @@ public interface PowerType extends Type
    *
    * @return the Type element.
    */
-  public Type getType();
+  Type getType();
 
   /**
    * Sets the Type element.
@@ -47,5 +47,5 @@ public interface PowerType extends Type
    * @param type   the Type element.
    * @see #getType
    */
-  public void setType(Type type);
+  void setType(Type type);
 }

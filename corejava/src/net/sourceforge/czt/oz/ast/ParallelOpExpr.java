@@ -39,7 +39,7 @@ public interface ParallelOpExpr extends OperationExpr
    *
    * @return the LeftOperationExpr element.
    */
-  public OperationExpr getLeftOperationExpr();
+  OperationExpr getLeftOperationExpr();
 
   /**
    * Sets the LeftOperationExpr element.
@@ -47,14 +47,14 @@ public interface ParallelOpExpr extends OperationExpr
    * @param leftOperationExpr   the LeftOperationExpr element.
    * @see #getLeftOperationExpr
    */
-  public void setLeftOperationExpr(OperationExpr leftOperationExpr);
+  void setLeftOperationExpr(OperationExpr leftOperationExpr);
 
   /**
    * Returns the RightOperationExpr element.
    *
    * @return the RightOperationExpr element.
    */
-  public OperationExpr getRightOperationExpr();
+  OperationExpr getRightOperationExpr();
 
   /**
    * Sets the RightOperationExpr element.
@@ -62,5 +62,5 @@ public interface ParallelOpExpr extends OperationExpr
    * @param rightOperationExpr   the RightOperationExpr element.
    * @see #getRightOperationExpr
    */
-  public void setRightOperationExpr(OperationExpr rightOperationExpr);
+  void setRightOperationExpr(OperationExpr rightOperationExpr);
 }

@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.ZSectVisitor;
  * @author Gnast version 0.1
  */
 public class ZSectImpl
-extends SectImpl implements ZSect
+  extends SectImpl   implements ZSect
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends SectImpl implements ZSect
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected ZSectImpl() { }
+  protected ZSectImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this ZSectImpl
@@ -60,26 +63,38 @@ extends SectImpl implements ZSect
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      ZSectImpl object = (ZSectImpl) obj;
-      if((mName == null && object.mName != null) ||
-         (mName != null &&
-         ! mName.equals(object.mName))) return false;
-      if(mName == null && object.mName != null)
-        return false;
-      if((mParent == null && object.mParent != null) ||
-         (mParent != null &&
-         ! mParent.equals(object.mParent))) return false;
-      if(mParent == null && object.mParent != null)
-        return false;
-      if((mPara == null && object.mPara != null) ||
-         (mPara != null &&
-         ! mPara.equals(object.mPara))) return false;
-      if(mPara == null && object.mPara != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        ZSectImpl object = (ZSectImpl) obj;
+        if (name_ != null) {
+          if (!name_.equals(object.name_)) {
+            return false;
+          }
+        } else {
+          if (object.name_ != null) {
+            return false;
+          }
+        }
+        if (parent_ != null) {
+          if (!parent_.equals(object.parent_)) {
+            return false;
+          }
+        } else {
+          if (object.parent_ != null) {
+            return false;
+          }
+        }
+        if (para_ != null) {
+          if (!para_.equals(object.para_)) {
+            return false;
+          }
+        } else {
+          if (object.para_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -93,16 +108,18 @@ extends SectImpl implements ZSect
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "ZSectImpl".hashCode();
-    if(mName != null) {
-      hashCode += 31*mName.hashCode();
+    if (name_ != null) {
+      hashCode += constant * name_.hashCode();
     }
-    if(mParent != null) {
-      hashCode += 31*mParent.hashCode();
+    if (parent_ != null) {
+      hashCode += constant * parent_.hashCode();
     }
-    if(mPara != null) {
-      hashCode += 31*mPara.hashCode();
+    if (para_ != null) {
+      hashCode += constant * para_.hashCode();
     }
     return hashCode;
   }
@@ -112,8 +129,7 @@ extends SectImpl implements ZSect
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof ZSectVisitor)
-    {
+    if (v instanceof ZSectVisitor) {
       ZSectVisitor visitor = (ZSectVisitor) v;
       return visitor.visitZSect(this);
     }
@@ -123,7 +139,8 @@ extends SectImpl implements ZSect
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     ZSect zedObject = null;
     try {
       String name = (String) args[0];
@@ -131,10 +148,10 @@ extends SectImpl implements ZSect
       java.util.List para = (java.util.List) args[2];
       zedObject = new ZSectImpl();
       zedObject.setName(name);
-      if(parent != null) {
+      if (parent != null) {
         zedObject.getParent().addAll(parent);
       }
-      if(para != null) {
+      if (para != null) {
         zedObject.getPara().addAll(para);
       }
     } catch (IndexOutOfBoundsException e) {
@@ -151,29 +168,33 @@ extends SectImpl implements ZSect
     return erg;
   }
 
-  private String mName;
+  private String name_;
 
   public String getName()
   {
-    return mName;
+    return name_;
   }
 
   public void setName(String name)
   {
-    mName = name;
+    name_ = name;
   }
 
-  private java.util.List mParent = new net.sourceforge.czt.util.TypesafeList(Parent.class);
+
+  private java.util.List parent_ =
+    new TypesafeList(Parent.class);
 
   public java.util.List getParent()
   {
-    return mParent;
+    return parent_;
   }
 
-  private java.util.List mPara = new net.sourceforge.czt.util.TypesafeList(Para.class);
+
+  private java.util.List para_ =
+    new TypesafeList(Para.class);
 
   public java.util.List getPara()
   {
-    return mPara;
+    return para_;
   }
 }

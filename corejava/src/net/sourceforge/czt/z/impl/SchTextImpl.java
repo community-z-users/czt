@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.SchTextVisitor;
  * @author Gnast version 0.1
  */
 public class SchTextImpl
-extends TermAImpl implements SchText
+  extends TermAImpl   implements SchText
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends TermAImpl implements SchText
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected SchTextImpl() { }
+  protected SchTextImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this SchTextImpl
@@ -60,21 +63,29 @@ extends TermAImpl implements SchText
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      SchTextImpl object = (SchTextImpl) obj;
-      if((mDecl == null && object.mDecl != null) ||
-         (mDecl != null &&
-         ! mDecl.equals(object.mDecl))) return false;
-      if(mDecl == null && object.mDecl != null)
-        return false;
-      if((mPred == null && object.mPred != null) ||
-         (mPred != null &&
-         ! mPred.equals(object.mPred))) return false;
-      if(mPred == null && object.mPred != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        SchTextImpl object = (SchTextImpl) obj;
+        if (decl_ != null) {
+          if (!decl_.equals(object.decl_)) {
+            return false;
+          }
+        } else {
+          if (object.decl_ != null) {
+            return false;
+          }
+        }
+        if (pred_ != null) {
+          if (!pred_.equals(object.pred_)) {
+            return false;
+          }
+        } else {
+          if (object.pred_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -88,13 +99,15 @@ extends TermAImpl implements SchText
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "SchTextImpl".hashCode();
-    if(mDecl != null) {
-      hashCode += 31*mDecl.hashCode();
+    if (decl_ != null) {
+      hashCode += constant * decl_.hashCode();
     }
-    if(mPred != null) {
-      hashCode += 31*mPred.hashCode();
+    if (pred_ != null) {
+      hashCode += constant * pred_.hashCode();
     }
     return hashCode;
   }
@@ -104,8 +117,7 @@ extends TermAImpl implements SchText
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof SchTextVisitor)
-    {
+    if (v instanceof SchTextVisitor) {
       SchTextVisitor visitor = (SchTextVisitor) v;
       return visitor.visitSchText(this);
     }
@@ -115,13 +127,14 @@ extends TermAImpl implements SchText
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     SchText zedObject = null;
     try {
       java.util.List decl = (java.util.List) args[0];
       Pred pred = (Pred) args[1];
       zedObject = new SchTextImpl();
-      if(decl != null) {
+      if (decl != null) {
         zedObject.getDecl().addAll(decl);
       }
       zedObject.setPred(pred);
@@ -139,22 +152,24 @@ extends TermAImpl implements SchText
     return erg;
   }
 
-  private java.util.List mDecl = new net.sourceforge.czt.util.TypesafeList(Decl.class);
+
+  private java.util.List decl_ =
+    new TypesafeList(Decl.class);
 
   public java.util.List getDecl()
   {
-    return mDecl;
+    return decl_;
   }
 
-  private Pred mPred;
+  private Pred pred_;
 
   public Pred getPred()
   {
-    return mPred;
+    return pred_;
   }
 
   public void setPred(Pred pred)
   {
-    mPred = pred;
+    pred_ = pred;
   }
 }

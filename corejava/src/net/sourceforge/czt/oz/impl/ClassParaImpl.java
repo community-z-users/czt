@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.oz.ast.*;
@@ -43,7 +44,7 @@ import net.sourceforge.czt.oz.visitor.ClassParaVisitor;
  * @author Gnast version 0.1
  */
 public class ClassParaImpl
-extends ParaImpl implements ClassPara
+  extends ParaImpl   implements ClassPara
 {
   /**
    * The default constructor.
@@ -52,7 +53,9 @@ extends ParaImpl implements ClassPara
    * If you want to create an instance of this class, please use the
    * {@link OzFactory object factory}.
    */
-  protected ClassParaImpl() { }
+  protected ClassParaImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this ClassParaImpl
@@ -62,51 +65,83 @@ extends ParaImpl implements ClassPara
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      ClassParaImpl object = (ClassParaImpl) obj;
-      if((mName == null && object.mName != null) ||
-         (mName != null &&
-         ! mName.equals(object.mName))) return false;
-      if(mName == null && object.mName != null)
-        return false;
-      if((mFormalParameters == null && object.mFormalParameters != null) ||
-         (mFormalParameters != null &&
-         ! mFormalParameters.equals(object.mFormalParameters))) return false;
-      if(mFormalParameters == null && object.mFormalParameters != null)
-        return false;
-      if((mVisibilityList == null && object.mVisibilityList != null) ||
-         (mVisibilityList != null &&
-         ! mVisibilityList.equals(object.mVisibilityList))) return false;
-      if(mVisibilityList == null && object.mVisibilityList != null)
-        return false;
-      if((mInheritedClass == null && object.mInheritedClass != null) ||
-         (mInheritedClass != null &&
-         ! mInheritedClass.equals(object.mInheritedClass))) return false;
-      if(mInheritedClass == null && object.mInheritedClass != null)
-        return false;
-      if((mLocalDef == null && object.mLocalDef != null) ||
-         (mLocalDef != null &&
-         ! mLocalDef.equals(object.mLocalDef))) return false;
-      if(mLocalDef == null && object.mLocalDef != null)
-        return false;
-      if((mState == null && object.mState != null) ||
-         (mState != null &&
-         ! mState.equals(object.mState))) return false;
-      if(mState == null && object.mState != null)
-        return false;
-      if((mInitialState == null && object.mInitialState != null) ||
-         (mInitialState != null &&
-         ! mInitialState.equals(object.mInitialState))) return false;
-      if(mInitialState == null && object.mInitialState != null)
-        return false;
-      if((mOperation == null && object.mOperation != null) ||
-         (mOperation != null &&
-         ! mOperation.equals(object.mOperation))) return false;
-      if(mOperation == null && object.mOperation != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        ClassParaImpl object = (ClassParaImpl) obj;
+        if (name_ != null) {
+          if (!name_.equals(object.name_)) {
+            return false;
+          }
+        } else {
+          if (object.name_ != null) {
+            return false;
+          }
+        }
+        if (formalParameters_ != null) {
+          if (!formalParameters_.equals(object.formalParameters_)) {
+            return false;
+          }
+        } else {
+          if (object.formalParameters_ != null) {
+            return false;
+          }
+        }
+        if (visibilityList_ != null) {
+          if (!visibilityList_.equals(object.visibilityList_)) {
+            return false;
+          }
+        } else {
+          if (object.visibilityList_ != null) {
+            return false;
+          }
+        }
+        if (inheritedClass_ != null) {
+          if (!inheritedClass_.equals(object.inheritedClass_)) {
+            return false;
+          }
+        } else {
+          if (object.inheritedClass_ != null) {
+            return false;
+          }
+        }
+        if (localDef_ != null) {
+          if (!localDef_.equals(object.localDef_)) {
+            return false;
+          }
+        } else {
+          if (object.localDef_ != null) {
+            return false;
+          }
+        }
+        if (state_ != null) {
+          if (!state_.equals(object.state_)) {
+            return false;
+          }
+        } else {
+          if (object.state_ != null) {
+            return false;
+          }
+        }
+        if (initialState_ != null) {
+          if (!initialState_.equals(object.initialState_)) {
+            return false;
+          }
+        } else {
+          if (object.initialState_ != null) {
+            return false;
+          }
+        }
+        if (operation_ != null) {
+          if (!operation_.equals(object.operation_)) {
+            return false;
+          }
+        } else {
+          if (object.operation_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -120,31 +155,33 @@ extends ParaImpl implements ClassPara
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "ClassParaImpl".hashCode();
-    if(mName != null) {
-      hashCode += 31*mName.hashCode();
+    if (name_ != null) {
+      hashCode += constant * name_.hashCode();
     }
-    if(mFormalParameters != null) {
-      hashCode += 31*mFormalParameters.hashCode();
+    if (formalParameters_ != null) {
+      hashCode += constant * formalParameters_.hashCode();
     }
-    if(mVisibilityList != null) {
-      hashCode += 31*mVisibilityList.hashCode();
+    if (visibilityList_ != null) {
+      hashCode += constant * visibilityList_.hashCode();
     }
-    if(mInheritedClass != null) {
-      hashCode += 31*mInheritedClass.hashCode();
+    if (inheritedClass_ != null) {
+      hashCode += constant * inheritedClass_.hashCode();
     }
-    if(mLocalDef != null) {
-      hashCode += 31*mLocalDef.hashCode();
+    if (localDef_ != null) {
+      hashCode += constant * localDef_.hashCode();
     }
-    if(mState != null) {
-      hashCode += 31*mState.hashCode();
+    if (state_ != null) {
+      hashCode += constant * state_.hashCode();
     }
-    if(mInitialState != null) {
-      hashCode += 31*mInitialState.hashCode();
+    if (initialState_ != null) {
+      hashCode += constant * initialState_.hashCode();
     }
-    if(mOperation != null) {
-      hashCode += 31*mOperation.hashCode();
+    if (operation_ != null) {
+      hashCode += constant * operation_.hashCode();
     }
     return hashCode;
   }
@@ -154,8 +191,7 @@ extends ParaImpl implements ClassPara
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof ClassParaVisitor)
-    {
+    if (v instanceof ClassParaVisitor) {
       ClassParaVisitor visitor = (ClassParaVisitor) v;
       return visitor.visitClassPara(this);
     }
@@ -165,12 +201,13 @@ extends ParaImpl implements ClassPara
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     ClassPara zedObject = null;
     try {
       net.sourceforge.czt.z.ast.DeclName name = (net.sourceforge.czt.z.ast.DeclName) args[0];
       FormalParameters formalParameters = (FormalParameters) args[1];
-      DeclNameList visibilityList = (DeclNameList) args[2];
+      RefNameList visibilityList = (RefNameList) args[2];
       java.util.List inheritedClass = (java.util.List) args[3];
       LocalDef localDef = (LocalDef) args[4];
       State state = (State) args[5];
@@ -180,13 +217,13 @@ extends ParaImpl implements ClassPara
       zedObject.setName(name);
       zedObject.setFormalParameters(formalParameters);
       zedObject.setVisibilityList(visibilityList);
-      if(inheritedClass != null) {
+      if (inheritedClass != null) {
         zedObject.getInheritedClass().addAll(inheritedClass);
       }
       zedObject.setLocalDef(localDef);
       zedObject.setState(state);
       zedObject.setInitialState(initialState);
-      if(operation != null) {
+      if (operation != null) {
         zedObject.getOperation().addAll(operation);
       }
     } catch (IndexOutOfBoundsException e) {
@@ -203,89 +240,93 @@ extends ParaImpl implements ClassPara
     return erg;
   }
 
-  private net.sourceforge.czt.z.ast.DeclName mName;
+  private net.sourceforge.czt.z.ast.DeclName name_;
 
   public net.sourceforge.czt.z.ast.DeclName getName()
   {
-    return mName;
+    return name_;
   }
 
   public void setName(net.sourceforge.czt.z.ast.DeclName name)
   {
-    mName = name;
+    name_ = name;
   }
 
-  private FormalParameters mFormalParameters;
+  private FormalParameters formalParameters_;
 
   public FormalParameters getFormalParameters()
   {
-    return mFormalParameters;
+    return formalParameters_;
   }
 
   public void setFormalParameters(FormalParameters formalParameters)
   {
-    mFormalParameters = formalParameters;
+    formalParameters_ = formalParameters;
   }
 
-  private DeclNameList mVisibilityList;
+  private RefNameList visibilityList_;
 
-  public DeclNameList getVisibilityList()
+  public RefNameList getVisibilityList()
   {
-    return mVisibilityList;
+    return visibilityList_;
   }
 
-  public void setVisibilityList(DeclNameList visibilityList)
+  public void setVisibilityList(RefNameList visibilityList)
   {
-    mVisibilityList = visibilityList;
+    visibilityList_ = visibilityList;
   }
 
-  private java.util.List mInheritedClass = new net.sourceforge.czt.util.TypesafeList(InheritedClass.class);
+
+  private java.util.List inheritedClass_ =
+    new TypesafeList(InheritedClass.class);
 
   public java.util.List getInheritedClass()
   {
-    return mInheritedClass;
+    return inheritedClass_;
   }
 
-  private LocalDef mLocalDef;
+  private LocalDef localDef_;
 
   public LocalDef getLocalDef()
   {
-    return mLocalDef;
+    return localDef_;
   }
 
   public void setLocalDef(LocalDef localDef)
   {
-    mLocalDef = localDef;
+    localDef_ = localDef;
   }
 
-  private State mState;
+  private State state_;
 
   public State getState()
   {
-    return mState;
+    return state_;
   }
 
   public void setState(State state)
   {
-    mState = state;
+    state_ = state;
   }
 
-  private InitialState mInitialState;
+  private InitialState initialState_;
 
   public InitialState getInitialState()
   {
-    return mInitialState;
+    return initialState_;
   }
 
   public void setInitialState(InitialState initialState)
   {
-    mInitialState = initialState;
+    initialState_ = initialState;
   }
 
-  private java.util.List mOperation = new net.sourceforge.czt.util.TypesafeList(Operation.class);
+
+  private java.util.List operation_ =
+    new TypesafeList(Operation.class);
 
   public java.util.List getOperation()
   {
-    return mOperation;
+    return operation_;
   }
 }

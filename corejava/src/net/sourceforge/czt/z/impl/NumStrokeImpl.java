@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.NumStrokeVisitor;
  * @author Gnast version 0.1
  */
 public class NumStrokeImpl
-extends StrokeImpl implements NumStroke
+  extends StrokeImpl   implements NumStroke
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends StrokeImpl implements NumStroke
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected NumStrokeImpl() { }
+  protected NumStrokeImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this NumStrokeImpl
@@ -60,16 +63,20 @@ extends StrokeImpl implements NumStroke
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      NumStrokeImpl object = (NumStrokeImpl) obj;
-      if((mNumber == null && object.mNumber != null) ||
-         (mNumber != null &&
-         ! mNumber.equals(object.mNumber))) return false;
-      if(mNumber == null && object.mNumber != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        NumStrokeImpl object = (NumStrokeImpl) obj;
+        if (number_ != null) {
+          if (!number_.equals(object.number_)) {
+            return false;
+          }
+        } else {
+          if (object.number_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -83,10 +90,12 @@ extends StrokeImpl implements NumStroke
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "NumStrokeImpl".hashCode();
-    if(mNumber != null) {
-      hashCode += 31*mNumber.hashCode();
+    if (number_ != null) {
+      hashCode += constant * number_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +105,7 @@ extends StrokeImpl implements NumStroke
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof NumStrokeVisitor)
-    {
+    if (v instanceof NumStrokeVisitor) {
       NumStrokeVisitor visitor = (NumStrokeVisitor) v;
       return visitor.visitNumStroke(this);
     }
@@ -107,7 +115,8 @@ extends StrokeImpl implements NumStroke
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     NumStroke zedObject = null;
     try {
       Integer number = (Integer) args[0];
@@ -127,15 +136,15 @@ extends StrokeImpl implements NumStroke
     return erg;
   }
 
-  private Integer mNumber;
+  private Integer number_;
 
   public Integer getNumber()
   {
-    return mNumber;
+    return number_;
   }
 
   public void setNumber(Integer number)
   {
-    mNumber = number;
+    number_ = number;
   }
 }

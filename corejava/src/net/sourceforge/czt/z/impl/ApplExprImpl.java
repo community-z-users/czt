@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.ApplExprVisitor;
  * @author Gnast version 0.1
  */
 public class ApplExprImpl
-extends Expr2Impl implements ApplExpr
+  extends Expr2Impl   implements ApplExpr
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends Expr2Impl implements ApplExpr
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected ApplExprImpl() { }
+  protected ApplExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this ApplExprImpl
@@ -60,16 +63,20 @@ extends Expr2Impl implements ApplExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      ApplExprImpl object = (ApplExprImpl) obj;
-      if((mMixfix == null && object.mMixfix != null) ||
-         (mMixfix != null &&
-         ! mMixfix.equals(object.mMixfix))) return false;
-      if(mMixfix == null && object.mMixfix != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        ApplExprImpl object = (ApplExprImpl) obj;
+        if (mixfix_ != null) {
+          if (!mixfix_.equals(object.mixfix_)) {
+            return false;
+          }
+        } else {
+          if (object.mixfix_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -83,10 +90,12 @@ extends Expr2Impl implements ApplExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "ApplExprImpl".hashCode();
-    if(mMixfix != null) {
-      hashCode += 31*mMixfix.hashCode();
+    if (mixfix_ != null) {
+      hashCode += constant * mixfix_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +105,7 @@ extends Expr2Impl implements ApplExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof ApplExprVisitor)
-    {
+    if (v instanceof ApplExprVisitor) {
       ApplExprVisitor visitor = (ApplExprVisitor) v;
       return visitor.visitApplExpr(this);
     }
@@ -107,7 +115,8 @@ extends Expr2Impl implements ApplExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     ApplExpr zedObject = null;
     try {
       Expr leftExpr = (Expr) args[0];
@@ -131,15 +140,15 @@ extends Expr2Impl implements ApplExpr
     return erg;
   }
 
-  private Boolean mMixfix;
+  private Boolean mixfix_;
 
   public Boolean getMixfix()
   {
-    return mMixfix;
+    return mixfix_;
   }
 
   public void setMixfix(Boolean mixfix)
   {
-    mMixfix = mixfix;
+    mixfix_ = mixfix;
   }
 }

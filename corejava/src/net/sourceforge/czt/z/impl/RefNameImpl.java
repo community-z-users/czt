@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.RefNameVisitor;
  * @author Gnast version 0.1
  */
 public class RefNameImpl
-extends NameImpl implements RefName
+  extends NameImpl   implements RefName
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends NameImpl implements RefName
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected RefNameImpl() { }
+  protected RefNameImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this RefNameImpl
@@ -60,16 +63,20 @@ extends NameImpl implements RefName
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      RefNameImpl object = (RefNameImpl) obj;
-      if((mDecl == null && object.mDecl != null) ||
-         (mDecl != null &&
-         ! mDecl.equals(object.mDecl))) return false;
-      if(mDecl == null && object.mDecl != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        RefNameImpl object = (RefNameImpl) obj;
+        if (decl_ != null) {
+          if (!decl_.equals(object.decl_)) {
+            return false;
+          }
+        } else {
+          if (object.decl_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -83,10 +90,12 @@ extends NameImpl implements RefName
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "RefNameImpl".hashCode();
-    if(mDecl != null) {
-      hashCode += 31*mDecl.hashCode();
+    if (decl_ != null) {
+      hashCode += constant * decl_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +105,7 @@ extends NameImpl implements RefName
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof RefNameVisitor)
-    {
+    if (v instanceof RefNameVisitor) {
       RefNameVisitor visitor = (RefNameVisitor) v;
       return visitor.visitRefName(this);
     }
@@ -107,7 +115,8 @@ extends NameImpl implements RefName
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     RefName zedObject = null;
     try {
       String word = (String) args[0];
@@ -115,7 +124,7 @@ extends NameImpl implements RefName
       DeclName decl = (DeclName) args[2];
       zedObject = new RefNameImpl();
       zedObject.setWord(word);
-      if(stroke != null) {
+      if (stroke != null) {
         zedObject.getStroke().addAll(stroke);
       }
       zedObject.setDecl(decl);
@@ -133,15 +142,15 @@ extends NameImpl implements RefName
     return erg;
   }
 
-  private DeclName mDecl;
+  private DeclName decl_;
 
   public DeclName getDecl()
   {
-    return mDecl;
+    return decl_;
   }
 
   public void setDecl(DeclName decl)
   {
-    mDecl = decl;
+    decl_ = decl;
   }
 }

@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.SetCompExprVisitor;
  * @author Gnast version 0.1
  */
 public class SetCompExprImpl
-extends QntExprImpl implements SetCompExpr
+  extends QntExprImpl   implements SetCompExpr
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends QntExprImpl implements SetCompExpr
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected SetCompExprImpl() { }
+  protected SetCompExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this SetCompExprImpl
@@ -60,11 +63,11 @@ extends QntExprImpl implements SetCompExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      SetCompExprImpl object = (SetCompExprImpl) obj;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        SetCompExprImpl object = (SetCompExprImpl) obj;
+        return true;
+      }
     }
     return false;
   }
@@ -78,6 +81,8 @@ extends QntExprImpl implements SetCompExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "SetCompExprImpl".hashCode();
     return hashCode;
@@ -88,8 +93,7 @@ extends QntExprImpl implements SetCompExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof SetCompExprVisitor)
-    {
+    if (v instanceof SetCompExprVisitor) {
       SetCompExprVisitor visitor = (SetCompExprVisitor) v;
       return visitor.visitSetCompExpr(this);
     }
@@ -99,7 +103,8 @@ extends QntExprImpl implements SetCompExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     SetCompExpr zedObject = null;
     try {
       SchText schText = (SchText) args[0];

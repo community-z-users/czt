@@ -42,5 +42,5 @@ public interface ProdType extends Type
    *
    * @return a list of Type elements.
    */
-  public java.util.List getType();
+  java.util.List getType();
 }

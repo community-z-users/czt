@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.oz.ast.*;
@@ -43,7 +44,7 @@ import net.sourceforge.czt.oz.visitor.HideOpExprVisitor;
  * @author Gnast version 0.1
  */
 public class HideOpExprImpl
-extends OperationExprImpl implements HideOpExpr
+  extends OperationExprImpl   implements HideOpExpr
 {
   /**
    * The default constructor.
@@ -52,7 +53,9 @@ extends OperationExprImpl implements HideOpExpr
    * If you want to create an instance of this class, please use the
    * {@link OzFactory object factory}.
    */
-  protected HideOpExprImpl() { }
+  protected HideOpExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this HideOpExprImpl
@@ -62,21 +65,29 @@ extends OperationExprImpl implements HideOpExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      HideOpExprImpl object = (HideOpExprImpl) obj;
-      if((mOperationExpr == null && object.mOperationExpr != null) ||
-         (mOperationExpr != null &&
-         ! mOperationExpr.equals(object.mOperationExpr))) return false;
-      if(mOperationExpr == null && object.mOperationExpr != null)
-        return false;
-      if((mHideName == null && object.mHideName != null) ||
-         (mHideName != null &&
-         ! mHideName.equals(object.mHideName))) return false;
-      if(mHideName == null && object.mHideName != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        HideOpExprImpl object = (HideOpExprImpl) obj;
+        if (operationExpr_ != null) {
+          if (!operationExpr_.equals(object.operationExpr_)) {
+            return false;
+          }
+        } else {
+          if (object.operationExpr_ != null) {
+            return false;
+          }
+        }
+        if (hideName_ != null) {
+          if (!hideName_.equals(object.hideName_)) {
+            return false;
+          }
+        } else {
+          if (object.hideName_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -90,13 +101,15 @@ extends OperationExprImpl implements HideOpExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "HideOpExprImpl".hashCode();
-    if(mOperationExpr != null) {
-      hashCode += 31*mOperationExpr.hashCode();
+    if (operationExpr_ != null) {
+      hashCode += constant * operationExpr_.hashCode();
     }
-    if(mHideName != null) {
-      hashCode += 31*mHideName.hashCode();
+    if (hideName_ != null) {
+      hashCode += constant * hideName_.hashCode();
     }
     return hashCode;
   }
@@ -106,8 +119,7 @@ extends OperationExprImpl implements HideOpExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof HideOpExprVisitor)
-    {
+    if (v instanceof HideOpExprVisitor) {
       HideOpExprVisitor visitor = (HideOpExprVisitor) v;
       return visitor.visitHideOpExpr(this);
     }
@@ -117,14 +129,15 @@ extends OperationExprImpl implements HideOpExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     HideOpExpr zedObject = null;
     try {
       OperationExpr operationExpr = (OperationExpr) args[0];
       java.util.List hideName = (java.util.List) args[1];
       zedObject = new HideOpExprImpl();
       zedObject.setOperationExpr(operationExpr);
-      if(hideName != null) {
+      if (hideName != null) {
         zedObject.getHideName().addAll(hideName);
       }
     } catch (IndexOutOfBoundsException e) {
@@ -141,22 +154,24 @@ extends OperationExprImpl implements HideOpExpr
     return erg;
   }
 
-  private OperationExpr mOperationExpr;
+  private OperationExpr operationExpr_;
 
   public OperationExpr getOperationExpr()
   {
-    return mOperationExpr;
+    return operationExpr_;
   }
 
   public void setOperationExpr(OperationExpr operationExpr)
   {
-    mOperationExpr = operationExpr;
+    operationExpr_ = operationExpr;
   }
 
-  private java.util.List mHideName = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.RefName.class);
+
+  private java.util.List hideName_ =
+    new TypesafeList(net.sourceforge.czt.z.ast.RefName.class);
 
   public java.util.List getHideName()
   {
-    return mHideName;
+    return hideName_;
   }
 }

@@ -39,7 +39,7 @@ public interface NumExpr extends Expr
    *
    * @return the Value element.
    */
-  public java.math.BigInteger getValue();
+  java.math.BigInteger getValue();
 
   /**
    * Sets the Value element.
@@ -47,5 +47,5 @@ public interface NumExpr extends Expr
    * @param value   the Value element.
    * @see #getValue
    */
-  public void setValue(java.math.BigInteger value);
+  void setValue(java.math.BigInteger value);
 }

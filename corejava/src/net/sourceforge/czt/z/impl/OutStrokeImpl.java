@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.OutStrokeVisitor;
  * @author Gnast version 0.1
  */
 public class OutStrokeImpl
-extends StrokeImpl implements OutStroke
+  extends StrokeImpl   implements OutStroke
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends StrokeImpl implements OutStroke
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected OutStrokeImpl() { }
+  protected OutStrokeImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this OutStrokeImpl
@@ -60,11 +63,11 @@ extends StrokeImpl implements OutStroke
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      OutStrokeImpl object = (OutStrokeImpl) obj;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        OutStrokeImpl object = (OutStrokeImpl) obj;
+        return true;
+      }
     }
     return false;
   }
@@ -78,6 +81,8 @@ extends StrokeImpl implements OutStroke
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "OutStrokeImpl".hashCode();
     return hashCode;
@@ -88,8 +93,7 @@ extends StrokeImpl implements OutStroke
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof OutStrokeVisitor)
-    {
+    if (v instanceof OutStrokeVisitor) {
       OutStrokeVisitor visitor = (OutStrokeVisitor) v;
       return visitor.visitOutStroke(this);
     }
@@ -99,7 +103,8 @@ extends StrokeImpl implements OutStroke
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     OutStroke zedObject = null;
     try {
       zedObject = new OutStrokeImpl();

@@ -42,14 +42,14 @@ public interface Spec extends TermA
    *
    * @return a list of Sect elements.
    */
-  public java.util.List getSect();
+  java.util.List getSect();
 
   /**
    * Returns the Version element.
    *
    * @return the Version element.
    */
-  public String getVersion();
+  String getVersion();
 
   /**
    * Sets the Version element.
@@ -57,14 +57,14 @@ public interface Spec extends TermA
    * @param version   the Version element.
    * @see #getVersion
    */
-  public void setVersion(String version);
+  void setVersion(String version);
 
   /**
    * Returns the Author element.
    *
    * @return the Author element.
    */
-  public String getAuthor();
+  String getAuthor();
 
   /**
    * Sets the Author element.
@@ -72,14 +72,14 @@ public interface Spec extends TermA
    * @param author   the Author element.
    * @see #getAuthor
    */
-  public void setAuthor(String author);
+  void setAuthor(String author);
 
   /**
    * Returns the Modified element.
    *
    * @return the Modified element.
    */
-  public java.util.Calendar getModified();
+  java.util.Calendar getModified();
 
   /**
    * Sets the Modified element.
@@ -87,14 +87,14 @@ public interface Spec extends TermA
    * @param modified   the Modified element.
    * @see #getModified
    */
-  public void setModified(java.util.Calendar modified);
+  void setModified(java.util.Calendar modified);
 
   /**
    * Returns the Source element.
    *
    * @return the Source element.
    */
-  public String getSource();
+  String getSource();
 
   /**
    * Sets the Source element.
@@ -102,5 +102,5 @@ public interface Spec extends TermA
    * @param source   the Source element.
    * @see #getSource
    */
-  public void setSource(String source);
+  void setSource(String source);
 }

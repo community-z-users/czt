@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.TypeVisitor;
  * @author Gnast version 0.1
  */
 public abstract class TypeImpl
-extends TermAImpl implements Type
+  extends TermAImpl   implements Type
 {
 
   /**
@@ -52,11 +53,11 @@ extends TermAImpl implements Type
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      TypeImpl object = (TypeImpl) obj;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        TypeImpl object = (TypeImpl) obj;
+        return true;
+      }
     }
     return false;
   }
@@ -70,6 +71,8 @@ extends TermAImpl implements Type
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "TypeImpl".hashCode();
     return hashCode;
@@ -80,8 +83,7 @@ extends TermAImpl implements Type
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof TypeVisitor)
-    {
+    if (v instanceof TypeVisitor) {
       TypeVisitor visitor = (TypeVisitor) v;
       return visitor.visitType(this);
     }

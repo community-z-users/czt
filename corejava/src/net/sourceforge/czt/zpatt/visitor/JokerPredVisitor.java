@@ -26,6 +26,9 @@ package net.sourceforge.czt.zpatt.visitor;
 
 import net.sourceforge.czt.util.Visitor;
 
+/**
+ * A(n) JokerPred visitor.
+ */
 public interface JokerPredVisitor extends Visitor
 {
   /**

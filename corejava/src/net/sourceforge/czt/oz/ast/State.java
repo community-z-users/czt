@@ -42,17 +42,22 @@ public interface State extends TermA
    *
    * @return a list of Decl elements.
    */
-  public java.util.List getDecl();
+  java.util.List getDecl();
 
   /**
-   * <p>Returns the SecondaryAttributes elements.</p>
-   * <p>To add or remove elements, use the methods provided by
-   * the List interface (that's why there is no need for a setter
-   * method).</p>
+   * Returns the SecondaryAttributes element.
    *
-   * @return a list of SecondaryAttributes elements.
+   * @return the SecondaryAttributes element.
    */
-  public java.util.List getSecondaryAttributes();
+  SecondaryAttributes getSecondaryAttributes();
+
+  /**
+   * Sets the SecondaryAttributes element.
+   *
+   * @param secondaryAttributes   the SecondaryAttributes element.
+   * @see #getSecondaryAttributes
+   */
+  void setSecondaryAttributes(SecondaryAttributes secondaryAttributes);
 
   /**
    * <p>Returns the Pred elements.</p>
@@ -62,5 +67,5 @@ public interface State extends TermA
    *
    * @return a list of Pred elements.
    */
-  public java.util.List getPred();
+  java.util.List getPred();
 }

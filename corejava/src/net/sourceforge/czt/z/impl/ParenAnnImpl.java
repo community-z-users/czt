@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.ParenAnnVisitor;
  * @author Gnast version 0.1
  */
 public class ParenAnnImpl
-extends TermImpl implements ParenAnn
+  extends TermImpl   implements ParenAnn
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends TermImpl implements ParenAnn
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected ParenAnnImpl() { }
+  protected ParenAnnImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this ParenAnnImpl
@@ -60,11 +63,11 @@ extends TermImpl implements ParenAnn
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      ParenAnnImpl object = (ParenAnnImpl) obj;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        ParenAnnImpl object = (ParenAnnImpl) obj;
+        return true;
+      }
     }
     return false;
   }
@@ -78,6 +81,8 @@ extends TermImpl implements ParenAnn
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "ParenAnnImpl".hashCode();
     return hashCode;
@@ -88,8 +93,7 @@ extends TermImpl implements ParenAnn
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof ParenAnnVisitor)
-    {
+    if (v instanceof ParenAnnVisitor) {
       ParenAnnVisitor visitor = (ParenAnnVisitor) v;
       return visitor.visitParenAnn(this);
     }
@@ -99,7 +103,8 @@ extends TermImpl implements ParenAnn
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     ParenAnn zedObject = null;
     try {
       zedObject = new ParenAnnImpl();

@@ -39,7 +39,7 @@ public interface DistSeqOpExpr extends OperationExpr
    *
    * @return the MainOpExpr element.
    */
-  public MainOpExpr getMainOpExpr();
+  MainOpExpr getMainOpExpr();
 
   /**
    * Sets the MainOpExpr element.
@@ -47,5 +47,5 @@ public interface DistSeqOpExpr extends OperationExpr
    * @param mainOpExpr   the MainOpExpr element.
    * @see #getMainOpExpr
    */
-  public void setMainOpExpr(MainOpExpr mainOpExpr);
+  void setMainOpExpr(MainOpExpr mainOpExpr);
 }

@@ -39,7 +39,7 @@ public interface TupleSelExpr extends Expr1
    *
    * @return the Select element.
    */
-  public Integer getSelect();
+  Integer getSelect();
 
   /**
    * Sets the Select element.
@@ -47,5 +47,5 @@ public interface TupleSelExpr extends Expr1
    * @param select   the Select element.
    * @see #getSelect
    */
-  public void setSelect(Integer select);
+  void setSelect(Integer select);
 }

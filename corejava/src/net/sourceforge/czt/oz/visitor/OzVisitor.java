@@ -35,7 +35,6 @@ import net.sourceforge.czt.oz.ast.*;
 public interface OzVisitor
   extends
     net.sourceforge.czt.oz.visitor.RefNameListVisitor,
-    net.sourceforge.czt.oz.visitor.RenameListVisitor,
     net.sourceforge.czt.oz.visitor.ActualParametersVisitor,
     net.sourceforge.czt.oz.visitor.DistConjOpExprVisitor,
     net.sourceforge.czt.oz.visitor.BasicOpExprVisitor,
@@ -52,11 +51,10 @@ public interface OzVisitor
     net.sourceforge.czt.oz.visitor.ParenOpExprVisitor,
     net.sourceforge.czt.oz.visitor.OperationVisitor,
     net.sourceforge.czt.oz.visitor.LocalDefVisitor,
-    net.sourceforge.czt.oz.visitor.InitialStateVisitor,
     net.sourceforge.czt.oz.visitor.OperationBoxVisitor,
+    net.sourceforge.czt.oz.visitor.InitialStateVisitor,
     net.sourceforge.czt.oz.visitor.DistSeqOpExprVisitor,
     net.sourceforge.czt.oz.visitor.ScopeEnrichOpExprVisitor,
-    net.sourceforge.czt.oz.visitor.DeclNameListVisitor,
     net.sourceforge.czt.oz.visitor.SecondaryAttributesVisitor,
     net.sourceforge.czt.oz.visitor.RenameOpExprVisitor,
     net.sourceforge.czt.oz.visitor.ExChoiceOpExprVisitor,

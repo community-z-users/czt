@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.TypeEnvAnnVisitor;
  * @author Gnast version 0.1
  */
 public class TypeEnvAnnImpl
-extends TermImpl implements TypeEnvAnn
+  extends TermImpl   implements TypeEnvAnn
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends TermImpl implements TypeEnvAnn
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected TypeEnvAnnImpl() { }
+  protected TypeEnvAnnImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this TypeEnvAnnImpl
@@ -60,16 +63,20 @@ extends TermImpl implements TypeEnvAnn
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      TypeEnvAnnImpl object = (TypeEnvAnnImpl) obj;
-      if((mNameTypePair == null && object.mNameTypePair != null) ||
-         (mNameTypePair != null &&
-         ! mNameTypePair.equals(object.mNameTypePair))) return false;
-      if(mNameTypePair == null && object.mNameTypePair != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        TypeEnvAnnImpl object = (TypeEnvAnnImpl) obj;
+        if (nameTypePair_ != null) {
+          if (!nameTypePair_.equals(object.nameTypePair_)) {
+            return false;
+          }
+        } else {
+          if (object.nameTypePair_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -83,10 +90,12 @@ extends TermImpl implements TypeEnvAnn
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "TypeEnvAnnImpl".hashCode();
-    if(mNameTypePair != null) {
-      hashCode += 31*mNameTypePair.hashCode();
+    if (nameTypePair_ != null) {
+      hashCode += constant * nameTypePair_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +105,7 @@ extends TermImpl implements TypeEnvAnn
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof TypeEnvAnnVisitor)
-    {
+    if (v instanceof TypeEnvAnnVisitor) {
       TypeEnvAnnVisitor visitor = (TypeEnvAnnVisitor) v;
       return visitor.visitTypeEnvAnn(this);
     }
@@ -107,12 +115,13 @@ extends TermImpl implements TypeEnvAnn
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     TypeEnvAnn zedObject = null;
     try {
       java.util.List nameTypePair = (java.util.List) args[0];
       zedObject = new TypeEnvAnnImpl();
-      if(nameTypePair != null) {
+      if (nameTypePair != null) {
         zedObject.getNameTypePair().addAll(nameTypePair);
       }
     } catch (IndexOutOfBoundsException e) {
@@ -129,10 +138,12 @@ extends TermImpl implements TypeEnvAnn
     return erg;
   }
 
-  private java.util.List mNameTypePair = new net.sourceforge.czt.util.TypesafeList(NameTypePair.class);
+
+  private java.util.List nameTypePair_ =
+    new TypesafeList(NameTypePair.class);
 
   public java.util.List getNameTypePair()
   {
-    return mNameTypePair;
+    return nameTypePair_;
   }
 }

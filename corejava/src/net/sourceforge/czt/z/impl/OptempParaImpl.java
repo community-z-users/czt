@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.OptempParaVisitor;
  * @author Gnast version 0.1
  */
 public class OptempParaImpl
-extends ParaImpl implements OptempPara
+  extends ParaImpl   implements OptempPara
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends ParaImpl implements OptempPara
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected OptempParaImpl() { }
+  protected OptempParaImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this OptempParaImpl
@@ -60,31 +63,47 @@ extends ParaImpl implements OptempPara
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      OptempParaImpl object = (OptempParaImpl) obj;
-      if((mWordOrOperand == null && object.mWordOrOperand != null) ||
-         (mWordOrOperand != null &&
-         ! mWordOrOperand.equals(object.mWordOrOperand))) return false;
-      if(mWordOrOperand == null && object.mWordOrOperand != null)
-        return false;
-      if((mCat == null && object.mCat != null) ||
-         (mCat != null &&
-         ! mCat.equals(object.mCat))) return false;
-      if(mCat == null && object.mCat != null)
-        return false;
-      if((mAssoc == null && object.mAssoc != null) ||
-         (mAssoc != null &&
-         ! mAssoc.equals(object.mAssoc))) return false;
-      if(mAssoc == null && object.mAssoc != null)
-        return false;
-      if((mPrec == null && object.mPrec != null) ||
-         (mPrec != null &&
-         ! mPrec.equals(object.mPrec))) return false;
-      if(mPrec == null && object.mPrec != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        OptempParaImpl object = (OptempParaImpl) obj;
+        if (wordOrOperand_ != null) {
+          if (!wordOrOperand_.equals(object.wordOrOperand_)) {
+            return false;
+          }
+        } else {
+          if (object.wordOrOperand_ != null) {
+            return false;
+          }
+        }
+        if (cat_ != null) {
+          if (!cat_.equals(object.cat_)) {
+            return false;
+          }
+        } else {
+          if (object.cat_ != null) {
+            return false;
+          }
+        }
+        if (assoc_ != null) {
+          if (!assoc_.equals(object.assoc_)) {
+            return false;
+          }
+        } else {
+          if (object.assoc_ != null) {
+            return false;
+          }
+        }
+        if (prec_ != null) {
+          if (!prec_.equals(object.prec_)) {
+            return false;
+          }
+        } else {
+          if (object.prec_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -98,19 +117,21 @@ extends ParaImpl implements OptempPara
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "OptempParaImpl".hashCode();
-    if(mWordOrOperand != null) {
-      hashCode += 31*mWordOrOperand.hashCode();
+    if (wordOrOperand_ != null) {
+      hashCode += constant * wordOrOperand_.hashCode();
     }
-    if(mCat != null) {
-      hashCode += 31*mCat.hashCode();
+    if (cat_ != null) {
+      hashCode += constant * cat_.hashCode();
     }
-    if(mAssoc != null) {
-      hashCode += 31*mAssoc.hashCode();
+    if (assoc_ != null) {
+      hashCode += constant * assoc_.hashCode();
     }
-    if(mPrec != null) {
-      hashCode += 31*mPrec.hashCode();
+    if (prec_ != null) {
+      hashCode += constant * prec_.hashCode();
     }
     return hashCode;
   }
@@ -120,8 +141,7 @@ extends ParaImpl implements OptempPara
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof OptempParaVisitor)
-    {
+    if (v instanceof OptempParaVisitor) {
       OptempParaVisitor visitor = (OptempParaVisitor) v;
       return visitor.visitOptempPara(this);
     }
@@ -131,7 +151,8 @@ extends ParaImpl implements OptempPara
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     OptempPara zedObject = null;
     try {
       java.util.List wordOrOperand = (java.util.List) args[0];
@@ -139,7 +160,7 @@ extends ParaImpl implements OptempPara
       Assoc assoc = (Assoc) args[2];
       Integer prec = (Integer) args[3];
       zedObject = new OptempParaImpl();
-      if(wordOrOperand != null) {
+      if (wordOrOperand != null) {
         zedObject.getWordOrOperand().addAll(wordOrOperand);
       }
       zedObject.setCat(cat);
@@ -159,46 +180,48 @@ extends ParaImpl implements OptempPara
     return erg;
   }
 
-  private java.util.List mWordOrOperand = new net.sourceforge.czt.util.TypesafeList(java.lang.Object.class);
+
+  private java.util.List wordOrOperand_ =
+    new TypesafeList(java.lang.Object.class);
 
   public java.util.List getWordOrOperand()
   {
-    return mWordOrOperand;
+    return wordOrOperand_;
   }
 
-  private Cat mCat;
+  private Cat cat_;
 
   public Cat getCat()
   {
-    return mCat;
+    return cat_;
   }
 
   public void setCat(Cat cat)
   {
-    mCat = cat;
+    cat_ = cat;
   }
 
-  private Assoc mAssoc;
+  private Assoc assoc_;
 
   public Assoc getAssoc()
   {
-    return mAssoc;
+    return assoc_;
   }
 
   public void setAssoc(Assoc assoc)
   {
-    mAssoc = assoc;
+    assoc_ = assoc;
   }
 
-  private Integer mPrec;
+  private Integer prec_;
 
   public Integer getPrec()
   {
-    return mPrec;
+    return prec_;
   }
 
   public void setPrec(Integer prec)
   {
-    mPrec = prec;
+    prec_ = prec;
   }
 }

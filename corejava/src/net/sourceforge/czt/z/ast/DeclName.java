@@ -39,7 +39,7 @@ public interface DeclName extends Name
    *
    * @return the Id element.
    */
-  public String getId();
+  String getId();
 
   /**
    * Sets the Id element.
@@ -47,5 +47,5 @@ public interface DeclName extends Name
    * @param id   the Id element.
    * @see #getId
    */
-  public void setId(String id);
+  void setId(String id);
 }

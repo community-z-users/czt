@@ -42,5 +42,5 @@ public interface FormalParameters extends TermA
    *
    * @return a list of RefName elements.
    */
-  public java.util.List getRefName();
+  java.util.List getRefName();
 }

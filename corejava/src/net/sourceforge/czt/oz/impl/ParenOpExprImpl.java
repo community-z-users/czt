@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.oz.ast.*;
@@ -43,7 +44,7 @@ import net.sourceforge.czt.oz.visitor.ParenOpExprVisitor;
  * @author Gnast version 0.1
  */
 public class ParenOpExprImpl
-extends OperationExprImpl implements ParenOpExpr
+  extends OperationExprImpl   implements ParenOpExpr
 {
   /**
    * The default constructor.
@@ -52,7 +53,9 @@ extends OperationExprImpl implements ParenOpExpr
    * If you want to create an instance of this class, please use the
    * {@link OzFactory object factory}.
    */
-  protected ParenOpExprImpl() { }
+  protected ParenOpExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this ParenOpExprImpl
@@ -62,11 +65,11 @@ extends OperationExprImpl implements ParenOpExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      ParenOpExprImpl object = (ParenOpExprImpl) obj;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        ParenOpExprImpl object = (ParenOpExprImpl) obj;
+        return true;
+      }
     }
     return false;
   }
@@ -80,6 +83,8 @@ extends OperationExprImpl implements ParenOpExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "ParenOpExprImpl".hashCode();
     return hashCode;
@@ -90,8 +95,7 @@ extends OperationExprImpl implements ParenOpExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof ParenOpExprVisitor)
-    {
+    if (v instanceof ParenOpExprVisitor) {
       ParenOpExprVisitor visitor = (ParenOpExprVisitor) v;
       return visitor.visitParenOpExpr(this);
     }
@@ -101,7 +105,8 @@ extends OperationExprImpl implements ParenOpExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     ParenOpExpr zedObject = null;
     try {
       zedObject = new ParenOpExprImpl();

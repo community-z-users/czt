@@ -42,14 +42,14 @@ public interface AxPara extends Para
    *
    * @return a list of DeclName elements.
    */
-  public java.util.List getDeclName();
+  java.util.List getDeclName();
 
   /**
    * Returns the SchText element.
    *
    * @return the SchText element.
    */
-  public SchText getSchText();
+  SchText getSchText();
 
   /**
    * Sets the SchText element.
@@ -57,14 +57,14 @@ public interface AxPara extends Para
    * @param schText   the SchText element.
    * @see #getSchText
    */
-  public void setSchText(SchText schText);
+  void setSchText(SchText schText);
 
   /**
    * Returns the Box element.
    *
    * @return the Box element.
    */
-  public Box getBox();
+  Box getBox();
 
   /**
    * Sets the Box element.
@@ -72,5 +72,5 @@ public interface AxPara extends Para
    * @param box   the Box element.
    * @see #getBox
    */
-  public void setBox(Box box);
+  void setBox(Box box);
 }

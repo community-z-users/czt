@@ -39,7 +39,7 @@ public interface SchExpr extends Expr
    *
    * @return the SchText element.
    */
-  public SchText getSchText();
+  SchText getSchText();
 
   /**
    * Sets the SchText element.
@@ -47,5 +47,5 @@ public interface SchExpr extends Expr
    * @param schText   the SchText element.
    * @see #getSchText
    */
-  public void setSchText(SchText schText);
+  void setSchText(SchText schText);
 }

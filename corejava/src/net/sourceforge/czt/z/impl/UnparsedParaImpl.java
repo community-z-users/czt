@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.UnparsedParaVisitor;
  * @author Gnast version 0.1
  */
 public class UnparsedParaImpl
-extends ParaImpl implements UnparsedPara
+  extends ParaImpl   implements UnparsedPara
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends ParaImpl implements UnparsedPara
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected UnparsedParaImpl() { }
+  protected UnparsedParaImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this UnparsedParaImpl
@@ -60,16 +63,20 @@ extends ParaImpl implements UnparsedPara
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      UnparsedParaImpl object = (UnparsedParaImpl) obj;
-      if((mContent == null && object.mContent != null) ||
-         (mContent != null &&
-         ! mContent.equals(object.mContent))) return false;
-      if(mContent == null && object.mContent != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        UnparsedParaImpl object = (UnparsedParaImpl) obj;
+        if (content_ != null) {
+          if (!content_.equals(object.content_)) {
+            return false;
+          }
+        } else {
+          if (object.content_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -83,10 +90,12 @@ extends ParaImpl implements UnparsedPara
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "UnparsedParaImpl".hashCode();
-    if(mContent != null) {
-      hashCode += 31*mContent.hashCode();
+    if (content_ != null) {
+      hashCode += constant * content_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +105,7 @@ extends ParaImpl implements UnparsedPara
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof UnparsedParaVisitor)
-    {
+    if (v instanceof UnparsedParaVisitor) {
       UnparsedParaVisitor visitor = (UnparsedParaVisitor) v;
       return visitor.visitUnparsedPara(this);
     }
@@ -107,12 +115,13 @@ extends ParaImpl implements UnparsedPara
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     UnparsedPara zedObject = null;
     try {
       java.util.List content = (java.util.List) args[0];
       zedObject = new UnparsedParaImpl();
-      if(content != null) {
+      if (content != null) {
         zedObject.getContent().addAll(content);
       }
     } catch (IndexOutOfBoundsException e) {
@@ -129,10 +138,12 @@ extends ParaImpl implements UnparsedPara
     return erg;
   }
 
-  private java.util.List mContent = new net.sourceforge.czt.util.TypesafeList(java.lang.Object.class);
+
+  private java.util.List content_ =
+    new TypesafeList(java.lang.Object.class);
 
   public java.util.List getContent()
   {
-    return mContent;
+    return content_;
   }
 }

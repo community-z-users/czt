@@ -39,7 +39,7 @@ public interface AndPred extends Pred2
    *
    * @return the Op element.
    */
-  public Op getOp();
+  Op getOp();
 
   /**
    * Sets the Op element.
@@ -47,5 +47,5 @@ public interface AndPred extends Pred2
    * @param op   the Op element.
    * @see #getOp
    */
-  public void setOp(Op op);
+  void setOp(Op op);
 }

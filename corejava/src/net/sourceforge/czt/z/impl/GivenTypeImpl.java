@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.GivenTypeVisitor;
  * @author Gnast version 0.1
  */
 public class GivenTypeImpl
-extends TypeImpl implements GivenType
+  extends TypeImpl   implements GivenType
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends TypeImpl implements GivenType
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected GivenTypeImpl() { }
+  protected GivenTypeImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this GivenTypeImpl
@@ -60,16 +63,20 @@ extends TypeImpl implements GivenType
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      GivenTypeImpl object = (GivenTypeImpl) obj;
-      if((mName == null && object.mName != null) ||
-         (mName != null &&
-         ! mName.equals(object.mName))) return false;
-      if(mName == null && object.mName != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        GivenTypeImpl object = (GivenTypeImpl) obj;
+        if (name_ != null) {
+          if (!name_.equals(object.name_)) {
+            return false;
+          }
+        } else {
+          if (object.name_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -83,10 +90,12 @@ extends TypeImpl implements GivenType
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "GivenTypeImpl".hashCode();
-    if(mName != null) {
-      hashCode += 31*mName.hashCode();
+    if (name_ != null) {
+      hashCode += constant * name_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +105,7 @@ extends TypeImpl implements GivenType
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof GivenTypeVisitor)
-    {
+    if (v instanceof GivenTypeVisitor) {
       GivenTypeVisitor visitor = (GivenTypeVisitor) v;
       return visitor.visitGivenType(this);
     }
@@ -107,7 +115,8 @@ extends TypeImpl implements GivenType
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     GivenType zedObject = null;
     try {
       DeclName name = (DeclName) args[0];
@@ -127,15 +136,15 @@ extends TypeImpl implements GivenType
     return erg;
   }
 
-  private DeclName mName;
+  private DeclName name_;
 
   public DeclName getName()
   {
-    return mName;
+    return name_;
   }
 
   public void setName(DeclName name)
   {
-    mName = name;
+    name_ = name;
   }
 }

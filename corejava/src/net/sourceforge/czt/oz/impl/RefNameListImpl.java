@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.oz.ast.*;
@@ -43,7 +44,7 @@ import net.sourceforge.czt.oz.visitor.RefNameListVisitor;
  * @author Gnast version 0.1
  */
 public class RefNameListImpl
-extends TermAImpl implements RefNameList
+  extends TermAImpl   implements RefNameList
 {
   /**
    * The default constructor.
@@ -52,7 +53,9 @@ extends TermAImpl implements RefNameList
    * If you want to create an instance of this class, please use the
    * {@link OzFactory object factory}.
    */
-  protected RefNameListImpl() { }
+  protected RefNameListImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this RefNameListImpl
@@ -62,16 +65,20 @@ extends TermAImpl implements RefNameList
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      RefNameListImpl object = (RefNameListImpl) obj;
-      if((mName == null && object.mName != null) ||
-         (mName != null &&
-         ! mName.equals(object.mName))) return false;
-      if(mName == null && object.mName != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        RefNameListImpl object = (RefNameListImpl) obj;
+        if (name_ != null) {
+          if (!name_.equals(object.name_)) {
+            return false;
+          }
+        } else {
+          if (object.name_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -85,10 +92,12 @@ extends TermAImpl implements RefNameList
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "RefNameListImpl".hashCode();
-    if(mName != null) {
-      hashCode += 31*mName.hashCode();
+    if (name_ != null) {
+      hashCode += constant * name_.hashCode();
     }
     return hashCode;
   }
@@ -98,8 +107,7 @@ extends TermAImpl implements RefNameList
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof RefNameListVisitor)
-    {
+    if (v instanceof RefNameListVisitor) {
       RefNameListVisitor visitor = (RefNameListVisitor) v;
       return visitor.visitRefNameList(this);
     }
@@ -109,12 +117,13 @@ extends TermAImpl implements RefNameList
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     RefNameList zedObject = null;
     try {
       java.util.List name = (java.util.List) args[0];
       zedObject = new RefNameListImpl();
-      if(name != null) {
+      if (name != null) {
         zedObject.getName().addAll(name);
       }
     } catch (IndexOutOfBoundsException e) {
@@ -131,10 +140,12 @@ extends TermAImpl implements RefNameList
     return erg;
   }
 
-  private java.util.List mName = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.RefName.class);
+
+  private java.util.List name_ =
+    new TypesafeList(net.sourceforge.czt.z.ast.RefName.class);
 
   public java.util.List getName()
   {
-    return mName;
+    return name_;
   }
 }

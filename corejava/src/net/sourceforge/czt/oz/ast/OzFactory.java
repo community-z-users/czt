@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.oz.ast;
 
 /**
- * <p>The object factory for the AST. 
+ * <p>The object factory for the AST.
  * This interface contains factory methods
  * for each concrete Z term.</p>
  *
@@ -42,382 +42,361 @@ package net.sourceforge.czt.oz.ast;
 public interface OzFactory
   extends net.sourceforge.czt.z.ast.ZFactory
 {
-    /**
-     * Creates an instance of {@link RefNameList}.
-     *
-     * @return the new instance of RefNameList.
-     */
-    public RefNameList createRefNameList();
+  /**
+   * Creates an instance of {@link RefNameList}.
+   *
+   * @return the new instance of RefNameList.
+   */
+  RefNameList createRefNameList();
 
-    /**
-     * Creates an instance of {@link RefNameList} with the given children.
-     *
-     * @return the new instance of RefNameList.
-     */
-    public RefNameList createRefNameList(java.util.List name);
+  /**
+   * Creates an instance of {@link RefNameList} with the given children.
+   *
+   * @return the new instance of RefNameList.
+   */
+  RefNameList createRefNameList(java.util.List name);
 
-    /**
-     * Creates an instance of {@link RenameList}.
-     *
-     * @return the new instance of RenameList.
-     */
-    public RenameList createRenameList();
+  /**
+   * Creates an instance of {@link ActualParameters}.
+   *
+   * @return the new instance of ActualParameters.
+   */
+  ActualParameters createActualParameters();
 
-    /**
-     * Creates an instance of {@link RenameList} with the given children.
-     *
-     * @return the new instance of RenameList.
-     */
-    public RenameList createRenameList(net.sourceforge.czt.z.ast.RenameExpr renameExpr);
+  /**
+   * Creates an instance of {@link ActualParameters} with the given children.
+   *
+   * @return the new instance of ActualParameters.
+   */
+  ActualParameters createActualParameters(java.util.List expr);
 
-    /**
-     * Creates an instance of {@link ActualParameters}.
-     *
-     * @return the new instance of ActualParameters.
-     */
-    public ActualParameters createActualParameters();
+  /**
+   * Creates an instance of {@link DistConjOpExpr}.
+   *
+   * @return the new instance of DistConjOpExpr.
+   */
+  DistConjOpExpr createDistConjOpExpr();
 
-    /**
-     * Creates an instance of {@link ActualParameters} with the given children.
-     *
-     * @return the new instance of ActualParameters.
-     */
-    public ActualParameters createActualParameters(java.util.List expr);
+  /**
+   * Creates an instance of {@link DistConjOpExpr} with the given children.
+   *
+   * @return the new instance of DistConjOpExpr.
+   */
+  DistConjOpExpr createDistConjOpExpr(MainOpExpr mainOpExpr);
 
-    /**
-     * Creates an instance of {@link DistConjOpExpr}.
-     *
-     * @return the new instance of DistConjOpExpr.
-     */
-    public DistConjOpExpr createDistConjOpExpr();
+  /**
+   * Creates an instance of {@link BasicOpExpr}.
+   *
+   * @return the new instance of BasicOpExpr.
+   */
+  BasicOpExpr createBasicOpExpr();
 
-    /**
-     * Creates an instance of {@link DistConjOpExpr} with the given children.
-     *
-     * @return the new instance of DistConjOpExpr.
-     */
-    public DistConjOpExpr createDistConjOpExpr(MainOpExpr mainOpExpr);
+  /**
+   * Creates an instance of {@link BasicOpExpr} with the given children.
+   *
+   * @return the new instance of BasicOpExpr.
+   */
+  BasicOpExpr createBasicOpExpr(RefNameList deltaList, net.sourceforge.czt.z.ast.SchText schText);
 
-    /**
-     * Creates an instance of {@link BasicOpExpr}.
-     *
-     * @return the new instance of BasicOpExpr.
-     */
-    public BasicOpExpr createBasicOpExpr();
+  /**
+   * Creates an instance of {@link MainOpExpr}.
+   *
+   * @return the new instance of MainOpExpr.
+   */
+  MainOpExpr createMainOpExpr();
 
-    /**
-     * Creates an instance of {@link BasicOpExpr} with the given children.
-     *
-     * @return the new instance of BasicOpExpr.
-     */
-    public BasicOpExpr createBasicOpExpr(RefNameList deltaList, net.sourceforge.czt.z.ast.SchText schText);
+  /**
+   * Creates an instance of {@link MainOpExpr} with the given children.
+   *
+   * @return the new instance of MainOpExpr.
+   */
+  MainOpExpr createMainOpExpr(net.sourceforge.czt.z.ast.SchText schText, OperationExpr operationExpr);
 
-    /**
-     * Creates an instance of {@link MainOpExpr}.
-     *
-     * @return the new instance of MainOpExpr.
-     */
-    public MainOpExpr createMainOpExpr();
+  /**
+   * Creates an instance of {@link HideOpExpr}.
+   *
+   * @return the new instance of HideOpExpr.
+   */
+  HideOpExpr createHideOpExpr();
 
-    /**
-     * Creates an instance of {@link MainOpExpr} with the given children.
-     *
-     * @return the new instance of MainOpExpr.
-     */
-    public MainOpExpr createMainOpExpr(net.sourceforge.czt.z.ast.SchText schText, OperationExpr operationExpr);
+  /**
+   * Creates an instance of {@link HideOpExpr} with the given children.
+   *
+   * @return the new instance of HideOpExpr.
+   */
+  HideOpExpr createHideOpExpr(OperationExpr operationExpr, java.util.List hideName);
 
-    /**
-     * Creates an instance of {@link HideOpExpr}.
-     *
-     * @return the new instance of HideOpExpr.
-     */
-    public HideOpExpr createHideOpExpr();
+  /**
+   * Creates an instance of {@link SeqOpExpr}.
+   *
+   * @return the new instance of SeqOpExpr.
+   */
+  SeqOpExpr createSeqOpExpr();
 
-    /**
-     * Creates an instance of {@link HideOpExpr} with the given children.
-     *
-     * @return the new instance of HideOpExpr.
-     */
-    public HideOpExpr createHideOpExpr(OperationExpr operationExpr, java.util.List hideName);
+  /**
+   * Creates an instance of {@link SeqOpExpr} with the given children.
+   *
+   * @return the new instance of SeqOpExpr.
+   */
+  SeqOpExpr createSeqOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr);
 
-    /**
-     * Creates an instance of {@link SeqOpExpr}.
-     *
-     * @return the new instance of SeqOpExpr.
-     */
-    public SeqOpExpr createSeqOpExpr();
+  /**
+   * Creates an instance of {@link InheritedClass}.
+   *
+   * @return the new instance of InheritedClass.
+   */
+  InheritedClass createInheritedClass();
 
-    /**
-     * Creates an instance of {@link SeqOpExpr} with the given children.
-     *
-     * @return the new instance of SeqOpExpr.
-     */
-    public SeqOpExpr createSeqOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr);
+  /**
+   * Creates an instance of {@link InheritedClass} with the given children.
+   *
+   * @return the new instance of InheritedClass.
+   */
+  InheritedClass createInheritedClass(net.sourceforge.czt.z.ast.RefName name, ActualParameters actualParameters, net.sourceforge.czt.z.ast.RenameExpr renameExpr);
 
-    /**
-     * Creates an instance of {@link InheritedClass}.
-     *
-     * @return the new instance of InheritedClass.
-     */
-    public InheritedClass createInheritedClass();
+  /**
+   * Creates an instance of {@link DistChoiceOpExpr}.
+   *
+   * @return the new instance of DistChoiceOpExpr.
+   */
+  DistChoiceOpExpr createDistChoiceOpExpr();
 
-    /**
-     * Creates an instance of {@link InheritedClass} with the given children.
-     *
-     * @return the new instance of InheritedClass.
-     */
-    public InheritedClass createInheritedClass(net.sourceforge.czt.z.ast.RefName name, ActualParameters actualParameters, RenameList renameList);
+  /**
+   * Creates an instance of {@link DistChoiceOpExpr} with the given children.
+   *
+   * @return the new instance of DistChoiceOpExpr.
+   */
+  DistChoiceOpExpr createDistChoiceOpExpr(MainOpExpr mainOpExpr);
 
-    /**
-     * Creates an instance of {@link DistChoiceOpExpr}.
-     *
-     * @return the new instance of DistChoiceOpExpr.
-     */
-    public DistChoiceOpExpr createDistChoiceOpExpr();
+  /**
+   * Creates an instance of {@link AssoParallelOpExpr}.
+   *
+   * @return the new instance of AssoParallelOpExpr.
+   */
+  AssoParallelOpExpr createAssoParallelOpExpr();
 
-    /**
-     * Creates an instance of {@link DistChoiceOpExpr} with the given children.
-     *
-     * @return the new instance of DistChoiceOpExpr.
-     */
-    public DistChoiceOpExpr createDistChoiceOpExpr(MainOpExpr mainOpExpr);
+  /**
+   * Creates an instance of {@link AssoParallelOpExpr} with the given children.
+   *
+   * @return the new instance of AssoParallelOpExpr.
+   */
+  AssoParallelOpExpr createAssoParallelOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr);
 
-    /**
-     * Creates an instance of {@link AssoParallelOpExpr}.
-     *
-     * @return the new instance of AssoParallelOpExpr.
-     */
-    public AssoParallelOpExpr createAssoParallelOpExpr();
+  /**
+   * Creates an instance of {@link State}.
+   *
+   * @return the new instance of State.
+   */
+  State createState();
 
-    /**
-     * Creates an instance of {@link AssoParallelOpExpr} with the given children.
-     *
-     * @return the new instance of AssoParallelOpExpr.
-     */
-    public AssoParallelOpExpr createAssoParallelOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr);
+  /**
+   * Creates an instance of {@link State} with the given children.
+   *
+   * @return the new instance of State.
+   */
+  State createState(java.util.List decl, SecondaryAttributes secondaryAttributes, java.util.List pred);
 
-    /**
-     * Creates an instance of {@link State}.
-     *
-     * @return the new instance of State.
-     */
-    public State createState();
+  /**
+   * Creates an instance of {@link ConjOpExpr}.
+   *
+   * @return the new instance of ConjOpExpr.
+   */
+  ConjOpExpr createConjOpExpr();
 
-    /**
-     * Creates an instance of {@link State} with the given children.
-     *
-     * @return the new instance of State.
-     */
-    public State createState(java.util.List decl, java.util.List secondaryAttributes, java.util.List pred);
+  /**
+   * Creates an instance of {@link ConjOpExpr} with the given children.
+   *
+   * @return the new instance of ConjOpExpr.
+   */
+  ConjOpExpr createConjOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr);
 
-    /**
-     * Creates an instance of {@link ConjOpExpr}.
-     *
-     * @return the new instance of ConjOpExpr.
-     */
-    public ConjOpExpr createConjOpExpr();
+  /**
+   * Creates an instance of {@link OpPromotionExpr}.
+   *
+   * @return the new instance of OpPromotionExpr.
+   */
+  OpPromotionExpr createOpPromotionExpr();
 
-    /**
-     * Creates an instance of {@link ConjOpExpr} with the given children.
-     *
-     * @return the new instance of ConjOpExpr.
-     */
-    public ConjOpExpr createConjOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr);
+  /**
+   * Creates an instance of {@link OpPromotionExpr} with the given children.
+   *
+   * @return the new instance of OpPromotionExpr.
+   */
+  OpPromotionExpr createOpPromotionExpr(net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.z.ast.RefName opName);
 
-    /**
-     * Creates an instance of {@link OpPromotionExpr}.
-     *
-     * @return the new instance of OpPromotionExpr.
-     */
-    public OpPromotionExpr createOpPromotionExpr();
+  /**
+   * Creates an instance of {@link ClassPara}.
+   *
+   * @return the new instance of ClassPara.
+   */
+  ClassPara createClassPara();
 
-    /**
-     * Creates an instance of {@link OpPromotionExpr} with the given children.
-     *
-     * @return the new instance of OpPromotionExpr.
-     */
-    public OpPromotionExpr createOpPromotionExpr(net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.z.ast.RefName opName);
+  /**
+   * Creates an instance of {@link ClassPara} with the given children.
+   *
+   * @return the new instance of ClassPara.
+   */
+  ClassPara createClassPara(net.sourceforge.czt.z.ast.DeclName name, FormalParameters formalParameters, RefNameList visibilityList, java.util.List inheritedClass, LocalDef localDef, State state, InitialState initialState, java.util.List operation);
 
-    /**
-     * Creates an instance of {@link ClassPara}.
-     *
-     * @return the new instance of ClassPara.
-     */
-    public ClassPara createClassPara();
+  /**
+   * Creates an instance of {@link ParenOpExpr}.
+   *
+   * @return the new instance of ParenOpExpr.
+   */
+  ParenOpExpr createParenOpExpr();
 
-    /**
-     * Creates an instance of {@link ClassPara} with the given children.
-     *
-     * @return the new instance of ClassPara.
-     */
-    public ClassPara createClassPara(net.sourceforge.czt.z.ast.DeclName name, FormalParameters formalParameters, DeclNameList visibilityList, java.util.List inheritedClass, LocalDef localDef, State state, InitialState initialState, java.util.List operation);
+  /**
+   * Creates an instance of {@link Operation}.
+   *
+   * @return the new instance of Operation.
+   */
+  Operation createOperation();
 
-    /**
-     * Creates an instance of {@link ParenOpExpr}.
-     *
-     * @return the new instance of ParenOpExpr.
-     */
-    public ParenOpExpr createParenOpExpr();
+  /**
+   * Creates an instance of {@link Operation} with the given children.
+   *
+   * @return the new instance of Operation.
+   */
+  Operation createOperation(net.sourceforge.czt.z.ast.DeclName name, OperationBoxExpr operationBoxExpr);
 
-    /**
-     * Creates an instance of {@link Operation}.
-     *
-     * @return the new instance of Operation.
-     */
-    public Operation createOperation();
+  /**
+   * Creates an instance of {@link LocalDef}.
+   *
+   * @return the new instance of LocalDef.
+   */
+  LocalDef createLocalDef();
 
-    /**
-     * Creates an instance of {@link Operation} with the given children.
-     *
-     * @return the new instance of Operation.
-     */
-    public Operation createOperation(net.sourceforge.czt.z.ast.DeclName name, OperationBoxExpr operationBoxExpr);
+  /**
+   * Creates an instance of {@link LocalDef} with the given children.
+   *
+   * @return the new instance of LocalDef.
+   */
+  LocalDef createLocalDef(java.util.List givenPara, java.util.List axPara, java.util.List freePara);
 
-    /**
-     * Creates an instance of {@link LocalDef}.
-     *
-     * @return the new instance of LocalDef.
-     */
-    public LocalDef createLocalDef();
+  /**
+   * Creates an instance of {@link OperationBox}.
+   *
+   * @return the new instance of OperationBox.
+   */
+  OperationBox createOperationBox();
 
-    /**
-     * Creates an instance of {@link LocalDef} with the given children.
-     *
-     * @return the new instance of LocalDef.
-     */
-    public LocalDef createLocalDef(java.util.List givenPara, java.util.List axPara, java.util.List freePara);
+  /**
+   * Creates an instance of {@link OperationBox} with the given children.
+   *
+   * @return the new instance of OperationBox.
+   */
+  OperationBox createOperationBox(RefNameList deltaList, java.util.List decl, java.util.List pred);
 
-    /**
-     * Creates an instance of {@link InitialState}.
-     *
-     * @return the new instance of InitialState.
-     */
-    public InitialState createInitialState();
+  /**
+   * Creates an instance of {@link InitialState}.
+   *
+   * @return the new instance of InitialState.
+   */
+  InitialState createInitialState();
 
-    /**
-     * Creates an instance of {@link InitialState} with the given children.
-     *
-     * @return the new instance of InitialState.
-     */
-    public InitialState createInitialState(java.util.List pred);
+  /**
+   * Creates an instance of {@link InitialState} with the given children.
+   *
+   * @return the new instance of InitialState.
+   */
+  InitialState createInitialState(java.util.List pred);
 
-    /**
-     * Creates an instance of {@link OperationBox}.
-     *
-     * @return the new instance of OperationBox.
-     */
-    public OperationBox createOperationBox();
+  /**
+   * Creates an instance of {@link DistSeqOpExpr}.
+   *
+   * @return the new instance of DistSeqOpExpr.
+   */
+  DistSeqOpExpr createDistSeqOpExpr();
 
-    /**
-     * Creates an instance of {@link OperationBox} with the given children.
-     *
-     * @return the new instance of OperationBox.
-     */
-    public OperationBox createOperationBox(RefNameList deltaList, java.util.List decl, java.util.List pred);
+  /**
+   * Creates an instance of {@link DistSeqOpExpr} with the given children.
+   *
+   * @return the new instance of DistSeqOpExpr.
+   */
+  DistSeqOpExpr createDistSeqOpExpr(MainOpExpr mainOpExpr);
 
-    /**
-     * Creates an instance of {@link DistSeqOpExpr}.
-     *
-     * @return the new instance of DistSeqOpExpr.
-     */
-    public DistSeqOpExpr createDistSeqOpExpr();
+  /**
+   * Creates an instance of {@link ScopeEnrichOpExpr}.
+   *
+   * @return the new instance of ScopeEnrichOpExpr.
+   */
+  ScopeEnrichOpExpr createScopeEnrichOpExpr();
 
-    /**
-     * Creates an instance of {@link DistSeqOpExpr} with the given children.
-     *
-     * @return the new instance of DistSeqOpExpr.
-     */
-    public DistSeqOpExpr createDistSeqOpExpr(MainOpExpr mainOpExpr);
+  /**
+   * Creates an instance of {@link ScopeEnrichOpExpr} with the given children.
+   *
+   * @return the new instance of ScopeEnrichOpExpr.
+   */
+  ScopeEnrichOpExpr createScopeEnrichOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr);
 
-    /**
-     * Creates an instance of {@link ScopeEnrichOpExpr}.
-     *
-     * @return the new instance of ScopeEnrichOpExpr.
-     */
-    public ScopeEnrichOpExpr createScopeEnrichOpExpr();
+  /**
+   * Creates an instance of {@link SecondaryAttributes}.
+   *
+   * @return the new instance of SecondaryAttributes.
+   */
+  SecondaryAttributes createSecondaryAttributes();
 
-    /**
-     * Creates an instance of {@link ScopeEnrichOpExpr} with the given children.
-     *
-     * @return the new instance of ScopeEnrichOpExpr.
-     */
-    public ScopeEnrichOpExpr createScopeEnrichOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr);
+  /**
+   * Creates an instance of {@link SecondaryAttributes} with the given children.
+   *
+   * @return the new instance of SecondaryAttributes.
+   */
+  SecondaryAttributes createSecondaryAttributes(java.util.List varDecl);
 
-    /**
-     * Creates an instance of {@link DeclNameList}.
-     *
-     * @return the new instance of DeclNameList.
-     */
-    public DeclNameList createDeclNameList();
+  /**
+   * Creates an instance of {@link RenameOpExpr}.
+   *
+   * @return the new instance of RenameOpExpr.
+   */
+  RenameOpExpr createRenameOpExpr();
 
-    /**
-     * Creates an instance of {@link DeclNameList} with the given children.
-     *
-     * @return the new instance of DeclNameList.
-     */
-    public DeclNameList createDeclNameList(java.util.List name);
+  /**
+   * Creates an instance of {@link RenameOpExpr} with the given children.
+   *
+   * @return the new instance of RenameOpExpr.
+   */
+  RenameOpExpr createRenameOpExpr(OperationExpr operationExpr, net.sourceforge.czt.z.ast.RenameExpr renameExpr);
 
-    /**
-     * Creates an instance of {@link SecondaryAttributes}.
-     *
-     * @return the new instance of SecondaryAttributes.
-     */
-    public SecondaryAttributes createSecondaryAttributes();
+  /**
+   * Creates an instance of {@link ExChoiceOpExpr}.
+   *
+   * @return the new instance of ExChoiceOpExpr.
+   */
+  ExChoiceOpExpr createExChoiceOpExpr();
 
-    /**
-     * Creates an instance of {@link RenameOpExpr}.
-     *
-     * @return the new instance of RenameOpExpr.
-     */
-    public RenameOpExpr createRenameOpExpr();
+  /**
+   * Creates an instance of {@link ExChoiceOpExpr} with the given children.
+   *
+   * @return the new instance of ExChoiceOpExpr.
+   */
+  ExChoiceOpExpr createExChoiceOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr);
 
-    /**
-     * Creates an instance of {@link RenameOpExpr} with the given children.
-     *
-     * @return the new instance of RenameOpExpr.
-     */
-    public RenameOpExpr createRenameOpExpr(OperationExpr operationExpr, RenameList renameList);
+  /**
+   * Creates an instance of {@link ParallelOpExpr}.
+   *
+   * @return the new instance of ParallelOpExpr.
+   */
+  ParallelOpExpr createParallelOpExpr();
 
-    /**
-     * Creates an instance of {@link ExChoiceOpExpr}.
-     *
-     * @return the new instance of ExChoiceOpExpr.
-     */
-    public ExChoiceOpExpr createExChoiceOpExpr();
+  /**
+   * Creates an instance of {@link ParallelOpExpr} with the given children.
+   *
+   * @return the new instance of ParallelOpExpr.
+   */
+  ParallelOpExpr createParallelOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr);
 
-    /**
-     * Creates an instance of {@link ExChoiceOpExpr} with the given children.
-     *
-     * @return the new instance of ExChoiceOpExpr.
-     */
-    public ExChoiceOpExpr createExChoiceOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr);
+  /**
+   * Creates an instance of {@link FormalParameters}.
+   *
+   * @return the new instance of FormalParameters.
+   */
+  FormalParameters createFormalParameters();
 
-    /**
-     * Creates an instance of {@link ParallelOpExpr}.
-     *
-     * @return the new instance of ParallelOpExpr.
-     */
-    public ParallelOpExpr createParallelOpExpr();
-
-    /**
-     * Creates an instance of {@link ParallelOpExpr} with the given children.
-     *
-     * @return the new instance of ParallelOpExpr.
-     */
-    public ParallelOpExpr createParallelOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr);
-
-    /**
-     * Creates an instance of {@link FormalParameters}.
-     *
-     * @return the new instance of FormalParameters.
-     */
-    public FormalParameters createFormalParameters();
-
-    /**
-     * Creates an instance of {@link FormalParameters} with the given children.
-     *
-     * @return the new instance of FormalParameters.
-     */
-    public FormalParameters createFormalParameters(java.util.List refName);
+  /**
+   * Creates an instance of {@link FormalParameters} with the given children.
+   *
+   * @return the new instance of FormalParameters.
+   */
+  FormalParameters createFormalParameters(java.util.List refName);
 
 }

@@ -39,7 +39,7 @@ public interface NameTypePair extends Term
    *
    * @return the Name element.
    */
-  public DeclName getName();
+  DeclName getName();
 
   /**
    * Sets the Name element.
@@ -47,14 +47,14 @@ public interface NameTypePair extends Term
    * @param name   the Name element.
    * @see #getName
    */
-  public void setName(DeclName name);
+  void setName(DeclName name);
 
   /**
    * Returns the Type element.
    *
    * @return the Type element.
    */
-  public Type getType();
+  Type getType();
 
   /**
    * Sets the Type element.
@@ -62,5 +62,5 @@ public interface NameTypePair extends Term
    * @param type   the Type element.
    * @see #getType
    */
-  public void setType(Type type);
+  void setType(Type type);
 }

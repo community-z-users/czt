@@ -42,5 +42,5 @@ public interface FreePara extends Para
    *
    * @return a list of Freetype elements.
    */
-  public java.util.List getFreetype();
+  java.util.List getFreetype();
 }

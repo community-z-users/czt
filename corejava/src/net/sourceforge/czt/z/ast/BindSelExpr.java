@@ -39,7 +39,7 @@ public interface BindSelExpr extends Expr1
    *
    * @return the Name element.
    */
-  public RefName getName();
+  RefName getName();
 
   /**
    * Sets the Name element.
@@ -47,5 +47,5 @@ public interface BindSelExpr extends Expr1
    * @param name   the Name element.
    * @see #getName
    */
-  public void setName(RefName name);
+  void setName(RefName name);
 }

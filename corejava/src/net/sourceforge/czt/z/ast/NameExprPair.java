@@ -39,7 +39,7 @@ public interface NameExprPair extends Term
    *
    * @return the Name element.
    */
-  public DeclName getName();
+  DeclName getName();
 
   /**
    * Sets the Name element.
@@ -47,14 +47,14 @@ public interface NameExprPair extends Term
    * @param name   the Name element.
    * @see #getName
    */
-  public void setName(DeclName name);
+  void setName(DeclName name);
 
   /**
    * Returns the Expr element.
    *
    * @return the Expr element.
    */
-  public Expr getExpr();
+  Expr getExpr();
 
   /**
    * Sets the Expr element.
@@ -62,5 +62,5 @@ public interface NameExprPair extends Term
    * @param expr   the Expr element.
    * @see #getExpr
    */
-  public void setExpr(Expr expr);
+  void setExpr(Expr expr);
 }

@@ -39,7 +39,7 @@ public interface JokerPred extends Pred
    *
    * @return the Name element.
    */
-  public String getName();
+  String getName();
 
   /**
    * Sets the Name element.
@@ -47,5 +47,5 @@ public interface JokerPred extends Pred
    * @param name   the Name element.
    * @see #getName
    */
-  public void setName(String name);
+  void setName(String name);
 }

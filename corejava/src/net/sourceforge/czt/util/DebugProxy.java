@@ -22,41 +22,55 @@ package net.sourceforge.czt.util;
 import java.lang.reflect.*;
 import java.util.logging.Logger;
 
-public class DebugProxy
+/**
+ * A simple debug proxy.
+ *
+ * @author Petra Malik
+ */
+public final class DebugProxy
   implements java.lang.reflect.InvocationHandler
 {
-  private final static Logger sLogger = Logger.getLogger("debug");  
-  private Object mObject;
-  
-  private DebugProxy(Object object) {
-    sLogger.fine("Create new DebugProxy for " + object);
-    mObject = object;
+  /**
+   * The object for which debugging information is provided.
+   */
+  private Object object_;
+
+  private DebugProxy(Object object)
+  {
+    getLogger().fine("Create new DebugProxy for " + object);
+    object_ = object;
   }
-  
-  public static Object newInstance(Object object) {
+
+  private Logger getLogger()
+  {
+    return Logger.getLogger("debug");
+  }
+
+  public static Object newInstance(Object object)
+  {
     return Proxy.newProxyInstance(object.getClass().getClassLoader(),
-				  object.getClass().getInterfaces(),
-				  new DebugProxy(object));
+                                  object.getClass().getInterfaces(),
+                                  new DebugProxy(object));
   }
-  
+
   public Object invoke(Object proxy, Method m, Object[] args)
     throws Throwable
   {
     Object result = null;
     if (args != null) {
-      sLogger.entering(mObject.getClass().toString(), m.getName(), args);
+      getLogger().entering(object_.getClass().toString(), m.getName(), args);
     } else {
-      sLogger.entering(mObject.getClass().toString(), m.getName());
+      getLogger().entering(object_.getClass().toString(), m.getName());
     }
     try {
-      result = m.invoke(mObject, args);
+      result = m.invoke(object_, args);
     } catch (InvocationTargetException e) {
       throw e.getTargetException();
     } catch (Exception e) {
-      sLogger.fine("Caught exception " + e);
+      getLogger().fine("Caught exception " + e);
       throw e;
     } finally {
-      sLogger.exiting(mObject.getClass().toString(), m.getName(), result);
+      getLogger().exiting(object_.getClass().toString(), m.getName(), result);
     }
     return result;
   }

@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.oz.ast.*;
@@ -43,7 +44,7 @@ import net.sourceforge.czt.oz.visitor.OpPromotionExprVisitor;
  * @author Gnast version 0.1
  */
 public class OpPromotionExprImpl
-extends OperationExprImpl implements OpPromotionExpr
+  extends OperationExprImpl   implements OpPromotionExpr
 {
   /**
    * The default constructor.
@@ -52,7 +53,9 @@ extends OperationExprImpl implements OpPromotionExpr
    * If you want to create an instance of this class, please use the
    * {@link OzFactory object factory}.
    */
-  protected OpPromotionExprImpl() { }
+  protected OpPromotionExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this OpPromotionExprImpl
@@ -62,21 +65,29 @@ extends OperationExprImpl implements OpPromotionExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      OpPromotionExprImpl object = (OpPromotionExprImpl) obj;
-      if((mExpr == null && object.mExpr != null) ||
-         (mExpr != null &&
-         ! mExpr.equals(object.mExpr))) return false;
-      if(mExpr == null && object.mExpr != null)
-        return false;
-      if((mOpName == null && object.mOpName != null) ||
-         (mOpName != null &&
-         ! mOpName.equals(object.mOpName))) return false;
-      if(mOpName == null && object.mOpName != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        OpPromotionExprImpl object = (OpPromotionExprImpl) obj;
+        if (expr_ != null) {
+          if (!expr_.equals(object.expr_)) {
+            return false;
+          }
+        } else {
+          if (object.expr_ != null) {
+            return false;
+          }
+        }
+        if (opName_ != null) {
+          if (!opName_.equals(object.opName_)) {
+            return false;
+          }
+        } else {
+          if (object.opName_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -90,13 +101,15 @@ extends OperationExprImpl implements OpPromotionExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "OpPromotionExprImpl".hashCode();
-    if(mExpr != null) {
-      hashCode += 31*mExpr.hashCode();
+    if (expr_ != null) {
+      hashCode += constant * expr_.hashCode();
     }
-    if(mOpName != null) {
-      hashCode += 31*mOpName.hashCode();
+    if (opName_ != null) {
+      hashCode += constant * opName_.hashCode();
     }
     return hashCode;
   }
@@ -106,8 +119,7 @@ extends OperationExprImpl implements OpPromotionExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof OpPromotionExprVisitor)
-    {
+    if (v instanceof OpPromotionExprVisitor) {
       OpPromotionExprVisitor visitor = (OpPromotionExprVisitor) v;
       return visitor.visitOpPromotionExpr(this);
     }
@@ -117,7 +129,8 @@ extends OperationExprImpl implements OpPromotionExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     OpPromotionExpr zedObject = null;
     try {
       net.sourceforge.czt.z.ast.Expr expr = (net.sourceforge.czt.z.ast.Expr) args[0];
@@ -139,27 +152,27 @@ extends OperationExprImpl implements OpPromotionExpr
     return erg;
   }
 
-  private net.sourceforge.czt.z.ast.Expr mExpr;
+  private net.sourceforge.czt.z.ast.Expr expr_;
 
   public net.sourceforge.czt.z.ast.Expr getExpr()
   {
-    return mExpr;
+    return expr_;
   }
 
   public void setExpr(net.sourceforge.czt.z.ast.Expr expr)
   {
-    mExpr = expr;
+    expr_ = expr;
   }
 
-  private net.sourceforge.czt.z.ast.RefName mOpName;
+  private net.sourceforge.czt.z.ast.RefName opName_;
 
   public net.sourceforge.czt.z.ast.RefName getOpName()
   {
-    return mOpName;
+    return opName_;
   }
 
   public void setOpName(net.sourceforge.czt.z.ast.RefName opName)
   {
-    mOpName = opName;
+    opName_ = opName;
   }
 }

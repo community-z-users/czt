@@ -39,7 +39,7 @@ public interface ConstDecl extends Decl
    *
    * @return the DeclName element.
    */
-  public DeclName getDeclName();
+  DeclName getDeclName();
 
   /**
    * Sets the DeclName element.
@@ -47,14 +47,14 @@ public interface ConstDecl extends Decl
    * @param declName   the DeclName element.
    * @see #getDeclName
    */
-  public void setDeclName(DeclName declName);
+  void setDeclName(DeclName declName);
 
   /**
    * Returns the Expr element.
    *
    * @return the Expr element.
    */
-  public Expr getExpr();
+  Expr getExpr();
 
   /**
    * Sets the Expr element.
@@ -62,5 +62,5 @@ public interface ConstDecl extends Decl
    * @param expr   the Expr element.
    * @see #getExpr
    */
-  public void setExpr(Expr expr);
+  void setExpr(Expr expr);
 }

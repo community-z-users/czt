@@ -21,6 +21,6 @@ package net.sourceforge.czt.zpatt.jaxb;
 
 public class JaxbContext
 {
-  public final static String PATH =
+  public static final String PATH =
     "net.sourceforge.czt.z.jaxb.gen:net.sourceforge.czt.zpatt.jaxb.gen";
 }

@@ -39,7 +39,7 @@ public interface RenameOpExpr extends OperationExpr
    *
    * @return the OperationExpr element.
    */
-  public OperationExpr getOperationExpr();
+  OperationExpr getOperationExpr();
 
   /**
    * Sets the OperationExpr element.
@@ -47,20 +47,20 @@ public interface RenameOpExpr extends OperationExpr
    * @param operationExpr   the OperationExpr element.
    * @see #getOperationExpr
    */
-  public void setOperationExpr(OperationExpr operationExpr);
+  void setOperationExpr(OperationExpr operationExpr);
 
   /**
-   * Returns the RenameList element.
+   * Returns the RenameExpr element.
    *
-   * @return the RenameList element.
+   * @return the RenameExpr element.
    */
-  public RenameList getRenameList();
+  net.sourceforge.czt.z.ast.RenameExpr getRenameExpr();
 
   /**
-   * Sets the RenameList element.
+   * Sets the RenameExpr element.
    *
-   * @param renameList   the RenameList element.
-   * @see #getRenameList
+   * @param renameExpr   the RenameExpr element.
+   * @see #getRenameExpr
    */
-  public void setRenameList(RenameList renameList);
+  void setRenameExpr(net.sourceforge.czt.z.ast.RenameExpr renameExpr);
 }

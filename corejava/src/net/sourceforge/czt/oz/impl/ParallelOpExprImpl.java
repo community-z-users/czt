@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.oz.ast.*;
@@ -43,7 +44,7 @@ import net.sourceforge.czt.oz.visitor.ParallelOpExprVisitor;
  * @author Gnast version 0.1
  */
 public class ParallelOpExprImpl
-extends OperationExprImpl implements ParallelOpExpr
+  extends OperationExprImpl   implements ParallelOpExpr
 {
   /**
    * The default constructor.
@@ -52,7 +53,9 @@ extends OperationExprImpl implements ParallelOpExpr
    * If you want to create an instance of this class, please use the
    * {@link OzFactory object factory}.
    */
-  protected ParallelOpExprImpl() { }
+  protected ParallelOpExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this ParallelOpExprImpl
@@ -62,21 +65,29 @@ extends OperationExprImpl implements ParallelOpExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      ParallelOpExprImpl object = (ParallelOpExprImpl) obj;
-      if((mLeftOperationExpr == null && object.mLeftOperationExpr != null) ||
-         (mLeftOperationExpr != null &&
-         ! mLeftOperationExpr.equals(object.mLeftOperationExpr))) return false;
-      if(mLeftOperationExpr == null && object.mLeftOperationExpr != null)
-        return false;
-      if((mRightOperationExpr == null && object.mRightOperationExpr != null) ||
-         (mRightOperationExpr != null &&
-         ! mRightOperationExpr.equals(object.mRightOperationExpr))) return false;
-      if(mRightOperationExpr == null && object.mRightOperationExpr != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        ParallelOpExprImpl object = (ParallelOpExprImpl) obj;
+        if (leftOperationExpr_ != null) {
+          if (!leftOperationExpr_.equals(object.leftOperationExpr_)) {
+            return false;
+          }
+        } else {
+          if (object.leftOperationExpr_ != null) {
+            return false;
+          }
+        }
+        if (rightOperationExpr_ != null) {
+          if (!rightOperationExpr_.equals(object.rightOperationExpr_)) {
+            return false;
+          }
+        } else {
+          if (object.rightOperationExpr_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -90,13 +101,15 @@ extends OperationExprImpl implements ParallelOpExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "ParallelOpExprImpl".hashCode();
-    if(mLeftOperationExpr != null) {
-      hashCode += 31*mLeftOperationExpr.hashCode();
+    if (leftOperationExpr_ != null) {
+      hashCode += constant * leftOperationExpr_.hashCode();
     }
-    if(mRightOperationExpr != null) {
-      hashCode += 31*mRightOperationExpr.hashCode();
+    if (rightOperationExpr_ != null) {
+      hashCode += constant * rightOperationExpr_.hashCode();
     }
     return hashCode;
   }
@@ -106,8 +119,7 @@ extends OperationExprImpl implements ParallelOpExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof ParallelOpExprVisitor)
-    {
+    if (v instanceof ParallelOpExprVisitor) {
       ParallelOpExprVisitor visitor = (ParallelOpExprVisitor) v;
       return visitor.visitParallelOpExpr(this);
     }
@@ -117,7 +129,8 @@ extends OperationExprImpl implements ParallelOpExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     ParallelOpExpr zedObject = null;
     try {
       OperationExpr leftOperationExpr = (OperationExpr) args[0];
@@ -139,27 +152,27 @@ extends OperationExprImpl implements ParallelOpExpr
     return erg;
   }
 
-  private OperationExpr mLeftOperationExpr;
+  private OperationExpr leftOperationExpr_;
 
   public OperationExpr getLeftOperationExpr()
   {
-    return mLeftOperationExpr;
+    return leftOperationExpr_;
   }
 
   public void setLeftOperationExpr(OperationExpr leftOperationExpr)
   {
-    mLeftOperationExpr = leftOperationExpr;
+    leftOperationExpr_ = leftOperationExpr;
   }
 
-  private OperationExpr mRightOperationExpr;
+  private OperationExpr rightOperationExpr_;
 
   public OperationExpr getRightOperationExpr()
   {
-    return mRightOperationExpr;
+    return rightOperationExpr_;
   }
 
   public void setRightOperationExpr(OperationExpr rightOperationExpr)
   {
-    mRightOperationExpr = rightOperationExpr;
+    rightOperationExpr_ = rightOperationExpr;
   }
 }

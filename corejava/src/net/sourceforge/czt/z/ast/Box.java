@@ -29,28 +29,47 @@ package net.sourceforge.czt.z.ast;
  *
  * @author Gnast version 0.1
  */
-public class Box
+public final class Box
 {
   public final static Box OmitBox = new Box("OmitBox");
   public final static Box AxBox = new Box("AxBox");
   public final static Box SchBox = new Box("SchBox");
-  private final String name;
+  private final String name_;
 
   /**
    * Only this class can construct instances.
    */
-  private Box(String name) { this.name = name; }
+  private Box(String name)
+  {
+    name_ = name;
+  }
 
-  public String toString() { return name; }
+  public String toString()
+  {
+    return name_;
+  }
 
-  public final int hashCode() { return super.hashCode(); }
+  public final int hashCode()
+  {
+    return super.hashCode();
+  }
 
-  public final boolean equals(java.lang.Object o) { return super.equals(o); }
+  public final boolean equals(java.lang.Object o)
+  {
+    return super.equals(o);
+  }
 
-  public static Box fromString(java.lang.String value) {
-    if (value.equals("OmitBox")) return OmitBox;
-    if (value.equals("AxBox")) return AxBox;
-    if (value.equals("SchBox")) return SchBox;
+  public static Box fromString(java.lang.String value)
+  {
+    if (value.equals("OmitBox")) {
+      return OmitBox;
+    }
+    if (value.equals("AxBox")) {
+      return AxBox;
+    }
+    if (value.equals("SchBox")) {
+      return SchBox;
+    }
     throw new IllegalArgumentException();
   }
 }

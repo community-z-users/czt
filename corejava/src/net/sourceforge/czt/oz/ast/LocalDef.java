@@ -42,7 +42,7 @@ public interface LocalDef extends TermA
    *
    * @return a list of GivenPara elements.
    */
-  public java.util.List getGivenPara();
+  java.util.List getGivenPara();
 
   /**
    * <p>Returns the AxPara elements.</p>
@@ -52,7 +52,7 @@ public interface LocalDef extends TermA
    *
    * @return a list of AxPara elements.
    */
-  public java.util.List getAxPara();
+  java.util.List getAxPara();
 
   /**
    * <p>Returns the FreePara elements.</p>
@@ -62,5 +62,5 @@ public interface LocalDef extends TermA
    *
    * @return a list of FreePara elements.
    */
-  public java.util.List getFreePara();
+  java.util.List getFreePara();
 }

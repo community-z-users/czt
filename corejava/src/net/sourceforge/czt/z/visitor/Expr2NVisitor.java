@@ -26,6 +26,9 @@ package net.sourceforge.czt.z.visitor;
 
 import net.sourceforge.czt.util.Visitor;
 
+/**
+ * A(n) Expr2N visitor.
+ */
 public interface Expr2NVisitor extends Visitor
 {
   /**

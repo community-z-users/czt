@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.Expr0NVisitor;
  * @author Gnast version 0.1
  */
 public abstract class Expr0NImpl
-extends ExprImpl implements Expr0N
+  extends ExprImpl   implements Expr0N
 {
 
   /**
@@ -52,16 +53,20 @@ extends ExprImpl implements Expr0N
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      Expr0NImpl object = (Expr0NImpl) obj;
-      if((mExpr == null && object.mExpr != null) ||
-         (mExpr != null &&
-         ! mExpr.equals(object.mExpr))) return false;
-      if(mExpr == null && object.mExpr != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        Expr0NImpl object = (Expr0NImpl) obj;
+        if (expr_ != null) {
+          if (!expr_.equals(object.expr_)) {
+            return false;
+          }
+        } else {
+          if (object.expr_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -75,10 +80,12 @@ extends ExprImpl implements Expr0N
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "Expr0NImpl".hashCode();
-    if(mExpr != null) {
-      hashCode += 31*mExpr.hashCode();
+    if (expr_ != null) {
+      hashCode += constant * expr_.hashCode();
     }
     return hashCode;
   }
@@ -88,8 +95,7 @@ extends ExprImpl implements Expr0N
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof Expr0NVisitor)
-    {
+    if (v instanceof Expr0NVisitor) {
       Expr0NVisitor visitor = (Expr0NVisitor) v;
       return visitor.visitExpr0N(this);
     }
@@ -97,10 +103,12 @@ extends ExprImpl implements Expr0N
   }
 
 
-  private java.util.List mExpr = new net.sourceforge.czt.util.TypesafeList(Expr.class);
+
+  private java.util.List expr_ =
+    new TypesafeList(Expr.class);
 
   public java.util.List getExpr()
   {
-    return mExpr;
+    return expr_;
   }
 }

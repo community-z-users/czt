@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.base.ast.Term;
 
 import net.sourceforge.czt.z.jaxb.gen.*;
 import net.sourceforge.czt.oz.jaxb.gen.*;
@@ -44,26 +45,33 @@ public class AstToJaxb
   implements net.sourceforge.czt.oz.visitor.OzVisitor,
              net.sourceforge.czt.base.visitor.TermVisitor
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.oz.jaxb.AstToJaxb");
-
   /**
    * The ObjectFactory instances for generating Jaxb objects.
    */
-  protected net.sourceforge.czt.oz.jaxb.gen.ObjectFactory
-    mObjectFactory = new net.sourceforge.czt.oz.jaxb.gen.ObjectFactory();
-  protected net.sourceforge.czt.z.jaxb.gen.ObjectFactory
-    mAnnsObjectFactory = new net.sourceforge.czt.z.jaxb.gen.ObjectFactory();
-  protected org.w3._2001.xmlschema.ObjectFactory
-    mAnyTypeObjectFactory = new org.w3._2001.xmlschema.ObjectFactory();
+  private net.sourceforge.czt.oz.jaxb.gen.ObjectFactory
+    objectFactory_ = new net.sourceforge.czt.oz.jaxb.gen.ObjectFactory();
+  private net.sourceforge.czt.z.jaxb.gen.ObjectFactory
+    annsObjectFactory_ = new net.sourceforge.czt.z.jaxb.gen.ObjectFactory();
+  private org.w3._2001.xmlschema.ObjectFactory
+    anyTypeObjectFactory_ = new org.w3._2001.xmlschema.ObjectFactory();
 
   /**
-   * A map that maps id's to the corresponding Object
+   * A map that maps id's to the corresponding Object.
    */
-  protected Map mHash = new HashMap();
+  private Map hash_ = new HashMap();
+
+  private String getClassName()
+  {
+    return "net.sourceforge.czt.oz.jaxb.AstToJaxb";
+  }
+
+  private Logger getLogger()
+  {
+    return Logger.getLogger(getClassName());
+  }
 
 
-  public Object visitTerm(net.sourceforge.czt.base.ast.Term zedObject)
+  public Object visitTerm(Term zedObject)
   {
     throw(new UnsupportedOperationException("Unexpected element "
                                             + zedObject.getClass().getName()));
@@ -72,41 +80,44 @@ public class AstToJaxb
 
   public Object visitRefNameList(net.sourceforge.czt.oz.ast.RefNameList zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitRefNameList", zedObject);
+    getLogger().entering(getClassName(), "visitRefNameList", zedObject);
 
     RefNameList jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createRefNameListElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createRefNameList();
+      jaxbObject = objectFactory_.createRefNameListElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createRefNameList();
+      }
       {
         java.util.List list = zedObject.getName();
         java.util.List newlist = jaxbObject.getName();
-        for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Term term = (Term) iter.next();
           createElement_ = false;
           java.lang.Object o = term.accept(this);
-	  newlist.add(o);
+          newlist.add(o);
         }
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a RefNameList to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a RefNameList to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
         } catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a RefNameList to the corresponding "
@@ -116,91 +127,50 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitRefNameList", jaxbObject);
-    return jaxbObject;
-  }
-
-  public Object visitRenameList(net.sourceforge.czt.oz.ast.RenameList zedObject)
-  {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitRenameList", zedObject);
-
-    RenameList jaxbObject = null;
-    try {
-      jaxbObject = mObjectFactory.createRenameListElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createRenameList();
-      createElement_ = true;
-      if (zedObject.getRenameExpr()!=null) {
-        jaxbObject.setRenameExpr((RenameExpr) zedObject.getRenameExpr().accept(this));
-      }
-    } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a RenameList to the corresponding "
-                       + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a RenameList to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
-        }
-      }
-    }
-
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitRenameList", jaxbObject);
+    getLogger().exiting(getClassName(), "visitRefNameList", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitActualParameters(net.sourceforge.czt.oz.ast.ActualParameters zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitActualParameters", zedObject);
+    getLogger().entering(getClassName(), "visitActualParameters", zedObject);
 
     ActualParameters jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createActualParametersElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createActualParameters();
+      jaxbObject = objectFactory_.createActualParametersElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createActualParameters();
+      }
       {
         java.util.List list = zedObject.getExpr();
         java.util.List newlist = jaxbObject.getExpr();
-        for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Term term = (Term) iter.next();
           createElement_ = true;
           java.lang.Object o = term.accept(this);
-	  newlist.add(o);
+          newlist.add(o);
         }
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a ActualParameters to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a ActualParameters to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
         } catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a ActualParameters to the corresponding "
@@ -210,40 +180,42 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitActualParameters", jaxbObject);
+    getLogger().exiting(getClassName(), "visitActualParameters", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitDistConjOpExpr(net.sourceforge.czt.oz.ast.DistConjOpExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitDistConjOpExpr", zedObject);
+    getLogger().entering(getClassName(), "visitDistConjOpExpr", zedObject);
 
     DistConjOpExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createDistConjOpExpr();
+      jaxbObject = objectFactory_.createDistConjOpExpr();
       createElement_ = true;
-      if (zedObject.getMainOpExpr()!=null) {
-        jaxbObject.setMainOpExpr((MainOpExpr) zedObject.getMainOpExpr().accept(this));
+      if (zedObject.getMainOpExpr() != null) {
+        Term term = zedObject.getMainOpExpr();
+        jaxbObject.setMainOpExpr((MainOpExpr) term.accept(this));
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a DistConjOpExpr to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a DistConjOpExpr to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
         } catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a DistConjOpExpr to the corresponding "
@@ -253,45 +225,50 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitDistConjOpExpr", jaxbObject);
+    getLogger().exiting(getClassName(), "visitDistConjOpExpr", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitBasicOpExpr(net.sourceforge.czt.oz.ast.BasicOpExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitBasicOpExpr", zedObject);
+    getLogger().entering(getClassName(), "visitBasicOpExpr", zedObject);
 
     BasicOpExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createBasicOpExprElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createBasicOpExpr();
+      jaxbObject = objectFactory_.createBasicOpExprElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createBasicOpExpr();
+      }
       createElement_ = false;
-      if (zedObject.getDeltaList()!=null) {
-        jaxbObject.setDeltaList((RefNameList) zedObject.getDeltaList().accept(this));
+      if (zedObject.getDeltaList() != null) {
+        Term term = zedObject.getDeltaList();
+        jaxbObject.setDeltaList((RefNameList) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getSchText()!=null) {
-        jaxbObject.setSchText((SchText) zedObject.getSchText().accept(this));
+      if (zedObject.getSchText() != null) {
+        Term term = zedObject.getSchText();
+        jaxbObject.setSchText((SchText) term.accept(this));
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a BasicOpExpr to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a BasicOpExpr to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
         } catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a BasicOpExpr to the corresponding "
@@ -301,45 +278,50 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitBasicOpExpr", jaxbObject);
+    getLogger().exiting(getClassName(), "visitBasicOpExpr", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitMainOpExpr(net.sourceforge.czt.oz.ast.MainOpExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitMainOpExpr", zedObject);
+    getLogger().entering(getClassName(), "visitMainOpExpr", zedObject);
 
     MainOpExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createMainOpExprElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createMainOpExpr();
-      createElement_ = true;
-      if (zedObject.getSchText()!=null) {
-        jaxbObject.setSchText((SchText) zedObject.getSchText().accept(this));
+      jaxbObject = objectFactory_.createMainOpExprElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createMainOpExpr();
       }
       createElement_ = true;
-      if (zedObject.getOperationExpr()!=null) {
-        jaxbObject.setOperationExpr((OperationExpr) zedObject.getOperationExpr().accept(this));
+      if (zedObject.getSchText() != null) {
+        Term term = zedObject.getSchText();
+        jaxbObject.setSchText((SchText) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getOperationExpr() != null) {
+        Term term = zedObject.getOperationExpr();
+        jaxbObject.setOperationExpr((OperationExpr) term.accept(this));
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a MainOpExpr to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a MainOpExpr to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
         } catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a MainOpExpr to the corresponding "
@@ -349,51 +331,55 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitMainOpExpr", jaxbObject);
+    getLogger().exiting(getClassName(), "visitMainOpExpr", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitHideOpExpr(net.sourceforge.czt.oz.ast.HideOpExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitHideOpExpr", zedObject);
+    getLogger().entering(getClassName(), "visitHideOpExpr", zedObject);
 
     HideOpExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createHideOpExprElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createHideOpExpr();
+      jaxbObject = objectFactory_.createHideOpExprElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createHideOpExpr();
+      }
       createElement_ = true;
-      if (zedObject.getOperationExpr()!=null) {
-        jaxbObject.setOperationExpr((OperationExpr) zedObject.getOperationExpr().accept(this));
+      if (zedObject.getOperationExpr() != null) {
+        Term term = zedObject.getOperationExpr();
+        jaxbObject.setOperationExpr((OperationExpr) term.accept(this));
       }
       {
         java.util.List list = zedObject.getHideName();
         java.util.List newlist = jaxbObject.getHideName();
-        for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Term term = (Term) iter.next();
           createElement_ = false;
           java.lang.Object o = term.accept(this);
-	  newlist.add(o);
+          newlist.add(o);
         }
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a HideOpExpr to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a HideOpExpr to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
         } catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a HideOpExpr to the corresponding "
@@ -403,44 +389,47 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitHideOpExpr", jaxbObject);
+    getLogger().exiting(getClassName(), "visitHideOpExpr", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitSeqOpExpr(net.sourceforge.czt.oz.ast.SeqOpExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitSeqOpExpr", zedObject);
+    getLogger().entering(getClassName(), "visitSeqOpExpr", zedObject);
 
     SeqOpExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createSeqOpExpr();
+      jaxbObject = objectFactory_.createSeqOpExpr();
       createElement_ = true;
-      if (zedObject.getLeftOperationExpr()!=null) {
-        jaxbObject.setLeftOperationExpr((OperationExpr) zedObject.getLeftOperationExpr().accept(this));
+      if (zedObject.getLeftOperationExpr() != null) {
+        Term term = zedObject.getLeftOperationExpr();
+        jaxbObject.setLeftOperationExpr((OperationExpr) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getRightOperationExpr()!=null) {
-        jaxbObject.setRightOperationExpr((OperationExpr) zedObject.getRightOperationExpr().accept(this));
+      if (zedObject.getRightOperationExpr() != null) {
+        Term term = zedObject.getRightOperationExpr();
+        jaxbObject.setRightOperationExpr((OperationExpr) term.accept(this));
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a SeqOpExpr to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a SeqOpExpr to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
         } catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a SeqOpExpr to the corresponding "
@@ -450,49 +439,55 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitSeqOpExpr", jaxbObject);
+    getLogger().exiting(getClassName(), "visitSeqOpExpr", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitInheritedClass(net.sourceforge.czt.oz.ast.InheritedClass zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitInheritedClass", zedObject);
+    getLogger().entering(getClassName(), "visitInheritedClass", zedObject);
 
     InheritedClass jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createInheritedClassElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createInheritedClass();
+      jaxbObject = objectFactory_.createInheritedClassElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createInheritedClass();
+      }
       createElement_ = false;
-      if (zedObject.getName()!=null) {
-        jaxbObject.setName((RefName) zedObject.getName().accept(this));
+      if (zedObject.getName() != null) {
+        Term term = zedObject.getName();
+        jaxbObject.setName((RefName) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getActualParameters()!=null) {
-        jaxbObject.setActualParameters((ActualParameters) zedObject.getActualParameters().accept(this));
+      if (zedObject.getActualParameters() != null) {
+        Term term = zedObject.getActualParameters();
+        jaxbObject.setActualParameters((ActualParameters) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getRenameList()!=null) {
-        jaxbObject.setRenameList((RenameList) zedObject.getRenameList().accept(this));
+      if (zedObject.getRenameExpr() != null) {
+        Term term = zedObject.getRenameExpr();
+        jaxbObject.setRenameExpr((RenameExpr) term.accept(this));
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a InheritedClass to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a InheritedClass to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
         } catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a InheritedClass to the corresponding "
@@ -502,40 +497,42 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitInheritedClass", jaxbObject);
+    getLogger().exiting(getClassName(), "visitInheritedClass", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitDistChoiceOpExpr(net.sourceforge.czt.oz.ast.DistChoiceOpExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitDistChoiceOpExpr", zedObject);
+    getLogger().entering(getClassName(), "visitDistChoiceOpExpr", zedObject);
 
     DistChoiceOpExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createDistChoiceOpExpr();
+      jaxbObject = objectFactory_.createDistChoiceOpExpr();
       createElement_ = true;
-      if (zedObject.getMainOpExpr()!=null) {
-        jaxbObject.setMainOpExpr((MainOpExpr) zedObject.getMainOpExpr().accept(this));
+      if (zedObject.getMainOpExpr() != null) {
+        Term term = zedObject.getMainOpExpr();
+        jaxbObject.setMainOpExpr((MainOpExpr) term.accept(this));
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a DistChoiceOpExpr to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a DistChoiceOpExpr to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
         } catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a DistChoiceOpExpr to the corresponding "
@@ -545,44 +542,47 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitDistChoiceOpExpr", jaxbObject);
+    getLogger().exiting(getClassName(), "visitDistChoiceOpExpr", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitAssoParallelOpExpr(net.sourceforge.czt.oz.ast.AssoParallelOpExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitAssoParallelOpExpr", zedObject);
+    getLogger().entering(getClassName(), "visitAssoParallelOpExpr", zedObject);
 
     AssoParallelOpExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createAssoParallelOpExpr();
+      jaxbObject = objectFactory_.createAssoParallelOpExpr();
       createElement_ = true;
-      if (zedObject.getLeftOperationExpr()!=null) {
-        jaxbObject.setLeftOperationExpr((OperationExpr) zedObject.getLeftOperationExpr().accept(this));
+      if (zedObject.getLeftOperationExpr() != null) {
+        Term term = zedObject.getLeftOperationExpr();
+        jaxbObject.setLeftOperationExpr((OperationExpr) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getRightOperationExpr()!=null) {
-        jaxbObject.setRightOperationExpr((OperationExpr) zedObject.getRightOperationExpr().accept(this));
+      if (zedObject.getRightOperationExpr() != null) {
+        Term term = zedObject.getRightOperationExpr();
+        jaxbObject.setRightOperationExpr((OperationExpr) term.accept(this));
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a AssoParallelOpExpr to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a AssoParallelOpExpr to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
         } catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a AssoParallelOpExpr to the corresponding "
@@ -592,67 +592,65 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitAssoParallelOpExpr", jaxbObject);
+    getLogger().exiting(getClassName(), "visitAssoParallelOpExpr", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitState(net.sourceforge.czt.oz.ast.State zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitState", zedObject);
+    getLogger().entering(getClassName(), "visitState", zedObject);
 
     State jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createStateElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createState();
+      jaxbObject = objectFactory_.createStateElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createState();
+      }
       {
         java.util.List list = zedObject.getDecl();
         java.util.List newlist = jaxbObject.getDecl();
-        for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Term term = (Term) iter.next();
           createElement_ = true;
           java.lang.Object o = term.accept(this);
-	  newlist.add(o);
+          newlist.add(o);
         }
       }
-      {
-        java.util.List list = zedObject.getSecondaryAttributes();
-        java.util.List newlist = jaxbObject.getSecondaryAttributes();
-        for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-          createElement_ = true;
-          java.lang.Object o = term.accept(this);
-	  newlist.add(o);
-        }
+      createElement_ = true;
+      if (zedObject.getSecondaryAttributes() != null) {
+        Term term = zedObject.getSecondaryAttributes();
+        jaxbObject.setSecondaryAttributes((SecondaryAttributes) term.accept(this));
       }
       {
         java.util.List list = zedObject.getPred();
         java.util.List newlist = jaxbObject.getPred();
-        for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Term term = (Term) iter.next();
           createElement_ = true;
           java.lang.Object o = term.accept(this);
-	  newlist.add(o);
+          newlist.add(o);
         }
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a State to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a State to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
         } catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a State to the corresponding "
@@ -662,44 +660,47 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitState", jaxbObject);
+    getLogger().exiting(getClassName(), "visitState", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitConjOpExpr(net.sourceforge.czt.oz.ast.ConjOpExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitConjOpExpr", zedObject);
+    getLogger().entering(getClassName(), "visitConjOpExpr", zedObject);
 
     ConjOpExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createConjOpExpr();
+      jaxbObject = objectFactory_.createConjOpExpr();
       createElement_ = true;
-      if (zedObject.getLeftOperationExpr()!=null) {
-        jaxbObject.setLeftOperationExpr((OperationExpr) zedObject.getLeftOperationExpr().accept(this));
+      if (zedObject.getLeftOperationExpr() != null) {
+        Term term = zedObject.getLeftOperationExpr();
+        jaxbObject.setLeftOperationExpr((OperationExpr) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getRightOperationExpr()!=null) {
-        jaxbObject.setRightOperationExpr((OperationExpr) zedObject.getRightOperationExpr().accept(this));
+      if (zedObject.getRightOperationExpr() != null) {
+        Term term = zedObject.getRightOperationExpr();
+        jaxbObject.setRightOperationExpr((OperationExpr) term.accept(this));
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a ConjOpExpr to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a ConjOpExpr to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
         } catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a ConjOpExpr to the corresponding "
@@ -709,45 +710,50 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitConjOpExpr", jaxbObject);
+    getLogger().exiting(getClassName(), "visitConjOpExpr", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitOpPromotionExpr(net.sourceforge.czt.oz.ast.OpPromotionExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitOpPromotionExpr", zedObject);
+    getLogger().entering(getClassName(), "visitOpPromotionExpr", zedObject);
 
     OpPromotionExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createOpPromotionExprElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createOpPromotionExpr();
+      jaxbObject = objectFactory_.createOpPromotionExprElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createOpPromotionExpr();
+      }
       createElement_ = true;
-      if (zedObject.getExpr()!=null) {
-        jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
+      if (zedObject.getExpr() != null) {
+        Term term = zedObject.getExpr();
+        jaxbObject.setExpr((Expr) term.accept(this));
       }
       createElement_ = false;
-      if (zedObject.getOpName()!=null) {
-        jaxbObject.setOpName((RefName) zedObject.getOpName().accept(this));
+      if (zedObject.getOpName() != null) {
+        Term term = zedObject.getOpName();
+        jaxbObject.setOpName((RefName) term.accept(this));
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a OpPromotionExpr to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a OpPromotionExpr to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
         } catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a OpPromotionExpr to the corresponding "
@@ -757,99 +763,109 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitOpPromotionExpr", jaxbObject);
+    getLogger().exiting(getClassName(), "visitOpPromotionExpr", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitClassPara(net.sourceforge.czt.oz.ast.ClassPara zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitClassPara", zedObject);
+    getLogger().entering(getClassName(), "visitClassPara", zedObject);
 
     ClassPara jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createClassParaElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createClassPara();
+      jaxbObject = objectFactory_.createClassParaElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createClassPara();
+      }
       createElement_ = false;
-      if (zedObject.getName()!=null) {
-        jaxbObject.setName((DeclName) zedObject.getName().accept(this));
+      if (zedObject.getName() != null) {
+        Term term = zedObject.getName();
+        jaxbObject.setName((DeclName) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getFormalParameters()!=null) {
-        jaxbObject.setFormalParameters((FormalParameters) zedObject.getFormalParameters().accept(this));
+      if (zedObject.getFormalParameters() != null) {
+        Term term = zedObject.getFormalParameters();
+        jaxbObject.setFormalParameters((FormalParameters) term.accept(this));
       }
       createElement_ = false;
-      if (zedObject.getVisibilityList()!=null) {
-        jaxbObject.setVisibilityList((DeclNameList) zedObject.getVisibilityList().accept(this));
+      if (zedObject.getVisibilityList() != null) {
+        Term term = zedObject.getVisibilityList();
+        jaxbObject.setVisibilityList((RefNameList) term.accept(this));
       }
       {
         java.util.List list = zedObject.getInheritedClass();
         java.util.List newlist = jaxbObject.getInheritedClass();
-        for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Term term = (Term) iter.next();
           createElement_ = true;
           java.lang.Object o = term.accept(this);
-	  newlist.add(o);
+          newlist.add(o);
         }
       }
       createElement_ = true;
-      if (zedObject.getLocalDef()!=null) {
-        jaxbObject.setLocalDef((LocalDef) zedObject.getLocalDef().accept(this));
+      if (zedObject.getLocalDef() != null) {
+        Term term = zedObject.getLocalDef();
+        jaxbObject.setLocalDef((LocalDef) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getState()!=null) {
-        jaxbObject.setState((State) zedObject.getState().accept(this));
+      if (zedObject.getState() != null) {
+        Term term = zedObject.getState();
+        jaxbObject.setState((State) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getInitialState()!=null) {
-        jaxbObject.setInitialState((InitialState) zedObject.getInitialState().accept(this));
+      if (zedObject.getInitialState() != null) {
+        Term term = zedObject.getInitialState();
+        jaxbObject.setInitialState((InitialState) term.accept(this));
       }
       {
         java.util.List list = zedObject.getOperation();
         java.util.List newlist = jaxbObject.getOperation();
-        for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Term term = (Term) iter.next();
           createElement_ = true;
           java.lang.Object o = term.accept(this);
-	  newlist.add(o);
+          newlist.add(o);
         }
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a ClassPara to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a ClassPara to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
 
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitClassPara", jaxbObject);
+    getLogger().exiting(getClassName(), "visitClassPara", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitParenOpExpr(net.sourceforge.czt.oz.ast.ParenOpExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitParenOpExpr", zedObject);
+    getLogger().entering(getClassName(), "visitParenOpExpr", zedObject);
 
     ParenOpExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createParenOpExpr();
+      jaxbObject = objectFactory_.createParenOpExpr();
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a ParenOpExpr to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a ParenOpExpr to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
         } catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a ParenOpExpr to the corresponding "
@@ -859,45 +875,50 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitParenOpExpr", jaxbObject);
+    getLogger().exiting(getClassName(), "visitParenOpExpr", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitOperation(net.sourceforge.czt.oz.ast.Operation zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitOperation", zedObject);
+    getLogger().entering(getClassName(), "visitOperation", zedObject);
 
     Operation jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createOperationElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createOperation();
+      jaxbObject = objectFactory_.createOperationElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createOperation();
+      }
       createElement_ = false;
-      if (zedObject.getName()!=null) {
-        jaxbObject.setName((DeclName) zedObject.getName().accept(this));
+      if (zedObject.getName() != null) {
+        Term term = zedObject.getName();
+        jaxbObject.setName((DeclName) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getOperationBoxExpr()!=null) {
-        jaxbObject.setOperationBoxExpr((OperationBoxExpr) zedObject.getOperationBoxExpr().accept(this));
+      if (zedObject.getOperationBoxExpr() != null) {
+        Term term = zedObject.getOperationBoxExpr();
+        jaxbObject.setOperationBoxExpr((OperationBoxExpr) term.accept(this));
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a Operation to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a Operation to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
         } catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a Operation to the corresponding "
@@ -907,67 +928,70 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitOperation", jaxbObject);
+    getLogger().exiting(getClassName(), "visitOperation", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitLocalDef(net.sourceforge.czt.oz.ast.LocalDef zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitLocalDef", zedObject);
+    getLogger().entering(getClassName(), "visitLocalDef", zedObject);
 
     LocalDef jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createLocalDefElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createLocalDef();
+      jaxbObject = objectFactory_.createLocalDefElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createLocalDef();
+      }
       {
         java.util.List list = zedObject.getGivenPara();
         java.util.List newlist = jaxbObject.getGivenPara();
-        for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Term term = (Term) iter.next();
           createElement_ = true;
           java.lang.Object o = term.accept(this);
-	  newlist.add(o);
+          newlist.add(o);
         }
       }
       {
         java.util.List list = zedObject.getAxPara();
         java.util.List newlist = jaxbObject.getAxPara();
-        for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Term term = (Term) iter.next();
           createElement_ = true;
           java.lang.Object o = term.accept(this);
-	  newlist.add(o);
+          newlist.add(o);
         }
       }
       {
         java.util.List list = zedObject.getFreePara();
         java.util.List newlist = jaxbObject.getFreePara();
-        for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Term term = (Term) iter.next();
           createElement_ = true;
           java.lang.Object o = term.accept(this);
-	  newlist.add(o);
+          newlist.add(o);
         }
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a LocalDef to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a LocalDef to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
         } catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a LocalDef to the corresponding "
@@ -977,111 +1001,65 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitLocalDef", jaxbObject);
-    return jaxbObject;
-  }
-
-  public Object visitInitialState(net.sourceforge.czt.oz.ast.InitialState zedObject)
-  {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitInitialState", zedObject);
-
-    InitialState jaxbObject = null;
-    try {
-      jaxbObject = mObjectFactory.createInitialStateElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createInitialState();
-      {
-        java.util.List list = zedObject.getPred();
-        java.util.List newlist = jaxbObject.getPred();
-        for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-          createElement_ = true;
-          java.lang.Object o = term.accept(this);
-	  newlist.add(o);
-        }
-      }
-    } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a InitialState to the corresponding "
-                       + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a InitialState to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
-        }
-      }
-    }
-
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitInitialState", jaxbObject);
+    getLogger().exiting(getClassName(), "visitLocalDef", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitOperationBox(net.sourceforge.czt.oz.ast.OperationBox zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitOperationBox", zedObject);
+    getLogger().entering(getClassName(), "visitOperationBox", zedObject);
 
     OperationBox jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createOperationBoxElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createOperationBox();
+      jaxbObject = objectFactory_.createOperationBoxElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createOperationBox();
+      }
       createElement_ = false;
-      if (zedObject.getDeltaList()!=null) {
-        jaxbObject.setDeltaList((RefNameList) zedObject.getDeltaList().accept(this));
+      if (zedObject.getDeltaList() != null) {
+        Term term = zedObject.getDeltaList();
+        jaxbObject.setDeltaList((RefNameList) term.accept(this));
       }
       {
         java.util.List list = zedObject.getDecl();
         java.util.List newlist = jaxbObject.getDecl();
-        for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Term term = (Term) iter.next();
           createElement_ = true;
           java.lang.Object o = term.accept(this);
-	  newlist.add(o);
+          newlist.add(o);
         }
       }
       {
         java.util.List list = zedObject.getPred();
         java.util.List newlist = jaxbObject.getPred();
-        for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Term term = (Term) iter.next();
           createElement_ = true;
           java.lang.Object o = term.accept(this);
-	  newlist.add(o);
+          newlist.add(o);
         }
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a OperationBox to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a OperationBox to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
         } catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a OperationBox to the corresponding "
@@ -1091,40 +1069,95 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitOperationBox", jaxbObject);
+    getLogger().exiting(getClassName(), "visitOperationBox", jaxbObject);
+    return jaxbObject;
+  }
+
+  public Object visitInitialState(net.sourceforge.czt.oz.ast.InitialState zedObject)
+  {
+    getLogger().entering(getClassName(), "visitInitialState", zedObject);
+
+    InitialState jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createInitialStateElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createInitialState();
+      }
+      {
+        java.util.List list = zedObject.getPred();
+        java.util.List newlist = jaxbObject.getPred();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Term term = (Term) iter.next();
+          createElement_ = true;
+          java.lang.Object o = term.accept(this);
+          newlist.add(o);
+        }
+      }
+    } catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a InitialState to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a InitialState to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
+      }
+    }
+
+    getLogger().exiting(getClassName(), "visitInitialState", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitDistSeqOpExpr(net.sourceforge.czt.oz.ast.DistSeqOpExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitDistSeqOpExpr", zedObject);
+    getLogger().entering(getClassName(), "visitDistSeqOpExpr", zedObject);
 
     DistSeqOpExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createDistSeqOpExpr();
+      jaxbObject = objectFactory_.createDistSeqOpExpr();
       createElement_ = true;
-      if (zedObject.getMainOpExpr()!=null) {
-        jaxbObject.setMainOpExpr((MainOpExpr) zedObject.getMainOpExpr().accept(this));
+      if (zedObject.getMainOpExpr() != null) {
+        Term term = zedObject.getMainOpExpr();
+        jaxbObject.setMainOpExpr((MainOpExpr) term.accept(this));
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a DistSeqOpExpr to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a DistSeqOpExpr to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
         } catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a DistSeqOpExpr to the corresponding "
@@ -1134,44 +1167,47 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitDistSeqOpExpr", jaxbObject);
+    getLogger().exiting(getClassName(), "visitDistSeqOpExpr", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitScopeEnrichOpExpr(net.sourceforge.czt.oz.ast.ScopeEnrichOpExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitScopeEnrichOpExpr", zedObject);
+    getLogger().entering(getClassName(), "visitScopeEnrichOpExpr", zedObject);
 
     ScopeEnrichOpExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createScopeEnrichOpExpr();
+      jaxbObject = objectFactory_.createScopeEnrichOpExpr();
       createElement_ = true;
-      if (zedObject.getLeftOperationExpr()!=null) {
-        jaxbObject.setLeftOperationExpr((OperationExpr) zedObject.getLeftOperationExpr().accept(this));
+      if (zedObject.getLeftOperationExpr() != null) {
+        Term term = zedObject.getLeftOperationExpr();
+        jaxbObject.setLeftOperationExpr((OperationExpr) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getRightOperationExpr()!=null) {
-        jaxbObject.setRightOperationExpr((OperationExpr) zedObject.getRightOperationExpr().accept(this));
+      if (zedObject.getRightOperationExpr() != null) {
+        Term term = zedObject.getRightOperationExpr();
+        jaxbObject.setRightOperationExpr((OperationExpr) term.accept(this));
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a ScopeEnrichOpExpr to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a ScopeEnrichOpExpr to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
         } catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a ScopeEnrichOpExpr to the corresponding "
@@ -1181,114 +1217,103 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitScopeEnrichOpExpr", jaxbObject);
+    getLogger().exiting(getClassName(), "visitScopeEnrichOpExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitDeclNameList(net.sourceforge.czt.oz.ast.DeclNameList zedObject)
+  public Object visitSecondaryAttributes(net.sourceforge.czt.oz.ast.SecondaryAttributes zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitDeclNameList", zedObject);
+    getLogger().entering(getClassName(), "visitSecondaryAttributes", zedObject);
 
-    DeclNameList jaxbObject = null;
+    SecondaryAttributes jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createDeclNameListElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createDeclNameList();
+      jaxbObject = objectFactory_.createSecondaryAttributesElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createSecondaryAttributes();
+      }
       {
-        java.util.List list = zedObject.getName();
-        java.util.List newlist = jaxbObject.getName();
-        for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-          createElement_ = false;
+        java.util.List list = zedObject.getVarDecl();
+        java.util.List newlist = jaxbObject.getVarDecl();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Term term = (Term) iter.next();
+          createElement_ = true;
           java.lang.Object o = term.accept(this);
-	  newlist.add(o);
+          newlist.add(o);
         }
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a DeclNameList to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a SecondaryAttributes to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
         } catch (Exception exception) {
           String message = "class AstToJaxb: "
-                    + "Cannot transform a DeclNameList to the corresponding "
+                    + "Cannot transform a SecondaryAttributes to the corresponding "
                     + "Jaxb class";
           throw new CztException(message, exception);
         }
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitDeclNameList", jaxbObject);
-    return jaxbObject;
-  }
-
-  public Object visitSecondaryAttributes(net.sourceforge.czt.oz.ast.SecondaryAttributes zedObject)
-  {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitSecondaryAttributes", zedObject);
-
-    SecondaryAttributes jaxbObject = null;
-    try {
-      jaxbObject = mObjectFactory.createSecondaryAttributesElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createSecondaryAttributes();
-    } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a SecondaryAttributes to the corresponding "
-                       + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitSecondaryAttributes", jaxbObject);
+    getLogger().exiting(getClassName(), "visitSecondaryAttributes", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitRenameOpExpr(net.sourceforge.czt.oz.ast.RenameOpExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitRenameOpExpr", zedObject);
+    getLogger().entering(getClassName(), "visitRenameOpExpr", zedObject);
 
     RenameOpExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createRenameOpExprElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createRenameOpExpr();
-      createElement_ = true;
-      if (zedObject.getOperationExpr()!=null) {
-        jaxbObject.setOperationExpr((OperationExpr) zedObject.getOperationExpr().accept(this));
+      jaxbObject = objectFactory_.createRenameOpExprElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createRenameOpExpr();
       }
       createElement_ = true;
-      if (zedObject.getRenameList()!=null) {
-        jaxbObject.setRenameList((RenameList) zedObject.getRenameList().accept(this));
+      if (zedObject.getOperationExpr() != null) {
+        Term term = zedObject.getOperationExpr();
+        jaxbObject.setOperationExpr((OperationExpr) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getRenameExpr() != null) {
+        Term term = zedObject.getRenameExpr();
+        jaxbObject.setRenameExpr((RenameExpr) term.accept(this));
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a RenameOpExpr to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a RenameOpExpr to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
         } catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a RenameOpExpr to the corresponding "
@@ -1298,44 +1323,47 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitRenameOpExpr", jaxbObject);
+    getLogger().exiting(getClassName(), "visitRenameOpExpr", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitExChoiceOpExpr(net.sourceforge.czt.oz.ast.ExChoiceOpExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitExChoiceOpExpr", zedObject);
+    getLogger().entering(getClassName(), "visitExChoiceOpExpr", zedObject);
 
     ExChoiceOpExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createExChoiceOpExpr();
+      jaxbObject = objectFactory_.createExChoiceOpExpr();
       createElement_ = true;
-      if (zedObject.getLeftOperationExpr()!=null) {
-        jaxbObject.setLeftOperationExpr((OperationExpr) zedObject.getLeftOperationExpr().accept(this));
+      if (zedObject.getLeftOperationExpr() != null) {
+        Term term = zedObject.getLeftOperationExpr();
+        jaxbObject.setLeftOperationExpr((OperationExpr) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getRightOperationExpr()!=null) {
-        jaxbObject.setRightOperationExpr((OperationExpr) zedObject.getRightOperationExpr().accept(this));
+      if (zedObject.getRightOperationExpr() != null) {
+        Term term = zedObject.getRightOperationExpr();
+        jaxbObject.setRightOperationExpr((OperationExpr) term.accept(this));
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a ExChoiceOpExpr to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a ExChoiceOpExpr to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
         } catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a ExChoiceOpExpr to the corresponding "
@@ -1345,44 +1373,47 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitExChoiceOpExpr", jaxbObject);
+    getLogger().exiting(getClassName(), "visitExChoiceOpExpr", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitParallelOpExpr(net.sourceforge.czt.oz.ast.ParallelOpExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitParallelOpExpr", zedObject);
+    getLogger().entering(getClassName(), "visitParallelOpExpr", zedObject);
 
     ParallelOpExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createParallelOpExpr();
+      jaxbObject = objectFactory_.createParallelOpExpr();
       createElement_ = true;
-      if (zedObject.getLeftOperationExpr()!=null) {
-        jaxbObject.setLeftOperationExpr((OperationExpr) zedObject.getLeftOperationExpr().accept(this));
+      if (zedObject.getLeftOperationExpr() != null) {
+        Term term = zedObject.getLeftOperationExpr();
+        jaxbObject.setLeftOperationExpr((OperationExpr) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getRightOperationExpr()!=null) {
-        jaxbObject.setRightOperationExpr((OperationExpr) zedObject.getRightOperationExpr().accept(this));
+      if (zedObject.getRightOperationExpr() != null) {
+        Term term = zedObject.getRightOperationExpr();
+        jaxbObject.setRightOperationExpr((OperationExpr) term.accept(this));
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a ParallelOpExpr to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a ParallelOpExpr to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
         } catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a ParallelOpExpr to the corresponding "
@@ -1392,47 +1423,50 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitParallelOpExpr", jaxbObject);
+    getLogger().exiting(getClassName(), "visitParallelOpExpr", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitFormalParameters(net.sourceforge.czt.oz.ast.FormalParameters zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitFormalParameters", zedObject);
+    getLogger().entering(getClassName(), "visitFormalParameters", zedObject);
 
     FormalParameters jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createFormalParametersElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createFormalParameters();
+      jaxbObject = objectFactory_.createFormalParametersElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createFormalParameters();
+      }
       {
         java.util.List list = zedObject.getRefName();
         java.util.List newlist = jaxbObject.getRefName();
-        for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Term term = (Term) iter.next();
           createElement_ = true;
           java.lang.Object o = term.accept(this);
-	  newlist.add(o);
+          newlist.add(o);
         }
       }
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a FormalParameters to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a FormalParameters to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
         } catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a FormalParameters to the corresponding "
@@ -1442,7 +1476,7 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitFormalParameters", jaxbObject);
+    getLogger().exiting(getClassName(), "visitFormalParameters", jaxbObject);
     return jaxbObject;
   }
 }

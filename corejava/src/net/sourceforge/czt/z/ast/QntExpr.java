@@ -39,7 +39,7 @@ public interface QntExpr extends Expr
    *
    * @return the SchText element.
    */
-  public SchText getSchText();
+  SchText getSchText();
 
   /**
    * Sets the SchText element.
@@ -47,14 +47,14 @@ public interface QntExpr extends Expr
    * @param schText   the SchText element.
    * @see #getSchText
    */
-  public void setSchText(SchText schText);
+  void setSchText(SchText schText);
 
   /**
    * Returns the Expr element.
    *
    * @return the Expr element.
    */
-  public Expr getExpr();
+  Expr getExpr();
 
   /**
    * Sets the Expr element.
@@ -62,5 +62,5 @@ public interface QntExpr extends Expr
    * @param expr   the Expr element.
    * @see #getExpr
    */
-  public void setExpr(Expr expr);
+  void setExpr(Expr expr);
 }

@@ -61,10 +61,10 @@ public class ZpattFactoryImpl
   public Substitute createSubstitute(java.util.List expr, java.util.List pred)
   {
     Substitute zedObject = createSubstitute();
-    if(expr != null) {
+    if (expr != null) {
       zedObject.getExpr().addAll(expr);
     }
-    if(pred != null) {
+    if (pred != null) {
       zedObject.getPred().addAll(pred);
     }
     return zedObject;
@@ -92,7 +92,7 @@ public class ZpattFactoryImpl
   public SubstList createSubstList(java.util.List substitute)
   {
     SubstList zedObject = createSubstList();
-    if(substitute != null) {
+    if (substitute != null) {
       zedObject.getSubstitute().addAll(substitute);
     }
     return zedObject;

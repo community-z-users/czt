@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.LetExprVisitor;
  * @author Gnast version 0.1
  */
 public class LetExprImpl
-extends Qnt1ExprImpl implements LetExpr
+  extends Qnt1ExprImpl   implements LetExpr
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends Qnt1ExprImpl implements LetExpr
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected LetExprImpl() { }
+  protected LetExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this LetExprImpl
@@ -60,11 +63,11 @@ extends Qnt1ExprImpl implements LetExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      LetExprImpl object = (LetExprImpl) obj;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        LetExprImpl object = (LetExprImpl) obj;
+        return true;
+      }
     }
     return false;
   }
@@ -78,6 +81,8 @@ extends Qnt1ExprImpl implements LetExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "LetExprImpl".hashCode();
     return hashCode;
@@ -88,8 +93,7 @@ extends Qnt1ExprImpl implements LetExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof LetExprVisitor)
-    {
+    if (v instanceof LetExprVisitor) {
       LetExprVisitor visitor = (LetExprVisitor) v;
       return visitor.visitLetExpr(this);
     }
@@ -99,7 +103,8 @@ extends Qnt1ExprImpl implements LetExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     LetExpr zedObject = null;
     try {
       SchText schText = (SchText) args[0];

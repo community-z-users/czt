@@ -42,5 +42,5 @@ public interface RenameExpr extends Expr1
    *
    * @return a list of NameNamePair elements.
    */
-  public java.util.List getNameNamePair();
+  java.util.List getNameNamePair();
 }

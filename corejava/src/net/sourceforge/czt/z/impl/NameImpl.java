@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.NameVisitor;
  * @author Gnast version 0.1
  */
 public abstract class NameImpl
-extends TermAImpl implements Name
+  extends TermAImpl   implements Name
 {
 
   /**
@@ -52,21 +53,29 @@ extends TermAImpl implements Name
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      NameImpl object = (NameImpl) obj;
-      if((mWord == null && object.mWord != null) ||
-         (mWord != null &&
-         ! mWord.equals(object.mWord))) return false;
-      if(mWord == null && object.mWord != null)
-        return false;
-      if((mStroke == null && object.mStroke != null) ||
-         (mStroke != null &&
-         ! mStroke.equals(object.mStroke))) return false;
-      if(mStroke == null && object.mStroke != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        NameImpl object = (NameImpl) obj;
+        if (word_ != null) {
+          if (!word_.equals(object.word_)) {
+            return false;
+          }
+        } else {
+          if (object.word_ != null) {
+            return false;
+          }
+        }
+        if (stroke_ != null) {
+          if (!stroke_.equals(object.stroke_)) {
+            return false;
+          }
+        } else {
+          if (object.stroke_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -80,13 +89,15 @@ extends TermAImpl implements Name
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "NameImpl".hashCode();
-    if(mWord != null) {
-      hashCode += 31*mWord.hashCode();
+    if (word_ != null) {
+      hashCode += constant * word_.hashCode();
     }
-    if(mStroke != null) {
-      hashCode += 31*mStroke.hashCode();
+    if (stroke_ != null) {
+      hashCode += constant * stroke_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +107,7 @@ extends TermAImpl implements Name
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof NameVisitor)
-    {
+    if (v instanceof NameVisitor) {
       NameVisitor visitor = (NameVisitor) v;
       return visitor.visitName(this);
     }
@@ -105,22 +115,24 @@ extends TermAImpl implements Name
   }
 
 
-  private String mWord;
+  private String word_;
 
   public String getWord()
   {
-    return mWord;
+    return word_;
   }
 
   public void setWord(String word)
   {
-    mWord = word;
+    word_ = word;
   }
 
-  private java.util.List mStroke = new net.sourceforge.czt.util.TypesafeList(Stroke.class);
+
+  private java.util.List stroke_ =
+    new TypesafeList(Stroke.class);
 
   public java.util.List getStroke()
   {
-    return mStroke;
+    return stroke_;
   }
 }

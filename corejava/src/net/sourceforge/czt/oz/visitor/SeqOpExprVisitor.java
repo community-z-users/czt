@@ -26,6 +26,9 @@ package net.sourceforge.czt.oz.visitor;
 
 import net.sourceforge.czt.util.Visitor;
 
+/**
+ * A(n) SeqOpExpr visitor.
+ */
 public interface SeqOpExprVisitor extends Visitor
 {
   /**

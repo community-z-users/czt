@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.SectTypeEnvAnnVisitor;
  * @author Gnast version 0.1
  */
 public class SectTypeEnvAnnImpl
-extends TermImpl implements SectTypeEnvAnn
+  extends TermImpl   implements SectTypeEnvAnn
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends TermImpl implements SectTypeEnvAnn
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected SectTypeEnvAnnImpl() { }
+  protected SectTypeEnvAnnImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this SectTypeEnvAnnImpl
@@ -60,16 +63,20 @@ extends TermImpl implements SectTypeEnvAnn
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      SectTypeEnvAnnImpl object = (SectTypeEnvAnnImpl) obj;
-      if((mNameSectTypeTriple == null && object.mNameSectTypeTriple != null) ||
-         (mNameSectTypeTriple != null &&
-         ! mNameSectTypeTriple.equals(object.mNameSectTypeTriple))) return false;
-      if(mNameSectTypeTriple == null && object.mNameSectTypeTriple != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        SectTypeEnvAnnImpl object = (SectTypeEnvAnnImpl) obj;
+        if (nameSectTypeTriple_ != null) {
+          if (!nameSectTypeTriple_.equals(object.nameSectTypeTriple_)) {
+            return false;
+          }
+        } else {
+          if (object.nameSectTypeTriple_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -83,10 +90,12 @@ extends TermImpl implements SectTypeEnvAnn
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "SectTypeEnvAnnImpl".hashCode();
-    if(mNameSectTypeTriple != null) {
-      hashCode += 31*mNameSectTypeTriple.hashCode();
+    if (nameSectTypeTriple_ != null) {
+      hashCode += constant * nameSectTypeTriple_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +105,7 @@ extends TermImpl implements SectTypeEnvAnn
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof SectTypeEnvAnnVisitor)
-    {
+    if (v instanceof SectTypeEnvAnnVisitor) {
       SectTypeEnvAnnVisitor visitor = (SectTypeEnvAnnVisitor) v;
       return visitor.visitSectTypeEnvAnn(this);
     }
@@ -107,12 +115,13 @@ extends TermImpl implements SectTypeEnvAnn
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     SectTypeEnvAnn zedObject = null;
     try {
       java.util.List nameSectTypeTriple = (java.util.List) args[0];
       zedObject = new SectTypeEnvAnnImpl();
-      if(nameSectTypeTriple != null) {
+      if (nameSectTypeTriple != null) {
         zedObject.getNameSectTypeTriple().addAll(nameSectTypeTriple);
       }
     } catch (IndexOutOfBoundsException e) {
@@ -129,10 +138,12 @@ extends TermImpl implements SectTypeEnvAnn
     return erg;
   }
 
-  private java.util.List mNameSectTypeTriple = new net.sourceforge.czt.util.TypesafeList(NameSectTypeTriple.class);
+
+  private java.util.List nameSectTypeTriple_ =
+    new TypesafeList(NameSectTypeTriple.class);
 
   public java.util.List getNameSectTypeTriple()
   {
-    return mNameSectTypeTriple;
+    return nameSectTypeTriple_;
   }
 }

@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.ConjParaVisitor;
  * @author Gnast version 0.1
  */
 public class ConjParaImpl
-extends ParaImpl implements ConjPara
+  extends ParaImpl   implements ConjPara
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends ParaImpl implements ConjPara
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected ConjParaImpl() { }
+  protected ConjParaImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this ConjParaImpl
@@ -60,21 +63,29 @@ extends ParaImpl implements ConjPara
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      ConjParaImpl object = (ConjParaImpl) obj;
-      if((mDeclName == null && object.mDeclName != null) ||
-         (mDeclName != null &&
-         ! mDeclName.equals(object.mDeclName))) return false;
-      if(mDeclName == null && object.mDeclName != null)
-        return false;
-      if((mPred == null && object.mPred != null) ||
-         (mPred != null &&
-         ! mPred.equals(object.mPred))) return false;
-      if(mPred == null && object.mPred != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        ConjParaImpl object = (ConjParaImpl) obj;
+        if (declName_ != null) {
+          if (!declName_.equals(object.declName_)) {
+            return false;
+          }
+        } else {
+          if (object.declName_ != null) {
+            return false;
+          }
+        }
+        if (pred_ != null) {
+          if (!pred_.equals(object.pred_)) {
+            return false;
+          }
+        } else {
+          if (object.pred_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -88,13 +99,15 @@ extends ParaImpl implements ConjPara
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "ConjParaImpl".hashCode();
-    if(mDeclName != null) {
-      hashCode += 31*mDeclName.hashCode();
+    if (declName_ != null) {
+      hashCode += constant * declName_.hashCode();
     }
-    if(mPred != null) {
-      hashCode += 31*mPred.hashCode();
+    if (pred_ != null) {
+      hashCode += constant * pred_.hashCode();
     }
     return hashCode;
   }
@@ -104,8 +117,7 @@ extends ParaImpl implements ConjPara
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof ConjParaVisitor)
-    {
+    if (v instanceof ConjParaVisitor) {
       ConjParaVisitor visitor = (ConjParaVisitor) v;
       return visitor.visitConjPara(this);
     }
@@ -115,13 +127,14 @@ extends ParaImpl implements ConjPara
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     ConjPara zedObject = null;
     try {
       java.util.List declName = (java.util.List) args[0];
       Pred pred = (Pred) args[1];
       zedObject = new ConjParaImpl();
-      if(declName != null) {
+      if (declName != null) {
         zedObject.getDeclName().addAll(declName);
       }
       zedObject.setPred(pred);
@@ -139,22 +152,24 @@ extends ParaImpl implements ConjPara
     return erg;
   }
 
-  private java.util.List mDeclName = new net.sourceforge.czt.util.TypesafeList(DeclName.class);
+
+  private java.util.List declName_ =
+    new TypesafeList(DeclName.class);
 
   public java.util.List getDeclName()
   {
-    return mDeclName;
+    return declName_;
   }
 
-  private Pred mPred;
+  private Pred pred_;
 
   public Pred getPred()
   {
-    return mPred;
+    return pred_;
   }
 
   public void setPred(Pred pred)
   {
-    mPred = pred;
+    pred_ = pred;
   }
 }

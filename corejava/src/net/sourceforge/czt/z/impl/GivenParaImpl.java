@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.GivenParaVisitor;
  * @author Gnast version 0.1
  */
 public class GivenParaImpl
-extends ParaImpl implements GivenPara
+  extends ParaImpl   implements GivenPara
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends ParaImpl implements GivenPara
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected GivenParaImpl() { }
+  protected GivenParaImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this GivenParaImpl
@@ -60,16 +63,20 @@ extends ParaImpl implements GivenPara
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      GivenParaImpl object = (GivenParaImpl) obj;
-      if((mDeclName == null && object.mDeclName != null) ||
-         (mDeclName != null &&
-         ! mDeclName.equals(object.mDeclName))) return false;
-      if(mDeclName == null && object.mDeclName != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        GivenParaImpl object = (GivenParaImpl) obj;
+        if (declName_ != null) {
+          if (!declName_.equals(object.declName_)) {
+            return false;
+          }
+        } else {
+          if (object.declName_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -83,10 +90,12 @@ extends ParaImpl implements GivenPara
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "GivenParaImpl".hashCode();
-    if(mDeclName != null) {
-      hashCode += 31*mDeclName.hashCode();
+    if (declName_ != null) {
+      hashCode += constant * declName_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +105,7 @@ extends ParaImpl implements GivenPara
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof GivenParaVisitor)
-    {
+    if (v instanceof GivenParaVisitor) {
       GivenParaVisitor visitor = (GivenParaVisitor) v;
       return visitor.visitGivenPara(this);
     }
@@ -107,12 +115,13 @@ extends ParaImpl implements GivenPara
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     GivenPara zedObject = null;
     try {
       java.util.List declName = (java.util.List) args[0];
       zedObject = new GivenParaImpl();
-      if(declName != null) {
+      if (declName != null) {
         zedObject.getDeclName().addAll(declName);
       }
     } catch (IndexOutOfBoundsException e) {
@@ -129,10 +138,12 @@ extends ParaImpl implements GivenPara
     return erg;
   }
 
-  private java.util.List mDeclName = new net.sourceforge.czt.util.TypesafeList(DeclName.class);
+
+  private java.util.List declName_ =
+    new TypesafeList(DeclName.class);
 
   public java.util.List getDeclName()
   {
-    return mDeclName;
+    return declName_;
   }
 }

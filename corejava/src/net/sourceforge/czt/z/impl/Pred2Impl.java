@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.Pred2Visitor;
  * @author Gnast version 0.1
  */
 public abstract class Pred2Impl
-extends PredImpl implements Pred2
+  extends PredImpl   implements Pred2
 {
 
   /**
@@ -52,21 +53,29 @@ extends PredImpl implements Pred2
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      Pred2Impl object = (Pred2Impl) obj;
-      if((mLeftPred == null && object.mLeftPred != null) ||
-         (mLeftPred != null &&
-         ! mLeftPred.equals(object.mLeftPred))) return false;
-      if(mLeftPred == null && object.mLeftPred != null)
-        return false;
-      if((mRightPred == null && object.mRightPred != null) ||
-         (mRightPred != null &&
-         ! mRightPred.equals(object.mRightPred))) return false;
-      if(mRightPred == null && object.mRightPred != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        Pred2Impl object = (Pred2Impl) obj;
+        if (leftPred_ != null) {
+          if (!leftPred_.equals(object.leftPred_)) {
+            return false;
+          }
+        } else {
+          if (object.leftPred_ != null) {
+            return false;
+          }
+        }
+        if (rightPred_ != null) {
+          if (!rightPred_.equals(object.rightPred_)) {
+            return false;
+          }
+        } else {
+          if (object.rightPred_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -80,13 +89,15 @@ extends PredImpl implements Pred2
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "Pred2Impl".hashCode();
-    if(mLeftPred != null) {
-      hashCode += 31*mLeftPred.hashCode();
+    if (leftPred_ != null) {
+      hashCode += constant * leftPred_.hashCode();
     }
-    if(mRightPred != null) {
-      hashCode += 31*mRightPred.hashCode();
+    if (rightPred_ != null) {
+      hashCode += constant * rightPred_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +107,7 @@ extends PredImpl implements Pred2
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof Pred2Visitor)
-    {
+    if (v instanceof Pred2Visitor) {
       Pred2Visitor visitor = (Pred2Visitor) v;
       return visitor.visitPred2(this);
     }
@@ -105,27 +115,27 @@ extends PredImpl implements Pred2
   }
 
 
-  private Pred mLeftPred;
+  private Pred leftPred_;
 
   public Pred getLeftPred()
   {
-    return mLeftPred;
+    return leftPred_;
   }
 
   public void setLeftPred(Pred leftPred)
   {
-    mLeftPred = leftPred;
+    leftPred_ = leftPred;
   }
 
-  private Pred mRightPred;
+  private Pred rightPred_;
 
   public Pred getRightPred()
   {
-    return mRightPred;
+    return rightPred_;
   }
 
   public void setRightPred(Pred rightPred)
   {
-    mRightPred = rightPred;
+    rightPred_ = rightPred;
   }
 }

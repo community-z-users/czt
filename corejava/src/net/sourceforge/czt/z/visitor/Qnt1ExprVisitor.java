@@ -26,6 +26,9 @@ package net.sourceforge.czt.z.visitor;
 
 import net.sourceforge.czt.util.Visitor;
 
+/**
+ * A(n) Qnt1Expr visitor.
+ */
 public interface Qnt1ExprVisitor extends Visitor
 {
   /**

@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.Expr2NVisitor;
  * @author Gnast version 0.1
  */
 public abstract class Expr2NImpl
-extends Expr0NImpl implements Expr2N
+  extends Expr0NImpl   implements Expr2N
 {
 
   /**
@@ -52,11 +53,11 @@ extends Expr0NImpl implements Expr2N
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      Expr2NImpl object = (Expr2NImpl) obj;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        Expr2NImpl object = (Expr2NImpl) obj;
+        return true;
+      }
     }
     return false;
   }
@@ -70,6 +71,8 @@ extends Expr0NImpl implements Expr2N
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "Expr2NImpl".hashCode();
     return hashCode;
@@ -80,8 +83,7 @@ extends Expr0NImpl implements Expr2N
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof Expr2NVisitor)
-    {
+    if (v instanceof Expr2NVisitor) {
       Expr2NVisitor visitor = (Expr2NVisitor) v;
       return visitor.visitExpr2N(this);
     }

@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.QntExprVisitor;
  * @author Gnast version 0.1
  */
 public abstract class QntExprImpl
-extends ExprImpl implements QntExpr
+  extends ExprImpl   implements QntExpr
 {
 
   /**
@@ -52,21 +53,29 @@ extends ExprImpl implements QntExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      QntExprImpl object = (QntExprImpl) obj;
-      if((mSchText == null && object.mSchText != null) ||
-         (mSchText != null &&
-         ! mSchText.equals(object.mSchText))) return false;
-      if(mSchText == null && object.mSchText != null)
-        return false;
-      if((mExpr == null && object.mExpr != null) ||
-         (mExpr != null &&
-         ! mExpr.equals(object.mExpr))) return false;
-      if(mExpr == null && object.mExpr != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        QntExprImpl object = (QntExprImpl) obj;
+        if (schText_ != null) {
+          if (!schText_.equals(object.schText_)) {
+            return false;
+          }
+        } else {
+          if (object.schText_ != null) {
+            return false;
+          }
+        }
+        if (expr_ != null) {
+          if (!expr_.equals(object.expr_)) {
+            return false;
+          }
+        } else {
+          if (object.expr_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -80,13 +89,15 @@ extends ExprImpl implements QntExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "QntExprImpl".hashCode();
-    if(mSchText != null) {
-      hashCode += 31*mSchText.hashCode();
+    if (schText_ != null) {
+      hashCode += constant * schText_.hashCode();
     }
-    if(mExpr != null) {
-      hashCode += 31*mExpr.hashCode();
+    if (expr_ != null) {
+      hashCode += constant * expr_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +107,7 @@ extends ExprImpl implements QntExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof QntExprVisitor)
-    {
+    if (v instanceof QntExprVisitor) {
       QntExprVisitor visitor = (QntExprVisitor) v;
       return visitor.visitQntExpr(this);
     }
@@ -105,27 +115,27 @@ extends ExprImpl implements QntExpr
   }
 
 
-  private SchText mSchText;
+  private SchText schText_;
 
   public SchText getSchText()
   {
-    return mSchText;
+    return schText_;
   }
 
   public void setSchText(SchText schText)
   {
-    mSchText = schText;
+    schText_ = schText;
   }
 
-  private Expr mExpr;
+  private Expr expr_;
 
   public Expr getExpr()
   {
-    return mExpr;
+    return expr_;
   }
 
   public void setExpr(Expr expr)
   {
-    mExpr = expr;
+    expr_ = expr;
   }
 }

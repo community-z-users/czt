@@ -65,19 +65,15 @@ public class OzAstTest extends TestCase {
       ozFactory_.createFormalParameters(list(xTypeRefName));
     
     //create a visibility list
-    DeclName xName = ozFactory_.createDeclName("x", null, null);
-    DeclName pxName = ozFactory_.createDeclName("px", null, null);
-    List vNameList = new ArrayList();	
-    vNameList.add(xName);
-    vNameList.add(pxName);
-    DeclNameList declNameList = ozFactory_.createDeclNameList(vNameList);
-    
     RefName refName1 = ozFactory_.createRefName("x", null, null);
     RefName refName2 = ozFactory_.createRefName("px", null, null);
     List list = new ArrayList();	
     list.add(refName1);
     list.add(refName2);
     RefNameList refNameList = ozFactory_.createRefNameList(list);
+    
+    DeclName xName = ozFactory_.createDeclName("x", null, null);
+    DeclName pxName = ozFactory_.createDeclName("px", null, null);
     
     // create a state schema with a variable declaration and
     // secondary variable
@@ -146,7 +142,7 @@ public class OzAstTest extends TestCase {
     
     //create the class paragraph
     ClassPara classPara =
-      ozFactory_.createClassPara(className, fp, declNameList, null,
+      ozFactory_.createClassPara(className, fp, refNameList, null,
 				 null, state, init, opList);
     
     ArrayList paras = new ArrayList();
@@ -224,8 +220,8 @@ public class OzAstTest extends TestCase {
     FormalParameters fp = classPara.getFormalParameters();
     Assert.assertEquals(1, fp.getRefName().size());
     
-    DeclNameList declNameList = classPara.getVisibilityList();
-    Assert.assertEquals(2, declNameList.getName().size());
+    RefNameList refNameList = classPara.getVisibilityList();
+    Assert.assertEquals(2, refNameList.getName().size());
     
     List inheritList = classPara.getInheritedClass();
     Assert.assertEquals(0, inheritList.size());
@@ -248,61 +244,5 @@ public class OzAstTest extends TestCase {
       Operation op = (Operation)ops.get(i);
       Assert.assertEquals("op" + i, op.getName().getWord());
     }
-  }
-
-  public void testJaxbAst()
-    throws Exception
-  {
-    net.sourceforge.czt.oz.jaxb.gen.ObjectFactory ozObjectFactory =
-      new net.sourceforge.czt.oz.jaxb.gen.ObjectFactory();
-    net.sourceforge.czt.z.jaxb.gen.ObjectFactory zObjectFactory =
-      new net.sourceforge.czt.z.jaxb.gen.ObjectFactory();
-
-    // Creating two DeclName
-    net.sourceforge.czt.z.jaxb.gen.DeclNameElement declName1 =
-      zObjectFactory.createDeclNameElement();
-    declName1.setWord("Foo1");
-    net.sourceforge.czt.z.jaxb.gen.DeclNameElement declName2 =
-      zObjectFactory.createDeclNameElement();
-    declName2.setWord("Foo2");
-
-    // Creating two RefExpr
-    net.sourceforge.czt.z.jaxb.gen.RefNameElement refName1 =
-      zObjectFactory.createRefNameElement();
-    refName1.setWord("Bar1");
-    net.sourceforge.czt.z.jaxb.gen.RefNameElement refName2 =
-      zObjectFactory.createRefNameElement();
-    refName2.setWord("Bar2");
-
-    net.sourceforge.czt.z.jaxb.gen.RefExprElement refExpr1 =
-      zObjectFactory.createRefExprElement();
-    refExpr1.setRefName(refName1);
-    net.sourceforge.czt.z.jaxb.gen.RefExprElement refExpr2 =
-      zObjectFactory.createRefExprElement();
-    refExpr2.setRefName(refName2);
-
-    // Create two VarDecl
-    net.sourceforge.czt.z.jaxb.gen.VarDeclElement xDecl =
-      zObjectFactory.createVarDeclElement();
-    net.sourceforge.czt.z.jaxb.gen.VarDeclElement pxDecl =
-      zObjectFactory.createVarDeclElement();
-    xDecl.getDeclName().add(declName1);
-    pxDecl.getDeclName().add(declName2);
-    xDecl.setExpr(refExpr1);
-    pxDecl.setExpr(refExpr2);
-
-    net.sourceforge.czt.oz.jaxb.gen.StateElement state =
-      ozObjectFactory.createStateElement();
-
-    state.getDecl().add(xDecl);
-    state.getSecondaryAttributes().add(pxDecl);
-
-    String jaxbContext =
-      "net.sourceforge.czt.z.jaxb.gen:net.sourceforge.czt.oz.jaxb.gen";
-
-    javax.xml.bind.JAXBContext jc =
-      javax.xml.bind.JAXBContext.newInstance(jaxbContext);
-    javax.xml.bind.Validator v = jc.createValidator();
-    Assert.assertTrue(v.validate(state));
   }
 }

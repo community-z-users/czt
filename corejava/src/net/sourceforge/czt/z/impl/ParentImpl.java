@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.ParentVisitor;
  * @author Gnast version 0.1
  */
 public class ParentImpl
-extends TermAImpl implements Parent
+  extends TermAImpl   implements Parent
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends TermAImpl implements Parent
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected ParentImpl() { }
+  protected ParentImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this ParentImpl
@@ -60,16 +63,20 @@ extends TermAImpl implements Parent
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      ParentImpl object = (ParentImpl) obj;
-      if((mWord == null && object.mWord != null) ||
-         (mWord != null &&
-         ! mWord.equals(object.mWord))) return false;
-      if(mWord == null && object.mWord != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        ParentImpl object = (ParentImpl) obj;
+        if (word_ != null) {
+          if (!word_.equals(object.word_)) {
+            return false;
+          }
+        } else {
+          if (object.word_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -83,10 +90,12 @@ extends TermAImpl implements Parent
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "ParentImpl".hashCode();
-    if(mWord != null) {
-      hashCode += 31*mWord.hashCode();
+    if (word_ != null) {
+      hashCode += constant * word_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +105,7 @@ extends TermAImpl implements Parent
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof ParentVisitor)
-    {
+    if (v instanceof ParentVisitor) {
       ParentVisitor visitor = (ParentVisitor) v;
       return visitor.visitParent(this);
     }
@@ -107,7 +115,8 @@ extends TermAImpl implements Parent
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     Parent zedObject = null;
     try {
       String word = (String) args[0];
@@ -127,15 +136,15 @@ extends TermAImpl implements Parent
     return erg;
   }
 
-  private String mWord;
+  private String word_;
 
   public String getWord()
   {
-    return mWord;
+    return word_;
   }
 
   public void setWord(String word)
   {
-    mWord = word;
+    word_ = word;
   }
 }

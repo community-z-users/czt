@@ -39,7 +39,7 @@ public interface NumStroke extends Stroke
    *
    * @return the Number element.
    */
-  public Integer getNumber();
+  Integer getNumber();
 
   /**
    * Sets the Number element.
@@ -47,5 +47,5 @@ public interface NumStroke extends Stroke
    * @param number   the Number element.
    * @see #getNumber
    */
-  public void setNumber(Integer number);
+  void setNumber(Integer number);
 }

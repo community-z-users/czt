@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.RenameExprVisitor;
  * @author Gnast version 0.1
  */
 public class RenameExprImpl
-extends Expr1Impl implements RenameExpr
+  extends Expr1Impl   implements RenameExpr
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends Expr1Impl implements RenameExpr
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected RenameExprImpl() { }
+  protected RenameExprImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this RenameExprImpl
@@ -60,16 +63,20 @@ extends Expr1Impl implements RenameExpr
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      RenameExprImpl object = (RenameExprImpl) obj;
-      if((mNameNamePair == null && object.mNameNamePair != null) ||
-         (mNameNamePair != null &&
-         ! mNameNamePair.equals(object.mNameNamePair))) return false;
-      if(mNameNamePair == null && object.mNameNamePair != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        RenameExprImpl object = (RenameExprImpl) obj;
+        if (nameNamePair_ != null) {
+          if (!nameNamePair_.equals(object.nameNamePair_)) {
+            return false;
+          }
+        } else {
+          if (object.nameNamePair_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -83,10 +90,12 @@ extends Expr1Impl implements RenameExpr
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "RenameExprImpl".hashCode();
-    if(mNameNamePair != null) {
-      hashCode += 31*mNameNamePair.hashCode();
+    if (nameNamePair_ != null) {
+      hashCode += constant * nameNamePair_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +105,7 @@ extends Expr1Impl implements RenameExpr
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof RenameExprVisitor)
-    {
+    if (v instanceof RenameExprVisitor) {
       RenameExprVisitor visitor = (RenameExprVisitor) v;
       return visitor.visitRenameExpr(this);
     }
@@ -107,14 +115,15 @@ extends Expr1Impl implements RenameExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     RenameExpr zedObject = null;
     try {
       Expr expr = (Expr) args[0];
       java.util.List nameNamePair = (java.util.List) args[1];
       zedObject = new RenameExprImpl();
       zedObject.setExpr(expr);
-      if(nameNamePair != null) {
+      if (nameNamePair != null) {
         zedObject.getNameNamePair().addAll(nameNamePair);
       }
     } catch (IndexOutOfBoundsException e) {
@@ -131,10 +140,12 @@ extends Expr1Impl implements RenameExpr
     return erg;
   }
 
-  private java.util.List mNameNamePair = new net.sourceforge.czt.util.TypesafeList(NameNamePair.class);
+
+  private java.util.List nameNamePair_ =
+    new TypesafeList(NameNamePair.class);
 
   public java.util.List getNameNamePair()
   {
-    return mNameNamePair;
+    return nameNamePair_;
   }
 }

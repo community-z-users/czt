@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.ForallPredVisitor;
  * @author Gnast version 0.1
  */
 public class ForallPredImpl
-extends QntPredImpl implements ForallPred
+  extends QntPredImpl   implements ForallPred
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends QntPredImpl implements ForallPred
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected ForallPredImpl() { }
+  protected ForallPredImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this ForallPredImpl
@@ -60,11 +63,11 @@ extends QntPredImpl implements ForallPred
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      ForallPredImpl object = (ForallPredImpl) obj;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        ForallPredImpl object = (ForallPredImpl) obj;
+        return true;
+      }
     }
     return false;
   }
@@ -78,6 +81,8 @@ extends QntPredImpl implements ForallPred
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "ForallPredImpl".hashCode();
     return hashCode;
@@ -88,8 +93,7 @@ extends QntPredImpl implements ForallPred
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof ForallPredVisitor)
-    {
+    if (v instanceof ForallPredVisitor) {
       ForallPredVisitor visitor = (ForallPredVisitor) v;
       return visitor.visitForallPred(this);
     }
@@ -99,7 +103,8 @@ extends QntPredImpl implements ForallPred
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     ForallPred zedObject = null;
     try {
       SchText schText = (SchText) args[0];

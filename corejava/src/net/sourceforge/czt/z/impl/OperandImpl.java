@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.OperandVisitor;
  * @author Gnast version 0.1
  */
 public class OperandImpl
-extends TermImpl implements Operand
+  extends TermImpl   implements Operand
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends TermImpl implements Operand
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected OperandImpl() { }
+  protected OperandImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this OperandImpl
@@ -60,16 +63,20 @@ extends TermImpl implements Operand
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      OperandImpl object = (OperandImpl) obj;
-      if((mList == null && object.mList != null) ||
-         (mList != null &&
-         ! mList.equals(object.mList))) return false;
-      if(mList == null && object.mList != null)
-        return false;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        OperandImpl object = (OperandImpl) obj;
+        if (list_ != null) {
+          if (!list_.equals(object.list_)) {
+            return false;
+          }
+        } else {
+          if (object.list_ != null) {
+            return false;
+          }
+        }
+        return true;
+      }
     }
     return false;
   }
@@ -83,10 +90,12 @@ extends TermImpl implements Operand
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "OperandImpl".hashCode();
-    if(mList != null) {
-      hashCode += 31*mList.hashCode();
+    if (list_ != null) {
+      hashCode += constant * list_.hashCode();
     }
     return hashCode;
   }
@@ -96,8 +105,7 @@ extends TermImpl implements Operand
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof OperandVisitor)
-    {
+    if (v instanceof OperandVisitor) {
       OperandVisitor visitor = (OperandVisitor) v;
       return visitor.visitOperand(this);
     }
@@ -107,7 +115,8 @@ extends TermImpl implements Operand
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     Operand zedObject = null;
     try {
       Boolean list = (Boolean) args[0];
@@ -127,15 +136,15 @@ extends TermImpl implements Operand
     return erg;
   }
 
-  private Boolean mList;
+  private Boolean list_;
 
   public Boolean getList()
   {
-    return mList;
+    return list_;
   }
 
   public void setList(Boolean list)
   {
-    mList = list;
+    list_ = list;
   }
 }

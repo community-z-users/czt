@@ -39,7 +39,7 @@ public interface Parent extends TermA
    *
    * @return the Word element.
    */
-  public String getWord();
+  String getWord();
 
   /**
    * Sets the Word element.
@@ -47,5 +47,5 @@ public interface Parent extends TermA
    * @param word   the Word element.
    * @see #getWord
    */
-  public void setWord(String word);
+  void setWord(String word);
 }

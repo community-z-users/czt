@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.visitor.FalsePredVisitor;
  * @author Gnast version 0.1
  */
 public class FalsePredImpl
-extends FactImpl implements FalsePred
+  extends FactImpl   implements FalsePred
 {
   /**
    * The default constructor.
@@ -50,7 +51,9 @@ extends FactImpl implements FalsePred
    * If you want to create an instance of this class, please use the
    * {@link ZFactory object factory}.
    */
-  protected FalsePredImpl() { }
+  protected FalsePredImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this FalsePredImpl
@@ -60,11 +63,11 @@ extends FactImpl implements FalsePred
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      FalsePredImpl object = (FalsePredImpl) obj;
-      return true;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        FalsePredImpl object = (FalsePredImpl) obj;
+        return true;
+      }
     }
     return false;
   }
@@ -78,6 +81,8 @@ extends FactImpl implements FalsePred
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "FalsePredImpl".hashCode();
     return hashCode;
@@ -88,8 +93,7 @@ extends FactImpl implements FalsePred
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof FalsePredVisitor)
-    {
+    if (v instanceof FalsePredVisitor) {
       FalsePredVisitor visitor = (FalsePredVisitor) v;
       return visitor.visitFalsePred(this);
     }
@@ -99,7 +103,8 @@ extends FactImpl implements FalsePred
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
     FalsePred zedObject = null;
     try {
       zedObject = new FalsePredImpl();

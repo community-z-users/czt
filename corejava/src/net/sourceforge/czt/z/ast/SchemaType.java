@@ -39,7 +39,7 @@ public interface SchemaType extends Type
    *
    * @return the Signature element.
    */
-  public Signature getSignature();
+  Signature getSignature();
 
   /**
    * Sets the Signature element.
@@ -47,5 +47,5 @@ public interface SchemaType extends Type
    * @param signature   the Signature element.
    * @see #getSignature
    */
-  public void setSignature(Signature signature);
+  void setSignature(Signature signature);
 }

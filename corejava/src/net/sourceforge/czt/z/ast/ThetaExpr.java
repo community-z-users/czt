@@ -42,5 +42,5 @@ public interface ThetaExpr extends Expr1
    *
    * @return a list of Stroke elements.
    */
-  public java.util.List getStroke();
+  java.util.List getStroke();
 }
