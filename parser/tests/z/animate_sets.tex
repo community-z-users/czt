@@ -41,6 +41,22 @@ fcomp149 == \{x: 1 \upto 10 | x*x < 10 @ x*x\}
 \begin{zed} \vdash?  4  \in \nat_1 \end{zed}
 \begin{zed} \vdash?  0  \notin \nat_1 \end{zed}
 
+Numeric ranges.
+\begin{zed} \vdash?  0  \notin 1 \upto 10 \end{zed}
+\begin{zed} \vdash?  1  \in 1 \upto 10 \end{zed}
+\begin{zed} \vdash?  5  \in 1 \upto 10 \end{zed}
+\begin{zed} \vdash?  10 \in 1 \upto 10 \end{zed}
+\begin{zed} \vdash?  11 \notin 1 \upto 10 \end{zed}
+\begin{zed} \vdash?  5  \in 5 \upto 5 \end{zed}
+\begin{zed} \vdash?  5  \notin 5 \upto 4 \end{zed}
+\begin{zed} \vdash?  5  \notin 6 \upto 5 \end{zed}
+\begin{zed} \vdash?  6 \upto 5 = \{ \} \end{zed}
+\begin{zed} \vdash?  6 \upto 5 = \emptyset \end{zed}
+\begin{zed} \vdash?  6 \upto 5 = 10 \upto 0 \end{zed}
+\begin{zed} \vdash?  \# (6 \upto 5) = 0 \end{zed}
+\begin{zed} \vdash?  \# (5 \upto 5) = 1 \end{zed}
+\begin{zed} \vdash?  \# (5 \upto 15) = 11 \end{zed}
+
 
 \section{Testing set union}
 Empty sets
