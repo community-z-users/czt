@@ -19,6 +19,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.gnast.gen;
 
+import net.sourceforge.czt.gnast.Project;
+
 /**
  * An abstract representation of a Java class or interface.
  *
@@ -27,26 +29,40 @@ package net.sourceforge.czt.gnast.gen;
 public interface JObject
 {
   /**
-   * Returns the name of this Object.
+   * Returns the name of this object.  This should be a valid
+   * Java class or interface name, but there is currently no
+   * check to ensure this.
    *
-   * @return the name of this Object
+   * @return the name of this object
    *         (should never be <code>null</code>).
    */
   public String getName();
 
   /**
-   * Returns the name of this Object, including the package name.
+   * Returns the name of this object, including the package name,
+   * as it is used in Java programs; for example, "java.util.List".
    *
-   * @return the name of this Object, including the package name
+   * @return the name of this object, including the package name
    *         (should never be <code>null</code>).
    */
   public String getFullName();
 
   /**
-   * Returns the package name of this Object.
+   * Returns the package name of this object as it is used in Java;
+   * for instance "java.util".
    *
-   * @return the package name of this Gnast class
+   * @return the package name of this object
    *         (should never be <code>null</code>).
    */
   public String getPackage();
+
+  /**
+   * Returns the project to which this object belongs to.
+   * If the class or interface is part of the Java API, like
+   * java.util.List, <code>null</code> is returned.
+   *
+   * @return the project to which this object belongs to,
+   *         <code>null</code> if it does not belong to particular project.
+   */
+  public JProject getProject();
 }
