@@ -202,7 +202,8 @@ set ZML2XHTML=${zml2xhtml.win}
     </echo>
   </target>
 
-  <target name="test" description="test subprojects">
+  <target name="test" description="test subprojects"
+    depends="install">
     <ant dir="corejava" target="test"/>
     <ant dir="parser" target="test"/>
   </target>
