@@ -115,7 +115,7 @@
 	<xs:element name="RefExpr" substitutionGroup="Z:Expr">
 		<xs:annotation>
 		  <xs:documentation>The mixfix attribute distinguishes
-		    S <-> T (mixfix=true) from (_ <-> _) [S, T] (mixfix=false).
+		  S \fun T (mixfix=true) from (_ \fun _) [S, T] (mixfix=false).
 		  </xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -339,7 +339,7 @@
 	<xs:element name="MemPred" substitutionGroup="Z:Pred">
 		<xs:annotation>
 		  <xs:documentation>The mixfix attribute distinguishes
-		     m > n (mixfix=true) from (m,n) \in (_ > _) (mixfix=false).
+		     m = n (mixfix=true) from (m,n) \in (_ = _) (mixfix=false).
 		  </xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
