@@ -20,7 +20,11 @@
          </action>
     -->
     <release version="0.2" date="unreleased">
-      <action dev="Petra" context="fix">
+      <action dev="Petra" type="add">
+        Parse latex markup directives (%%Zchar etc.) and add it into
+        the AST.
+      </action>
+      <action dev="Petra" type="fix">
         Improve the operator table so that the rules from Section 8.3
         of the Z standard are followed.  This includes checks that
         a whole operator name is never defined more than once,
@@ -63,10 +67,6 @@
         Add a LocAnn to every term created in the parser so other tools can
         identify the position of the term.
       </action>
-      <action context="code" dev="Petra">
-        Parse latex markup directives (%%Zchar etc.)  Currently
-        they are ignored.
-      </action>
       <action context="code" dev="open">
         Add rules to the parser to handle Yuan Fang's changes to the
         Object-Z schema (i.e. SelfExpr, PolyExpr, PromotedAttrExpr, and
@@ -74,6 +74,28 @@
       </action>
     </actions>
     <actions priority="medium">
+      <action context="code" dev="open">
+        Fix the latex printer.  The current latex printer tries to avoid
+        putting hard spaces everywhere by using information from the latex
+        markup table.  For instance, there is no need to put hard spaces
+        around the latex command
+        <code>\varg</code>
+        since it is defined to be an inword (via the '%%Zinword \varg \_'
+        directive in the prelude), i.e. spaces are added before
+        and after it when it is tranlated back into unicode.
+        But this is true only in most cases.  For instance, when defining
+        the function
+        <code>\function \varg ^{ ~\varg~ }</code>,
+        the hard spaces cannot be omited since the second
+        <code>\varg</code>
+        is enclosed in braces and no spaces are added when it is tranlated
+        to unicode.  The current latex printer does not handle this case.
+        The current workaround (to be able to print the prelude) is
+        to not use
+        <code>\varg</code>
+        at all, but user defined operators that use braces may not be
+        printed correcly.
+      </action>
       <action context="code" dev="open">
         Develop an e-mail markup to unicode converter.  It should
         return Symbol objects so that it can be fitted into the CztReader.
@@ -93,7 +115,7 @@
 	to the XML schema for Z.
       </action>
     </actions>
-    </actions>    <!-- Add todo items. @context is an arbitrary string. Eg:
+    <!-- Add todo items. @context is an arbitrary string. Eg:
     <actions priority="high">
       <action context="code" dev="SN">
       </action>
