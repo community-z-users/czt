@@ -72,8 +72,8 @@ public class AstToDom extends net.sourceforge.czt.core.dom.AstToDom implements Z
     try {
       for(Iterator iter=zedObject.getExpr().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
@@ -81,8 +81,8 @@ public class AstToDom extends net.sourceforge.czt.core.dom.AstToDom implements Z
       }
       for(Iterator iter=zedObject.getPred().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
@@ -115,8 +115,8 @@ public class AstToDom extends net.sourceforge.czt.core.dom.AstToDom implements Z
     try {
       for(Iterator iter=zedObject.getSubstitute().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));

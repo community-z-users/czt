@@ -40,7 +40,7 @@ import org.w3._2001.xmlschema.*;
 public class AstToJaxb
   extends net.sourceforge.czt.core.jaxb.AstToJaxb
   implements net.sourceforge.czt.zpatt.visitor.ZPattVisitor,
-             net.sourceforge.czt.core.visitor.TermVisitor
+             net.sourceforge.czt.zed.visitor.TermVisitor
 {
   private static final Logger sLogger =
     Logger.getLogger("net.sourceforge.czt.zpatt.jaxb.AstToJaxb");
@@ -60,7 +60,7 @@ public class AstToJaxb
    */
   protected Map mHash = new HashMap();
 
-  public Object visitTerm(net.sourceforge.czt.core.ast.Term zedObject)
+  public Object visitTerm(net.sourceforge.czt.zed.ast.Term zedObject)
   {
     throw(new UnsupportedOperationException());
   }
@@ -93,7 +93,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getExpr();
         java.util.List newlist = jaxbObject.getExpr();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+          net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -102,7 +102,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getPred();
         java.util.List newlist = jaxbObject.getPred();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+          net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -140,7 +140,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getSubstitute();
         java.util.List newlist = jaxbObject.getSubstitute();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+          net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
