@@ -120,7 +120,7 @@ extends OperationExprImpl implements BasicOpExpr
   public net.sourceforge.czt.base.ast.Term create(Object[] args) {
     BasicOpExpr zedObject = null;
     try {
-      StringListType deltaList = (StringListType) args[0];
+      RefNameList deltaList = (RefNameList) args[0];
       net.sourceforge.czt.z.ast.SchText schText = (net.sourceforge.czt.z.ast.SchText) args[1];
       zedObject = new BasicOpExprImpl();
       zedObject.setDeltaList(deltaList);
@@ -139,14 +139,14 @@ extends OperationExprImpl implements BasicOpExpr
     return erg;
   }
 
-  private StringListType mDeltaList;
+  private RefNameList mDeltaList;
 
-  public StringListType getDeltaList()
+  public RefNameList getDeltaList()
   {
     return mDeltaList;
   }
 
-  public void setDeltaList(StringListType deltaList)
+  public void setDeltaList(RefNameList deltaList)
   {
     mDeltaList = deltaList;
   }

@@ -39,7 +39,7 @@ public interface BasicOpExpr extends OperationExpr
    *
    * @return the DeltaList element.
    */
-  public StringListType getDeltaList();
+  public RefNameList getDeltaList();
 
   /**
    * Sets the DeltaList element.
@@ -47,7 +47,7 @@ public interface BasicOpExpr extends OperationExpr
    * @param deltaList   the DeltaList element.
    * @see #getDeltaList
    */
-  public void setDeltaList(StringListType deltaList);
+  public void setDeltaList(RefNameList deltaList);
 
   /**
    * Returns the SchText element.

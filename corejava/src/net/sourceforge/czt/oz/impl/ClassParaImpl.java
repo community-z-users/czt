@@ -170,7 +170,7 @@ extends ParaImpl implements ClassPara
     try {
       net.sourceforge.czt.z.ast.DeclName name = (net.sourceforge.czt.z.ast.DeclName) args[0];
       FormalParameters formalParameters = (FormalParameters) args[1];
-      StringListType visibilityList = (StringListType) args[2];
+      DeclNameList visibilityList = (DeclNameList) args[2];
       java.util.List inheritedClass = (java.util.List) args[3];
       LocalDef localDef = (LocalDef) args[4];
       State state = (State) args[5];
@@ -227,14 +227,14 @@ extends ParaImpl implements ClassPara
     mFormalParameters = formalParameters;
   }
 
-  private StringListType mVisibilityList;
+  private DeclNameList mVisibilityList;
 
-  public StringListType getVisibilityList()
+  public DeclNameList getVisibilityList()
   {
     return mVisibilityList;
   }
 
-  public void setVisibilityList(StringListType visibilityList)
+  public void setVisibilityList(DeclNameList visibilityList)
   {
     mVisibilityList = visibilityList;
   }

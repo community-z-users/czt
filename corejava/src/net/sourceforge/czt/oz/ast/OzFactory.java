@@ -42,6 +42,20 @@ package net.sourceforge.czt.oz.ast;
 public interface OzFactory
 {
     /**
+     * Creates an instance of {@link RefNameList}.
+     *
+     * @return the new instance of RefNameList.
+     */
+    public RefNameList createRefNameList();
+
+    /**
+     * Creates an instance of {@link RefNameList} with the given children.
+     *
+     * @return the new instance of RefNameList.
+     */
+    public RefNameList createRefNameList(java.util.List name);
+
+    /**
      * Creates an instance of {@link RenameList}.
      *
      * @return the new instance of RenameList.
@@ -95,7 +109,7 @@ public interface OzFactory
      *
      * @return the new instance of BasicOpExpr.
      */
-    public BasicOpExpr createBasicOpExpr(StringListType deltaList, net.sourceforge.czt.z.ast.SchText schText);
+    public BasicOpExpr createBasicOpExpr(RefNameList deltaList, net.sourceforge.czt.z.ast.SchText schText);
 
     /**
      * Creates an instance of {@link MainOpExpr}.
@@ -124,20 +138,6 @@ public interface OzFactory
      * @return the new instance of HideOpExpr.
      */
     public HideOpExpr createHideOpExpr(OperationExpr operationExpr, java.util.List hideName);
-
-    /**
-     * Creates an instance of {@link StringListType}.
-     *
-     * @return the new instance of StringListType.
-     */
-    public StringListType createStringListType();
-
-    /**
-     * Creates an instance of {@link StringListType} with the given children.
-     *
-     * @return the new instance of StringListType.
-     */
-    public StringListType createStringListType(java.util.List name);
 
     /**
      * Creates an instance of {@link SeqOpExpr}.
@@ -249,7 +249,7 @@ public interface OzFactory
      *
      * @return the new instance of ClassPara.
      */
-    public ClassPara createClassPara(net.sourceforge.czt.z.ast.DeclName name, FormalParameters formalParameters, StringListType visibilityList, java.util.List inheritedClass, LocalDef localDef, State state, InitialState initialState, java.util.List operation);
+    public ClassPara createClassPara(net.sourceforge.czt.z.ast.DeclName name, FormalParameters formalParameters, DeclNameList visibilityList, java.util.List inheritedClass, LocalDef localDef, State state, InitialState initialState, java.util.List operation);
 
     /**
      * Creates an instance of {@link ParenOpExpr}.
@@ -287,20 +287,6 @@ public interface OzFactory
     public LocalDef createLocalDef(java.util.List givenPara, java.util.List axPara, java.util.List freePara);
 
     /**
-     * Creates an instance of {@link OperationBox}.
-     *
-     * @return the new instance of OperationBox.
-     */
-    public OperationBox createOperationBox();
-
-    /**
-     * Creates an instance of {@link OperationBox} with the given children.
-     *
-     * @return the new instance of OperationBox.
-     */
-    public OperationBox createOperationBox(StringListType deltaList, java.util.List decl, java.util.List pred);
-
-    /**
      * Creates an instance of {@link InitialState}.
      *
      * @return the new instance of InitialState.
@@ -313,6 +299,20 @@ public interface OzFactory
      * @return the new instance of InitialState.
      */
     public InitialState createInitialState(java.util.List pred);
+
+    /**
+     * Creates an instance of {@link OperationBox}.
+     *
+     * @return the new instance of OperationBox.
+     */
+    public OperationBox createOperationBox();
+
+    /**
+     * Creates an instance of {@link OperationBox} with the given children.
+     *
+     * @return the new instance of OperationBox.
+     */
+    public OperationBox createOperationBox(RefNameList deltaList, java.util.List decl, java.util.List pred);
 
     /**
      * Creates an instance of {@link DistSeqOpExpr}.
@@ -341,6 +341,20 @@ public interface OzFactory
      * @return the new instance of ScopeEnrichOpExpr.
      */
     public ScopeEnrichOpExpr createScopeEnrichOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr);
+
+    /**
+     * Creates an instance of {@link DeclNameList}.
+     *
+     * @return the new instance of DeclNameList.
+     */
+    public DeclNameList createDeclNameList();
+
+    /**
+     * Creates an instance of {@link DeclNameList} with the given children.
+     *
+     * @return the new instance of DeclNameList.
+     */
+    public DeclNameList createDeclNameList(java.util.List name);
 
     /**
      * Creates an instance of {@link SecondaryAttributes}.

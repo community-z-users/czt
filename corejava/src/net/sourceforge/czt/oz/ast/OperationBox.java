@@ -39,7 +39,7 @@ public interface OperationBox extends OperationBoxExpr
    *
    * @return the DeltaList element.
    */
-  public StringListType getDeltaList();
+  public RefNameList getDeltaList();
 
   /**
    * Sets the DeltaList element.
@@ -47,7 +47,7 @@ public interface OperationBox extends OperationBoxExpr
    * @param deltaList   the DeltaList element.
    * @see #getDeltaList
    */
-  public void setDeltaList(StringListType deltaList);
+  public void setDeltaList(RefNameList deltaList);
 
   /**
    * <p>Returns the Decl elements.</p>

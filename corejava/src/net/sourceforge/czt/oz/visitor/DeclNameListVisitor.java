@@ -22,25 +22,17 @@ You should have received a copy of the GNU General Public License
 along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-package net.sourceforge.czt.oz.ast;
+package net.sourceforge.czt.oz.visitor;
 
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.util.Visitor;
 
-/**
- *
- * @author Gnast version 0.1
- */
-public interface StringListType extends TermA
+public interface DeclNameListVisitor extends Visitor
 {
-
   /**
-   * <p>Returns the Name elements.</p>
-   * <p>To add or remove elements, use the methods provided by
-   * the List interface (that's why there is no need for a setter
-   * method).</p>
-   *
-   * @return a list of RefName elements.
+   * Visits a(n) DeclNameList.
+   * @param  term the DeclNameList to be visited.
+   * @return some kind of <code>Object</code>.
    */
-  public java.util.List getName();
+  Object visitDeclNameList(net.sourceforge.czt.oz.ast.DeclNameList term);
 }
+

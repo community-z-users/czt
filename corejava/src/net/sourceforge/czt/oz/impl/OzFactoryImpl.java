@@ -38,6 +38,21 @@ import net.sourceforge.czt.oz.ast.*;
 public class OzFactoryImpl
   implements net.sourceforge.czt.oz.ast.OzFactory
 {
+  public RefNameList createRefNameList()
+  {
+    RefNameList zedObject = new RefNameListImpl();
+    return zedObject;
+  }
+
+  public RefNameList createRefNameList(java.util.List name)
+  {
+    RefNameList zedObject = createRefNameList();
+    if(name != null) {
+      zedObject.getName().addAll(name);
+    }
+    return zedObject;
+  }
+
   public RenameList createRenameList()
   {
     RenameList zedObject = new RenameListImpl();
@@ -85,7 +100,7 @@ public class OzFactoryImpl
     return zedObject;
   }
 
-  public BasicOpExpr createBasicOpExpr(StringListType deltaList, net.sourceforge.czt.z.ast.SchText schText)
+  public BasicOpExpr createBasicOpExpr(RefNameList deltaList, net.sourceforge.czt.z.ast.SchText schText)
   {
     BasicOpExpr zedObject = createBasicOpExpr();
     zedObject.setDeltaList(deltaList);
@@ -119,21 +134,6 @@ public class OzFactoryImpl
     zedObject.setOperationExpr(operationExpr);
     if(hideName != null) {
       zedObject.getHideName().addAll(hideName);
-    }
-    return zedObject;
-  }
-
-  public StringListType createStringListType()
-  {
-    StringListType zedObject = new StringListTypeImpl();
-    return zedObject;
-  }
-
-  public StringListType createStringListType(java.util.List name)
-  {
-    StringListType zedObject = createStringListType();
-    if(name != null) {
-      zedObject.getName().addAll(name);
     }
     return zedObject;
   }
@@ -249,7 +249,7 @@ public class OzFactoryImpl
     return zedObject;
   }
 
-  public ClassPara createClassPara(net.sourceforge.czt.z.ast.DeclName name, FormalParameters formalParameters, StringListType visibilityList, java.util.List inheritedClass, LocalDef localDef, State state, InitialState initialState, java.util.List operation)
+  public ClassPara createClassPara(net.sourceforge.czt.z.ast.DeclName name, FormalParameters formalParameters, DeclNameList visibilityList, java.util.List inheritedClass, LocalDef localDef, State state, InitialState initialState, java.util.List operation)
   {
     ClassPara zedObject = createClassPara();
     zedObject.setName(name);
@@ -308,25 +308,6 @@ public class OzFactoryImpl
     return zedObject;
   }
 
-  public OperationBox createOperationBox()
-  {
-    OperationBox zedObject = new OperationBoxImpl();
-    return zedObject;
-  }
-
-  public OperationBox createOperationBox(StringListType deltaList, java.util.List decl, java.util.List pred)
-  {
-    OperationBox zedObject = createOperationBox();
-    zedObject.setDeltaList(deltaList);
-    if(decl != null) {
-      zedObject.getDecl().addAll(decl);
-    }
-    if(pred != null) {
-      zedObject.getPred().addAll(pred);
-    }
-    return zedObject;
-  }
-
   public InitialState createInitialState()
   {
     InitialState zedObject = new InitialStateImpl();
@@ -336,6 +317,25 @@ public class OzFactoryImpl
   public InitialState createInitialState(java.util.List pred)
   {
     InitialState zedObject = createInitialState();
+    if(pred != null) {
+      zedObject.getPred().addAll(pred);
+    }
+    return zedObject;
+  }
+
+  public OperationBox createOperationBox()
+  {
+    OperationBox zedObject = new OperationBoxImpl();
+    return zedObject;
+  }
+
+  public OperationBox createOperationBox(RefNameList deltaList, java.util.List decl, java.util.List pred)
+  {
+    OperationBox zedObject = createOperationBox();
+    zedObject.setDeltaList(deltaList);
+    if(decl != null) {
+      zedObject.getDecl().addAll(decl);
+    }
     if(pred != null) {
       zedObject.getPred().addAll(pred);
     }
@@ -366,6 +366,21 @@ public class OzFactoryImpl
     ScopeEnrichOpExpr zedObject = createScopeEnrichOpExpr();
     zedObject.setLeftOperationExpr(leftOperationExpr);
     zedObject.setRightOperationExpr(rightOperationExpr);
+    return zedObject;
+  }
+
+  public DeclNameList createDeclNameList()
+  {
+    DeclNameList zedObject = new DeclNameListImpl();
+    return zedObject;
+  }
+
+  public DeclNameList createDeclNameList(java.util.List name)
+  {
+    DeclNameList zedObject = createDeclNameList();
+    if(name != null) {
+      zedObject.getName().addAll(name);
+    }
     return zedObject;
   }
 

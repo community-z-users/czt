@@ -76,7 +76,14 @@ public class OzAstTest extends TestCase {
     List vNameList = new ArrayList();	
     vNameList.add(xName);
     vNameList.add(pxName);
-    StringListType sList = ozFactory_.createStringListType(vNameList);
+    DeclNameList declNameList = ozFactory_.createDeclNameList(vNameList);
+    
+    RefName refName1 = zFactory_.createRefName("x", null, null);
+    RefName refName2 = zFactory_.createRefName("px", null, null);
+    List list = new ArrayList();	
+    list.add(refName1);
+    list.add(refName2);
+    RefNameList refNameList = ozFactory_.createRefNameList(list);
     
     // create a state schema with a variable declaration and
     // secondary variable
@@ -115,7 +122,7 @@ public class OzAstTest extends TestCase {
     List opList = new ArrayList();
     for (int i = 0; i < NUM_OP_BOXES; i++) {
       OperationBox box1 =
-	ozFactory_.createOperationBox(sList, list(xInDecl), list(truePred));
+	ozFactory_.createOperationBox(refNameList, list(xInDecl), list(truePred));
       DeclName declName = zFactory_.createDeclName("op" + i, null, null);
       Operation op = ozFactory_.createOperation( declName, box1);
       opList.add(op);
@@ -145,7 +152,7 @@ public class OzAstTest extends TestCase {
     
     //create the class paragraph
     ClassPara classPara =
-      ozFactory_.createClassPara(className, fp, sList, null,
+      ozFactory_.createClassPara(className, fp, declNameList, null,
 				 null, state, init, opList);
     
     ArrayList paras = new ArrayList();
@@ -223,8 +230,8 @@ public class OzAstTest extends TestCase {
     FormalParameters fp = classPara.getFormalParameters();
     Assert.assertEquals(1, fp.getRefName().size());
     
-    StringListType sList = classPara.getVisibilityList();
-    Assert.assertEquals(2, sList.getName().size());
+    DeclNameList declNameList = classPara.getVisibilityList();
+    Assert.assertEquals(2, declNameList.getName().size());
     
     List inheritList = classPara.getInheritedClass();
     Assert.assertEquals(0, inheritList.size());

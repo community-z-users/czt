@@ -34,16 +34,16 @@ import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.visitor.*;
 
-import net.sourceforge.czt.oz.visitor.StringListTypeVisitor;
+import net.sourceforge.czt.oz.visitor.DeclNameListVisitor;
 
 /**
  * An implementation of the interface
- * {@link StringListType}.
+ * {@link DeclNameList}.
  *
  * @author Gnast version 0.1
  */
-public class StringListTypeImpl
-extends TermAImpl implements StringListType
+public class DeclNameListImpl
+extends TermAImpl implements DeclNameList
 {
   /**
    * The default constructor.
@@ -52,12 +52,12 @@ extends TermAImpl implements StringListType
    * If you want to create an instance of this class, please use the
    * {@link OzFactory object factory}.
    */
-  protected StringListTypeImpl() { }
+  protected DeclNameListImpl() { }
 
   /**
-   * Compares the specified object with this StringListTypeImpl
+   * Compares the specified object with this DeclNameListImpl
    * for equality.  Returns true if and only if the specified object is
-   * also a(n) StringListTypeImpl and all the getter methods except getAnns
+   * also a(n) DeclNameListImpl and all the getter methods except getAnns
    * return equal objects.
    */
   public boolean equals(Object obj)
@@ -65,7 +65,7 @@ extends TermAImpl implements StringListType
     if(obj != null &&
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
-      StringListTypeImpl object = (StringListTypeImpl) obj;
+      DeclNameListImpl object = (DeclNameListImpl) obj;
       if((mName == null && object.mName != null) ||
          (mName != null &&
          ! mName.equals(object.mName))) return false;
@@ -77,8 +77,8 @@ extends TermAImpl implements StringListType
   }
 
   /**
-   * Returns the hash code value for this StringListTypeImpl.
-   * The hash code of a StringListTypeImpl is defined to be
+   * Returns the hash code value for this DeclNameListImpl.
+   * The hash code of a DeclNameListImpl is defined to be
    * the result of the following calculation:
    *
    * @czt.todo Write the calculation procedure for method hashCode().
@@ -86,7 +86,7 @@ extends TermAImpl implements StringListType
   public int hashCode()
   {
     int hashCode = super.hashCode();
-    hashCode += "StringListTypeImpl".hashCode();
+    hashCode += "DeclNameListImpl".hashCode();
     if(mName != null) {
       hashCode += 31*mName.hashCode();
     }
@@ -98,10 +98,10 @@ extends TermAImpl implements StringListType
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof StringListTypeVisitor)
+    if (v instanceof DeclNameListVisitor)
     {
-      StringListTypeVisitor visitor = (StringListTypeVisitor) v;
-      return visitor.visitStringListType(this);
+      DeclNameListVisitor visitor = (DeclNameListVisitor) v;
+      return visitor.visitDeclNameList(this);
     }
     return super.accept(v);
   }
@@ -110,10 +110,10 @@ extends TermAImpl implements StringListType
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.base.ast.Term create(Object[] args) {
-    StringListType zedObject = null;
+    DeclNameList zedObject = null;
     try {
       java.util.List name = (java.util.List) args[0];
-      zedObject = new StringListTypeImpl();
+      zedObject = new DeclNameListImpl();
       if(name != null) {
         zedObject.getName().addAll(name);
       }
@@ -131,7 +131,7 @@ extends TermAImpl implements StringListType
     return erg;
   }
 
-  private java.util.List mName = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.RefName.class);
+  private java.util.List mName = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.DeclName.class);
 
   public java.util.List getName()
   {

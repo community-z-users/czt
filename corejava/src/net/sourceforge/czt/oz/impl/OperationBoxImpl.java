@@ -128,7 +128,7 @@ extends OperationBoxExprImpl implements OperationBox
   public net.sourceforge.czt.base.ast.Term create(Object[] args) {
     OperationBox zedObject = null;
     try {
-      StringListType deltaList = (StringListType) args[0];
+      RefNameList deltaList = (RefNameList) args[0];
       java.util.List decl = (java.util.List) args[1];
       java.util.List pred = (java.util.List) args[2];
       zedObject = new OperationBoxImpl();
@@ -153,14 +153,14 @@ extends OperationBoxExprImpl implements OperationBox
     return erg;
   }
 
-  private StringListType mDeltaList;
+  private RefNameList mDeltaList;
 
-  public StringListType getDeltaList()
+  public RefNameList getDeltaList()
   {
     return mDeltaList;
   }
 
-  public void setDeltaList(StringListType deltaList)
+  public void setDeltaList(RefNameList deltaList)
   {
     mDeltaList = deltaList;
   }

@@ -69,7 +69,7 @@ public interface ClassPara extends Para
    *
    * @return the VisibilityList element.
    */
-  public StringListType getVisibilityList();
+  public DeclNameList getVisibilityList();
 
   /**
    * Sets the VisibilityList element.
@@ -77,7 +77,7 @@ public interface ClassPara extends Para
    * @param visibilityList   the VisibilityList element.
    * @see #getVisibilityList
    */
-  public void setVisibilityList(StringListType visibilityList);
+  public void setVisibilityList(DeclNameList visibilityList);
 
   /**
    * <p>Returns the InheritedClass elements.</p>
