@@ -19,6 +19,7 @@
                      jwsdp-shared/lib/xsdlib.jar"/>
     <pathelement location="../core.jar"/>
     <pathelement location="."/>
+    <pathelement path="${java.class.path}"/>
   </path>
   
   <target name="compile">

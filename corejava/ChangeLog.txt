@@ -15,3 +15,7 @@ corejava_1_1_1
 
   * add namespace information to the DOM output and write each node
     on its own line (indentation is still missing)
+
+  * use the CLASSPATH environment variable when running the examples
+    and tests to avoid NoClassDefFoundError when CLASSPATH is set properly
+    but jwsdp.home is not set.
