@@ -55,7 +55,9 @@
     <javac
       srcdir="${corejava.src.dir}:${corejava.build.src}"
       destdir="${corejava.build.base}"
-      debug="true"
+      debug="${debug}"
+      debuglevel="${debuglevel}"
+      optimize="${optimize}"
       includes="net/sourceforge/czt/util/**,net/sourceforge/czt/base/**"
       excludes="net/sourceforge/czt/base/jaxb/**">
     </javac>
@@ -78,9 +80,11 @@
     <javac
       srcdir="${corejava.src.dir}:${corejava.build.src}"
       destdir="${corejava.build.core}"
-      debug="true"
       includes="net/sourceforge/czt/z/**"
-      excludes="net/sourceforge/czt/z/jaxb/**">
+      excludes="net/sourceforge/czt/z/jaxb/**"
+      debug="${debug}"
+      debuglevel="${debuglevel}"
+      optimize="${optimize}">
       <classpath>
         <pathelement location="${corejava.build.base}"/>
       </classpath>
@@ -118,9 +122,11 @@
     <javac
       srcdir="${corejava.src.dir}:${corejava.build.src}"
       destdir="${corejava.build.oz}"
-      debug="true"
       includes="net/sourceforge/czt/oz/**"
-      excludes="net/sourceforge/czt/oz/jaxb/**">
+      excludes="net/sourceforge/czt/oz/jaxb/**"
+      debug="${debug}"
+      debuglevel="${debuglevel}"
+      optimize="${optimize}">
       <classpath>
         <pathelement location="${corejava.build.base}"/>
         <pathelement location="${corejava.build.core}"/>
@@ -159,9 +165,11 @@
     <javac
       srcdir="${corejava.src.dir}:${corejava.build.src}"
       destdir="${corejava.build.zpatt}"
-      debug="true"
       includes="net/sourceforge/czt/zpatt/**"
-      excludes="net/sourceforge/czt/zpatt/jaxb/**">
+      excludes="net/sourceforge/czt/zpatt/jaxb/**"
+      debug="${debug}"
+      debuglevel="${debuglevel}"
+      optimize="${optimize}">
       <classpath>
         <pathelement location="${corejava.build.base}"/>
         <pathelement location="${corejava.build.core}"/>
@@ -189,8 +197,10 @@
     <javac
       srcdir="${corejava.src.dir}:${corejava.build.src}"
       destdir="${corejava.build.jaxb}"
-      debug="true"
-      includes="net/sourceforge/czt/**/jaxb/**,org/**">
+      includes="net/sourceforge/czt/**/jaxb/**,org/**"
+      debug="${debug}"
+      debuglevel="${debuglevel}"
+      optimize="${optimize}">
       <classpath>
         <pathelement location="${corejava.build.base}"/>
         <pathelement location="${corejava.build.core}"/>
