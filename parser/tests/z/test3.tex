@@ -18,20 +18,20 @@
 e? : EVENT
 \end{schema}
 \begin{zed}
-Ignore \sdef Event \land \Xi Console
+Ignore == Event \land \Xi Console
 \end{zed}
 
 \begin{zed}
 [DISPLAY, SETTING, VALUE, CHAR]
 \end{zed}
 \begin{zed}
-TEXT \defs \seq CHAR
+TEXT == \seq CHAR
 \end{zed}
 \begin{zed}
-MODE \ddef idle | dialog
+MODE ::= idle | dialog
 \end{zed}
 \begin{zed}
-BUTTON \ddef accept | cancel
+BUTTON ::= accept | cancel
 \end{zed}
 \begin{schema}{Console}
 display: DISPLAY \\
@@ -45,18 +45,18 @@ disp: EVENT \pfun DISPLAY
 \end{axdef}
 \begin{schema}{SelectDisplay}
 Event \\
-\ST mode = idle \\
+\where mode = idle \\
 e? \in \dom disp \\
 display' = disp (e?) \\
 mode' = mode
 \end{schema}
 \begin{schema}{IgnoreDisplay}
 Ignore \\
-\ST e? \in \dom disp\\
+\where e? \in \dom disp\\
 mode = dialog
 \end{schema}
 \begin{zed}
-DisplayEvent \sdef SelectDisplay \lor IgnoreDisplay
+DisplayEvent == SelectDisplay \lor IgnoreDisplay
 \end{zed}
 
 \begin{axdef}
@@ -64,7 +64,7 @@ stg : EVENT \pfun SETTING
 \end{axdef}
 \begin{schema}{SelectSetting}
 Event \\
-\ST mode = idle \\
+\where mode = idle \\
 e? \in \dom stg \\
 setting' = stg(e?) \\
 mode' = dialog \\
@@ -73,11 +73,11 @@ display' = display
 \end{schema}
 \begin{schema}{IgnoreSetting}
 Ignore \\
-\ST e? \in \dom stg \\
+\where e? \in \dom stg \\
 mode = dialog
 \end{schema}
 \begin{zed}
-Setting \sdef SelectSetting \lor IgnoreSetting
+Setting == SelectSetting \lor IgnoreSetting
 \end{zed}
 
 \begin{axdef}
@@ -86,7 +86,7 @@ edit : (TEXT \cross CHAR) \fun TEXT
 \end{axdef}
 \begin{schema}{GetChar}
 Event \\
-\ST mode = dialog \\
+\where mode = dialog \\
 e? \in \dom char \\
 buffer' = edit(buffer, char ) \\
 mode' = mode \\
@@ -95,11 +95,11 @@ display' = display
 \end{schema}
 \begin{schema}{IgnoreChar}
 Ignore \\
-\ST e? \in \dom char \\
+\where e? \in \dom char \\
 mode = idle
 \end{schema}
 \begin{zed}
-CharEvent \sdef GetChar \lor IgnoreChar
+CharEvent == GetChar \lor IgnoreChar
 \end{zed}
 
 \begin{axdef}
@@ -109,7 +109,7 @@ valid \_ : SETTING \rel VALUE
 \end{axdef}
 \begin{schema}{Accept}
 Event \\
-\ST mode = dialog \\
+\where mode = dialog \\
 e? \in \dom button \\
 button(e?)= accept \\
 value(buffer) = valid(setting)\\
@@ -118,7 +118,7 @@ display' = display
 \end{schema}
 \begin{schema}{Reprompt}
 Event \\
-\ST mode = dialog \\
+\where mode = dialog \\
 e? \in \dom button \\
 button(e?) = accept \\
 \lnot valid(setting, value)\\
@@ -128,14 +128,14 @@ display' = display
 \end{schema}
 \begin{schema}{Cancel}
 Event \\
-\ST mode = dialog \\
+\where mode = dialog \\
 e? \in \dom button \\
 button(e?) = cancel \\
 mode' = idle \\
 display' = display
 \end{schema}
 \begin{zed}
-ButtonEvent \sdef Accept \lor Cancel \lor Reprompt
+ButtonEvent == Accept \lor Cancel \lor Reprompt
 \end{zed}
 
 \begin{schema}{Machine}
@@ -144,7 +144,7 @@ measure, prescribed : SETTING \fun VALUE
 \begin{schema}{NewSetting}
 \Delta Machine \\
 s? : SETTING; v? : VALUE \\
-\ST prescribed' = prescribed \oplus \{s? \mapsto v? \}\\
+\where prescribed' = prescribed \oplus \{s? \mapsto v? \}\\
 actual' = actual
 \end{schema}
 \begin{schema}{Sys}
@@ -155,20 +155,20 @@ Machine
 \Delta Sys \\
 Accept \\
 NewSetting \\
-\ST s? = setting \\
+\where s? = setting \\
 v? = value(buffer)
 \end{schema}
 \begin{zed}
-SysDisplayEvent \sdef DisplayEvent \land \Xi Machine
+SysDisplayEvent == DisplayEvent \land \Xi Machine
 \end{zed}
 \begin{zed}
-SysSettingEvent \sdef SettingEvent \land \Xi Machine
+SysSettingEvent == SettingEvent \land \Xi Machine
 \end{zed}
 \begin{zed}
-SysCharEvent \sdef CharEvent \land \Xi Machine
+SysCharEvent == CharEvent \land \Xi Machine
 \end{zed}
 \begin{zed}
-SysButtonEvent \sdef ChangeSetting \lor (Reprompt \land \Xi
+SysButtonEvent == ChangeSetting \lor (Reprompt \land \Xi
 Machine) \lor (Cancel \land \Xi Machine)
 \end{zed}
 \end{document}
