@@ -75,10 +75,14 @@ public class CztReader
         buffer_ = null;
         return result;
       }
+      else {
+        buffer_ += s.value;
+      }
     }
     for (int i = 0; i < len; i++) {
       cbuf[off + i] = buffer_.charAt(i);
     }
+    buffer_ = buffer_.substring(len);
     return len;
   }
 
