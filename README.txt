@@ -60,6 +60,11 @@ build the jar files and install them in the '<CZT_HOME>/lib' directory.
 Optionally, you can pass an argument to ant.  Call "ant -projecthelp"
 to get help information about which arguments are available.
 
+Troubleshooting
+***************
+Please read the README.txt file within the sub-project you have
+trouble with.
+
 What next?
 **********
 The sub-projects README files provide more information on how the
