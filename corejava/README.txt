@@ -50,12 +50,13 @@ to get help information about which arguments are available.
 What next?
 **********
 - Have a look in <CZT_HOME>/bin/bsh.  This directory contains a collection
-  of czt related beanshell commands.  For instance, fave a look at
+  of czt related beanshell commands.  For instance, have a look at
   * marshal.bsh      to learn how a Z term can be marshalled to XML.
   * unmarshal.bsh    to learn how an XML file can be unmarshalled.
 
 - Read the API documentation in doc/api (you have to build it by calling
-  'ant' or 'ant api' before you can read it).
+  'ant' or 'ant api' in the directory where this file is in
+  before you can read it).
 
 - Hava a look in the tests directory.  It shows how the classes are
   supposed to work.
