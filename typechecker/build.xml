@@ -67,6 +67,7 @@
  
   <target name="test" depends="install"
     description="build and run the tests">
+    <ant dir="tests"/>
   </target>
 
   <target name="checkstyle" description="check java sources">
