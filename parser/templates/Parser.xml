@@ -147,8 +147,7 @@ action code
       final DeclName dn = Strokes.getWordAndStroke(name);
       if (dn.getStroke().size() != 0) {
         final String message =
-          "Names in operator templates cannot contain strokes.  " +
-          "Found operator name " + name;
+          "Syntax error (names in operator templates cannot contain strokes)";
         final Symbol token = new Symbol(Sym.DECORWORD, line, column);
         parser.report_error(message, token);
         parser.report_fatal_error(message, token);
@@ -616,6 +615,7 @@ parser code
     public void report_error(String message, Object info)
     {
       StringBuffer msg = new StringBuffer();
+      msg.append(message);
       if (info instanceof Symbol) {
         Symbol token = (Symbol) info;
         msg.append(" at line " + token.left + " column " + token.right);
@@ -643,14 +643,14 @@ parser code
 
     public void syntax_error(Symbol cur_token)
     {
-      String message = "Syntax error ";
+      String message = "Syntax error";
       report_error(message, cur_token);
     }
 
     public void unrecovered_syntax_error(Symbol cur_token)
       throws ParseException
     {
-      String message = "Syntax error ";
+      String message = "Syntax error";
       report_fatal_error("Couldn't repair and continue parse", cur_token);
     }
 :}
