@@ -19,42 +19,82 @@
 
 package net.sourceforge.czt.zpatt.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.zpatt.ast.*;
+import net.sourceforge.czt.zpatt.util.*;
+import net.sourceforge.czt.zpatt.visitor.*;
 
 /**
- * A simple deduction implementation.
+ * A simple deduction implementation that just handles JokerExpr and
+ * JokerPred for now.
  *
  * @author Petra Malik
  */
 public class DeductionImpl
   implements Deduction
 {
-  private Rule rule_;
+  private String name_;
   private PredSequent conclusion_;
-  private boolean valid_ = false;
+  private boolean valid_;
   private Sequent[] children_ = null;
-  private Map<Term,Term> bindings_ = new HashMap();
+  private List<JokerExpr> boundJokerExpr_ = new ArrayList();
+  private List<JokerPred> boundJokerPred_ = new ArrayList();
 
+  /**
+   * @throws IllegalArgumentException if rule does not have a Sequent.
+   */
   public DeductionImpl(Rule rule, PredSequent conclusion)
   {
-    rule_ = rule;
+    name_ = rule.getName();
+    CopyVisitor visitor = new CopyVisitor();
+    Rule copiedRule = (Rule) rule.accept(visitor);
+    ListTerm list = (ListTerm) copiedRule.getSequent().accept(visitor);
+    try {
+      Sequent sequent = (Sequent) list.remove(0);
+      if (match(sequent, conclusion)) {
+	valid_ = true;
+	children_ = (Sequent[]) list.toArray(new Sequent[0]);
+      }
+      else {
+	undoBindings();
+	valid_ = false;
+      }
+    }
+    catch (IndexOutOfBoundsException exception) {
+      throw new IllegalArgumentException("Rule without Sequent");
+    }
     conclusion_ = conclusion;
+  }
+
+  private void undoBindings()
+  {
+    for (Iterator<JokerExpr> i = boundJokerExpr_.iterator(); i.hasNext();) {
+      JokerExpr joker = i.next();
+      joker.setBinding(null);
+    }
+    for (Iterator<JokerPred> i = boundJokerPred_.iterator(); i.hasNext();) {
+      JokerPred joker = i.next();
+      joker.setBinding(null);
+    }
   }
 
   public String getName()
   {
-    return rule_.getName();
+    return name_;
   }
 
   public void next()
   {
+    undoBindings();
     valid_ = false;
   }
 
@@ -69,13 +109,12 @@ public class DeductionImpl
   }
 
   /**
-   * Matches a term which may contain joker agains a term
-   * without joker.
+   * Matches two terms (no occur check).
    *
-   * @param term1 a term that may contain joker.
-   * @param term2 a term without joker.
-   * @return a list of bindings,
-   *         or <code>null</code> if the two terms do not match.
+   * @param term1 the first term.
+   * @param term2 the second term.
+   * @return <code>true</code> if both term match, 
+   *         <code>false</code> otherwise.
    */
   private boolean match(Term term1, Term term2)
   {
@@ -83,34 +122,16 @@ public class DeductionImpl
       return true;
     }
     if (term1 instanceof JokerExpr) {
-      if (term2 instanceof Expr) {
-        JokerExpr joker = (JokerExpr) term1;
-        Term boundTo = bindings_.get(joker);
-        if (boundTo != null) {
-          return boundTo.equals(term2);
-        }
-        bindings_.put(joker, term2);
-        return true;
-      }
-      else {
-        // term2 has wrong type
-        return false;
-      }
+      return handleJokerExpr((JokerExpr) term1, term2);
+    }
+    if (term2 instanceof JokerExpr) {
+      return handleJokerExpr((JokerExpr) term2, term1);
     }
     if (term1 instanceof JokerPred) {
-      if (term2 instanceof Pred) {
-        JokerPred joker = (JokerPred) term1;
-        Term boundTo = (Term) bindings_.get(joker);
-        if (boundTo != null) {
-          return boundTo.equals(term2);
-        }
-        bindings_.put(joker, term2);
-        return true;
-      }
-      else {
-        // term2 has wrong type
-        return false;
-      }
+      return handleJokerPred((JokerPred) term1, term2);
+    }
+    if (term2 instanceof JokerPred) {
+      return handleJokerPred((JokerPred) term2, term1);
     }
     if (term1.getClass() != term2.getClass()) {
       return false;
@@ -129,13 +150,6 @@ public class DeductionImpl
             return false;
           }
         }
-        else if (args1[i] instanceof List) {
-          List list1 = (List) args1[i];
-          List list2 = (List) args2[i];
-          if (! match(list1, list2)) {
-            return false;
-          }
-        }
         else {
           if (! args1[i].equals(args2[i])) {
             return false;
@@ -146,25 +160,67 @@ public class DeductionImpl
     return true;
   }
 
-  private boolean match(List list1, List list2)
+  private boolean handleJokerExpr(JokerExpr joker, Term term)
   {
-    if (list1.size() != list2.size()) {
-      return false;
+    if (joker.getBinding() != null) {
+      return match(joker.getBinding(), term);
     }
-    for (int i = 0; i < list1.size(); i++) {
-      Object o1 = list1.get(i);
-      Object o2 = list2.get(i);
-      if (o1 instanceof Term && o2 instanceof Term) {
-        if (! match((Term) o1, (Term) o2)) {
-          return false;
-        }
-      }
-      else {
-        if (! o1.equals(o2)) {
-          return false;
-        }
-      }
+    if (term instanceof Expr) {
+      joker.setBinding((Expr) term);
+      boundJokerExpr_.add(joker);
+      return true;
     }
-    return true;
+    return false;
+  }
+
+  private boolean handleJokerPred(JokerPred joker, Term term)
+  {
+    if (joker.getBinding() != null) {
+      return match(joker.getBinding(), term);
+    }
+    if (term instanceof Pred) {
+      joker.setBinding((Pred) term);
+      boundJokerPred_.add(joker);
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * A visitor that copies a term.
+   */
+  private class CopyVisitor
+    implements TermVisitor,
+	       JokerPredVisitor,
+	       JokerExprVisitor
+  {
+    private Factory factory_ = new Factory();
+    private Map<String, JokerExpr> exprJoker_ = new HashMap();
+    private Map<String, JokerPred> predJoker_ = new HashMap();
+
+    public Object visitTerm(Term term)
+    {
+      return VisitorUtils.visitTerm(this, term, false);
+    }
+
+    public Object visitJokerExpr(JokerExpr joker)
+    {
+      JokerExpr result = exprJoker_.get(joker.getName());
+      if (result == null) {
+	exprJoker_.put(joker.getName(), joker);
+	result = joker;
+      }
+      return result;
+    }
+
+    public Object visitJokerPred(JokerPred joker)
+    {
+      JokerPred result = predJoker_.get(joker.getName());
+      if (result == null) {
+	predJoker_.put(joker.getName(), joker);
+	result = joker;
+      }
+      return result;
+    }
   }
 }
