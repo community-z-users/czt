@@ -6,6 +6,11 @@
   </header>
   <body>
     <p>
+      9-Nov-2004: Binary releases are available from
+      <link href="http://www.cs.waikato.ac.nz/~petra">Petra's web page</link>.
+    </p>
+
+    <p>
       22-Sept-2004: Second release (version 0.2) of CZT containing
       corejava 1.3.0 and parser 0.2 (Z/Object Z parser and printing tools).
     </p>

@@ -88,7 +88,7 @@ be used to configure the chosen Forrest skin.
   <host-logo>images/sflogo.png</host-logo>
 
   <!-- The following are used to construct a copyright statement -->
-  <year>2003</year>
+  <year>2005</year>
   <vendor>The Community Z Tools project.</vendor>
 
   <!-- Some skins use this to form a 'breadcrumb trail' of links. If you don't

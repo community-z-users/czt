@@ -6,15 +6,14 @@
   </header> 
   <body>
       <p>
-      There are not many screenshots yet, because we are still
-      working on the core Java libraries and have not yet done much
-      GUI development.
-      </p>
-      <p>
-      However, here is a view of a preliminary version of the
-      Z unicode editor, which is built as a Z mode and plugin to
+      Here is a view of a preliminary version of the
+      Z unicode editor, which is built as a Z mode to
       the <link href="ext:jedit">JEdit open-source editor</link>.
       </p>
       <figure src="images/jedit_screen.png" alt="JEdit screenshot"/>
+      <p>
+      Here is a view of the new <link href="ext:jedit">jEdit</link> plugin.
+      </p>
+      <figure src="images/plugin.png" alt="JEdit plugin"/>
   </body>
 </document>

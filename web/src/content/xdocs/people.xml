@@ -46,20 +46,25 @@
       <link href="http://www.cs.waikato.ac.nz/~petra">Petra Malik (Waikato
       University)</link>:
       Developer of the 'gnast' code generator (which generates Java classes
-      and visitors from XML schema files), the 
+      and visitors from XML schema files), the printer and converter tools, the
       <link href="http://www.jedit.org">JEdit</link> plugins and the
-      new CZT website based on 
+      CZT website based on 
       <link href="http://xml.apache.org/forrest">forrest</link>. 
     </p>
  
     <p>
-      <link href="http://www.cs.waikato.ac.nz/~ntd1">Nick Daley (Waikato
-      University)</link>: Developer of the 'Gaffe' GUI-builder for Z animators.
+      <link href="http://www.csc.liv.ac.uk/~tim/">Tim Miller
+      (University of Queensland, now University of Liverpool)</link>:
+      Developer of the Z and OZ parser and the Z typechecker.
     </p>
 
     <p>
-      <link href="mailto:ga11@cs.waikato.ac.nz">Gerret Apelt (Waikato
-      University)</link>:
+      Nick Daley (Waikato University):
+      Developer of the 'Gaffe' GUI-builder for Z animators.
+    </p>
+
+    <p>
+      Gerret Apelt (Waikato University):
       Developer of the ZML-to-HTML translator for viewing and browsing Z.
     </p>
       
@@ -81,12 +86,6 @@
       (Oxford University)</link>:
       Developer of a Unicode WYSIWYG Z mode for the 
       <link href="http://www.jedit.org">JEdit</link> editor.
-    </p>
-
-    <p>
-      <link href="http://www.itee.uq.edu.au/~timothym/">Tim Miller
-      (University of Queensland)</link>:
-      Developer of the Z and OZ parser.
     </p>
   </body>
 </document>
