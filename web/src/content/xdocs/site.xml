@@ -44,6 +44,9 @@ See http://xml.apache.org/forrest/linking.html for more info
     <manual
       label="User Manual"
       href="manual.html"/>
+    <manual
+      label="Installation"
+      href="installation.html"/>
     <developer
       label="Developer Info"
       href="developer.html"/>
