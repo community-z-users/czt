@@ -57,56 +57,8 @@ public final class <class/>
   {
   }
 
-  /**
-   * Converts latex to zml.
-   */
-  public static void main(String[] args)
-  {
-    String usage = "Usage: <package/>.<class/>"
-      + " [ -in &lt;inputfile&gt;] [ -out &lt;outputfile&gt;]";
-    try {
-      Logger logger = CztLogger.getLogger(<class/>.class);
-      Reader in = new InputStreamReader(System.in);
-      OutputStream out = System.out;
-      for (int i = 0; i &lt; args.length; i++) {
-        if ("-in".equals(args[i])) {
-          if (i &lt; args.length) {
-            in = new InputStreamReader(new FileInputStream(args[++i]));
-          } else {
-            System.err.println(usage);
-            return;
-          }
-        } else if ("-out".equals(args[i])) {
-          if (i &lt; args.length) {
-            out = new FileOutputStream(args[++i]);
-          } else {
-            System.err.println(usage);
-            return;
-          }
-        } else {
-          System.err.println(usage);
-          return;
-        }
-      }
-      OperatorTable table = new OperatorTable();
-      Term term = parseLatex(in, table);
-      AstValidator validator = new JaxbValidator();
-      String message = "Validating AST ... is ";
-      if (! validator.validate(term)) {
-        message += "not ";
-      }
-      message += "valid.";
-      logger.info(message);
-      XmlWriter xmlWriter = new JaxbXmlWriter();
-      xmlWriter.write(term, out);
-      out.close();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
   public static Term parse(String filename, OperatorTable table)
-    throws Exception
+    throws ParseException, FileNotFoundException
   {
     if (filename.endsWith(".tex") || filename.endsWith(".TEX")) {
       return ParseUtils.parseLatexFile(filename, table);
@@ -123,85 +75,63 @@ public final class <class/>
   }
 
   public static Term parseUtf8File(String filename, OperatorTable table)
-    throws Exception
+    throws ParseException, FileNotFoundException
   {
-    Logger logger = CztLogger.getLogger(<class/>.class);
-    logger.info("Parse utf8 file " + filename);
-    Reader in = new InputStreamReader(new FileInputStream(filename), "UTF-8");
-    Scanner scanner = new SmartScanner(new UnicodeScanner(in));
-    Parser parser = new Parser(scanner, table, filename);
-    Symbol parseTree = parser.parse();
-    return (Term) parseTree.value;
+    try {
+      Logger logger = CztLogger.getLogger(<class/>.class);
+      logger.fine("Parse utf8 file " + filename);
+      Reader in =
+        new InputStreamReader(new FileInputStream(filename), "UTF-8");
+      UnicodeParser parser = new UnicodeParser(in, table, filename);
+      return parser.parse();
+    }
+    catch(UnsupportedEncodingException e) {
+      throw new CztException("This should not happen!", e);
+    }
   }
 
   public static Term parseUtf8File(String filename)
-    throws Exception
+    throws ParseException, FileNotFoundException
   {
     return parseUtf8File(filename, new OperatorTable());
   }
 
   public static Term parseUtf16File(String filename, OperatorTable table)
-    throws Exception
+    throws ParseException, FileNotFoundException
   {
-    Logger logger = CztLogger.getLogger(<class/>.class);
-    logger.info("Parse utf16 file " + filename);
-    Reader in = new InputStreamReader(new FileInputStream(filename), "UTF-16");
-    Scanner scanner = new SmartScanner(new UnicodeScanner(in));
-    Parser parser = new Parser(scanner, table, filename);
-    Symbol parseTree = parser.parse();
-    return (Term) parseTree.value;
+    try {
+      Logger logger = CztLogger.getLogger(<class/>.class);
+      logger.fine("Parse utf16 file " + filename);
+      Reader in =
+        new InputStreamReader(new FileInputStream(filename), "UTF-16");
+      UnicodeParser parser = new UnicodeParser(in, table, filename);
+      return parser.parse();
+    }
+    catch(UnsupportedEncodingException e) {
+      throw new CztException("This should not happen!", e);
+    }
   }
 
   public static Term parseUtf16File(String filename)
-    throws Exception
+    throws ParseException, FileNotFoundException
   {
     return parseUtf16File(filename, new OperatorTable());
   }
 
-  public static Term parseLatex(Reader in, OperatorTable table)
-    throws Exception
-  {
-    Scanner scanner = new SmartScanner(new LatexScanner(in));
-    Parser parser = new Parser(scanner, table);
-    Symbol parseTree = parser.parse();
-    return (Term) parseTree.value;
-  }
-
   public static Term parseLatexFile(String filename)
-    throws Exception
+    throws ParseException, FileNotFoundException
   {
     return parseLatexFile(filename, new OperatorTable());
   }
 
   public static Term parseLatexFile(String filename, OperatorTable table)
-    throws Exception
+    throws ParseException, FileNotFoundException
   {
     Logger logger = CztLogger.getLogger(<class/>.class);
-    logger.info("Parse LaTex file " + filename);
+    logger.fine("Parse LaTex file " + filename);
     Reader in = new InputStreamReader(new FileInputStream(filename));
-    try {
-      return parseLatex(in, table);
-    }
-    catch (ParseException e) {
-      e.setSource(filename);
-      throw e;
-    }
-  }
-
-  public static Term parseLatexString(String spec)
-    throws Exception
-  {
-    return parseLatexString(spec, new OperatorTable());
-  }
-
-  public static Term parseLatexString(String spec, OperatorTable table)
-    throws Exception
-  {
-    Reader in = new java.io.StringReader(spec);
-    Scanner scanner = new SmartScanner(new LatexScanner(in));
-    Parser parser = new Parser(scanner, table, "");
-    Symbol parseTree = parser.parse();
-    return (Term) parseTree.value;
+    LatexParser parser = new LatexParser(in, table, filename);
+    return parser.parse();
   }
 }
 </utils>
