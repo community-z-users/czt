@@ -58,11 +58,11 @@ public class Substitution
     Logger.getLogger(name).warning(message);
   }
 
-  public Term substitute(Term t)
+  public Term substitute(Term term)
   {
     if (substList_ != null) {
       Blubb blubb = new Blubb();
-      return (Term) t.accept(blubb);
+      return (Term) term.accept(blubb);
     }
     return null;
   }
@@ -92,58 +92,70 @@ public class Substitution
    */
   public boolean match(Term term1, Term term2)
   {
-    if (term1 == term2) return true;
+    if (term1 == term2) {
+      return true;
+    }
     if (term1 instanceof JokerExpr) {
       if (term2 instanceof Expr) {
-	JokerExpr joker = (JokerExpr) term1;
-	String name = joker.getName();
-	if (name != null) {
-	  Term t = (Term) bindings_.get(name);
-	  if (t != null) {
-	    return t.equals(term2);
-	  }
-	  bindings_.put(name, term2);
-	}
-	return true;
+        JokerExpr joker = (JokerExpr) term1;
+        String name = joker.getName();
+        if (name != null) {
+          Term t = (Term) bindings_.get(name);
+          if (t != null) {
+            return t.equals(term2);
+          }
+          bindings_.put(name, term2);
+        }
+        return true;
       } else {
-	// term2 has wrong type
-	return false;
+        // term2 has wrong type
+        return false;
       }
     }
     if (term1 instanceof JokerPred) {
       if (term2 instanceof Pred) {
-	JokerPred joker = (JokerPred) term1;
-	String name = joker.getName();
-	if (name != null) {
-	  Term t = (Term) bindings_.get(name);
-	  if (t != null) {
-	    return t.equals(term2);
-	  }
-	  bindings_.put(name, term2);
-	}
-	return true;
+        JokerPred joker = (JokerPred) term1;
+        String name = joker.getName();
+        if (name != null) {
+          Term t = (Term) bindings_.get(name);
+          if (t != null) {
+            return t.equals(term2);
+          }
+          bindings_.put(name, term2);
+        }
+        return true;
       } else {
-	// term2 has wrong type
-	return false;
+        // term2 has wrong type
+        return false;
       }
     }
-    if (term1.getClass() != term2.getClass()) return false;
+    if (term1.getClass() != term2.getClass()) {
+      return false;
+    }
     Object[] args1 = term1.getChildren();
     Object[] args2 = term2.getChildren();
-    for (int i=0; i < args1.length; i++) {
-      if (args1[i] == null && args2[i] != null) { return false; }
+    for (int i = 0; i < args1.length; i++) {
+      if (args1[i] == null && args2[i] != null) {
+        return false;
+      }
       if (args1[i] != null) {
-	if (args1[i] instanceof Term) {
-	  Term child1 = (Term) args1[i];
-	  Term child2 = (Term) args2[i];
-	  if (!match(child1, child2)) return false;
-	} else if (args1[i] instanceof List) {
-	  List list1 = (List) args1[i];
-	  List list2 = (List) args2[i];
-	  if (!match(list1, list2)) return false;
-	} else {
-	  if (! args1[i].equals(args2[i])) return false;
-	}
+        if (args1[i] instanceof Term) {
+          Term child1 = (Term) args1[i];
+          Term child2 = (Term) args2[i];
+          if (!match(child1, child2)) {
+            return false;
+          }
+        } else if (args1[i] instanceof List) {
+          List list1 = (List) args1[i];
+          List list2 = (List) args2[i];
+          if (!match(list1, list2)) {
+            return false;
+          }
+        } else {
+          if (!args1[i].equals(args2[i])) {
+            return false;
+          }
+        }
       }
     }
     return true;
@@ -151,14 +163,20 @@ public class Substitution
 
   private boolean match(List list1, List list2)
   {
-    if(list1.size() != list2.size()) return false;
-    for(int i=0; i < list1.size(); i++) {
+    if (list1.size() != list2.size()) {
+      return false;
+    }
+    for (int i = 0; i < list1.size(); i++) {
       Object o1 = list1.get(i);
       Object o2 = list2.get(i);
       if (o1 instanceof Term && o2 instanceof Term) {
-	if (!match((Term) o1, (Term) o2)) return false;
+        if (!match((Term) o1, (Term) o2)) {
+          return false;
+        }
       } else {
-	if (! o1.equals(o2)) return false;
+        if (!o1.equals(o2)) {
+          return false;
+        }
       }
     }
     return true;
@@ -174,19 +192,19 @@ public class Substitution
     {
       return VisitorUtils.visitTerm(this, term, true);
     }
-    
+
     /**
      * Visit all children of a term and copy annotations.
      */
     public Object visitTermA(TermA oldTermA)
     {
-      TermA newTermA = (TermA)visitTerm(oldTermA);
+      TermA newTermA = (TermA) visitTerm(oldTermA);
       if (newTermA != oldTermA) {
-	newTermA.getAnns().addAll(oldTermA.getAnns());
+        newTermA.getAnns().addAll(oldTermA.getAnns());
       }
       return newTermA;
     }
-    
+
     public Object visitExpr(Expr expr)
     {
       return visit(expr);
@@ -197,33 +215,34 @@ public class Substitution
       return visit(pred);
     }
 
-    private Object visit(Term t) {
+    private Object visit(Term t)
+    {
       for (Iterator iter = substList_.getSubstitute().iterator();
-	   iter.hasNext();)
+           iter.hasNext();)
       {
-	Substitute subst = (Substitute) iter.next();
-	Term t1 = null;
-	Term t2 = null;
-	if (! subst.getExpr().isEmpty()) {
-	  t1 = (Term) subst.getExpr().get(0);
-	  t2 = (Term) subst.getExpr().get(1);
-	}
-	if (! subst.getPred().isEmpty()) {
-	  t1 = (Term) subst.getPred().get(0);
-	  t2 = (Term) subst.getPred().get(1);
-	}
-	bindings_.clear();
-	if (match(t1, t)) {
-	  return bind(t2);
-	}
+        Substitute subst = (Substitute) iter.next();
+        Term t1 = null;
+        Term t2 = null;
+        if (!subst.getExpr().isEmpty()) {
+          t1 = (Term) subst.getExpr().get(0);
+          t2 = (Term) subst.getExpr().get(1);
+        }
+        if (!subst.getPred().isEmpty()) {
+          t1 = (Term) subst.getPred().get(0);
+          t2 = (Term) subst.getPred().get(1);
+        }
+        bindings_.clear();
+        if (match(t1, t)) {
+          return bind(t2);
+        }
       }
       return t;
     }
   }
 
   class JokerSubstVisitor
-    implements TermVisitor, TermAVisitor, ZpattVisitor {
-
+    implements TermVisitor, TermAVisitor, ZpattVisitor
+  {
     /**
      * Visit all children of a term.
      */
@@ -231,19 +250,19 @@ public class Substitution
     {
       return VisitorUtils.visitTerm(this, term, true);
     }
-    
+
     /**
      * Visit all children of a term and copy annotations.
      */
     public Object visitTermA(TermA oldTermA)
     {
-      TermA newTermA = (TermA)visitTerm(oldTermA);
+      TermA newTermA = (TermA) visitTerm(oldTermA);
       if (newTermA != oldTermA) {
-	newTermA.getAnns().addAll(oldTermA.getAnns());
+        newTermA.getAnns().addAll(oldTermA.getAnns());
       }
       return newTermA;
     }
-    
+
     /**
      * Visits a(n) JokerExpr.
      * @param  joker the JokerExpr to be visited.
@@ -252,11 +271,13 @@ public class Substitution
     public Object visitJokerExpr(JokerExpr joker)
     {
       Expr newExpr = (Expr) bindings_.get(joker.getName());
-      if (newExpr != null) return newExpr;
+      if (newExpr != null) {
+        return newExpr;
+      }
       logWarning("Could not find binding for JokerExpr " + joker.getName());
       return joker;
     }
-    
+
     /**
      * Visits a(n) JokerPred.
      * @param  joker the JokerPred to be visited.
@@ -265,11 +286,13 @@ public class Substitution
     public Object visitJokerPred(JokerPred joker)
     {
       Pred newPred = (Pred) bindings_.get(joker.getName());
-      if (newPred != null) return newPred;
+      if (newPred != null) {
+        return newPred;
+      }
       logWarning("Could not find binding for JokerPred " + joker.getName());
       return joker;
     }
-    
+
     /**
      * Visits a(n) Substitute.
      * @param  zedObject the Substitute to be visited.
@@ -279,7 +302,7 @@ public class Substitution
     {
       throw new UnsupportedOperationException();
     }
-    
+
     /**
      * Visits a(n) SubstList.
      * @param  zedObject the SubstList to be visited.
