@@ -284,7 +284,7 @@ public class LatexMarkupParser
   {
     String result = "";
     Symbol token = scanner_.next_token();
-    while (token.sym != LatexSym.END_MARKUP) {
+    while (token.sym != LatexSym.END_MARKUP && token.sym != LatexSym.EOF) {
       result += token.value;
       token = scanner_.next_token();
     }
