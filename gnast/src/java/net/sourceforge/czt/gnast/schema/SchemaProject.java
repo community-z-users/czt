@@ -673,7 +673,8 @@ public class SchemaProject implements GnastProject
 	  if (mEnum.get(typeAttr) == null &&
 	      getGlobalElementNode(typeAttr) == null) {
 	    String message = "Cannot find binding for " +
-	      typeAttr + "; assume it is a known class.";
+	      getNodeValue(node, "@type") +
+	      "; assume it is an existing class.";
 	    sLogger.warning(message);
 	  }
 	}
