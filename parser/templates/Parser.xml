@@ -56,9 +56,9 @@ action code
     public final static String TOOLKIT = "standard_toolkit";
 
     /** The symbols used to replace arguments for names in ApplExpr etc. */
-    public final static String ARG_TOK = " _ ";
-    public final static String LISTARG_TOK = " _ ";
-    public final static String SPACE = " ";
+    public final static String ARG_TOK = ZString.ARG_TOK;
+    public final static String LISTARG_TOK = ZString.LISTARG_TOK;
+    public final static String SPACE = ZString.SPACE;
 
     /** The two types of name */
     protected final static int DECLNAME = 1;

@@ -5,20 +5,6 @@
         <Parent>
             <Word>standard_toolkit</Word>
         </Parent>
-        <NarrPara>
-            <Content>%\documentstyle[12pt,coz]{article}
-\documentclass{llncs}
-\usepackage{pt}
-\usepackage{units}
-\usepackage{coz}
-\usepackage{epsf}
-\usepackage{lncsexample}
-\conttrue
-\def\kph{\km \mulnuit{\hour}{-1}}
-
-\begin{document}
-</Content>
-        </NarrPara>
         <AxPara Box="OmitBox">
             <SchText>
                 <ConstDecl>
@@ -28,7 +14,7 @@
                     <ApplExpr Mixfix="true">
                         <RefExpr Mixfix="false">
                             <RefName>
-                                <Word>⟨ _ ⟩</Word>
+                                <Word>⟨ ,, ⟩</Word>
                             </RefName>
                         </RefExpr>
                         <TupleExpr>
@@ -57,10 +43,6 @@
                 </ConstDecl>
             </SchText>
         </AxPara>
-        <NarrPara>
-            <Content>
-</Content>
-        </NarrPara>
         <AxPara Box="SchBox">
             <SchText>
                 <ConstDecl>
@@ -111,12 +93,6 @@
                 </ConstDecl>
             </SchText>
         </AxPara>
-        <NarrPara>
-            <Content>
-
-\end{document}
-</Content>
-        </NarrPara>
     </ZSect>
 </Spec>
 
