@@ -49,7 +49,7 @@ public class ${class.Name} extends ReflectiveVisitor
     mObjectFactory = factory;
   }
 
-  public java.lang.Object visitObject(Object o) {
+  public Object visitObject(Object o) {
     sLogger.fine("Visit " + o.getClass().toString());
     return o;
   }
@@ -65,16 +65,16 @@ public class ${class.Name} extends ReflectiveVisitor
     if(jaxbObject.getContent() != null &&
        jaxbObject.getContent().getContent() != null) {
       for(Iterator iter=jaxbObject.getContent().getContent().iterator(); iter.hasNext();) {
-	java.lang.Object obj = iter.next();
-	java.lang.Object o = dispatch(obj);
+	Object obj = iter.next();
+	Object o = dispatch(obj);
 	content.add(o);
       }
     }
 #elseif(${prop.Type} == 'java.util.List')
     java.util.List ${prop.VarName} = new java.util.Vector();
     for(Iterator iter=jaxbObject.${prop.GetterName}().iterator(); iter.hasNext();) {
-      java.lang.Object obj = iter.next();
-      java.lang.Object o = dispatch(obj);
+      Object obj = iter.next();
+      Object o = dispatch(obj);
       ${prop.VarName}.add(o);
     }
 #elseif($prop.Type == 'Box' || $prop.Type == 'Cat' || $prop.Type == 'Assoc' || $prop.Type == 'Op')
@@ -84,7 +84,18 @@ public class ${class.Name} extends ReflectiveVisitor
       (${prop.Type}) dispatch(jaxbObject.${prop.GetterName}());
 #end
 #end
-    Object erg = mObjectFactory.create${c.Name}(#varList(${c.AllProperties}));
+    ${c.Name} erg = mObjectFactory.create${c.Name}(#varList(${c.AllProperties}));
+#if($c.isInstanceOf("TermA"))
+    if (jaxbObject.getAnns() != null &&
+	jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+	Object obj = iter.next();
+	Object o = dispatch(obj);
+	annsList.add(o);
+      }
+    }
+#end
     sLogger.exiting(this.getClass().toString(), "visit${c.Name}", erg);
     return erg;
   }
