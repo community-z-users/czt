@@ -56,6 +56,9 @@ public class TypeCheckerTest
   //the section manager
   protected SectionManager manager_;
 
+  //the directory containing the tests
+  protected String testDirectory = "/typechecker/tests/z/";
+
   public static Test suite()
   {
     TestSuite suite = new TestSuite();
@@ -73,10 +76,15 @@ public class TypeCheckerTest
     //do nothing?
   }
 
+  protected String testDirectory()
+  {
+    return testDirectory;
+  }
+
   public void testAll()
   {
     String cztHome = System.getProperty("czt.home");
-    String directoryName = cztHome + "/typechecker/tests/z/";
+    String directoryName = cztHome + testDirectory();
     File directory = new File(directoryName);
 
     String [] files = directory.list();
@@ -106,12 +114,24 @@ public class TypeCheckerTest
     }
   }
 
+  protected Term parse(String file)
+    throws Exception
+  {
+    return ParseUtils.parseLatexFile(file, manager_);
+  }
+
+  protected List typecheck(Term term)
+    throws Exception
+  {
+    return TypeCheckUtils.typecheck(term, manager_);
+  }
+
   protected void handleNormal(String file)
   {
     List<ErrorAnn> errors = new java.util.ArrayList();
     try {
-      Term term = ParseUtils.parseLatexFile(file, manager_);
-      errors = TypeCheckUtils.typecheck(term, manager_);
+      Term term = parse(file);
+      errors = typecheck(term);
     }
     catch (RuntimeException e) {
       e.printStackTrace();
@@ -139,12 +159,12 @@ public class TypeCheckerTest
     Throwable throwable = null;
     List<ErrorAnn> errors = new java.util.ArrayList();
     try {
-      Term term = ParseUtils.parseLatexFile(file, manager_);
+      Term term = parse(file);
       if (term == null) {
         fail("Parser returned null");
       }
       else {
-        errors = TypeCheckUtils.typecheck(term, manager_);
+        errors = typecheck(term);
       }
     }
     catch (RuntimeException e) {
