@@ -204,9 +204,9 @@ action code
     }
 
     /**
-     * Converts a Term to a Pred.
+     * Converts a TermA to a Pred.
      */
-    protected Pred pred(Term t)
+    protected Pred pred(TermA t)
       throws ParseException
     {
       Pred result = null;
@@ -216,6 +216,8 @@ action code
       }
       else if (t instanceof Expr) {
         result = factory_.createExprPred((Expr) t);
+        LocAnn locAnn = (LocAnn) t.getAnn(LocAnn.class);
+        if (locAnn != null) result.getAnns().add(locAnn);
       }
       else {
         //I don't think that this is possible...?
@@ -225,9 +227,9 @@ action code
     }
 
     /**
-     * Converts an Term to an Expr.
+     * Converts an TermA to an Expr.
      */
-    protected Expr expr(Term t)
+    protected Expr expr(TermA t)
       throws ParseException
     {
       Expr result = null;
@@ -245,9 +247,9 @@ action code
     }
 
     /**
-     * Converts a Term to a RefName.
+     * Converts a TermA to a RefName.
      */
-    protected RefName refname(Term t)
+    protected RefName refname(TermA t)
       throws ParseException
     {
       RefName result = null;
@@ -298,17 +300,21 @@ action code
     /**
      * Creates a member predicate from a string list and an expression list.
      */
-    protected MemPred localCreateMemPred(List name, List exprList)
+    protected MemPred localCreateMemPred(List name, List exprList,
+                                         int line, int column)
       throws ParseException
     {
       //if there is more than one expr in the list, the
       //right-hand-side is a tuple
       Expr e = null;
       if (exprList.size() == 1) {
-        e = expr((Term) exprList.get(0));
+        e = expr((TermA) exprList.get(0));
+        LocAnn locAnn = (LocAnn) e.getAnn(LocAnn.class);
+        if (locAnn == null) addLocAnn(e, line, column);
       }
       else {
         e = factory_.createTupleExpr(exprList);
+        addLocAnn(e, line, column);
       }
       RefName rn = strListToRefName(name);
       MemPred result = factory_.createRelOpAppl(e, rn);
@@ -320,7 +326,8 @@ action code
      * (depending on the type of operator: function or generic)
      * from string string list and an expression list.
      */
-    protected Expr localCreateMixfixExpr(List name, List exprList)
+    protected Expr localCreateMixfixExpr(List name, List exprList,
+                                         int line, int column)
       throws ParseException
     {
       final RefName rn = strListToRefName(name);
@@ -343,11 +350,15 @@ action code
         Expr e = null;
         if (exprList.size() == 1) {
           e = (Expr) exprList.get(0);
+          LocAnn locAnn = (LocAnn) e.getAnn(LocAnn.class);
+          if (locAnn == null) addLocAnn(e, line, column);
         }
         else {
           e = factory_.createTupleExpr(exprList);
+          addLocAnn(e, line, column);
         }
         result = factory_.createFunOpAppl(rn, e);
+        addLocAnn(((ApplExpr) result).getLeftExpr(), line, column);
       }
       else {
         result = factory_.createRefExpr(rn, exprList, Boolean.TRUE);
@@ -391,7 +402,8 @@ action code
      * Convert a chain relation into a series of and predicates
      * (transformation rule 12.2.10.3).
      */
-    protected Pred transformChainRel(Pred chain, int sym, Expr rhs)
+    protected Pred transformChainRel(Pred chain, int sym, Expr rhs,
+                                     int line, int column)
     {
       Pred result = null;
 
@@ -401,17 +413,20 @@ action code
       Boolean mixfix = Boolean.FALSE;
       if (sym == Sym.EQUALS) {
         rExpr = factory_.createSetExpr(list(rhs));
+        addLocAnn(rExpr, line, column);
         mixfix = Boolean.TRUE;
       }
 
       MemPred mp = factory_.createMemPred(lExpr, rExpr, mixfix);
+      addLocAnn(mp, line, column);
       result = factory_.createAndPred(chain, mp, Op.Chain);
 
       previousChain_ = -1;
       return result;
     }
 
-    protected Pred transformChainRelInfix(Pred chain, Expr rhs, String ip)
+    protected Pred transformChainRelInfix(Pred chain, Expr rhs, String ip,
+                                          int line, int column)
       throws ParseException
     {
       Pred result = null;
@@ -423,7 +438,9 @@ action code
       Expr lExpr = getPreviousRhsExpr(chain);
       Expr rExpr = rhs;
 
-      MemPred mp = localCreateMemPred(opName, list(lExpr, rExpr));
+      MemPred mp = localCreateMemPred(opName, list(lExpr, rExpr),
+                                      line, column);
+      addLocAnn(mp, line, column);
       result = factory_.createAndPred(chain, mp, Op.Chain);
 
       previousChain_ = -1;
@@ -1742,7 +1759,9 @@ declWordList ::=
         :}
         |
         opName:on
-        {: RESULT = list(strListToDeclName(on)); :}
+        {:
+           RESULT = list(strListToDeclName(on));
+        :}
         |
         DECLWORD:dw
         {:
@@ -1765,7 +1784,9 @@ declName ::=
         {:
            //because we return opNames as RefName instances, we must convert
            //to a DeclName
-           RESULT = strListToDeclName(on);
+           DeclName dn = strListToDeclName(on);
+           addLocAnn(dn, onleft, onright);
+           RESULT = dn;
         :}
         ;
 
@@ -1829,6 +1850,7 @@ refName ::=
                                                declName.getStroke(),
                                                null);
            rn.getAnns().add(factory_.createParenAnn());
+           addLocAnn(rn, onleft, onright);
            RESULT = rn;
         :}
         ;
@@ -2424,7 +2446,11 @@ term ::=
         |
 </add:tcoz>
         prodExpressionList:pel
-        {: RESULT = factory_.createProdExpr(pel); :}
+        {:
+           ProdExpr prodExpr = factory_.createProdExpr(pel);
+           addLocAnn(prodExpr, pelleft, pelright);
+           RESULT = prodExpr;
+        :}
         |
         relation:rel
         {: RESULT = rel; :}
@@ -2529,7 +2555,11 @@ inner_term ::=
         :}
         |
         inner_term:it stroke:s
-        {: RESULT = factory_.createDecorExpr(expr(it), s); :}
+        {:
+           DecorExpr decorExpr = factory_.createDecorExpr(expr(it), s);
+           addLocAnn(decorExpr, itleft, itright);
+           RESULT = decorExpr;
+        :}
         |
         THETA:theta inner_term:it optStrokeList:sl
         {:
@@ -2538,11 +2568,20 @@ inner_term ::=
            RESULT = thetaExpr;
         :}
         |
-        inner_term:rn LSQUARE expressionList:el RSQUARE
-        {: RESULT = factory_.createRefExpr(refname(rn), el, Boolean.FALSE); :}
+        inner_term:it LSQUARE expressionList:el RSQUARE
+        {:
+           RefExpr refExpr =
+             factory_.createRefExpr(refname(it), el, Boolean.FALSE);
+           addLocAnn(refExpr, itleft, itright);
+           RESULT = refExpr;
+        :}
         |
         inner_term:it LSQUARE renameList:rnl RSQUARE
-        {: RESULT = factory_.createRenameExpr(expr(it), rnl); :} %prec _RENAME
+        {:
+           RenameExpr renameExpr = factory_.createRenameExpr(expr(it), rnl);
+           addLocAnn(renameExpr, itleft, itright);
+           RESULT = renameExpr;
+        :} %prec _RENAME
         |
         NUMERAL:n
         {:
@@ -2718,7 +2757,8 @@ prefixRel ::=
         {:
            List opName = list(p);
            opName.add(ARG_TOK);
-           MemPred memPred = localCreateMemPred(opName, list(expr(t)));
+           MemPred memPred = localCreateMemPred(opName, list(expr(t)),
+                                                pleft, pright);
            addLocAnn(memPred, pleft, pright);
            RESULT = memPred;
         :}
@@ -2734,7 +2774,8 @@ prefixRel ::=
            addExpSepExp(expList, es);
            expList.add(expr(t1));
            expList.add(expr(t2));
-           MemPred memPred = localCreateMemPred(opName, expList);
+           MemPred memPred = localCreateMemPred(opName, expList,
+                                                lpleft, lpright);
            addLocAnn(memPred, lpleft, lpright);
            RESULT = memPred;
         :}
@@ -2748,9 +2789,12 @@ prefixRel ::=
 
            List expList = list();
            addExpSepExp(expList, es);
-           expList.add(factory_.createSequence(oel));
+           Expr seq = factory_.createSequence(oel);
+           addLocAnn(seq, oelleft, oelright);
+           expList.add(seq);
            expList.add(expr(t));
-           MemPred memPred = localCreateMemPred(opName, expList);
+           MemPred memPred = localCreateMemPred(opName, expList,
+                                                lpleft, lpright);
            addLocAnn(memPred, lpleft, lpright);
            RESULT = memPred;
         :}
@@ -2759,7 +2803,8 @@ prefixRel ::=
 postfixRel ::=
         term:t POSTP:p
         {:
-           MemPred memPred = localCreateMemPred(list(p), list(expr(t)));
+           MemPred memPred = localCreateMemPred(list(p), list(expr(t)),
+                                                tleft, tright);
            addLocAnn(memPred, pleft, pright);
            RESULT = memPred;
         :}
@@ -2775,7 +2820,8 @@ postfixRel ::=
            List expList = list(expr(t1));
            addExpSepExp(expList, es);
            expList.add(expr(t2));
-           MemPred memPred = localCreateMemPred(opName, expList);
+           MemPred memPred = localCreateMemPred(opName, expList,
+                                                t1left, t1right);
            addLocAnn(memPred, elpleft, elpright);
            RESULT = memPred;
         :}
@@ -2790,8 +2836,12 @@ postfixRel ::=
 
            List expList = list(expr(t));
            addExpSepExp(expList, es);
-           expList.add(factory_.createSequence(oel));
-           MemPred memPred = localCreateMemPred(opName, expList);
+           Expr seq = factory_.createSequence(oel);
+           addLocAnn(seq, oelleft, oelright);
+           expList.add(seq);
+           //expList.add(factory_.createSequence(oel));
+           MemPred memPred = localCreateMemPred(opName, expList,
+                                                tleft, tright);
            addLocAnn(memPred, elpleft, elpright);
            RESULT = memPred;
         :}
@@ -2814,7 +2864,8 @@ infixRel ::=
            addExpSepExp(expList, es);
            expList.add(expr(t2));
            expList.add(expr(t3));
-           MemPred memPred = localCreateMemPred(opName, expList);
+           MemPred memPred = localCreateMemPred(opName, expList,
+                                                t1left, t2right);
            addLocAnn(memPred, elpleft, elpright);
            RESULT = memPred;
         :}
@@ -2830,9 +2881,13 @@ infixRel ::=
 
            List expList = list(expr(t1));
            addExpSepExp(expList, es);
-           expList.add(factory_.createSequence(oel));
+           Expr seq = factory_.createSequence(oel);
+           addLocAnn(seq, oelleft, oelright);
+           expList.add(seq);
+           //expList.add(factory_.createSequence(oel));
            expList.add(expr(t2));
-           MemPred memPred = localCreateMemPred(opName, expList);
+           MemPred memPred = localCreateMemPred(opName, expList,
+                                                t1left, t1right);
            addLocAnn(memPred, elpleft, elpright);
            RESULT = memPred;
         :}
@@ -2862,7 +2917,8 @@ infixChainRel ::=
            opName.add(ip);
            opName.add(ARG_TOK);
            MemPred memPred =
-             localCreateMemPred(opName, list(expr(lhs), expr(rhs)));
+             localCreateMemPred(opName, list(expr(lhs), expr(rhs)),
+                                lhsleft, lhsright);
            addLocAnn(memPred, ipleft, ipright);
            RESULT = memPred;
         :}
@@ -2870,22 +2926,31 @@ infixChainRel ::=
         //apply syntactic transformation rule 12.2.10.3
         infixChainRel:icr MEM term:rhs
         {:
-           RESULT = transformChainRel(icr, Sym.MEM, expr(rhs));
+           Pred pred = transformChainRel(icr, Sym.MEM, expr(rhs),
+                                         icrleft, icrright);
+           addLocAnn(pred, icrleft, icrright);           
            previousChain_ = Sym.MEM;
+           RESULT = pred;
         :}
         |
         //apply syntactic transformation rule 12.2.10.3
         infixChainRel:icr EQUALS term:rhs
         {:
-           RESULT = transformChainRel(icr, Sym.EQUALS, expr(rhs));
+           Pred pred = transformChainRel(icr, Sym.EQUALS, expr(rhs),
+                                         icrleft, icrright);
+           addLocAnn(pred, icrleft, icrright);
            previousChain_ = Sym.EQUALS;
+           RESULT = pred;
         :}
         |
         //apply syntactic transformation rule 12.2.10.3
         infixChainRel:icr IP:ip term:rhs
         {:
-           RESULT = transformChainRelInfix(icr, expr(rhs), ip);
+           Pred pred = transformChainRelInfix(icr, expr(rhs), ip,
+                                              icrleft, icrright);
+           addLocAnn(pred, icrleft, icrright);
            previousChain_ = Sym.IP;
+           RESULT = pred;
         :}
         ;
 
@@ -2900,7 +2965,8 @@ nofixRel ::=
            List expList = list();
            addExpSepExp(expList, es);
            expList.add(expr(t));
-           MemPred memPred = localCreateMemPred(opName, expList);
+           MemPred memPred = localCreateMemPred(opName, expList,
+                                                lpleft, lpright);
            addLocAnn(memPred, lpleft, lpright);
            RESULT = memPred;
         :}
@@ -2914,8 +2980,12 @@ nofixRel ::=
 
            List expList = list();
            addExpSepExp(expList, es);
-           expList.add(factory_.createSequence(oel));
-           MemPred memPred = localCreateMemPred(opName, expList);
+           Expr seq = factory_.createSequence(oel);
+           addLocAnn(seq, oelleft, oelright);
+           expList.add(seq);
+           //expList.add(factory_.createSequence(oel));
+           MemPred memPred = localCreateMemPred(opName, expList,
+                                                lpleft, lpright);
            addLocAnn(memPred, lpleft, lpright);
            RESULT = memPred;
         :}
@@ -2939,7 +3009,8 @@ prefixApp ::=
         PRE:pre term:t
         {:
            Expr expr =
-             localCreateMixfixExpr(list(pre, ARG_TOK), list(expr(t)));
+             localCreateMixfixExpr(list(pre, ARG_TOK), list(expr(t)),
+                                   preleft, preright);
            addLocAnn(expr, preleft, preright);
            RESULT = expr;
         :}
@@ -2956,7 +3027,7 @@ prefixApp ::=
            addExpSepExp(expList, es);
            expList.add(expr(t1));
            expList.add(expr(t2));
-           Expr expr = localCreateMixfixExpr(opName, expList);
+           Expr expr = localCreateMixfixExpr(opName, expList, lleft, lright);
            addLocAnn(expr, lleft, lright);
            RESULT = expr;
         :}
@@ -2971,9 +3042,12 @@ prefixApp ::=
 
            List expList = list();
            addExpSepExp(expList, es);
-           expList.add(factory_.createSequence(oel));
+           Expr seq = factory_.createSequence(oel);
+           addLocAnn(seq, oelleft, oelright);
+           expList.add(seq);
+           //expList.add(factory_.createSequence(oel));
            expList.add(expr(t));
-           Expr expr = localCreateMixfixExpr(opName, expList);
+           Expr expr = localCreateMixfixExpr(opName, expList, lleft, lright);
            addLocAnn(expr, lleft, lright);
            RESULT = expr;
         :}
@@ -2983,7 +3057,8 @@ postfixApp ::=
         term:t POST:post
         {:
            Expr expr =
-             localCreateMixfixExpr(list(ARG_TOK, post), list(expr(t)));
+             localCreateMixfixExpr(list(ARG_TOK, post), list(expr(t)),
+                                   tleft, tright);
            addLocAnn(expr, postleft, postright);
            RESULT = expr;
         :}
@@ -2999,7 +3074,7 @@ postfixApp ::=
            List expList = list(expr(t1));
            addExpSepExp(expList, es);
            expList.add(expr(t2));
-           Expr expr = localCreateMixfixExpr(opName, expList);
+           Expr expr = localCreateMixfixExpr(opName, expList, t1left, t1right);
            addLocAnn(expr, elleft, elright);
            RESULT = expr;
         :}
@@ -3014,8 +3089,11 @@ postfixApp ::=
 
            List expList = list(expr(t));
            addExpSepExp(expList, es);
-           expList.add(factory_.createSequence(oel));
-           Expr expr = localCreateMixfixExpr(opName, expList);
+           Expr seq = factory_.createSequence(oel);
+           addLocAnn(seq, oelleft, oelright);
+           expList.add(seq);
+           //expList.add(factory_.createSequence(oel));
+           Expr expr = localCreateMixfixExpr(opName, expList, tleft, tright);
            addLocAnn(expr, elleft, elright);
            RESULT = expr;
         :}
@@ -3027,7 +3105,8 @@ infixApp ::=
            List opName = list(ARG_TOK);
            opName.add(i);
            opName.add(ARG_TOK);
-           Expr expr = localCreateMixfixExpr(opName, list(lhs, rhs));
+           Expr expr = localCreateMixfixExpr(opName, list(lhs, rhs),
+                                             lhsleft, lhsright);
            addLocAnn(expr, ileft, iright);
            RESULT = expr;
         :}
@@ -3045,7 +3124,7 @@ infixApp ::=
            addExpSepExp(expList, es);
            expList.add(expr(t2));
            expList.add(expr(t3));
-           Expr expr = localCreateMixfixExpr(opName, expList);
+           Expr expr = localCreateMixfixExpr(opName, expList, t1left, t1right);
            addLocAnn(expr, elleft, elright);
            RESULT = expr;
         :}
@@ -3061,9 +3140,12 @@ infixApp ::=
 
            List expList = list(expr(t1));
            addExpSepExp(expList, es);
-           expList.add(factory_.createSequence(oel));
+           Expr seq = factory_.createSequence(oel);
+           addLocAnn(seq, oelleft, oelright);
+           expList.add(seq);
+           //expList.add(factory_.createSequence(oel));
            expList.add(expr(t2));
-           Expr expr = localCreateMixfixExpr(opName, expList);
+           Expr expr = localCreateMixfixExpr(opName, expList, t1left, t1right);
            addLocAnn(expr, elleft, elright);
            RESULT = expr;
         :}
@@ -3080,7 +3162,7 @@ nofixApp ::=
            List expList = list();
            addExpSepExp(expList, es);
            expList.add(expr(t));
-           Expr expr = localCreateMixfixExpr(opName, expList);
+           Expr expr = localCreateMixfixExpr(opName, expList, lleft, lright);
            addLocAnn(expr, lleft, lright);
            RESULT = expr;
         :}
@@ -3094,8 +3176,10 @@ nofixApp ::=
 
            List expList = list();
            addExpSepExp(expList, es);
-           expList.add(factory_.createSequence(oel));
-           Expr expr = localCreateMixfixExpr(opName, expList);
+           Expr seq = factory_.createSequence(oel);
+           addLocAnn(seq, oelleft, oelright);
+           expList.add(seq);
+           Expr expr = localCreateMixfixExpr(opName, expList, lleft, lright);
            addLocAnn(expr, lleft, lright);
            RESULT = expr;
         :}
