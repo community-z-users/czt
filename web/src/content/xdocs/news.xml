@@ -6,7 +6,22 @@
   </header>
   <body>
     <p>
-      10-Sept-2003: Released first version of the core Java classes for Z
+      5-Nov-2003: The core Java classes got their own web site.
+    </p>
+
+    <p>
+      16-Oct-2003: The CZT web site got a new layout.
+      It is now generated using <link href="ext:forrest">Forrest</link>.
+    </p>
+
+    <p>
+      3-Oct-2003: Released version 1.1.1 of the core Java classes for Z
+      Annotated Syntax Trees.
+      This release fixes some bugs from the first version.
+    </p>
+
+    <p>
+      9-Sept-2003: Released first version (1.1.0) of the core Java classes for Z
       Annotated Syntax Trees.  These were generated from the XML Schema for
       Z, by our gnast tool.
     </p>
