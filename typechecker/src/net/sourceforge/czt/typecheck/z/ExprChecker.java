@@ -784,6 +784,7 @@ class ExprChecker
     Type2 rightType = (Type2) rightExpr.accept(this);
 
     UResult unified = unify(leftType, rightType);
+
     if (unified == FAIL) {
       ErrorAnn message =
         errorFactory().typeMismatchInCondExpr(condExpr,

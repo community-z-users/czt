@@ -221,8 +221,9 @@ public class UnificationEnv
 
     //if the types points to the same reference, do nothing, except
     //return PARTIAL if they are both variable types
-    if (vType.getValue() == type2) {
-      if (type2 instanceof VariableType) {
+    if (type2 instanceof VariableType &&
+        ((VariableType) type2).getValue() == vType.getValue()) {
+      if (vType.getValue() instanceof VariableType) {
         result = PARTIAL;
       }
     }
@@ -375,7 +376,8 @@ public class UnificationEnv
   {
     boolean result = false;
 
-    if (type2 == vType) {
+    if (type2 instanceof VariableType &&
+        ((VariableType) type2).getValue() == vType.getValue()) {
       result = true;
     }
     else if (type2 instanceof PowerType) {
@@ -385,11 +387,8 @@ public class UnificationEnv
     else if (type2 instanceof ProdType) {
       ProdType prodType = (ProdType) type2;
       List types = prodType.getType();
-      //for (Iterator iter = types.iterator(); iter.hasNext(); ) {
-      //  Type2 next = (Type2) iter.next();
-      Object [] arr = types.toArray();
-      for (int i = 0; i < arr.length; i++) {
-        Type2 next = (Type2) arr[i];
+      for (Iterator iter = types.iterator(); iter.hasNext(); ) {
+        Type2 next = (Type2) iter.next();
         if (contains(next, vType)) {
           result = true;
           break;
