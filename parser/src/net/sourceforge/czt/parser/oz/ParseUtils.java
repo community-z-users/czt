@@ -1,20 +1,20 @@
 /**
-   Copyright 2003 Mark Utting
-   This file is part of the czt project.
+Copyright 2003 Mark Utting
+This file is part of the czt project.
 
-   The czt project contains free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2 of the License, or
-   (at your option) any later version.
+The czt project contains free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
 
-   The czt project is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+The czt project is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with czt; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+You should have received a copy of the GNU General Public License
+along with czt; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 package net.sourceforge.czt.parser.oz;
@@ -31,6 +31,11 @@ import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.oz.jaxb.JaxbValidator;
 import net.sourceforge.czt.oz.jaxb.JaxbXmlWriter;
 
+/**
+ * Utilities for parsing Object Z specifications.
+ *
+ * @author Petra Malik, Tim Miller
+ */
 public final class ParseUtils
 {
   /**
@@ -118,6 +123,12 @@ public final class ParseUtils
     return parseUtf16File(filename, new OperatorTable());
   }
 
+  public static Term parseLatexFile(String filename)
+    throws Exception
+  {
+    return parseLatexFile(filename, new OperatorTable());
+  }
+
   public static Term parseLatexFile(String filename, OperatorTable table)
     throws Exception
   {
@@ -128,9 +139,19 @@ public final class ParseUtils
     return (Term) parseTree.value;
   }
 
-  public static Term parseLatexFile(String filename)
+  public static Term parseLatexString(String spec)
     throws Exception
   {
-    return parseLatexFile(filename, new OperatorTable());
+    return parseLatexString(spec, new OperatorTable());
+  }
+
+  public static Term parseLatexString(String spec, OperatorTable table)
+    throws Exception
+  {
+    Reader in = new java.io.StringReader(spec);
+    Scanner scanner = new SmartScanner(new LatexScanner(in));
+    Parser parser = new Parser(scanner, table, "");
+    Symbol parseTree = parser.parse();
+    return (Term) parseTree.value;
   }
 }
