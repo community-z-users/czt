@@ -5,8 +5,9 @@ The CZT project aims to provide a set of tools for editing, typechecking
 and animating formal specifications written in the Z specification
 language.  It provides a Java framework for building formal methods tools.
 
-It includes the following sub-projects 
-(not all of these will be included in a given release)
+It includes the following sub-projects in the form of sub-directories
+in <CZT_HOME> (which is the directory where this README is in).
+Note that not all of these will be included in a given release.
 
 admin/       Tools for administration, preparing releases, ...
 corejava/    Java AST classes for standard Z
@@ -38,9 +39,9 @@ For instance, read '<CZT_HOME>/corejava/README.txt' to get detailed
 information on requirements for the corejava sub-project.
 
 Most of the sub-projects will need the following:
-- Java 2 SDK 1.4
+- Java 2 SDK >= 1.4
   http://java.sun.com/j2se/
-- Ant
+- Ant version >= 1.6
   http://ant.apache.org/
 - Java Web Services Developer Pack (JWSDP) 1.3
   http://java.sun.com/webservices/downloads/webservicespack.html
@@ -55,7 +56,7 @@ Compile
 *******
 Customise the file czt.properties and call ant.  By default, ant will
 build the jar files and install them in the '<CZT_HOME>/lib' directory.
-Optionally, you can pass an argument to Ant.  Call "ant -projecthelp"
+Optionally, you can pass an argument to ant.  Call "ant -projecthelp"
 to get help information about which arguments are available.
 
 What next?
