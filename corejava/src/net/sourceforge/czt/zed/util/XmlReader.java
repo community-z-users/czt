@@ -21,7 +21,6 @@ package net.sourceforge.czt.zed.util;
 
 import java.io.File;
 import java.io.InputStream;
-import net.sourceforge.czt.util.ObjectFactory;
 import net.sourceforge.czt.zed.ast.Term;
 
 /**
