@@ -227,7 +227,7 @@ public final class <class/>
   }
   public static Term parseLatexString(String input,
                                       SectionInfo sectInfo)
-    throws ParseException, FileNotFoundException, ParentNotFoundException
+    throws ParseException, ParentNotFoundException
   {
     Reader in = new StringReader(input);
     LatexParser parser = new LatexParser(in, "Standard input", sectInfo);
