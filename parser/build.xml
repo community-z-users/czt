@@ -14,8 +14,7 @@
   <property name="build.src.z.dir" location="${build.src.dir}/net/sourceforge/czt/parser/z"/>
   <property name="build.src.oz.dir" location="${build.src.dir}/net/sourceforge/czt/parser/oz"/>
 
-  <taskdef classname="JFlex.anttask.JFlexTask" name="jflex"
-    classpath="${jflex.jar}"/>
+  <taskdef classname="JFlex.anttask.JFlexTask" name="jflex"/>
 
   <path id="classpath">
     <pathelement path="${jwsdp.classpath}"/>
