@@ -8,7 +8,7 @@
     description="install"/>
 
   <target name="install-subprojects"
-    depends="install-corejava, install-parser, install-gaffe, install-z2b"
+    depends="install-corejava, install-parser, install-gaffe, install-z2b, install-zml2xhtml"
     description="install subprojects">
   </target>
 
@@ -39,6 +39,11 @@
     depends="install-corejava, install-gaffe-generator"
     description="install z2b">
     <ant dir="translators/z2b" target="install"/>
+  </target>
+
+  <target name="install-zml2xhtml"
+    description="install zml2xhtml">
+    <ant dir="translators/zml2xhtml" target="install"/>
   </target>
 
   <target name="install-bin"
@@ -115,6 +120,11 @@
     </path>
     <pathconvert targetos="unix" property="z2b.unix" refid="z2b"/>
     <pathconvert targetos="windows" property="z2b.win" refid="z2b"/>
+    <path id="zml2xhtml">
+      <pathelement location="${czt.jar.dir}/${zml2xhtml.jar.file}"/>
+    </path>
+    <pathconvert targetos="unix" property="zml2xhtml.unix" refid="zml2xhtml"/>
+    <pathconvert targetos="windows" property="zml2xhtml.win" refid="zml2xhtml"/>
     <echo file="${unix.settings.file}" append="false">
 # corejava jar files
 COREJAVA=${corejava.unix}
@@ -136,6 +146,7 @@ BSF=${bsf.unix}
 BSH=${bsh.unix}
 # Z2B translator jar file
 Z2B=${z2b.unix}
+ZML2XHTML=${zml2xhtml.unix}
     </echo>
     <echo file="${windows.settings.file}" append="false">
 rem corejava jar files
@@ -158,6 +169,8 @@ rem bsf jar file
 set BSH=${bsh.win}
 rem Z2B translator jar file
 set Z2B=${z2b.win}
+rem ZML2XHTML translator jar file
+set ZML2XHTML=${zml2xhtml.win}
     </echo>
   </target>
 
