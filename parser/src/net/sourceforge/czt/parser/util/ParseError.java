@@ -36,10 +36,6 @@ public class ParseError
   private Object token_;
   private Object[] params_;
 
-  public ParseError()
-  {
-  }
-
   public ParseError(ParseMessage msg, Object[] params)
   {
     message_ = msg.toString();

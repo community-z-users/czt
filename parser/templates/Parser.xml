@@ -156,9 +156,10 @@ action code
       final DeclName dn = factory_.createDeclName(name);
       if (dn.getStroke().size() != 0) {
         final LocInfo locInfo = getLocation(line, column);
-        parser.report_error(ParseMessage.MSG_STROKE_IN_OPNAME, name, locInfo);
+        Object[] params = { name, locInfo };
+        parser.report_error(ParseMessage.MSG_STROKE_IN_OPNAME, params);
       }
-      Operator result = factory_.createOperator(name);
+      Operator result = factory_.createOperator(dn.getWord());
       return result;
     }
 
@@ -550,6 +551,8 @@ parser code
     private final static String RESOURCE_NAME =
       "net.sourceforge.czt.parser.util.ParseResources";
 
+    private static final Map symbolMap_ = DebugUtils.getFieldMap(Sym.class);
+
     public Symbol parse() throws java.lang.Exception
     {
       Symbol symbol = super.parse();
@@ -617,43 +620,58 @@ parser code
       return result;
     }
 
-    public void report_error(String message, Object info)
+    /**
+     * The String is usually a ParseMessage key and the Object
+     * is usually a Symbol.
+     */
+    public void report_error(String message, Object object)
     {
-      final LocInfo locInfo = getLocation(info);
-      ParseError error = new ParseError(message, get_current_token(), locInfo);
-      errorList_.add(error);
-      CztLogger.getLogger(<class/>.class).warning(error.toString());
+      Object param = object != null ? object : action_obj.previous_;
+      final LocInfo locInfo = getLocation(param);
+      if (param instanceof Symbol) {
+        Symbol symbol = (Symbol) param;
+        if (symbol.value != null) {
+          param = symbol.value;
+        }
+        else {
+          param = symbolMap_.get(symbol.sym);
+        }
+      }
+      try {
+        ParseMessage msg =
+          (ParseMessage) Enum.valueOf(ParseMessage.class, message);
+        Object[] params = { param, locInfo };
+        report_error(msg, params);
+      }
+      catch (IllegalArgumentException exception) {
+        ParseError error =
+          new ParseError(message, param, locInfo);
+        errorList_.add(error);
+        CztLogger.getLogger(<class/>.class).warning(error.toString());
+      }
     }
 
-    public void report_error(ParseMessage msg, Object param, LocInfo locInfo)
+    public void report_error(ParseMessage msg, Object[] params)
     {
-      final Object[] params = { param, locInfo, };
       errorList_.add(new ParseError(msg, params));
-      //      CztLogger.getLogger(<class/>.class).logrb(Level.SEVERE,
-      //                                                getClass().toString(),
-      //                                                "",
-      //                                                RESOURCE_NAME,
-      //                                                msg.toString(),
-      //                                                params);
     }
 
-    public void report_fatal_error(String message, Object info)
+    public void report_fatal_error(String message, Object param)
       throws ParseException
     {
-      report_error(message, info);
+      report_error(message, param);
       done_parsing();
     }
 
-    public void syntax_error(Symbol cur_token)
+    public void syntax_error(Symbol token)
     {
-      String message = "Syntax error at symbol:";
-      report_error(message, cur_token);
+      report_error(ParseMessage.MSG_SYNTAX_ERROR.toString(), token);
     }
 
-    public void unrecovered_syntax_error(Symbol cur_token)
+    public void unrecovered_syntax_error(Symbol token)
       throws ParseException
     {
-      report_fatal_error("Couldn't repair and continue parse at:", cur_token);
+      report_fatal_error(ParseMessage.MSG_SYNTAX_ERROR.toString(), token);
     }
 
     protected LocInfo getLocation(Object info)
@@ -671,20 +689,6 @@ parser code
         column = locAnn.getCol();
       }
       return new LocInfo(file_, line, column);
-    }
-
-    protected Object get_current_token()
-    {
-      Object result = null;
-      Map symbolMap = DebugUtils.getFieldMap(Sym.class);
-      if (action_obj.previous_.value != null) {
-        result = action_obj.previous_.value;
-      }
-      else {
-        Integer sym = new Integer(action_obj.previous_.sym);
-        result = symbolMap.get(sym);
-      }
-      return result;
     }
 :}
 
