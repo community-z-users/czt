@@ -28,7 +28,7 @@ import net.sourceforge.czt.zed.visitor.TermAVisitor;
 import net.sourceforge.czt.util.Visitor;
 
 /**
- * An implementation of the interface {@link TermA}.
+ * An abstract implementation of the interface {@link TermA}.
  *
  * @author Petra Malik
  */
