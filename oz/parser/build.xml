@@ -1,4 +1,4 @@
-<project name="ozparser" default="compile" basedir=".">
+<project name="ozparser" default="install" basedir=".">
   <property name="czt.home" location="../.."/>
   <property file="${czt.home}/czt.properties"/>
   <property file="build.properties"/>
