@@ -26,11 +26,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.gnast.schema.*;
+import net.sourceforge.czt.gnast.velo.*;
 
 /**
  * A project.
  *
  * @author Petra Malik
+ * @czt.todo Provide a project which cannot generate its classes
+ *           when <code>global</code> is false.
  */
 public class Project implements ProjectProperties
 {
@@ -44,17 +47,30 @@ public class Project implements ProjectProperties
   private static final String sClassName = "Project";
 
   /**
-   * The logger used when logging information is provided.
+   * The logger used when logging messages are written.
    */
   private static final Logger sLogger =
     Logger.getLogger("net.sourceforge.czt.gnast" + "." + sClassName);
 
   /**
+   * <p>The name of this project.</p>
+   *
+   * <p>Should never become <code>null</code> after its instantiation
+   * in the constructor.</p>
+   */
+  private String mName;
+
+  /**
    * The project properties as provided by the properties file.
    *
-   * @czt.todo This member variable should removed.
+   * @czt.todo This member variable should be removed.
    */
   private Properties mProperties = new Properties();
+
+  /**
+   * The schema project.
+   */
+  private SchemaProject mProject;
 
   /**
    * <p>The global properties for this code generation attempt.</p>
@@ -96,13 +112,15 @@ public class Project implements ProjectProperties
    * @param name the name of the project.
    * @param global global settings used by all projects.
    * @throws ConfigurationException if a required property cannot be read.
-   * @throws NullPointerException if one of the arguments is <code>null</code>.
+   * @throws NullPointerException if <code>name</code> is <code>null</code>.
+   * @czt.todo Clean up the Exception mess.
    */
   public Project(String name, GlobalProperties global)
-    throws ConfigurationException
+    throws Exception
   {
     sLogger.fine("Creating project " + name);
-    if (name == null || global == null) throw new NullPointerException();
+    if (name == null) throw new NullPointerException();
+    mName = name;
     mGlobal = global;
 
     String filename = name + ".properties";
@@ -111,11 +129,16 @@ public class Project implements ProjectProperties
       mProperties.load(new FileInputStream(filename));
       mSchemaFileName = getRequiredProperty("schema.file");
       mMapping = Gnast.loadProperties(getRequiredProperty("mapping.file"));
+      mPackage = getRequiredProperty("BasePackage");
       mJavadoc = Gnast.loadProperties("src/vm/javadoc.properties");
+      mProject = new SchemaProject(mSchemaFileName,
+				   mMapping,
+				   this,
+				   mGlobal);
     } catch(FileNotFoundException e) {
       throw
 	new ConfigurationException("Cannot find property file " + filename);
-    } catch(java.io.IOException e) {
+    } catch(IOException e) {
       throw
 	new ConfigurationException("Cannot read property file " + filename);
     }
@@ -128,6 +151,9 @@ public class Project implements ProjectProperties
   // ******************** INITIALISING **************************
 
   /**
+   * Returns the value of the given property if it is present;
+   * or throws an exception if the property cannot be found.
+   *
    * @param name the name of the property.
    * @throws ConfigurationException if the property cannot be read.
    */
@@ -136,7 +162,7 @@ public class Project implements ProjectProperties
   {
     String result = mProperties.getProperty(name);
     if (result == null) {
-      throw new ConfigurationException();
+      throw new ConfigurationException("Cannot find property " + name);
     }
     return result;
   }
@@ -144,6 +170,7 @@ public class Project implements ProjectProperties
   // ****************** CODE GENERATION ************************
 
   /**
+   * Generates the given class.
    *
    * @throws NullPointerException if <code>name</code> is <code>null</code>.
    */
@@ -217,23 +244,37 @@ public class Project implements ProjectProperties
   }
 
   /**
+   * Generates all classes for this project.
+   *
    * @czt.todo Clean up the Exception mess.
    */
   public void generate()
     throws Exception
   {
-    GnastProject project =
-      new SchemaProject(mSchemaFileName,
-			mMapping,
-			this,
-			mProperties);
-    Map classes = project.getAstClasses();
+    Map classes = mProject.getAstClasses();
     
     mApgen = new Apgen(mGlobal.getDefaultContext());
     for (Enumeration e = mProperties.propertyNames(); e.hasMoreElements();) {
       String propertyName = (String) e.nextElement();
       mApgen.addToContext(propertyName.replace('.', '_'),
 			  mProperties.getProperty(propertyName));
+    }
+    if (mProject.getImportProject() != null) {
+      String projectName = mProject.getImportProject();
+      Project blubb = new Project(projectName, mGlobal);
+
+      // should be removed in the future
+      mApgen.addToContext("ImportPackage",
+			  blubb.mProperties.get("BasePackage"));
+      // use this instead:
+      mApgen.addToContext("ImportProject", blubb);
+    }
+    mApgen.addToContext("project", this);
+    mApgen.addToContext("projects", getImportedProjects());
+    if (getImportedProjects().isEmpty()) {
+      mApgen.addToContext("core", this);
+    } else {
+      mApgen.addToContext("core", getImportedProjects().get(0));
     }
     mApgen.addToContext("classes", classes);
     mApgen.addToContext("javadoc", mJavadoc);
@@ -256,7 +297,7 @@ public class Project implements ProjectProperties
     
     generate("HierarchicalAstVisitor");
 
-    Map astClasses = project.getAstClasses();
+    Map astClasses = mProject.getAstClasses();
     for (Iterator iter = astClasses.values().iterator(); iter.hasNext();) {
       GnastClass c = (GnastClass) iter.next();
       mApgen.addToContext("class", c);
@@ -278,7 +319,7 @@ public class Project implements ProjectProperties
       createFile(filename);
     }
 
-    Map enumClasses = ((SchemaProject)project).getEnumerations();
+    Map enumClasses = mProject.getEnumerations();
     for (Iterator iter = enumClasses.keySet().iterator(); iter.hasNext();) {
       String enumName = (String) iter.next();
       mApgen.addToContext("Name", enumName);
@@ -295,10 +336,73 @@ public class Project implements ProjectProperties
 
   // ****************** INTERFACE ProjectProperties ************************
 
+  public String getName()
+  {
+    return mName;
+  }
+
+  public GnastClass getAstObject(String objectName)
+  {
+    Map mapping = mProject.getAstClasses();
+    return (GnastClass) mapping.get(objectName);
+  }
+
+  public GnastObject getObject(String objectId)
+  {
+    String methodName = "getObject";
+    sLogger.entering(sClassName, methodName, objectId);
+
+    GnastObject result = null;
+    if (objectId != null) {
+      String objectName = mProperties.getProperty(objectId + ".Name");
+      String objectPackage = mProperties.getProperty(objectId + ".Package");
+      if (objectName != null && objectPackage != null) {
+	result = new GnastObjectImpl(objectName,
+				     mPackage + "." + objectPackage);
+      } else if (objectId.endsWith("Impl")) {
+	result = new GnastObjectImpl(objectId, getImplPackage());
+      } else {
+	result = new GnastObjectImpl(objectId, getAstPackage());
+      }
+    }
+    sLogger.exiting(sClassName, methodName, result);
+    return result;
+  }
+
+  /**
+   * <p>Returns a list of all imported projects
+   * starting with the root ancestor project.</p>
+   *
+   * <p>Each project can import at most one other project.
+   * The imported project may import another project.
+   * A project that does not import another project is
+   * called a root project.</p>
+   *
+   * @czt.todo Is this method needed at all?
+   */
+  public List getImportedProjects()
+  {
+    String methodName = "getImportedProjects";
+    sLogger.entering(sClassName, methodName);
+
+    List result = new Vector();
+    String importedProject = mProject.getImportProject();
+    if (importedProject != null) {
+      Project project = mGlobal.getProject(importedProject);
+      if (project != null) {
+	result.addAll(project.getImportedProjects());
+	result.add(project);
+      }
+    }
+    sLogger.exiting(sClassName, methodName, result);
+    return result;
+  }
+
   /**
    * The name of the package where all the AST interfaces go in.
    *
-   * @return the AST interface package name.
+   * @return the AST interface package name
+   *         (should never be <code>null</code>).
    */
   public String getAstPackage()
   {
@@ -310,7 +414,8 @@ public class Project implements ProjectProperties
    * The name of the package where all the AST
    * implementation classes go in.
    *
-   * @return the AST (implementation) class package name.
+   * @return the AST (implementation) class package name
+   *         (should never be <code>null</code>).
    */
   public String getImplPackage()
   {
