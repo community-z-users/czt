@@ -36,12 +36,34 @@ import java_cup.runtime.*;
 public class CztReader
   extends Reader
 {
+  /**
+   * The scanner used to provide the tokens.
+   */
   private Scanner scanner_;
+
+  /**
+   * Left over charcters from the previous read call.
+   * This character should be used first when the next read method is called.
+   * It is set to <code>null</code> if no more characters are available.
+   */
   private String buffer_ = "";
+
+  /**
+   * Number of characters provided by the scanner.
+   * If <code>buffer_</code> is the empty string, this number is
+   * equal to the number of characters sent so far.
+   */
   private int charNum_ = 0;
+
+  /**
+   * Maps character numbers to line numbers.
+   */
   private TreeMap lineMap_ = new TreeMap();
+
+  /**
+   * Maps character numbers to column numbers.
+   */
   private TreeMap columnMap_ = new TreeMap();
-  private List positions_ = new Vector();
 
   /**
    * Create a new character-stream reader
@@ -104,24 +126,35 @@ public class CztReader
 
   public int getLine(int charNum)
   {
-    SortedMap map = lineMap_.tailMap(new Integer(charNum));
-    try {
-      Integer firstKey = (Integer) map.firstKey();
-      return ((Integer) map.get(firstKey)).intValue();
+    Integer iCharNum = new Integer(charNum);
+    Integer result = (Integer) lineMap_.get(iCharNum);
+    if (result == null) {
+      SortedMap map = lineMap_.headMap(new Integer(charNum));
+      try {
+        Integer lastKey = (Integer) map.lastKey();
+        result = (Integer) map.get(lastKey);
+      }
+      catch(NoSuchElementException e) {
+        return 0;
+      }
     }
-    catch(NoSuchElementException e) {
-      return 0;
-    }
+    return result.intValue();
   }
 
   public int getColumn(int charNum)
   {
-    SortedMap map = columnMap_.tailMap(new Integer(charNum));
-    try {
-      Integer firstKey = (Integer) map.firstKey();
-      return ((Integer) map.get(firstKey)).intValue();
-    } catch (NoSuchElementException e) {
-      return 0;
+    Integer iCharNum = new Integer(charNum);
+    Integer result = (Integer) columnMap_.get(iCharNum);
+    if (result == null) {
+      SortedMap map = columnMap_.headMap(new Integer(charNum));
+      try {
+        Integer lastKey = (Integer) map.lastKey();
+        result = (Integer) map.get(lastKey);
+      }
+      catch(NoSuchElementException e) {
+        return 0;
+      }
     }
+    return result.intValue();
   }
 }
