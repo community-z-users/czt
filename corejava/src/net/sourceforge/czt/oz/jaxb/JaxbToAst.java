@@ -53,6 +53,12 @@ public class JaxbToAst extends net.sourceforge.czt.core.jaxb.JaxbToAst
     mObjectFactory = factory;
   }
 
+  public JaxbToAst(net.sourceforge.czt.core.ast.CoreFactory f1,
+		   OZFactory f2) {
+    super(f1);
+    mObjectFactory = f2;
+  }
+
   public Object visitObject(Object o) {
     sLogger.fine("Visit " + o.getClass().toString());
     return o;
