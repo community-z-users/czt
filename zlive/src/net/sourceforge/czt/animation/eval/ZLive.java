@@ -30,14 +30,18 @@ import net.sourceforge.czt.print.z.PrintUtils;
 
 public class ZLive
 {
-  private Factory factory_ = new Factory();
-  
+  private ZFactory factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+  //Factory();
+
   protected SectionManager sectman_ = new SectionManager();
 
-  /**
+  /** This stores the list of FlatPreds used in the current evaluation. */
+  protected List preds_ = new ArrayList();
+  
+   /**
    * Returns the factory used for creating AST objects.
    */
-  public Factory getFactory()
+  public ZFactory getFactory()
   {
     return factory_;
   }
@@ -47,7 +51,7 @@ public class ZLive
    **/
   public void setFactory(ZFactory zFactory)
   {
-    factory_ = new Factory(zFactory);
+    factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
   }
 
   /** Get the current section manager. */
@@ -77,14 +81,12 @@ public class ZLive
     throws EvalException
   {
     Flatten flattener = new Flatten();
-    List preds = new ArrayList();
+    preds_.clear();
     Envir env = new Envir();
-    flattener.flatten(pred, preds);
-    if (preds.size() == 0)
-      throw new EvalException("Flatten not working yet");
+    flattener.flatten(pred, preds_);
     // We assume left to right evaluation will work.
     // TODO: implement A* algorithm here.
-    for (Iterator i = preds.iterator(); i.hasNext(); ) {
+    for (Iterator i = preds_.iterator(); i.hasNext(); ) {
       FlatPred p = (FlatPred)i.next();
       Mode m = p.chooseMode(env);
       if (m == null)
@@ -94,9 +96,24 @@ public class ZLive
         env = m.getEnvir();
       }
     }
-    System.out.println("Printing " + preds.size() + " preds:");
+    // Execute the list of predicates.
+    for (Iterator i = preds_.iterator(); i.hasNext(); ) {
+      FlatPred p = (FlatPred)i.next();
+      p.startEvaluation();
+      if (!p.nextEvaluation())  // TODO: loop through all solutions.
+        return factory_.createFalsePred();
+    }
+    return factory_.createTruePred();
+  }
+
+  /** Prints the list of FlatPreds used in the last call
+    * to evalPred or evalExpr.
+    */
+  public void printCode()
+  {
+    System.out.println("Printing " + preds_.size() + " preds:");
     Writer writer = new OutputStreamWriter(System.out);
-    for (Iterator i = preds.iterator(); i.hasNext(); ) {
+    for (Iterator i = preds_.iterator(); i.hasNext(); ) {
       FlatPred p = (FlatPred) i.next();
       System.out.println("Print flat " + p);
       print(p, writer);
@@ -109,19 +126,11 @@ public class ZLive
       e.printStackTrace();
     }
     System.out.println("END");
-    // Execute the list of predicates.
-    for (Iterator i = preds.iterator(); i.hasNext(); ) {
-      FlatPred p = (FlatPred)i.next();
-      p.startEvaluation();
-      if (!p.nextEvaluation())  // TODO: loop through all solutions.
-        return factory_.createFalsePred();
-    }
-    return factory_.createTruePred();
   }
-
+  
   private void print(Term t, Writer writer)
   {
-    ZliveToAstVisitor toAst = new ZliveToAstVisitor();
+    ZLiveToAstVisitor toAst = new ZLiveToAstVisitor();
     Term ast = (Term) t.accept(toAst);
     System.out.println(ast);
     PrintUtils.printUnicode(ast, writer, sectman_);
