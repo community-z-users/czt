@@ -26,12 +26,15 @@ import java_cup.runtime.*;
 import junit.framework.*;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.ParseException;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.jaxb.*;
+import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.z.util.DeleteMarkupParaVisitor;
 import net.sourceforge.czt.z.util.DeleteNarrVisitor;
 
@@ -168,15 +171,19 @@ public abstract class AbstractParserTest
       Assert.assertTrue(validator.validate(parsedSpec));
       Assert.assertTrue(validator.validate(zmlSpec));
       if (! zmlSpec.equals(parsedSpec)) {
-        JaxbXmlWriter xmlWriter = new JaxbXmlWriter();
-        File tmpFile = File.createTempFile("cztParser", "test.zml");
-        Writer out =
-          new OutputStreamWriter(new FileOutputStream(tmpFile), "UTF-8");
         String message = "For " + url.toString();
-        message += "\nexpected: " + zmlURL.toString();
+        JaxbXmlWriter xmlWriter = new JaxbXmlWriter();
+        File expected = File.createTempFile("cztParser", "test.zml");
+        Writer out =
+          new OutputStreamWriter(new FileOutputStream(expected), "UTF-8");
+        xmlWriter.write(zmlSpec, out);
+        out.close();
+        message += "\nexpected: " + expected.getAbsolutePath();
+        File got = File.createTempFile("cztParser", "test.zml");
+        out = new OutputStreamWriter(new FileOutputStream(got), "UTF-8");
         xmlWriter.write(parsedSpec, out);
         out.close();
-        message += "\nbut was:" + tmpFile.getAbsolutePath();
+        message += "\nbut was:" + got.getAbsolutePath();
         fail(message);
       }
     }
