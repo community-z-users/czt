@@ -36,7 +36,7 @@ public final class CztLogger
   /**
    * Returns the appropriate logger for the given class.
    *
-   * @param object the object that needs to log something.
+   * @param aClass the class that needs to log something.
    * @return a suitable Logger.
    */
   public static Logger getLogger(Class aClass)
