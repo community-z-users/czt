@@ -18,8 +18,6 @@
 */
 package net.sourceforge.czt.animation.gui.beans.table;
 
-import java.util.Iterator;
-
 import javax.swing.table.AbstractTableModel;
 
 import net.sourceforge.czt.animation.gui.temp.ZSet;

@@ -24,10 +24,12 @@ import java.awt.Component;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 
+import java.lang.ref.WeakReference;
+
+import java.util.WeakHashMap;
+
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
-
-import net.sourceforge.czt.animation.gui.persistence.delegates.BeanWrapperDelegate;
 
 /**
  * Class to wrap around non-visual beans so that they have a visual representation in the FormDesign.
@@ -63,6 +65,8 @@ public class BeanWrapper extends JLabel {
    * Setter function for bean.
    */
   public void setBean(Object b) {
+    wrappers.remove(bean);
+    wrappers.put(b,new WeakReference(this));
     bean=b;
     if(b==null) {
       setText("(null)");
@@ -82,6 +86,17 @@ public class BeanWrapper extends JLabel {
     if(c == null) return null;
     else if(c instanceof BeanWrapper) return ((BeanWrapper)c).getBean();
     else return c;
+  };  
+  private static WeakHashMap/*<Object,WeakReference<BeanWrapper>>*/ wrappers=new WeakHashMap();;
+  public static Component getComponent(Object b) {
+    if(b == null) return null;
+    else if(b instanceof Component) return (Component)b;
+    WeakReference r=(WeakReference)wrappers.get(b);
+    BeanWrapper w=null;
+    if(r!=null) w=(BeanWrapper)r.get();
+    if(w==null)
+      w=new BeanWrapper(b);
+    return w;
   };  
 };
 

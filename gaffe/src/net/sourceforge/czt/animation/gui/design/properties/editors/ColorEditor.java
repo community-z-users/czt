@@ -32,10 +32,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorSupport;
 
-import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JDialog;
-
 
 public class ColorEditor extends PropertyEditorSupport {
   final JDialog chooserDialog;

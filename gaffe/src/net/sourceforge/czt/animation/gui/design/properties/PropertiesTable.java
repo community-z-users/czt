@@ -18,32 +18,14 @@
 */
 package net.sourceforge.czt.animation.gui.design.properties;
 
-import java.awt.BorderLayout;             import java.awt.Component;
-import java.awt.Window;
-
-import java.awt.event.ActionEvent;        import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;          import java.awt.event.ItemListener;
-
 import java.beans.BeanInfo;               import java.beans.IntrospectionException;
-import java.beans.Introspector;           import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener; import java.beans.PropertyDescriptor;
-import java.beans.PropertyEditor;
+import java.beans.Introspector;           import java.beans.PropertyDescriptor;     
 
-import java.util.Enumeration;             import java.util.EventListener;
-import java.util.EventObject;             import java.util.HashMap;
 import java.util.Vector;
 
-import javax.swing.JButton;               import javax.swing.JComboBox;             
-import javax.swing.JDialog;               import javax.swing.JFrame;
-import javax.swing.JOptionPane;           import javax.swing.JPanel;                
-import javax.swing.JTable;                import javax.swing.JTextField;
-
-import javax.swing.event.CellEditorListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.EventListenerList;
 import javax.swing.event.TableModelEvent;
 
-import javax.swing.table.AbstractTableModel; import javax.swing.table.TableCellEditor;
+import javax.swing.table.AbstractTableModel;
 
 import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 

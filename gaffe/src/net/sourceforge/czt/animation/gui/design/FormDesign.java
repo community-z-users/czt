@@ -34,19 +34,13 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 
 
-import java.beans.BeanInfo;
-import java.beans.Beans;                  import java.beans.DefaultPersistenceDelegate;
-import java.beans.Encoder;                import java.beans.Expression;
-import java.beans.EventSetDescriptor;
-import java.beans.IntrospectionException; import java.beans.Introspector;           
-import java.beans.PropertyChangeEvent;    import java.beans.PropertyChangeListener; 
-import java.beans.PropertyDescriptor;
-import java.beans.XMLDecoder;             import java.beans.XMLEncoder;
+import java.beans.BeanInfo;               import java.beans.Beans;                  
+import java.beans.Encoder;                import java.beans.IntrospectionException; 
+import java.beans.Introspector;           import java.beans.PropertyChangeEvent;    
+import java.beans.PropertyChangeListener; import java.beans.XMLDecoder;             
+import java.beans.XMLEncoder;
 
-import java.beans.beancontext.BeanContext;import java.beans.beancontext.BeanContextChild;
-import java.beans.beancontext.BeanContextChildSupport;
-
-import java.io.IOException;
+import java.beans.beancontext.BeanContext;
 
 import java.util.Arrays;                  import java.util.Collections;
 import java.util.EventListener;           import java.util.HashMap;
@@ -56,13 +50,12 @@ import java.util.Map;                     import java.util.Vector;
 import javax.swing.AbstractAction;        import javax.swing.Action;
 import javax.swing.ActionMap;             import javax.swing.BorderFactory;
 import javax.swing.Box;                   import javax.swing.ButtonGroup;
-import javax.swing.InputMap;              import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JComponent;            import javax.swing.JFrame;                
-import javax.swing.JLabel;                import javax.swing.JLayeredPane;          
-import javax.swing.JMenuBar;              import javax.swing.JPanel;                
-import javax.swing.JRadioButtonMenuItem;  import javax.swing.JMenu;                 
-import javax.swing.JMenuItem;             import javax.swing.JOptionPane;           
-import javax.swing.JToolTip;              import javax.swing.KeyStroke;             
+import javax.swing.InputMap;              import javax.swing.JComponent;            
+import javax.swing.JFrame;                import javax.swing.JLabel;                
+import javax.swing.JLayeredPane;          import javax.swing.JMenuBar;              
+import javax.swing.JPanel;                import javax.swing.JRadioButtonMenuItem;  
+import javax.swing.JMenu;                 import javax.swing.JMenuItem;             
+import javax.swing.JOptionPane;           import javax.swing.KeyStroke;             
 import javax.swing.OverlayLayout;         import javax.swing.WindowConstants;
 
 import javax.swing.border.BevelBorder;    import javax.swing.border.TitledBorder;
@@ -72,10 +65,6 @@ import javax.swing.event.EventListenerList;  import javax.swing.event.MouseInput
 import net.sourceforge.czt.animation.gui.Form;
 import net.sourceforge.czt.animation.gui.FormEvent;
 import net.sourceforge.czt.animation.gui.FormListener;
-
-import net.sourceforge.czt.animation.gui.beans.Script;
-
-import net.sourceforge.czt.animation.gui.persistence.delegates.BeanLinkDelegate;
 
 import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 
@@ -131,7 +120,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
 	  for(Iterator i=eventLinks.iterator();i.hasNext();) {
 	    BeanLink bl=(BeanLink)i.next();
 	    if((eventLinkHighlightingStatus&ELHS_HIGHLIGHT_CURRENT_ALL_LINKS)!=0
-	       && bl.listener==getCurrentBeanComponent()
+	       && bl.listener==getCurrentBean()
 	       || eventLinkHighlightingStatus==ELHS_HIGHLIGHT_ALL_LINKS) {
 	      if(getVisualLine(bl).ptSegDist(event.getPoint())<5)
 		return bl.listenerType.getName();
@@ -196,10 +185,10 @@ public class FormDesign extends JFrame implements ToolChangeListener {
 	    if(eventLinkHighlightingStatus==ELHS_HIGHLIGHT_ALL_LINKS||eventLinkHighlightingOverride)
 	      highlight(bl,Color.red,g);
 	    else if((eventLinkHighlightingStatus&ELHS_HIGHLIGHT_CURRENT_INCOMING_LINKS)!=0
-		    && bl.listener==getCurrentBeanComponent())
+		    && bl.listener==getCurrentBean())
 	      highlight(bl,Color.red,g);
 	    else if((eventLinkHighlightingStatus&ELHS_HIGHLIGHT_CURRENT_OUTGOING_LINKS)!=0
-		    && bl.source==getCurrentBeanComponent())
+		    && bl.source==getCurrentBean())
 	      highlight(bl,Color.blue,g);
 	  }
 	}
@@ -226,10 +215,12 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   };  
   
   public Line2D getVisualLine(BeanLink l) {
-    Point sp=componentLocationInBeanPaneSpace(l.source);
-    Point lp=componentLocationInBeanPaneSpace(l.listener);
-    return new Line2D.Double(sp.getX()+  l.source.getWidth()/2, sp.getY()+  l.source.getHeight()/2,
-			     lp.getX()+l.listener.getWidth()/2, lp.getY()+l.listener.getHeight()/2);  
+    Component lsource=BeanWrapper.getComponent(l.source);
+    Component llistener=BeanWrapper.getComponent(l.listener);
+    Point sp=componentLocationInBeanPaneSpace(lsource);
+    Point lp=componentLocationInBeanPaneSpace(llistener);
+    return new Line2D.Double(sp.getX()+  lsource.getWidth()/2, sp.getY()+  lsource.getHeight()/2,
+			     lp.getX()+llistener.getWidth()/2, lp.getY()+llistener.getHeight()/2);  
   };
 
   protected Vector eventLinks=new Vector/*<BeanLink>*/();  //XXX Should this be a set instead?
@@ -237,8 +228,8 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     return new Vector(eventLinks);
   };
   private void addEventLink(BeanLink bl) {
-    Object sourceBean=BeanWrapper.getBean(bl.source);
-    Object listenerBean=BeanWrapper.getBean(bl.listener);
+    Object sourceBean=bl.source;
+    Object listenerBean=bl.listener;
     if(!bl.listenerType.isInstance(listenerBean)) throw new ClassCastException();
     if(eventLinks.contains(bl)) return;//If it's already registered, don't add it.
     //The extra check below to see if it is registered with the bean already is mostly to prevent it
@@ -253,7 +244,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   };
   
   public void addEventLink(Component source, Component listener, Class listenerType) {
-    addEventLink(new BeanLink(source,listener,listenerType));
+    addEventLink(new BeanLink(BeanWrapper.getBean(source),BeanWrapper.getBean(listener),listenerType));
   };
   /**
    *
@@ -262,8 +253,8 @@ public class FormDesign extends JFrame implements ToolChangeListener {
    *          iterator.  This is to get around the pesky ConcurrentModificationException.
    */
   private void removeEventLink(BeanLink bl, Iterator i) {
-    Object sourceBean=BeanWrapper.getBean(bl.source);
-    Object listenerBean=BeanWrapper.getBean(bl.listener);
+    Object sourceBean=bl.source;
+    Object listenerBean=bl.listener;
     if(!bl.listenerType.isInstance(listenerBean)) throw new ClassCastException();
     IntrospectionHelper.removeBeanListener(sourceBean,bl.listenerType,listenerBean);
     if(i==null) eventLinks.remove(bl);    
@@ -279,7 +270,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   public void removeEventLinksTo(Object listener) {
     for(Iterator i=eventLinks.iterator();i.hasNext();) {
       BeanLink bl=(BeanLink)i.next();
-      if(BeanWrapper.getBean(bl.listener)==listener) {      
+      if(bl.listener==listener) {      
 	removeEventLink(bl,i);
       }
     };
@@ -287,7 +278,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   public void removeEventLinksFrom(Object source) {
     for(Iterator i=eventLinks.iterator();i.hasNext();) {
       BeanLink bl=(BeanLink)i.next();
-      if(BeanWrapper.getBean(bl.source)==source) {      
+      if(bl.source==source) {      
 	removeEventLink(bl,i);
       }
     }
@@ -295,7 +286,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   public void removeEventLinksTo(Object listener, Class listenerType) {
     for(Iterator i=eventLinks.iterator();i.hasNext();) {
       BeanLink bl=(BeanLink)i.next();
-      if(BeanWrapper.getBean(bl.listener)==listener && bl.listenerType==listenerType) {      
+      if(bl.listener==listener && bl.listenerType==listenerType) {      
 	removeEventLink(bl,i);
       }
     }
@@ -303,7 +294,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   public void removeEventLinksFrom(Object source, Class listenerType) {
     for(Iterator i=eventLinks.iterator();i.hasNext();) {
       BeanLink bl=(BeanLink)i.next();
-      if(BeanWrapper.getBean(bl.source)==source && bl.listenerType==listenerType) {      
+      if(bl.source==source && bl.listenerType==listenerType) {      
 	removeEventLink(bl,i);
       }
     }
@@ -500,7 +491,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
    * @see net.sourceforge.czt.animation.gui.design.BeanWrapper
    */
   public Component getCurrentBeanComponent() {
-    return (Component)currentComponent;
+    return currentComponent;
   };
   
   /**

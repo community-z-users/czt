@@ -197,9 +197,8 @@ class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
       form.addBean(opButton,panel);
       Script opScript=new Script();
       opScript.setScript("Forms.lookup(\""+opSchemaName+" input\").setVisible(true);");
-      BeanWrapper wrapper=new BeanWrapper(opScript);
-      form.addBean(opScript);wrappers.add(wrapper);
-      eventLinks.add(new BeanLink(opButton,wrapper,ActionListener.class));
+      form.addBean(opScript);wrappers.add(new BeanWrapper(opScript));
+      eventLinks.add(new BeanLink(opButton,opScript,ActionListener.class));
     }
     JPanel secondPanel=new JPanel();
     mainPanel.add(secondPanel,BorderLayout.CENTER);
@@ -210,17 +209,15 @@ class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
     form.addBean(showOutputsButton,secondPanel);
     Script showOutputScript=new Script();
     showOutputScript.setScript("XXXX");//XXX write this script
-    BeanWrapper wrapper=new BeanWrapper(showOutputScript);
-    form.addBean(showOutputScript);wrappers.add(wrapper);
-    eventLinks.add(new BeanLink(showOutputsButton,wrapper,ActionListener.class));
+    form.addBean(showOutputScript);wrappers.add(new BeanWrapper(showOutputScript));
+    eventLinks.add(new BeanLink(showOutputsButton,showOutputScript,ActionListener.class));
     
     JButton quitButton=new JButton("Quit");
     form.addBean(quitButton,secondPanel);
     Script quitScript=new Script();
     quitScript.setScript("System.exit(0);");//XXX should be done as a service through bean context?
-    wrapper=new BeanWrapper(quitScript);
-    form.addBean(quitScript);wrappers.add(wrapper);
-    eventLinks.add(new BeanLink(quitButton,wrapper,ActionListener.class));
+    form.addBean(quitScript);wrappers.add(new BeanWrapper(quitScript));
+    eventLinks.add(new BeanLink(quitButton,quitScript,ActionListener.class));
   };
   
   protected JPanel createHistoryButtonPanel(Form form, Vector wrappers, Vector eventLinks) {
@@ -242,34 +239,32 @@ class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
     JButton nextSolutionB=new JButton("Solutions >");
     form.addBean(nextSolutionSetB,panel);
     
-    BeanWrapper wrapper;
     Script prevSolutionSetBScript=new Script();
     prevSolutionSetBScript.setScript("History.prevSolutionSet();");
-    form.addBean(prevSolutionSetBScript);wrappers.add(wrapper=new BeanWrapper(prevSolutionSetBScript));
-    eventLinks.add(new BeanLink(prevSolutionSetB,wrapper,ActionListener.class));
+    form.addBean(prevSolutionSetBScript);wrappers.add(new BeanWrapper(prevSolutionSetBScript));
+    eventLinks.add(new BeanLink(prevSolutionSetB,prevSolutionSetBScript,ActionListener.class));
     Script nextSolutionSetBScript=new Script();
     nextSolutionSetBScript.setScript("History.nextSolutionSet();");
-    form.addBean(nextSolutionSetBScript);wrappers.add(wrapper=new BeanWrapper(nextSolutionSetBScript));
-    eventLinks.add(new BeanLink(nextSolutionSetB,wrapper,ActionListener.class));
+    form.addBean(nextSolutionSetBScript);wrappers.add(new BeanWrapper(nextSolutionSetBScript));
+    eventLinks.add(new BeanLink(nextSolutionSetB,nextSolutionSetBScript,ActionListener.class));
     
     Script prevSolutionBScript=new Script();
     prevSolutionBScript.setScript("History.prevSolution();");
-    form.addBean(prevSolutionBScript);wrappers.add(wrapper=new BeanWrapper(prevSolutionBScript));
-    eventLinks.add(new BeanLink(prevSolutionB,wrapper,ActionListener.class));
+    form.addBean(prevSolutionBScript);wrappers.add(new BeanWrapper(prevSolutionBScript));
+    eventLinks.add(new BeanLink(prevSolutionB,prevSolutionBScript,ActionListener.class));
     Script nextSolutionBScript=new Script();
     nextSolutionBScript.setScript("History.nextSolution();");
-    form.addBean(nextSolutionBScript);wrappers.add(wrapper=new BeanWrapper(nextSolutionBScript));
-    eventLinks.add(new BeanLink(nextSolutionB,wrapper,ActionListener.class));
+    form.addBean(nextSolutionBScript);wrappers.add(new BeanWrapper(nextSolutionBScript));
+    eventLinks.add(new BeanLink(nextSolutionB,nextSolutionBScript,ActionListener.class));
     
-    BeanWrapper wrapper2;
     HistoryProxy hp=new HistoryProxy();
-    form.addBean(hp);wrappers.add(wrapper=new BeanWrapper(hp));
+    form.addBean(hp);wrappers.add(new BeanWrapper(hp));
     Script labelScript=new Script();
     labelScript
       .setScript("thisForm.lookup(\"historyPanel.historyLabel\").text=\"Solutions: \"+History.positionLabel;"
 		 +"thisForm.lookup(\"historyPanel.solutionLabel\").text=\"Solutions: \"+History.currentSolution.positionLabel;");
-    form.addBean(labelScript);wrappers.add(wrapper2=new BeanWrapper(labelScript));
-    eventLinks.add(new BeanLink(wrapper,wrapper2,ActionListener.class));
+    form.addBean(labelScript);wrappers.add(new BeanWrapper(labelScript));
+    eventLinks.add(new BeanLink(hp,labelScript,ActionListener.class));
     
   };
   protected void createInputForm(ConstDecl/*<SchExpr>*/ operationSchema, XMLEncoder encoder) {

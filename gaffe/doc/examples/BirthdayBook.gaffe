@@ -369,37 +369,37 @@ else if(History.currentSolution.keySet().contains(&quot;cards!&quot;)) {
  </object> 
  <object class="java.util.Vector"> 
   <void method="add"> 
-   <object class="net.sourceforge.czt.animation.gui.design.FormDesign$BeanLink"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
     <object idref="JButton2"/> 
-    <object idref="BeanWrapper0"/> 
+    <object idref="Script0"/> 
     <class>java.awt.event.ActionListener</class> 
    </object> 
   </void> 
   <void method="add"> 
-   <object class="net.sourceforge.czt.animation.gui.design.FormDesign$BeanLink"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
     <object idref="JButton3"/> 
-    <object idref="BeanWrapper1"/> 
+    <object idref="Script4"/> 
     <class>java.awt.event.ActionListener</class> 
    </object> 
   </void> 
   <void method="add"> 
-   <object class="net.sourceforge.czt.animation.gui.design.FormDesign$BeanLink"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
     <object idref="JButton1"/> 
-    <object idref="BeanWrapper2"/> 
+    <object idref="Script2"/> 
     <class>java.awt.event.ActionListener</class> 
    </object> 
   </void> 
   <void method="add"> 
-   <object class="net.sourceforge.czt.animation.gui.design.FormDesign$BeanLink"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
     <object idref="JButton0"/> 
-    <object idref="BeanWrapper3"/> 
+    <object idref="Script1"/> 
     <class>java.awt.event.ActionListener</class> 
    </object> 
   </void> 
   <void method="add"> 
-   <object class="net.sourceforge.czt.animation.gui.design.FormDesign$BeanLink"> 
-    <object idref="BeanWrapper4"/> 
-    <object idref="BeanWrapper5"/> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
+    <object idref="HistoryProxy0"/> 
+    <object idref="Script3"/> 
     <class>java.awt.event.ActionListener</class> 
    </object> 
   </void> 
@@ -581,16 +581,16 @@ thisForm.lookup(&quot;date?&quot;).setText(&quot;&quot;); </string>
  </object> 
  <object class="java.util.Vector"> 
   <void method="add"> 
-   <object class="net.sourceforge.czt.animation.gui.design.FormDesign$BeanLink"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
     <object idref="JButton5"/> 
-    <object idref="BeanWrapper6"/> 
+    <object idref="Script6"/> 
     <class>java.awt.event.ActionListener</class> 
    </object> 
   </void> 
   <void method="add"> 
-   <object class="net.sourceforge.czt.animation.gui.design.FormDesign$BeanLink"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
     <object idref="JButton4"/> 
-    <object idref="BeanWrapper7"/> 
+    <object idref="Script5"/> 
     <class>java.awt.event.ActionListener</class> 
    </object> 
   </void> 
@@ -732,16 +732,16 @@ thisForm.lookup(&quot;name?&quot;).setText(&quot;&quot;);
  </object> 
  <object class="java.util.Vector"> 
   <void method="add"> 
-   <object class="net.sourceforge.czt.animation.gui.design.FormDesign$BeanLink"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
     <object idref="JButton7"/> 
-    <object idref="BeanWrapper8"/> 
+    <object idref="Script8"/> 
     <class>java.awt.event.ActionListener</class> 
    </object> 
   </void> 
   <void method="add"> 
-   <object class="net.sourceforge.czt.animation.gui.design.FormDesign$BeanLink"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
     <object idref="JButton6"/> 
-    <object idref="BeanWrapper9"/> 
+    <object idref="Script7"/> 
     <class>java.awt.event.ActionListener</class> 
    </object> 
   </void> 
@@ -882,16 +882,16 @@ thisForm.lookup(&quot;today?&quot;).setText(&quot;&quot;); </string>
  </object> 
  <object class="java.util.Vector"> 
   <void method="add"> 
-   <object class="net.sourceforge.czt.animation.gui.design.FormDesign$BeanLink"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
     <object idref="JButton9"/> 
-    <object idref="BeanWrapper10"/> 
+    <object idref="Script10"/> 
     <class>java.awt.event.ActionListener</class> 
    </object> 
   </void> 
   <void method="add"> 
-   <object class="net.sourceforge.czt.animation.gui.design.FormDesign$BeanLink"> 
+   <object class="net.sourceforge.czt.animation.gui.design.BeanLink"> 
     <object idref="JButton8"/> 
-    <object idref="BeanWrapper11"/> 
+    <object idref="Script9"/> 
     <class>java.awt.event.ActionListener</class> 
    </object> 
   </void> 

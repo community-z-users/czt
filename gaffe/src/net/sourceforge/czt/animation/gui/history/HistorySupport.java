@@ -21,9 +21,7 @@ package net.sourceforge.czt.animation.gui.history;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
-import java.util.Vector;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

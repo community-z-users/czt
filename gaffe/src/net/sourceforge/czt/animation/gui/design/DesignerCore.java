@@ -52,10 +52,9 @@ import java.util.ListIterator;            import java.util.Vector;
 
 import java.util.prefs.Preferences;
 
-import javax.swing.AbstractAction;        import javax.swing.AbstractButton;        
-import javax.swing.Action;                import javax.swing.ActionMap;             
-import javax.swing.InputMap;              import javax.swing.JButton;               
-import javax.swing.JCheckBox;             import javax.swing.JComboBox;               
+import javax.swing.AbstractAction;        import javax.swing.Action;                
+import javax.swing.ActionMap;             import javax.swing.InputMap;              
+import javax.swing.JButton;               import javax.swing.JComboBox;             
 import javax.swing.JDialog;               import javax.swing.JFileChooser;          
 import javax.swing.JFrame;                import javax.swing.JLabel;                
 import javax.swing.JMenu;                 import javax.swing.JMenuItem;             
@@ -72,7 +71,6 @@ import net.sourceforge.czt.animation.gui.design.ToolWindow;
 
 import net.sourceforge.czt.animation.gui.design.properties.PropertiesWindow;
 
-import net.sourceforge.czt.animation.gui.persistence.delegates.BeanWrapperDelegate;
 import net.sourceforge.czt.animation.gui.persistence.delegates.FormDelegate;
 
 import net.sourceforge.czt.animation.gui.util.Utils;

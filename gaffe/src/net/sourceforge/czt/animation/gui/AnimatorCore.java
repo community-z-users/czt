@@ -26,8 +26,6 @@ import java.awt.BorderLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-import java.beans.ExceptionListener;
-import java.beans.Statement;
 import java.beans.XMLDecoder;
 
 import java.io.File;
@@ -44,7 +42,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import net.sourceforge.czt.animation.gui.design.BeanLink;
-import net.sourceforge.czt.animation.gui.design.BeanWrapper;
 
 import net.sourceforge.czt.animation.gui.history.History;
 import net.sourceforge.czt.animation.gui.history.HistoryServiceProvider;
@@ -131,11 +128,9 @@ public class AnimatorCore extends AnimatorCoreBase {
 	Vector beanLinks=(Vector)decoder.readObject();//eventLinks
 	for(Iterator iter=beanLinks.iterator();iter.hasNext();) {
 
-	  //XXXX YUCK, tidy this up.  Shouldn't have to care about BeanWrapper
-
 	  BeanLink bl=(BeanLink)iter.next();
-	  Object sourceBean=BeanWrapper.getBean(bl.source);
-	  Object listenerBean=BeanWrapper.getBean(bl.listener);
+	  Object sourceBean=bl.source;
+	  Object listenerBean=bl.listener;
 	  //The extra check below to see if it is registered with the bean already is mostly to prevent it
 	  //being registered twice, because when XMLEncoder saves a file, it saves its listeners, and 
 	  //XMLDecoder loads them (before we get to the BeanLinks).

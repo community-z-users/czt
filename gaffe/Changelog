@@ -16,6 +16,14 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
+20 Nov 2003 -
+	- Fixed the FileFilter used for restricting FileChoosers to just .gaffe files to include directories 
+	  as well.
+	- Added static method to BeanWrapper to find the wrapper for a bean.
+	- Modified BeanLink to refer to the two Beans involved, not their wrappers.
+	- Fixed the example interfaces to work with the new BeanLink
+	- Trimmed unused 'import's from all files.
+
 19 Nov 2003 -
 	- Wrote SetModel table model.
 	- Moved BeanLink class out from FormDesign into its own file.

@@ -26,7 +26,7 @@ public final class Utils {
   private Utils() {};
   
   public static FileFilter gaffeFileFilter=new FileFilter() {
-      public boolean accept(File f)  {return f.getName().endsWith(".gaffe");};
+      public boolean accept(File f)  {return f.getName().endsWith(".gaffe")||f.isDirectory();};
       public String getDescription() {return "Gaffe Interface Files (*.gaffe)";};
     };
   

@@ -30,7 +30,6 @@ import java.beans.BeanInfo;               import java.beans.Customizer;
 import java.beans.IntrospectionException; import java.beans.Introspector;           
 import java.beans.PropertyChangeEvent;    import java.beans.PropertyChangeListener; 
 import java.beans.PropertyDescriptor;     import java.beans.PropertyEditor;         
-import java.beans.PropertyEditorManager;
 
 import java.lang.reflect.Method;
 

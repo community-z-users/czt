@@ -18,10 +18,8 @@
 */
 package net.sourceforge.czt.animation.gui.beans;
 
-import com.ibm.bsf.BSFEngine;
 import com.ibm.bsf.BSFException;
 import com.ibm.bsf.BSFManager;
-import com.ibm.bsf.engines.javascript.JavaScriptEngine;
 
 import com.ibm.bsf.util.StringUtils;
 
@@ -30,7 +28,6 @@ import java.awt.event.ActionListener;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyVetoException;
 
 import java.beans.beancontext.BeanContext;
 import java.beans.beancontext.BeanContextChildSupport;

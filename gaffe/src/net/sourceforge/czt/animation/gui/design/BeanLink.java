@@ -18,13 +18,12 @@
 */
 package net.sourceforge.czt.animation.gui.design;
 
-import java.awt.Component;
-
 public class BeanLink {
-  public final Component source, listener;
+  public final Object source, listener;
   public final Class listenerType;
-  public BeanLink(Component source, Component listener, Class listenerType) {
-    this.source=source;this.listener=listener;this.listenerType=listenerType;
+  public BeanLink(Object source, Object listener, Class listenerType) {
+    this.source=source;this.listener=listener;
+    this.listenerType=listenerType;
   };
   public boolean equals(Object obj) {
     if(!(obj instanceof BeanLink)) return false;

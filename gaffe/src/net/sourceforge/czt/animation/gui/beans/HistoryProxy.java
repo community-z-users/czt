@@ -24,8 +24,6 @@ import java.awt.AWTEvent;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeSupport;
-import java.beans.PropertyVetoException;
 
 import java.beans.beancontext.BeanContext;
 import java.beans.beancontext.BeanContextChildSupport;

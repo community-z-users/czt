@@ -18,21 +18,18 @@
 */
 package net.sourceforge.czt.animation.gui.design;
 
-import java.awt.BorderLayout;             import java.awt.Color;
-import java.awt.Component;                import java.awt.Container;                
-import java.awt.Cursor;                   import java.awt.Dimension;                
-import java.awt.FlowLayout;               import java.awt.Graphics;                 
-import java.awt.Image;                    import java.awt.MediaTracker;             
-import java.awt.Point;                    import java.awt.Toolkit;                  
-import java.awt.Transparency;             
+import java.awt.Color;                    import java.awt.Component;                
+import java.awt.Container;                import java.awt.Cursor;                   
+import java.awt.Dimension;                import java.awt.FlowLayout;               
+import java.awt.Graphics;                 import java.awt.Image;                    
+import java.awt.MediaTracker;             import java.awt.Point;                    
+import java.awt.Toolkit;                  import java.awt.Transparency;             
 
-import java.awt.event.ActionEvent;        import java.awt.event.InputEvent;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;        import java.awt.event.MouseEvent;
 
 import java.beans.BeanInfo;               import java.beans.BeanDescriptor;
 import java.beans.Beans;                  import java.beans.EventSetDescriptor;
 import java.beans.IntrospectionException; import java.beans.Introspector;
-import java.beans.PropertyChangeSupport;  
 
 import java.io.IOException;
 
@@ -48,7 +45,6 @@ import javax.swing.JLabel;                import javax.swing.JOptionPane;
 import javax.swing.JPanel;                import javax.swing.JScrollPane;
 
 import javax.swing.border.BevelBorder;    import javax.swing.border.Border;
-import javax.swing.border.EtchedBorder;   
 
 import javax.swing.event.EventListenerList;
 
@@ -616,20 +612,14 @@ class ToolWindow extends JFrame {
       getToolkit().beep();
       setCurrentTool(defaultTool);
     };
-    
 
     public void unselected(FormDesign f) {
       f.setEventLinkHighlightingOverride(false);
       f.setCursor(Cursor.getDefaultCursor());
-    };
-    
-    
-    
+    };    
   };  
 
   public static void main(String[] args) {
     (new ToolWindow(new Class[] {JButton.class,JCheckBox.class,JLabel.class})).show();
-    
-  };
-  
+  };  
 };
