@@ -89,7 +89,7 @@ public class SectionManager
         opTable_.put(result.getSection(), result);
       }
       catch (Exception e) {
-        String message = "Cannot get latex specification for " + section ;
+        String message = "Cannot get operator table for " + section ;
         System.err.println(message);
         e.printStackTrace();
       }
