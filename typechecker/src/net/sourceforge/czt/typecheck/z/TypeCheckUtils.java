@@ -38,10 +38,10 @@ public final class TypeCheckUtils
                                SectTypeEnv sectTypeEnv)
   {
     ZFactory zFactory = new ZFactoryImpl();
-    CheckerInfo checker =
-      new CheckerInfo(zFactory, sectTypeEnv, errorFactory, sectInfo);
-    checker.visitTerm(term);
-    return checker.errors();
+    TypeChecker typeChecker =
+      new TypeChecker(zFactory, sectTypeEnv, errorFactory, sectInfo);
+    typeChecker.visitTerm(term);
+    return typeChecker.errors();
   }
 
   public static List typecheck(Term term,

@@ -29,9 +29,9 @@ class PredChecker
              ExprPredVisitor,
              PredVisitor
 {
-  public PredChecker(CheckerInfo info)
+  public PredChecker(TypeChecker typeChecker)
   {
-    super(info);
+    super(typeChecker);
   }
 
   /**

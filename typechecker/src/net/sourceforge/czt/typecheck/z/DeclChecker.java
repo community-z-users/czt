@@ -25,9 +25,9 @@ class DeclChecker
              ConstDeclVisitor,
              InclDeclVisitor
 {
-  public DeclChecker(CheckerInfo info)
+  public DeclChecker(TypeChecker typeChecker)
   {
-    super(info);
+    super(typeChecker);
   }
 
   public Object visitVarDecl(VarDecl varDecl)

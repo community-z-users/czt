@@ -26,9 +26,9 @@ class PostChecker
   //the position of the current error/term
   protected int position_;
 
-  public PostChecker(CheckerInfo info)
+  public PostChecker(TypeChecker typeChecker)
   {
-    super(info);
+    super(typeChecker);
     position_ = 0;
   }
 

@@ -24,9 +24,9 @@ class ParaChecker
              SchTextVisitor,
              ParaVisitor
 {
-  public ParaChecker(CheckerInfo info)
+  public ParaChecker(TypeChecker typeChecker)
   {
-    super(info);
+    super(typeChecker);
   }
 
   /**

@@ -52,9 +52,9 @@ class ExprChecker
              BindSelExprVisitor,
              BindExprVisitor
 {
-  public ExprChecker(CheckerInfo info)
+  public ExprChecker(TypeChecker typeChecker)
   {
-    super(info);
+    super(typeChecker);
   }
 
   public Object visitSchText(SchText schText)

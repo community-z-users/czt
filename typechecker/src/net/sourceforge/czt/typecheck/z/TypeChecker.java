@@ -7,15 +7,16 @@ import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.typecheck.util.typingenv.*;
 import net.sourceforge.czt.typecheck.util.impl.*;
 import net.sourceforge.czt.util.CztLogger;
 
 /**
- * A super class for the *Checker classes in the typechecker.
+ * The top-level class in the type checker classes.
  */
-class CheckerInfo
+class TypeChecker
   implements TermVisitor
 {
   //print debuging info
@@ -49,7 +50,7 @@ class CheckerInfo
   protected List errors_;
 
   //used for logging warning messages.
-  protected Logger logger_ = CztLogger.getLogger(CheckerInfo.class);
+  protected Logger logger_ = CztLogger.getLogger(TypeChecker.class);
 
   //the visitors used to typechecker a spec
   protected SpecChecker specChecker_ = null;
@@ -59,20 +60,27 @@ class CheckerInfo
   protected PredChecker predChecker_ = null;
   protected PostChecker postChecker_ = null;
 
-  public CheckerInfo(CheckerInfo info)
+  public TypeChecker(TypeChecker info)
   {
     this(info.factory_.getZFactory(), info.sectTypeEnv_,
          info.errorFactory_, info.sectInfo_);
   }
 
-  public CheckerInfo(ZFactory zFactory,
+  public TypeChecker(SectTypeEnv sectTypeEnv,
+                     SectionInfo sectInfo)
+  {
+    this(new ZFactoryImpl(), sectTypeEnv,
+         new DefaultErrorFactory(sectInfo), sectInfo);
+  }
+
+  public TypeChecker(ZFactory zFactory,
                      SectTypeEnv sectTypeEnv,
                      SectionInfo sectInfo)
   {
     this(zFactory, sectTypeEnv, new DefaultErrorFactory(sectInfo), sectInfo);
   }
 
-  public CheckerInfo(ZFactory zFactory,
+  public TypeChecker(ZFactory zFactory,
                      SectTypeEnv sectTypeEnv,
                      ErrorFactory errorFactory,
                      SectionInfo sectInfo)

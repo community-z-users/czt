@@ -26,11 +26,11 @@ abstract class Checker
   protected static final UResult FAIL = UResult.FAIL;
 
   //the information required for the typechecker classes.
-  protected CheckerInfo info_;
+  protected TypeChecker typeChecker_;
 
-  public Checker(CheckerInfo info)
+  public Checker(TypeChecker typeChecker)
   {
-    info_ = info;
+    typeChecker_ = typeChecker;
   }
 
   /**
@@ -415,104 +415,105 @@ abstract class Checker
   //a Factory for creating Z terms
   protected Factory factory()
   {
-    return info_.factory_;
+    return typeChecker_.factory_;
   }
 
   //the SectTypeEnv for all parent specifications
   protected SectTypeEnv sectTypeEnv()
   {
-    return info_.sectTypeEnv_;
+    return typeChecker_.sectTypeEnv_;
   }
 
   //the TypeEnv for local variable scopes
   protected TypeEnv typeEnv()
   {
-    return info_.typeEnv_;
+    return typeChecker_.typeEnv_;
   }
 
   //the TypeEnv for pending global declarations
   protected TypeEnv pending()
   {
-    return info_.pending_;
+    return typeChecker_.pending_;
   }
 
   //the UnificationEnv for recording unified generic types
   protected UnificationEnv unificationEnv()
   {
-    return info_.unificationEnv_;
+    return typeChecker_.unificationEnv_;
   }
 
   //a section manager
   protected SectionInfo sectInfo()
   {
-    return info_.sectInfo_;
+    return typeChecker_.sectInfo_;
   }
 
   //the factory for creating error messages
   protected ErrorFactory errorFactory()
   {
-    return info_.errorFactory_;
+    return typeChecker_.errorFactory_;
   }
 
   //the current section name
   protected String sectName()
   {
-    return info_.sectName_.toString();
+    return typeChecker_.sectName_.toString();
   }
 
   //set the current section name
   protected void sectName(String sectName)
   {
-    info_.sectName_.replace(0, info_.sectName_.length(), sectName);
+    typeChecker_.sectName_.replace(0, typeChecker_.sectName_.length(),
+                                   sectName);
   }
 
   //the list of errors thrown by retrieving type info
   protected List errors()
   {
-    return info_.errors_;
+    return typeChecker_.errors_;
   }
 
   //the logger instance
   protected Logger logger()
   {
-    return info_.logger_;
+    return typeChecker_.logger_;
   }
 
   //the visitors used to typechecker a spec
   protected SpecChecker specChecker()
   {
-    return info_.specChecker_;
+    return typeChecker_.specChecker_;
   }
 
   protected ParaChecker paraChecker()
   {
-    return info_.paraChecker_;
+    return typeChecker_.paraChecker_;
   }
 
   protected DeclChecker declChecker()
   {
-    return info_.declChecker_;
+    return typeChecker_.declChecker_;
   }
 
   protected ExprChecker exprChecker()
   {
-    return info_.exprChecker_;
+    return typeChecker_.exprChecker_;
   }
 
   protected PredChecker predChecker()
   {
-    return info_.predChecker_;
+    return typeChecker_.predChecker_;
   }
 
   protected PostChecker postChecker()
   {
-    return info_.postChecker_;
+    return typeChecker_.postChecker_;
   }
 
   //print debuging info
   protected boolean debug()
   {
-    return info_.debug_;
+    return typeChecker_.debug_;
   }
 
   protected void debug(String message)

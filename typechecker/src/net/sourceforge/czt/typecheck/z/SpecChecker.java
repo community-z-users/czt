@@ -20,9 +20,9 @@ class SpecChecker
              ParentVisitor,
              SectVisitor
 {
-  public SpecChecker(CheckerInfo info)
+  public SpecChecker(TypeChecker typeChecker)
   {
-    super(info);
+    super(typeChecker);
   }
 
   public Object visitSpec(Spec spec)
