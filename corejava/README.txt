@@ -36,12 +36,12 @@ If you don't have one of these installed on your system,
 you must download and install it to compile and run the software.
 
 Make sure that ant is in your search path, and set the property
-jwsdp.home in the file build.properties to the home directory of your
-JWSDP installation.
+jwsdp.home in the file '<CZT_HOME>/czt.properties' to the home
+directory of your JWSDP installation.
 
 Compile
 *******
-Customise the czt properties contained in '../czt.properties',
+Customise the czt properties contained in '<CZT_HOME>/czt.properties',
 change to the directory where this file is in, and call ant.  By
 default, ant will build the jar files and the API documentation
 located in doc/api.
