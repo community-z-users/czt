@@ -229,8 +229,8 @@
 			<xs:complexContent>
 				<xs:extension base="Z:Expr1">
 					<xs:sequence maxOccurs="unbounded">
-						<xs:element name="NewName" type="Z:DeclName"/>
 						<xs:element name="OldName" type="Z:RefName"/>
+						<xs:element name="NewName" type="Z:DeclName"/>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
