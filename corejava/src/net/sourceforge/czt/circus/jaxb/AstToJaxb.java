@@ -314,12 +314,12 @@ public class AstToJaxb
     ExtChoiceProc jaxbObject = null;
     try {
       jaxbObject = objectFactory_.createExtChoiceProc();
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getLeftProc() != null) {
         Term term = zedObject.getLeftProc();
         jaxbObject.setLeftProc((ProcDef) term.accept(this));
       }
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getRightProc() != null) {
         Term term = zedObject.getRightProc();
         jaxbObject.setRightProc((ProcDef) term.accept(this));
@@ -364,22 +364,22 @@ public class AstToJaxb
       if (!createElement_) {
         jaxbObject = objectFactory_.createParallelCompAction();
       }
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getLeftAction() != null) {
         Term term = zedObject.getLeftAction();
         jaxbObject.setLeftAction((ActionDef) term.accept(this));
       }
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getRightAction() != null) {
         Term term = zedObject.getRightAction();
         jaxbObject.setRightAction((ActionDef) term.accept(this));
       }
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getLeftNS() != null) {
         Term term = zedObject.getLeftNS();
         jaxbObject.setLeftNS((NSExpr) term.accept(this));
       }
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getRightNS() != null) {
         Term term = zedObject.getRightNS();
         jaxbObject.setRightNS((NSExpr) term.accept(this));
@@ -1689,12 +1689,12 @@ public class AstToJaxb
     InterleaveProc jaxbObject = null;
     try {
       jaxbObject = objectFactory_.createInterleaveProc();
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getLeftProc() != null) {
         Term term = zedObject.getLeftProc();
         jaxbObject.setLeftProc((ProcDef) term.accept(this));
       }
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getRightProc() != null) {
         Term term = zedObject.getRightProc();
         jaxbObject.setRightProc((ProcDef) term.accept(this));
@@ -1739,12 +1739,12 @@ public class AstToJaxb
       if (!createElement_) {
         jaxbObject = objectFactory_.createParallelCompProc();
       }
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getLeftProc() != null) {
         Term term = zedObject.getLeftProc();
         jaxbObject.setLeftProc((ProcDef) term.accept(this));
       }
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getRightProc() != null) {
         Term term = zedObject.getRightProc();
         jaxbObject.setRightProc((ProcDef) term.accept(this));
@@ -1791,12 +1791,12 @@ public class AstToJaxb
     SeqCompAction jaxbObject = null;
     try {
       jaxbObject = objectFactory_.createSeqCompAction();
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getLeftAction() != null) {
         Term term = zedObject.getLeftAction();
         jaxbObject.setLeftAction((ActionDef) term.accept(this));
       }
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getRightAction() != null) {
         Term term = zedObject.getRightAction();
         jaxbObject.setRightAction((ActionDef) term.accept(this));
@@ -2032,12 +2032,12 @@ public class AstToJaxb
     IntChoiceAction jaxbObject = null;
     try {
       jaxbObject = objectFactory_.createIntChoiceAction();
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getLeftAction() != null) {
         Term term = zedObject.getLeftAction();
         jaxbObject.setLeftAction((ActionDef) term.accept(this));
       }
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getRightAction() != null) {
         Term term = zedObject.getRightAction();
         jaxbObject.setRightAction((ActionDef) term.accept(this));
@@ -2134,22 +2134,22 @@ public class AstToJaxb
     InterleaveAction jaxbObject = null;
     try {
       jaxbObject = objectFactory_.createInterleaveAction();
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getLeftAction() != null) {
         Term term = zedObject.getLeftAction();
         jaxbObject.setLeftAction((ActionDef) term.accept(this));
       }
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getRightAction() != null) {
         Term term = zedObject.getRightAction();
         jaxbObject.setRightAction((ActionDef) term.accept(this));
       }
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getLeftNS() != null) {
         Term term = zedObject.getLeftNS();
         jaxbObject.setLeftNS((NSExpr) term.accept(this));
       }
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getRightNS() != null) {
         Term term = zedObject.getRightNS();
         jaxbObject.setRightNS((NSExpr) term.accept(this));
@@ -2334,12 +2334,12 @@ public class AstToJaxb
         Term term = zedObject.getVarDecl();
         jaxbObject.setVarDecl((VarDecl) term.accept(this));
       }
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getLeftNS() != null) {
         Term term = zedObject.getLeftNS();
         jaxbObject.setLeftNS((NSExpr) term.accept(this));
       }
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getRightNS() != null) {
         Term term = zedObject.getRightNS();
         jaxbObject.setRightNS((NSExpr) term.accept(this));
@@ -2537,12 +2537,12 @@ public class AstToJaxb
     IntChoiceProc jaxbObject = null;
     try {
       jaxbObject = objectFactory_.createIntChoiceProc();
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getLeftProc() != null) {
         Term term = zedObject.getLeftProc();
         jaxbObject.setLeftProc((ProcDef) term.accept(this));
       }
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getRightProc() != null) {
         Term term = zedObject.getRightProc();
         jaxbObject.setRightProc((ProcDef) term.accept(this));
@@ -2597,12 +2597,12 @@ public class AstToJaxb
         Term term = zedObject.getVarDecl();
         jaxbObject.setVarDecl((VarDecl) term.accept(this));
       }
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getLeftNS() != null) {
         Term term = zedObject.getLeftNS();
         jaxbObject.setLeftNS((NSExpr) term.accept(this));
       }
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getRightNS() != null) {
         Term term = zedObject.getRightNS();
         jaxbObject.setRightNS((NSExpr) term.accept(this));
@@ -2686,12 +2686,12 @@ public class AstToJaxb
     ExtChoiceAction jaxbObject = null;
     try {
       jaxbObject = objectFactory_.createExtChoiceAction();
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getLeftAction() != null) {
         Term term = zedObject.getLeftAction();
         jaxbObject.setLeftAction((ActionDef) term.accept(this));
       }
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getRightAction() != null) {
         Term term = zedObject.getRightAction();
         jaxbObject.setRightAction((ActionDef) term.accept(this));
@@ -2894,12 +2894,12 @@ public class AstToJaxb
     SeqCompProc jaxbObject = null;
     try {
       jaxbObject = objectFactory_.createSeqCompProc();
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getLeftProc() != null) {
         Term term = zedObject.getLeftProc();
         jaxbObject.setLeftProc((ProcDef) term.accept(this));
       }
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getRightProc() != null) {
         Term term = zedObject.getRightProc();
         jaxbObject.setRightProc((ProcDef) term.accept(this));
