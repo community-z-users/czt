@@ -38,7 +38,6 @@ import net.sourceforge.czt.base.util.AstValidator;
 import net.sourceforge.czt.base.util.XmlWriter;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.parser.util.OpTable;
-import net.sourceforge.czt.parser.util.ParentNotFoundException;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.Key;
@@ -152,7 +151,7 @@ public class <class/>
   }
 
   public Term parse()
-    throws ParseException, ParentNotFoundException
+    throws ParseException
   {
     try {
       final Symbol parseTree = parser_.parse();
@@ -160,9 +159,6 @@ public class <class/>
       return term;
     }
     catch (ParseException e) {
-      throw e;
-    }
-    catch (ParentNotFoundException e) {
       throw e;
     }
     catch (RuntimeException e) {

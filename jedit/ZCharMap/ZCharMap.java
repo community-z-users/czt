@@ -486,11 +486,6 @@ public class ZCharMap extends JPanel
       CztLogger.getLogger(ZCharMap.class).warning(message);
       addError(mView.getBuffer().getPath(), 0, 0, 0 , message);
     }
-    catch (ParentNotFoundException exception) {
-      String message = "Cannot find parent: " + exception.getMessage();
-      CztLogger.getLogger(ZCharMap.class).warning(message);
-      addError(mView.getBuffer().getPath(), 0, 0, 0 , message);
-    }
     return null;
   }
 
@@ -523,7 +518,7 @@ public class ZCharMap extends JPanel
   }
 
   private Term parse(Buffer buffer, SectionManager manager)
-    throws IOException, ParseException, ParentNotFoundException
+    throws IOException, ParseException
   {
     final String filename = buffer.getPath();
     final Source source = new FileSource(filename);
