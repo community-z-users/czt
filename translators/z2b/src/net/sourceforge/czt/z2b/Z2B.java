@@ -62,6 +62,8 @@ public class Z2B
 
   private BMachine mach_ = null;
 
+  private FreeVarChecker freevarChecker = new FreeVarChecker();
+
   private static final Logger sLogger
     = Logger.getLogger("net.sourceforge.czt.z2b");
 
@@ -174,7 +176,11 @@ public class Z2B
     declareVars(primed, new ArrayList(), op.getPost());
     // TODO: split the predicate parts into pre and post
     Pred post = ((SchExpr)schema.getExpr()).getSchText().getPred();
-    addPred(post, op.getPost());
+    List prePreds = new ArrayList();
+    List postPreds = new ArrayList();
+    splitPrePost(post, prePreds, postPreds);
+    addPreds(prePreds, op.getPre());
+    addPreds(postPreds, op.getPost());
     return op;
   }
 
@@ -214,6 +220,39 @@ public class Z2B
     }
   }
 
+  /** Apply addPred to a LIST of predicates */
+  protected void addPreds(List inpreds, List preds) {
+    Iterator i = inpreds.iterator();
+    while (i.hasNext()) {
+      Pred p = (Pred)i.next();
+      addPred(p, preds);
+    }
+  }
+
+  /** Split a complex postcondition predicate into pre/post lists.
+      This currently uses a very simplistic algorithm.
+      It splits post into conjuncts and puts all conjuncts that 
+      do not involve primed or output variables into 'pre', and
+      all remaining conjuncts into 'post'.  This is not always
+      correct, since some conjuncts that involve primes/outputs
+      may add implicit constraints on inputs.
+
+      TODO: improve the algorithm further.
+   */
+  protected void splitPrePost(Pred pred, List pre, List post)
+  {
+    if (pred instanceof AndPred) {
+      AndPred and = (AndPred)pred;
+      splitPrePost(and.getLeftPred(), pre, post);
+      splitPrePost(and.getRightPred(), pre, post);
+    }
+    else {
+      if (freevarChecker.containsPrimesOrOutputs(pred))
+	post.add(pred);
+      else
+	pre.add(pred);
+    }
+  }
 
   //==================== Visitor Methods for Paragraphs ==================
 
