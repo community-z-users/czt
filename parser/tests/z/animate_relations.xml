@@ -66,6 +66,9 @@ the constant undefnum should have an undefined left-hand-side.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_relations.tex" Line="23" Col="27"/>
+                </Anns>
                 <TupleExpr>
                     <NumExpr Value="1">
                         <Anns>
@@ -106,6 +109,9 @@ the constant undefnum should have an undefined left-hand-side.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_relations.tex" Line="24" Col="27"/>
+                </Anns>
                 <TupleExpr>
                     <NumExpr Value="1">
                         <Anns>
@@ -163,6 +169,9 @@ the constant undefnum should have an undefined left-hand-side.
                             </ApplExpr>
                         </VarDecl>
                         <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Loc="tests/z/animate_relations.tex" Line="24" Col="54"/>
+                            </Anns>
                             <TupleExpr>
                                 <RefExpr Mixfix="false">
                                     <Anns>
@@ -230,6 +239,9 @@ the constant undefnum should have an undefined left-hand-side.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_relations.tex" Line="25" Col="27"/>
+                </Anns>
                 <TupleExpr>
                     <TupleExpr>
                         <NumExpr Value="1">
@@ -288,6 +300,9 @@ the constant undefnum should have an undefined left-hand-side.
                                 </ApplExpr>
                             </VarDecl>
                             <MemPred Mixfix="true">
+                                <Anns>
+                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="25" Col="57"/>
+                                </Anns>
                                 <TupleExpr>
                                     <RefExpr Mixfix="false">
                                         <Anns>
@@ -361,6 +376,9 @@ the constant undefnum should have an undefined left-hand-side.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_relations.tex" Line="26" Col="27"/>
+                </Anns>
                 <ApplExpr Mixfix="true">
                     <Anns>
                         <LocAnn Loc="tests/z/animate_relations.tex" Line="26" Col="23"/>
@@ -386,6 +404,7 @@ the constant undefnum should have an undefined left-hand-side.
                 </ApplExpr>
                 <ApplExpr Mixfix="false">
                     <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="26" Col="72"/>
                         <ParenAnn/>
                     </Anns>
                     <RefExpr Mixfix="false">
@@ -444,6 +463,9 @@ the constant undefnum should have an undefined left-hand-side.
                                 </ApplExpr>
                             </VarDecl>
                             <MemPred Mixfix="true">
+                                <Anns>
+                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="26" Col="60"/>
+                                </Anns>
                                 <TupleExpr>
                                     <RefExpr Mixfix="false">
                                         <Anns>
@@ -512,8 +534,12 @@ the constant undefnum should have an undefined left-hand-side.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_relations.tex" Line="27" Col="40"/>
+                </Anns>
                 <ApplExpr Mixfix="false">
                     <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="27" Col="37"/>
                         <ParenAnn/>
                     </Anns>
                     <RefExpr Mixfix="false">
@@ -592,6 +618,9 @@ the constant undefnum should have an undefined left-hand-side.
                             </ApplExpr>
                         </VarDecl>
                         <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Loc="tests/z/animate_relations.tex" Line="27" Col="67"/>
+                            </Anns>
                             <TupleExpr>
                                 <RefExpr Mixfix="false">
                                     <Anns>
@@ -659,8 +688,12 @@ the constant undefnum should have an undefined left-hand-side.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_relations.tex" Line="28" Col="41"/>
+                </Anns>
                 <ApplExpr Mixfix="false">
                     <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="28" Col="38"/>
                         <ParenAnn/>
                     </Anns>
                     <RefExpr Mixfix="false">
@@ -739,6 +772,9 @@ the constant undefnum should have an undefined left-hand-side.
                             </ApplExpr>
                         </VarDecl>
                         <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Loc="tests/z/animate_relations.tex" Line="28" Col="68"/>
+                            </Anns>
                             <TupleExpr>
                                 <RefExpr Mixfix="false">
                                     <Anns>
@@ -806,6 +842,9 @@ the constant undefnum should have an undefined left-hand-side.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_relations.tex" Line="29" Col="27"/>
+                </Anns>
                 <TupleExpr>
                     <NumExpr Value="1">
                         <Anns>
@@ -874,6 +913,9 @@ the constant undefnum should have an undefined left-hand-side.
                                     </ApplExpr>
                                 </VarDecl>
                                 <MemPred Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Loc="tests/z/animate_relations.tex" Line="29" Col="58"/>
+                                    </Anns>
                                     <TupleExpr>
                                         <RefExpr Mixfix="false">
                                             <Anns>
@@ -954,6 +996,9 @@ the constant undefnum should have an undefined left-hand-side.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_relations.tex" Line="30" Col="27"/>
+                </Anns>
                 <TupleExpr>
                     <TupleExpr>
                         <NumExpr Value="0">
@@ -1023,6 +1068,9 @@ the constant undefnum should have an undefined left-hand-side.
                                         </ApplExpr>
                                     </VarDecl>
                                     <MemPred Mixfix="true">
+                                        <Anns>
+                                            <LocAnn Loc="tests/z/animate_relations.tex" Line="30" Col="58"/>
+                                        </Anns>
                                         <TupleExpr>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
@@ -1115,6 +1163,9 @@ the constant undefnum should have an undefined left-hand-side.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_relations.tex" Line="31" Col="27"/>
+                </Anns>
                 <TupleExpr>
                     <TupleExpr>
                         <NumExpr Value="1">
@@ -1232,6 +1283,9 @@ the constant undefnum should have an undefined left-hand-side.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_relations.tex" Line="32" Col="27"/>
+                </Anns>
                 <TupleExpr>
                     <NumExpr Value="1">
                         <Anns>
@@ -1272,6 +1326,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="35" Col="35"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="35" Col="33"/>
+                    </Anns>
                     <SetExpr>
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="35" Col="21"/>
@@ -1317,6 +1374,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="36" Col="47"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="36" Col="45"/>
+                    </Anns>
                     <SetExpr>
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="36" Col="21"/>
@@ -1386,6 +1446,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="37" Col="30"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="37" Col="28"/>
+                    </Anns>
                     <SetExpr>
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="37" Col="21"/>
@@ -1425,6 +1488,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="38" Col="35"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="38" Col="33"/>
+                    </Anns>
                     <SetExpr>
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="38" Col="21"/>
@@ -1476,6 +1542,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="39" Col="41"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="39" Col="39"/>
+                    </Anns>
                     <SetExpr>
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="39" Col="21"/>
@@ -1539,6 +1608,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="40" Col="53"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="40" Col="51"/>
+                    </Anns>
                     <SetExpr>
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="40" Col="21"/>
@@ -1626,6 +1698,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="42" Col="54"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="42" Col="51"/>
+                    </Anns>
                     <SetCompExpr>
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="42" Col="22"/>
@@ -1735,6 +1810,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="43" Col="53"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="43" Col="51"/>
+                    </Anns>
                     <SetCompExpr>
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="43" Col="22"/>
@@ -1844,6 +1922,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="44" Col="52"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="44" Col="50"/>
+                    </Anns>
                     <SetCompExpr>
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="44" Col="21"/>
@@ -1959,6 +2040,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="45" Col="55"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="45" Col="53"/>
+                    </Anns>
                     <LambdaExpr>
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="45" Col="23"/>
@@ -2056,6 +2140,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="46" Col="56"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="46" Col="53"/>
+                    </Anns>
                     <LambdaExpr>
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="46" Col="23"/>
@@ -2153,6 +2240,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="47" Col="54"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="47" Col="52"/>
+                    </Anns>
                     <LambdaExpr>
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="47" Col="22"/>
@@ -2256,6 +2346,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="48" Col="55"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="48" Col="53"/>
+                    </Anns>
                     <ProdExpr>
                         <Anns>
                             <ParenAnn/>
@@ -2322,6 +2415,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="49" Col="56"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="49" Col="53"/>
+                    </Anns>
                     <ProdExpr>
                         <Anns>
                             <ParenAnn/>
@@ -2388,6 +2484,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="50" Col="54"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="50" Col="52"/>
+                    </Anns>
                     <ProdExpr>
                         <Anns>
                             <ParenAnn/>
@@ -2460,6 +2559,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="51" Col="56"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="51" Col="54"/>
+                    </Anns>
                     <ProdExpr>
                         <Anns>
                             <ParenAnn/>
@@ -2540,6 +2642,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="55" Col="36"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="55" Col="26"/>
+                    </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="55" Col="21"/>
@@ -2585,6 +2690,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="56" Col="36"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="56" Col="26"/>
+                    </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="56" Col="21"/>
@@ -2636,6 +2744,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="57" Col="37"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="57" Col="34"/>
+                    </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="57" Col="21"/>
@@ -2692,6 +2803,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="58" Col="58"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="58" Col="55"/>
+                    </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="58" Col="21"/>
@@ -2799,6 +2913,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="59" Col="54"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="59" Col="52"/>
+                    </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="59" Col="21"/>
@@ -2890,6 +3007,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="60" Col="54"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="60" Col="52"/>
+                    </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="60" Col="21"/>
@@ -2971,6 +3091,9 @@ the constant undefnum should have an undefined left-hand-side.
                         <LocAnn Loc="tests/z/animate_relations.tex" Line="61" Col="63"/>
                     </Anns>
                     <ApplExpr Mixfix="false">
+                        <Anns>
+                            <LocAnn Loc="tests/z/animate_relations.tex" Line="61" Col="60"/>
+                        </Anns>
                         <RefExpr Mixfix="false">
                             <Anns>
                                 <LocAnn Loc="tests/z/animate_relations.tex" Line="61" Col="21"/>
@@ -3027,6 +3150,9 @@ the constant undefnum should have an undefined left-hand-side.
                                     </ApplExpr>
                                 </VarDecl>
                                 <MemPred Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Loc="tests/z/animate_relations.tex" Line="61" Col="48"/>
+                                    </Anns>
                                     <TupleExpr>
                                         <RefExpr Mixfix="false">
                                             <Anns>
@@ -3187,6 +3313,9 @@ the constant undefnum should have an undefined left-hand-side.
                         </RefName>
                     </RefExpr>
                     <ProdExpr>
+                        <Anns>
+                            <ParenAnn/>
+                        </Anns>
                         <ApplExpr Mixfix="true">
                             <Anns>
                                 <LocAnn Loc="tests/z/animate_relations.tex" Line="62" Col="29"/>
@@ -3265,12 +3394,18 @@ the constant undefnum should have an undefined left-hand-side.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_relations.tex" Line="63" Col="23"/>
+                </Anns>
                 <NumExpr Value="2">
                     <Anns>
                         <LocAnn Loc="tests/z/animate_relations.tex" Line="63" Col="21"/>
                     </Anns>
                 </NumExpr>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="63" Col="40"/>
+                    </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="63" Col="27"/>
@@ -3305,12 +3440,18 @@ the constant undefnum should have an undefined left-hand-side.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_relations.tex" Line="64" Col="23"/>
+                </Anns>
                 <NumExpr Value="2">
                     <Anns>
                         <LocAnn Loc="tests/z/animate_relations.tex" Line="64" Col="21"/>
                     </Anns>
                 </NumExpr>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="64" Col="51"/>
+                    </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="64" Col="27"/>
@@ -3404,6 +3545,9 @@ the constant undefnum should have an undefined left-hand-side.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_relations.tex" Line="65" Col="23"/>
+                </Anns>
                 <TupleExpr>
                     <NumExpr Value="1">
                         <Anns>
@@ -3411,6 +3555,9 @@ the constant undefnum should have an undefined left-hand-side.
                         </Anns>
                     </NumExpr>
                     <ApplExpr Mixfix="false">
+                        <Anns>
+                            <LocAnn Loc="tests/z/animate_relations.tex" Line="65" Col="54"/>
+                        </Anns>
                         <RefExpr Mixfix="false">
                             <Anns>
                                 <LocAnn Loc="tests/z/animate_relations.tex" Line="65" Col="30"/>
@@ -3516,6 +3663,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="68" Col="36"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="68" Col="26"/>
+                    </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="68" Col="21"/>
@@ -3561,6 +3711,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="69" Col="36"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="69" Col="26"/>
+                    </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="69" Col="21"/>
@@ -3612,6 +3765,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="70" Col="37"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="70" Col="34"/>
+                    </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="70" Col="21"/>
@@ -3668,6 +3824,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="71" Col="58"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="71" Col="55"/>
+                    </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="71" Col="21"/>
@@ -3772,6 +3931,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="72" Col="54"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="72" Col="52"/>
+                    </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="72" Col="21"/>
@@ -3863,6 +4025,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="73" Col="54"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="73" Col="52"/>
+                    </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="73" Col="21"/>
@@ -3943,6 +4108,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="74" Col="63"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="74" Col="60"/>
+                    </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="74" Col="21"/>
@@ -3999,6 +4167,9 @@ the constant undefnum should have an undefined left-hand-side.
                                 </ApplExpr>
                             </VarDecl>
                             <MemPred Mixfix="true">
+                                <Anns>
+                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="74" Col="48"/>
+                                </Anns>
                                 <TupleExpr>
                                     <RefExpr Mixfix="false">
                                         <Anns>
@@ -4104,6 +4275,9 @@ the constant undefnum should have an undefined left-hand-side.
                         </RefName>
                     </RefExpr>
                     <ProdExpr>
+                        <Anns>
+                            <ParenAnn/>
+                        </Anns>
                         <ApplExpr Mixfix="true">
                             <Anns>
                                 <LocAnn Loc="tests/z/animate_relations.tex" Line="75" Col="29"/>
@@ -4182,12 +4356,18 @@ the constant undefnum should have an undefined left-hand-side.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_relations.tex" Line="76" Col="23"/>
+                </Anns>
                 <NumExpr Value="2">
                     <Anns>
                         <LocAnn Loc="tests/z/animate_relations.tex" Line="76" Col="21"/>
                     </Anns>
                 </NumExpr>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="76" Col="40"/>
+                    </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="76" Col="27"/>
@@ -4222,6 +4402,9 @@ the constant undefnum should have an undefined left-hand-side.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_relations.tex" Line="77" Col="31"/>
+                </Anns>
                 <ApplExpr Mixfix="true">
                     <Anns>
                         <LocAnn Loc="tests/z/animate_relations.tex" Line="77" Col="21"/>
@@ -4238,6 +4421,9 @@ the constant undefnum should have an undefined left-hand-side.
                     </NumExpr>
                 </ApplExpr>
                 <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="77" Col="59"/>
+                    </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
                             <LocAnn Loc="tests/z/animate_relations.tex" Line="77" Col="35"/>
@@ -4331,6 +4517,9 @@ the constant undefnum should have an undefined left-hand-side.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_relations.tex" Line="78" Col="31"/>
+                </Anns>
                 <TupleExpr>
                     <ApplExpr Mixfix="true">
                         <Anns>
@@ -4348,6 +4537,9 @@ the constant undefnum should have an undefined left-hand-side.
                         </NumExpr>
                     </ApplExpr>
                     <ApplExpr Mixfix="false">
+                        <Anns>
+                            <LocAnn Loc="tests/z/animate_relations.tex" Line="78" Col="62"/>
+                        </Anns>
                         <RefExpr Mixfix="false">
                             <Anns>
                                 <LocAnn Loc="tests/z/animate_relations.tex" Line="78" Col="38"/>
@@ -5573,6 +5765,9 @@ the constant undefnum should have an undefined left-hand-side.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_relations.tex" Line="98" Col="27"/>
+                </Anns>
                 <TupleExpr>
                     <NumExpr Value="2">
                         <Anns>
@@ -5678,6 +5873,9 @@ the constant undefnum should have an undefined left-hand-side.
                                 </ApplExpr>
                             </VarDecl>
                             <MemPred Mixfix="true">
+                                <Anns>
+                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="102" Col="25"/>
+                                </Anns>
                                 <TupleExpr>
                                     <RefExpr Mixfix="false">
                                         <Anns>
@@ -9681,13 +9879,11 @@ the constant undefnum should have an undefined left-hand-side.
                 <Anns>
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="156" Col="21"/>
                 </Anns>
-                <TupleExpr>
-                    <SetExpr>
-                        <Anns>
-                            <LocAnn Loc="tests/z/animate_relations.tex" Line="156" Col="31"/>
-                        </Anns>
-                    </SetExpr>
-                </TupleExpr>
+                <SetExpr>
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="156" Col="31"/>
+                    </Anns>
+                </SetExpr>
                 <RefExpr Mixfix="false">
                     <RefName>
                         <Word>disjoint _ </Word>
@@ -9707,67 +9903,65 @@ the constant undefnum should have an undefined left-hand-side.
                 <Anns>
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="157" Col="21"/>
                 </Anns>
-                <TupleExpr>
-                    <SetExpr>
-                        <Anns>
-                            <LocAnn Loc="tests/z/animate_relations.tex" Line="157" Col="31"/>
-                        </Anns>
-                        <TupleExpr>
+                <SetExpr>
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="157" Col="31"/>
+                    </Anns>
+                    <TupleExpr>
+                        <NumExpr Value="1">
+                            <Anns>
+                                <LocAnn Loc="tests/z/animate_relations.tex" Line="157" Col="35"/>
+                            </Anns>
+                        </NumExpr>
+                        <SetExpr>
+                            <Anns>
+                                <LocAnn Loc="tests/z/animate_relations.tex" Line="157" Col="37"/>
+                            </Anns>
                             <NumExpr Value="1">
                                 <Anns>
-                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="157" Col="35"/>
+                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="157" Col="39"/>
                                 </Anns>
                             </NumExpr>
-                            <SetExpr>
-                                <Anns>
-                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="157" Col="37"/>
-                                </Anns>
-                                <NumExpr Value="1">
-                                    <Anns>
-                                        <LocAnn Loc="tests/z/animate_relations.tex" Line="157" Col="39"/>
-                                    </Anns>
-                                </NumExpr>
-                                <NumExpr Value="3">
-                                    <Anns>
-                                        <LocAnn Loc="tests/z/animate_relations.tex" Line="157" Col="41"/>
-                                    </Anns>
-                                </NumExpr>
-                                <NumExpr Value="5">
-                                    <Anns>
-                                        <LocAnn Loc="tests/z/animate_relations.tex" Line="157" Col="43"/>
-                                    </Anns>
-                                </NumExpr>
-                            </SetExpr>
-                        </TupleExpr>
-                        <TupleExpr>
                             <NumExpr Value="3">
                                 <Anns>
-                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="157" Col="50"/>
+                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="157" Col="41"/>
                                 </Anns>
                             </NumExpr>
-                            <SetExpr>
+                            <NumExpr Value="5">
                                 <Anns>
-                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="157" Col="52"/>
+                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="157" Col="43"/>
                                 </Anns>
-                                <NumExpr Value="2">
-                                    <Anns>
-                                        <LocAnn Loc="tests/z/animate_relations.tex" Line="157" Col="54"/>
-                                    </Anns>
-                                </NumExpr>
-                                <NumExpr Value="4">
-                                    <Anns>
-                                        <LocAnn Loc="tests/z/animate_relations.tex" Line="157" Col="56"/>
-                                    </Anns>
-                                </NumExpr>
-                                <NumExpr Value="6">
-                                    <Anns>
-                                        <LocAnn Loc="tests/z/animate_relations.tex" Line="157" Col="58"/>
-                                    </Anns>
-                                </NumExpr>
-                            </SetExpr>
-                        </TupleExpr>
-                    </SetExpr>
-                </TupleExpr>
+                            </NumExpr>
+                        </SetExpr>
+                    </TupleExpr>
+                    <TupleExpr>
+                        <NumExpr Value="3">
+                            <Anns>
+                                <LocAnn Loc="tests/z/animate_relations.tex" Line="157" Col="50"/>
+                            </Anns>
+                        </NumExpr>
+                        <SetExpr>
+                            <Anns>
+                                <LocAnn Loc="tests/z/animate_relations.tex" Line="157" Col="52"/>
+                            </Anns>
+                            <NumExpr Value="2">
+                                <Anns>
+                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="157" Col="54"/>
+                                </Anns>
+                            </NumExpr>
+                            <NumExpr Value="4">
+                                <Anns>
+                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="157" Col="56"/>
+                                </Anns>
+                            </NumExpr>
+                            <NumExpr Value="6">
+                                <Anns>
+                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="157" Col="58"/>
+                                </Anns>
+                            </NumExpr>
+                        </SetExpr>
+                    </TupleExpr>
+                </SetExpr>
                 <RefExpr Mixfix="false">
                     <RefName>
                         <Word>disjoint _ </Word>
@@ -9787,79 +9981,77 @@ the constant undefnum should have an undefined left-hand-side.
                 <Anns>
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="158" Col="21"/>
                 </Anns>
-                <TupleExpr>
-                    <SetExpr>
-                        <Anns>
-                            <LocAnn Loc="tests/z/animate_relations.tex" Line="158" Col="31"/>
-                        </Anns>
-                        <TupleExpr>
+                <SetExpr>
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="158" Col="31"/>
+                    </Anns>
+                    <TupleExpr>
+                        <NumExpr Value="1">
+                            <Anns>
+                                <LocAnn Loc="tests/z/animate_relations.tex" Line="158" Col="35"/>
+                            </Anns>
+                        </NumExpr>
+                        <SetExpr>
+                            <Anns>
+                                <LocAnn Loc="tests/z/animate_relations.tex" Line="158" Col="37"/>
+                            </Anns>
                             <NumExpr Value="1">
                                 <Anns>
-                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="158" Col="35"/>
+                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="158" Col="39"/>
                                 </Anns>
                             </NumExpr>
-                            <SetExpr>
-                                <Anns>
-                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="158" Col="37"/>
-                                </Anns>
-                                <NumExpr Value="1">
-                                    <Anns>
-                                        <LocAnn Loc="tests/z/animate_relations.tex" Line="158" Col="39"/>
-                                    </Anns>
-                                </NumExpr>
-                                <NumExpr Value="3">
-                                    <Anns>
-                                        <LocAnn Loc="tests/z/animate_relations.tex" Line="158" Col="41"/>
-                                    </Anns>
-                                </NumExpr>
-                                <NumExpr Value="5">
-                                    <Anns>
-                                        <LocAnn Loc="tests/z/animate_relations.tex" Line="158" Col="43"/>
-                                    </Anns>
-                                </NumExpr>
-                            </SetExpr>
-                        </TupleExpr>
-                        <TupleExpr>
                             <NumExpr Value="3">
                                 <Anns>
-                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="158" Col="50"/>
+                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="158" Col="41"/>
                                 </Anns>
                             </NumExpr>
-                            <SetExpr>
-                                <Anns>
-                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="158" Col="52"/>
-                                </Anns>
-                                <NumExpr Value="2">
-                                    <Anns>
-                                        <LocAnn Loc="tests/z/animate_relations.tex" Line="158" Col="54"/>
-                                    </Anns>
-                                </NumExpr>
-                                <NumExpr Value="4">
-                                    <Anns>
-                                        <LocAnn Loc="tests/z/animate_relations.tex" Line="158" Col="56"/>
-                                    </Anns>
-                                </NumExpr>
-                                <NumExpr Value="6">
-                                    <Anns>
-                                        <LocAnn Loc="tests/z/animate_relations.tex" Line="158" Col="58"/>
-                                    </Anns>
-                                </NumExpr>
-                            </SetExpr>
-                        </TupleExpr>
-                        <TupleExpr>
                             <NumExpr Value="5">
                                 <Anns>
-                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="158" Col="65"/>
+                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="158" Col="43"/>
                                 </Anns>
                             </NumExpr>
-                            <SetExpr>
+                        </SetExpr>
+                    </TupleExpr>
+                    <TupleExpr>
+                        <NumExpr Value="3">
+                            <Anns>
+                                <LocAnn Loc="tests/z/animate_relations.tex" Line="158" Col="50"/>
+                            </Anns>
+                        </NumExpr>
+                        <SetExpr>
+                            <Anns>
+                                <LocAnn Loc="tests/z/animate_relations.tex" Line="158" Col="52"/>
+                            </Anns>
+                            <NumExpr Value="2">
                                 <Anns>
-                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="158" Col="67"/>
+                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="158" Col="54"/>
                                 </Anns>
-                            </SetExpr>
-                        </TupleExpr>
-                    </SetExpr>
-                </TupleExpr>
+                            </NumExpr>
+                            <NumExpr Value="4">
+                                <Anns>
+                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="158" Col="56"/>
+                                </Anns>
+                            </NumExpr>
+                            <NumExpr Value="6">
+                                <Anns>
+                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="158" Col="58"/>
+                                </Anns>
+                            </NumExpr>
+                        </SetExpr>
+                    </TupleExpr>
+                    <TupleExpr>
+                        <NumExpr Value="5">
+                            <Anns>
+                                <LocAnn Loc="tests/z/animate_relations.tex" Line="158" Col="65"/>
+                            </Anns>
+                        </NumExpr>
+                        <SetExpr>
+                            <Anns>
+                                <LocAnn Loc="tests/z/animate_relations.tex" Line="158" Col="67"/>
+                            </Anns>
+                        </SetExpr>
+                    </TupleExpr>
+                </SetExpr>
                 <RefExpr Mixfix="false">
                     <RefName>
                         <Word>disjoint _ </Word>
@@ -9884,67 +10076,65 @@ the constant undefnum should have an undefined left-hand-side.
                         <LocAnn Loc="tests/z/animate_relations.tex" Line="159" Col="28"/>
                         <ParenAnn/>
                     </Anns>
-                    <TupleExpr>
-                        <SetExpr>
-                            <Anns>
-                                <LocAnn Loc="tests/z/animate_relations.tex" Line="159" Col="38"/>
-                            </Anns>
-                            <TupleExpr>
+                    <SetExpr>
+                        <Anns>
+                            <LocAnn Loc="tests/z/animate_relations.tex" Line="159" Col="38"/>
+                        </Anns>
+                        <TupleExpr>
+                            <NumExpr Value="1">
+                                <Anns>
+                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="159" Col="42"/>
+                                </Anns>
+                            </NumExpr>
+                            <SetExpr>
+                                <Anns>
+                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="159" Col="44"/>
+                                </Anns>
                                 <NumExpr Value="1">
                                     <Anns>
-                                        <LocAnn Loc="tests/z/animate_relations.tex" Line="159" Col="42"/>
+                                        <LocAnn Loc="tests/z/animate_relations.tex" Line="159" Col="46"/>
                                     </Anns>
                                 </NumExpr>
-                                <SetExpr>
-                                    <Anns>
-                                        <LocAnn Loc="tests/z/animate_relations.tex" Line="159" Col="44"/>
-                                    </Anns>
-                                    <NumExpr Value="1">
-                                        <Anns>
-                                            <LocAnn Loc="tests/z/animate_relations.tex" Line="159" Col="46"/>
-                                        </Anns>
-                                    </NumExpr>
-                                    <NumExpr Value="3">
-                                        <Anns>
-                                            <LocAnn Loc="tests/z/animate_relations.tex" Line="159" Col="48"/>
-                                        </Anns>
-                                    </NumExpr>
-                                    <NumExpr Value="5">
-                                        <Anns>
-                                            <LocAnn Loc="tests/z/animate_relations.tex" Line="159" Col="50"/>
-                                        </Anns>
-                                    </NumExpr>
-                                </SetExpr>
-                            </TupleExpr>
-                            <TupleExpr>
                                 <NumExpr Value="3">
                                     <Anns>
-                                        <LocAnn Loc="tests/z/animate_relations.tex" Line="159" Col="57"/>
+                                        <LocAnn Loc="tests/z/animate_relations.tex" Line="159" Col="48"/>
                                     </Anns>
                                 </NumExpr>
-                                <SetExpr>
+                                <NumExpr Value="5">
                                     <Anns>
-                                        <LocAnn Loc="tests/z/animate_relations.tex" Line="159" Col="59"/>
+                                        <LocAnn Loc="tests/z/animate_relations.tex" Line="159" Col="50"/>
                                     </Anns>
-                                    <NumExpr Value="2">
-                                        <Anns>
-                                            <LocAnn Loc="tests/z/animate_relations.tex" Line="159" Col="61"/>
-                                        </Anns>
-                                    </NumExpr>
-                                    <NumExpr Value="4">
-                                        <Anns>
-                                            <LocAnn Loc="tests/z/animate_relations.tex" Line="159" Col="63"/>
-                                        </Anns>
-                                    </NumExpr>
-                                    <NumExpr Value="5">
-                                        <Anns>
-                                            <LocAnn Loc="tests/z/animate_relations.tex" Line="159" Col="65"/>
-                                        </Anns>
-                                    </NumExpr>
-                                </SetExpr>
-                            </TupleExpr>
-                        </SetExpr>
-                    </TupleExpr>
+                                </NumExpr>
+                            </SetExpr>
+                        </TupleExpr>
+                        <TupleExpr>
+                            <NumExpr Value="3">
+                                <Anns>
+                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="159" Col="57"/>
+                                </Anns>
+                            </NumExpr>
+                            <SetExpr>
+                                <Anns>
+                                    <LocAnn Loc="tests/z/animate_relations.tex" Line="159" Col="59"/>
+                                </Anns>
+                                <NumExpr Value="2">
+                                    <Anns>
+                                        <LocAnn Loc="tests/z/animate_relations.tex" Line="159" Col="61"/>
+                                    </Anns>
+                                </NumExpr>
+                                <NumExpr Value="4">
+                                    <Anns>
+                                        <LocAnn Loc="tests/z/animate_relations.tex" Line="159" Col="63"/>
+                                    </Anns>
+                                </NumExpr>
+                                <NumExpr Value="5">
+                                    <Anns>
+                                        <LocAnn Loc="tests/z/animate_relations.tex" Line="159" Col="65"/>
+                                    </Anns>
+                                </NumExpr>
+                            </SetExpr>
+                        </TupleExpr>
+                    </SetExpr>
                     <RefExpr Mixfix="false">
                         <RefName>
                             <Word>disjoint _ </Word>
@@ -9963,6 +10153,9 @@ the constant undefnum should have an undefined left-hand-side.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_relations.tex" Line="161" Col="26"/>
+                </Anns>
                 <TupleExpr>
                     <SetExpr>
                         <Anns>
@@ -9995,6 +10188,9 @@ the constant undefnum should have an undefined left-hand-side.
                     <LocAnn Loc="tests/z/animate_relations.tex" Line="162" Col="21"/>
                 </Anns>
                 <MemPred Mixfix="true">
+                    <Anns>
+                        <LocAnn Loc="tests/z/animate_relations.tex" Line="162" Col="32"/>
+                    </Anns>
                     <TupleExpr>
                         <SetExpr>
                             <Anns>
@@ -10029,6 +10225,9 @@ the constant undefnum should have an undefined left-hand-side.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_relations.tex" Line="163" Col="41"/>
+                </Anns>
                 <TupleExpr>
                     <SetExpr>
                         <Anns>
@@ -10129,6 +10328,9 @@ the constant undefnum should have an undefined left-hand-side.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_relations.tex" Line="164" Col="56"/>
+                </Anns>
                 <TupleExpr>
                     <SetExpr>
                         <Anns>
@@ -10228,6 +10430,9 @@ the constant undefnum should have an undefined left-hand-side.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_relations.tex" Line="165" Col="66"/>
+                </Anns>
                 <TupleExpr>
                     <SetExpr>
                         <Anns>

@@ -755,6 +755,9 @@ that are also total functions from $X$ to $Y$.
                                     <LocAnn Loc="lib/function_toolkit.tex" Line="67" Col="42"/>
                                 </Anns>
                                 <ApplExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/function_toolkit.tex" Line="67" Col="40"/>
+                                    </Anns>
                                     <RefExpr Mixfix="false">
                                         <Anns>
                                             <LocAnn Loc="lib/function_toolkit.tex" Line="67" Col="35"/>
@@ -1465,19 +1468,17 @@ that are also finite functions from $X$ to $Y$.
                             <Anns>
                                 <LocAnn Loc="lib/function_toolkit.tex" Line="144" Col="1"/>
                             </Anns>
-                            <TupleExpr>
-                                <RefExpr Mixfix="false">
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Loc="lib/function_toolkit.tex" Line="144" Col="11"/>
+                                </Anns>
+                                <RefName>
                                     <Anns>
                                         <LocAnn Loc="lib/function_toolkit.tex" Line="144" Col="11"/>
                                     </Anns>
-                                    <RefName>
-                                        <Anns>
-                                            <LocAnn Loc="lib/function_toolkit.tex" Line="144" Col="11"/>
-                                        </Anns>
-                                        <Word>f</Word>
-                                    </RefName>
-                                </RefExpr>
-                            </TupleExpr>
+                                    <Word>f</Word>
+                                </RefName>
+                            </RefExpr>
                             <RefExpr Mixfix="false">
                                 <RefName>
                                     <Word>disjoint _ </Word>
@@ -1519,6 +1520,9 @@ that are also finite functions from $X$ to $Y$.
                                     </RefExpr>
                                 </VarDecl>
                                 <MemPred Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Loc="lib/function_toolkit.tex" Line="144" Col="42"/>
+                                    </Anns>
                                     <TupleExpr>
                                         <RefExpr Mixfix="false">
                                             <Anns>
@@ -1817,6 +1821,9 @@ distinct pair yields sets with no members in common.
                             <LocAnn Loc="lib/function_toolkit.tex" Line="161" Col="16"/>
                         </Anns>
                         <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Loc="lib/function_toolkit.tex" Line="161" Col="3"/>
+                            </Anns>
                             <TupleExpr>
                                 <RefExpr Mixfix="false">
                                     <Anns>
@@ -1855,19 +1862,17 @@ distinct pair yields sets with no members in common.
                                 <Anns>
                                     <LocAnn Loc="lib/function_toolkit.tex" Line="161" Col="21"/>
                                 </Anns>
-                                <TupleExpr>
-                                    <RefExpr Mixfix="false">
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/function_toolkit.tex" Line="161" Col="31"/>
+                                    </Anns>
+                                    <RefName>
                                         <Anns>
                                             <LocAnn Loc="lib/function_toolkit.tex" Line="161" Col="31"/>
                                         </Anns>
-                                        <RefName>
-                                            <Anns>
-                                                <LocAnn Loc="lib/function_toolkit.tex" Line="161" Col="31"/>
-                                            </Anns>
-                                            <Word>f</Word>
-                                        </RefName>
-                                    </RefExpr>
-                                </TupleExpr>
+                                        <Word>f</Word>
+                                    </RefName>
+                                </RefExpr>
                                 <RefExpr Mixfix="false">
                                     <RefName>
                                         <Word>disjoint _ </Word>
@@ -1879,6 +1884,9 @@ distinct pair yields sets with no members in common.
                                     <LocAnn Loc="lib/function_toolkit.tex" Line="161" Col="58"/>
                                 </Anns>
                                 <ApplExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/function_toolkit.tex" Line="161" Col="56"/>
+                                    </Anns>
                                     <RefExpr Mixfix="false">
                                         <Anns>
                                             <LocAnn Loc="lib/function_toolkit.tex" Line="161" Col="39"/>
@@ -1892,6 +1900,7 @@ distinct pair yields sets with no members in common.
                                     </RefExpr>
                                     <ApplExpr Mixfix="false">
                                         <Anns>
+                                            <LocAnn Loc="lib/function_toolkit.tex" Line="161" Col="54"/>
                                             <ParenAnn/>
                                         </Anns>
                                         <RefExpr Mixfix="false">
