@@ -1,5 +1,5 @@
 /**
-Copyright 2003 Mark Utting
+Copyright 2003, 2004 Mark Utting
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -35,6 +35,18 @@ public class UnicodeScannerTest extends TestCase
 {
   private UnicodeScanner lexer_ =
     new UnicodeScanner(new java.io.StringReader(""));
+
+  private final String CROSS = ZString.CROSS;
+  private final String DELTA = ZString.DELTA;
+  private final String END = ZString.END;
+  private final String EXI = ZString.EXI;
+  private final String LAMBDA = ZString.LAMBDA;
+  private final String MEM = ZString.MEM;
+  private final String NE = ZString.NE;
+  private final String NW = ZString.NW;
+  private final String SE = ZString.SE;
+  private final String SW = ZString.SW;
+  private final String ZED = ZString.ZED;
 
   public static Test suite()
   {
@@ -205,38 +217,38 @@ public class UnicodeScannerTest extends TestCase
   }
 
   /**
-   * Example 1 from Z Standard (Working draft 2.7)
-   * chapter 7.3.
+   * Example 1 from Z Standard chapter 7.3.
    */
   public void testExample1()
     throws java.io.IOException
   {
     isDecorword("&+=");
     isDecorword("x_+_y");
-    // TODO: add the others
+    isDecorword("x" + SE + "x" + NW + "y");
+    isDecorword("x" + NE + "x" + SW + "y");
+    isDecorword("x" + NE + "x" + SW + NE + "x" + SW + "y");
+    resetLexer(ZED + "x+y" + END);
+    nextIsZed();
+    nextIsDecorword("x");
+    nextIsDecorword("+");
+    nextIsDecorword("y");
+    nextIsEnd();
+    nextIsEof();
   }
 
   /**
-   * Example 2 from Z Standard (Working draft 2.7)
-   * chapter 7.3.
+   * Example 2 from Z Standard chapter 7.3.
    */
   public void testExample2()
     throws java.io.IOException
   {
-    String exi = ZString.EXI;
-    String se = ZString.SE;
-    String nw = ZString.NW;
-    String cross = ZString.CROSS;
-    String delta = ZString.DELTA;
-    String lambda = ZString.LAMBDA;
+    isDecorword(LAMBDA + "S");
+    isDecorword(DELTA + "S");
+    isDecorword(EXI + CROSS);
+    isDecorword(EXI + "_X");
+    isDecorword(EXI + SE + "x" + NW);
 
-    isDecorword(lambda + "S");
-    isDecorword(delta + "S");
-    isDecorword(exi + cross);
-    isDecorword(exi + "_X");
-    isDecorword(exi + se + "x" + nw);
-
-    resetLexer(ZString.ZEDCHAR + exi + "S" + ZString.ENDCHAR);
+    resetLexer(ZString.ZEDCHAR + EXI + "S" + ZString.ENDCHAR);
     nextIsZed();
     nextIsExi();
     nextIsDecorword("S");
@@ -245,18 +257,14 @@ public class UnicodeScannerTest extends TestCase
   }
 
   /**
-   * Example 3 from Z Standard (Working draft 2.7)
-   * chapter 7.3.
+   * Example 3 from Z Standard chapter 7.3.
    */
   public void testExample3()
     throws java.io.IOException
   {
-    String cross = ZString.CROSS;
-    String mem = ZString.MEM;
-    String se = ZString.SE;
-    String nw = ZString.NW;
-    isDecorword(cross + ":" + mem);
-    isDecorword(se + "x" + nw + ":" + se + "e" + nw);
+    isDecorword(CROSS + ":" + MEM);
+    isDecorword("x_:_e");
+    isDecorword(SE + "x" + NW + ":" + SE + "e" + NW);
 
     resetLexer(ZString.ZEDCHAR + "x:e" + ZString.ENDCHAR);
     nextIsZed();
@@ -268,8 +276,7 @@ public class UnicodeScannerTest extends TestCase
   }
 
   /**
-   * Example 4 from Z Standard (Working draft 2.7)
-   * chapter 7.3.
+   * Example 4 from Z Standard chapter 7.3.
    */
   public void testExample4()
     throws java.io.IOException
@@ -288,7 +295,8 @@ public class UnicodeScannerTest extends TestCase
     resetLexer(ZString.ZEDCHAR + "a 12" + ZString.ENDCHAR);
     nextIsZed();
     nextIsDecorword("a");
-    nextIsNumeral(new Integer(12));
+    final int twelve = 12;
+    nextIsNumeral(new Integer(twelve));
     nextIsEnd();
     nextIsEof();
 
@@ -310,59 +318,30 @@ public class UnicodeScannerTest extends TestCase
   }
 
   /**
-   * Example 5 from Z Standard (Working draft 2.7)
-   * chapter 7.3.
+   * Example 5 from Z Standard chapter 7.3.
    */
   public void testExample5()
     throws java.io.IOException
   {
-    String se = ZString.SE;
-    String nw = ZString.NW;
-    String sw = ZString.SW;
-    String ne = ZString.NE;
-
-    /* These tests fails since the scanner is not fully conform
-       to the scanning phase described in the standard.
-    resetLexer(ZString.ZEDCHAR + "x" + se + "a" + nw + se + "1" + nw
-               + ZString.ENDCHAR);
-    nextIsZed();
-    nextIsDecorword("x" + se + "a" + nw);
-    nextIsNumStroke(new Integer(1));
-    nextIsEnd();
-    nextIsEof();
-
-    resetLexer(ZString.ZEDCHAR + "x" + se + "a" + nw + "?"
-               + ZString.ENDCHAR);
-    nextIsZed();
-    nextIsDecorword("x" + se + "a" + nw);
-    nextIsInStroke();
-    nextIsEnd();
-    nextIsEof();
-    */
-
-    resetLexer(ZString.ZEDCHAR + "x" + ne + "b" + se + "3" + nw + sw
-               + ZString.ENDCHAR);
-    nextIsZed();
-    nextIsDecorword("x" + ne + "b" + se + "3" + nw + sw);
-    nextIsEnd();
-    nextIsEof();
+    isDecorword("x" + SE + "a" + NW + SE + "1" + NW);
+    isDecorword("x" + SE + "a" + NW + "?");
+    isDecorword("x" + SE + "1" + NW + SE + "a" + NW);
+    isDecorword("x" + NE + "b" + SE + "3" + NW + SW);
   }
 
   /**
-   * Tutorial example (chapter D.3.2)
-   * from Z Standard (Working draft 2.7).
+   * Tutorial example (chapter D.3.2) from Z Standard.
    */
   public void testTutorial()
     throws java.io.IOException
   {
-    String end = ZString.END;
-    String tutorial = ZString.ZED + "[NAME, DATE]" + end;
+    String tutorial = ZString.ZED + "[NAME, DATE]" + END;
     tutorial += ZString.SCH + "BirthdayBook ";
     tutorial += "known:" + ZString.POWER + " NAME" + ZString.NLCHAR;
     tutorial += "birthday:NAME" + ZString.PFUN + "DATE";
     tutorial += "|";
     tutorial += "known = dom birthday";
-    tutorial += end;
+    tutorial += END;
 
     resetLexer(tutorial);
 
