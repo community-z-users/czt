@@ -83,7 +83,9 @@ public class UnicodeScanner
 
   public void reset(Reader in)
   {
-    contextFreeScanner_.yyreset(in);
+    try {
+      contextFreeScanner_.yyreset(in);
+    } catch (Throwable e) {}
   }
 }
 </scanner>

@@ -616,7 +616,7 @@ NAME =   {NOT_LB}*
   "\\begin" {IGNORE}* "{state}"
         {
           String result = addSpace();
-          return result(result + ZString.SCH + OzString.STATECHAR);
+          return result(result + ZString.SCH + ZString.ZEDCHAR);
         }
   "\\begin" {IGNORE}* "{init}"
         {

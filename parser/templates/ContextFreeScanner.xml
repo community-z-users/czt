@@ -282,7 +282,7 @@ NL = {NLCHAR}
 
   <add:oz>
   /* Object-Z box characters */
-  {SCHCHAR} {STATECHAR}+
+  {SCHCHAR} {ZEDCHAR}+
                 { begins_++; return symbol(Sym.STATE); }
   {SCHCHAR} ({SPACE} | {CONTROL}) "Init"
                 { begins_++; return symbol(Sym.INIT); }

@@ -1087,6 +1087,7 @@ sectionHeader ::=
              Parent parent = factory_.createParent(PRELUDE);
              p.add(parent);
            }
+
            ZSect zSect = factory_.createZSect(name, p, null);
            addLocAnn(zSect, sleft, sright);
            RESULT = zSect;
