@@ -48,6 +48,7 @@ public interface ZString
   String END = ENDCHAR;
   String NL = NLCHAR;
   String CONJECTURE = VDASH + "?";
+  String EXIONE = EXI + SUB1;
 }
 </xsl:text>
   </xsl:template>
