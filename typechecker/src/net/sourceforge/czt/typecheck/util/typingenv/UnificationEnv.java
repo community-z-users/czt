@@ -157,31 +157,35 @@ public class UnificationEnv
 
   public UResult unify(Type2 typeA, Type2 typeB)
   {
-    UResult unified = FAIL;
+    UResult result = FAIL;
 
-    if (isVariableType(typeA)) {
-      unified = unifyVariableType(variableType(typeA), typeB);
+    //if either type is unknown, return PARTIAL
+    if (typeA instanceof UnknownType || typeB instanceof UnknownType) {
+      result = PARTIAL;
+    }
+    else if (isVariableType(typeA)) {
+      result = unifyVariableType(variableType(typeA), typeB);
     }
     else if (isVariableType(typeB)) {
-      unified = unifyVariableType(variableType(typeB), typeA);
+      result = unifyVariableType(variableType(typeB), typeA);
     }
     else if (isGivenType(typeA) && isGivenType(typeB)) {
-      unified = unifyGivenType(givenType(typeA), givenType(typeB));
+      result = unifyGivenType(givenType(typeA), givenType(typeB));
     }
     else if (isPowerType(typeA) && isPowerType(typeB)) {
-      unified = unifyPowerType(powerType(typeA), powerType(typeB));
+      result = unifyPowerType(powerType(typeA), powerType(typeB));
     }
     else if (isProdType(typeA) && isProdType(typeB)) {
-      unified = unifyProdType(prodType(typeA), prodType(typeB));
+      result = unifyProdType(prodType(typeA), prodType(typeB));
     }
     else if (isSchemaType(typeA) && isSchemaType(typeB)) {
-      unified = unifySchemaType(schemaType(typeA), schemaType(typeB));
+      result = unifySchemaType(schemaType(typeA), schemaType(typeB));
     }
     else if (isGenParamType(typeA) && isGenParamType(typeB)) {
-      unified = unifyGenParamType(genParamType(typeA), genParamType(typeB));
+      result = unifyGenParamType(genParamType(typeA), genParamType(typeB));
     }
 
-    return unified;
+    return result;
   }
 
   protected UResult unifyVariableType(VariableType vType, Type2 type2)
