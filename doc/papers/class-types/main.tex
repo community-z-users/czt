@@ -1,12 +1,12 @@
-\documentclass[10pt]{article}
+\documentclass[10pt]{llncs}
 \let\SS=\S
 \usepackage{oz}
-\usepackage{largepaper}
+%\usepackage{largepaper}
 \usepackage{verbatim}
 \usepackage{url}
 \usepackage{epsf}
 \usepackage{xspace}
-
+ 
 % Short reference to a section of the ISO Z Standard. Stolen from Mark
 % and Petra's ZB2005 paper ;)
 \newcommand{\ISOZ}[1]{ZStd{\SS}#1}
@@ -14,10 +14,16 @@
 \newcommand{\theStandard}{the \Standard}
 
 \title{Class Types and Type Inference in Object-Z}
-\author{Tim Miller\\
+\author{Tim Miller\inst{1} \and Tim McComb\inst{2}}
+
+\institute{
   Department of Computer Science,\\
   The University of Liverpool, Liverpool, L69 7ZF, UK\\
-  email: tim@csc.liv.ac.uk
+  \email{Email: tim@csc.liv.ac.uk}
+\and
+  School of Information Technology and Electrical Engineering,\\
+  The University of Queensland, Australia\\
+  \email{tjm@itee.uq.edu.au}
 }
 
 
@@ -34,6 +40,6 @@
 \input{conc}
 
 \bibliography{bib/bib}
-\bibliographystyle{ieee}
+\bibliographystyle{splncs}
 
 \end{document}

@@ -1,14 +1,19 @@
 \section{Types in ISO Z and Object-Z}
 
-Z and Object-Z are typed languages whose type system prohibit certain
-relations between expressions when the types are inappropriate. For
-example, the membership predicate $\{1\} \in \{1\}$ is not permitted
-by the Z type system because the type rules specify that the type of
-the expression on the left hand side must be the same as the elements
-inside the right hand side. In this section, we present an overview of
-the Z type system, and how it is represented in \theStandard, and then
-we present our extension of this representation to include Object-Z
-class types.
+Z and Object-Z are statically-typed languages
+\footnote{Strictly speaking, dynamic typing is actually possible in
+Object-Z since $\oid$ can be used as a type, but this is not considered
+good practice} whose type systems 
+enforce consistency between operators and expressions.
+
+For example, the membership predicate $\{1\}
+\in \{1\}$ is not permitted by the Z type system because the 
+declaration of the membership operator
+specifies that the type of the expression on the left hand side
+must be the same as the elements inside the right hand side. In this
+section, we present an overview of the Z type system, and how it is
+represented in \theStandard, and then we present our extension of this
+representation to include Object-Z class types.
 
 \subsection{Overview of Z Types}
 
@@ -66,8 +71,21 @@ $singleton$, which holds if the supplied set is a singleton set.
 \begin{gendef}[X]
   singleton~\_ : \power X
 \where
-  \forall xs : \power X @ singleton~xs \iff \#xs \leq 1
+  \forall xs : \power X @ singleton~xs \iff \#xs = 1
 \end{gendef}
+% I made the <= an =
+%
+% This is a really interesting point.
+% emptyset subset emptyset is true, but emptyset in emptyset
+% is false (this is because the definition of subset relies upon 
+% a universal quantifier over the LHS emptyset which is trivially true).
+%
+% From MathWorld:
+% A nonempty set is a set containing one or more elements. Any set other
+% than the empty set is therefore a nonempty set. Nonempty sets are
+% sometimes also called nonvoid sets (Grätzer 1971, p. 6). A nonempty
+% set containing a single element is called a singleton set.
+
 
 This adds ``$singleton~\_ : [X] \power $ {\tt GENTYPE} $X$ into the
 type environment''. When this name is referenced, the generic
@@ -91,7 +109,7 @@ ProdType}, and {\em SchemaType}. A schema type has a {\em Signature},
 which is a possibly-empty function from names to their types. The Z
 type hierarchy can be seen in Figure~\ref{z-types}.
 
-\def\epsfsize#1#2{0.85#1}
+\def\epsfsize#1#2{0.7#1}
 \begin{figure}
 \begin{center}
 \epsfbox{fig/z-types.eps}
@@ -109,7 +127,7 @@ Type2}. This {\em ClassType} is used represent the set of object
 identities and the polymorphic core of those identities. For a class
 $A$, the type of the name $A$ introduced into the type environment is
 a power set of the class type representing the objects in
-$A$. Figure~\ref{ClassType.fig} specifies (in Object-Z of course!)
+$A$. Figure~\ref{ClassType.fig} specifies in Object-Z
 the structure of the class type.
 
 \begin{figure}[t]
@@ -122,22 +140,33 @@ the structure of the class type.
 the {\em ClassSignature}. Each class signature has 4 features:
 \begin{itemize}
   \item {\em classRef}: The list of class names, their variable renames, and
-    their generic parameters instantiations if
-    they are generic classes, that make up the core of
+    their generic parameter instantiations (if
+    they are generic classes), that make up the core of
     this class. For example, if we have a class $A$, then for an
     instance of $A$, $classRef = \{ A \}$. If we have a generic class
     $B[X]$, then for an instance from the class union $A \classuni
     B[Resource]$, $classRef = \{ A, B[${\tt GIVEN} $Resource]\}$.
-  \item {\em attribute}: A function of names to types that records
-    the local definitions made in a class.
+  \item {\em attribute}: A function of variable names to types that records
+    both the local and inherited variable definitions.
   \item {\em state}: A signature contains the declarations made in a
-    class's state.
+    class's state (after being conjoined with any superclasses).
   \item {\em operation}: A function of names to signatures that
-    records the operations declared in a class and their signatures.
+    records the operations declared in a class, their signatures, and
+    the inherited operations and their respective signatures.
 \end{itemize}
+% I've updated those definitions to reflect the fact that we are 
+% collapsing the inheritance hierarchy in the class type definitions.
+% I'm not sure about this. You mentioned in the related work that
+% Chen's model is being extended to cache the definitions (to 
+% improve the implementation). This does have its drawbacks when it 
+% comes to giving meaningful output from the typechecker. If you
+% don't cache the definitions, and are forced to lookup the class
+% type records of the superclasses, then you can tell the user where
+% the original definition is if it is being misused.
+% I could be way off ;)
 
-The attribute $classRef$ is the basis of Chen's model of class types as
-sets of classes.  Our class type models a set of class references,
+The attribute $classRef$ is the basis of Chen's model of class types
+as sets of classes.  Our class type models a set of class references,
 including the instantiations of generic types. Each of these class
 references represents a set of object identities. In addition to the
 class references, the attributes, operations, and state variables are
@@ -146,7 +175,7 @@ polymorphic core of the type. Therefore, our model is flexible enough
 to handle class references, polymorphic expressions, and class unions.
 
 However, there is other information that needs to be recorded when a
-class is declared using a class paragraph: the generic parameters, the
+class is declared: the generic parameters, the
 class name, the superclasses, and the visibility list. Generic
 parameters are recorded by declaring the class as a generic type, just
 as $singleton$ was declared in the previous section, so this
@@ -159,18 +188,21 @@ but they add no extra features, so are not shown in the figure.
 
 \subsection{Design Rationale}
 
-Creating $ClassType$ and then subclassing it for the three class types
-is chosen as the way to represent class types because the
+Subclassing $ClassType$ for the three 
+distinct flavours of
+class types
+is useful because
+the
 $ClassRefType$ needs to model information that was not relevant to
 the other two types. Also, modelling the polymorphic core and class
-references in $ClassType$ means that for type rules that require only
-that the type is a class type, then which type of class expression declared
-this type is irrelevant.
+references in $ClassType$ aids analysis in the case that the
+type rules require only
+that the type is a class type.
 % For example, the
 %unification of class types only deals with the $ClassType$ details.
-However, some Object-Z rules specify cases in which having the
-subclasses is useful. For example, in a class union $A \classuni B$,
-both $A$ and $B$ need to be class references, or class unions ---
+Some semantic restrictions in Object-Z also reinforce this approach.
+In a class union $A \classuni B$,
+both $A$ and $B$ need to be class references or class unions ---
 polymorphic expressions are not permitted. Using our subclasses makes
 both cases straightforward.
 
@@ -180,13 +212,13 @@ performed. That is, we can infer from the context that the type of a
 particular name reference is a class type, but cannot infer the class
 signature until the class is later declared.  To this point, {\em
 variable class signatures} can be used, which are similar to {\em
-variable types} and {\em variable signatures} for Z, as discussed in
+variable types} and {\em variable signatures} in Z, as discussed in
 \cite{toyn00}. 
 
 For example, take the declaration $b : \poly B$. From the reference to
 $\poly B$, the typechecker can infer that $B$ is a class type even if
 $B$ is declared after this declaration. Using this information, any constraints
-involving $b$ that require an object instance can be solved even
+over $b$ that require an object instance can be solved even
 without the signature of the class begin known.
 
 However, unlike type unification for the standard Z types, if we have
@@ -194,4 +226,5 @@ a predicate $b = c$, in which $c$ is an instance of another class $C$
 (possibly a subclass of $B$), the typechecker does not unify the
 variable class signature with the class signature of $C$ type, because
 there may be features declared in $C$ that are not declared in
-$B$. This is discussed further in the following section.
+$B$. We elaborate on this problem, and propose a solution, 
+in the following section.
