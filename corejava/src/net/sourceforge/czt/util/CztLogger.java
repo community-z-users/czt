@@ -34,14 +34,14 @@ public final class CztLogger
   }
 
   /**
-   * Returns the appropriate logger for the given object.
+   * Returns the appropriate logger for the given class.
    *
    * @param object the object that needs to log something.
    * @return a suitable Logger.
    */
-  public static Logger getLogger(Object object)
+  public static Logger getLogger(Class aClass)
   {
-    return Logger.getLogger(object.getClass().getName());
+    return Logger.getLogger(aClass.getName());
   }
 }
 
