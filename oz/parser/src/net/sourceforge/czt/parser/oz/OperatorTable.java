@@ -22,7 +22,7 @@ import java.util.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.util.TypesafeList;
+import net.sourceforge.czt.util.CztException;
 
 /**
  * An operator table records each operator and its integer value.
@@ -148,9 +148,12 @@ public class OperatorTable
     int result = -1;
     String section = null;
 
+    DeclName dn = Strokes.getWordAndStroke(symbol);
+    String word = dn.getWord();
+
     for (Iterator iter = mOperators_.iterator(); iter.hasNext(); ) {
-      Operator op = (Operator) iter.next();
-      if (op.getName().equals(symbol)) {
+      OperatorInfo op = (OperatorInfo) iter.next();
+      if (op.getName().equals(word)) {
         result = op.getType();
         section = op.getSection();
         break;
@@ -194,7 +197,7 @@ public class OperatorTable
   public void dump()
   {
     for (Iterator iter = mOperators_.iterator(); iter.hasNext(); ) {
-      Operator op = (Operator) iter.next();
+      OperatorInfo op = (OperatorInfo) iter.next();
       System.err.println(op.getName() + ": " + getType(op.getType()));
     }
   }
@@ -461,7 +464,7 @@ public class OperatorTable
     if (mOperatorNames_.contains(name)) {
       //TODO: throw an exception
     }
-    Operator op = new Operator(name, mSection_, type);
+    OperatorInfo op = new OperatorInfo(name, mSection_, type);
     mOperators_.add(op);
   }
 
@@ -474,14 +477,21 @@ public class OperatorTable
   //convert a DeclName to its string representation
   private String getName(Object o)
   {
-    //TODO: remove this
-    if (o instanceof net.sourceforge.czt.z.ast.Operator) {
-      net.sourceforge.czt.z.ast.Operator op =
-        (net.sourceforge.czt.z.ast.Operator) o;
-      return op.getWord();
-    }
-
     String result = null;
+
+    if (o instanceof Operator) {
+      Operator op = (Operator) o;
+      result = op.getWord();
+      //TODO: remove
+      result = Strokes.replace(result);
+    }
+    else {
+      throw new CztException("Attempt to add non-operator " + 
+			     "into operator table");
+    }
+    return result;
+
+    /*
     DeclName dn = (DeclName) o;
 
     result = new String(dn.getWord());
@@ -505,6 +515,7 @@ public class OperatorTable
       }
     }
     return result;
+    */
   }
 
   private boolean isSeq(List words, int i)
@@ -515,7 +526,7 @@ public class OperatorTable
   /**
    * An operator
    */
-  private class Operator
+  private class OperatorInfo
   {
     /** The "name" of the token. */
     protected String mName_;
@@ -529,7 +540,7 @@ public class OperatorTable
     /**
      * Construct a new operator.
      */
-    public Operator()
+    public OperatorInfo()
     {
       mName_ = new String();
       mSection_ = new String();
@@ -539,7 +550,7 @@ public class OperatorTable
     /**
      * Construct a new operator from the given info.
      */
-    public Operator(String name, String section, int type)
+    public OperatorInfo(String name, String section, int type)
     {
       mName_ = new String(name);
       mSection_ = (section == null) ? null : new String(section);

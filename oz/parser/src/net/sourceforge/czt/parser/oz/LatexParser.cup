@@ -96,39 +96,17 @@ action code
     {
       Name result = null;
 
-      List pair = LatexScanner.getNameAndStroke(name);
-      String baseName = (String) pair.get(0);    
-      List strokes = (List) pair.get(1);
+//TODO: remove this
+name = Strokes.replace(name);
 
-      for (int i = 0; i < strokes.size(); i++) {
-
-        int sym = ((Symbol) strokes.get(i)).sym;
-
-        Stroke stroke = null;
-        switch (sym) {
-          case LatexSym.INSTROKE:
-            stroke = ozFactory_.createInStroke();
-            break;
-          case LatexSym.OUTSTROKE:
-            stroke = ozFactory_.createOutStroke();
-            break;
-          case LatexSym.NEXTSTROKE:
-            stroke = ozFactory_.createNextStroke();
-            break;
-          case LatexSym.NUMSTROKE:
-            Integer iStroke = (Integer) ((Symbol) strokes.get(i)).value;
-            stroke = ozFactory_.createNumStroke(iStroke);
-            break;
-          default:
-            //TODO: throw exception
-        }
-        strokes.set(i, stroke);
-      }
+      DeclName dn = Strokes.getWordAndStroke(name);
 
       if (type == DECLNAME) {
-        result = ozFactory_.createDeclName(baseName, strokes, null);
+        result = dn;
       }
       else {
+        String baseName = dn.getWord();
+        List strokes = dn.getStroke();
         result = ozFactory_.createRefName(baseName, strokes, null);
       }
       return result;
@@ -541,11 +519,17 @@ parser code
     {
        Symbol result = null;
 
-       if (symbol.sym == LatexSym.DECORWORD || symbol.sym == LatexSym.DECLWORD) {
-         List pair = LatexScanner.getNameAndStroke((String) symbol.value);
-         String name = (String) pair.get(0);
+       if (symbol.sym == LatexSym.DECORWORD || 
+           symbol.sym == LatexSym.DECLWORD) {
+
+         String name = (String) symbol.value;
+
+//TODO: remove this once the latex to unicode scanner works
+if (name.startsWith("\\power")) {
+  name = ZString.POWER;
+}
          int type = table_.lookup(name);
-         result = (type == -1) ? symbol : new Symbol(type, symbol.value);
+         result = (type == -1) ? symbol : new Symbol(type, name);
        }
        else {
          result = symbol;
