@@ -19,7 +19,7 @@
                   <Word>known</Word>
                 </DeclName>
                 <PowerExpr>
-                  <RefExpr>
+                  <RefExpr Mixfix="false">
                     <RefName>
                       <Word>NAME</Word>
                     </RefName>
@@ -38,13 +38,13 @@
                 </RefExpr>
               </VarDecl>
               <MemPred Mixfix="false">
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
                     <Word>name</Word>
                     <InStroke/>
                   </RefName>
                 </RefExpr>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
                     <Word>known</Word>
                   </RefName>
