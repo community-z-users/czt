@@ -47,14 +47,6 @@
     </dependency>
     <dependency>
       <groupId>jaxb</groupId>
-      <artifactId>jaxb-xjc</artifactId>
-      <jar>jaxb-xjc.jar</jar>
-      <url>
-        http://java.sun.com/webservices/downloads/webservicespack.html
-      </url>
-    </dependency>
-    <dependency>
-      <groupId>jaxb</groupId>
       <artifactId>jaxb-impl</artifactId>
       <jar>jaxb-impl.jar</jar>
       <url>
@@ -73,14 +65,6 @@
       <groupId>jaxb</groupId>
       <artifactId>jaxb-libs</artifactId>
       <jar>jaxb-libs.jar</jar>
-      <url>
-        http://java.sun.com/webservices/downloads/webservicespack.html
-      </url>
-    </dependency>
-    <dependency>
-      <groupId>jaxp</groupId>
-      <artifactId>jaxp-api</artifactId>
-      <jar>jaxp-api.jar</jar>
       <url>
         http://java.sun.com/webservices/downloads/webservicespack.html
       </url>
