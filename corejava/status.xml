@@ -226,6 +226,18 @@
         and the expression in Qnt1Expr is compulsory.
       </action>
     </actions>
+    <actions priority="medium">
+      <action context="code" dev="open">
+        Handle default values in the equals methods.
+        Currently two terms that differ only in an optional child
+        (optional with respect to the XML Schema definition), one
+        is set to null (not set and therefore the default value)
+        and one is set to the default value
+        are not equal with respect to the equals method.
+        It should return true in this case since the resulting XML
+        is the same.
+      </action>
+    </actions>
     <actions priority="low">
       <action context="code" dev="open">
         Test newly generated TCOZ classes.  They are probably not yet working.
