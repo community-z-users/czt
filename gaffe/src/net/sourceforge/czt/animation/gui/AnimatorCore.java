@@ -21,6 +21,8 @@ package net.sourceforge.czt.animation.gui;
 import com.ibm.bsf.BSFException;
 import com.ibm.bsf.BSFManager;
 
+import java.awt.BorderLayout;
+
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
@@ -101,12 +103,13 @@ class AnimatorCore extends AnimatorCoreBase {
 	      frame.setVisible(false);
 	    };
 	  });
-	frame.setVisible(newForm.isVisible());
+	if(!newForm.isPreferredSizeSet()) newForm.setPreferredSize(newForm.getSize());
 	
 	newForm.setLocation(0,0);
-	newForm.setPreferredSize(newForm.getSize());
-	frame.getContentPane().add(newForm);
-	frame.setSize(frame.getPreferredSize());
+	frame.getContentPane().setLayout(new BorderLayout());
+	frame.getContentPane().add(newForm,BorderLayout.CENTER);
+	frame.pack();
+	frame.setVisible(newForm.isVisible());
 	forms.add(frame);
 	decoder.readObject();//beanWrappers
 	decoder.readObject();//eventLinks

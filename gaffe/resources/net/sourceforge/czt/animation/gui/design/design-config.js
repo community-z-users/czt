@@ -81,4 +81,16 @@ BeanLinkDelegate.registerDelegate();
 BeanWrapperDelegate.registerDelegate();
 FormDelegate.registerDelegate();
 
+//Setting Property Editors
+importClass(java.beans.PropertyEditorManager);
+importPackage(Packages.net.sourceforge.czt.animation.gui.design.properties.editors);
+PropertyEditorManager.registerEditor(java.awt.Color, ColorEditor);
+
+//Setting Propert Renderers
+importClass(Packages.net.sourceforge.czt.animation.gui.design.properties.PropertiesWindow);
+importPackage(Packages.net.sourceforge.czt.animation.gui.design.properties.renderers);
+PropertiesWindow.addDefaultRenderer(java.awt.Color, new ColorRenderer());
+PropertiesWindow.addDefaultRenderer(java.awt.Font, new FontRenderer());
+
 System.err.println("...Finished the distribution config file.");
+

@@ -148,7 +148,7 @@ class BeanHandle extends JPanel {
 	 newBounds.width+=mousePoint.getX();
 	 break;
       };
-
+      
       getComponent().setBounds(newBounds);
       //XXX use Robot to stop mouse moving?
     };

@@ -625,7 +625,6 @@ public class DesignerCore implements BeanContextProxy {
       
       getRootPane().setLayout(new BorderLayout());
       getRootPane().add(new JScrollPane(ta),BorderLayout.CENTER);
-
       setSize(getPreferredSize().width,Math.min(getPreferredSize().height,600));
     };
   };

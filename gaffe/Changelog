@@ -17,6 +17,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
 
+22 Aug 2003 -
+	- Added a PropertyEditor for Color.  (Picked up by PropertiesTable.PropertyCellEditor).
+	- Added TableCellRenderers for Color and Font.
+	- Tidied up how AnimatorCore set the size of its windows.
+	- Removed code from PropertiesTable that wasn't being used (getEditor, and its associated 
+	  vectors).
+	- Moved PropertyCellEditor from PropertiesWindow to PropertiesTable.
+	- Ammended PropertyCellEditor to use PropertiesTable's vector of PropertyDescriptors.
+	- Ammended PropertyCellEditor to pop custom editors from PropertyEditor in a dialog, rather
+	  than jamming it in the too-small cell.
+	- Added PropertyCellRenderer to PropertiesWindow, and mechanism for registering renderers to
+	  use with PropertiesWindow.
+	- Added the old Milestone Plan to doc/
+
 20 Aug 2003 -
 	- Added System.err and System.out to the beans declared with the BSFManager.
 	- Modified ${TopDir}/Makefile to not complain if classes/ already exists when it makes it.

@@ -33,7 +33,8 @@ import java.beans.PropertyEditorManager;
 import java.lang.reflect.Method;
 
 import java.util.EventObject;             import java.util.EventListener;
-import java.util.Hashtable;
+import java.util.Hashtable;               import java.util.HashMap;
+import java.util.Iterator;                import java.util.Map;
 
 import javax.swing.AbstractAction;        import javax.swing.AbstractButton;                
 import javax.swing.Action;                import javax.swing.ActionMap;             
@@ -50,7 +51,8 @@ import javax.swing.JTextField;            import javax.swing.KeyStroke;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;     import javax.swing.event.EventListenerList;
 
-import javax.swing.table.TableCellEditor;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellEditor; import javax.swing.table.TableCellRenderer;
 
 import net.sourceforge.czt.animation.gui.design.BeanSelectedListener;
 import net.sourceforge.czt.animation.gui.design.BeanSelectedEvent;
@@ -294,8 +296,10 @@ public class PropertiesWindow extends JFrame implements BeanSelectedListener {
 	  defaultEditorsByColumnClass=new Hashtable();
 	};
       }));
-    propertiesTableT.setDefaultEditor(Object.class,new PropertyCellEditor());
+    propertiesTableT.setDefaultEditor(Object.class,propertiesTable.createTableCellEditor());
+    propertiesTableT.setDefaultRenderer(Object.class,new PropertyCellRenderer());
 
+    
 //      Class[] editableClasses={Object.class,byte.class,double.class,float.class,int.class,long.class,short.class,boolean.class};
 //      for(int i=0;i<editableClasses.length;i++)
 //        propertiesTableT.setDefaultEditor(editableClasses[i],new PropertyCellEditor(propertiesTableT.getDefaultEditor(editableClasses[i])));
@@ -392,207 +396,32 @@ public class PropertiesWindow extends JFrame implements BeanSelectedListener {
   /**
    * XXX Editor/Renderer class for properties.
    */
-  protected class PropertyCellEditor implements TableCellEditor {
-    protected EventListenerList cellEditorListeners;
-    protected Component currentComponent;
-    protected PropertyEditor propertyEditor;
-    protected String propertyName;
-    
-    protected int componentSource;
-    protected static final int CS_NONE=0;
-    protected static final int CS_CUSTOM_EDITOR=1;
-    protected static final int CS_TAGS=2;
-    protected static final int CS_STRING=3;
-
-    public PropertyCellEditor() {
-      cellEditorListeners=new EventListenerList();
-      currentComponent=null;
-      componentSource=CS_NONE;
-      propertyName=null;
-      propertyEditor=null;
-    };
-
-    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected,
-  						 int row, int column) {
-      System.err.println("*** In getTableCellEditorComponent");
-      //XXX will cancel or stop have been called first to tidy away the old editor?
-      propertyEditor=PropertyEditorManager.findEditor(beanInfo.getPropertyDescriptors()[row]
-						      .getPropertyType());
-      System.err.println("!!! bean type="+beanInfo.getBeanDescriptor().getName());
-      System.err.println("!!! property name="+beanInfo.getPropertyDescriptors()[row].getName());
-      System.err.println("!!! property type="+beanInfo.getPropertyDescriptors()[row].getPropertyType());
-      if(propertyEditor==null) System.err.println("propertyEditor=( null )");
-      
-      propertyName=beanInfo.getPropertyDescriptors()[row].getName();
-      propertyEditor.setValue(propertiesTable.getObject(row));
-      propertyEditor.addPropertyChangeListener(new PropertyChangeListener() {
-	  public void propertyChange(PropertyChangeEvent evt) {
-	    System.err.println("### "
-			       +"In PropertyChangeListener.propertyChange attached to propertyEditor");
-	    System.err.println("### "
-			       +"source = "+evt.getSource());
-	    System.err.println("### "
-			       +"newValue = "+propertyEditor.getValue());
-	    System.err.println("### "
-			       +"propagationId = "+evt.getPropagationId());
-	    System.err.println("### "
-			       +"propertyName = "+propertyName);
-	    System.err.println("### "
-			       +"bean = "+bean);
-	    IntrospectionHelper.setBeanProperty(bean,propertyName,propertyEditor.getValue());
-	    //XXX Nasty nasty hack, because Component objects don't send a PropertyChange event when 
-	    //their 'name' property changes.
-	    if(bean instanceof Component && propertyName.equals("name")) {
-	      System.err.println("SENDING PropertyChangeEvents for name");
-	      PropertyChangeEvent event=new PropertyChangeEvent(bean,"name",null,
-								propertyEditor.getValue());
-	      PropertyChangeListener[] listeners=((Component)bean).getPropertyChangeListeners();
-	      for(int i=0;i<listeners.length;i++) {
-		listeners[i].propertyChange(event);
-		System.err.println(i+1);
-	      }
-	      listeners=((Component)bean).getPropertyChangeListeners("name");
-	      for(int i=0;i<listeners.length;i++) {
-		listeners[i].propertyChange(event);
-		System.err.println(""+(i+1)+"b");
-	      }
-	    }
-	  };
-	});
-      //XXX I probably need to add a PropertyChangeListener to actually write the edited values into 
-      //    the bean.
-      String[] tags;
-      if(propertyEditor.supportsCustomEditor()) {
-	currentComponent=propertyEditor.getCustomEditor();
-	componentSource=CS_CUSTOM_EDITOR;
-      } else if((tags=propertyEditor.getTags())!=null) {
-	currentComponent=new JComboBox(tags);
-	componentSource=CS_TAGS;
-	((JComboBox)currentComponent).setSelectedItem(propertyEditor.getAsText());
-	((JComboBox)currentComponent).addItemListener(new ItemListener() {
-	    public void itemStateChanged(ItemEvent e) {
-	      //XXX ? Should I be changing the property here, or wait until editing is stopped?
-	    }
-	  });
-      } else {      
-	currentComponent=new JTextField(propertyEditor.getAsText());
-	componentSource=CS_STRING;
-	((JTextField)currentComponent).addActionListener(new ActionListener() {
-	    public void actionPerformed(ActionEvent ev) {
-	      //XXX is this necessary?
-	      stopCellEditing();
-	    };
-	  });
-      }
-      System.err.println("*** currentComponent="+currentComponent);
-      System.err.println("*** componentSource="+componentSource);
-      return currentComponent;
-      
-      //XXX...
-      //1. look up row to see if already got component for this row/column.
-      //2. if not
-      //2.1. create and register the component.
-      //2.2. register as FocusListener with component.
-      //3. If component isSelected mark it as current component.
-      //4. return the component.
-    };
-
-    
-    
-    public Object getCellEditorValue(){
-      if(componentSource==CS_CUSTOM_EDITOR) {
-	return propertyEditor.getValue();
-      } else if(componentSource==CS_TAGS) {
-	return (String)((JComboBox)currentComponent).getSelectedItem();
-      } else if(componentSource==CS_STRING) {
-	return (String)((JTextField)currentComponent).getText();
-      } else {
-	throw new Error("PropertyCellEditor.getCellEditorValue() shouldn't be getting called when it "
-			+"doesn't have a component");
-      }
-      //xxx...      
-    };
-    public boolean isCellEditable(EventObject anEvent){
-      return true;//XXX we're relying on the table model to say yeah or nay on this.
-    };
-    public boolean shouldSelectCell(EventObject anEvent){
-      return true;
-    };
-    public boolean stopCellEditing(){
-      System.err.println("*** currentComponent="+currentComponent);
-      System.err.println("*** componentSource="+componentSource);
-      //XXX Don't need to save values here.
-      //    JTable is listening for editingStopped events, calls setValueAt in 
-      //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-      if(componentSource==CS_CUSTOM_EDITOR) {
-	//XXX can I assume that the custom editor will handle changing the bean?
-      } else if(componentSource==CS_TAGS) {
-	//XXX should I combine CS_TAGS and CS_STRING getting the value from getCellEditorValue()
-	propertyEditor.setAsText((String)((JComboBox)currentComponent).getSelectedItem());
-      } else if(componentSource==CS_STRING) {
-	try {
-	  propertyEditor.setAsText((String)((JTextField)currentComponent).getText());
-	} catch(IllegalArgumentException ex) {
-	  JOptionPane.showMessageDialog(PropertiesWindow.this,"Badly formatted property");
-	  return false;
-	};
-      } else {
-	throw new Error("PropertyCellEditor.stopCellEditing() shouldn't be getting called when it "
-			+"doesn't have a component");
-      }
-
-      //Let all the listeners know editing has stopped.
-      EventListener[] listeners=cellEditorListeners.getListeners(CellEditorListener.class);
-      for(int i=0;i<listeners.length;i++)
-	((CellEditorListener)listeners[i]).editingStopped(new ChangeEvent(this));
-      
-      
-      componentSource=CS_NONE;//Cut off the now unused component.
-      currentComponent=null;  //XXX maybe I should reuse it if possible?
-      propertyEditor=null;
-      propertyName=null;
-      //xxx...
-      return true;
-    };
-    public void cancelCellEditing(){
-      System.err.println("*** currentComponent="+currentComponent);
-      System.err.println("*** componentSource="+componentSource);
-      //Let all the listeners know editing has stopped.
-      EventListener[] listeners=cellEditorListeners.getListeners(CellEditorListener.class);
-      for(int i=0;i<listeners.length;i++)
-	((CellEditorListener)listeners[i]).editingCanceled(new ChangeEvent(this));
-
-      componentSource=CS_NONE;//Cut off the now unused component.
-      currentComponent=null;  //XXX maybe I should reuse it if possible?
-      propertyEditor=null;
-      propertyName=null;
-      //xxx...
-    };
-
-
-    //Functions delegating to cellEditorListeners
-    public void addCellEditorListener(CellEditorListener l){
-      cellEditorListeners.add(CellEditorListener.class, l);
-    };
-    public void removeCellEditorListener(CellEditorListener l){
-      cellEditorListeners.remove(CellEditorListener.class, l);
-    };
-
-    public Object[] getListenerList(){
-      return cellEditorListeners.getListenerList();
-    };
-    public EventListener[] getListeners(Class t) {
-      return cellEditorListeners.getListeners(t);
-    };
-    public int getListenerCount(){
-      return cellEditorListeners.getListenerCount();
-    };
-    public int getListenerCount(Class t){
-      return cellEditorListeners.getListenerCount(t);
-    };
-  };
   
   public void beanSelected(BeanSelectedEvent ev) {
     setBean(ev.getSelectedBean());
+  };
+
+  public class PropertyCellRenderer implements TableCellRenderer {
+    private DefaultTableCellRenderer defaultRenderer=new DefaultTableCellRenderer();
+    public Component getTableCellRendererComponent(JTable table, Object value, 
+						   boolean isSelected, boolean hasFocus,
+						   int row, int column) {
+      if(value!=null)
+      for(Iterator it=defaultRenderers.entrySet().iterator();it.hasNext();) {
+	Map.Entry entry=(Map.Entry)it.next();
+	Class clazz=(Class)entry.getKey();
+	TableCellRenderer renderer=(TableCellRenderer)entry.getValue();
+	if(clazz.isAssignableFrom(value.getClass()))
+	  return renderer.getTableCellRendererComponent(table,value,isSelected,hasFocus,row,column);
+      };
+      return defaultRenderer.getTableCellRendererComponent(table,value,isSelected,hasFocus,row,column);
+    };
+    
+  };
+  
+ 
+  private static final Map/*<Class, TableCellRenderer>*/ defaultRenderers=new HashMap();
+  public static final void addDefaultRenderer(Class c, TableCellRenderer r) {
+    defaultRenderers.put(c,r);
   };
 };
