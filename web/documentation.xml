@@ -19,7 +19,7 @@
 
       <h3><a name="gnast">Gnast</a></h3>
       <p>This is a code generator that generates Java interfaces and classes
-      (for instance, the AST in <a href="corejava">Corejava</a>)
+      (for instance, the AST in <a href="#corejava">Corejava</a>)
       from an XML Schema.
       </p>
 
