@@ -664,7 +664,7 @@ non terminal List /*ZSect*/ sectionList;
 non terminal ZSect section, sectionHeader;
 non terminal emptySectionHeader;
 
-non terminal List /*Parent*/ parentList, optParents;
+non terminal List /*Parent*/ parentList, parents;
 non terminal String sectionName;
 
 non terminal List /*Para*/ 
@@ -1009,25 +1009,20 @@ section ::=
 sectionHeader ::=
         //ZED token at the start of sections is ignored by
         //local_next_token to avoid a few problems
-        SECTION sectionName:name optParents:ops END 
+        SECTION DECORWORD:name parents:p END 
         {:
-           resetOpTable(name, ops);
-           RESULT = factory_.createZSect(name, ops, list());
+           resetOpTable(name, p);
+           RESULT = factory_.createZSect(name, p, list());
         :}
         ;
 
-//reduce this separately so we can set the current section
-//in the operator table, and stop the lookup to the operator table
-//(see section 8.4)
-sectionName ::=
-        DECORWORD:dw
-        {:
-           RESULT = dw;
-        :}
-        ;
-
-optParents ::=
+parents ::=
         //empty
+        {:
+           RESULT = list();
+        :}
+        |
+        PARENTS
         {:
            RESULT = list();
         :}
@@ -1036,15 +1031,10 @@ optParents ::=
         {:
            RESULT = pl;
         :}
-        |
-        PARENTS
-        {:
-           RESULT = list();
-        :}
         ;
 
 parentList ::=
-        DECORWORD:dw COMMA parentList:pl
+        parentList:pl COMMA DECORWORD:dw
         {:
            Parent p = factory_.createParent(dw);
            pl.add(0, p);
