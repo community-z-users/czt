@@ -42,27 +42,89 @@
   </target>
 
   <target name="install-bin" description="create settings file so that shell scripts work properly">
-    <property name="settings.file" location="bin/settings.sh"/>
+    <property name="unix.settings.file" location="bin/settings.sh"/>
+    <property name="windows.settings.file" location="bin/settings.bat"/>
     <property name="czt.jar.dir" location="${basedir}/${jar.dir}"/>
-    <echo file="${settings.file}" append="false">
+    <path id="corejava">
+      <pathelement location="${czt.jar.dir}/${corejava.base.jar.file}"/>
+      <pathelement location="${czt.jar.dir}/${corejava.core.jar.file}"/>
+      <pathelement location="${czt.jar.dir}/${corejava.oz.jar.file}"/>
+      <pathelement location="${czt.jar.dir}/${corejava.zpatt.jar.file}"/>      
+      <pathelement location="${czt.jar.dir}/${corejava.jaxb.jar.file}"/>      
+    </path>
+    <pathconvert targetos="unix" property="corejava.unix" refid="corejava"/>
+    <pathconvert targetos="windows" property="corejava.win" refid="corejava"/>
+    <path id="corebase">
+      <pathelement location="${czt.jar.dir}/${corejava.base.jar.file}"/>
+    </path>
+    <pathconvert targetos="unix" property="corebase.unix" refid="corebase"/>
+    <pathconvert targetos="windows" property="corebase.win" refid="corebase"/>
+    <path id="gaffe">
+      <pathelement location="${czt.jar.dir}/${gaffe.jar.file}"/>
+      <pathelement location="${czt.jar.dir}/${gaffe.generator.jar.file}"/>
+    </path>
+    <pathconvert targetos="unix" property="gaffe.unix" refid="gaffe"/>
+    <pathconvert targetos="windows" property="gaffe.win" refid="gaffe"/>
+    <path id="cup">
+      <pathelement location="${javacup.home}"/>
+    </path>
+    <pathconvert targetos="unix" property="cup.unix" refid="cup"/>
+    <pathconvert targetos="windows" property="cup.win" refid="cup"/>
+    <path id="jwsdp">
+      <pathelement location="${jwsdp.classpath}"/>
+    </path>
+    <pathconvert targetos="unix" property="jwsdp.unix" refid="jwsdp"/>
+    <pathconvert targetos="windows" property="jwsdp.win" refid="jwsdp"/>
+    <path id="parser">
+      <pathelement location="${czt.jar.dir}/${parser.jar.file}"/>
+    </path>
+    <pathconvert targetos="unix" property="parser.unix" refid="parser"/>
+    <pathconvert targetos="windows" property="parser.win" refid="parser"/>
+    <path id="rhino">
+      <pathelement location="${rhino.jar}"/>
+    </path>
+    <pathconvert targetos="unix" property="rhino.unix" refid="rhino"/>
+    <pathconvert targetos="windows" property="rhino.win" refid="rhino"/>
+    <path id="z2b">
+      <pathelement location="${czt.jar.dir}/${z2b.jar.file}"/>
+    </path>
+    <pathconvert targetos="unix" property="z2b.unix" refid="z2b"/>
+    <pathconvert targetos="windows" property="z2b.win" refid="z2b"/>
+    <echo file="${unix.settings.file}" append="false">
 # corejava jar files
-COREJAVA=${czt.jar.dir}/${corejava.base.jar.file}:${czt.jar.dir}/${corejava.core.jar.file}:${czt.jar.dir}/${corejava.oz.jar.file}:${czt.jar.dir}/${corejava.zpatt.jar.file}:${czt.jar.dir}/${corejava.jaxb.jar.file}
+COREJAVA=${corejava.unix}
 # corejava base
-COREJAVA_BASE=${czt.jar.dir}/${corejava.base.jar.file}
+COREJAVA_BASE=${corebase.unix}
 # Gaffe GUI generator and animator
-GAFFE=${czt.jar.dir}/${gaffe.jar.file}:${czt.jar.dir}/${gaffe.generator.jar.file}
+GAFFE=${gaffe.unix}
 # java cup
-JAVA_CUP=${javacup.home}
-# JFlex
-JFLEX=${jflex.jar}
+JAVA_CUP=${cup.unix}
 # all jwsdp jar files needed for running corejava
-JWSDP=${jwsdp.classpath}
+JWSDP=${jwsdp.unix}
 # parser jar file
-PARSER=${czt.jar.dir}/${parser.jar.file}
+PARSER=${parser.unix}
 # rhino jar file
-RHINO=${rhino.jar}
+RHINO=${rhino.unix}
 # Z2B translator jar file
-Z2B=${czt.jar.dir}/${z2b.jar.file}
+Z2B=${z2b.unix}
+    </echo>
+    <echo file="${windows.settings.file}" append="false">
+rem corejava jar files
+COREJAVA=${corejava.win}
+rem corejava base
+COREJAVA_BASE=${corebase.win}
+rem Gaffe GUI generator and animator
+GAFFE=${gaffe.win}
+rem java cup
+JAVA_CUP=${cup.win}
+rem all jwsdp jar files needed for running corejava
+JWSDP=${jwsdp.win}
+rem parser jar file
+PARSER=${parser.win}
+rem rhino jar file
+RHINO=${rhino.win}
+rem Z2B translator jar file
+Z2B=${z2b.win}
     </echo>
   </target>
 
