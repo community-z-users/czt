@@ -43,9 +43,9 @@ public class DomXmlWriter implements XmlWriter
   private static final Logger sLogger =
     Logger.getLogger("net.sourceforge.czt.zed.dom." + sClassName);
 
-  Visitor mVisitor;
+  DomVisitor mVisitor;
 
-  public DomXmlWriter(Visitor v)
+  public DomXmlWriter(DomVisitor v)
   {
     mVisitor = v;
   }
@@ -59,7 +59,7 @@ public class DomXmlWriter implements XmlWriter
     try {
       DocumentBuilder builder = factory.newDocumentBuilder();
       document = builder.newDocument();
-
+      mVisitor.setDocument(document);
       Element root = (Element) term.accept(mVisitor);
       root.setAttributeNS("http://www.w3.org/2000/xmlns/",
 			  "xmlns",
