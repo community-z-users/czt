@@ -36,7 +36,7 @@ import net.sourceforge.czt.base.util.XmlReader;
  */
 public class Eg1 extends TestCase
 {
-  private String filename_ = "../../zml/examples/eg1.xml";
+  private String filename_ = "../../zml/examples/z/eg1.xml";
   private Spec spec_;
   private ZSect zSect_;
 
