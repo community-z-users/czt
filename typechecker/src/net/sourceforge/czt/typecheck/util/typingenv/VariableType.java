@@ -2,17 +2,19 @@ package net.sourceforge.czt.typecheck.util.typingenv;
 
 import net.sourceforge.czt.base.ast.ListTerm;
 import net.sourceforge.czt.base.impl.ListTermImpl;
-import net.sourceforge.czt.z.ast.Type;
+import net.sourceforge.czt.z.impl.TypeImpl;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.base.ast.Term;
 
-public class VariableType implements Type
+public class VariableType
+  extends TypeImpl
 {
   private static int serial_ = 0;
   private String name_;
 
   public VariableType()
   {
+    super();
     name_ = new String("_alpha_" + Integer.toString(serial_++));
   }
 
@@ -21,25 +23,17 @@ public class VariableType implements Type
    */
   public VariableType(String n)
   {
+    super();
     name_ = n;
   }
 
-  public ListTerm getAnns()
+  public Object[] getChildren()
   {
-    return new ListTermImpl(Object.class);
-  }
-
-  public Object accept(Visitor visitor)
-  {
-    return this;
+    Object[] result = {  };
+    return result;
   }
 
   public Term create(Object[] args)
-  {
-    return null;
-  }
-
-  public Object[] getChildren()
   {
     return null;
   }
