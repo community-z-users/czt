@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <project basedir="." default="usertest">
+  <!-- set this to the relative directory name of some recent usertest results. -->
+  <property name="latest.usertests" value="version4_06-07-2004"/>
+  <property name="tmp.usertests" value="tmp_usertests"/>
   <property name="czt.home" location="../.."/>
   <property file="${czt.home}/czt.properties"/>
   <property name="test.build.dir" value="build"/>
@@ -26,7 +29,7 @@
     <mkdir dir="${test.build.dir}"/>
   </target>
 
-  <target name="compile" depends="init" description="compile the test">
+  <target name="compile" depends="init" description="compile the tests">
     <javac srcdir="src" destdir="${test.build.dir}" debug="on"
       source="1.4">
       <classpath refid="classpath"/>
@@ -49,7 +52,8 @@
     </jar>
   </target>
   
-  <target name="usertest" depends="install">
+  <target name="usertest" depends="install"
+      description="Try all user tests and compare results with ${latest.usertests}">
     <junit reloading="false" printsummary="on">
       <formatter type="brief" usefile="true"/>
       <test name="net.sourceforge.czt.animation.eval.AnimateIntsTest"/>
@@ -65,24 +69,21 @@
         <pathelement location="${test.jar.file}"/>
       </classpath>
     </junit>
-<!--    <java classname="net.sourceforge.czt.animation.eval.CreateNewVersion"
-      <arg>tmp</arg><arg>tmp</arg>
+    <mkdir dir="${tmp.usertests}"/>
+    <copy todir="${tmp.usertests}">
+        <fileset dir="." includes="TEST-net.sourceforge.czt.*.txt"/>
+    </copy>
+    <java classname="net.sourceforge.czt.animation.eval.CompareUserTests">
+      <arg file="${latest.usertests}"/>
+      <arg file="${tmp.usertests}"/>
       <classpath>
         <path refid="classpath"/>
         <pathelement location="${test.jar.file}"/>
       </classpath>
     </java>
-    <java classname="net.sourceforge.czt.animation.eval.CompareUserTests"
-      <arg>4</arg><arg>06-07-2004</arg>
-      <arg>tmp</arg><arg>tmp</arg>
-      <classpath>
-        <path refid="classpath"/>
-        <pathelement location="${test.jar.file}"/>
-      </classpath>
-    </java>-->
   </target>
 
-  <target name="test" depends="install">
+  <target name="test" depends="install" description="Run all unit tests">
     <junit reloading="false" printsummary="off">
       <formatter type="brief" usefile="false"/>
       <test name="net.sourceforge.czt.animation.eval.EnvirTest"/>
@@ -106,7 +107,7 @@
     </junit>
   </target>
 
-  <target name="printclasspath">
+  <target name="printclasspath" description="Show the CLASSPATH">
       <pathconvert targetos="unix" property="tmp.clspath"
             refid="classpath">
     </pathconvert>

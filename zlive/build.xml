@@ -77,12 +77,12 @@
   </target>
 
   <target name="usertest" depends="install"
-    description="build and run the tests">
+    description="build and run all the user tests and report changes">
     <ant dir="tests" target="usertest"/>
   </target>
 
   <target name="test" depends="install"
-    description="build and run the tests">
+    description="build and run the unit tests">
     <ant dir="tests" target="test"/>
   </target>
 
