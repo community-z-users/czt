@@ -87,6 +87,9 @@ public class <class/>
 <add:oz>
                 Sym.DCNJ, Sym.DGCH, Sym.DSQC,
 </add:oz>
+<add:tcoz>
+		Sym.DGCH, Sym.DIL, Sym.DIC, Sym.DPARA,
+</add:tcoz>
     };
 
   /**
