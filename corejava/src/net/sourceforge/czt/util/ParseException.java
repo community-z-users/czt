@@ -27,6 +27,7 @@ package net.sourceforge.czt.util;
 public class ParseException
   extends Exception
 {
+  private String reason_;
   private int line_ = -1;
   private int column_ = -1;
   private String source_ = null;
@@ -35,29 +36,27 @@ public class ParseException
    * Constructs a new parse exception with the specified message, source
    * line number and column number.
    */
-  public ParseException(String message,
+  public ParseException(String reason,
                         String source,
                         int line,
                         int column)
   {
-    super(message);
+    reason_ = reason;
     line_ = line;
     column_ = column;
     source_ = source;
   }
 
-  public ParseException(String message, Exception cause) 
+  public ParseException(String reason,
+                        String source,
+                        int line,
+                        int column,
+                        Exception cause) 
   {
-    super(message, cause);
-  }
-
-  /**
-   * Constructs a new parse exception with the specified message
-   * and source.
-   */
-  public ParseException(String message, String source)
-  {
-    super(message);
+    super(cause);
+    reason_ = reason;
+    line_ = line;
+    column_ = column;
     source_ = source;
   }
 
@@ -65,9 +64,9 @@ public class ParseException
    * Constructs a new parse exception with the specified message,
    * line and column number.
    */
-  public ParseException(String message, int line, int column)
+  public ParseException(String reason, int line, int column)
   {
-    super(message);
+    reason_ = reason;
     line_ = line;
     column_ = column;
   }
@@ -133,13 +132,13 @@ public class ParseException
     source_ = source;
   }
 
-  public String toString()
+  public String getMessage()
   {
     String result = "";
     if (source_ != null) {
       result += "Parse error in " + source_ + ":\n";
     }
-    result += getMessage();
+    result += reason_;
     if (line_ != -1) {
       result += " at line " + line_;
     }
