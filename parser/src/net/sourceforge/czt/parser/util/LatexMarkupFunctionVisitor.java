@@ -28,53 +28,54 @@ import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
-public class OpTableVisitor
+public class LatexMarkupFunctionVisitor
   implements SectionInfoService,
              TermVisitor,
+             LatexMarkupParaVisitor,
              ListTermVisitor,
-             OptempParaVisitor,
              ParaVisitor,
              ZSectVisitor
 {
-  OpTable table_;
+  LatexMarkupFunction table_;
   SectionInfo sectInfo_;
 
   /**
    * Creates a new operator table visitor.
    * The section information should be able to provide information of
-   * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
+   * type <code>net.sourceforge.czt.parser.util.LatexMarkupFunction.class</code>.
    */
-  public OpTableVisitor(SectionInfo sectInfo)
+  public LatexMarkupFunctionVisitor(SectionInfo sectInfo)
   {
     sectInfo_ = sectInfo;
   }
 
   public Class getInfoType()
   {
-    return OpTable.class;
+    return LatexMarkupFunction.class;
   }
 
   public Object run(ZSect sect)
   {
     sect.accept(this);
-    return getOpTable();
+    return getLatexMarkupFunction();
   }
 
   public List getRequiredInfoTypes()
   {
     List result = new ArrayList();
-    result.add(OpTable.class);
+    result.add(LatexMarkupFunction.class);
     return result;
   }
 
-  public OpTable getOpTable()
+  public LatexMarkupFunction getLatexMarkupFunction()
   {
     return table_;
   }
 
   public Object visitTerm(Term term)
   {
-    final String message = "OpTables can only be build for ZSects; " +
+    final String message =
+      "LatexMarkupFunction can only be build for ZSects; " +
       "was tried for " + term.getClass();
     throw new UnsupportedOperationException(message);
   }
@@ -91,41 +92,43 @@ public class OpTableVisitor
     return null;
   }
 
-  public Object visitOptempPara(OptempPara optempPara)
+  public Object visitPara(Para para)
   {
-    try {
-      table_.add(optempPara);
-    }
-    catch (OpTable.OperatorException e) {
-      throw new CztException(e);
-    }
     return null;
   }
 
-  public Object visitPara(Para para)
+  public Object visitLatexMarkupPara(LatexMarkupPara para)
   {
+    List directives = para.getDirective();
+    for (Iterator iter = directives.iterator(); iter.hasNext(); ) {
+      Directive directive = (Directive) iter.next();
+      try {
+        table_.add(directive);
+      }
+      catch (MarkupException e)
+      {
+        throw new CztException(e);
+      }
+    }
     return null;
   }
 
   public Object visitZSect(ZSect zSect)
   {
     final String name = zSect.getName();
-    List parentTables = new ArrayList();
+    table_ = new LatexMarkupFunction(name);
     for (Iterator iter = zSect.getParent().iterator(); iter.hasNext(); ) {
       Parent parent = (Parent) iter.next();
-      OpTable parentTable =
-        (OpTable) sectInfo_.getInfo(parent.getWord(),
-                                    OpTable.class);
-      if (parentTable != null) {
-        parentTables.add(parentTable);
+      LatexMarkupFunction parentTable =
+        (LatexMarkupFunction) sectInfo_.getInfo(parent.getWord(),
+                                                LatexMarkupFunction.class);
+      try {
+        table_.add(parentTable);
       }
-    }
-    try {
-      table_ = new OpTable(name, parentTables);
-    }
-    catch (OpTable.OperatorException e)
-    {
-      throw new CztException(e);
+      catch (MarkupException e)
+      {
+        throw new CztException(e);
+      }
     }
     visit(zSect.getPara());
     return null;

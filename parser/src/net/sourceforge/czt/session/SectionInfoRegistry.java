@@ -1,29 +1,28 @@
-/**
-Copyright (C) 2004 Petra Malik
-This file is part of the czt project.
+/*
+  Copyright (C) 2004 Petra Malik
+  This file is part of the czt project.
 
-The czt project contains free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+  The czt project contains free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
 
-The czt project is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+  The czt project is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with czt; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  You should have received a copy of the GNU General Public License
+  along with czt; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 package net.sourceforge.czt.session;
 
+import java.util.Collection;
+
 /**
- * <p>Provides a specific kind of information about sections.</p>
- *
- * <p>All classes that want to register to a SectionInfoRegistry
- * have to implement this interface.</p>
+ * A registry where section info services can register their service.
  *
  * @author Petra Malik
  */
@@ -31,11 +30,9 @@ public interface SectionInfoRegistry
   extends SectionInfo
 {
   /**
-   * Registers a new service.
-   *
-   * @throws AlreadyRegisteredException if a service that provides
-   * the same type of information is already registered.
+   * Returns a collection of the registered section info services.
+   * Depending on the implementation, the returned collection may
+   * be immutable or can be used to add and remove services.
    */
-  void register(SectionInfoService service)
-    throws AlreadyRegisteredException;
+  Collection getServices();
 }

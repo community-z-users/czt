@@ -42,4 +42,14 @@ public interface SectionInfo
    * if this kind of information is not available.
    */
   Object getInfo(String sectionName, Class infoType);
+
+  /**
+   * Returns whether a section with the given name is available.
+   */
+  boolean isAvailable(String sectionName);
+
+  /**
+   * Returns whether the given type of information is available.
+   */
+  boolean isAvailable(Class infoType);
 }

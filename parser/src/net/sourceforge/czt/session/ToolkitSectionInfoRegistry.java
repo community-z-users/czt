@@ -27,12 +27,16 @@ import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.*;
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.*;
 
-public class SimpleSectionInfoRegistry
+public final class ToolkitSectionInfoRegistry
   implements SectionInfoRegistry
 {
+  private static ToolkitSectionInfoRegistry instance =
+    new ToolkitSectionInfoRegistry();
+
   /**
    * A map from section name to ZSect.
    */
@@ -43,8 +47,56 @@ public class SimpleSectionInfoRegistry
    */
   private Map services_ = new HashMap();
 
+  public static SectionInfoRegistry getInstance()
+  {
+    return instance;
+  }
+
+  private ToolkitSectionInfoRegistry()
+  {
+    String[] toolkitFiles = {
+      "prelude.tex",
+      "set_toolkit.tex",
+      "function_toolkit.tex",
+      "number_toolkit.tex",
+      "sequence_toolkit.tex",
+      "standard_toolkit.tex"
+    };
+
+    for (int i = 0; i < toolkitFiles.length; i++) {
+      try {
+        URL url = getClass().getResource("/lib/" + toolkitFiles[i]);
+        Reader in = new InputStreamReader(url.openStream());
+        LatexParser parser = new LatexParser(in, url.toString(), this);
+        Spec spec = (Spec) parser.parse();
+        for (Iterator iter = spec.getSect().iterator(); iter.hasNext(); ) {
+          Object o = iter.next();
+          if (o instanceof ZSect) {
+            ZSect zSect = (ZSect) o;
+            ast_.put(zSect.getName(), zSect);
+          }
+        }
+      }
+      catch (Exception e) {
+        throw new CztException("Cannot parse toolkit " + toolkitFiles[i], e);
+      }
+    }
+
+    SectionInfoService[] services = {
+      new OpTableVisitor(this),
+      new DefinitionTableVisitor(this),
+      new LatexMarkupFunctionVisitor(this)
+    };
+
+    for (int i = 0; i < services.length; i++) {
+      Class infoType = services[i].getInfoType();
+      services_.put(services[i].getInfoType(), services[i]);
+    }
+  }
+
   /**
-   * Returns a {@link ServiceCollection}.
+   * Returns a {@link ServiceCollection}, that is a collection
+   * that does not support adding elements.
    */
   public Collection getServices()
   {
@@ -71,62 +123,9 @@ public class SimpleSectionInfoRegistry
     return false;
   }
 
-  /**
-   * Adds all Z sections of the given specification.
-   */
-  public void add(Spec spec)
-  {
-    for (Iterator iter = spec.getSect().iterator(); iter.hasNext(); ) {
-      Sect sect = (Sect) iter.next();
-      if (sect instanceof ZSect) {
-        add((ZSect) sect);
-      }
-    }
-  }
-
-  /**
-   * Adds a Z section.
-   */
-  public void add(ZSect sect)
-  {
-    ast_.put(sect.getName(), sect);
-  }
-
-  /**
-   * Removes a Z section.
-   */
-  public ZSect remove(String name)
-  {
-    return (ZSect) ast_.remove(name);
-  }
-
   private class ServiceCollection
     extends AbstractCollection
   {
-    /**
-     * @throws NullPointerException if the object is <code>null</code>
-     * @throws ClassCastException if the given object is not of type
-     *         SectionInfoService.
-     * @throws IllegalArgumentException if a different service
-     *         that provides that type of information is already registered.
-     */
-    public boolean add(Object o)
-    {
-      SectionInfoService service = (SectionInfoService) o;
-      Class infoType = service.getInfoType();
-      SectionInfoService existingService =
-        (SectionInfoService) services_.get(infoType);
-      if (existingService != null) {
-        if (existingService.equals(service)) return false;
-        String message = "Cannot register " + service + "; " +
-          "section information of type " + infoType +
-          " is already provided by " + services_.get(infoType);
-        throw new IllegalArgumentException(message);
-      }
-      services_.put(infoType, service);
-      return true;
-    }
-
     public Iterator iterator()
     {
       return services_.values().iterator();

@@ -30,45 +30,60 @@ import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.*;
 
-public class SimpleSectionInfoRegistry
+public class WrappedSectionInfoRegistry
   implements SectionInfoRegistry
 {
+  private SectionInfoRegistry registry_;
+
   /**
    * A map from section name to ZSect.
    */
   private Map ast_ = new HashMap();
 
-  /**
-   * A map from Class to SectionInfoService.
-   */
-  private Map services_ = new HashMap();
+  public WrappedSectionInfoRegistry(SectionInfoRegistry registry)
+  {
+    if (registry == null) throw new NullPointerException();
+    registry_ = registry;
+  }
 
   /**
    * Returns a {@link ServiceCollection}.
    */
   public Collection getServices()
   {
-    return new ServiceCollection();
+    return registry_.getServices();
   }
 
   public Object getInfo(String sectionName, Class infoType)
   {
-    SectionInfoService service = (SectionInfoService) services_.get(infoType);
     ZSect sect = (ZSect) ast_.get(sectionName);
-    if (service == null || sect == null) return null;
-    return service.run(sect);
+    if (sect == null) return registry_.getInfo(sectionName, infoType);
+    Collection services = registry_.getServices();
+    for (Iterator iter = services.iterator(); iter.hasNext(); ) {
+      SectionInfoService service = (SectionInfoService) iter.next();
+      if (infoType.equals(service.getInfoType())) {
+        try {
+          return service.run(sect);
+        }
+        catch (Exception e) {
+          String message = "Error while applying service " + service +
+            " to section " + sectionName + ": " + e.getMessage();
+          CztLogger.getLogger(getClass()).warning(message);
+        }
+      }
+    }
+    return null;
   }
 
   public boolean isAvailable(String sectionName)
   {
     if (ast_.get(sectionName) != null) return true;
-    return false;
+    return registry_.isAvailable(sectionName);
   }
 
   public boolean isAvailable(Class infoType)
   {
-    if (services_.get(infoType) != null) return true;
-    return false;
+    return registry_.isAvailable(infoType);
   }
 
   /**
@@ -98,43 +113,5 @@ public class SimpleSectionInfoRegistry
   public ZSect remove(String name)
   {
     return (ZSect) ast_.remove(name);
-  }
-
-  private class ServiceCollection
-    extends AbstractCollection
-  {
-    /**
-     * @throws NullPointerException if the object is <code>null</code>
-     * @throws ClassCastException if the given object is not of type
-     *         SectionInfoService.
-     * @throws IllegalArgumentException if a different service
-     *         that provides that type of information is already registered.
-     */
-    public boolean add(Object o)
-    {
-      SectionInfoService service = (SectionInfoService) o;
-      Class infoType = service.getInfoType();
-      SectionInfoService existingService =
-        (SectionInfoService) services_.get(infoType);
-      if (existingService != null) {
-        if (existingService.equals(service)) return false;
-        String message = "Cannot register " + service + "; " +
-          "section information of type " + infoType +
-          " is already provided by " + services_.get(infoType);
-        throw new IllegalArgumentException(message);
-      }
-      services_.put(infoType, service);
-      return true;
-    }
-
-    public Iterator iterator()
-    {
-      return services_.values().iterator();
-    }
-
-    public int size()
-    {
-      return services_.values().size();
-    }
   }
 }
