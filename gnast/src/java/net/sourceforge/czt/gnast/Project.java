@@ -146,6 +146,8 @@ public class Project
     String name = project_.getClassName(id);
     String template = project_.getTemplate(id);
     String packageName = project_.getPackage(id);
+    String addCodeFilename = "src/vm/" + name + ".java";
+    File addCodeFile = new File(addCodeFilename);
 
     if (name == null || template == null || packageName == null) {
       logSevere("Cannot generate class with id " + id);
@@ -155,6 +157,9 @@ public class Project
     Map map = new HashMap();
     map.put("Name", name);
     map.put("Package", packageName);
+    if (addCodeFile.exists()) {
+      map.put("AdditionalCodeFilename", addCodeFilename);
+    }
     apgen_.addToContext("class", map);
     apgen_.setTemplate("src/vm/" + template);
     String filename =

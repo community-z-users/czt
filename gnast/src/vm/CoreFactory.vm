@@ -72,4 +72,7 @@ public interface ${class.Name}
 #end
 #end
 #end
+#if($class.AdditionalCodeFilename)
+#include($class.AdditionalCodeFilename)
+#end
 }
