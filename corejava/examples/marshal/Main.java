@@ -39,7 +39,6 @@ public class Main {
       XmlWriter writer = new JaxbXmlWriter();
       System.out.println("****************************************");
       System.out.println("Marshalling using Jaxb");
-      System.out.println("(broken due to a bug in Jaxb):");
       System.out.println("****************************************");
       writer.write(spec, System.out);
 
