@@ -1,0 +1,223 @@
+#*
+Copyright 2003 Petra Malik
+This file is part of the czt project.
+
+The czt project contains free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+The czt project is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with czt; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*#
+#set($Term = "#package($AstBase_Package).${AstBase_Name}")
+#if($copyright)#include($copyright)
+#end
+
+package ${BasePackage}.${class.Package};
+
+import java.io.IOException;
+import java.util.logging.Logger;
+import java.util.*;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+
+import ${jaxbPackage}.*;
+import org.w3._2001.xmlschema.*;
+import #package(${AstVisitorInterface_Package}).${AstVisitorInterface_Name};
+
+#foreach($import in $imports)
+import ${import};
+#end
+
+/**
+ * The marshaller responsible for serializing XML data.
+ *
+#if($author) * @author ${author}
+#end
+ */
+public class $class.Name implements ${AstVisitorInterface_Name}
+{
+  private static Logger mLogger =
+    Logger.getLogger("#package(${class.Package}).${class.Name}");
+
+  /**
+   * The ObjectFactory instances for generating Jaxb objects.
+   */
+  protected ${jaxbPackage}.ObjectFactory
+    mObjectFactory = new ${jaxbPackage}.ObjectFactory();
+  protected org.w3._2001.xmlschema.ObjectFactory
+    mAnyTypeObjectFactory = new org.w3._2001.xmlschema.ObjectFactory();
+
+  /**
+   * A map that maps id's to the corresponding Object
+   */
+  protected Map mHash = new HashMap();
+
+  public Object visitTerm(#package($AstPackage).Term zedObject)
+  {
+    throw(new UnsupportedOperationException());
+  }
+
+  public Object visitTermA(#package($AstPackage).TermA zedObject)
+  {
+    throw(new UnsupportedOperationException());
+  }
+#foreach($c in $classes)
+#if(${c.Abstract})
+
+  public Object visit${c.Name}(#package($AstPackage).${c.Name} zedObject)
+  {
+    throw(new UnsupportedOperationException());
+  }
+#elseif($c.Name == "RefName")
+
+  public Object visitRefName(#package($AstPackage).RefName zedObject)
+  {
+    mLogger.entering("${class.Package}.${class.Name}", "visitRefName", zedObject);
+    try {
+      RefName jaxbObject = mObjectFactory.createRefName();
+      if (zedObject.getDecl() != null) {
+	String id = zedObject.getDecl().getId();
+        mLogger.finer("Retrieve reference " + id);
+        DeclName decl = (DeclName) mHash.get(id);
+	if(decl == null) {
+	  mLogger.warning("Could not find reference " + id);
+	}
+	jaxbObject.setDecl(decl);
+      }
+      {
+        java.util.List list = zedObject.getAnns();
+        if(list.size() > 0) {
+	  ${jaxbPackage}.TermA.AnnsType anns =
+	    mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    $Term term = ($Term) iter.next();
+            Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+        }
+      }
+      jaxbObject.setWord((String) zedObject.getWord());
+      {
+        java.util.List list = zedObject.getStroke();
+        java.util.List newlist = jaxbObject.getStroke();
+        for(Iterator iter=list.iterator(); iter.hasNext();) {
+	  $Term term = ($Term) iter.next();
+          Object o = term.accept(this);
+          newlist.add(o);
+        }
+      }
+      mLogger.exiting("${class.Package}.${class.Name}", "visitRefName", jaxbObject);
+      return jaxbObject;
+    } catch( Exception e) { e.printStackTrace(); return null; }
+  }
+#elseif($c.Name == "DeclName")
+#set($DeclName = "#package(${AstPackage}).DeclName")
+
+  public java.lang.Object visitDeclName($DeclName zedObject)
+  {
+    mLogger.entering("${class.Package}.${class.Name}", "visitDeclName", zedObject);
+    try {
+      DeclName jaxbObject = mObjectFactory.createDeclName();
+      if (zedObject.getId() != null) {
+        mLogger.finest("Setting Id to " + zedObject.getId().toString());
+	jaxbObject.setId(zedObject.getId());
+        mLogger.finer("Hashing " + zedObject.getId());
+        mHash.put(zedObject.getId(), jaxbObject);
+      }
+      {
+        java.util.List list = zedObject.getAnns();
+        if(list.size() > 0) {
+	  ${jaxbPackage}.TermA.AnnsType anns =
+	    mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    $Term term = ($Term) iter.next();
+            Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+        }
+      }
+      mLogger.finest("Setting Word to " + zedObject.getWord().toString());
+      jaxbObject.setWord(zedObject.getWord());
+      {
+        java.util.List list = zedObject.getStroke();
+        mLogger.finest("Setting strokes " + list.toString());
+        java.util.List newlist = jaxbObject.getStroke();
+        for(Iterator iter=list.iterator(); iter.hasNext();) {
+	  $Term term = ($Term) iter.next();
+          Object o = term.accept(this);
+          newlist.add(o);
+        }
+      }
+      mLogger.exiting("${class.Package}.${class.Name}", "visitDeclName", jaxbObject);
+      return jaxbObject;
+    } catch( Exception e) { e.printStackTrace(); return null; }
+  }
+#else
+
+  public Object visit${c.Name}(#package(${AstPackage}).${c.Name} zedObject)
+  {
+    mLogger.entering("${class.Package}.${class.Name}", "visit${c.Name}", zedObject);
+
+    $c.Name jaxbObject = null;
+    try {
+      jaxbObject = mObjectFactory.create${c.Name}();
+#foreach($prop in $c.AllProperties)
+#if($prop.Name == 'anns')
+      {
+        java.util.List list = zedObject.getAnns();
+        if(list.size() > 0) {
+          ${jaxbPackage}.TermA.AnnsType anns =
+	    mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    $Term term = ($Term) iter.next();
+            java.lang.Object o = term.accept(this);
+            newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+        }
+      }
+#elseif($prop.Type == 'java.util.List')
+      {
+        java.util.List list = zedObject.${prop.GetterName}();
+        java.util.List newlist = jaxbObject.${prop.GetterName}();
+        for(Iterator iter=list.iterator(); iter.hasNext();) {
+          $Term term = ($Term) iter.next();
+          java.lang.Object o = term.accept(this);
+	  newlist.add(o);
+        }
+      }
+#else
+      if (zedObject.${prop.GetterName}()!=null) {
+#if($prop.Type == 'String' || $prop.Type == 'java.lang.String' || $prop.Type == 'java.math.BigInteger' || $prop.Type =='org.w3._2001.xmlschema.AnyType' || $prop.Type == 'java.lang.Integer' || $prop.Type == 'Integer' || $prop.Type == 'java.lang.Boolean' || $prop.Type == 'Boolean')
+        jaxbObject.${prop.SetterName}(zedObject.${prop.GetterName}());
+#elseif($prop.Type == 'Box' || $prop.Type == 'Cat' || $prop.Type == 'Assoc' || $prop.Type == 'Op')
+        jaxbObject.${prop.SetterName}(zedObject.${prop.GetterName}().toString());
+#else
+        jaxbObject.${prop.SetterName}((${prop.Type}) zedObject.${prop.GetterName}().accept(this));
+#end
+      }
+#end
+#end
+    } catch(Exception e) { e.printStackTrace(); }
+
+    mLogger.exiting("${class.Package}.${class.Name}", "visit${c.Name}", jaxbObject);
+    return jaxbObject;
+  }
+#end
+#end
+}

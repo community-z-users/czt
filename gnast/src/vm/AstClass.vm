@@ -1,0 +1,198 @@
+#*
+Copyright 2003 Petra Malik
+This file is part of the czt project.
+
+The czt project contains free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+The czt project is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with czt; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*#
+#set($className = "${class.Name}${implPostfix}")
+#if($copyright)#include($copyright)
+#end
+package #package($ImplPackage);
+
+import java.util.*;
+import java.util.logging.*;
+
+import #package($AstPackage).*;
+import net.sourceforge.czt.core.util.*;
+
+/**
+ * An implementation of the interface
+ * {@link ${class.Name}}.
+ *
+#if($author) * @author ${author}
+#end
+ */
+public#if($class.Abstract) abstract#end class ${className}
+#if($class.Extends)extends ${class.Extends}${implPostfix} #end
+implements ${class.Name}
+{
+#if(! ${class.Abstract})
+  private static Logger mLogger =
+    Logger.getLogger("#package($ImplPackage).${className}");
+
+#end
+#if(${class.AllImmutableProperties} && ${class.AllImmutableProperties.size()} > 0)
+  /**
+   * The constructor.
+   *
+   * Do not use it explicitly, unless you are extending this class.
+   * If you want to create an instance of this class, please use the
+   * {@link ${AstFactoryInterface_Name} object factory}.
+   */
+  protected ${className}(#typeVarList($class.AllImmutableProperties))
+  {
+    super(#varList($class.InheritedImmutableProperties));
+#foreach($prop in $class.ImmutableProperties)
+#if($prop.Type == 'java.util.List')
+    $prop.MemVarName = new ImmutableList($prop.VarName);
+#else
+    $prop.MemVarName = $prop.VarName;
+#end
+#end
+  }
+#elseif(! ${class.Abstract})
+  /**
+   * The default constructor.
+   *
+   * Do not use it explicitly, unless you are extending this class.
+   * If you want to create an instance of this class, please use the
+   * {@link ${AstFactoryInterface_Name} object factory}.
+   */
+  protected ${className}() { }
+#end ##if($immutable)
+
+  /**
+   * Compares the specified object with this $className
+   * for equality.  Returns true if and only if the specified object is
+   * also a $className and all the getter methods except getAnns
+   * return equal objects.
+   */
+  public boolean equals(Object obj)
+  {
+    if(obj != null &&
+       this.getClass().equals(obj.getClass()) &&
+       super.equals(obj)) {
+      $className object = ($className) obj;
+#foreach($prop in ${class.Properties})
+      if(${prop.MemVarName} !=null &&
+         ! ${prop.MemVarName}.equals(object.${prop.MemVarName})) return false;
+      if(${prop.MemVarName} == null && object.${prop.MemVarName} != null)
+        return false;
+#end
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Returns the hash code value for this ${className}.
+   * The hash code of a ${className} is defined to be
+   * the result of the following calculation:
+   *
+   * @czt.todo Write the calculation procedure for method hashCode().
+   */
+  public int hashCode()
+  {
+    int hashCode = super.hashCode();
+#foreach($prop in ${class.Properties})
+    if(${prop.MemVarName} != null) {
+      hashCode += 31*${prop.MemVarName}.hashCode();
+    }
+#end
+    return hashCode;
+  }
+
+#if(! ${class.Abstract})
+  /**
+   * Accepts a visitor.
+   */
+  public Object accept(${AstVisitorInterface_Name} v) {
+    return v.visit${class.Name}((${class.Name})this);
+  }
+
+  /**
+   * Returns a new object of this class.
+   */
+  public Term create(Object[] args) {
+    String methodName = "create";
+    mLogger.entering("${className}", methodName);
+    ${class.Name} zedObject = null;
+    try {
+#foreach($prop in $class.AllProperties)
+#set($counter = $velocityCount - 1)
+      ${prop.Type} ${prop.VarName} = (${prop.Type}) args[$counter];
+#end
+      zedObject = new ${className}(#varList(${class.AllImmutableProperties}));
+#foreach($prop in $class.AllProperties)
+#if(! ${prop.Immutable})
+#if(${prop.Type} == 'java.util.List')
+      if(${prop.VarName} != null) {
+        zedObject.${prop.GetterName}().addAll(${prop.VarName});
+      }
+#else
+      zedObject.${prop.SetterName}(${prop.VarName});
+#end
+#end## ! immutable
+#end## foreach prop
+    } catch (IndexOutOfBoundsException e) {
+      throw new IllegalArgumentException();
+    } catch (ClassCastException e) {
+      throw new IllegalArgumentException();
+    }
+    mLogger.entering("${className}", methodName, zedObject);
+    return zedObject;
+  }
+
+  public Object[] getChildren()
+  {
+    String methodName = "getChildren";
+    mLogger.entering("${className}", methodName);
+    Object[] erg = { #getterList(${class.AllProperties}) };
+    mLogger.exiting("${className}", methodName, erg);
+    return erg;
+  }
+#end##end if not abstract
+#foreach($prop in $class.Properties)
+
+#if(${prop.Type} == 'java.util.List')
+#if(${prop.Immutable})
+  private ImmutableList ${prop.MemVarName};
+#else
+  private ${prop.Type} ${prop.MemVarName} = new java.util.Vector();
+#end
+#else
+  private ${prop.Type} ${prop.MemVarName};
+#end
+
+#if(${prop.Type} == 'java.util.List' && ${prop.Immutable})
+  public ImmutableList ${prop.GetterName}()
+  {
+    return ${prop.MemVarName};
+  }
+#else
+  public ${prop.Type} ${prop.GetterName}()
+  {
+    return ${prop.MemVarName};
+  }
+#end
+#if(${prop.Type} != 'java.util.List' && ! ${prop.Immutable})
+
+  public void ${prop.SetterName}(${prop.Type} ${prop.VarName})
+  {
+    ${prop.MemVarName} = ${prop.VarName};
+  }
+#end
+#end
+}

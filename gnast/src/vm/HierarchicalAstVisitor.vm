@@ -1,0 +1,51 @@
+#*
+Copyright 2003 Petra Malik
+This file is part of the czt project.
+
+The czt project contains free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+The czt project is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with czt; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*#
+#if($copyright)#include($copyright)
+#end
+
+package #package(${class.Package});
+
+import net.sourceforge.czt.core.ast.*;
+
+/**
+ * <p>An abstract hierarchical visitor for visiting
+ * {@link net.sourceforge.czt.core.ast.Term Z terms}.</p>
+ *
+#if($author) * @author ${author}
+#end
+ */
+public abstract class ${class.Name} implements ${AstVisitorInterface_Name}
+{
+  public Object visitTermA(TermA zedObject)
+  {
+    Object erg = visitTerm((Term) zedObject);
+    return erg;
+  }
+
+#foreach($c in $classes)
+#if(${c.Extends})
+  public Object visit${c.Name}(${c.Name} zedObject)
+  {
+    Object erg = visit${c.Extends}((${c.Extends}) zedObject);
+    return erg;
+  }
+
+#end
+#end
+}

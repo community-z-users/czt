@@ -1,0 +1,82 @@
+#*
+Copyright 2003 Petra Malik
+This file is part of the czt project.
+
+The czt project contains free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+The czt project is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with czt; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*#
+#if($copyright)#include($copyright)
+#end
+package #package($AstPackage);
+
+import net.sourceforge.czt.core.util.*;
+
+/**
+#if(${javadoc.get(${class.Name})}) * ${javadoc.get(${class.Name})}
+#end
+ *
+#if($author) * @author ${author}
+#end
+ */
+public interface ${class.Name} #if($class.Extends)extends ${class.Extends}
+#end
+{
+#foreach($prop in $class.Properties)
+
+#set($doc="${class.Name}.${prop.Name}")
+#if(${prop.Type} == 'java.util.List' && ${prop.Immutable})
+  /**
+   * Returns the ${prop.Name} immutable list.
+#if(${javadoc.get(${doc})})   * ${javadoc.get(${doc})}
+#end
+   *
+   * @return an immutable list of ${prop.Name}.
+   */
+  public ImmutableList ${prop.GetterName}();
+#elseif(${prop.Type} == 'java.util.List')
+  /**
+   * <p>Returns the ${prop.Name} elements.</p>
+#if(${javadoc.get(${doc})})   * <p>${javadoc.get(${doc})}</p>
+#end
+   * <p>To add or remove elements, use the methods provided by
+   * the List interface (that's why there is no need for a setter
+   * method).</p>
+   *
+   * @return a list of ${prop.Name} elements.
+   * @czt.todo  Check whether objects that are inserted are
+   *            of the right type.
+   */
+  public ${prop.Type} ${prop.GetterName}();
+#else
+  /**
+   * Returns the ${prop.Name} element.
+#if(${javadoc.get(${doc})})   * ${javadoc.get(${doc})}
+#end
+   *
+   * @return the ${prop.Name} element.
+   */
+  public ${prop.Type} ${prop.GetterName}();
+#end
+#if(${prop.Type} != 'java.util.List' && ! ${prop.Immutable})
+
+  /**
+   * Sets the ${prop.Name} element.
+   *
+   * @param ${prop.VarName}   the ${prop.Name} element.
+   * @see #${prop.GetterName}
+   */
+  public void ${prop.SetterName}(${prop.Type} ${prop.VarName});
+#end
+#end
+}

@@ -1,0 +1,92 @@
+#*
+Copyright 2003 Petra Malik
+This file is part of the czt project.
+
+The czt project contains free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+The czt project is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with czt; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*#
+#if($copyright)#include($copyright)
+#end
+
+package #package(${class.Package});
+
+import java.util.*;
+import java.util.logging.Logger;
+
+import #package(${AstPackage}).*;
+
+/**
+ * The unmarshaller responsible for deserializing XML data.
+ *
+#if($author) * @author ${author}
+#end
+ */
+public class ${class.Name} extends ReflectiveVisitor
+{
+  private static final Logger sLogger =
+    Logger.getLogger("#package(${class.Package}).${class.Name}");
+  protected ${AstFactoryInterface_Name} mObjectFactory;
+
+  public ${class.Name}()
+  {
+    mObjectFactory =
+      new #package(${AstFactoryImpl_Package}).${AstFactoryImpl_Name}();
+  }
+
+  public ${class.Name}(${AstFactoryInterface_Name} factory)
+  {
+    mObjectFactory = factory;
+  }
+
+  public java.lang.Object visitObject(Object o) {
+    sLogger.fine("Visit " + o.getClass().toString());
+    return o;
+  }
+#foreach($c in $classes)
+#if(!$c.Abstract)
+
+  public Object visit${c.Name}(${jaxbPackage}.${c.Name} jaxbObject)
+  {
+    sLogger.entering(this.getClass().toString(), "visit${c.Name}", jaxbObject);
+#foreach($prop in $c.AllProperties)
+#if(${prop.Name} == 'Anns')
+    java.util.List anns = new java.util.Vector();
+    if(jaxbObject.getAnns() != null) {
+      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+	java.lang.Object obj = iter.next();
+	java.lang.Object o = dispatch(obj);
+	anns.add(o);
+      }
+    }
+#elseif(${prop.Type} == 'java.util.List')
+    java.util.List ${prop.VarName} = new java.util.Vector();
+    for(Iterator iter=jaxbObject.${prop.GetterName}().iterator(); iter.hasNext();) {
+      java.lang.Object obj = iter.next();
+      java.lang.Object o = dispatch(obj);
+      ${prop.VarName}.add(o);
+    }
+#elseif($prop.Type == 'Box' || $prop.Type == 'Cat' || $prop.Type == 'Assoc' || $prop.Type == 'Op')
+    ${prop.Type} ${prop.VarName} = ${prop.Type}.fromString(jaxbObject.${prop.GetterName}());
+#else
+    ${prop.Type} ${prop.VarName} =
+      (${prop.Type}) dispatch(jaxbObject.${prop.GetterName}());
+#end
+#end
+    Object erg = mObjectFactory.create${c.Name}(#varList(${c.AllProperties}));
+    sLogger.exiting(this.getClass().toString(), "visit${c.Name}", erg);
+    return erg;
+  }
+#end
+#end
+}
