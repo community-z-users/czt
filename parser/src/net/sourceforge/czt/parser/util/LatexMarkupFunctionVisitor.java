@@ -37,6 +37,7 @@ public class LatexMarkupFunctionVisitor
 {
   private LatexMarkupFunction table_;
   private SectionInfo sectInfo_;
+  private Set dependencies_;
 
   /**
    * Creates a new latex markup function visitor.
@@ -51,6 +52,11 @@ public class LatexMarkupFunctionVisitor
   public Class getInfoType()
   {
     return LatexMarkupFunction.class;
+  }
+
+  public Set getDependencies()
+  {
+    return dependencies_;
   }
 
   public Object run(ZSect sect)
@@ -119,8 +125,8 @@ public class LatexMarkupFunctionVisitor
     for (Iterator iter = zSect.getParent().iterator(); iter.hasNext(); ) {
       Parent parent = (Parent) iter.next();
       LatexMarkupFunction parentTable =
-        (LatexMarkupFunction) sectInfo_.getInfo(parent.getWord(),
-                                                LatexMarkupFunction.class);
+        (LatexMarkupFunction) getInfo(parent.getWord(),
+                                      LatexMarkupFunction.class);
       try {
         table_.add(parentTable);
       }
@@ -136,5 +142,12 @@ public class LatexMarkupFunctionVisitor
   protected void visit(Term term)
   {
     term.accept(this);
+  }
+
+  private Object getInfo(String name, Class type)
+  {
+    Key key = new Key(name, type);
+    dependencies_.add(key);
+    return sectInfo_.getInfo(name, OpTable.class);
   }
 }

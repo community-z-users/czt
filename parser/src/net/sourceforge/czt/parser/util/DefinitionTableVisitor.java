@@ -41,8 +41,9 @@ public class DefinitionTableVisitor
              ParaVisitor,
              ZSectVisitor
 {
-  DefinitionTable table_;
-  SectionInfo sectInfo_;
+  private DefinitionTable table_;
+  private SectionInfo sectInfo_;
+  private Set dependencies_;
 
   /**
    * Creates a new definition table visitor.
@@ -57,6 +58,11 @@ public class DefinitionTableVisitor
   public Class getInfoType()
   {
     return DefinitionTable.class;
+  }
+
+  public Set getDependencies()
+  {
+    return dependencies_;
   }
 
   public List getRequiredInfoTypes()
@@ -132,8 +138,8 @@ public class DefinitionTableVisitor
     for (Iterator iter = zSect.getParent().iterator(); iter.hasNext(); ) {
       Parent parent = (Parent) iter.next();
       DefinitionTable parentTable =
-        (DefinitionTable) sectInfo_.getInfo(parent.getWord(),
-                                            DefinitionTable.class);
+        (DefinitionTable) getInfo(parent.getWord(),
+                                  DefinitionTable.class);
       if (parentTable != null) {
         parentTables.add(parentTable);
       }
@@ -152,5 +158,12 @@ public class DefinitionTableVisitor
   protected void visit(Term term)
   {
     term.accept(this);
+  }
+
+  private Object getInfo(String name, Class type)
+  {
+    Key key = new Key(name, type);
+    dependencies_.add(key);
+    return sectInfo_.getInfo(name, OpTable.class);
   }
 }

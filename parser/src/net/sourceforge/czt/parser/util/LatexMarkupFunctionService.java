@@ -29,7 +29,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
 public class LatexMarkupFunctionService
-  implements SectionInfoService
+  implements SectionInfoService, Command
 {
   private SectionInfo sectInfo_;
 
@@ -60,6 +60,29 @@ public class LatexMarkupFunctionService
     LatexMarkupFunctionVisitor visitor =
       new LatexMarkupFunctionVisitor(sectInfo);
     return visitor.run(sect);
+  }
+
+  public boolean execute(Context context, Map args)
+  {
+    SectMan sectman = (SectMan) context;
+    LatexMarkupFunctionVisitor visitor =
+      new LatexMarkupFunctionVisitor(sectman);
+    Key input = (Key) args.get("input");
+    if (input != null) {
+      Key key = new Key(input.getName(), ZSect.class);
+      ZSect zsect = (ZSect) context.get(key);
+      if (zsect != null) {
+        LatexMarkupFunction table = (LatexMarkupFunction) visitor.run(zsect);
+        if (table != null) {
+          Set dep = visitor.getDependencies();
+          dep.add(key);
+          context.put(new Key(input.getName(), LatexMarkupFunction.class),
+                      table, dep);
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   public List getRequiredInfoTypes()

@@ -35,7 +35,7 @@ import net.sourceforge.czt.z.visitor.*;
  * @author Petra Malik
  */
 public class DefinitionTableService
-  implements SectionInfoService
+  implements SectionInfoService, Command
 {
   SectionInfo sectInfo_;
 
@@ -71,5 +71,27 @@ public class DefinitionTableService
   {
     DefinitionTableVisitor visitor = new DefinitionTableVisitor(sectInfo);
     return visitor.run(sect);
+  }
+
+  public boolean execute(Context context, Map args)
+  {
+    SectMan sectman = (SectMan) context;
+    DefinitionTableVisitor visitor = new DefinitionTableVisitor(sectman);
+    Key input = (Key) args.get("input");
+    if (input != null) {
+      Key key = new Key(input.getName(), ZSect.class);
+      ZSect zsect = (ZSect) context.get(key);
+      if (zsect != null) {
+        DefinitionTable table = (DefinitionTable) visitor.run(zsect);
+        if (table != null) {
+          Set dep = visitor.getDependencies();
+          dep.add(key);
+          context.put(new Key(input.getName(), DefinitionTable.class),
+                      table, dep);
+          return true;
+        }
+      }
+    }
+    return false;
   }
 }
