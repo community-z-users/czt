@@ -10,15 +10,9 @@ the number of tests gained or lost from first to the second version*/
 
 public class CompareUserTests
 {
-  private static File inputFile1,inputFile2;
-  private static FileReader inStream1,inStream2;
-  private static BufferedReader in1,in2;
+  private static String versionDirectoryName1,versionDirectoryName2;
   private static ArrayList passedTests1,passedTests2;
   private static ArrayList gainedTests,lostTests;
-  private static String versionDirectoryName1,versionDirectoryName2;
-  private static String versionNumber1,versionNumber2;
-  private static String date1,date2;
-  private static String compareFileName;
   private static FileOutputStream outStream;
   private static PrintStream out;
   
@@ -115,27 +109,35 @@ public class CompareUserTests
   
   
   private static void compareFile(String fileType)
+    throws IOException
   {
-    String compareFileName;
-    File outputFile;
-    FileReader inStream;
-    BufferedReader in;
+    File inputFile1 = new File(versionDirectoryName1,
+	 "TEST-net.sourceforge.czt.animation.eval.Animate"+fileType+"Test.txt");
+    File inputFile2 = new File(versionDirectoryName2,
+	 "TEST-net.sourceforge.czt.animation.eval.Animate"+fileType+"Test.txt");
+    FileReader inStream1, inStream2;
+    BufferedReader in1, in2;
     String temp;
-    int i=0;
+    //    int i=0;
     try {
-      inputFile1 = new File(versionDirectoryName1 , "TEST-net.sourceforge.czt.animation.eval.Animate"+fileType+"Test.txt");
-      inputFile2 = new File(versionDirectoryName2 , "TEST-net.sourceforge.czt.animation.eval.Animate"+fileType+"Test.txt");
       inStream1 = new FileReader(inputFile1);
-      inStream2 = new FileReader(inputFile2);
       in1 = new BufferedReader(inStream1);
+    }
+    catch (FileNotFoundException e) {
+      System.out.println("ERROR: File not Found: "+inputFile1);
+      return;
+    }
+    try {
+      inStream2 = new FileReader(inputFile2);
       in2 = new BufferedReader(inStream2);
     }
     catch (FileNotFoundException e) {
-      System.out.println("File not Found : Animate"+fileType+"Test.txt");
+      System.out.println("ERROR: File not Found: "+inputFile2);
+      return;
     }
     passedTests1 = new ArrayList();
     passedTests2 = new ArrayList();
-    try {
+    //try {
       do {
         temp = in1.readLine();
         if(temp!=null) {
@@ -155,17 +157,21 @@ public class CompareUserTests
           }
         }
       }while(temp != null);
-    }
-    catch (IOException e) {System.out.println("I/O Error");}
+      //}
+    // catch (IOException e) {System.out.println("I/O Error");}
     gainedTests = new ArrayList();
     lostTests = new ArrayList();
     sortArrays();
     writetoOutputFile(fileType);
+    in1.close();
+    in2.close();
   }
   
   public static void main (String args[])
   throws IOException
   {
+    String versionNumber1,versionNumber2;
+    String date1,date2;
     String userdir = System.getProperty("user.dir");
     if(args.length == 4) {
       versionNumber1 = args[0];
@@ -178,10 +184,10 @@ public class CompareUserTests
     else if(args.length == 2) {
       versionDirectoryName1 = args[0];
       versionDirectoryName2 = args[1];
-      int temp = args[0].lastIndexOf(File.separator);
-      versionNumber1 = args[0].substring(temp);
-      temp = args[1].lastIndexOf(File.separator);
-      versionNumber2 = args[1].substring(temp);
+      int temp = versionDirectoryName1.lastIndexOf(File.separator);
+      versionNumber1 = versionDirectoryName1.substring(temp+1);
+      temp = versionDirectoryName2.lastIndexOf(File.separator);
+      versionNumber2 = versionDirectoryName2.substring(temp+1);
     }
     else {
       BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -207,9 +213,6 @@ public class CompareUserTests
     compareFile("Relations");
     compareFile("Scope");
     compareFile("Sequences");
-    
-    in1.close();
-    in2.close();
   }
 }
 
