@@ -5,6 +5,23 @@ Copyright 2003 Nicholas Daley
 
 Changelog:
 
+15 Jul 2003 - Milestone 0 Pre 1 [milestone-0-pre-1]
+	- Modified XCursor.gif to produce a better looking cursor.
+		- Modified code that reads the gif to check for the system's preferred cursor size.
+	- Made PlaceBeanTool use the cross cursor.
+	- Added a tool for deleting event links.
+	- Added a list of FormDesigns to the Window menu.
+	- Added an item to the File menu to delete a FormDesign.
+	- Added a listener and event used by DesignerCore when a FormDesign is created or deleted.
+		- Used for modifying the entries in the Window menu.
+	- Modified code for checking if the mouse was over a highlighted event link to use 
+	  java.awt.geom.Line2D.
+	- Added flag property to FormDesign that overrides the event link highlighting settings, used
+	  by the delete event link tool, so that the links can be seen.
+	- Added raiseAction to FormDesign used by the entries in the Window menu for each form.
+	- Added actions and key-shortcuts for navigating into containers. - Space, shift Space.
+	- Modified the TAB, shift TAB actions to navigate within the current beans parent.
+
 14 Jul 2003 (2) -
 	- Fixed small bug that caused the green dragging line to remain when using the Event-Link tool
 	  and the mouse was released over an invalid spot.

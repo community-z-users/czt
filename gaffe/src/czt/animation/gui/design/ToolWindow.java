@@ -13,21 +13,22 @@ import java.awt.Transparency;
 import java.awt.event.ActionEvent;        import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 
-import java.beans.BeanInfo;               import java.beans.Beans;
-import java.beans.BeanDescriptor;         import java.beans.EventSetDescriptor;
+import java.beans.BeanInfo;               import java.beans.BeanDescriptor;
+import java.beans.Beans;                  import java.beans.EventSetDescriptor;
 import java.beans.IntrospectionException; import java.beans.Introspector;
 import java.beans.PropertyChangeSupport;  
 
 import java.io.IOException;
 
-import java.util.ListIterator;            import java.util.Vector;
+import java.util.Iterator;                import java.util.ListIterator;            
+import java.util.Vector;
 
 import javax.swing.AbstractAction;        import javax.swing.Action;
 import javax.swing.BorderFactory;         import javax.swing.Icon; 
 import javax.swing.ImageIcon;             import javax.swing.JButton;
-import javax.swing.JFrame;                import javax.swing.JPanel;
-import javax.swing.JCheckBox;             import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+import javax.swing.JFrame;                import javax.swing.JCheckBox;
+import javax.swing.JLabel;                import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import javax.swing.border.BevelBorder;    import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;   
@@ -82,7 +83,6 @@ class ToolWindow extends JFrame {
   Cursor crossCursor;
   private void setupCrossCursor() {
     MediaTracker mt=new MediaTracker(this);
-    
     Image baseCursorImage=getToolkit()
       .getImage(ClassLoader.getSystemResource("czt/animation/gui/design/XCursor.gif"))
       .getScaledInstance(16,16,Image.SCALE_DEFAULT);;
@@ -93,7 +93,10 @@ class ToolWindow extends JFrame {
       System.err.println("Interrupted");//XXX
     };
     
-    Image cursorImage=getGraphicsConfiguration().createCompatibleImage(64,64,Transparency.BITMASK);
+    Dimension bestSize=getToolkit().getBestCursorSize(16,16);
+    Image cursorImage=getGraphicsConfiguration().createCompatibleImage((int)bestSize.getWidth(),
+								       (int)bestSize.getHeight(),
+								       Transparency.BITMASK);
     mt.addImage(cursorImage,1);
     cursorImage.getGraphics().drawImage(baseCursorImage,0,0,null);
     try {
@@ -116,6 +119,7 @@ class ToolWindow extends JFrame {
     tool=new SelectBeanTool(); defaultTool=tool;setCurrentTool(tool);tools.add(tool);
     tool=new DeleteBeanTool(); tools.add(tool);
     tool=new MakeEventLinkTool(); tools.add(tool);
+    tool=new DeleteEventLinkTool(); tools.add(tool);
 //    tool=new MoveBeanTool(); tools.add(tool);
     
     getContentPane().setLayout(new BorderLayout());
@@ -362,9 +366,8 @@ class ToolWindow extends JFrame {
     };
     
     public void mouseMoved(MouseEvent e, FormDesign f) {
-      f.setCursor(Cursor.getPredefinedCursor(f.placementAllowed(e.getPoint(),type)?
-					     Cursor.CROSSHAIR_CURSOR:
-					     Cursor.DEFAULT_CURSOR));
+      f.setCursor(f.placementAllowed(e.getPoint(),type)?
+		  Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR):crossCursor);      
     };
     public void unselected() {
       super.unselected();
@@ -435,8 +438,9 @@ class ToolWindow extends JFrame {
       do {
 	c=c2;
 	c2=c.getComponentAt(f.translateCoordinateToCSpace(p,c));
-      } while(c!=c2);
-      return c;
+      } while(c!=c2 && c2!=null);
+      if(c2==f.getBeanPane()) return null;
+      return c2;
     };
     
     private BeanInfo sourceInfo;
@@ -451,8 +455,7 @@ class ToolWindow extends JFrame {
 
     private void getSource(MouseEvent e, FormDesign f) {
       source=lowestComponentAt(e.getPoint(),f);
-      if(source==f.getBeanPane()) {
-	source=null;
+      if(source==null) {
 	sourceBean=null;
 	sourceInfo=null;
 	return;
@@ -467,8 +470,7 @@ class ToolWindow extends JFrame {
     };
     private void getListener(MouseEvent e, FormDesign f) {
       listener=lowestComponentAt(e.getPoint(),f);
-      if(listener==f.getBeanPane()) {
-	listener=null;
+      if(listener==null) {
 	listenerBean=null;
 	listenerInfo=null;
 	return;
@@ -564,6 +566,51 @@ class ToolWindow extends JFrame {
       g.drawLine(sp.x+source.getWidth()/2,sp.y+source.getHeight()/2,
 		 lastMousePoint.x,lastMousePoint.y);
     };
+    
+  };
+
+  protected class DeleteEventLinkTool extends Tool {
+    public DeleteEventLinkTool() {
+      super(new ImageIcon(getToolkit()//XXX change to use javabeancontext's getSystemResource instead? 
+			  .getImage(ClassLoader.getSystemResource("czt/animation/gui/design/"
+								  +"deleteEventIcon.gif"))),
+	    "Delete Event",
+	    "Delete an event link",false);
+    };
+    public void selected(FormDesign f) {
+      f.setEventLinkHighlightingOverride(true);
+    };
+    
+    public void mouseMoved(MouseEvent e, FormDesign f) {
+      for(Iterator linkIt=f.getEventLinks().iterator();linkIt.hasNext();) {
+	FormDesign.BeanLink bl=(FormDesign.BeanLink)linkIt.next();
+	if(bl.getVisualLine().ptLineDist(e.getPoint())<5) {
+	  f.setCursor(Cursor.getDefaultCursor());
+	  return;
+	};
+      }
+      f.setCursor(crossCursor);
+    };
+    public void mouseClicked(MouseEvent e, FormDesign f) {
+      for(Iterator linkIt=f.getEventLinks().iterator();linkIt.hasNext();) {
+	FormDesign.BeanLink bl=(FormDesign.BeanLink)linkIt.next();
+	if(bl.getVisualLine().ptLineDist(e.getPoint())<5) {
+	  f.removeEventLink(bl);
+	  setCurrentTool(defaultTool);      
+	  return;
+	};
+      }
+      getToolkit().beep();
+      setCurrentTool(defaultTool);
+    };
+    
+
+    public void unselected(FormDesign f) {
+      f.setEventLinkHighlightingOverride(false);
+      f.setCursor(Cursor.getDefaultCursor());
+    };
+    
+    
     
   };
   

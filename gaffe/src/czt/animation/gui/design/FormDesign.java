@@ -1,8 +1,6 @@
 package czt.animation.gui.design;
 
-import java.beans.Beans;                  import java.beans.Introspector;
-import java.beans.IntrospectionException; import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import czt.animation.gui.Form;            import czt.animation.gui.util.IntrospectionHelper;
 
 import java.awt.BorderLayout;             import java.awt.Color;
 import java.awt.Component;                import java.awt.Container;
@@ -12,6 +10,12 @@ import java.awt.KeyboardFocusManager;     import java.awt.Point;
 import java.awt.Rectangle;                import java.awt.Window;
 import java.awt.event.ActionEvent;        import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent; 
+import java.awt.Graphics2D;                 
+import java.awt.geom.Line2D;
+
+import java.beans.Beans;                  import java.beans.IntrospectionException;
+import java.beans.Introspector;           import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import java.io.IOException;
 
@@ -27,15 +31,12 @@ import javax.swing.JFrame;                import javax.swing.JLabel;
 import javax.swing.JLayeredPane;          import javax.swing.JMenuBar;
 import javax.swing.JPanel;                import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JMenu;                 import javax.swing.JMenuItem;
-import javax.swing.KeyStroke;             import javax.swing.OverlayLayout;
-
-import javax.swing.JToolTip;
-
-import javax.swing.event.EventListenerList;  import javax.swing.event.MouseInputAdapter;
+import javax.swing.JToolTip;              import javax.swing.KeyStroke;             
+import javax.swing.OverlayLayout;
 
 import javax.swing.border.BevelBorder;    import javax.swing.border.TitledBorder;
 
-import czt.animation.gui.Form;            import czt.animation.gui.util.IntrospectionHelper;
+import javax.swing.event.EventListenerList;  import javax.swing.event.MouseInputAdapter;
 
 /**
  * Window for designing a form.
@@ -70,17 +71,6 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     return form;
   };
   
-  private static boolean onLine(Point a, Point l1, Point l2, int fudge) {
-    if(a.getX()<l1.getX()-fudge&&a.getX()<l2.getX()-fudge
-       ||a.getX()>l1.getX()+fudge&&a.getX()>l2.getX()+fudge
-       ||a.getY()<l1.getY()-fudge&&a.getY()<l2.getY()-fudge
-       ||a.getY()>l1.getY()+fudge&&a.getY()>l2.getY()+fudge) return false;
-    
-    double m=(l1.getY()-l2.getY())/(l1.getX()-l2.getX());
-    if((a.getX()-l2.getX())*m<(a.getY()-l2.getY())-fudge
-       ||(a.getX()-l2.getX())*m>(a.getY()-l2.getY())+fudge) return false;
-    return true;
-  };
   private Point getCenter(Component c) {
     Point cp=componentLocationInBeanPaneSpace(c);
     return new Point(cp.x+c.getWidth()/2,cp.y+c.getHeight()/2);
@@ -101,9 +91,8 @@ public class FormDesign extends JFrame implements ToolChangeListener {
 	    if((eventLinkHighlightingStatus&ELHS_HIGHLIGHT_CURRENT_ALL_LINKS)!=0
 	       && bl.listener==getCurrentBeanComponent()
 	       || eventLinkHighlightingStatus==ELHS_HIGHLIGHT_ALL_LINKS) {
-	      if(onLine(event.getPoint(),getCenter(bl.source),getCenter(bl.listener),5)) {
+	      if(bl.getVisualLine().ptLineDist(event.getPoint())<5)
 		return bl.listenerType.getName();
-	      }
 	    }
 	  }
 	}
@@ -111,21 +100,21 @@ public class FormDesign extends JFrame implements ToolChangeListener {
 	
       };
       
-      public void highlight(Component c, Graphics g) {
+      public void highlight(Component c, Graphics2D g) {
 	Rectangle r=c.getBounds();
 	r.setLocation(componentLocationInBeanPaneSpace(c));
 	g.setColor(Color.yellow);
-	g.drawRect(r.x,r.y,r.width,r.height);
+	g.draw(r);
       };
       
-      public void highlight(Component a, Component b, Color c, Graphics g) {
+      public void highlight(BeanLink bl, Color c, Graphics2D g) {
 	g.setColor(c);
-	Point ap=getCenter(a);
-	Point bp=getCenter(b);
-	g.drawLine(ap.x,ap.y, bp.x,bp.y);
+	g.draw(bl.getVisualLine());
       };
       
-      public void paintComponent(Graphics g) {
+      public void paintComponent(Graphics g1) {
+	Graphics2D g=(Graphics2D)g1;
+	
 	ToolWindow.Tool t=getCurrentTool();
 	if(t!=null)t.paint(g,FormDesign.this);
 	//Highlighting beans
@@ -144,17 +133,17 @@ public class FormDesign extends JFrame implements ToolChangeListener {
 	  }
 	}
 	
-	if(eventLinkHighlightingStatus!=ELHS_HIGHLIGHT_NO_LINKS) {
+	if(eventLinkHighlightingStatus!=ELHS_HIGHLIGHT_NO_LINKS || eventLinkHighlightingOverride) {
 	  for(Iterator i=eventLinks.iterator();i.hasNext();) {
 	    BeanLink bl=(BeanLink)i.next();
-	    if((eventLinkHighlightingStatus&ELHS_HIGHLIGHT_CURRENT_INCOMING_LINKS)!=0
-	       && bl.listener==getCurrentBeanComponent())
-	      highlight(bl.source,bl.listener,Color.red,g);
-	    if((eventLinkHighlightingStatus&ELHS_HIGHLIGHT_CURRENT_OUTGOING_LINKS)!=0
-	       && bl.source==getCurrentBeanComponent())
-	      highlight(bl.source,bl.listener,Color.blue,g);
-	    if(eventLinkHighlightingStatus==ELHS_HIGHLIGHT_ALL_LINKS)
-	      highlight(bl.source,bl.listener,Color.red,g);
+	    if(eventLinkHighlightingStatus==ELHS_HIGHLIGHT_ALL_LINKS||eventLinkHighlightingOverride)
+	      highlight(bl,Color.red,g);
+	    else if((eventLinkHighlightingStatus&ELHS_HIGHLIGHT_CURRENT_INCOMING_LINKS)!=0
+		    && bl.listener==getCurrentBeanComponent())
+	      highlight(bl,Color.red,g);
+	    else if((eventLinkHighlightingStatus&ELHS_HIGHLIGHT_CURRENT_OUTGOING_LINKS)!=0
+		    && bl.source==getCurrentBeanComponent())
+	      highlight(bl,Color.blue,g);
 	  }
 	}
       };
@@ -173,9 +162,14 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   protected final static int ELHS_HIGHLIGHT_CURRENT_OUTGOING_LINKS=2;
   protected final static int ELHS_HIGHLIGHT_CURRENT_ALL_LINKS=3;
   protected final static int ELHS_HIGHLIGHT_ALL_LINKS=4;
+  protected boolean eventLinkHighlightingOverride=false;
+  public void setEventLinkHighlightingOverride(boolean o) {
+    eventLinkHighlightingOverride=o;
+    glassPane.repaint();
+  };
   
-
-  protected static class BeanLink {
+  
+  public class BeanLink {
     public final Component source, listener;
     public final Class listenerType;
     public BeanLink(Component source, Component listener, Class listenerType) {
@@ -186,8 +180,19 @@ public class FormDesign extends JFrame implements ToolChangeListener {
       BeanLink bl=(BeanLink)obj;
       return bl.source==source&&bl.listener==listener&&bl.listenerType.equals(listenerType);
     };
+    public Line2D getVisualLine() {
+      Point sp=componentLocationInBeanPaneSpace(source);
+      Point lp=componentLocationInBeanPaneSpace(listener);
+      return new Line2D.Double(sp.getX()+  source.getWidth()/2, sp.getY()+  source.getHeight()/2,
+			      lp.getX()+listener.getWidth()/2, lp.getY()+listener.getHeight()/2);
+      
+    };
+    
   };
   protected Vector eventLinks=new Vector/*<BeanLink>*/();  //XXX Should this be a set instead?
+  public Vector getEventLinks() {
+    return new Vector(eventLinks);
+  };
   private void addEventLink(BeanLink bl) {
     Object sourceBean=BeanWrapper.getBean(bl.source);
     Object listenerBean=BeanWrapper.getBean(bl.listener);
@@ -216,7 +221,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     if(i==null) eventLinks.remove(bl);    
     else i.remove();
   };
-  private void removeEventLink(BeanLink bl) {
+  public void removeEventLink(BeanLink bl) {
     removeEventLink(bl,null);
   };
   public void removeEventLink(Component source, Component listener, Class listenerType) {
@@ -258,6 +263,37 @@ public class FormDesign extends JFrame implements ToolChangeListener {
       }
     }
   };
+  
+  
+  private static class RaiseAction extends AbstractAction implements PropertyChangeListener{
+    private FormDesign fd;
+    private void setValues() {
+      putValue(Action.NAME,fd.getForm().getName());
+      putValue(Action.SHORT_DESCRIPTION,fd.getForm().getName());
+      putValue(Action.LONG_DESCRIPTION,fd.getForm().getName());
+    };
+    
+    public RaiseAction(FormDesign fd) {
+      super(fd.getForm().getName());
+      this.fd=fd;
+      setValues();
+      fd.getForm().addPropertyChangeListener("name",this);
+    };
+    public void actionPerformed(ActionEvent e) {
+      fd.setVisible(true);
+      fd.toFront();
+    };
+    public void propertyChange(PropertyChangeEvent evt) {
+      setValues();
+    };
+    public boolean equals(Object obj) {
+      if(obj instanceof RaiseAction)
+	return ((RaiseAction)obj).fd==fd;
+      return false;
+    };
+  };
+  private final Action raiseAction;
+  public Action getRaiseAction() {return raiseAction;};
   
   
   /**
@@ -437,10 +473,30 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     return currentTool;
   };
   
-  protected void setupActions(ActionMap am, InputMap im) {
+  protected void setupActions(ActionMap am, InputMap im, final DesignerCore desCore) {
     actionMap.setParent(am);
     inputMap.setParent(im);
     
+    Action action_delete_form;
+    action_delete_form=new AbstractAction("Delete Form") {
+	public void actionPerformed(ActionEvent e) {
+	  desCore.removeForm(FormDesign.this);//XXX prompt confirmation?
+	};
+      };
+    action_delete_form.putValue(Action.NAME,"Delete Form");
+    action_delete_form.putValue(Action.SHORT_DESCRIPTION,"Delete Form");
+    action_delete_form.putValue(Action.LONG_DESCRIPTION,"Delete Form");
+    //XXX action_delete_form.putValue(Action.SMALL_ICON,...);
+    //XXX action_delete_form.putValue(Action.ACTION_COMMAND_KEY,...);
+    action_delete_form.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("control #"));//XXX
+    //XXX action_delete_form.putValue(Action.MNEMONIC_KEY,...);
+    
+    actionMap.put("Delete Form",action_delete_form);
+
+    inputMap.put((KeyStroke)actionMap.get("Delete Form").getValue(Action.ACCELERATOR_KEY),
+		 "Delete Form");
+    
+
     Action action_delete_bean;
     action_delete_bean=new AbstractAction("Delete Current Bean") {
 	public void actionPerformed(ActionEvent e) {
@@ -463,6 +519,72 @@ public class FormDesign extends JFrame implements ToolChangeListener {
 		 "Delete Current Bean");
 
 
+    Action action_down_bean;
+    action_down_bean=new AbstractAction("Down Bean") {
+	public void actionPerformed(ActionEvent e) {
+	  Container bp=getBeanPane();
+	  if(bp.getComponentCount()==0) {
+	    setCurrentBeanComponent(null);
+	  }
+	  else if(getCurrentBeanComponent()==null) {
+	    setCurrentBeanComponent(bp.getComponent(0));
+	  } else {
+	    Component comp=getCurrentBeanComponent();
+	    if(comp instanceof Container && ((Container)comp).getComponentCount()>0)
+	      setCurrentBeanComponent(((Container)comp).getComponent(0));
+	    else
+	      setCurrentBeanComponent(bp.getComponent(0));
+	  }
+	};
+      };
+    
+    action_down_bean.putValue(Action.NAME,"Down Bean");
+    action_down_bean.putValue(Action.SHORT_DESCRIPTION,"Down Bean");
+    action_down_bean.putValue(Action.LONG_DESCRIPTION,"Down Bean");
+    //XXX action_down_bean.putValue(Action.SMALL_ICON,...);
+    //XXX action_down_bean.putValue(Action.ACTION_COMMAND_KEY,...);
+    action_down_bean.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("SPACE"));
+    //XXX action_down_bean.putValue(Action.MNEMONIC_KEY,...);
+    
+    actionMap.put("Down Bean",action_down_bean);
+
+    inputMap.put((KeyStroke)actionMap.get("Down Bean").getValue(Action.ACCELERATOR_KEY),
+		 "Down Bean");
+    inputMap.put(KeyStroke.getKeyStroke("control SPACE"),"Down Bean");
+
+
+    Action action_up_bean;
+    action_up_bean=new AbstractAction("Up Bean") {
+	public void actionPerformed(ActionEvent e) {
+	  Container bp=getBeanPane();
+	  if(bp.getComponentCount()==0) {
+	    setCurrentBeanComponent(null);
+	  }
+	  else if(getCurrentBeanComponent()==null) {
+	    setCurrentBeanComponent(bp.getComponent(0));
+	  } else {
+	    Container cont=getCurrentBeanComponent().getParent();
+	    if(cont!=bp)
+	      setCurrentBeanComponent(cont);
+	  }
+	};
+      };
+    
+    action_up_bean.putValue(Action.NAME,"Up Bean");
+    action_up_bean.putValue(Action.SHORT_DESCRIPTION,"Up Bean");
+    action_up_bean.putValue(Action.LONG_DESCRIPTION,"Up Bean");
+    //XXX action_up_bean.putValue(Action.SMALL_ICON,...);
+    //XXX action_up_bean.putValue(Action.ACTION_COMMAND_KEY,...);
+    action_up_bean.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("shift SPACE"));
+    //XXX action_up_bean.putValue(Action.MNEMONIC_KEY,...);
+    
+    actionMap.put("Up Bean",action_up_bean);
+
+    inputMap.put((KeyStroke)actionMap.get("Up Bean").getValue(Action.ACCELERATOR_KEY),
+		 "Up Bean");
+    inputMap.put(KeyStroke.getKeyStroke("control shift SPACE"),"Up Bean");
+
+
     Action action_next_bean;
     action_next_bean=new AbstractAction("Next Bean") {
 	public void actionPerformed(ActionEvent e) {
@@ -473,6 +595,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
 	  else if(getCurrentBeanComponent()==null) {
 	    setCurrentBeanComponent(bp.getComponent(0));
 	  } else {
+	    bp=getCurrentBeanComponent().getParent();
 	    for(int i=0;i<bp.getComponentCount();i++) {
 	      if(bp.getComponent(i)==getCurrentBeanComponent()) {
 		setCurrentBeanComponent(bp.getComponent((i+1)%bp.getComponentCount()));
@@ -509,6 +632,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
 	  else if(getCurrentBeanComponent()==null) {
 	    setCurrentBeanComponent(bp.getComponent(0));
 	  } else {
+	    bp=getCurrentBeanComponent().getParent();
 	    for(int i=0;i<bp.getComponentCount();i++) {
 	      if(bp.getComponent(i)==getCurrentBeanComponent()) {
 		setCurrentBeanComponent(bp.getComponent((i+bp.getComponentCount()-1)%bp.getComponentCount()));
@@ -811,6 +935,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     JMenu file=new JMenu("File");
     file.setMnemonic(KeyEvent.VK_F);
     file.add(new JMenuItem(actionMap.get("New Form")));
+    file.add(new JMenuItem(actionMap.get("Delete Form")));
     file.add(new JMenuItem(actionMap.get("Quit")));
     JMenu edit=new JMenu("Edit");
     edit.setMnemonic(KeyEvent.VK_E);
@@ -878,16 +1003,16 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   /**
    * Creates a new Form designer.
    */
-  public FormDesign(ActionMap am, InputMap im, JMenu wm) {
-    this("Main",am,im,wm);
+  public FormDesign(ActionMap am, InputMap im, JMenu wm, DesignerCore dc) {
+    this("Main",am,im,wm,dc);
   };
   
-  public FormDesign(String name, ActionMap am, InputMap im, JMenu windowMenu) {
+  public FormDesign(String name, ActionMap am, InputMap im, JMenu windowMenu, DesignerCore desCore) {
     super("Design Mode: "+name);
 
     glassPane.setToolTipText("");//Necessary because getToolTipText(MouseEvent) won't be used otherwise
     
-    setupActions(am,im);
+    setupActions(am,im,desCore);
     setupLayeredPanes();
     setupMenus(windowMenu);
     setupStatusBar();
@@ -924,6 +1049,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     getBeanPane().add(form);
     new HandleSet(form);
     setCurrentBeanComponent(form);    
+    raiseAction=new RaiseAction(this);
   };
   
   /**
@@ -1065,6 +1191,3 @@ public class FormDesign extends JFrame implements ToolChangeListener {
 
 
 };
-
-
-
