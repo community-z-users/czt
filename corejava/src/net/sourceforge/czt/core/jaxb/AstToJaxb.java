@@ -1366,6 +1366,18 @@ public class AstToJaxb implements AstVisitor
 	  newlist.add(o);
         }
       }
+      if (zedObject.getVersion()!=null) {
+        jaxbObject.setVersion(zedObject.getVersion());
+      }
+      if (zedObject.getAuthor()!=null) {
+        jaxbObject.setAuthor(zedObject.getAuthor());
+      }
+      if (zedObject.getModified()!=null) {
+        jaxbObject.setModified(zedObject.getModified());
+      }
+      if (zedObject.getSource()!=null) {
+        jaxbObject.setSource(zedObject.getSource());
+      }
     } catch(Exception e) { e.printStackTrace(); }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitSpec", jaxbObject);

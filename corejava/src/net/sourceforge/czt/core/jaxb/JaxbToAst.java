@@ -1231,7 +1231,15 @@ public class JaxbToAst extends ReflectiveVisitor
       Object o = dispatch(obj);
       sect.add(o);
     }
-    Spec erg = mObjectFactory.createSpec(sect);
+    String version =
+      (String) dispatch(jaxbObject.getVersion());
+    String author =
+      (String) dispatch(jaxbObject.getAuthor());
+    java.util.Calendar modified =
+      (java.util.Calendar) dispatch(jaxbObject.getModified());
+    String source =
+      (String) dispatch(jaxbObject.getSource());
+    Spec erg = mObjectFactory.createSpec(sect, version, author, modified, source);
     if (jaxbObject.getAnns() != null &&
 	jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();

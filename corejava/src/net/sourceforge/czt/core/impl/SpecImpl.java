@@ -69,6 +69,26 @@ extends TermAImpl implements Spec
          ! mSect.equals(object.mSect))) return false;
       if(mSect == null && object.mSect != null)
         return false;
+      if((mVersion == null && object.mVersion != null) ||
+         (mVersion != null &&
+         ! mVersion.equals(object.mVersion))) return false;
+      if(mVersion == null && object.mVersion != null)
+        return false;
+      if((mAuthor == null && object.mAuthor != null) ||
+         (mAuthor != null &&
+         ! mAuthor.equals(object.mAuthor))) return false;
+      if(mAuthor == null && object.mAuthor != null)
+        return false;
+      if((mModified == null && object.mModified != null) ||
+         (mModified != null &&
+         ! mModified.equals(object.mModified))) return false;
+      if(mModified == null && object.mModified != null)
+        return false;
+      if((mSource == null && object.mSource != null) ||
+         (mSource != null &&
+         ! mSource.equals(object.mSource))) return false;
+      if(mSource == null && object.mSource != null)
+        return false;
       return true;
     }
     return false;
@@ -88,6 +108,18 @@ extends TermAImpl implements Spec
     if(mSect != null) {
       hashCode += 31*mSect.hashCode();
     }
+    if(mVersion != null) {
+      hashCode += 31*mVersion.hashCode();
+    }
+    if(mAuthor != null) {
+      hashCode += 31*mAuthor.hashCode();
+    }
+    if(mModified != null) {
+      hashCode += 31*mModified.hashCode();
+    }
+    if(mSource != null) {
+      hashCode += 31*mSource.hashCode();
+    }
     return hashCode;
   }
 
@@ -106,10 +138,18 @@ extends TermAImpl implements Spec
     Spec zedObject = null;
     try {
       java.util.List sect = (java.util.List) args[0];
+      String version = (String) args[1];
+      String author = (String) args[2];
+      java.util.Calendar modified = (java.util.Calendar) args[3];
+      String source = (String) args[4];
       zedObject = new SpecImpl();
       if(sect != null) {
         zedObject.getSect().addAll(sect);
       }
+      zedObject.setVersion(version);
+      zedObject.setAuthor(author);
+      zedObject.setModified(modified);
+      zedObject.setSource(source);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
@@ -122,7 +162,7 @@ extends TermAImpl implements Spec
   public Object[] getChildren()
   {
     sLogger.entering("SpecImpl", "getChildren");
-    Object[] erg = { getSect() };
+    Object[] erg = { getSect(), getVersion(), getAuthor(), getModified(), getSource() };
     sLogger.exiting("SpecImpl", "getChildren", erg);
     return erg;
   }
@@ -132,5 +172,53 @@ extends TermAImpl implements Spec
   public java.util.List getSect()
   {
     return mSect;
+  }
+
+  private String mVersion;
+
+  public String getVersion()
+  {
+    return mVersion;
+  }
+
+  public void setVersion(String version)
+  {
+    mVersion = version;
+  }
+
+  private String mAuthor;
+
+  public String getAuthor()
+  {
+    return mAuthor;
+  }
+
+  public void setAuthor(String author)
+  {
+    mAuthor = author;
+  }
+
+  private java.util.Calendar mModified;
+
+  public java.util.Calendar getModified()
+  {
+    return mModified;
+  }
+
+  public void setModified(java.util.Calendar modified)
+  {
+    mModified = modified;
+  }
+
+  private String mSource;
+
+  public String getSource()
+  {
+    return mSource;
+  }
+
+  public void setSource(String source)
+  {
+    mSource = source;
   }
 }

@@ -757,10 +757,14 @@ public class CoreFactoryImpl implements CoreFactory
     return zedObject;
   }
 
-  public Spec createSpec(java.util.List sect)
+  public Spec createSpec(java.util.List sect, String version, String author, java.util.Calendar modified, String source)
   {
     Spec zedObject = createSpec();
     zedObject.getSect().addAll(sect);
+    zedObject.setVersion(version);
+    zedObject.setAuthor(author);
+    zedObject.setModified(modified);
+    zedObject.setSource(source);
     return zedObject;
   }
 

@@ -776,7 +776,7 @@ public interface CoreFactory
      *
      * @return the new instance of Spec.
      */
-    public Spec createSpec(java.util.List sect);
+    public Spec createSpec(java.util.List sect, String version, String author, java.util.Calendar modified, String source);
 
     /**
      * Creates an instance of {@link LocAnn}.

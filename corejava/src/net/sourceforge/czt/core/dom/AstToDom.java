@@ -1823,6 +1823,18 @@ public class AstToDom implements AstVisitor
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
 	}
       }
+      if (zedObject.getVersion()!=null) {
+        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Version", zedObject.getVersion().toString());
+      }
+      if (zedObject.getAuthor()!=null) {
+        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Author", zedObject.getAuthor().toString());
+      }
+      if (zedObject.getModified()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getModified()).accept(this));
+      }
+      if (zedObject.getSource()!=null) {
+        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Source", zedObject.getSource().toString());
+      }
     } catch(Exception e) { e.printStackTrace(); }
 
     sLogger.exiting("dom.AstToDom", "visitSpec", elem);

@@ -45,4 +45,64 @@ public interface Spec extends TermA
    *            of the right type.
    */
   public java.util.List getSect();
+
+  /**
+   * Returns the Version element.
+   *
+   * @return the Version element.
+   */
+  public String getVersion();
+
+  /**
+   * Sets the Version element.
+   *
+   * @param version   the Version element.
+   * @see #getVersion
+   */
+  public void setVersion(String version);
+
+  /**
+   * Returns the Author element.
+   *
+   * @return the Author element.
+   */
+  public String getAuthor();
+
+  /**
+   * Sets the Author element.
+   *
+   * @param author   the Author element.
+   * @see #getAuthor
+   */
+  public void setAuthor(String author);
+
+  /**
+   * Returns the Modified element.
+   *
+   * @return the Modified element.
+   */
+  public java.util.Calendar getModified();
+
+  /**
+   * Sets the Modified element.
+   *
+   * @param modified   the Modified element.
+   * @see #getModified
+   */
+  public void setModified(java.util.Calendar modified);
+
+  /**
+   * Returns the Source element.
+   *
+   * @return the Source element.
+   */
+  public String getSource();
+
+  /**
+   * Sets the Source element.
+   *
+   * @param source   the Source element.
+   * @see #getSource
+   */
+  public void setSource(String source);
 }
