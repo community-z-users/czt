@@ -51,6 +51,12 @@
         they are ignored.
       </action>
     </actions>
+    <actions priority="medium">
+      <action context="code" dev="open">
+        Develop an e-mail markup to unicode converter.  It should
+        return Symbol objects so that it can be fitted into the CztReader.
+      </action>
+    </actions>
     <actions priority="low">
       <action context="docs" dev="open">
         Design a Parser logo.
