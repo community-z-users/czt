@@ -213,12 +213,8 @@ action code
       return (RefName) localCreateName(name, REFNAME);
     }
 
-
     /**
-     * Converts a list of strings into one long string without spaces between
-     * each token.
-     * Assuming that every second token is either ARG_TOK or
-     * LISTARG_TOK, this is a replacement for {@link #strListToString}.
+     * Converts a list of strings into one long string.
      */
     protected String concatStrList(List list)
     {
@@ -229,28 +225,6 @@ action code
         name.append(next);
       }
       return name.toString();
-    }
-
-    /**
-     * Converts a list of strings into one long string with spaces between
-     * each token.
-     * @deprecated replaced by {@link #concatStrList(List))}
-     */
-    protected String strListToString(List list)
-    {
-      String name = new String();
-      String previous = new String();
-
-      for (Iterator iter = list.iterator(); iter.hasNext(); ) {
-        String next = (String) iter.next();
-        if ((!next.equals(ARG_TOK) || !next.equals(LISTARG_TOK)) &amp;&amp;
-            (!previous.equals(ARG_TOK) || !previous.equals(LISTARG_TOK))) {
-          name += SPACE;
-        }
-        name += next;
-        previous = next;
-      }
-      return name;
     }
 
     /**
