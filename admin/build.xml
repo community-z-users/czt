@@ -27,13 +27,13 @@
       </tarfileset>
       <!-- LICENSE File -->
       <tarfileset dir="${czt.dir}/corejava"
-        fullpath="${root.directory}/LICENSE">
-        <include name="COPYING"/>
+        fullpath="${root.directory}/LICENSE.txt">
+        <include name="COPYING.txt"/>
       </tarfileset>
       <!-- README -->
       <tarfileset dir="${czt.dir}"
-        fullpath="${root.directory}/README">
-        <include name="README"/>
+        fullpath="${root.directory}/README.txt">
+        <include name="README.txt"/>
       </tarfileset>
     </tar>
   </target>
