@@ -178,6 +178,34 @@ Well, some notes to be mentioned:
     return factory.createDeclName(null, n, toks);
   }
 
+/**
+Added by Chen Chunqing (05/01/2004)
+To analyze the basic infix relation in "e1 ip e2" format with the advice from Dr. Mark:
+
+The restriction about not being \mem or = is AFTER the chained
+relations have been expanded into separate relations:   E1 rel E2.
+Then it says that you do the following:
+    E1 rel E2    ==>  E1 rel E2          if rel is \mem  (that is, no change)
+    E1 rel E2    ==>  E1 \mem {E2}       if rel is =
+    E1 rel E2    ==>  (E1,E2) \mem rel   otherwise
+
+*/
+protected MemPred MakeBasicMemPred(term t1, term t2, String ip){
+       if(ip.equals("\\mem")){
+         return factory.createMemPred(t1, t2, Boolean.TRUE);
+       }
+       else if(ip.equals("=")){
+          List ts = list(t2);              
+          SetExpr se = factory.createSetExpr(ts);     
+          return factory.createMemPred(t1, se, Boolean.TRUE);
+       }
+       else{
+          List ts = list(t1, t2);
+          String ops = " " + ip + " ";
+          return MakeMemPred(ops, ts); 
+       }
+}
+
 /**Added by Chen Chunqing.
 To create the MemPred when dealing with all types of relation.
 */
@@ -270,93 +298,6 @@ protected String genName2String(String gn, List fl){
               }
               return genResult;
 }
-
-  /* TODO: update these to use RefExpr ?
-  public void CheckFunName(Vector nl, ReferExpression tempe){
-                if(tempe.op != null){
-                   String oper = (String)tempe.op;
-                   System.out.println("oper is: " + oper);
-                   if(tempe.el != null){
-                   if(((Vector)tempe.el).size() == 2){
-                   //it is a infix operator
-                        if(oper.equals("\\rel")){
-                                for(int i = 0; i < nl.size(); i++){
-                                        VarName tempvn = (VarName)nl.elementAt(i);
-                                        String nlw = (String)tempvn.n;
-                                        if(! map.inMap(nlw))
-                                                map.addOp(nlw, "infixrel");
-                                }
-                        }
-                        else{
-                           for(int i = 0; i < nl.size(); i++){
-                                VarName tempvn = (VarName)nl.elementAt(i);
-                                String nlw = (String)tempvn.n;
-                                if(! map.inMap(nlw))
-                                        map.addOp(nlw, "prefixfun");
-                           }
-                        }
-
-                   }
-                   }
-                   else if((Expression)tempe.e != null){
-                   //it is a prefixgeneric operator
-                        for(int i = 0; i < nl.size(); i++){
-                                VarName tempvn = (VarName)nl.elementAt(i);
-                                String nlw = (String)tempvn.n;
-                                if(! map.inMap(nlw))
-                                        map.addOp(nlw, "prefixfun");
-                        }
-                   }
-                }
-                else if((Vector)tempe.el == null){
-                   VarName tempvn = (VarName)tempe.vn;
-                   String nlw = (String)tempvn.n;
-                   if(map.inMap(nlw)){
-                        for(int i = 0; i < nl.size(); i++){
-                                VarName vninnl = (VarName)nl.elementAt(i);
-                                String newfun = (String)vninnl.n;
-                                map.addOp(newfun, (String)map.getOp(nlw));
-                        }//end for
-                   }//end inner if
-                }//end else if
-  }//end method checkfunname with vector parameter
-
-  public void CheckFunName(VarName vn, ReferExpression tempe){
-                if(tempe.op != null){
-                   String oper = (String)tempe.op;
-                   if(tempe.el != null){
-                   if(((Vector)tempe.el).size()==2){
-                      if(oper.equals("\\rel")){
-                        String nlw = (String)vn.n;
-                        if(! map.inMap(nlw))
-                                map.addOp(nlw, "infixrel");
-                      }//end if
-
-                      else{
-                           String nlw = (String)vn.n;
-                           if(! map.inMap(nlw))
-                              map.addOp(nlw, "prefixfun");
-                      }
-
-                   }//end if for size == 2
-                   }//end if for nonempty vector
-                   else if((Expression)tempe.e != null){
-                   //it is a prefixgeneric operator
-                        String nlw = (String)vn.n;
-                        if(! map.inMap(nlw))
-                                map.addOp(nlw, "prefixfun");
-                   }
-                }
-                else if((Vector)tempe.el == null){
-                   VarName tempvn = (VarName)tempe.vn;
-                   String nlw = (String)tempvn.n;
-                   if(map.inMap(nlw)){
-                        String newfun = (String)vn.n;
-                        map.addOp(newfun, (String)map.getOp(nlw));
-                   }//end inner if
-                }//end else if
-  }//end method checkfunname with varname parameter
-*/
 :};
 
                 
@@ -1326,10 +1267,42 @@ E1 ip E2 => (E1, E2) \mem _ip_
         ops = ops + srep + " ";
         RESULT = MakeMemPred(ops, ts); :}
     |
+/* modified by Chen Chunqing(05/01/2004)
+Well, still need to clarify with Dr. Mark regarding how to tell a chain relation?
+For the chain predicates, since the "IPTOK" is left association, i.e.,
+given an infixrelation "e1 ip1 e2 ip2 e3 ip3 e4", 
+we have "( ( e1 ip1 e2 ) ip2 e3 ) ip3 e4". 
+The algorithm is:
+Analyze the left term "t1" of the definition.
+if t1 is MemPred type, i.e., t1 = t1left ip1 t1right, hence the "t1 ip t2" is a chain infix relation,
+    we need to figure out the t1right and form it with the term "t2", convert them into another
+    "MemPred", after that, return the whole predicate as an AndPred type whose OP value is
+    "Chain".
+else if t1 is an AndPred whose OP value is "Chain", i.e., t1 = (t11 ip11 t12) ^ (t12 ip12 t13), it 
+    certainly is a chain infix relation of the term "t1 ip t2". We need to obtain the term "t13"
+    and convert it with t2 into a MemPred, after that, translate the t1 with the generated 
+    MemPred into a new AndPred whose OP value is still "Chain".
+else nothing special.
+*/
     term:t1 IPTOK:ip term:t2
-    {: List ts = list(t1, t2);
-       String ops = " " + ip + " ";
-       RESULT = MakeMemPred(ops, ts); :}
+    {: if(t1 instanceof MemPred){
+          Expr t1right = ((MemPred)t1).getRightExpr();
+          MemPred mpnew = MakeBasicMemPred(t1right, t2, ip);
+          RESULT = factory.createAndPred(Op.Chain, t1, mpnew);
+       }
+       else if(t1 instanceof AndPred){           
+           String tempop = ((AndPred)t1).getOp.toString();
+           if(tempop.equals("Chain")){
+              MemPred t1right = (MemPred)((AndPred)t1).getRightPred();
+              Expr t1rightright = t1right.getRightExpr();
+              MemPred mpnew = MakeBasicMemPred(t1rightright, t2, ip);
+              RESULT = factory.createAndPred(Op.Chain, t1, mpnew);
+           }
+       }
+       else{
+            RESULT = MakeBasicMemPred(t1, t2, ip);
+       }
+     :}          
     |
 /**
 All function operator applications are transformed to annotated application expressions
@@ -1467,13 +1440,13 @@ func_appl ::= func_appl:fa inner_term:it
                   {: RESULT = it; :}
                   ;
 
-inner_term ::= LBRACE opt_term_list:tl RBRACE
+inner_term ::= LSET opt_term_list:tl RSET
                      {: RESULT = factory.createSetExpr(tl); :}
                      |
-                     LBRACE schematext:st SPOT term:t RBRACE
+                     LSET schematext:st SPOT term:t RSET
                      {: RESULT = factory.createSetCompExpr(st, t); :}
                      |
-   	     LBRACE schematext_minus_expr:sme RBRACE
+   	     LSET schematext_minus_expr:sme RSET
 	     {: RESULT = factory.createSetCompExpr(sme, null); :}
 	     |
 	     LBRACKET term:t COMMA term_list:tl RBRACKET
@@ -1604,7 +1577,7 @@ outer_term ::= predicate:p1 NL predicate:p2
                       {: RESULT = factory.createAndPred(Op.NL, p1, p2); :}
                       |
 	    predicate:p1 SEMI predicate:p2
-	    {: RESULT = factory.createAndPred(Op.SEMI, p1, p2); :}
+	    {: RESULT = factory.createAndPred(Op.Semi, p1, p2); :}
                       |
                       term:t
                       {: RESULT = t; :}
