@@ -162,10 +162,8 @@ public class PredChecker
     Type2 rightType = (Type2) rightExpr.accept(exprChecker());
 
     //unify the left and right side of the membership predicate
-
     PowerType powerType = factory().createPowerType(leftType);
     UResult unified = unify(powerType, rightType);
-
     if (unified == FAIL) {
       Type2 rightBaseType = getBaseType(rightType);
       //if this pred is an equality

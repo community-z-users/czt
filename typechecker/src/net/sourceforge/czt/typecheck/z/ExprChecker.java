@@ -287,8 +287,15 @@ public class ExprChecker
     //get the inner expressions
     List<Expr> exprs = setExpr.getExpr();
 
-    //if the set is not empty find the inner type
+    //first try to get the inner type from the annotation in case this
+    //expression has already been visited
     Type2 innerType = null;
+    Type2 annType = (Type2) getTypeFromAnns(setExpr);
+    if (annType instanceof PowerType) {
+      innerType = powerType(annType).getType();
+    }
+
+    //if the set is not empty find the inner type
     for (Expr expr : exprs) {
       Type2 exprType = (Type2) expr.accept(exprChecker());
 
