@@ -19,11 +19,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.typecheck.testutil;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
 
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.typecheck.util.typingenv.VariableTypeImpl;
+import net.sourceforge.czt.typecheck.util.impl.*;
 
 /**
  * Parses a Z type written in an abstract format and produces CZT Type
@@ -42,8 +43,11 @@ public class TypeParser
   //the current symbol
   protected String current_;
 
-  //the ZFactory
-  protected ZFactory factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+  //the list of variable types that have been created
+  protected List vTypes_;
+
+  //the Factory
+  protected Factory factory_ ;
 
   protected TypeParser()
   {
@@ -55,6 +59,9 @@ public class TypeParser
     sType_ = sType;
     index_ = 0;
     current_ = null;
+    vTypes_ = list();
+    ZFactory zFactory = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+    factory_ = new Factory(zFactory);
   }
 
   public static Type getType(String sType)
@@ -165,7 +172,7 @@ public class TypeParser
     else if ("VARTYPE".equals(token)) {
       token = nextToken();
       DeclName declName = factory_.createDeclName(token, list(), null);
-      result = VariableTypeImpl.create(declName);
+      result = createVariableType(declName);
     }
     else if ("GENTYPE".equals(token)) {
       token = nextToken();
@@ -285,6 +292,19 @@ public class TypeParser
 
     Signature signature = factory_.createSignature(pairs);
     return signature;
+  }
+
+  protected VariableType createVariableType(DeclName declName)
+  {
+    for (Iterator iter = vTypes_.iterator(); iter.hasNext(); ) {
+      VariableType vType = (VariableType) iter.next();
+      if (vType.getName().equals(declName)) {
+        return vType;
+      }
+    }
+    VariableType result = factory_.createVariableType(declName);
+    vTypes_.add(result);
+    return result;
   }
 
   protected static List list()

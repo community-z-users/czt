@@ -22,7 +22,8 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import net.sourceforge.czt.typecheck.util.typingenv.UnificationEnvTest;
-import net.sourceforge.czt.typecheck.z.TypeAnnotatingVisitorTest;
+import net.sourceforge.czt.typecheck.z.TypeInference;
+import net.sourceforge.czt.typecheck.z.TypeCheckerTest;
 
 /**
  * A JUnit test class for testing the Z typechecker.
@@ -35,7 +36,8 @@ public class Suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     //suite.addTest(UnificationEnvTest.suite());
-    suite.addTest(TypeAnnotatingVisitorTest.suite());
+    //suite.addTest(TypeInference.suite());
+    suite.addTest(TypeCheckerTest.suite());
     return suite;
   }
 }

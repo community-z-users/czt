@@ -31,6 +31,7 @@ import junit.framework.TestSuite;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
+import net.sourceforge.czt.typecheck.util.impl.*;
 
 import net.sourceforge.czt.typecheck.testutil.TypeParser;
 
@@ -42,8 +43,11 @@ import net.sourceforge.czt.typecheck.testutil.TypeParser;
 public class UnificationEnvTest
   extends TestCase
 {
+  protected final static UResult SUCC = UResult.SUCC;
+  protected final static UResult PARTIAL = UResult.PARTIAL;
+  protected final static UResult FAIL = UResult.FAIL;
+
   protected UnificationEnv unificationEnv_;
-  protected ZFactory factory_ = new ZFactoryImpl();
 
   public static Test suite()
   {
@@ -54,7 +58,8 @@ public class UnificationEnvTest
 
   protected void setUp()
   {
-    unificationEnv_ = new UnificationEnv();
+    ZFactory zFactory = new ZFactoryImpl();
+    unificationEnv_ = new UnificationEnv(zFactory);
     unificationEnv_.enterScope();
   }
 
@@ -107,8 +112,8 @@ public class UnificationEnvTest
       Type2 second = (Type2) TypeParser.getType(next[1]);
       String message = next[2];
 
-      Type unified = unificationEnv_.unify(first, second);
-      assertEquals(message, unified, first);
+      UResult unified = unificationEnv_.unify(first, second);
+      assertEquals(message, SUCC, unified);
     }
 
     //unification fails
@@ -161,85 +166,95 @@ public class UnificationEnvTest
       Type2 second = (Type2) TypeParser.getType(next[1]);
       String message = next[2];
 
-      Type unified = unificationEnv_.unify(first, second);
-      assertNull(message, unified);
+      UResult unified = unificationEnv_.unify(first, second);
+      assertEquals(message, FAIL, unified);
     }
   }
 
   public void testVariableType()
   {
-    //unification succeeds
-    String [][] succ =
+    //unification is partial
+    String [][] partial =
       {
         //one VariableType for another
         {"VARTYPE _a1", "VARTYPE _a2", "one VariableType for another"},
 
+        //Variable type within a PowerType
+        {"P VARTYPE _a3", "P VARTYPE _a4", "two VariableTypes within a PowerType"},
+
+        //mixed variables in ProdType
+        {"P(VARTYPE _a6) x VARTYPE _a5 x VARTYPE _a7",
+         "P(VARTYPE _a5) x VARTYPE _a6 x []",
+         "unresolved mixed variables in ProdType"},
+
+        //mixed variables within SchemaTypes
+        {"[name1 : VARTYPE _a8; name2 : P VARTYPE _a8; name3 : GIVEN g]",
+         "[name1 : VARTYPE _a9; name2 : P VARTYPE _a8; name3 : VARTYPE _a10]",
+         "unresvoled mixed variables within a SchemaType signature"},
+      };
+
+    for (int i = 0; i < partial.length; i++) {
+      String [] next = partial[i];
+      Type2 first = (Type2) TypeParser.getType(next[0]);
+      Type2 second = (Type2) TypeParser.getType(next[1]);
+      String message = next[2];
+
+      UResult unified = unificationEnv_.unify(first, second);
+      assertEquals(message, PARTIAL, unified);
+    }
+
+    //unification succeeds
+    String [][] succ =
+      {
         //GivenType for a VariableType
-        {"VARTYPE _a2", "GIVEN g", "GivenType for a VariableType"},
-        {"VARTYPE _a1", "GIVEN g", "testing transitive unification"},
+        {"VARTYPE _a11", "GIVEN g", "GivenType for a VariableType"},
+        {"VARTYPE _a12", "GIVEN g", "testing transitive unification"},
 
         //PowerType for a VarType
-        {"P GIVEN g", "VARTYPE _a3", "PowerType for a VariableType"},
+        {"P GIVEN g", "VARTYPE _a13", "PowerType for a VariableType"},
 
         //Variable type within a PowerType
-        {"P GIVEN g", "P VARTYPE _a4", "VariableType within a PowerType"},
+        {"P GIVEN g", "P VARTYPE _a14", "VariableType within a PowerType"},
 
         //one type in ProdType
-        {"P(GIVEN g) x GIVEN g", "VARTYPE _a5 x GIVEN g", "ProdType - one var"},
-        {"VARTYPE _a5", "P(GIVEN g)", "testing unification of _a5"},
+        {"P(GIVEN g) x GIVEN g", "VARTYPE _a15 x GIVEN g", "ProdType - one var"},
+        {"VARTYPE _a15", "P(GIVEN g)", "testing unification of _a15"},
 
         //several types in ProdType
         {"P(GIVEN g) x GIVEN g x []",
-         "P(VARTYPE _a6) x VARTYPE _a6 x VARTYPE _a7",
+         "P(VARTYPE _a16) x VARTYPE _a16 x VARTYPE _a17",
          "several variables in ProdType"},
-        {"VARTYPE _a6", "GIVEN g", "testing unification of _a6"},
-        {"VARTYPE _a7", "[]", "testing unification of _a7"},
+        {"VARTYPE _a16", "GIVEN g", "testing unification of _a16"},
+        {"VARTYPE _a17", "[]", "testing unification of _a17"},
 
         //mixed variables in ProdType
-        {"P(GIVEN g) x VARTYPE _a8 x VARTYPE _a9",
-         "P(VARTYPE _a8) x VARTYPE _a8 x []",
+        {"P(GIVEN g) x VARTYPE _a18 x VARTYPE _a19",
+         "P(VARTYPE _a18) x VARTYPE _a18 x []",
          "mixed variables in ProdType"},
-        {"VARTYPE _a8", "GIVEN g", "testing unification of _a8"},
-        {"VARTYPE _a9", "[]", "testing unification of _a9"},
-
+        {"VARTYPE _a8", "GIVEN g", "testing unification of _a18"},
+        {"VARTYPE _a9", "[]", "testing unification of _a19"},
 
         //empty SchemaType
-        {"VARTYPE _a10", "[]", "SchemaType - empty sig"},
+        {"VARTYPE _a20", "[]", "SchemaType - empty sig"},
 
         //a SchemaType for a VariableType
-        {"VARTYPE _a11", "[name1 : GIVEN g]", "SchemaType - empty sig"},
+        {"VARTYPE _a21", "[name1 : GIVEN g]", "SchemaType - empty sig"},
 
-        //a variables within a SchemaType signature
-        {"[name1 : VARTYPE _a12]",
+        //a variable within a SchemaType signature
+        {"[name1 : VARTYPE _a22]",
          "[name1 : P GIVEN g]",
          "SchemaType - VariableType within a SchemaType signature"},
-        {"VARTYPE _a12", "P GIVEN g", "testing unification of _a12"},
+        {"VARTYPE _a22", "P GIVEN g", "testing unification of _a22"},
 
         //mixed variables within SchemaTypes
-        {"[name1 : VARTYPE _a13; name2 : P P GIVEN g; name3 : GIVEN g]",
-         "[name1 : P GIVEN g; name2 : P VARTYPE _a13; name3 : VARTYPE _a14]",
+        {"[name1 : VARTYPE _a23; name2 : P P GIVEN g; name3 : GIVEN g]",
+         "[name1 : P GIVEN g; name2 : P VARTYPE _a23; name3 : VARTYPE _a24]",
          "SchemaType - mixed variables within a SchemaType signature"},
-        {"VARTYPE _a13", "P GIVEN g", "testing unification of _a13"},
-        {"VARTYPE _a14", "GIVEN g", "testing unification of _a14"},
+        {"VARTYPE _a13", "P GIVEN g", "testing unification of _a23"},
+        {"VARTYPE _a14", "GIVEN g", "testing unification of _a24"},
 
         //test that transitive subsitutions occur
-        {"VARTYPE _a12", "VARTYPE _a15", "testing transitive _a15 (part 1)"},
-        {"VARTYPE _a15", "P GIVEN g", "testing transitive _a15 (part 2)"},
-
-        /*
-        //SchemaType - 1 name
-        {"[name1 : P(GIVEN g)]", "[name1 : P(GIVEN g)]", "SchemaType - 1 name"},
-
-        //SchemaType - > 1 names
-        {"[name1 : P(GIVEN g); name2 : GIVEN g; name3 : []]",
-         "[name1 : P(GIVEN g); name2 : GIVEN g; name3 : []]",
-         "SchemaType - > 1 name"},
-
-        //swap pairs in SchemaType
-        {"[name1 : P(GIVEN g); name2 : GIVEN g; name3 : []]",
-         "[name1 : P(GIVEN g); name3 : []; name2 : GIVEN g]",
-         "SchemaType - swapped names"},
-        */
+        {"VARTYPE _a2", "P GIVEN g", "testing transitive _a2"},
       };
 
     for (int i = 0; i < succ.length; i++) {
@@ -248,8 +263,8 @@ public class UnificationEnvTest
       Type2 second = (Type2) TypeParser.getType(next[1]);
       String message = next[2];
 
-      Type unified = unificationEnv_.unify(first, second);
-      assertNotNull(message, unified);
+      UResult unified = unificationEnv_.unify(first, second);
+      assertEquals(message, SUCC, unified);
     }
   }
 
