@@ -1,14 +1,11 @@
 <project name="WebSite" default="install">
   <!-- the home directory of forrest -->
-  <property name="forrest.home" location="/research/apache-forrest-0.5.1-bin"/>
+  <property name="forrest.home" location="/research/apache-forrest-0.6/src/core"/>
+  <import file="${forrest.home}/forrest.build.xml"/>
 
   <property name="sf.host" value="czt.sourceforge.net"/>
   <property name="sf.install.dir" location="/home/groups/c/cz/czt/htdocs"/>
   <property name="build.site.dir" location="build/site"/>
-
-  <target name="site" description="generates static HTML documentation">
-    <ant antfile="${forrest.home}/forrest.antproxy.xml" target="site"/>
-  </target>
 
   <target name="install" depends="site"
     description="installs HTML documentation on sourceforge">
