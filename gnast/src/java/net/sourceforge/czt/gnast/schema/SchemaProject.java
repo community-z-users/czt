@@ -1,5 +1,5 @@
 /**
-Copyright 2003 Petra Malik
+Copyright (C) 2003, 2004 Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -243,10 +243,13 @@ public class SchemaProject
 
   public String getPackageDocumentation(String packageName)
   {
-    return xPath_.getNodeValue(getGnastPackageXPathExpr()
-                               + "/gnast:package[@id='"
-                               + packageName
-                               + "']/gnast:javadoc/text()");
+    String result =
+      xPath_.getNodeValue(getGnastPackageXPathExpr()
+                          + "/gnast:package[@id='"
+                          + packageName
+                          + "']/gnast:javadoc/text()");
+    if (result != null) result = result.trim();
+    return result;
   }
 
   public String getBasePackage()
@@ -690,6 +693,7 @@ public class SchemaProject
       // parsing javadoc
       String xPathExpr = "xs:annotation/xs:documentation";
       javadoc_ = serialize(xPath_.selectSingleNode(node, xPathExpr));
+      if (javadoc_ != null) javadoc_ = javadoc_.trim();
     }
 
     public String getName()
