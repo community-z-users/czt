@@ -53,6 +53,12 @@ public class OpTable
   private /*@non_null@*/ SortedMap/*<String,OpInfo>*/ ops_ = new TreeMap();
 
   /**
+   * <p>A mapping from operator word to operator template.
+   * This is used to compute meaningful error messages.</p>
+   */
+  private Map<String, OptempPara> optempPara_ = new HashMap();
+
+  /**
    * <p>A mapping from operator word to operator token type.
    * For instance, the operator template for '_ + _' adds an entry
    * '+' -> 'I' to this map.</p>
@@ -102,6 +108,7 @@ public class OpTable
     addOpTokens(parentTable);
     addPrecedences(parentTable);
     addAssociativities(parentTable);
+    optempPara_.putAll(parentTable.optempPara_);
   }
 
   /**
@@ -502,7 +509,8 @@ public class OpTable
   {
     final Integer precedence = opPara.getPrec();
     final Assoc associativity = opPara.getAssoc();
-    addOpToken(name, type);
+    addOptempPara(name, opPara);
+    addOpToken(name, type, opPara);
     addPrecedence(name, precedence);
     addAssociativity(precedence, associativity);
   }
@@ -515,6 +523,11 @@ public class OpTable
     addOp(name, type, opPara);
   }
 
+  private void addOptempPara(String word, OptempPara optempPara)
+  {
+    optempPara_.put(word, optempPara);
+  }
+
   /**
    * Adds a new association from a word to operator token.
    * This is explained in section 7.4.4 of the Z standard.
@@ -522,14 +535,33 @@ public class OpTable
    * throws OperatorException if an association of the same
    *        word to a different operator token already exists.
    */
-  private void addOpToken(String word, OperatorTokenType type)
+  private void addOpToken(String word,
+                          OperatorTokenType type,
+                          OptempPara opPara)
     throws OperatorException
   {
     final OperatorTokenType existingType =
       (OperatorTokenType) opTokens_.get(word);
     if (existingType != null && ! type.equals(existingType)) {
+      OptempPara optempPara = optempPara_.get(word);
+      LocAnn locAnn1 = (LocAnn) optempPara.getAnn(LocAnn.class);
+      LocAnn locAnn2 = (LocAnn) opPara.getAnn(LocAnn.class);
       String message =
-        "Name " + word + " defined as " + existingType + " and " + type;
+        "Operator word " + word + " defined as operator token " + existingType;
+      if (locAnn1 != null) {
+        message += " at line " + locAnn1.getLine() +
+          " column " + locAnn1.getCol() +
+          " in " + locAnn1.getLoc();
+      }
+      message += " and as operator token " + type;
+      if (locAnn2 != null) {
+        message += " at line " + locAnn2.getLine() +
+          " column " + locAnn2.getCol() +
+          " in " + locAnn2.getLoc();
+      }
+      message += "; but the association of operator words " +
+        "and operator tokens must be a function " +
+        "(see ISO Z Standard section 7.4.4).";
       throw new OperatorException(message);
     }
     opTokens_.put(word, type);
@@ -550,7 +582,7 @@ public class OpTable
       String word = (String) i.next();
       OperatorTokenType type = (OperatorTokenType) parentOpTokens.get(word);
       assert type != null;
-      addOpToken(word, type);
+      addOpToken(word, type, parentTable.optempPara_.get(word));
     }
   }
 
