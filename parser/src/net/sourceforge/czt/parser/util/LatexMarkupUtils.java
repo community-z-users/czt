@@ -1,5 +1,5 @@
 /**
-Copyright (C) 2003, 2004 Mark Utting
+Copyright (C) 2003, 2004 Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -39,6 +39,7 @@ public final class LatexMarkupUtils
 
   /**
    * @param latexCommands a mapping from unicode strings to latex commands.
+   * @throws NullPointerException if <code>word</code> is <code>null</code>.
    */
   public static LatexCommand uniwordToLatex(String word, Map latexCommands)
     throws ParseException
