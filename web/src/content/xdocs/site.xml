@@ -73,5 +73,7 @@ See http://xml.apache.org/forrest/linking.html for more info
     </czt.sourceforge.net>
     <javastyle href="http://geosoft.no/javastyle.html"/>
     <cztcvsinfo href="http://sourceforge.net/cvs/?group_id=86250"/>
+    <cvs-book href="http://cvsbook.red-bean.com/"/>
+    <ant href="http://ant.apache.org/"/>
   </external-refs>
 </site>
