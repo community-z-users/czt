@@ -607,26 +607,13 @@ public class <class/>
     protected Assoc mAssoc_;
 
     /**
-     * Construct a new operator.
-     */
-    public OperatorInfo()
-    {
-      mName_ = new String();
-      mSection_ = new String();
-      mType_ = -1;
-      mCat_ = null;
-      mPrec_ = -1;
-      mAssoc_ = null;
-    }
-
-    /**
      * Construct a new operator from the given info.
      */
     public OperatorInfo(String name, String section, int type, 
 			Cat cat, Integer prec, Assoc assoc)
     {
-      mName_ = new String(name);
-      mSection_ = (section == null) ? null : new String(section);
+      mName_ = name;
+      mSection_ = section;
       mType_ = type;
       mCat_ = cat;
       if (prec != null) {
