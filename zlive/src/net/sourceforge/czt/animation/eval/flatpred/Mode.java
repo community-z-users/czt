@@ -31,11 +31,30 @@ public class Mode
 {
   /** Constructor for Mode objects. */
   //@ requires solns > 0.0;
-  public Mode(Envir /*@non_null@*/ postEnv, double solns)
+  public Mode(/*@non_null@*/ Envir postEnv,
+	      /*@non_null@*/ boolean[] inputs, double solns)
   {
     postEnvir_ = postEnv;
     solutions_ = solns;
+    inputs_ = inputs;
   }
+
+  /** The input/output directions of the mode.
+      This is an array of booleans -- if the i'th entry is true
+      then the i'th variable managed by this FlatPred is an input,
+      otherwise it is an output.
+  */
+  protected /*@spec_public non_null@*/ boolean[] inputs_;
+
+  /** The number of arguments managed by this Mode and FlatPred */
+  public /*@pure@*/ int getNumArgs()
+  { return inputs_.length; }
+
+  /** Is the i'th argument an input. */
+  //@ requires 0 <= argnum;
+  //@ requires argnum < getNumArgs();
+  public /*@pure@*/ boolean isInput(int argnum)
+  { return inputs_[argnum]; }
 
   /** The expected number of solutions. */
   protected /*@spec_public@*/ double solutions_;

@@ -36,7 +36,7 @@ public class Envir
   protected Envir nextEnv;
   // An empty environment always has name==null && term==null;
   protected RefName name;
-  protected Term term;
+  protected Expr expr;
 
   /** Create an empty Envir */
   public Envir()
@@ -46,27 +46,48 @@ public class Envir
   /** Lookup a name in the Environment. 
      @return null if the name does not exist.
   */
-  public /*@pure@*/ Term lookup(RefName /*@non_null@*/ want)
+  public /*@pure@*/ Expr lookup(RefName /*@non_null@*/ want)
   {
     Envir env = this;
     while (env != null)
       {
 	if (want.equals(env.name))
-	  return env.term;
+	  return env.expr;
 	env = env.nextEnv;
       }
     return null;
   }
 
+  /** Update the value of a name in the Environment. 
+      WARNING: this destructively changes the Environment
+      and may change other environments that share parts of this environment.
+     @param name This name must already exist in the environment.
+     @param newvalue The new value for name.
+  */
+  public void setValue(/*@non_null@*/ RefName name, 
+		       /*@non_null@*/ Expr newvalue)
+  {
+    Envir env = this;
+    while (env != null)
+      {
+	if (name.equals(env.name)) {
+	  env.expr = newvalue;
+	  return;
+	}
+	env = env.nextEnv;
+      }
+    assert(false);
+  }
+
   /** Add a name to the environment.
       @return The new extended environment
   */
-  public Envir add(RefName /*@non_null@*/ name, Term /*@non_null@*/ value)
+  public Envir add(/*@non_null@*/ RefName name, /*@non_null@*/ Expr value)
   {
     Envir result = new Envir();
     result.nextEnv = this;
     result.name = name;
-    result.term = value;
+    result.expr = value;
     return result;
   }
 
@@ -88,12 +109,12 @@ public class Envir
         return false;
     }
 
-    //System.out.println("equals: term="+term+", e2.term="+e2.term);
-    if (term==null) {
-      if (e2.term != null)
+    //System.out.println("equals: expr="+expr+", e2.expr="+e2.expr);
+    if (expr==null) {
+      if (e2.expr != null)
         return false;
     } else {
-      if (!term.equals(e2.term))
+      if (!expr.equals(e2.expr))
         return false;
     }
 

@@ -45,6 +45,7 @@
       destdir="${zlive.build.dir}"
       debug="${debug}"
       debuglevel="${debuglevel}"
+      source="1.4"
       optimize="${optimize}">
       <classpath refid="classpath"/>
     </javac>
@@ -65,9 +66,14 @@
     </javadoc>
   </target>
 
+  <target name="usertest" depends="install"
+    description="build and run the tests">
+    <ant dir="tests" target="usertest"/>
+  </target>
+
   <target name="test" depends="install"
     description="build and run the tests">
-    <ant dir="tests"/>
+    <ant dir="tests" target="test"/>
   </target>
 
   <target name="checkstyle" description="check java sources">

@@ -31,16 +31,16 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
 public class FlatPlus extends FlatPred
 			      // implements MemPred
 {
-  protected Expr args[] = new Expr[3];
+  protected RefName args[] = new RefName[3];
 
-  public FlatPlus(Expr a, Expr b, Expr c)
+  public FlatPlus(RefName a, RefName b, RefName c)
   {
     args[0] = a;
     args[1] = b;
     args[2] = c;
   }
 
-  public Mode chooseMode(Envir /*@non_null@*/ env)
+  public Mode chooseMode(/*@non_null@*/ Envir env)
   { return null; }
 
   public void setMode(Mode /*@non_null@*/ mode)

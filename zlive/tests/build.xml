@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project basedir="." default="run">
+<project basedir="." default="usertest">
   <property name="czt.home" location="../.."/>
   <property file="${czt.home}/czt.properties"/>
   <property name="test.build.dir" value="build"/>
@@ -27,7 +27,8 @@
   </target>
 
   <target name="compile" depends="init" description="compile the test">
-    <javac srcdir="src" destdir="${test.build.dir}" debug="on">
+    <javac srcdir="src" destdir="${test.build.dir}" debug="on"
+      source="1.4">
       <classpath refid="classpath"/>
     </javac>
   </target>
@@ -48,11 +49,22 @@
     </jar>
   </target>
   
-  <target name="run" depends="install">
+  <target name="usertest" depends="install">
     <junit reloading="false" printsummary="on">
       <formatter type="brief" usefile="false"/>
       <test name="net.sourceforge.czt.animation.eval.EvalTest"/>
+      <classpath>
+        <path refid="classpath"/>
+        <pathelement location="${test.jar.file}"/>
+      </classpath>
+    </junit>
+  </target>
+
+  <target name="test" depends="install">
+    <junit reloading="false" printsummary="on">
+      <formatter type="brief" usefile="false"/>
       <test name="net.sourceforge.czt.animation.eval.EnvirTest"/>
+      <test name="net.sourceforge.czt.animation.eval.flatpred.FlatPlusTest"/>
       <classpath>
         <path refid="classpath"/>
         <pathelement location="${test.jar.file}"/>

@@ -57,10 +57,9 @@ public class Flatten
   private ZFactory factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
   private static final List empty = new ArrayList();
 
-  protected RefExpr createNewName()
+  protected RefName createNewName()
   {
-    RefName name = factory_.createRefName("tmp"+(newNameNum++), empty, null);
-    return factory_.createRefExpr(name, empty, Boolean.FALSE);
+    return factory_.createRefName("tmp"+(newNameNum++), empty, null);
   }
 
   public Flatten()
@@ -111,7 +110,7 @@ public class Flatten
     Expr func = (Expr)e.getLeftExpr().accept(this);
     Expr args = (Expr)e.getRightExpr().accept(this);
     List argList = null;
-    RefExpr result = createNewName();
+    RefName result = createNewName();
 
     if (args instanceof TupleExpr)
       argList = ((TupleExpr)args).getExpr();
@@ -121,8 +120,9 @@ public class Flatten
       {
       String funcname = ((RefExpr)func).getRefName().getWord();
       if (funcname.equals(ZString.ARG_TOK+ZString.PLUS+ZString.ARG_TOK))
-	flat_.add(new FlatPlus((Expr)argList.get(0),
-			       (Expr)argList.get(1), result));
+	flat_.add(new FlatPlus(((RefExpr)argList.get(0)).getRefName(),
+			       ((RefExpr)argList.get(1)).getRefName(), 
+			       result));
       // else if (...)   TODO: add more cases...
       else
 	{

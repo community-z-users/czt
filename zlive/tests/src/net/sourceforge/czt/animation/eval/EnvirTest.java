@@ -52,8 +52,8 @@ public class EnvirTest
   private BigInteger b = new BigInteger("20");
   private RefName x = factory_.createRefName("x",emptyList,null);
   private RefName y = factory_.createRefName("y",emptyList,null);
-  private Term i10 = factory_.createNumExpr(a);
-  private Term i20 = factory_.createNumExpr(b);
+  private Expr i10 = factory_.createNumExpr(a);
+  private Expr i20 = factory_.createNumExpr(b);
   private Envir x10 = empty.add(x,i10);
   private Envir x10b = empty.add(x,i10);
   private Envir x20 = empty.add(x,i20);
