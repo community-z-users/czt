@@ -45,10 +45,12 @@ public class JaxbValidator implements AstValidator
     Logger.getLogger("net.sourceforge.czt.zed.jaxb." + sClassName);
 
   private Visitor mVisitor;
+  private String mJaxbContextPath;
 
-  public JaxbValidator(Visitor v)
+  public JaxbValidator(Visitor v, String jaxbContextPath)
   {
     mVisitor = v;
+    mJaxbContextPath = jaxbContextPath;
   }
 
   private Object toJaxb(Term term)
@@ -65,7 +67,7 @@ public class JaxbValidator implements AstValidator
     Object o = toJaxb(term);
     try {
       JAXBContext jc =
-	JAXBContext.newInstance("net.sourceforge.czt.zed.jaxb.gen");
+	JAXBContext.newInstance(mJaxbContextPath);
       Validator v = jc.createValidator();
       return v.validate(o);
     } catch(Exception e) {

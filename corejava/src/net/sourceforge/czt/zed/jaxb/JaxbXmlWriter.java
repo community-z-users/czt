@@ -45,18 +45,19 @@ public class JaxbXmlWriter implements XmlWriter
     Logger.getLogger("net.sourceforge.czt.zed.jaxb." + sClassName);
 
   private Visitor mVisitor;
+  private String mJaxbContextPath;
 
-  public JaxbXmlWriter(Visitor v)
+  public JaxbXmlWriter(Visitor visitor, String jaxbContextPath)
   {
-    mVisitor = v;
+    mVisitor = visitor;
+    mJaxbContextPath = jaxbContextPath;
   }
 
   private Marshaller createMarshaller()
   {
     Marshaller erg = null;
     try {
-      JAXBContext jc =
-	JAXBContext.newInstance("net.sourceforge.czt.zed.jaxb.gen");
+      JAXBContext jc = JAXBContext.newInstance(mJaxbContextPath);
       erg = jc.createMarshaller();
       erg.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
     } catch(Exception e) {

@@ -39,18 +39,20 @@ import net.sourceforge.czt.zed.ast.*;
 public class JaxbXmlReader
   implements net.sourceforge.czt.zed.util.XmlReader
 {
-  ReflectiveVisitor mVisitor;
+  private ReflectiveVisitor mVisitor;
+  private String mJaxbContextPath;
   
-  public JaxbXmlReader(ReflectiveVisitor v)
+  public JaxbXmlReader(ReflectiveVisitor v, String jaxbContextPath)
   {
     mVisitor = v;
+    mJaxbContextPath = jaxbContextPath;
   }
 
   private javax.xml.bind.Unmarshaller createUnmarshaller() {
     javax.xml.bind.Unmarshaller unmarshaller = null;
     try {
       JAXBContext jaxcontext =
-	JAXBContext.newInstance("net.sourceforge.czt.core.jaxb.gen:net.sourceforge.czt.zpatt.jaxb.gen:net.sourceforge.czt.oz.jaxb.gen:net.sourceforge.czt.tcoz.jaxb.gen");
+	JAXBContext.newInstance(mJaxbContextPath);
       unmarshaller = jaxcontext.createUnmarshaller();
     } catch(Exception e) {
       e.printStackTrace();
