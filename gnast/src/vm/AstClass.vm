@@ -181,17 +181,20 @@ public#abstract($class) class ${class.ImplName}
 
 #if(${prop.Type.FullName} == 'java.util.List')
 
-  private ${prop.Type.FullName} ${prop.MemVarName} =
-    new TypesafeList(${prop.ListType.FullName}.class);
+  private net.sourceforge.czt.base.ast.ListTerm ${prop.MemVarName} =
+    new net.sourceforge.czt.base.impl.ListTermImpl(${prop.ListType.FullName}.class);
+
+  public net.sourceforge.czt.base.ast.ListTerm ${prop.GetterName}()
+  {
+    return ${prop.MemVarName};
+  }
 #else
   private ${prop.Type.FullName} ${prop.MemVarName};
-#end
 
   public ${prop.Type.FullName} ${prop.GetterName}()
   {
     return ${prop.MemVarName};
   }
-#if(${prop.Type.FullName} != 'java.util.List')
 
   public void ${prop.SetterName}(${prop.Type.FullName} ${prop.VarName})
   {

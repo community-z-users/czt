@@ -57,7 +57,7 @@ public interface ${class.Name} #if($class.Extends)extends ${class.Extends}
    *
    * @return a list of ${prop.ListType.Name} elements.
    */
-  ${prop.Type.FullName} ${prop.GetterName}();
+  net.sourceforge.czt.base.ast.ListTerm ${prop.GetterName}();
 #else
   /**
    * Returns the ${prop.Name} element.

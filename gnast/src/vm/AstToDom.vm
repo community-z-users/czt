@@ -1,5 +1,5 @@
 #*
-Copyright 2003 Petra Malik
+Copyright (C) 2003, 2004 Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -34,6 +34,7 @@ import java.util.logging.Logger;
 import java.util.*;
 import org.w3c.dom.*;
 
+import net.sourceforge.czt.base.ast.ListTerm;
 import net.sourceforge.czt.base.ast.Term;
 
 import net.sourceforge.czt.util.CztException;
@@ -56,7 +57,8 @@ public class $class.Name
   extends ${ImportProject.BasePackage}.${class.Package}.${class.Name}
 #end
   implements#if(! $ImportPackage) net.sourceforge.czt.base.dom.DomVisitor,
-            #end ${project.getObject("AstVisitor")}
+            #end ${project.getObject("AstVisitor")},
+    net.sourceforge.czt.base.visitor.TermVisitor
 {
   private Logger getLogger()
   {
@@ -75,6 +77,13 @@ public class $class.Name
   {
     document_ = document;
   }
+
+  public Object visitTerm(Term zedObject)
+  {
+    throw(new UnsupportedOperationException("Unexpected element "
+                                            + zedObject.getClass().getName()));
+  }
+
 #end
 
 #foreach($c in $classes)

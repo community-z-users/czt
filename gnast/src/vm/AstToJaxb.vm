@@ -113,11 +113,11 @@ public class $class.Name
         jaxbObject.setDecl(decl);
       }
       {
-        java.util.List list = zedObject.getAnns();
+        List list = zedObject.getAnns();
         if (list.size() > 0) {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
             annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;
@@ -129,8 +129,8 @@ public class $class.Name
       }
       jaxbObject.setWord((String) zedObject.getWord());
       {
-        java.util.List list = zedObject.getStroke();
-        java.util.List newlist = jaxbObject.getStroke();
+        List list = zedObject.getStroke();
+        List newlist = jaxbObject.getStroke();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Term term = (Term) iter.next();
           Object o = term.accept(this);
@@ -166,11 +166,11 @@ public class $class.Name
         hash_.put(zedObject.getId(), jaxbObject);
       }
       {
-        java.util.List list = zedObject.getAnns();
+        List list = zedObject.getAnns();
         if (list.size() > 0) {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
             annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;
@@ -183,9 +183,9 @@ public class $class.Name
       getLogger().finest("Setting Word to " + zedObject.getWord().toString());
       jaxbObject.setWord(zedObject.getWord());
       {
-        java.util.List list = zedObject.getStroke();
+        List list = zedObject.getStroke();
         getLogger().finest("Setting strokes " + list.toString());
-        java.util.List newlist = jaxbObject.getStroke();
+        List newlist = jaxbObject.getStroke();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Term term = (Term) iter.next();
           Object o = term.accept(this);
@@ -222,11 +222,11 @@ public class $class.Name
 #foreach($prop in $c.AllProperties)
 #if($prop.Name == 'Content')
       {
-        java.util.List list = zedObject.getContent();
+        List list = zedObject.getContent();
         if (list.size() > 0) {
           AnyType anyType =
             anyTypeObjectFactory_.createAnyType();
-          java.util.List newlist = anyType.getContent();
+          List newlist = anyType.getContent();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Object o = iter.next();
             if (o instanceof Term) {
@@ -244,8 +244,8 @@ public class $class.Name
       }
 #elseif($prop.Type.FullName == 'java.util.List')
       {
-        java.util.List list = zedObject.${prop.GetterName}();
-        java.util.List newlist = jaxbObject.${prop.GetterName}();
+        List list = zedObject.${prop.GetterName}();
+        List newlist = jaxbObject.${prop.GetterName}();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
@@ -287,12 +287,12 @@ public class $class.Name
     }
 #if($c.isInstanceOf("TermA"))
     if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
+      List list = zedObject.getAnns();
       if (list.size() > 0) {
         try {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
                            annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;

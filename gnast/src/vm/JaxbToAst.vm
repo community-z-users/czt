@@ -91,7 +91,7 @@ public class ${class.Name}#if($ImportProject)
     getLogger().entering("${class.Name}", "visit${c.Name}", jaxbObject);
 #foreach($prop in $c.AllProperties)
 #if(${prop.Name} == 'Content')
-    java.util.List content = new java.util.Vector();
+    List content = new java.util.Vector();
     if (jaxbObject.getContent() != null
         && jaxbObject.getContent().getContent() != null) {
       for (Iterator iter = jaxbObject.getContent().getContent().iterator(); iter.hasNext();) {
@@ -101,7 +101,7 @@ public class ${class.Name}#if($ImportProject)
       }
     }
 #elseif(${prop.Type.FullName} == 'java.util.List')
-    java.util.List ${prop.VarName} = new java.util.Vector();
+    List ${prop.VarName} = new Vector();
     for (Iterator iter = jaxbObject.${prop.GetterName}().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
