@@ -88,7 +88,7 @@ public final class <class/>
       Scanner scanner = new SmartScanner(new LatexScanner(in));
       OperatorTable table = new OperatorTable();
       Parser parser = new Parser(scanner, table, "");
-      Symbol parseTree = parser.parse();
+      Symbol parseTree = parser.debug_parse();
       Term term = (Term) parseTree.value;
       AstValidator validator = new JaxbValidator();
       validator.validate(term);
@@ -106,7 +106,7 @@ public final class <class/>
     Reader in = new InputStreamReader(new FileInputStream(filename), "UTF-8");
     Scanner scanner = new SmartScanner(new UnicodeScanner(in));
     Parser parser = new Parser(scanner, table, filename);
-    Symbol parseTree = parser.parse();
+    Symbol parseTree = parser.debug_parse();
     return (Term) parseTree.value;
   }
 
@@ -122,7 +122,7 @@ public final class <class/>
     Reader in = new InputStreamReader(new FileInputStream(filename), "UTF-16");
     Scanner scanner = new SmartScanner(new UnicodeScanner(in));
     Parser parser = new Parser(scanner, table, filename);
-    Symbol parseTree = parser.parse();
+    Symbol parseTree = parser.debug_parse();
     return (Term) parseTree.value;
   }
 
@@ -144,7 +144,7 @@ public final class <class/>
     Reader in = new InputStreamReader(new FileInputStream(filename));
     Scanner scanner = new SmartScanner(new LatexScanner(in));
     Parser parser = new Parser(scanner, table, filename);
-    Symbol parseTree = parser.parse();
+    Symbol parseTree = parser.debug_parse();
     return (Term) parseTree.value;
   }
 
@@ -160,7 +160,7 @@ public final class <class/>
     Reader in = new java.io.StringReader(spec);
     Scanner scanner = new SmartScanner(new LatexScanner(in));
     Parser parser = new Parser(scanner, table, "");
-    Symbol parseTree = parser.parse();
+    Symbol parseTree = parser.debug_parse();
     return (Term) parseTree.value;
   }
 }

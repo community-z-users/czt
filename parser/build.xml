@@ -56,25 +56,36 @@
   <target name="scanner">
     <xslt
       in="templates/UnicodeScanner.xml"
-      out="${build.src.dir}/net/sourceforge/czt/scanner/${uscanner.name}.jflex"
+      out="${build.src.dir}/net/sourceforge/czt/print/z/${uscanner.name}.jflex"
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="${uscanner.name}"/>
-      <param name="package" expression="net.sourceforge.czt.scanner"/>
+      <param name="package" expression="net.sourceforge.czt.print.z"/>
       <param name="add" expression="{z}"/>
     </xslt>
     <jflex
-      file="${build.src.dir}/net/sourceforge/czt/scanner/${uscanner.name}.jflex"
+      file="${build.src.dir}/net/sourceforge/czt/print/z/${uscanner.name}.jflex"
       destdir="${build.src.dir}"/>
     <xslt
       in="templates/Latex2Unicode.xml"
-      out="${build.src.dir}/net/sourceforge/czt/scanner/Latex2Unicode.jflex"
+      out="${build.src.dir}/net/sourceforge/czt/parser/z/Latex2Unicode.jflex"
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="Latex2Unicode"/>
-      <param name="package" expression="net.sourceforge.czt.scanner"/>
+      <param name="package" expression="net.sourceforge.czt.parser.z"/>
       <param name="add" expression="{z}"/>
     </xslt>
     <jflex
-      file="${build.src.dir}/net/sourceforge/czt/scanner/Latex2Unicode.jflex"
+      file="${build.src.dir}/net/sourceforge/czt/parser/z/Latex2Unicode.jflex"
+      destdir="${build.src.dir}"/>
+    <xslt
+      in="templates/Latex2Unicode.xml"
+      out="${build.src.dir}/net/sourceforge/czt/parser/oz/Latex2Unicode.jflex"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="Latex2Unicode"/>
+      <param name="package" expression="net.sourceforge.czt.parser.oz"/>
+      <param name="add" expression="{oz}"/>
+    </xslt>
+    <jflex
+      file="${build.src.dir}/net/sourceforge/czt/parser/oz/Latex2Unicode.jflex"
       destdir="${build.src.dir}"/>
   </target>
 
@@ -84,11 +95,22 @@
       javacchome="${javacc.home}"/>-->
   </target>
 
-  <target name="UnicodeToLatex" depends="-set-javacup-task">
+  <target name="Unicode2Latex-cup" depends="init">
+    <xslt
+      in="templates/Unicode2Latex.xml"
+      out="${build.src.dir}/net/sourceforge/czt/print/z/Unicode2Latex.cup"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="Unicode2Latex"/>
+      <param name="package" expression="net.sourceforge.czt.print.z"/>
+      <param name="add" expression="{z}"/>
+    </xslt>
+  </target>
+
+  <target name="UnicodeToLatex" depends="Unicode2Latex-cup, -set-javacup-task">
     <java_cup
-      srcDir="${src.dir}/net/sourceforge/czt/scanner"
-      destDir="${src.dir}/net/sourceforge/czt/scanner"
-      inputFile="unicode2latex.cup"
+      srcDir="${build.src.dir}/net/sourceforge/czt/print/z"
+      destDir="${build.src.dir}/net/sourceforge/czt/print/z"
+      inputFile="Unicode2Latex.cup"
       parserFile="Unicode2Latex"
       symbolFile="Sym">
     </java_cup>
@@ -97,7 +119,7 @@
   <target name="latexMarkup">
     <xslt
       in="xsl/latexMarkup.xml"
-      out="${build.src.dir}/net/sourceforge/czt/scanner/LatexMarkup.java"
+      out="${build.src.dir}/net/sourceforge/czt/parser/z/LatexMarkup.java"
       style="xsl/latexMarkup2class.xsl"/>
   </target>
 
@@ -208,7 +230,7 @@
   <target name="ozLatexMarkup">
     <xslt
       in="xsl/ozLatexMarkup.xml"
-      out="${build.src.dir}/net/sourceforge/czt/scanner/OzLatexMarkup.java"
+      out="${build.src.dir}/net/sourceforge/czt/parser/oz/OzLatexMarkup.java"
       style="xsl/ozLatexMarkup2class.xsl"/>
   </target>
 
@@ -297,25 +319,17 @@
   </target>
 
   <target name="run" depends="install" description="Run the GUI for the object Z parser">
-    <java classname="${package.name}.Main" fork="true">
-      <classpath refid="classpath"/>
+    <java classname="net.sourceforge.czt.parser.oz.Main" fork="true">
+      <classpath>
+        <path refid="classpath"/>
+        <pathelement location="${build.class.dir}"/>
+      </classpath>
     </java>
   </target>
 
   <target name="scan" depends="install" if="file"
     description="Scans an unicode file (provide a file name by setting property 'file' using the -D option)">
-    <java classname="net.sourceforge.czt.scanner.${uscanner.name}" fork="true">
-      <arg value="${file}"/>
-      <classpath>
-        <path refid="classpath"/>
-        <pathelement location="${jar.file}"/>
-      </classpath>
-    </java>
-  </target>
-
-  <target name="latex2unicode" depends="install" if="file"
-    description="Transforms a latex specification into unicode (provide a file name by setting property 'file' using the -D option)">
-    <java classname="net.sourceforge.czt.scanner.LatexToUnicode" fork="true">
+    <java classname="net.sourceforge.czt.print.z.${uscanner.name}" fork="true">
       <arg value="${file}"/>
       <classpath>
         <path refid="classpath"/>
@@ -333,9 +347,8 @@
     <javadoc
       destdir="${api.dir}"
       private="true">
-      <packageset dir="${src.dir}">
-        <include name="net/sourceforge/czt/scanner/**"/>    
-      </packageset>
+      <packageset dir="${src.dir}"/>
+      <packageset dir="${build.src.dir}"/>
       <tag name="czt.todo" description="To do:"/>
       <classpath refid="classpath"/>
     </javadoc>

@@ -17,13 +17,14 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.scanner;
+package net.sourceforge.czt.print.z;
 
 import java.io.*;
 
 import java_cup.runtime.*;
 
 import net.sourceforge.czt.parser.util.CztReader;
+import net.sourceforge.czt.parser.z.Latex2Unicode;
 
 /**
  * @author Petra Malik

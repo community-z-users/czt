@@ -30,13 +30,15 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.scanner;
+package net.sourceforge.czt.parser.oz;
 
 import java.util.*;
 
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.z.util.*;
 import net.sourceforge.czt.oz.util.*;
+
+import net.sourceforge.czt.parser.z.LatexMarkup;
 
 /**
  * An interface for commonly used OZ characters.

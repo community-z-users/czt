@@ -19,6 +19,6 @@ cd ${BASEDIR}/build/src/net/sourceforge/czt/parser/oz
 
 java -cp ${JAVA_CUP} java_cup.Main -parser Parser -symbols Sym < Parser.cup
 
-cd ${BASEDIR}/src/net/sourceforge/czt/scanner
+cd ${BASEDIR}/build/src/net/sourceforge/czt/print/z
 
-java -cp ${JAVA_CUP} java_cup.Main -parser Unicode2Latex -symbols Sym < unicode2latex.cup
+java -cp ${JAVA_CUP} java_cup.Main -parser Unicode2Latex -symbols Sym < Unicode2Latex.cup

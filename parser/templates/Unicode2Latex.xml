@@ -1,6 +1,26 @@
-/* ----------------------Preliminary Declarations Section--------------------*/
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2003, 2004 Petra Malik
+     This file is part of the CZT project.
 
-package net.sourceforge.czt.scanner;
+     The CZT project contains free software;
+     you can redistribute it and/or modify
+     it under the terms of the GNU General Public License as published by
+     the Free Software Foundation; either version 2 of the License, or
+     (at your option) any later version.
+
+     The CZT project is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+
+     You should have received a copy of the GNU General Public License
+     along with CZT; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+-->
+
+<parser xmlns:add="http://czt.sourceforge.net/templates/additional">
+package <package/>;
 
 import java_cup.runtime.*;
 import java.io.*;
@@ -10,6 +30,7 @@ import net.sourceforge.czt.util.ParseException;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.parser.util.LatexCommand;
 import net.sourceforge.czt.parser.util.LatexMarkupUtils;
+import net.sourceforge.czt.parser.z.LatexMarkup;
 
 action code
 {:
@@ -62,7 +83,7 @@ action code
     if (c1 == null) return c2;
     if (c2 == null) return c1;
     String latex = c1.getName();
-    if (! c1.addRightSpace() && ! c2.addLeftSpace()) {
+    if (! c1.addRightSpace() &amp;&amp; ! c2.addLeftSpace()) {
       latex += "~";
     } else {
       latex += " ";
@@ -113,9 +134,9 @@ parser code {:
     StringBuffer m = new StringBuffer("Error");
     if (info instanceof java_cup.runtime.Symbol) {
       java_cup.runtime.Symbol s = ((java_cup.runtime.Symbol) info);
-      if (s.left >= 0) {                
+      if (s.left &gt;= 0) {                
         m.append(" in line "+(s.left+1));   
-        if (s.right >= 0) m.append(", column "+(s.right+1));
+        if (s.right &gt;= 0) m.append(", column "+(s.right+1));
       }
       m.append(" (" + s.sym + "," + s.value + ")");
     }
@@ -351,7 +372,7 @@ non terminal LatexCommand token, tokenSeq, other, paren, special, decorword;
              {: RESULT = toLatex("::=", tleft, tright); :}
              |
              ANDALSO:t
-             {: RESULT = toLatex("&", tleft, tright); :}
+             {: RESULT = toLatex("&amp;", tleft, tright); :}
              |
              ZHIDE:t
              {: RESULT = toLatex(ZString.ZHIDE, tleft, tright); :}
@@ -434,3 +455,4 @@ non terminal LatexCommand token, tokenSeq, other, paren, special, decorword;
              ZPIPE:t
              {: RESULT = toLatex(ZString.ZPIPE, tleft, tright); :}
              ;
+</parser>

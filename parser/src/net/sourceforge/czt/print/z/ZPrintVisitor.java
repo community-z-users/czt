@@ -28,8 +28,6 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.base.util.*;
 
-import net.sourceforge.czt.scanner.Sym;
-
 import net.sourceforge.czt.util.CztException;
 
 import net.sourceforge.czt.z.ast.*;

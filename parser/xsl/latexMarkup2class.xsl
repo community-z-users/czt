@@ -30,7 +30,7 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.scanner;
+package net.sourceforge.czt.parser.z;
 
 import java.util.*;
 
@@ -54,7 +54,7 @@ public class LatexMarkup
    */
   protected static Map typeMap_ = initTypeMap();
 
-  protected static Map initUnicodeMap()
+  public static Map initUnicodeMap()
   {
     Map map = new HashMap();
 </xsl:text>
@@ -63,7 +63,7 @@ public class LatexMarkup
     return map;
   }
 
-  protected static Map initTypeMap()
+  public static Map initTypeMap()
   {
     Map map = new HashMap();
 </xsl:text>

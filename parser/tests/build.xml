@@ -33,8 +33,8 @@
   <target name="run" depends="compile">
     <junit dir="${basedir}" fork="yes" printsummary="on">
       <formatter type="brief" usefile="false"/>
-      <test name="net.sourceforge.czt.scanner.UnicodeScannerTest"/>
-      <test name="net.sourceforge.czt.scanner.Latex2UnicodeTest"/>
+      <test name="net.sourceforge.czt.parser.z.UnicodeScannerTest"/>
+      <test name="net.sourceforge.czt.parser.z.Latex2UnicodeTest"/>
       <!-- <test name="net.sourceforge.czt.scanner.LatexToUnicodeTest"/> -->
       <test name="net.sourceforge.czt.parser.z.ParserTest"/>
       <classpath refid="classpath"/>

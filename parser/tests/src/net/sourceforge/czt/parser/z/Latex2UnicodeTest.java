@@ -17,7 +17,7 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.scanner;
+package net.sourceforge.czt.parser.z;
 
 import java.io.*;
 
@@ -26,6 +26,8 @@ import java_cup.runtime.Symbol;
 import junit.framework.*;
 
 import net.sourceforge.czt.z.util.ZString;
+
+import net.sourceforge.czt.parser.util.AbstractLatexToUnicodeTest;
 
 /**
  * A (JUnit) test class for testing the latex to unicode converter.
