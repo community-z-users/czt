@@ -62,7 +62,8 @@ public class AstToJaxb
 
   public Object visitTerm(net.sourceforge.czt.base.ast.Term zedObject)
   {
-    throw(new UnsupportedOperationException());
+    throw(new UnsupportedOperationException("Unexpected element "
+                                            + zedObject.getClass().getName()));
   }
 
 
