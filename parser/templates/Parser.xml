@@ -41,6 +41,7 @@ import net.sourceforge.czt.oz.impl.OzFactoryImpl;
 </add:oz>
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.util.ParseException;
  
 action code
 {:
@@ -408,6 +409,11 @@ action code
 
 parser code
 {:
+    public Symbol parse() throws java.lang.Exception
+    {
+      return super.parse();
+    }
+
     /** The tokens that can have soft new lines both before and after */
     protected int [] nlBoth_ =
       new int [] {Sym.LEFTASSOC, Sym.PARENTS,
@@ -575,16 +581,13 @@ parser code
 
     public void report_error(String message, Object info)
     {
-      String position = "line " + previous_.left + ", " + 
-	"column " + previous_.right;
-      String error = "Token " + info + " at " + position;
-      if (previous_.value != null) {
-        error += " with value " + previous_.value;
-      }
-      error += "\n" + "File: " + file_;
-      error += "\n" + message;
+      ParseException exception =
+        new ParseException(message,
+                           file_,
+                           previous_.left,
+                           previous_.right);
 
-      super.report_error(error, info);
+      super.report_error(exception.toString(), info);
     }
 :}
 
@@ -947,7 +950,8 @@ section ::=
         ;
 
 //reduce this separately so we can set the current section
-//in the operator table
+//in the operator table, and stop the lookup to the operator table
+//(see section 8.4)
 sectionName ::=
         DECORWORD:dw
         {:
@@ -1235,6 +1239,8 @@ operatorTemplate ::=
         :}
         ;
 
+//we do not perform lookup on the table when parsing an operator
+//(see section 8.3)
 relationToken ::=
         RELATION
         {: table_.setLookup(false); :}
