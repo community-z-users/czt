@@ -260,8 +260,6 @@
     <delete dir="${corejava.api.jaxb.dir}"/>
     <ant dir="tests" target="clean"/>
     <ant dir="examples/debug" target="clean"/>
-    <ant dir="examples/unmarshal" target="clean"/>
-    <ant dir="examples/marshal" target="clean"/>
     <ant dir="examples/substitutionVisitor" target="clean"/>
     <ant dir="examples/object-z" target="clean"/>
   </target>
