@@ -420,14 +420,13 @@ public class TypeAnnotatingVisitor
 	factory_.createNameTypePair(declName, baseType);
       nameTypePairs.add(nameTypePair);
       
-      debug("vardecl name = " + declName.getWord() + " type = " + 
-	    SectTypeEnv.toString(baseType));
+      debug("vardecl name = " + declName.getWord() + " type = " + baseType);
       
       if (type == null) {
 	sectTypeEnv_.dump();
       }
       
-      debug("\t superType = " + SectTypeEnv.toString(type));
+      debug("\t superType = " + type);
     }
 
     //according to section 10.2, this should have a type annotation.
@@ -466,7 +465,7 @@ public class TypeAnnotatingVisitor
 
     debug("visiting ConstDecl");
     debug("\tname = " + declName.getWord());
-    debug("\t type = " + SectTypeEnv.toString(type));
+    debug("\t type = " + type);
 
     return nameTypePairs;
   }
@@ -1170,7 +1169,7 @@ public class TypeAnnotatingVisitor
       String name = ((RefExpr) leftExpr).getRefName().getWord();
       debug("applExpr name = " + name);
     }
-    debug("applexpr leftType = " + SectTypeEnv.toString(leftType));
+    debug("applexpr leftType = " + leftType);
 
     Type leftBaseType = getBaseType(leftType);
 
@@ -1182,8 +1181,8 @@ public class TypeAnnotatingVisitor
 
       ProdType prodType = (ProdType) leftBaseType;
 
-      debug("leftBaseType = " + SectTypeEnv.toString(leftBaseType));
-      debug("rightType = " + SectTypeEnv.toString(rightType));
+      debug("leftBaseType = " + leftBaseType);
+      debug("rightType = " + rightType);
 
       unificationEnv_.enterScope();
 

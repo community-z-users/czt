@@ -244,9 +244,9 @@ public class SectTypeEnv
     for (Iterator iter = typeInfo_.iterator(); iter.hasNext(); ) {
       NameSectTypeTriple next = (NameSectTypeTriple) iter.next();
 
-      System.err.print("\t(" + next.getName().getWord());
+      System.err.print("\t(" + next.getName());
       System.err.print(", (" + next.getSect());
-      System.err.println(", (" + toString(next.getType()) + ")))");
+      System.err.println(", (" + next.getType() + ")))");
     }
   }
 
@@ -290,64 +290,6 @@ public class SectTypeEnv
         result.addAll(transitiveParents);
       }
     }
-    return result;
-  }
-
-  public static String toString(Type type) 
-  {
-    String result = new String();
-    if (type == null) {
-      result += "null";
-    }
-    else if (type instanceof PowerType) {
-      PowerType powerType = (PowerType) type;
-      result += "P (";
-      result += toString(powerType.getType());
-      result += ")";
-    }
-    else if (type instanceof GenType) {
-      GenType genType = (GenType) type;
-      result += "GEN ";
-      result += genType.getName().getWord();
-    }
-    else if (type instanceof GivenType) {
-      GivenType givenType = (GivenType) type;
-      result += "GIVEN ";
-      result += givenType.getName().getWord();
-    }
-    else if (type instanceof ProdType) {
-      ProdType prodType = (ProdType) type;
-      List list = prodType.getType();
-      for (int i = 0; i < list.size() - 1; i++) {
-	Type next = (Type) list.get(i);
-	result += toString(next) + " x ";
-      }
-      result += toString((Type) list.get(list.size() - 1));
-    }
-    else if (type instanceof SchemaType) {
-      SchemaType schemaType = (SchemaType) type;
-      result += "[";
-      List list = schemaType.getSignature().getNameTypePair();
-      if (list.size() > 0) {
-	for (int i = 0; i < list.size() - 1; i++) {
-	  NameTypePair pair = (NameTypePair) list.get(i);
-	  result += pair.getName().toString() + " : " + 
-	    toString(pair.getType());
-	  result += "; ";
-	}
-	NameTypePair pair = (NameTypePair) list.get(list.size() - 1);
-	result += pair.getName().toString() + " : " +
-	  toString(pair.getType());
-      }
-      result += "]";
-    }
-    else if (type instanceof UnknownType) {
-      result += "unknown";
-    }
-    else {
-      result += "type:" + type.getClass().getName();
-    }
-
     return result;
   }
 }

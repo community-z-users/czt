@@ -45,4 +45,9 @@ public class UnknownTypeImpl
   {
     return create();
   }
+
+  public String toString()
+  {
+    return "unknown";
+  }
 }
