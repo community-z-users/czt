@@ -31,13 +31,13 @@ DIAGONAL == 1 - SIZE \upto 2 * SIZE
 
 \begin{axdef}
 up, down: SQUARE \fun DIAGONAL\\
-\ST \forall f : FILE; r : RANK @ up(f, r) = r - f \land down(f, r)
+\where \forall f : FILE; r : RANK @ up(f, r) = r - f \land down(f, r)
 = r + f
 \end{axdef}
 
 \begin{schema}{Queens}
 squares : FILE \bij RANK \\
-\ST \{squares \dres up, squares \dres down \} \subseteq SQUARE
+\where \{squares \dres up, squares \dres down \} \subseteq SQUARE
 \tinj DIAGONAL
 \end{schema}
 \end{document}
