@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Spec xmlns="http://czt.sourceforge.net/zml"
-	 xmlns:Z="http://czt.sourceforge.net/zml"
-	 xmlns:cztqa="http://czt.sourceforge.net/cztqa" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://czt.sourceforge.net/zml /research/development/zml/Z.xsd"
-	 xmlns:zmltp="http://czt.sourceforge.net/zmltp"
->
-
+<Spec 
+  xmlns="http://czt.sourceforge.net/zml"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:zml2html="http://czt.sourceforge.net/zml/zml2html/testing">
 
   <ZSect>
     <Name>Schema Definition, with predicates</Name>
