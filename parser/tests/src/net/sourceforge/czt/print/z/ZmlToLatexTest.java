@@ -38,21 +38,18 @@ import net.sourceforge.czt.z.ast.Spec;
 public class ZmlToLatexTest
   extends AbstractParserTest
 {
-  public Term parse(URL url, SectionManager ignore)
+  public Term parse(URL url, SectionManager manager)
     throws ParseException, IOException
   {
-    SectionInfoRegistry toolkitInfo = ToolkitSectionInfoRegistry.getInstance();
     File tmpLatexFile = File.createTempFile("cztPrintTest", ".tex");
     tmpLatexFile.deleteOnExit();
-    Spec spec = (Spec) ParseUtils.parse(url, toolkitInfo);
-    WrappedSectionInfoRegistry tmpSectInfo =
-      new WrappedSectionInfoRegistry(toolkitInfo);
+    Spec spec = (Spec) ParseUtils.parse(url, manager);
     DeleteAnnVisitor visitor = new DeleteAnnVisitor();
     spec.accept(visitor);
-    tmpSectInfo.add(spec);
     Writer writer = new FileWriter(tmpLatexFile);
-    PrintUtils.printLatex(spec, writer, tmpSectInfo);
+    PrintUtils.printLatex(spec, writer, manager);
     writer.close();
-    return ParseUtils.parse(tmpLatexFile.getAbsolutePath(), toolkitInfo);
+    return ParseUtils.parse(tmpLatexFile.getAbsolutePath(),
+                            new SectionManager());
   }
 }

@@ -30,6 +30,7 @@ import java_cup.runtime.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.z.util.ZString;
@@ -51,7 +52,7 @@ public class PrecedenceHandlingVisitor
   //the precedence of a cross product
   protected static Integer PRODEXPR_PRECEDENCE = new Integer(8);
 
-  private Map tables_;
+  private SectionInfo sectInfo_;
 
   /** The operator table used to determine the precedence of operators. */
   protected OpTable table_;
@@ -66,9 +67,9 @@ public class PrecedenceHandlingVisitor
    * Constructs an instance of this handler with a specified
    * operator table.
    */
-  public PrecedenceHandlingVisitor(Map table)
+  public PrecedenceHandlingVisitor(SectionInfo sectInfo)
   {
-    tables_ = table;
+    sectInfo_ = sectInfo;
   }
 
   /**
@@ -86,7 +87,7 @@ public class PrecedenceHandlingVisitor
   public Object visitZSect(ZSect zSect)
   {
     String name = zSect.getName();
-    table_ = (OpTable) tables_.get(name);
+    table_ = (OpTable) sectInfo_.getInfo(name, OpTable.class);
     return visitTerm(zSect);
   }
 

@@ -607,7 +607,7 @@ parser code
       //pass the specification to the visitor for reordering
       //infix operators
       PrecedenceHandlingVisitor visitor =
-        new PrecedenceHandlingVisitor(action_obj.opTables_);
+        new PrecedenceHandlingVisitor(sectInfo_);
       symbol.value = term.accept(visitor);
       return symbol;
     }
