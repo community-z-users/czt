@@ -74,22 +74,76 @@
 
   <xs:import namespace="http://czt.sourceforge.net/zml" schemaLocation="Z.xsd"/>
 
-  <xs:element name="SubstList" type="P:SubstList"/>
-  <xs:element name="Substitute" type="P:Substitute"/>
-
+  <xs:element name="TransformList" type="P:TransformList">
+    <xs:annotation>
+      <xs:documentation>
+        A list of transformation rules.
+	Each rule says how one Z term (for example an expression) can be
+        transformed into another term.  Usually the intention is that
+	the two terms are equivalent, but a TransformList could also be
+	used to store rules that weaken predicates etc.  The order of
+	rules in this list can be significant, because if two rules match
+	the same term, transformation engines should try to give priority to 
+	rules nearer the start of the list.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="Transform" type="P:Transform" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        This is a abstract superclass of all the various kinds of
+	transformations that are possible.
+	Each transformation has a left-hand-side (LHS) and a RHS. 
+	These terms can contain jokers (JokerExpr/JokerPred).
+	Usually, the jokers in RHS should be a subset of those in the LHS,
+	otherwise the transformation may not be well defined.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="ExprTransform" type="P:ExprTransform"
+	substitutionGroup="P:Transform">
+    <xs:annotation>
+      <xs:documentation>
+        Transforms one Expr into another.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="PredTransform" type="P:PredTransform"
+	substitutionGroup="P:Transform">
+    <xs:annotation>
+      <xs:documentation>
+        Transforms one Expr into another.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
   <xs:element name="JokerExpr" type="P:JokerExpr" substitutionGroup="Z:Expr"/>
   <xs:element name="JokerPred" type="P:JokerPred" substitutionGroup="Z:Pred"/>
 
-  <xs:complexType name="SubstList">
+  <xs:complexType name="TransformList">
     <xs:sequence>
-      <xs:element ref="P:Substitute" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="P:Transform" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="Substitute">
-    <xs:sequence>
-      <xs:element ref="Z:Expr" minOccurs="2" maxOccurs="2"/>
-      <xs:element ref="Z:Pred" minOccurs="2" maxOccurs="2"/>
-    </xs:sequence>
+
+  <xs:complexType name="Transform">
+  </xs:complexType>
+  <xs:complexType name="ExprTransform">
+    <xs:complexContent>
+      <xs:extension base="P:Transform">
+        <xs:sequence>
+      	  <xs:element ref="Z:Expr" minOccurs="2" maxOccurs="2"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="PredTransform">
+    <xs:complexContent>
+      <xs:extension base="P:Transform">
+        <xs:sequence>
+      	  <xs:element ref="Z:Pred" minOccurs="2" maxOccurs="2"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
 
   <xs:complexType name="JokerExpr">
