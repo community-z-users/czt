@@ -59,7 +59,7 @@ PREGENERIC="\tail"|"\head"|"\id"|"\seq"|"\iseq"|"\dom"|"\ran"|"\finset"|"\negate
 	}
 <YYINITIAL>"\begin{genschema}" {
 	yybegin(ZPARSER);
-	return new  Symbol(LTZsym.BEGINGENSCHEMA, "\\begin{genschema}");
+	return new  Symbol(LTZsym.BEGINSCHEMA, yytext());
 	}
 <YYINITIAL> "\begin{zed}" {
 	yybegin(ZPARSER);
@@ -183,7 +183,7 @@ PREGENERIC="\tail"|"\head"|"\id"|"\seq"|"\iseq"|"\dom"|"\ran"|"\finset"|"\negate
 	}
 <ZPARSER> "\end{genschema}" {
 	yybegin(YYINITIAL);
-	return new Symbol(LTZsym.ENDGENSCHEMA, "\\end{genschema}");
+	return new Symbol(LTZsym.ENDSCHEMA, yytext());
 	}
 
 <ZPARSER> "\infix{" {return new Symbol(LTZsym.UNDERINFIXREL, "\\infix{"); }
