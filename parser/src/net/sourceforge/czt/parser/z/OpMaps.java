@@ -16,6 +16,17 @@ with CZT; if not, write to the Free Software Foundation, Inc.,
 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+//modified by Chen Chunqing (18/12/2003)
+/**
+ * For each operator, the class needs to store the type of toks (ltok, pretok,
+ * and so on)the function/generic that will be used in transformation rules
+ * 12.2.11 to distinguish the function (image into <ApplExpr> element) and
+ * the generic (image into <RefExpr> element) operator. 
+ * Thus, the structure of the hashtable will be 
+ * (key, List) and the List contains two elements, the first is the type of
+ *  the toks, while the second is the information about "relation" or "function"
+ *  or "generic".
+ */
 package net.sourceforge.czt.parser.z;
 import java.util.*;
 
@@ -43,11 +54,19 @@ public class OpMaps{
  * type.
  *
  * @param key it is the word of user-defined.
- * @param fix it is the type of the user-defined
+ * @param list it contains two elements, the first stores the type of the
+ *             token, ltok for example; and the second stores the information
+ *             about the "relation, function or generic".
  *
  */
+/*
 	public void addOp(String key, String fix){
 		ht.put(key, fix);
+	}
+	*/
+//by Chen Chunqing (18/12/2003)
+	public void addOp(String key, List l){
+		ht.put(key, l);
 	}
 /**
  * This is method to check whether an input word is in the pool or not.
@@ -65,11 +84,17 @@ public class OpMaps{
  *
  * @param key the user-defined operator inside the table.
  *
- * @return String return the correspoind type of the operator from the table.
+ * @return String return the correspoind List of the operator from the table.
  *
  */
+ /*
 	public String getOp(String key){
 		return (String)ht.get(key);
+	}
+	*/
+//added by Chen Chunqing (18/12/2003)
+	public List getOp(String key){
+		return (List)ht.get(key);
 	}
 /**
  * This method is to print out the table contents.
