@@ -123,6 +123,7 @@ public interface ZVisitor
     net.sourceforge.czt.z.visitor.Exists1PredVisitor,
     net.sourceforge.czt.z.visitor.AxParaVisitor,
     net.sourceforge.czt.z.visitor.SchExprVisitor,
+    net.sourceforge.czt.z.visitor.SignatureAnnVisitor,
     net.sourceforge.czt.z.visitor.TupleExprVisitor,
     net.sourceforge.czt.util.Visitor
 {

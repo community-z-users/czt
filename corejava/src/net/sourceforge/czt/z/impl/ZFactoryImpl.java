@@ -1263,6 +1263,19 @@ public class ZFactoryImpl
     return zedObject;
   }
 
+  public SignatureAnn createSignatureAnn()
+  {
+    SignatureAnn zedObject = new SignatureAnnImpl();
+    return zedObject;
+  }
+
+  public SignatureAnn createSignatureAnn(Signature signature)
+  {
+    SignatureAnn zedObject = createSignatureAnn();
+    zedObject.setSignature(signature);
+    return zedObject;
+  }
+
   public TupleExpr createTupleExpr()
   {
     TupleExpr zedObject = new TupleExprImpl();

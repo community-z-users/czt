@@ -4624,6 +4624,35 @@ public class AstToJaxb
     return jaxbObject;
   }
 
+  public Object visitSignatureAnn(net.sourceforge.czt.z.ast.SignatureAnn zedObject)
+  {
+    getLogger().entering(getClassName(), "visitSignatureAnn", zedObject);
+
+    SignatureAnn jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createSignatureAnnElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createSignatureAnn();
+      }
+      createElement_ = true;
+      if (zedObject.getSignature() != null) {
+        Term term = zedObject.getSignature();
+        jaxbObject.setSignature((Signature) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a SignatureAnn to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitSignatureAnn", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
   public Object visitTupleExpr(net.sourceforge.czt.z.ast.TupleExpr zedObject)
   {
     getLogger().entering(getClassName(), "visitTupleExpr", zedObject);

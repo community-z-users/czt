@@ -56,7 +56,7 @@ public interface ZpattFactory
    *
    * @return the new instance of PredTransform.
    */
-  PredTransform createPredTransform(net.sourceforge.czt.z.ast.Pred leftPred, net.sourceforge.czt.z.ast.Expr rightPred);
+  PredTransform createPredTransform(net.sourceforge.czt.z.ast.Pred leftPred, net.sourceforge.czt.z.ast.Pred rightPred);
 
   /**
    * Creates an instance of {@link JokerExpr}.

@@ -57,7 +57,7 @@ public interface PredTransform extends Transform
    *
    * @return the RightPred element.
    */
-  net.sourceforge.czt.z.ast.Expr getRightPred();
+  net.sourceforge.czt.z.ast.Pred getRightPred();
 
   /**
    * Sets the RightPred element.
@@ -65,5 +65,5 @@ public interface PredTransform extends Transform
    * @param rightPred   the RightPred element.
    * @see #getRightPred
    */
-  void setRightPred(net.sourceforge.czt.z.ast.Expr rightPred);
+  void setRightPred(net.sourceforge.czt.z.ast.Pred rightPred);
 }

@@ -97,7 +97,7 @@ public class AstToJaxb
       createElement_ = true;
       if (zedObject.getRightPred() != null) {
         Term term = zedObject.getRightPred();
-        jaxbObject.setRightPred((Expr) term.accept(this));
+        jaxbObject.setRightPred((Pred) term.accept(this));
       }
     }
     catch (Exception exception) {

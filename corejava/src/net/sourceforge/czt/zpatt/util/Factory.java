@@ -78,7 +78,7 @@ public class Factory
    *
    * @return the new instance of PredTransform.
    */
-  public PredTransform createPredTransform(net.sourceforge.czt.z.ast.Pred leftPred, net.sourceforge.czt.z.ast.Expr rightPred)
+  public PredTransform createPredTransform(net.sourceforge.czt.z.ast.Pred leftPred, net.sourceforge.czt.z.ast.Pred rightPred)
   {
     return factory_.createPredTransform(leftPred, rightPred);
   }

@@ -46,7 +46,7 @@ public class ZpattFactoryImpl
     return zedObject;
   }
 
-  public PredTransform createPredTransform(net.sourceforge.czt.z.ast.Pred leftPred, net.sourceforge.czt.z.ast.Expr rightPred)
+  public PredTransform createPredTransform(net.sourceforge.czt.z.ast.Pred leftPred, net.sourceforge.czt.z.ast.Pred rightPred)
   {
     PredTransform zedObject = createPredTransform();
     zedObject.setLeftPred(leftPred);

@@ -1927,6 +1927,16 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
+  public Object visitSignatureAnn(net.sourceforge.czt.z.jaxb.gen.SignatureAnn jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitSignatureAnn", jaxbObject);
+    Signature signature =
+      (Signature) dispatch(jaxbObject.getSignature());
+    SignatureAnn erg = mZFactory_.createSignatureAnn(signature);
+    getLogger().exiting("JaxbToAst", "visitSignatureAnn", erg);
+    return erg;
+  }
+
   public Object visitTupleExpr(net.sourceforge.czt.z.jaxb.gen.TupleExpr jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitTupleExpr", jaxbObject);

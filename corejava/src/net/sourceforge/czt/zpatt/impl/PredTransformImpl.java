@@ -133,7 +133,7 @@ public class PredTransformImpl
     PredTransform zedObject = null;
     try {
       net.sourceforge.czt.z.ast.Pred leftPred = (net.sourceforge.czt.z.ast.Pred) args[0];
-      net.sourceforge.czt.z.ast.Expr rightPred = (net.sourceforge.czt.z.ast.Expr) args[1];
+      net.sourceforge.czt.z.ast.Pred rightPred = (net.sourceforge.czt.z.ast.Pred) args[1];
       zedObject = new PredTransformImpl();
       zedObject.setLeftPred(leftPred);
       zedObject.setRightPred(rightPred);
@@ -165,14 +165,14 @@ public class PredTransformImpl
     leftPred_ = leftPred;
   }
 
-  private net.sourceforge.czt.z.ast.Expr rightPred_;
+  private net.sourceforge.czt.z.ast.Pred rightPred_;
 
-  public net.sourceforge.czt.z.ast.Expr getRightPred()
+  public net.sourceforge.czt.z.ast.Pred getRightPred()
   {
     return rightPred_;
   }
 
-  public void setRightPred(net.sourceforge.czt.z.ast.Expr rightPred)
+  public void setRightPred(net.sourceforge.czt.z.ast.Pred rightPred)
   {
     rightPred_ = rightPred;
   }

@@ -1740,6 +1740,26 @@ public class Factory
   }
 
   /**
+   * Creates an instance of {@link SignatureAnn}.
+   *
+   * @return the new instance of SignatureAnn.
+   */
+  public SignatureAnn createSignatureAnn()
+  {
+    return factory_.createSignatureAnn();
+  }
+
+  /**
+   * Creates an instance of {@link SignatureAnn} with the given children.
+   *
+   * @return the new instance of SignatureAnn.
+   */
+  public SignatureAnn createSignatureAnn(Signature signature)
+  {
+    return factory_.createSignatureAnn(signature);
+  }
+
+  /**
    * Creates an instance of {@link TupleExpr}.
    *
    * @return the new instance of TupleExpr.

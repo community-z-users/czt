@@ -78,8 +78,8 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     getLogger().entering("JaxbToAst", "visitPredTransform", jaxbObject);
     net.sourceforge.czt.z.ast.Pred leftPred =
       (net.sourceforge.czt.z.ast.Pred) dispatch(jaxbObject.getLeftPred());
-    net.sourceforge.czt.z.ast.Expr rightPred =
-      (net.sourceforge.czt.z.ast.Expr) dispatch(jaxbObject.getRightPred());
+    net.sourceforge.czt.z.ast.Pred rightPred =
+      (net.sourceforge.czt.z.ast.Pred) dispatch(jaxbObject.getRightPred());
     PredTransform erg = mZpattFactory_.createPredTransform(leftPred, rightPred);
     getLogger().exiting("JaxbToAst", "visitPredTransform", erg);
     return erg;

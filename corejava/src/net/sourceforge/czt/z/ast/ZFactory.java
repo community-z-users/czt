@@ -1219,6 +1219,20 @@ public interface ZFactory
   SchExpr createSchExpr(SchText schText);
 
   /**
+   * Creates an instance of {@link SignatureAnn}.
+   *
+   * @return the new instance of SignatureAnn.
+   */
+  SignatureAnn createSignatureAnn();
+
+  /**
+   * Creates an instance of {@link SignatureAnn} with the given children.
+   *
+   * @return the new instance of SignatureAnn.
+   */
+  SignatureAnn createSignatureAnn(Signature signature);
+
+  /**
    * Creates an instance of {@link TupleExpr}.
    *
    * @return the new instance of TupleExpr.
