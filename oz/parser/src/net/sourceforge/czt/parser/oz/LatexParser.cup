@@ -29,6 +29,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.impl.OzFactoryImpl;
+import net.sourceforge.czt.util.ZString;
 import net.sourceforge.czt.util.CztException;
  
 action code
@@ -567,7 +568,7 @@ terminal
         LPAREN, RPAREN, LSQUARE, RSQUARE, LBIND, RBIND,
         LDATA, RDATA, LBRACE, RBRACE,
         BAR, ANDALSO, CONJECTURE, AND, OR, IMP, IFF, NOT, 
-        ALL, EXI, CROSS,
+        ALL, EXI, CROSS, POWER, 
         SLASH, EQUALS, MEM, COLON, SEMICOLON, COMMA, DOT, SPOT, ZHIDE, 
         ZPROJ, ZCOMP, ZPIPE, NL,
         SECTION, PARENTS, TRUE, FALSE, LET, IF, THEN, ELSE, ZPRE,
@@ -581,7 +582,7 @@ terminal
         _APPLICATION, _RENAME;
 
 terminal String
-        POWER, TEXT, INITWORD, CLASSCOMWORD,
+        TEXT, INITWORD, CLASSCOMWORD,
         DECORWORD, DECLWORD, BOXNAME,
         PREP, PRE, POSTP, POST, IP, I, LP, L, ELP, EL, ERP, ER,
         SRP, SR, EREP, ERE, SREP, SRE, ES, SS;
@@ -1251,9 +1252,9 @@ prefixTemplate ::=
            RESULT = l; 
         :}
 	|
-	LPAREN POWER:p varg:v RPAREN
+	LPAREN POWER varg:v RPAREN
 	{:
-           List l = list(p, v);
+           List l = list(ZString.POWER, v);
            fix_ = OperatorTable.PREFIX;
            RESULT = l;
 	:}
