@@ -21,7 +21,7 @@ help()
           pane.setPage(url);
         } catch(IOException ioe) {
           String message = "Can't follow link to " +
-            event.getURL().toExternalForm() + ": " + ioe;
+            url.toExternalForm() + ": " + ioe;
           System.out.println(message);
         }
       }
