@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSPY v5 U (http://www.xmlspy.com) by Mark Utting (The University of Waikato) -->
-<Spec xmlns="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd"
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-xmlns:xhtml="http://www.w3.org/1999/xhtml"
-xsi:schemaLocation="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd
-C:\DOCUME~1\marku\MYDOCU~1\czt\xml\Z.xsd
-http://www.w3.org/1999/xhtml
-http://www.w3.org/2002/08/xhtml/xhtml1-strict.xsd">
-	<NarrSection>
+<Spec xmlns="http://czt.sourceforge.net/zml"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
+  xsi:schemaLocation="http://czt.sourceforge.net/zml ../Z.xsd
+    http://www.w3.org/1999/xhtml http://www.w3.org/2002/08/xhtml/xhtml1-strict.xsd">
+	<NarrSect>
 		<Content>Example Birthday Book Z specification</Content>
-	</NarrSection>
+	</NarrSect>
 	<ZSect>
 		<Name>Specification</Name>
 		<NarrPara>
@@ -32,9 +29,13 @@ http://www.w3.org/2002/08/xhtml/xhtml1-strict.xsd">
 		<NarrPara>
 			<Content>This huge thing is just the state schema of the Birthday Book.  (I'm not sure which kind of function birthday is).</Content>
 		</NarrPara>
-		<xhtml:pre>
-			BirthdayBook = [known: P NAME; birthday : NAME -?-> DATE | known = dom birthday ]
-		</xhtml:pre>
+                <NarrPara>
+                        <Content>
+		                <xhtml:pre>
+			                BirthdayBook = [known: P NAME; birthday : NAME -?-> DATE | known = dom birthday ]
+		                </xhtml:pre>
+                        </Content>
+                </NarrPara>
 
 		<AxPara Box="SchBox">
 			<SchText>
@@ -62,7 +63,7 @@ http://www.w3.org/2002/08/xhtml/xhtml1-strict.xsd">
 								</DeclName>
 								<RefExpr>
 									<RefName>
-										<Word>↛</Word>
+										<Word>&#x21F8;</Word>
 									</RefName>
 									<RefExpr>
 										<RefName>
