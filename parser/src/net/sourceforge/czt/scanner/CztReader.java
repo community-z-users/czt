@@ -73,7 +73,7 @@ public class CztReader
         throw new RuntimeException(e);
       }
       if (s != null) {
-        if (s.sym == sym.EOF) {
+        if (s.sym == 0) {
           for (int i = 0; i < buffer_.length(); i++) {
             cbuf[off + i] = buffer_.charAt(i);
           }
