@@ -235,7 +235,7 @@ public class TypeAnnotatingVisitor
     List freetypes = freePara.getFreetype();
     for (Iterator iter = freetypes.iterator(); iter.hasNext(); ) {
       Freetype freetype = (Freetype) iter.next();
-      nameTypePairs.addAll((List) freetype.accept(this));
+      freetype.accept(this);
     }
 
     //visit each Freetype again so that mutually recursive free types
@@ -318,7 +318,7 @@ public class TypeAnnotatingVisitor
 
       if (unified != null) {
         ProdType prodType =
-          factory_.createProdType(list(powerType(unified).getType(),
+          factory_.createProdType(list(vPowerType.getType(),
                                        givenType));
         PowerType powerType =
           factory_.createPowerType(prodType);
@@ -413,7 +413,7 @@ public class TypeAnnotatingVisitor
 
     Type2 unified = unificationEnv_.unify(powerType, exprType);
     if (unified != null) {
-      Type2 baseType = getBaseType(unified);
+      Type2 baseType = powerType.getType();
       Type thisType = addGenerics(baseType);
       typeAnn.setType(baseType);
 
@@ -425,7 +425,7 @@ public class TypeAnnotatingVisitor
         //add the name and its type to the list of NameTypePairs
         NameTypePair nameTypePair =
           factory_.createNameTypePair(declName, thisType);
-        addPossibleDependent(declName, baseType);
+        addPossibleDependent(thisType, baseType);
         nameTypePairs.add(nameTypePair);
       }
     }
@@ -446,16 +446,13 @@ public class TypeAnnotatingVisitor
     Expr expr = constDecl.getExpr();
     Type2 exprType = (Type2) expr.accept(this);
 
-    VariableType vType = variableType();
-    Type2 unified = unificationEnv_.unify(vType, exprType);
-
     //if the type is unknown, don't use the subtype
-    if (isUnknownType(unified)) {
-      unknownType(unified).setUseBaseType(false);
+    if (isUnknownType(exprType)) {
+      unknownType(exprType).setUseBaseType(false);
     }
 
     //if there are parameters, add them to the generic type
-    Type thisType = addGenerics(unified);
+    Type thisType = addGenerics(exprType);
 
     //create the NameTypePair and add it to the list
     NameTypePair nameTypePair =
@@ -485,7 +482,7 @@ public class TypeAnnotatingVisitor
     if (unified != null) {
       for (Iterator iter = nameTypePairs.iterator(); iter.hasNext(); ) {
         NameTypePair nameTypePair = (NameTypePair) iter.next();
-        addTypeAnn(nameTypePair.getName(), unified);
+        addTypeAnn(nameTypePair.getName(), powerType);
       }
       nameTypePairs.addAll(schemaType.getSignature().getNameTypePair());
     }
@@ -593,7 +590,7 @@ public class TypeAnnotatingVisitor
           Type2 unified = unificationEnv_.unify(powerType, exprType);
 
           if (unified != null) {
-            Type2 replacementType = powerType(unified).getType();
+            Type2 replacementType = powerType.getType();
 
             //add the type to the environment
             unificationEnv_.addGenName(declName, (Type2) replacementType);
@@ -605,26 +602,10 @@ public class TypeAnnotatingVisitor
       }
     }
 
-    if (refExpr.getRefName().getWord().equals("timbo")) {
-      System.err.println("timbo : " + type);
-    }
-
     //add the type annotation
     addTypeAnn(refExpr, type);
 
-    Type2 result = null;
-    if (isGenericType(type)) {
-      if (genericType(type).getOptionalType() == null) {
-        result = genericType(type).getType();
-      }
-      else {
-        result = genericType(type).getOptionalType();
-      }
-    }
-    else {
-      result = (Type2) type;
-    }
-
+    Type2 result = unwrapType(type);
     return result;
   }
 
@@ -664,7 +645,7 @@ public class TypeAnnotatingVisitor
       Type unified = unificationEnv_.unify(vPowerType, nestedType);
 
       if (unified != null) {
-        types.add(powerType(unified).getType());
+        types.add(vPowerType.getType());
       }
     }
 
@@ -703,9 +684,6 @@ public class TypeAnnotatingVisitor
         }
         else {
           Type2 unified = unificationEnv_.unify(innerType, exprType);
-          if (unified != null) {
-            innerType = unified;
-          }
         }
       }
     }
@@ -892,7 +870,7 @@ public class TypeAnnotatingVisitor
     }
 
     //add the type annotation
-    addTypeAnn(qnt1Expr, unified);
+    addTypeAnn(qnt1Expr, powerType);
 
     return type;
   }
@@ -1117,11 +1095,9 @@ public class TypeAnnotatingVisitor
     Type2 unified = unificationEnv_.unify(leftType, rightType);
 
     if (unified != null) {
-      type = unified;
+      //add the type annotation
+      addTypeAnn(condExpr, leftType);
     }
-
-    //add the type annotation
-    addTypeAnn(condExpr, type);
 
     return unified;
   }
@@ -1158,7 +1134,7 @@ public class TypeAnnotatingVisitor
     if (unified != null) {
 
       //hide the declarations
-      SchemaType schemaType = (SchemaType) powerType(unified).getType();
+      SchemaType schemaType = (SchemaType) powerType.getType();
       Signature signature = schemaHide(schemaType.getSignature(),
                                        hideExpr.getName());
       type = factory_.createSchemaType(signature);
@@ -1204,7 +1180,7 @@ public class TypeAnnotatingVisitor
     //primed and shrieked variables hidden
     if (unified != null) {
 
-      SchemaType preSchemaType = schemaType(powerType(unified).getType());
+      SchemaType preSchemaType = schemaType(powerType.getType());
 
       NextStroke nextStroke = factory_.createNextStroke();
       OutStroke outStroke = factory_.createOutStroke();
@@ -1265,7 +1241,7 @@ public class TypeAnnotatingVisitor
     //the type of the second component is the type of the whole
     //expression
     if (unified != null) {
-      Type2 funcBaseType = powerType(unified).getType();
+      Type2 funcBaseType = powerType.getType();
       if (isProdType(funcBaseType) &&
           prodType(funcBaseType).getType().size() == 2) {
 
@@ -1303,7 +1279,7 @@ public class TypeAnnotatingVisitor
     Type unified = unificationEnv_.unify(powerType, exprType);
 
     if (unified != null) {
-      SchemaType schemaType = schemaType(powerType(unified).getType());
+      SchemaType schemaType = schemaType(powerType.getType());
 
       //add the strokes to each name
       List nameTypePairs = schemaType.getSignature().getNameTypePair();
@@ -1337,7 +1313,7 @@ public class TypeAnnotatingVisitor
 
     //if the expr is a schema reference, decorate each name in the signature
     if (unified != null) {
-      SchemaType schemaType = (SchemaType) powerType(unified).getType();
+      SchemaType schemaType = (SchemaType) powerType.getType();
       SchemaType decoratedSchemaType =
         decorate(schemaType, decorExpr.getStroke());
       type = factory_.createPowerType(decoratedSchemaType);
@@ -1366,7 +1342,7 @@ public class TypeAnnotatingVisitor
     //if the expr is a schema reference, decorate each name in the signature
     if (unified != null) {
       SchemaType schemaType =
-        (SchemaType) cloneType(powerType(unified).getType());
+        (SchemaType) cloneType(powerType.getType());
       List nameTypePairs = schemaType.getSignature().getNameTypePair();
 
       for (Iterator nameNameIter = renameExpr.getNameNamePair().iterator();
@@ -1414,12 +1390,13 @@ public class TypeAnnotatingVisitor
 
     VariableSignature varSig = variableSignature();
     SchemaType varSchemaType = factory_.createSchemaType(varSig);
+    addPossibleDependent(varSchemaType, varSig);
 
     Type unified = unificationEnv_.unify(varSchemaType, exprType);
 
     //if expr is a binding, then get the type of the name
     if (unified != null) {
-      SchemaType schemaType = schemaType(unified);
+      SchemaType schemaType = schemaType(varSchemaType);
       RefName refName = bindSelExpr.getName();
 
       for (Iterator iter =
@@ -1538,10 +1515,6 @@ public class TypeAnnotatingVisitor
       Type2 lhsRight = getLeftType(rightMemPred);
 
       Type unified = unificationEnv_.unify(rhsLeft, lhsRight);
-      if (unified != null) {
-        addTypeAnn(leftPred, unified);
-        addTypeAnn(rightPred, unified);
-      }
     }
     else {
       leftPred.accept(this);
@@ -1606,12 +1579,9 @@ public class TypeAnnotatingVisitor
 
     //unify the left and right side of the membership predicate
     PowerType powerType = factory_.createPowerType(leftType);
+    addPossibleDependent(powerType, leftType);
 
-    Type unified = unificationEnv_.unify(powerType, rightType);
-    if (unified != null) {
-      addTypeAnn(leftExpr, powerType(unified).getType());
-      addTypeAnn(rightExpr, unified);
-    }
+    unificationEnv_.unify(powerType, rightType);
 
     return null;
   }
@@ -1799,16 +1769,27 @@ public class TypeAnnotatingVisitor
   //decorate each name in a signature with a specified stroke
   protected SchemaType decorate(SchemaType schemaType, Stroke stroke)
   {
-    SchemaType clonedSchemaType = (SchemaType) cloneType(schemaType);
-    Signature signature = clonedSchemaType.getSignature();
+    List nameTypePairs = list();
 
+    //add the stroke to each name
+    Signature signature = schemaType.getSignature();
     for (Iterator iter = signature.getNameTypePair().iterator();
          iter.hasNext(); ) {
-      NameTypePair nameTypePair = (NameTypePair) iter.next();
-      nameTypePair.getName().getStroke().add(stroke);
+      NameTypePair oldPair = (NameTypePair) iter.next();
+      DeclName oldName = oldPair.getName();
+      List strokes = list(oldName.getStroke());
+      strokes.add(stroke);
+      DeclName newName =
+        factory_.createDeclName(oldName.getWord(), strokes, null);
+      NameTypePair newPair =
+        factory_.createNameTypePair(newName, oldPair.getType());
+      nameTypePairs.add(newPair);
     }
 
-    return clonedSchemaType;
+    Signature newSignature = factory_.createSignature(nameTypePairs);
+    SchemaType result = factory_.createSchemaType(newSignature);
+
+    return result;
   }
 
   //union two signatures
@@ -1852,7 +1833,8 @@ public class TypeAnnotatingVisitor
       }
     }
 
-    return factory_.createSignature(nameTypePairs);
+    Signature result = factory_.createSignature(nameTypePairs);
+    return result;
   }
 
   //subtract the NameTypePairs from the signature if the name occurs
@@ -2073,6 +2055,11 @@ public class TypeAnnotatingVisitor
     return (o instanceof VariableType);
   }
 
+  protected static boolean isVariableSignature(Object o)
+  {
+    return (o instanceof VariableSignature);
+  }
+
   //non-safe typecast
   protected static SchemaType schemaType(Object o)
   {
@@ -2121,24 +2108,18 @@ public class TypeAnnotatingVisitor
     return (VariableType) o;
   }
 
+  //non-safe typecast
+  protected static VariableSignature variableSignature(Object o)
+  {
+    return (VariableSignature) o;
+  }
+
   //adds an annotation to a TermA
   protected void addAnns(TermA termA, Object ann)
   {
     if (ann != null) {
       termA.getAnns().add(ann);
     }
-  }
-
-  //add a type annotation, removing any existing type annotation
-  protected void addTypeAnn(TermA termA, TypeAnn typeAnn)
-  {
-    TypeAnn existing = (TypeAnn) termA.getAnn(TypeAnn.class);
-
-    if (existing != null) {
-      termA.getAnns().remove(existing);
-    }
-
-    termA.getAnns().add(typeAnn);
   }
 
   //adds a type annotation created from a type to
@@ -2149,17 +2130,12 @@ public class TypeAnnotatingVisitor
 
     if (typeAnn == null) {
       typeAnn = factory_.createTypeAnn();
-    }
-
-    //if the type is null, add an UnknownType
-    if (type != null) {
       typeAnn.setType(type);
+      termA.getAnns().add(typeAnn);
     }
     else {
-      typeAnn.setType(unknownType());
+      typeAnn.setType(type);
     }
-
-    addAnns(termA, typeAnn);
   }
 
   protected void removeTypeAnn(TermA termA)
@@ -2185,7 +2161,9 @@ public class TypeAnnotatingVisitor
 
   protected Type2 getTypeFromAnns(TermA termA)
   {
-    return TypeChecker.getTypeFromAnns(termA);
+    TypeAnn typeAnn = (TypeAnn) termA.getAnn(TypeAnn.class);
+    Type type = typeAnn.getType();
+    return unwrapType(type);
   }
 
   //returns true if and only if 'list' contains a reference to 'o'
@@ -2204,11 +2182,17 @@ public class TypeAnnotatingVisitor
     return result;
   }
 
-  protected void addPossibleDependent(Object parent, Type child)
+  protected void addPossibleDependent(Object parent, Object child)
   {
     if (isVariableType(child)) {
       if (!variableType(child).getDependent().contains(parent)) {
         variableType(child).getDependent().add(parent);
+      }
+    }
+
+    if (isVariableSignature(child)) {
+      if (!variableSignature(child).getDependent().contains(parent)) {
+        variableSignature(child).getDependent().add(parent);
       }
     }
   }
@@ -2285,6 +2269,12 @@ public class TypeAnnotatingVisitor
   {
     List result = list(o1);
     result.add(o2);
+    return result;
+  }
+
+  protected List list(List list)
+  {
+    List result = new ArrayList(list);
     return result;
   }
 

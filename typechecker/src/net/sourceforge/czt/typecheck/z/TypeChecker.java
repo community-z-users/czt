@@ -1130,28 +1130,9 @@ public class TypeChecker
 
   public static Type2 getTypeFromAnns(TermA termA)
   {
-    Type2 result = UnknownTypeImpl.create();
-
-    List anns = termA.getAnns();
-    Type type = null;
-    for (Iterator iter = anns.iterator(); iter.hasNext(); ) {
-      Object next = iter.next();
-      if (next instanceof TypeAnn) {
-        type = ((TypeAnn) next).getType();
-        break;
-      }
-    }
-
-    if (type != null && type instanceof GenericType) {
-      if (genericType(type).getOptionalType() != null) {
-        result = genericType(type).getOptionalType();
-      }
-    }
-    else if (type != null && type instanceof Type2) {
-      result = (Type2) type;
-    }
-
-    return result;
+    TypeAnn typeAnn = (TypeAnn) termA.getAnn(TypeAnn.class);
+    Type type = typeAnn.getType();
+    return unwrapType(type);
   }
 
   /**

@@ -193,32 +193,6 @@ public class UnificationEnv
   {
     Type2 result = null;
 
-    VariableType vType = VariableTypeImpl.create();
-    Stroke stroke = factory_.createNumStroke(new Integer(1767));
-    vType.getName().getStroke().clear();
-    vType.getName().getStroke().add(stroke);
-
-    boolean flag = false;
-    if (vType.equals(typeA)) {
-      System.err.println("typeA = " + typeA);
-      System.err.println("typeB = " + typeB);
-      for (Iterator iter = variableType(typeA).getDependent().iterator();
-           iter.hasNext(); ) {
-        System.err.println("\tnext = " + iter.next().getClass().getName());
-      }
-      flag = true;
-    }
-
-    if (vType.equals(typeB)) {
-      System.err.println("typeB = " + typeB);
-      System.err.println("typeA = " + typeA);
-      for (Iterator iter = variableType(typeB).getDependent().iterator();
-           iter.hasNext(); ) {
-        System.err.println("\tnext = " + iter.next().getClass().getName());
-      }
-      flag = true;
-    }
-
     //first check for the special case of where the two references
     //point to the same object
     if (typeA == typeB) {
@@ -227,10 +201,6 @@ public class UnificationEnv
 
     if (isVariableType(typeA)) {
       result = unifyVariableType(variableType(typeA), typeB);
-      if (flag) {
-        System.err.println("\t result = " + result);
-      }
-      flag = false;
     }
     else if (isVariableType(typeB)) {
       result = unifyVariableType(variableType(typeB), typeA);
@@ -267,11 +237,6 @@ public class UnificationEnv
     if (holder instanceof TypeAnn) {
       TypeAnn typeAnn = (TypeAnn) holder;
       typeAnn.setType(type2);
-    }
-    else if (holder instanceof NameTypePair) {
-      NameTypePair nameTypePair = (NameTypePair) holder;
-      System.err.println("before = " + nameTypePair.getType());
-      nameTypePair.setType(type2);
     }
     else if (holder instanceof List) {
       List list = (List) holder;
