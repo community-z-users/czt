@@ -140,13 +140,18 @@ public class Z2B
   }
 
   /** Converts an expanded Z schema into a BOperation */
+  //@ requires schema != null;
+  //@ requires schema.getExpr instanceof SchExpr;
   protected BOperation operation(ConstDecl schema) {
     String opName = schema.getDeclName().getWord();  // TODO: decorations?
-    BOperation op = new BOperation(opName);
+    BOperation op = new BOperation(opName, mach_);
     Map inputs = varExtract_.getInputVariables(schema);
     Map outputs = varExtract_.getOutputVariables(schema);
     declareVars(inputs, op.getInputs(), op.getPre());
     declareVars(outputs, op.getOutputs(), op.getPost());
+    // TODO: split the predicate parts into pre and post
+    Pred post = ((SchExpr)schema.getExpr()).getSchText().getPred();
+    addPred(post, op.getPost());
     return op;
   }
 

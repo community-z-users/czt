@@ -5,7 +5,7 @@
   xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_1_1.xsd "
  Version="1.1">
   <ZSect>
-    <Name>birthdaybook</Name>
+    <Name>birthdaybook_unfolded</Name>
     <NarrPara>
         <Content>
           \ documentclass { article } \ usepackage { oz } % oz or z - eves or fuzz styles \ newenvironment { machine } [ 1 ] { \ begin { tabular } { @ { \ qquad } l } \ textbf { \ kern - 1em machine } \ # 1 \ \ } { \ \ \ textbf { \ kern - 1em end } \ end { tabular } } \ newcommand { \ machineInit } { \ \ \ textbf { \ kern - 1em init } \ \ } \ newcommand { \ machineOps } { \ \ \ textbf { \ kern - 1em ops } \ \ } \ begin { document } This is the BirthdayBook specification , from Spivey \ cite { spivey : z - notation2 } . We extend it slightlyby adding an extra operation , $ RemindOne $ , that is non - deterministic . % [ NAME , DATE ] 
@@ -154,32 +154,84 @@
           </DeclName>
           <SchExpr>
             <SchText>
-              <InclDecl>
-                <DecorExpr>
+              <VarDecl>
+                <DeclName>
+                  <Word>known</Word>
+                  <NextStroke/>
+                </DeclName>
+                <PowerExpr>
                   <RefExpr>
                     <RefName>
-                      <Word>BirthdayBook</Word>
+                      <Word>NAME</Word>
                     </RefName>
                   </RefExpr>
-                    <NextStroke/>
-                </DecorExpr>
-              </InclDecl>
-              <MemPred>
-                <TupleExpr>
-                  <RefExpr>
-                    <RefName>
-                      <Word>known</Word>
-                      <NextStroke/>
-                    </RefName>
-                  </RefExpr>
-                  <SetExpr/>
-                </TupleExpr>
-                <RefExpr>
+                </PowerExpr>
+              </VarDecl>
+              <VarDecl>
+                <DeclName>
+                  <Word>birthday</Word>
+                  <NextStroke/>
+                </DeclName>
+                <RefExpr Mixfix="true">
                   <RefName>
-                    <Word>=</Word>
+                    <Word>&pfun;</Word>
                   </RefName>
+                  <RefExpr>
+                    <RefName>
+                      <Word>NAME</Word>
+                    </RefName>
+                  </RefExpr>
+                  <RefExpr>
+                    <RefName>
+                      <Word>DATE</Word>
+                    </RefName>
+                  </RefExpr>
                 </RefExpr>
-              </MemPred>
+              </VarDecl>
+              <AndPred Op="NL">
+                <MemPred>
+                  <TupleExpr>
+                    <RefExpr>
+                      <RefName>
+                        <Word>known</Word>
+                        <NextStroke/>
+                      </RefName>
+                    </RefExpr>
+                    <RefExpr Mixfix="true">
+                      <RefName>
+                        <Word>dom</Word>
+                      </RefName>
+                      <RefExpr>
+                        <RefName>
+                          <Word>birthday</Word>
+                          <NextStroke/>
+                        </RefName>
+                      </RefExpr>
+                    </RefExpr>
+                  </TupleExpr>
+                  <RefExpr>
+                    <RefName>
+                      <Word>=</Word>
+                    </RefName>
+                  </RefExpr>
+                </MemPred>
+                <MemPred>
+                  <TupleExpr>
+                    <RefExpr>
+                      <RefName>
+                        <Word>known</Word>
+                        <NextStroke/>
+                      </RefName>
+                    </RefExpr>
+                    <SetExpr/>
+                  </TupleExpr>
+                  <RefExpr>
+                    <RefName>
+                      <Word>=</Word>
+                    </RefName>
+                  </RefExpr>
+                </MemPred>
+              </AndPred>
             </SchText>
           </SchExpr>
         </ConstDecl>
@@ -198,13 +250,46 @@
           </DeclName>
           <SchExpr>
             <SchText>
-              <InclDecl>
-                <RefExpr>
+              <VarDecl>
+                <DeclName>
+                  <Word>known</Word>
+                </DeclName>
+                <DeclName>
+                  <Word>known</Word>
+                  <NextStroke/>
+                </DeclName>
+                <PowerExpr>
+                  <RefExpr>
+                    <RefName>
+                      <Word>NAME</Word>
+                    </RefName>
+                  </RefExpr>
+                </PowerExpr>
+              </VarDecl>
+              <VarDecl>
+                <DeclName>
+                  <Word>birthday</Word>
+                </DeclName>
+                <DeclName>
+                  <Word>birthday</Word>
+                  <NextStroke/>
+                </DeclName>
+                <RefExpr Mixfix="true">
                   <RefName>
-                    <Word>&delta; BirthdayBook</Word>
+                    <Word>&pfun;</Word>
                   </RefName>
+                  <RefExpr>
+                    <RefName>
+                      <Word>NAME</Word>
+                    </RefName>
+                  </RefExpr>
+                  <RefExpr>
+                    <RefName>
+                      <Word>DATE</Word>
+                    </RefName>
+                  </RefExpr>
                 </RefExpr>
-              </InclDecl>
+              </VarDecl>
               <VarDecl>
                 <DeclName>
                   <Word>name</Word>
@@ -228,26 +313,80 @@
                 </RefExpr>
               </VarDecl>
               <AndPred Op="NL">
-                <MemPred>
-                  <TupleExpr>
+                <AndPred Op="NL">
+                  <AndPred Op="NL">
+                    <MemPred>
+                      <TupleExpr>
+                        <RefExpr>
+                          <RefName>
+                            <Word>known</Word>
+                          </RefName>
+                        </RefExpr>
+                        <RefExpr Mixfix="true">
+                          <RefName>
+                            <Word>dom</Word>
+                          </RefName>
+                          <RefExpr>
+                            <RefName>
+                              <Word>birthday</Word>
+                            </RefName>
+                          </RefExpr>
+                        </RefExpr>
+                      </TupleExpr>
+                      <RefExpr>
+                        <RefName>
+                          <Word>=</Word>
+                        </RefName>
+                      </RefExpr>
+                    </MemPred>
+                    <MemPred>
+                      <TupleExpr>
+                        <RefExpr>
+                          <RefName>
+                            <Word>known</Word>
+                            <NextStroke/>
+                          </RefName>
+                        </RefExpr>
+                        <RefExpr Mixfix="true">
+                          <RefName>
+                            <Word>dom</Word>
+                          </RefName>
+                          <RefExpr>
+                            <RefName>
+                              <Word>birthday</Word>
+                              <NextStroke/>
+                            </RefName>
+                          </RefExpr>
+                        </RefExpr>
+                      </TupleExpr>
+                      <RefExpr>
+                        <RefName>
+                          <Word>=</Word>
+                        </RefName>
+                      </RefExpr>
+                    </MemPred>
+                  </AndPred>
+                  <MemPred>
+                    <TupleExpr>
+                      <RefExpr>
+                        <RefName>
+                          <Word>name</Word>
+                          <InStroke/>
+                        </RefName>
+                      </RefExpr>
+                      <RefExpr>
+                        <RefName>
+                          <Word>known</Word>
+                        </RefName>
+                      </RefExpr>
+                    </TupleExpr>
                     <RefExpr>
                       <RefName>
-                        <Word>name</Word>
-                        <InStroke/>
+                        <Word>&nem;</Word>
                       </RefName>
                     </RefExpr>
-                    <RefExpr>
-                      <RefName>
-                        <Word>known</Word>
-                      </RefName>
-                    </RefExpr>
-                  </TupleExpr>
-                  <RefExpr>
-                    <RefName>
-                      <Word>&nem;</Word>
-                    </RefName>
-                  </RefExpr>
-                </MemPred>
+                  </MemPred>
+                </AndPred>
                 <MemPred>
                   <TupleExpr>
                     <RefExpr>
@@ -314,13 +453,46 @@
           </DeclName>
           <SchExpr>
             <SchText>
-              <InclDecl>
-                <RefExpr>
+              <VarDecl>
+                <DeclName>
+                  <Word>known</Word>
+                </DeclName>
+                <DeclName>
+                  <Word>known</Word>
+                  <NextStroke/>
+                </DeclName>
+                <PowerExpr>
+                  <RefExpr>
+                    <RefName>
+                      <Word>NAME</Word>
+                    </RefName>
+                  </RefExpr>
+                </PowerExpr>
+              </VarDecl>
+              <VarDecl>
+                <DeclName>
+                  <Word>birthday</Word>
+                </DeclName>
+                <DeclName>
+                  <Word>birthday</Word>
+                  <NextStroke/>
+                </DeclName>
+                <RefExpr Mixfix="true">
                   <RefName>
-                    <Word>&xi; BirthdayBook</Word>
+                    <Word>&pfun;</Word>
                   </RefName>
+                  <RefExpr>
+                    <RefName>
+                      <Word>NAME</Word>
+                    </RefName>
+                  </RefExpr>
+                  <RefExpr>
+                    <RefName>
+                      <Word>DATE</Word>
+                    </RefName>
+                  </RefExpr>
                 </RefExpr>
-              </InclDecl>
+              </VarDecl>
               <VarDecl>
                 <DeclName>
                   <Word>name</Word>
@@ -344,26 +516,124 @@
                 </RefExpr>
               </VarDecl>
               <AndPred Op="NL">
-                <MemPred>
-                  <TupleExpr>
+                <AndPred Op="NL">
+                  <AndPred Op="NL">
+                    <AndPred Op="NL">
+                      <AndPred Op="NL">
+                        <MemPred>
+                          <TupleExpr>
+                            <RefExpr>
+                              <RefName>
+                                <Word>known</Word>
+                              </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="true">
+                              <RefName>
+                                <Word>dom</Word>
+                              </RefName>
+                              <RefExpr>
+                                <RefName>
+                                  <Word>birthday</Word>
+                                </RefName>
+                              </RefExpr>
+                            </RefExpr>
+                          </TupleExpr>
+                          <RefExpr>
+                            <RefName>
+                              <Word>=</Word>
+                            </RefName>
+                          </RefExpr>
+                        </MemPred>
+                        <MemPred>
+                          <TupleExpr>
+                            <RefExpr>
+                              <RefName>
+                                <Word>known</Word>
+                                <NextStroke/>
+                              </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="true">
+                              <RefName>
+                                <Word>dom</Word>
+                              </RefName>
+                              <RefExpr>
+                                <RefName>
+                                  <Word>birthday</Word>
+                                  <NextStroke/>
+                                </RefName>
+                              </RefExpr>
+                            </RefExpr>
+                          </TupleExpr>
+                          <RefExpr>
+                            <RefName>
+                              <Word>=</Word>
+                            </RefName>
+                          </RefExpr>
+                        </MemPred>
+                      </AndPred>
+                      <MemPred>
+                        <TupleExpr>
+                          <RefExpr>
+                            <RefName>
+                              <Word>known</Word>
+                              <NextStroke/>
+                            </RefName>
+                          </RefExpr>
+                          <RefExpr>
+                            <RefName>
+                              <Word>known</Word>
+                            </RefName>
+                          </RefExpr>
+                        </TupleExpr>
+                        <RefExpr>
+                          <RefName>
+                            <Word>=</Word>
+                          </RefName>
+                        </RefExpr>
+                      </MemPred>
+                    </AndPred>
+                    <MemPred>
+                      <TupleExpr>
+                        <RefExpr>
+                          <RefName>
+                            <Word>birthday</Word>
+                            <NextStroke/>
+                          </RefName>
+                        </RefExpr>
+                        <RefExpr>
+                          <RefName>
+                            <Word>birthday</Word>
+                          </RefName>
+                        </RefExpr>
+                      </TupleExpr>
+                      <RefExpr>
+                        <RefName>
+                          <Word>=</Word>
+                        </RefName>
+                      </RefExpr>
+                    </MemPred>
+                  </AndPred>
+                  <MemPred>
+                    <TupleExpr>
+                      <RefExpr>
+                        <RefName>
+                          <Word>name</Word>
+                          <InStroke/>
+                        </RefName>
+                      </RefExpr>
+                      <RefExpr>
+                        <RefName>
+                          <Word>known</Word>
+                        </RefName>
+                      </RefExpr>
+                    </TupleExpr>
                     <RefExpr>
                       <RefName>
-                        <Word>name</Word>
-                        <InStroke/>
+                        <Word>&mem;</Word>
                       </RefName>
                     </RefExpr>
-                    <RefExpr>
-                      <RefName>
-                        <Word>known</Word>
-                      </RefName>
-                    </RefExpr>
-                  </TupleExpr>
-                  <RefExpr>
-                    <RefName>
-                      <Word>&mem;</Word>
-                    </RefName>
-                  </RefExpr>
-                </MemPred>
+                  </MemPred>
+                </AndPred>
                 <MemPred>
                   <TupleExpr>
                     <RefExpr>
@@ -406,13 +676,46 @@
           </DeclName>
           <SchExpr>
             <SchText>
-              <InclDecl>
-                <RefExpr>
+              <VarDecl>
+                <DeclName>
+                  <Word>known</Word>
+                </DeclName>
+                <DeclName>
+                  <Word>known</Word>
+                  <NextStroke/>
+                </DeclName>
+                <PowerExpr>
+                  <RefExpr>
+                    <RefName>
+                      <Word>NAME</Word>
+                    </RefName>
+                  </RefExpr>
+                </PowerExpr>
+              </VarDecl>
+              <VarDecl>
+                <DeclName>
+                  <Word>birthday</Word>
+                </DeclName>
+                <DeclName>
+                  <Word>birthday</Word>
+                  <NextStroke/>
+                </DeclName>
+                <RefExpr Mixfix="true">
                   <RefName>
-                    <Word>&xi; BirthdayBook</Word>
+                    <Word>&pfun;</Word>
                   </RefName>
+                  <RefExpr>
+                    <RefName>
+                      <Word>NAME</Word>
+                    </RefName>
+                  </RefExpr>
+                  <RefExpr>
+                    <RefName>
+                      <Word>DATE</Word>
+                    </RefName>
+                  </RefExpr>
                 </RefExpr>
-              </InclDecl>
+              </VarDecl>
               <VarDecl>
                 <DeclName>
                   <Word>today</Word>
@@ -437,45 +740,26 @@
                   </RefExpr>
                 </PowerExpr>
               </VarDecl>
-              <MemPred>
-                <TupleExpr>
-                  <RefExpr>
-                    <RefName>
-                      <Word>cards</Word>
-                      <OutStroke/>
-                    </RefName>
-                  </RefExpr>
-                  <SetCompExpr>
-                    <SchText>
-                      <VarDecl>
-                        <DeclName>
-                          <Word>n</Word>
-                        </DeclName>
-                        <RefExpr>
-                          <RefName>
-                            <Word>known</Word>
-                          </RefName>
-                        </RefExpr>
-                      </VarDecl>
+              <AndPred Op="NL">
+                <AndPred Op="NL">
+                  <AndPred Op="NL">
+                    <AndPred Op="NL">
                       <MemPred>
                         <TupleExpr>
-                          <ApplExpr>
+                          <RefExpr>
+                            <RefName>
+                              <Word>known</Word>
+                            </RefName>
+                          </RefExpr>
+                          <RefExpr Mixfix="true">
+                            <RefName>
+                              <Word>dom</Word>
+                            </RefName>
                             <RefExpr>
                               <RefName>
                                 <Word>birthday</Word>
                               </RefName>
                             </RefExpr>
-                            <RefExpr>
-                              <RefName>
-                                <Word>n</Word>
-                              </RefName>
-                            </RefExpr>
-                          </ApplExpr>
-                          <RefExpr>
-                            <RefName>
-                              <Word>today</Word>
-                              <InStroke/>
-                            </RefName>
                           </RefExpr>
                         </TupleExpr>
                         <RefExpr>
@@ -484,15 +768,132 @@
                           </RefName>
                         </RefExpr>
                       </MemPred>
-                    </SchText>
-                  </SetCompExpr>
-                </TupleExpr>
-                <RefExpr>
-                  <RefName>
-                    <Word>=</Word>
-                  </RefName>
-                </RefExpr>
-              </MemPred>
+                      <MemPred>
+                        <TupleExpr>
+                          <RefExpr>
+                            <RefName>
+                              <Word>known</Word>
+                              <NextStroke/>
+                            </RefName>
+                          </RefExpr>
+                          <RefExpr Mixfix="true">
+                            <RefName>
+                              <Word>dom</Word>
+                            </RefName>
+                            <RefExpr>
+                              <RefName>
+                                <Word>birthday</Word>
+                                <NextStroke/>
+                              </RefName>
+                            </RefExpr>
+                          </RefExpr>
+                        </TupleExpr>
+                        <RefExpr>
+                          <RefName>
+                            <Word>=</Word>
+                          </RefName>
+                        </RefExpr>
+                      </MemPred>
+                    </AndPred>
+                    <MemPred>
+                      <TupleExpr>
+                        <RefExpr>
+                          <RefName>
+                            <Word>known</Word>
+                            <NextStroke/>
+                          </RefName>
+                        </RefExpr>
+                        <RefExpr>
+                          <RefName>
+                            <Word>known</Word>
+                          </RefName>
+                        </RefExpr>
+                      </TupleExpr>
+                      <RefExpr>
+                        <RefName>
+                          <Word>=</Word>
+                        </RefName>
+                      </RefExpr>
+                    </MemPred>
+                  </AndPred>
+                  <MemPred>
+                    <TupleExpr>
+                      <RefExpr>
+                        <RefName>
+                          <Word>birthday</Word>
+                          <NextStroke/>
+                        </RefName>
+                      </RefExpr>
+                      <RefExpr>
+                        <RefName>
+                          <Word>birthday</Word>
+                        </RefName>
+                      </RefExpr>
+                    </TupleExpr>
+                    <RefExpr>
+                      <RefName>
+                        <Word>=</Word>
+                      </RefName>
+                    </RefExpr>
+                  </MemPred>
+                </AndPred>
+                <MemPred>
+                  <TupleExpr>
+                    <RefExpr>
+                      <RefName>
+                        <Word>cards</Word>
+                        <OutStroke/>
+                      </RefName>
+                    </RefExpr>
+                    <SetCompExpr>
+                      <SchText>
+                        <VarDecl>
+                          <DeclName>
+                            <Word>n</Word>
+                          </DeclName>
+                          <RefExpr>
+                            <RefName>
+                              <Word>known</Word>
+                            </RefName>
+                          </RefExpr>
+                        </VarDecl>
+                        <MemPred>
+                          <TupleExpr>
+                            <ApplExpr>
+                              <RefExpr>
+                                <RefName>
+                                  <Word>birthday</Word>
+                                </RefName>
+                              </RefExpr>
+                              <RefExpr>
+                                <RefName>
+                                  <Word>n</Word>
+                                </RefName>
+                              </RefExpr>
+                            </ApplExpr>
+                            <RefExpr>
+                              <RefName>
+                                <Word>today</Word>
+                                <InStroke/>
+                              </RefName>
+                            </RefExpr>
+                          </TupleExpr>
+                          <RefExpr>
+                            <RefName>
+                              <Word>=</Word>
+                            </RefName>
+                          </RefExpr>
+                        </MemPred>
+                      </SchText>
+                    </SetCompExpr>
+                  </TupleExpr>
+                  <RefExpr>
+                    <RefName>
+                      <Word>=</Word>
+                    </RefName>
+                  </RefExpr>
+                </MemPred>
+              </AndPred>
             </SchText>
           </SchExpr>
         </ConstDecl>
@@ -511,13 +912,46 @@
           </DeclName>
           <SchExpr>
             <SchText>
-              <InclDecl>
-                <RefExpr>
+              <VarDecl>
+                <DeclName>
+                  <Word>known</Word>
+                </DeclName>
+                <DeclName>
+                  <Word>known</Word>
+                  <NextStroke/>
+                </DeclName>
+                <PowerExpr>
+                  <RefExpr>
+                    <RefName>
+                      <Word>NAME</Word>
+                    </RefName>
+                  </RefExpr>
+                </PowerExpr>
+              </VarDecl>
+              <VarDecl>
+                <DeclName>
+                  <Word>birthday</Word>
+                </DeclName>
+                <DeclName>
+                  <Word>birthday</Word>
+                  <NextStroke/>
+                </DeclName>
+                <RefExpr Mixfix="true">
                   <RefName>
-                    <Word>&xi; BirthdayBook</Word>
+                    <Word>&pfun;</Word>
                   </RefName>
+                  <RefExpr>
+                    <RefName>
+                      <Word>NAME</Word>
+                    </RefName>
+                  </RefExpr>
+                  <RefExpr>
+                    <RefName>
+                      <Word>DATE</Word>
+                    </RefName>
+                  </RefExpr>
                 </RefExpr>
-              </InclDecl>
+              </VarDecl>
               <VarDecl>
                 <DeclName>
                   <Word>today</Word>
@@ -541,26 +975,124 @@
                 </RefExpr>
               </VarDecl>
               <AndPred Op="NL">
-                <MemPred>
-                  <TupleExpr>
+                <AndPred Op="NL">
+                  <AndPred Op="NL">
+                    <AndPred Op="NL">
+                      <AndPred Op="NL">
+                        <MemPred>
+                          <TupleExpr>
+                            <RefExpr>
+                              <RefName>
+                                <Word>known</Word>
+                              </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="true">
+                              <RefName>
+                                <Word>dom</Word>
+                              </RefName>
+                              <RefExpr>
+                                <RefName>
+                                  <Word>birthday</Word>
+                                </RefName>
+                              </RefExpr>
+                            </RefExpr>
+                          </TupleExpr>
+                          <RefExpr>
+                            <RefName>
+                              <Word>=</Word>
+                            </RefName>
+                          </RefExpr>
+                        </MemPred>
+                        <MemPred>
+                          <TupleExpr>
+                            <RefExpr>
+                              <RefName>
+                                <Word>known</Word>
+                                <NextStroke/>
+                              </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="true">
+                              <RefName>
+                                <Word>dom</Word>
+                              </RefName>
+                              <RefExpr>
+                                <RefName>
+                                  <Word>birthday</Word>
+                                  <NextStroke/>
+                                </RefName>
+                              </RefExpr>
+                            </RefExpr>
+                          </TupleExpr>
+                          <RefExpr>
+                            <RefName>
+                              <Word>=</Word>
+                            </RefName>
+                          </RefExpr>
+                        </MemPred>
+                      </AndPred>
+                      <MemPred>
+                        <TupleExpr>
+                          <RefExpr>
+                            <RefName>
+                              <Word>known</Word>
+                              <NextStroke/>
+                            </RefName>
+                          </RefExpr>
+                          <RefExpr>
+                            <RefName>
+                              <Word>known</Word>
+                            </RefName>
+                          </RefExpr>
+                        </TupleExpr>
+                        <RefExpr>
+                          <RefName>
+                            <Word>=</Word>
+                          </RefName>
+                        </RefExpr>
+                      </MemPred>
+                    </AndPred>
+                    <MemPred>
+                      <TupleExpr>
+                        <RefExpr>
+                          <RefName>
+                            <Word>birthday</Word>
+                            <NextStroke/>
+                          </RefName>
+                        </RefExpr>
+                        <RefExpr>
+                          <RefName>
+                            <Word>birthday</Word>
+                          </RefName>
+                        </RefExpr>
+                      </TupleExpr>
+                      <RefExpr>
+                        <RefName>
+                          <Word>=</Word>
+                        </RefName>
+                      </RefExpr>
+                    </MemPred>
+                  </AndPred>
+                  <MemPred>
+                    <TupleExpr>
+                      <RefExpr>
+                        <RefName>
+                          <Word>card</Word>
+                          <OutStroke/>
+                        </RefName>
+                      </RefExpr>
+                      <RefExpr>
+                        <RefName>
+                          <Word>known</Word>
+                        </RefName>
+                      </RefExpr>
+                    </TupleExpr>
                     <RefExpr>
                       <RefName>
-                        <Word>card</Word>
-                        <OutStroke/>
+                        <Word>&mem;</Word>
                       </RefName>
                     </RefExpr>
-                    <RefExpr>
-                      <RefName>
-                        <Word>known</Word>
-                      </RefName>
-                    </RefExpr>
-                  </TupleExpr>
-                  <RefExpr>
-                    <RefName>
-                      <Word>&mem;</Word>
-                    </RefName>
-                  </RefExpr>
-                </MemPred>
+                  </MemPred>
+                </AndPred>
                 <MemPred>
                   <TupleExpr>
                     <ApplExpr>
@@ -679,13 +1211,46 @@
           </DeclName>
           <SchExpr>
             <SchText>
-              <InclDecl>
-                <RefExpr>
+              <VarDecl>
+                <DeclName>
+                  <Word>known</Word>
+                </DeclName>
+                <DeclName>
+                  <Word>known</Word>
+                  <NextStroke/>
+                </DeclName>
+                <PowerExpr>
+                  <RefExpr>
+                    <RefName>
+                      <Word>NAME</Word>
+                    </RefName>
+                  </RefExpr>
+                </PowerExpr>
+              </VarDecl>
+              <VarDecl>
+                <DeclName>
+                  <Word>birthday</Word>
+                </DeclName>
+                <DeclName>
+                  <Word>birthday</Word>
+                  <NextStroke/>
+                </DeclName>
+                <RefExpr Mixfix="true">
                   <RefName>
-                    <Word>&xi; BirthdayBook</Word>
+                    <Word>&pfun;</Word>
                   </RefName>
+                  <RefExpr>
+                    <RefName>
+                      <Word>NAME</Word>
+                    </RefName>
+                  </RefExpr>
+                  <RefExpr>
+                    <RefName>
+                      <Word>DATE</Word>
+                    </RefName>
+                  </RefExpr>
                 </RefExpr>
-              </InclDecl>
+              </VarDecl>
               <VarDecl>
                 <DeclName>
                   <Word>name</Word>
@@ -709,26 +1274,124 @@
                 </RefExpr>
               </VarDecl>
               <AndPred Op="NL">
-                <MemPred>
-                  <TupleExpr>
+                <AndPred Op="NL">
+                  <AndPred Op="NL">
+                    <AndPred Op="NL">
+                      <AndPred Op="NL">
+                        <MemPred>
+                          <TupleExpr>
+                            <RefExpr>
+                              <RefName>
+                                <Word>known</Word>
+                              </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="true">
+                              <RefName>
+                                <Word>dom</Word>
+                              </RefName>
+                              <RefExpr>
+                                <RefName>
+                                  <Word>birthday</Word>
+                                </RefName>
+                              </RefExpr>
+                            </RefExpr>
+                          </TupleExpr>
+                          <RefExpr>
+                            <RefName>
+                              <Word>=</Word>
+                            </RefName>
+                          </RefExpr>
+                        </MemPred>
+                        <MemPred>
+                          <TupleExpr>
+                            <RefExpr>
+                              <RefName>
+                                <Word>known</Word>
+                                <NextStroke/>
+                              </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="true">
+                              <RefName>
+                                <Word>dom</Word>
+                              </RefName>
+                              <RefExpr>
+                                <RefName>
+                                  <Word>birthday</Word>
+                                  <NextStroke/>
+                                </RefName>
+                              </RefExpr>
+                            </RefExpr>
+                          </TupleExpr>
+                          <RefExpr>
+                            <RefName>
+                              <Word>=</Word>
+                            </RefName>
+                          </RefExpr>
+                        </MemPred>
+                      </AndPred>
+                      <MemPred>
+                        <TupleExpr>
+                          <RefExpr>
+                            <RefName>
+                              <Word>known</Word>
+                              <NextStroke/>
+                            </RefName>
+                          </RefExpr>
+                          <RefExpr>
+                            <RefName>
+                              <Word>known</Word>
+                            </RefName>
+                          </RefExpr>
+                        </TupleExpr>
+                        <RefExpr>
+                          <RefName>
+                            <Word>=</Word>
+                          </RefName>
+                        </RefExpr>
+                      </MemPred>
+                    </AndPred>
+                    <MemPred>
+                      <TupleExpr>
+                        <RefExpr>
+                          <RefName>
+                            <Word>birthday</Word>
+                            <NextStroke/>
+                          </RefName>
+                        </RefExpr>
+                        <RefExpr>
+                          <RefName>
+                            <Word>birthday</Word>
+                          </RefName>
+                        </RefExpr>
+                      </TupleExpr>
+                      <RefExpr>
+                        <RefName>
+                          <Word>=</Word>
+                        </RefName>
+                      </RefExpr>
+                    </MemPred>
+                  </AndPred>
+                  <MemPred>
+                    <TupleExpr>
+                      <RefExpr>
+                        <RefName>
+                          <Word>name</Word>
+                          <InStroke/>
+                        </RefName>
+                      </RefExpr>
+                      <RefExpr>
+                        <RefName>
+                          <Word>known</Word>
+                        </RefName>
+                      </RefExpr>
+                    </TupleExpr>
                     <RefExpr>
                       <RefName>
-                        <Word>name</Word>
-                        <InStroke/>
+                        <Word>&mem;</Word>
                       </RefName>
                     </RefExpr>
-                    <RefExpr>
-                      <RefName>
-                        <Word>known</Word>
-                      </RefName>
-                    </RefExpr>
-                  </TupleExpr>
-                  <RefExpr>
-                    <RefName>
-                      <Word>&mem;</Word>
-                    </RefName>
-                  </RefExpr>
-                </MemPred>
+                  </MemPred>
+                </AndPred>
                 <MemPred>
                   <TupleExpr>
                     <RefExpr>
@@ -763,13 +1426,46 @@
           </DeclName>
           <SchExpr>
             <SchText>
-              <InclDecl>
-                <RefExpr>
+              <VarDecl>
+                <DeclName>
+                  <Word>known</Word>
+                </DeclName>
+                <DeclName>
+                  <Word>known</Word>
+                  <NextStroke/>
+                </DeclName>
+                <PowerExpr>
+                  <RefExpr>
+                    <RefName>
+                      <Word>NAME</Word>
+                    </RefName>
+                  </RefExpr>
+                </PowerExpr>
+              </VarDecl>
+              <VarDecl>
+                <DeclName>
+                  <Word>birthday</Word>
+                </DeclName>
+                <DeclName>
+                  <Word>birthday</Word>
+                  <NextStroke/>
+                </DeclName>
+                <RefExpr Mixfix="true">
                   <RefName>
-                    <Word>&xi; BirthdayBook</Word>
+                    <Word>&pfun;</Word>
                   </RefName>
+                  <RefExpr>
+                    <RefName>
+                      <Word>NAME</Word>
+                    </RefName>
+                  </RefExpr>
+                  <RefExpr>
+                    <RefName>
+                      <Word>DATE</Word>
+                    </RefName>
+                  </RefExpr>
                 </RefExpr>
-              </InclDecl>
+              </VarDecl>
               <VarDecl>
                 <DeclName>
                   <Word>name</Word>
@@ -793,26 +1489,124 @@
                 </RefExpr>
               </VarDecl>
               <AndPred Op="NL">
-                <MemPred>
-                  <TupleExpr>
+                <AndPred Op="NL">
+                  <AndPred Op="NL">
+                    <AndPred Op="NL">
+                      <AndPred Op="NL">
+                        <MemPred>
+                          <TupleExpr>
+                            <RefExpr>
+                              <RefName>
+                                <Word>known</Word>
+                              </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="true">
+                              <RefName>
+                                <Word>dom</Word>
+                              </RefName>
+                              <RefExpr>
+                                <RefName>
+                                  <Word>birthday</Word>
+                                </RefName>
+                              </RefExpr>
+                            </RefExpr>
+                          </TupleExpr>
+                          <RefExpr>
+                            <RefName>
+                              <Word>=</Word>
+                            </RefName>
+                          </RefExpr>
+                        </MemPred>
+                        <MemPred>
+                          <TupleExpr>
+                            <RefExpr>
+                              <RefName>
+                                <Word>known</Word>
+                                <NextStroke/>
+                              </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="true">
+                              <RefName>
+                                <Word>dom</Word>
+                              </RefName>
+                              <RefExpr>
+                                <RefName>
+                                  <Word>birthday</Word>
+                                  <NextStroke/>
+                                </RefName>
+                              </RefExpr>
+                            </RefExpr>
+                          </TupleExpr>
+                          <RefExpr>
+                            <RefName>
+                              <Word>=</Word>
+                            </RefName>
+                          </RefExpr>
+                        </MemPred>
+                      </AndPred>
+                      <MemPred>
+                        <TupleExpr>
+                          <RefExpr>
+                            <RefName>
+                              <Word>known</Word>
+                              <NextStroke/>
+                            </RefName>
+                          </RefExpr>
+                          <RefExpr>
+                            <RefName>
+                              <Word>known</Word>
+                            </RefName>
+                          </RefExpr>
+                        </TupleExpr>
+                        <RefExpr>
+                          <RefName>
+                            <Word>=</Word>
+                          </RefName>
+                        </RefExpr>
+                      </MemPred>
+                    </AndPred>
+                    <MemPred>
+                      <TupleExpr>
+                        <RefExpr>
+                          <RefName>
+                            <Word>birthday</Word>
+                            <NextStroke/>
+                          </RefName>
+                        </RefExpr>
+                        <RefExpr>
+                          <RefName>
+                            <Word>birthday</Word>
+                          </RefName>
+                        </RefExpr>
+                      </TupleExpr>
+                      <RefExpr>
+                        <RefName>
+                          <Word>=</Word>
+                        </RefName>
+                      </RefExpr>
+                    </MemPred>
+                  </AndPred>
+                  <MemPred>
+                    <TupleExpr>
+                      <RefExpr>
+                        <RefName>
+                          <Word>name</Word>
+                          <InStroke/>
+                        </RefName>
+                      </RefExpr>
+                      <RefExpr>
+                        <RefName>
+                          <Word>known</Word>
+                        </RefName>
+                      </RefExpr>
+                    </TupleExpr>
                     <RefExpr>
                       <RefName>
-                        <Word>name</Word>
-                        <InStroke/>
+                        <Word>&nem;</Word>
                       </RefName>
                     </RefExpr>
-                    <RefExpr>
-                      <RefName>
-                        <Word>known</Word>
-                      </RefName>
-                    </RefExpr>
-                  </TupleExpr>
-                  <RefExpr>
-                    <RefName>
-                      <Word>&nem;</Word>
-                    </RefName>
-                  </RefExpr>
-                </MemPred>
+                  </MemPred>
+                </AndPred>
                 <MemPred>
                   <TupleExpr>
                     <RefExpr>
@@ -993,7 +1787,7 @@
     </AxPara>
     <NarrPara>
         <Content>
-          % \ bibliographystyle { plain } \ bibliography { spec } \ begin { thebibliography } { 1 } \ bibitem { spivey : z - notation2 } J . Michael Spivey . \ newblock { \ em The Z Notation : A Reference Manual } . \ newblock International Series in Computer Science . Prentice - Hall International ( UK ) Ltd , second edition , 1992 . \ end { thebibliography } \ end { document } 
+          % \ bibliographystyle { plain } \ bibliography { spec } \ begin { thebibliography } { 1 } \ bibitem { spivey : z - notation2 } J . Michael Spivey . \ newblock { \ em The Z Notation : A Reference Manual } . \ newblock International Series in Computer Science . Prentice - Hall International ( UK ) Ltd , second edition , 1992 . \ end { thebibliography } \ end { document } % % % Local Variables : % % % mode : latex % % % TeX - master : t % % % End : 
         </Content>
     </NarrPara>
   </ZSect>

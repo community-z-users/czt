@@ -54,9 +54,11 @@ public class BTermWriter
              RefExprVisitor,
              PowerExprVisitor
 {
-  /** The precedence of the B conjunction operator */
-  protected final int AND_PREC = -5;
-  
+  // Precedences of a few common B operators.
+  // NOTE: these must agree with any matching entries in ops_.
+  public static final int ASSIGN_PREC = -2;
+  public static final int AND_PREC = -5;
+
   private BWriter out = null;
 
   private static final Logger sLogger

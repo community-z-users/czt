@@ -92,5 +92,10 @@ public class Create
     RefExpr e = factory_.createRefExpr(ref, new ArrayList(), Boolean.FALSE);
     return e;
   }
+  
+  /** Create a NextStroke, to prime a name. */
+  public static NextStroke nextStroke() {
+    return factory_.createNextStroke();
+  }
 }
 
