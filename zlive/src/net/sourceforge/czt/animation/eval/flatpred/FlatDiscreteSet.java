@@ -37,18 +37,18 @@ import net.sourceforge.czt.animation.eval.*;
 * FlatDiscreteSet(A,s) implements {Elements of ArrayList A} = s
 */
 public class FlatDiscreteSet
-  extends FlatPred
-  implements EvalSet
+extends FlatPred
+implements EvalSet
 {
   protected Factory factory_ = new Factory();
   protected Set vars_ = new HashSet();
   
   /** Contains the enumerated members of the set. */
   protected Set iterateSet_;
-
+  
   public FlatDiscreteSet(List elements, RefName set)
   {
-	Object itNext;
+    Object itNext;
     args = new ArrayList();
     // Create a map to remove duplicate RefNames
     Map map = new HashMap();
@@ -64,20 +64,20 @@ public class FlatDiscreteSet
     solutionsReturned = -1;
     iterateSet_ = null;
   }
-
+  
   //@ requires newargs.size() >= 1;
   public FlatDiscreteSet(List newargs)
   {
-	this(newargs.subList(0,newargs.size()-2),
-			(RefName)newargs.get(newargs.size()-1));
+    this(newargs.subList(0,newargs.size()-2),
+    (RefName)newargs.get(newargs.size()-1));
   }
-
+  
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
     return modeFunction(env);
   }
-
+  
   /** Estimate the size of the set. */
   public double estSize()
   {
@@ -85,7 +85,7 @@ public class FlatDiscreteSet
     assert(vars_ != null);
     return ((double)vars_.size());
   }
-
+  
   /** A list of all the free variables that this set depends upon.
   * @return The free variables.
   */
@@ -93,30 +93,22 @@ public class FlatDiscreteSet
   {
     return vars_;
   }
-
+  
   /** Iterate through all members of the set.
   *  It guarantees that there will be no duplicates.
   *
   * @return an Iterator object.
   */
   public Iterator members() {
-    if (iterateSet_ == null) {
-      //System.out.println("DEBUG: inside discreteSet env="+evalMode_.getEnvir().toString());
-      //System.out.println("DEBUG: in FlatDiscreteSet q="+((NumExpr)evalMode_.getEnvir().lookup((RefName)args.get(5))).getValue());
-
-      iterateSet_ = new HashSet();
-      Envir env = evalMode_.getEnvir();
-      for (Iterator i = vars_.iterator(); i.hasNext();) {
-        Expr value = (Expr)env.lookup((RefName)i.next());
-        //System.out.println("DEBUG: value="+((NumExpr)value).getValue());
-        iterateSet_.add(value);
-      }
-
+    iterateSet_ = new HashSet();
+    Envir env = evalMode_.getEnvir();
+    for (Iterator i = vars_.iterator(); i.hasNext();) {
+      Expr value = (Expr)env.lookup((RefName)i.next());
+      iterateSet_.add(value);
     }
-    //System.out.println("DEBUG: final discrete set size="+iterateSet_.size());
     return iterateSet_.iterator();
   }
-
+  
   /** Does the actual evaluation */
   public boolean nextEvaluation()
   {
@@ -126,7 +118,6 @@ public class FlatDiscreteSet
       assert evalMode_.isInput(i);
     boolean result = false;
     RefName set = (RefName)args.get(args.size()-1);
-    iterateSet_ = null;
     if(solutionsReturned==0)
     {
       solutionsReturned++;
@@ -141,7 +132,7 @@ public class FlatDiscreteSet
     }
     return result;
   }
-
+  
   /** Tests for membership of the set.
   * @param e  The fully evaluated expression.
   * @return   true iff e is a member of the set.
@@ -159,9 +150,9 @@ public class FlatDiscreteSet
     }
     return result;
   }
-
+  
   ///////////////////////// Pred methods ///////////////////////
-
+  
   public Object accept(Visitor visitor)
   {
     if (visitor instanceof FlatDiscreteSetVisitor) {
@@ -170,7 +161,7 @@ public class FlatDiscreteSet
     }
     return super.accept(visitor);
   }
-
+  
   /** True iff two EvalSets contain the same elements. */
   public boolean equals(Object otherSet) {
     if (otherSet instanceof EvalSet)

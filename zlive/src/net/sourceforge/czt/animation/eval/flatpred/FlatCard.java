@@ -34,14 +34,14 @@ import net.sourceforge.czt.animation.eval.*;
 /**
 * @author Mark Utting
 *
-* FlatCard(A,s) implements Size of Set A = s
+* FlatCard(A,s) implements # A = s
 */
 public class FlatCard
-  extends FlatPred
+extends FlatPred
 {
   protected Factory factory_ = new Factory();
   //protected ArrayList vars_ = new ArrayList();
-
+  
   public FlatCard(RefName set, RefName size)
   {
     args = new ArrayList(2);
@@ -49,7 +49,7 @@ public class FlatCard
     args.add(size);
     solutionsReturned = -1;
   }
-
+  
   //@ requires newargs.size() == 2;
   public FlatCard(ArrayList newargs)
   {
@@ -58,13 +58,13 @@ public class FlatCard
     args = newargs;
     solutionsReturned = -1;
   }
-
+  
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
     return modeFunction(env);
   }
-
+  
   /** Does the actual evaluation */
   public boolean nextEvaluation()
   {
@@ -97,9 +97,9 @@ public class FlatCard
     }
     return result;
   }
-
+  
   ///////////////////////// Pred methods ///////////////////////
-
+  
   public Object accept(Visitor visitor)
   {
     if (visitor instanceof FlatCardVisitor) {
