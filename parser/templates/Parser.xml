@@ -30,7 +30,7 @@ import java_cup.runtime.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.parser.util.Strokes;
+import net.sourceforge.czt.parser.util.*;
 <add:z>
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 </add:z>
@@ -411,7 +411,16 @@ parser code
 {:
     public Symbol parse() throws java.lang.Exception
     {
-      return super.parse();
+      Symbol symbol = super.parse();
+      Term term = (Term) symbol.value;
+
+      //pass the specification to the visitor for reordering
+      //infix operators
+      PrecedenceHandlingVisitor visitor =
+        new PrecedenceHandlingVisitor(table_);
+      term.accept(visitor);
+
+      return symbol;
     }
 
     /** The tokens that can have soft new lines both before and after */

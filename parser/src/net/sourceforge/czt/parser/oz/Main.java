@@ -83,15 +83,12 @@ public class Main extends JPanel implements ActionListener
   {
     try {
       //parse the specification
-      Spec newSpec = (Spec) ParseUtils.parseLatexFile(file, table_);
+      Spec newSpec =
+	(Spec) ParseUtils.parseLatexFile(file, table_);
 
       //validate the specification
       AstValidator validator = new JaxbValidator();
       validator.validate(newSpec);
-
-      PrecedenceHandlingVisitor handler =
-	new PrecedenceHandlingVisitor(table_);
-      handler.visitTerm(newSpec);
 
       if (spec_ == null) {
         spec_ = newSpec;
