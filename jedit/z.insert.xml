@@ -188,10 +188,69 @@
 				<item name="upwards harpoon with barb rightwards" type="text">&#x21BE;</item>
 			</menu>
 		</menu>
-		<menu name="Paragraphs">
-		  <item name="Given Types" type="text">[|]</item>
+		<menu name="Paragraph">
+			<item name="Given Types" type="text">[|]</item>
 			<item name="Axiomatic Description" type="text">&#x2577;\n|\n&#x2029;</item>
+			<item name="Generic Axiomatic Description" type="text">&#x2577;&#x2550; [|]\n&#x2029;</item>
 			<item name="Schema Definition" type="text">&#x250C;\n|\n&#x2029;</item>
+			<item name="Generic Schema Definition" type="text">&#x250C;&#x2550; [|]\n&#x2029;</item>
+			<item name="Horizontal Definition" type="text">| == &#x2029;</item>
+			<item name="Generic Horizontal Definition" type="text">| [] == &#x2029;</item>
+			<item name="Generic Operator Definition" type="text">| == &#x2029;</item>
+			<item name="Free Types" type="text">| ::= &#x2029;</item>
+			<item name="Conjecture" type="text">&#x22A2;&#x003F; | &#x2029;</item>
+			<item name="Generic Conjecture" type="text">[|] &#x22A2;&#x003F; &#x2029;</item>
+			<item name="Operator Template" type="text">(|) &#x2029;</item>
+		</menu>
+		<menu name="Predicate">
+			<item name="Newline Conjunction" type="text">| &#x2028; </item>
+			<item name="Semicolon Conjunction" type="text">| &#x003B; </item>
+			<item name="Universal Quantification" type="text">&#x2200;| &#x2981; </item>
+			<item name="Existential Quantification" type="text">&#x2203;| &#x2981; </item>
+			<item name="Unique Existential Quantification" type="text">&#x2203;&#x2198;1&#x2196;| &#x2981; </item>
+			<item name="Equivalence" type="text">| &#x21D4; </item>
+			<item name="Implication" type="text">| &#x21D2; </item>
+			<item name="Disjunction" type="text">| &#x2228; </item>
+			<item name="Conjunction" type="text">| &#x2227; </item>
+			<item name="Negation" type="text">&#x00AC;|</item>
+			<item name="Truth" type="text">true</item>
+			<item name="Falsity" type="text">false</item>
+			<item name="Parenthesised Predicate" type="text">(|)</item>
+		</menu>
+		<menu name="Expression">
+			<item name="Universal Quantification" type="text">&#x2200;| &#x2981; </item>
+			<item name="Existential Quantification" type="text">&#x2203;| &#x2981; </item>
+			<item name="Unique Existential Quantification" type="text">&#x2203;&#x2198;1&#x2196;| &#x2981; </item>
+			<item name="Function Construction" type="text">&#x03BB;| &#x2981; </item>
+			<item name="Definite Description" type="text">&#x03BC;| &#x2981; </item>
+			<item name="Substitution Expression" type="text">let | == &#x2981; </item>
+			<item name="Equivalence" type="text">&#x21D4;</item>
+			<item name="Implication" type="text">&#x21D2;</item>
+			<item name="Disjunction" type="text">&#x2228;</item>
+			<item name="Conjunction" type="text">&#x2227;</item>
+			<item name="Negation" type="text">&#x00AC;|</item>
+			<item name="Conditional" type="text">if | then else </item>
+			<item name="Composition" type="text">&#x2A1F;</item>
+			<item name="Piping" type="text">&#x2A20;</item>
+			<item name="Hiding" type="text">&#x005C;|()</item>
+			<item name="Projection" type="text">&#x2A21;</item>
+			<item name="Precondition" type="text">pre </item>
+			<item name="Cartesian Product" type="text">&#x00D7;</item>
+			<item name="Powerset" type="text">&#x2119;</item>
+			<item name="Prime Stroke" type="text">&#x02B9;</item>
+			<item name="Output Stroke" type="text">&#x0021;</item>
+			<item name="Input Stroke" type="text">&#x003F;</item>
+			<item name="Renaming" type="text">|[/]</item>
+			<item name="Binding/Tuple Selection" type="text">.</item>
+			<item name="Binding Construction" type="text">&#x03B8;</item>
+			<item name="Set Comprehension" type="text">{|&#x2981;}</item>
+			<item name="Characteristic Set Comprehension" type="text">(({|})))</item>
+			<item name="Schema Construction" type="text">([|])</item>
+			<item name="Binding Extension" type="text">&#x2989;|==&#x298A;</item>
+			<item name="Tuple Extension" type="text">(|,)</item>
+			<item name="Characteristic Definite Description" type="text">(&#x03BC;|)</item>
+			<item name="Parenthesised Expression" type="text">(|)</item>
 		</menu>
 	</menu>
 </xinsert>
+
