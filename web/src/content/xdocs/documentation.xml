@@ -2,52 +2,72 @@
 <!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.2//EN" "http://apache.org/forrest/dtd/document-v12.dtd">
 <document> 
   <header> 
-    <title>Documentation</title> 
+    <title>CZT subprojects</title> 
   </header> 
   <body>
     <p> The CZT project consists of the following subprojects:</p>
 
     <section id="zml">
-      <title>ZML</title>
-      <p> This defines an
-          <link href="site:zml">XML markup for Z specifications</link>.
+      <title><link href="site:zml">ZML</link></title>
+      <p>
+        This defines an XML markup for Z specifications.
       </p>
     </section>
 
     <section id="corejava">
-      <title>Corejava</title>
-      <p>Corejava contains AST (Annotated Syntax Tree) classes for standard Z,
-         written in Java.  It is closely related to the XML Schema described
-         in <link href="#zml">ZML</link>. Actually, most of
-         the classes and interfaces in corejava are automatically generated
-         from the XML Schema using the code generator
-         <link href="#gnast">Gnast</link>.
+      <title><link href="ext:corejava">Corejava</link></title>
+      <p>
+        Corejava contains AST (Annotated Syntax Tree) classes for standard Z,
+        written in Java.  It is closely related to the XML Schema described in
+        <link href="site:zml">ZML</link>. Actually, most of
+        the classes and interfaces in corejava are automatically generated
+        from the XML Schema using the code generator
+      <link href="#gnast">Gnast</link>.
       </p>
-      <ul>
-         <li><link
- href="http://czt.sourceforge.net/corejava/api/">Javadoc API documentation</link></li>
-      </ul>
+    </section>
+
+    <section id="gaffe">
+      <title>Gaffe</title>
+      <p>
+        This is a GUI builder for Z animators.
+      </p>
     </section>
 
     <section id="gnast">
       <title>Gnast</title>
-      <p>This is a code generator that generates Java interfaces and classes
-      (for instance, the AST in <link href="#corejava">Corejava</link>)
-      from an XML Schema.
+      <p>
+        This is a code generator that generates Java interfaces and classes
+        (for instance, the AST in
+        <link href="ext:corejava">Corejava</link>)
+        from an XML Schema.
+      </p>
+    </section>
+
+    <section id="jedit">
+      <title>JEdit plugins</title>
+      <p>
+        This is a collection of tools, modes and plugins for the
+        <link href="ext:jedit">JEdit editor</link>
+        which provide support for editing Z specifications.
       </p>
     </section>
 
     <section id="parser">
       <title>Parser</title>
-      <p>This is a parser for standard Z that is under development.
-      Eventually, the parser will be extended to support Object-Z and TCOZ
-      (or several variants of the parser will be produced).  The output
-      of the parser is an XML file, using the <link href="site:zml">ZML
-      format</link>. 
+      <p>
+        This is a parser for standard Z that is under development.
+        Eventually, the parser will be extended to support Object-Z and TCOZ
+        (or several variants of the parser will be produced).  The output
+        of the parser is an XML file, using the <link href="site:zml">ZML
+        format</link>. 
       </p>
     </section>
-    <section>
-      <title>TODO: Add the Others...</title>
+    <section id="zmltp">
+      <title>ZMLTP</title>
+      <p>
+        This is a
+        <link href="site:zml">ZML</link> to HTML transformer.
+      </p>
     </section>
   </body>
 </document>

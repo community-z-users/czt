@@ -22,16 +22,18 @@ See http://xml.apache.org/forrest/linking.html for more info
     <news label="News" href="news.html"/>
     <screenshots label="Screenshots" href="screenshots.html"/>
     <people label="People" href="people.html"/>
-    <zml label="ZML" href="zml/index.html"/>
   </about>
+
+  <projects label="Subprojects">
+    <documentation label="Overview" href="documentation.html"/>
+    <zml label="ZML" href="zml/index.html"/>
+    <corejava label="Corejava" href="http://czt.sourceforge.net/corejava"/>
+  </projects>
 
   <resources label="Resources">
     <download
       label="Download"
       href="http://sourceforge.net/project/showfiles.php?group_id=86250"/>
-    <documentation
-      label="Documentation"
-      href="documentation.html"/>
     <development
       label="Development"
       href="http://sourceforge.net/projects/czt"/>
@@ -57,5 +59,11 @@ See http://xml.apache.org/forrest/linking.html for more info
     <tcoz href="http://www.comp.nus.edu.sg/~dongjs/tcoz.html"/>
     <zb-2003 href="http://www.tucs.fi/zb2003"/>
     <jedit href="http://www.jedit.org"/>
+    <xml.apache.org href="http://xml.apache.org/">
+      <forrest href="forrest/"/>
+    </xml.apache.org>
+    <czt.sourceforge.net href="http://czt.sourceforge.net/">
+      <corejava href="corejava/"/>
+    </czt.sourceforge.net>
   </external-refs>
 </site>
