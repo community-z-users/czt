@@ -137,8 +137,6 @@
     <delete dir="${api.dir}"/>
     <delete file="src/net/sourceforge/czt/scanner/UnicodeLexer.java"/>
     <delete file="src/net/sourceforge/czt/scanner/UnicodeLexer.java~"/>
-    <delete file="src/net/sourceforge/czt/scanner/LatexLexer.java"/>
-    <delete file="src/net/sourceforge/czt/scanner/LatexLexer.java~"/>
     <delete file="src/net/sourceforge/czt/scanner/Latex2Unicode.java~"/>
     <delete file="src/net/sourceforge/czt/scanner/Latex2Unicode.java~"/>
     <delete file="src/net/sourceforge/czt/scanner/Latex2Unicode.java"/>
