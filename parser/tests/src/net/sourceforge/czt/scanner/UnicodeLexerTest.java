@@ -25,6 +25,7 @@ import java_cup.runtime.*;
 import junit.framework.*;
 
 import net.sourceforge.czt.util.ZChar;
+import net.sourceforge.czt.util.ZString;
 
 /**
  * A (JUnit) test class for testing the unicode lexer.
@@ -163,8 +164,10 @@ public class UnicodeLexerTest extends TestCase
   private void isDecorword(String string)
     throws java.io.IOException
   {
-    resetLexer(string);
+    resetLexer(ZString.ZEDCHAR + string + ZString.ENDCHAR);
+    nextIsZed();
     nextIsDecorword(string);
+    nextIsEnd();
     nextIsEof();
   }
 
@@ -200,9 +203,11 @@ public class UnicodeLexerTest extends TestCase
     isDecorword(exi + "_X");
     isDecorword(exi + se + "x" + nw);
 
-    resetLexer(exi + "S");
+    resetLexer(ZString.ZEDCHAR + exi + "S" + ZString.ENDCHAR);
+    nextIsZed();
     nextIsExi();
     nextIsDecorword("S");
+    nextIsEnd();
     nextIsEof();
   }
 
@@ -220,10 +225,13 @@ public class UnicodeLexerTest extends TestCase
     isDecorword(cross + ":" + mem);
     isDecorword(se + "x" + nw + ":" + se + "e" + nw);
 
-    resetLexer("x:e");
+    resetLexer(ZString.ZEDCHAR + "x:e" + ZString.ENDCHAR);
+    nextIsZed();
     nextIsDecorword("x");
     nextIsColon();
     nextIsDecorword("e");
+    nextIsEnd();
+    nextIsEof();
   }
 
   /**
@@ -235,28 +243,36 @@ public class UnicodeLexerTest extends TestCase
   {
     isDecorword("abc");
 
-    resetLexer("a bc");
+    resetLexer(ZString.ZEDCHAR + "a bc" + ZString.ENDCHAR);
+    nextIsZed();
     nextIsDecorword("a");
     nextIsDecorword("bc");
+    nextIsEnd();
     nextIsEof();
 
     isDecorword("a12");
 
-    resetLexer("a 12");
+    resetLexer(ZString.ZEDCHAR + "a 12" + ZString.ENDCHAR);
+    nextIsZed();
     nextIsDecorword("a");
     nextIsNumeral(new Integer(12));
+    nextIsEnd();
     nextIsEof();
 
     isDecorword("x!");
 
-    resetLexer("x !");
+    resetLexer(ZString.ZEDCHAR + "x !" + ZString.ENDCHAR);
+    nextIsZed();
     nextIsDecorword("x");
     nextIsStroke("!");
+    nextIsEnd();
     nextIsEof();
 
-    resetLexer("x! !");
+    resetLexer(ZString.ZEDCHAR + "x! !" + ZString.ENDCHAR);
+    nextIsZed();
     nextIsDecorword("x!");
     nextIsStroke("!");
+    nextIsEnd();
     nextIsEof();
   }
 
@@ -272,18 +288,27 @@ public class UnicodeLexerTest extends TestCase
     String sw = String.valueOf(ZChar.SW);
     String ne = String.valueOf(ZChar.NE);
 
-    resetLexer("x" + se + "a" + nw + se + "1" + nw);
+    resetLexer(ZString.ZEDCHAR + "x" + se + "a" + nw + se + "1" + nw
+               + ZString.ENDCHAR);
+    nextIsZed();
     nextIsDecorword("x" + se + "a" + nw);
     nextIsStroke(se + "1" + nw);
+    nextIsEnd();
     nextIsEof();
 
-    resetLexer("x" + se + "a" + nw + "?");
+    resetLexer(ZString.ZEDCHAR + "x" + se + "a" + nw + "?"
+               + ZString.ENDCHAR);
+    nextIsZed();
     nextIsDecorword("x" + se + "a" + nw);
     nextIsStroke("?");
+    nextIsEnd();
     nextIsEof();
 
-    resetLexer("x" + ne + "b" + se + "3" + nw + sw);
+    resetLexer(ZString.ZEDCHAR + "x" + ne + "b" + se + "3" + nw + sw
+               + ZString.ENDCHAR);
+    nextIsZed();
     nextIsDecorword("x" + ne + "b" + se + "3" + nw + sw);
+    nextIsEnd();
     nextIsEof();
   }
 

@@ -190,10 +190,21 @@ GENSCH = {SCHCHAR} {GENCHAR}
 END = {ENDCHAR}
 NL = {NLCHAR}
 
+%state Z
+
 %%
 /* ------------------------Lexical Rules Section---------------------- */
 
 <YYINITIAL> {
+  {ZED}         {  yybegin(Z); log("BOX(ZED)"); return symbol(sym.ZED); }
+  {AX}          {  yybegin(Z); log("BOX(AX)"); return symbol(sym.AX); }
+  {GENAX}       {  yybegin(Z); log("BOX(GENAX)"); return symbol(sym.GENAX); }
+  {SCH}         {  yybegin(Z); log("BOX(SCH)"); return symbol(sym.SCH); }
+  {GENSCH}      {  yybegin(Z); log("BOX(GENSCH)"); return symbol(sym.GENSCH); }
+  [^]           {  /* TODO: What now? */ }
+}
+
+<Z> {
   /* Keywords (7.4.2 and 7.4.3) */
   "else"        { log("keyword(else)"); return symbol(sym.ELSE); }
   "false"       { log("keyword(false)"); return symbol(sym.FALSE); }
@@ -243,12 +254,8 @@ NL = {NLCHAR}
   "\u2A20"      { log("keyword(zpipe)"); return symbol(sym.ZPIPE); }
 
   /* Boxes */
-  {ZED}         {  log("BOX(ZED)"); return symbol(sym.ZED); }
-  {AX}          {  log("BOX(AX)"); return symbol(sym.AX); }
-  {GENAX}       {  log("BOX(GENAX)"); return symbol(sym.GENAX); }
-  {SCH}         {  log("BOX(SCH)"); return symbol(sym.SCH); }
-  {GENSCH}      {  log("BOX(GENSCH)"); return symbol(sym.GENSCH); }
-  {END}         {  log("BOX(END)"); return symbol(sym.END); }
+  {END}         {  yybegin(YYINITIAL);
+                   log("BOX(END)"); return symbol(sym.END); }
   {NL}          {  log("\n"); return symbol(sym.NL); }
 
   /* strip spaces (context-sensitive lexis; 7.4.1)
