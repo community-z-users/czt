@@ -1,8 +1,13 @@
+#CUP=/usr/java/java_cup/
+CUP=../../../lib/java_cup.jar
 cd src/
-javac net/sourceforge/czt/java_cup/runtime/*.java
-javac net/sourceforge/czt/java_cup/*.java
-java net.sourceforge.czt.java_cup.Main < net/sourceforge/czt/java_cup/parser.cup
-mv parser.java net/sourceforge/czt/java_cup/
+java -cp $CUP net.sourceforge.czt.java_cup.Main < net/sourceforge/czt/java_cup/parser.cup
+#java -cp $CUP java_cup.Main < net/sourceforge/czt/java_cup/parser.cup
+sed 's/java_cup/net.sourceforge.czt.java_cup/g' < parser.java > newparser.java
+sed 's/net.sourceforge.czt.net/net/g' < newparser.java > net/sourceforge/czt/java_cup/parser.java
 mv sym.java net/sourceforge/czt/java_cup/
+rm newparser.java
+rm parser.java
 javac net/sourceforge/czt/java_cup/*.java
+javac net/sourceforge/czt/java_cup/runtime/*.java
 cd ..

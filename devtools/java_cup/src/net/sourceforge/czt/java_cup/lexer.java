@@ -151,6 +151,7 @@ public class lexer {
       char_symbols.put(new Integer(']'), new Integer(sym.RBRACK));
       char_symbols.put(new Integer('<'), new Integer(sym.LGENERIC));
       char_symbols.put(new Integer('>'), new Integer(sym.RGENERIC));
+      char_symbols.put(new Integer('?'), new Integer(sym.QMARK));
 
       /* read two characters of lookahead */
       next_char = System.in.read();
