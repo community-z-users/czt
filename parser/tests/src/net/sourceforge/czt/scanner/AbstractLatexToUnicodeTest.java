@@ -45,7 +45,7 @@ public abstract class AbstractLatexToUnicodeTest
     transforms("\\:", SPACE);
     transforms("\\;", SPACE);
     transforms("\\ ", SPACE);
-    transforms("\\\\", "\n");
+    transforms("\\\\", ZString.NL);
     transforms("\\tl", SPACE);
     transforms("\\t2", SPACE);
     transforms("\\t3", SPACE);
@@ -55,8 +55,8 @@ public abstract class AbstractLatexToUnicodeTest
     transforms("\\t7", SPACE);
     transforms("\\t8", SPACE);
     transforms("\\t9", SPACE);
-    transforms("\\also", "\n");
-    transforms("\\znewpage", "\n");
+    transforms("\\also", ZString.NL);
+    transforms("\\znewpage", ZString.NL);
   }
 
   public void testSpecialCharacters()
