@@ -105,7 +105,7 @@ public class JavaCupTask extends Task
 
 	//write to the process and read back the output
 	handler.start();
-	sw.start();
+	sw.write();
 
 	//wait for the process to finish executing
 	p.waitFor();
@@ -189,49 +189,7 @@ public class JavaCupTask extends Task
   }
 }
 
-class StreamReader extends Thread
-{
-  //the output stream of the process
-  private InputStream pOut_;
-
-  //the stream to which to send any output
-  private OutputStream write_;
-
-  StreamReader(InputStream out, OutputStream write)
-  {
-    pOut_ = out;
-    write_ = write;
-  }
-
-
-  public void run()
-  {
-    read();
-  }
-
-  public void read()
-  {
-    try
-    {
-      if (pOut_.available() > 0) {
-	Debug.debug("Start reading");
-	while (pOut_.available() > 0) {
-	  int c = pOut_.read();
-	  write_.write(c);
-	  write_.flush();
-	}
-      }
-      Debug.debug("Finish reading");
-      write_.flush();
-      write_.close();
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-}
-
-class StreamWriter extends Thread
+class StreamWriter// extends Thread
 {
   //the input stream of the process
   //declared as an OutputStream because we write to it
