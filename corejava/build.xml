@@ -17,9 +17,6 @@
     </fileset>
   </path>
 
-  <taskdef resource="checkstyletask.properties"
-    classpath="${checkstyle.jar}"/>
-
   <target name="all" depends="jar,api"
     description="build the jar files and the API documentation"/>
 
@@ -97,6 +94,8 @@
   </target>
 
   <target name="checkstyle" description="check java sources">
+    <taskdef resource="checkstyletask.properties"
+      classpath="${checkstyle.jar}"/>
     <checkstyle config="../devtools/checkstyle.xml">
       <fileset dir="${corejava.src.dir}">
         <include name="net/**/*.java"/>
