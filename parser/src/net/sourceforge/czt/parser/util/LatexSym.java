@@ -64,7 +64,7 @@ public class LatexSym
   public static final int POSTWORD_MARKUP = 33;
 
   /**
-   * The name latex command defined in a directive.
+   * The name of a latex command defined in a directive.
    */
   public static final int NAME = 34;
 
