@@ -8,10 +8,9 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="Z:TermA">
-					<xs:choice minOccurs="0" maxOccurs="unbounded">
-						<xs:element ref="Z:Sect"/>
-						<xs:any namespace="##other" processContents="lax"/>
-					</xs:choice>
+					<xs:sequence>
+						<xs:element ref="Z:Sect" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -505,10 +504,7 @@
 				<xs:sequence>
 					<xs:element name="Name" type="xs:string"/>
 					<xs:element name="Parent" type="Z:Parent" minOccurs="0" maxOccurs="unbounded"/>
-					<xs:choice minOccurs="0" maxOccurs="unbounded">
-						<xs:element ref="Z:Para"/>
-						<xs:any namespace="##other" processContents="lax"/>
-					</xs:choice>
+		       			<xs:element ref="Z:Para" minOccurs="0" maxOccurs="unbounded"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
