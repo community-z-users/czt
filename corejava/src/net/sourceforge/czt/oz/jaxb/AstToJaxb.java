@@ -363,9 +363,14 @@ public class AstToJaxb
         jaxbObject.setClassName((DeclName) term.accept(this));
       }
       createElement_ = false;
-      if (zedObject.getState() != null) {
-        Term term = zedObject.getState();
-        jaxbObject.setState((Signature) term.accept(this));
+      if (zedObject.getPrimaryDecl() != null) {
+        Term term = zedObject.getPrimaryDecl();
+        jaxbObject.setPrimaryDecl((Signature) term.accept(this));
+      }
+      createElement_ = false;
+      if (zedObject.getSecondaryDecl() != null) {
+        Term term = zedObject.getSecondaryDecl();
+        jaxbObject.setSecondaryDecl((Signature) term.accept(this));
       }
       {
         List list = zedObject.getParentClass();
@@ -425,63 +430,6 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitClassSignature", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitInheritedClass(net.sourceforge.czt.oz.ast.InheritedClass zedObject)
-  {
-    getLogger().entering(getClassName(), "visitInheritedClass", zedObject);
-
-    InheritedClass jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createInheritedClassElement();
-      if (!createElement_) {
-        jaxbObject = objectFactory_.createInheritedClass();
-      }
-      createElement_ = true;
-      if (zedObject.getRefExpr() != null) {
-        Term term = zedObject.getRefExpr();
-        jaxbObject.setRefExpr((RefExpr) term.accept(this));
-      }
-      {
-        List list = zedObject.getNameNamePair();
-        List newlist = jaxbObject.getNameNamePair();
-        for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Object o = iter.next();
-          if (o instanceof Term) {
-            createElement_ = true;
-            o = ((Term) o).accept(this);
-          }
-          newlist.add(o);
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a InheritedClass to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a InheritedClass to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitInheritedClass", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
@@ -648,12 +596,12 @@ public class AstToJaxb
         jaxbObject = objectFactory_.createState();
       }
       {
-        List list = zedObject.getDecl();
-        List newlist = jaxbObject.getDecl();
+        List list = zedObject.getPrimaryDecl();
+        List newlist = jaxbObject.getPrimaryDecl();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
-            createElement_ = true;
+            createElement_ = false;
             o = ((Term) o).accept(this);
           }
           newlist.add(o);
@@ -722,9 +670,9 @@ public class AstToJaxb
         jaxbObject.setExpr((Expr) term.accept(this));
       }
       createElement_ = false;
-      if (zedObject.getOpName() != null) {
-        Term term = zedObject.getOpName();
-        jaxbObject.setOpName((RefName) term.accept(this));
+      if (zedObject.getName() != null) {
+        Term term = zedObject.getName();
+        jaxbObject.setName((RefName) term.accept(this));
       }
     }
     catch (Exception exception) {
@@ -848,7 +796,7 @@ public class AstToJaxb
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
-            createElement_ = true;
+            createElement_ = false;
             o = ((Term) o).accept(this);
           }
           newlist.add(o);

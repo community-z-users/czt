@@ -285,7 +285,7 @@ public class ClassParaImpl
 
 
   private net.sourceforge.czt.base.ast.ListTerm inheritedClass_ =
-    new net.sourceforge.czt.base.impl.ListTermImpl(InheritedClass.class);
+    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.Expr.class);
 
   public net.sourceforge.czt.base.ast.ListTerm getInheritedClass()
   {

@@ -140,21 +140,7 @@ public interface OzFactory
    *
    * @return the new instance of ClassSignature.
    */
-  ClassSignature createClassSignature(net.sourceforge.czt.z.ast.DeclName className, net.sourceforge.czt.z.ast.Signature state, java.util.List parentClass, java.util.List attribute, java.util.List operation, java.util.List visibility);
-
-  /**
-   * Creates an instance of {@link InheritedClass}.
-   *
-   * @return the new instance of InheritedClass.
-   */
-  InheritedClass createInheritedClass();
-
-  /**
-   * Creates an instance of {@link InheritedClass} with the given children.
-   *
-   * @return the new instance of InheritedClass.
-   */
-  InheritedClass createInheritedClass(net.sourceforge.czt.z.ast.RefExpr refExpr, java.util.List nameNamePair);
+  ClassSignature createClassSignature(net.sourceforge.czt.z.ast.DeclName className, net.sourceforge.czt.z.ast.Signature primaryDecl, net.sourceforge.czt.z.ast.Signature secondaryDecl, java.util.List parentClass, java.util.List attribute, java.util.List operation, java.util.List visibility);
 
   /**
    * Creates an instance of {@link OpText}.
@@ -210,7 +196,7 @@ public interface OzFactory
    *
    * @return the new instance of State.
    */
-  State createState(java.util.List decl, java.util.List secondaryDecl, net.sourceforge.czt.z.ast.Pred pred);
+  State createState(java.util.List primaryDecl, java.util.List secondaryDecl, net.sourceforge.czt.z.ast.Pred pred);
 
   /**
    * Creates an instance of {@link OpPromotionExpr}.
@@ -224,7 +210,7 @@ public interface OzFactory
    *
    * @return the new instance of OpPromotionExpr.
    */
-  OpPromotionExpr createOpPromotionExpr(net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.z.ast.RefName opName);
+  OpPromotionExpr createOpPromotionExpr(net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.z.ast.RefName name);
 
   /**
    * Creates an instance of {@link ConjOpExpr}.

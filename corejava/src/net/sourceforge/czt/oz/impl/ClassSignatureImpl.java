@@ -79,13 +79,23 @@ public class ClassSignatureImpl
             return false;
           }
         }
-        if (state_ != null) {
-          if (!state_.equals(object.state_)) {
+        if (primaryDecl_ != null) {
+          if (!primaryDecl_.equals(object.primaryDecl_)) {
             return false;
           }
         }
         else {
-          if (object.state_ != null) {
+          if (object.primaryDecl_ != null) {
+            return false;
+          }
+        }
+        if (secondaryDecl_ != null) {
+          if (!secondaryDecl_.equals(object.secondaryDecl_)) {
+            return false;
+          }
+        }
+        else {
+          if (object.secondaryDecl_ != null) {
             return false;
           }
         }
@@ -147,8 +157,11 @@ public class ClassSignatureImpl
     if (className_ != null) {
       hashCode += constant * className_.hashCode();
     }
-    if (state_ != null) {
-      hashCode += constant * state_.hashCode();
+    if (primaryDecl_ != null) {
+      hashCode += constant * primaryDecl_.hashCode();
+    }
+    if (secondaryDecl_ != null) {
+      hashCode += constant * secondaryDecl_.hashCode();
     }
     if (parentClass_ != null) {
       hashCode += constant * parentClass_.hashCode();
@@ -185,14 +198,16 @@ public class ClassSignatureImpl
     ClassSignature zedObject = null;
     try {
       net.sourceforge.czt.z.ast.DeclName className = (net.sourceforge.czt.z.ast.DeclName) args[0];
-      net.sourceforge.czt.z.ast.Signature state = (net.sourceforge.czt.z.ast.Signature) args[1];
-      java.util.List parentClass = (java.util.List) args[2];
-      java.util.List attribute = (java.util.List) args[3];
-      java.util.List operation = (java.util.List) args[4];
-      java.util.List visibility = (java.util.List) args[5];
+      net.sourceforge.czt.z.ast.Signature primaryDecl = (net.sourceforge.czt.z.ast.Signature) args[1];
+      net.sourceforge.czt.z.ast.Signature secondaryDecl = (net.sourceforge.czt.z.ast.Signature) args[2];
+      java.util.List parentClass = (java.util.List) args[3];
+      java.util.List attribute = (java.util.List) args[4];
+      java.util.List operation = (java.util.List) args[5];
+      java.util.List visibility = (java.util.List) args[6];
       zedObject = new ClassSignatureImpl();
       zedObject.setClassName(className);
-      zedObject.setState(state);
+      zedObject.setPrimaryDecl(primaryDecl);
+      zedObject.setSecondaryDecl(secondaryDecl);
       if (parentClass != null) {
         zedObject.getParentClass().addAll(parentClass);
       }
@@ -217,7 +232,7 @@ public class ClassSignatureImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getClassName(), getState(), getParentClass(), getAttribute(), getOperation(), getVisibility() };
+    Object[] erg = { getClassName(), getPrimaryDecl(), getSecondaryDecl(), getParentClass(), getAttribute(), getOperation(), getVisibility() };
     return erg;
   }
 
@@ -233,16 +248,28 @@ public class ClassSignatureImpl
     className_ = className;
   }
 
-  private net.sourceforge.czt.z.ast.Signature state_;
+  private net.sourceforge.czt.z.ast.Signature primaryDecl_;
 
-  public net.sourceforge.czt.z.ast.Signature getState()
+  public net.sourceforge.czt.z.ast.Signature getPrimaryDecl()
   {
-    return state_;
+    return primaryDecl_;
   }
 
-  public void setState(net.sourceforge.czt.z.ast.Signature state)
+  public void setPrimaryDecl(net.sourceforge.czt.z.ast.Signature primaryDecl)
   {
-    state_ = state;
+    primaryDecl_ = primaryDecl;
+  }
+
+  private net.sourceforge.czt.z.ast.Signature secondaryDecl_;
+
+  public net.sourceforge.czt.z.ast.Signature getSecondaryDecl()
+  {
+    return secondaryDecl_;
+  }
+
+  public void setSecondaryDecl(net.sourceforge.czt.z.ast.Signature secondaryDecl)
+  {
+    secondaryDecl_ = secondaryDecl;
   }
 
 
@@ -256,7 +283,7 @@ public class ClassSignatureImpl
 
 
   private net.sourceforge.czt.base.ast.ListTerm attribute_ =
-    new net.sourceforge.czt.base.impl.ListTermImpl(NameSignaturePair.class);
+    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.NameTypePair.class);
 
   public net.sourceforge.czt.base.ast.ListTerm getAttribute()
   {

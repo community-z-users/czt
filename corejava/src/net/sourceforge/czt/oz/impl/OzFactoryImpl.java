@@ -130,11 +130,12 @@ public class OzFactoryImpl
     return zedObject;
   }
 
-  public ClassSignature createClassSignature(net.sourceforge.czt.z.ast.DeclName className, net.sourceforge.czt.z.ast.Signature state, java.util.List parentClass, java.util.List attribute, java.util.List operation, java.util.List visibility)
+  public ClassSignature createClassSignature(net.sourceforge.czt.z.ast.DeclName className, net.sourceforge.czt.z.ast.Signature primaryDecl, net.sourceforge.czt.z.ast.Signature secondaryDecl, java.util.List parentClass, java.util.List attribute, java.util.List operation, java.util.List visibility)
   {
     ClassSignature zedObject = createClassSignature();
     zedObject.setClassName(className);
-    zedObject.setState(state);
+    zedObject.setPrimaryDecl(primaryDecl);
+    zedObject.setSecondaryDecl(secondaryDecl);
     if (parentClass != null) {
       zedObject.getParentClass().addAll(parentClass);
     }
@@ -146,22 +147,6 @@ public class OzFactoryImpl
     }
     if (visibility != null) {
       zedObject.getVisibility().addAll(visibility);
-    }
-    return zedObject;
-  }
-
-  public InheritedClass createInheritedClass()
-  {
-    InheritedClass zedObject = new InheritedClassImpl();
-    return zedObject;
-  }
-
-  public InheritedClass createInheritedClass(net.sourceforge.czt.z.ast.RefExpr refExpr, java.util.List nameNamePair)
-  {
-    InheritedClass zedObject = createInheritedClass();
-    zedObject.setRefExpr(refExpr);
-    if (nameNamePair != null) {
-      zedObject.getNameNamePair().addAll(nameNamePair);
     }
     return zedObject;
   }
@@ -216,11 +201,11 @@ public class OzFactoryImpl
     return zedObject;
   }
 
-  public State createState(java.util.List decl, java.util.List secondaryDecl, net.sourceforge.czt.z.ast.Pred pred)
+  public State createState(java.util.List primaryDecl, java.util.List secondaryDecl, net.sourceforge.czt.z.ast.Pred pred)
   {
     State zedObject = createState();
-    if (decl != null) {
-      zedObject.getDecl().addAll(decl);
+    if (primaryDecl != null) {
+      zedObject.getPrimaryDecl().addAll(primaryDecl);
     }
     if (secondaryDecl != null) {
       zedObject.getSecondaryDecl().addAll(secondaryDecl);
@@ -235,11 +220,11 @@ public class OzFactoryImpl
     return zedObject;
   }
 
-  public OpPromotionExpr createOpPromotionExpr(net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.z.ast.RefName opName)
+  public OpPromotionExpr createOpPromotionExpr(net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.z.ast.RefName name)
   {
     OpPromotionExpr zedObject = createOpPromotionExpr();
     zedObject.setExpr(expr);
-    zedObject.setOpName(opName);
+    zedObject.setName(name);
     return zedObject;
   }
 

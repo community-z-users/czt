@@ -180,8 +180,10 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     getLogger().entering("JaxbToAst", "visitClassSignature", jaxbObject);
     net.sourceforge.czt.z.ast.DeclName className =
       (net.sourceforge.czt.z.ast.DeclName) dispatch(jaxbObject.getClassName());
-    net.sourceforge.czt.z.ast.Signature state =
-      (net.sourceforge.czt.z.ast.Signature) dispatch(jaxbObject.getState());
+    net.sourceforge.czt.z.ast.Signature primaryDecl =
+      (net.sourceforge.czt.z.ast.Signature) dispatch(jaxbObject.getPrimaryDecl());
+    net.sourceforge.czt.z.ast.Signature secondaryDecl =
+      (net.sourceforge.czt.z.ast.Signature) dispatch(jaxbObject.getSecondaryDecl());
     List parentClass = new Vector();
     for (Iterator iter = jaxbObject.getParentClass().iterator(); iter.hasNext();) {
       Object obj = iter.next();
@@ -206,34 +208,8 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
       Object o = dispatch(obj);
       visibility.add(o);
     }
-    ClassSignature erg = mOzFactory_.createClassSignature(className, state, parentClass, attribute, operation, visibility);
+    ClassSignature erg = mOzFactory_.createClassSignature(className, primaryDecl, secondaryDecl, parentClass, attribute, operation, visibility);
     getLogger().exiting("JaxbToAst", "visitClassSignature", erg);
-    return erg;
-  }
-
-  public Object visitInheritedClass(net.sourceforge.czt.oz.jaxb.gen.InheritedClass jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitInheritedClass", jaxbObject);
-    net.sourceforge.czt.z.ast.RefExpr refExpr =
-      (net.sourceforge.czt.z.ast.RefExpr) dispatch(jaxbObject.getRefExpr());
-    List nameNamePair = new Vector();
-    for (Iterator iter = jaxbObject.getNameNamePair().iterator(); iter.hasNext();) {
-      Object obj = iter.next();
-      Object o = dispatch(obj);
-      nameNamePair.add(o);
-    }
-    InheritedClass erg = mOzFactory_.createInheritedClass(refExpr, nameNamePair);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitInheritedClass", erg);
     return erg;
   }
 
@@ -310,11 +286,11 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
   public Object visitState(net.sourceforge.czt.oz.jaxb.gen.State jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitState", jaxbObject);
-    List decl = new Vector();
-    for (Iterator iter = jaxbObject.getDecl().iterator(); iter.hasNext();) {
+    List primaryDecl = new Vector();
+    for (Iterator iter = jaxbObject.getPrimaryDecl().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
-      decl.add(o);
+      primaryDecl.add(o);
     }
     List secondaryDecl = new Vector();
     for (Iterator iter = jaxbObject.getSecondaryDecl().iterator(); iter.hasNext();) {
@@ -324,7 +300,7 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     }
     net.sourceforge.czt.z.ast.Pred pred =
       (net.sourceforge.czt.z.ast.Pred) dispatch(jaxbObject.getPred());
-    State erg = mOzFactory_.createState(decl, secondaryDecl, pred);
+    State erg = mOzFactory_.createState(primaryDecl, secondaryDecl, pred);
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
@@ -344,9 +320,9 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     getLogger().entering("JaxbToAst", "visitOpPromotionExpr", jaxbObject);
     net.sourceforge.czt.z.ast.Expr expr =
       (net.sourceforge.czt.z.ast.Expr) dispatch(jaxbObject.getExpr());
-    net.sourceforge.czt.z.ast.RefName opName =
-      (net.sourceforge.czt.z.ast.RefName) dispatch(jaxbObject.getOpName());
-    OpPromotionExpr erg = mOzFactory_.createOpPromotionExpr(expr, opName);
+    net.sourceforge.czt.z.ast.RefName name =
+      (net.sourceforge.czt.z.ast.RefName) dispatch(jaxbObject.getName());
+    OpPromotionExpr erg = mOzFactory_.createOpPromotionExpr(expr, name);
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();

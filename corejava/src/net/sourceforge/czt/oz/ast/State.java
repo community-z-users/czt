@@ -37,14 +37,14 @@ public interface State extends TermA
 {
 
   /**
-   * <p>Returns the Decl elements.</p>
+   * <p>Returns the PrimaryDecl elements.</p>
    * <p>To add or remove elements, use the methods provided by
    * the List interface (that's why there is no need for a setter
    * method).</p>
    *
    * @return a list of Decl elements.
    */
-  net.sourceforge.czt.base.ast.ListTerm getDecl();
+  net.sourceforge.czt.base.ast.ListTerm getPrimaryDecl();
 
   /**
    * <p>Returns the SecondaryDecl elements.</p>

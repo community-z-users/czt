@@ -43,7 +43,6 @@ public interface OzVisitor
     net.sourceforge.czt.oz.visitor.SeqOpExprVisitor,
     net.sourceforge.czt.oz.visitor.ClassTypeVisitor,
     net.sourceforge.czt.oz.visitor.ClassSignatureVisitor,
-    net.sourceforge.czt.oz.visitor.InheritedClassVisitor,
     net.sourceforge.czt.oz.visitor.OpTextVisitor,
     net.sourceforge.czt.oz.visitor.DistChoiceOpExprVisitor,
     net.sourceforge.czt.oz.visitor.AssoParallelOpExprVisitor,

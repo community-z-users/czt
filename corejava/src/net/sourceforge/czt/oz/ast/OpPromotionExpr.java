@@ -52,17 +52,17 @@ public interface OpPromotionExpr extends OpExpr
   void setExpr(net.sourceforge.czt.z.ast.Expr expr);
 
   /**
-   * Returns the OpName element.
+   * Returns the Name element.
    *
-   * @return the OpName element.
+   * @return the Name element.
    */
-  net.sourceforge.czt.z.ast.RefName getOpName();
+  net.sourceforge.czt.z.ast.RefName getName();
 
   /**
-   * Sets the OpName element.
+   * Sets the Name element.
    *
-   * @param opName   the OpName element.
-   * @see #getOpName
+   * @param name   the Name element.
+   * @see #getName
    */
-  void setOpName(net.sourceforge.czt.z.ast.RefName opName);
+  void setName(net.sourceforge.czt.z.ast.RefName name);
 }

@@ -79,13 +79,13 @@ public class OpPromotionExprImpl
             return false;
           }
         }
-        if (opName_ != null) {
-          if (!opName_.equals(object.opName_)) {
+        if (name_ != null) {
+          if (!name_.equals(object.name_)) {
             return false;
           }
         }
         else {
-          if (object.opName_ != null) {
+          if (object.name_ != null) {
             return false;
           }
         }
@@ -107,8 +107,8 @@ public class OpPromotionExprImpl
     if (expr_ != null) {
       hashCode += constant * expr_.hashCode();
     }
-    if (opName_ != null) {
-      hashCode += constant * opName_.hashCode();
+    if (name_ != null) {
+      hashCode += constant * name_.hashCode();
     }
     return hashCode;
   }
@@ -133,10 +133,10 @@ public class OpPromotionExprImpl
     OpPromotionExpr zedObject = null;
     try {
       net.sourceforge.czt.z.ast.Expr expr = (net.sourceforge.czt.z.ast.Expr) args[0];
-      net.sourceforge.czt.z.ast.RefName opName = (net.sourceforge.czt.z.ast.RefName) args[1];
+      net.sourceforge.czt.z.ast.RefName name = (net.sourceforge.czt.z.ast.RefName) args[1];
       zedObject = new OpPromotionExprImpl();
       zedObject.setExpr(expr);
-      zedObject.setOpName(opName);
+      zedObject.setName(name);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -149,7 +149,7 @@ public class OpPromotionExprImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getExpr(), getOpName() };
+    Object[] erg = { getExpr(), getName() };
     return erg;
   }
 
@@ -165,15 +165,15 @@ public class OpPromotionExprImpl
     expr_ = expr;
   }
 
-  private net.sourceforge.czt.z.ast.RefName opName_;
+  private net.sourceforge.czt.z.ast.RefName name_;
 
-  public net.sourceforge.czt.z.ast.RefName getOpName()
+  public net.sourceforge.czt.z.ast.RefName getName()
   {
-    return opName_;
+    return name_;
   }
 
-  public void setOpName(net.sourceforge.czt.z.ast.RefName opName)
+  public void setName(net.sourceforge.czt.z.ast.RefName name)
   {
-    opName_ = opName;
+    name_ = name;
   }
 }

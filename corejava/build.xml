@@ -10,13 +10,14 @@
   <property name="corejava.build.core" location="${corejava.build.dir}/core"/>
   <property name="corejava.build.oz" location="${corejava.build.dir}/oz"/>
   <property name="corejava.build.tcoz" location="${corejava.build.dir}/tcoz"/>
-  <property name="corejava.build.zpatt" location="${corejava.build.dir}/zpatt"/>
+  <property name="corejava.build.zpatt" location="${corejava.build.dir}/zpatt"/>  <property name="corejava.build.circus" location="${corejava.build.dir}/circus"/>
   <property name="corejava.build.jaxb" location="${corejava.build.dir}/jaxb"/>
   <property name="corejava.base.jar" location="${corejava.jar.dir}/${corejava.base.jar.file}"/>
   <property name="corejava.core.jar" location="${corejava.jar.dir}/${corejava.core.jar.file}"/>
   <property name="corejava.oz.jar" location="${corejava.jar.dir}/${corejava.oz.jar.file}"/>
   <property name="corejava.tcoz.jar" location="${corejava.jar.dir}/${corejava.tcoz.jar.file}"/>
   <property name="corejava.zpatt.jar" location="${corejava.jar.dir}/${corejava.zpatt.jar.file}"/>
+  <property name="corejava.circus.jar" location="${corejava.jar.dir}/${corejava.circus.jar.file}"/>
   <property name="corejava.jaxb.jar" location="${corejava.jar.dir}/${corejava.jaxb.jar.file}"/>
   <property name="corejava.api.dir" location="doc/api"/>
   <property name="corejava.api.jaxb.dir" location="doc/jaxb-api"/>
@@ -31,7 +32,7 @@
   </target>
 
   <target name="install"
-    depends="install-base,install-core,install-oz,install-tcoz,install-zpatt,install-jaxb"
+    depends="install-base,install-core,install-oz,install-tcoz,install-zpatt,install-circus,install-jaxb"
     description="install the jar files">
     <mkdir dir="${corejava.jar.dir}"/>
   </target>
@@ -217,13 +218,43 @@
 
   <target name="compile-zpatt"
           depends="init, compile-base, compile-core"
-          description="compile the Object Z source code">
+          description="compile the Z pattern source code">
     <mkdir dir="${corejava.build.zpatt}"/>
     <javac
       srcdir="${corejava.src.dir}:${corejava.build.src}"
       destdir="${corejava.build.zpatt}"
       includes="net/sourceforge/czt/zpatt/**"
       excludes="net/sourceforge/czt/zpatt/jaxb/**"
+      debug="${debug}"
+      debuglevel="${debuglevel}"
+      deprecation="on"
+      optimize="${optimize}">
+      <classpath>
+        <pathelement location="${corejava.build.base}"/>
+        <pathelement location="${corejava.build.core}"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <!-- Circus support -->
+
+  <target name="install-circus" depends="compile-circus"
+          description="generate the Circus jar file" >
+    <mkdir dir="${corejava.jar.dir}"/>
+    <jar jarfile="${corejava.circus.jar}">
+      <fileset dir="${corejava.build.circus}"/>
+    </jar>
+  </target>
+
+  <target name="compile-circus"
+          depends="init, compile-base, compile-core"
+          description="compile the Circus source code">
+    <mkdir dir="${corejava.build.circus}"/>
+    <javac
+      srcdir="${corejava.src.dir}:${corejava.build.src}"
+      destdir="${corejava.build.circus}"
+      includes="net/sourceforge/czt/circus/**"
+      excludes="net/sourceforge/czt/circus/jaxb/**"
       debug="${debug}"
       debuglevel="${debuglevel}"
       deprecation="on"
@@ -249,7 +280,7 @@
   </target>
 
   <target name="compile-jaxb"
-          depends="init, compile-base, compile-core, compile-oz, compile-tcoz, compile-zpatt"
+          depends="init, compile-base, compile-core, compile-oz, compile-tcoz, compile-zpatt, compile-circus"
           description="compile the Jaxb source code">
     <mkdir dir="${corejava.build.jaxb}"/>
     <javac
@@ -265,6 +296,7 @@
         <pathelement location="${corejava.build.oz}"/>
         <pathelement location="${corejava.build.tcoz}"/>
         <pathelement location="${corejava.build.zpatt}"/>
+        <pathelement location="${corejava.build.circus}"/>
         <pathelement path="${jwsdp.classpath}"/>
       </classpath>
     </javac>
@@ -291,7 +323,7 @@
       <group title="Standard Z Packages" packages="net.sourceforge.czt.z.*"/>
       <group title="Object Z Packages" packages="net.sourceforge.czt.oz.*"/>
       <group title="Timed Communicating Object Z Packages" packages="net.sourceforge.czt.tcoz.*"/>
-      <group title="Z Pattern Packages" packages="net.sourceforge.czt.zpatt.*"/>
+      <group title="Z Pattern Packages" packages="net.sourceforge.czt.zpatt.*"/>      <group title="Circus Packages" packages="net.sourceforge.czt.circus.*"/>
       <classpath path="${jwsdp.classpath}"/>
     </javadoc>
   </target>

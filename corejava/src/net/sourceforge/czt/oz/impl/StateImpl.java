@@ -69,13 +69,13 @@ public class StateImpl
     if (obj != null) {
       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
         StateImpl object = (StateImpl) obj;
-        if (decl_ != null) {
-          if (!decl_.equals(object.decl_)) {
+        if (primaryDecl_ != null) {
+          if (!primaryDecl_.equals(object.primaryDecl_)) {
             return false;
           }
         }
         else {
-          if (object.decl_ != null) {
+          if (object.primaryDecl_ != null) {
             return false;
           }
         }
@@ -114,8 +114,8 @@ public class StateImpl
 
     int hashCode = super.hashCode();
     hashCode += "StateImpl".hashCode();
-    if (decl_ != null) {
-      hashCode += constant * decl_.hashCode();
+    if (primaryDecl_ != null) {
+      hashCode += constant * primaryDecl_.hashCode();
     }
     if (secondaryDecl_ != null) {
       hashCode += constant * secondaryDecl_.hashCode();
@@ -145,12 +145,12 @@ public class StateImpl
   {
     State zedObject = null;
     try {
-      java.util.List decl = (java.util.List) args[0];
+      java.util.List primaryDecl = (java.util.List) args[0];
       java.util.List secondaryDecl = (java.util.List) args[1];
       net.sourceforge.czt.z.ast.Pred pred = (net.sourceforge.czt.z.ast.Pred) args[2];
       zedObject = new StateImpl();
-      if (decl != null) {
-        zedObject.getDecl().addAll(decl);
+      if (primaryDecl != null) {
+        zedObject.getPrimaryDecl().addAll(primaryDecl);
       }
       if (secondaryDecl != null) {
         zedObject.getSecondaryDecl().addAll(secondaryDecl);
@@ -168,17 +168,17 @@ public class StateImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getDecl(), getSecondaryDecl(), getPred() };
+    Object[] erg = { getPrimaryDecl(), getSecondaryDecl(), getPred() };
     return erg;
   }
 
 
-  private net.sourceforge.czt.base.ast.ListTerm decl_ =
+  private net.sourceforge.czt.base.ast.ListTerm primaryDecl_ =
     new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.Decl.class);
 
-  public net.sourceforge.czt.base.ast.ListTerm getDecl()
+  public net.sourceforge.czt.base.ast.ListTerm getPrimaryDecl()
   {
-    return decl_;
+    return primaryDecl_;
   }
 
 

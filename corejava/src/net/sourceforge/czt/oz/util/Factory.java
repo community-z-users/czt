@@ -198,29 +198,9 @@ public class Factory
    *
    * @return the new instance of ClassSignature.
    */
-  public ClassSignature createClassSignature(net.sourceforge.czt.z.ast.DeclName className, net.sourceforge.czt.z.ast.Signature state, java.util.List parentClass, java.util.List attribute, java.util.List operation, java.util.List visibility)
+  public ClassSignature createClassSignature(net.sourceforge.czt.z.ast.DeclName className, net.sourceforge.czt.z.ast.Signature primaryDecl, net.sourceforge.czt.z.ast.Signature secondaryDecl, java.util.List parentClass, java.util.List attribute, java.util.List operation, java.util.List visibility)
   {
-    return factory_.createClassSignature(className, state, parentClass, attribute, operation, visibility);
-  }
-
-  /**
-   * Creates an instance of {@link InheritedClass}.
-   *
-   * @return the new instance of InheritedClass.
-   */
-  public InheritedClass createInheritedClass()
-  {
-    return factory_.createInheritedClass();
-  }
-
-  /**
-   * Creates an instance of {@link InheritedClass} with the given children.
-   *
-   * @return the new instance of InheritedClass.
-   */
-  public InheritedClass createInheritedClass(net.sourceforge.czt.z.ast.RefExpr refExpr, java.util.List nameNamePair)
-  {
-    return factory_.createInheritedClass(refExpr, nameNamePair);
+    return factory_.createClassSignature(className, primaryDecl, secondaryDecl, parentClass, attribute, operation, visibility);
   }
 
   /**
@@ -298,9 +278,9 @@ public class Factory
    *
    * @return the new instance of State.
    */
-  public State createState(java.util.List decl, java.util.List secondaryDecl, net.sourceforge.czt.z.ast.Pred pred)
+  public State createState(java.util.List primaryDecl, java.util.List secondaryDecl, net.sourceforge.czt.z.ast.Pred pred)
   {
-    return factory_.createState(decl, secondaryDecl, pred);
+    return factory_.createState(primaryDecl, secondaryDecl, pred);
   }
 
   /**
@@ -318,9 +298,9 @@ public class Factory
    *
    * @return the new instance of OpPromotionExpr.
    */
-  public OpPromotionExpr createOpPromotionExpr(net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.z.ast.RefName opName)
+  public OpPromotionExpr createOpPromotionExpr(net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.z.ast.RefName name)
   {
-    return factory_.createOpPromotionExpr(expr, opName);
+    return factory_.createOpPromotionExpr(expr, name);
   }
 
   /**

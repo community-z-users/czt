@@ -53,19 +53,34 @@ public interface ClassSignature extends Term
   void setClassName(net.sourceforge.czt.z.ast.DeclName className);
 
   /**
-   * Returns the State element.
+   * Returns the PrimaryDecl element.
    *
-   * @return the State element.
+   * @return the PrimaryDecl element.
    */
-  net.sourceforge.czt.z.ast.Signature getState();
+  net.sourceforge.czt.z.ast.Signature getPrimaryDecl();
 
   /**
-   * Sets the State element.
+   * Sets the PrimaryDecl element.
    *
-   * @param state   the State element.
-   * @see #getState
+   * @param primaryDecl   the PrimaryDecl element.
+   * @see #getPrimaryDecl
    */
-  void setState(net.sourceforge.czt.z.ast.Signature state);
+  void setPrimaryDecl(net.sourceforge.czt.z.ast.Signature primaryDecl);
+
+  /**
+   * Returns the SecondaryDecl element.
+   *
+   * @return the SecondaryDecl element.
+   */
+  net.sourceforge.czt.z.ast.Signature getSecondaryDecl();
+
+  /**
+   * Sets the SecondaryDecl element.
+   *
+   * @param secondaryDecl   the SecondaryDecl element.
+   * @see #getSecondaryDecl
+   */
+  void setSecondaryDecl(net.sourceforge.czt.z.ast.Signature secondaryDecl);
 
   /**
    * <p>Returns the ParentClass elements.</p>
@@ -83,7 +98,7 @@ public interface ClassSignature extends Term
    * the List interface (that's why there is no need for a setter
    * method).</p>
    *
-   * @return a list of NameSignaturePair elements.
+   * @return a list of NameTypePair elements.
    */
   net.sourceforge.czt.base.ast.ListTerm getAttribute();
 
