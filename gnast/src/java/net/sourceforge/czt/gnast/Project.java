@@ -317,6 +317,9 @@ public class Project implements JProject
     generatePackageDescription(getAstPackage());
     generatePackageDescription(getImplPackage());
     generatePackageDescription(getVisitorPackage());
+    generatePackageDescription(getDomPackage());
+    // TODO: implement the following hack properly
+    generatePackageDescription(getBasePackage()+".jaxb");
     
     // ******************************
     // AstToJaxb, JaxbToAst
@@ -456,6 +459,11 @@ public class Project implements JProject
     return result;
   }
 
+  public String getBasePackage()
+  {
+    return mProperties.getProperty("BasePackage");
+  }
+
   /**
    * The name of the package where all the AST interfaces go in.
    *
@@ -464,7 +472,8 @@ public class Project implements JProject
    */
   public String getAstPackage()
   {
-    return mProperties.getProperty("BasePackage") + "."
+    return getBasePackage()
+      + "."
       + mProperties.getProperty("AstPackage");
   }
 
@@ -477,7 +486,8 @@ public class Project implements JProject
    */
   public String getImplPackage()
   {
-    return mProperties.getProperty("BasePackage") + "."
+    return getBasePackage()
+      + "."
       + mProperties.getProperty("ImplPackage");
   }
 
@@ -487,11 +497,27 @@ public class Project implements JProject
    *
    * @return the JAXB package name
    *         (should never be <code>null</code>).
+   * @czt.todo use JaxbGenPackage instead?
    */
   public String getJaxbPackage()
   {
-    return mProperties.getProperty("BasePackage") + "."
+    return getBasePackage()
+      + "."
       + mProperties.getProperty("JaxbPackage");
+  }
+
+  /**
+   * The name of the package where all the classes for
+   * DOM support go in.
+   *
+   * @return the DOM package name
+   *         (should never be <code>null</code>).
+   */
+  public String getDomPackage()
+  {
+    return getBasePackage()
+      + "."
+      + mProperties.getProperty("DomPackage");
   }
 
   /**
@@ -502,7 +528,8 @@ public class Project implements JProject
    */
   public String getVisitorPackage()
   {
-    return mProperties.getProperty("BasePackage") + "."
+    return getBasePackage()
+      + "."
       + mProperties.getProperty("VisitorPackage");
   }
 
