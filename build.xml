@@ -202,6 +202,11 @@
     </path>
     <pathconvert targetos="unix" property="zlive.unix" refid="zlive"/>
     <pathconvert targetos="windows" property="zlive.win" refid="zlive"/>
+    <path id="typechecker">
+      <pathelement location="${czt.jar.dir}/${typechecker.jar.file}"/>
+    </path>
+    <pathconvert targetos="unix" property="typechecker.unix" refid="typechecker"/>
+    <pathconvert targetos="windows" property="typechecker.win" refid="typechecker"/>
     <echo file="${unix.settings.file}" append="false">
 # corejava jar files
 COREJAVA=${corejava.unix}
@@ -226,6 +231,8 @@ Z2B=${z2b.unix}
 ZML2XHTML=${zml2xhtml.unix}
 # ZLive jar file
 ZLIVE=${zlive.unix}
+#TYPECHECKER
+TYPECHECKER=${typechecker.unix}
     </echo>
     <echo file="${windows.settings.file}" append="false">
 rem corejava jar files
@@ -252,6 +259,8 @@ rem ZML2XHTML translator jar file
 set ZML2XHTML=${zml2xhtml.win}
 rem zlive animator jar file
 set ZLIVE=${zlive.win}
+rem typechecker jar file
+set TYPECHECKER=${typechecker.win}
     </echo>
   </target>
 
@@ -259,6 +268,12 @@ set ZLIVE=${zlive.win}
     depends="install">
     <ant dir="corejava" target="test"/>
     <ant dir="parser" target="test"/>
+  </target>
+
+  <target name="changelog" description="generates a changelog report for the last 10 days">
+    <cvschangelog dir="."
+      destfile="changelog.xml"
+      daysinpast="10"/>
   </target>
 
   <target name="checkstyle" description="check java sources">
