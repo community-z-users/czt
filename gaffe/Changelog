@@ -17,6 +17,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
 
+22 Aug 2003 (2) -
+	- Retagged the commit from 13 Aug as milestone-1.
+	- Changed the Milestone Plan
+		- At this stage gaffe fakes interaction as far as is possible.  Until the animator is
+		  done, or at least its API is sorted out not much more can be done towards that.
+		- Will do some code tidying, improvement of interface, etc.  then work on interface
+		  generation, then on interaction with the animator.
+		- Animation history will now be in the first milestone that interacts with the 
+		  animator.  Because the design now shows interaction with the animator happening
+		  via the SolutionSet and History, so it would be easiest to do it with history.
+
 22 Aug 2003 -
 	- Added a PropertyEditor for Color.  (Picked up by PropertiesTable.PropertyCellEditor).
 	- Added TableCellRenderers for Color and Font.

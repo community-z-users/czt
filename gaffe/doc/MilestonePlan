@@ -17,52 +17,64 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 ================================================================================
 
-Milestone plan written at the start of 2003
+Milestone plan rewritten August 22 (between Milestone 1 and 2)
 
-Milestone 0 (by second half April)
+Milestones between 2 and 6 may be rearranged depending on whether the animator is ready earlier or 
+later.
+
+Milestone 0 
 -----------
  o Minimal Interface Builder
  o No function for saving
  o No interaction with animator
 
-Milestone 1 (by second half May)
+Milestone 1 
 -----------
  o Minimal Interface Builder
  o Able to save interfaces
  o No interaction with animator
 
-Milestone 2 (by first half July)
+Milestone 2
 -----------
- o Minimal Interface Builder
- o Able to save interfaces
- o Interacts with animator
+ o Minimal Interface Builder with saving
+ o No interaction with animator
+ o Tidied PropertiesWindow (both code and user interface)
+   * Editors and Renderers for Font, Color, Border, Icon
+   * Access to Bean's custom editor (if provided)
 
-Milestone 3 (by second half July)
+Milestone 3
 -----------
- o Minimal Interface Builder & Animator
- o With animation history
+ o + Simple interface generator (from ZML)
 
-Milestone 4 (by second half August)
+Milestone 4
 -----------
- o Interface Builder & Animator with history
- o Simple interface generator (from ZML)
+ o + Example specification(s) with corresponding interface(s) and fake back-end(s).
 
-Milestone 5 (by second half September)
+Milestone 5
 -----------
- o Interface Builder & Animator with history
- o Improved interface generator (from ZML) (?)
+ o + Improved interface generator (from ZML) (?)
 
-Milestone 6 (by second half October)
+Milestone 6
 -----------
- o Interface Builder/Animator/Generator with Animation history
- o Extra plugins
+ o + Interacts with animator (including history).
 
-Milestone 7 (by second half November)
+Milestone 7
+-----------
+ o Designer modified to use java.beans.EventHandler
+   * Allowing any bean to be the target of an event link
+ o Designer modified to use BeanContextChildComponentProxy when provided by a bean
+ o Designer modified so that Form's BeanContext provides BeanContextContainerProxy
+ o Tidying of designer's user interface
+
+Milestone 8
+-----------
+ o + Extra plugins
+   * Variants on History?
+   * New beans to add to the interface
+
+Milestone 9
 -----------
  o Any extra documentation needed
    * Maintainer
    * Plugin developer
    * User
-
-
-
