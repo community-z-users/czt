@@ -19,10 +19,10 @@ public class TypeEnv
   protected Stack typeInfo_ = null;
 
   /**
-   * True if and only if the top type environment is being used for
-   * unification
+   * The list of current generic parameters. Used for tracking the
+   * order of generic parameters for type unification
    */
-  protected boolean unification_ = false;
+  protected List parameters_ = null;
 
   public TypeEnv ()
   {
@@ -38,37 +38,28 @@ public class TypeEnv
 
   public TypeEnvAnn exitScope()
   {
+    parameters_ = null;
     return factory_.createTypeEnvAnn(pop());
   }
 
-  public void enterUnificationScope()
+  public void setParameters(List parameters)
   {
-    enterScope();
-    unification_ = true;
+    parameters_ = parameters;
   }
 
-  public void exitUnificationScope()
+  public List getParameters()
   {
-    exitScope();
-    unification_ = false;
+    return parameters_;
   }
 
   public void add(DeclName declName, Type type)
     throws TypeException
   {
     NameTypePair pair = getPair(declName);
+
     if (pair != null) {
-      if (!unification_) {
-        String message = "Redeclared name: " + SectTypeEnv.toString(declName);
-        throw new TypeException(ErrorKind.REDECLARATION, declName);
-      }
-      else {
-        if (!pair.getType().equals(type)) {
-	  String message = "Attempt to instantiate generic type " + 
-	    SectTypeEnv.toString(declName) + " more than once with different types!";
-	  throw new TypeException(ErrorKind.UNIFICATION_FAILED, declName, message);
-	}
-      }
+      String message = "Redeclared name: " + SectTypeEnv.toString(declName);
+      throw new TypeException(ErrorKind.REDECLARATION, declName, message);
     }
 
     NameTypePair nameTypePair = factory_.createNameTypePair(declName, type);
@@ -79,22 +70,25 @@ public class TypeEnv
    * Add a NameTypePair to this environment
    */
   public void add(NameTypePair nameTypePair)
+    throws TypeException
   {
-    peek().add(nameTypePair);
+    add(nameTypePair.getName(), nameTypePair.getType());
   }
 
   /**
    * Add a list of NameTypePair objects to this environment
    */
   public void add(List nameTypePairs)
+    throws TypeException
   {
     for (Iterator iter = nameTypePairs.iterator(); iter.hasNext(); ) {
       NameTypePair nameTypePair = (NameTypePair) iter.next();
-      peek().add(nameTypePair);
+      add(nameTypePair.getName(), nameTypePair.getType());
     }
   }
 
   public Type getType(Name name)
+    throws TypeException
   {
     Type result = UnknownTypeImpl.create();
 

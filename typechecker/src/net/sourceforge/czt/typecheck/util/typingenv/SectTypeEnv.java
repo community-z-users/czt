@@ -212,6 +212,29 @@ public class SectTypeEnv
   }
 
   /**
+   * Return the list of parameters in Name's annotation list
+   */
+  public List getParameters(Name name)
+  {
+    List result = null;
+
+    NameSectTypeTriple triple = getTriple(name);
+
+    if (triple != null) {
+      DeclName declName = triple.getName();
+
+      for (Iterator iter = declName.getAnns().iterator(); iter.hasNext(); ) {
+	Object next = iter.next();
+	if (next instanceof ParameterAnn) {
+	  result = (List) ((ParameterAnn) next).getParameters();
+	}
+      }
+    }
+
+    return result;
+  }
+
+  /**
    * For testing purposes
    */
   public void dump()
@@ -277,7 +300,7 @@ public class SectTypeEnv
     }
     else if (type instanceof PowerType) {
       PowerType powerType = (PowerType) type;
-      result += "power (";
+      result += "P (";
       result += toString(powerType.getType());
       result += ")";
     }
@@ -294,17 +317,15 @@ public class SectTypeEnv
     else if (type instanceof ProdType) {
       ProdType prodType = (ProdType) type;
       List list = prodType.getType();
-      result += "(";
       for (int i = 0; i < list.size() - 1; i++) {
 	Type next = (Type) list.get(i);
-	result += toString(next) + " cross ";
+	result += toString(next) + " x ";
       }
       result += toString((Type) list.get(list.size() - 1));
-      result += ")";
     }
     else if (type instanceof SchemaType) {
       SchemaType schemaType = (SchemaType) type;
-      result += "schema (";
+      result += "[";
       List list = schemaType.getSignature().getNameTypePair();
       if (list.size() > 0) {
 	for (int i = 0; i < list.size() - 1; i++) {
@@ -317,7 +338,7 @@ public class SectTypeEnv
 	result += toString(pair.getName()) + " : " +
 	  toString(pair.getType());
       }
-      result += ")";
+      result += "]";
     }
     else if (type instanceof UnknownType) {
       result += "unknown";

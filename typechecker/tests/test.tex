@@ -83,7 +83,7 @@ to references to these declarations (see 12.2.6.9).
 
 \begin{gendef}[X, Y]
   numExprSet : \{1,2,3\}\\
-  setCompExpr : \power \{ x, y : \nat \}\\
+  setCompExpr : \power \{ zippy, wonky : \nat \}\\
   setCompWithExpr : \{ x, y : \nat ; gen : X @ ((y, gen).1, (y, gen).2)\}\\
   setCompNoExpr1 : \{ x : \nat \}\\
   setCompNoExprMany : \{ x : \nat; gen : Y \}\\
@@ -240,7 +240,7 @@ X \pinj Y == \{~ f : X \rel Y | \forall p, q : f @ p.1 = q.1 \iff p.2 = q.2 ~\}
 \begin{zed}
 X \inj Y == ( X \pinj Y ) \cap ( X \fun Y )
 \end{zed}
-
+/*
 \begin{zed}
   capTest == \nat \cap \nat
 \end{zed}
@@ -251,4 +251,50 @@ X \inj Y == ( X \pinj Y ) \cap ( X \fun Y )
 
 \begin{zed}
   GENPRE ~ X == \power X
+\end{zed}
+
+\begin{zed}
+  muExprTrans == ( \mu n, m : \nat)\\
+  decoratedT == (T)?!??\\
+  thetaExpr == \theta T\\
+  renameExpr == T [ newt / t, newu / u ]
+\end{zed}
+
+\begin{zed}
+  bindExpr == \lblot a == 1, t == 2, u == 3, v == \{ 1,2,3 \} \rblot\\
+  bindSelExpr == bindExpr.v\\
+  bindSelExprTheta == (\theta T).t
+\end{zed}
+*/
+
+\begin{zed}
+  \generic 20 \rightassoc ( \_ ~ infixOp1 ~ \_)
+\end{zed}
+
+\begin{zed}
+  X ~ infixOp1 ~ Y == (\power X) \cross X \cross Y
+\end{zed}
+
+\begin{zed}
+  usingInfixOp1 == \nat ~ infixOp1 ~ \nat
+\end{zed}
+
+\begin{gendef}[X,Y]
+  powernat == \power \nat
+\end{gendef}
+
+\begin{zed}
+  usingpowernat == powernat \cross powernat
+\end{zed}
+
+\begin{zed}
+\generic (\id ~\_)
+\end{zed}
+
+\begin{zed}
+\id ~ X == \{~ x : X @ (x, x) ~\}
+\end{zed}
+
+\begin{zed}
+  myIdTest == \id ~ \nat\\
 \end{zed}
