@@ -57,8 +57,8 @@ public interface OzVisitor
     net.sourceforge.czt.oz.visitor.DistSeqOpExprVisitor,
     net.sourceforge.czt.oz.visitor.ScopeEnrichOpExprVisitor,
     net.sourceforge.czt.oz.visitor.SecondaryAttributesVisitor,
-    net.sourceforge.czt.oz.visitor.ExChoiceOpExprVisitor,
     net.sourceforge.czt.oz.visitor.RenameOpExprVisitor,
+    net.sourceforge.czt.oz.visitor.ExChoiceOpExprVisitor,
     net.sourceforge.czt.oz.visitor.ParallelOpExprVisitor,
     net.sourceforge.czt.oz.visitor.FormalParametersVisitor,
     net.sourceforge.czt.util.Visitor

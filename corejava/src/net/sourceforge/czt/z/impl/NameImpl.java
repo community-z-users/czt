@@ -40,17 +40,9 @@ import net.sourceforge.czt.z.visitor.NameVisitor;
  *
  * @author Gnast version 0.1
  */
-public class NameImpl
+public abstract class NameImpl
 extends TermAImpl implements Name
 {
-  /**
-   * The default constructor.
-   *
-   * Do not use it explicitly, unless you are extending this class.
-   * If you want to create an instance of this class, please use the
-   * {@link ZFactory object factory}.
-   */
-  protected NameImpl() { }
 
   /**
    * Compares the specified object with this NameImpl
@@ -112,32 +104,6 @@ extends TermAImpl implements Name
     return super.accept(v);
   }
 
-  /**
-   * Returns a new object of this class.
-   */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
-    Name zedObject = null;
-    try {
-      String word = (String) args[0];
-      java.util.List stroke = (java.util.List) args[1];
-      zedObject = new NameImpl();
-      zedObject.setWord(word);
-      if(stroke != null) {
-        zedObject.getStroke().addAll(stroke);
-      }
-    } catch (IndexOutOfBoundsException e) {
-      throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
-      throw new IllegalArgumentException();
-    }
-    return zedObject;
-  }
-
-  public Object[] getChildren()
-  {
-    Object[] erg = { getWord(), getStroke() };
-    return erg;
-  }
 
   private String mWord;
 

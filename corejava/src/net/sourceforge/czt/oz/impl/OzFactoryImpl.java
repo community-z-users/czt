@@ -279,11 +279,11 @@ public class OzFactoryImpl
     return zedObject;
   }
 
-  public Operation createOperation(net.sourceforge.czt.z.ast.DeclName name, net.sourceforge.czt.base.ast.TermA operandBoxOrExpr)
+  public Operation createOperation(net.sourceforge.czt.z.ast.DeclName name, OperationBoxExpr operationBoxExpr)
   {
     Operation zedObject = createOperation();
     zedObject.setName(name);
-    zedObject.setOperandBoxOrExpr(operandBoxOrExpr);
+    zedObject.setOperationBoxExpr(operationBoxExpr);
     return zedObject;
   }
 
@@ -375,20 +375,6 @@ public class OzFactoryImpl
     return zedObject;
   }
 
-  public ExChoiceOpExpr createExChoiceOpExpr()
-  {
-    ExChoiceOpExpr zedObject = new ExChoiceOpExprImpl();
-    return zedObject;
-  }
-
-  public ExChoiceOpExpr createExChoiceOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr)
-  {
-    ExChoiceOpExpr zedObject = createExChoiceOpExpr();
-    zedObject.setLeftOperationExpr(leftOperationExpr);
-    zedObject.setRightOperationExpr(rightOperationExpr);
-    return zedObject;
-  }
-
   public RenameOpExpr createRenameOpExpr()
   {
     RenameOpExpr zedObject = new RenameOpExprImpl();
@@ -400,6 +386,20 @@ public class OzFactoryImpl
     RenameOpExpr zedObject = createRenameOpExpr();
     zedObject.setOperationExpr(operationExpr);
     zedObject.setRenameList(renameList);
+    return zedObject;
+  }
+
+  public ExChoiceOpExpr createExChoiceOpExpr()
+  {
+    ExChoiceOpExpr zedObject = new ExChoiceOpExprImpl();
+    return zedObject;
+  }
+
+  public ExChoiceOpExpr createExChoiceOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr)
+  {
+    ExChoiceOpExpr zedObject = createExChoiceOpExpr();
+    zedObject.setLeftOperationExpr(leftOperationExpr);
+    zedObject.setRightOperationExpr(rightOperationExpr);
     return zedObject;
   }
 

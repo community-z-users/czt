@@ -436,9 +436,9 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     getLogger().entering("JaxbToAst", "visitOperation", jaxbObject);
     net.sourceforge.czt.z.ast.DeclName name =
       (net.sourceforge.czt.z.ast.DeclName) dispatch(jaxbObject.getName());
-    net.sourceforge.czt.base.ast.TermA operandBoxOrExpr =
-      (net.sourceforge.czt.base.ast.TermA) dispatch(jaxbObject.getOperandBoxOrExpr());
-    Operation erg = mOzFactory_.createOperation(name, operandBoxOrExpr);
+    OperationBoxExpr operationBoxExpr =
+      (OperationBoxExpr) dispatch(jaxbObject.getOperationBoxExpr());
+    Operation erg = mOzFactory_.createOperation(name, operationBoxExpr);
     if (jaxbObject.getAnns() != null &&
 	jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
@@ -589,27 +589,6 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     return erg;
   }
 
-  public Object visitExChoiceOpExpr(net.sourceforge.czt.oz.jaxb.gen.ExChoiceOpExpr jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitExChoiceOpExpr", jaxbObject);
-    OperationExpr leftOperationExpr =
-      (OperationExpr) dispatch(jaxbObject.getLeftOperationExpr());
-    OperationExpr rightOperationExpr =
-      (OperationExpr) dispatch(jaxbObject.getRightOperationExpr());
-    ExChoiceOpExpr erg = mOzFactory_.createExChoiceOpExpr(leftOperationExpr, rightOperationExpr);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitExChoiceOpExpr", erg);
-    return erg;
-  }
-
   public Object visitRenameOpExpr(net.sourceforge.czt.oz.jaxb.gen.RenameOpExpr jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitRenameOpExpr", jaxbObject);
@@ -628,6 +607,27 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
       }
     }
     getLogger().exiting("JaxbToAst", "visitRenameOpExpr", erg);
+    return erg;
+  }
+
+  public Object visitExChoiceOpExpr(net.sourceforge.czt.oz.jaxb.gen.ExChoiceOpExpr jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitExChoiceOpExpr", jaxbObject);
+    OperationExpr leftOperationExpr =
+      (OperationExpr) dispatch(jaxbObject.getLeftOperationExpr());
+    OperationExpr rightOperationExpr =
+      (OperationExpr) dispatch(jaxbObject.getRightOperationExpr());
+    ExChoiceOpExpr erg = mOzFactory_.createExChoiceOpExpr(leftOperationExpr, rightOperationExpr);
+    if (jaxbObject.getAnns() != null &&
+	jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+	Object obj = iter.next();
+	Object o = dispatch(obj);
+	annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitExChoiceOpExpr", erg);
     return erg;
   }
 

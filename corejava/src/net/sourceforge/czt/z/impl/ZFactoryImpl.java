@@ -393,22 +393,6 @@ public class ZFactoryImpl
     return zedObject;
   }
 
-  public Name createName()
-  {
-    Name zedObject = new NameImpl();
-    return zedObject;
-  }
-
-  public Name createName(String word, java.util.List stroke)
-  {
-    Name zedObject = createName();
-    zedObject.setWord(word);
-    if(stroke != null) {
-      zedObject.getStroke().addAll(stroke);
-    }
-    return zedObject;
-  }
-
   public NumExpr createNumExpr()
   {
     NumExpr zedObject = new NumExprImpl();

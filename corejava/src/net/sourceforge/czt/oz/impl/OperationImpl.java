@@ -71,10 +71,10 @@ extends TermAImpl implements Operation
          ! mName.equals(object.mName))) return false;
       if(mName == null && object.mName != null)
         return false;
-      if((mOperandBoxOrExpr == null && object.mOperandBoxOrExpr != null) ||
-         (mOperandBoxOrExpr != null &&
-         ! mOperandBoxOrExpr.equals(object.mOperandBoxOrExpr))) return false;
-      if(mOperandBoxOrExpr == null && object.mOperandBoxOrExpr != null)
+      if((mOperationBoxExpr == null && object.mOperationBoxExpr != null) ||
+         (mOperationBoxExpr != null &&
+         ! mOperationBoxExpr.equals(object.mOperationBoxExpr))) return false;
+      if(mOperationBoxExpr == null && object.mOperationBoxExpr != null)
         return false;
       return true;
     }
@@ -95,8 +95,8 @@ extends TermAImpl implements Operation
     if(mName != null) {
       hashCode += 31*mName.hashCode();
     }
-    if(mOperandBoxOrExpr != null) {
-      hashCode += 31*mOperandBoxOrExpr.hashCode();
+    if(mOperationBoxExpr != null) {
+      hashCode += 31*mOperationBoxExpr.hashCode();
     }
     return hashCode;
   }
@@ -121,10 +121,10 @@ extends TermAImpl implements Operation
     Operation zedObject = null;
     try {
       net.sourceforge.czt.z.ast.DeclName name = (net.sourceforge.czt.z.ast.DeclName) args[0];
-      net.sourceforge.czt.base.ast.TermA operandBoxOrExpr = (net.sourceforge.czt.base.ast.TermA) args[1];
+      OperationBoxExpr operationBoxExpr = (OperationBoxExpr) args[1];
       zedObject = new OperationImpl();
       zedObject.setName(name);
-      zedObject.setOperandBoxOrExpr(operandBoxOrExpr);
+      zedObject.setOperationBoxExpr(operationBoxExpr);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
@@ -135,7 +135,7 @@ extends TermAImpl implements Operation
 
   public Object[] getChildren()
   {
-    Object[] erg = { getName(), getOperandBoxOrExpr() };
+    Object[] erg = { getName(), getOperationBoxExpr() };
     return erg;
   }
 
@@ -151,15 +151,15 @@ extends TermAImpl implements Operation
     mName = name;
   }
 
-  private net.sourceforge.czt.base.ast.TermA mOperandBoxOrExpr;
+  private OperationBoxExpr mOperationBoxExpr;
 
-  public net.sourceforge.czt.base.ast.TermA getOperandBoxOrExpr()
+  public OperationBoxExpr getOperationBoxExpr()
   {
-    return mOperandBoxOrExpr;
+    return mOperationBoxExpr;
   }
 
-  public void setOperandBoxOrExpr(net.sourceforge.czt.base.ast.TermA operandBoxOrExpr)
+  public void setOperationBoxExpr(OperationBoxExpr operationBoxExpr)
   {
-    mOperandBoxOrExpr = operandBoxOrExpr;
+    mOperationBoxExpr = operationBoxExpr;
   }
 }

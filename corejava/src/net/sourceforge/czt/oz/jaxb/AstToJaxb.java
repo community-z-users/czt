@@ -63,7 +63,8 @@ public class AstToJaxb
 
   public Object visitTerm(net.sourceforge.czt.base.ast.Term zedObject)
   {
-    throw(new UnsupportedOperationException());
+    throw(new UnsupportedOperationException("Unexpected element "
+                                            + zedObject.getClass().getName()));
   }
 
 
@@ -307,7 +308,7 @@ public class AstToJaxb
         java.util.List newlist = jaxbObject.getName();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-          createElement_ = true;
+          createElement_ = false;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -718,8 +719,8 @@ public class AstToJaxb
         jaxbObject.setName((DeclName) zedObject.getName().accept(this));
       }
       createElement_ = true;
-      if (zedObject.getOperandBoxOrExpr()!=null) {
-        jaxbObject.setOperandBoxOrExpr((TermA) zedObject.getOperandBoxOrExpr().accept(this));
+      if (zedObject.getOperationBoxExpr()!=null) {
+        jaxbObject.setOperationBoxExpr((OperationBoxExpr) zedObject.getOperationBoxExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
     if (zedObject.getAnns() != null) {
@@ -981,43 +982,6 @@ public class AstToJaxb
     return jaxbObject;
   }
 
-  public Object visitExChoiceOpExpr(net.sourceforge.czt.oz.ast.ExChoiceOpExpr zedObject)
-  {
-    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitExChoiceOpExpr", zedObject);
-
-    ExChoiceOpExpr jaxbObject = null;
-    try {
-      jaxbObject = mObjectFactory.createExChoiceOpExpr();
-      createElement_ = true;
-      if (zedObject.getLeftOperationExpr()!=null) {
-        jaxbObject.setLeftOperationExpr((OperationExpr) zedObject.getLeftOperationExpr().accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getRightOperationExpr()!=null) {
-        jaxbObject.setRightOperationExpr((OperationExpr) zedObject.getRightOperationExpr().accept(this));
-      }
-    } catch(Exception e) { e.printStackTrace(); }
-    if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
-      }
-    }
-
-    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitExChoiceOpExpr", jaxbObject);
-    return jaxbObject;
-  }
-
   public Object visitRenameOpExpr(net.sourceforge.czt.oz.ast.RenameOpExpr zedObject)
   {
     sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitRenameOpExpr", zedObject);
@@ -1053,6 +1017,43 @@ public class AstToJaxb
     }
 
     sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitRenameOpExpr", jaxbObject);
+    return jaxbObject;
+  }
+
+  public Object visitExChoiceOpExpr(net.sourceforge.czt.oz.ast.ExChoiceOpExpr zedObject)
+  {
+    sLogger.entering("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitExChoiceOpExpr", zedObject);
+
+    ExChoiceOpExpr jaxbObject = null;
+    try {
+      jaxbObject = mObjectFactory.createExChoiceOpExpr();
+      createElement_ = true;
+      if (zedObject.getLeftOperationExpr()!=null) {
+        jaxbObject.setLeftOperationExpr((OperationExpr) zedObject.getLeftOperationExpr().accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getRightOperationExpr()!=null) {
+        jaxbObject.setRightOperationExpr((OperationExpr) zedObject.getRightOperationExpr().accept(this));
+      }
+    } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+			   mAnnsObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
+
+    sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitExChoiceOpExpr", jaxbObject);
     return jaxbObject;
   }
 

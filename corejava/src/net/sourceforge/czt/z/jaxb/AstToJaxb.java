@@ -987,50 +987,6 @@ public class AstToJaxb
     return jaxbObject;
   }
 
-  public Object visitName(net.sourceforge.czt.z.ast.Name zedObject)
-  {
-    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitName", zedObject);
-
-    Name jaxbObject = null;
-    try {
-      jaxbObject = mObjectFactory.createNameElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createName();
-      createElement_ = false;
-      if (zedObject.getWord()!=null) {
-        jaxbObject.setWord(zedObject.getWord());
-      }
-      {
-        java.util.List list = zedObject.getStroke();
-        java.util.List newlist = jaxbObject.getStroke();
-        for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-          createElement_ = true;
-          java.lang.Object o = term.accept(this);
-	  newlist.add(o);
-        }
-      }
-    } catch(Exception e) { e.printStackTrace(); }
-    if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
-      }
-    }
-
-    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitName", jaxbObject);
-    return jaxbObject;
-  }
-
   public Object visitNumExpr(net.sourceforge.czt.z.ast.NumExpr zedObject)
   {
     sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitNumExpr", zedObject);

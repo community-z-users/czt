@@ -357,6 +357,11 @@ public class AstToDom extends net.sourceforge.czt.z.dom.AstToDom implements OzVi
     return elem;
   }
 
+  public Object visitOperationBoxExpr(OperationBoxExpr zedObject)
+  {
+    throw(new UnsupportedOperationException());
+  }
+
   public Object visitAssoParallelOpExpr(AssoParallelOpExpr zedObject)
   {
     sLogger.entering("dom.AstToDom", "visitAssoParallelOpExpr", zedObject);
@@ -590,8 +595,8 @@ public class AstToDom extends net.sourceforge.czt.z.dom.AstToDom implements OzVi
       if (zedObject.getName()!=null) {
         elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getName()).accept(this));
       }
-      if (zedObject.getOperandBoxOrExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getOperandBoxOrExpr()).accept(this));
+      if (zedObject.getOperationBoxExpr()!=null) {
+        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getOperationBoxExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -796,36 +801,6 @@ public class AstToDom extends net.sourceforge.czt.z.dom.AstToDom implements OzVi
     return elem;
   }
 
-  public Object visitExChoiceOpExpr(ExChoiceOpExpr zedObject)
-  {
-    sLogger.entering("dom.AstToDom", "visitExChoiceOpExpr", zedObject);
-    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "ExChoiceOpExpr");
-    try {
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
-      }
-      if (zedObject.getLeftOperationExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftOperationExpr()).accept(this));
-      }
-      if (zedObject.getRightOperationExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightOperationExpr()).accept(this));
-      }
-    } catch(Exception e) { e.printStackTrace(); }
-
-    sLogger.exiting("dom.AstToDom", "visitExChoiceOpExpr", elem);
-    return elem;
-  }
-
   public Object visitRenameOpExpr(RenameOpExpr zedObject)
   {
     sLogger.entering("dom.AstToDom", "visitRenameOpExpr", zedObject);
@@ -853,6 +828,36 @@ public class AstToDom extends net.sourceforge.czt.z.dom.AstToDom implements OzVi
     } catch(Exception e) { e.printStackTrace(); }
 
     sLogger.exiting("dom.AstToDom", "visitRenameOpExpr", elem);
+    return elem;
+  }
+
+  public Object visitExChoiceOpExpr(ExChoiceOpExpr zedObject)
+  {
+    sLogger.entering("dom.AstToDom", "visitExChoiceOpExpr", zedObject);
+    Element elem = getDocument().createElementNS("http://czt.sourceforge.net/zml", "ExChoiceOpExpr");
+    try {
+      if(zedObject.getAnns().size() > 0) {
+	Node anns = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Anns");
+	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
+	  Object o = iter.next();
+	  if (o instanceof net.sourceforge.czt.base.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
+	    anns.appendChild(node);
+	  } else {
+	    anns.appendChild(getDocument().createTextNode(o.toString()));
+	  }
+	}
+	elem.appendChild(anns);
+      }
+      if (zedObject.getLeftOperationExpr()!=null) {
+        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftOperationExpr()).accept(this));
+      }
+      if (zedObject.getRightOperationExpr()!=null) {
+        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightOperationExpr()).accept(this));
+      }
+    } catch(Exception e) { e.printStackTrace(); }
+
+    sLogger.exiting("dom.AstToDom", "visitExChoiceOpExpr", elem);
     return elem;
   }
 

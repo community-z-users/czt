@@ -31,7 +31,7 @@ import net.sourceforge.czt.z.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface OperationBox extends TermA
+public interface OperationBox extends OperationBoxExpr
 {
 
   /**

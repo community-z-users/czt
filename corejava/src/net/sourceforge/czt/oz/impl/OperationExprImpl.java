@@ -43,7 +43,7 @@ import net.sourceforge.czt.oz.visitor.OperationExprVisitor;
  * @author Gnast version 0.1
  */
 public abstract class OperationExprImpl
-extends TermAImpl implements OperationExpr
+extends OperationBoxExprImpl implements OperationExpr
 {
 
   /**

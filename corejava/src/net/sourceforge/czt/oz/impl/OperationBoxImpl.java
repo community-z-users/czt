@@ -43,7 +43,7 @@ import net.sourceforge.czt.oz.visitor.OperationBoxVisitor;
  * @author Gnast version 0.1
  */
 public class OperationBoxImpl
-extends TermAImpl implements OperationBox
+extends OperationBoxExprImpl implements OperationBox
 {
   /**
    * The default constructor.

@@ -592,31 +592,6 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitName(net.sourceforge.czt.z.jaxb.gen.Name jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitName", jaxbObject);
-    String word =
-      (String) dispatch(jaxbObject.getWord());
-    java.util.List stroke = new java.util.Vector();
-    for(Iterator iter=jaxbObject.getStroke().iterator(); iter.hasNext();) {
-      Object obj = iter.next();
-      Object o = dispatch(obj);
-      stroke.add(o);
-    }
-    Name erg = mZFactory_.createName(word, stroke);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitName", erg);
-    return erg;
-  }
-
   public Object visitNumExpr(net.sourceforge.czt.z.jaxb.gen.NumExpr jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitNumExpr", jaxbObject);

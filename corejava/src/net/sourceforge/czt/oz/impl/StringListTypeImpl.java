@@ -131,7 +131,7 @@ extends TermAImpl implements StringListType
     return erg;
   }
 
-  private java.util.List mName = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.Name.class);
+  private java.util.List mName = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.RefName.class);
 
   public java.util.List getName()
   {

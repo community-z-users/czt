@@ -378,20 +378,6 @@ public interface ZFactory
     public TruePred createTruePred();
 
     /**
-     * Creates an instance of {@link Name}.
-     *
-     * @return the new instance of Name.
-     */
-    public Name createName();
-
-    /**
-     * Creates an instance of {@link Name} with the given children.
-     *
-     * @return the new instance of Name.
-     */
-    public Name createName(String word, java.util.List stroke);
-
-    /**
      * Creates an instance of {@link NumExpr}.
      *
      * @return the new instance of NumExpr.

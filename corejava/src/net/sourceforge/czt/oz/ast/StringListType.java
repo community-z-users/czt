@@ -40,7 +40,7 @@ public interface StringListType extends TermA
    * the List interface (that's why there is no need for a setter
    * method).</p>
    *
-   * @return a list of Name elements.
+   * @return a list of RefName elements.
    */
   public java.util.List getName();
 }

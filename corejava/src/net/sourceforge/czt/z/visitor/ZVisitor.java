@@ -60,7 +60,6 @@ public interface ZVisitor
     net.sourceforge.czt.z.visitor.ForallExprVisitor,
     net.sourceforge.czt.z.visitor.NarrParaVisitor,
     net.sourceforge.czt.z.visitor.TruePredVisitor,
-    net.sourceforge.czt.z.visitor.NameVisitor,
     net.sourceforge.czt.z.visitor.NumExprVisitor,
     net.sourceforge.czt.z.visitor.NameExprPairVisitor,
     net.sourceforge.czt.z.visitor.TupleSelExprVisitor,

@@ -270,7 +270,7 @@ public interface OzFactory
      *
      * @return the new instance of Operation.
      */
-    public Operation createOperation(net.sourceforge.czt.z.ast.DeclName name, net.sourceforge.czt.base.ast.TermA operandBoxOrExpr);
+    public Operation createOperation(net.sourceforge.czt.z.ast.DeclName name, OperationBoxExpr operationBoxExpr);
 
     /**
      * Creates an instance of {@link LocalDef}.
@@ -350,20 +350,6 @@ public interface OzFactory
     public SecondaryAttributes createSecondaryAttributes();
 
     /**
-     * Creates an instance of {@link ExChoiceOpExpr}.
-     *
-     * @return the new instance of ExChoiceOpExpr.
-     */
-    public ExChoiceOpExpr createExChoiceOpExpr();
-
-    /**
-     * Creates an instance of {@link ExChoiceOpExpr} with the given children.
-     *
-     * @return the new instance of ExChoiceOpExpr.
-     */
-    public ExChoiceOpExpr createExChoiceOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr);
-
-    /**
      * Creates an instance of {@link RenameOpExpr}.
      *
      * @return the new instance of RenameOpExpr.
@@ -376,6 +362,20 @@ public interface OzFactory
      * @return the new instance of RenameOpExpr.
      */
     public RenameOpExpr createRenameOpExpr(OperationExpr operationExpr, RenameList renameList);
+
+    /**
+     * Creates an instance of {@link ExChoiceOpExpr}.
+     *
+     * @return the new instance of ExChoiceOpExpr.
+     */
+    public ExChoiceOpExpr createExChoiceOpExpr();
+
+    /**
+     * Creates an instance of {@link ExChoiceOpExpr} with the given children.
+     *
+     * @return the new instance of ExChoiceOpExpr.
+     */
+    public ExChoiceOpExpr createExChoiceOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr);
 
     /**
      * Creates an instance of {@link ParallelOpExpr}.
