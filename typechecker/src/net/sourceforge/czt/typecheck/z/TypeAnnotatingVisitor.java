@@ -2,6 +2,8 @@ package net.sourceforge.czt.typecheck.z;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.io.StringWriter;
 
@@ -96,9 +98,6 @@ public class TypeAnnotatingVisitor
   //the UnificationEnv for recording unified generic types
   protected UnificationEnv unificationEnv_;
 
-  //for storing the name of the current section
-  protected String section_;
-
   //true if and only if the current SchText should add
   //its declarations as global
   protected boolean global_ = false;
@@ -116,7 +115,6 @@ public class TypeAnnotatingVisitor
     sectTypeEnv_ = sectTypeEnv;
     typeEnv_ = new TypeEnv();
     unificationEnv_ = new UnificationEnv();
-    section_ = null;
   }
 
   public Object visitSpec(Spec spec)
@@ -132,7 +130,7 @@ public class TypeAnnotatingVisitor
     }
 
     sectTypeEnv_.dump();
-    return null;
+    return sectTypeEnv_;
   }
 
   public Object visitZSect(ZSect zSect)
@@ -163,7 +161,12 @@ public class TypeAnnotatingVisitor
     debug("parent: " + parent.getWord());
     sectTypeEnv_.addParent(parent.getWord());
 
-
+    //get the types of the parent... this should be updated once the
+    //session manager is finalised
+    Term term = (Term) manager_.getAst(parent.getWord());
+    String section = sectTypeEnv_.getSection();
+    term.accept(this);
+    sectTypeEnv_.setSection(section);
     return null;
   }
 

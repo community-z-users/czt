@@ -59,7 +59,7 @@ public class UnificationEnv
 
   public Type getType(Name genName)
   {
-    Type result = null;
+    Type result = UnknownTypeImpl.create();
 
     for (Iterator iter = peek().iterator(); iter.hasNext(); ) {
       NameTypePair pair = (NameTypePair) iter.next();
@@ -83,7 +83,7 @@ public class UnificationEnv
     boolean result = true;
     Type storedType = getType(name);
 
-    if (storedType != null) {
+    if (!(storedType instanceof UnknownType)) {
       if (storedType instanceof PowerType && type instanceof PowerType) {
 	PowerType powerType1 = (PowerType) storedType;
 	PowerType powerType2 = (PowerType) type;

@@ -1054,7 +1054,6 @@ public class TypeChecker
     }
   }
 
-
   //converts a Term to a string
   //used for debugging only
   protected String format(Term term)

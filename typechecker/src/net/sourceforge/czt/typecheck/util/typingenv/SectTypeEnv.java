@@ -25,7 +25,7 @@ public class SectTypeEnv
   /** a ZFactory */
   protected static ZFactory factory_ = null;
 
-  /** the list of all NameSectTypeTriples checked so far */
+  /** the list of all NameSectTypeTriples add so far */
   protected List typeInfo_ = null;
 
   /** the current section */
@@ -50,8 +50,7 @@ public class SectTypeEnv
    */
   public void setSection(String section)
   {
-    endSection();
-    visibleSections_.add(PRELUDE);
+    //    visibleSections_.add(PRELUDE);
     visibleSections_.add(section);
     section_ = section;
   }
@@ -62,6 +61,23 @@ public class SectTypeEnv
   public String getSection()
   {
     return section_;
+  }
+
+  /**
+   * Set the visible sections
+   * @param visibleSections the new visible sections
+   */
+  public void setVisibleSections(Set visibleSections)
+  {
+    visibleSections_ = visibleSections;
+  }
+
+  /**
+   * @return the visible sections
+   */
+  public Set getVisibleSections()
+  {
+    return visibleSections_;
   }
 
   /**
@@ -129,7 +145,10 @@ public class SectTypeEnv
     }
   }
 
-  public void checkAndAdd(SectTypeEnvAnn ann){}
+  public List getNameSectTypeTriple()
+  {
+    return typeInfo_;
+  }
 
   public SectTypeEnvAnn getSectTypeEnvAnn()
   {
@@ -257,8 +276,8 @@ public class SectTypeEnv
       //for each direct parent, get the transitive parents
       for (Iterator iter = parents.iterator(); iter.hasNext(); ) {
         String parent = (String) iter.next();
-        Set transitiveParents = getTransitiveParents(parent);
-        result.addAll(transitiveParents);
+	Set transitiveParents = getTransitiveParents(parent);
+	result.addAll(transitiveParents);
       }
     }
     return result;
