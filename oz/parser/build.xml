@@ -20,7 +20,6 @@
                      jwsdp-shared/lib/xsdlib.jar"/>
     <pathelement path="${build.dir}"/>
     <pathelement path="${javacup.home}"/>
-    <pathelement path="${jflex.home}/lib/JFlex.jar"/>
     <fileset dir="${czt.lib}">
       <include name="*.jar"/>
     </fileset>

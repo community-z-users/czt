@@ -7,6 +7,11 @@ parser. I'll write a better readme at a further date.
 
 To compile, just type 'ant', unless you are using a version of JavaCup < 
 1.0k. In that case, run './cup.sh' followed by 'ant code'.
+Make sure that ant is in your search path, JFlex.jar 
+has been copied to <ANT_HOME>/lib/ directory
+(as described in <JFLEX_HOME>/doc/jflex_anttask.html)
+and the properties in <CZT_HOME>/czt.properties are set
+to the correct paths for your system.
 
 To run a specification, type './run.sh file'. This will parse the
 toolkits (number, sequence, object-z toolkits etc.) and then parse the
