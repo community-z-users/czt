@@ -48,6 +48,15 @@ public final class Examples
     return result;
   }
 
+  public static URL getOzExample(String name)
+  {
+    URL result = examples_.getClass().getResource("/examples/oz/" + name);
+    if (result == null) {
+      throw new CztException("Cannot find example " + name);
+    }
+    return result;
+  }
+
   public static URL getTestExample(String name)
   {
     URL result = examples_.getClass().getResource("/tests/z/" + name);
