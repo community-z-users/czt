@@ -33,6 +33,10 @@ import java_cup.runtime.*;
 <add:oz>
 import net.sourceforge.czt.oz.util.OzString;
 </add:oz>
+<add:tcoz>
+import net.sourceforge.czt.tcoz.util.TCOZString;
+</add:tcoz>
+
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.parser.util.LatexCommand;
@@ -577,6 +581,13 @@ NAME =   {NOT_LB}*
           assert ! addSpace_;
           return result(ZString.GENAX);
         }
+  "\\begin" {IGNORE}* "{op}"
+ 	{
+ 	 yybegin(ZED);
+ 	 assert ! addSpace_;
+	 braceToSpace_ = true;
+	 return result(ZString.SCH);
+        }
   "\\begin" {IGNORE}* "{schema}"
         {
           yybegin(ZED);
@@ -597,7 +608,7 @@ NAME =   {NOT_LB}*
           String result = addSpace();
           return result(result + ZString.END);
         }
-  "\\end" {IGNORE}* ("{state}"|"{init}")
+  "\\end" {IGNORE}* ("{state}"|"{init}"|"{op}")
         {
           String result = addSpace();
           return result(result + ZString.END);
