@@ -56,6 +56,11 @@ Have a look in the examples directory.  Here is a short overview:
 				  be debuged
 	marshal			- marshalling to XML (into a file
 				  or to stdout)
+	object-z                - marshalling and unmarshalling
+                                  object Z specifications
+                                  (shows what kind of errors are to be
+                                  expected when the
+                                  wrong reader or writer is used)
 	substitutionVisitor 	- an example of a visitor;
 		learn how you can write your own visitor for the AST
 		classes and perform some kind of substitution
@@ -63,6 +68,9 @@ Have a look in the examples directory.  Here is a short overview:
 
 Read the API documentation in doc/api (you have to build it by calling
 'ant' or 'ant api' before you can read it).
+
+Hava a look in the tests directory.  It shows how the classes are
+supposed to work.
 
 Questions, Feedback, Bug Reports
 ********************************
