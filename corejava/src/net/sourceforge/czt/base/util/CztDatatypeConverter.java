@@ -43,7 +43,7 @@ public final class CztDatatypeConverter
 
   public static Boolean parseBoolean(String s)
   {
-    return new Boolean(s);
+    return Boolean.valueOf(s);
   }
 
   public static String printBoolean(Boolean b)

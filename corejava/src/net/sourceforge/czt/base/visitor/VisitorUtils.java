@@ -205,7 +205,7 @@ public final class VisitorUtils
    */
   public static Object visitTerm(Visitor visitor, Term term, boolean share)
   {
-    Object[] arguments = {visitor, term, new Boolean(share)};
+    Object[] arguments = {visitor, term, Boolean.valueOf(share)};
     getLogger().entering(getClassName(), "visitTerm", arguments);
     boolean changed = false;
     Object[] args = term.getChildren();
