@@ -35,23 +35,9 @@ plugin is required by the CZT plugin, so please install the ErrorList
 plugin from within jEdit's plugin manager.
 
 Now we should find an entry "Community Z Tools" in the plugin menu,
-which pops up the CZT plugin (see the jEdit documentation how plugins
-can be docked etc).  It consists of a table containing the most
-commonly used Z characters and constructs, which can be inserted into
-the current buffer.  We can choose to either insert using Unicode or
-LaTeX markup.
-
-The "Typecheck" button parses and typechecks the file in the current
-buffer (don't forget to save first since the file, not the buffer
-content, is used).  The result is displayed in the jEdit status bar,
-errors with line and column number information can be viewed using
-the ErrorList plugin.
-
-The specification can be converted to Unicode (LaTeX) if LaTeX markup
-(Unicode) is choosen, or can be translated into ZML (XML markup for
-Z).  If parsing and translating was successful, a new buffer
-containing the output of the conversion is opened.  In case of an
-error, the error list can be consulted.
+which pops up the CZT plugin.  See the jEdit documentation how plugins
+can be docked etc, and have a look at the plugin documentation
+available from the jEdit help menu.
 
 2.2 Installing the CZT font
 ----------------------------
