@@ -279,8 +279,6 @@ public class Gnast
    * <p>Catches all exceptions (except runtime exceptions)
    * and writes logging information.</p>
    *
-   * @param  templateName   the name of the template.
-   * @param  context        the context to be used when applying the template.
    * @param  fileName       the file name to which to output is written.
    * @return <code>true</code> if the operation was successful;
    *         <code>false</code> otherwise.
@@ -367,7 +365,7 @@ public class Gnast
    * <p>Note that it is not checked
    * whether the given package and class names are valid.</p>
    *
-   * @param package    the name of the package.
+   * @param packageName    the name of the package.
    * @param className  the name of the class.
    * @return the file name.
    */
