@@ -29,24 +29,35 @@ import net.sourceforge.czt.z.ast.Expr;
  */
 public interface EvalSet extends Expr {
   
-  /** Estimate the size of the set. */
-  public double estSize();
-  
   /** A list of all the free variables that this set depends upon.
    * @return The free variables.
    */
   public List freeVars();
+  
+  /** Sets the Environment that will be used to evaluate the set.*/
+  public void setEnvir(Envir env);
+  
+  /** Gets the Environment that is being used to evaluate the set.
+      @return null if the environment is not set yet.
+  */
+  public /*@pure@*/ Envir getEnvir();
+  
+  /** Estimate the size of the set. */
+  //@ requires getEnvir() != null;
+  public double estSize();
   
   /** Iterate through all members of the set.
    *  It guarantees that there will be no duplicates.
    * 
    * @return an Iterator object.
    */
+  //@ requires getEnvir() != null;
   public Iterator members();
   
   /** Tests for membership of the set.
    * @param e  The fully evaluated expression.
    * @return   true iff e is a member of the set.
    */
+  //@ requires getEnvir() != null;
   public boolean isMember(Expr e);
 }
