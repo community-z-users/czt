@@ -78,17 +78,17 @@ public class Gnast implements GlobalProperties
   private String destDir_ = ".";
 
   /**
-   * <p>The name of the project for which code is generated.</p>
+   * <p>The name of the Schema file for which code is generated.
+   * If set to "all" Schema files in @{link namespaces_} are used.</p>
    *
    * <p>It can be set by setting property project in the
-   * gnast properties file.
-   *
-   * <p>Should never be <code>null</code>.
+   * gnast properties file or by using the <code>-p</code>
+   * command line option.</p>
    *
    * @czt.todo Is it useful to allow a list of projects for
    *           which code is generated?
    */
-  private String projectName_ = "core";
+  private String projectName_ = "all";
 
   /**
    * <p>A mapping from project names to the actual projects.</p>
@@ -97,6 +97,8 @@ public class Gnast implements GlobalProperties
    * tried to obtain the project. If no entry for the given
    * name is found, a new project is created and added to this map.
    * </p>
+   *
+   * @czt.todo Is this still needed?
    */
   private Map projects_ = new HashMap();
 
@@ -239,8 +241,18 @@ public class Gnast implements GlobalProperties
 
     Project project = null;
     try {
-      project = new Project(projectName_, this);
-      project.generate();
+      if ("all".equals(projectName_)) {
+        for (Iterator i = namespaces_.values().iterator(); i.hasNext();) {
+          String projectName = (String) i.next();
+          getLogger().info("Generate classes for " + projectName + " ...");
+          project = new Project(projectName, this);
+          project.generate();
+        }
+      }
+      else {
+        project = new Project(projectName_, this);
+        project.generate();
+      }
     }
     catch (RuntimeException e) {
       throw e;
@@ -397,7 +409,8 @@ public class Gnast implements GlobalProperties
   }
 
   /**
-   * The main method.
+   * The main method.  See #printUsage to see
+   * how to use this method.
    */
   public static void main (String[] args)
   {
