@@ -144,7 +144,7 @@ public class TypeCheckerTest
     }
     catch (TypeErrorException e) {
       throwable = e;
-      assertEquals(e.getMessage(), exception);
+      assertEquals(file, e.getMessage(), exception);
     }
     catch (RuntimeException e) {
       throw e;

@@ -6,6 +6,13 @@
 \begin{zed} expr2 == [z : \nat] \land [x : \nat; z : \nat] \end{zed}
 \begin{zed} expr3 == [x : \nat; z : \nat] \land [z : \nat] \end{zed}
 \begin{zed} expr4 == [x : \nat; z : \nat] \land [z : \nat; x : \nat] \end{zed}
+\begin{zed} expr5 == [x : \nat; y : \nat] \land [z : \nat] \end{zed}
+
+\begin{zed} \vdash? expr1 = [z : \nat] \end{zed}
+\begin{zed} \vdash? expr2 = [x : \nat; z : \nat] \end{zed}
+\begin{zed} \vdash? expr3 = [x : \nat; z : \nat] \end{zed}
+\begin{zed} \vdash? expr4 = [x : \nat; z : \nat] \end{zed}
+\begin{zed} \vdash? expr5 = [x : \nat; y : \nat; z : \nat] \end{zed}
 
 Test that if the left and/or right exprs are still varaible, everything 
 is handled correctly.
