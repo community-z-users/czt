@@ -651,7 +651,7 @@
                 </ConstDecl>
             </SchText>
         </AxPara>
-        <OptempPara Cat="Relation" Prec="0">
+        <OptempPara Cat="Relation">
             <Operator>
                 <Word>disjoint</Word>
             </Operator>
@@ -728,7 +728,7 @@
                             </TupleExpr>
                             <RefExpr Mixfix="false">
                                 <RefName>
-                                    <Word>disjoint</Word>
+                                    <Word>disjoint _ </Word>
                                 </RefName>
                             </RefExpr>
                         </MemPred>
@@ -807,7 +807,7 @@
                 </ForallPred>
             </SchText>
         </AxPara>
-        <OptempPara Cat="Relation" Prec="0">
+        <OptempPara Cat="Relation">
             <Operand List="false"/>
             <Operator>
                 <Word>partition</Word>
@@ -927,7 +927,7 @@
                                 </TupleExpr>
                                 <RefExpr Mixfix="false">
                                     <RefName>
-                                        <Word>disjoint</Word>
+                                        <Word>disjoint _ </Word>
                                     </RefName>
                                 </RefExpr>
                             </MemPred>

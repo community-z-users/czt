@@ -192,7 +192,7 @@
                 </ConstDecl>
             </SchText>
         </AxPara>
-        <OptempPara Cat="Relation" Prec="0">
+        <OptempPara Cat="Relation">
             <Operand List="false"/>
             <Operator>
                 <Word>≠</Word>
@@ -280,7 +280,7 @@
                 </ForallPred>
             </SchText>
         </AxPara>
-        <OptempPara Cat="Relation" Prec="0">
+        <OptempPara Cat="Relation">
             <Operand List="false"/>
             <Operator>
                 <Word>∉</Word>
@@ -404,7 +404,7 @@
                 </ConstDecl>
             </SchText>
         </AxPara>
-        <OptempPara Cat="Relation" Prec="0">
+        <OptempPara Cat="Relation">
             <Operand List="false"/>
             <Operator>
                 <Word>⊆</Word>
@@ -511,7 +511,7 @@
                 </ForallPred>
             </SchText>
         </AxPara>
-        <OptempPara Cat="Relation" Prec="0">
+        <OptempPara Cat="Relation">
             <Operand List="false"/>
             <Operator>
                 <Word>⊂</Word>
@@ -1418,7 +1418,7 @@
                 </ForallPred>
             </SchText>
         </AxPara>
-        <OptempPara Cat="Generic" Prec="0">
+        <OptempPara Cat="Generic">
             <Operator>
                 <Word>Ϝ</Word>
             </Operator>

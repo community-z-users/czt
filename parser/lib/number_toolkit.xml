@@ -28,7 +28,7 @@
                 <Unicode>div</Unicode>
             </Directive>
         </LatexMarkupPara>
-        <OptempPara Cat="Function" Prec="0">
+        <OptempPara Cat="Function">
             <Operator>
                 <Word>succ</Word>
             </Operator>
@@ -117,7 +117,7 @@
                 </VarDecl>
             </SchText>
         </AxPara>
-        <OptempPara Cat="Function" Prec="0">
+        <OptempPara Cat="Function">
             <Operator>
                 <Word>-</Word>
             </Operator>
@@ -709,7 +709,7 @@
                 </AndPred>
             </SchText>
         </AxPara>
-        <OptempPara Cat="Relation" Prec="0">
+        <OptempPara Cat="Relation">
             <Operand List="false"/>
             <Operator>
                 <Word>≤</Word>
@@ -806,7 +806,7 @@
                 </ForallPred>
             </SchText>
         </AxPara>
-        <OptempPara Cat="Relation" Prec="0">
+        <OptempPara Cat="Relation">
             <Operand List="false"/>
             <Operator>
                 <Word>&lt;</Word>
@@ -906,7 +906,7 @@
                 </ForallPred>
             </SchText>
         </AxPara>
-        <OptempPara Cat="Relation" Prec="0">
+        <OptempPara Cat="Relation">
             <Operand List="false"/>
             <Operator>
                 <Word>≥</Word>
@@ -996,7 +996,7 @@
                 </ForallPred>
             </SchText>
         </AxPara>
-        <OptempPara Cat="Relation" Prec="0">
+        <OptempPara Cat="Relation">
             <Operand List="false"/>
             <Operator>
                 <Word>&gt;</Word>

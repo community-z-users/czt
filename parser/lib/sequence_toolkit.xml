@@ -573,7 +573,7 @@
                 </AndPred>
             </SchText>
         </AxPara>
-        <OptempPara Cat="Function" Prec="0">
+        <OptempPara Cat="Function">
             <Operand List="false"/>
             <Operator>
                 <Word>↗</Word>
@@ -719,7 +719,7 @@
                 </ForallPred>
             </SchText>
         </AxPara>
-        <OptempPara Cat="Function" Prec="0">
+        <OptempPara Cat="Function">
             <Operator>
                 <Word>#</Word>
             </Operator>
@@ -867,7 +867,7 @@
                 </ForallPred>
             </SchText>
         </AxPara>
-        <OptempPara Cat="Function" Prec="0">
+        <OptempPara Cat="Function">
             <Operator>
                 <Word>min</Word>
             </Operator>
@@ -1024,7 +1024,7 @@
                 </MemPred>
             </SchText>
         </AxPara>
-        <OptempPara Cat="Function" Prec="0">
+        <OptempPara Cat="Function">
             <Operator>
                 <Word>max</Word>
             </Operator>
@@ -1181,7 +1181,7 @@
                 </MemPred>
             </SchText>
         </AxPara>
-        <OptempPara Cat="Generic" Prec="0">
+        <OptempPara Cat="Generic">
             <Operator>
                 <Word>seq</Word>
             </Operator>
@@ -1299,7 +1299,7 @@
                 </ConstDecl>
             </SchText>
         </AxPara>
-        <OptempPara Cat="Generic" Prec="0">
+        <OptempPara Cat="Generic">
             <Operator>
                 <Word>iseq</Word>
             </Operator>
@@ -1354,7 +1354,7 @@
                 </ConstDecl>
             </SchText>
         </AxPara>
-        <OptempPara Cat="Function" Prec="0">
+        <OptempPara Cat="Function">
             <Operator>
                 <Word>⟨</Word>
             </Operator>
@@ -2564,7 +2564,7 @@
                 </ForallPred>
             </SchText>
         </AxPara>
-        <OptempPara Cat="Relation" Prec="0">
+        <OptempPara Cat="Relation">
             <Operand List="false"/>
             <Operator>
                 <Word>prefix</Word>
@@ -2670,7 +2670,7 @@
                 </ForallPred>
             </SchText>
         </AxPara>
-        <OptempPara Cat="Relation" Prec="0">
+        <OptempPara Cat="Relation">
             <Operand List="false"/>
             <Operator>
                 <Word>suffix</Word>
@@ -2807,7 +2807,7 @@
                 </ForallPred>
             </SchText>
         </AxPara>
-        <OptempPara Cat="Relation" Prec="0">
+        <OptempPara Cat="Relation">
             <Operand List="false"/>
             <Operator>
                 <Word>infix</Word>

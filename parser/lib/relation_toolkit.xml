@@ -571,7 +571,7 @@
                 </ForallPred>
             </SchText>
         </AxPara>
-        <OptempPara Cat="Generic" Prec="0">
+        <OptempPara Cat="Generic">
             <Operator>
                 <Word>id</Word>
             </Operator>
@@ -1662,7 +1662,7 @@
                 </ForallPred>
             </SchText>
         </AxPara>
-        <OptempPara Cat="Function" Prec="0">
+        <OptempPara Cat="Function">
             <Operand List="false"/>
             <Operator>
                 <Word>∼</Word>
@@ -1801,7 +1801,7 @@
                 </ForallPred>
             </SchText>
         </AxPara>
-        <OptempPara Cat="Function" Prec="0">
+        <OptempPara Cat="Function">
             <Operand List="false"/>
             <Operator>
                 <Word>⦇</Word>
@@ -2138,7 +2138,7 @@
                 </ForallPred>
             </SchText>
         </AxPara>
-        <OptempPara Cat="Function" Prec="0">
+        <OptempPara Cat="Function">
             <Operand List="false"/>
             <Operator>
                 <Word>↗+↙</Word>
@@ -2322,7 +2322,7 @@
                 </ForallPred>
             </SchText>
         </AxPara>
-        <OptempPara Cat="Function" Prec="0">
+        <OptempPara Cat="Function">
             <Operand List="false"/>
             <Operator>
                 <Word>↗*↙</Word>
