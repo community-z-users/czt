@@ -1,12 +1,9 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
 <html>
-<head>
-<title>Interfaces for the Abstract Syntax Tree (AST) for ${Name}</title>
-</head>
 <body>
 
 <p>
-Interfaces for the Abstract Syntax Tree (AST) for ${Name}.
+Interfaces of the AST for ${Name}.
 </p>
 
 </body>
