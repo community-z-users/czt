@@ -181,22 +181,21 @@ public class FlatPredList
     Envir env = env0;
     double cost = 1.0;
     Iterator i = predlist_.iterator();
-    System.out.println("DEBUG: chooseMode "+this.hashCode());
+    //System.out.println("DEBUG: chooseMode "+this.hashCode());
     while (i.hasNext()) {
       FlatPred fp = (FlatPred)i.next();
       Mode m = fp.chooseMode(env);
       if (m == null) {
-        if (fp instanceof FlatEquals)
-          System.out.println("DEBUG chooseMode "+this.hashCode()+": "+env);
-	    System.out.println("DEBUG chooseMode "+this.hashCode()+" returns null because of "+fp);
+        //if (fp instanceof FlatEquals)
+          //System.out.println("DEBUG chooseMode "+this.hashCode()+": "+env);
+	System.out.println("DEBUG chooseMode "+this.hashCode()+" returns null because of "+fp);
         return null;
       }
-      fp.setMode(m);
       env = m.getEnvir();
       cost *= m.getSolutions();
       System.out.println("DEBUG chooseMode "+this.hashCode()+" "+fp+" gives cost="+cost);
     }
-    //System.out.println("DEBUG... final cost = "+cost);
+    System.out.println("DEBUG... final cost = "+cost);
     return new Mode(env, empty_, cost);
   }
 
@@ -208,7 +207,22 @@ public class FlatPredList
     inputEnv_ = env0;
     outputEnv_ = mode.getEnvir();
     solutionsReturned = 0;
-  }
+    // Now set the mode of all the preds in the list.
+    double cost = 1.0;
+    Iterator i = predlist_.iterator();
+    Envir env = env0;
+    while (i.hasNext()) {
+      FlatPred fp = (FlatPred)i.next();
+      Mode m = fp.chooseMode(env);
+      if (m == null) {
+        throw new EvalException("mode error in FlatPredList "+fp);
+      }
+      fp.setMode(m);
+      env = m.getEnvir();
+      cost *= m.getSolutions();
+      System.out.println("DEBUG startEval "+this.hashCode()+" "+fp+" gives cost="+cost);
+    }
+   }
 
   /** The output environment of this FlatPred list.
    *  This is only valid after startEvaluation.
@@ -224,12 +238,20 @@ public class FlatPredList
    */
   public boolean nextEvaluation() {
     final int end = predlist_.size();
-    int curr = end - 1;
+    int curr;
     if (solutionsReturned == 0) {
-      curr = 0;  // start from the beginning!
+      // start from the beginning of the list
+      solutionsReturned++;
+      curr = 0;
+      if (end == 0)
+        return true;  // we return true just once.
       ((FlatPred)predlist_.get(curr)).startEvaluation();
     }
-    solutionsReturned++;
+    else {
+      // start backtracking from the end of the list
+      solutionsReturned++;
+      curr = end - 1;
+    }
     while (0 <= curr && curr < end) {
       FlatPred fp = (FlatPred)predlist_.get(curr);
       if (fp.nextEvaluation()) {
