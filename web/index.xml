@@ -48,7 +48,7 @@ provide open-source libraries for building and integrating Z tools.
 The software we build will include at least:
 </p>
 <ol>
-  <li>  An <a href="Z.xsd">XML Schema markup</a> for Z.
+  <li>  An <a href="zml/index.html">XML Schema markup</a> for Z.
         See the <a href="http://www.tucs.fi/zb2003">ZB2003</a> proceedings
         for a paper describing this markup.</li>
   <li>  <a href="http://czt.sourceforge.net/corejava/api/">Java classes</a>
