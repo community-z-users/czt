@@ -29,7 +29,8 @@ import org.gjt.sp.jedit.*;
 import errorlist.*;
 
 
-public class CommunityZToolsPlugin extends EditPlugin
+public class CommunityZToolsPlugin
+  extends EditPlugin
 {
   protected static final DefaultErrorSource errorSource_ =
     new DefaultErrorSource("CZT");
@@ -37,6 +38,8 @@ public class CommunityZToolsPlugin extends EditPlugin
   public static final String OPTION_PREFIX = "options.czt.";
   public static final String PROP_SPACE_BEFORE_PUNCTATION =
     "CommunityZToolsPlugin.addSpaceBeforeLatexPunctation";
+  public static final String PROP_IGNORE_UNKNOWN_LATEX_COMMANDS =
+    "CommunityZToolsPlugin.ignoreUnknownLatexCommands";
   private static final String LOGGER_NAME = "net.sourceforge.czt";
 
   public void start()
@@ -58,40 +61,41 @@ public class CommunityZToolsPlugin extends EditPlugin
     {
       final Level level = record.getLevel();
       if (level == Level.WARNING || level == Level.SEVERE) {
-        LocInfo locInfo = null;
         final Object[] params = record.getParameters();
-        if (params.length > 0) {
+        if (params != null && params.length > 0) {
           Object last = params[params.length - 1];
           if (last instanceof LocInfo) {
-            locInfo = (LocInfo) last;
+            LocInfo locInfo = (LocInfo) last;
+            final int errorType = level == Level.SEVERE ?
+              ErrorSource.ERROR : ErrorSource.WARNING;
+            final String source =
+              locInfo != null && locInfo.getSource() != null ?
+              locInfo.getSource() : "?";
+            final int line = locInfo != null && locInfo.getLine() >= 0 ?
+              locInfo.getLine() : 0;
+            final int column = locInfo != null && locInfo.getColumn() >= 0 ?
+              locInfo.getColumn() : 0;
+            final int length = 0;
+            final Formatter formatter = getFormatter();
+            String message = formatter != null ?
+              formatter.formatMessage(record) : record.getMessage();
+            if (locInfo != null &&
+                message.endsWith(locInfo.toString())) {
+              final int endIndex =
+                message.length() - locInfo.toString().length();
+              message = message.substring(0, endIndex);
+            }
+            DefaultErrorSource.DefaultError error = 
+              new DefaultErrorSource.DefaultError(errorSource_,
+                                                  errorType,
+                                                  source,
+                                                  line,
+                                                  column,
+                                                  length,
+                                                  message);
+            errorSource_.addError(error);
           }
         }
-        final int errorType = level == Level.SEVERE ?
-          ErrorSource.ERROR : ErrorSource.WARNING;
-        final String source = locInfo != null && locInfo.getSource() != null ?
-          locInfo.getSource() : "?";
-        final int line = locInfo != null && locInfo.getLine() >= 0 ?
-          locInfo.getLine() : 0;
-        final int column = locInfo != null && locInfo.getColumn() >= 0 ?
-          locInfo.getColumn() : 0;
-        final int length = 0;
-        final Formatter formatter = getFormatter();
-        String message = formatter != null ?
-          formatter.formatMessage(record) : record.getMessage();
-        if (locInfo != null &&
-            message.endsWith(locInfo.toString())) {
-          final int endIndex = message.length() - locInfo.toString().length();
-          message = message.substring(0, endIndex);
-        }
-        DefaultErrorSource.DefaultError error = 
-          new DefaultErrorSource.DefaultError(errorSource_,
-                                              errorType,
-                                              source,
-                                              line,
-                                              column,
-                                              length,
-                                              message);
-        errorSource_.addError(error);
       }
     }
   }

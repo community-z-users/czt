@@ -31,14 +31,19 @@ public class CztOptionPane extends AbstractOptionPane
 {
   private final String SPACE_BEFORE_PUNCTATION =
     CommunityZToolsPlugin.PROP_SPACE_BEFORE_PUNCTATION;
+  private final String IGNORE_UNKNOWN_LATEX_COMMANDS =
+    CommunityZToolsPlugin.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS;
   private final String PROP_LABEL_STD_CONFORMANCE =
     CommunityZToolsPlugin.OPTION_PREFIX + "standardConformance";
   private final String PROP_LABEL_ADD_SPACE_BEFORE_PUNCTATION =
     CommunityZToolsPlugin.OPTION_PREFIX + "addSpaceBeforeLatexPunctation";
+  private final String PROP_LABEL_IGNORE_UNKNOWN_LATEX_COMMANDS =
+    CommunityZToolsPlugin.OPTION_PREFIX + "ignoreUnknownLatexCommands";
   private final String PROP_LABEL_RESET =
     CommunityZToolsPlugin.OPTION_PREFIX + "resetButton";
 
   private JCheckBox spaceBeforePunctation_;
+  private JCheckBox ignoreUnknownLatexCommands_;
 
   public CztOptionPane()
   {
@@ -48,12 +53,19 @@ public class CztOptionPane extends AbstractOptionPane
   protected void _init()
   {
     addComponent(new JLabel(jEdit.getProperty(PROP_LABEL_STD_CONFORMANCE)));
+
     spaceBeforePunctation_ =
       new JCheckBox(jEdit.getProperty(PROP_LABEL_ADD_SPACE_BEFORE_PUNCTATION));
+    boolean value = jEdit.getBooleanProperty(SPACE_BEFORE_PUNCTATION);
+    spaceBeforePunctation_.getModel().setSelected(value);
     addComponent(spaceBeforePunctation_);
-    final boolean addSpaceBeforePunctation =
-      jEdit.getBooleanProperty(SPACE_BEFORE_PUNCTATION);
-    spaceBeforePunctation_.getModel().setSelected(addSpaceBeforePunctation);
+
+    ignoreUnknownLatexCommands_ =
+      new JCheckBox(jEdit.getProperty(PROP_LABEL_IGNORE_UNKNOWN_LATEX_COMMANDS));
+    value = jEdit.getBooleanProperty(IGNORE_UNKNOWN_LATEX_COMMANDS);
+    ignoreUnknownLatexCommands_.getModel().setSelected(value);
+    addComponent(ignoreUnknownLatexCommands_);
+
     JButton resetButton =
       new JButton(jEdit.getProperty(PROP_LABEL_RESET));
     resetButton.addActionListener(new ResetHandler());
@@ -62,8 +74,10 @@ public class CztOptionPane extends AbstractOptionPane
 
   protected void _save()
   {
-    final boolean value = spaceBeforePunctation_.getModel().isSelected();
+    boolean value = spaceBeforePunctation_.getModel().isSelected();
     jEdit.setBooleanProperty(SPACE_BEFORE_PUNCTATION, value);
+    value = ignoreUnknownLatexCommands_.getModel().isSelected();
+    jEdit.setBooleanProperty(IGNORE_UNKNOWN_LATEX_COMMANDS, value);
   }
 
   class ResetHandler implements ActionListener
@@ -71,6 +85,7 @@ public class CztOptionPane extends AbstractOptionPane
     public void actionPerformed(ActionEvent e)
     {
       spaceBeforePunctation_.getModel().setSelected(false);
+      ignoreUnknownLatexCommands_.getModel().setSelected(false);
     }
   }
 }

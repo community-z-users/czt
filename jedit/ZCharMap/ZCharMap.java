@@ -56,6 +56,7 @@ import net.sourceforge.czt.z.ast.ZSect;
  *           (especially how to handle resizing and the first column).
  */
 public class ZCharMap extends JPanel
+  implements ParsePropertiesKeys
 {
   //############################################################
   //##################### MEMBER VARIABLES #####################
@@ -531,12 +532,17 @@ public class ZCharMap extends JPanel
       source.setMarkup(Markup.LATEX);
     }
     final Properties properties = new Properties();
-    final String propname =
+    String propname =
       CommunityZToolsPlugin.PROP_SPACE_BEFORE_PUNCTATION;
-    String addSpaceBeforePunctation = 
+    String value = 
       jEdit.getBooleanProperty(propname) ? "true" : "false";
-    properties.setProperty(Latex2Unicode.PROP_ADD_SPACE_BEFORE_PUNCTATION,
-                           addSpaceBeforePunctation);
+    properties.setProperty(PROP_ADD_SPACE_BEFORE_PUNCTATION,
+                           value);
+    propname =
+      CommunityZToolsPlugin.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS;
+    value = jEdit.getBooleanProperty(propname) ? "true" : "false";
+    properties.setProperty(PROP_IGNORE_UNKNOWN_LATEX_COMMANDS,
+                           value);
     return ParseUtils.parse(source, manager, properties);
   }
 

@@ -21,4 +21,5 @@ options.czt.label=Community Z Tools
 options.czt.code=new CztOptionPane();
 options.czt.standardConformance=<html><h3>Standard conformance</h3></html>
 options.czt.addSpaceBeforeLatexPunctation=Add space before latex punctation
+options.czt.ignoreUnknownLatexCommands=Ignore latex commands without a mark-up directive
 options.czt.resetButton=Reset all options to be standard conforming
