@@ -26,7 +26,7 @@ import java_cup.runtime.*;
 import net.sourceforge.czt.scanner.CztReader;
 import net.sourceforge.czt.scanner.Latex2Unicode;
 
-class LatexScannerNew
+class LatexScanner
   implements java_cup.runtime.Scanner
 {
   private UnicodeScanner lexer_;
@@ -36,7 +36,7 @@ class LatexScannerNew
    *
    * @param reader the Reader to read input from.
    */
-  public LatexScannerNew(Reader reader)
+  public LatexScanner(Reader reader)
   {
     Latex2Unicode latexLexer = new Latex2Unicode(reader);
     Reader cztReader = new CztReader(latexLexer);
@@ -48,7 +48,7 @@ class LatexScannerNew
    *
    * @param stream the Inputstream to read input from.
    */
-  public LatexScannerNew(InputStream stream)
+  public LatexScanner(InputStream stream)
   {
     this(new InputStreamReader(stream));
   }
@@ -72,7 +72,7 @@ class LatexScannerNew
       InputStream stream = new FileInputStream(argv[0]);
       InputStreamReader reader = new InputStreamReader(stream, "UTF-8");
 
-      LatexScannerNew lexer = new LatexScannerNew(reader);
+      LatexScanner lexer = new LatexScanner(reader);
       OutputStreamWriter writer = new OutputStreamWriter(System.out);
       lexer.setWriter(writer);
       Symbol s = null;

@@ -71,7 +71,7 @@ public final class ParseUtils
           return;
         }
       }
-      Scanner scanner = new SmartScanner(new LatexScannerNew(in));
+      Scanner scanner = new SmartScanner(new LatexScanner(in));
       OperatorTable table = new OperatorTable();
       Parser parser = new Parser(scanner, table, "");
       Symbol parseTree = parser.parse();
@@ -122,7 +122,7 @@ public final class ParseUtils
     throws Exception
   {
     Reader in = new InputStreamReader(new FileInputStream(filename));
-    Scanner scanner = new SmartScanner(new LatexScannerNew(in));
+    Scanner scanner = new SmartScanner(new LatexScanner(in));
     Parser parser = new Parser(scanner, table, filename);
     Symbol parseTree = parser.parse();
     return (Term) parseTree.value;
