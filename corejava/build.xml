@@ -48,6 +48,7 @@
   <target name="examples" depends="compile">
     <ant dir="examples/unmarshal"/>
     <ant dir="examples/marshal"/>
+    <ant dir="examples/substitutionVisitor"/>
   </target>
 
   <target name="test" depends="compile">
