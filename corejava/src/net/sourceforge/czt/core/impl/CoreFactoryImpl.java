@@ -26,7 +26,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.core.impl;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.impl.*;
 
 /**
  * <p>An implementation of the object factory for constructing
@@ -45,7 +44,8 @@ import net.sourceforge.czt.core.impl.*;
  * @see CoreFactory
  * @author Gnast version 0.1
  */
-public class CoreFactoryImpl implements CoreFactory
+public class CoreFactoryImpl
+  implements net.sourceforge.czt.core.ast.CoreFactory
 {
   public Freetype createFreetype(DeclName declName, java.util.List branch)
   {
