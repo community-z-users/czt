@@ -166,13 +166,16 @@ the {\em ClassSignature}. Each class signature has 4 features:
 % I could be way off ;)
 
 The attribute $classRef$ is the basis of Chen's model of class types
-as sets of classes.  Our class type models a set of class references,
-including the instantiations of generic types. Each of these class
-references represents a set of object identities. In addition to the
-class references, the attributes, operations, and state variables are
-modelled in the class type. These three features together model the
-polymorphic core of the type. Therefore, our model is flexible enough
-to handle class references, polymorphic expressions, and class unions.
+as sets of classes. The class $ClassRef$ represents a set of
+object identities. Crudely, the set of object identities produced by
+two $ClassRef$s are equal if the class name, renames, and
+instantiations are all equal.
+
+In addition to the class references, the attributes, operations, and
+state variables are modelled in the class type. These three features
+together model the polymorphic core of the type. Therefore, our model
+is flexible enough to handle class references, polymorphic
+expressions, and class unions.
 
 However, there is other information that needs to be recorded when a
 class is declared: the generic parameters, the

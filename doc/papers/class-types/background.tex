@@ -82,17 +82,25 @@ then the expression $\poly A$ is the set of classes $\{A, B,
 C\}$. This idea is used as the basis for the class type in our
 typechecker, but we make two significant changes.
 
-Firstly, on a theoretical level, this approach does not provide
-complete support for generic classes. For
-example, take the Object-Z class defined in
-Figure~\ref{generic-class-A}.  In this example, we have the generic
-class $A$, with parameter $X$ and no features.  Two
-instances of $A$ are declared: one with $X$ instantiated to $\nat$ and
-the other to $\power \nat$. The equality $a_{1} = a_{2}$ is type
-incorrect because $A[\nat]$ and $A[\power \nat]$ are disjoint sets of
-object identities. However, if the class type model used in
-\cite{chen94} is used, we cannot not detect this, because the types of
-both instances is $\{A\}$.
+Firstly, Chen does not discuss how to represent classes. In Object-Z,
+classes are defined as countably infinite sets of object
+identities. However, we need a way to represent these sets in the
+typechecer, which is difficult because programming languages do not
+support infinite sets, and Object-Z provides us with no idea of what
+the value object identities look like. Chen's example use the class
+names to represent the classes, but this does not provide complete
+support for generic classes. For example, take the Object-Z class
+defined in Figure~\ref{generic-class-A}.  In this example, we have the
+generic class $A$, with parameter $X$ and no features.  Two objects
+are declared using $A$: one with $X$ instantiated to $\nat$ and the
+other to $\power \nat$. The equality $a_{1} = a_{2}$ is type incorrect
+because $A[\nat]$ and $A[\power \nat]$ are disjoint sets of object
+identities. However, if only the class name is used, we cannot not
+detect this, because the types of both instances is $\{A\}$. In
+addition, Object-Z supports the renaming of features in a class, for
+example, renaming an operation. The class $A$ with operation $op$ is
+disjoint from the class $A[newOp/op]$, which is the class $A$ with
+the oepration $op$ renamed to $newOp$.
 
 \begin{figure}[t]
 \input{fig/generic-class-A.tex}
@@ -113,8 +121,8 @@ a class type that records features, including those inherited from any
 superclasses, simplifies and optimises the implementation of the
 typechecker.
 
-The purpose of the work in this paper is to extend Chen's model to
-allow the typechecking of generic classes, and to provide a suitable
-class type that supports class union, polymorphic expressions, and
-appropriately manages dereferencing of object types.
+The purpose of the work in this paper is to extend Chen's model with a
+way of modelling classes, and to provide a suitable class type that
+supports class union, polymorphic expressions, and appropriately
+manages dereferencing on objects.
 % ``class reference expressions'' == ``dereferencing of object types''??
