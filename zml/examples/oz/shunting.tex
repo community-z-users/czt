@@ -25,7 +25,7 @@ indicates the neighbours of cells.
   \varg next \varg : Posn \rel Posn
 \where
   \forall m,n: Posn @ \\
-    \t1 m next n \iff \\
+    \t1 m~next~n \iff \\
        \t2 m - n \in \{ \negate 7, 7 \} \lor \\
        \t2 (m - n \in \{ \negate 1 , 1 \} \land m \div 7 = n \div 7)
 \end{axdef}
@@ -47,7 +47,7 @@ $DIR$, which represents directions.
   \Delta(posn) \\
   d? : DIR
 \where
-  posn next posn' \\
+  posn~next~posn' \\
   d? = LEFT \implies posn' = posn - 1 \\
   d? = RIGHT \implies posn' = posn + 1 \\
   d? = UP \implies posn' = posn - 7 \\
