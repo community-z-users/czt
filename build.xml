@@ -31,7 +31,7 @@
     description="install"/>
 
   <target name="install-subprojects"
-    depends="install-corejava, install-parser, install-gaffe, install-z2b, install-zml2xhtml"
+    depends="install-corejava, install-parser, install-gaffe, install-z2b"
     description="install subprojects">
   </target>
 
@@ -69,10 +69,12 @@
     <ant dir="translators/z2b" target="install"/>
   </target>
 
+  <!-- not maintained any more
   <target name="install-zml2xhtml" if="zml2xhtml.present"
     description="install zml2xhtml">
     <ant dir="translators/zml2xhtml" target="install"/>
   </target>
+  -->
 
   <target name="install-bin"
     description="create settings file so that shell scripts work properly">
@@ -211,7 +213,7 @@ set ZML2XHTML=${zml2xhtml.win}
   </target>
 
   <target name="clean" description="clean up subprojects"
-    depends="clean-corejava, clean-ant-task, clean-gaffe, clean-gaffe-generator, clean-parser, clean-z2b, clean-zml2xhtml">
+    depends="clean-corejava, clean-ant-task, clean-gaffe, clean-gaffe-generator, clean-parser, clean-z2b">
     <delete dir="${jar.dir}"/>
     <delete file="${unix.settings.file}"/>
     <delete file="${windows.settings.file}"/>
@@ -247,8 +249,10 @@ set ZML2XHTML=${zml2xhtml.win}
     <ant dir="translators/z2b" target="clean"/>
   </target>
 
+  <!-- not maintained any more
   <target name="clean-zml2xhtml" if="zml2xhtml.present"
     description="clean up zml2xhtml">
     <ant dir="translators/zml2xhtml" target="clean"/>
   </target>
+  -->
 </project>
