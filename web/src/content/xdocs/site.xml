@@ -24,12 +24,6 @@ See http://xml.apache.org/forrest/linking.html for more info
     <people label="People" href="people.html"/>
   </about>
 
-  <projects label="Subprojects">
-    <documentation label="Overview" href="documentation.html"/>
-    <zml label="ZML" href="zml/index.html"/>
-    <corejava label="Corejava" href="http://czt.sourceforge.net/corejava"/>
-  </projects>
-
   <resources label="Resources">
     <download
       label="Download"
@@ -38,6 +32,12 @@ See http://xml.apache.org/forrest/linking.html for more info
       label="Development"
       href="http://sourceforge.net/projects/czt"/>
   </resources>
+
+  <projects label="Subprojects">
+    <documentation label="Overview" href="documentation.html"/>
+    <zml label="ZML" href="zml/index.html"/>
+    <corejava label="Corejava" href="http://czt.sourceforge.net/corejava"/>
+  </projects>
 
   <projects label="Documentation">
     <developer
@@ -75,5 +75,6 @@ See http://xml.apache.org/forrest/linking.html for more info
     <cztcvsinfo href="http://sourceforge.net/cvs/?group_id=86250"/>
     <cvs-book href="http://cvsbook.red-bean.com/"/>
     <ant href="http://ant.apache.org/"/>
+    <checkstyle href="http://checkstyle.sourceforge.net/"/>
   </external-refs>
 </site>
