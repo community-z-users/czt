@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec xmlns="http://czt.sourceforge.net/zml">
+  <ZSect>
+    <Name>Specification</Name>
+    <Parent>
+      <Word>standard_toolkit</Word>
+    </Parent>
+    <AxPara Box="SchBox">
+      <SchText>
+        <ConstDecl>
+          <DeclName>
+            <Word>Test</Word>
+          </DeclName>
+          <SchExpr>
+            <SchText>
+              <VarDecl>
+                <DeclName>
+                  <Word>known</Word>
+                </DeclName>
+                <PowerExpr>
+                  <RefExpr>
+                    <RefName>
+                      <Word>NAME</Word>
+                    </RefName>
+                  </RefExpr>
+                </PowerExpr>
+              </VarDecl>
+              <VarDecl>
+                <DeclName>
+                  <Word>name</Word>
+                  <InStroke/>
+                </DeclName>
+                <RefExpr Mixfix="true">
+                  <RefName>
+                    <Word>NAME</Word>
+                  </RefName>
+                </RefExpr>
+              </VarDecl>
+              <MemPred Mixfix="false">
+                <RefExpr>
+                  <RefName>
+                    <Word>name</Word>
+                    <InStroke/>
+                  </RefName>
+                </RefExpr>
+                <RefExpr>
+                  <RefName>
+                    <Word>known</Word>
+                  </RefName>
+                </RefExpr>
+              </MemPred>
+            </SchText>
+          </SchExpr>
+        </ConstDecl>
+      </SchText>
+    </AxPara>
+  </ZSect>
+</Spec>

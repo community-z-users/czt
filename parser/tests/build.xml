@@ -4,10 +4,17 @@
   <property file="${czt.home}/czt.properties"/>
   <property name="test.build.dir" value="build"/>
   <property name="corejava.base.jar" location="${czt.home}/${jar.dir}/${corejava.base.jar.file}"/>
+  <property name="corejava.core.jar" location="${czt.home}/${jar.dir}/${corejava.core.jar.file}"/>
+  <property name="corejava.oz.jar" location="${czt.home}/${jar.dir}/${corejava.oz.jar.file}"/>
+  <property name="corejava.jaxb.jar" location="${czt.home}/${jar.dir}/${corejava.jaxb.jar.file}"/>
 
   <path id="classpath">
     <pathelement location="${czt.home}/${jar.dir}/${parser.jar.file}"/>
     <pathelement location="${corejava.base.jar}"/>
+    <pathelement location="${corejava.core.jar}"/>
+    <pathelement location="${corejava.oz.jar}"/>
+    <pathelement location="${corejava.jaxb.jar}"/>
+    <pathelement path="${jwsdp.classpath}"/>
     <pathelement location="${test.build.dir}"/>
     <pathelement path="${java.class.path}"/>
   </path>
@@ -18,7 +25,6 @@
   </target>
 
   <target name="compile" depends="init" description="compile the test">
-    <echo message="Compiling the sample application..."/>
     <javac srcdir="src" destdir="${test.build.dir}" debug="on">
       <classpath refid="classpath"/>
     </javac>
@@ -30,8 +36,16 @@
       <test name="net.sourceforge.czt.scanner.UnicodeScannerTest"/>
       <test name="net.sourceforge.czt.scanner.Latex2UnicodeTest"/>
       <test name="net.sourceforge.czt.scanner.LatexToUnicodeTest"/>
+      <test name="net.sourceforge.czt.parser.z.ParserTest"/>
       <classpath refid="classpath"/>
     </junit>
+  </target>
+
+  <target name="printclasspath">
+      <pathconvert targetos="unix" property="tmp.clspath"
+            refid="classpath">
+    </pathconvert>
+    <echo message="CLASSPATH = ${tmp.clspath}"/>
   </target>
 
   <target name="clean" description="clean up">
