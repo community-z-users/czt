@@ -56,7 +56,7 @@ public abstract class TermAImpl implements TermA
   {
     int erg = super.hashCode();
     String s = "TermA";
-    erg += 31*s.toString();
+    erg += 31 * s.hashCode();
     return erg;
   }
 }
