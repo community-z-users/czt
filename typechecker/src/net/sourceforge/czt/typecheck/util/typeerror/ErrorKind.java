@@ -26,7 +26,10 @@ public final class ErrorKind
     SCHEMATYPE_NEEDED = 12,
     DECLNAME_NOT_FOUND_IN_SCHEMA = 13,
     TWO_COMPONENT_NEEDED = 14,
-    APPLEXPR_TYPES_DO_NOT_AGREE = 15;
+    APPLEXPR_TYPES_DO_NOT_AGREE = 15,
+    SCHEXPR_EXPECTED = 16,
+    TUPLESELEXPR_OUT_OF_RANGE = 17,
+    INCOMPATIBLE_SIGNATURES = 18;
 
   public static String getCase(int k)
   {
@@ -83,6 +86,15 @@ public final class ErrorKind
       case APPLEXPR_TYPES_DO_NOT_AGREE :
         result = "ApplExpr types do not agree!";
         break;
+      case SCHEXPR_EXPECTED :
+        result = "Schema expression expected!";
+        break;
+      case TUPLESELEXPR_OUT_OF_RANGE :
+        result = "Tuple selection out of range!";
+	break;
+      case INCOMPATIBLE_SIGNATURES :
+        result = "Incompatible signatures!";
+	break;
       default :
         result = "Illegal error!";
         break;

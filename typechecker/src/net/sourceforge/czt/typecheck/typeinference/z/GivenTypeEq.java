@@ -10,13 +10,8 @@ import net.sourceforge.czt.typecheck.util.typingenv.*;
 import net.sourceforge.czt.typecheck.util.typeerror.*;
 import net.sourceforge.czt.typecheck.z.TypeChecker;
 
-public class GivenTypeEq implements TypeInferenceRule
+public class GivenTypeEq extends TypeInferenceRule
 {
-  // no type sequents for given type para
-  private Sequent sequent_;
-
-  private TypeChecker checker_;
-
   public GivenTypeEq (TypeEnvInt env, GivenPara term, TypeChecker tc)
   {
     sequent_ = new Sequent(env, term);

@@ -10,17 +10,12 @@ import net.sourceforge.czt.typecheck.util.typeerror.*;
 import net.sourceforge.czt.typecheck.z.TypeChecker;
 
 //13.2.6.3
-public class SetCompExprTypeEq implements TypeInferenceRule
+public class SetCompExprTypeEq extends TypeInferenceRule
 {
   // list of type subsequents
-  // 2 items
   private List subsequent_;
-  private Sequent sequent_;
-
-  private TypeChecker checker_;
 
   private ZFactory factory_;
-  private TypeEnvInt typeEnv_;
 
   public SetCompExprTypeEq(TypeEnvInt env, SetCompExpr term, TypeChecker tc)
   {

@@ -12,14 +12,9 @@ import net.sourceforge.czt.typecheck.z.TypeChecker;
 // rule: whenever there's a SchText, enterScope & exitScope
 // from the parent node
 //13.2.6.14
-public class SchTextTypeEq implements TypeInferenceRule
+public class SchTextTypeEq extends TypeInferenceRule
 {
-  private Sequent sequent_;
-
-  private TypeChecker checker_;
-
   private ZFactory factory_;
-  private TypeEnvInt typeEnv_;
 
   public SchTextTypeEq(TypeEnvInt env, SchText term, TypeChecker tc)
   {
@@ -63,7 +58,7 @@ public class SchTextTypeEq implements TypeInferenceRule
           }
           ntps.add(ntmp);
           // add ntmp to typeEnv_
-          typeEnv_.addNameTypePair(ntmp);
+          sequent_.getTypeEnv().addNameTypePair(ntmp);
         } catch (TypeException e) {
           e.printStackTrace();
           continue;

@@ -12,14 +12,9 @@ import net.sourceforge.czt.typecheck.typeinference.z.Sequent;
 import net.sourceforge.czt.typecheck.z.TypeChecker;
 
 //13.2.6.10
-public class BindSelExprTypeEq implements TypeInferenceRule
+public class BindSelExprTypeEq extends TypeInferenceRule
 {
-  private Sequent sequent_;
-
-  private TypeChecker checker_;
-
   private ZFactory factory_;
-  private TypeEnvInt typeEnv;
 
   public BindSelExprTypeEq(TypeEnvInt env, BindSelExpr term, TypeChecker tc)
   {

@@ -1,4 +1,4 @@
-<project name="Typecheck" default="all">
+<project name="Typecheck" default="install">
   <property name="czt.home" location=".."/>
   <property file="${czt.home}/czt.properties"/>
   <property name="typecheck.jar.dir" location="${czt.home}/${jar.dir}"/>
@@ -13,6 +13,7 @@
     <pathelement location="${czt.home}/${jar.dir}/${corejava.base.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${corejava.core.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${corejava.jaxb.jar.file}"/>
+    <pathelement location="${czt.home}/${jar.dir}/${parser.jar.file}"/>
     <pathelement path="${java.class.path}"/>
   </path>
 

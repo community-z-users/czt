@@ -1,8 +1,15 @@
 package net.sourceforge.czt.typecheck.typeinference.z;
 
 import net.sourceforge.czt.typecheck.util.typeerror.TypeException;
+import net.sourceforge.czt.typecheck.z.TypeChecker;
 
-interface TypeInferenceRule
+public abstract class TypeInferenceRule
 {
-  Object solve() throws TypeException;
+  /** The sequent for this rule */
+  protected Sequent sequent_;
+
+  /** The typechecker that creates this rule */
+  protected TypeChecker checker_;
+
+  abstract Object solve() throws TypeException;
 }

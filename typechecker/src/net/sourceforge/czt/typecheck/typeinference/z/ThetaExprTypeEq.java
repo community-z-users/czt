@@ -11,15 +11,9 @@ import net.sourceforge.czt.typecheck.util.typeerror.*;
 import net.sourceforge.czt.typecheck.z.TypeChecker;
 
 //13.2.6.9
-public class ThetaExprTypeEq
-  implements TypeInferenceRule
+public class ThetaExprTypeEq extends TypeInferenceRule
 {
-  private Sequent sequent_;
-
-  private TypeChecker checker_;
-
   private ZFactory factory_;
-  private TypeEnvInt typeEnv_;
 
   public ThetaExprTypeEq(TypeEnvInt env, ThetaExpr term, TypeChecker tc)
   {
@@ -56,7 +50,7 @@ public class ThetaExprTypeEq
       nv.addAll(strokes);
       DeclName dn =
         factory_.createDeclName(tmpDn.getWord(), nv, tmpDn.getId());
-      NameTypePair ntp1 = typeEnv_.search(dn);
+      NameTypePair ntp1 = sequent_.getTypeEnv().search(dn);
       // actually should delay the throw of these exceptions...
       if (ntp1 == null) {
         throw new TypeException(ErrorKind.UNDECLAREDNAME, tmpDn);

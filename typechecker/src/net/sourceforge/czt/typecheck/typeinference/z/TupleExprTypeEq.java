@@ -10,14 +10,9 @@ import net.sourceforge.czt.typecheck.util.typeerror.*;
 import net.sourceforge.czt.typecheck.z.TypeChecker;
 
 //13.2.6.6
-public class TupleExprTypeEq implements TypeInferenceRule
+public class TupleExprTypeEq extends TypeInferenceRule
 {
-  private Sequent sequent_;
-
-  private TypeChecker checker_;
-
   private ZFactory factory_;
-  private TypeEnvInt typeEnv_;
 
   public TupleExprTypeEq(TypeEnvInt env, TupleExpr term, TypeChecker tc)
   {

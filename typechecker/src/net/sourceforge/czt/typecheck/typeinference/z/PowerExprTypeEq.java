@@ -8,14 +8,9 @@ import net.sourceforge.czt.typecheck.util.typeerror.*;
 import net.sourceforge.czt.typecheck.z.TypeChecker;
 
 //13.2.6.3
-public class PowerExprTypeEq implements TypeInferenceRule
+public class PowerExprTypeEq extends TypeInferenceRule
 {
-  private Sequent sequent_;
-
-  private TypeChecker checker_;
-
   private ZFactory factory_;
-  private TypeEnvInt typeEnv_;
 
   public PowerExprTypeEq(TypeEnvInt env, PowerExpr term, TypeChecker tc)
   {

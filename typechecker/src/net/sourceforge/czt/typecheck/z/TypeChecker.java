@@ -70,7 +70,7 @@ public class TypeChecker
   private ZFactory factory_;
   private XmlReader reader_;
 
-  private TypeEnv typeEnv_;
+  private TypeEnvInt typeEnv_;
   private SectTypeEnv sectTypeEnv_;
 
   // for storing the parent of the current term under checking
@@ -90,7 +90,7 @@ public class TypeChecker
   {
     factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
     reader_ = new JaxbXmlReader();
-    typeEnv_ = new TypeEnv();
+    //typeEnv_ = new TypeEnv();
     sectTypeEnv_ = new SectTypeEnv();
     curDir_ = new String();
     parent_ = null;
@@ -167,6 +167,7 @@ public class TypeChecker
         }
       }
     }
+
     List parents = term.getParent();
     // add prelude if it is not one of the parent sections
     // only when current section is not prelude (!)

@@ -8,20 +8,14 @@ import net.sourceforge.czt.typecheck.util.typeerror.*;
 import net.sourceforge.czt.typecheck.z.TypeChecker;
 
 //13.2.6.15
-public class NegExprTypeEq implements TypeInferenceRule
+public class NegExprTypeEq extends TypeInferenceRule
 {
-  private Sequent sequent_;
-
-  private TypeChecker checker_;
-
   private ZFactory factory_;
-  private TypeEnvInt typeEnv_;
 
   public NegExprTypeEq(TypeEnvInt env, NegExpr term, TypeChecker tc)
   {
     sequent_ = new Sequent(env, term);
     checker_ = tc;
-    typeEnv_ = checker_.getTypeEnv();
     factory_ = checker_.getFactory();
   }
 

@@ -10,17 +10,13 @@ import net.sourceforge.czt.typecheck.util.typingenv.*;
 import net.sourceforge.czt.typecheck.util.typeerror.*;
 import net.sourceforge.czt.typecheck.z.TypeChecker;
 
-public class AxParaTypeEq implements TypeInferenceRule
+public class AxParaTypeEq extends TypeInferenceRule
 {
   private Sequent subsequent_;
-  private Sequent sequent_;
-
-  private TypeChecker checker_;
 
   private boolean isGeneric_;
 
   private ZFactory factory_;
-  private TypeEnvInt typeEnv_;
 
   public AxParaTypeEq(TypeEnvInt env, AxPara term, TypeChecker tc)
   {
@@ -34,7 +30,7 @@ public class AxParaTypeEq implements TypeInferenceRule
   public Object solve () throws TypeException
   {
     AxPara term = (AxPara) sequent_.getTerm();
-    typeEnv_ = sequent_.getTypeEnv();
+    TypeEnvInt typeEnv = sequent_.getTypeEnv();
     // temp vector to store all decl names
     Vector tmpList = new Vector();
     List forParas = term.getDeclName();
@@ -54,11 +50,11 @@ public class AxParaTypeEq implements TypeInferenceRule
       tmpDn = (DeclName) checker_.addAnns(tmpDn, pt);
       // add NameTypePair into env
       NameTypePair ntp = factory_.createNameTypePair(tmpDn, pt);
-      typeEnv_.addNameTypePair(ntp);
+      typeEnv.addNameTypePair(ntp);
     }
     // now form the subsequent_ of the eq
     SchText schtxt = term.getSchText();
-    subsequent_ = new Sequent(typeEnv_, schtxt);
+    subsequent_ = new Sequent(typeEnv, schtxt);
 
     // now take care of the schema text
     schtxt = (SchText) schtxt.accept(checker_);

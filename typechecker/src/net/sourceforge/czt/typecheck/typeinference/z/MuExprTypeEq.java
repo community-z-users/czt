@@ -8,21 +8,14 @@ import net.sourceforge.czt.typecheck.util.typeerror.*;
 import net.sourceforge.czt.typecheck.z.TypeChecker;
 
 //13.2.6.12
-public class MuExprTypeEq
-  implements TypeInferenceRule
+public class MuExprTypeEq extends TypeInferenceRule
 {
-  private Sequent sequent_;
-
-  private TypeChecker checker_;
-
   private ZFactory factory_;
-  private TypeEnvInt typeEnv_;
 
   public MuExprTypeEq(TypeEnvInt env, MuExpr term, TypeChecker tc)
   {
     sequent_ = new Sequent(env, term);
     checker_ = tc;
-    typeEnv_ = checker_.getTypeEnv();
     factory_ = checker_.getFactory();
   }
 
@@ -30,13 +23,14 @@ public class MuExprTypeEq
   public Object solve() throws TypeException
   {
     MuExpr term = (MuExpr) sequent_.getTerm();
-    typeEnv_.enterScope();
+    TypeEnvInt typeEnv = sequent_.getTypeEnv();
+    typeEnv.enterScope();
     SchText schtext = (SchText) term.getSchText().accept(checker_);
-    // now typeEnv_ should contain decls from schtext
+    // now typeEnv should contain decls from schtext
     Expr expr = (Expr) term.getExpr().accept(checker_);
     Type type = checker_.getTypeFromAnns(expr);
     term = (MuExpr) checker_.addAnns(term, type);
-    typeEnv_.exitScope();
+    typeEnv.exitScope();
     return term;
   }
 }

@@ -1,131 +1,117 @@
 package net.sourceforge.czt.typecheck.util.typingenv;
 
 import java.io.*;
-//import java.util.Stack;
-import java.util.Vector;
+import java.util.Stack;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import net.sourceforge.czt.typecheck.util.typeerror.*;
-//import net.sourceforge.czt.typecheck.util.typingenv.*;
 import net.sourceforge.czt.typecheck.z.*;
 
-import net.sourceforge.czt.z.ast.Type;
-import net.sourceforge.czt.z.ast.NameTypePair;
-import net.sourceforge.czt.z.ast.DeclName;
-import net.sourceforge.czt.z.ast.TypeEnvAnn;
-import net.sourceforge.czt.z.ast.ZFactory;
+import net.sourceforge.czt.z.ast.*;
 
-public class TypeEnv implements TypeEnvInt
+public class TypeEnv
 {
-  private ZFactory factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
-  private Vector typeEnvAnns_;
-  private int curDepth_;
+  /** a ZFactory */
+  protected ZFactory factory_ = null;
+
+  protected Stack typeInfo_ = null;
 
   public TypeEnv ()
   {
-    curDepth_ = 2;
-    typeEnvAnns_ = new Vector(curDepth_);
-    for (int i = 0; i < curDepth_; i++) {
-      typeEnvAnns_.add(i, factory_.createTypeEnvAnn());
-    }
+    factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+    typeInfo_ = new Stack();
   }
 
   public void enterScope()
   {
-    typeEnvAnns_.add(curDepth_++, factory_.createTypeEnvAnn());
+    List info = new ArrayList();
+    typeInfo_.push(info);
   }
 
-  public TypeEnvAnn  exitScope()
+  public TypeEnvAnn exitScope()
   {
-    return (TypeEnvAnn) typeEnvAnns_.remove(--curDepth_);
+    return factory_.createTypeEnvAnn(pop());
   }
 
-  public NameTypePair addNameTypePair(NameTypePair ntPair)
+  public void add(DeclName declName, Type type)
     throws TypeException
   {
-    NameTypePair result = null;
-    DeclName dn = ntPair.getName();
-    String name = dn.getWord();
-    NameTypePair pair1 = search(dn);
-    if (pair1 == null) {
-      add(ntPair);
-      result = ntPair;
+    NameTypePair pair = getPair(declName);
+    if (pair != null) {
+      String message = "Redeclared name: " + SectTypeEnv.toString(declName);
+      throw new TypeException(ErrorKind.REDECLARATION, declName);
     }
-    else {
-      Type ntType = ntPair.getType();
-      Type type1 = pair1.getType();
-      if (! TypeChecker.unify(ntType, type1)) {
-        result = pair1;
-        throw new TypeException(ErrorKind.REDECLARATION, ntPair);
-      }
-      else {
-        result = ntPair;
-      }
+
+    NameTypePair nameTypePair = factory_.createNameTypePair(declName, type);
+    peek().add(nameTypePair);
+  }
+
+  /**
+   * Add a NameTypePair to this environment
+   */
+  public void add(NameTypePair nameTypePair)
+  {
+    peek().add(nameTypePair);
+  }
+
+  /**
+   * Add a list of NameTypePair objects to this environment
+   */
+  public void add(List nameTypePairs)
+  {
+    for (Iterator iter = nameTypePairs.iterator(); iter.hasNext(); ) {
+      NameTypePair nameTypePair = (NameTypePair) iter.next();
+      peek().add(nameTypePair);
     }
+  }
+
+  public Type getType(Name name)
+  {
+    Type result = UnknownTypeImpl.create();
+
+    //get the info for this name
+    NameTypePair pair = getPair(name);
+    if (pair != null) {
+      result = pair.getType();
+    }
+
     return result;
   }
 
-  private void add(NameTypePair ntPair)
+  //peeks at the top of the stack
+  private List peek()
   {
-    TypeEnvAnn env = top();
-    List nameTypePairs = env.getNameTypePair();
-    nameTypePairs.add(ntPair);
+    return (List) typeInfo_.peek();
   }
 
-  public NameTypePair search(DeclName dn)
+  //pops the top of the stack
+  private List pop()
+  {
+    return (List) typeInfo_.pop();
+  }
+
+  //gets the pair with the corresponding name. At the moment, I have
+  //assumed that a duplicate name in a nested expression is prohibited,
+  //but I think the standard allows it
+  private NameTypePair getPair(Name name)
   {
     NameTypePair result = null;
-    for (int i = curDepth_ - 1; i >= 0; i--) {
-      TypeEnvAnn env = (TypeEnvAnn) typeEnvAnns_.get(i);
-      NameTypePair temp = searchLocal(env, dn);
-      if (temp != null) {
-        result = temp;
-        break;
+
+    for (Iterator stackIter = typeInfo_.iterator(); stackIter.hasNext(); ) {
+      List list = (List) stackIter.next();
+
+      for (Iterator iter = list.iterator(); iter.hasNext(); ) {
+	NameTypePair pair = (NameTypePair) iter.next();
+	
+	if (pair.getName().getWord().equals(name.getWord()) &&
+	    pair.getName().getStroke().equals(name.getStroke())) {
+	  result = pair;
+	}
       }
     }
-    return result;
-  }
 
-  // changed this method and now it search for NameTypePair
-  // not only by the name string,
-  // but also by the strokes & Ids
-  private NameTypePair searchLocal(TypeEnvAnn env, DeclName dn)
-  {
-    NameTypePair result = null;
-    NameTypePair temp = null;
-    List list = env.getNameTypePair();
-    String name = dn.getWord();
-    DeclName dn1 = null;
-    for (int i = 0; i < list.size(); i++) {
-      temp = (NameTypePair) list.get(i);
-      dn1 = temp.getName();
-      String name1 = dn1.getWord();
-      if (name.equals(name1)) {
-        boolean strokesAgree =
-          TypeChecker.strokesAgree(dn.getStroke(), dn1.getStroke());
-        boolean idsAgree = TypeChecker.IdsAgree(dn, dn1);
-        if (strokesAgree && idsAgree) {
-          result = temp;
-          break;
-        }
-      }
-    }
-    return result;
-  }
-
-  private TypeEnvAnn top()
-  {
-    TypeEnvAnn env = (TypeEnvAnn) typeEnvAnns_.get(curDepth_ - 1);
-    return env;
-  }
-
-  public int getCount()
-  {
-    int result = 0;
-    for (int i = 0; i < curDepth_; i++) {
-      TypeEnvAnn env = (TypeEnvAnn) typeEnvAnns_.get(i);
-      result += env.getNameTypePair().size();
-    }
     return result;
   }
 }

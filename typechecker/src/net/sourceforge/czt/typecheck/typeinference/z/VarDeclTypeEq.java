@@ -10,15 +10,11 @@ import net.sourceforge.czt.typecheck.util.typeerror.*;
 import net.sourceforge.czt.typecheck.z.TypeChecker;
 
 // 13.2.6.3
-public class VarDeclTypeEq implements TypeInferenceRule
+public class VarDeclTypeEq extends TypeInferenceRule
 {
   private Sequent subsequent_;
-  private Sequent sequent_;
-
-  private TypeChecker checker_;
 
   private ZFactory factory_;
-  private TypeEnvInt typeEnv_;
 
   public VarDeclTypeEq(TypeEnvInt env, VarDecl term, TypeChecker tc)
   {
@@ -26,7 +22,6 @@ public class VarDeclTypeEq implements TypeInferenceRule
     sequent_ = new Sequent(env, term);
     checker_ = tc;
     factory_ = checker_.getFactory();
-    typeEnv_ = env;
   }
 
   // this method won't throw exceptions
@@ -67,7 +62,7 @@ public class VarDeclTypeEq implements TypeInferenceRule
       decl = (DeclName) decls.get(i);
       ntp = factory_.createNameTypePair(decl, curT);
       try {
-        typeEnv_.addNameTypePair(ntp);
+        sequent_.getTypeEnv().addNameTypePair(ntp);
         ntps.add(ntp);
       }
       catch (TypeException e) {

@@ -7,6 +7,8 @@ import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
 import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.typecheck.util.typingenv.*;
+import net.sourceforge.czt.parser.z.*;
 
 public final class Main
 {
@@ -19,14 +21,20 @@ public final class Main
 
   public static void main( String[] args )
   {
-    String filename = "src/net/sourceforge/czt/typecheck/toolkit/prelude.xml";
+    String filename =
+      "tests/test.tex";
+      //      "src/net/sourceforge/czt/typecheck/toolkit/prelude.xml";
     try {
       Handler handler = new FileHandler("visitor.log");
       handler.setLevel(Level.ALL);
       Logger.getLogger("").addHandler(handler);
       Logger.getLogger("net.sourceforge.czt.base").setLevel(Level.FINEST);
-      TypeChecker visitor = new TypeChecker();
-      Term result = visitor.checkFile(filename);
+      SectTypeEnv sectTypeEnv = new SectTypeEnv();
+      OperatorTable table = new OperatorTable();
+      TypeAnnotatingVisitor visitor =
+	new TypeAnnotatingVisitor(sectTypeEnv);
+      Term term = ParseUtils.parseLatexFile(filename, table);
+      term.accept(visitor);
       //XmlWriter writer = new JaxbXmlWriter();
       //FileOutputStream file = new FileOutputStream ("new_prelude.xml");
       //writer.write(result, file);
