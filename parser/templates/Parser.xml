@@ -144,8 +144,8 @@ action code
         }
 
         //if we get to here, the file has not been found
-        String message = "Try setting the environment variable " +
-          "CZT_LIB to point to the path of " + parent + "\n";        
+        String message = "Try setting the system property " +
+          "czt.lib to point to the path of " + parent + "\n";
         throw new ParentNotFoundException(parent, message);
       }
     }
@@ -160,7 +160,7 @@ action code
         currentDir = (new File(file_)).getParent();
       }
 
-      String libPath = System.getProperty("czt.lib");
+      String libPath = Settings.getCztLib();
 
       List list = list();
       if (currentDir != null) {
