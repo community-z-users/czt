@@ -53,7 +53,13 @@
     <junit reloading="false" printsummary="on">
       <formatter type="brief" usefile="true"/>
       <test name="net.sourceforge.czt.animation.eval.AnimateIntsTest"/>
+      <test name="net.sourceforge.czt.animation.eval.AnimateMiscTest"/>
+      <test name="net.sourceforge.czt.animation.eval.AnimateFreetypesTest"/>
+      <test name="net.sourceforge.czt.animation.eval.AnimateScopeTest"/>
       <test name="net.sourceforge.czt.animation.eval.AnimateSetsTest"/>
+      <test name="net.sourceforge.czt.animation.eval.AnimateRelationsTest"/>
+      <test name="net.sourceforge.czt.animation.eval.AnimateSequencesTest"/>
+      <test name="net.sourceforge.czt.animation.eval.AnimateSchemasTest"/>
       <classpath>
         <path refid="classpath"/>
         <pathelement location="${test.jar.file}"/>

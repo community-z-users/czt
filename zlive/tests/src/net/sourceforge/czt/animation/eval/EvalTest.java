@@ -25,6 +25,7 @@ import java.util.*;
 
 import junit.framework.*;
 
+import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.session.SectionManager;
@@ -52,21 +53,18 @@ public abstract class EvalTest extends TestCase
     return result;
   }
 
-  /*
-   public static Test suite()
-   {
-   TestSuite tests = new TestSuite();
-   tests.addTest(new FileTest(getTestExample("animate_freetypes.tex")));
-   tests.addTest(new FileTest(getTestExample("animate_ints.tex")));
-   tests.addTest(new FileTest(getTestExample("animate_scope.tex")));
-   tests.addTest(new FileTest(getTestExample("animate_schemas.tex")));
-   tests.addTest(new FileTest(getTestExample("animate_sequences.tex")));
-   tests.addTest(new FileTest(getTestExample("animate_relations.tex")));
-   tests.addTest(new FileTest(getTestExample("animate_misc.tex")));
-   tests.addTest(new FileTest(getTestExample("animate_sets.tex")));
-   return tests;
-   }
-   */
+  /** Get the LocAnn of a term, or null if it does not have one. */
+  public static LocAnn getLocAnn(TermA term)
+  {
+    List anns = term.getAnns();
+    Iterator i = anns.iterator();
+    while (i.hasNext()) {
+      Object ann = i.next();
+	if (ann instanceof LocAnn)
+	  return (LocAnn)ann;
+    }
+    return null;
+  }
 
   /** If the predicate is Expr=undefnum, then return Expr. */
   private static Expr undefExpr(Pred pred) {
@@ -157,7 +155,10 @@ public abstract class EvalTest extends TestCase
             Pred pred = ((ConjPara) para).getPred();
             // construct a nice name for this test.
             count++;
-            String name = filename_ + ":" + count;
+            String name = filename_ + "::" + count;
+	    LocAnn loc = getLocAnn(pred);
+	    if (loc != null)
+		{ name = filename_ + ":" + loc.getLine().intValue(); }
             int slash = name.lastIndexOf("/");
             if (slash >= 0)
               name = name.substring(slash+1);
