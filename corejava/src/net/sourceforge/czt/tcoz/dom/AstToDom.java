@@ -72,7 +72,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a RecProExpr to the corresponding "
                        + "DOM object";
@@ -99,7 +100,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a WaitUntilProExpr to the corresponding "
                        + "DOM object";
@@ -126,7 +128,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a DeadlineProExpr to the corresponding "
                        + "DOM object";
@@ -148,7 +151,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a WaitProExpr to the corresponding "
                        + "DOM object";
@@ -165,7 +169,8 @@ public class AstToDom
     final String ns = "http://czt.sourceforge.net/zml";
     Element elem = getDocument().createElementNS(ns, "DivergeProExpr");
     try {
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a DivergeProExpr to the corresponding "
                        + "DOM object";
@@ -187,7 +192,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a SynPllProExpr to the corresponding "
                        + "DOM object";
@@ -219,7 +225,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a InterruptProExpr to the corresponding "
                        + "DOM object";
@@ -236,7 +243,8 @@ public class AstToDom
     final String ns = "http://czt.sourceforge.net/zml";
     Element elem = getDocument().createElementNS(ns, "InterleaveProExpr");
     try {
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a InterleaveProExpr to the corresponding "
                        + "DOM object";
@@ -268,7 +276,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a AtProExpr to the corresponding "
                        + "DOM object";
@@ -292,7 +301,8 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -313,7 +323,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a Connection to the corresponding "
                        + "DOM object";
@@ -345,7 +356,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a InterruptTimeOpExpr to the corresponding "
                        + "DOM object";
@@ -372,7 +384,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a GuardProExpr to the corresponding "
                        + "DOM object";
@@ -389,7 +402,8 @@ public class AstToDom
     final String ns = "http://czt.sourceforge.net/zml";
     Element elem = getDocument().createElementNS(ns, "StopProExpr");
     try {
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a StopProExpr to the corresponding "
                        + "DOM object";
@@ -406,7 +420,8 @@ public class AstToDom
     final String ns = "http://czt.sourceforge.net/zml";
     Element elem = getDocument().createElementNS(ns, "SkipProExpr");
     try {
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a SkipProExpr to the corresponding "
                        + "DOM object";
@@ -433,7 +448,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a ChannelExpr to the corresponding "
                        + "DOM object";
@@ -457,7 +473,8 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -468,11 +485,13 @@ public class AstToDom
         if (o instanceof Term) {
           Node node = (Node) ((Term) o).accept(this);
           elem.appendChild(node);
-        } else {
+        }
+        else {
           elem.appendChild(getDocument().createTextNode(o.toString()));
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a EventSet to the corresponding "
                        + "DOM object";
@@ -496,7 +515,8 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -512,7 +532,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a Event to the corresponding "
                        + "DOM object";
@@ -534,11 +555,13 @@ public class AstToDom
         if (o instanceof Term) {
           Node node = (Node) ((Term) o).accept(this);
           elem.appendChild(node);
-        } else {
+        }
+        else {
           elem.appendChild(getDocument().createTextNode(o.toString()));
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a TopologyProExpr to the corresponding "
                        + "DOM object";
@@ -570,7 +593,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a TimeoutEndProExpr to the corresponding "
                        + "DOM object";
@@ -602,7 +626,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a TimeoutStartProExpr to the corresponding "
                        + "DOM object";

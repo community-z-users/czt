@@ -63,7 +63,8 @@ public class AstToDom
       if (zedObject.getName() != null) {
         elem.setAttributeNS(ns, "Name", zedObject.getName().toString());
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a JokerExpr to the corresponding "
                        + "DOM object";
@@ -85,7 +86,8 @@ public class AstToDom
         if (o instanceof Term) {
           Node node = (Node) ((Term) o).accept(this);
           elem.appendChild(node);
-        } else {
+        }
+        else {
           elem.appendChild(getDocument().createTextNode(o.toString()));
         }
       }
@@ -94,11 +96,13 @@ public class AstToDom
         if (o instanceof Term) {
           Node node = (Node) ((Term) o).accept(this);
           elem.appendChild(node);
-        } else {
+        }
+        else {
           elem.appendChild(getDocument().createTextNode(o.toString()));
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a Substitute to the corresponding "
                        + "DOM object";
@@ -118,7 +122,8 @@ public class AstToDom
       if (zedObject.getName() != null) {
         elem.setAttributeNS(ns, "Name", zedObject.getName().toString());
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a JokerPred to the corresponding "
                        + "DOM object";
@@ -140,11 +145,13 @@ public class AstToDom
         if (o instanceof Term) {
           Node node = (Node) ((Term) o).accept(this);
           elem.appendChild(node);
-        } else {
+        }
+        else {
           elem.appendChild(getDocument().createTextNode(o.toString()));
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a SubstList to the corresponding "
                        + "DOM object";

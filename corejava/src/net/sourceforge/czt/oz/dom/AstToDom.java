@@ -67,7 +67,8 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -78,11 +79,13 @@ public class AstToDom
         if (o instanceof Term) {
           Node node = (Node) ((Term) o).accept(this);
           elem.appendChild(node);
-        } else {
+        }
+        else {
           elem.appendChild(getDocument().createTextNode(o.toString()));
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a RefNameList to the corresponding "
                        + "DOM object";
@@ -106,7 +109,8 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -117,11 +121,13 @@ public class AstToDom
         if (o instanceof Term) {
           Node node = (Node) ((Term) o).accept(this);
           elem.appendChild(node);
-        } else {
+        }
+        else {
           elem.appendChild(getDocument().createTextNode(o.toString()));
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a ActualParameters to the corresponding "
                        + "DOM object";
@@ -145,7 +151,8 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -156,7 +163,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a DistConjOpExpr to the corresponding "
                        + "DOM object";
@@ -180,7 +188,8 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -196,7 +205,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a BasicOpExpr to the corresponding "
                        + "DOM object";
@@ -220,7 +230,8 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -236,7 +247,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a MainOpExpr to the corresponding "
                        + "DOM object";
@@ -260,7 +272,8 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -276,11 +289,13 @@ public class AstToDom
         if (o instanceof Term) {
           Node node = (Node) ((Term) o).accept(this);
           elem.appendChild(node);
-        } else {
+        }
+        else {
           elem.appendChild(getDocument().createTextNode(o.toString()));
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a HideOpExpr to the corresponding "
                        + "DOM object";
@@ -304,7 +319,8 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -320,7 +336,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a SeqOpExpr to the corresponding "
                        + "DOM object";
@@ -344,7 +361,8 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -365,7 +383,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a InheritedClass to the corresponding "
                        + "DOM object";
@@ -394,7 +413,8 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -405,7 +425,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a DistChoiceOpExpr to the corresponding "
                        + "DOM object";
@@ -434,7 +455,8 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -450,7 +472,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a AssoParallelOpExpr to the corresponding "
                        + "DOM object";
@@ -474,7 +497,8 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -485,7 +509,8 @@ public class AstToDom
         if (o instanceof Term) {
           Node node = (Node) ((Term) o).accept(this);
           elem.appendChild(node);
-        } else {
+        }
+        else {
           elem.appendChild(getDocument().createTextNode(o.toString()));
         }
       }
@@ -499,11 +524,13 @@ public class AstToDom
         if (o instanceof Term) {
           Node node = (Node) ((Term) o).accept(this);
           elem.appendChild(node);
-        } else {
+        }
+        else {
           elem.appendChild(getDocument().createTextNode(o.toString()));
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a State to the corresponding "
                        + "DOM object";
@@ -527,7 +554,8 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -543,7 +571,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a ConjOpExpr to the corresponding "
                        + "DOM object";
@@ -567,7 +596,8 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -583,7 +613,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a OpPromotionExpr to the corresponding "
                        + "DOM object";
@@ -620,7 +651,8 @@ public class AstToDom
         if (o instanceof Term) {
           Node node = (Node) ((Term) o).accept(this);
           elem.appendChild(node);
-        } else {
+        }
+        else {
           elem.appendChild(getDocument().createTextNode(o.toString()));
         }
       }
@@ -644,11 +676,13 @@ public class AstToDom
         if (o instanceof Term) {
           Node node = (Node) ((Term) o).accept(this);
           elem.appendChild(node);
-        } else {
+        }
+        else {
           elem.appendChild(getDocument().createTextNode(o.toString()));
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a ClassPara to the corresponding "
                        + "DOM object";
@@ -672,13 +706,15 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
         elem.appendChild(anns);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a ParenOpExpr to the corresponding "
                        + "DOM object";
@@ -702,7 +738,8 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -718,7 +755,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a Operation to the corresponding "
                        + "DOM object";
@@ -742,7 +780,8 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -753,7 +792,8 @@ public class AstToDom
         if (o instanceof Term) {
           Node node = (Node) ((Term) o).accept(this);
           elem.appendChild(node);
-        } else {
+        }
+        else {
           elem.appendChild(getDocument().createTextNode(o.toString()));
         }
       }
@@ -762,7 +802,8 @@ public class AstToDom
         if (o instanceof Term) {
           Node node = (Node) ((Term) o).accept(this);
           elem.appendChild(node);
-        } else {
+        }
+        else {
           elem.appendChild(getDocument().createTextNode(o.toString()));
         }
       }
@@ -771,11 +812,13 @@ public class AstToDom
         if (o instanceof Term) {
           Node node = (Node) ((Term) o).accept(this);
           elem.appendChild(node);
-        } else {
+        }
+        else {
           elem.appendChild(getDocument().createTextNode(o.toString()));
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a LocalDef to the corresponding "
                        + "DOM object";
@@ -799,7 +842,8 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -815,7 +859,8 @@ public class AstToDom
         if (o instanceof Term) {
           Node node = (Node) ((Term) o).accept(this);
           elem.appendChild(node);
-        } else {
+        }
+        else {
           elem.appendChild(getDocument().createTextNode(o.toString()));
         }
       }
@@ -824,11 +869,13 @@ public class AstToDom
         if (o instanceof Term) {
           Node node = (Node) ((Term) o).accept(this);
           elem.appendChild(node);
-        } else {
+        }
+        else {
           elem.appendChild(getDocument().createTextNode(o.toString()));
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a OperationBox to the corresponding "
                        + "DOM object";
@@ -852,7 +899,8 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -863,11 +911,13 @@ public class AstToDom
         if (o instanceof Term) {
           Node node = (Node) ((Term) o).accept(this);
           elem.appendChild(node);
-        } else {
+        }
+        else {
           elem.appendChild(getDocument().createTextNode(o.toString()));
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a InitialState to the corresponding "
                        + "DOM object";
@@ -891,7 +941,8 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -902,7 +953,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a DistSeqOpExpr to the corresponding "
                        + "DOM object";
@@ -926,7 +978,8 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -942,7 +995,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a ScopeEnrichOpExpr to the corresponding "
                        + "DOM object";
@@ -966,7 +1020,8 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -977,11 +1032,13 @@ public class AstToDom
         if (o instanceof Term) {
           Node node = (Node) ((Term) o).accept(this);
           elem.appendChild(node);
-        } else {
+        }
+        else {
           elem.appendChild(getDocument().createTextNode(o.toString()));
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a SecondaryAttributes to the corresponding "
                        + "DOM object";
@@ -1005,7 +1062,8 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -1021,7 +1079,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a RenameOpExpr to the corresponding "
                        + "DOM object";
@@ -1045,7 +1104,8 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -1061,7 +1121,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a ExChoiceOpExpr to the corresponding "
                        + "DOM object";
@@ -1085,7 +1146,8 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -1101,7 +1163,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a ParallelOpExpr to the corresponding "
                        + "DOM object";
@@ -1125,7 +1188,8 @@ public class AstToDom
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -1136,11 +1200,13 @@ public class AstToDom
         if (o instanceof Term) {
           Node node = (Node) ((Term) o).accept(this);
           elem.appendChild(node);
-        } else {
+        }
+        else {
           elem.appendChild(getDocument().createTextNode(o.toString()));
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToDom: "
                        + "Cannot transform a FormalParameters to the corresponding "
                        + "DOM object";

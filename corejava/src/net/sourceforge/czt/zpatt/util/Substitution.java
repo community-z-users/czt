@@ -107,7 +107,8 @@ public class Substitution
           bindings_.put(name, term2);
         }
         return true;
-      } else {
+      }
+      else {
         // term2 has wrong type
         return false;
       }
@@ -124,7 +125,8 @@ public class Substitution
           bindings_.put(name, term2);
         }
         return true;
-      } else {
+      }
+      else {
         // term2 has wrong type
         return false;
       }
@@ -145,13 +147,15 @@ public class Substitution
           if (!match(child1, child2)) {
             return false;
           }
-        } else if (args1[i] instanceof List) {
+        }
+        else if (args1[i] instanceof List) {
           List list1 = (List) args1[i];
           List list2 = (List) args2[i];
           if (!match(list1, list2)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (!args1[i].equals(args2[i])) {
             return false;
           }
@@ -173,7 +177,8 @@ public class Substitution
         if (!match((Term) o1, (Term) o2)) {
           return false;
         }
-      } else {
+      }
+      else {
         if (!o1.equals(o2)) {
           return false;
         }
