@@ -14,6 +14,9 @@
     </NarrSect>
     <ZSect>
         <Name>number_toolkit</Name>
+        <Parent>
+            <Word>prelude</Word>
+        </Parent>
         <LatexMarkupPara>
             <Directive Type="NONE">
                 <Anns>
@@ -400,6 +403,9 @@ may be specified as supersets of $\num$.
                                         </VarDecl>
                                     </SchText>
                                     <MemPred Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Loc="lib/number_toolkit.tex" Line="51" Col="54"/>
+                                        </Anns>
                                         <TupleExpr>
                                             <TupleExpr>
                                                 <RefExpr Mixfix="false">
@@ -508,6 +514,9 @@ may be specified as supersets of $\num$.
                                         </VarDecl>
                                     </SchText>
                                     <MemPred Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Loc="lib/number_toolkit.tex" Line="52" Col="47"/>
+                                        </Anns>
                                         <TupleExpr>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
@@ -1221,6 +1230,9 @@ the negation operator could be defined as follows.
                                 </VarDecl>
                             </SchText>
                             <MemPred Mixfix="false">
+                                <Anns>
+                                    <LocAnn Loc="lib/number_toolkit.tex" Line="106" Col="54"/>
+                                </Anns>
                                 <TupleExpr>
                                     <TupleExpr>
                                         <RefExpr Mixfix="false">
@@ -1543,6 +1555,9 @@ the subtraction operator could be defined as follows.
                             </RefExpr>
                         </MemPred>
                         <MemPred Mixfix="false">
+                            <Anns>
+                                <LocAnn Loc="lib/number_toolkit.tex" Line="140" Col="44"/>
+                            </Anns>
                             <ApplExpr Mixfix="true">
                                 <Anns>
                                     <LocAnn Loc="lib/number_toolkit.tex" Line="140" Col="40"/>
@@ -2471,6 +2486,9 @@ The non-zero integers $\num_1$ are the integers except zero.
                                 </VarDecl>
                             </SchText>
                             <MemPred Mixfix="false">
+                                <Anns>
+                                    <LocAnn Loc="lib/number_toolkit.tex" Line="218" Col="54"/>
+                                </Anns>
                                 <TupleExpr>
                                     <TupleExpr>
                                         <RefExpr Mixfix="false">
@@ -3188,6 +3206,9 @@ the multiplication operator could be defined as follows.
                                     </VarDecl>
                                 </SchText>
                                 <MemPred Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/number_toolkit.tex" Line="266" Col="64"/>
+                                    </Anns>
                                     <TupleExpr>
                                         <TupleExpr>
                                             <RefExpr Mixfix="false">
@@ -3319,6 +3340,9 @@ the multiplication operator could be defined as follows.
                                     </VarDecl>
                                 </SchText>
                                 <MemPred Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/number_toolkit.tex" Line="268" Col="64"/>
+                                    </Anns>
                                     <TupleExpr>
                                         <TupleExpr>
                                             <RefExpr Mixfix="false">

@@ -17,6 +17,9 @@
             <LocAnn Loc="lib/set_toolkit.tex" Line="9" Col="1"/>
         </Anns>
         <Name>set_toolkit</Name>
+        <Parent>
+            <Word>prelude</Word>
+        </Parent>
         <LatexMarkupPara>
             <Directive Type="IN">
                 <Anns>
@@ -351,6 +354,9 @@ are members of $X$ and whose second members are members of $Y$.
                                         </VarDecl>
                                     </SchText>
                                     <MemPred Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="35" Col="74"/>
+                                        </Anns>
                                         <TupleExpr>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
@@ -764,6 +770,9 @@ that are not equal to each other.
                                 <LocAnn Loc="lib/set_toolkit.tex" Line="70" Col="48"/>
                             </Anns>
                             <MemPred Mixfix="false">
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="70" Col="56"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
                                     <Anns>
                                         <LocAnn Loc="lib/set_toolkit.tex" Line="70" Col="54"/>
@@ -1058,6 +1067,9 @@ type that has no members.
                                 </VarDecl>
                             </SchText>
                             <MemPred Mixfix="false">
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="98" Col="21"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
                                     <Anns>
                                         <LocAnn Loc="lib/set_toolkit.tex" Line="98" Col="19"/>
@@ -1641,6 +1653,9 @@ The $\power$ symbol is established as a generic operator by the prelude.
                                             <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="59"/>
                                         </Anns>
                                         <MemPred Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="53"/>
+                                            </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="51"/>
@@ -1665,6 +1680,9 @@ The $\power$ symbol is established as a generic operator by the prelude.
                                             </RefExpr>
                                         </MemPred>
                                         <MemPred Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="66"/>
+                                            </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="64"/>
@@ -1914,6 +1932,9 @@ that are members of either set.
                                             <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="59"/>
                                         </Anns>
                                         <MemPred Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="53"/>
+                                            </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="51"/>
@@ -1938,6 +1959,9 @@ that are members of either set.
                                             </RefExpr>
                                         </MemPred>
                                         <MemPred Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="67"/>
+                                            </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="65"/>
@@ -2187,6 +2211,9 @@ values that are members of both sets.
                                             <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="64"/>
                                         </Anns>
                                         <MemPred Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="58"/>
+                                            </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="56"/>
@@ -2472,6 +2499,9 @@ values that are members of the first set but not members of the second set.
                                                 <ParenAnn/>
                                             </Anns>
                                             <MemPred Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="65"/>
+                                                </Anns>
                                                 <RefExpr Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="63"/>
@@ -2496,6 +2526,9 @@ values that are members of the first set but not members of the second set.
                                                 </RefExpr>
                                             </MemPred>
                                             <MemPred Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="78"/>
+                                                </Anns>
                                                 <RefExpr Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="76"/>
@@ -2732,6 +2765,9 @@ but not members of both.
                                             </VarDecl>
                                         </SchText>
                                         <MemPred Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="73"/>
+                                            </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="71"/>
@@ -2966,6 +3002,9 @@ the set of values of that type that are members of at least one of the sets.
                                             </VarDecl>
                                         </SchText>
                                         <MemPred Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="73"/>
+                                            </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="71"/>
@@ -3099,6 +3138,9 @@ every one of the sets.
                                         <LocAnn Loc="lib/set_toolkit.tex" Line="237" Col="18"/>
                                     </Anns>
                                     <MemPred Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="237" Col="12"/>
+                                        </Anns>
                                         <RefExpr Mixfix="false">
                                             <Anns>
                                                 <LocAnn Loc="lib/set_toolkit.tex" Line="237" Col="2"/>
@@ -3174,6 +3216,9 @@ every one of the sets.
                                             </VarDecl>
                                         </SchText>
                                         <MemPred Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="237" Col="65"/>
+                                            </Anns>
                                             <ApplExpr Mixfix="true">
                                                 <Anns>
                                                     <LocAnn Loc="lib/set_toolkit.tex" Line="237" Col="52"/>
