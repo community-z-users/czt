@@ -312,10 +312,10 @@ public class BWriter extends PrintWriter
 	result += ch;
       else switch (ch) {
       case '_': result += ch; break;
-      case ZChar.PRIME: result += "__prime"; break;
-      case ZChar.INSTROKE: result += "__in"; break;
-      case ZChar.OUTSTROKE: result += "__out"; break;
-      case ZChar.SW: result += "__"; break;
+      case '\u2032': result += "__prime"; break;
+      case '?': result += "__in"; break;
+      case '!': result += "__out"; break;
+      case '\u2199': result += "__"; break;
       default: break;   // ignore unknown chars?
       }
     }

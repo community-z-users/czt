@@ -254,7 +254,7 @@ public class LatexMarkupParser
           final boolean c2IsLetterOrDigit =
             Character.isDigit(c2) || Character.isLetter(c2);
           final boolean c1IsDeltaOrXi =
-            c1 == ZChar.DELTA || c1 == ZChar.XI;
+            c1 == ZChar.DELTA.toChar() || c1 == ZChar.XI.toChar();
           final boolean cond =
             c1IsLetterOrDigit && c2IsLetterOrDigit && ! c1IsDeltaOrXi;
           if (cond) {
@@ -323,12 +323,22 @@ public class LatexMarkupParser
         String hexValue = splitted[2].substring(beginString, endString);
         final int hexBase = 16;
         int decimal = Integer.parseInt(hexValue, hexBase);
-        // Java 1.4
-        Character character = new Character((char) decimal);
-        String unicode = character.toString();
-        // Java 1.5
-        //        char[] chars = Character.toChars(decimal);
-        //        String unicode = new String(chars);
+        char[] chars = Character.toChars(decimal);
+        String unicode = new String(chars);
+        Directive d = factory_.createDirective(name, unicode, type);
+        d.getAnns().add(factory_.createLocAnn(null,
+                                              new Integer(line),
+                                              null));
+        return d;
+      }
+      else if (splitted[2].startsWith("U-")) {
+        final int beginString = 2;
+        final int endString = 10;
+        String hexValue = splitted[2].substring(beginString, endString);
+        final int hexBase = 16;
+        int decimal = Integer.parseInt(hexValue, hexBase);
+        char[] chars = Character.toChars(decimal);
+        String unicode = new String(chars);
         Directive d = factory_.createDirective(name, unicode, type);
         d.getAnns().add(factory_.createLocAnn(null,
                                               new Integer(line),

@@ -128,9 +128,9 @@ action code
 
   private boolean isStroke(char character)
   {
-    boolean isPrime = character == ZChar.PRIME;
-    boolean isOutStroke = character == ZChar.OUTSTROKE;
-    boolean isInStroke = character == ZChar.INSTROKE;
+    boolean isPrime = character == ZChar.PRIME.toChar();
+    boolean isOutStroke = character == ZChar.OUTSTROKE.toChar();
+    boolean isInStroke = character == ZChar.INSTROKE.toChar();
     if (isPrime || isOutStroke || isInStroke) {
       return true;
     }
@@ -139,11 +139,11 @@ action code
 
   private boolean isWordGlue(char character)
   {
-    boolean isSE = character == ZChar.SE;
-    boolean isSW = character == ZChar.SW;
-    boolean isNE = character == ZChar.NE;
-    boolean isNW = character == ZChar.NW;
-    boolean isLL = character == ZChar.LL;
+    boolean isSE = character == ZChar.SE.toChar();
+    boolean isSW = character == ZChar.SW.toChar();
+    boolean isNE = character == ZChar.NE.toChar();
+    boolean isNW = character == ZChar.NW.toChar();
+    boolean isLL = character == ZChar.LL.toChar();
     if (isSE || isSW || isNE || isNW || isLL) {
       return true;
     }
@@ -196,9 +196,11 @@ action code
     String latex = "";
     boolean addLeftSpace = false;
     boolean addRightSpace = false;
-    for (int i = 0; i &lt; word.length(); i++) {
-      char character = word.charAt(i);
-      Object o = latexCommands.get(String.valueOf(character));
+    ZChar[] zchars = ZChar.toZChars(word);
+    int charcount = 0;
+    for (int i = 0; i &lt; zchars.length; i++) {
+      ZChar zchar = zchars[i];
+      Object o = latexCommands.get(zchar.toString());
       if (o instanceof LatexMarkupFunction.MarkupDirective) {
         LatexMarkupFunction.MarkupDirective directive =
           (LatexMarkupFunction.MarkupDirective) o;
@@ -210,10 +212,9 @@ action code
       else {
         command = (LatexCommand) o;
       }
-      final int ascii = 256;
       if (command != null) {
         if ( (command.addLeftSpace() &amp;&amp; i &gt; 0) ||
-             (command.addRightSpace() &amp;&amp; i + 1 &lt; word.length()) ) {
+             (command.addRightSpace() &amp;&amp; i + 1 &lt; zchars.length) ) {
           latex += "{" + command.getName() + "}";
         }
         else {
@@ -221,19 +222,21 @@ action code
         }
         addRightSpace = command.addRightSpace();
       }
-      else if (character &lt; ascii) { // ASCII?
-        latex += character;
+      else if (zchar.isAsciiChar()) { // ASCII?
+        latex += zchar.toString();
       }
-      else if (ZChar.PRIME == character) {
+      else if (ZChar.PRIME.equals(zchar)) {
         latex += "'";
       }
       else {
         final int hexBase = 16;
-        String hex = Integer.toString((int) character, hexBase);
+        String hex = Integer.toString(zchar.codePoint(), hexBase);
         String message = "Error while transforming " + word +
-          ": Unexpected character " + character + " (\\u" + hex + ")";
-        throw new ParseException(message, 0, i);
+          ": Unexpected character " + zchar.toString() +
+          " (\\u" + hex + ")";
+        throw new ParseException(message, 0, charcount);
       }
+      charcount = charcount + zchar.charCount();
     }
     return new LatexCommand(latex, word, addLeftSpace, addRightSpace);
   }
@@ -395,6 +398,7 @@ parser code {:
     if (action_obj.markup_ != null &amp;&amp; action_obj.markup_.hasNext()) {
       Directive directive = (Directive) action_obj.markup_.next();
       final String unicode = directive.getUnicode();
+      final char[] charArray = unicode.toCharArray();
       if (unicode.length() == 1) {
         StringBuffer result = new StringBuffer();
         result.append("\n");
@@ -404,6 +408,22 @@ parser code {:
         result.append("U+");
         String hex = Integer.toHexString(c).toUpperCase();
         for (int i = 0; i &lt; 4 - hex.length(); i++) {
+          result.append("0");
+        }
+        result.append(hex);
+        result.append("\n");
+        return new Symbol(Sym.CHAR_MARKUP, result.toString());
+      }
+      else if (charArray.length == 2 &amp;&amp;
+               Character.isSurrogatePair(charArray[0], charArray[1])) {
+        StringBuffer result = new StringBuffer();
+        result.append("\n");
+        int codePoint = Character.codePointAt(charArray, 0);
+        result.append("%%Z" + printType(directive.getType())+ "char ");
+        result.append(directive.getCommand() + " ");
+        result.append("U-");
+        String hex = Integer.toHexString(codePoint).toUpperCase();
+        for (int i = 0; i &lt; 8 - hex.length(); i++) {
           result.append("0");
         }
         result.append(hex);

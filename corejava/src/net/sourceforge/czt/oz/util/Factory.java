@@ -747,9 +747,13 @@ public class Factory
       net.sourceforge.czt.z.util.ZString.SE + "[0-9]"  +
       net.sourceforge.czt.z.util.ZString.NW;
 
-    final char instroke   = net.sourceforge.czt.z.util.ZChar.INSTROKE;
-    final char outstroke  = net.sourceforge.czt.z.util.ZChar.OUTSTROKE;
-    final char nextstroke = net.sourceforge.czt.z.util.ZChar.PRIME;
+    // TODO: we assume that strokes are from the Basic Multilingual Plane
+    final char instroke   =
+      net.sourceforge.czt.z.util.ZChar.INSTROKE.toChar();
+    final char outstroke  =
+      net.sourceforge.czt.z.util.ZChar.OUTSTROKE.toChar();
+    final char nextstroke =
+      net.sourceforge.czt.z.util.ZChar.PRIME.toChar();
 
     int wordEnd = decorword.length();
 

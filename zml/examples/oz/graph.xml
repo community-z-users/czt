@@ -2,25 +2,25 @@
 <Spec Version="1.3" xmlns="http://czt.sourceforge.net/zml">
     <ZSect>
         <Anns>
-            <LocAnn Col="3" Line="2" Loc="graph.tex"/>
+            <LocAnn Col="3" Loc="../zml/examples/oz/graph.tex" Line="2"/>
         </Anns>
         <Name>graph</Name>
         <Parent>
             <Anns>
-                <LocAnn Col="27" Line="2" Loc="graph.tex"/>
+                <LocAnn Col="27" Loc="../zml/examples/oz/graph.tex" Line="2"/>
             </Anns>
             <Word>oz_toolkit</Word>
         </Parent>
         <Parent>
             <Anns>
-                <LocAnn Col="40" Line="2" Loc="graph.tex"/>
+                <LocAnn Col="40" Loc="../zml/examples/oz/graph.tex" Line="2"/>
             </Anns>
             <Word>standard_toolkit</Word>
         </Parent>
         <LatexMarkupPara/>
         <NarrPara>
             <Anns>
-                <LocAnn Col="15" Line="3" Loc="graph.tex"/>
+                <LocAnn Col="15" Loc="../zml/examples/oz/graph.tex" Line="3"/>
             </Anns>
             <Content>
 
@@ -30,14 +30,14 @@
         <ns1:ClassPara xmlns:ns1="http://czt.sourceforge.net/object-z">
             <ns1:Name>
                 <Anns>
-                    <LocAnn Col="15" Line="6" Loc="graph.tex"/>
+                    <LocAnn Col="15" Loc="../zml/examples/oz/graph.tex" Line="6"/>
                 </Anns>
                 <Word>Graph</Word>
             </ns1:Name>
             <ns1:FormalParameters>
                 <ns1:Name>
                     <Anns>
-                        <LocAnn Col="22" Line="6" Loc="graph.tex"/>
+                        <LocAnn Col="22" Loc="../zml/examples/oz/graph.tex" Line="6"/>
                     </Anns>
                     <Word>DATA</Word>
                 </ns1:Name>
@@ -45,28 +45,28 @@
             <ns1:State>
                 <VarDecl>
                     <Anns>
-                        <LocAnn Col="6" Line="9" Loc="graph.tex"/>
+                        <LocAnn Col="6" Loc="../zml/examples/oz/graph.tex" Line="9"/>
                     </Anns>
                     <DeclName>
                         <Anns>
-                            <LocAnn Col="1" Line="9" Loc="graph.tex"/>
+                            <LocAnn Col="1" Loc="../zml/examples/oz/graph.tex" Line="9"/>
                         </Anns>
                         <Word>nodes</Word>
                     </DeclName>
                     <RefExpr Mixfix="true">
                         <Anns>
-                            <LocAnn Col="9" Line="9" Loc="graph.tex"/>
+                            <LocAnn Col="9" Loc="../zml/examples/oz/graph.tex" Line="9"/>
                         </Anns>
                         <RefName>
-                            <Word>Ϝ _ </Word>
+                            <Word>𝔽 _ </Word>
                         </RefName>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="17" Line="9" Loc="graph.tex"/>
+                                <LocAnn Col="17" Loc="../zml/examples/oz/graph.tex" Line="9"/>
                             </Anns>
                             <RefName>
                                 <Anns>
-                                    <LocAnn Col="17" Line="9" Loc="graph.tex"/>
+                                    <LocAnn Col="17" Loc="../zml/examples/oz/graph.tex" Line="9"/>
                                 </Anns>
                                 <Word>DATA</Word>
                             </RefName>
@@ -75,39 +75,39 @@
                 </VarDecl>
                 <VarDecl>
                     <Anns>
-                        <LocAnn Col="6" Line="10" Loc="graph.tex"/>
+                        <LocAnn Col="6" Loc="../zml/examples/oz/graph.tex" Line="10"/>
                     </Anns>
                     <DeclName>
                         <Anns>
-                            <LocAnn Col="1" Line="10" Loc="graph.tex"/>
+                            <LocAnn Col="1" Loc="../zml/examples/oz/graph.tex" Line="10"/>
                         </Anns>
                         <Word>edges</Word>
                     </DeclName>
                     <RefExpr Mixfix="true">
                         <Anns>
-                            <LocAnn Col="13" Line="10" Loc="graph.tex"/>
+                            <LocAnn Col="13" Loc="../zml/examples/oz/graph.tex" Line="10"/>
                         </Anns>
                         <RefName>
                             <Word> _ ↔ _ </Word>
                         </RefName>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="8" Line="10" Loc="graph.tex"/>
+                                <LocAnn Col="8" Loc="../zml/examples/oz/graph.tex" Line="10"/>
                             </Anns>
                             <RefName>
                                 <Anns>
-                                    <LocAnn Col="8" Line="10" Loc="graph.tex"/>
+                                    <LocAnn Col="8" Loc="../zml/examples/oz/graph.tex" Line="10"/>
                                 </Anns>
                                 <Word>DATA</Word>
                             </RefName>
                         </RefExpr>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="18" Line="10" Loc="graph.tex"/>
+                                <LocAnn Col="18" Loc="../zml/examples/oz/graph.tex" Line="10"/>
                             </Anns>
                             <RefName>
                                 <Anns>
-                                    <LocAnn Col="18" Line="10" Loc="graph.tex"/>
+                                    <LocAnn Col="18" Loc="../zml/examples/oz/graph.tex" Line="10"/>
                                 </Anns>
                                 <Word>DATA</Word>
                             </RefName>
@@ -116,46 +116,55 @@
                 </VarDecl>
                 <AndPred Op="NL">
                     <Anns>
-                        <LocAnn Col="50" Line="12" Loc="graph.tex"/>
+                        <LocAnn Col="50" Loc="../zml/examples/oz/graph.tex" Line="12"/>
                     </Anns>
                     <MemPred Mixfix="true">
                         <Anns>
-                            <LocAnn Col="34" Line="12" Loc="graph.tex"/>
+                            <LocAnn Col="34" Loc="../zml/examples/oz/graph.tex" Line="12"/>
                         </Anns>
                         <TupleExpr>
+                            <Anns>
+                                <LocAnn Col="32" Loc="../zml/examples/oz/graph.tex" Line="12"/>
+                            </Anns>
                             <ApplExpr Mixfix="true">
                                 <Anns>
-                                    <LocAnn Col="15" Line="12" Loc="graph.tex"/>
+                                    <LocAnn Col="15" Loc="../zml/examples/oz/graph.tex" Line="12"/>
                                 </Anns>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="13" Loc="../zml/examples/oz/graph.tex" Line="12"/>
+                                    </Anns>
                                     <RefName>
                                         <Word> _ ∪ _ </Word>
                                     </RefName>
                                 </RefExpr>
                                 <TupleExpr>
+                                    <Anns>
+                                        <LocAnn Col="13" Loc="../zml/examples/oz/graph.tex" Line="12"/>
+                                    </Anns>
                                     <ApplExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="13" Line="12" Loc="graph.tex"/>
+                                            <LocAnn Col="13" Loc="../zml/examples/oz/graph.tex" Line="12"/>
                                         </Anns>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="2" Line="12" Loc="graph.tex"/>
+                                                <LocAnn Col="2" Loc="../zml/examples/oz/graph.tex" Line="12"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="2" Line="12" Loc="graph.tex"/>
+                                                    <LocAnn Col="2" Loc="../zml/examples/oz/graph.tex" Line="12"/>
                                                 </Anns>
                                                 <Word>dom</Word>
                                             </RefName>
                                         </RefExpr>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="8" Line="12" Loc="graph.tex"/>
+                                                <LocAnn Col="8" Loc="../zml/examples/oz/graph.tex" Line="12"/>
                                                 <ParenAnn/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="8" Line="12" Loc="graph.tex"/>
+                                                    <LocAnn Col="8" Loc="../zml/examples/oz/graph.tex" Line="12"/>
                                                 </Anns>
                                                 <Word>edges</Word>
                                             </RefName>
@@ -163,27 +172,27 @@
                                     </ApplExpr>
                                     <ApplExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="32" Line="12" Loc="graph.tex"/>
+                                            <LocAnn Col="32" Loc="../zml/examples/oz/graph.tex" Line="12"/>
                                         </Anns>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="21" Line="12" Loc="graph.tex"/>
+                                                <LocAnn Col="21" Loc="../zml/examples/oz/graph.tex" Line="12"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="21" Line="12" Loc="graph.tex"/>
+                                                    <LocAnn Col="21" Loc="../zml/examples/oz/graph.tex" Line="12"/>
                                                 </Anns>
                                                 <Word>ran</Word>
                                             </RefName>
                                         </RefExpr>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="27" Line="12" Loc="graph.tex"/>
+                                                <LocAnn Col="27" Loc="../zml/examples/oz/graph.tex" Line="12"/>
                                                 <ParenAnn/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="27" Line="12" Loc="graph.tex"/>
+                                                    <LocAnn Col="27" Loc="../zml/examples/oz/graph.tex" Line="12"/>
                                                 </Anns>
                                                 <Word>edges</Word>
                                             </RefName>
@@ -193,11 +202,11 @@
                             </ApplExpr>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="44" Line="12" Loc="graph.tex"/>
+                                    <LocAnn Col="44" Loc="../zml/examples/oz/graph.tex" Line="12"/>
                                 </Anns>
                                 <RefName>
                                     <Anns>
-                                        <LocAnn Col="44" Line="12" Loc="graph.tex"/>
+                                        <LocAnn Col="44" Loc="../zml/examples/oz/graph.tex" Line="12"/>
                                     </Anns>
                                     <Word>nodes</Word>
                                 </RefName>
@@ -211,31 +220,31 @@
                     </MemPred>
                     <NegPred>
                         <Anns>
-                            <LocAnn Col="2" Line="13" Loc="graph.tex"/>
+                            <LocAnn Col="2" Loc="../zml/examples/oz/graph.tex" Line="13"/>
                         </Anns>
                         <ExistsPred>
                             <Anns>
-                                <LocAnn Col="9" Line="13" Loc="graph.tex"/>
+                                <LocAnn Col="9" Loc="../zml/examples/oz/graph.tex" Line="13"/>
                                 <ParenAnn/>
                             </Anns>
                             <SchText>
                                 <VarDecl>
                                     <Anns>
-                                        <LocAnn Col="18" Line="13" Loc="graph.tex"/>
+                                        <LocAnn Col="18" Loc="../zml/examples/oz/graph.tex" Line="13"/>
                                     </Anns>
                                     <DeclName>
                                         <Anns>
-                                            <LocAnn Col="17" Line="13" Loc="graph.tex"/>
+                                            <LocAnn Col="17" Loc="../zml/examples/oz/graph.tex" Line="13"/>
                                         </Anns>
                                         <Word>x</Word>
                                     </DeclName>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="20" Line="13" Loc="graph.tex"/>
+                                            <LocAnn Col="20" Loc="../zml/examples/oz/graph.tex" Line="13"/>
                                         </Anns>
                                         <RefName>
                                             <Anns>
-                                                <LocAnn Col="20" Line="13" Loc="graph.tex"/>
+                                                <LocAnn Col="20" Loc="../zml/examples/oz/graph.tex" Line="13"/>
                                             </Anns>
                                             <Word>DATA</Word>
                                         </RefName>
@@ -244,27 +253,30 @@
                             </SchText>
                             <MemPred Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="33" Line="13" Loc="graph.tex"/>
+                                    <LocAnn Col="33" Loc="../zml/examples/oz/graph.tex" Line="13"/>
                                 </Anns>
                                 <TupleExpr>
+                                    <Anns>
+                                        <LocAnn Col="26" Loc="../zml/examples/oz/graph.tex" Line="13"/>
+                                    </Anns>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="27" Line="13" Loc="graph.tex"/>
+                                            <LocAnn Col="27" Loc="../zml/examples/oz/graph.tex" Line="13"/>
                                         </Anns>
                                         <RefName>
                                             <Anns>
-                                                <LocAnn Col="27" Line="13" Loc="graph.tex"/>
+                                                <LocAnn Col="27" Loc="../zml/examples/oz/graph.tex" Line="13"/>
                                             </Anns>
                                             <Word>x</Word>
                                         </RefName>
                                     </RefExpr>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="30" Line="13" Loc="graph.tex"/>
+                                            <LocAnn Col="30" Loc="../zml/examples/oz/graph.tex" Line="13"/>
                                         </Anns>
                                         <RefName>
                                             <Anns>
-                                                <LocAnn Col="30" Line="13" Loc="graph.tex"/>
+                                                <LocAnn Col="30" Loc="../zml/examples/oz/graph.tex" Line="13"/>
                                             </Anns>
                                             <Word>x</Word>
                                         </RefName>
@@ -272,11 +284,11 @@
                                 </TupleExpr>
                                 <RefExpr Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="37" Line="13" Loc="graph.tex"/>
+                                        <LocAnn Col="37" Loc="../zml/examples/oz/graph.tex" Line="13"/>
                                     </Anns>
                                     <RefName>
                                         <Anns>
-                                            <LocAnn Col="37" Line="13" Loc="graph.tex"/>
+                                            <LocAnn Col="37" Loc="../zml/examples/oz/graph.tex" Line="13"/>
                                         </Anns>
                                         <Word>edges</Word>
                                     </RefName>
@@ -289,19 +301,19 @@
             <ns1:InitialState>
                 <AndPred Op="NL">
                     <Anns>
-                        <LocAnn Col="20" Line="16" Loc="graph.tex"/>
+                        <LocAnn Col="20" Loc="../zml/examples/oz/graph.tex" Line="16"/>
                     </Anns>
                     <MemPred Mixfix="true">
                         <Anns>
-                            <LocAnn Col="8" Line="16" Loc="graph.tex"/>
+                            <LocAnn Col="8" Loc="../zml/examples/oz/graph.tex" Line="16"/>
                         </Anns>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="1" Line="16" Loc="graph.tex"/>
+                                <LocAnn Col="1" Loc="../zml/examples/oz/graph.tex" Line="16"/>
                             </Anns>
                             <RefName>
                                 <Anns>
-                                    <LocAnn Col="1" Line="16" Loc="graph.tex"/>
+                                    <LocAnn Col="1" Loc="../zml/examples/oz/graph.tex" Line="16"/>
                                 </Anns>
                                 <Word>nodes</Word>
                                 <NextStroke/>
@@ -310,11 +322,11 @@
                         <SetExpr>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="10" Line="16" Loc="graph.tex"/>
+                                    <LocAnn Col="10" Loc="../zml/examples/oz/graph.tex" Line="16"/>
                                 </Anns>
                                 <RefName>
                                     <Anns>
-                                        <LocAnn Col="10" Line="16" Loc="graph.tex"/>
+                                        <LocAnn Col="10" Loc="../zml/examples/oz/graph.tex" Line="16"/>
                                     </Anns>
                                     <Word>∅</Word>
                                 </RefName>
@@ -323,15 +335,15 @@
                     </MemPred>
                     <MemPred Mixfix="true">
                         <Anns>
-                            <LocAnn Col="8" Line="17" Loc="graph.tex"/>
+                            <LocAnn Col="8" Loc="../zml/examples/oz/graph.tex" Line="17"/>
                         </Anns>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="1" Line="17" Loc="graph.tex"/>
+                                <LocAnn Col="1" Loc="../zml/examples/oz/graph.tex" Line="17"/>
                             </Anns>
                             <RefName>
                                 <Anns>
-                                    <LocAnn Col="1" Line="17" Loc="graph.tex"/>
+                                    <LocAnn Col="1" Loc="../zml/examples/oz/graph.tex" Line="17"/>
                                 </Anns>
                                 <Word>edges</Word>
                                 <NextStroke/>
@@ -340,11 +352,11 @@
                         <SetExpr>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="10" Line="17" Loc="graph.tex"/>
+                                    <LocAnn Col="10" Loc="../zml/examples/oz/graph.tex" Line="17"/>
                                 </Anns>
                                 <RefName>
                                     <Anns>
-                                        <LocAnn Col="10" Line="17" Loc="graph.tex"/>
+                                        <LocAnn Col="10" Loc="../zml/examples/oz/graph.tex" Line="17"/>
                                     </Anns>
                                     <Word>∅</Word>
                                 </RefName>
@@ -356,7 +368,7 @@
             <ns1:Operation>
                 <ns1:Name>
                     <Anns>
-                        <LocAnn Col="16" Line="19" Loc="graph.tex"/>
+                        <LocAnn Col="16" Loc="../zml/examples/oz/graph.tex" Line="19"/>
                     </Anns>
                     <Word>AddNode</Word>
                 </ns1:Name>
@@ -364,27 +376,27 @@
                     <InclDecl>
                         <ApplExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="13" Line="20" Loc="graph.tex"/>
+                                <LocAnn Col="13" Loc="../zml/examples/oz/graph.tex" Line="20"/>
                             </Anns>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="1" Line="20" Loc="graph.tex"/>
+                                    <LocAnn Col="1" Loc="../zml/examples/oz/graph.tex" Line="20"/>
                                 </Anns>
                                 <RefName>
                                     <Anns>
-                                        <LocAnn Col="1" Line="20" Loc="graph.tex"/>
+                                        <LocAnn Col="1" Loc="../zml/examples/oz/graph.tex" Line="20"/>
                                     </Anns>
                                     <Word>Δ</Word>
                                 </RefName>
                             </RefExpr>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="8" Line="20" Loc="graph.tex"/>
+                                    <LocAnn Col="8" Loc="../zml/examples/oz/graph.tex" Line="20"/>
                                     <ParenAnn/>
                                 </Anns>
                                 <RefName>
                                     <Anns>
-                                        <LocAnn Col="8" Line="20" Loc="graph.tex"/>
+                                        <LocAnn Col="8" Loc="../zml/examples/oz/graph.tex" Line="20"/>
                                     </Anns>
                                     <Word>nodes</Word>
                                 </RefName>
@@ -393,22 +405,22 @@
                     </InclDecl>
                     <VarDecl>
                         <Anns>
-                            <LocAnn Col="3" Line="21" Loc="graph.tex"/>
+                            <LocAnn Col="3" Loc="../zml/examples/oz/graph.tex" Line="21"/>
                         </Anns>
                         <DeclName>
                             <Anns>
-                                <LocAnn Col="1" Line="21" Loc="graph.tex"/>
+                                <LocAnn Col="1" Loc="../zml/examples/oz/graph.tex" Line="21"/>
                             </Anns>
                             <Word>d</Word>
                             <InStroke/>
                         </DeclName>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="5" Line="21" Loc="graph.tex"/>
+                                <LocAnn Col="5" Loc="../zml/examples/oz/graph.tex" Line="21"/>
                             </Anns>
                             <RefName>
                                 <Anns>
-                                    <LocAnn Col="5" Line="21" Loc="graph.tex"/>
+                                    <LocAnn Col="5" Loc="../zml/examples/oz/graph.tex" Line="21"/>
                                 </Anns>
                                 <Word>DATA</Word>
                             </RefName>
@@ -416,20 +428,23 @@
                     </VarDecl>
                     <AndPred Op="NL">
                         <Anns>
-                            <LocAnn Col="18" Line="23" Loc="graph.tex"/>
+                            <LocAnn Col="18" Loc="../zml/examples/oz/graph.tex" Line="23"/>
                         </Anns>
                         <MemPred Mixfix="true">
                             <Anns>
-                                <LocAnn Col="5" Line="23" Loc="graph.tex"/>
+                                <LocAnn Col="5" Loc="../zml/examples/oz/graph.tex" Line="23"/>
                             </Anns>
                             <TupleExpr>
+                                <Anns>
+                                    <LocAnn Col="2" Loc="../zml/examples/oz/graph.tex" Line="23"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="2" Line="23" Loc="graph.tex"/>
+                                        <LocAnn Col="2" Loc="../zml/examples/oz/graph.tex" Line="23"/>
                                     </Anns>
                                     <RefName>
                                         <Anns>
-                                            <LocAnn Col="2" Line="23" Loc="graph.tex"/>
+                                            <LocAnn Col="2" Loc="../zml/examples/oz/graph.tex" Line="23"/>
                                         </Anns>
                                         <Word>d</Word>
                                         <InStroke/>
@@ -437,11 +452,11 @@
                                 </RefExpr>
                                 <RefExpr Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="12" Line="23" Loc="graph.tex"/>
+                                        <LocAnn Col="12" Loc="../zml/examples/oz/graph.tex" Line="23"/>
                                     </Anns>
                                     <RefName>
                                         <Anns>
-                                            <LocAnn Col="12" Line="23" Loc="graph.tex"/>
+                                            <LocAnn Col="12" Loc="../zml/examples/oz/graph.tex" Line="23"/>
                                         </Anns>
                                         <Word>nodes</Word>
                                     </RefName>
@@ -455,15 +470,15 @@
                         </MemPred>
                         <MemPred Mixfix="true">
                             <Anns>
-                                <LocAnn Col="9" Line="24" Loc="graph.tex"/>
+                                <LocAnn Col="9" Loc="../zml/examples/oz/graph.tex" Line="24"/>
                             </Anns>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="2" Line="24" Loc="graph.tex"/>
+                                    <LocAnn Col="2" Loc="../zml/examples/oz/graph.tex" Line="24"/>
                                 </Anns>
                                 <RefName>
                                     <Anns>
-                                        <LocAnn Col="2" Line="24" Loc="graph.tex"/>
+                                        <LocAnn Col="2" Loc="../zml/examples/oz/graph.tex" Line="24"/>
                                     </Anns>
                                     <Word>nodes</Word>
                                     <NextStroke/>
@@ -472,36 +487,42 @@
                             <SetExpr>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="17" Line="24" Loc="graph.tex"/>
+                                        <LocAnn Col="17" Loc="../zml/examples/oz/graph.tex" Line="24"/>
                                     </Anns>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="11" Loc="../zml/examples/oz/graph.tex" Line="24"/>
+                                        </Anns>
                                         <RefName>
                                             <Word> _ ∪ _ </Word>
                                         </RefName>
                                     </RefExpr>
                                     <TupleExpr>
+                                        <Anns>
+                                            <LocAnn Col="11" Loc="../zml/examples/oz/graph.tex" Line="24"/>
+                                        </Anns>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="11" Line="24" Loc="graph.tex"/>
+                                                <LocAnn Col="11" Loc="../zml/examples/oz/graph.tex" Line="24"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="11" Line="24" Loc="graph.tex"/>
+                                                    <LocAnn Col="11" Loc="../zml/examples/oz/graph.tex" Line="24"/>
                                                 </Anns>
                                                 <Word>nodes</Word>
                                             </RefName>
                                         </RefExpr>
                                         <SetExpr>
                                             <Anns>
-                                                <LocAnn Col="22" Line="24" Loc="graph.tex"/>
+                                                <LocAnn Col="22" Loc="../zml/examples/oz/graph.tex" Line="24"/>
                                             </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="24" Line="24" Loc="graph.tex"/>
+                                                    <LocAnn Col="24" Loc="../zml/examples/oz/graph.tex" Line="24"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="24" Line="24" Loc="graph.tex"/>
+                                                        <LocAnn Col="24" Loc="../zml/examples/oz/graph.tex" Line="24"/>
                                                     </Anns>
                                                     <Word>d</Word>
                                                     <InStroke/>
@@ -518,7 +539,7 @@
             <ns1:Operation>
                 <ns1:Name>
                     <Anns>
-                        <LocAnn Col="16" Line="26" Loc="graph.tex"/>
+                        <LocAnn Col="16" Loc="../zml/examples/oz/graph.tex" Line="26"/>
                     </Anns>
                     <Word>RemoveNode</Word>
                 </ns1:Name>
@@ -526,27 +547,27 @@
                     <InclDecl>
                         <ApplExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="14" Line="27" Loc="graph.tex"/>
+                                <LocAnn Col="14" Loc="../zml/examples/oz/graph.tex" Line="27"/>
                             </Anns>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="1" Line="27" Loc="graph.tex"/>
+                                    <LocAnn Col="1" Loc="../zml/examples/oz/graph.tex" Line="27"/>
                                 </Anns>
                                 <RefName>
                                     <Anns>
-                                        <LocAnn Col="1" Line="27" Loc="graph.tex"/>
+                                        <LocAnn Col="1" Loc="../zml/examples/oz/graph.tex" Line="27"/>
                                     </Anns>
                                     <Word>Δ</Word>
                                 </RefName>
                             </RefExpr>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="9" Line="27" Loc="graph.tex"/>
+                                    <LocAnn Col="9" Loc="../zml/examples/oz/graph.tex" Line="27"/>
                                     <ParenAnn/>
                                 </Anns>
                                 <RefName>
                                     <Anns>
-                                        <LocAnn Col="9" Line="27" Loc="graph.tex"/>
+                                        <LocAnn Col="9" Loc="../zml/examples/oz/graph.tex" Line="27"/>
                                     </Anns>
                                     <Word>nodes</Word>
                                 </RefName>
@@ -555,22 +576,22 @@
                     </InclDecl>
                     <VarDecl>
                         <Anns>
-                            <LocAnn Col="3" Line="28" Loc="graph.tex"/>
+                            <LocAnn Col="3" Loc="../zml/examples/oz/graph.tex" Line="28"/>
                         </Anns>
                         <DeclName>
                             <Anns>
-                                <LocAnn Col="1" Line="28" Loc="graph.tex"/>
+                                <LocAnn Col="1" Loc="../zml/examples/oz/graph.tex" Line="28"/>
                             </Anns>
                             <Word>d</Word>
                             <InStroke/>
                         </DeclName>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="5" Line="28" Loc="graph.tex"/>
+                                <LocAnn Col="5" Loc="../zml/examples/oz/graph.tex" Line="28"/>
                             </Anns>
                             <RefName>
                                 <Anns>
-                                    <LocAnn Col="5" Line="28" Loc="graph.tex"/>
+                                    <LocAnn Col="5" Loc="../zml/examples/oz/graph.tex" Line="28"/>
                                 </Anns>
                                 <Word>DATA</Word>
                             </RefName>
@@ -578,34 +599,34 @@
                     </VarDecl>
                     <AndPred Op="NL">
                         <Anns>
-                            <LocAnn Col="22" Line="31" Loc="graph.tex"/>
+                            <LocAnn Col="22" Loc="../zml/examples/oz/graph.tex" Line="31"/>
                         </Anns>
                         <NegPred>
                             <Anns>
-                                <LocAnn Col="3" Line="30" Loc="graph.tex"/>
+                                <LocAnn Col="3" Loc="../zml/examples/oz/graph.tex" Line="30"/>
                             </Anns>
                             <ExistsPred>
                                 <Anns>
-                                    <LocAnn Col="9" Line="30" Loc="graph.tex"/>
+                                    <LocAnn Col="9" Loc="../zml/examples/oz/graph.tex" Line="30"/>
                                 </Anns>
                                 <SchText>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="18" Line="30" Loc="graph.tex"/>
+                                            <LocAnn Col="18" Loc="../zml/examples/oz/graph.tex" Line="30"/>
                                         </Anns>
                                         <DeclName>
                                             <Anns>
-                                                <LocAnn Col="17" Line="30" Loc="graph.tex"/>
+                                                <LocAnn Col="17" Loc="../zml/examples/oz/graph.tex" Line="30"/>
                                             </Anns>
                                             <Word>n</Word>
                                         </DeclName>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="20" Line="30" Loc="graph.tex"/>
+                                                <LocAnn Col="20" Loc="../zml/examples/oz/graph.tex" Line="30"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="20" Line="30" Loc="graph.tex"/>
+                                                    <LocAnn Col="20" Loc="../zml/examples/oz/graph.tex" Line="30"/>
                                                 </Anns>
                                                 <Word>nodes</Word>
                                             </RefName>
@@ -614,31 +635,34 @@
                                 </SchText>
                                 <OrPred>
                                     <Anns>
-                                        <LocAnn Col="46" Line="30" Loc="graph.tex"/>
+                                        <LocAnn Col="46" Loc="../zml/examples/oz/graph.tex" Line="30"/>
                                     </Anns>
                                     <MemPred Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="36" Line="30" Loc="graph.tex"/>
+                                            <LocAnn Col="36" Loc="../zml/examples/oz/graph.tex" Line="30"/>
                                         </Anns>
                                         <TupleExpr>
+                                            <Anns>
+                                                <LocAnn Col="28" Loc="../zml/examples/oz/graph.tex" Line="30"/>
+                                            </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="29" Line="30" Loc="graph.tex"/>
+                                                    <LocAnn Col="29" Loc="../zml/examples/oz/graph.tex" Line="30"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="29" Line="30" Loc="graph.tex"/>
+                                                        <LocAnn Col="29" Loc="../zml/examples/oz/graph.tex" Line="30"/>
                                                     </Anns>
                                                     <Word>n</Word>
                                                 </RefName>
                                             </RefExpr>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="32" Line="30" Loc="graph.tex"/>
+                                                    <LocAnn Col="32" Loc="../zml/examples/oz/graph.tex" Line="30"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="32" Line="30" Loc="graph.tex"/>
+                                                        <LocAnn Col="32" Loc="../zml/examples/oz/graph.tex" Line="30"/>
                                                     </Anns>
                                                     <Word>d</Word>
                                                     <InStroke/>
@@ -647,11 +671,11 @@
                                         </TupleExpr>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="40" Line="30" Loc="graph.tex"/>
+                                                <LocAnn Col="40" Loc="../zml/examples/oz/graph.tex" Line="30"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="40" Line="30" Loc="graph.tex"/>
+                                                    <LocAnn Col="40" Loc="../zml/examples/oz/graph.tex" Line="30"/>
                                                 </Anns>
                                                 <Word>edges</Word>
                                             </RefName>
@@ -659,16 +683,19 @@
                                     </MemPred>
                                     <MemPred Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="13" Line="31" Loc="graph.tex"/>
+                                            <LocAnn Col="13" Loc="../zml/examples/oz/graph.tex" Line="31"/>
                                         </Anns>
                                         <TupleExpr>
+                                            <Anns>
+                                                <LocAnn Col="5" Loc="../zml/examples/oz/graph.tex" Line="31"/>
+                                            </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="6" Line="31" Loc="graph.tex"/>
+                                                    <LocAnn Col="6" Loc="../zml/examples/oz/graph.tex" Line="31"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="6" Line="31" Loc="graph.tex"/>
+                                                        <LocAnn Col="6" Loc="../zml/examples/oz/graph.tex" Line="31"/>
                                                     </Anns>
                                                     <Word>d</Word>
                                                     <InStroke/>
@@ -676,11 +703,11 @@
                                             </RefExpr>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="10" Line="31" Loc="graph.tex"/>
+                                                    <LocAnn Col="10" Loc="../zml/examples/oz/graph.tex" Line="31"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="10" Line="31" Loc="graph.tex"/>
+                                                        <LocAnn Col="10" Loc="../zml/examples/oz/graph.tex" Line="31"/>
                                                     </Anns>
                                                     <Word>n</Word>
                                                 </RefName>
@@ -688,11 +715,11 @@
                                         </TupleExpr>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="17" Line="31" Loc="graph.tex"/>
+                                                <LocAnn Col="17" Loc="../zml/examples/oz/graph.tex" Line="31"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="17" Line="31" Loc="graph.tex"/>
+                                                    <LocAnn Col="17" Loc="../zml/examples/oz/graph.tex" Line="31"/>
                                                 </Anns>
                                                 <Word>edges</Word>
                                             </RefName>
@@ -703,15 +730,15 @@
                         </NegPred>
                         <MemPred Mixfix="true">
                             <Anns>
-                                <LocAnn Col="9" Line="32" Loc="graph.tex"/>
+                                <LocAnn Col="9" Loc="../zml/examples/oz/graph.tex" Line="32"/>
                             </Anns>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="2" Line="32" Loc="graph.tex"/>
+                                    <LocAnn Col="2" Loc="../zml/examples/oz/graph.tex" Line="32"/>
                                 </Anns>
                                 <RefName>
                                     <Anns>
-                                        <LocAnn Col="2" Line="32" Loc="graph.tex"/>
+                                        <LocAnn Col="2" Loc="../zml/examples/oz/graph.tex" Line="32"/>
                                     </Anns>
                                     <Word>nodes</Word>
                                     <NextStroke/>
@@ -720,36 +747,42 @@
                             <SetExpr>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="17" Line="32" Loc="graph.tex"/>
+                                        <LocAnn Col="17" Loc="../zml/examples/oz/graph.tex" Line="32"/>
                                     </Anns>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="11" Loc="../zml/examples/oz/graph.tex" Line="32"/>
+                                        </Anns>
                                         <RefName>
                                             <Word> _ \ _ </Word>
                                         </RefName>
                                     </RefExpr>
                                     <TupleExpr>
+                                        <Anns>
+                                            <LocAnn Col="11" Loc="../zml/examples/oz/graph.tex" Line="32"/>
+                                        </Anns>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="11" Line="32" Loc="graph.tex"/>
+                                                <LocAnn Col="11" Loc="../zml/examples/oz/graph.tex" Line="32"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="11" Line="32" Loc="graph.tex"/>
+                                                    <LocAnn Col="11" Loc="../zml/examples/oz/graph.tex" Line="32"/>
                                                 </Anns>
                                                 <Word>nodes</Word>
                                             </RefName>
                                         </RefExpr>
                                         <SetExpr>
                                             <Anns>
-                                                <LocAnn Col="27" Line="32" Loc="graph.tex"/>
+                                                <LocAnn Col="27" Loc="../zml/examples/oz/graph.tex" Line="32"/>
                                             </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="29" Line="32" Loc="graph.tex"/>
+                                                    <LocAnn Col="29" Loc="../zml/examples/oz/graph.tex" Line="32"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="29" Line="32" Loc="graph.tex"/>
+                                                        <LocAnn Col="29" Loc="../zml/examples/oz/graph.tex" Line="32"/>
                                                     </Anns>
                                                     <Word>d</Word>
                                                     <InStroke/>
@@ -766,7 +799,7 @@
             <ns1:Operation>
                 <ns1:Name>
                     <Anns>
-                        <LocAnn Col="16" Line="34" Loc="graph.tex"/>
+                        <LocAnn Col="16" Loc="../zml/examples/oz/graph.tex" Line="34"/>
                     </Anns>
                     <Word>AddEdge</Word>
                 </ns1:Name>
@@ -774,27 +807,27 @@
                     <InclDecl>
                         <ApplExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="14" Line="35" Loc="graph.tex"/>
+                                <LocAnn Col="14" Loc="../zml/examples/oz/graph.tex" Line="35"/>
                             </Anns>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="1" Line="35" Loc="graph.tex"/>
+                                    <LocAnn Col="1" Loc="../zml/examples/oz/graph.tex" Line="35"/>
                                 </Anns>
                                 <RefName>
                                     <Anns>
-                                        <LocAnn Col="1" Line="35" Loc="graph.tex"/>
+                                        <LocAnn Col="1" Loc="../zml/examples/oz/graph.tex" Line="35"/>
                                     </Anns>
                                     <Word>Δ</Word>
                                 </RefName>
                             </RefExpr>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="9" Line="35" Loc="graph.tex"/>
+                                    <LocAnn Col="9" Loc="../zml/examples/oz/graph.tex" Line="35"/>
                                     <ParenAnn/>
                                 </Anns>
                                 <RefName>
                                     <Anns>
-                                        <LocAnn Col="9" Line="35" Loc="graph.tex"/>
+                                        <LocAnn Col="9" Loc="../zml/examples/oz/graph.tex" Line="35"/>
                                     </Anns>
                                     <Word>edges</Word>
                                 </RefName>
@@ -803,29 +836,29 @@
                     </InclDecl>
                     <VarDecl>
                         <Anns>
-                            <LocAnn Col="7" Line="36" Loc="graph.tex"/>
+                            <LocAnn Col="7" Loc="../zml/examples/oz/graph.tex" Line="36"/>
                         </Anns>
                         <DeclName>
                             <Anns>
-                                <LocAnn Col="1" Line="36" Loc="graph.tex"/>
+                                <LocAnn Col="1" Loc="../zml/examples/oz/graph.tex" Line="36"/>
                             </Anns>
                             <Word>x</Word>
                             <InStroke/>
                         </DeclName>
                         <DeclName>
                             <Anns>
-                                <LocAnn Col="5" Line="36" Loc="graph.tex"/>
+                                <LocAnn Col="5" Loc="../zml/examples/oz/graph.tex" Line="36"/>
                             </Anns>
                             <Word>y</Word>
                             <InStroke/>
                         </DeclName>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="9" Line="36" Loc="graph.tex"/>
+                                <LocAnn Col="9" Loc="../zml/examples/oz/graph.tex" Line="36"/>
                             </Anns>
                             <RefName>
                                 <Anns>
-                                    <LocAnn Col="9" Line="36" Loc="graph.tex"/>
+                                    <LocAnn Col="9" Loc="../zml/examples/oz/graph.tex" Line="36"/>
                                 </Anns>
                                 <Word>DATA</Word>
                             </RefName>
@@ -833,32 +866,35 @@
                     </VarDecl>
                     <AndPred Op="NL">
                         <Anns>
-                            <LocAnn Col="32" Line="39" Loc="graph.tex"/>
+                            <LocAnn Col="32" Loc="../zml/examples/oz/graph.tex" Line="39"/>
                         </Anns>
                         <AndPred Op="And">
                             <Anns>
-                                <LocAnn Col="47" Line="38" Loc="graph.tex"/>
+                                <LocAnn Col="47" Loc="../zml/examples/oz/graph.tex" Line="38"/>
                             </Anns>
                             <AndPred Op="And">
                                 <Anns>
-                                    <LocAnn Col="29" Line="38" Loc="graph.tex"/>
+                                    <LocAnn Col="29" Loc="../zml/examples/oz/graph.tex" Line="38"/>
                                 </Anns>
                                 <MemPred Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="13" Line="38" Loc="graph.tex"/>
+                                        <LocAnn Col="13" Loc="../zml/examples/oz/graph.tex" Line="38"/>
                                     </Anns>
                                     <TupleExpr>
+                                        <Anns>
+                                            <LocAnn Col="10" Loc="../zml/examples/oz/graph.tex" Line="38"/>
+                                        </Anns>
                                         <SetExpr>
                                             <Anns>
-                                                <LocAnn Col="2" Line="38" Loc="graph.tex"/>
+                                                <LocAnn Col="2" Loc="../zml/examples/oz/graph.tex" Line="38"/>
                                             </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="4" Line="38" Loc="graph.tex"/>
+                                                    <LocAnn Col="4" Loc="../zml/examples/oz/graph.tex" Line="38"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="4" Line="38" Loc="graph.tex"/>
+                                                        <LocAnn Col="4" Loc="../zml/examples/oz/graph.tex" Line="38"/>
                                                     </Anns>
                                                     <Word>x</Word>
                                                     <InStroke/>
@@ -866,11 +902,11 @@
                                             </RefExpr>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="8" Line="38" Loc="graph.tex"/>
+                                                    <LocAnn Col="8" Loc="../zml/examples/oz/graph.tex" Line="38"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="8" Line="38" Loc="graph.tex"/>
+                                                        <LocAnn Col="8" Loc="../zml/examples/oz/graph.tex" Line="38"/>
                                                     </Anns>
                                                     <Word>y</Word>
                                                     <InStroke/>
@@ -879,11 +915,11 @@
                                         </SetExpr>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="23" Line="38" Loc="graph.tex"/>
+                                                <LocAnn Col="23" Loc="../zml/examples/oz/graph.tex" Line="38"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="23" Line="38" Loc="graph.tex"/>
+                                                    <LocAnn Col="23" Loc="../zml/examples/oz/graph.tex" Line="38"/>
                                                 </Anns>
                                                 <Word>nodes</Word>
                                             </RefName>
@@ -897,16 +933,19 @@
                                 </MemPred>
                                 <MemPred Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="39" Line="38" Loc="graph.tex"/>
+                                        <LocAnn Col="39" Loc="../zml/examples/oz/graph.tex" Line="38"/>
                                     </Anns>
                                     <TupleExpr>
+                                        <Anns>
+                                            <LocAnn Col="36" Loc="../zml/examples/oz/graph.tex" Line="38"/>
+                                        </Anns>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="36" Line="38" Loc="graph.tex"/>
+                                                <LocAnn Col="36" Loc="../zml/examples/oz/graph.tex" Line="38"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="36" Line="38" Loc="graph.tex"/>
+                                                    <LocAnn Col="36" Loc="../zml/examples/oz/graph.tex" Line="38"/>
                                                 </Anns>
                                                 <Word>x</Word>
                                                 <InStroke/>
@@ -914,11 +953,11 @@
                                         </RefExpr>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="44" Line="38" Loc="graph.tex"/>
+                                                <LocAnn Col="44" Loc="../zml/examples/oz/graph.tex" Line="38"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="44" Line="38" Loc="graph.tex"/>
+                                                    <LocAnn Col="44" Loc="../zml/examples/oz/graph.tex" Line="38"/>
                                                 </Anns>
                                                 <Word>y</Word>
                                                 <InStroke/>
@@ -934,17 +973,23 @@
                             </AndPred>
                             <MemPred Mixfix="true">
                                 <Anns>
-                                    <LocAnn Col="19" Line="39" Loc="graph.tex"/>
+                                    <LocAnn Col="19" Loc="../zml/examples/oz/graph.tex" Line="39"/>
                                 </Anns>
                                 <TupleExpr>
+                                    <Anns>
+                                        <LocAnn Col="17" Loc="../zml/examples/oz/graph.tex" Line="39"/>
+                                    </Anns>
                                     <TupleExpr>
+                                        <Anns>
+                                            <LocAnn Col="10" Loc="../zml/examples/oz/graph.tex" Line="39"/>
+                                        </Anns>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="11" Line="39" Loc="graph.tex"/>
+                                                <LocAnn Col="11" Loc="../zml/examples/oz/graph.tex" Line="39"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="11" Line="39" Loc="graph.tex"/>
+                                                    <LocAnn Col="11" Loc="../zml/examples/oz/graph.tex" Line="39"/>
                                                 </Anns>
                                                 <Word>x</Word>
                                                 <InStroke/>
@@ -952,11 +997,11 @@
                                         </RefExpr>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="15" Line="39" Loc="graph.tex"/>
+                                                <LocAnn Col="15" Loc="../zml/examples/oz/graph.tex" Line="39"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="15" Line="39" Loc="graph.tex"/>
+                                                    <LocAnn Col="15" Loc="../zml/examples/oz/graph.tex" Line="39"/>
                                                 </Anns>
                                                 <Word>y</Word>
                                                 <InStroke/>
@@ -965,11 +1010,11 @@
                                     </TupleExpr>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="26" Line="39" Loc="graph.tex"/>
+                                            <LocAnn Col="26" Loc="../zml/examples/oz/graph.tex" Line="39"/>
                                         </Anns>
                                         <RefName>
                                             <Anns>
-                                                <LocAnn Col="26" Line="39" Loc="graph.tex"/>
+                                                <LocAnn Col="26" Loc="../zml/examples/oz/graph.tex" Line="39"/>
                                             </Anns>
                                             <Word>edges</Word>
                                         </RefName>
@@ -984,15 +1029,15 @@
                         </AndPred>
                         <MemPred Mixfix="true">
                             <Anns>
-                                <LocAnn Col="9" Line="40" Loc="graph.tex"/>
+                                <LocAnn Col="9" Loc="../zml/examples/oz/graph.tex" Line="40"/>
                             </Anns>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="2" Line="40" Loc="graph.tex"/>
+                                    <LocAnn Col="2" Loc="../zml/examples/oz/graph.tex" Line="40"/>
                                 </Anns>
                                 <RefName>
                                     <Anns>
-                                        <LocAnn Col="2" Line="40" Loc="graph.tex"/>
+                                        <LocAnn Col="2" Loc="../zml/examples/oz/graph.tex" Line="40"/>
                                     </Anns>
                                     <Word>edges</Word>
                                     <NextStroke/>
@@ -1001,37 +1046,46 @@
                             <SetExpr>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="17" Line="40" Loc="graph.tex"/>
+                                        <LocAnn Col="17" Loc="../zml/examples/oz/graph.tex" Line="40"/>
                                     </Anns>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="11" Loc="../zml/examples/oz/graph.tex" Line="40"/>
+                                        </Anns>
                                         <RefName>
                                             <Word> _ ∪ _ </Word>
                                         </RefName>
                                     </RefExpr>
                                     <TupleExpr>
+                                        <Anns>
+                                            <LocAnn Col="11" Loc="../zml/examples/oz/graph.tex" Line="40"/>
+                                        </Anns>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="11" Line="40" Loc="graph.tex"/>
+                                                <LocAnn Col="11" Loc="../zml/examples/oz/graph.tex" Line="40"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="11" Line="40" Loc="graph.tex"/>
+                                                    <LocAnn Col="11" Loc="../zml/examples/oz/graph.tex" Line="40"/>
                                                 </Anns>
                                                 <Word>edges</Word>
                                             </RefName>
                                         </RefExpr>
                                         <SetExpr>
                                             <Anns>
-                                                <LocAnn Col="22" Line="40" Loc="graph.tex"/>
+                                                <LocAnn Col="22" Loc="../zml/examples/oz/graph.tex" Line="40"/>
                                             </Anns>
                                             <TupleExpr>
+                                                <Anns>
+                                                    <LocAnn Col="24" Loc="../zml/examples/oz/graph.tex" Line="40"/>
+                                                </Anns>
                                                 <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="25" Line="40" Loc="graph.tex"/>
+                                                        <LocAnn Col="25" Loc="../zml/examples/oz/graph.tex" Line="40"/>
                                                     </Anns>
                                                     <RefName>
                                                         <Anns>
-                                                            <LocAnn Col="25" Line="40" Loc="graph.tex"/>
+                                                            <LocAnn Col="25" Loc="../zml/examples/oz/graph.tex" Line="40"/>
                                                         </Anns>
                                                         <Word>x</Word>
                                                         <InStroke/>
@@ -1039,11 +1093,11 @@
                                                 </RefExpr>
                                                 <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="29" Line="40" Loc="graph.tex"/>
+                                                        <LocAnn Col="29" Loc="../zml/examples/oz/graph.tex" Line="40"/>
                                                     </Anns>
                                                     <RefName>
                                                         <Anns>
-                                                            <LocAnn Col="29" Line="40" Loc="graph.tex"/>
+                                                            <LocAnn Col="29" Loc="../zml/examples/oz/graph.tex" Line="40"/>
                                                         </Anns>
                                                         <Word>y</Word>
                                                         <InStroke/>
@@ -1061,7 +1115,7 @@
             <ns1:Operation>
                 <ns1:Name>
                     <Anns>
-                        <LocAnn Col="16" Line="42" Loc="graph.tex"/>
+                        <LocAnn Col="16" Loc="../zml/examples/oz/graph.tex" Line="42"/>
                     </Anns>
                     <Word>RemoveEdge</Word>
                 </ns1:Name>
@@ -1069,27 +1123,27 @@
                     <InclDecl>
                         <ApplExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="14" Line="43" Loc="graph.tex"/>
+                                <LocAnn Col="14" Loc="../zml/examples/oz/graph.tex" Line="43"/>
                             </Anns>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="1" Line="43" Loc="graph.tex"/>
+                                    <LocAnn Col="1" Loc="../zml/examples/oz/graph.tex" Line="43"/>
                                 </Anns>
                                 <RefName>
                                     <Anns>
-                                        <LocAnn Col="1" Line="43" Loc="graph.tex"/>
+                                        <LocAnn Col="1" Loc="../zml/examples/oz/graph.tex" Line="43"/>
                                     </Anns>
                                     <Word>Δ</Word>
                                 </RefName>
                             </RefExpr>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="9" Line="43" Loc="graph.tex"/>
+                                    <LocAnn Col="9" Loc="../zml/examples/oz/graph.tex" Line="43"/>
                                     <ParenAnn/>
                                 </Anns>
                                 <RefName>
                                     <Anns>
-                                        <LocAnn Col="9" Line="43" Loc="graph.tex"/>
+                                        <LocAnn Col="9" Loc="../zml/examples/oz/graph.tex" Line="43"/>
                                     </Anns>
                                     <Word>edges</Word>
                                 </RefName>
@@ -1098,29 +1152,29 @@
                     </InclDecl>
                     <VarDecl>
                         <Anns>
-                            <LocAnn Col="7" Line="44" Loc="graph.tex"/>
+                            <LocAnn Col="7" Loc="../zml/examples/oz/graph.tex" Line="44"/>
                         </Anns>
                         <DeclName>
                             <Anns>
-                                <LocAnn Col="1" Line="44" Loc="graph.tex"/>
+                                <LocAnn Col="1" Loc="../zml/examples/oz/graph.tex" Line="44"/>
                             </Anns>
                             <Word>x</Word>
                             <InStroke/>
                         </DeclName>
                         <DeclName>
                             <Anns>
-                                <LocAnn Col="5" Line="44" Loc="graph.tex"/>
+                                <LocAnn Col="5" Loc="../zml/examples/oz/graph.tex" Line="44"/>
                             </Anns>
                             <Word>y</Word>
                             <InStroke/>
                         </DeclName>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="9" Line="44" Loc="graph.tex"/>
+                                <LocAnn Col="9" Loc="../zml/examples/oz/graph.tex" Line="44"/>
                             </Anns>
                             <RefName>
                                 <Anns>
-                                    <LocAnn Col="9" Line="44" Loc="graph.tex"/>
+                                    <LocAnn Col="9" Loc="../zml/examples/oz/graph.tex" Line="44"/>
                                 </Anns>
                                 <Word>DATA</Word>
                             </RefName>
@@ -1128,20 +1182,23 @@
                     </VarDecl>
                     <AndPred Op="NL">
                         <Anns>
-                            <LocAnn Col="21" Line="46" Loc="graph.tex"/>
+                            <LocAnn Col="21" Loc="../zml/examples/oz/graph.tex" Line="46"/>
                         </Anns>
                         <MemPred Mixfix="false">
                             <Anns>
-                                <LocAnn Col="11" Line="46" Loc="graph.tex"/>
+                                <LocAnn Col="11" Loc="../zml/examples/oz/graph.tex" Line="46"/>
                             </Anns>
                             <TupleExpr>
+                                <Anns>
+                                    <LocAnn Col="2" Loc="../zml/examples/oz/graph.tex" Line="46"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="3" Line="46" Loc="graph.tex"/>
+                                        <LocAnn Col="3" Loc="../zml/examples/oz/graph.tex" Line="46"/>
                                     </Anns>
                                     <RefName>
                                         <Anns>
-                                            <LocAnn Col="3" Line="46" Loc="graph.tex"/>
+                                            <LocAnn Col="3" Loc="../zml/examples/oz/graph.tex" Line="46"/>
                                         </Anns>
                                         <Word>x</Word>
                                         <InStroke/>
@@ -1149,11 +1206,11 @@
                                 </RefExpr>
                                 <RefExpr Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="7" Line="46" Loc="graph.tex"/>
+                                        <LocAnn Col="7" Loc="../zml/examples/oz/graph.tex" Line="46"/>
                                     </Anns>
                                     <RefName>
                                         <Anns>
-                                            <LocAnn Col="7" Line="46" Loc="graph.tex"/>
+                                            <LocAnn Col="7" Loc="../zml/examples/oz/graph.tex" Line="46"/>
                                         </Anns>
                                         <Word>y</Word>
                                         <InStroke/>
@@ -1162,11 +1219,11 @@
                             </TupleExpr>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="15" Line="46" Loc="graph.tex"/>
+                                    <LocAnn Col="15" Loc="../zml/examples/oz/graph.tex" Line="46"/>
                                 </Anns>
                                 <RefName>
                                     <Anns>
-                                        <LocAnn Col="15" Line="46" Loc="graph.tex"/>
+                                        <LocAnn Col="15" Loc="../zml/examples/oz/graph.tex" Line="46"/>
                                     </Anns>
                                     <Word>edges</Word>
                                 </RefName>
@@ -1174,15 +1231,15 @@
                         </MemPred>
                         <MemPred Mixfix="true">
                             <Anns>
-                                <LocAnn Col="9" Line="47" Loc="graph.tex"/>
+                                <LocAnn Col="9" Loc="../zml/examples/oz/graph.tex" Line="47"/>
                             </Anns>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="2" Line="47" Loc="graph.tex"/>
+                                    <LocAnn Col="2" Loc="../zml/examples/oz/graph.tex" Line="47"/>
                                 </Anns>
                                 <RefName>
                                     <Anns>
-                                        <LocAnn Col="2" Line="47" Loc="graph.tex"/>
+                                        <LocAnn Col="2" Loc="../zml/examples/oz/graph.tex" Line="47"/>
                                     </Anns>
                                     <Word>edges</Word>
                                     <NextStroke/>
@@ -1191,37 +1248,46 @@
                             <SetExpr>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="17" Line="47" Loc="graph.tex"/>
+                                        <LocAnn Col="17" Loc="../zml/examples/oz/graph.tex" Line="47"/>
                                     </Anns>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="11" Loc="../zml/examples/oz/graph.tex" Line="47"/>
+                                        </Anns>
                                         <RefName>
                                             <Word> _ \ _ </Word>
                                         </RefName>
                                     </RefExpr>
                                     <TupleExpr>
+                                        <Anns>
+                                            <LocAnn Col="11" Loc="../zml/examples/oz/graph.tex" Line="47"/>
+                                        </Anns>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="11" Line="47" Loc="graph.tex"/>
+                                                <LocAnn Col="11" Loc="../zml/examples/oz/graph.tex" Line="47"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="11" Line="47" Loc="graph.tex"/>
+                                                    <LocAnn Col="11" Loc="../zml/examples/oz/graph.tex" Line="47"/>
                                                 </Anns>
                                                 <Word>edges</Word>
                                             </RefName>
                                         </RefExpr>
                                         <SetExpr>
                                             <Anns>
-                                                <LocAnn Col="27" Line="47" Loc="graph.tex"/>
+                                                <LocAnn Col="27" Loc="../zml/examples/oz/graph.tex" Line="47"/>
                                             </Anns>
                                             <TupleExpr>
+                                                <Anns>
+                                                    <LocAnn Col="29" Loc="../zml/examples/oz/graph.tex" Line="47"/>
+                                                </Anns>
                                                 <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="30" Line="47" Loc="graph.tex"/>
+                                                        <LocAnn Col="30" Loc="../zml/examples/oz/graph.tex" Line="47"/>
                                                     </Anns>
                                                     <RefName>
                                                         <Anns>
-                                                            <LocAnn Col="30" Line="47" Loc="graph.tex"/>
+                                                            <LocAnn Col="30" Loc="../zml/examples/oz/graph.tex" Line="47"/>
                                                         </Anns>
                                                         <Word>x</Word>
                                                         <InStroke/>
@@ -1229,11 +1295,11 @@
                                                 </RefExpr>
                                                 <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="34" Line="47" Loc="graph.tex"/>
+                                                        <LocAnn Col="34" Loc="../zml/examples/oz/graph.tex" Line="47"/>
                                                     </Anns>
                                                     <RefName>
                                                         <Anns>
-                                                            <LocAnn Col="34" Line="47" Loc="graph.tex"/>
+                                                            <LocAnn Col="34" Loc="../zml/examples/oz/graph.tex" Line="47"/>
                                                         </Anns>
                                                         <Word>y</Word>
                                                         <InStroke/>
@@ -1251,36 +1317,36 @@
             <ns1:Operation>
                 <ns1:Name>
                     <Anns>
-                        <LocAnn Col="16" Line="49" Loc="graph.tex"/>
+                        <LocAnn Col="16" Loc="../zml/examples/oz/graph.tex" Line="49"/>
                     </Anns>
                     <Word>FindPath</Word>
                 </ns1:Name>
                 <ns1:OperationBox>
                     <VarDecl>
                         <Anns>
-                            <LocAnn Col="7" Line="50" Loc="graph.tex"/>
+                            <LocAnn Col="7" Loc="../zml/examples/oz/graph.tex" Line="50"/>
                         </Anns>
                         <DeclName>
                             <Anns>
-                                <LocAnn Col="1" Line="50" Loc="graph.tex"/>
+                                <LocAnn Col="1" Loc="../zml/examples/oz/graph.tex" Line="50"/>
                             </Anns>
                             <Word>x</Word>
                             <InStroke/>
                         </DeclName>
                         <DeclName>
                             <Anns>
-                                <LocAnn Col="5" Line="50" Loc="graph.tex"/>
+                                <LocAnn Col="5" Loc="../zml/examples/oz/graph.tex" Line="50"/>
                             </Anns>
                             <Word>y</Word>
                             <InStroke/>
                         </DeclName>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="9" Line="50" Loc="graph.tex"/>
+                                <LocAnn Col="9" Loc="../zml/examples/oz/graph.tex" Line="50"/>
                             </Anns>
                             <RefName>
                                 <Anns>
-                                    <LocAnn Col="9" Line="50" Loc="graph.tex"/>
+                                    <LocAnn Col="9" Loc="../zml/examples/oz/graph.tex" Line="50"/>
                                 </Anns>
                                 <Word>DATA</Word>
                             </RefName>
@@ -1288,29 +1354,29 @@
                     </VarDecl>
                     <VarDecl>
                         <Anns>
-                            <LocAnn Col="3" Line="51" Loc="graph.tex"/>
+                            <LocAnn Col="3" Loc="../zml/examples/oz/graph.tex" Line="51"/>
                         </Anns>
                         <DeclName>
                             <Anns>
-                                <LocAnn Col="1" Line="51" Loc="graph.tex"/>
+                                <LocAnn Col="1" Loc="../zml/examples/oz/graph.tex" Line="51"/>
                             </Anns>
                             <Word>s</Word>
                             <OutStroke/>
                         </DeclName>
                         <RefExpr Mixfix="true">
                             <Anns>
-                                <LocAnn Col="6" Line="51" Loc="graph.tex"/>
+                                <LocAnn Col="6" Loc="../zml/examples/oz/graph.tex" Line="51"/>
                             </Anns>
                             <RefName>
                                 <Word>iseq _ </Word>
                             </RefName>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="12" Line="51" Loc="graph.tex"/>
+                                    <LocAnn Col="12" Loc="../zml/examples/oz/graph.tex" Line="51"/>
                                 </Anns>
                                 <RefName>
                                     <Anns>
-                                        <LocAnn Col="12" Line="51" Loc="graph.tex"/>
+                                        <LocAnn Col="12" Loc="../zml/examples/oz/graph.tex" Line="51"/>
                                     </Anns>
                                     <Word>nodes</Word>
                                 </RefName>
@@ -1319,32 +1385,35 @@
                     </VarDecl>
                     <AndPred Op="NL">
                         <Anns>
-                            <LocAnn Col="35" Line="56" Loc="graph.tex"/>
+                            <LocAnn Col="35" Loc="../zml/examples/oz/graph.tex" Line="56"/>
                         </Anns>
                         <AndPred Op="NL">
                             <Anns>
-                                <LocAnn Col="67" Line="55" Loc="graph.tex"/>
+                                <LocAnn Col="67" Loc="../zml/examples/oz/graph.tex" Line="55"/>
                             </Anns>
                             <AndPred Op="And">
                                 <Anns>
-                                    <LocAnn Col="45" Line="53" Loc="graph.tex"/>
+                                    <LocAnn Col="45" Loc="../zml/examples/oz/graph.tex" Line="53"/>
                                 </Anns>
                                 <AndPred Op="And">
                                     <Anns>
-                                        <LocAnn Col="28" Line="53" Loc="graph.tex"/>
+                                        <LocAnn Col="28" Loc="../zml/examples/oz/graph.tex" Line="53"/>
                                     </Anns>
                                     <MemPred Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="11" Line="53" Loc="graph.tex"/>
+                                            <LocAnn Col="11" Loc="../zml/examples/oz/graph.tex" Line="53"/>
                                         </Anns>
                                         <TupleExpr>
+                                            <Anns>
+                                                <LocAnn Col="2" Loc="../zml/examples/oz/graph.tex" Line="53"/>
+                                            </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="3" Line="53" Loc="graph.tex"/>
+                                                    <LocAnn Col="3" Loc="../zml/examples/oz/graph.tex" Line="53"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="3" Line="53" Loc="graph.tex"/>
+                                                        <LocAnn Col="3" Loc="../zml/examples/oz/graph.tex" Line="53"/>
                                                     </Anns>
                                                     <Word>x</Word>
                                                     <InStroke/>
@@ -1352,11 +1421,11 @@
                                             </RefExpr>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="7" Line="53" Loc="graph.tex"/>
+                                                    <LocAnn Col="7" Loc="../zml/examples/oz/graph.tex" Line="53"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="7" Line="53" Loc="graph.tex"/>
+                                                        <LocAnn Col="7" Loc="../zml/examples/oz/graph.tex" Line="53"/>
                                                     </Anns>
                                                     <Word>y</Word>
                                                     <InStroke/>
@@ -1365,20 +1434,23 @@
                                         </TupleExpr>
                                         <ApplExpr Mixfix="true">
                                             <Anns>
-                                                <LocAnn Col="21" Line="53" Loc="graph.tex"/>
+                                                <LocAnn Col="21" Loc="../zml/examples/oz/graph.tex" Line="53"/>
                                             </Anns>
                                             <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="15" Loc="../zml/examples/oz/graph.tex" Line="53"/>
+                                                </Anns>
                                                 <RefName>
                                                     <Word> _ ↗+↙</Word>
                                                 </RefName>
                                             </RefExpr>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="15" Line="53" Loc="graph.tex"/>
+                                                    <LocAnn Col="15" Loc="../zml/examples/oz/graph.tex" Line="53"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="15" Line="53" Loc="graph.tex"/>
+                                                        <LocAnn Col="15" Loc="../zml/examples/oz/graph.tex" Line="53"/>
                                                     </Anns>
                                                     <Word>edges</Word>
                                                 </RefName>
@@ -1387,16 +1459,19 @@
                                     </MemPred>
                                     <MemPred Mixfix="true">
                                         <Anns>
-                                            <LocAnn Col="37" Line="53" Loc="graph.tex"/>
+                                            <LocAnn Col="37" Loc="../zml/examples/oz/graph.tex" Line="53"/>
                                         </Anns>
                                         <TupleExpr>
+                                            <Anns>
+                                                <LocAnn Col="34" Loc="../zml/examples/oz/graph.tex" Line="53"/>
+                                            </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="34" Line="53" Loc="graph.tex"/>
+                                                    <LocAnn Col="34" Loc="../zml/examples/oz/graph.tex" Line="53"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="34" Line="53" Loc="graph.tex"/>
+                                                        <LocAnn Col="34" Loc="../zml/examples/oz/graph.tex" Line="53"/>
                                                     </Anns>
                                                     <Word>x</Word>
                                                     <InStroke/>
@@ -1404,11 +1479,11 @@
                                             </RefExpr>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="42" Line="53" Loc="graph.tex"/>
+                                                    <LocAnn Col="42" Loc="../zml/examples/oz/graph.tex" Line="53"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="42" Line="53" Loc="graph.tex"/>
+                                                        <LocAnn Col="42" Loc="../zml/examples/oz/graph.tex" Line="53"/>
                                                     </Anns>
                                                     <Word>y</Word>
                                                     <InStroke/>
@@ -1424,33 +1499,33 @@
                                 </AndPred>
                                 <ExistsPred>
                                     <Anns>
-                                        <LocAnn Col="8" Line="54" Loc="graph.tex"/>
+                                        <LocAnn Col="8" Loc="../zml/examples/oz/graph.tex" Line="54"/>
                                     </Anns>
                                     <SchText>
                                         <VarDecl>
                                             <Anns>
-                                                <LocAnn Col="18" Line="54" Loc="graph.tex"/>
+                                                <LocAnn Col="18" Loc="../zml/examples/oz/graph.tex" Line="54"/>
                                             </Anns>
                                             <DeclName>
                                                 <Anns>
-                                                    <LocAnn Col="16" Line="54" Loc="graph.tex"/>
+                                                    <LocAnn Col="16" Loc="../zml/examples/oz/graph.tex" Line="54"/>
                                                 </Anns>
                                                 <Word>p</Word>
                                             </DeclName>
                                             <RefExpr Mixfix="true">
                                                 <Anns>
-                                                    <LocAnn Col="20" Line="54" Loc="graph.tex"/>
+                                                    <LocAnn Col="20" Loc="../zml/examples/oz/graph.tex" Line="54"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Word>iseq _ </Word>
                                                 </RefName>
                                                 <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="26" Line="54" Loc="graph.tex"/>
+                                                        <LocAnn Col="26" Loc="../zml/examples/oz/graph.tex" Line="54"/>
                                                     </Anns>
                                                     <RefName>
                                                         <Anns>
-                                                            <LocAnn Col="26" Line="54" Loc="graph.tex"/>
+                                                            <LocAnn Col="26" Loc="../zml/examples/oz/graph.tex" Line="54"/>
                                                         </Anns>
                                                         <Word>node</Word>
                                                     </RefName>
@@ -1460,39 +1535,39 @@
                                     </SchText>
                                     <AndPred Op="And">
                                         <Anns>
-                                            <LocAnn Col="65" Line="54" Loc="graph.tex"/>
+                                            <LocAnn Col="65" Loc="../zml/examples/oz/graph.tex" Line="54"/>
                                         </Anns>
                                         <AndPred Op="And">
                                             <Anns>
-                                                <LocAnn Col="46" Line="54" Loc="graph.tex"/>
+                                                <LocAnn Col="46" Loc="../zml/examples/oz/graph.tex" Line="54"/>
                                             </Anns>
                                             <MemPred Mixfix="true">
                                                 <Anns>
-                                                    <LocAnn Col="41" Line="54" Loc="graph.tex"/>
+                                                    <LocAnn Col="41" Loc="../zml/examples/oz/graph.tex" Line="54"/>
                                                 </Anns>
                                                 <ApplExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="39" Line="54" Loc="graph.tex"/>
+                                                        <LocAnn Col="39" Loc="../zml/examples/oz/graph.tex" Line="54"/>
                                                     </Anns>
                                                     <RefExpr Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="33" Line="54" Loc="graph.tex"/>
+                                                            <LocAnn Col="33" Loc="../zml/examples/oz/graph.tex" Line="54"/>
                                                         </Anns>
                                                         <RefName>
                                                             <Anns>
-                                                                <LocAnn Col="33" Line="54" Loc="graph.tex"/>
+                                                                <LocAnn Col="33" Loc="../zml/examples/oz/graph.tex" Line="54"/>
                                                             </Anns>
                                                             <Word>head</Word>
                                                         </RefName>
                                                     </RefExpr>
                                                     <RefExpr Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="38" Line="54" Loc="graph.tex"/>
+                                                            <LocAnn Col="38" Loc="../zml/examples/oz/graph.tex" Line="54"/>
                                                             <ParenAnn/>
                                                         </Anns>
                                                         <RefName>
                                                             <Anns>
-                                                                <LocAnn Col="38" Line="54" Loc="graph.tex"/>
+                                                                <LocAnn Col="38" Loc="../zml/examples/oz/graph.tex" Line="54"/>
                                                             </Anns>
                                                             <Word>p</Word>
                                                         </RefName>
@@ -1501,11 +1576,11 @@
                                                 <SetExpr>
                                                     <RefExpr Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="43" Line="54" Loc="graph.tex"/>
+                                                            <LocAnn Col="43" Loc="../zml/examples/oz/graph.tex" Line="54"/>
                                                         </Anns>
                                                         <RefName>
                                                             <Anns>
-                                                                <LocAnn Col="43" Line="54" Loc="graph.tex"/>
+                                                                <LocAnn Col="43" Loc="../zml/examples/oz/graph.tex" Line="54"/>
                                                             </Anns>
                                                             <Word>x</Word>
                                                             <InStroke/>
@@ -1515,31 +1590,31 @@
                                             </MemPred>
                                             <MemPred Mixfix="true">
                                                 <Anns>
-                                                    <LocAnn Col="60" Line="54" Loc="graph.tex"/>
+                                                    <LocAnn Col="60" Loc="../zml/examples/oz/graph.tex" Line="54"/>
                                                 </Anns>
                                                 <ApplExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="58" Line="54" Loc="graph.tex"/>
+                                                        <LocAnn Col="58" Loc="../zml/examples/oz/graph.tex" Line="54"/>
                                                     </Anns>
                                                     <RefExpr Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="52" Line="54" Loc="graph.tex"/>
+                                                            <LocAnn Col="52" Loc="../zml/examples/oz/graph.tex" Line="54"/>
                                                         </Anns>
                                                         <RefName>
                                                             <Anns>
-                                                                <LocAnn Col="52" Line="54" Loc="graph.tex"/>
+                                                                <LocAnn Col="52" Loc="../zml/examples/oz/graph.tex" Line="54"/>
                                                             </Anns>
                                                             <Word>last</Word>
                                                         </RefName>
                                                     </RefExpr>
                                                     <RefExpr Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="57" Line="54" Loc="graph.tex"/>
+                                                            <LocAnn Col="57" Loc="../zml/examples/oz/graph.tex" Line="54"/>
                                                             <ParenAnn/>
                                                         </Anns>
                                                         <RefName>
                                                             <Anns>
-                                                                <LocAnn Col="57" Line="54" Loc="graph.tex"/>
+                                                                <LocAnn Col="57" Loc="../zml/examples/oz/graph.tex" Line="54"/>
                                                             </Anns>
                                                             <Word>p</Word>
                                                         </RefName>
@@ -1548,11 +1623,11 @@
                                                 <SetExpr>
                                                     <RefExpr Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="62" Line="54" Loc="graph.tex"/>
+                                                            <LocAnn Col="62" Loc="../zml/examples/oz/graph.tex" Line="54"/>
                                                         </Anns>
                                                         <RefName>
                                                             <Anns>
-                                                                <LocAnn Col="62" Line="54" Loc="graph.tex"/>
+                                                                <LocAnn Col="62" Loc="../zml/examples/oz/graph.tex" Line="54"/>
                                                             </Anns>
                                                             <Word>y</Word>
                                                             <InStroke/>
@@ -1563,61 +1638,76 @@
                                         </AndPred>
                                         <ForallPred>
                                             <Anns>
-                                                <LocAnn Col="8" Line="55" Loc="graph.tex"/>
+                                                <LocAnn Col="8" Loc="../zml/examples/oz/graph.tex" Line="55"/>
                                             </Anns>
                                             <SchText>
                                                 <VarDecl>
                                                     <Anns>
-                                                        <LocAnn Col="17" Line="55" Loc="graph.tex"/>
+                                                        <LocAnn Col="17" Loc="../zml/examples/oz/graph.tex" Line="55"/>
                                                     </Anns>
                                                     <DeclName>
                                                         <Anns>
-                                                            <LocAnn Col="16" Line="55" Loc="graph.tex"/>
+                                                            <LocAnn Col="16" Loc="../zml/examples/oz/graph.tex" Line="55"/>
                                                         </Anns>
                                                         <Word>i</Word>
                                                     </DeclName>
                                                     <ApplExpr Mixfix="true">
                                                         <Anns>
-                                                            <LocAnn Col="21" Line="55" Loc="graph.tex"/>
+                                                            <LocAnn Col="21" Loc="../zml/examples/oz/graph.tex" Line="55"/>
                                                         </Anns>
                                                         <RefExpr Mixfix="false">
+                                                            <Anns>
+                                                                <LocAnn Col="19" Loc="../zml/examples/oz/graph.tex" Line="55"/>
+                                                            </Anns>
                                                             <RefName>
                                                                 <Word> _ .. _ </Word>
                                                             </RefName>
                                                         </RefExpr>
                                                         <TupleExpr>
+                                                            <Anns>
+                                                                <LocAnn Col="19" Loc="../zml/examples/oz/graph.tex" Line="55"/>
+                                                            </Anns>
                                                             <NumExpr Value="1">
                                                                 <Anns>
-                                                                    <LocAnn Col="19" Line="55" Loc="graph.tex"/>
+                                                                    <LocAnn Col="19" Loc="../zml/examples/oz/graph.tex" Line="55"/>
                                                                 </Anns>
                                                             </NumExpr>
                                                             <ApplExpr Mixfix="true">
                                                                 <Anns>
-                                                                    <LocAnn Col="34" Line="55" Loc="graph.tex"/>
+                                                                    <LocAnn Col="34" Loc="../zml/examples/oz/graph.tex" Line="55"/>
                                                                     <ParenAnn/>
                                                                 </Anns>
                                                                 <RefExpr Mixfix="false">
+                                                                    <Anns>
+                                                                        <LocAnn Col="32" Loc="../zml/examples/oz/graph.tex" Line="55"/>
+                                                                    </Anns>
                                                                     <RefName>
                                                                         <Word> _ − _ </Word>
                                                                     </RefName>
                                                                 </RefExpr>
                                                                 <TupleExpr>
+                                                                    <Anns>
+                                                                        <LocAnn Col="32" Loc="../zml/examples/oz/graph.tex" Line="55"/>
+                                                                    </Anns>
                                                                     <ApplExpr Mixfix="true">
                                                                         <Anns>
-                                                                            <LocAnn Col="29" Line="55" Loc="graph.tex"/>
+                                                                            <LocAnn Col="29" Loc="../zml/examples/oz/graph.tex" Line="55"/>
                                                                         </Anns>
                                                                         <RefExpr Mixfix="false">
+                                                                            <Anns>
+                                                                                <LocAnn Col="29" Loc="../zml/examples/oz/graph.tex" Line="55"/>
+                                                                            </Anns>
                                                                             <RefName>
                                                                                 <Word># _ </Word>
                                                                             </RefName>
                                                                         </RefExpr>
                                                                         <RefExpr Mixfix="false">
                                                                             <Anns>
-                                                                                <LocAnn Col="32" Line="55" Loc="graph.tex"/>
+                                                                                <LocAnn Col="32" Loc="../zml/examples/oz/graph.tex" Line="55"/>
                                                                             </Anns>
                                                                             <RefName>
                                                                                 <Anns>
-                                                                                    <LocAnn Col="32" Line="55" Loc="graph.tex"/>
+                                                                                    <LocAnn Col="32" Loc="../zml/examples/oz/graph.tex" Line="55"/>
                                                                                 </Anns>
                                                                                 <Word>p</Word>
                                                                             </RefName>
@@ -1625,7 +1715,7 @@
                                                                     </ApplExpr>
                                                                     <NumExpr Value="1">
                                                                         <Anns>
-                                                                            <LocAnn Col="36" Line="55" Loc="graph.tex"/>
+                                                                            <LocAnn Col="36" Loc="../zml/examples/oz/graph.tex" Line="55"/>
                                                                         </Anns>
                                                                     </NumExpr>
                                                                 </TupleExpr>
@@ -1636,32 +1726,35 @@
                                             </SchText>
                                             <MemPred Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="57" Line="55" Loc="graph.tex"/>
+                                                    <LocAnn Col="57" Loc="../zml/examples/oz/graph.tex" Line="55"/>
                                                 </Anns>
                                                 <TupleExpr>
+                                                    <Anns>
+                                                        <LocAnn Col="40" Loc="../zml/examples/oz/graph.tex" Line="55"/>
+                                                    </Anns>
                                                     <ApplExpr Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="44" Line="55" Loc="graph.tex"/>
+                                                            <LocAnn Col="44" Loc="../zml/examples/oz/graph.tex" Line="55"/>
                                                         </Anns>
                                                         <RefExpr Mixfix="false">
                                                             <Anns>
-                                                                <LocAnn Col="41" Line="55" Loc="graph.tex"/>
+                                                                <LocAnn Col="41" Loc="../zml/examples/oz/graph.tex" Line="55"/>
                                                             </Anns>
                                                             <RefName>
                                                                 <Anns>
-                                                                    <LocAnn Col="41" Line="55" Loc="graph.tex"/>
+                                                                    <LocAnn Col="41" Loc="../zml/examples/oz/graph.tex" Line="55"/>
                                                                 </Anns>
                                                                 <Word>p</Word>
                                                             </RefName>
                                                         </RefExpr>
                                                         <RefExpr Mixfix="false">
                                                             <Anns>
-                                                                <LocAnn Col="43" Line="55" Loc="graph.tex"/>
+                                                                <LocAnn Col="43" Loc="../zml/examples/oz/graph.tex" Line="55"/>
                                                                 <ParenAnn/>
                                                             </Anns>
                                                             <RefName>
                                                                 <Anns>
-                                                                    <LocAnn Col="43" Line="55" Loc="graph.tex"/>
+                                                                    <LocAnn Col="43" Loc="../zml/examples/oz/graph.tex" Line="55"/>
                                                                 </Anns>
                                                                 <Word>i</Word>
                                                             </RefName>
@@ -1669,44 +1762,50 @@
                                                     </ApplExpr>
                                                     <ApplExpr Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="54" Line="55" Loc="graph.tex"/>
+                                                            <LocAnn Col="54" Loc="../zml/examples/oz/graph.tex" Line="55"/>
                                                         </Anns>
                                                         <RefExpr Mixfix="false">
                                                             <Anns>
-                                                                <LocAnn Col="47" Line="55" Loc="graph.tex"/>
+                                                                <LocAnn Col="47" Loc="../zml/examples/oz/graph.tex" Line="55"/>
                                                             </Anns>
                                                             <RefName>
                                                                 <Anns>
-                                                                    <LocAnn Col="47" Line="55" Loc="graph.tex"/>
+                                                                    <LocAnn Col="47" Loc="../zml/examples/oz/graph.tex" Line="55"/>
                                                                 </Anns>
                                                                 <Word>p</Word>
                                                             </RefName>
                                                         </RefExpr>
                                                         <ApplExpr Mixfix="true">
                                                             <Anns>
-                                                                <LocAnn Col="51" Line="55" Loc="graph.tex"/>
+                                                                <LocAnn Col="51" Loc="../zml/examples/oz/graph.tex" Line="55"/>
                                                                 <ParenAnn/>
                                                             </Anns>
                                                             <RefExpr Mixfix="false">
+                                                                <Anns>
+                                                                    <LocAnn Col="49" Loc="../zml/examples/oz/graph.tex" Line="55"/>
+                                                                </Anns>
                                                                 <RefName>
                                                                     <Word> _ + _ </Word>
                                                                 </RefName>
                                                             </RefExpr>
                                                             <TupleExpr>
+                                                                <Anns>
+                                                                    <LocAnn Col="49" Loc="../zml/examples/oz/graph.tex" Line="55"/>
+                                                                </Anns>
                                                                 <RefExpr Mixfix="false">
                                                                     <Anns>
-                                                                        <LocAnn Col="49" Line="55" Loc="graph.tex"/>
+                                                                        <LocAnn Col="49" Loc="../zml/examples/oz/graph.tex" Line="55"/>
                                                                     </Anns>
                                                                     <RefName>
                                                                         <Anns>
-                                                                            <LocAnn Col="49" Line="55" Loc="graph.tex"/>
+                                                                            <LocAnn Col="49" Loc="../zml/examples/oz/graph.tex" Line="55"/>
                                                                         </Anns>
                                                                         <Word>i</Word>
                                                                     </RefName>
                                                                 </RefExpr>
                                                                 <NumExpr Value="1">
                                                                     <Anns>
-                                                                        <LocAnn Col="53" Line="55" Loc="graph.tex"/>
+                                                                        <LocAnn Col="53" Loc="../zml/examples/oz/graph.tex" Line="55"/>
                                                                     </Anns>
                                                                 </NumExpr>
                                                             </TupleExpr>
@@ -1715,11 +1814,11 @@
                                                 </TupleExpr>
                                                 <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="61" Line="55" Loc="graph.tex"/>
+                                                        <LocAnn Col="61" Loc="../zml/examples/oz/graph.tex" Line="55"/>
                                                     </Anns>
                                                     <RefName>
                                                         <Anns>
-                                                            <LocAnn Col="61" Line="55" Loc="graph.tex"/>
+                                                            <LocAnn Col="61" Loc="../zml/examples/oz/graph.tex" Line="55"/>
                                                         </Anns>
                                                         <Word>edges</Word>
                                                     </RefName>
@@ -1731,35 +1830,35 @@
                             </AndPred>
                             <AndPred Op="And">
                                 <Anns>
-                                    <LocAnn Col="16" Line="56" Loc="graph.tex"/>
+                                    <LocAnn Col="16" Loc="../zml/examples/oz/graph.tex" Line="56"/>
                                 </Anns>
                                 <MemPred Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="11" Line="56" Loc="graph.tex"/>
+                                        <LocAnn Col="11" Loc="../zml/examples/oz/graph.tex" Line="56"/>
                                     </Anns>
                                     <ApplExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="9" Line="56" Loc="graph.tex"/>
+                                            <LocAnn Col="9" Loc="../zml/examples/oz/graph.tex" Line="56"/>
                                         </Anns>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="2" Line="56" Loc="graph.tex"/>
+                                                <LocAnn Col="2" Loc="../zml/examples/oz/graph.tex" Line="56"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="2" Line="56" Loc="graph.tex"/>
+                                                    <LocAnn Col="2" Loc="../zml/examples/oz/graph.tex" Line="56"/>
                                                 </Anns>
                                                 <Word>head</Word>
                                             </RefName>
                                         </RefExpr>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="7" Line="56" Loc="graph.tex"/>
+                                                <LocAnn Col="7" Loc="../zml/examples/oz/graph.tex" Line="56"/>
                                                 <ParenAnn/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="7" Line="56" Loc="graph.tex"/>
+                                                    <LocAnn Col="7" Loc="../zml/examples/oz/graph.tex" Line="56"/>
                                                 </Anns>
                                                 <Word>s</Word>
                                                 <OutStroke/>
@@ -1769,11 +1868,11 @@
                                     <SetExpr>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="13" Line="56" Loc="graph.tex"/>
+                                                <LocAnn Col="13" Loc="../zml/examples/oz/graph.tex" Line="56"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="13" Line="56" Loc="graph.tex"/>
+                                                    <LocAnn Col="13" Loc="../zml/examples/oz/graph.tex" Line="56"/>
                                                 </Anns>
                                                 <Word>x</Word>
                                                 <InStroke/>
@@ -1783,31 +1882,31 @@
                                 </MemPred>
                                 <MemPred Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="31" Line="56" Loc="graph.tex"/>
+                                        <LocAnn Col="31" Loc="../zml/examples/oz/graph.tex" Line="56"/>
                                     </Anns>
                                     <ApplExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="29" Line="56" Loc="graph.tex"/>
+                                            <LocAnn Col="29" Loc="../zml/examples/oz/graph.tex" Line="56"/>
                                         </Anns>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="22" Line="56" Loc="graph.tex"/>
+                                                <LocAnn Col="22" Loc="../zml/examples/oz/graph.tex" Line="56"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="22" Line="56" Loc="graph.tex"/>
+                                                    <LocAnn Col="22" Loc="../zml/examples/oz/graph.tex" Line="56"/>
                                                 </Anns>
                                                 <Word>last</Word>
                                             </RefName>
                                         </RefExpr>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="27" Line="56" Loc="graph.tex"/>
+                                                <LocAnn Col="27" Loc="../zml/examples/oz/graph.tex" Line="56"/>
                                                 <ParenAnn/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="27" Line="56" Loc="graph.tex"/>
+                                                    <LocAnn Col="27" Loc="../zml/examples/oz/graph.tex" Line="56"/>
                                                 </Anns>
                                                 <Word>s</Word>
                                                 <OutStroke/>
@@ -1817,11 +1916,11 @@
                                     <SetExpr>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="33" Line="56" Loc="graph.tex"/>
+                                                <LocAnn Col="33" Loc="../zml/examples/oz/graph.tex" Line="56"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="33" Line="56" Loc="graph.tex"/>
+                                                    <LocAnn Col="33" Loc="../zml/examples/oz/graph.tex" Line="56"/>
                                                 </Anns>
                                                 <Word>y</Word>
                                                 <InStroke/>
@@ -1833,61 +1932,76 @@
                         </AndPred>
                         <ForallPred>
                             <Anns>
-                                <LocAnn Col="1" Line="57" Loc="graph.tex"/>
+                                <LocAnn Col="1" Loc="../zml/examples/oz/graph.tex" Line="57"/>
                             </Anns>
                             <SchText>
                                 <VarDecl>
                                     <Anns>
-                                        <LocAnn Col="10" Line="57" Loc="graph.tex"/>
+                                        <LocAnn Col="10" Loc="../zml/examples/oz/graph.tex" Line="57"/>
                                     </Anns>
                                     <DeclName>
                                         <Anns>
-                                            <LocAnn Col="9" Line="57" Loc="graph.tex"/>
+                                            <LocAnn Col="9" Loc="../zml/examples/oz/graph.tex" Line="57"/>
                                         </Anns>
                                         <Word>i</Word>
                                     </DeclName>
                                     <ApplExpr Mixfix="true">
                                         <Anns>
-                                            <LocAnn Col="14" Line="57" Loc="graph.tex"/>
+                                            <LocAnn Col="14" Loc="../zml/examples/oz/graph.tex" Line="57"/>
                                         </Anns>
                                         <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="12" Loc="../zml/examples/oz/graph.tex" Line="57"/>
+                                            </Anns>
                                             <RefName>
                                                 <Word> _ .. _ </Word>
                                             </RefName>
                                         </RefExpr>
                                         <TupleExpr>
+                                            <Anns>
+                                                <LocAnn Col="12" Loc="../zml/examples/oz/graph.tex" Line="57"/>
+                                            </Anns>
                                             <NumExpr Value="1">
                                                 <Anns>
-                                                    <LocAnn Col="12" Line="57" Loc="graph.tex"/>
+                                                    <LocAnn Col="12" Loc="../zml/examples/oz/graph.tex" Line="57"/>
                                                 </Anns>
                                             </NumExpr>
                                             <ApplExpr Mixfix="true">
                                                 <Anns>
-                                                    <LocAnn Col="28" Line="57" Loc="graph.tex"/>
+                                                    <LocAnn Col="28" Loc="../zml/examples/oz/graph.tex" Line="57"/>
                                                     <ParenAnn/>
                                                 </Anns>
                                                 <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="25" Loc="../zml/examples/oz/graph.tex" Line="57"/>
+                                                    </Anns>
                                                     <RefName>
                                                         <Word> _ − _ </Word>
                                                     </RefName>
                                                 </RefExpr>
                                                 <TupleExpr>
+                                                    <Anns>
+                                                        <LocAnn Col="25" Loc="../zml/examples/oz/graph.tex" Line="57"/>
+                                                    </Anns>
                                                     <ApplExpr Mixfix="true">
                                                         <Anns>
-                                                            <LocAnn Col="22" Line="57" Loc="graph.tex"/>
+                                                            <LocAnn Col="22" Loc="../zml/examples/oz/graph.tex" Line="57"/>
                                                         </Anns>
                                                         <RefExpr Mixfix="false">
+                                                            <Anns>
+                                                                <LocAnn Col="22" Loc="../zml/examples/oz/graph.tex" Line="57"/>
+                                                            </Anns>
                                                             <RefName>
                                                                 <Word># _ </Word>
                                                             </RefName>
                                                         </RefExpr>
                                                         <RefExpr Mixfix="false">
                                                             <Anns>
-                                                                <LocAnn Col="25" Line="57" Loc="graph.tex"/>
+                                                                <LocAnn Col="25" Loc="../zml/examples/oz/graph.tex" Line="57"/>
                                                             </Anns>
                                                             <RefName>
                                                                 <Anns>
-                                                                    <LocAnn Col="25" Line="57" Loc="graph.tex"/>
+                                                                    <LocAnn Col="25" Loc="../zml/examples/oz/graph.tex" Line="57"/>
                                                                 </Anns>
                                                                 <Word>s</Word>
                                                                 <OutStroke/>
@@ -1896,7 +2010,7 @@
                                                     </ApplExpr>
                                                     <NumExpr Value="1">
                                                         <Anns>
-                                                            <LocAnn Col="30" Line="57" Loc="graph.tex"/>
+                                                            <LocAnn Col="30" Loc="../zml/examples/oz/graph.tex" Line="57"/>
                                                         </Anns>
                                                     </NumExpr>
                                                 </TupleExpr>
@@ -1907,20 +2021,23 @@
                             </SchText>
                             <MemPred Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="53" Line="57" Loc="graph.tex"/>
+                                    <LocAnn Col="53" Loc="../zml/examples/oz/graph.tex" Line="57"/>
                                 </Anns>
                                 <TupleExpr>
+                                    <Anns>
+                                        <LocAnn Col="34" Loc="../zml/examples/oz/graph.tex" Line="57"/>
+                                    </Anns>
                                     <ApplExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="39" Line="57" Loc="graph.tex"/>
+                                            <LocAnn Col="39" Loc="../zml/examples/oz/graph.tex" Line="57"/>
                                         </Anns>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="35" Line="57" Loc="graph.tex"/>
+                                                <LocAnn Col="35" Loc="../zml/examples/oz/graph.tex" Line="57"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="35" Line="57" Loc="graph.tex"/>
+                                                    <LocAnn Col="35" Loc="../zml/examples/oz/graph.tex" Line="57"/>
                                                 </Anns>
                                                 <Word>s</Word>
                                                 <OutStroke/>
@@ -1928,12 +2045,12 @@
                                         </RefExpr>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="38" Line="57" Loc="graph.tex"/>
+                                                <LocAnn Col="38" Loc="../zml/examples/oz/graph.tex" Line="57"/>
                                                 <ParenAnn/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="38" Line="57" Loc="graph.tex"/>
+                                                    <LocAnn Col="38" Loc="../zml/examples/oz/graph.tex" Line="57"/>
                                                 </Anns>
                                                 <Word>i</Word>
                                             </RefName>
@@ -1941,15 +2058,15 @@
                                     </ApplExpr>
                                     <ApplExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="50" Line="57" Loc="graph.tex"/>
+                                            <LocAnn Col="50" Loc="../zml/examples/oz/graph.tex" Line="57"/>
                                         </Anns>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="42" Line="57" Loc="graph.tex"/>
+                                                <LocAnn Col="42" Loc="../zml/examples/oz/graph.tex" Line="57"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="42" Line="57" Loc="graph.tex"/>
+                                                    <LocAnn Col="42" Loc="../zml/examples/oz/graph.tex" Line="57"/>
                                                 </Anns>
                                                 <Word>s</Word>
                                                 <OutStroke/>
@@ -1957,29 +2074,35 @@
                                         </RefExpr>
                                         <ApplExpr Mixfix="true">
                                             <Anns>
-                                                <LocAnn Col="47" Line="57" Loc="graph.tex"/>
+                                                <LocAnn Col="47" Loc="../zml/examples/oz/graph.tex" Line="57"/>
                                                 <ParenAnn/>
                                             </Anns>
                                             <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="45" Loc="../zml/examples/oz/graph.tex" Line="57"/>
+                                                </Anns>
                                                 <RefName>
                                                     <Word> _ + _ </Word>
                                                 </RefName>
                                             </RefExpr>
                                             <TupleExpr>
+                                                <Anns>
+                                                    <LocAnn Col="45" Loc="../zml/examples/oz/graph.tex" Line="57"/>
+                                                </Anns>
                                                 <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="45" Line="57" Loc="graph.tex"/>
+                                                        <LocAnn Col="45" Loc="../zml/examples/oz/graph.tex" Line="57"/>
                                                     </Anns>
                                                     <RefName>
                                                         <Anns>
-                                                            <LocAnn Col="45" Line="57" Loc="graph.tex"/>
+                                                            <LocAnn Col="45" Loc="../zml/examples/oz/graph.tex" Line="57"/>
                                                         </Anns>
                                                         <Word>i</Word>
                                                     </RefName>
                                                 </RefExpr>
                                                 <NumExpr Value="1">
                                                     <Anns>
-                                                        <LocAnn Col="49" Line="57" Loc="graph.tex"/>
+                                                        <LocAnn Col="49" Loc="../zml/examples/oz/graph.tex" Line="57"/>
                                                     </Anns>
                                                 </NumExpr>
                                             </TupleExpr>
@@ -1988,11 +2111,11 @@
                                 </TupleExpr>
                                 <RefExpr Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="57" Line="57" Loc="graph.tex"/>
+                                        <LocAnn Col="57" Loc="../zml/examples/oz/graph.tex" Line="57"/>
                                     </Anns>
                                     <RefName>
                                         <Anns>
-                                            <LocAnn Col="57" Line="57" Loc="graph.tex"/>
+                                            <LocAnn Col="57" Loc="../zml/examples/oz/graph.tex" Line="57"/>
                                         </Anns>
                                         <Word>edges</Word>
                                     </RefName>
@@ -2005,7 +2128,7 @@
         </ns1:ClassPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="12" Line="59" Loc="graph.tex"/>
+                <LocAnn Col="12" Loc="../zml/examples/oz/graph.tex" Line="59"/>
             </Anns>
             <Content> 
 \zedindent=\leftmargini
