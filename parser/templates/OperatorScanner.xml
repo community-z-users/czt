@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2004 Tim Miller, Petra Malik
+     This file is part of the CZT project.
+
+     The CZT project contains free software;
+     you can redistribute it and/or modify
+     it under the terms of the GNU General Public License as published by
+     the Free Software Foundation; either version 2 of the License, or
+     (at your option) any later version.
+
+     The CZT project is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+
+     You should have received a copy of the GNU General Public License
+     along with CZT; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+-->
+
+<parser xmlns:add="http://czt.sourceforge.net/templates/additional">
+
+package <package/>;
+
+import java.lang.reflect.*;
+
+import java_cup.runtime.Scanner;
+import java_cup.runtime.Symbol;
+
+import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.util.CztException;
+
+public class <class/>
+  implements Scanner
+{
+  /**
+   * The tokens that can have soft new lines both before and after.
+   */
+  private int [] nlBoth_ =
+    new int [] {Sym.LEFTASSOC, Sym.PARENTS,
+                Sym.RIGHTASSOC, Sym.ELSE, Sym.THEN, Sym.DEFFREE,
+                Sym.BAR, Sym.LDATA, Sym.ANDALSO,
+                Sym.CONJECTURE, Sym.LISTARG, Sym.AND, Sym.OR,
+                Sym.IMP, Sym.IFF, Sym.CROSS, Sym.SLASH,
+                Sym.EQUALS, Sym.MEM, Sym.DEFEQUAL, Sym.COLON,
+                Sym.COMMA, Sym.DOT, Sym.SEMICOLON, Sym.SPOT,
+                Sym.ZHIDE, Sym.ZPROJ, Sym.ZCOMP, Sym.ZPIPE,
+                Sym.I, Sym.IP, Sym.EL, Sym.ELP, Sym.ERE,
+                Sym.EREP, Sym.ES, Sym.SS, Sym.SRE, Sym.SREP,
+                Sym.VISIBILITY, Sym.INHERITS, Sym.PARALLEL,
+                Sym.ASSOCPARALLEL, Sym.GCH, Sym.END,
+                Sym.SCH, Sym.GENSCH, Sym.OPSCH, Sym.AX, 
+                Sym.GENAX, Sym.ZED, Sym.CLASS, Sym.STATE, 
+                Sym.INIT,
+    };
+
+  /**
+   * &lt;p&gt;
+   * The tokens that can only have soft new lines after.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * In the ISO standard, "function", "generic", "relation", and
+   * "section" are in the "both" category, but a new line before one of
+   * these is possible if multiple paragraphs are permitted inside in
+   * a zed paragraph, so have been moved into the "after" category
+   * &lt;/p&gt;
+   */
+  private int [] nlAfter_ =
+    new int [] {Sym.IF, Sym.LET, Sym.ZPRE,
+                Sym.FUNCTION, Sym.GENERIC, Sym.RELATION, Sym.SECTION,
+                Sym.LSQUARE, Sym.ARG, Sym.NOT, Sym.ALL,
+                Sym.EXI, Sym.EXIONE, Sym.LPAREN, Sym.LBRACE,
+                Sym.LBIND, Sym.LAMBDA, Sym.MU, Sym.THETA,
+                Sym.PRE, Sym.PREP, Sym.L, Sym.LP,
+                Sym.DCNJ, Sym.DGCH, Sym.DSQC,
+    };
+
+  /**
+   * The tokens that can only have soft new lines before.
+   * RDATA has been moved from "both" to "before".
+   */
+  private int [] nlBefore_ =
+    new int [] {Sym.RSQUARE, Sym.RPAREN, Sym.RBRACE,
+                Sym.RBIND, Sym.POST, Sym.POSTP, Sym.ER,
+                Sym.ERP, Sym.SR, Sym.SRP,
+                Sym.RDATA
+    };
+
+  private Scanner scanner_;
+  private OperatorTable table_;
+  private Symbol previous_ = null;
+  private Symbol lookAhead_ = null;
+
+  /**
+   * Indicates whether to perform a requested lookup.
+   * There are two cases in which a lookup is not performed:
+   *   1) When parsing an operator template, so that an operator
+   *      can be re-used (see section 8.3)
+   *   2) When parsing a section header, so that section names
+   *      can be operator names (see section 8.4)
+   */
+  private boolean lookup_ = true;
+
+  <class/>(Scanner scanner, OperatorTable table)
+  {
+    scanner_ = scanner;
+    table_ = table;
+  }
+
+  public Symbol next_token()
+    throws Exception
+  {
+    Symbol result = null;
+    if (lookAhead_ == null) {
+      result = localLookup(scanner_.next_token());
+      lookAhead_ = scanner_.next_token();
+    }
+    else {
+      result = localLookup(lookAhead_);
+      lookAhead_ = scanner_.next_token();
+    }
+    assert lookAhead_ != null;
+    //remove any soft newline characters
+    if (result.sym == Sym.NL) {
+      if (previous_ != null &amp;&amp;
+      (contains(nlBoth_, previous_.sym) ||
+       contains(nlAfter_, previous_.sym))) {
+        
+        return next_token();
+      }
+      else {
+        if (lookAhead_.sym == Sym.NL) {
+          return next_token();
+        }
+        else if (contains(nlBoth_, lookAhead_.sym) ||
+                 contains(nlBefore_, lookAhead_.sym)) {
+          
+          result = localLookup(lookAhead_);
+          lookAhead_ = scanner_.next_token();
+        }
+      }
+    }
+    // If a ZED token is followed by a SECTION, ignore the ZED
+    // (this solves some shift/reduce problems)
+    // and set lookup_ to false.
+    if (result.sym == Sym.ZED) {
+      if (lookAhead_.sym == Sym.SECTION) {
+        lookup_ = false;
+        result = lookAhead_;
+        lookAhead_ = scanner_.next_token();
+      }
+    }
+    else if (result.sym == Sym.RELATION ||
+             result.sym == Sym.FUNCTION ||
+             result.sym == Sym.GENERIC) {
+      lookup_ = false;
+    }
+    else if (lookup_ == false &amp;&amp; result.sym == Sym.END) {
+      lookup_ = true;
+    }
+
+    previous_ = result;
+    return result;
+  }
+
+  /**
+   * Lookup the value of this symbol
+   */
+  protected Symbol localLookup(Symbol symbol)
+  {
+    if (lookup_ == false) { 
+      return symbol;
+    }
+    Symbol result = null;
+    if (symbol.sym == Sym.DECORWORD || symbol.sym == Sym.DECLWORD) {
+      String name = (String) symbol.value;
+      OperatorTokenType optype = table_.lookup(name);
+      int type = -1;
+
+      if (optype != null) {
+        Field[] fields = Sym.class.getFields();
+        for (int i = 0; i &lt; fields.length; i++) {
+          Field field = fields[i];
+          try {
+            if (Modifier.isStatic(field.getModifiers())) {
+              if (optype.toString().equals(field.getName())) {
+                type = ((Integer) field.get(null)).intValue();
+              }
+            }
+          }
+          catch (IllegalAccessException e) {
+            throw new CztException(e);
+          }
+        }
+        assert type != -1;
+      }
+      result = (type == -1) ? symbol : new Symbol(type, 
+                                                  symbol.left, 
+                                                  symbol.right, name);
+    }
+    else {
+      result = symbol;
+    }
+    return result;
+  }
+
+  /**
+   * Returns true if and only if a symbol is in an array of symbols
+   */
+  protected boolean contains(int [] symbols, int symbol)
+  {
+    boolean result = false;
+    for (int i = 0; i &lt; symbols.length; i++) {
+      if (symbols[i] == symbol) {
+        result = true;
+        break;
+      }
+    }
+    return result;
+  }
+}
+</parser>

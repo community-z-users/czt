@@ -333,6 +333,14 @@
       <param name="add" expression="{z}"/>
     </xslt>
     <xslt
+      in="templates/OperatorScanner.xml"
+      out="${build.src.z.dir}/OperatorScanner.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="OperatorScanner"/>
+      <param name="package" expression="net.sourceforge.czt.parser.z"/>
+      <param name="add" expression="{z}"/>
+    </xslt>
+    <xslt
       in="templates/KeywordScanner.xml"
       out="${build.src.z.dir}/KeywordScanner.java"
       style="${czt.home}/devtools/template2text.xsl">
@@ -373,6 +381,14 @@
       out="${build.src.oz.dir}/UnicodeScanner.java"
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="UnicodeScanner"/>
+      <param name="package" expression="net.sourceforge.czt.parser.oz"/>
+      <param name="add" expression="{oz}"/>
+    </xslt>
+    <xslt
+      in="templates/OperatorScanner.xml"
+      out="${build.src.oz.dir}/OperatorScanner.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="OperatorScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.oz"/>
       <param name="add" expression="{oz}"/>
     </xslt>

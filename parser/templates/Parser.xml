@@ -570,52 +570,6 @@ parser code
       return table_;
     }
 
-    /** The tokens that can have soft new lines both before and after */
-    protected int [] nlBoth_ =
-      new int [] {Sym.LEFTASSOC, Sym.PARENTS,
-        Sym.RIGHTASSOC, Sym.ELSE, Sym.THEN, Sym.DEFFREE,
-        Sym.BAR, Sym.LDATA, Sym.ANDALSO,
-        Sym.CONJECTURE, Sym.LISTARG, Sym.AND, Sym.OR,
-        Sym.IMP, Sym.IFF, Sym.CROSS, Sym.SLASH,
-        Sym.EQUALS, Sym.MEM, Sym.DEFEQUAL, Sym.COLON,
-        Sym.COMMA, Sym.DOT, Sym.SEMICOLON, Sym.SPOT,
-        Sym.ZHIDE, Sym.ZPROJ, Sym.ZCOMP, Sym.ZPIPE,
-        Sym.I, Sym.IP, Sym.EL, Sym.ELP, Sym.ERE,
-        Sym.EREP, Sym.ES, Sym.SS, Sym.SRE, Sym.SREP,
-        Sym.VISIBILITY, Sym.INHERITS, Sym.PARALLEL,
-        Sym.ASSOCPARALLEL, Sym.GCH, Sym.END,
-        Sym.SCH, Sym.GENSCH, Sym.OPSCH, Sym.AX, 
-        Sym.GENAX, Sym.ZED, Sym.CLASS, Sym.STATE, 
-        Sym.INIT,
-      };
-
-    //in the ISO standard, "function", "generic", "relation", and
-    //"section" are in the "both" category, but a new line before one of
-    //these is possible if multiple paragraphs are permitted inside in
-    //a zed paragraph, so have been moved into the "after" category
-    /** The tokens that can only have soft new lines after */
-    protected int [] nlAfter_ =
-      new int [] {Sym.IF, Sym.LET, Sym.ZPRE,
-        Sym.FUNCTION, Sym.GENERIC, Sym.RELATION, Sym.SECTION,
-        Sym.LSQUARE, Sym.ARG, Sym.NOT, Sym.ALL,
-        Sym.EXI, Sym.EXIONE, Sym.LPAREN, Sym.LBRACE,
-        Sym.LBIND, Sym.LAMBDA, Sym.MU, Sym.THETA,
-        Sym.PRE, Sym.PREP, Sym.L, Sym.LP,
-        Sym.DCNJ, Sym.DGCH, Sym.DSQC,
-      };
-
-    //RDATA has been moved from "both" to "before"
-    /** The tokens that can only have soft new lines before */
-    protected int [] nlBefore_ =
-      new int [] {Sym.RSQUARE, Sym.RPAREN, Sym.RBRACE,
-        Sym.RBIND, Sym.POST, Sym.POSTP, Sym.ER,
-        Sym.ERP, Sym.SR, Sym.SRP,
-        Sym.RDATA
-      };
-
-    /** A symbol used for lookAhead */
-    protected Symbol lookAhead_ = null;
-
     /**
      * The symbol returned by the last call to local_next_token().
      */
@@ -630,15 +584,7 @@ parser code
     /** The section manager */
     protected SectionManager manager_;
 
-    /**
-     * Indicates whether to perform a requested lookup.
-     * There are two cases in which a lookup is not performed:
-     *   1) When parsing an operator template, so that an operator
-     *      can be re-used (see section 8.3)
-     *   2) When parsing a section header, so that section names
-     *      can be operator names (see section 8.4)
-     */
-    private boolean lookup_ = true;
+    private OperatorScanner scanner_;
 
     /**
      * The constructor that receives the operator table
@@ -647,9 +593,7 @@ parser code
                     OperatorTable table,
                     SectionManager manager)
     {
-      super(scanner);
-      table_ = table;
-      manager_ = manager;
+      this(scanner, table, null, manager);
     }
 
     /**
@@ -664,125 +608,18 @@ parser code
       table_ = table;
       file_ = file;
       manager_ = manager;
+      scanner_ = new OperatorScanner(getScanner(), table_);
     }
 
     /**
-     * Returns true if and only if a symbol is in an array of symbols
-     */
-    protected boolean contains(int [] symbols, int symbol)
-    {
-      boolean result = false;
-
-      for (int i = 0; i &lt; symbols.length; i++) {
-        if (symbols[i] == symbol) {
-          result = true;
-          break;
-        }
-      }
-      return result;
-    }
-
-    /**
-     * Return the next token, returning the operator symbol if it is a 
-     * user defined operator
+     * Return the next token.
      */
     protected Symbol local_next_token() throws Exception
     {
-        Symbol result = null;
-        if (lookAhead_ == null) {
-          result = localLookup(getScanner().next_token());
-          lookAhead_ = getScanner().next_token();
-        }
-        else {
-          result = localLookup(lookAhead_);
-          lookAhead_ = getScanner().next_token();
-        }
-        assert lookAhead_ != null;
-        //remove any soft newline characters
-        if (result.sym == Sym.NL) {
-          if (previous_ != null &amp;&amp;
-              (contains(nlBoth_, previous_.sym) ||
-              contains(nlAfter_, previous_.sym))) {
-
-              return local_next_token();
-          }
-          else {
-            if (lookAhead_.sym == Sym.NL) {
-              return local_next_token();
-            }
-            else if (contains(nlBoth_, lookAhead_.sym) ||
-                contains(nlBefore_, lookAhead_.sym)) {
-
-                result = localLookup(lookAhead_);
-                lookAhead_ = getScanner().next_token();
-            }
-          }
-        }
-        // If a ZED token is followed by a SECTION, ignore the ZED
-        // (this solves some shift/reduce problems)
-        // and set lookup_ to false.
-        if (result.sym == Sym.ZED) {
-          if (lookAhead_.sym == Sym.SECTION) {
-            lookup_ = false;
-            result = lookAhead_;
-            lookAhead_ = getScanner().next_token();
-          }
-        }
-        else if (result.sym == Sym.RELATION ||
-                 result.sym == Sym.FUNCTION ||
-                 result.sym == Sym.GENERIC) {
-          lookup_ = false;
-        }
-        else if (lookup_ == false &amp;&amp; result.sym == Sym.END) {
-          lookup_ = true;
-        }
-
+        Symbol result = scanner_.next_token();
         previous_ = result;
         action_obj.previous_ = previous_;
         return result;
-    }
-
-    /**
-     * Lookup the value of this symbol
-     */
-    protected Symbol localLookup(Symbol symbol)
-    {
-      if (lookup_ == false) { 
-        return symbol;
-      }
-      Symbol result = null;
-
-      if (symbol.sym == Sym.DECORWORD || symbol.sym == Sym.DECLWORD) {
-
-        String name = (String) symbol.value;
-        OperatorTokenType optype = table_.lookup(name);
-        int type = -1;
-
-        if (optype != null) {
-          Field[] fields = Sym.class.getFields();
-          for (int i = 0; i &lt; fields.length; i++) {
-            Field field = fields[i];
-            try {
-              if (Modifier.isStatic(field.getModifiers())) {
-                if (optype.toString().equals(field.getName())) {
-                  type = ((Integer) field.get(null)).intValue();
-                }
-              }
-            }
-            catch (IllegalAccessException e) {
-              throw new CztException(e);
-            }
-          }
-          assert type != -1;
-        }
-        result = (type == -1) ? symbol : new Symbol(type, 
-                                                    symbol.left, 
-                                                    symbol.right, name);
-      }
-      else {
-        result = symbol;
-      }
-      return result;
     }
 
     public void report_error(String message, Object info)
