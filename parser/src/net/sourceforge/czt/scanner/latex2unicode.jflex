@@ -96,6 +96,13 @@ import net.sourceforge.czt.util.ZString;
   boolean addSpace_ = false;
 
   /**
+   * A flag telling whether the next "}" is tranlated into space or not.
+   * This is used when a /begin{schema} is found. This is followed by
+   * {NAME} and the "}" should be translated into space.
+   */
+  boolean braceToSpace_ = false;
+
+  /**
    * Sets the given writer as output used by this transformer.
    */
   public void setWriter(Writer writer)
@@ -292,6 +299,7 @@ RELATION = ":" | "<" | "=" | ">"
         {
           yybegin(ZED);
           assertion(!addSpace_);
+          braceToSpace_ = true;
           return result(ZString.SCH);
         }
   "\\begin" {IGNORE}* ("{zed}" | "{zsection}")
@@ -351,8 +359,8 @@ RELATION = ":" | "<" | "=" | ">"
           if (zstring != null) {
             result += zstring;
           } else {
-            System.err.println("Unknown command " + command);
-            result += command;
+            System.err.println("WARNING: Unknown latex command " + command);
+            result += command.substring(1);
           }
           result += endScript(script);
           return result(result);
@@ -404,9 +412,9 @@ RELATION = ":" | "<" | "=" | ">"
               addSpace_ = true;
             }
           } else {
-            System.err.println("Unknown command " + yytext());
+            System.err.println("WARNING: Unknown latex command " + yytext());
             if (spaces) result += ZString.SPACE;
-            result += yytext();
+            result += yytext().substring(1);
             if (spaces) result += ZString.SPACE;
           }
           return result(result);
@@ -420,6 +428,10 @@ RELATION = ":" | "<" | "=" | ">"
   "}"
         {
           String result = "";
+          if (braceToSpace_) {
+            result += ZString.SPACE;
+            braceToSpace_ = false;
+          }
           if (braceStack_.empty()) {
             System.err.println("Unmatched braces");
           }
