@@ -543,27 +543,28 @@ precedence nonassoc     CBAR;
 precedence left         NARRWORD;
 precedence left         RPAREN;
 precedence left         NL, SEMI;
-precedence left         FORALL, EXISTS, EXISTS1;
+precedence left         FORALL, EXISTS, EXISTS1, DOT;
 precedence left         IFF;
 precedence right        IMP;
 precedence left         LOR;
 precedence left         LAND;
 precedence right        LNOT;
 precedence nonassoc     PREP, LP, EREP, SREP, POSTP, ELP, ERP, SRP, MEM, EQUALS, IP;
-precedence left         DOT;
 precedence left         LAMBDA;
-precedence left         LET;
 precedence left         MU;
+precedence left         LET;
 precedence left         ASSOCPARALLEL;
 precedence left         PARALLEL;
 precedence left         GCH;
-precedence right        ELSE;
+precedence left         THEN, ELSE;
 precedence left         ZCMP;
 precedence left         ZPIPE;
 precedence left         ZHIDE;
 precedence left         ZPROJECT;
 precedence nonassoc     PRECONDITION;
-precedence left         CROSS, POWER, PRE, L, ERE, SRE, POST, EL, ER, SR, I, ES, SS;
+precedence left         CROSS, EL, ERE, SRE, I;
+precedence left         POWER, PRE, L;
+precedence left         POST, ER, SR;
 precedence left         _APPLICATION;
 precedence left         INSTROKE, OUTSTROKE, NEXTSTROKE, NUMSTROKE;
 precedence left         LSQBRACE, RSQBRACE;
@@ -945,6 +946,14 @@ prefixTemplate ::=
            fix_ = OperatorTable.PREFIX;
            RESULT = l; 
         :}
+	|
+	LPAREN POWER:p varg:v RPAREN
+	{:
+           DeclName dn = ozFactory_.createDeclName(p, list(), null);
+           List l = list(dn, v);
+           //do not set fix_ because this does not go into the operator table
+           RESULT = l;
+	:}
         ;
 
 
@@ -1939,7 +1948,6 @@ expression ::=
         application:a
         {: RESULT = a; :}
         |
-        //the special case of power set (a prefix generic function)
         POWER expression:e
         {: RESULT = ozFactory_.createPowerExpr(e); :}
         |

@@ -336,6 +336,9 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
 
 <OZ> {
 
+  //basic types
+  {POWER}               { log(yytext()); return symbol(LatexSym.POWER); }
+
   //Greek chars
   {DELTA}               { log(yytext()); return symbol(LatexSym.DELTA); }
   {THETA}               { log(yytext()); return symbol(LatexSym.THETA); }

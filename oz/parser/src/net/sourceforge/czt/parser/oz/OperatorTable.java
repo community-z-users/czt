@@ -83,7 +83,7 @@ public class OperatorTable
           addNofix(otp);
           break;
         default:
-          //TODO: throw an exception
+          //do nothing
     }
   }
 
@@ -281,14 +281,16 @@ public class OperatorTable
     int finish = words.size() - 4;
 
     if (words.size() == 2) {
+      /*
       //first check for the special case of power set
       if (getName(words.get(0)).equals(POWER_SYM)) {
         addOp(POWER_SYM, LatexSym.POWER);
       }
       else {
+      */
         //"PRE _ | PREP _"
         addPreOrPrep(otp);
-      }
+	//}
     }
     else {
       //"L  { _ (ES | SS) } _ (ERE | SRE) _ | "
