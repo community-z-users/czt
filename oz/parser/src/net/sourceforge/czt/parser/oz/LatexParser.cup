@@ -35,8 +35,8 @@ action code
     public final static String TOOLKIT = "standard\\_toolkit";
 
     /** The symbols used to replace arguments for names in ApplExpr etc. */
-    public final static String VARG_TOK = "_";
-    public final static String LISTARG_TOK = ",,";
+    public final static String ARG_TOK = " _ ";
+    public final static String LISTARG_TOK = " _ ";
 
     /** The two types of name */
     protected final static int DECLNAME = 1;
@@ -126,11 +126,8 @@ action code
            (name.charAt(i) == LatexScanner.SHRIEK ||
             name.charAt(i) == LatexScanner.QST_MARK ||
             name.charAt(i) == LatexScanner.PRIME ||
-            //TODO: there must be a better way to check this?
-            (name.length() > 3 &&
-             name.charAt(i) == LatexScanner.ENDGLUE &&
-             Character.isDigit(name.charAt(i - 1)) &&
-             name.charAt(i - 2) == LatexScanner.STARTGLUE));
+            (i > 3 &&
+             name.substring(i - 3, i + 1).matches("_\\{[0-9]\\}")));
            i--) {
 
         if (name.charAt(i) == LatexScanner.ENDGLUE) {
@@ -243,6 +240,24 @@ action code
     }
 
     /**
+     * Converts a Term to a RefName
+     */
+    protected RefName refname(Term t)
+    {
+      RefName result = null;
+
+      if (t instanceof RefName) {
+        result = (RefName) t; 
+      }
+      else {
+        System.err.println("<< RefName expected");
+        System.err.println("\tbut read: " + t.getClass().getName());
+      }
+
+      return result;
+    }
+
+    /**
      * Creates a member predicate from a string list and an expression list
      */
     protected MemPred localCreateMemPred(List name, List exprList)
@@ -324,9 +339,9 @@ action code
     {
       Pred result = null;
 
-      List opName = list(VARG_TOK);
+      List opName = list(ARG_TOK);
       opName.add(ip);
-      opName.add(VARG_TOK);
+      opName.add(ARG_TOK);
 
       Expr lExpr = getPreviousRhsExpr(chain);
       Expr rExpr = rhs;
@@ -363,7 +378,7 @@ action code
 
         List list = (List) es.get(i);
         if (list.size() == 1) {
-          opName.add(VARG_TOK);
+          opName.add(ARG_TOK);
         }
         else {
           opName.add(LISTARG_TOK);
@@ -388,18 +403,18 @@ parser code
     /** The tokens that can have soft new lines both before and after */
     protected int [] nlBoth_ =
       new int [] {LatexSym.LEFTASSOC, LatexSym.PARENTS,
-        LatexSym.RIGHTASSOC, LatexSym.ELSE, LatexSym.THEN, LatexSym.DDEF,
-        LatexSym.CBAR, LatexSym.WHERE, LatexSym.LDATA, LatexSym.AMPERSAND,
-        LatexSym.VDASH, LatexSym.LISTARG, LatexSym.LAND, LatexSym.LOR,
-        LatexSym.IMP, LatexSym.IFF, LatexSym.CROSS, LatexSym.FSLASH,
-        LatexSym.EQUALS, LatexSym.MEM, LatexSym.DEFS, LatexSym.COLON,
-        LatexSym.COMMA, LatexSym.PERIOD, LatexSym.SEMI, LatexSym.DOT,
-        LatexSym.ZHIDE, LatexSym.ZPROJECT, LatexSym.ZCMP, LatexSym.ZPIPE,
+        LatexSym.RIGHTASSOC, LatexSym.ELSE, LatexSym.THEN, LatexSym.DEFFREE,
+        LatexSym.BAR, LatexSym.LDATA, LatexSym.ANDALSO,
+        LatexSym.CONJECTURE, LatexSym.LISTARG, LatexSym.AND, LatexSym.OR,
+        LatexSym.IMP, LatexSym.IFF, LatexSym.CROSS, LatexSym.SLASH,
+        LatexSym.EQUALS, LatexSym.MEM, LatexSym.DEFEQUAL, LatexSym.COLON,
+        LatexSym.COMMA, LatexSym.DOT, LatexSym.SEMICOLON, LatexSym.SPOT,
+        LatexSym.ZHIDE, LatexSym.ZPROJ, LatexSym.ZCOMP, LatexSym.ZPIPE,
         LatexSym.I, LatexSym.IP, LatexSym.EL, LatexSym.ELP, LatexSym.ERE,
         LatexSym.EREP, LatexSym.ES, LatexSym.SS, LatexSym.SRE, LatexSym.SREP,
         LatexSym.VISIBILITY, LatexSym.INHERITS, LatexSym.PARALLEL,
         LatexSym.ASSOCPARALLEL, LatexSym.GCH, LatexSym.END,
-        LatexSym.SCHEMA, LatexSym.OPSCHEMA, LatexSym.AX, LatexSym.GENAX,
+        LatexSym.SCH, LatexSym.OPSCH, LatexSym.AX, LatexSym.GENAX,
         LatexSym.ZED, LatexSym.CLASS, LatexSym.STATE, LatexSym.INIT,
       };
 
@@ -411,9 +426,9 @@ parser code
     protected int [] nlAfter_ =
       new int [] {LatexSym.IF, LatexSym.LET, LatexSym.ZPRE,
         LatexSym.FUNCTION, LatexSym.GENERIC, LatexSym.RELATION, LatexSym.SECTION,
-        LatexSym.LSQBRACE, LatexSym.VARG, LatexSym.LNOT, LatexSym.FORALL,
-        LatexSym.EXISTS, LatexSym.EXISTS1, LatexSym.LPAREN, LatexSym.LSET,
-        LatexSym.LBLOT, LatexSym.LAMBDA, LatexSym.MU, LatexSym.THETA,
+        LatexSym.LSQUARE, LatexSym.ARG, LatexSym.NOT, LatexSym.ALL,
+        LatexSym.EXI, LatexSym.EXIONE, LatexSym.LPAREN, LatexSym.LBRACE,
+        LatexSym.LBIND, LatexSym.LAMBDA, LatexSym.MU, LatexSym.THETA,
         LatexSym.PRE, LatexSym.PREP, LatexSym.L, LatexSym.LP,
         LatexSym.DCNJ, LatexSym.DGCH, LatexSym.DSQC
       };
@@ -421,8 +436,8 @@ parser code
     //RDATA has been moved from "both" to "before"
     /** The tokens that can only have soft new lines before */
     protected int [] nlBefore_ =
-      new int [] {LatexSym.RSQBRACE, LatexSym.RPAREN, LatexSym.RSET,
-        LatexSym.RBLOT, LatexSym.POST, LatexSym.POSTP, LatexSym.ER,
+      new int [] {LatexSym.RSQUARE, LatexSym.RPAREN, LatexSym.RBRACE,
+        LatexSym.RBIND, LatexSym.POST, LatexSym.POSTP, LatexSym.ER,
         LatexSym.ERP, LatexSym.SR, LatexSym.SRP,
         LatexSym.RDATA
       };
@@ -482,7 +497,7 @@ parser code
         //remove any soft newline characters
         //TODO: Think about this... if the NL is at the end of a
         //prefix template declaration, and the next token is that
-        //prefix name, the localLookup will return a NAME instead of a
+        //prefix name, the localLookup will return a DECORWORD instead of a
         //PRE or PREP. I don't think this should cause problems though
         if (result.sym == LatexSym.NL) {
           if (previous_ != null &&
@@ -516,7 +531,7 @@ parser code
     {
        Symbol result = null;
 
-       if (symbol.sym == LatexSym.NAME || symbol.sym == LatexSym.DECLWORD) {
+       if (symbol.sym == LatexSym.DECORWORD || symbol.sym == LatexSym.DECLWORD) {
          int type = table_.lookup((String) symbol.value);
          result = (type == -1) ? symbol : new Symbol(type, symbol.value);
        }
@@ -538,23 +553,25 @@ scan with {: return local_next_token(); :};
 terminal String
         DELTA, THETA, MU, LAMBDA, POWER, NARRWORD,
         NEXTSTROKE, OUTSTROKE, INSTROKE, NUMSTROKE,
-        LPAREN, RPAREN, LSQBRACE, RSQBRACE, LBLOT, RBLOT, LDATA, RDATA, LSET, RSET,
-        CBAR, AMPERSAND, VDASH, LAND, LOR, IMP, IFF, LNOT, FORALL, EXISTS, CROSS,
-        FSLASH, EQUALS, MEM, COLON, SEMI,COMMA, PERIOD, DOT, ZHIDE, 
-        ZPROJECT, ZCMP, ZPIPE, NL,
+        LPAREN, RPAREN, LSQUARE, RSQUARE, LBIND, RBIND,
+        LDATA, RDATA, LBRACE, RBRACE,
+        BAR, ANDALSO, CONJECTURE, AND, OR, IMP, IFF, NOT, 
+        ALL, EXI, CROSS,
+        SLASH, EQUALS, MEM, COLON, SEMICOLON,COMMA, DOT, SPOT, ZHIDE, 
+        ZPROJ, ZCOMP, ZPIPE, NL,
         ZSECTION, SECTION, PARENTS, TRUE, FALSE, LET, IF, THEN, ELSE, ZPRE,
-        RELATION, FUNCTION, GENERIC, LEFTASSOC, RIGHTASSOC, LISTARG, VARG,
-        DDEF, DEFS, EXISTS1,
-        END, AX, SCHEMA, GENAX, WHERE, ZED, CLASS, STATE, INIT, INITWORD, OPSCHEMA,
+        RELATION, FUNCTION, GENERIC, LEFTASSOC, RIGHTASSOC, LISTARG, ARG,
+        DEFFREE, DEFEQUAL, EXIONE,
+        END, AX, SCH, GENAX, ZED, CLASS, STATE, INIT, INITWORD, OPSCH,
         VISIBILITY, INHERITS,
         DCNJ, DGCH, DSQC, PARALLEL, ASSOCPARALLEL, GCH,
         CLASSCOM, ENDCLASSCOM, CLASSCOMWORD,
-        STROKE, NAME, DECLWORD, BOXNAME,
+        STROKE, DECORWORD, DECLWORD, BOXNAME,
         PREP, PRE, POSTP, POST, IP, I, LP, L, ELP, EL, ERP, ER,
         SRP, SR, EREP, ERE, SREP, SRE, ES, SS,
-        _APPLICATION, _OP_PROMOTION_PERIOD, _RENAME;
+        _APPLICATION, _OP_PROMOTION_DOT, _RENAME;
 
-terminal Integer NUMBER;
+terminal Integer NUMERAL;
 
 non terminal Spec
     specification;
@@ -776,21 +793,21 @@ non terminal String
     esOrSs;
 
 non terminal String
-    opPromotionPeriod,
+    opPromotionDot,
     visibility;
 
 
-precedence right        CBAR;
+precedence right        BAR;
 precedence left         NARRWORD;
 precedence left         RPAREN;
-precedence left         NL, SEMI;
-precedence nonassoc     DEFS;
-precedence left         FORALL, EXISTS, EXISTS1, DOT;
+precedence left         NL, SEMICOLON;
+precedence nonassoc     DEFEQUAL;
+precedence left         ALL, EXI, EXIONE, SPOT;
 precedence left         IFF;
 precedence right        IMP;
-precedence left         LOR;
-precedence left         LAND;
-precedence right        LNOT;
+precedence left         OR;
+precedence left         AND;
+precedence right        NOT;
 precedence left         MEM, EQUALS, PREP, LP, IP, EREP, SREP, POSTP, ELP, ERP, SRP;
 precedence right        LAMBDA;
 precedence right        MU;
@@ -799,10 +816,10 @@ precedence left         ASSOCPARALLEL;
 precedence left         PARALLEL;
 precedence left         GCH;
 precedence right        ELSE;
-precedence left         ZCMP;
+precedence left         ZCOMP;
 precedence left         ZPIPE;
 precedence left         ZHIDE;
-precedence left         ZPROJECT;
+precedence left         ZPROJ;
 precedence right        ZPRE;
 precedence left         CROSS, EL, ERE, SRE, I;
 precedence left         POWER, PRE, L;
@@ -810,10 +827,11 @@ precedence left         POST, ER, SR;
 precedence left         _APPLICATION;
 precedence left         INSTROKE, OUTSTROKE, NEXTSTROKE, NUMSTROKE;
 precedence left         _RENAME;
-precedence left         PERIOD;
-precedence left         _OP_PROMOTION_PERIOD;
+precedence left         DOT;
+precedence left         _OP_PROMOTION_DOT;
 precedence right        THETA;
-precedence left         LSQBRACE, RSQBRACE;
+precedence left         LSQUARE, RSQUARE;
+precedence left         DECORWORD;
 
 
 /// specifications /////////////////////////////////////////////////////////
@@ -829,6 +847,7 @@ specification ::=
            if (onwl.size() > 0) {
              NarrPara ns = ozFactory_.createNarrPara(onwl);
              sect.getPara().add(0, ns);
+
            }
            Spec spec = ozFactory_.createSpec();
            spec.getSect().add(sect);
@@ -878,10 +897,10 @@ section ::=
 //reduce this separately so we can set the current section
 //in the operator table
 sectionName ::=
-        NAME:n
+        DECORWORD:dw
         {:
-           table_.setSection(n);
-           RESULT = n;
+           table_.setSection(dw);
+           RESULT = dw;
         :}
         ;
 
@@ -897,18 +916,18 @@ optParents ::=
         ;
 
 parentList ::=
-        parentList:pl COMMA NAME:n
+        parentList:pl COMMA DECORWORD:dw
         {: 
-           table_.addParent(n);
-           Parent p = ozFactory_.createParent(n);
+           table_.addParent(dw);
+           Parent p = ozFactory_.createParent(dw);
            pl.add(p);
            RESULT = pl;
         :}
         |
-        NAME:n
+        DECORWORD:dw
         {: 
-           table_.addParent(n);
-           Parent p = ozFactory_.createParent(n);
+           table_.addParent(dw);
+           Parent p = ozFactory_.createParent(dw);
            RESULT = list(p);
         :}
         ;
@@ -988,7 +1007,7 @@ unboxedParagraphItem ::=
         freeTypeList:ftl
         {: RESULT = ozFactory_.createFreePara(ftl); :}
         |
-        optFormalParameters:ofp VDASH predicate1:p1
+        optFormalParameters:ofp CONJECTURE predicate1:p1
         {: RESULT = ozFactory_.createConjPara(ofp, p1); :}
         |
         operatorTemplate:ot
@@ -1000,17 +1019,17 @@ unboxedParagraphItem ::=
         ;
 
 basicTypeDefinition ::= 
-        LSQBRACE nameList:nl RSQBRACE
+        LSQUARE nameList:nl RSQUARE
         {: RESULT = ozFactory_.createGivenPara(nl); :}
         ;
 
 //according to the Z ISO, a schema is an axiomatic definition with
 //ConstDecl(n, st) as the declaration
 schema ::=
-        SCHEMA boxName:n optFormalParameters:ofp schemaText:st END
+        SCH boxName:bn optFormalParameters:ofp schemaText:st END
         {: 
            SchExpr se = ozFactory_.createSchExpr(st);
-           ConstDecl cd = ozFactory_.createConstDecl(n, se);
+           ConstDecl cd = ozFactory_.createConstDecl(bn, se);
            SchText stC = ozFactory_.createSchText(list(cd), null);
            RESULT = ozFactory_.createAxPara(ofp, stC, Box.SchBox);
         :}
@@ -1030,7 +1049,7 @@ optFormalParameters ::=
         ;
 
 formalParameters ::= 
-        LSQBRACE nameList:nl RSQBRACE
+        LSQUARE nameList:nl RSQUARE
         {: RESULT = nl; :}
         ;
 
@@ -1042,7 +1061,7 @@ axiomaticDefinition ::=
 //according to the Z ISO standard, an abbreviation definition is to be
 //treated as an axiomatic definition, with ConstDecl(dn,e)
 abbreviationDefinition ::=
-        declName:dn DEFS expression:e
+        declName:dn DEFEQUAL expression:e
         {:
            ConstDecl cd = ozFactory_.createConstDecl(dn, e);
            SchText st = ozFactory_.createSchText(list(cd), null);
@@ -1051,14 +1070,14 @@ abbreviationDefinition ::=
         |
         //TODO: check this. Should be name:n, but the toolkit won't parse
         //"\langle \_ \rangle [X] == .... without this
-        declName:n formalParameters:fp DEFS expression:e
+        declName:n formalParameters:fp DEFEQUAL expression:e
         {:
            ConstDecl cd = ozFactory_.createConstDecl(n, e);
            SchText st = ozFactory_.createSchText(list(cd), null);
            RESULT = ozFactory_.createAxPara(fp, st, Box.OmitBox);
         :}
         | 
-        genName:gn DEFS expression:e
+        genName:gn DEFEQUAL expression:e
         {:
            ConstDecl cd = ozFactory_.createConstDecl(strListToDeclName(gn), e);
            SchText st = ozFactory_.createSchText(list(cd), null);
@@ -1068,7 +1087,7 @@ abbreviationDefinition ::=
 
 
 freeTypeList ::=
-        freeTypeList:ftl AMPERSAND freeTypeDefinition:ftd
+        freeTypeList:ftl ANDALSO freeTypeDefinition:ftd
         {: 
            ftl.add(ftd);
            RESULT = ftl;
@@ -1080,13 +1099,13 @@ freeTypeList ::=
 
 
 freeTypeDefinition ::=
-        name:n DDEF branchList:bl
+        name:n DEFFREE branchList:bl
         {: RESULT = ozFactory_.createFreetype(n, bl); :}
         ;
 
 
 branchList ::=
-        branchList:bl CBAR branch:b
+        branchList:bl BAR branch:b
         {:
            bl.add(b);
            RESULT = bl;
@@ -1121,7 +1140,9 @@ operatorTemplate ::=
         RELATION template:t
         {:
            OptempPara otp =
-             ozFactory_.createOptempPara(t, Cat.Relation, null, null);
+             ozFactory_.createOptempPara();
+           otp.getWordOrOperand().addAll(t);
+           otp.setCat(Cat.Relation);         
            RESULT = otp;
         :}
         |
@@ -1168,7 +1189,7 @@ catTemplate ::=
            RESULT = otp;
         :}
         |
-        NUMBER:pr assoc:a infixTemplate:it
+        NUMERAL:pr assoc:a infixTemplate:it
         {:
            OptempPara otp = ozFactory_.createOptempPara();
            otp.setPrec(pr);
@@ -1255,7 +1276,7 @@ optWordOperandList ::=
         //empty
         {: RESULT = list(); :}
         |
-        optWordOperandList:wl templateTag:t name:n 
+        optWordOperandList:wl templateTag:t name:n
         {:
            wl.add(t);
            wl.add(n);
@@ -1272,14 +1293,14 @@ templateTag ::=
         ;
 
 varg ::=
-        VARG
+        ARG
         {: RESULT = ozFactory_.createOperand(Boolean.FALSE); :}
         ;
 
 /// classes ///////////////////////////////////////////////
 
 class ::= 
-        CLASS boxName:n
+        CLASS boxName:bn
             classFormalParameters:fp
             visibilityList:vl
             inheritedList:il
@@ -1289,7 +1310,7 @@ class ::=
             operationList:ol
         END
         {: 
-          RESULT = ozFactory_.createClassPara(n, fp, vl, il, ldb, s, is, ol);
+          RESULT = ozFactory_.createClassPara(bn, fp, vl, il, ldb, s, is, ol);
         :}
         ;
 
@@ -1324,7 +1345,7 @@ visibilityList ::=
 visibility ::=
         VISIBILITY
         |
-        ZPROJECT %prec VISIBILITY
+        ZPROJ %prec VISIBILITY
         ;
 
 inheritedList ::=
@@ -1355,7 +1376,7 @@ optActualParameters ::=
         //empty
         {: RESULT = null; :}
         |
-        LSQBRACE expressionList:el RSQBRACE
+        LSQUARE expressionList:el RSQUARE
         {: RESULT = ozFactory_.createActualParameters(el); :}
         ;
 
@@ -1363,7 +1384,7 @@ optRenameExpression ::=
         //empty
         {: RESULT = null; :}
         |
-        LSQBRACE renameList:rnl  RSQBRACE
+        LSQUARE renameList:rnl  RSQUARE
         {: ozFactory_.createRenameExpr(null, rnl); :}
         ;
 
@@ -1453,7 +1474,7 @@ state ::=
         // empty
         {: RESULT = ozFactory_.createState(); :}
         |
-        STATE stateDecl:sd WHERE predicate:p END
+        STATE stateDecl:sd BAR predicate:p END
         {:
            List dp = (List) sd.get(0);
            SecondaryAttributes sa = (SecondaryAttributes) sd.get(1);
@@ -1467,14 +1488,14 @@ state ::=
            RESULT = ozFactory_.createState(dp, sa, list());
         :}
         | 
-        LSQBRACE stateDecl:sd CBAR predicate:p RSQBRACE
+        LSQUARE stateDecl:sd BAR predicate:p RSQUARE
         {:
            List dp = (List) sd.get(0);
            SecondaryAttributes sa = (SecondaryAttributes) sd.get(1);
            RESULT = ozFactory_.createState(dp, sa, list(p));
         :}
         |
-        LSQBRACE stateDecl:sd RSQBRACE
+        LSQUARE stateDecl:sd RSQUARE
         {:
            List dp = (List) sd.get(0);
            SecondaryAttributes sa = (SecondaryAttributes) sd.get(1);
@@ -1507,35 +1528,35 @@ initialState ::=
         INIT predicate:p END
         {: RESULT = ozFactory_.createInitialState(list(p)); :}
         |
-        INITWORD DEFS LSQBRACE predicate:p RSQBRACE
+        INITWORD DEFEQUAL LSQUARE predicate:p RSQUARE
         {: RESULT = ozFactory_.createInitialState(list(p)); :}
         ;
 
 operation ::=
-        SCHEMA boxName:n operationBox:ob END
-        {: RESULT = ozFactory_.createOperation(n, ob); :}
+        SCH boxName:bn operationBox:ob END
+        {: RESULT = ozFactory_.createOperation(bn, ob); :}
         |
-        OPSCHEMA boxName:n operationBox:ob END
-        {: RESULT = ozFactory_.createOperation(n, ob); :}
+        OPSCH boxName:bn operationBox:ob END
+        {: RESULT = ozFactory_.createOperation(bn, ob); :}
         |
-        declName:dn DEFS operationExpression:oe
+        declName:dn DEFEQUAL operationExpression:oe
         {: RESULT = ozFactory_.createOperation(dn, oe); :}
         ;
 
 operationBox ::=
-        deltaList:dl sep:s declPart:dp WHERE predicate:p
+        deltaList:dl sep:s declPart:dp BAR predicate:p
         {: RESULT = ozFactory_.createOperationBox(dl, dp, list(p)); :}
         | 
         deltaList:dl sep:s declPart:dp
         {: RESULT = ozFactory_.createOperationBox(dl, dp, list()); :}
         |        
-        deltaList:dl WHERE predicate:p  
+        deltaList:dl BAR predicate:p  
         {: RESULT = ozFactory_.createOperationBox(dl, list(), list(p)); :}
         | 
         deltaList:dl
         {: RESULT = ozFactory_.createOperationBox(dl, list(), list()); :}
         | 
-        declPart:dp WHERE predicate:p
+        declPart:dp BAR predicate:p
         {: RESULT = ozFactory_.createOperationBox(null, dp, list(p)); :}
         | 
         declPart:dp
@@ -1558,32 +1579,33 @@ operationExpression ::=
         ;
 
 mainOpExpression ::=
-        schemaText:st DOT operationExpression:oe
+        schemaText:st SPOT operationExpression:oe
         {: RESULT = ozFactory_.createMainOpExpr(st, oe); :}
         ;
 
 operationExpression1 ::=
-        LSQBRACE deltaList:dl optSep schemaText:st RSQBRACE
+        LSQUARE deltaList:dl optSep schemaText:st RSQUARE
         {: RESULT = ozFactory_.createBasicOpExpr(dl, st); :}
         |
-        inner_term:it opPromotionPeriod refName:rn
+        inner_term:it opPromotionDot refName:rn
         {:
            RESULT = ozFactory_.createOpPromotionExpr(expr(it), rn);
-        :} %prec _OP_PROMOTION_PERIOD
-        /** TODO: fix this - reduce/reduce with refName in expression */
-	/*
+        :} %prec _OP_PROMOTION_DOT
         |
-        refName:rn
-        {: RESULT = ozFactory_.createOpPromotionExpr(null, rn); :}
-	*/
-        |
-        operationExpression1:oe1 LSQBRACE renameList:rnl RSQBRACE
+        /*
+        term:t
+        {:
+           RefName rn = ((RefExpr) t).getRefName();
+           RESULT = ozFactory_.createOpPromotionExpr(null, rn);
+        :}
+        |*/
+        operationExpression1:oe1 LSQUARE renameList:rnl RSQUARE
         {: RESULT = ozFactory_.createRenameOpExpr(oe1, rnl); :}
         |
         operationExpression1:oe1 ZHIDE LPAREN declNameList:onl RPAREN
         {: RESULT = ozFactory_.createHideOpExpr(oe1, onl);:}
         |
-        operationExpression1:lhs LAND operationExpression:rhs
+        operationExpression1:lhs AND operationExpression1:rhs
         {: RESULT = ozFactory_.createConjOpExpr(lhs, rhs); :}
         |
         operationExpression1:lhs PARALLEL operationExpression1:rhs
@@ -1595,19 +1617,18 @@ operationExpression1 ::=
         operationExpression1:lhs GCH operationExpression1:rhs
         {: RESULT = ozFactory_.createExChoiceOpExpr(lhs, rhs); :}
         |
-        operationExpression1:lhs ZCMP operationExpression1:rhs
+        operationExpression1:lhs ZCOMP operationExpression1:rhs
         {: RESULT = ozFactory_.createSeqOpExpr(lhs, rhs); :}
         |
-        operationExpression1:lhs DOT operationExpression1:rhs
+        operationExpression1:lhs SPOT operationExpression1:rhs
         {: RESULT = ozFactory_.createScopeEnrichOpExpr(lhs, rhs); :}
         |
         LPAREN operationExpression:oe RPAREN
-        /** FIX THIS - What the hell is a ParenOpExpr? */
         {: RESULT = oe; :}
         ;
 
-opPromotionPeriod ::=
-        PERIOD %prec _OP_PROMOTION_PERIOD
+opPromotionDot ::=
+        DOT %prec _OP_PROMOTION_DOT
         ;
 
 deltaList ::=
@@ -1622,10 +1643,7 @@ deltaList ::=
 /// schema text ///////////////////////////////////////////
 
 schemaText ::= 
-        optDeclPart:odp CBAR predicate:p
-        {: RESULT = ozFactory_.createSchText(odp, p); :}
-        |
-        optDeclPart:odp WHERE predicate:p
+        optDeclPart:odp BAR predicate:p
         {: RESULT = ozFactory_.createSchText(odp, p); :}
         |
         optDeclPart:odp
@@ -1660,7 +1678,7 @@ declaration ::=
         ;
 
 expressionSchemaText ::=
-	expression:e CBAR predicate1:p1
+	expression:e BAR predicate1:p1
 	{:
            InclDecl id = ozFactory_.createInclDecl(e);
            RESULT = ozFactory_.createSchText(list(id), p1);
@@ -1674,10 +1692,10 @@ expressionSchemaText ::=
 	;
 
 schemaTextNoExpression ::=
-        declPart:dp CBAR predicate1:p1
+        declPart:dp BAR predicate1:p1
         {: RESULT = ozFactory_.createSchText(dp, p1); :}
         |
-	CBAR predicate1:p1
+	BAR predicate1:p1
         {: RESULT = ozFactory_.createSchText(list(), p1); :}
         |
 	declPart:dp sep declaration:d
@@ -1695,12 +1713,12 @@ basicDeclaration ::=
         declWordList:dwl COLON expression:e
         {: RESULT = ozFactory_.createVarDecl(dwl, e); :}
         |
-        declName:dn DEFS expression:e
+        declName:dn DEFEQUAL expression:e
         {: RESULT = ozFactory_.createConstDecl(dn, e); :}
         ;       
 
 sep ::=
-        SEMI
+        SEMICOLON
         {: RESULT = Op.Semi; :}
         |
         NL
@@ -1710,7 +1728,7 @@ sep ::=
 optSep ::=
         optNL
         |
-        SEMI
+        SEMICOLON
         ;
 
 optNL ::=
@@ -1722,23 +1740,23 @@ optNL ::=
 /// word, declName, and refName lists ////////////////////////////////////
 
 nameList ::=
-        nameList:nl COMMA NAME:n
+        nameList:nl COMMA DECORWORD:dw
         {: 
-           DeclName dn = localCreateDeclName(n);
+           DeclName dn = localCreateDeclName(dw);
            nl.add(dn);
            RESULT = nl;
         :}
         |
-        NAME:n
+        DECORWORD:dw
         {: 
-           DeclName dn = localCreateDeclName(n);
+           DeclName dn = localCreateDeclName(dw);
            RESULT = list(dn);
         :}
         ;
 
 name ::=
-        NAME:n
-        {: RESULT = localCreateDeclName(n); :}
+        DECORWORD:dw
+        {: RESULT = localCreateDeclName(dw); :}
         ;
 
 boxName ::=
@@ -1783,9 +1801,9 @@ declNameList ::=
         ;
 
 declName ::=
-        NAME:n
+        DECORWORD:dw
         {: 
-           RESULT = localCreateDeclName(n);
+           RESULT = localCreateDeclName(dw);
         :}
         |
         opName:on
@@ -1797,9 +1815,9 @@ declName ::=
         ;
 
 refNameList ::=
-        refNameList:rnl COMMA NAME:n
+        refNameList:rnl COMMA DECORWORD:dw
         {:
-           RefName rn = localCreateRefName(n);
+           RefName rn = localCreateRefName(dw);
            rnl.add(rn);
            RESULT = rnl;
         :}
@@ -1811,9 +1829,9 @@ refNameList ::=
            RESULT = rnl;
         :}
         |
-        NAME:n
+        DECORWORD:dw
         {:
-           RefName rn = localCreateRefName(n);
+           RefName rn = localCreateRefName(dw);
            RESULT = list(rn);
         :}
         |
@@ -1825,8 +1843,8 @@ refNameList ::=
         ;
 
 refName ::=
-        NAME:n
-        {: RESULT = localCreateRefName(n); :}
+        DECORWORD:dw
+        {: RESULT = localCreateRefName(dw); :}
         |
         INITWORD:iw
         {:
@@ -1859,17 +1877,17 @@ opName ::=
 
 prefixName ::=
         PRE:p varg
-        {: RESULT = list(p, VARG_TOK); :}
+        {: RESULT = list(p, ARG_TOK); :}
         |
         PREP:p varg
-        {: RESULT = list(p, VARG_TOK); :}
+        {: RESULT = list(p, ARG_TOK); :}
         |
         L:l optVargEsSsList:ouesl argEreOrSre:aeos varg
         {: 
            List pName = list(l);
            pName.addAll(ouesl);
            pName.addAll(aeos);
-           pName.add(VARG_TOK);
+           pName.add(ARG_TOK);
            RESULT = pName;
         :}
         |
@@ -1878,21 +1896,21 @@ prefixName ::=
            List pName = list(lp);
            pName.addAll(ouesl);
            pName.addAll(aeos);
-           pName.add(VARG_TOK);
+           pName.add(ARG_TOK);
            RESULT = pName;
         :}
         ;
 
 postfixName ::=
         varg POST:p
-        {: RESULT = list(VARG_TOK, p); :}
+        {: RESULT = list(ARG_TOK, p); :}
         |
         varg POSTP:p
-        {: RESULT = list(VARG_TOK, p); :}
+        {: RESULT = list(ARG_TOK, p); :}
         |
         varg EL:el optVargEsSsList:ouesl argErOrSr:aeos
         {:
-           List pName = list(VARG_TOK);
+           List pName = list(ARG_TOK);
            pName.add(el);
            pName.addAll(ouesl);
            pName.addAll(aeos);
@@ -1901,7 +1919,7 @@ postfixName ::=
         |
         varg ELP:elp optVargEsSsList:ouesl argErpOrSrp:aeos
         {:
-           List pName = list(VARG_TOK);
+           List pName = list(ARG_TOK);
            pName.add(elp);
            pName.addAll(ouesl);
            pName.addAll(aeos);
@@ -1913,37 +1931,37 @@ postfixName ::=
 infixName ::=
         varg I:i varg
         {:
-           List iName = list(VARG_TOK);
+           List iName = list(ARG_TOK);
            iName.add(i);
-           iName.add(VARG_TOK);
+           iName.add(ARG_TOK);
            RESULT = iName;
         :}
         |
         varg IP:ip varg
         {:
-           List iName = list(VARG_TOK);
+           List iName = list(ARG_TOK);
            iName.add(ip);
-           iName.add(VARG_TOK);
+           iName.add(ARG_TOK);
            RESULT = iName;
         :}
         |
         varg EL:el optVargEsSsList:ouesl argEreOrSre:aeos varg
         {:
-           List iName = list(VARG_TOK);
+           List iName = list(ARG_TOK);
            iName.add(el);
            iName.addAll(ouesl);
            iName.addAll(aeos);
-           iName.add(VARG_TOK);
+           iName.add(ARG_TOK);
            RESULT = iName;
         :}
         |
         varg ELP:elp optVargEsSsList:ouesl argErepOrSrep:aeos varg
         {:
-           List iName = list(VARG_TOK);
+           List iName = list(ARG_TOK);
            iName.add(elp);
            iName.addAll(ouesl);
            iName.addAll(aeos);
-           iName.add(VARG_TOK);
+           iName.add(ARG_TOK);
            RESULT = iName;
         :}
         ;
@@ -1978,40 +1996,40 @@ optVargEsSsList ::=
         ;
 
 argEsOrSs ::=
-        VARG ES:es
-        {: RESULT = list(VARG_TOK, es); :}
+        ARG ES:es
+        {: RESULT = list(ARG_TOK, es); :}
         |
         LISTARG SS:ss
         {: RESULT = list(LISTARG_TOK, ss); :}
         ;
 
 argEreOrSre ::=
-        VARG ERE:ere
-        {: RESULT = list(VARG_TOK, ere); :}
+        ARG ERE:ere
+        {: RESULT = list(ARG_TOK, ere); :}
         |
         LISTARG SRE:sre
         {: RESULT = list(LISTARG_TOK, sre); :}
         ;
 
 argErepOrSrep ::=
-        VARG EREP:erep
-        {: RESULT = list(VARG_TOK, erep); :}
+        ARG EREP:erep
+        {: RESULT = list(ARG_TOK, erep); :}
         |
         LISTARG SREP:srep
         {: RESULT = list(LISTARG_TOK, srep); :}
         ;
 
 argErOrSr ::=
-        VARG ER:er
-        {: RESULT = list(VARG_TOK, er); :}
+        ARG ER:er
+        {: RESULT = list(ARG_TOK, er); :}
         |
         LISTARG SR:sr
         {: RESULT = list(LISTARG_TOK, sr); :}
         ;
 
 argErpOrSrp ::=
-        VARG ERP:erp
-        {: RESULT = list(VARG_TOK, erp); :}
+        ARG ERP:erp
+        {: RESULT = list(ARG_TOK, erp); :}
         |
         LISTARG SRP:srp
         {: RESULT = list(LISTARG_TOK, srp); :}
@@ -2032,62 +2050,62 @@ genName ::=
         ;
 
 prefixGenName ::=
-        PRE:pre NAME:n
-        {: RESULT = list(pre, n); :}
+        PRE:pre DECORWORD:dw
+        {: RESULT = list(pre, dw); :}
         |
-        L:l optNameEsSsList:onesl NAME:n1 ereOrSre:eos NAME:n2
+        L:l optNameEsSsList:onesl DECORWORD:dw1 ereOrSre:eos DECORWORD:dw2
         {:
            List pgName = list(l);
            pgName.addAll(onesl);
-           pgName.add(n1);
+           pgName.add(dw1);
            pgName.add(eos);
-           pgName.add(n2);
+           pgName.add(dw2);
            RESULT = pgName; 
         :}
         ;
 
 postfixGenName ::=
-        NAME:n POST:p
-        {: RESULT = list(n, p); :}
+        DECORWORD:dw POST:p
+        {: RESULT = list(dw, p); :}
         |
-        NAME:n1 EL:el optNameEsSsList:onesl NAME:n2 erOrSr:eos
+        DECORWORD:dw1 EL:el optNameEsSsList:onesl DECORWORD:dw2 erOrSr:eos
         {:
-           List pgName = list(n1);
+           List pgName = list(dw1);
            pgName.add(el);
            pgName.addAll(onesl);
-           pgName.add(n2);
+           pgName.add(dw2);
            pgName.add(eos);
            RESULT = pgName;
          :}
         ;
 
 infixGenName ::=
-        NAME:n1 I:i NAME:n2
+        DECORWORD:dw1 I:i DECORWORD:dw2
         {:
-           List igName = list(n1);
+           List igName = list(dw1);
            igName.add(i);
-           igName.add(n2);
+           igName.add(dw2);
            RESULT = igName;
         :}
         |
-        NAME:n1 EL:el optNameEsSsList:onesl NAME:n2 ereOrSre:eos NAME:n3
+        DECORWORD:dw1 EL:el optNameEsSsList:onesl DECORWORD:dw2 ereOrSre:eos DECORWORD:dw3
         {: 
-           List igName = list(n1);
+           List igName = list(dw1);
            igName.add(el);
            igName.addAll(onesl);
-           igName.add(n2);
+           igName.add(dw2);
            igName.add(eos);
-           igName.add(n3);
+           igName.add(dw3);
            RESULT = igName;
         :}
         ;
 
 nofixGenName ::=
-        L:l optNameEsSsList:onesl NAME:n erOrSr:eos
+        L:l optNameEsSsList:onesl DECORWORD:dw erOrSr:eos
         {:
            List ngName = list(l);
            ngName.addAll(onesl);
-           ngName.add(n);
+           ngName.add(dw);
            ngName.add(eos);
            RESULT = ngName;
         :}
@@ -2097,9 +2115,9 @@ optNameEsSsList ::=
         //empty
         {: RESULT = list(); :}
         |
-        optNameEsSsList:ouesl NAME:n esOrSs:eos
-        {: 
-           ouesl.add(n);
+        optNameEsSsList:ouesl DECORWORD:dw esOrSs:eos
+        {:
+           ouesl.add(dw);
            ouesl.add(eos);
            RESULT = ouesl;
         :}
@@ -2154,7 +2172,7 @@ term ::=
         IF predicate1:p1 THEN term:te ELSE term:fe
         {: RESULT = ozFactory_.createCondExpr(p1, expr(te), expr(fe)); :}
         |
-        FORALL schemaText:st DOT term:t
+        ALL schemaText:st SPOT term:t
         {: 
            if (t instanceof Expr) {
              ForallExpr ee = ozFactory_.createForallExpr(st, expr(t));
@@ -2165,7 +2183,7 @@ term ::=
            }
         :}
         |
-        EXISTS schemaText:st DOT term:t
+        EXI schemaText:st SPOT term:t
         {:
            if (t instanceof Expr) {
              ExistsExpr ee = ozFactory_.createExistsExpr(st, expr(t));
@@ -2176,7 +2194,7 @@ term ::=
            }
         :}
         |
-        EXISTS1 schemaText:st DOT term:t
+        EXIONE schemaText:st SPOT term:t
         {: 
            if (t instanceof Expr) {
              Exists1Expr ee = ozFactory_.createExists1Expr(st, expr(t));
@@ -2187,13 +2205,13 @@ term ::=
            }
         :}
         |
-        LAMBDA schemaText:st DOT term:t
+        LAMBDA schemaText:st SPOT term:t
         {: RESULT = ozFactory_.createLambdaExpr(st, expr(t)); :} %prec LAMBDA
         |
-        MU schemaText:st DOT term:t
+        MU schemaText:st SPOT term:t
         {: RESULT = ozFactory_.createMuExpr(st, expr(t)); :} %prec MU
         |
-        LET letDefinitionList:ldl DOT term:t 
+        LET letDefinitionList:ldl SPOT term:t 
         {: 
            SchText st = ozFactory_.createSchText(ldl, null);
            RESULT = ozFactory_.createLetExpr(st, expr(t));
@@ -2219,7 +2237,7 @@ term ::=
           }
         :}
         |
-        term:lhs LOR term:rhs
+        term:lhs OR term:rhs
         {:
           if (lhs instanceof Expr && rhs instanceof Expr) {
             RESULT = ozFactory_.createOrExpr(expr(lhs), expr(rhs)); 
@@ -2229,7 +2247,7 @@ term ::=
           }
         :}
         |
-        term:lhs LAND term:rhs
+        term:lhs AND term:rhs
         {:
           if (lhs instanceof Expr && rhs instanceof Expr) {
             RESULT = ozFactory_.createAndExpr(expr(lhs), expr(rhs)); 
@@ -2239,7 +2257,7 @@ term ::=
           }
         :}
         |
-        LNOT term:t
+        NOT term:t
         {:
           if (t instanceof Expr) {
             RESULT = ozFactory_.createNegExpr(expr(t));
@@ -2249,7 +2267,7 @@ term ::=
           }
         :}
         |
-        term:lhs ZCMP term:rhs
+        term:lhs ZCOMP term:rhs
         {: RESULT = ozFactory_.createCompExpr(expr(lhs), expr(rhs)); :}
         |
         term:lhs ZPIPE term:rhs
@@ -2258,7 +2276,7 @@ term ::=
         term:t ZHIDE LPAREN refNameList:rnl RPAREN
         {: RESULT = ozFactory_.createHideExpr(expr(t), rnl); :}
         |
-        term:lhs ZPROJECT term:rhs
+        term:lhs ZPROJ term:rhs
         {: RESULT = ozFactory_.createProjExpr(expr(lhs), expr(rhs)); :}
         |
         ZPRE term:t
@@ -2291,16 +2309,16 @@ func_appl ::=
         ;
 
 inner_term ::=
-        LSET optExpressionList:oel RSET
+        LBRACE optExpressionList:oel RBRACE
         {: RESULT = ozFactory_.createSetExpr(oel); :}
         |
-        LSET schemaTextNoExpression:stne DOT expression:e RSET
+        LBRACE schemaTextNoExpression:stne SPOT expression:e RBRACE
         {: RESULT = ozFactory_.createSetCompExpr(stne, e); :}
 	|
-	LSET expressionSchemaText:est DOT expression:e RSET
+	LBRACE expressionSchemaText:est SPOT expression:e RBRACE
         {: RESULT = ozFactory_.createSetCompExpr(est, e); :}
         |
-        LSET schemaTextNoExpression:stne RSET
+        LBRACE schemaTextNoExpression:stne RBRACE
         {: RESULT = ozFactory_.createSetCompExpr(stne, null); :}
         |
         LPAREN expressionList:el COMMA expression:e RPAREN
@@ -2318,16 +2336,16 @@ inner_term ::=
         nofixApp:nfa
         {: RESULT = nfa; :} %prec _APPLICATION
         |
-        LBLOT optNameExprPairList:onepl RBLOT
+        LBIND optNameExprPairList:onepl RBIND
         {: RESULT = ozFactory_.createBindExpr(onepl); :}
         |
-        LSQBRACE schemaTextNoExpression:stne RSQBRACE
+        LSQUARE schemaTextNoExpression:stne RSQUARE
         {: RESULT = ozFactory_.createSchExpr(stne); :}
         |
-        inner_term:it PERIOD refName:rn
+        inner_term:it DOT refName:rn
         {: RESULT = ozFactory_.createBindSelExpr(expr(it), rn); :}
         |
-        inner_term:it PERIOD NUMBER:n
+        inner_term:it DOT NUMERAL:n
         {: RESULT = ozFactory_.createTupleSelExpr(expr(it), n); :}
         |
         inner_term:it stroke:s
@@ -2336,13 +2354,13 @@ inner_term ::=
         THETA inner_term:it optStrokeList:sl
         {: RESULT = ozFactory_.createThetaExpr(expr(it), sl); :}
         |
-        refName:rn LSQBRACE expressionList:el RSQBRACE
-        {: RESULT = ozFactory_.createRefExpr(rn, el, Boolean.TRUE); :}
+        inner_term:rn LSQUARE expressionList:el RSQUARE
+        {: RESULT = ozFactory_.createRefExpr(refname(rn), el, Boolean.TRUE); :}
         |
-        inner_term:it LSQBRACE renameList:rnl RSQBRACE
+        inner_term:it LSQUARE renameList:rnl RSQUARE
         {: RESULT = ozFactory_.createRenameExpr(expr(it), rnl); :} %prec _RENAME
         |
-        NUMBER:n
+        NUMERAL:n
         {: RESULT = ozFactory_.createNumExpr(new BigInteger(n.toString())); :}
         |
         LPAREN term:t RPAREN
@@ -2409,13 +2427,13 @@ nameExprPairList ::=
         ;       
 
 nameExprPair ::=
-        declName:dn DEFS expression:e
+        declName:dn DEFEQUAL expression:e
         {: RESULT = ozFactory_.createNameExprPair(dn, e); :}
         ;
 
 
 letDefinitionList ::=
-        letDefinitionList:ldl SEMI letDefinition:ld
+        letDefinitionList:ldl SEMICOLON letDefinition:ld
         {:
            ldl.add(ld);
            RESULT = ldl;
@@ -2426,7 +2444,7 @@ letDefinitionList ::=
         ;       
 
 letDefinition ::=
-        declName:n DEFS expression:e
+        declName:n DEFEQUAL expression:e
         {: RESULT = ozFactory_.createConstDecl(n,e); :}
         ;
 
@@ -2467,7 +2485,7 @@ renameList ::=
         ;    
 
 rename ::=
-        refName:lhs FSLASH declName:rhs
+        refName:lhs SLASH declName:rhs
         {: RESULT = ozFactory_.createNameNamePair(lhs, rhs); :}
         ;
 
@@ -2498,7 +2516,7 @@ prefixRel ::=
         {: 
            List opName = list(lp);
            addExpSepName(opName, es);
-           opName.add(VARG_TOK);
+           opName.add(ARG_TOK);
            opName.add(erep);
 
            List expList = list();
@@ -2529,10 +2547,10 @@ postfixRel ::=
         |
         term:t1 ELP:elp expSep:es term:t2 ERP:erp
         {:
-           List opName = list(VARG_TOK);
+           List opName = list(ARG_TOK);
            opName.add(elp);
            addExpSepName(opName, es);
-           opName.add(VARG_TOK);
+           opName.add(ARG_TOK);
            opName.add(erp);
 
            List expList = list(expr(t1));
@@ -2543,7 +2561,7 @@ postfixRel ::=
         |
         term:t ELP:elp expSep:es optExpressionList:oel SRP:srp
         {:
-           List opName = list(VARG_TOK);
+           List opName = list(ARG_TOK);
            opName.add(elp);
            addExpSepName(opName, es);
            opName.add(LISTARG_TOK);
@@ -2562,12 +2580,12 @@ infixRel ::=
         |
         term:t1 ELP:elp expSep:es term:t2 EREP:erep term:t3
         {:
-           List opName = list(VARG_TOK);
+           List opName = list(ARG_TOK);
            opName.add(elp);
            addExpSepName(opName, es);
-           opName.add(VARG_TOK);
+           opName.add(ARG_TOK);
            opName.add(erep);
-           opName.add(VARG_TOK);
+           opName.add(ARG_TOK);
 
            List expList = list(expr(t1));
            addExpSepExp(expList, es);
@@ -2578,12 +2596,12 @@ infixRel ::=
         |
         term:t1 ELP:elp expSep:es optExpressionList:oel SREP:erep term:t2
         {:
-           List opName = list(VARG_TOK);
+           List opName = list(ARG_TOK);
            opName.add(elp);
            addExpSepName(opName, es);
            opName.add(LISTARG_TOK);
            opName.add(erep);
-           opName.add(VARG_TOK);
+           opName.add(ARG_TOK);
 
            List expList = list(expr(t1));
            addExpSepExp(expList, es);
@@ -2610,9 +2628,9 @@ infixChainRel ::=
         term:lhs IP:ip term:rhs
         {:
            previousChain_ = LatexSym.IP;
-           List opName = list(VARG_TOK);
+           List opName = list(ARG_TOK);
            opName.add(ip);
-           opName.add(VARG_TOK);
+           opName.add(ARG_TOK);
            RESULT = localCreateMemPred(opName, list(expr(lhs), expr(rhs)));
         :}
         |
@@ -2641,9 +2659,9 @@ infixChainRel ::=
 nofixRel ::=
         LP:lp expSep:es term:t ERP:erp
         {:
-           List opName = list(VARG_TOK);
+           List opName = list(ARG_TOK);
            addExpSepName(opName, es);
-           opName.add(VARG_TOK);
+           opName.add(ARG_TOK);
            opName.add(erp);
 
            List expList = list();
@@ -2654,7 +2672,7 @@ nofixRel ::=
         |
         LP:lp expSep:es optExpressionList:oel SRP:srp
         {:
-           List opName = list(VARG_TOK);
+           List opName = list(ARG_TOK);
            addExpSepName(opName, es);
            opName.add(LISTARG_TOK);
            opName.add(srp);
@@ -2691,9 +2709,9 @@ prefixApp ::=
         {:
            List opName = list(l);
            addExpSepName(opName, es);
-           opName.add(VARG_TOK);
+           opName.add(ARG_TOK);
            opName.add(ere);
-           opName.add(VARG_TOK);
+           opName.add(ARG_TOK);
 
            List expList = list();
            addExpSepExp(expList, es);
@@ -2708,7 +2726,7 @@ prefixApp ::=
            addExpSepName(opName, es);
            opName.add(LISTARG_TOK);
            opName.add(sre);
-           opName.add(VARG_TOK);
+           opName.add(ARG_TOK);
 
            List expList = list();
            addExpSepExp(expList, es);
@@ -2724,10 +2742,10 @@ postfixApp ::=
         |
         term:t1 EL:el expSep:es term:t2 ER:er
         {:
-           List opName = list(VARG_TOK);
+           List opName = list(ARG_TOK);
            opName.add(el);
            addExpSepName(opName, es);
-           opName.add(VARG_TOK);
+           opName.add(ARG_TOK);
            opName.add(er);
 
            List expList = list(expr(t1));
@@ -2738,7 +2756,7 @@ postfixApp ::=
         |
         term:t EL:el expSep:es optExpressionList:oel SR:sr
         {:
-           List opName = list(VARG_TOK);
+           List opName = list(ARG_TOK);
            opName.add(el);
            addExpSepName(opName, es);
            opName.add(LISTARG_TOK);
@@ -2754,20 +2772,20 @@ postfixApp ::=
 infixApp ::=
         term:lhs I:i term:rhs
         {: 
-           List opName = list(VARG_TOK);
+           List opName = list(ARG_TOK);
            opName.add(i);
-           opName.add(VARG_TOK);
+           opName.add(ARG_TOK);
            RESULT = localCreateApplExpr(opName, list(lhs, rhs));
         :}
         |
         term:t1 EL:el expSep:es term:t2 ERE:ere term:t3
         {:
-           List opName = list(VARG_TOK);
+           List opName = list(ARG_TOK);
            opName.add(el);
            addExpSepName(opName, es);
-           opName.add(VARG_TOK);
+           opName.add(ARG_TOK);
            opName.add(ere);
-           opName.add(VARG_TOK);
+           opName.add(ARG_TOK);
 
            List expList = list(expr(t1));
            addExpSepExp(expList, es);
@@ -2778,12 +2796,12 @@ infixApp ::=
         |
         term:t1 EL:el expSep:es optExpressionList:oel SRE:sre term:t2
         {:
-           List opName = list(VARG_TOK);
+           List opName = list(ARG_TOK);
            opName.add(el);
            addExpSepName(opName, es);
            opName.add(LISTARG_TOK);
            opName.add(sre);
-           opName.add(VARG_TOK);
+           opName.add(ARG_TOK);
 
            List expList = list(expr(t1));
            addExpSepExp(expList, es);
@@ -2798,7 +2816,7 @@ nofixApp ::=
         {:
            List opName = list(l);
            addExpSepName(opName, es);
-           opName.add(VARG_TOK);
+           opName.add(ARG_TOK);
            opName.add(er);
 
            List expList = list();

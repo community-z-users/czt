@@ -31,10 +31,10 @@ import java_cup.runtime.Symbol;
  *  x,y,z is followed by ':', then it is part of a declaration (a set
  *  comprehension) and declares new variables x,y,z, otherwise it
  *  is a set extension, and x,y,z must already have been declared.
- *  To resolve this, whenever we come to a NAME,
- *  this class looks ahead over (COMMA,NAME) pairs to see if they
+ *  To resolve this, whenever we come to a DECORWORD,
+ *  this class looks ahead over (COMMA,DECORWORD) pairs to see if they
  *  are followed by a COLON (:) token.  If they are,
- *  it returns those names as DECLNAME tokens rather than NAME tokens.
+ *  it returns those names as DECLNAME tokens rather than DECORWORD tokens.
  */
 class SmartScanner implements java_cup.runtime.Scanner
 {
@@ -59,7 +59,7 @@ class SmartScanner implements java_cup.runtime.Scanner
     }
     else {
       result = dumb_.next_token();
-      if (result.sym == LatexSym.NAME) {
+      if (result.sym == LatexSym.DECORWORD) {
         debug("starting lookahead from " + (String) result.value);
 
         // now we look ahead for: (COMMA WORD)* COLON
@@ -73,7 +73,7 @@ class SmartScanner implements java_cup.runtime.Scanner
           currsym = dumb_.next_token();
           debug("pushing: " + currsym.value);
           tokens_.addLast(currsym);
-          if (currsym.sym == LatexSym.NAME) {
+          if (currsym.sym == LatexSym.DECORWORD) {
             currsym = dumb_.next_token();
             debug("pushing: " + currsym.value);
             tokens_.addLast(currsym);
@@ -90,7 +90,7 @@ class SmartScanner implements java_cup.runtime.Scanner
           Iterator i = tokens_.listIterator(0);
           while (i.hasNext()) {
             Symbol s = (Symbol) i.next();
-            if (s.sym == LatexSym.NAME) {
+            if (s.sym == LatexSym.DECORWORD) {
               debug("converting: " + (String) s.value + " to DECLWORD");
               s.sym = LatexSym.DECLWORD;
             }

@@ -1,7 +1,7 @@
 /**
 Copyright 2003 Tim Miller
 This file is part of the CZT project.
-
+ 
 The CZT project contains free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
@@ -152,10 +152,10 @@ OTHERLETTER = {ARITHMOS} | {NAT} | {POWER}
 STROKECHAR = {NEXTSTROKE} | {OUTSTROKE} | {INSTROKE}
 WORDGLUE = {UP} | {SINGLEUP} | {SINGLEDOWN} | {DOWN} | {ENDGLUE} | {USCORE}
 
-SYMBOL = {CBAR} | {AMPERSAND} | {VDASH} | {LAND} | {LOR} | {IMP} | {IFF} | {LNOT} |
-        {FORALL} | {EXISTS} | {CROSS} | {FSLASH} | {EQUALS} | {MEM} | {COLON} |
-        {SEMI} | {COMMA} | {PERIOD} | {DOT} |
-        {ZHIDE} | {ZPROJECT} | {ZCMP} | {ZPIPE} | {PLUS} |
+SYMBOL = {BAR} | {ANDALSO} | {CONJECTURE} | {AND} | {OR} | {IMP} | {IFF} | {NOT} |
+        {ALL} | {EXI} | {CROSS} | {SLASH} | {EQUALS} | {MEM} | {COLON} |
+        {SEMICOLON} | {COMMA} | {DOT} | {SPOT} |
+        {ZHIDE} | {ZPROJ} | {ZCOMP} | {ZPIPE} | {PLUS} |
         {MATHTOOLKITSYMBOL} | {OZTOOLKITSYMBOL}
 
 MATHTOOLKITSYMBOL = 
@@ -196,45 +196,45 @@ DOWN = "_{"
 SINGLEDOWN = "_"
 ENDGLUE = "}"
 
-LBRACE = "{"
-RBRACE = "}"
+LLATEXBRACE = "{"
+RLATEXBRACE = "}"
 
 USCORE = "\\_"
 
 LPAREN = "("
 RPAREN = ")"
-LSQBRACE = "["
-RSQBRACE = "]" 
-LBLOT = "\\lblot"
-RBLOT = "\\rblot"
+LSQUARE = "["
+RSQUARE = "]" 
+LBIND = "\\lblot"
+RBIND = "\\rblot"
 LDATA = "\\ldata"
 RDATA = "\\rdata"
-LSET = "\\{"
-RSET = "\\}"
+LBRACE = "\\{"
+RBRACE = "\\}"
 
 //Z symbols
-CBAR = "|" | "\\cbar"
-AMPERSAND = "&"
-VDASH = "\\models"
-LAND = "\\land"
-LOR = "\\lor"
+BAR = "|" | "\\cbar" | "\\where"
+ANDALSO = "&"
+CONJECTURE = "\\models?"
+AND = "\\land"
+OR = "\\lor"
 IMP = "\\implies"
 IFF = "\\iff"
-LNOT = "\\lnot"
-FORALL = "\\forall"
-EXISTS = "\\exists"
+NOT = "\\lnot"
+ALL = "\\forall"
+EXI = "\\exists"
 CROSS = "\\cross"
-FSLASH = "/"
+SLASH = "/"
 EQUALS = "="
 MEM = "\\in"
 COLON = ":"
-SEMI = ";"
+SEMICOLON = ";"
 COMMA = ","
-PERIOD = "."
-DOT = "@"
+DOT = "."
+SPOT = "@"
 ZHIDE = "\\hide"
-ZPROJECT = "\\project"
-ZCMP = "\\semi"
+ZPROJ = "\\project"
+ZCOMP = "\\semi"
 ZPIPE = "\\pipe"
 PLUS = "+"
 
@@ -256,12 +256,12 @@ LEFTASSOC = "\\leftassoc"
 RIGHTASSOC = "\\rightassoc"
 
 LISTARG = "\\listarg"
-VARG = "\\varg" | "\\_"
+ARG = "\\varg" | "\\_"
 
-DDEF = "::=" | "\\ddef"
-DEFS = "==" | "\\defs"
+DEFFREE = "::=" | "\\ddef"
+DEFEQUAL = "==" | "\\defs"
 
-EXISTS1 = {EXISTS} ( {DOWN} "1" {ENDGLUE} |  {SINGLEDOWN} "1" )
+EXIONE = {EXI} ( {DOWN} "1" {ENDGLUE} |  {SINGLEDOWN} "1" )
 
 //box characters
 END = "\\end" {SoftWhiteSpace}* 
@@ -269,9 +269,8 @@ END = "\\end" {SoftWhiteSpace}*
         "{state}" | "{init}" | "{op}" | "{localdef}" | "{zsection}" )
 
 AX = "\\begin" {SoftWhiteSpace}* "{axdef}"
-SCHEMA = "\\begin" {SoftWhiteSpace}* "{schema}"
+SCH = "\\begin" {SoftWhiteSpace}* "{schema}"
 GENAX = "\\begin" {SoftWhiteSpace}* "{gendef}"
-WHERE = "\\where"
 
 //Z paragraphs
 ZED = "\\begin" {SoftWhiteSpace}* "{zed}" | "\\begin" {SoftWhiteSpace}* "{syntax}"
@@ -284,7 +283,7 @@ CLASS = "\\begin" {SoftWhiteSpace}* "{class}"
 STATE = "\\begin" {SoftWhiteSpace}* "{state}"
 INIT = "\\begin" {SoftWhiteSpace}* ( "{init}" | "{schema}" {SoftWhiteSpace}* "{\Init}" )
 INITWORD = "\\Init"
-OPSCHEMA = "\\begin" {SoftWhiteSpace}* "{op}"
+OPSCH = "\\begin" {SoftWhiteSpace}* "{op}"
 ENDCLASS = "\\end" {SoftWhiteSpace}* "{class}"
 
 //object-z paragraph chars
@@ -304,9 +303,9 @@ GCH = "\\gch"
 CLASSCOM = "\\begin" {SoftWhiteSpace}* "{classcom}"
 ENDCLASSCOM = "\\end" {SoftWhiteSpace}* "{classcom}"
 
-NUMBER = {DIGIT}+
+NUMERAL = {DIGIT}+
 STROKE = {STROKECHAR} | {NUMSTROKE}
-NAME =  {WORD} {STROKE}*
+DECORWORD =  {WORD} {STROKE}*
 WORD =  {WORDPART}+ |
         {LETTER} {ALPHASTR} {WORDPART}* |
         {SYMBOL}+ {WORDPART}*
@@ -315,7 +314,7 @@ WORDPART = {WORDGLUE} ( {ALPHASTR} | {SYMBOL}* )
 ALPHASTR = ( {LETTER} | {DIGIT} )*
 
 //Section names can be used as file names
-SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
+SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {SLASH})*
 
 %state ZSECTION OZ CLASSCOMMENT
 
@@ -337,11 +336,11 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
                           return symbol(LatexSym.AX);
                         }
 
-  {SCHEMA}              { 
+  {SCH}                 { 
                           yybegin(OZ);
                           inBoxName = true;
                           log(yytext());
-                          return symbol(LatexSym.SCHEMA);
+                          return symbol(LatexSym.SCH);
                         }
 
   {GENAX}               {
@@ -414,23 +413,23 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
   //Brackets etc
   {LPAREN}              { log(yytext()); return symbol(LatexSym.LPAREN); }
   {RPAREN}              { log(yytext()); return symbol(LatexSym.RPAREN); }
-  {LSQBRACE}            { log(yytext()); return symbol(LatexSym.LSQBRACE); }
-  {RSQBRACE}            { log(yytext()); return symbol(LatexSym.RSQBRACE); }
-  {LBLOT}               { log(yytext()); return symbol(LatexSym.LBLOT); }
-  {RBLOT}               { log(yytext()); return symbol(LatexSym.RBLOT); }
+  {LSQUARE}             { log(yytext()); return symbol(LatexSym.LSQUARE); }
+  {RSQUARE}             { log(yytext()); return symbol(LatexSym.RSQUARE); }
+  {LBIND}               { log(yytext()); return symbol(LatexSym.LBIND); }
+  {RBIND}               { log(yytext()); return symbol(LatexSym.RBIND); }
   {LDATA}               { log(yytext()); return symbol(LatexSym.LDATA); }
   {RDATA}               { log(yytext()); return symbol(LatexSym.RDATA); }
-  {LSET}                { log(yytext()); return symbol(LatexSym.LSET); }
-  {RSET}                { log(yytext()); return symbol(LatexSym.RSET); }
+  {LBRACE}              { log(yytext()); return symbol(LatexSym.LBRACE); }
+  {RBRACE}              { log(yytext()); return symbol(LatexSym.RBRACE); }
 
   //Latex symbols
-  {LBRACE}              { log(yytext()); /* do nothing */ }
+  {LLATEXBRACE}         { log(yytext()); /* do nothing */ }
 
-  {RBRACE}              { 
+  {RLATEXBRACE}         { 
                           log(yytext());
                           if (inWordGlue) {
                             inWordGlue = false;
-                            return symbol(LatexSym.NAME, yytext());
+                            return symbol(LatexSym.DECORWORD, yytext());
                           }
                           else if (inBoxName) {                            
                             inBoxName = false;
@@ -438,30 +437,30 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
                         }
 
   //Core symbols
-  {CBAR}                { log(yytext()); return symbol(LatexSym.CBAR); }
-  {AMPERSAND}           { log(yytext()); return symbol(LatexSym.AMPERSAND); }
-  {VDASH}               { log(yytext()); return symbol(LatexSym.VDASH); }
-  {LAND}                { log(yytext()); return symbol(LatexSym.LAND); }
-  {LOR}                 { log(yytext()); return symbol(LatexSym.LOR); }
+  {BAR}                 { log(yytext()); return symbol(LatexSym.BAR); }
+  {ANDALSO}             { log(yytext()); return symbol(LatexSym.ANDALSO); }
+  {CONJECTURE}          { log(yytext()); return symbol(LatexSym.CONJECTURE); }
+  {AND}                 { log(yytext()); return symbol(LatexSym.AND); }
+  {OR}                  { log(yytext()); return symbol(LatexSym.OR); }
   {IMP}                 { log(yytext()); return symbol(LatexSym.IMP); }
   {IFF}                 { log(yytext()); return symbol(LatexSym.IFF); }
-  {LNOT}                { log(yytext()); return symbol(LatexSym.LNOT); }
-  {FORALL}              { log(yytext()); return symbol(LatexSym.FORALL); }
-  {EXISTS}              { log(yytext()); return symbol(LatexSym.EXISTS); }
-  {EXISTS1}             { log(yytext()); return symbol(LatexSym.EXISTS1); }
+  {NOT}                 { log(yytext()); return symbol(LatexSym.NOT); }
+  {ALL}                 { log(yytext()); return symbol(LatexSym.ALL); }
+  {EXI}                 { log(yytext()); return symbol(LatexSym.EXI); }
+  {EXIONE}              { log(yytext()); return symbol(LatexSym.EXIONE); }
   {CROSS}               { log(yytext()); return symbol(LatexSym.CROSS); }
-  {FSLASH}              { log(yytext()); return symbol(LatexSym.FSLASH); }
+  {SLASH}               { log(yytext()); return symbol(LatexSym.SLASH); }
   {EQUALS}              { log(yytext()); return symbol(LatexSym.EQUALS); }
   {MEM}                 { log(yytext()); return symbol(LatexSym.MEM); }
   {COLON}               { log(yytext()); return symbol(LatexSym.COLON); }
-  {SEMI}                { log(yytext()); return symbol(LatexSym.SEMI); }
+  {SEMICOLON}           { log(yytext()); return symbol(LatexSym.SEMICOLON); }
   {COMMA}               { log(yytext()); return symbol(LatexSym.COMMA); }
-  {PERIOD}              { log(yytext()); return symbol(LatexSym.PERIOD); }
   {DOT}                 { log(yytext()); return symbol(LatexSym.DOT); }
-  {ZCMP}                { log(yytext()); return symbol(LatexSym.ZCMP); }
+  {SPOT}                { log(yytext()); return symbol(LatexSym.SPOT); }
+  {ZCOMP}               { log(yytext()); return symbol(LatexSym.ZCOMP); }
   {ZHIDE}               { log(yytext()); return symbol(LatexSym.ZHIDE); }
   {ZPIPE}               { log(yytext()); return symbol(LatexSym.ZPIPE); }
-  {ZPROJECT}             { log(yytext()); return symbol(LatexSym.ZPROJECT); }
+  {ZPROJ}               { log(yytext()); return symbol(LatexSym.ZPROJ); }
 
   //Other symbols
   {NL}                  { log(yytext()); return symbol(LatexSym.NL); }
@@ -479,12 +478,10 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
   {RIGHTASSOC}          { log(yytext()); return symbol(LatexSym.RIGHTASSOC); }
 
   {LISTARG}             { log(yytext()); return symbol(LatexSym.LISTARG); }
-  {VARG}                { log(yytext()); return symbol(LatexSym.VARG); }
+  {ARG}                 { log(yytext()); return symbol(LatexSym.ARG); }
 
-  {DDEF}                { log(yytext()); return symbol(LatexSym.DDEF); }
-  {DEFS}                { log(yytext()); return symbol(LatexSym.DEFS); }
-
-  {WHERE}               { log(yytext()); return symbol(LatexSym.WHERE); }
+  {DEFFREE}             { log(yytext()); return symbol(LatexSym.DEFFREE); }
+  {DEFEQUAL}            { log(yytext()); return symbol(LatexSym.DEFEQUAL); }
 
   //Box characters
   //"begin" box characters for OZ local definitions
@@ -508,15 +505,15 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
   {STATE}               { log(yytext()); return symbol(LatexSym.STATE); }
   {INIT}                { log(yytext()); return symbol(LatexSym.INIT); }
   {INITWORD}            { log(yytext()); return symbol(LatexSym.INITWORD, yytext()); }
-  {SCHEMA}              {
+  {SCH}                 {
                           log(yytext());
                           inBoxName = true;
-                          return symbol(LatexSym.SCHEMA);
+                          return symbol(LatexSym.SCH);
                         }
-  {OPSCHEMA}            {
+  {OPSCH}               {
                           log(yytext());
                           inBoxName = true;
-                          return symbol(LatexSym.OPSCHEMA);
+                          return symbol(LatexSym.OPSCH);
                         }
 
   //Object-Z paragraph chars
@@ -540,13 +537,13 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
                         }
 
   //literals
-  {NUMBER}              {
+  {NUMERAL}             {
                           log(yytext());
-                          return symbol(LatexSym.NUMBER, 
+                          return symbol(LatexSym.NUMERAL, 
                                         new Integer(yytext()));
                         }
 
-  {NAME}                {
+  {DECORWORD}           {
                           String name = fixGlue(yytext());
 
                           //if the name is a schema or class name, return a
@@ -559,19 +556,19 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
                           //if it is only an underscore, it is a optemp arg
                           else if (yytext().equals(USCORE)) {
                             log(name);
-                            return symbol(LatexSym.VARG);
+                            return symbol(LatexSym.ARG);
                           }
-                          //if it is the start of a wordglue, the next RBRACE must
+                          //if it is the start of a wordglue, the next RLATEXBRACE must
                           //be a end glue, so set inWordGlue to true
                           else if (yytext().equals(UPGLUE) || yytext().equals(DOWNGLUE)) {
                             log(yytext());
                             inWordGlue = true;
-                            return symbol(LatexSym.NAME, yytext());
+                            return symbol(LatexSym.DECORWORD, yytext());
                           }
                           else {
                             String noBraceName = removeRbrace(name);
                             log(name);
-                            return symbol(LatexSym.NAME, noBraceName);
+                            return symbol(LatexSym.DECORWORD, noBraceName);
                           }
                         }
 
@@ -589,7 +586,7 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
   {COMMA}               { log(yytext()); return symbol(LatexSym.COMMA); }
 
   {SECTIONNAME}         { log(yytext());
-                          return symbol(LatexSym.NAME, 
+                          return symbol(LatexSym.DECORWORD, 
                                         new String(yytext())); }
   {END}                 {
                           yybegin(YYINITIAL);
@@ -612,7 +609,8 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
                           return symbol(LatexSym.ENDCLASSCOM);
                         }
 
-  .                     { log(yytext()); return symbol(LatexSym.CLASSCOMWORD); }
+  . | \n                { log(yytext()); return symbol(LatexSym.CLASSCOMWORD);
+                        }
 
 }
 
