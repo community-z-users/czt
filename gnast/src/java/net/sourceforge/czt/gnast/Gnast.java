@@ -245,6 +245,9 @@ public class Gnast
   private void handleLogging()
   {
     Logger rootLogger = Logger.getLogger("");
+    rootLogger.setLevel(Level.FINEST);
+
+    // setting console logger
     Handler handler = null;
     Handler[] h = rootLogger.getHandlers();
     for (int i=0; i<h.length; i++) {
@@ -257,14 +260,34 @@ public class Gnast
       rootLogger.addHandler(handler);
     }
     handler.setLevel(mVerbosity);
-    Logger.getLogger("net.sourceforge.czt.gnast").setLevel(mVerbosity);
+    handler.setFormatter(new OutputFormatter());
+
+    // setting file logger
+    try {
+      handler = new FileHandler("gnast.log");
+      handler.setLevel(Level.ALL);
+      handler.setEncoding("utf8");
+    } catch(Exception e) {
+      sLogger.severe(e.getMessage());
+    }
+    rootLogger.addHandler(handler);
   }
 
+  /**
+   *
+   * @throws NullPointerException if <code>name</code> is <code>null</code>.
+   */
   public void generate(String name)
   {
     String methodName = "generate";
-    
     sLogger.entering(sClassName, methodName, name);
+
+    if (name == null) {
+      NullPointerException e = new NullPointerException();
+      sLogger.exiting(sClassName, methodName, e);
+      throw e;
+    }
+
     mApgen.addToContext("class", Apgen.parseMap(mAstProperties, name));
     mApgen.setTemplate((String)mAstProperties.get(name + ".Template"));
     String filename =
@@ -273,6 +296,7 @@ public class Gnast
 		 (String)mAstProperties.get(name + ".Package"),
 		 (String)mAstProperties.get(name + ".Name"));
     createFile(filename);
+
     sLogger.exiting(sClassName, methodName);
   }
 
@@ -292,7 +316,6 @@ public class Gnast
       throw e;
     } catch(Exception e) {
       sLogger.severe(e.getMessage());
-      e.printStackTrace();
       return;
     }
     Map classes = project.getAstClasses();
@@ -334,13 +357,18 @@ public class Gnast
       mApgen.addToContext("class", c);
       
       sLogger.fine("Generating class file for " + c.getName());
-      filename = toFileName("net.sourceforge.czt.core.impl",
+      filename = toFileName((String)mAstProperties.get("BasePackage") +
+			    "." +
+			    (String)mAstProperties.get("ImplPackage"),
 			    c.getName() + "Impl");
       mApgen.setTemplate("src/vm/AstClass.vm");
       createFile(filename);
 
       sLogger.fine("Generating interface file for " + c.getName());
-      filename = toFileName("net.sourceforge.czt.core.ast", c.getName());
+      filename = toFileName((String)mAstProperties.get("BasePackage") +
+			    "." +
+			    (String)mAstProperties.get("AstPackage"),
+			    c.getName());
       mApgen.setTemplate("src/vm/AstInterface.vm");
       createFile(filename);
     }
@@ -351,7 +379,10 @@ public class Gnast
       mApgen.addToContext("Name", enumName);
       mApgen.addToContext("Values", enumClasses.get(enumName));
 
-      filename = toFileName("net.sourceforge.czt.core.ast", enumName);
+      filename = toFileName((String)mAstProperties.get("BasePackage") +
+			    "." +
+			    (String)mAstProperties.get("AstPackage"),
+			    enumName);
       mApgen.setTemplate("src/vm/Enum.vm");
       createFile(filename);
     }
@@ -540,5 +571,20 @@ public class Gnast
   {
     Gnast gen = new Gnast();
     gen.generate(args);
+  }
+
+  // ############################################################
+  // ##################### INNER CLASSES ########################
+  // ############################################################
+
+  class OutputFormatter extends  Formatter
+  {
+    public String format(LogRecord record)
+    {
+      return record.getLevel().toString()
+	+ ": "
+	+ record.getMessage()
+	+ "\n";
+    }
   }
 }
