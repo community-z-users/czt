@@ -210,12 +210,12 @@
 			<xs:documentation>An abstract Circus process with Z declarations.</xs:documentation>
 		</xs:annotation>
 	</xs:element>			
-  <xs:element name="ProcR" type="CIRCUS:ProcD" abstract="true" substitutionGroup="CIRCUS:ProcD">
+  <xs:element name="ProcR" type="CIRCUS:ProcR" abstract="true" substitutionGroup="CIRCUS:ProcD">
 		<xs:annotation>
 			<xs:documentation>An abstract Circus process with Z declarations.</xs:documentation>
 		</xs:annotation>
 	</xs:element>			
-  <xs:element name="ProcRI" type="CIRCUS:ProcD" abstract="true" substitutionGroup="CIRCUS:ProcR">
+  <xs:element name="ProcRI" type="CIRCUS:ProcRI" abstract="true" substitutionGroup="CIRCUS:ProcR">
 		<xs:annotation>
 			<xs:documentation>An abstract Circus process with Z declarations.</xs:documentation>
 		</xs:annotation>
