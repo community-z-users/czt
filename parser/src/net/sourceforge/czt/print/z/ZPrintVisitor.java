@@ -856,7 +856,7 @@ public class ZPrintVisitor
 
   public Object visitSchText(SchText schText)
   {
-    printTermList(schText.getDecl(), Sym.NL);
+    printTermList(schText.getDecl(), ZString.SEMICOLON);
     if (schText.getPred() != null) {
       print(Sym.DECORWORD, ZString.BAR);
       visit(schText.getPred());
