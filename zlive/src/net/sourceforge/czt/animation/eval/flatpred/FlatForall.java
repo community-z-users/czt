@@ -93,6 +93,22 @@ public class FlatForall extends FlatPred
   }
 
 
+  public String toString() {
+    StringBuffer result = new StringBuffer();
+    // Start with the class name (in case it is a subclass).
+    String fullName = this.getClass().getName();
+    int dotPos = fullName.lastIndexOf('.') + 1; // -1 becomes 0.
+    result.append(fullName.substring(dotPos));
+    // Now add ( SchemaText @ Body )
+    result.append("( ");
+    result.append(schText_.toString());
+    result.append(" @ ");
+    result.append(body_.toString());
+    result.append(" )");
+    return result.toString();
+  }
+
+
   ///////////////////////// Pred methods ///////////////////////
 
   public Object accept(Visitor visitor)
