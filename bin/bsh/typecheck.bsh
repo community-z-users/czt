@@ -14,8 +14,19 @@ typecheck()
 typecheck(SectionInfo manager)
 {
   term = parse(manager);
-  typecheck(term, manager);
-  return term;
+  return typecheck(term, manager);
+}
+
+typecheck(String filename)
+{
+  manager = new SectionManager();
+  term = typecheck(filename, manager);
+}
+
+typecheck(String filename, SectionInfo manager)
+{
+  term = parse(filename, manager);
+  return typecheck(term, manager);
 }
 
 typecheck(Term term)
