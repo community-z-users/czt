@@ -10,24 +10,9 @@ parse(filename)
 {
   file = pathToFile(filename);
   if (file.exists()) {
-    name = file.getName();
-    System.err.println("Parse file " + filename);
-    if (name.endsWith(".xml") || name.endsWith(".zml")) {
-      reader = new net.sourceforge.czt.z.jaxb.JaxbXmlReader();
-      return reader.read(file);
-    }
-    else if (name.endsWith(".tex") || name.endsWith(".zed")) {
-      return net.sourceforge.czt.parser.z.ParseUtils.parseLatexFile(filename);
-    }
-    else if (name.endsWith(".utf8")) {
-      return net.sourceforge.czt.parser.z.ParseUtils.parseUtf8File(filename);
-    }
-    else if (name.endsWith(".utf16")) {
-      return net.sourceforge.czt.parser.z.ParseUtils.parseUtf16File(filename);
-    }
-    else {
-      System.err.println("Unknown file suffix.");
-    }
+    absolutPath = file.getAbsolutePath();
+    System.err.println("Parse file " + absolutPath);
+    return net.sourceforge.czt.parser.z.ParseUtils.parse(absolutPath);
   }
   else {
     System.err.println("File " + filename + " not found.");
@@ -38,24 +23,9 @@ parse(filename, optable)
 {
   file = pathToFile(filename);
   if (file.exists()) {
-    name = file.getName();
-    System.err.println("Parse file " + filename);
-    if (name.endsWith(".xml") || name.endsWith(".zml")) {
-      reader = new net.sourceforge.czt.z.jaxb.JaxbXmlReader();
-      return reader.read(file);
-    }
-    else if (name.endsWith(".tex") || name.endsWith(".zed")) {
-      return net.sourceforge.czt.parser.z.ParseUtils.parseLatexFile(filename, optable);
-    }
-    else if (name.endsWith(".utf8")) {
-      return net.sourceforge.czt.parser.z.ParseUtils.parseUtf8File(filename, optable);
-    }
-    else if (name.endsWith(".utf16")) {
-      return net.sourceforge.czt.parser.z.ParseUtils.parseUtf16File(filename, optable);
-    }
-    else {
-      System.err.println("Unknown file suffix.");
-    }
+    absolutPath = file.getAbsolutePath();
+    System.err.println("Parse file " + absolutPath);
+    return net.sourceforge.czt.parser.z.ParseUtils.parse(absolutPath, optable);
   }
   else {
     System.err.println("File " + filename + " not found.");
