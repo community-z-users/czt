@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright 2003, 2004 Petra Malik
+     Copyright (C) 2003, 2004 Petra Malik
      This file is part of the CZT project.
 
      The CZT project contains free software;
@@ -27,6 +27,7 @@ import java.io.*;
 import java.util.*;
 
 import net.sourceforge.czt.util.ParseException;
+import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZChar;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.parser.util.*;
@@ -36,6 +37,7 @@ import net.sourceforge.czt.session.SectionManager;
 action code
 {:
   private Map map_ = createMap();
+  protected Iterator markup_ = null;
 
   private Map createMap()
   {
@@ -167,9 +169,12 @@ action code
 
   private void printMarkupTable(String section)
   {
-    LatexMarkupFunction table = parser.manager_.getLatexMarkupFunction(section);
+    LatexMarkupFunction table =
+      parser.manager_.getLatexMarkupFunction(section);
     if (table != null) {
-      parser.write(table.toLatex());
+      LatexMarkupPara para =
+        table.toAst(new net.sourceforge.czt.z.impl.ZFactoryImpl());
+      markup_ = para.getDirective().iterator();
     }
   }
 :}
@@ -203,6 +208,46 @@ parser code {:
     }
   }
 
+  private String printType(DirectiveType type)
+  {
+    if (DirectiveType.NONE.equals(type)) return "";
+    return type.toString().toLowerCase();
+  }
+
+  /**
+   * Returns the next token.
+   */
+  protected Symbol local_next_token()
+    throws Exception
+  {
+    if (action_obj.markup_ != null &amp;&amp; action_obj.markup_.hasNext()) {
+      Directive directive = (Directive) action_obj.markup_.next();
+      final String unicode = directive.getUnicode();
+      if (unicode.length() == 1) {
+        StringBuffer result = new StringBuffer();
+        result.append("\n");
+        char c = unicode.charAt(0);
+        result.append("%%Z" + printType(directive.getType())+ "char ");
+        result.append(directive.getCommand() + " ");
+        result.append("U+");
+        String hex = Integer.toHexString(c).toUpperCase();
+        for (int i = 0; i &lt; 4 - hex.length(); i++) {
+          result.append("0");
+        }
+        result.append(hex);
+        result.append("\n");
+        return new Symbol(Sym.CHAR_MARKUP, result.toString());
+      }
+      else {
+        return local_next_token();
+      }
+    }
+    else {
+      Symbol result = getScanner().next_token();
+      return result;
+    }
+  }
+
   public void report_error(String message, Object info) {
     StringBuffer m = new StringBuffer("Error");
     if (info instanceof java_cup.runtime.Symbol) {
@@ -223,6 +268,7 @@ parser code {:
   }
 :};
 
+scan with {: return local_next_token(); :};
 
 /* ------------Declaration of Terminals and Non Terminals Section----------- */
    
@@ -230,18 +276,31 @@ parser code {:
 terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    LBIND, RBIND, LDATA, RDATA, ZED, AX, SCH, GENAX, GENSCH,
                    END, NL, SECTION, PARENTS, WHERE,
-                   INSTROKE, OUTSTROKE, NEXTSTROKE;
+                   INSTROKE, OUTSTROKE, NEXTSTROKE,
+                   MARKUP;
 terminal Integer   NUMERAL, NUMSTROKE;
-terminal String    DECORWORD, TEXT;
+terminal String    DECORWORD, TEXT,
+                   CHAR_MARKUP;
    
 /* Non terminals */
-non terminal String       s, input, sectHead, para;
+non terminal String       s, input, markup, sectHead, para;
 non terminal LatexCommand token, tokenSeq, paren, special, decorword;
 non terminal List         parentList;
 
 
    s ::=     input
              {: parser.getWriter().flush(); :}
+             |
+             markup
+             ;
+
+   markup ::=
+             MARKUP tokenSeq:s MARKUP
+             {:
+                String result = "";
+                if (s != null) { result += s.getName(); }
+                RESULT = result;
+             :}
              ;
 
    input ::= input sectHead
@@ -257,6 +316,12 @@ non terminal List         parentList;
              |
              TEXT:t
              {: parser.write(t); :}
+             |
+             CHAR_MARKUP:zchar
+             {: parser.write(zchar); :}
+             |
+             input CHAR_MARKUP:zchar
+             {: parser.write(zchar); :}
              ;
 
    sectHead ::=  ZED SECTION decorword:dw PARENTS parentList:pl END

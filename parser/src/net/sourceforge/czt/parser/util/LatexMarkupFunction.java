@@ -156,38 +156,6 @@ public class LatexMarkupFunction
     return commandToDirective_.toString();
   }
 
-  public String toLatex()
-  {
-    StringBuffer result = new StringBuffer();
-    result.append("\n");
-    Collection directives = commandToDirective_.values();
-    for (Iterator iter = directives.iterator(); iter.hasNext();) {
-      final MarkupDirective directive = (MarkupDirective) iter.next();
-      if (directive.getSection().equals(section_)) {
-        final String unicode = directive.getUnicode();
-        if (unicode.length() == 1) {
-          char c = unicode.charAt(0);
-          result.append("%%Z" + printType(directive.getType())+ "char ");
-          result.append(directive.getCommand() + " ");
-          result.append("U+");
-          String hex = Integer.toHexString(c).toUpperCase();
-          for (int i = 0; i < 4 - hex.length(); i++) {
-            result.append("0");
-          }
-          result.append(hex);
-          result.append("\n");
-        }
-      }
-    }
-    return result.toString();
-  }
-
-  private String printType(DirectiveType type)
-  {
-    if (DirectiveType.NONE.equals(type)) return "";
-    return type.toString().toLowerCase();
-  }
-
   public LatexMarkupPara toAst(ZFactory factory)
   {
     LatexMarkupPara result = factory.createLatexMarkupPara();
