@@ -209,14 +209,13 @@ more detail.
 </xs:annotation>
 </xs:element>
 <!-- the decoratable-names hierarchy -->
-<xs:element name="Name" type="Z:Name">
+<xs:element name="Name" type="Z:Name" abstract="true">
 <xs:annotation>
 <xs:appinfo>
 <jaxb:class name="NameElement"/>
 </xs:appinfo>
 </xs:annotation>
 </xs:element>
-<!--TODO: make this abstract?-->
 <xs:element name="DeclName" type="Z:DeclName" substitutionGroup="Z:Name">
 <xs:annotation>
 <xs:appinfo>
