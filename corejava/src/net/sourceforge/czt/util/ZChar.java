@@ -407,7 +407,7 @@ public interface ZChar
   /**
    * white left-pointing triangle.
    */
-  char DRES = '\u25B7';
+  char DRES = '\u25C1';
 
   /**
    * white right-pointing triangle.

@@ -171,7 +171,7 @@
       <char id="MAPSTO" hex="21A6" description="rightwards arrow from bar"/>
       <char id="COMP" hex="2A3E" description="relational composition"/>
       <char id="CIRC" hex="2218" description="ring operator"/>
-      <char id="DRES" hex="25B7" description="white left-pointing triangle"/>
+      <char id="DRES" hex="25C1" description="white left-pointing triangle"/>
       <char id="RRES" hex="25B7" description="white right-pointing triangle"/>
       <char id="NDRES" hex="2A64" description="domain antirestriction"/>
       <char id="NRRES" hex="2A65" description="range antirestriction"/>
