@@ -29,6 +29,9 @@
   <available
     file="${basedir}/zlive/build.xml"
     property="zlive.present"/>
+  <available
+    file="${basedir}/jedit/ZCharMap/build.xml"
+    property="jedit.present"/>
 
   <target name="all" depends="install"/>
 
@@ -57,7 +60,7 @@
    </target>
 
   <target name="install"
-    depends="install-bin, install-subprojects, api-subprojects"
+    depends="install-bin, install-subprojects, compile-jedit, api-subprojects"
     description="install"/>
 
   <target name="install-subprojects"
@@ -114,6 +117,12 @@
     depends="install-corejava, install-parser"
     description="install zlive">
     <ant dir="zlive" target="install"/>
+  </target>
+
+  <target name="compile-jedit" if="jedit.present"
+    depends="install-corejava, install-parser, install-typechecker"
+    description="install jedit plugin">
+    <ant dir="jedit/ZCharMap" target="jar"/>
   </target>
 
   <target name="api-corejava" if="corejava.present"
