@@ -66,6 +66,7 @@ action code
     /** The table of operators. */
     protected OperatorTable table_;
 
+
     /** The "fix" of the current operator being parsed. */
     protected int fix_ = -1;
 
@@ -558,8 +559,7 @@ parser code
     {
        Symbol result = null;
 
-       if (symbol.sym == Sym.DECORWORD || 
-           symbol.sym == Sym.DECLWORD) {
+       if (symbol.sym == Sym.DECORWORD || symbol.sym == Sym.DECLWORD) {
 
          String name = (String) symbol.value;
          int type = table_.lookup(name);
@@ -668,6 +668,10 @@ non terminal List /*StringAndOperand?*/
     infixTemplate,
     nofixTemplate,
     optWordOperandList;
+non terminal
+    functionToken,
+    genericToken,
+    relationToken;
 
 non terminal Operand 
     varg,
@@ -948,19 +952,29 @@ sectionName ::=
         DECORWORD:dw
         {:
            table_.setSection(dw);
+           table_.setLookup(false);
            RESULT = dw;
         :}
         ;
 
 optParents ::=
         //empty
-        {: RESULT = list(); :}
+        {:
+           table_.setLookup(true);
+           RESULT = list();
+        :}
         |
         PARENTS parentList:pl
-        {: RESULT = pl; :}
+        {:
+           table_.setLookup(true);
+           RESULT = pl;
+        :}
         |
         PARENTS
-        {: RESULT = list(); :}
+        {:
+           table_.setLookup(true);
+           RESULT = list();
+        :}
         ;
 
 parentList ::=
@@ -1195,27 +1209,45 @@ narrWordList ::=
 // operator templates  /////////////////////////////////////////////////////
 
 operatorTemplate ::=
-        RELATION template:t
+        relationToken template:t
         {:
            OptempPara otp =
              factory_.createOptempPara();
            otp.getOper().addAll(t);
            otp.setCat(Cat.Relation);
-otp.setPrec(new Integer(0));
+           otp.setPrec(new Integer(0));
+           table_.setLookup(true);
            RESULT = otp;
         :}
         |
-        FUNCTION catTemplate:ct
+        functionToken catTemplate:ct
         {:
            ct.setCat(Cat.Function);
+           table_.setLookup(true);
            RESULT = ct;
         :}
         |
-        GENERIC catTemplate:ct
+        genericToken catTemplate:ct
         {:
            ct.setCat(Cat.Generic);
+           table_.setLookup(true);
            RESULT = ct;
         :}
+        ;
+
+relationToken ::=
+        RELATION
+        {: table_.setLookup(false); :}
+        ;
+
+functionToken ::=
+        FUNCTION
+        {: table_.setLookup(false); :}
+        ;
+
+genericToken ::=
+        GENERIC
+        {: table_.setLookup(false); :}
         ;
 
 template ::=
@@ -1238,7 +1270,7 @@ catTemplate ::=
         {: 
            OptempPara otp = factory_.createOptempPara();
            otp.getOper().addAll(pt);
-otp.setPrec(new Integer(0));
+           otp.setPrec(new Integer(0));
            RESULT = otp;
         :}
         |
@@ -1246,7 +1278,7 @@ otp.setPrec(new Integer(0));
         {: 
            OptempPara otp = factory_.createOptempPara();
            otp.getOper().addAll(pt);
-otp.setPrec(new Integer(0));
+           otp.setPrec(new Integer(0));
            RESULT = otp;
         :}
         |
@@ -1263,7 +1295,7 @@ otp.setPrec(new Integer(0));
         {:
            OptempPara otp = factory_.createOptempPara();
            otp.getOper().addAll(nt);
-otp.setPrec(new Integer(0));
+           otp.setPrec(new Integer(0));
            RESULT = otp;
         :}
         ;
