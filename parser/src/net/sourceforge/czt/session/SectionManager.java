@@ -23,11 +23,13 @@ import java.io.*;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.util.CztLogger;
 
 /**
  * This class provides some services like computing
@@ -63,9 +65,9 @@ public class SectionManager
         result = (LatexMarkupFunction) markupFunctions_.get(section);
       }
       catch (Exception e) {
-        String message = "Cannot get latex specification for " + section ;
-        System.err.println(message);
-        e.printStackTrace();
+        String message = "Cannot get latex specification for '" + section + "'";
+        CztLogger.getLogger(getClass()).warning(message);
+        //        e.printStackTrace();
       }
     }
     return result;
