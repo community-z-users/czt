@@ -482,8 +482,8 @@ action code
     private void addLocAnn(TermA termA, int line, int column)
     {
       String loc = file_;
-      Integer lineNr = new Integer(line);
-      Integer columnNr = new Integer(column);
+      Integer lineNr = new Integer(line + 1);
+      Integer columnNr = new Integer(column + 1);
       LocAnn locAnn = factory_.createLocAnn(loc, lineNr, columnNr);
       if (loc == null) loc = "unknown";
       assert loc != null;
@@ -586,7 +586,9 @@ parser code
       msg.append(message);
       if (info instanceof Symbol) {
         Symbol token = (Symbol) info;
-        msg.append(" at line " + token.left + " column " + token.right);
+        final int line = token.left + 1;
+        final int column = token.right + 1;
+        msg.append(" at line " + line + " column " + column);
       }
       if (file_ != null) msg.append(" in " + file_);
       Logger logger = CztLogger.getLogger(<class/>.class);
@@ -600,8 +602,8 @@ parser code
       int column = -1;
       if (info instanceof Symbol) {
         Symbol token = (Symbol) info;
-        line = token.left;
-        column = token.right;
+        line = token.left + 1;
+        column = token.right + 1;
       }
       ParseException exception =
         new ParseException(message, file_, line, column);
