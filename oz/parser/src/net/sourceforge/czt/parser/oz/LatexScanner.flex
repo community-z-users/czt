@@ -43,7 +43,7 @@ import java_cup.runtime.*;
     }
 
     private void log(String msg) {
-        System.err.print(msg + " ");
+        System.err.print(msg);
     }
 %}
 
@@ -173,29 +173,29 @@ DEFS = "==" | "\\defs"
 EXISTS1 = {EXISTS} ( {DOWN} "1" {ENDGLUE} |  {SINGLEDOWN} "1" )
 
 //box characters
-END = "\\end{axdef}" | "\\end{schema}" | "\\end{gendef}" | "\\end{syntax}" |
-      "\\end{zed}" | "\\end{class}" | "\\end{state}" | "\\end{init}" |
-      "\\end{op}" | "\\end{localdef}"
+END = "\\end" {SoftWhiteSpace}* 
+      ( "{axdef}" | "{schema}" | "{gendef}" | "{syntax}" | "{zed}" | "{class}" | 
+        "{state}" | "{init}" | "{op}" | "{localdef}" )
 
-AX = "\\begin{axdef}"
-SCHEMA = "\\begin{schema}"
-GENAX = "\\begin{gendef}"
+AX = "\\begin" {SoftWhiteSpace}* "{axdef}"
+SCHEMA = "\\begin" {SoftWhiteSpace}* "{schema}"
+GENAX = "\\begin" {SoftWhiteSpace}* "{gendef}"
 WHERE = "\\where"
 
 //Z paragraphs
 ZED = "\\begin{zed}" | "\\begin{syntax}"
 
 //object-z box characters
-CLASS = "\\begin{class}"
-STATE = "\\begin{state}"
-INIT = "\\begin{init}" | "\\begin{schema}{\Init}"
-INITWORD = "\Init"
-OPSCHEMA = "\\begin{op}"
+CLASS = "\\begin" {SoftWhiteSpace}* "{class}"
+STATE = "\\begin" {SoftWhiteSpace}* "{state}"
+INIT = "\\begin" {SoftWhiteSpace}* ( "{init}" | "{schema}" {SoftWhiteSpace}* "{\Init}" )
+INITWORD = "\\Init"
+OPSCHEMA = "\\begin" {SoftWhiteSpace}* "{op}"
 
 //object-z paragraph chars
 VISIBILITY = "\\visibility"
 INHERITS = "\\inherits"
-LOCALDEF = "\\begin{localdef}"
+LOCALDEF = "\\begin" {SoftWhiteSpace}* "{localdef}"
 
 //object-z operation expressions
 DCNJ = "\\dcnj"
@@ -207,8 +207,8 @@ ASSOCPARALLEL = {PARALLEL} ( ( {DOWN} {OUTSTROKE} {ENDGLUE} ) |
 GCH = "\\gch"
 
 //Object-Z class comments
-CLASSCOM = "\\begin{classcom}"
-ENDCLASSCOM = "\\end{classcom}"
+CLASSCOM = "\\begin" {SoftWhiteSpace}* "{classcom}"
+ENDCLASSCOM = "\\end" {SoftWhiteSpace}* "{classcom}"
 
 NUMBER = {DIGIT}+
 STROKE = {STROKECHAR} | {NUMSTROKE}
@@ -218,6 +218,7 @@ WORD =  {WORDPART}+ |
         {SYMBOL}+ {WORDPART}*
 
 //This is the original def, but this allows a '}' to end a schema etc name.
+//TODO: fix this
 //WORDPART = {WORDGLUE} ( {ALPHASTR} | {SYMBOL}* )
 
 //The new definition requires it to start with an up or down word glue 
@@ -231,7 +232,7 @@ ALPHASTR = ( {LETTER} | {DIGIT} | {USCORE} )*
 
 SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
 
-%state ZSECTION OZ CLASSCOMMENT
+%state ZSECTION OZ CLASSCOMMENT BOXNAME
 
 %%
 
@@ -282,7 +283,7 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
 
   //whitespace
   {HardWhiteSpace}      { /* ignore */ }        
-  {SoftWhiteSpace}      { /* ignore */ }
+  {SoftWhiteSpace}      { log(yytext()); /* ignore */ }
 
 }
 
@@ -315,6 +316,7 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
   //Latex symbols
   {LBRACE}              { log(yytext()); return symbol(LatexSym.LBRACE); }
   {RBRACE}              { log(yytext()); return symbol(LatexSym.RBRACE); }
+
   {USCORE}              { log(yytext()); return symbol(LatexSym.USCORE); }
 
 
@@ -410,7 +412,7 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
 
   //whitespace
   {HardWhiteSpace}      { /* ignore */ }        
-  {SoftWhiteSpace}      { /* ignore */ }
+  {SoftWhiteSpace}      { log(yytext()); /* ignore */ }
 
   {Comment}             { /* ignore */ }
 }
@@ -432,7 +434,7 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
 
   //whitespace
   {HardWhiteSpace}      { /* ignore */ }        
-  {SoftWhiteSpace}      { /* ignore */ }
+  {SoftWhiteSpace}      { log(yytext()); /* ignore */ }
 
   {Comment}             { /* ignore */ }
 }
@@ -450,7 +452,7 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
 }
 
 //error fallback and narr para
-.|\n                    {
+. | \n                  {
                           //if this is a narr para
                           if (yystate() == YYINITIAL) {
                               log(yytext()); 

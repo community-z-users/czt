@@ -1269,6 +1269,9 @@ expressionDeclPart ::=
            edl.add(e);
            RESULT = edl;
         :}
+	|
+	expression:e
+	{: RESULT = list(e); :}
         ;
 
 sep ::=

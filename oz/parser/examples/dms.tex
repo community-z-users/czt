@@ -29,10 +29,9 @@
   \Delta (ddo, tc)\\
   x?, y? : X
 \where
-  x? \notin nodes \land y? \notin nodes\\
+  \{ x? , y? \} \notin nodes\\
   x? \neq y? \land (y?, x?) \notin tc \\ 
   ddo' = ddo \cup \{(x?, y?)\}
 \end{schema}
 
-\end{class} 
-
+\end{class}
