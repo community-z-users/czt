@@ -1,26 +1,188 @@
 <project name="corejava" default="all" basedir=".">
-  <property file="../czt.properties"/>
-  <property name="corejava.jar.dir" location="../${jar.dir}"/>
+  <property name="czt.home" location=".."/>
+  <property file="${czt.home}/czt.properties"/>
+  <property name="corejava.jar.dir" location="${czt.home}/${jar.dir}"/>
   <property name="corejava.src.dir" location="src"/>
+  <property name="corejava.src.xsl" location="xsl"/>
   <property name="corejava.build.dir" location="build"/>
+  <property name="corejava.build.src" location="${corejava.build.dir}/src"/>
+  <property name="corejava.build.base" location="${corejava.build.dir}/base"/>
+  <property name="corejava.build.core" location="${corejava.build.dir}/core"/>
+  <property name="corejava.build.oz" location="${corejava.build.dir}/oz"/>
+  <property name="corejava.build.zpatt" location="${corejava.build.dir}/zpatt"/>
+  <property name="corejava.build.jaxb" location="${corejava.build.dir}/jaxb"/>
+  <property name="corejava.base.jar" location="${corejava.jar.dir}/${corejava.base.jar.file}"/>
+  <property name="corejava.core.jar" location="${corejava.jar.dir}/${corejava.core.jar.file}"/>
+  <property name="corejava.oz.jar" location="${corejava.jar.dir}/${corejava.oz.jar.file}"/>
+  <property name="corejava.zpatt.jar" location="${corejava.jar.dir}/${corejava.zpatt.jar.file}"/>
+  <property name="corejava.jaxb.jar" location="${corejava.jar.dir}/${corejava.jaxb.jar.file}"/>
   <property name="corejava.api.dir" location="doc/api"/>
+  <property name="corejava.api.jaxb.dir" location="doc/jaxp-api"/>
 
   <target name="all" depends="install, api"
     description="build the jar files and the API documentation"/>
 
-  <target name="install" description="build the jar files">
-    <mkdir dir="${corejava.jar.dir}"/>
-    <echo message="Building base ..."/>
-    <ant antfile="buildBase.xml"/>
-    <echo message="Building core ..."/>
-    <ant antfile="buildCore.xml"/>
-    <echo message="Building object Z ..."/>
-    <ant antfile="buildObjectZ.xml"/>
-    <echo message="Building z pattern ..."/>
-    <ant antfile="buildZPattern.xml"/>
-    <echo message="Building jaxb support ..."/>
-    <ant antfile="buildJaxb.xml"/>
+  <target name="init">
+    <tstamp/>
+    <mkdir dir="${corejava.build.dir}"/>
+    <mkdir dir="${corejava.build.src}"/>
   </target>
+
+  <target name="install"
+    depends="install-base, install-core, install-oz, install-zpatt, install-jaxb"
+    description="install the jar files">
+    <mkdir dir="${corejava.jar.dir}"/>
+  </target>
+
+  <target name="compile"
+    depends="compile-base, compile-core, compile-oz, compile-zpatt, compile-jaxb"
+    description="compile the source code"/>
+
+  <!-- base -->
+
+  <target name="install-base" depends="compile-base"
+          description="install the base jar file" >
+    <jar jarfile="${corejava.base.jar}">
+      <fileset dir="${corejava.build.base}"/>
+    </jar>
+  </target>
+
+  <target name="compile-base"
+          depends="init"
+          description="compile the base source code">
+    <mkdir dir="${corejava.build.base}"/>
+    <javac
+      srcdir="${corejava.src.dir}:${corejava.build.src}"
+      destdir="${corejava.build.base}"
+      debug="true"
+      includes="net/sourceforge/czt/util/**,net/sourceforge/czt/base/**"
+      excludes="net/sourceforge/czt/base/jaxb/**">
+    </javac>
+  </target>
+
+  <!-- core (standard Z) -->
+
+  <target name="install-core" depends="compile-core"
+          description="generate the base jar file" >
+    <jar jarfile="${corejava.core.jar}">
+      <fileset dir="${corejava.build.core}"/>
+    </jar>
+  </target>
+
+  <target name="compile-core"
+          depends="init, compile-base, zchar, zstring"
+          description="compile the core (standard Z) source code">
+    <mkdir dir="${corejava.build.core}"/>
+    <javac
+      srcdir="${corejava.src.dir}:${corejava.build.src}"
+      destdir="${corejava.build.core}"
+      debug="true"
+      includes="net/sourceforge/czt/z/**"
+      excludes="net/sourceforge/czt/z/jaxb/**">
+      <classpath>
+        <pathelement location="${corejava.build.base}"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="zchar">
+    <xslt
+      in="${czt.home}/devtools/zchar.xml"
+      out="${corejava.build.src}/net/sourceforge/czt/z/util/ZChar.java"
+      style="${corejava.src.xsl}/zchar2class.xsl"/>
+  </target>
+
+  <target name="zstring">
+    <xslt
+      in="${czt.home}/devtools/zchar.xml"
+      out="${corejava.build.src}/net/sourceforge/czt/z/util/ZString.java"
+      style="${corejava.src.xsl}/zchar2stringclass.xsl"/>
+  </target>
+
+  <!-- Object Z -->
+
+  <target name="install-oz" depends="compile-oz"
+          description="generate the Object Z jar file" >
+    <jar jarfile="${corejava.oz.jar}">
+      <fileset dir="${corejava.build.oz}"/>
+    </jar>
+  </target>
+
+  <target name="compile-oz"
+          depends="init, compile-base, compile-core"
+          description="compile the Object Z source code">
+    <mkdir dir="${corejava.build.oz}"/>
+    <javac
+      srcdir="${corejava.src.dir}:${corejava.build.src}"
+      destdir="${corejava.build.oz}"
+      debug="true"
+      includes="net/sourceforge/czt/oz/**"
+      excludes="net/sourceforge/czt/oz/jaxb/**">
+      <classpath>
+        <pathelement location="${corejava.build.base}"/>
+        <pathelement location="${corejava.build.core}"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <!-- Z pattern support -->
+
+  <target name="install-zpatt" depends="compile-zpatt"
+          description="generate the ZPattern jar file" >
+    <jar jarfile="${corejava.zpatt.jar}">
+      <fileset dir="${corejava.build.zpatt}"/>
+    </jar>
+  </target>
+
+  <target name="compile-zpatt"
+          depends="init, compile-base, compile-core"
+          description="compile the Object Z source code">
+    <mkdir dir="${corejava.build.zpatt}"/>
+    <javac
+      srcdir="${corejava.src.dir}:${corejava.build.src}"
+      destdir="${corejava.build.zpatt}"
+      debug="true"
+      includes="net/sourceforge/czt/zpatt/**"
+      excludes="net/sourceforge/czt/zpatt/jaxb/**">
+      <classpath>
+        <pathelement location="${corejava.build.base}"/>
+        <pathelement location="${corejava.build.core}"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <!-- Jaxb support -->
+
+  <target name="install-jaxb" depends="compile-jaxb"
+          description="generate the Jaxb jar file" >
+    <jar jarfile="${corejava.jaxb.jar}">
+      <fileset dir="${corejava.build.jaxb}"/>
+      <fileset dir="${corejava.src.dir}">
+        <include name="**/*.properties"/>
+      </fileset>
+    </jar>
+  </target>
+
+  <target name="compile-jaxb"
+          depends="init, compile-base, compile-core, compile-oz, compile-zpatt"
+          description="compile the Jaxb source code">
+    <mkdir dir="${corejava.build.jaxb}"/>
+    <javac
+      srcdir="${corejava.src.dir}:${corejava.build.src}"
+      destdir="${corejava.build.jaxb}"
+      debug="true"
+      includes="net/sourceforge/czt/**/jaxb/**,org/**">
+      <classpath>
+        <pathelement location="${corejava.build.base}"/>
+        <pathelement location="${corejava.build.core}"/>
+        <pathelement location="${corejava.build.oz}"/>
+        <pathelement location="${corejava.build.zpatt}"/>
+        <pathelement path="${jwsdp.classpath}"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <!-- Documentation -->
 
   <target name="api"
           description="build the API documentation">
@@ -33,6 +195,7 @@
         <include name="net/sourceforge/**"/>
         <exclude name="**/jaxb/gen/**"/>
       </packageset>
+      <packageset dir="${corejava.build.src}" defaultexcludes="yes"/>
       <tag name="czt.todo" description="To do:"/>
       <doctitle><![CDATA[<h1>The Annotated Syntax Tree (AST) for Z API</h1>]]></doctitle>
       <group title="Base Z Packages" packages="net.sourceforge.czt.base.*"/>
@@ -46,7 +209,17 @@
 
   <target name="jaxb-api"
           description="build the API documentation for JAXB generated classes">
-    <ant antfile="buildJaxb.xml" target="api"/>
+    <mkdir dir="${corejava.api.jaxb.dir}"/>
+    <javadoc
+      sourcepath="${corejava.src.dir}"
+      destdir="${corejava.api.jaxb.dir}"
+      private="true">
+      <packageset dir="${corejava.src.dir}" defaultexcludes="yes">
+        <include name="org/**"/>
+        <include name="**/jaxb/gen/**"/>
+      </packageset>
+      <classpath path="jwsdp.classpath"/>
+    </javadoc>
   </target>
 
   <target name="examples" depends="install"
@@ -66,7 +239,7 @@
   <target name="checkstyle" description="check java sources">
     <taskdef resource="checkstyletask.properties"
       classpath="${checkstyle.jar}"/>
-    <checkstyle config="../devtools/checkstyle.xml">
+    <checkstyle config="${czt.home}/devtools/checkstyle.xml">
       <fileset dir="${corejava.src.dir}">
         <include name="net/**/*.java"/>
         <exclude name="**/gen/**"/>
@@ -81,6 +254,7 @@
           description="clean up">
     <delete dir="${corejava.build.dir}"/>
     <delete dir="${corejava.api.dir}"/>
+    <delete dir="${corejava.api.jaxb.dir}"/>
     <ant dir="tests" target="clean"/>
     <ant dir="examples/debug" target="clean"/>
     <ant dir="examples/unmarshal" target="clean"/>
