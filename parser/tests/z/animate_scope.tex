@@ -37,8 +37,12 @@ NOTE: these are now illegal in standard Z.
  13 April 2002: This one gives sub precond error: vars {x} doesn't include y
  (Problem is that '+' stays as a ZVar!  Why?  Perhaps range of LET
   is not being unfolded, because traverse visitor problem?)
-% \begin{zed} \vdash? (\LET x==1 @ (\LET x==x+1; y==x @ x=2 \land y=1)) \end{zed}
-% \begin{zed} \vdash? (\LET x==1 @ (\LET x==2; y==x+3 @ x=2 \land y=4)) \end{zed}
+\begin{zed} \vdash? 
+   (\exists x==1 @ (\exists x==x+1; y==x @ x=2 \land y=1)) 
+\end{zed}
+\begin{zed} \vdash? 
+   (\exists x==1 @ (\exists x==2; y==x+3 @ x=2 \land y=4))
+\end{zed}
 
 \section{Testing expressions that contain \LET...}
 
