@@ -26,6 +26,11 @@ import net.sourceforge.czt.z.ast.DirectiveType;
 import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 
+/**
+ * A (JUnit) test class for testing the LatexMarkupFunction class.
+ *
+ * @author Petra Malik
+ */
 public class LatexMarkupFunctionTest
   extends TestCase
 {
@@ -56,7 +61,7 @@ public class LatexMarkupFunctionTest
     try {
       markupFunction_.add(directiveBar_);
     }
-    catch(MarkupException e) {
+    catch (MarkupException e) {
       fail("Should not throw MarkupException!");
     }
     LatexMarkupFunction.MarkupDirective markupDirective =
@@ -73,14 +78,14 @@ public class LatexMarkupFunctionTest
       markupFunction_.add(directiveFoo_);
       markupFunction_.add(directiveBar_);
     }
-    catch(MarkupException e) {
+    catch (MarkupException e) {
       fail("Should not throw MarkupException!");
     }
     try {
       markupFunction_.add(directiveBar_);
       fail("Should throw MarkupException!");
     }
-    catch(MarkupException ok) {
+    catch (MarkupException ok) {
       // ok
     }
     try {
@@ -89,7 +94,7 @@ public class LatexMarkupFunctionTest
       markupFunction_.add(d);
       fail("Should throw MarkupException!");
     }
-    catch(MarkupException ok) {
+    catch (MarkupException ok) {
       // ok
     }
   }
@@ -105,7 +110,7 @@ public class LatexMarkupFunctionTest
         markupFunction_.getCommandDirective(barCommand_);
       Assert.assertTrue(directive != null);
     }
-    catch(MarkupException e) {
+    catch (MarkupException e) {
       fail("Should not throw MarkupException!");
     }
   }
@@ -128,7 +133,7 @@ public class LatexMarkupFunctionTest
         markupFunction_.getCommandDirective(barCommand_);
       Assert.assertTrue(directive != null);
     }
-    catch(MarkupException e) {
+    catch (MarkupException e) {
       fail("Should not throw MarkupException!");
     }
   }

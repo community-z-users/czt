@@ -107,7 +107,8 @@ public class OpTable
     return dn.getWord();
   }
 
-  public static String getOpNameWithoutStrokes(List/*<Oper>*/ oper) {
+  public static String getOpNameWithoutStrokes(List/*<Oper>*/ oper)
+  {
     StringBuffer result = new StringBuffer();
     for (Iterator iter = oper.iterator(); iter.hasNext();) {
       Oper o = (Oper) iter.next();
@@ -147,7 +148,7 @@ public class OpTable
    *
    * @param opname Operator name.  Example " _ + _ ".
    * @return       Returns <code>null</code> if <code>opname</code>
-   *               is not an operator. 
+   *               is not an operator.
    * @czt.todo What about "\power_1"?
    */
   public OpInfo lookup(String /*@non_null@*/ opname)
@@ -479,8 +480,8 @@ public class OpTable
       result = op.getWord();
     }
     else {
-      throw new CztException("Attempt to add non-operator " + 
-			     "into operator table");
+      throw new CztException("Attempt to add non-operator " +
+                             "into operator table");
     }
     return result;
   }
@@ -495,7 +496,7 @@ public class OpTable
     addAssociativity(precedence, associativity);
   }
 
-  private void addOp(List words, int namePosition, OperatorTokenType type, 
+  private void addOp(List words, int namePosition, OperatorTokenType type,
                      OptempPara opPara)
     throws OperatorException
   {

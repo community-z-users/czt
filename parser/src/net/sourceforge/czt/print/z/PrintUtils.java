@@ -24,6 +24,11 @@ import java.io.Writer;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.util.CztException;
 
+/**
+ * Utilities for printing Z specifications given as an AST.
+ *
+ * @author Petra Malik
+ */
 public final class PrintUtils
 {
   /**
@@ -44,7 +49,7 @@ public final class PrintUtils
     try {
       parser.parse();
     }
-    catch(Exception e) {
+    catch (Exception e) {
       printer.close();
       throw new CztException(e);
     }

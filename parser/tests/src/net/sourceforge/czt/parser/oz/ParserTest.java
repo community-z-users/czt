@@ -57,10 +57,10 @@ public class ParserTest
       parse(getTestExample("test5.tex"), manager_);
       fail("Should throw ParseException");
     }
-    catch(ParseException ok) {
+    catch (ParseException ok) {
       // we want to end up here
     }
-    catch(IOException e) {
+    catch (IOException e) {
       fail("Should not throw IOException");
     }
   }
@@ -71,6 +71,13 @@ public class ParserTest
     return ParseUtils.parse(url, manager);
   }
 
+  /**
+   * A (JUnit) test class for testing the parser.
+   * This class contains tests where the parser is supposed to fail,
+   * i.e. to throw an exception.
+   *
+   * @author Petra Malik
+   */
   public static class ParserExceptionTest
     extends AbstractParserFailTest
   {

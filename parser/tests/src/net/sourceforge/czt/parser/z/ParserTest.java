@@ -53,6 +53,13 @@ public class ParserTest
     return ParseUtils.parse(url, manager);
   }
 
+  /**
+   * A (JUnit) test class for testing the parser.
+   * This class contains tests where the parser is supposed to fail,
+   * i.e. to throw an exception.
+   *
+   * @author Petra Malik
+   */
   public static class ParserExceptionTest
     extends AbstractParserFailTest
   {

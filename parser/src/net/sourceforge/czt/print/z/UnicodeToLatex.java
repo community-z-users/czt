@@ -91,8 +91,7 @@ public final class UnicodeToLatex
    * @param outfile the name of the output file.
    */
   public static void run(String infile, String encoding, String outfile)
-    throws FileNotFoundException, IOException, UnsupportedEncodingException,
-           Exception
+    throws Exception
   {
     InputStream instream = System.in;
     String enc = "UTF-8";

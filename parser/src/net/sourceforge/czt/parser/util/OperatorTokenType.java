@@ -19,11 +19,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.parser.util;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-
-import net.sourceforge.czt.util.CztException;
-
 /**
  * Tokens for an operator word.
  */
@@ -37,11 +32,11 @@ public final class OperatorTokenType
   public static final OperatorTokenType POSTP = new OperatorTokenType("POSTP");
   /** Postfix unary function or generic. */
   public static final OperatorTokenType POST = new OperatorTokenType("POST");
-  /** Infix binary relation */
+  /** Infix binary relation. */
   public static final OperatorTokenType IP = new OperatorTokenType("IP");
   /** Infix binary function or generic. */
   public static final OperatorTokenType I = new OperatorTokenType("I");
-  /** Left bracket or nun-unary relation */
+  /** Left bracket or nun-unary relation. */
   public static final OperatorTokenType LP = new OperatorTokenType("LP");
   /** Left bracket of non-unary function or generic. */
   public static final OperatorTokenType L = new OperatorTokenType("L");
@@ -113,7 +108,7 @@ public final class OperatorTokenType
     return name_;
   }
 
-  public static OperatorTokenType fromString(java.lang.String value)
+  public static OperatorTokenType fromString(String value)
   {
     if (value.equals("PREP")) {
       return PREP;
@@ -130,43 +125,43 @@ public final class OperatorTokenType
     if (value.equals("IP")) {
       return IP;
     }
-     if (value.equals("I")) {
+    if (value.equals("I")) {
       return I;
     }
     if (value.equals("LP")) {
       return LP;
     }
-     if (value.equals("L")) {
+    if (value.equals("L")) {
       return L;
     }
     if (value.equals("ELP")) {
       return ELP;
     }
-     if (value.equals("EL")) {
+    if (value.equals("EL")) {
       return EL;
     }
     if (value.equals("ERP")) {
       return ERP;
     }
-     if (value.equals("ER")) {
+    if (value.equals("ER")) {
       return ER;
     }
     if (value.equals("SRP")) {
       return SRP;
     }
-     if (value.equals("SR")) {
+    if (value.equals("SR")) {
       return SR;
     }
     if (value.equals("EREP")) {
       return EREP;
     }
-     if (value.equals("ERE")) {
+    if (value.equals("ERE")) {
       return ERE;
     }
     if (value.equals("SREP")) {
       return SREP;
     }
-     if (value.equals("SRE")) {
+    if (value.equals("SRE")) {
       return SRE;
     }
     if (value.equals("ES")) {

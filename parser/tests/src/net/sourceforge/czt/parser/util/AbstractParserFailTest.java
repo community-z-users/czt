@@ -30,6 +30,13 @@ import net.sourceforge.czt.parser.Examples;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.ParseException;
 
+/**
+ * A (JUnit) test class for testing the parser.
+ * This class contains tests where the parser is supposed to fail,
+ * i.e. to throw an exception.
+ *
+ * @author Petra Malik
+ */
 public abstract class AbstractParserFailTest
   extends TestCase
 {
@@ -49,10 +56,10 @@ public abstract class AbstractParserFailTest
       parse(getTestExample("invalidOperatorWord.tex"), manager_);
       fail("Should throw parse exception!");
     }
-    catch(ParseException e) {
+    catch (ParseException e) {
       // ok
     }
-    catch(IOException e) {
+    catch (IOException e) {
       fail("Should not throw IOException!");
     }
   }
@@ -63,10 +70,10 @@ public abstract class AbstractParserFailTest
       parse(getTestExample("invalidOperatorWord2.tex"), manager_);
       fail("Should throw parse exception!");
     }
-    catch(ParseException e) {
+    catch (ParseException e) {
       // ok
     }
-    catch(IOException e) {
+    catch (IOException e) {
       fail("Should not throw IOException!");
     }
   }
@@ -77,10 +84,10 @@ public abstract class AbstractParserFailTest
       parse(getTestExample("invalidOperatorWord3.tex"), manager_);
       fail("Should throw parse exception!");
     }
-    catch(ParseException e) {
+    catch (ParseException e) {
       // ok
     }
-    catch(IOException e) {
+    catch (IOException e) {
       fail("Should not throw IOException!");
     }
   }
@@ -91,10 +98,10 @@ public abstract class AbstractParserFailTest
       parse(getTestExample("invalidOperatorWord4.tex"), manager_);
       fail("Should throw parse exception!");
     }
-    catch(ParseException e) {
+    catch (ParseException e) {
       // ok
     }
-    catch(IOException e) {
+    catch (IOException e) {
       fail("Should not throw IOException!");
     }
   }
@@ -105,24 +112,24 @@ public abstract class AbstractParserFailTest
       parse(getTestExample("invalidOperator1.tex"), manager_);
       fail("Should throw parse exception!");
     }
-    catch(ParseException e) {
+    catch (ParseException e) {
       // ok
     }
-    catch(IOException e) {
+    catch (IOException e) {
       fail("Should not throw IOException!");
     }
   }
-  
+
   public void testInvalidOperator2()
   {
     try {
       parse(getTestExample("invalidOperator2.tex"), manager_);
       fail("Should throw parse exception!");
     }
-    catch(ParseException e) {
+    catch (ParseException e) {
       // ok
     }
-    catch(IOException e) {
+    catch (IOException e) {
       fail("Should not throw IOException!");
     }
   }

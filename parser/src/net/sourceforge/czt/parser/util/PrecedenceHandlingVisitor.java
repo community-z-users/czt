@@ -19,10 +19,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.parser.util;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Stack;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.lang.reflect.*;
 
@@ -33,7 +32,6 @@ import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.util.CztException;
 
 /**
  * A PrecedenceHandler re-arranges infix operator expressions
@@ -42,29 +40,29 @@ import net.sourceforge.czt.util.CztException;
  */
 public class PrecedenceHandlingVisitor
   implements TermVisitor,
-	     ZSectVisitor,
-	     ParentVisitor,
-	     RefExprVisitor,
-	     ApplExprVisitor
+             ZSectVisitor,
+             ParentVisitor,
+             RefExprVisitor,
+             ApplExprVisitor
 {
-  /** no precedence given */
+  /** No precedence given. */
   public static final int NO_PREC = -1;
 
-  /** The token for an argument in an operator name */
-  public final static String ARG_TOK = "_";
+  /** The token for an argument in an operator name. */
+  public static final String ARG_TOK = "_";
 
-  /** The operator table used to determine the precedence of operators */
+  /** The operator table used to determine the precedence of operators. */
   protected OpTable table_;
 
-  /** A ZFactory */
+  /** A ZFactory. */
   protected ZFactory zFactory_ = new ZFactoryImpl();
 
-  /** The parents of the terms being analysed */
+  /** The parents of the terms being analysed. */
   protected List parent_ = new ArrayList();
 
   /**
-   * Construct an instance of this handler with a specified
-   * operator table
+   * Constructs an instance of this handler with a specified
+   * operator table.
    */
   public PrecedenceHandlingVisitor(OpTable table)
   {
@@ -72,7 +70,7 @@ public class PrecedenceHandlingVisitor
   }
 
   /**
-   * Visits all of its children
+   * Visits all of its children.
    */
   public Object visitTerm(Term term)
   {
@@ -83,31 +81,31 @@ public class PrecedenceHandlingVisitor
 
       //call this method recursively on each child
       if (child instanceof Term) {
-	Object visited = ((Term) child).accept(this);
-	if (visited != null && visited != child) {
-	  reflectiveSwap(child, visited, term, -1);
-	}
+        Object visited = ((Term) child).accept(this);
+        if (visited != null && visited != child) {
+          reflectiveSwap(child, visited, term, -1);
+        }
       }
       else if (child instanceof List) {
-	List list = (List) child;
-	for (int j = 0; j < list.size(); j++) {
-	  Object next = list.get(j);
+        List list = (List) child;
+        for (int j = 0; j < list.size(); j++) {
+          Object next = list.get(j);
 
-	  if (next instanceof Term) {
-	    Object visited = ((Term) next).accept(this);
-	    if (visited != null && visited != next) {
-	      reflectiveSwap(child, visited, term, j);
-	    }
-	  }
-	}
+          if (next instanceof Term) {
+            Object visited = ((Term) next).accept(this);
+            if (visited != null && visited != next) {
+              reflectiveSwap(child, visited, term, j);
+            }
+          }
+        }
       }
-    }    
+    }
     return null;
   }
 
   /**
    * We must visit a ZSect in order to set the current section in the
-   * operator table
+   * operator table.
    */
   public Object visitZSect(ZSect zSect)
   {
@@ -119,7 +117,7 @@ public class PrecedenceHandlingVisitor
 
   /**
    * We must visit a ZSect in order to set the parents in the operator
-   * table
+   * table.
    */
   public Object visitParent(Parent parent)
   {
@@ -150,69 +148,61 @@ public class PrecedenceHandlingVisitor
   {
     //if we need to reorder wExpr and its subchild
     if (needsReordering(wExpr)) {
-
       //we know that the first element of the tuple can be a WrappedExpr,
       //so this should always be safe
       WrappedExpr wChild = new WrappedExpr(wExpr.getList().get(0));
-
       //create the new parent
       RefName childName = wChild.getRefName();
       Expr newParent = null;
       if (wChild.getExpr() instanceof ApplExpr) {
-	RefExpr refExpr = zFactory_.createRefExpr(childName,
-						  new ArrayList(),
-						  Boolean.FALSE);
-	TupleExpr tupleExpr = zFactory_.createTupleExpr();
-
-	newParent = zFactory_.createApplExpr(refExpr,
-					     tupleExpr,
-					     Boolean.TRUE);
+        RefExpr refExpr =
+          zFactory_.createRefExpr(childName, new ArrayList(), Boolean.FALSE);
+        TupleExpr tupleExpr = zFactory_.createTupleExpr();
+        newParent =
+          zFactory_.createApplExpr(refExpr, tupleExpr, Boolean.TRUE);
       }
       else {
-	newParent = zFactory_.createRefExpr(childName,
-					    new ArrayList(),
-					    Boolean.TRUE);
+        newParent =
+          zFactory_.createRefExpr(childName, new ArrayList(), Boolean.TRUE);
       }
-
       //create the new child
       RefName parentName = wExpr.getRefName();
       Expr newChild = null;
       if (wExpr.getExpr() instanceof ApplExpr) {
-	RefExpr refExpr = zFactory_.createRefExpr(parentName,
-						  new ArrayList(),
-						  Boolean.FALSE);
-	TupleExpr tupleExpr = zFactory_.createTupleExpr();
-
-	newChild = zFactory_.createApplExpr(refExpr,
-					    tupleExpr,
-					    Boolean.TRUE);
+        RefExpr refExpr = zFactory_.createRefExpr(parentName,
+                                                  new ArrayList(),
+                                                  Boolean.FALSE);
+        TupleExpr tupleExpr = zFactory_.createTupleExpr();
+        newChild = zFactory_.createApplExpr(refExpr,
+                                            tupleExpr,
+                                            Boolean.TRUE);
       }
       else {
-	newChild = zFactory_.createRefExpr(parentName,
-					   new ArrayList(),
-					   Boolean.TRUE);
+        newChild = zFactory_.createRefExpr(parentName,
+                                           new ArrayList(),
+                                           Boolean.TRUE);
       }
-
-      //the next block creates the new parent and child. This is 
+      //the next block creates the new parent and child. This is
       //terribly messy
       WrappedExpr wNewParent = new WrappedExpr(newParent);
       WrappedExpr wNewChild = new WrappedExpr(newChild);
-
       //the new child keeps the last term in the old child's list and adds it
       //to the front of its list
-      wNewChild.getList().add(wChild.getList().get(wChild.getList().size() - 1));
+      List wChildList = wChild.getList();
+      List wNewChildList = wNewChild.getList();
+      wNewChildList.add(wChildList.get(wChildList.size() - 1));
 
       //get all but the first element of the old parent list and add to
       //the new child
       List fromParentList =
-	new ArrayList(wExpr.getList().subList(1, wExpr.getList().size()));
-      wNewChild.getList().addAll(fromParentList);      
-
+        new ArrayList(wExpr.getList().subList(1, wExpr.getList().size()));
+      wNewChildList.addAll(fromParentList);
+      List wNewParentList = wNewParent.getList();
       //the new parent keeps the front of old childs list
-      wNewParent.getList().addAll(wChild.getList().subList(0, wChild.getList().size() - 1));
+      wNewParentList.addAll(wChildList.subList(0, wChildList.size() - 1));
 
       //add the new child expression to the end of new parent list
-      wNewParent.getList().add(wNewChild.getExpr());
+      wNewParentList.add(wNewChild.getExpr());
 
       //recursively visit the parent to reorder ithe new child
       wNewParent.getExpr().accept(this);
@@ -226,7 +216,7 @@ public class PrecedenceHandlingVisitor
    * Returns true if an only if a specified expression contains a
    * a nested <code>ApplExpr</code> or <code>RefExpr</code>
    * without parenthesise (no <code>ParenAnn</code> annotation) and an
-   * infix application or reference that has a lower precedence then it
+   * infix application or reference that has a lower precedence then it.
    */
   protected boolean needsReordering(WrappedExpr wrappedExpr)
   {
@@ -308,7 +298,7 @@ public class PrecedenceHandlingVisitor
     for (Iterator iter = anns.iterator(); iter.hasNext(); ) {
       //if the next annotation is a ParenAnn
       if (iter.next() instanceof ParenAnn) {
-	return true;
+        return true;
       }
     }
     return false;
@@ -342,7 +332,7 @@ public class PrecedenceHandlingVisitor
   }
 
   private String getName(RefName refName)
-  {  
+  {
     return refName.getWord();
   }
 
@@ -356,19 +346,19 @@ public class PrecedenceHandlingVisitor
     if (st.hasMoreTokens()) {
       String first = st.nextToken();
       if (!first.equals(ARG_TOK)) {
-	result = null;
+        result = null;
       }
       else {
-	if (st.hasMoreTokens()) {
-	  //if the second token is a "_", return null
-	  String second = st.nextToken();
-	  if (second.equals(ARG_TOK)) {
-	    result = null;
-	  }
-	  else {
-	    result = second;
-	  }
-	}
+        if (st.hasMoreTokens()) {
+          //if the second token is a "_", return null
+          String second = st.nextToken();
+          if (second.equals(ARG_TOK)) {
+            result = null;
+          }
+          else {
+            result = second;
+          }
+        }
       }
     }
     else {
@@ -380,9 +370,9 @@ public class PrecedenceHandlingVisitor
   //use reflection to find the "set" method on the parent, and update
   //the value using this
   private void reflectiveSwap(Object oldObj,
-			      Object newObj,
-			      Object parent,
-			      int position)
+                              Object newObj,
+                              Object parent,
+                              int position)
   {
     Class c = parent.getClass();
     Method [] methods = c.getMethods();
@@ -392,63 +382,64 @@ public class PrecedenceHandlingVisitor
 
       //find the correct object
       if (method.getName().startsWith("get")) {
-	Object result = null;
-	try {
-	  result = method.invoke(parent, new Object [] {});
-	} catch (Exception e) {
-	  //do nothing
-	} finally {
-	  //if the result matches the object to be replaced, we have
-	  //found the "get" method for this object
-	  if (result == oldObj) {
+        Object result = null;
+        try {
+          result = method.invoke(parent, new Object [] {});
+        }
+        catch (Exception e) {
+          //do nothing
+        }
+        finally {
+          //if the result matches the object to be replaced, we have
+          //found the "get" method for this object
+          if (result == oldObj) {
 
-	    if (result instanceof List) {
+            if (result instanceof List) {
 
-	      List list = (List) result;
-	      String name = method.getName();
+              List list = (List) result;
+              String name = method.getName();
 
-	      //update the value if this is the correct method
-	      list.set(position, newObj);
-	    }
-	    else {
-
-	      //get the name of the corresponding"get" method
-	      StringBuffer name = new StringBuffer(method.getName());
-	      
-	      //turn it into a "set" method
-	      name.setCharAt(0, 's');
-	      
-	      //get the "set" method
-	      Method setMethod = null;
-	      for (int j = 0; j < methods.length; j++) {
-		if (name.toString().equals(methods[j].getName())) {
-		  setMethod = methods[j];
-		  break;
-		}
-	      }
-	      
-	      //call the set method with the new object
-	      if (setMethod != null) {
-		try {
-		  Object [] args = new Object [] {newObj};
-		  setMethod.invoke(parent, args);
-		} catch (Exception e) {
-		  System.err.println("Error updating precedence");
-		  e.printStackTrace();
-		}
-	      }
-	    }
-	    return;
-	  }
-	}
+              //update the value if this is the correct method
+              list.set(position, newObj);
+            }
+            else {
+              //get the name of the corresponding"get" method
+              StringBuffer name = new StringBuffer(method.getName());
+              //turn it into a "set" method
+              name.setCharAt(0, 's');
+              //get the "set" method
+              Method setMethod = null;
+              for (int j = 0; j < methods.length; j++) {
+                if (name.toString().equals(methods[j].getName())) {
+                  setMethod = methods[j];
+                  break;
+                }
+              }
+              //call the set method with the new object
+              if (setMethod != null) {
+                try {
+                  Object [] args = new Object [] {newObj};
+                  setMethod.invoke(parent, args);
+                }
+                catch (Exception e) {
+                  System.err.println("Error updating precedence");
+                  e.printStackTrace();
+                }
+              }
+            }
+            return;
+          }
+        }
       }
     }
   }
 }
 
-//This class is used to wrap ApplExpr and RefExpr objects that are
-//used as function and generic references respectively. This simplies
-//the precedence handling by removing typecasting problems etc
+/**
+ * This class is used to wrap ApplExpr and RefExpr objects that are
+ * used as function and generic references respectively. This simplies
+ * the precedence handling by removing typecasting problems etc.
+ */
 class WrappedExpr
 {
   private ZFactory zFactory_ = new ZFactoryImpl();
@@ -461,17 +452,14 @@ class WrappedExpr
     if (o == null) {
       throw new NullPointerException();
     }
-
     if (o instanceof ApplExpr) {
       applExpr_ = (ApplExpr) o;
-
       if (! (applExpr_.getRightExpr() instanceof TupleExpr)) {
         List list = new ArrayList();
         list.add(applExpr_.getRightExpr());
         TupleExpr te = zFactory_.createTupleExpr(list);
         applExpr_.setRightExpr(te);
       }
-      
       refExpr_ = null;
     }
     else if (o instanceof RefExpr) {
@@ -479,28 +467,30 @@ class WrappedExpr
       applExpr_ = null;
     }
   }
-  
-  //return true if and only if the specified object is either
-  //and ApplExpr or RefExpr used as a function or generic
-  //reference respectively
+
+  /**
+   * Returns true if and only if the specified object is either
+   * and ApplExpr or RefExpr used as a function or generic
+   * reference respectively.
+   */
   public static boolean isValidWrappedExpr(Object o)
   {
     boolean result = false;
-    
+
     if (o instanceof ApplExpr) {
       ApplExpr applExpr = (ApplExpr) o;
       Expr leftExpr = applExpr.getLeftExpr();
       Expr rightExpr = applExpr.getRightExpr();
       if (leftExpr instanceof RefExpr &&
-	  applExpr.getMixfix().equals(Boolean.TRUE)) {
-	result = true;
+          applExpr.getMixfix().equals(Boolean.TRUE)) {
+        result = true;
       }
     }
     else if (o instanceof RefExpr) {
       RefExpr refExpr = (RefExpr) o;
       if (refExpr.getExpr().size() > 1 &&
-	  refExpr.getMixfix().equals(Boolean.TRUE)) {
-	result = true;
+          refExpr.getMixfix().equals(Boolean.TRUE)) {
+        result = true;
       }
     }
     return result;
@@ -515,11 +505,10 @@ class WrappedExpr
     }
     else {
       if (applExpr_.getRightExpr() instanceof TupleExpr &&
-         ((TupleExpr) applExpr_.getRightExpr()).getExpr().size() == 1) {
-
-         Expr newRightExpr = 
-           (Expr) ((TupleExpr) applExpr_.getRightExpr()).getExpr().get(0);
-         applExpr_.setRightExpr(newRightExpr);
+          ((TupleExpr) applExpr_.getRightExpr()).getExpr().size() == 1) {
+        Expr newRightExpr =
+          (Expr) ((TupleExpr) applExpr_.getRightExpr()).getExpr().get(0);
+        applExpr_.setRightExpr(newRightExpr);
       }
       result = applExpr_;
     }

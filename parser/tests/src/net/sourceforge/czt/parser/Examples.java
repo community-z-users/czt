@@ -23,6 +23,11 @@ import java.net.URL;
 
 import net.sourceforge.czt.util.CztException;
 
+/**
+ * A class that converts example names to valid URLs.
+ *
+ * @author Petra Malik
+ */
 public final class Examples
 {
   private static Examples examples_ = new Examples();
@@ -50,5 +55,5 @@ public final class Examples
       throw new CztException("Cannot find example " + name);
     }
     return result;
-  }  
+  }
 }

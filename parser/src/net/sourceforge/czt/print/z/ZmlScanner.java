@@ -60,6 +60,9 @@ public class ZmlScanner
     return result;
   }
 
+  /**
+   * An implementation of AbstractPrintVisitor.ZPrinter.
+   */
   private static class SymbolCollector
     implements AbstractPrintVisitor.ZPrinter
   {

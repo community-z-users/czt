@@ -44,17 +44,20 @@ public class JTreeVisitor
       Object child = children[i];
       if (child instanceof Term) {
         list.add(((Term) child).accept(this));
-      } else if (child instanceof List) {
+      }
+      else if (child instanceof List) {
         for (Iterator iter = ((List) child).iterator(); iter.hasNext();) {
           Object object = iter.next();
           if (object instanceof Term) {
             Term t = (Term) object;
             list.add(t.accept(this));
-          } else {
+          }
+          else {
             list.add(object);
           }
         }
-      } else if (child != null) {
+      }
+      else if (child != null) {
         list.add(child);
       }
     }

@@ -21,11 +21,11 @@ package net.sourceforge.czt.parser.oz;
 import javax.swing.Icon;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-import net.sourceforge.czt.base.ast.Term;
-
+/**
+ * An AST Tree.
+ */
 public class AstTree extends JTree
 {
   AstTreeModel model_;

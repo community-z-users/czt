@@ -28,7 +28,6 @@ import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.*;
-import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 
 /**

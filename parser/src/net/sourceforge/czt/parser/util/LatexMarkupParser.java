@@ -20,7 +20,6 @@ with CZT; if not, write to the Free Software Foundation, Inc.,
 package net.sourceforge.czt.parser.util;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import java_cup.runtime.Scanner;

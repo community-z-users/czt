@@ -26,18 +26,15 @@ import java_cup.runtime.*;
 import junit.framework.*;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.visitor.TermVisitor;
-import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.parser.Examples;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.ParseException;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.jaxb.*;
-import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.z.util.DeleteMarkupParaVisitor;
 import net.sourceforge.czt.z.util.DeleteNarrVisitor;
+import net.sourceforge.czt.z.visitor.*;
 
 /**
  * A (JUnit) test class for testing the parser.

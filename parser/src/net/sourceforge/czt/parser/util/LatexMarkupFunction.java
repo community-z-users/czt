@@ -190,7 +190,7 @@ public class LatexMarkupFunction
     private String unicode_;
     private DirectiveType type_;
     private String section_;
-    
+
     /**
      * @throws NullPointerException if one of the arguments
      *         is <code>null</code>.

@@ -25,6 +25,11 @@ import junit.framework.*;
 
 import net.sourceforge.czt.z.util.ZString;
 
+/**
+ * A (JUnit) test class for testing the OpName class.
+ *
+ * @author Petra Malik
+ */
 public class OpNameTest
   extends TestCase
 {
@@ -37,7 +42,7 @@ public class OpNameTest
       Assert.assertTrue(iter.hasNext());
       Assert.assertEquals(iter.next(), ZString.ARG);
     }
-    catch(OpName.OpNameException e) {
+    catch (OpName.OpNameException e) {
       fail("Should not throw OpNameException!");
     }
   }

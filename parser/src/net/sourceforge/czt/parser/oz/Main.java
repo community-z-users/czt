@@ -1,8 +1,9 @@
 /**
-   Copyright 2003 Mark Utting
+   Copyright (C) 2003 Mark Utting
    This file is part of the czt project.
 
-   The czt project contains free software; you can redistribute it and/or modify
+   The czt project contains free software;
+   you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
@@ -21,10 +22,8 @@ package net.sourceforge.czt.parser.oz;
 import java.io.*;
 import java_cup.runtime.*;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -35,11 +34,8 @@ import java.util.*;
 
 import net.sourceforge.czt.base.util.AstValidator;
 import net.sourceforge.czt.oz.jaxb.JaxbValidator;
-import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.z.ast.Spec;
-import net.sourceforge.czt.base.util.XmlReader;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.z.ast.Spec;
 
 /**
  * Opens a list of specifications and displays them as a tree.
@@ -83,7 +79,7 @@ public class Main extends JPanel implements ActionListener
     try {
       //parse the specification
       Spec newSpec =
-	(Spec) ParseUtils.parseLatexFile(file, new SectionManager());
+        (Spec) ParseUtils.parseLatexFile(file, new SectionManager());
 
       //validate the specification
       AstValidator validator = new JaxbValidator();
@@ -107,9 +103,10 @@ public class Main extends JPanel implements ActionListener
 
 
   /**
-   * Opens a file and adds it to the tree
+   * Opens a file and adds it to the tree.
    */
-  private void openAndAdd(String file) {
+  private void openAndAdd(String file)
+  {
     //Construct the tree.
     AstTree tree = new AstTree(getAst(file));
     JScrollPane scrollPane = new JScrollPane(tree);
@@ -139,7 +136,7 @@ public class Main extends JPanel implements ActionListener
     frame.setContentPane(newContentPane);
 
     for (int i = 0; i < args.length; i++) {
-       newContentPane.openAndAdd(args[i]);
+      newContentPane.openAndAdd(args[i]);
     }
 
     //Display the window.

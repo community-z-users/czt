@@ -22,9 +22,6 @@ package net.sourceforge.czt.print.z;
 import java.io.*;
 import java.net.URL;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.AbstractParserTest;
 import net.sourceforge.czt.parser.z.ParseUtils;
@@ -76,7 +73,7 @@ public class ZmlToLatexTest
   }
 
   public Term parse(URL url, SectionManager manager)
-    throws ParseException,IOException
+    throws ParseException, IOException
   {
     File tmpLatexFile = File.createTempFile("cztPrintTest", ".tex");
     tmpLatexFile.deleteOnExit();

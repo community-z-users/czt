@@ -18,15 +18,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.parser.oz;
 
-import java.util.List;
 import java.util.Vector;
 
-import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
-
-import net.sourceforge.czt.base.ast.Term;
 
 public class AstTreeModel
   implements TreeModel
