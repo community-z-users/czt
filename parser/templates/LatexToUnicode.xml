@@ -135,6 +135,7 @@ public class <class/>
       String source = null;
       InputStream input = System.in;
       Writer writer = new PrintWriter(System.out);
+      String encoding = "UTF-8";
       for (int i = 0; i &lt; args.length; i++) {
         if ("-in".equals(args[i])) {
           if (i &lt; args.length) {
@@ -144,22 +145,35 @@ public class <class/>
             System.err.println(usage);
             return;
           }
-        } else if ("-out".equals(args[i])) {
+        }
+        else if ("-encoding".equals(args[i])) {
           if (i &lt; args.length) {
-            writer =
-              new OutputStreamWriter(new FileOutputStream(args[++i]), "UTF-8");
+            encoding = args[++i];
           } else {
             System.err.println(usage);
             return;
           }
-        } else {
+        }
+        else if ("-out".equals(args[i])) {
+          if (i &lt; args.length) {
+            FileOutputStream stream = new FileOutputStream(args[++i]);
+            writer =
+              new OutputStreamWriter(stream, encoding);
+          }
+          else {
+            System.err.println(usage);
+            return;
+          }
+        }
+        else {
           System.err.println(usage);
           return;
         }
       }
       convert(input, source, writer);
       writer.close();
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       e.printStackTrace();
     }
   }
