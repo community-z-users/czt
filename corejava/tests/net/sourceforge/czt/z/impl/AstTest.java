@@ -22,7 +22,9 @@ package net.sourceforge.czt.z.impl;
 import junit.framework.*;
 
 import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.base.util.AstValidator;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.jaxb.JaxbValidator;
 
 /**
  * A (junit) test class which contains some AST tests.
@@ -93,8 +95,25 @@ public class AstTest extends TestCase
     public void testInsertWord()
     {
       OptempPara optempPara = zFactory_.createOptempPara();
-      optempPara.getWordOrOperand().add("Test");
-      Assert.assertEquals(optempPara.getWordOrOperand().get(0), "Test");
+      Operator op1 = zFactory_.createOperator("Test1");
+      Operand op2 = zFactory_.createOperand();
+      optempPara.getOper().add(op1);
+      Assert.assertEquals(optempPara.getOper().get(0), op1);
+      optempPara.getOper().add(op2);
+      Assert.assertEquals(optempPara.getOper().get(1), op2);
+    }
+
+    public void testValidation()
+    {
+      OptempPara optempPara = zFactory_.createOptempPara();
+      Operator op1 = zFactory_.createOperator("Test1");
+      Operand op2 = zFactory_.createOperand();
+      optempPara.getOper().add(op1);
+      optempPara.getOper().add(op2);
+      optempPara.setCat(Cat.Relation);
+      optempPara.setPrec(new Integer(12));
+      AstValidator validator = new JaxbValidator();
+      Assert.assertTrue(validator.validate(optempPara));
     }
   }
 }
