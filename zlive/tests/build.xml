@@ -99,6 +99,7 @@
       <test name="net.sourceforge.czt.animation.eval.flatpred.FlatModTest"/>
       <test name="net.sourceforge.czt.animation.eval.flatpred.FlatRangeSetTest"/>
       <test name="net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSetTest"/>
+      <test name="net.sourceforge.czt.animation.eval.flatpred.FlatSetCompTest"/>
       <test name="net.sourceforge.czt.animation.eval.flatpred.FlatCardTest"/>
       <test name="net.sourceforge.czt.animation.eval.flatpred.FlatTupleTest"/>
       <classpath>
