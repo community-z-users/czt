@@ -1,20 +1,20 @@
 /*
-Copyright (C) 2003, 2004 Tim Miller, Petra Malik
-This file is part of the czt project.
+  Copyright (C) 2003, 2004 Tim Miller, Petra Malik
+  This file is part of the czt project.
 
-The czt project contains free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+  The czt project contains free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
 
-The czt project is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+  The czt project is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with czt; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  You should have received a copy of the GNU General Public License
+  along with czt; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 package net.sourceforge.czt.parser.util;
@@ -44,15 +44,12 @@ import net.sourceforge.czt.z.visitor.*;
  */
 public class PrecedenceHandlingVisitor
   implements TermVisitor,
-             ZSectVisitor,
              RefExprVisitor,
              ApplExprVisitor,
 	     ProdExprVisitor
 {
-  //the precedence of a cross product
+  /** The precedence of a cross product */
   protected static Integer PRODEXPR_PRECEDENCE = new Integer(8);
-
-  private SectionInfo sectInfo_;
 
   /** The operator table used to determine the precedence of operators. */
   protected OpTable table_;
@@ -67,9 +64,9 @@ public class PrecedenceHandlingVisitor
    * Constructs an instance of this handler with a specified
    * operator table.
    */
-  public PrecedenceHandlingVisitor(SectionInfo sectInfo)
+  public PrecedenceHandlingVisitor(OpTable opTable)
   {
-    sectInfo_ = sectInfo;
+    table_ = opTable;
   }
 
   /**
@@ -78,17 +75,6 @@ public class PrecedenceHandlingVisitor
   public Object visitTerm(Term term)
   {
     return VisitorUtils.visitTerm(this, term, true);
-  }
-
-  /**
-   * We must visit a ZSect in order to set the current section in the
-   * operator table.
-   */
-  public Object visitZSect(ZSect zSect)
-  {
-    String name = zSect.getName();
-    table_ = (OpTable) sectInfo_.getInfo(name, OpTable.class);
-    return visitTerm(zSect);
   }
 
   public Object visitRefExpr(RefExpr refExpr)
