@@ -128,6 +128,12 @@ public abstract class AbstractParserTest
             getExample("birthdaybook.xml"));
   }
 
+  public void testBuffer()
+  {
+    compare(getExample("buffer.tex"),
+            getExample("buffer.xml"));
+  }
+
   public void testSched()
   {
     compare(getExample("Sched.tex"),
