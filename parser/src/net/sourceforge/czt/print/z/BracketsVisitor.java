@@ -1,5 +1,5 @@
 /**
-Copyright 2004 Petra Malik
+Copyright (C) 2004 Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -26,18 +26,19 @@ import java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.util.Visitor;
 
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.base.util.*;
-
-import net.sourceforge.czt.util.CztException;
-
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.ZString;
-import net.sourceforge.czt.z.visitor.*;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.ast.TermA;
+import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.base.visitor.TermAVisitor;
+import net.sourceforge.czt.z.ast.ParenAnn;
 
 /**
- * A Z visitor used for printing.
+ * This class is a helper class for the ZPrintVisitor.  It is usually
+ * not used alone but together with another visitor.  It visits all
+ * terms, prints a left parenthesis when the visited term is an
+ * annotated term and has a ParenAnn annotation, then calls the other
+ * visitor to do its work and finally prints the right paranthesis if
+ * a left parenthesis has been printed as well.
  *
  * @author Petra Malik
  */
@@ -45,17 +46,38 @@ public class BracketsVisitor
   extends AbstractPrintVisitor
   implements TermVisitor, TermAVisitor
 {
+
+  /**
+   * Creates a new BracketsVisitor that uses the given printer to
+   * print the brackets.
+   */
   public BracketsVisitor(ZPrinter printer)
   {
     super(printer);
   }
 
+  /**
+   * Just call the provided visitor to do its work.
+   *
+   * @param term the term to be visited.
+   * @return <code>null</code>.
+   */
   public Object visitTerm(Term term)
   {
     term.accept(getVisitor());
     return null;
   }
 
+  /**
+   * Prints left parenthesis, calls the provided visitor,
+   * and prints right parenthesis.  The number of parenthesis
+   * printed is equal to the number of ParenAnn found in
+   * the annotation list.  If an annotated term doesn't have
+   * ParenAnn, no parenthesis are printed.
+   *
+   * @param termA the annotated term to be visited.
+   * @return <code>null</code>.
+   */
   public Object visitTermA(TermA termA)
   {
     List anns = termA.getAnns();
