@@ -74,7 +74,7 @@ import java_cup.runtime.*;
    */
   private Symbol symbol(int type)
   {
-    return new Symbol(type, yyline, yycolumn);
+    return new Symbol(type, getLine(), getColumn());
   }
 
   /**
@@ -87,7 +87,7 @@ import java_cup.runtime.*;
    */
   private Symbol symbol(int type, Object value)
   {
-    return new Symbol(type, yyline, yycolumn, value);
+    return new Symbol(type, getLine(), getColumn(), value);
   }
 
   public void setWriter(Writer writer)
@@ -95,10 +95,29 @@ import java_cup.runtime.*;
     writer_ = writer;
   }
 
+  private int getLine()
+  {
+    if (yy_reader instanceof CztReader) {
+      CztReader reader = (CztReader) yy_reader;
+      return reader.getLine(yychar);
+    }
+    return yyline;
+  }
+
+  private int getColumn()
+  {
+    if (yy_reader instanceof CztReader) {
+      CztReader reader = (CztReader) yy_reader;
+      return reader.getColumn(yychar);
+    }
+    return yycolumn;
+  }
+
   private void log(String message)
     throws IOException
   {
     if (writer_ != null) {
+      writer_.write("LINE(" + getLine() + ")COL(" + getColumn() + ")");
       writer_.write(message);
     }
   }
@@ -291,6 +310,6 @@ NL = {NLCHAR}
   /* error fallback */
   .             {
                    String message = "Unexpected character <" + yytext() + ">";
-                   throw new ScanException(message, yyline, yycolumn);
+                   throw new ScanException(message, getLine(), getColumn());
                 }
 }
