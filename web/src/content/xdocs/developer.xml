@@ -54,7 +54,26 @@
     </section>
 
     <section>
-      <title>Subproject Structure</title>
+      <title>The CZT project</title>
+      <p>
+        The CZT project consists of several subprojects, each living
+        in its own subdirectory.
+        <code>ZML</code> is the most important
+        one, containing the Schema files that define the XML markup
+        for Z and its extensions.  It also contains some
+        example specifications in XML, TeX, and Unicode in
+        <code>&lt;CZT_HOME&gt;/zml/examples/{z,oz,tcoz}/</code>.
+        If you are developing with java, you probably need to use the
+        <code>corejava</code> library.  It provides AST interfaces
+        and classes for standard Z and its extensions as well as the
+        possibility to read and write XML, which is defined by the Schema
+        files in the previously mentioned subproject
+        <code>ZML</code>.
+      </p>
+    </section>
+
+    <section>
+      <title>Creating and maintaining a CZT subproject</title>
       <p>
         Each subproject of CZT is located in its own subdirectory.
         The file and directory structure within this directory
@@ -69,11 +88,14 @@
         </li>
         <li>
           <code>build.xml</code>
-          --- the ant build file
+          --- the ant build file (see <link href="#ant">below</link>
+          how the ant build file should look like)
         </li>
         <li>
           <code>build</code>
-          --- a temporary build directory
+          --- a temporary build directory; it may contain subdirectories
+          like src (which contains source code generated from template files)
+          classes (which contains the compiled java class files), etc.
         </li>
         <li>
           <code>doc</code>
@@ -81,11 +103,14 @@
         </li>
         <li>
           <code>examples</code>
-          --- the directory where examples live
+          --- the directory where examples live; this is supposed to be
+          used by users and should contain example code, etc.
+          Example files used for testing should go into
+          <code>tests</code>.
         </li>
         <li>
           <code>src</code>
-          --- the directory where the source code live
+          --- the directory where the source code (usually java) live
         </li>
         <li>
           <code>lib</code>
@@ -94,6 +119,11 @@
         <li>
           <code>tests</code>
           --- the directory where the tests live
+        </li>
+        <li>
+          <code>templates</code>
+          --- the directory where templates, i.e. files from which source
+          code is generated, live
         </li>
       </ul>
     </section>
@@ -121,7 +151,7 @@
       </p>
     </section>
 
-    <section>
+    <section id="ant">
       <title>Ant build files</title>
       <p>
         Within the CZT project,
