@@ -1,5 +1,5 @@
 /**
-Copyright 2003, 2004 Petra Malik
+Copyright 2004 Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -20,32 +20,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.parser.util;
 
 /**
- * This exception can be thrown by a scanner when unexpected tokens
- * are encountered.
+ * This exception can be thrown by a markup converter.
  */
-public class ScanException
-  extends RuntimeException
+public class MarkupException
+  extends Exception
 {
-  private int lineNr_;
-  private int columnNr_;
-
   /**
    * Constructs a new exception with the specified detail message.
    */
-  public ScanException(String message, int lineNr, int columnNr)
+  public MarkupException(String message)
   {
     super(message);
-    lineNr_ = lineNr;
-    columnNr_ = columnNr;
-  }
-
-  public int getLineNumber()
-  {
-    return lineNr_;
-  }
-
-  public int getColumnNumber()
-  {
-    return columnNr_;
   }
 }

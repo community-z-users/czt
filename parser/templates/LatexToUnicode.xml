@@ -52,24 +52,20 @@ import net.sourceforge.czt.session.SectionManager;
 public class <class/>
   implements Scanner
 {
-  private Map markupFunction_;
-  private Scanner scanner_;
+  private LatexMarkupParser scanner_;
   private SectionManager manager_;
 
   public <class/>(URL url, SectionManager manager)
     throws IOException
   {
-    markupFunction_ = new HashMap();
-    Latex2Unicode l2u = new Latex2Unicode(url, markupFunction_);
-    scanner_ = new LatexMarkupParser(l2u, manager, markupFunction_);
+    Latex2Unicode l2u = new Latex2Unicode(url);
+    scanner_ = new LatexMarkupParser(l2u, manager);
   }
 
   public <class/>(Reader in, SectionManager manager)
   {
-    markupFunction_ = new HashMap();
     Latex2Unicode l2u = new Latex2Unicode(in);
-    l2u.setMarkupFunction(markupFunction_);
-    scanner_ = new LatexMarkupParser(l2u, manager, markupFunction_);
+    scanner_ = new LatexMarkupParser(l2u, manager);
   }
 
   public <class/>(InputStream in, SectionManager manager)
@@ -80,18 +76,16 @@ public class <class/>
   public void reset(URL url)
     throws IOException
   {
-    Map markupFunction = new HashMap();
-    Latex2Unicode l2u = new Latex2Unicode(url, markupFunction);
-    markupFunction_ = markupFunction;
-    scanner_ = new LatexMarkupParser(l2u, manager_, markupFunction_);
+    Latex2Unicode l2u = new Latex2Unicode(url);
+    scanner_ = new LatexMarkupParser(l2u, manager_);
   }
 
   /**
-   * Returns the latex mark-up function.
+   * Returns the latex mark-up functions.
    */
-  public Map getMarkupFunction()
+  public Map getMarkupFunctions()
   {
-    return markupFunction_;
+    return scanner_.getMarkupFunctions();
   }
 
   public Symbol next_token()

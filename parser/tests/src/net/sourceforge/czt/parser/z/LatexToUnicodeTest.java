@@ -61,6 +61,7 @@ public class LatexToUnicodeTest
       Assert.assertEquals(out, result);
     }
     catch (Exception e) {
+      e.printStackTrace();
       fail("Should not throw an Exception");
     }
   }

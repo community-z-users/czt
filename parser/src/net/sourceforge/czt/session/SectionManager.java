@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.parser.util.LatexSym;
 import net.sourceforge.czt.parser.util.Settings;
 import net.sourceforge.czt.parser.z.LatexToUnicode;
@@ -36,23 +37,33 @@ import net.sourceforge.czt.parser.z.OperatorTable;
  */
 public class SectionManager
 {
-  Map markupFunctions_ = new HashMap();
+  /**
+   * A latex markup function cache.
+   * It is basically a mapping from String, the name of a section,
+   * to its LatexMarkupFunction.
+   */
+  private Map markupFunctions_ = new HashMap();
 
-  public Map getLatexMarkupFunction(String sectionname)
+  /**
+   * Returns the latex markup function for the given section name.
+   */
+  public LatexMarkupFunction getLatexMarkupFunction(String section)
   {
-    Map result = (Map) markupFunctions_.get(sectionname);
+    LatexMarkupFunction result =
+      (LatexMarkupFunction) markupFunctions_.get(section);
     if (result == null) {
       try {
-        URL url = getClass().getResource("/lib/" + sectionname + ".tex");
+        URL url = getClass().getResource("/lib/" + section + ".tex");
         LatexToUnicode l2u = new LatexToUnicode(url, this);
         while (l2u.next_token().sym != LatexSym.EOF) {
           // do nothing
         }
-        result = l2u.getMarkupFunction();
-        markupFunctions_.put(sectionname, result);
+        Map markupFunctions = l2u.getMarkupFunctions();
+        markupFunctions_.putAll(markupFunctions);
+        result = (LatexMarkupFunction) markupFunctions_.get(section);
       }
       catch (Exception e) {
-        String message = "Cannot get latex specification for " + sectionname ;
+        String message = "Cannot get latex specification for " + section ;
         System.err.println(message);
         e.printStackTrace();
       }
@@ -60,12 +71,12 @@ public class SectionManager
     return result;
   }
 
-  public OperatorTable getOperatorTable(String sectionname)
+  public OperatorTable getOperatorTable(String section)
   {
     throw new UnsupportedOperationException();
   }
 
-  public Term getAst(String sectionname)
+  public Term getAst(String section)
   {
     throw new UnsupportedOperationException();
   }

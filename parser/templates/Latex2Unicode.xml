@@ -36,6 +36,7 @@ import net.sourceforge.czt.oz.util.OzString;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.parser.util.LatexCommand;
+import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.parser.util.LatexSym;
 import net.sourceforge.czt.parser.util.ScanException;
 
@@ -84,6 +85,7 @@ import net.sourceforge.czt.parser.util.ScanException;
 %unicode
 %line
 %column
+%implements net.sourceforge.czt.parser.util.LatexMarkupParser.LatexScanner
 %cupsym LatexSym
 %cup
 
@@ -94,26 +96,21 @@ import net.sourceforge.czt.parser.util.ScanException;
    * Creates a new scanner for the given URL that uses the
    * given markup function to resolve latex commands.
    */
-  public <class/>(URL url, Map markupFunction)
+  public <class/>(URL url)
     throws IOException
   {
     this(url.openStream());
     source_ = url.toString();
-    latexCommands_ = markupFunction;
   }
 
   /**
    * &lt;p&gt;
-   * The latex mark-up function for the current section to be scanned.
-   * It maps the latex command (given as a string, which contains the
-   * backspace) to a {@link LatexCommand}.
-   * &lt;/p&gt;
-   * &lt;p&gt;
-   * This map must be kept up to date by another class that recognises
+   * The latex markup function for the current section to be scanned.
+   * It must be kept up to date by another class that recognises
    * section headers.
    * &lt;/p&gt;
    */
-  private Map latexCommands_ = null;
+  private LatexMarkupFunction latexCommands_ = null;
 
 <add:oz>
   /**
@@ -223,7 +220,7 @@ import net.sourceforge.czt.parser.util.ScanException;
    * Returns the latex mark-up function.
    * @see #setMarkupFunction
    */
-  public Map getMarkupFunction()
+  public LatexMarkupFunction getMarkupFunction()
   {
     return latexCommands_;
   }
@@ -236,7 +233,7 @@ import net.sourceforge.czt.parser.util.ScanException;
    * This map must be kept up to date to ensure proper working of
    * instances of this class.
    */
-  public void setMarkupFunction(Map markupFunction)
+  public void setMarkupFunction(LatexMarkupFunction markupFunction)
   {
     latexCommands_ = markupFunction;
   }
@@ -274,13 +271,22 @@ import net.sourceforge.czt.parser.util.ScanException;
    */
   private String toUnicode(String latexCommand, boolean spaces)
   {
-    if (latexCommands_ == null) return null;
-    LatexCommand command = (LatexCommand) latexCommands_.get(latexCommand);
-    if (command == null) return null;
-    String result = command.getUnicode();
+    if (latexCommands_ == null) {
+      System.out.println("Should not happen");
+      return null;
+    }
+    LatexMarkupFunction.MarkupDirective directive =
+      (LatexMarkupFunction.MarkupDirective)
+      latexCommands_.getCommandDirective(latexCommand);
+    if (directive == null) {
+      System.out.println("Cannot find " + latexCommand + " in " +
+                         latexCommands_);
+      return null;
+    }
+    String result = directive.getUnicode();
     if (spaces) {
-      if (command.addLeftSpace()) result = ZString.SPACE + result;
-      if (command.addRightSpace()) addSpace_ = true;
+      if (directive.addLeftSpace()) result = ZString.SPACE + result;
+      if (directive.addRightSpace()) addSpace_ = true;
     }
     return result;
   }
