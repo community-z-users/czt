@@ -63,14 +63,23 @@
   </target>
 
   <target name="pre">
-    <xslt in="../zml/Z.xsd" out="${tmp}/Z_1.xsd"
-      style="${src.xsl}/minOccursAndMaxOccursTwo.xsl"/>
-    <xslt in="${tmp}/Z_1.xsd" out="${src.xsd}/Z.xsd"
-      style="${src.xsl}/annotateChoices.xsl"/>
-    <xslt in="${src.xsd}/Z.xsd" out="${tmp}/Z_2.xsd"
+    <xslt in="../zml/Z.xsd" out="${src.xsd}/Z.xsd"
       style="${src.xsl}/annotateJaxbBindings.xsl"/>
-    <xslt in="${tmp}/Z_2.xsd" out="${src.xsd}/Z.jaxb.xsd"
-      style="${src.xsl}/removeSubstitutionGroups.xsl"/>
+  </target>
+
+  <target name="preZPatt">
+    <xslt in="../zml/ZPattern.xsd" out="${src.xsd}/ZPattern.xsd"
+      style="${src.xsl}/annotateJaxbBindings.xsl"/>
+  </target>
+
+  <target name="preOZ">
+    <xslt in="../zml/Object-Z.xsd" out="${src.xsd}/Object-Z.xsd"
+      style="${src.xsl}/annotateJaxbBindings.xsl"/>
+  </target>
+
+  <target name="preTCOZ">
+    <xslt in="../zml/TCOZ.xsd" out="${src.xsd}/TCOZ.xsd"
+      style="${src.xsl}/annotateJaxbBindings.xsl"/>
   </target>
 
   <target name="clean" description="clean up">
