@@ -1839,47 +1839,38 @@ public class Factory
 
   protected String getWordAndStrokes(String decorword, java.util.List strokes)
   {
-    final String NUMSTROKE_REGEX =
-      net.sourceforge.czt.z.util.ZString.SE + "[0-9]"  +
-      net.sourceforge.czt.z.util.ZString.NW;
-
-    // TODO: we assume that strokes are from the Basic Multilingual Plane
-    final char instroke   =
-      net.sourceforge.czt.z.util.ZChar.INSTROKE.toChar();
-    final char outstroke  =
-      net.sourceforge.czt.z.util.ZChar.OUTSTROKE.toChar();
-    final char nextstroke =
-      net.sourceforge.czt.z.util.ZChar.PRIME.toChar();
-
-    int wordEnd = decorword.length();
-
-    for (int i = decorword.length() - 1;
-         i >= 0 &&
-           (decorword.charAt(i) == instroke   ||
-            decorword.charAt(i) == outstroke  ||
-            decorword.charAt(i) == nextstroke ||
-            (i >= 2 &&
-             decorword.substring(i - 2, i + 1).matches(NUMSTROKE_REGEX)));
-         i--) {
-      final char c = decorword.charAt(i);
-      if (c == instroke) {
+    net.sourceforge.czt.z.util.ZChar[] zchars =
+      net.sourceforge.czt.z.util.ZChar.toZChars(decorword);
+    int i;
+    for (i = zchars.length - 1; i >= 0; i--) {
+      net.sourceforge.czt.z.util.ZChar zchar = zchars[i];
+      if (net.sourceforge.czt.z.util.ZChar.INSTROKE.equals(zchar)) {
         strokes.add(0, createInStroke());
       }
-      else if (c == outstroke) {
+      else if (net.sourceforge.czt.z.util.ZChar.OUTSTROKE.equals(zchar)) {
         strokes.add(0, createOutStroke());
       }
-      else if (c == nextstroke) {
+      else if (net.sourceforge.czt.z.util.ZChar.PRIME.equals(zchar)) {
         strokes.add(0, createNextStroke());
       }
-      else {
+      else if (i >= 2 &&
+          net.sourceforge.czt.z.util.ZChar.NW.equals(zchar) &&
+          net.sourceforge.czt.z.util.ZChar.isDigit(zchars[i - 1]) &&
+          net.sourceforge.czt.z.util.ZChar.SE.equals(zchars[i - 2])) {
         NumStroke numStroke =
-          createNumStroke(new Integer(decorword.substring(i - 1, i)));
+          createNumStroke(new Integer(zchars[i - 1].toString()));
         strokes.add(numStroke);
-        i -= 2;  //skip the rest
+        i = i - 2;
       }
-      wordEnd = i;
+      else {
+        break;
+      }
     }
-    return decorword.substring(0, wordEnd);
+    StringBuffer result = new StringBuffer();
+    for (int j = 0; j <= i; j++) {
+      result.append(zchars[j].toString());
+    }
+    return result.toString();
   }
 
   /**

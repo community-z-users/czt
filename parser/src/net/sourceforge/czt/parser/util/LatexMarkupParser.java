@@ -246,15 +246,18 @@ public class LatexMarkupParser
       if (t1.sym == LatexSym.UNICODE && t2.sym == LatexSym.UNICODE) {
         String s1 = (String) t1.value;
         String s2 = (String) t2.value;
-        if (s1.length() > 0 && s2.length() > 0) {
-          char c1 = s1.charAt(s1.length() - 1);
-          char c2 = s2.charAt(0);
+        if (s1 != null && s1.length() > 0 &&
+            s2 != null && s2.length() > 0) {
+          final ZChar[] zchars1 = ZChar.toZChars(s1);
+          final ZChar[] zchars2 = ZChar.toZChars(s2);
+          ZChar c1 = zchars1[zchars1.length - 1];
+          ZChar c2 = zchars2[0];
           final boolean c1IsLetterOrDigit =
-            Character.isDigit(c1) || Character.isLetter(c1);
+            ZChar.isDigit(c1) || ZChar.isLetter(c1);
           final boolean c2IsLetterOrDigit =
-            Character.isDigit(c2) || Character.isLetter(c2);
+            ZChar.isDigit(c2) || ZChar.isLetter(c2);
           final boolean c1IsDeltaOrXi =
-            c1 == ZChar.DELTA.toChar() || c1 == ZChar.XI.toChar();
+            ZChar.DELTA.equals(c1) || ZChar.XI.equals(c1);
           final boolean cond =
             c1IsLetterOrDigit && c2IsLetterOrDigit && ! c1IsDeltaOrXi;
           if (cond) {

@@ -70,11 +70,6 @@ public class ZChar
     codePoint_ = Character.codePointAt(chars, 0);
   }
 
-  public char toChar()
-  {
-    return Character.valueOf((char) codePoint_);
-  }
-
   public int codePoint()
   {
     return codePoint_;
@@ -103,12 +98,15 @@ public class ZChar
 
   public static ZChar[] toZChars(String string)
   {
-    ZChar[] result = new ZChar[string.codePointCount(0, string.length())];
-    int count = 0;
-    for (int i = 0;
-         i &lt; string.length();
-         i = string.offsetByCodePoints(i, 1)) {
-      result[count++] = new ZChar(string.codePointAt(i));
+    final int numZChars = string.codePointCount(0, string.length());
+    ZChar[] result = new ZChar[numZChars];
+    int index = 0;
+    for (int i = 0; i &lt; numZChars; i++) {
+      // This should work but it doesn't (perhaps a bug in Java 1.5?)
+      //      final int index = string.offsetByCodePoints(0, i);
+      final int codePoint = string.codePointAt(index);
+      result[i] = new ZChar(codePoint);
+      index = index + result[i].charCount();
     }
     return result;
   }
