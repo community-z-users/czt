@@ -65,7 +65,7 @@ public class WrappedSectionInfoRegistry
       SectionInfoService service = (SectionInfoService) iter.next();
       if (infoType.equals(service.getInfoType())) {
         try {
-          return service.run(sect);
+          return service.run(sect, this);
         }
         catch (Exception e) {
           String message = "Error while applying service " + service +
