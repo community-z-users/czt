@@ -21,11 +21,19 @@ See http://xml.apache.org/forrest/linking.html for more info
     <changes label="Changes" href="changes.html" description="History of Changes" />
     <todo label="Todo" href="todo.html"  description="Todo List" />
   </about>
+  <docu label="Documentation">
+    <api label="API" href="http://czt.sourceforge.net/corejava/api/" description="API Documentation"/>
+  </docu>
 
   <all>
     <whole_site_html label="Whole Site HTML" href="site.html"/>
     <whole_site_html label="Whole Site PDF" href="site.pdf"/>
   </all>
+
+  <related label="Related Links">
+    <czt label="CZT"
+      href="http://czt.sourceforge.net"/>
+  </related>
 
   <external-refs>
     <original-proposal href="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/proposal.html"/>
