@@ -1,4 +1,4 @@
-This is the CZT (czt.sourceforge.net) ZML2HTML subproject.
+This is the CZT (czt.sourceforge.net) ZML2HTML subproject. 
 
 ZML2HTML provides a set of XSLT 1.1 stylesheets that define
 the transformation from ZML-held specifications to XHTML.
