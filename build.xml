@@ -3,6 +3,9 @@
   <property name="unix.settings.file" location="bin/settings.sh"/>
   <property name="windows.settings.file" location="bin/settings.bat"/>
   <available
+    file="${basedir}/devtools/java_cup/build.xml"
+    property="java_cup.present"/>
+  <available
     file="${basedir}/devtools/ant/build.xml"
     property="ant-task.present"/>
   <available
@@ -45,6 +48,7 @@
     <unjar src="${jar.dir}/${corejava.oz.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${jar.dir}/${corejava.tcoz.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${jar.dir}/${corejava.jaxb.jar.file}" dest="${czt.build.dir}"/>
+    <unjar src="${jar.dir}/${java_cup.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${jar.dir}/${parser.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${jar.dir}/${typechecker.jar.file}" dest="${czt.build.dir}"/>
     <copy todir="${czt.build.dir}/czt">
@@ -55,7 +59,7 @@
       <manifest>
         <attribute name="Built-By" value="${user.name}"/>
         <attribute name="Main-Class" value="bsh.Console"/>
-        <attribute name="Class-Path" value="${bsh.jar} ${javacup.home} ${jaxb-api.jar} ${jaxb-impl.jar} ${jaxb-libs.jar} ${jax-qname.jar} ${namespace.jar} ${xsdlib.jar} ${relaxngDatatype.jar}"/>
+        <attribute name="Class-Path" value="${bsh.jar} ${jaxb-api.jar} ${jaxb-impl.jar} ${jaxb-libs.jar} ${jax-qname.jar} ${namespace.jar} ${xsdlib.jar} ${relaxngDatatype.jar}"/>
       </manifest>
     </jar>
     <delete dir="${czt.build.dir}"/>
@@ -75,7 +79,13 @@
     description="build the api for subprojects">
   </target>
 
+  <target name="install-java_cup" if="java_cup.present"
+    description="install java_cup">
+    <ant dir="devtools/java_cup" target="install"/>
+  </target>
+
   <target name="install-ant-tasks" if="ant-task.present"
+    depends="install-java_cup"
     description="install ant tasks">
     <ant dir="devtools/ant" target="install"/>
   </target>
@@ -134,9 +144,6 @@
     <copy file="${namespace.jar}" todir="${plugin.jar.dir}"/>
     <copy file="${xsdlib.jar}" todir="${plugin.jar.dir}"/>
     <copy file="${relaxngDatatype.jar}" todir="${plugin.jar.dir}"/>
-    <jar jarfile="${plugin.jar.dir}/java_cup.jar">
-      <fileset dir="${javacup.home}"/>
-    </jar>
   </target>
 
   <target name="api-corejava" if="corejava.present"
@@ -174,7 +181,8 @@
       <pathelement location="${czt.jar.dir}/${corejava.core.jar.file}"/>
       <pathelement location="${czt.jar.dir}/${corejava.oz.jar.file}"/>
       <pathelement location="${czt.jar.dir}/${corejava.tcoz.jar.file}"/>
-      <pathelement location="${czt.jar.dir}/${corejava.zpatt.jar.file}"/>      
+      <pathelement location="${czt.jar.dir}/${corejava.zpatt.jar.file}"/>
+      <pathelement location="${czt.jar.dir}/${corejava.circus.jar.file}"/>
       <pathelement location="${czt.jar.dir}/${corejava.jaxb.jar.file}"/>      
     </path>
     <pathconvert targetos="unix" property="corejava.unix" refid="corejava"/>
@@ -191,7 +199,7 @@
     <pathconvert targetos="unix" property="gaffe.unix" refid="gaffe"/>
     <pathconvert targetos="windows" property="gaffe.win" refid="gaffe"/>
     <path id="cup">
-      <pathelement location="${javacup.home}"/>
+      <pathelement location="${czt.jar.dir}/${java_cup.jar.file}"/>
     </path>
     <pathconvert targetos="unix" property="cup.unix" refid="cup"/>
     <pathconvert targetos="windows" property="cup.win" refid="cup"/>
@@ -329,7 +337,7 @@ set TYPECHECKER=${typechecker.win}
   </target>
 
   <target name="clean" description="clean up subprojects"
-    depends="clean-corejava, clean-ant-task, clean-gaffe, clean-gaffe-generator, clean-parser, clean-z2b, clean-typechecker, clean-zlive, clean-jedit">
+    depends="clean-corejava, clean-java_cup, clean-ant-task, clean-gaffe, clean-gaffe-generator, clean-parser, clean-z2b, clean-typechecker, clean-zlive, clean-jedit">
     <delete dir="${jar.dir}"/>
     <delete file="${unix.settings.file}"/>
     <delete file="${windows.settings.file}"/>
@@ -343,6 +351,11 @@ set TYPECHECKER=${typechecker.win}
   <target name="clean-ant-task" if="ant-task.present"
     description="clean up ant task">
     <ant dir="devtools/ant" target="clean"/>
+  </target>
+
+  <target name="clean-java_cup" if="java_cup.present"
+    description="clean up ant task">
+    <ant dir="devtools/java_cup" target="clean"/>
   </target>
 
   <target name="clean-gaffe" if="gaffe.present"
