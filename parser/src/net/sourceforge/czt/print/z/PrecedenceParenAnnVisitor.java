@@ -37,14 +37,15 @@ import net.sourceforge.czt.z.util.OperatorName;
 import net.sourceforge.czt.z.visitor.*;
 
 /**
- * <p>This visitor visits an printable AST (i.e. a tree created by the
- * AstToPrintTreeVisitor) and adds parenthesis annotations
- * to terms where parenthesis are needed to preserve the
- * syntactical structure of the operators when printed.
- * Parenthesis annotations are added when a term does not already
- * has one, and either the parent term has a higher priority,
- * or the parent has the same priority but the parenthesis is
- * enforced by associativity.</p>
+ * This visitor visits an printable AST and adds necessary parentheses.
+ *
+ * <p>The input tree must be a tree created by the AstToPrintTreeVisitor. 
+ * This visitor adds parenthesis annotations to terms where parenthesis 
+ * are needed to preserve the syntactical structure of the operators 
+ * when printed.  That is, parenthesis annotations are added when a 
+ * term does not already has one, and either the parent term has a 
+ * higher priority, or the parent has the same priority but the 
+ * parenthesis is enforced by associativity.</p>
  *
  * <p>For instance, a conjunction where one of the arguments is an
  * implication needs parenthesis around the implication, since
