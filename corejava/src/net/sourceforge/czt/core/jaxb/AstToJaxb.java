@@ -72,7 +72,7 @@ public class AstToJaxb implements AstVisitor
 
     Freetype jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createFreetype();
+      jaxbObject = mObjectFactory.createFreetypeElement();
       if (zedObject.getDeclName()!=null) {
         jaxbObject.setDeclName((DeclName) zedObject.getDeclName().accept(this));
       }
@@ -129,7 +129,7 @@ public class AstToJaxb implements AstVisitor
 
     NameNamePair jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createNameNamePair();
+      jaxbObject = mObjectFactory.createNameNamePairElement();
       if (zedObject.getOldName()!=null) {
         jaxbObject.setOldName((RefName) zedObject.getOldName().accept(this));
       }
@@ -148,7 +148,7 @@ public class AstToJaxb implements AstVisitor
 
     ApplExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createApplExpr();
+      jaxbObject = mObjectFactory.createApplExprElement();
       if (zedObject.getMixfix()!=null) {
         jaxbObject.setMixfix(zedObject.getMixfix());
       }
@@ -194,7 +194,7 @@ public class AstToJaxb implements AstVisitor
 
     Signature jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createSignature();
+      jaxbObject = mObjectFactory.createSignatureElement();
       {
         java.util.List list = zedObject.getNameTypePair();
         java.util.List newlist = jaxbObject.getNameTypePair();
@@ -216,7 +216,7 @@ public class AstToJaxb implements AstVisitor
 
     ConstDecl jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createConstDecl();
+      jaxbObject = mObjectFactory.createConstDeclElement();
       if (zedObject.getDeclName()!=null) {
         jaxbObject.setDeclName((DeclName) zedObject.getDeclName().accept(this));
       }
@@ -259,7 +259,7 @@ public class AstToJaxb implements AstVisitor
   {
     sLogger.entering("jaxb.AstToJaxb", "visitRefName", zedObject);
     try {
-      RefName jaxbObject = mObjectFactory.createRefName();
+      RefName jaxbObject = mObjectFactory.createRefNameElement();
       if (zedObject.getDecl() != null) {
 	String id = zedObject.getDecl().getId();
         sLogger.finer("Retrieve reference " + id);
@@ -304,7 +304,7 @@ public class AstToJaxb implements AstVisitor
 
     MemPred jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createMemPred();
+      jaxbObject = mObjectFactory.createMemPredElement();
       if (zedObject.getLeftExpr()!=null) {
         jaxbObject.setLeftExpr((Expr) zedObject.getLeftExpr().accept(this));
       }
@@ -326,7 +326,7 @@ public class AstToJaxb implements AstVisitor
 
     ProdType jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createProdType();
+      jaxbObject = mObjectFactory.createProdTypeElement();
       {
         java.util.List list = zedObject.getType();
         java.util.List newlist = jaxbObject.getType();
@@ -444,7 +444,7 @@ public class AstToJaxb implements AstVisitor
 
     VarDecl jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createVarDecl();
+      jaxbObject = mObjectFactory.createVarDeclElement();
       {
         java.util.List list = zedObject.getDeclName();
         java.util.List newlist = jaxbObject.getDeclName();
@@ -479,7 +479,7 @@ public class AstToJaxb implements AstVisitor
 
     NarrSect jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createNarrSect();
+      jaxbObject = mObjectFactory.createNarrSectElement();
       {
         java.util.List list = zedObject.getContent();
         if(list.size() > 0) {
@@ -508,7 +508,7 @@ public class AstToJaxb implements AstVisitor
 
     FreePara jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createFreePara();
+      jaxbObject = mObjectFactory.createFreeParaElement();
       {
         java.util.List list = zedObject.getFreetype();
         java.util.List newlist = jaxbObject.getFreetype();
@@ -549,7 +549,7 @@ public class AstToJaxb implements AstVisitor
 
     BindExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createBindExpr();
+      jaxbObject = mObjectFactory.createBindExprElement();
       {
         java.util.List list = zedObject.getNameExprPair();
         java.util.List newlist = jaxbObject.getNameExprPair();
@@ -576,7 +576,7 @@ public class AstToJaxb implements AstVisitor
 
     CondExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createCondExpr();
+      jaxbObject = mObjectFactory.createCondExprElement();
       if (zedObject.getPred()!=null) {
         jaxbObject.setPred((Pred) zedObject.getPred().accept(this));
       }
@@ -617,7 +617,7 @@ public class AstToJaxb implements AstVisitor
 
     NarrPara jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createNarrPara();
+      jaxbObject = mObjectFactory.createNarrParaElement();
       {
         java.util.List list = zedObject.getContent();
         if(list.size() > 0) {
@@ -659,7 +659,7 @@ public class AstToJaxb implements AstVisitor
 
     Name jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createName();
+      jaxbObject = mObjectFactory.createNameElement();
       if (zedObject.getWord()!=null) {
         jaxbObject.setWord(zedObject.getWord());
       }
@@ -684,7 +684,7 @@ public class AstToJaxb implements AstVisitor
 
     NumExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createNumExpr();
+      jaxbObject = mObjectFactory.createNumExprElement();
       if (zedObject.getValue()!=null) {
         jaxbObject.setValue(zedObject.getValue());
       }
@@ -700,7 +700,7 @@ public class AstToJaxb implements AstVisitor
 
     NameExprPair jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createNameExprPair();
+      jaxbObject = mObjectFactory.createNameExprPairElement();
       if (zedObject.getName()!=null) {
         jaxbObject.setName((DeclName) zedObject.getName().accept(this));
       }
@@ -719,7 +719,7 @@ public class AstToJaxb implements AstVisitor
 
     TupleSelExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createTupleSelExpr();
+      jaxbObject = mObjectFactory.createTupleSelExprElement();
       if (zedObject.getSelect()!=null) {
         jaxbObject.setSelect(zedObject.getSelect());
       }
@@ -808,7 +808,7 @@ public class AstToJaxb implements AstVisitor
 
     TypeEnvAnn jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createTypeEnvAnn();
+      jaxbObject = mObjectFactory.createTypeEnvAnnElement();
       {
         java.util.List list = zedObject.getNameTypePair();
         java.util.List newlist = jaxbObject.getNameTypePair();
@@ -835,7 +835,7 @@ public class AstToJaxb implements AstVisitor
 
     UnparsedZSect jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createUnparsedZSect();
+      jaxbObject = mObjectFactory.createUnparsedZSectElement();
       {
         java.util.List list = zedObject.getContent();
         if(list.size() > 0) {
@@ -864,7 +864,7 @@ public class AstToJaxb implements AstVisitor
 
     UnparsedPara jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createUnparsedPara();
+      jaxbObject = mObjectFactory.createUnparsedParaElement();
       {
         java.util.List list = zedObject.getContent();
         if(list.size() > 0) {
@@ -912,7 +912,7 @@ public class AstToJaxb implements AstVisitor
 
     NameTypePair jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createNameTypePair();
+      jaxbObject = mObjectFactory.createNameTypePairElement();
       if (zedObject.getName()!=null) {
         jaxbObject.setName((DeclName) zedObject.getName().accept(this));
       }
@@ -936,7 +936,7 @@ public class AstToJaxb implements AstVisitor
 
     SchText jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createSchText();
+      jaxbObject = mObjectFactory.createSchTextElement();
       {
         java.util.List list = zedObject.getDecl();
         java.util.List newlist = jaxbObject.getDecl();
@@ -966,7 +966,7 @@ public class AstToJaxb implements AstVisitor
 
     Operand jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createOperand();
+      jaxbObject = mObjectFactory.createOperandElement();
       if (zedObject.getList()!=null) {
         jaxbObject.setList(zedObject.getList());
       }
@@ -1001,7 +1001,7 @@ public class AstToJaxb implements AstVisitor
 
     Branch jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createBranch();
+      jaxbObject = mObjectFactory.createBranchElement();
       if (zedObject.getDeclName()!=null) {
         jaxbObject.setDeclName((DeclName) zedObject.getDeclName().accept(this));
       }
@@ -1020,7 +1020,7 @@ public class AstToJaxb implements AstVisitor
 
     TypeAnn jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createTypeAnn();
+      jaxbObject = mObjectFactory.createTypeAnnElement();
       if (zedObject.getType()!=null) {
         jaxbObject.setType((Type) zedObject.getType().accept(this));
       }
@@ -1036,7 +1036,7 @@ public class AstToJaxb implements AstVisitor
 
     GenType jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createGenType();
+      jaxbObject = mObjectFactory.createGenTypeElement();
       if (zedObject.getName()!=null) {
         jaxbObject.setName((DeclName) zedObject.getName().accept(this));
       }
@@ -1057,7 +1057,7 @@ public class AstToJaxb implements AstVisitor
 
     OptempPara jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createOptempPara();
+      jaxbObject = mObjectFactory.createOptempParaElement();
       {
         java.util.List list = zedObject.getWordOrOperand();
         java.util.List newlist = jaxbObject.getWordOrOperand();
@@ -1107,7 +1107,7 @@ public class AstToJaxb implements AstVisitor
 
     NameSectTypeTriple jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createNameSectTypeTriple();
+      jaxbObject = mObjectFactory.createNameSectTypeTripleElement();
       if (zedObject.getName()!=null) {
         jaxbObject.setName((DeclName) zedObject.getName().accept(this));
       }
@@ -1134,7 +1134,7 @@ public class AstToJaxb implements AstVisitor
 
     NegPred jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createNegPred();
+      jaxbObject = mObjectFactory.createNegPredElement();
       if (zedObject.getPred()!=null) {
         jaxbObject.setPred((Pred) zedObject.getPred().accept(this));
       }
@@ -1166,7 +1166,7 @@ public class AstToJaxb implements AstVisitor
 
     SectTypeEnvAnn jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createSectTypeEnvAnn();
+      jaxbObject = mObjectFactory.createSectTypeEnvAnnElement();
       {
         java.util.List list = zedObject.getNameSectTypeTriple();
         java.util.List newlist = jaxbObject.getNameSectTypeTriple();
@@ -1188,7 +1188,7 @@ public class AstToJaxb implements AstVisitor
 
     ExprPred jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createExprPred();
+      jaxbObject = mObjectFactory.createExprPredElement();
       if (zedObject.getExpr()!=null) {
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
@@ -1204,7 +1204,7 @@ public class AstToJaxb implements AstVisitor
 
     GivenType jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createGivenType();
+      jaxbObject = mObjectFactory.createGivenTypeElement();
       if (zedObject.getName()!=null) {
         jaxbObject.setName((DeclName) zedObject.getName().accept(this));
       }
@@ -1220,7 +1220,7 @@ public class AstToJaxb implements AstVisitor
 
     InclDecl jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createInclDecl();
+      jaxbObject = mObjectFactory.createInclDeclElement();
       if (zedObject.getExpr()!=null) {
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
@@ -1241,7 +1241,7 @@ public class AstToJaxb implements AstVisitor
 
     SchemaType jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createSchemaType();
+      jaxbObject = mObjectFactory.createSchemaTypeElement();
       if (zedObject.getSignature()!=null) {
         jaxbObject.setSignature((Signature) zedObject.getSignature().accept(this));
       }
@@ -1257,7 +1257,7 @@ public class AstToJaxb implements AstVisitor
 
     BindSelExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createBindSelExpr();
+      jaxbObject = mObjectFactory.createBindSelExprElement();
       if (zedObject.getName()!=null) {
         jaxbObject.setName((RefName) zedObject.getName().accept(this));
       }
@@ -1274,7 +1274,7 @@ public class AstToJaxb implements AstVisitor
   {
     sLogger.entering("jaxb.AstToJaxb", "visitDeclName", zedObject);
     try {
-      DeclName jaxbObject = mObjectFactory.createDeclName();
+      DeclName jaxbObject = mObjectFactory.createDeclNameElement();
       if (zedObject.getId() != null) {
         sLogger.finest("Setting Id to " + zedObject.getId().toString());
 	jaxbObject.setId(zedObject.getId());
@@ -1356,7 +1356,7 @@ public class AstToJaxb implements AstVisitor
 
     Spec jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createSpec();
+      jaxbObject = mObjectFactory.createSpecElement();
       {
         java.util.List list = zedObject.getSect();
         java.util.List newlist = jaxbObject.getSect();
@@ -1390,7 +1390,7 @@ public class AstToJaxb implements AstVisitor
 
     LocAnn jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createLocAnn();
+      jaxbObject = mObjectFactory.createLocAnnElement();
       if (zedObject.getLoc()!=null) {
         jaxbObject.setLoc(zedObject.getLoc());
       }
@@ -1428,7 +1428,7 @@ public class AstToJaxb implements AstVisitor
 
     HideExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createHideExpr();
+      jaxbObject = mObjectFactory.createHideExprElement();
       {
         java.util.List list = zedObject.getName();
         java.util.List newlist = jaxbObject.getName();
@@ -1453,7 +1453,7 @@ public class AstToJaxb implements AstVisitor
 
     GivenPara jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createGivenPara();
+      jaxbObject = mObjectFactory.createGivenParaElement();
       {
         java.util.List list = zedObject.getDeclName();
         java.util.List newlist = jaxbObject.getDeclName();
@@ -1475,7 +1475,7 @@ public class AstToJaxb implements AstVisitor
 
     PowerType jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createPowerType();
+      jaxbObject = mObjectFactory.createPowerTypeElement();
       if (zedObject.getType()!=null) {
         jaxbObject.setType((Type) zedObject.getType().accept(this));
       }
@@ -1510,7 +1510,7 @@ public class AstToJaxb implements AstVisitor
 
     RenameExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createRenameExpr();
+      jaxbObject = mObjectFactory.createRenameExprElement();
       {
         java.util.List list = zedObject.getNameNamePair();
         java.util.List newlist = jaxbObject.getNameNamePair();
@@ -1535,7 +1535,7 @@ public class AstToJaxb implements AstVisitor
 
     AndPred jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createAndPred();
+      jaxbObject = mObjectFactory.createAndPredElement();
       if (zedObject.getOp()!=null) {
         jaxbObject.setOp(zedObject.getOp().toString());
       }
@@ -1557,7 +1557,7 @@ public class AstToJaxb implements AstVisitor
 
     ConjPara jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createConjPara();
+      jaxbObject = mObjectFactory.createConjParaElement();
       {
         java.util.List list = zedObject.getDeclName();
         java.util.List newlist = jaxbObject.getDeclName();
@@ -1582,7 +1582,7 @@ public class AstToJaxb implements AstVisitor
 
     NumStroke jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createNumStroke();
+      jaxbObject = mObjectFactory.createNumStrokeElement();
       if (zedObject.getNumber()!=null) {
         jaxbObject.setNumber(zedObject.getNumber());
       }
@@ -1598,7 +1598,7 @@ public class AstToJaxb implements AstVisitor
 
     ZSect jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createZSect();
+      jaxbObject = mObjectFactory.createZSectElement();
       if (zedObject.getName()!=null) {
         jaxbObject.setName(zedObject.getName());
       }
@@ -1642,7 +1642,7 @@ public class AstToJaxb implements AstVisitor
 
     ThetaExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createThetaExpr();
+      jaxbObject = mObjectFactory.createThetaExprElement();
       {
         java.util.List list = zedObject.getStroke();
         java.util.List newlist = jaxbObject.getStroke();
@@ -1732,7 +1732,7 @@ public class AstToJaxb implements AstVisitor
 
     RefExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createRefExpr();
+      jaxbObject = mObjectFactory.createRefExprElement();
       if (zedObject.getRefName()!=null) {
         jaxbObject.setRefName((RefName) zedObject.getRefName().accept(this));
       }
@@ -1798,7 +1798,7 @@ public class AstToJaxb implements AstVisitor
 
     DecorExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createDecorExpr();
+      jaxbObject = mObjectFactory.createDecorExprElement();
       if (zedObject.getStroke()!=null) {
         jaxbObject.setStroke((Stroke) zedObject.getStroke().accept(this));
       }
@@ -1830,7 +1830,7 @@ public class AstToJaxb implements AstVisitor
 
     Parent jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createParent();
+      jaxbObject = mObjectFactory.createParentElement();
       if (zedObject.getWord()!=null) {
         jaxbObject.setWord(zedObject.getWord());
       }
@@ -1865,7 +1865,7 @@ public class AstToJaxb implements AstVisitor
 
     AxPara jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createAxPara();
+      jaxbObject = mObjectFactory.createAxParaElement();
       {
         java.util.List list = zedObject.getDeclName();
         java.util.List newlist = jaxbObject.getDeclName();
@@ -1893,7 +1893,7 @@ public class AstToJaxb implements AstVisitor
 
     SchExpr jaxbObject = null;
     try {
-      jaxbObject = mObjectFactory.createSchExpr();
+      jaxbObject = mObjectFactory.createSchExprElement();
       if (zedObject.getSchText()!=null) {
         jaxbObject.setSchText((SchText) zedObject.getSchText().accept(this));
       }

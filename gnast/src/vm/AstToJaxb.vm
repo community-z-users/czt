@@ -79,7 +79,7 @@ public class $class.Name implements ${AstVisitorInterface_Name}
   {
     sLogger.entering("${class.Package}.${class.Name}", "visitRefName", zedObject);
     try {
-      RefName jaxbObject = mObjectFactory.createRefName();
+      RefName jaxbObject = mObjectFactory.createRefNameElement();
       if (zedObject.getDecl() != null) {
 	String id = zedObject.getDecl().getId();
         sLogger.finer("Retrieve reference " + id);
@@ -124,7 +124,7 @@ public class $class.Name implements ${AstVisitorInterface_Name}
   {
     sLogger.entering("${class.Package}.${class.Name}", "visitDeclName", zedObject);
     try {
-      DeclName jaxbObject = mObjectFactory.createDeclName();
+      DeclName jaxbObject = mObjectFactory.createDeclNameElement();
       if (zedObject.getId() != null) {
         sLogger.finest("Setting Id to " + zedObject.getId().toString());
 	jaxbObject.setId(zedObject.getId());
@@ -169,7 +169,11 @@ public class $class.Name implements ${AstVisitorInterface_Name}
 
     $c.Name jaxbObject = null;
     try {
+#if(${c.NameEqualsType})
+      jaxbObject = mObjectFactory.create${c.Name}Element();
+#else
       jaxbObject = mObjectFactory.create${c.Name}();
+#end
 #foreach($prop in $c.AllProperties)
 #if($prop.Name == 'Content')
       {
