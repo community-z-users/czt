@@ -1,0 +1,3 @@
+#!/bin/sh
+source `dirname $0`/settings.sh
+java -classpath ${PARSER}:${JAVA_CUP}:${COREJAVA} net.sourceforge.czt.parser.oz.Latex2Unicode "$@"
