@@ -1236,13 +1236,17 @@ XML format, by adding import and export functions that read and write it.
 \newcommand{\EXISTS}{$\exists$}
 \begin{small}
 \begin{alltt}
-  First we declare X to be a given set. 
+  <NarrPara>
+    <Content>First we declare X to be a given set.</Content>
+  </NarrPara>
   <GivenPara>
     <DeclName Id="X.3"> <Word>X</Word> </DeclName>
   </GivenPara>
 
-  This axiomatic definition declares a:X, with the
-  constraint: (\EXISTS X:\NAT @ #\{a\} = X)
+  <NarrPara>
+    <Content>This axiomatic definition declares a:X, with the
+    constraint: (\EXISTS X:\NAT @ #\{a\} = X)</Content>
+  <NarrPara>
   <AxPara>
     <SchText>
       <VarDecl>
