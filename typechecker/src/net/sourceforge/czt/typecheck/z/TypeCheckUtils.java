@@ -71,21 +71,32 @@ public final class TypeCheckUtils
     throws FileNotFoundException
   {
     if (args.length == 0) {
-      System.err.println("usage: typechecker filename");
+      System.err.println("usage: typechecker [-s] filename");
       return;
     }
 
+    List<String> files = new java.util.ArrayList<String>();
+    boolean typecheck = true;
+
     for (int i = 0; i < args.length; i++) {
+      if ("-s".equals(args[i])) {
+        typecheck = false;
+      }
+      else {
+        files.add(args[i]);
+      }
+    }
+
+    for (String file : files) {
       //parse the file
-      String fileName = args[i];
       SectionManager manager = new SectionManager();
       Term term = null;
       try {
-        if (fileName.endsWith(".error")) {
-          term = ParseUtils.parseLatexFile(fileName, manager);
+        if (file.endsWith(".error")) {
+          term = ParseUtils.parseLatexFile(file, manager);
         }
         else {
-          term = ParseUtils.parse(fileName, manager);
+          term = ParseUtils.parse(file, manager);
         }
       }
       catch (net.sourceforge.czt.parser.util.ParseException exception) {
@@ -93,7 +104,7 @@ public final class TypeCheckUtils
       }
 
       //if the parse succeeded, typecheck the term
-      if (term != null) {
+      if (term != null && typecheck) {
         List errors = TypeCheckUtils.typecheck(term, manager);
 
         //print any errors
