@@ -92,15 +92,20 @@ public class FlatDiscreteSet
 
   private class setIterator implements Iterator
   {
-    protected int counter;
+    protected Set iterateSet;
+    protected Iterator it;
     public setIterator()
-    { counter=0; }
-    public boolean hasNext()
-    { return (counter<vars_.size()); }
-    public Object next()
     {
-      return evalMode_.getEnvir().lookup((RefName)vars_.get(counter++));
+      int i = 0;
+      iterateSet = new HashSet();
+      while(i < vars_.size())
+        iterateSet.add(evalMode_.getEnvir().lookup((RefName)vars_.get(i++)));
+      it = iterateSet.iterator();
     }
+    public boolean hasNext()
+    { return it.hasNext(); }
+    public Object next()
+    { return it.next(); }
     public void remove()
     { throw new UnsupportedOperationException("The Remove Operation is not supported"); }
   }
