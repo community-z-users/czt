@@ -727,13 +727,11 @@ parser code
 
     public void report_error(String message, Object info)
     {
-      ParseException exception =
-        new ParseException(message,
-                           file_,
-                           previous_.left,
-                           previous_.right);
-      Logger logger = CztLogger.getLogger(<class/>.class);
-      logger.warning(exception.toString());
+      String msg = message + " at line " + previous_.left
+        + " column " + previous_.right;
+      if (file_ != null) msg += " in " + file_;
+       Logger logger = CztLogger.getLogger(<class/>.class);
+      logger.warning(msg);
     }
 
     public void report_fatal_error(String message, Object info)
