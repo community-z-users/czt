@@ -1058,7 +1058,9 @@ non terminal List /*Para*/
     unboxedLocalDefinitionList;
 
 non terminal List /* RefName */
-    deltaList,
+    deltaList;
+
+non terminal VisibilityList
     visibilityList;
                         
 non terminal String
@@ -2552,6 +2554,7 @@ term ::=
         :}
         |
 <add:tcoz>
+        /* TODO: needs fixing
 	term:t CHANTYPE:cht
 	{:
            if (cht.equals("actuator"))
@@ -2574,6 +2577,7 @@ term ::=
    	   else System.err.print("Errror occur for the channel type");
 	:}
         |
+        */
 </add:tcoz>
         /* Cartesian product */
         prodExpressionList:pel
@@ -3442,10 +3446,10 @@ operationList ::=
 
 visibilityList ::=
         //empty
-        {: RESULT = list(); :}
+        {: RESULT = factory_.createVisibilityList(); :}
         |
         visibility LPAREN refNameList:rnl RPAREN optNL
-        {: RESULT = rnl; :}
+        {: RESULT = factory_.createVisibilityList(rnl); :}
         ;
 
 visibility ::=
@@ -3578,28 +3582,28 @@ state ::=
         {:
            List dp = (List) sd.getFirst();
            List sa = (List) sd.getSecond();
-           RESULT = factory_.createState(dp, sa, p);
+           RESULT = factory_.createState(dp, sa);
         :}
         |
         STATE stateDecl:sd END
         {:
            List dp = (List) sd.getFirst();
            List sa = (List) sd.getSecond();
-           RESULT = factory_.createState(dp, sa, null);
+           RESULT = factory_.createState(dp, sa);
         :}
         |
         LSCH stateDecl:sd BAR predicate:p RSQUARE
         {:
            List dp = (List) sd.getFirst();
            List sa = (List) sd.getSecond();
-           RESULT = factory_.createState(dp, sa, p);
+           RESULT = factory_.createState(dp, sa);
         :}
         |
         LSCH stateDecl:sd RSQUARE
         {:
            List dp = (List) sd.getFirst();
            List sa = (List) sd.getSecond();
-           RESULT = factory_.createState(dp, sa, null);
+           RESULT = factory_.createState(dp, sa);
         :}
         ;
 
