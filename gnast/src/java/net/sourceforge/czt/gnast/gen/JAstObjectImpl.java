@@ -23,11 +23,18 @@ import java.util.*;
 import java.util.logging.Logger;
 
 /**
- * An abstract Gnast class.
- * Methods that must be implemented by a deriving class in order
- * to implement JAstObject: getName().
- * To get properties working, it is sufficient to overwrite
- * getProperties() and getInheritedProperties().
+ * <p>An abstract AST object.  This class provides a skeleton
+ * implementation of the JAstObject interface to minimize the effort
+ * required to implement this interface.</p>
+ *
+ * <p>To implement a concrete AST object,
+ * the programmer needs to extend this class and provide
+ * implements for the <code>getName()</code> and <code>getProject</code>
+ * methods.</p>
+ *
+ * <p>If the concrete AST object provides properties, the
+ * programmer needs to overwrite methods <code>getProperties()</code>
+ * and <code>getInheritedProperties()</code>.
  *
  * @author Petra Malik
  */
@@ -35,7 +42,7 @@ public abstract class JAstObjectImpl implements JAstObject
 {
   private static String sClassName = "JAstObjectImpl";
   private static Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.gnast." + "." + sClassName);
+    Logger.getLogger("net.sourceforge.czt.gnast.gen." + sClassName);
 
   public abstract String getName();
 
@@ -101,26 +108,6 @@ public abstract class JAstObjectImpl implements JAstObject
   }
 
   /**
-   *
-   * @throws ClassCastExpection if the list contains an
-   *         element that is not a property.
-   */
-  private List collectImmutableProperties(List propList)
-  {
-    List erg = null;
-    if(propList != null) {
-      erg = new ArrayList();
-      for(Iterator iter=propList.iterator(); iter.hasNext();) {
-	JProperty prop = (JProperty) iter.next();
-	if(prop.getImmutable()) {
-	  erg.add(prop);
-	}
-      }
-    }
-    return erg;
-  }
-
-  /**
    * Returns <code>null</code>.
    *
    * @return <code>null</code>.
@@ -128,11 +115,6 @@ public abstract class JAstObjectImpl implements JAstObject
   public List getProperties()
   {
     return null;
-  }
-
-  public List getImmutableProperties()
-  {
-    return collectImmutableProperties(getProperties());
   }
 
   /**
@@ -160,11 +142,6 @@ public abstract class JAstObjectImpl implements JAstObject
     return result;
   }
 
-  public List getAllImmutableProperties()
-  {
-    return collectImmutableProperties(getAllProperties());
-  }
-
   /**
    * Returns <code>null</code>.
    *
@@ -173,10 +150,5 @@ public abstract class JAstObjectImpl implements JAstObject
   public List getInheritedProperties()
   {
     return null;
-  }
-
-  public List getInheritedImmutableProperties()
-  {
-    return collectImmutableProperties(getInheritedProperties());
   }
 }

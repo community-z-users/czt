@@ -101,15 +101,6 @@ public interface JAstObject extends JObject
   public List getProperties();
 
   /**
-   * Returns the immutable property list of this Gnast class.
-   * This list does not include inherited properties.
-   *
-   * @return a list of properties (objects of type
-   *         {ref GnastProperty}).
-   */
-  public List getImmutableProperties();
-
-  /**
    * Returns a list of all properties for this Gnast class.
    * This list does include inherited properties.
    *
@@ -119,28 +110,10 @@ public interface JAstObject extends JObject
   public List getAllProperties();
 
   /**
-   * Returns a list of all immutable properties for this Gnast class.
-   * This list does include inherited properties.
-   *
-   * @return a list of all immutable properties (objects of type
-   *         {ref GnastProperty}).
-   */
-  public List getAllImmutableProperties();
-
-  /**
    * Returns a list of inherited properties for this Gnast class.
    *
    * @return a list of all inherited properties (objects of type
    *         {ref GnastProperty}).
    */
   public List getInheritedProperties();
-
-  /**
-   * Returns a list of inherited and immutable properties
-   * for this Gnast class.
-   *
-   * @return a list of all inherited and immutable properties
-   *         (objects of type {ref GnastProperty}).
-   */
-  public List getInheritedImmutableProperties();
 }
