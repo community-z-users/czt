@@ -35,7 +35,7 @@
           </jaxb:javadoc>
 </jaxb:package>
 </jaxb:schemaBindings>
-<gnast:schemaBindings>
+<gnast:schemaBindings name="Object Z">
 <gnast:package name="net.sourceforge.czt.oz">
 <gnast:package id="ast" name="ast">
 <gnast:generate id="factory" class="OzFactory" template="CoreFactory.vm"/>
@@ -43,9 +43,16 @@
 <gnast:package id="impl" name="impl">
 <gnast:generate id="factoryImpl" class="OzFactoryImpl" template="CoreFactoryImpl.vm"/>
 </gnast:package>
-<gnast:package id="visitor" name="visitor"/>
-<gnast:package id="jaxb" name="jaxb"/>
-<gnast:package id="dom" name="dom"/>
+<gnast:package id="visitor" name="visitor">
+<gnast:generate id="AstVisitor" class="OzVisitor" template="AstVisitor.vm"/>
+</gnast:package>
+<gnast:package id="jaxb" name="jaxb">
+<gnast:generate id="AstToJaxb" class="AstToJaxb" template="AstToJaxb.vm"/>
+<gnast:generate id="JaxbToAst" class="JaxbToAst" template="JaxbToAst.vm"/>
+</gnast:package>
+<gnast:package id="dom" name="dom">
+<gnast:generate id="AstToDom" class="AstToDom" template="AstToDom.vm"/>
+</gnast:package>
 </gnast:package>
 </gnast:schemaBindings>
 </xs:appinfo>
@@ -219,7 +226,7 @@
 <xs:complexContent>
 <xs:extension base="Z:TermA">
 <xs:sequence>
-<xs:element ref="Z:RefName" maxOccurs="unbounded"/>
+<xs:element name="Name" type="Z:DeclName" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>
@@ -377,7 +384,7 @@
 <xs:extension base="OZ:OperationExpr">
 <xs:sequence>
 <xs:element ref="OZ:OperationExpr"/>
-<xs:element ref="Z:RenameExpr" minOccurs="0"/>
+<xs:element ref="Z:NameNamePair" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>

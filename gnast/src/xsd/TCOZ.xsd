@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:TCOZ="http://czt.sourceforge.net/tcoz" xmlns:OZ="http://czt.sourceforge.net/object-z" xmlns:Z="http://czt.sourceforge.net/zml" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" targetNamespace="http://czt.sourceforge.net/tcoz" jaxb:version="1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:TCOZ="http://czt.sourceforge.net/tcoz" xmlns:OZ="http://czt.sourceforge.net/object-z" xmlns:Z="http://czt.sourceforge.net/zml" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:gnast="http://czt.sourceforge.net/gnast" targetNamespace="http://czt.sourceforge.net/tcoz" jaxb:version="1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1">
 <xs:annotation>
 <xs:documentation>
       Copyright 2003 Li Yuanfang
@@ -35,10 +35,30 @@
           </jaxb:javadoc>
 </jaxb:package>
 </jaxb:schemaBindings>
+<gnast:schemaBindings name="Timed Communicating Object Z">
+<gnast:package name="net.sourceforge.czt.tcoz">
+<gnast:package id="ast" name="ast">
+<gnast:generate id="factory" class="TcozFactory" template="CoreFactory.vm"/>
+</gnast:package>
+<gnast:package id="impl" name="impl">
+<gnast:generate id="factoryImpl" class="TcozFactoryImpl" template="CoreFactoryImpl.vm"/>
+</gnast:package>
+<gnast:package id="visitor" name="visitor">
+<gnast:generate id="AstVisitor" class="TcozVisitor" template="AstVisitor.vm"/>
+</gnast:package>
+<gnast:package id="jaxb" name="jaxb">
+<gnast:generate id="AstToJaxb" class="AstToJaxb" template="AstToJaxb.vm"/>
+<gnast:generate id="JaxbToAst" class="JaxbToAst" template="JaxbToAst.vm"/>
+</gnast:package>
+<gnast:package id="dom" name="dom">
+<gnast:generate id="AstToDom" class="AstToDom" template="AstToDom.vm"/>
+</gnast:package>
+</gnast:package>
+</gnast:schemaBindings>
 </xs:appinfo>
 </xs:annotation>
-<xs:import namespace="http://czt.sourceforge.net/zml" schemaLocation="Z.xsd"/>
 <xs:import namespace="http://czt.sourceforge.net/object-z" schemaLocation="Object-Z.xsd"/>
+<xs:import namespace="http://czt.sourceforge.net/zml" schemaLocation="Z.xsd"/>
 <!-- the Expression hierarchy -->
 <xs:element name="ChannelExpr" type="TCOZ:ChannelExpr" substitutionGroup="Z:Expr">
 <xs:annotation>
