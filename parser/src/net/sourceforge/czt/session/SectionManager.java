@@ -22,6 +22,7 @@ package net.sourceforge.czt.session;
 import java.io.*;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -29,6 +30,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.util.CztLogger;
+import net.sourceforge.czt.z.ast.*;
 
 /**
  * This class provides some services like computing
@@ -36,6 +38,8 @@ import net.sourceforge.czt.util.CztLogger;
  */
 public class SectionManager
 {
+  public Map ast_ = new HashMap();
+
   /**
    * A latex markup function cache.
    * It is basically a mapping from String, the name of a section,
@@ -44,6 +48,8 @@ public class SectionManager
   private Map markupFunctions_ = new HashMap();
 
   private Map opTable_ = new HashMap();
+
+  private Map definitionTable_ = new HashMap();
 
   /**
    * Returns the latex markup function for the given section name.
@@ -100,9 +106,58 @@ public class SectionManager
     return result;
   }
 
+  public DefinitionTable getDefinitionTable(String section)
+  {
+    DefinitionTable result =
+      (DefinitionTable) definitionTable_.get(section);
+    if (result == null) {      
+      DefinitionTableVisitor visitor = new DefinitionTableVisitor(this);
+      Term term = getAst(section);
+      if (term != null) {
+        term.accept(visitor);
+        result = visitor.getDefinitionTable();
+        if (result != null) {
+          definitionTable_.put(section, result);
+        }
+      }
+    }
+    if (result == null) {
+      String message =
+        "Cannot find definition table for section'" + section + "'.";
+      Logger logger = CztLogger.getLogger(SectionManager.class);
+      logger.warning(message);
+    }
+    return result;
+  }
+
   public Term getAst(String section)
   {
-    throw new UnsupportedOperationException();
+    Term result = (Term) ast_.get(section);
+    if (result == null) {
+      try {
+        URL url = getLibFile(section + ".tex");
+        Spec spec = (Spec) ParseUtils.parseLatexURL(url, this);
+        for (Iterator iter = spec.getSect().iterator(); iter.hasNext(); ) {
+          Object o = iter.next();
+          if (o instanceof ZSect) {
+            ZSect zSect = (ZSect) o;
+            if (zSect.getName().equals(section)) {
+              result = zSect;
+              ast_.put(section, result);
+            }
+          }
+        }
+      }
+      catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+    if (result == null) {
+      String message =
+        "Cannot find AST for section '" + section + "'.";
+      CztLogger.getLogger(getClass()).warning(message);
+    }
+    return result;
   }
 
   public URL getLibFile(String filename)
