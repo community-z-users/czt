@@ -54,19 +54,21 @@ public class <class/>
 {
   private LatexMarkupParser scanner_;
   private SectionManager manager_;
+  private Latex2Unicode l2u_;
 
   public <class/>(URL url, SectionManager manager)
     throws IOException
   {
-    Latex2Unicode l2u = new Latex2Unicode(url);
-    scanner_ = new LatexMarkupParser(l2u, manager);
+    l2u_ = new Latex2Unicode(url);
+    l2u_.setSource(url.toString());
+    scanner_ = new LatexMarkupParser(l2u_, manager);
     scanner_.setSource(url.toString());
   }
 
   public <class/>(Reader in, SectionManager manager)
   {
-    Latex2Unicode l2u = new Latex2Unicode(in);
-    scanner_ = new LatexMarkupParser(l2u, manager);
+    l2u_ = new Latex2Unicode(in);
+    scanner_ = new LatexMarkupParser(l2u_, manager);
   }
 
   public <class/>(InputStream in, SectionManager manager)
@@ -77,13 +79,15 @@ public class <class/>
   public void reset(URL url)
     throws IOException
   {
-    Latex2Unicode l2u = new Latex2Unicode(url);
-    scanner_ = new LatexMarkupParser(l2u, manager_);
+    l2u_ = new Latex2Unicode(url);
+    l2u_.setSource(url.toString());
+    scanner_ = new LatexMarkupParser(l2u_, manager_);
     scanner_.setSource(url.toString());
   }
 
   public void setSource(String source)
   {
+    l2u_.setSource(source);
     scanner_.setSource(source);
   }
 
@@ -107,14 +111,15 @@ public class <class/>
     InputStream input = url.openStream();
     Writer writer = 
       new OutputStreamWriter(new FileOutputStream(outfilename), "UTF-8");
-    convert(input, writer);
+    convert(input, url.toString(), writer);
     writer.close();
   }
 
-  public static void convert(InputStream input, Writer writer)
+  public static void convert(InputStream input, String source, Writer writer)
     throws Exception
   {
     <class/> scanner = new <class/>(input, new SectionManager());
+    scanner.setSource(source);
     Symbol s = null;
     while ( (s = scanner.next_token()).sym != Sym.EOF) {
       if (s.value != null) writer.write((String) s.value);
@@ -126,12 +131,14 @@ public class <class/>
     String usage = "Usage: java <package/>.<class/>"
       + " [ -in &lt;inputfile&gt;] [ -out &lt;outputfile&gt;]";
     try {
+      String source = null;
       InputStream input = System.in;
       Writer writer = new PrintWriter(System.out);
       for (int i = 0; i &lt; args.length; i++) {
         if ("-in".equals(args[i])) {
           if (i &lt; args.length) {
-            input = new FileInputStream(args[++i]);
+            source = args[++i];
+            input = new FileInputStream(source);
           } else {
             System.err.println(usage);
             return;
@@ -149,7 +156,7 @@ public class <class/>
           return;
         }
       }
-      convert(input, writer);
+      convert(input, source, writer);
       writer.close();
     } catch (Exception e) {
       e.printStackTrace();
