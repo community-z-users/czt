@@ -115,8 +115,7 @@ public class ZLiveToAstVisitor
       Expr pair = factory_.createTupleExpr(factory_.createRefExpr(a),
                                  factory_.createRefExpr(b));
       Expr leftExpr = factory_.createFunOpAppl(refName, pair);
-      RefExpr refExpr = factory_.createRefExpr(c);
-      Expr rightExpr = factory_.createSetExpr(factory_.list(refExpr));
+      RefExpr rightExpr = factory_.createRefExpr(c);
       return factory_.createEquality(leftExpr, rightExpr);
     }
     catch(OperatorName.OperatorNameException e) {
@@ -135,8 +134,7 @@ public class ZLiveToAstVisitor
       RefName refName = factory_.createRefName(opName.getName(), null);
       Expr leftExpr = factory_.createFunOpAppl(refName,
                                                factory_.createRefExpr(a));
-      RefExpr refExpr = factory_.createRefExpr(b);
-      Expr rightExpr = factory_.createSetExpr(factory_.list(refExpr));
+      RefExpr rightExpr = factory_.createRefExpr(b);
       return factory_.createEquality(leftExpr, rightExpr);
     }
     catch(OperatorName.OperatorNameException e) {
@@ -157,8 +155,7 @@ public class ZLiveToAstVisitor
       Expr pair = factory_.createTupleExpr(factory_.createRefExpr(a),
                                  factory_.createRefExpr(b));
       Expr leftExpr = factory_.createFunOpAppl(refName, pair);
-      RefExpr refExpr = factory_.createRefExpr(c);
-      Expr rightExpr = factory_.createSetExpr(factory_.list(refExpr));
+      RefExpr rightExpr = factory_.createRefExpr(c);
       return factory_.createEquality(leftExpr, rightExpr);
     }
     catch(OperatorName.OperatorNameException e) {
