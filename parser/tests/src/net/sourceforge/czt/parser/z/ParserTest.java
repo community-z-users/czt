@@ -30,7 +30,6 @@ import net.sourceforge.czt.z.jaxb.*;
 
 /**
  * A (JUnit) test class for testing the parser.
- * Currently, it is only testing the Object Z parser.
  *
  * @author Petra Malik
  */
@@ -59,6 +58,7 @@ public class ParserTest extends TestCase
   public void testCompareTest()
   {
     compare("z/test.tex", "z/test.xml");
+    compare("z/test7.tex", "z/test7.xml");
   }
 
   public void compare(String latexFile, String zmlFile)
