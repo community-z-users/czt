@@ -39,13 +39,6 @@ First make sure jEdit is really using Java 1.5.
 (Under Windows, you can check the properties of your jEdit shortcut
 and make sure it is using the Java 1.5.x javaw.exe program).
 
-Then copy all the jar files provided in this directory,
-EXCEPT bsh.jar to the /jars subdirectory of either
-(a) the directory in which jEdit is installed, or
-(b) your user settings directory (which you can find
-    by evaluating the BeanShell expression
-    jEdit.getSettingsDirectory()).
-
 Since the plugin is installed manually (not using the plugin manager),
 we also need to take care of the plugin's dependencies.  The ErrorList
 plugin is required by the CZT plugin, so please install the "ErrorList"
@@ -57,6 +50,14 @@ If you plan to view or edit Z specifications in Unicode markup, you should
 also install the jEdit "Whitespace" plugin and enable the
 "Show other whitespaces" option (use the "Plugins / WhiteSpaces" menu),
 to ensure that you can see the ENDZED character.
+
+Now copy all the jar files provided in this directory, EXCEPT bsh.jar, 
+to the /jars subdirectory of either:
+(a) the directory in which jEdit is installed, or
+(b) your user settings directory (which you can find
+    by evaluating the BeanShell expression
+    jEdit.getSettingsDirectory()).
+
 
 After you restart jEdit, you should now find an entry "Community Z Tools"
 in the plugin menu, which pops up the CZT plugin.  It will show some
@@ -110,12 +111,19 @@ http://linux.org.mt/article/ttfonts
 
 2.2.2: Selecting the CZT font within jEdit
 
-Once installed, the "CZT" font must be selected in the jEdit "Global Options"
-and then "Text Area" settings.  You need to restart jEdit to get the
-font in the CZT plugin as well, since the font in the CZT plugin cannot
-yet be set dynamically.  After you have done this, you should see all
-the Z characters in the CZT plugin (no little square boxes, which mean
-a missing symbol in the font).  
+After installing the font, we must tell jEdit to use that font in all its
+buffers.  To do this, go into the jEdit global settings panel
+(you can use the "Utilities / Global Options" menu to open this panel),
+then into the "Text Area" pane and set the "Text Font" to be CZT
+(clicking on the existing font name will open a requestor, then you
+can scroll down the left-hand column to select the "CZT" family).
+You might also like to enable the "Smooth Text" and "Fractional Font
+Metrics" on this "Text Area" pane, to turn on anti-aliasing of fonts.
+
+You need to restart jEdit to see the font in the CZT plugin as well,
+since the font in the CZT plugin cannot yet be set dynamically.  
+After you have done this, you should see all the Z characters in the CZT
+plugin (no little square boxes, which mean a missing symbol in the font).  
 
 2.2.3: Test it -- create a Z Unicode specification!
 
@@ -125,7 +133,7 @@ Then click the "Sect",  "::=" and "Sch" buttons in the CZT plugin.
 These should insert a section header, then a free type definition,
 then a schema definition.  The resulting buffer should look like the
 example screenshot.png in this directory.  If you are missing some
-of the Z symbols, then recheck the "CZTSans" font installation.
+of the Z symbols, then recheck the CZT font installation.
 If you cannot see the ENDZED characters (the little red diamonds),
 then make sure you have installed the "WhiteSpace" plugin and
 turned on the "Show other whitespace" option.
