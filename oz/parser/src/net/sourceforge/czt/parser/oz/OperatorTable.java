@@ -274,7 +274,7 @@ public class OperatorTable
 
   private void addPrefix(OptempPara otp)
   {
-    List words = otp.getWordOrOperand();
+    List words = otp.getOper();
 
     int start = 1;
     int finish = words.size() - 4;
@@ -294,7 +294,7 @@ public class OperatorTable
 
   private void addPostfix(OptempPara otp)
   {
-    List words = otp.getWordOrOperand();
+    List words = otp.getOper();
     int start = 2;
     int finish = words.size() - 3;
 
@@ -314,7 +314,7 @@ public class OperatorTable
 
   private void addInfix(OptempPara otp)
   {
-    List words = otp.getWordOrOperand();
+    List words = otp.getOper();
     int start = 2;
     int finish = words.size() - 4;
 
@@ -330,7 +330,7 @@ public class OperatorTable
 
   private void addNofix(OptempPara otp)
   {
-    List words = otp.getWordOrOperand();
+    List words = otp.getOper();
     int start = 1;
     int finish = words.size() - 2;
 
@@ -341,7 +341,7 @@ public class OperatorTable
 
   private void addPreOrPrep(OptempPara otp)
   {
-    List words = otp.getWordOrOperand();
+    List words = otp.getOper();
     int namePosition = 0;
 
     int type = otp.getCat().equals(Cat.Relation) ?
@@ -353,7 +353,7 @@ public class OperatorTable
 
   private void addLOrLp(OptempPara otp)
   {
-    List words = otp.getWordOrOperand();
+    List words = otp.getOper();
     int namePosition = 0;
 
     int type = otp.getCat().equals(Cat.Relation) ?
@@ -365,7 +365,7 @@ public class OperatorTable
 
   private void addPostOrPostp(OptempPara otp)
   {
-    List words = otp.getWordOrOperand();
+    List words = otp.getOper();
     int namePosition = 1;
 
     int type = otp.getCat().equals(Cat.Relation) ?
@@ -377,7 +377,7 @@ public class OperatorTable
 
   private void addElOrElp(OptempPara otp)
   {
-    List words = otp.getWordOrOperand();
+    List words = otp.getOper();
     int namePosition = 1;
 
     int type = otp.getCat().equals(Cat.Relation) ?
@@ -389,7 +389,7 @@ public class OperatorTable
 
   private void addEsOrSsList(OptempPara otp, int start, int finish)
   {
-    List words = otp.getWordOrOperand();
+    List words = otp.getOper();
 
     for (int i = start; i < finish; i += 2) {
       int type =
@@ -404,7 +404,7 @@ public class OperatorTable
 
   private void addErOrSrOrErpOrSrp(OptempPara otp)
   {
-    List words = otp.getWordOrOperand();
+    List words = otp.getOper();
     int type = -1;
     int opPosition = words.size() - 2;
     int namePosition = words.size() - 1;
@@ -425,7 +425,7 @@ public class OperatorTable
 
   private void addEreOrSreOrErepOrSRep(OptempPara otp)
   {
-    List words = otp.getWordOrOperand();
+    List words = otp.getOper();
     int type = -1;
     int opPosition = words.size() - 3;
     int namePosition = words.size() - 2;
@@ -446,7 +446,7 @@ public class OperatorTable
 
   private void addIOrIp(OptempPara otp)
   {
-    List words = otp.getWordOrOperand();
+    List words = otp.getOper();
     int namePosition = 1;
 
     int type = otp.getCat().equals(Cat.Relation) ?
@@ -475,8 +475,10 @@ public class OperatorTable
   private String getName(Object o)
   {
     //TODO: remove this
-    if (o instanceof String) {
-      return (String) o;
+    if (o instanceof net.sourceforge.czt.z.ast.Operator) {
+      net.sourceforge.czt.z.ast.Operator op =
+        (net.sourceforge.czt.z.ast.Operator) o;
+      return op.getWord();
     }
 
     String result = null;

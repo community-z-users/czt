@@ -1163,7 +1163,7 @@ operatorTemplate ::=
         {:
            OptempPara otp =
              ozFactory_.createOptempPara();
-           otp.getWordOrOperand().addAll(t);
+           otp.getOper().addAll(t);
            otp.setCat(Cat.Relation);
 otp.setPrec(new Integer(0));
            RESULT = otp;
@@ -1201,7 +1201,7 @@ catTemplate ::=
         prefixTemplate:pt
         {: 
            OptempPara otp = ozFactory_.createOptempPara();
-           otp.getWordOrOperand().addAll(pt);
+           otp.getOper().addAll(pt);
 otp.setPrec(new Integer(0));
            RESULT = otp;
         :}
@@ -1209,7 +1209,7 @@ otp.setPrec(new Integer(0));
         postfixTemplate:pt
         {: 
            OptempPara otp = ozFactory_.createOptempPara();
-           otp.getWordOrOperand().addAll(pt);
+           otp.getOper().addAll(pt);
 otp.setPrec(new Integer(0));
            RESULT = otp;
         :}
@@ -1218,7 +1218,7 @@ otp.setPrec(new Integer(0));
         {:
            OptempPara otp = ozFactory_.createOptempPara();
            otp.setPrec(pr);
-           otp.getWordOrOperand().addAll(it);
+           otp.getOper().addAll(it);
            otp.setAssoc(a);
            RESULT = otp;
         :}
@@ -1226,7 +1226,7 @@ otp.setPrec(new Integer(0));
         nofixTemplate:nt
         {:
            OptempPara otp = ozFactory_.createOptempPara();
-           otp.getWordOrOperand().addAll(nt);
+           otp.getOper().addAll(nt);
 otp.setPrec(new Integer(0));
            RESULT = otp;
         :}
@@ -1245,7 +1245,7 @@ assoc ::=
 prefixTemplate ::=
         LPAREN DECORWORD:n optWordOperandList:ol varg:v RPAREN
         {: 
-           List l = list(n);
+           List l = list(ozFactory_.createOperator(n));
            l.addAll(ol);
            l.add(v);
            fix_ = OperatorTable.PREFIX;
@@ -1254,7 +1254,7 @@ prefixTemplate ::=
 	|
 	LPAREN POWER varg:v RPAREN
 	{:
-           List l = list(ZString.POWER, v);
+           List l = list(ozFactory_.createOperator(ZString.POWER), v);
            fix_ = OperatorTable.PREFIX;
            RESULT = l;
 	:}
@@ -1265,7 +1265,7 @@ postfixTemplate ::=
         LPAREN varg:v DECORWORD:n optWordOperandList:ol RPAREN
         {: 
            List l = list(v);
-           l.add(n);
+           l.add(ozFactory_.createOperator(n));
            l.addAll(ol);
            fix_ = OperatorTable.POSTFIX;
            RESULT = l; 
@@ -1277,7 +1277,7 @@ infixTemplate ::=
         LPAREN varg:v1 DECORWORD:n optWordOperandList:ol varg:v2 RPAREN
         {: 
            List l = list(v1);
-           l.add(n);
+           l.add(ozFactory_.createOperator(n));
            l.addAll(ol);
            l.add(v2);
            fix_ = OperatorTable.INFIX;
@@ -1289,7 +1289,7 @@ infixTemplate ::=
 nofixTemplate ::=
         LPAREN DECORWORD:n optWordOperandList:ol RPAREN
         {: 
-           List l = list(n);
+           List l = list(ozFactory_.createOperator(n));
            l.addAll(ol);
            fix_ = OperatorTable.NOFIX;
            RESULT = l;
@@ -1304,7 +1304,7 @@ optWordOperandList ::=
         optWordOperandList:wl templateTag:t DECORWORD:n
         {:
            wl.add(t);
-           wl.add(n);
+           wl.add(ozFactory_.createOperator(n));
            RESULT = wl;
         :}
         ;
