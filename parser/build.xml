@@ -13,7 +13,7 @@
   <property name="oz.sym.name" value="Sym"/>
 
   <taskdef classname="ant.JavaCupTask" name="java_cup"
-    classpath="${czt.home}/${jar.dir}/${java_cup.task.jar}"/>
+    classpath="${czt.home}/${jar.dir}/${java_cup.task.jar.file}"/>
   <taskdef classname="JFlex.anttask.JFlexTask" name="jflex"
     classpath="${jflex.jar}"/>
 
