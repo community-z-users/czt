@@ -60,10 +60,10 @@ public class OperatorName
     }
   }
 
-  public OperatorName(String name)
+  public OperatorName(Name name)
     throws OperatorNameException
   {
-    this(name, null);
+    this(name.getWord(), name.getStroke());
   }
 
   public OperatorName(String name, List strokes)
