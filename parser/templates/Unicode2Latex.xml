@@ -171,9 +171,12 @@ action code
   private LatexCommand uniwordToLatex(String word, Map latexCommands)
     throws ParseException
   {
-    LatexCommand command = (LatexCommand) latexCommands.get(word);
-    if (command != null) {
-      return command;
+    LatexCommand command = null;
+    if (markup_ == null) {
+      command = (LatexCommand) latexCommands.get(word);
+      if (command != null) {
+        return command;
+      }
     }
     String latex = "";
     boolean addLeftSpace = false;
@@ -322,6 +325,7 @@ parser code {:
       }
     }
     else {
+      action_obj.markup_ = null;
       Symbol result = getScanner().next_token();
       return result;
     }
