@@ -6,6 +6,9 @@ import java_cup.runtime.*;
 import java.io.*;
 import java.util.*;
 
+import net.sourceforge.czt.util.ParseException;
+import net.sourceforge.czt.util.ZString;
+
 action code
 {:
   private Map map_ = createMap();
@@ -16,8 +19,24 @@ action code
     Set set = LatexMarkup.getUnicodeMappingEntries();
     for (Iterator iter = set.iterator(); iter.hasNext();) {
       Map.Entry entry = (Map.Entry) iter.next();
-      map.put(entry.getValue(), entry.getKey());
+      String latex = (String) entry.getKey();
+      String unicode = (String) entry.getValue();
+      LatexMarkup.Type type = LatexMarkup.getType(latex);
+      boolean leftSpace = type.equals(LatexMarkup.Type.IN) ||
+                          type.equals(LatexMarkup.Type.POST);
+      boolean rightSpace = type.equals(LatexMarkup.Type.IN) ||
+                           type.equals(LatexMarkup.Type.PRE);
+      LatexCommand command =
+        new LatexCommand(latex, unicode, leftSpace, rightSpace);
+      map.put(unicode, command);
     }
+    map.put(ZString.SPOT, new LatexCommand("@", ZString.SPOT, true, true));
+    map.put("+", new LatexCommand("+", "+", true, true));
+    map.put("-", new LatexCommand("-", "-", true, true));
+    map.put("*", new LatexCommand("*", "*", true, true));
+    map.put("|", new LatexCommand("|", "|", true, true));
+    map.put(";", new LatexCommand(";", ";", false, true));
+    map.put(",", new LatexCommand(",", ",", false, true));
     return map;
   }
 
@@ -31,66 +50,31 @@ action code
     return "\\end{" + string + "}";
   }
 
-  static class Word
+  private LatexCommand concate(LatexCommand c1, LatexCommand c2)
   {
-    public String string;
-    public Boolean needLeftTilde;
-    public Boolean needRightTilde;
-
-    public Word(String s, LatexMarkup.Type type)
-    {
-      string = s;
-      if (type.equals(LatexMarkup.Type.NONE)) {
-        needLeftTilde = Boolean.valueOf(true);
-        needRightTilde = Boolean.valueOf(true);
-      }
-      else if (type.equals(LatexMarkup.Type.IN)) {
-        needLeftTilde = Boolean.valueOf(false);
-        needRightTilde = Boolean.valueOf(false);
-      }
-      else if (type.equals(LatexMarkup.Type.PRE)) {
-        needLeftTilde = Boolean.valueOf(true);
-        needRightTilde = Boolean.valueOf(false);
-      }
-      else {
-        needLeftTilde = Boolean.valueOf(false);
-        needRightTilde = Boolean.valueOf(true);
-      }
+    if (c1 == null) return c2;
+    if (c2 == null) return c1;
+    String latex = c1.getName();
+    if (! c1.addRightSpace() && ! c2.addLeftSpace()) {
+      latex += "~";
+    } else {
+      latex += " ";
     }
+    latex += c2.getName();
+    return
+      new LatexCommand(latex, null, c1.addLeftSpace(), c2.addRightSpace());
+  }
 
-    public Word(String s, Boolean left, Boolean right)
-    {
-      string = s;
-      needLeftTilde = left;
-      needRightTilde = right;
+  private LatexCommand toLatex(String s, int line, int column)
+    throws ParseException
+  {
+    try {
+      return LatexMarkupUtils.uniwordToLatex(s, map_);
     }
-
-    public Word(String s, boolean left, boolean right)
-    {
-      string = s;
-      needLeftTilde = Boolean.valueOf(left);
-      needRightTilde = Boolean.valueOf(right);
-    }
-
-    public Word concate(Word w)
-    {
-      Boolean t = Boolean.valueOf(true);
-      Boolean f = Boolean.valueOf(false);
-
-      if (string.equals(""))
-        return new Word(w.string, w.needLeftTilde, w.needRightTilde);
-
-      if (w.string.equals(""))
-        return new Word(string, needLeftTilde, needRightTilde);
-
-      String s = string;
-      if (needRightTilde == null || w.needLeftTilde == null)
-        s += w.string;
-      else if (needRightTilde.equals(f) || w.needLeftTilde.equals(f))
-        s += " " + w.string;
-      else s += "~" + w.string;
-
-      return new Word(s, needLeftTilde, w.needRightTilde);
+    catch(ParseException e) {
+      e.setLine(line);
+      e.setColumn(column + e.getColumn());
+      throw e;
     }
   }
 :}
@@ -159,7 +143,7 @@ terminal String    DECORWORD, TEXT;
 /* Non terminals */
 non terminal String     s, input, sect, para, schemaText,
                         nlSeq;
-non terminal Word       token, tokenSeq, 
+non terminal LatexCommand token, tokenSeq, 
                         other, paren, special, decorword;
 
 
@@ -203,7 +187,7 @@ non terminal Word       token, tokenSeq,
              |
              SCH decorword:w schemaText:s END
              {:
-                String result = begin("schema") + "{" + w.string + "}";
+                String result = begin("schema") + "{" + w.getName() + "}";
                 result += s;
                 result += end("schema");
                 parser.write(result);
@@ -229,18 +213,18 @@ non terminal Word       token, tokenSeq,
 
    schemaText ::=
              nlSeq:n1 token:s1 tokenSeq:s2 BAR:b nlSeq:n2 token:s3 tokenSeq:s4
-             {: RESULT =  n1;
-                RESULT += s1.concate(s2).string;
-                RESULT += "\\where " + n2;
-                RESULT += s3.concate(s4).string; :}
+             {: RESULT = n1;
+                RESULT += concate(s1, s2).getName();
+                RESULT += "\\where ";
+                RESULT += concate(s3, s4).getName(); :}
              |
              BAR:b nlSeq:nl token:s1 tokenSeq:s2
              {: RESULT =  "\\where " + nl;
-                RESULT += s1.concate(s2).string; :}
+                RESULT += concate(s1, s2).getName(); :}
              |
              nlSeq:nl token:s1 tokenSeq:s2
              {: RESULT =  nl;
-                RESULT += s1.concate(s2).string; :}
+                RESULT += concate(s1, s2).getName(); :}
              |
              nlSeq:nl
              {: RESULT = nl; :}
@@ -253,31 +237,32 @@ non terminal Word       token, tokenSeq,
              ;
 
    tokenSeq ::= tokenSeq:w1 token:w2
-             {: RESULT = w1.concate(w2); :}
+             {: RESULT = concate(w1, w2); :}
              |
              tokenSeq:w1 special:w2
-             {: RESULT = w1.concate(w2); :}
+             {: RESULT = concate(w1, w2); :}
              |
-             {: RESULT = new Word("", null, null); :}
+             {: RESULT = null; :}
              ;
 
    token ::= decorword:s
              {: RESULT = s; :}
              |
              INSTROKE
-             {: RESULT = new Word("?", true, true); :}
+             {: RESULT = new LatexCommand("?", null, false, false); :}
              |
              OUTSTROKE
-             {: RESULT = new Word("!", true, true); :}
+             {: RESULT = new LatexCommand("!", null, false, false); :}
              |
              NEXTSTROKE
-             {: RESULT = new Word("'", true, true); :}
+             {: RESULT = new LatexCommand("'", null, false, false); :}
              |
              NUMSTROKE:i
-             {: RESULT = new Word("^" + i.toString(), true, true); :}
+             {: RESULT =
+                  new LatexCommand("^" + i.toString(), null, false, false); :}
              |
              NUMERAL:i
-             {: RESULT = new Word(i.toString(), true, true); :}
+             {: RESULT = new LatexCommand(i.toString(), null, false, false); :}
              |
              paren:s
              {: RESULT = s; :}
@@ -288,202 +273,182 @@ non terminal Word       token, tokenSeq,
 
    decorword ::= DECORWORD:s
              {:
+                RESULT = toLatex(s, sleft, sright);
+                /*
                 String string = (String) map_.get(s);
                 if (string != null) {
                   LatexMarkup.Type type = LatexMarkup.getType(string);
                   RESULT = new Word(string, type);
                 }
                 else RESULT = new Word(s, true, true);
+                */
              :}
              ;
 
    paren ::= LPAREN
-             {: RESULT = new Word("(", null, null); :}
+             {: RESULT = new LatexCommand("(", null, true, true); :}
              |
              RPAREN
-             {: RESULT = new Word(")", null, null); :}
+             {: RESULT = new LatexCommand(")", null, true, true); :}
              |
              LSQUARE
-             {: RESULT = new Word("[", null, null); :}
+             {: RESULT = new LatexCommand("[", null, true, true); :}
              |
              RSQUARE
-             {: RESULT = new Word("]", null, null); :}
+             {: RESULT = new LatexCommand("]", null, true, true); :}
              |
              LBRACE
-             {: RESULT = new Word("\\{", null, null); :}
+             {: RESULT = new LatexCommand("\\{", null, true, true); :}
              |
              RBRACE
-             {: RESULT = new Word("\\}", null, null); :}
+             {: RESULT = new LatexCommand("\\}", null, true, true); :}
              |
              LBIND
-             {: RESULT = new Word("\\lblot", null, Boolean.valueOf(false)); :}
+             {: RESULT = new LatexCommand("\\lblot", null, true, true); :}
              |
              RBIND
-             {: RESULT = new Word("\\rblot", null, Boolean.valueOf(false)); :}
+             {: RESULT = new LatexCommand("\\rblot", null, true, true); :}
              |
              LDATA
-             {: RESULT = new Word("\\ldata", null, Boolean.valueOf(false)); :}
+             {: RESULT = new LatexCommand("\\ldata", null, true, true); :}
              |
              RDATA
-             {: RESULT = new Word("\\rdata", null, Boolean.valueOf(false)); :}
+             {: RESULT = new LatexCommand("\\rdata", null, true, true); :}
              ;
 
   special ::= NL
-             {: RESULT = new Word("\\\\\n", null, null); :}
+             {: RESULT = new LatexCommand("\\\\\n", null, true, true); :}
              ;
 
-  other ::=  ELSE
-             {: String cmd = "\\ELSE";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+  other ::=  ELSE:t
+             {: RESULT = toLatex("else", tleft, tright); :}
              |
-             FALSE
-             {: RESULT = new Word("false", LatexMarkup.Type.NONE); :}
+             FALSE:t
+             {: RESULT = toLatex("false", tleft, tright); :}
              |
-             FUNCTION
-             {: String cmd = "\\function";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+             FUNCTION:t
+             {: RESULT = toLatex("function", tleft, tright); :}
              |
-             GENERIC
-             {: String cmd = "\\generic";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+             GENERIC:t
+             {: RESULT = toLatex("generic", tleft, tright); :}
              |
-             IF
-             {: String cmd = "\\IF";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+             IF:t
+             {: RESULT = toLatex("if", tleft, tright); :}
              |
-             LEFTASSOC
-             {: String cmd = "\\leftassoc";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+             LEFTASSOC:t
+             {: RESULT = toLatex("leftassoc", tleft, tright); :}
              |
-             LET
-             {: String cmd = "\\LET";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+             LET:t
+             {: RESULT = toLatex("let", tleft, tright); :}
              |
-             POWER
-             {: String cmd = "\\power";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+             POWER:t
+             {: RESULT = toLatex(ZString.POWER, tleft, tright); :}
              |
-             PARENTS
-             {: String cmd = "\\parents";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+             PARENTS:t
+             {: RESULT = toLatex("parents", tleft, tright); :}
              |
-             ZPRE
-             {: String cmd = "\\pre";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+             ZPRE:t
+             {: RESULT = toLatex("pre", tleft, tright); :}
              |
-             RELATION
-             {: String cmd = "\\relation";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+             RELATION:t
+             {: RESULT = toLatex("relation", tleft, tright); :}
              |
-             RIGHTASSOC
-             {: String cmd = "\\rightassoc";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+             RIGHTASSOC:t
+             {: RESULT = toLatex("rightassoc", tleft, tright); :}
              |
-             THEN
-             {: String cmd = "\\THEN";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+             THEN:t
+             {: RESULT = toLatex("then", tleft, tright); :}
              |
-             TRUE
-             {: RESULT = new Word("true", LatexMarkup.Type.NONE); :}
+             TRUE:t
+             {: RESULT = toLatex("true", tleft, tright); :}
              |
              COLON
-             {: RESULT = new Word(":", null, null); :}
+             {: RESULT = new LatexCommand(":", null, false, false); :}
              |
-             DEFFREE
+             DEFFREE:t
+             {: RESULT = toLatex("::=", tleft, tright); :}
              |
-             ANDALSO
+             ANDALSO:t
+             {: RESULT = toLatex("&", tleft, tright); :}
              |
-             ZHIDE
-             {: String cmd = "\\hide";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+             ZHIDE:t
+             {: RESULT = toLatex(ZString.ZHIDE, tleft, tright); :}
              |
-             SLASH
+             SLASH:t
+             {: RESULT = toLatex(ZString.AMP, tleft, tright); :}
              |
-             DOT
+             DOT:t
+             {: RESULT = toLatex(ZString.DOT, tleft, tright); :}
              |
-             SEMICOLON
-             {: RESULT = new Word(";", LatexMarkup.Type.IN); :}
+             SEMICOLON:t
+             {: RESULT = toLatex(ZString.SEMICOLON, tleft, tright); :}
              |
-             ARG
-             {: String cmd = "\\varg";
-                RESULT = new Word(cmd, null, null); :}
+             ARG:t
+             {: RESULT = toLatex("_", tleft, tright); :}
              |
-             LISTARG
-             {: String cmd = "\\listarg";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+             LISTARG:t
+             {: RESULT = toLatex(",,", tleft, tright); :}
              |
-             EQUALS
-             {: RESULT = new Word("=", false, false); :}
+             EQUALS:t
+             {: RESULT = toLatex("=", tleft, tright); :}
              |
-             CONJECTURE
+             CONJECTURE:t
+             {: RESULT = toLatex(ZString.CONJECTURE, tleft, tright); :}
              |
-             ALL
-             {: String cmd = "\\forall";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+             ALL:t
+             {: RESULT = toLatex(ZString.ALL, tleft, tright); :}
              |
-             SPOT
-             {: RESULT = new Word("@", LatexMarkup.Type.IN); :}
+             SPOT:t
+             {: RESULT = toLatex(ZString.SPOT, tleft, tright); :}
              |
-             EXI
-             {: String cmd = "\\exists";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+             EXI:t
+             {: RESULT = toLatex(ZString.EXI, tleft, tright); :}
              |
-             EXIONE
-             {: RESULT = new Word("\\exists_{1}",
-                                  LatexMarkup.getType("\\exists")); :}
+             EXIONE:t
+             {: RESULT = toLatex(ZString.EXI + ZString.SUB1, tleft, tright); :}
              |
-             IFF
-             {: String cmd = "\\iff";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+             IFF:t
+             {: RESULT = toLatex(ZString.IFF, tleft, tright); :}
              |
-             IMP
-             {: String cmd = "\\implies";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+             IMP:t
+             {: RESULT = toLatex(ZString.IMP, tleft, tright); :}
              |
-             OR
-             {: String cmd = "\\lor";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+             OR:t
+             {: RESULT = toLatex(ZString.OR, tleft, tright); :}
              |
-             AND
-             {: String cmd = "\\land";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+             AND:t
+             {: RESULT = toLatex(ZString.AND, tleft, tright); :}
              |
-             NOT
-             {: String cmd = "\\lnot";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+             NOT:t
+             {: RESULT = toLatex(ZString.NOT, tleft, tright); :}
              |
-             MEM
-             {: String cmd = "\\in";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+             MEM:t
+             {: RESULT = toLatex(ZString.MEM, tleft, tright); :}
              |
-             ZPROJ
-             {: String cmd = "\\project";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+             ZPROJ:t
+             {: RESULT = toLatex(ZString.ZPROJ, tleft, tright); :}
              |
-             CROSS
-             {: String cmd = "\\cross";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+             CROSS:t
+             {: RESULT = toLatex(ZString.CROSS, tleft, tright); :}
              |
-             LAMBDA
-             {: String cmd = "\\lambda";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+             LAMBDA:t
+             {: RESULT = toLatex(ZString.LAMBDA, tleft, tright); :}
              |
-             MU
-             {: String cmd = "\\mu";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+             MU:t
+             {: RESULT = toLatex(ZString.MU, tleft, tright); :}
              |
-             THETA
-             {: String cmd = "\\theta";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+             THETA:t
+             {: RESULT = toLatex(ZString.THETA, tleft, tright); :}
              |
-             ZCOMP
+             ZCOMP:t
+             {: RESULT = toLatex(ZString.ZCOMP, tleft, tright); :}
              |
-             COMMA
-             {: RESULT = new Word(",", null, null); :}
+             COMMA:t
+             {: RESULT = toLatex(ZString.COMMA, tleft, tright); :}
              |
-             DEFEQUAL
+             DEFEQUAL:t
+             {: RESULT = toLatex("==", tleft, tright); :}
              |
-             ZPIPE
-             {: String cmd = "\\pipe";
-                RESULT = new Word(cmd, LatexMarkup.getType(cmd)); :}
+             ZPIPE:t
+             {: RESULT = toLatex(ZString.ZPIPE, tleft, tright); :}
              ;
