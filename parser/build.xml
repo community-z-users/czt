@@ -13,8 +13,6 @@
   <property name="src.oz.dir" location="${src.dir}/net/sourceforge/czt/parser/oz"/>
   <property name="build.src.z.dir" location="${build.src.dir}/net/sourceforge/czt/parser/z"/>
   <property name="build.src.oz.dir" location="${build.src.dir}/net/sourceforge/czt/parser/oz"/>
-  <property name="parser.name" value="Parser"/>
-  <property name="uscanner.name" value="UnicodeScanner"/>
 
   <taskdef classname="JFlex.anttask.JFlexTask" name="jflex"
     classpath="${jflex.jar}"/>
@@ -54,42 +52,6 @@
     </jar>
   </target>
 
-  <target name="scanner">
-    <xslt
-      in="templates/UnicodeScanner.xml"
-      out="${build.src.dir}/net/sourceforge/czt/print/z/${uscanner.name}.jflex"
-      style="${czt.home}/devtools/template2text.xsl">
-      <param name="class" expression="${uscanner.name}"/>
-      <param name="package" expression="net.sourceforge.czt.print.z"/>
-      <param name="add" expression="{z}{print}"/>
-    </xslt>
-    <jflex
-      file="${build.src.dir}/net/sourceforge/czt/print/z/${uscanner.name}.jflex"
-      destdir="${build.src.dir}"/>
-    <xslt
-      in="templates/Latex2Unicode.xml"
-      out="${build.src.dir}/net/sourceforge/czt/parser/z/Latex2Unicode.jflex"
-      style="${czt.home}/devtools/template2text.xsl">
-      <param name="class" expression="Latex2Unicode"/>
-      <param name="package" expression="net.sourceforge.czt.parser.z"/>
-      <param name="add" expression="{z}"/>
-    </xslt>
-    <jflex
-      file="${build.src.dir}/net/sourceforge/czt/parser/z/Latex2Unicode.jflex"
-      destdir="${build.src.dir}"/>
-    <xslt
-      in="templates/Latex2Unicode.xml"
-      out="${build.src.dir}/net/sourceforge/czt/parser/oz/Latex2Unicode.jflex"
-      style="${czt.home}/devtools/template2text.xsl">
-      <param name="class" expression="Latex2Unicode"/>
-      <param name="package" expression="net.sourceforge.czt.parser.oz"/>
-      <param name="add" expression="{oz}"/>
-    </xslt>
-    <jflex
-      file="${build.src.dir}/net/sourceforge/czt/parser/oz/Latex2Unicode.jflex"
-      destdir="${build.src.dir}"/>
-  </target>
-
   <target name="Unicode2Latex-cup" depends="init">
     <xslt
       in="templates/Unicode2Latex.xml"
@@ -119,10 +81,8 @@
       style="xsl/latexMarkup2class.xsl"/>
   </target>
 
-  <target name="compile" depends="init, generate-src, z-uscanner,
-      z-sscanner, oz-uscanner, oz-sscanner, scanner, latexMarkup,
-      ozLatexMarkup, UnicodeToLatex, z-parser, oz-parser,
-      z-precedence, oz-precedence"
+  <target name="compile" depends="init, generate-src, 
+      UnicodeToLatex"
           description="compile the sources">
     <javac srcdir="${src.dir}:${build.src.dir}"
            destdir="${build.class.dir}"
@@ -131,13 +91,101 @@
     </javac>
   </target>
 
-  <target name="generate-src" depends="generate-z-src, generate-oz-src"/>
+  <target name="generate-src"
+    depends="generate-z-src, generate-oz-src, generate-print-src"/>
+
+  <target name="generate-print-src"
+    depends="print-scanner"/>
 
   <target name="generate-z-src"
-    depends="z-parser-cup, z-optable, z-parserutils, z-lscanner"/>
+    depends="generate-z-parser, generate-z-scanner, latexMarkup"/>
 
   <target name="generate-oz-src"
-    depends="oz-parser-cup, oz-optable, oz-parserutils, oz-lscanner"/>
+    depends="generate-oz-parser, generate-oz-scanner, ozLatexMarkup"/>
+
+  <target name="generate-z-parser"
+    depends="z-parser, z-lparser, z-uparser, z-optable, z-parserutils, z-precedence"/>
+
+  <target name="generate-z-scanner"
+    depends="z-l2u, z-uscanner, z-lscanner, z-sscanner"/>
+
+  <target name="generate-oz-parser"
+    depends="oz-parser, oz-lparser, oz-uparser, oz-optable, oz-parserutils, oz-precedence"/>
+
+  <target name="generate-oz-scanner"
+    depends="oz-l2u, oz-uscanner, oz-lscanner, oz-sscanner"/>
+
+  <target name="print-scanner">
+    <xslt
+      in="templates/UnicodeScanner.xml"
+      out="${build.src.dir}/net/sourceforge/czt/print/z/UnicodeScanner.jflex"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="UnicodeScanner"/>
+      <param name="package" expression="net.sourceforge.czt.print.z"/>
+      <param name="add" expression="{z}{print}"/>
+    </xslt>
+    <jflex
+      file="${build.src.dir}/net/sourceforge/czt/print/z/UnicodeScanner.jflex"
+      destdir="${build.src.dir}"/>
+  </target>
+
+  <target name="z-lparser" depends="init">
+    <xslt
+      in="templates/LatexParser.xml"
+      out="${build.src.z.dir}/LatexParser.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="LatexParser"/>
+      <param name="package" expression="net.sourceforge.czt.parser.z"/>
+      <param name="add" expression="{z}"/>
+    </xslt>
+  </target>
+
+  <target name="z-uparser" depends="init">
+    <xslt
+      in="templates/UnicodeParser.xml"
+      out="${build.src.z.dir}/UnicodeParser.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="UnicodeParser"/>
+      <param name="package" expression="net.sourceforge.czt.parser.z"/>
+      <param name="add" expression="{z}"/>
+    </xslt>
+  </target>
+
+  <target name="oz-lparser" depends="init">
+    <xslt
+      in="templates/LatexParser.xml"
+      out="${build.src.oz.dir}/LatexParser.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="LatexParser"/>
+      <param name="package" expression="net.sourceforge.czt.parser.oz"/>
+      <param name="add" expression="{z}"/>
+    </xslt>
+  </target>
+
+  <target name="oz-uparser" depends="init">
+    <xslt
+      in="templates/UnicodeParser.xml"
+      out="${build.src.oz.dir}/UnicodeParser.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="UnicodeParser"/>
+      <param name="package" expression="net.sourceforge.czt.parser.oz"/>
+      <param name="add" expression="{z}"/>
+    </xslt>
+  </target>
+
+  <target name="z-l2u">
+    <xslt
+      in="templates/Latex2Unicode.xml"
+      out="${build.src.dir}/net/sourceforge/czt/parser/z/Latex2Unicode.jflex"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="Latex2Unicode"/>
+      <param name="package" expression="net.sourceforge.czt.parser.z"/>
+      <param name="add" expression="{z}"/>
+    </xslt>
+    <jflex
+      file="${build.src.dir}/net/sourceforge/czt/parser/z/Latex2Unicode.jflex"
+      destdir="${build.src.dir}"/>
+  </target>
 
   <target name="z-lscanner" depends="init">
     <xslt
@@ -148,6 +196,20 @@
       <param name="package" expression="net.sourceforge.czt.parser.z"/>
       <param name="add" expression="{z}"/>
     </xslt>
+  </target>
+
+  <target name="oz-l2u">
+    <xslt
+      in="templates/Latex2Unicode.xml"
+      out="${build.src.dir}/net/sourceforge/czt/parser/oz/Latex2Unicode.jflex"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="Latex2Unicode"/>
+      <param name="package" expression="net.sourceforge.czt.parser.oz"/>
+      <param name="add" expression="{oz}"/>
+    </xslt>
+    <jflex
+      file="${build.src.dir}/net/sourceforge/czt/parser/oz/Latex2Unicode.jflex"
+      destdir="${build.src.dir}"/>
   </target>
 
   <target name="oz-lscanner" depends="init">
@@ -209,8 +271,8 @@
     <java_cup
       srcDir="${build.src.z.dir}/"
       destDir="${build.src.z.dir}/"
-      inputFile="${parser.name}.cup"
-      parserFile="${parser.name}"
+      inputFile="Parser.cup"
+      parserFile="Parser"
       symbolFile="Sym"
       classpath="${javacup.home}">
     </java_cup>
@@ -219,9 +281,9 @@
   <target name="z-parser-cup" depends="init">
     <xslt
       in="templates/Parser.xml"
-      out="${build.src.z.dir}/${parser.name}.cup"
+      out="${build.src.z.dir}/Parser.cup"
       style="${czt.home}/devtools/template2text.xsl">
-      <param name="class" expression="${parser.name}"/>
+      <param name="class" expression="Parser"/>
       <param name="package" expression="net.sourceforge.czt.parser.z"/>
       <param name="add" expression="{z}"/>
     </xslt>
@@ -238,8 +300,8 @@
     <java_cup
       srcDir="${build.src.oz.dir}/"
       destDir="${build.src.oz.dir}/"
-      inputFile="${parser.name}.cup"
-      parserFile="${parser.name}"
+      inputFile="Parser.cup"
+      parserFile="Parser"
       symbolFile="Sym"
       classpath="${javacup.home}">
     </java_cup>
@@ -248,9 +310,9 @@
   <target name="oz-parser-cup" depends="init">
     <xslt
       in="templates/Parser.xml"
-      out="${build.src.oz.dir}/${parser.name}.cup"
+      out="${build.src.oz.dir}/Parser.cup"
       style="${czt.home}/devtools/template2text.xsl">
-      <param name="class" expression="${parser.name}"/>
+      <param name="class" expression="Parser"/>
       <param name="package" expression="net.sourceforge.czt.parser.oz"/>
       <param name="add" expression="{oz}"/>
     </xslt>
@@ -260,13 +322,13 @@
     description="Create the unicode scanner for the Z parser">
     <xslt
       in="templates/UnicodeScanner.xml"
-      out="${build.src.z.dir}/${uscanner.name}.jflex"
+      out="${build.src.z.dir}/UnicodeScanner.jflex"
       style="${czt.home}/devtools/template2text.xsl">
-      <param name="class" expression="${uscanner.name}"/>
+      <param name="class" expression="UnicodeScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.z"/>
       <param name="add" expression="{z}"/>
     </xslt>
-    <jflex file="${build.src.z.dir}/${uscanner.name}.jflex"
+    <jflex file="${build.src.z.dir}/UnicodeScanner.jflex"
       destdir="${build.src.dir}"
       skipMinimization="yes"
     />
@@ -288,13 +350,13 @@
     description="Create the unicode scanner for the object Z parser">
     <xslt
       in="templates/UnicodeScanner.xml"
-      out="${build.src.oz.dir}/${uscanner.name}.jflex"
+      out="${build.src.oz.dir}/UnicodeScanner.jflex"
       style="${czt.home}/devtools/template2text.xsl">
-      <param name="class" expression="${uscanner.name}"/>
+      <param name="class" expression="UnicodeScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.oz"/>
       <param name="add" expression="{oz}"/>
     </xslt>
-    <jflex file="${build.src.oz.dir}/${uscanner.name}.jflex"
+    <jflex file="${build.src.oz.dir}/UnicodeScanner.jflex"
       destdir="${build.src.dir}"
       skipMinimization="yes"
     />
@@ -354,7 +416,7 @@
 
   <target name="scan" depends="install" if="file"
     description="Scans an unicode file (provide a file name by setting property 'file' using the -D option)">
-    <java classname="net.sourceforge.czt.print.z.${uscanner.name}" fork="true">
+    <java classname="net.sourceforge.czt.print.z.UnicodeScanner" fork="true">
       <arg value="${file}"/>
       <classpath>
         <path refid="classpath"/>
