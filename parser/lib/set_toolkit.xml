@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Spec Version="1.2" xmlns="http://czt.sourceforge.net/zml">
     <NarrSect>
+        <Anns>
+            <LocAnn Loc="lib/set_toolkit.tex" Line="1" Col="1"/>
+        </Anns>
         <Content>\documentclass[draft,a4paper,10pt,wd]{isov2}
 \usepackage{ltcadiz}
 \begin{document}
@@ -10,74 +13,124 @@
 </Content>
     </NarrSect>
     <ZSect>
+        <Anns>
+            <LocAnn Loc="lib/set_toolkit.tex" Line="9" Col="1"/>
+        </Anns>
         <Name>set_toolkit</Name>
         <LatexMarkupPara>
             <Directive Type="IN">
-                <Command>\cup</Command>
-                <Unicode>∪</Unicode>
-            </Directive>
-            <Directive Type="IN">
-                <Command>\subset</Command>
-                <Unicode>⊂</Unicode>
-            </Directive>
-            <Directive Type="IN">
-                <Command>\symdiff</Command>
-                <Unicode>⊖</Unicode>
-            </Directive>
-            <Directive Type="PRE">
-                <Command>\bigcap</Command>
-                <Unicode>⋂</Unicode>
-            </Directive>
-            <Directive Type="IN">
-                <Command>\cap</Command>
-                <Unicode>∩</Unicode>
-            </Directive>
-            <Directive Type="IN">
-                <Command>\neq</Command>
-                <Unicode>≠</Unicode>
-            </Directive>
-            <Directive Type="PRE">
-                <Command>\bigcup</Command>
-                <Unicode>⋃</Unicode>
-            </Directive>
-            <Directive Type="IN">
-                <Command>\subseteq</Command>
-                <Unicode>⊆</Unicode>
-            </Directive>
-            <Directive Type="IN">
-                <Command>\fun</Command>
-                <Unicode>→</Unicode>
-            </Directive>
-            <Directive Type="IN">
-                <Command>\notin</Command>
-                <Unicode>∉</Unicode>
-            </Directive>
-            <Directive Type="IN">
+                <Anns>
+                    <LocAnn Line="13"/>
+                </Anns>
                 <Command>\rel</Command>
                 <Unicode>↔</Unicode>
             </Directive>
             <Directive Type="IN">
-                <Command>\setminus</Command>
-                <Unicode>\</Unicode>
+                <Anns>
+                    <LocAnn Line="28"/>
+                </Anns>
+                <Command>\fun</Command>
+                <Unicode>→</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Anns>
+                    <LocAnn Line="45"/>
+                </Anns>
+                <Command>\neq</Command>
+                <Unicode>≠</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Anns>
+                    <LocAnn Line="61"/>
+                </Anns>
+                <Command>\notin</Command>
+                <Unicode>∉</Unicode>
             </Directive>
             <Directive Type="NONE">
+                <Anns>
+                    <LocAnn Line="78"/>
+                </Anns>
                 <Command>\emptyset</Command>
                 <Unicode>∅</Unicode>
             </Directive>
+            <Directive Type="IN">
+                <Anns>
+                    <LocAnn Line="88"/>
+                </Anns>
+                <Command>\subseteq</Command>
+                <Unicode>⊆</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Anns>
+                    <LocAnn Line="105"/>
+                </Anns>
+                <Command>\subset</Command>
+                <Unicode>⊂</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Anns>
+                    <LocAnn Line="136"/>
+                </Anns>
+                <Command>\cup</Command>
+                <Unicode>∪</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Anns>
+                    <LocAnn Line="152"/>
+                </Anns>
+                <Command>\cap</Command>
+                <Unicode>∩</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Anns>
+                    <LocAnn Line="168"/>
+                </Anns>
+                <Command>\setminus</Command>
+                <Unicode>\</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Anns>
+                    <LocAnn Line="184"/>
+                </Anns>
+                <Command>\symdiff</Command>
+                <Unicode>⊖</Unicode>
+            </Directive>
             <Directive Type="PRE">
+                <Anns>
+                    <LocAnn Line="201"/>
+                </Anns>
+                <Command>\bigcup</Command>
+                <Unicode>⋃</Unicode>
+            </Directive>
+            <Directive Type="PRE">
+                <Anns>
+                    <LocAnn Line="213"/>
+                </Anns>
+                <Command>\bigcap</Command>
+                <Unicode>⋂</Unicode>
+            </Directive>
+            <Directive Type="PRE">
+                <Anns>
+                    <LocAnn Line="229"/>
+                </Anns>
                 <Command>\finset</Command>
                 <Unicode>Ϝ</Unicode>
             </Directive>
         </LatexMarkupPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="10" Col="15"/>
+            </Anns>
             <Content>
 
 \ssclause{Relations}
 
-%%Zinchar \rel U+2194
 </Content>
         </NarrPara>
-        <OptempPara Cat="Generic" Assoc="Right" Prec="5">
+        <OptempPara Assoc="Right" Cat="Generic" Prec="5">
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="16" Col="1"/>
+            </Anns>
             <Operand List="false"/>
             <Operator>
                 <Word>↔</Word>
@@ -85,11 +138,17 @@
             <Operand List="false"/>
         </OptempPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="17" Col="10"/>
+            </Anns>
             <Content>
 
 </Content>
         </NarrPara>
         <AxPara Box="OmitBox">
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="20" Col="8"/>
+            </Anns>
             <DeclName>
                 <Word>X</Word>
             </DeclName>
@@ -98,21 +157,39 @@
             </DeclName>
             <SchText>
                 <ConstDecl>
+                    <Anns>
+                        <LocAnn Loc="lib/set_toolkit.tex" Line="20" Col="10"/>
+                    </Anns>
                     <DeclName>
                         <Word> _ ↔ _ </Word>
                     </DeclName>
                     <PowerExpr>
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="20" Col="13"/>
+                        </Anns>
                         <ProdExpr>
                             <Anns>
                                 <ParenAnn/>
                             </Anns>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="20" Col="22"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="20" Col="22"/>
+                                    </Anns>
                                     <Word>X</Word>
                                 </RefName>
                             </RefExpr>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="20" Col="31"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="20" Col="31"/>
+                                    </Anns>
                                     <Word>Y</Word>
                                 </RefName>
                             </RefExpr>
@@ -122,6 +199,9 @@
             </SchText>
         </AxPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="21" Col="10"/>
+            </Anns>
             <Content>
 
 $X \rel Y$ is the set of relations between $X$ and $Y$,
@@ -130,10 +210,12 @@ are members of $X$ and whose second members are members of $Y$.
 
 \ssclause{Total functions}
 
-%%Zinchar \fun U+2192
 </Content>
         </NarrPara>
-        <OptempPara Cat="Generic" Assoc="Right" Prec="5">
+        <OptempPara Assoc="Right" Cat="Generic" Prec="5">
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="31" Col="1"/>
+            </Anns>
             <Operand List="false"/>
             <Operator>
                 <Word>→</Word>
@@ -141,11 +223,17 @@ are members of $X$ and whose second members are members of $Y$.
             <Operand List="false"/>
         </OptempPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="32" Col="10"/>
+            </Anns>
             <Content>
 
 </Content>
         </NarrPara>
         <AxPara Box="OmitBox">
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="35" Col="8"/>
+            </Anns>
             <DeclName>
                 <Word>X</Word>
             </DeclName>
@@ -154,52 +242,109 @@ are members of $X$ and whose second members are members of $Y$.
             </DeclName>
             <SchText>
                 <ConstDecl>
+                    <Anns>
+                        <LocAnn Loc="lib/set_toolkit.tex" Line="35" Col="10"/>
+                    </Anns>
                     <DeclName>
                         <Word> _ → _ </Word>
                     </DeclName>
                     <SetCompExpr>
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="35" Col="13"/>
+                        </Anns>
                         <SchText>
                             <VarDecl>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="35" Col="19"/>
+                                </Anns>
                                 <DeclName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="35" Col="17"/>
+                                    </Anns>
                                     <Word>f</Word>
                                 </DeclName>
                                 <RefExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="35" Col="23"/>
+                                    </Anns>
                                     <RefName>
                                         <Word> _ ↔ _ </Word>
                                     </RefName>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="35" Col="21"/>
+                                        </Anns>
                                         <RefName>
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="35" Col="21"/>
+                                            </Anns>
                                             <Word>X</Word>
                                         </RefName>
                                     </RefExpr>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="35" Col="28"/>
+                                        </Anns>
                                         <RefName>
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="35" Col="28"/>
+                                            </Anns>
                                             <Word>Y</Word>
                                         </RefName>
                                     </RefExpr>
                                 </RefExpr>
                             </VarDecl>
                             <ForallPred>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="35" Col="32"/>
+                                </Anns>
                                 <SchText>
                                     <VarDecl>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="35" Col="42"/>
+                                        </Anns>
                                         <DeclName>
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="35" Col="40"/>
+                                            </Anns>
                                             <Word>x</Word>
                                         </DeclName>
                                         <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="35" Col="44"/>
+                                            </Anns>
                                             <RefName>
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="35" Col="44"/>
+                                                </Anns>
                                                 <Word>X</Word>
                                             </RefName>
                                         </RefExpr>
                                     </VarDecl>
                                 </SchText>
                                 <Exists1Pred>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="35" Col="48"/>
+                                    </Anns>
                                     <SchText>
                                         <VarDecl>
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="35" Col="60"/>
+                                            </Anns>
                                             <DeclName>
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="35" Col="58"/>
+                                                </Anns>
                                                 <Word>y</Word>
                                             </DeclName>
                                             <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="35" Col="62"/>
+                                                </Anns>
                                                 <RefName>
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="35" Col="62"/>
+                                                    </Anns>
                                                     <Word>Y</Word>
                                                 </RefName>
                                             </RefExpr>
@@ -208,18 +353,36 @@ are members of $X$ and whose second members are members of $Y$.
                                     <MemPred Mixfix="false">
                                         <TupleExpr>
                                             <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="35" Col="67"/>
+                                                </Anns>
                                                 <RefName>
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="35" Col="67"/>
+                                                    </Anns>
                                                     <Word>x</Word>
                                                 </RefName>
                                             </RefExpr>
                                             <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="35" Col="71"/>
+                                                </Anns>
                                                 <RefName>
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="35" Col="71"/>
+                                                    </Anns>
                                                     <Word>y</Word>
                                                 </RefName>
                                             </RefExpr>
                                         </TupleExpr>
                                         <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="35" Col="78"/>
+                                            </Anns>
                                             <RefName>
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="35" Col="78"/>
+                                                </Anns>
                                                 <Word>f</Word>
                                             </RefName>
                                         </RefExpr>
@@ -232,6 +395,9 @@ are members of $X$ and whose second members are members of $Y$.
             </SchText>
         </AxPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="36" Col="10"/>
+            </Anns>
             <Content>
 
 $X \fun Y$ is the set of all total functions from $X$ to $Y$,
@@ -242,10 +408,12 @@ such that each $x$ in $X$ is related to exactly one $y$ in $Y$.
 
 \ssclause{Inequality relation}
 
-%%Zinchar \neq U+2260
 </Content>
         </NarrPara>
         <OptempPara Cat="Relation">
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="48" Col="1"/>
+            </Anns>
             <Operand List="false"/>
             <Operator>
                 <Word>≠</Word>
@@ -253,61 +421,121 @@ such that each $x$ in $X$ is related to exactly one $y$ in $Y$.
             <Operand List="false"/>
         </OptempPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="49" Col="10"/>
+            </Anns>
             <Content>
 
 </Content>
         </NarrPara>
         <AxPara Box="AxBox">
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="51" Col="1"/>
+            </Anns>
             <DeclName>
+                <Anns>
+                    <LocAnn Loc="lib/set_toolkit.tex" Line="51" Col="16"/>
+                </Anns>
                 <Word>X</Word>
             </DeclName>
             <SchText>
                 <VarDecl>
+                    <Anns>
+                        <LocAnn Loc="lib/set_toolkit.tex" Line="52" Col="12"/>
+                    </Anns>
                     <DeclName>
                         <Word> _ ≠ _ </Word>
                     </DeclName>
                     <RefExpr Mixfix="true">
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="52" Col="16"/>
+                        </Anns>
                         <RefName>
                             <Word> _ ↔ _ </Word>
                         </RefName>
                         <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="52" Col="14"/>
+                            </Anns>
                             <RefName>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="52" Col="14"/>
+                                </Anns>
                                 <Word>X</Word>
                             </RefName>
                         </RefExpr>
                         <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="52" Col="21"/>
+                            </Anns>
                             <RefName>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="52" Col="21"/>
+                                </Anns>
                                 <Word>X</Word>
                             </RefName>
                         </RefExpr>
                     </RefExpr>
                 </VarDecl>
                 <ForallPred>
+                    <Anns>
+                        <LocAnn Loc="lib/set_toolkit.tex" Line="54" Col="1"/>
+                    </Anns>
                     <SchText>
                         <VarDecl>
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="54" Col="15"/>
+                            </Anns>
                             <DeclName>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="54" Col="9"/>
+                                </Anns>
                                 <Word>x</Word>
                             </DeclName>
                             <DeclName>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="54" Col="13"/>
+                                </Anns>
                                 <Word>y</Word>
                             </DeclName>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="54" Col="17"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="54" Col="17"/>
+                                    </Anns>
                                     <Word>X</Word>
                                 </RefName>
                             </RefExpr>
                         </VarDecl>
                     </SchText>
                     <IffPred>
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="54" Col="30"/>
+                        </Anns>
                         <MemPred Mixfix="true">
                             <TupleExpr>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="54" Col="21"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="54" Col="21"/>
+                                        </Anns>
                                         <Word>x</Word>
                                     </RefName>
                                 </RefExpr>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="54" Col="28"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="54" Col="28"/>
+                                        </Anns>
                                         <Word>y</Word>
                                     </RefName>
                                 </RefExpr>
@@ -319,15 +547,33 @@ such that each $x$ in $X$ is related to exactly one $y$ in $Y$.
                             </RefExpr>
                         </MemPred>
                         <NegPred>
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="54" Col="35"/>
+                            </Anns>
                             <MemPred Mixfix="true">
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="54" Col="43"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="54" Col="41"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="54" Col="41"/>
+                                        </Anns>
                                         <Word>x</Word>
                                     </RefName>
                                 </RefExpr>
                                 <SetExpr>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="54" Col="45"/>
+                                        </Anns>
                                         <RefName>
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="54" Col="45"/>
+                                            </Anns>
                                             <Word>y</Word>
                                         </RefName>
                                     </RefExpr>
@@ -339,6 +585,9 @@ such that each $x$ in $X$ is related to exactly one $y$ in $Y$.
             </SchText>
         </AxPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="55" Col="13"/>
+            </Anns>
             <Content>
 
 Inequality is the relation between those values of the same type
@@ -346,10 +595,12 @@ that are not equal to each other.
 
 \ssclause{Non-membership}
 
-%%Zinchar \notin U+2209
 </Content>
         </NarrPara>
         <OptempPara Cat="Relation">
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="64" Col="1"/>
+            </Anns>
             <Operand List="false"/>
             <Operator>
                 <Word>∉</Word>
@@ -357,31 +608,61 @@ that are not equal to each other.
             <Operand List="false"/>
         </OptempPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="65" Col="10"/>
+            </Anns>
             <Content>
 
 </Content>
         </NarrPara>
         <AxPara Box="AxBox">
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="67" Col="1"/>
+            </Anns>
             <DeclName>
+                <Anns>
+                    <LocAnn Loc="lib/set_toolkit.tex" Line="67" Col="16"/>
+                </Anns>
                 <Word>X</Word>
             </DeclName>
             <SchText>
                 <VarDecl>
+                    <Anns>
+                        <LocAnn Loc="lib/set_toolkit.tex" Line="68" Col="14"/>
+                    </Anns>
                     <DeclName>
                         <Word> _ ∉ _ </Word>
                     </DeclName>
                     <RefExpr Mixfix="true">
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="68" Col="18"/>
+                        </Anns>
                         <RefName>
                             <Word> _ ↔ _ </Word>
                         </RefName>
                         <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="68" Col="16"/>
+                            </Anns>
                             <RefName>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="68" Col="16"/>
+                                </Anns>
                                 <Word>X</Word>
                             </RefName>
                         </RefExpr>
                         <PowerExpr>
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="68" Col="23"/>
+                            </Anns>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="68" Col="30"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="68" Col="30"/>
+                                    </Anns>
                                     <Word>X</Word>
                                 </RefName>
                             </RefExpr>
@@ -389,24 +670,54 @@ that are not equal to each other.
                     </RefExpr>
                 </VarDecl>
                 <ForallPred>
+                    <Anns>
+                        <LocAnn Loc="lib/set_toolkit.tex" Line="70" Col="1"/>
+                    </Anns>
                     <SchText>
                         <VarDecl>
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="70" Col="11"/>
+                            </Anns>
                             <DeclName>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="70" Col="9"/>
+                                </Anns>
                                 <Word>x</Word>
                             </DeclName>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="70" Col="13"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="70" Col="13"/>
+                                    </Anns>
                                     <Word>X</Word>
                                 </RefName>
                             </RefExpr>
                         </VarDecl>
                         <VarDecl>
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="70" Col="19"/>
+                            </Anns>
                             <DeclName>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="70" Col="17"/>
+                                </Anns>
                                 <Word>a</Word>
                             </DeclName>
                             <PowerExpr>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="70" Col="21"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="70" Col="28"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="70" Col="28"/>
+                                        </Anns>
                                         <Word>X</Word>
                                     </RefName>
                                 </RefExpr>
@@ -414,15 +725,30 @@ that are not equal to each other.
                         </VarDecl>
                     </SchText>
                     <IffPred>
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="70" Col="43"/>
+                        </Anns>
                         <MemPred Mixfix="true">
                             <TupleExpr>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="70" Col="32"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="70" Col="32"/>
+                                        </Anns>
                                         <Word>x</Word>
                                     </RefName>
                                 </RefExpr>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="70" Col="41"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="70" Col="41"/>
+                                        </Anns>
                                         <Word>a</Word>
                                     </RefName>
                                 </RefExpr>
@@ -434,14 +760,29 @@ that are not equal to each other.
                             </RefExpr>
                         </MemPred>
                         <NegPred>
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="70" Col="48"/>
+                            </Anns>
                             <MemPred Mixfix="false">
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="70" Col="54"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="70" Col="54"/>
+                                        </Anns>
                                         <Word>x</Word>
                                     </RefName>
                                 </RefExpr>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="70" Col="60"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="70" Col="60"/>
+                                        </Anns>
                                         <Word>a</Word>
                                     </RefName>
                                 </RefExpr>
@@ -452,6 +793,9 @@ that are not equal to each other.
             </SchText>
         </AxPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="71" Col="13"/>
+            </Anns>
             <Content>
 
 Non-membership is the relation between those values of a type, $x$,
@@ -460,37 +804,70 @@ for which $x$ is not a member of $a$.
 
 \ssclause{Empty set}
 
-%%Zchar \emptyset U+2205
 </Content>
         </NarrPara>
         <AxPara Box="OmitBox">
             <DeclName>
+                <Anns>
+                    <LocAnn Loc="lib/set_toolkit.tex" Line="81" Col="13"/>
+                </Anns>
                 <Word>X</Word>
             </DeclName>
             <SchText>
+                <Anns>
+                    <LocAnn Loc="lib/set_toolkit.tex" Line="81" Col="1"/>
+                </Anns>
                 <ConstDecl>
+                    <Anns>
+                        <LocAnn Loc="lib/set_toolkit.tex" Line="81" Col="17"/>
+                    </Anns>
                     <DeclName>
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="81" Col="1"/>
+                        </Anns>
                         <Word>∅</Word>
                     </DeclName>
                     <SetCompExpr>
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="81" Col="20"/>
+                        </Anns>
                         <SchText>
                             <VarDecl>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="81" Col="26"/>
+                                </Anns>
                                 <DeclName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="81" Col="24"/>
+                                    </Anns>
                                     <Word>x</Word>
                                 </DeclName>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="81" Col="28"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="81" Col="28"/>
+                                        </Anns>
                                         <Word>X</Word>
                                     </RefName>
                                 </RefExpr>
                             </VarDecl>
-                            <FalsePred/>
+                            <FalsePred>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="81" Col="32"/>
+                                </Anns>
+                            </FalsePred>
                         </SchText>
                     </SetCompExpr>
                 </ConstDecl>
             </SchText>
         </AxPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="82" Col="10"/>
+            </Anns>
             <Content>
 
 The empty set of any type is the set of that
@@ -498,10 +875,12 @@ type that has no members.
 
 \ssclause{Subset relation}
 
-%%Zinchar \subseteq U+2286
 </Content>
         </NarrPara>
         <OptempPara Cat="Relation">
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="91" Col="1"/>
+            </Anns>
             <Operand List="false"/>
             <Operator>
                 <Word>⊆</Word>
@@ -509,33 +888,66 @@ type that has no members.
             <Operand List="false"/>
         </OptempPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="92" Col="10"/>
+            </Anns>
             <Content>
 
 </Content>
         </NarrPara>
         <AxPara Box="AxBox">
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="94" Col="1"/>
+            </Anns>
             <DeclName>
+                <Anns>
+                    <LocAnn Loc="lib/set_toolkit.tex" Line="94" Col="16"/>
+                </Anns>
                 <Word>X</Word>
             </DeclName>
             <SchText>
                 <VarDecl>
+                    <Anns>
+                        <LocAnn Loc="lib/set_toolkit.tex" Line="95" Col="17"/>
+                    </Anns>
                     <DeclName>
                         <Word> _ ⊆ _ </Word>
                     </DeclName>
                     <RefExpr Mixfix="true">
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="95" Col="28"/>
+                        </Anns>
                         <RefName>
                             <Word> _ ↔ _ </Word>
                         </RefName>
                         <PowerExpr>
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="95" Col="19"/>
+                            </Anns>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="95" Col="26"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="95" Col="26"/>
+                                    </Anns>
                                     <Word>X</Word>
                                 </RefName>
                             </RefExpr>
                         </PowerExpr>
                         <PowerExpr>
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="95" Col="33"/>
+                            </Anns>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="95" Col="40"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="95" Col="40"/>
+                                    </Anns>
                                     <Word>X</Word>
                                 </RefName>
                             </RefExpr>
@@ -543,17 +955,38 @@ type that has no members.
                     </RefExpr>
                 </VarDecl>
                 <ForallPred>
+                    <Anns>
+                        <LocAnn Loc="lib/set_toolkit.tex" Line="97" Col="1"/>
+                    </Anns>
                     <SchText>
                         <VarDecl>
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="97" Col="15"/>
+                            </Anns>
                             <DeclName>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="97" Col="9"/>
+                                </Anns>
                                 <Word>a</Word>
                             </DeclName>
                             <DeclName>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="97" Col="13"/>
+                                </Anns>
                                 <Word>b</Word>
                             </DeclName>
                             <PowerExpr>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="97" Col="17"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="97" Col="24"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="97" Col="24"/>
+                                        </Anns>
                                         <Word>X</Word>
                                     </RefName>
                                 </RefExpr>
@@ -561,15 +994,30 @@ type that has no members.
                         </VarDecl>
                     </SchText>
                     <IffPred>
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="97" Col="42"/>
+                        </Anns>
                         <MemPred Mixfix="true">
                             <TupleExpr>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="97" Col="28"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="97" Col="28"/>
+                                        </Anns>
                                         <Word>a</Word>
                                     </RefName>
                                 </RefExpr>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="97" Col="40"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="97" Col="40"/>
+                                        </Anns>
                                         <Word>b</Word>
                                     </RefName>
                                 </RefExpr>
@@ -582,15 +1030,28 @@ type that has no members.
                         </MemPred>
                         <ForallPred>
                             <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="98" Col="3"/>
                                 <ParenAnn/>
                             </Anns>
                             <SchText>
                                 <VarDecl>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="98" Col="13"/>
+                                    </Anns>
                                     <DeclName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="98" Col="11"/>
+                                        </Anns>
                                         <Word>x</Word>
                                     </DeclName>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="98" Col="15"/>
+                                        </Anns>
                                         <RefName>
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="98" Col="15"/>
+                                            </Anns>
                                             <Word>a</Word>
                                         </RefName>
                                     </RefExpr>
@@ -598,12 +1059,24 @@ type that has no members.
                             </SchText>
                             <MemPred Mixfix="false">
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="98" Col="19"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="98" Col="19"/>
+                                        </Anns>
                                         <Word>x</Word>
                                     </RefName>
                                 </RefExpr>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="98" Col="25"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="98" Col="25"/>
+                                        </Anns>
                                         <Word>b</Word>
                                     </RefName>
                                 </RefExpr>
@@ -614,6 +1087,9 @@ type that has no members.
             </SchText>
         </AxPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="99" Col="13"/>
+            </Anns>
             <Content>
 
 Subset is the relation between two sets of the same type, $a$ and $b$,
@@ -621,10 +1097,12 @@ such that every member of $a$ is a member of $b$.
 
 \ssclause{Proper subset relation}
 
-%%Zinchar \subset U+2282
 </Content>
         </NarrPara>
         <OptempPara Cat="Relation">
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="108" Col="1"/>
+            </Anns>
             <Operand List="false"/>
             <Operator>
                 <Word>⊂</Word>
@@ -632,33 +1110,66 @@ such that every member of $a$ is a member of $b$.
             <Operand List="false"/>
         </OptempPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="109" Col="10"/>
+            </Anns>
             <Content>
 
 </Content>
         </NarrPara>
         <AxPara Box="AxBox">
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="111" Col="1"/>
+            </Anns>
             <DeclName>
+                <Anns>
+                    <LocAnn Loc="lib/set_toolkit.tex" Line="111" Col="16"/>
+                </Anns>
                 <Word>X</Word>
             </DeclName>
             <SchText>
                 <VarDecl>
+                    <Anns>
+                        <LocAnn Loc="lib/set_toolkit.tex" Line="112" Col="15"/>
+                    </Anns>
                     <DeclName>
                         <Word> _ ⊂ _ </Word>
                     </DeclName>
                     <RefExpr Mixfix="true">
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="112" Col="26"/>
+                        </Anns>
                         <RefName>
                             <Word> _ ↔ _ </Word>
                         </RefName>
                         <PowerExpr>
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="112" Col="17"/>
+                            </Anns>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="112" Col="24"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="112" Col="24"/>
+                                    </Anns>
                                     <Word>X</Word>
                                 </RefName>
                             </RefExpr>
                         </PowerExpr>
                         <PowerExpr>
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="112" Col="31"/>
+                            </Anns>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="112" Col="38"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="112" Col="38"/>
+                                    </Anns>
                                     <Word>X</Word>
                                 </RefName>
                             </RefExpr>
@@ -666,17 +1177,38 @@ such that every member of $a$ is a member of $b$.
                     </RefExpr>
                 </VarDecl>
                 <ForallPred>
+                    <Anns>
+                        <LocAnn Loc="lib/set_toolkit.tex" Line="114" Col="1"/>
+                    </Anns>
                     <SchText>
                         <VarDecl>
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="114" Col="15"/>
+                            </Anns>
                             <DeclName>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="114" Col="9"/>
+                                </Anns>
                                 <Word>a</Word>
                             </DeclName>
                             <DeclName>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="114" Col="13"/>
+                                </Anns>
                                 <Word>b</Word>
                             </DeclName>
                             <PowerExpr>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="114" Col="17"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="114" Col="24"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="114" Col="24"/>
+                                        </Anns>
                                         <Word>X</Word>
                                     </RefName>
                                 </RefExpr>
@@ -684,15 +1216,30 @@ such that every member of $a$ is a member of $b$.
                         </VarDecl>
                     </SchText>
                     <IffPred>
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="114" Col="40"/>
+                        </Anns>
                         <MemPred Mixfix="true">
                             <TupleExpr>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="114" Col="28"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="114" Col="28"/>
+                                        </Anns>
                                         <Word>a</Word>
                                     </RefName>
                                 </RefExpr>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="114" Col="38"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="114" Col="38"/>
+                                        </Anns>
                                         <Word>b</Word>
                                     </RefName>
                                 </RefExpr>
@@ -704,15 +1251,30 @@ such that every member of $a$ is a member of $b$.
                             </RefExpr>
                         </MemPred>
                         <AndPred Op="And">
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="115" Col="15"/>
+                            </Anns>
                             <MemPred Mixfix="true">
                                 <TupleExpr>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="115" Col="1"/>
+                                        </Anns>
                                         <RefName>
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="115" Col="1"/>
+                                            </Anns>
                                             <Word>a</Word>
                                         </RefName>
                                     </RefExpr>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="115" Col="13"/>
+                                        </Anns>
                                         <RefName>
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="115" Col="13"/>
+                                            </Anns>
                                             <Word>b</Word>
                                         </RefName>
                                     </RefExpr>
@@ -726,12 +1288,24 @@ such that every member of $a$ is a member of $b$.
                             <MemPred Mixfix="true">
                                 <TupleExpr>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="115" Col="21"/>
+                                        </Anns>
                                         <RefName>
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="115" Col="21"/>
+                                            </Anns>
                                             <Word>a</Word>
                                         </RefName>
                                     </RefExpr>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="115" Col="28"/>
+                                        </Anns>
                                         <RefName>
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="115" Col="28"/>
+                                            </Anns>
                                             <Word>b</Word>
                                         </RefName>
                                     </RefExpr>
@@ -748,6 +1322,9 @@ such that every member of $a$ is a member of $b$.
             </SchText>
         </AxPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="116" Col="13"/>
+            </Anns>
             <Content>
 
 Proper subset is the relation between two
@@ -760,24 +1337,48 @@ and $a$ and $b$ are not equal.
 </Content>
         </NarrPara>
         <AxPara Box="OmitBox">
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="126" Col="10"/>
+            </Anns>
             <DeclName>
                 <Word>X</Word>
             </DeclName>
             <SchText>
                 <ConstDecl>
+                    <Anns>
+                        <LocAnn Loc="lib/set_toolkit.tex" Line="126" Col="12"/>
+                    </Anns>
                     <DeclName>
                         <Word>ℙ _ </Word>
                         <NumStroke Number="1"/>
                     </DeclName>
                     <SetCompExpr>
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="126" Col="15"/>
+                        </Anns>
                         <SchText>
                             <VarDecl>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="126" Col="21"/>
+                                </Anns>
                                 <DeclName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="126" Col="19"/>
+                                    </Anns>
                                     <Word>a</Word>
                                 </DeclName>
                                 <PowerExpr>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="126" Col="23"/>
+                                    </Anns>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="126" Col="30"/>
+                                        </Anns>
                                         <RefName>
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="126" Col="30"/>
+                                            </Anns>
                                             <Word>X</Word>
                                         </RefName>
                                     </RefExpr>
@@ -786,12 +1387,24 @@ and $a$ and $b$ are not equal.
                             <MemPred Mixfix="true">
                                 <TupleExpr>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="126" Col="34"/>
+                                        </Anns>
                                         <RefName>
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="126" Col="34"/>
+                                            </Anns>
                                             <Word>a</Word>
                                         </RefName>
                                     </RefExpr>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="126" Col="41"/>
+                                        </Anns>
                                         <RefName>
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="126" Col="41"/>
+                                            </Anns>
                                             <Word>∅</Word>
                                         </RefName>
                                     </RefExpr>
@@ -808,6 +1421,9 @@ and $a$ and $b$ are not equal.
             </SchText>
         </AxPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="127" Col="10"/>
+            </Anns>
             <Content>
 
 If $X$ is a set, then $\power_1 X$ is the set of all non-empty subsets of $X$.
@@ -818,10 +1434,12 @@ The $\power$ symbol is established as a generic operator by the prelude.
 
 \ssclause{Set union}
 
-%%Zinchar \cup U+222A
 </Content>
         </NarrPara>
-        <OptempPara Cat="Function" Assoc="Left" Prec="30">
+        <OptempPara Assoc="Left" Cat="Function" Prec="30">
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="139" Col="1"/>
+            </Anns>
             <Operand List="false"/>
             <Operator>
                 <Word>∪</Word>
@@ -829,42 +1447,84 @@ The $\power$ symbol is established as a generic operator by the prelude.
             <Operand List="false"/>
         </OptempPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="140" Col="10"/>
+            </Anns>
             <Content>
 
 </Content>
         </NarrPara>
         <AxPara Box="AxBox">
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="142" Col="1"/>
+            </Anns>
             <DeclName>
+                <Anns>
+                    <LocAnn Loc="lib/set_toolkit.tex" Line="142" Col="16"/>
+                </Anns>
                 <Word>X</Word>
             </DeclName>
             <SchText>
                 <VarDecl>
+                    <Anns>
+                        <LocAnn Loc="lib/set_toolkit.tex" Line="143" Col="12"/>
+                    </Anns>
                     <DeclName>
                         <Word> _ ∪ _ </Word>
                     </DeclName>
                     <RefExpr Mixfix="true">
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="143" Col="39"/>
+                        </Anns>
                         <RefName>
                             <Word> _ → _ </Word>
                         </RefName>
                         <ProdExpr>
                             <PowerExpr>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="143" Col="14"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="143" Col="21"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="143" Col="21"/>
+                                        </Anns>
                                         <Word>X</Word>
                                     </RefName>
                                 </RefExpr>
                             </PowerExpr>
                             <PowerExpr>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="143" Col="30"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="143" Col="37"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="143" Col="37"/>
+                                        </Anns>
                                         <Word>X</Word>
                                     </RefName>
                                 </RefExpr>
                             </PowerExpr>
                         </ProdExpr>
                         <PowerExpr>
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="143" Col="44"/>
+                            </Anns>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="143" Col="51"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="143" Col="51"/>
+                                    </Anns>
                                     <Word>X</Word>
                                 </RefName>
                             </RefExpr>
@@ -872,17 +1532,38 @@ The $\power$ symbol is established as a generic operator by the prelude.
                     </RefExpr>
                 </VarDecl>
                 <ForallPred>
+                    <Anns>
+                        <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="1"/>
+                    </Anns>
                     <SchText>
                         <VarDecl>
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="15"/>
+                            </Anns>
                             <DeclName>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="9"/>
+                                </Anns>
                                 <Word>a</Word>
                             </DeclName>
                             <DeclName>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="13"/>
+                                </Anns>
                                 <Word>b</Word>
                             </DeclName>
                             <PowerExpr>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="17"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="24"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="24"/>
+                                        </Anns>
                                         <Word>X</Word>
                                     </RefName>
                                 </RefExpr>
@@ -890,7 +1571,13 @@ The $\power$ symbol is established as a generic operator by the prelude.
                         </VarDecl>
                     </SchText>
                     <MemPred Mixfix="true">
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="37"/>
+                        </Anns>
                         <ApplExpr Mixfix="true">
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="30"/>
+                            </Anns>
                             <RefExpr Mixfix="false">
                                 <RefName>
                                     <Word> _ ∪ _ </Word>
@@ -898,12 +1585,24 @@ The $\power$ symbol is established as a generic operator by the prelude.
                             </RefExpr>
                             <TupleExpr>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="28"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="28"/>
+                                        </Anns>
                                         <Word>a</Word>
                                     </RefName>
                                 </RefExpr>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="35"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="35"/>
+                                        </Anns>
                                         <Word>b</Word>
                                     </RefName>
                                 </RefExpr>
@@ -911,38 +1610,80 @@ The $\power$ symbol is established as a generic operator by the prelude.
                         </ApplExpr>
                         <SetExpr>
                             <SetCompExpr>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="39"/>
+                                </Anns>
                                 <SchText>
                                     <VarDecl>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="45"/>
+                                        </Anns>
                                         <DeclName>
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="43"/>
+                                            </Anns>
                                             <Word>x</Word>
                                         </DeclName>
                                         <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="47"/>
+                                            </Anns>
                                             <RefName>
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="47"/>
+                                                </Anns>
                                                 <Word>X</Word>
                                             </RefName>
                                         </RefExpr>
                                     </VarDecl>
                                     <OrPred>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="59"/>
+                                        </Anns>
                                         <MemPred Mixfix="false">
                                             <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="51"/>
+                                                </Anns>
                                                 <RefName>
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="51"/>
+                                                    </Anns>
                                                     <Word>x</Word>
                                                 </RefName>
                                             </RefExpr>
                                             <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="57"/>
+                                                </Anns>
                                                 <RefName>
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="57"/>
+                                                    </Anns>
                                                     <Word>a</Word>
                                                 </RefName>
                                             </RefExpr>
                                         </MemPred>
                                         <MemPred Mixfix="false">
                                             <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="64"/>
+                                                </Anns>
                                                 <RefName>
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="64"/>
+                                                    </Anns>
                                                     <Word>x</Word>
                                                 </RefName>
                                             </RefExpr>
                                             <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="70"/>
+                                                </Anns>
                                                 <RefName>
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="145" Col="70"/>
+                                                    </Anns>
                                                     <Word>b</Word>
                                                 </RefName>
                                             </RefExpr>
@@ -956,6 +1697,9 @@ The $\power$ symbol is established as a generic operator by the prelude.
             </SchText>
         </AxPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="146" Col="13"/>
+            </Anns>
             <Content>
 
 The union of two sets of the same type is the set of values
@@ -963,10 +1707,12 @@ that are members of either set.
 
 \ssclause{Set intersection}
 
-%%Zinchar \cap U+2229
 </Content>
         </NarrPara>
-        <OptempPara Cat="Function" Assoc="Left" Prec="40">
+        <OptempPara Assoc="Left" Cat="Function" Prec="40">
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="155" Col="1"/>
+            </Anns>
             <Operand List="false"/>
             <Operator>
                 <Word>∩</Word>
@@ -974,42 +1720,84 @@ that are members of either set.
             <Operand List="false"/>
         </OptempPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="156" Col="10"/>
+            </Anns>
             <Content>
 
 </Content>
         </NarrPara>
         <AxPara Box="AxBox">
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="158" Col="1"/>
+            </Anns>
             <DeclName>
+                <Anns>
+                    <LocAnn Loc="lib/set_toolkit.tex" Line="158" Col="16"/>
+                </Anns>
                 <Word>X</Word>
             </DeclName>
             <SchText>
                 <VarDecl>
+                    <Anns>
+                        <LocAnn Loc="lib/set_toolkit.tex" Line="159" Col="12"/>
+                    </Anns>
                     <DeclName>
                         <Word> _ ∩ _ </Word>
                     </DeclName>
                     <RefExpr Mixfix="true">
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="159" Col="39"/>
+                        </Anns>
                         <RefName>
                             <Word> _ → _ </Word>
                         </RefName>
                         <ProdExpr>
                             <PowerExpr>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="159" Col="14"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="159" Col="21"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="159" Col="21"/>
+                                        </Anns>
                                         <Word>X</Word>
                                     </RefName>
                                 </RefExpr>
                             </PowerExpr>
                             <PowerExpr>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="159" Col="30"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="159" Col="37"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="159" Col="37"/>
+                                        </Anns>
                                         <Word>X</Word>
                                     </RefName>
                                 </RefExpr>
                             </PowerExpr>
                         </ProdExpr>
                         <PowerExpr>
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="159" Col="44"/>
+                            </Anns>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="159" Col="51"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="159" Col="51"/>
+                                    </Anns>
                                     <Word>X</Word>
                                 </RefName>
                             </RefExpr>
@@ -1017,17 +1805,38 @@ that are members of either set.
                     </RefExpr>
                 </VarDecl>
                 <ForallPred>
+                    <Anns>
+                        <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="1"/>
+                    </Anns>
                     <SchText>
                         <VarDecl>
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="15"/>
+                            </Anns>
                             <DeclName>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="9"/>
+                                </Anns>
                                 <Word>a</Word>
                             </DeclName>
                             <DeclName>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="13"/>
+                                </Anns>
                                 <Word>b</Word>
                             </DeclName>
                             <PowerExpr>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="17"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="24"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="24"/>
+                                        </Anns>
                                         <Word>X</Word>
                                     </RefName>
                                 </RefExpr>
@@ -1035,7 +1844,13 @@ that are members of either set.
                         </VarDecl>
                     </SchText>
                     <MemPred Mixfix="true">
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="37"/>
+                        </Anns>
                         <ApplExpr Mixfix="true">
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="30"/>
+                            </Anns>
                             <RefExpr Mixfix="false">
                                 <RefName>
                                     <Word> _ ∩ _ </Word>
@@ -1043,12 +1858,24 @@ that are members of either set.
                             </RefExpr>
                             <TupleExpr>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="28"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="28"/>
+                                        </Anns>
                                         <Word>a</Word>
                                     </RefName>
                                 </RefExpr>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="35"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="35"/>
+                                        </Anns>
                                         <Word>b</Word>
                                     </RefName>
                                 </RefExpr>
@@ -1056,38 +1883,80 @@ that are members of either set.
                         </ApplExpr>
                         <SetExpr>
                             <SetCompExpr>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="39"/>
+                                </Anns>
                                 <SchText>
                                     <VarDecl>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="45"/>
+                                        </Anns>
                                         <DeclName>
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="43"/>
+                                            </Anns>
                                             <Word>x</Word>
                                         </DeclName>
                                         <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="47"/>
+                                            </Anns>
                                             <RefName>
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="47"/>
+                                                </Anns>
                                                 <Word>X</Word>
                                             </RefName>
                                         </RefExpr>
                                     </VarDecl>
                                     <AndPred Op="And">
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="59"/>
+                                        </Anns>
                                         <MemPred Mixfix="false">
                                             <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="51"/>
+                                                </Anns>
                                                 <RefName>
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="51"/>
+                                                    </Anns>
                                                     <Word>x</Word>
                                                 </RefName>
                                             </RefExpr>
                                             <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="57"/>
+                                                </Anns>
                                                 <RefName>
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="57"/>
+                                                    </Anns>
                                                     <Word>a</Word>
                                                 </RefName>
                                             </RefExpr>
                                         </MemPred>
                                         <MemPred Mixfix="false">
                                             <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="65"/>
+                                                </Anns>
                                                 <RefName>
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="65"/>
+                                                    </Anns>
                                                     <Word>x</Word>
                                                 </RefName>
                                             </RefExpr>
                                             <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="71"/>
+                                                </Anns>
                                                 <RefName>
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="161" Col="71"/>
+                                                    </Anns>
                                                     <Word>b</Word>
                                                 </RefName>
                                             </RefExpr>
@@ -1101,6 +1970,9 @@ that are members of either set.
             </SchText>
         </AxPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="162" Col="13"/>
+            </Anns>
             <Content>
 
 The intersection of two sets of the same type is the set of
@@ -1108,10 +1980,12 @@ values that are members of both sets.
 
 \ssclause{Set difference}
 
-%%Zinchar \setminus U+005C
 </Content>
         </NarrPara>
-        <OptempPara Cat="Function" Assoc="Left" Prec="30">
+        <OptempPara Assoc="Left" Cat="Function" Prec="30">
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="171" Col="1"/>
+            </Anns>
             <Operand List="false"/>
             <Operator>
                 <Word>\</Word>
@@ -1119,42 +1993,84 @@ values that are members of both sets.
             <Operand List="false"/>
         </OptempPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="172" Col="10"/>
+            </Anns>
             <Content>
 
 </Content>
         </NarrPara>
         <AxPara Box="AxBox">
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="174" Col="1"/>
+            </Anns>
             <DeclName>
+                <Anns>
+                    <LocAnn Loc="lib/set_toolkit.tex" Line="174" Col="16"/>
+                </Anns>
                 <Word>X</Word>
             </DeclName>
             <SchText>
                 <VarDecl>
+                    <Anns>
+                        <LocAnn Loc="lib/set_toolkit.tex" Line="175" Col="17"/>
+                    </Anns>
                     <DeclName>
                         <Word> _ \ _ </Word>
                     </DeclName>
                     <RefExpr Mixfix="true">
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="175" Col="44"/>
+                        </Anns>
                         <RefName>
                             <Word> _ → _ </Word>
                         </RefName>
                         <ProdExpr>
                             <PowerExpr>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="175" Col="19"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="175" Col="26"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="175" Col="26"/>
+                                        </Anns>
                                         <Word>X</Word>
                                     </RefName>
                                 </RefExpr>
                             </PowerExpr>
                             <PowerExpr>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="175" Col="35"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="175" Col="42"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="175" Col="42"/>
+                                        </Anns>
                                         <Word>X</Word>
                                     </RefName>
                                 </RefExpr>
                             </PowerExpr>
                         </ProdExpr>
                         <PowerExpr>
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="175" Col="49"/>
+                            </Anns>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="175" Col="56"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="175" Col="56"/>
+                                    </Anns>
                                     <Word>X</Word>
                                 </RefName>
                             </RefExpr>
@@ -1162,17 +2078,38 @@ values that are members of both sets.
                     </RefExpr>
                 </VarDecl>
                 <ForallPred>
+                    <Anns>
+                        <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="1"/>
+                    </Anns>
                     <SchText>
                         <VarDecl>
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="15"/>
+                            </Anns>
                             <DeclName>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="9"/>
+                                </Anns>
                                 <Word>a</Word>
                             </DeclName>
                             <DeclName>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="13"/>
+                                </Anns>
                                 <Word>b</Word>
                             </DeclName>
                             <PowerExpr>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="17"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="24"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="24"/>
+                                        </Anns>
                                         <Word>X</Word>
                                     </RefName>
                                 </RefExpr>
@@ -1180,7 +2117,13 @@ values that are members of both sets.
                         </VarDecl>
                     </SchText>
                     <MemPred Mixfix="true">
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="42"/>
+                        </Anns>
                         <ApplExpr Mixfix="true">
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="30"/>
+                            </Anns>
                             <RefExpr Mixfix="false">
                                 <RefName>
                                     <Word> _ \ _ </Word>
@@ -1188,12 +2131,24 @@ values that are members of both sets.
                             </RefExpr>
                             <TupleExpr>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="28"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="28"/>
+                                        </Anns>
                                         <Word>a</Word>
                                     </RefName>
                                 </RefExpr>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="40"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="40"/>
+                                        </Anns>
                                         <Word>b</Word>
                                     </RefName>
                                 </RefExpr>
@@ -1201,26 +2156,56 @@ values that are members of both sets.
                         </ApplExpr>
                         <SetExpr>
                             <SetCompExpr>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="44"/>
+                                </Anns>
                                 <SchText>
                                     <VarDecl>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="50"/>
+                                        </Anns>
                                         <DeclName>
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="48"/>
+                                            </Anns>
                                             <Word>x</Word>
                                         </DeclName>
                                         <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="52"/>
+                                            </Anns>
                                             <RefName>
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="52"/>
+                                                </Anns>
                                                 <Word>X</Word>
                                             </RefName>
                                         </RefExpr>
                                     </VarDecl>
                                     <AndPred Op="And">
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="64"/>
+                                        </Anns>
                                         <MemPred Mixfix="false">
                                             <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="56"/>
+                                                </Anns>
                                                 <RefName>
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="56"/>
+                                                    </Anns>
                                                     <Word>x</Word>
                                                 </RefName>
                                             </RefExpr>
                                             <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="62"/>
+                                                </Anns>
                                                 <RefName>
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="62"/>
+                                                    </Anns>
                                                     <Word>a</Word>
                                                 </RefName>
                                             </RefExpr>
@@ -1228,12 +2213,24 @@ values that are members of both sets.
                                         <MemPred Mixfix="true">
                                             <TupleExpr>
                                                 <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="70"/>
+                                                    </Anns>
                                                     <RefName>
+                                                        <Anns>
+                                                            <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="70"/>
+                                                        </Anns>
                                                         <Word>x</Word>
                                                     </RefName>
                                                 </RefExpr>
                                                 <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="79"/>
+                                                    </Anns>
                                                     <RefName>
+                                                        <Anns>
+                                                            <LocAnn Loc="lib/set_toolkit.tex" Line="177" Col="79"/>
+                                                        </Anns>
                                                         <Word>b</Word>
                                                     </RefName>
                                                 </RefExpr>
@@ -1253,6 +2250,9 @@ values that are members of both sets.
             </SchText>
         </AxPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="178" Col="13"/>
+            </Anns>
             <Content>
 
 The difference of two sets of the same type is the set of
@@ -1260,10 +2260,12 @@ values that are members of the first set but not members of the second set.
 
 \ssclause{Set symmetric difference}
 
-%%Zinchar \symdiff U+2296
 </Content>
         </NarrPara>
-        <OptempPara Cat="Function" Assoc="Left" Prec="25">
+        <OptempPara Assoc="Left" Cat="Function" Prec="25">
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="187" Col="1"/>
+            </Anns>
             <Operand List="false"/>
             <Operator>
                 <Word>⊖</Word>
@@ -1271,42 +2273,84 @@ values that are members of the first set but not members of the second set.
             <Operand List="false"/>
         </OptempPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="188" Col="10"/>
+            </Anns>
             <Content>
 
 </Content>
         </NarrPara>
         <AxPara Box="AxBox">
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="190" Col="1"/>
+            </Anns>
             <DeclName>
+                <Anns>
+                    <LocAnn Loc="lib/set_toolkit.tex" Line="190" Col="16"/>
+                </Anns>
                 <Word>X</Word>
             </DeclName>
             <SchText>
                 <VarDecl>
+                    <Anns>
+                        <LocAnn Loc="lib/set_toolkit.tex" Line="191" Col="16"/>
+                    </Anns>
                     <DeclName>
                         <Word> _ ⊖ _ </Word>
                     </DeclName>
                     <RefExpr Mixfix="true">
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="191" Col="43"/>
+                        </Anns>
                         <RefName>
                             <Word> _ → _ </Word>
                         </RefName>
                         <ProdExpr>
                             <PowerExpr>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="191" Col="18"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="191" Col="25"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="191" Col="25"/>
+                                        </Anns>
                                         <Word>X</Word>
                                     </RefName>
                                 </RefExpr>
                             </PowerExpr>
                             <PowerExpr>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="191" Col="34"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="191" Col="41"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="191" Col="41"/>
+                                        </Anns>
                                         <Word>X</Word>
                                     </RefName>
                                 </RefExpr>
                             </PowerExpr>
                         </ProdExpr>
                         <PowerExpr>
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="191" Col="48"/>
+                            </Anns>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="191" Col="55"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="191" Col="55"/>
+                                    </Anns>
                                     <Word>X</Word>
                                 </RefName>
                             </RefExpr>
@@ -1314,17 +2358,38 @@ values that are members of the first set but not members of the second set.
                     </RefExpr>
                 </VarDecl>
                 <ForallPred>
+                    <Anns>
+                        <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="1"/>
+                    </Anns>
                     <SchText>
                         <VarDecl>
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="15"/>
+                            </Anns>
                             <DeclName>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="9"/>
+                                </Anns>
                                 <Word>a</Word>
                             </DeclName>
                             <DeclName>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="13"/>
+                                </Anns>
                                 <Word>b</Word>
                             </DeclName>
                             <PowerExpr>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="17"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="24"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="24"/>
+                                        </Anns>
                                         <Word>X</Word>
                                     </RefName>
                                 </RefExpr>
@@ -1332,7 +2397,13 @@ values that are members of the first set but not members of the second set.
                         </VarDecl>
                     </SchText>
                     <MemPred Mixfix="true">
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="41"/>
+                        </Anns>
                         <ApplExpr Mixfix="true">
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="30"/>
+                            </Anns>
                             <RefExpr Mixfix="false">
                                 <RefName>
                                     <Word> _ ⊖ _ </Word>
@@ -1340,12 +2411,24 @@ values that are members of the first set but not members of the second set.
                             </RefExpr>
                             <TupleExpr>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="28"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="28"/>
+                                        </Anns>
                                         <Word>a</Word>
                                     </RefName>
                                 </RefExpr>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="39"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="39"/>
+                                        </Anns>
                                         <Word>b</Word>
                                     </RefName>
                                 </RefExpr>
@@ -1353,42 +2436,85 @@ values that are members of the first set but not members of the second set.
                         </ApplExpr>
                         <SetExpr>
                             <SetCompExpr>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="43"/>
+                                </Anns>
                                 <SchText>
                                     <VarDecl>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="49"/>
+                                        </Anns>
                                         <DeclName>
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="47"/>
+                                            </Anns>
                                             <Word>x</Word>
                                         </DeclName>
                                         <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="51"/>
+                                            </Anns>
                                             <RefName>
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="51"/>
+                                                </Anns>
                                                 <Word>X</Word>
                                             </RefName>
                                         </RefExpr>
                                     </VarDecl>
                                     <NegPred>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="55"/>
+                                        </Anns>
                                         <IffPred>
                                             <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="71"/>
                                                 <ParenAnn/>
                                             </Anns>
                                             <MemPred Mixfix="false">
                                                 <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="63"/>
+                                                    </Anns>
                                                     <RefName>
+                                                        <Anns>
+                                                            <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="63"/>
+                                                        </Anns>
                                                         <Word>x</Word>
                                                     </RefName>
                                                 </RefExpr>
                                                 <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="69"/>
+                                                    </Anns>
                                                     <RefName>
+                                                        <Anns>
+                                                            <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="69"/>
+                                                        </Anns>
                                                         <Word>a</Word>
                                                     </RefName>
                                                 </RefExpr>
                                             </MemPred>
                                             <MemPred Mixfix="false">
                                                 <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="76"/>
+                                                    </Anns>
                                                     <RefName>
+                                                        <Anns>
+                                                            <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="76"/>
+                                                        </Anns>
                                                         <Word>x</Word>
                                                     </RefName>
                                                 </RefExpr>
                                                 <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="82"/>
+                                                    </Anns>
                                                     <RefName>
+                                                        <Anns>
+                                                            <LocAnn Loc="lib/set_toolkit.tex" Line="193" Col="82"/>
+                                                        </Anns>
                                                         <Word>b</Word>
                                                     </RefName>
                                                 </RefExpr>
@@ -1403,6 +2529,9 @@ values that are members of the first set but not members of the second set.
             </SchText>
         </AxPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="194" Col="13"/>
+            </Anns>
             <Content>
 
 The symmetric set difference of two sets of the same type is
@@ -1411,34 +2540,69 @@ but not members of both.
 
 \ssclause{Generalized union}
 
-%%Zprechar \bigcup U+22C3
 </Content>
         </NarrPara>
         <AxPara Box="AxBox">
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="203" Col="1"/>
+            </Anns>
             <DeclName>
+                <Anns>
+                    <LocAnn Loc="lib/set_toolkit.tex" Line="203" Col="16"/>
+                </Anns>
                 <Word>X</Word>
             </DeclName>
             <SchText>
                 <VarDecl>
+                    <Anns>
+                        <LocAnn Loc="lib/set_toolkit.tex" Line="204" Col="9"/>
+                    </Anns>
                     <DeclName>
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="204" Col="1"/>
+                        </Anns>
                         <Word>⋃</Word>
                     </DeclName>
                     <RefExpr Mixfix="true">
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="204" Col="28"/>
+                        </Anns>
                         <RefName>
                             <Word> _ → _ </Word>
                         </RefName>
                         <PowerExpr>
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="204" Col="11"/>
+                            </Anns>
                             <PowerExpr>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="204" Col="18"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="204" Col="25"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="204" Col="25"/>
+                                        </Anns>
                                         <Word>X</Word>
                                     </RefName>
                                 </RefExpr>
                             </PowerExpr>
                         </PowerExpr>
                         <PowerExpr>
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="204" Col="33"/>
+                            </Anns>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="204" Col="40"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="204" Col="40"/>
+                                    </Anns>
                                     <Word>X</Word>
                                 </RefName>
                             </RefExpr>
@@ -1446,15 +2610,36 @@ but not members of both.
                     </RefExpr>
                 </VarDecl>
                 <ForallPred>
+                    <Anns>
+                        <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="1"/>
+                    </Anns>
                     <SchText>
                         <VarDecl>
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="11"/>
+                            </Anns>
                             <DeclName>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="9"/>
+                                </Anns>
                                 <Word>A</Word>
                             </DeclName>
                             <PowerExpr>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="13"/>
+                                </Anns>
                                 <PowerExpr>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="20"/>
+                                    </Anns>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="27"/>
+                                        </Anns>
                                         <RefName>
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="27"/>
+                                            </Anns>
                                             <Word>X</Word>
                                         </RefName>
                                     </RefExpr>
@@ -1463,39 +2648,84 @@ but not members of both.
                         </VarDecl>
                     </SchText>
                     <MemPred Mixfix="true">
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="41"/>
+                        </Anns>
                         <ApplExpr Mixfix="false">
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="31"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="31"/>
+                                    </Anns>
                                     <Word>⋃</Word>
                                 </RefName>
                             </RefExpr>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="39"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="39"/>
+                                    </Anns>
                                     <Word>A</Word>
                                 </RefName>
                             </RefExpr>
                         </ApplExpr>
                         <SetExpr>
                             <SetCompExpr>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="43"/>
+                                </Anns>
                                 <SchText>
                                     <VarDecl>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="49"/>
+                                        </Anns>
                                         <DeclName>
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="47"/>
+                                            </Anns>
                                             <Word>x</Word>
                                         </DeclName>
                                         <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="51"/>
+                                            </Anns>
                                             <RefName>
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="51"/>
+                                                </Anns>
                                                 <Word>X</Word>
                                             </RefName>
                                         </RefExpr>
                                     </VarDecl>
                                     <ExistsPred>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="55"/>
+                                        </Anns>
                                         <SchText>
                                             <VarDecl>
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="65"/>
+                                                </Anns>
                                                 <DeclName>
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="63"/>
+                                                    </Anns>
                                                     <Word>a</Word>
                                                 </DeclName>
                                                 <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="67"/>
+                                                    </Anns>
                                                     <RefName>
+                                                        <Anns>
+                                                            <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="67"/>
+                                                        </Anns>
                                                         <Word>A</Word>
                                                     </RefName>
                                                 </RefExpr>
@@ -1503,12 +2733,24 @@ but not members of both.
                                         </SchText>
                                         <MemPred Mixfix="false">
                                             <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="71"/>
+                                                </Anns>
                                                 <RefName>
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="71"/>
+                                                    </Anns>
                                                     <Word>x</Word>
                                                 </RefName>
                                             </RefExpr>
                                             <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="77"/>
+                                                </Anns>
                                                 <RefName>
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="206" Col="77"/>
+                                                    </Anns>
                                                     <Word>a</Word>
                                                 </RefName>
                                             </RefExpr>
@@ -1522,6 +2764,9 @@ but not members of both.
             </SchText>
         </AxPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="207" Col="13"/>
+            </Anns>
             <Content>
 
 The generalized union of a set of sets of the same type is
@@ -1529,34 +2774,69 @@ the set of values of that type that are members of at least one of the sets.
 
 \ssclause{Generalized intersection}
 
-%%Zprechar \bigcap U+22C2
 </Content>
         </NarrPara>
         <AxPara Box="AxBox">
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="215" Col="1"/>
+            </Anns>
             <DeclName>
+                <Anns>
+                    <LocAnn Loc="lib/set_toolkit.tex" Line="215" Col="16"/>
+                </Anns>
                 <Word>X</Word>
             </DeclName>
             <SchText>
                 <VarDecl>
+                    <Anns>
+                        <LocAnn Loc="lib/set_toolkit.tex" Line="216" Col="9"/>
+                    </Anns>
                     <DeclName>
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="216" Col="1"/>
+                        </Anns>
                         <Word>⋂</Word>
                     </DeclName>
                     <RefExpr Mixfix="true">
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="216" Col="27"/>
+                        </Anns>
                         <RefName>
                             <Word> _ → _ </Word>
                         </RefName>
                         <PowerExpr>
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="216" Col="11"/>
+                            </Anns>
                             <PowerExpr>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="216" Col="18"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="216" Col="25"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="216" Col="25"/>
+                                        </Anns>
                                         <Word>X</Word>
                                     </RefName>
                                 </RefExpr>
                             </PowerExpr>
                         </PowerExpr>
                         <PowerExpr>
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="216" Col="32"/>
+                            </Anns>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="216" Col="39"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="216" Col="39"/>
+                                    </Anns>
                                     <Word>X</Word>
                                 </RefName>
                             </RefExpr>
@@ -1564,15 +2844,36 @@ the set of values of that type that are members of at least one of the sets.
                     </RefExpr>
                 </VarDecl>
                 <ForallPred>
+                    <Anns>
+                        <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="1"/>
+                    </Anns>
                     <SchText>
                         <VarDecl>
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="11"/>
+                            </Anns>
                             <DeclName>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="9"/>
+                                </Anns>
                                 <Word>A</Word>
                             </DeclName>
                             <PowerExpr>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="13"/>
+                                </Anns>
                                 <PowerExpr>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="20"/>
+                                    </Anns>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="27"/>
+                                        </Anns>
                                         <RefName>
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="27"/>
+                                            </Anns>
                                             <Word>X</Word>
                                         </RefName>
                                     </RefExpr>
@@ -1581,39 +2882,84 @@ the set of values of that type that are members of at least one of the sets.
                         </VarDecl>
                     </SchText>
                     <MemPred Mixfix="true">
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="41"/>
+                        </Anns>
                         <ApplExpr Mixfix="false">
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="31"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="31"/>
+                                    </Anns>
                                     <Word>⋂</Word>
                                 </RefName>
                             </RefExpr>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="39"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="39"/>
+                                    </Anns>
                                     <Word>A</Word>
                                 </RefName>
                             </RefExpr>
                         </ApplExpr>
                         <SetExpr>
                             <SetCompExpr>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="43"/>
+                                </Anns>
                                 <SchText>
                                     <VarDecl>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="49"/>
+                                        </Anns>
                                         <DeclName>
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="47"/>
+                                            </Anns>
                                             <Word>x</Word>
                                         </DeclName>
                                         <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="51"/>
+                                            </Anns>
                                             <RefName>
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="51"/>
+                                                </Anns>
                                                 <Word>X</Word>
                                             </RefName>
                                         </RefExpr>
                                     </VarDecl>
                                     <ForallPred>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="55"/>
+                                        </Anns>
                                         <SchText>
                                             <VarDecl>
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="65"/>
+                                                </Anns>
                                                 <DeclName>
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="63"/>
+                                                    </Anns>
                                                     <Word>a</Word>
                                                 </DeclName>
                                                 <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="67"/>
+                                                    </Anns>
                                                     <RefName>
+                                                        <Anns>
+                                                            <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="67"/>
+                                                        </Anns>
                                                         <Word>A</Word>
                                                     </RefName>
                                                 </RefExpr>
@@ -1621,12 +2967,24 @@ the set of values of that type that are members of at least one of the sets.
                                         </SchText>
                                         <MemPred Mixfix="false">
                                             <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="71"/>
+                                                </Anns>
                                                 <RefName>
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="71"/>
+                                                    </Anns>
                                                     <Word>x</Word>
                                                 </RefName>
                                             </RefExpr>
                                             <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="77"/>
+                                                </Anns>
                                                 <RefName>
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="218" Col="77"/>
+                                                    </Anns>
                                                     <Word>a</Word>
                                                 </RefName>
                                             </RefExpr>
@@ -1640,6 +2998,9 @@ the set of values of that type that are members of at least one of the sets.
             </SchText>
         </AxPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="219" Col="13"/>
+            </Anns>
             <Content>
 
 The generalized intersection of a set of sets of values of the same
@@ -1650,45 +3011,83 @@ every one of the sets.
 
 \ssclause{Finite subsets}
 
-%%Zprechar \finset U+03DC
 </Content>
         </NarrPara>
         <OptempPara Cat="Generic">
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="232" Col="1"/>
+            </Anns>
             <Operator>
                 <Word>Ϝ</Word>
             </Operator>
             <Operand List="false"/>
         </OptempPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="233" Col="10"/>
+            </Anns>
             <Content>
 
 </Content>
         </NarrPara>
         <AxPara Box="OmitBox">
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="236" Col="9"/>
+            </Anns>
             <DeclName>
                 <Word>X</Word>
             </DeclName>
             <SchText>
                 <ConstDecl>
+                    <Anns>
+                        <LocAnn Loc="lib/set_toolkit.tex" Line="236" Col="11"/>
+                    </Anns>
                     <DeclName>
                         <Word>Ϝ _ </Word>
                     </DeclName>
                     <ApplExpr Mixfix="false">
                         <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="236" Col="14"/>
+                            </Anns>
                             <RefName>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="236" Col="14"/>
+                                </Anns>
                                 <Word>⋂</Word>
                             </RefName>
                         </RefExpr>
                         <SetCompExpr>
+                            <Anns>
+                                <LocAnn Loc="lib/set_toolkit.tex" Line="236" Col="22"/>
+                            </Anns>
                             <SchText>
                                 <VarDecl>
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="236" Col="28"/>
+                                    </Anns>
                                     <DeclName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="236" Col="26"/>
+                                        </Anns>
                                         <Word>A</Word>
                                     </DeclName>
                                     <PowerExpr>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="236" Col="30"/>
+                                        </Anns>
                                         <PowerExpr>
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="236" Col="37"/>
+                                            </Anns>
                                             <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="236" Col="44"/>
+                                                </Anns>
                                                 <RefName>
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="236" Col="44"/>
+                                                    </Anns>
                                                     <Word>X</Word>
                                                 </RefName>
                                             </RefExpr>
@@ -1696,39 +3095,79 @@ every one of the sets.
                                     </PowerExpr>
                                 </VarDecl>
                                 <AndPred Op="And">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="237" Col="18"/>
+                                    </Anns>
                                     <MemPred Mixfix="false">
                                         <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="237" Col="2"/>
+                                            </Anns>
                                             <RefName>
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="237" Col="2"/>
+                                                </Anns>
                                                 <Word>∅</Word>
                                             </RefName>
                                         </RefExpr>
                                         <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Loc="lib/set_toolkit.tex" Line="237" Col="16"/>
+                                            </Anns>
                                             <RefName>
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="237" Col="16"/>
+                                                </Anns>
                                                 <Word>A</Word>
                                             </RefName>
                                         </RefExpr>
                                     </MemPred>
                                     <ForallPred>
                                         <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="237" Col="26"/>
                                             <ParenAnn/>
                                         </Anns>
                                         <SchText>
                                             <VarDecl>
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="237" Col="36"/>
+                                                </Anns>
                                                 <DeclName>
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="237" Col="34"/>
+                                                    </Anns>
                                                     <Word>a</Word>
                                                 </DeclName>
                                                 <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="237" Col="38"/>
+                                                    </Anns>
                                                     <RefName>
+                                                        <Anns>
+                                                            <LocAnn Loc="lib/set_toolkit.tex" Line="237" Col="38"/>
+                                                        </Anns>
                                                         <Word>A</Word>
                                                     </RefName>
                                                 </RefExpr>
                                             </VarDecl>
                                             <VarDecl>
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="237" Col="44"/>
+                                                </Anns>
                                                 <DeclName>
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="237" Col="42"/>
+                                                    </Anns>
                                                     <Word>x</Word>
                                                 </DeclName>
                                                 <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="237" Col="46"/>
+                                                    </Anns>
                                                     <RefName>
+                                                        <Anns>
+                                                            <LocAnn Loc="lib/set_toolkit.tex" Line="237" Col="46"/>
+                                                        </Anns>
                                                         <Word>X</Word>
                                                     </RefName>
                                                 </RefExpr>
@@ -1736,6 +3175,9 @@ every one of the sets.
                                         </SchText>
                                         <MemPred Mixfix="false">
                                             <ApplExpr Mixfix="true">
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="237" Col="52"/>
+                                                </Anns>
                                                 <RefExpr Mixfix="false">
                                                     <RefName>
                                                         <Word> _ ∪ _ </Word>
@@ -1743,13 +3185,28 @@ every one of the sets.
                                                 </RefExpr>
                                                 <TupleExpr>
                                                     <RefExpr Mixfix="false">
+                                                        <Anns>
+                                                            <LocAnn Loc="lib/set_toolkit.tex" Line="237" Col="50"/>
+                                                        </Anns>
                                                         <RefName>
+                                                            <Anns>
+                                                                <LocAnn Loc="lib/set_toolkit.tex" Line="237" Col="50"/>
+                                                            </Anns>
                                                             <Word>a</Word>
                                                         </RefName>
                                                     </RefExpr>
                                                     <SetExpr>
+                                                        <Anns>
+                                                            <LocAnn Loc="lib/set_toolkit.tex" Line="237" Col="57"/>
+                                                        </Anns>
                                                         <RefExpr Mixfix="false">
+                                                            <Anns>
+                                                                <LocAnn Loc="lib/set_toolkit.tex" Line="237" Col="60"/>
+                                                            </Anns>
                                                             <RefName>
+                                                                <Anns>
+                                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="237" Col="60"/>
+                                                                </Anns>
                                                                 <Word>x</Word>
                                                             </RefName>
                                                         </RefExpr>
@@ -1757,7 +3214,13 @@ every one of the sets.
                                                 </TupleExpr>
                                             </ApplExpr>
                                             <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Loc="lib/set_toolkit.tex" Line="237" Col="69"/>
+                                                </Anns>
                                                 <RefName>
+                                                    <Anns>
+                                                        <LocAnn Loc="lib/set_toolkit.tex" Line="237" Col="69"/>
+                                                    </Anns>
                                                     <Word>A</Word>
                                                 </RefName>
                                             </RefExpr>
@@ -1771,6 +3234,9 @@ every one of the sets.
             </SchText>
         </AxPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="238" Col="10"/>
+            </Anns>
             <Content>
 
 If $X$ is a set,
@@ -1783,16 +3249,25 @@ and is closed under the action of adding single elements of $X$.
 </Content>
         </NarrPara>
         <AxPara Box="OmitBox">
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="248" Col="11"/>
+            </Anns>
             <DeclName>
                 <Word>X</Word>
             </DeclName>
             <SchText>
                 <ConstDecl>
+                    <Anns>
+                        <LocAnn Loc="lib/set_toolkit.tex" Line="248" Col="13"/>
+                    </Anns>
                     <DeclName>
                         <Word>Ϝ _ </Word>
                         <NumStroke Number="1"/>
                     </DeclName>
                     <ApplExpr Mixfix="true">
+                        <Anns>
+                            <LocAnn Loc="lib/set_toolkit.tex" Line="248" Col="26"/>
+                        </Anns>
                         <RefExpr Mixfix="false">
                             <RefName>
                                 <Word> _ \ _ </Word>
@@ -1800,18 +3275,36 @@ and is closed under the action of adding single elements of $X$.
                         </RefExpr>
                         <TupleExpr>
                             <RefExpr Mixfix="true">
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="248" Col="16"/>
+                                </Anns>
                                 <RefName>
                                     <Word>Ϝ _ </Word>
                                 </RefName>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="248" Col="24"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="248" Col="24"/>
+                                        </Anns>
                                         <Word>X</Word>
                                     </RefName>
                                 </RefExpr>
                             </RefExpr>
                             <SetExpr>
+                                <Anns>
+                                    <LocAnn Loc="lib/set_toolkit.tex" Line="248" Col="36"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Loc="lib/set_toolkit.tex" Line="248" Col="39"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Loc="lib/set_toolkit.tex" Line="248" Col="39"/>
+                                        </Anns>
                                         <Word>∅</Word>
                                     </RefName>
                                 </RefExpr>
@@ -1822,6 +3315,9 @@ and is closed under the action of adding single elements of $X$.
             </SchText>
         </AxPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Loc="lib/set_toolkit.tex" Line="249" Col="10"/>
+            </Anns>
             <Content>
 
 If $X$ is a set,
