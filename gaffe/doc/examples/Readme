@@ -6,5 +6,6 @@ Fake.gaffe matches to the history class FakeHistory
 BirthdayBook.gaffe matches to the history class BirthdayBookHistory
 
 GeneratedBirthdayBook.gaffe matches to the history class BirthdayBookFullHistory
-        - GeneratedBirthdayBook.gaffe was generated from
-          birthdaybook_unfolded.xml from the zml module.
+GeneratedBirthdayBook.gaffe was generated using the following command:
+  gaffe-generate -spec ~/usr/czt/zml/examples/birthdaybook_unfolded.xml -stateSchema BirthdayBook -opSchema AddBirthday -opSchema FindBirthday -opSchema Remind -destination test.gaffe
+after this, it was edited to set the history object to BirthdayBookFullHistory

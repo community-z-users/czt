@@ -75,8 +75,6 @@ Misc
  o - Change fake history back-end for birthdaybook_unfolded.xml to account for
      limits placed on name and date types.
  o - Allow an animation history to be saved.
- o - Combine the AnimatorCore and AnimatorCoreBase, since this seperation isn't
-     likely to be needed after all for a scrolling history interface.
  o - Rename from Gaffe Animator to Gaffe Visualiser, to avoid confusion with the
      actual animator which the visualiser is the front-end for.
 

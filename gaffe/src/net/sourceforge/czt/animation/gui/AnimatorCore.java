@@ -26,9 +26,14 @@ import java.awt.BorderLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
+import java.beans.Beans;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.XMLDecoder;
+
+import java.beans.beancontext.BeanContextChild;
+import java.beans.beancontext.BeanContextServices;
+import java.beans.beancontext.BeanContextServicesSupport;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,10 +45,13 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.Vector;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import net.sourceforge.czt.animation.gui.design.BeanLink;
 
+import net.sourceforge.czt.animation.gui.history.BasicHistory;
 import net.sourceforge.czt.animation.gui.history.History;
 import net.sourceforge.czt.animation.gui.history.HistoryServiceProvider;
 
@@ -51,15 +59,29 @@ import net.sourceforge.czt.animation.gui.scripting.BSFServiceProvider;
 
 import net.sourceforge.czt.animation.gui.temp.*;
 import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
+import net.sourceforge.czt.animation.gui.util.Utils;
 
 /**
  * The core program for normal animation of a specification.
  */
-public class AnimatorCore extends AnimatorCoreBase
+public class AnimatorCore
 {
+  //Properties:
+
   /**
-   * Creates an AnimatorCore.
+   * History property.
+   * Keeps track of history of solution sets.
    */
+  protected History history;
+
+  /**
+   * The Bean context for this object (proxied through
+   * {@link #getBeanContextProxy() #getBeanContextProxy()}).
+   * Provides services to contexts and beans in the program.
+   */
+  protected BeanContextServices    rootContext;
+
+
   protected String initScript_ = "";
   protected String initScriptLanguage_ = "javascript";
   protected URL specificationURL_ = null;
@@ -84,7 +106,10 @@ public class AnimatorCore extends AnimatorCoreBase
   public AnimatorCore(File file)
     throws FileNotFoundException
   {
-    super(new BirthdayBookHistory());
+    Beans.setDesignTime(false);
+    history = new BasicHistory();
+    rootContext = new BeanContextServicesSupport();
+    
     XMLDecoder decoder;
     decoder = new XMLDecoder(new FileInputStream(file), this);
 
@@ -187,6 +212,37 @@ public class AnimatorCore extends AnimatorCoreBase
     }
   };
 
+  /**
+   * Getter function for {@link #history history}.
+   * @return The property <code>history</code>.
+   * @see #history
+   */
+  public History    getHistory()
+  {
+    return history;
+  };
+  /**
+   * Setter function for {@link #history history}.
+   * @param h The property <code>history</code>.
+   * @see #history
+   */
+  public void       setHistory(History h)
+  {
+    history = h;
+  };
+
+  //BeanContextProxy stuff
+  /**
+   * Getter function for {@link #rootContext rootContext}.
+   * @return The root context.
+   * @see #rootContext
+   * @see java.beans.beancontext.BeanContextProxy
+   */
+  public BeanContextChild getBeanContextProxy()
+  {
+    return rootContext;
+  };
+
   public void setInitScript(String initScript)
   {
     initScript_ = initScript;
@@ -215,6 +271,30 @@ public class AnimatorCore extends AnimatorCoreBase
   public String getSpecificationURL()
   {
     return specificationURL_.toExternalForm();
+  };
+
+
+  public static int run(String[] args)
+  {
+    File file = null;
+    if (args.length == 0) {
+      JFileChooser fc = new JFileChooser();
+      fc.addChoosableFileFilter(Utils.gaffeFileFilter);
+
+      if (fc.showOpenDialog(null) != JFileChooser.APPROVE_OPTION)
+        return -1;
+      file = fc.getSelectedFile();
+    } else
+      file = new File(args[0]);
+
+    try {
+      new AnimatorCore(file);
+    } catch (FileNotFoundException ex) {
+      JOptionPane.showMessageDialog(null, "Couldn't open file",
+                                    "File not found",
+                                    JOptionPane.ERROR_MESSAGE);
+    };
+    return 0;
   };
 };
 

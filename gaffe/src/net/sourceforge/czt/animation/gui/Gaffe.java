@@ -78,7 +78,7 @@ public class Gaffe extends JFrame
     animate.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e)
       {
-        if(AnimatorCoreBase.run(args)==0)
+        if(AnimatorCore.run(args)==0)
           dispose();
       };
     });
@@ -107,7 +107,7 @@ public class Gaffe extends JFrame
         DesignerCore.run(getArgsTail(args));
         return;
       } else if (args[0].equals("--animate") || args[0].equals("-animate")) {
-        if(AnimatorCoreBase.run(getArgsTail(args))<0) System.exit(0);
+        if(AnimatorCore.run(getArgsTail(args))<0) System.exit(0);
         return;
       } else if (args[0].equals("--help") || args[0].equals("-help")) {
         System.err.println("Usage: gaffe [--design|--animate] <arguments>");
@@ -139,8 +139,8 @@ public class Gaffe extends JFrame
           return;
         else if (input.equals("a")) {
           System.err.println("At present animate mode hasn't been implemented."
-          );
-          //xxx   AnimatorCoreBase.run(args);
+                             );//Because there is no GUI.
+          //xxx   AnimatorCore.run(args);
         } else if (input.equals("d")) {
           DesignerCore.run(args);
           return;

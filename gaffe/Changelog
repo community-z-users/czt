@@ -16,6 +16,16 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
+19 Mar 2004 -
+        - Combined AnimatorCore and AnimatorCoreBase
+                - They were originally separate, because it was thought this
+                  would be necessary in order to implement a "scrolling history"
+                  interface.  JavaBeans are flexible enough, that a new animator
+                  core shouldn't be necessary.
+        - Added example interface generated from birthdaybook_unfolded.xml
+                - Matches to BirthdayBookFullHistory.
+                - See the zml module.
+
 18 Mar 2004 -
         - Removed depend from classes target in build.xml.
                 - Should make builds a bit faster.
