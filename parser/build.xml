@@ -97,7 +97,7 @@
   <target name="latexMarkup">
     <xslt
       in="xsl/latexMarkup.xml"
-      out="${src.dir}/net/sourceforge/czt/scanner/LatexMarkup.java"
+      out="${build.src.dir}/net/sourceforge/czt/scanner/LatexMarkup.java"
       style="xsl/latexMarkup2class.xsl"/>
   </target>
 
@@ -134,7 +134,7 @@
   <target name="ozLatexMarkup">
     <xslt
       in="xsl/ozLatexMarkup.xml"
-      out="${src.dir}/net/sourceforge/czt/scanner/OzLatexMarkup.java"
+      out="${build.src.dir}/net/sourceforge/czt/scanner/OzLatexMarkup.java"
       style="xsl/ozLatexMarkup2class.xsl"/>
   </target>
 
