@@ -127,7 +127,7 @@
           description="compile the sources">
     <javac srcdir="${src.dir}:${build.src.dir}"
            destdir="${build.class.dir}"
-           debug="true">
+           debug="${debug}" debuglevel="${debuglevel}" optimize="${optimize}">
       <classpath refid="classpath"/>
     </javac>
   </target>
