@@ -18,7 +18,7 @@ import net.sourceforge.czt.util.ZString;
 %cup
 %eof{
   try {
-    writer_.close();
+    if (writer_ != null) writer_.close();
   } catch (Exception e) {
     System.err.println("Cannot close writer " + writer_);
     e.printStackTrace();
