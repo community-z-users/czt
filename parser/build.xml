@@ -66,7 +66,8 @@
   <target name="compile" depends="init, scanner, latexMarkup, LatexToUnicode, UnicodeToLatex"
           description="compile the sources">
     <javac srcdir="${src.dir}"
-           destdir="${build.dir}">
+           destdir="${build.dir}"
+           debug="true">
       <classpath refid="classpath"/>
     </javac>
   </target>
