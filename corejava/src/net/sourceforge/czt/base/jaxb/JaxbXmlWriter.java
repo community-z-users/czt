@@ -24,6 +24,7 @@ import java.io.Writer;
 import java.util.*;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import net.sourceforge.czt.util.Visitor;
@@ -54,6 +55,7 @@ public class JaxbXmlWriter implements XmlWriter
       erg = jc.createMarshaller();
       erg.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
     } catch (Exception e) {
+      // TODO
       e.printStackTrace();
     }
     return erg;
@@ -73,7 +75,9 @@ public class JaxbXmlWriter implements XmlWriter
     Marshaller m = createMarshaller();
     try {
       m.marshal(toJaxb(term), writer);
-    } catch (Exception e) {
+    } catch (JAXBException e) {
+      // TODO
+      System.err.println("JaxbXmlWriter: Caught Exception:");
       e.printStackTrace();
     }
   }
@@ -85,7 +89,9 @@ public class JaxbXmlWriter implements XmlWriter
     Marshaller m = createMarshaller();
     try {
       m.marshal(toJaxb(term), stream);
-    } catch (Exception e) {
+    } catch (JAXBException e) {
+      // TODO
+      System.err.println("JaxbXmlWriter: Caught Exception:");
       e.printStackTrace();
     }
   }

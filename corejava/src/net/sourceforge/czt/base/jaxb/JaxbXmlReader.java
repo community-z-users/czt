@@ -76,6 +76,8 @@ public class JaxbXmlReader
     Term term = null;
     try {
       term = (Term) visitor_.dispatch(createUnmarshaller().unmarshal(stream));
+    } catch (UnsupportedOperationException e) {
+      throw e;
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -85,6 +87,7 @@ public class JaxbXmlReader
   /**
    * Unmarshalles XML data from the specified file and
    * returns the root Term.
+   *
    * @param file  the file to be unmarshalled.
    * @return the root element of the unmarshalled file.
    */
@@ -93,7 +96,10 @@ public class JaxbXmlReader
     Term term = null;
     try {
       term = (Term) visitor_.dispatch(createUnmarshaller().unmarshal(file));
+    } catch (UnsupportedOperationException e) {
+      throw e;
     } catch (Exception e) {
+      // TODO: what to do now?
       e.printStackTrace();
     }
     return term;
