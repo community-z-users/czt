@@ -1,6 +1,7 @@
 
   /**
    * Creates a list of size one with the given object as element.
+   * This is a convenience method.
    */
   public java.util.List list(Object o)
   {
@@ -11,6 +12,7 @@
 
   /**
    * Creates a list with the two objects as elements.
+   * This is a convenience method.
    */
   public java.util.List list(Object first, Object second)
   {
@@ -23,6 +25,7 @@
   /**
    * Creates an application (Expr followed by Expr in the syntax),
    * that is an ApplExpr with mixfix set to <code>false</code>.
+   * This is a convenience method.
    */
   public ApplExpr createApplication(RefName refName, Expr expr)
   {
@@ -32,6 +35,7 @@
   /**
    * Creates a DeclName with the given word and strokes and
    * id set to <code>null</code>.
+   * This is a convenience method.
    */
   public DeclName createDeclName(String word, java.util.List strokes)
   {
@@ -43,6 +47,7 @@
    * may contain strokes at the end.
    * The strokes are extracted from the end and the resulting
    * name is returned.
+   * This is a convenience method.
    */
   public DeclName createDeclName(String decorword)
   {
@@ -95,6 +100,7 @@
   /**
    * Creates a member predicate that represents equality
    * between the two given expressions.
+   * This is a convenience method.
    */
   public MemPred createEquality(Expr left, Expr right)
   {
@@ -104,6 +110,7 @@
   /**
    * Creates a function operator application, that is an ApplExpr
    * with mixfix set to <code>true</code>.
+   * This is a convenience method.
    */
   public ApplExpr createFunOpAppl(RefName refName, Expr expr)
   {
@@ -113,6 +120,7 @@
   /**
    * Creates a generic instantiation expression, that is a RefExpr
    * with mixfix set to <code>false</code>.
+   * This is a convenience method.
    */
   public RefExpr createGenInst(RefName refName, java.util.List exprs)
   {
@@ -122,6 +130,7 @@
   /**
    * Creates a generic operator application, that is a RefExpr
    * with mixfix set to <code>true</code>.
+   * This is a convenience method.
    */
   public RefExpr createGenOpApp(RefName refName, java.util.List exprs)
   {
@@ -132,6 +141,7 @@
    * Creates a horizontal definition, that is an axiomatic definition
    * containing a constant declaration of the name to the given
    * expression and with Box set to OmitBox.
+   * This is a convenience method.
    *
    * @param declName name of the schema.
    * @param expr an expression.
@@ -145,6 +155,7 @@
    * Creates a generic horizontal definition, that is an axiomatic definition
    * containing a constant declaration of the name to the given
    * expression and with Box set to OmitBox.
+   * This is a convenience method.
    *
    * @param declName name of the schema.
    * @param formals a list of DeclName, the formal parameters.
@@ -162,6 +173,7 @@
   /**
    * Creates a member predicate for a given referencing name and
    * an expression, that is a MemPred with mixfix set to <code>false</code>.
+   * This is a convenience method.
    */ 
   public MemPred createMemPred(RefName refName, Expr expr)
   {
@@ -170,6 +182,7 @@
 
   /**
    * Creates a number expression with the given value.
+   * This is a convenience method.
    */
   public NumExpr createNumExpr(int value)
   {
@@ -178,6 +191,7 @@
 
   /**
    * Creates a binary product expression.
+   * This is a convenience method.
    */
   public ProdExpr createProdExpr(Expr left, Expr right)
   {
@@ -188,6 +202,7 @@
    * Creates a reference (expression) to the given name.
    * The mixfix child of the returned reference expression
    * is <code>false</code> and the list of expressions is empty.
+   * This is a convenience method.
    */
   public RefExpr createRefExpr(RefName refName)
   {
@@ -197,6 +212,7 @@
   /**
    * Creates a RefName with the given word and strokes and
    * id set to <code>null</code>.
+   * This is a convenience method.
    */
   public RefName createRefName(String word, java.util.List strokes)
   {
@@ -208,6 +224,7 @@
    * may contain strokes at the end.
    * The strokes are extracted from the end and the resulting
    * name is returned.
+   * This is a convenience method.
    */
   public RefName createRefName(String decorword)
   {
@@ -219,6 +236,7 @@
   /**
    * Creates a referencing name that refers to the given
    * declaring name.
+   * This is a convenience method.
    */
   public RefName createRefName(DeclName declName)
   {
@@ -228,6 +246,7 @@
   /**
    * Creates a relation operator application, that is a MemPred
    * with mixfix set to <code>true</code>.
+   * This is a convenience method.
    */
   public MemPred createRelOpAppl(Expr expr, RefName refName)
   {
@@ -238,6 +257,7 @@
    * Creates a schema definition, that is an axiomatic definition
    * containing a constant declaration of the name to the given
    * schema text and with Box set to SchBox.
+   * This is a convenience method.
    *
    * @param declName name of the schema.
    * @param schemaText the schema text.
@@ -251,6 +271,7 @@
    * Creates a generic schema definition, that is an axiomatic definition
    * containing a constant declaration of the name to the given
    * schema text and with Box set to SchBox.
+   * This is a convenience method.
    *
    * @param formals a list of DeclName, the formal parameters.
    * @param declName name of the schema.
@@ -276,6 +297,8 @@
    * the set <code>\{ (1, e_1), ... , (n, e_n) \}</code>.
    * </p>
    *
+   * <p>This is a convenience method.</p>
+   *
    * @param exprList a list of expressions (Expr).
    */
   public SetExpr createSequence(java.util.List exprList)
@@ -290,6 +313,7 @@
 
   /**
    * Creates a pair, that is a tuple expression with two elements.
+   * This is a convenience method.
    */
   public TupleExpr createTupleExpr(Expr left, Expr right)
   {
