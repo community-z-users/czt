@@ -82,6 +82,11 @@ public class SectionManager
     return result;
   }
 
+  public void putOpTable(String section, OpTable opTable)
+  {
+    opTable_.put(section, opTable);
+  }
+
   private OpTable getOperatorTable(String section)
   {
     OpTable result =

@@ -522,7 +522,7 @@ action code
       return result;
     }
 
-    private void updateZSect(ZSect zSect)
+    private void updateZSect(ZSect zSect, OpTable opTable)
     {
       // do not update in case an error has occured
       if (parser.errorThrown_) return;
@@ -537,6 +537,7 @@ action code
         }
         // TODO: currently, the following line breaks the typechecker
         // sectInfo_.put(key, zSect, dependencies);
+        ((SectionManager) sectInfo_).putOpTable(name, opTable_);
       }
       catch (Exception e) {
         Logger logger = CztLogger.getLogger(<class/>.class);
@@ -1126,7 +1127,7 @@ specification ::=
         emptySectionHeader:header paragraphList:pl
         {:
            header.getPara().addAll(pl);
-           updateZSect(header);
+           updateZSect(header, opTable_);
            RESULT = createSpec(list(header));
         :}
         |
@@ -1165,7 +1166,7 @@ section ::=
         sectionHeader:header paragraphList:pl
         {:
            header.getPara().addAll(pl);
-           updateZSect(header);
+           updateZSect(header, opTable_);
            RESULT = header;
         :}
         ;
