@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.base.util.*;
+import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
@@ -46,6 +47,7 @@ public class ZPrintVisitor
   implements Visitor, ZVisitor, TermVisitor, ListTermVisitor
 {
   private SectionManager manager_;
+  private OpTable opTable_;
 
   public ZPrintVisitor(ZPrinter printer, SectionManager manager)
   {
@@ -228,8 +230,27 @@ public class ZPrintVisitor
       print(Sym.END);
     }
     else if (Box.OmitBox.equals(box)) {
+      // (generic) horizontal definition or generic operator definition
       print(Sym.ZED);
-      visit(axPara.getSchText());
+
+      final SchText schText = axPara.getSchText();
+      final List decls = axPara.getSchText().getDecl();
+      final ConstDecl constDecl = (ConstDecl) decls.get(0);
+      final DeclName declName = constDecl.getDeclName();
+      final OperatorName operatorName = declName.getOperatorName();
+      final OpTable.OpInfo opInfo = operatorName == null ? null :
+        opTable_.lookup(operatorName);
+
+      if (opInfo != null && Cat.Generic.equals(opInfo.getCat())) {
+        // generic operator definition
+        printOperator(operatorName, axPara.getDeclName());
+        print(Sym.DECORWORD, ZString.DEFEQUAL);
+        visit(constDecl.getExpr());
+      }
+      else {
+        // (generic) horizontal definition
+        visit(axPara.getSchText());
+      }
       print(Sym.END);
     }
     else if (Box.SchBox.equals(box)) {
@@ -324,22 +345,14 @@ public class ZPrintVisitor
 
   public Object visitDeclName(DeclName declName)
   {
-    String name = declName.getWord();
-    if (OperatorName.isOperatorName(name)) {
-      try {
-        OperatorName op = new OperatorName(name);
-        assert declName.getStroke().size() == 0;
-        for (Iterator iter = op.iterator(); iter.hasNext();) {
-          print(Sym.DECORWORD, (String) iter.next());
-        }
-      }
-      catch (OperatorName.OperatorNameException e) {
-        print(Sym.DECORWORD, name);
-        System.err.println("WARNING: Unexpected Operator " + name);
-      }
-      return null;
+    OperatorName op = declName.getOperatorName();
+    if (op == null) {
+      return visitName(declName);
     }
-    return visitName(declName);
+    for (Iterator iter = op.iterator(); iter.hasNext();) {
+      print(Sym.DECORWORD, (String) iter.next());
+    }
+    return null;
   }
 
   public Object visitDecorExpr(DecorExpr decorExpr)
@@ -817,24 +830,16 @@ public class ZPrintVisitor
 
   public Object visitRefName(RefName refName)
   {
-    String name = refName.getWord();
-    if (OperatorName.isOperatorName(name)) {
-      try {
-        OperatorName op = new OperatorName(name);
-        assert refName.getStroke().size() == 0;
-        print(Sym.LPAREN);
-        for (Iterator iter = op.iterator(); iter.hasNext(); ) {
-          print(Sym.DECORWORD, (String) iter.next());
-        }
-        print(Sym.RPAREN);
-      }
-      catch (OperatorName.OperatorNameException e) {
-        print(Sym.DECORWORD, name);
-        System.err.println("WARNING: Unexpected Operator " + name);
-      }
-      return null;
+    OperatorName op = refName.getOperatorName();
+    if (op == null) {
+      return visitName(refName);
     }
-    return visitName(refName);
+    print(Sym.LPAREN);
+    for (Iterator iter = op.iterator(); iter.hasNext(); ) {
+      print(Sym.DECORWORD, (String) iter.next());
+    }
+    print(Sym.RPAREN);
+    return null;
   }
 
   public Object visitRenameExpr(RenameExpr renameExpr)
@@ -974,6 +979,9 @@ public class ZPrintVisitor
       "Specification".equals(name) &&
       parents.size() == 1 &&
       "standard_toolkit".equals(((Parent) parents.get(0)).getWord());
+
+    opTable_ = manager_.getOperatorTable(name);
+
     if (! isAnonymous) {
       print(Sym.ZED);
       print(Sym.SECTION);
@@ -1013,12 +1021,17 @@ public class ZPrintVisitor
     RefExpr ref = (RefExpr) operator;
     OperatorName op = null;
     try {
-      op = new OperatorName(ref.getRefName().getWord());
+      op = new OperatorName(ref.getRefName());
     }
     catch (OperatorName.OperatorNameException e) {
       return "Unexpected operator " + ref.getRefName().getWord();
     }
     assert op != null;
+    return printOperator(op, arguments);
+  }
+
+  private String printOperator(OperatorName op, Object arguments)
+  {
     List args = new ArrayList();
     if (arguments instanceof List) {
       args = (List) arguments;
@@ -1039,7 +1052,7 @@ public class ZPrintVisitor
     for (Iterator iter = op.iterator(); iter.hasNext();) {
       final String opPart = (String) iter.next();
       if (opPart.equals(ZString.ARG)) {
-        visit((Expr) args.get(pos));
+        visit((Term) args.get(pos));
         pos++;
       }
       else if (opPart.equals(ZString.LISTARG)) {
@@ -1066,7 +1079,7 @@ public class ZPrintVisitor
       }
       else {
         print(Sym.DECORWORD,
-              opPart + strokeListToString(ref.getRefName().getStroke()));
+              opPart + strokeListToString(op.getStroke()));
       }
     }
     return null;
