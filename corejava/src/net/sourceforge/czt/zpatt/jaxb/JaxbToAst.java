@@ -73,6 +73,18 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
                                             + object.getClass().getName());
   }
 
+  public Object visitPredTransform(net.sourceforge.czt.zpatt.jaxb.gen.PredTransform jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitPredTransform", jaxbObject);
+    net.sourceforge.czt.z.ast.Pred leftPred =
+      (net.sourceforge.czt.z.ast.Pred) dispatch(jaxbObject.getLeftPred());
+    net.sourceforge.czt.z.ast.Expr rightPred =
+      (net.sourceforge.czt.z.ast.Expr) dispatch(jaxbObject.getRightPred());
+    PredTransform erg = mZpattFactory_.createPredTransform(leftPred, rightPred);
+    getLogger().exiting("JaxbToAst", "visitPredTransform", erg);
+    return erg;
+  }
+
   public Object visitJokerExpr(net.sourceforge.czt.zpatt.jaxb.gen.JokerExpr jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitJokerExpr", jaxbObject);
@@ -80,26 +92,6 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
       (String) dispatch(jaxbObject.getName());
     JokerExpr erg = mZpattFactory_.createJokerExpr(name);
     getLogger().exiting("JaxbToAst", "visitJokerExpr", erg);
-    return erg;
-  }
-
-  public Object visitSubstitute(net.sourceforge.czt.zpatt.jaxb.gen.Substitute jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitSubstitute", jaxbObject);
-    java.util.List expr = new java.util.Vector();
-    for (Iterator iter = jaxbObject.getExpr().iterator(); iter.hasNext();) {
-      Object obj = iter.next();
-      Object o = dispatch(obj);
-      expr.add(o);
-    }
-    java.util.List pred = new java.util.Vector();
-    for (Iterator iter = jaxbObject.getPred().iterator(); iter.hasNext();) {
-      Object obj = iter.next();
-      Object o = dispatch(obj);
-      pred.add(o);
-    }
-    Substitute erg = mZpattFactory_.createSubstitute(expr, pred);
-    getLogger().exiting("JaxbToAst", "visitSubstitute", erg);
     return erg;
   }
 
@@ -113,17 +105,29 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     return erg;
   }
 
-  public Object visitSubstList(net.sourceforge.czt.zpatt.jaxb.gen.SubstList jaxbObject)
+  public Object visitExprTransform(net.sourceforge.czt.zpatt.jaxb.gen.ExprTransform jaxbObject)
   {
-    getLogger().entering("JaxbToAst", "visitSubstList", jaxbObject);
-    java.util.List substitute = new java.util.Vector();
-    for (Iterator iter = jaxbObject.getSubstitute().iterator(); iter.hasNext();) {
+    getLogger().entering("JaxbToAst", "visitExprTransform", jaxbObject);
+    net.sourceforge.czt.z.ast.Expr leftExpr =
+      (net.sourceforge.czt.z.ast.Expr) dispatch(jaxbObject.getLeftExpr());
+    net.sourceforge.czt.z.ast.Expr rightExpr =
+      (net.sourceforge.czt.z.ast.Expr) dispatch(jaxbObject.getRightExpr());
+    ExprTransform erg = mZpattFactory_.createExprTransform(leftExpr, rightExpr);
+    getLogger().exiting("JaxbToAst", "visitExprTransform", erg);
+    return erg;
+  }
+
+  public Object visitTransformList(net.sourceforge.czt.zpatt.jaxb.gen.TransformList jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitTransformList", jaxbObject);
+    java.util.List transform = new java.util.Vector();
+    for (Iterator iter = jaxbObject.getTransform().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
-      substitute.add(o);
+      transform.add(o);
     }
-    SubstList erg = mZpattFactory_.createSubstList(substitute);
-    getLogger().exiting("JaxbToAst", "visitSubstList", erg);
+    TransformList erg = mZpattFactory_.createTransformList(transform);
+    getLogger().exiting("JaxbToAst", "visitTransformList", erg);
     return erg;
   }
 }

@@ -38,13 +38,13 @@ public class Substitution
 {
   private Map bindings_ = new HashMap();
 
-  private SubstList substList_;
+  private TransformList substList_;
 
   public Substitution()
   {
   }
 
-  public Substitution(SubstList substList)
+  public Substitution(TransformList substList)
   {
     substList_ = substList;
   }
@@ -222,19 +222,21 @@ public class Substitution
 
     private Object visit(Term t)
     {
-      for (Iterator iter = substList_.getSubstitute().iterator();
+      for (Iterator iter = substList_.getTransform().iterator();
            iter.hasNext();)
       {
-        Substitute subst = (Substitute) iter.next();
+        Transform subst = (Transform) iter.next();
         Term t1 = null;
         Term t2 = null;
-        if (!subst.getExpr().isEmpty()) {
-          t1 = (Term) subst.getExpr().get(0);
-          t2 = (Term) subst.getExpr().get(1);
+        if (subst instanceof ExprTransform) {
+          ExprTransform trans = (ExprTransform) subst;
+          t1 = trans.getLeftExpr();
+          t2 = trans.getRightExpr();
         }
-        if (!subst.getPred().isEmpty()) {
-          t1 = (Term) subst.getPred().get(0);
-          t2 = (Term) subst.getPred().get(1);
+        else if (subst instanceof PredTransform) {
+          PredTransform trans = (PredTransform) subst;
+          t1 = trans.getLeftPred();
+          t2 = trans.getRightPred();
         }
         bindings_.clear();
         if (match(t1, t)) {
@@ -299,21 +301,41 @@ public class Substitution
     }
 
     /**
-     * Visits a(n) Substitute.
+     * Visits a(n) ExprTransform.
      * @param  zedObject the Substitute to be visited.
      * @return some kind of <code>Object</code>.
      */
-    public Object visitSubstitute(Substitute zedObject)
+    public Object visitExprTransform(ExprTransform zedObject)
     {
       throw new UnsupportedOperationException();
     }
 
     /**
-     * Visits a(n) SubstList.
+     * Visits a(n) PredTransform.
+     * @param  zedObject the Substitute to be visited.
+     * @return some kind of <code>Object</code>.
+     */
+    public Object visitPredTransform(PredTransform zedObject)
+    {
+      throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Visits a(n) Transform.
      * @param  zedObject the SubstList to be visited.
      * @return some kind of <code>Object</code>.
      */
-    public Object visitSubstList(SubstList zedObject)
+    public Object visitTransform(Transform zedObject)
+    {
+      throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Visits a(n) TransformList.
+     * @param  zedObject the SubstList to be visited.
+     * @return some kind of <code>Object</code>.
+     */
+    public Object visitTransformList(TransformList zedObject)
     {
       throw new UnsupportedOperationException();
     }

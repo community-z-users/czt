@@ -40,6 +40,20 @@ public class ZpattFactoryImpl
   extends net.sourceforge.czt.z.impl.ZFactoryImpl
   implements net.sourceforge.czt.zpatt.ast.ZpattFactory
 {
+  public PredTransform createPredTransform()
+  {
+    PredTransform zedObject = new PredTransformImpl();
+    return zedObject;
+  }
+
+  public PredTransform createPredTransform(net.sourceforge.czt.z.ast.Pred leftPred, net.sourceforge.czt.z.ast.Expr rightPred)
+  {
+    PredTransform zedObject = createPredTransform();
+    zedObject.setLeftPred(leftPred);
+    zedObject.setRightPred(rightPred);
+    return zedObject;
+  }
+
   public JokerExpr createJokerExpr()
   {
     JokerExpr zedObject = new JokerExprImpl();
@@ -50,24 +64,6 @@ public class ZpattFactoryImpl
   {
     JokerExpr zedObject = createJokerExpr();
     zedObject.setName(name);
-    return zedObject;
-  }
-
-  public Substitute createSubstitute()
-  {
-    Substitute zedObject = new SubstituteImpl();
-    return zedObject;
-  }
-
-  public Substitute createSubstitute(java.util.List expr, java.util.List pred)
-  {
-    Substitute zedObject = createSubstitute();
-    if (expr != null) {
-      zedObject.getExpr().addAll(expr);
-    }
-    if (pred != null) {
-      zedObject.getPred().addAll(pred);
-    }
     return zedObject;
   }
 
@@ -84,17 +80,31 @@ public class ZpattFactoryImpl
     return zedObject;
   }
 
-  public SubstList createSubstList()
+  public ExprTransform createExprTransform()
   {
-    SubstList zedObject = new SubstListImpl();
+    ExprTransform zedObject = new ExprTransformImpl();
     return zedObject;
   }
 
-  public SubstList createSubstList(java.util.List substitute)
+  public ExprTransform createExprTransform(net.sourceforge.czt.z.ast.Expr leftExpr, net.sourceforge.czt.z.ast.Expr rightExpr)
   {
-    SubstList zedObject = createSubstList();
-    if (substitute != null) {
-      zedObject.getSubstitute().addAll(substitute);
+    ExprTransform zedObject = createExprTransform();
+    zedObject.setLeftExpr(leftExpr);
+    zedObject.setRightExpr(rightExpr);
+    return zedObject;
+  }
+
+  public TransformList createTransformList()
+  {
+    TransformList zedObject = new TransformListImpl();
+    return zedObject;
+  }
+
+  public TransformList createTransformList(java.util.List transform)
+  {
+    TransformList zedObject = createTransformList();
+    if (transform != null) {
+      zedObject.getTransform().addAll(transform);
     }
     return zedObject;
   }

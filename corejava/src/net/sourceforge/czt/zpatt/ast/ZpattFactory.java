@@ -45,6 +45,20 @@ public interface ZpattFactory
   extends net.sourceforge.czt.z.ast.ZFactory
 {
   /**
+   * Creates an instance of {@link PredTransform}.
+   *
+   * @return the new instance of PredTransform.
+   */
+  PredTransform createPredTransform();
+
+  /**
+   * Creates an instance of {@link PredTransform} with the given children.
+   *
+   * @return the new instance of PredTransform.
+   */
+  PredTransform createPredTransform(net.sourceforge.czt.z.ast.Pred leftPred, net.sourceforge.czt.z.ast.Expr rightPred);
+
+  /**
    * Creates an instance of {@link JokerExpr}.
    *
    * @return the new instance of JokerExpr.
@@ -57,20 +71,6 @@ public interface ZpattFactory
    * @return the new instance of JokerExpr.
    */
   JokerExpr createJokerExpr(String name);
-
-  /**
-   * Creates an instance of {@link Substitute}.
-   *
-   * @return the new instance of Substitute.
-   */
-  Substitute createSubstitute();
-
-  /**
-   * Creates an instance of {@link Substitute} with the given children.
-   *
-   * @return the new instance of Substitute.
-   */
-  Substitute createSubstitute(java.util.List expr, java.util.List pred);
 
   /**
    * Creates an instance of {@link JokerPred}.
@@ -87,17 +87,31 @@ public interface ZpattFactory
   JokerPred createJokerPred(String name);
 
   /**
-   * Creates an instance of {@link SubstList}.
+   * Creates an instance of {@link ExprTransform}.
    *
-   * @return the new instance of SubstList.
+   * @return the new instance of ExprTransform.
    */
-  SubstList createSubstList();
+  ExprTransform createExprTransform();
 
   /**
-   * Creates an instance of {@link SubstList} with the given children.
+   * Creates an instance of {@link ExprTransform} with the given children.
    *
-   * @return the new instance of SubstList.
+   * @return the new instance of ExprTransform.
    */
-  SubstList createSubstList(java.util.List substitute);
+  ExprTransform createExprTransform(net.sourceforge.czt.z.ast.Expr leftExpr, net.sourceforge.czt.z.ast.Expr rightExpr);
+
+  /**
+   * Creates an instance of {@link TransformList}.
+   *
+   * @return the new instance of TransformList.
+   */
+  TransformList createTransformList();
+
+  /**
+   * Creates an instance of {@link TransformList} with the given children.
+   *
+   * @return the new instance of TransformList.
+   */
+  TransformList createTransformList(java.util.List transform);
 
 }

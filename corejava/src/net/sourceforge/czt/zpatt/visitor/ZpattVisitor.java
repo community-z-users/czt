@@ -36,10 +36,11 @@ import net.sourceforge.czt.zpatt.ast.*;
  */
 public interface ZpattVisitor
   extends
+    net.sourceforge.czt.zpatt.visitor.PredTransformVisitor,
     net.sourceforge.czt.zpatt.visitor.JokerExprVisitor,
-    net.sourceforge.czt.zpatt.visitor.SubstituteVisitor,
     net.sourceforge.czt.zpatt.visitor.JokerPredVisitor,
-    net.sourceforge.czt.zpatt.visitor.SubstListVisitor,
+    net.sourceforge.czt.zpatt.visitor.ExprTransformVisitor,
+    net.sourceforge.czt.zpatt.visitor.TransformListVisitor,
     net.sourceforge.czt.util.Visitor
 {
 }
