@@ -24,7 +24,6 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.Stroke;
 import net.sourceforge.czt.z.ast.DeclName;
-import net.sourceforge.czt.z.impl.Type2Impl;
 
 /**
  * A VariableType.
@@ -49,7 +48,7 @@ public class VariableType
 
   protected VariableType(Factory factory)
   {
-    super();
+    super(null);
     List<Stroke> strokes = new java.util.ArrayList();
     strokes.add(factory.createNumStroke(new Integer(serial_++)));
     declName_ = factory.createDeclName(ALPHA, strokes, null);
@@ -57,7 +56,7 @@ public class VariableType
 
   protected VariableType(DeclName declName)
   {
-    super();
+    super(null);
     declName_ = declName;
   }
 
@@ -121,7 +120,9 @@ public class VariableType
     VariableType zedObject = null;
     try {
       DeclName declName = (DeclName) args[0];
+      Type2 value = (Type2) args[1];
       zedObject = new VariableType(declName);
+      zedObject.setValue(value);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();

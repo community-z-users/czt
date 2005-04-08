@@ -40,12 +40,10 @@ import net.sourceforge.czt.typecheck.z.*;
  */
 public class ExprChecker
   extends Checker
-/*
-  implements ClassUnionExprVisitor,
-             PolyExprVisitor,
-             PredExprVisitor,
-             BindSelExprVisitor
-*/
+          //  implements ClassUnionExprVisitor,
+             //PolyExprVisitor,
+             //PredExprVisitor,
+             //BindSelExprVisitor
 {
   //a Z expr checker
   protected net.sourceforge.czt.typecheck.z.ExprChecker zExprChecker_;
@@ -56,12 +54,12 @@ public class ExprChecker
     zExprChecker_ =
       new net.sourceforge.czt.typecheck.z.ExprChecker(typeChecker);
   }
-  /*
+
   public Object visitTerm(Term term)
   {
     return term.accept(zExprChecker_);
   }
-
+  /*
   public Object visitClassUnionExpr(ClassUnionExpr classUnionExpr)
   {
     Type2 type = factory().createUnknownType();
@@ -105,6 +103,7 @@ public class ExprChecker
 
     return type;
   }
+
 
   public Object visitPolyExpr(PolyExpr polyExpr)
   {

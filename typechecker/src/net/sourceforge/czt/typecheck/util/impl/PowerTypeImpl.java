@@ -53,6 +53,25 @@ public class PowerTypeImpl
     return result;
   }
 
+  public net.sourceforge.czt.base.ast.Term create(Object [] args)
+  {
+    PowerType powerType = (PowerType) term_.create(args);
+    PowerType result = new PowerTypeImpl(powerType);
+    return result;
+  }
+
+  /**
+   * Accepts a visitor.
+   */
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof PowerTypeVisitor) {
+      PowerTypeVisitor visitor = (PowerTypeVisitor) v;
+      return visitor.visitPowerType(this);
+    }
+    return super.accept(v);
+  }
+
   public String toString()
   {
     PowerType powerType = (PowerType) term_;

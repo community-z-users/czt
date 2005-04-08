@@ -19,6 +19,7 @@
 package net.sourceforge.czt.typecheck.util.impl;
 
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.visitor.*;
 
 /**
  * An implementation for SignatureAnn that hides VariableSignature
@@ -50,6 +51,25 @@ public class SignatureAnnImpl
       }
     }
     return result;
+  }
+
+  public net.sourceforge.czt.base.ast.Term create(Object [] args)
+  {
+    SignatureAnn signatureAnn = (SignatureAnn) term_.create(args);
+    SignatureAnn result = new SignatureAnnImpl(signatureAnn);
+    return result;
+  }
+
+  /**
+   * Accepts a visitor.
+   */
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof SignatureAnnVisitor) {
+      SignatureAnnVisitor visitor = (SignatureAnnVisitor) v;
+      return visitor.visitSignatureAnn(this);
+    }
+    return super.accept(v);
   }
 
   public boolean equals(Object obj)

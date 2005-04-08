@@ -80,9 +80,6 @@ public class PostChecker
       for (Type2 type : gParams) {
         try {
           Expr expr = (Expr) type.accept(carrierSet_);
-          if (expr == null) {
-            System.err.println("NULL: " + type);
-          }
           exprs.add(expr);
         }
         catch (UndeterminedTypeException e) {

@@ -32,7 +32,7 @@ import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.typecheck.util.impl.*;
 
 /**
- * Unifies a variable type with another type.
+ * Provides unification of types.
  */
 public class UnificationEnv
 {
@@ -209,6 +209,11 @@ public class UnificationEnv
         result = PARTIAL;
       }
     }
+    else if (type2 instanceof ClassType) {
+      VariableClassType vClassType = factory_.createVariableClassType();
+      vClassType.getValue().add((ClassType) type2);
+      vType.setValue(vClassType);
+    }
     else {
       if (contains(type2, vType)) {
         result = FAIL;
@@ -283,10 +288,24 @@ public class UnificationEnv
   protected UResult unifyClassType(ClassType classTypeA,
                                    ClassType classTypeB)
   {
-    //try to unify the two class signatures
-    ClassSig cSigA = classTypeA.getClassSig();
-    ClassSig cSigB = classTypeB.getClassSig();
-    UResult result = unifyClassSig(cSigA, cSigB);
+    UResult result = FAIL;
+    if (classTypeA instanceof VariableClassType) {
+      VariableClassType vClassTypeA = (VariableClassType) classTypeA;
+      if (classTypeB instanceof VariableClassType) {
+        VariableClassType vClassTypeB = (VariableClassType) classTypeB;
+        vClassTypeA.getValue().addAll(vClassTypeB.getValue());
+        vClassTypeB.setValue(vClassTypeA.getValue());
+      }
+      else {
+        vClassTypeA.getValue().add(classTypeB);
+      }
+    }
+    else {
+      //try to unify the two class signatures
+      ClassSig cSigA = classTypeA.getClassSig();
+      ClassSig cSigB = classTypeB.getClassSig();
+      result = unifyClassSig(cSigA, cSigB);
+    }
     return result;
   }
 

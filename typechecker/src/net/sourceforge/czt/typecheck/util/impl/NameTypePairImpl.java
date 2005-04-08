@@ -19,6 +19,7 @@
 package net.sourceforge.czt.typecheck.util.impl;
 
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.visitor.*;
 
 /**
  * An implementation for NameTypePair that hides VariableType instances
@@ -62,6 +63,25 @@ public class NameTypePairImpl
       }
     }
     return result;
+  }
+
+  public net.sourceforge.czt.base.ast.Term create(Object [] args)
+  {
+    NameTypePair pair = (NameTypePair) term_.create(args);
+    NameTypePair result = new NameTypePairImpl(pair);
+    return result;
+  }
+
+  /**
+   * Accepts a visitor.
+   */
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof NameTypePairVisitor) {
+      NameTypePairVisitor visitor = (NameTypePairVisitor) v;
+      return visitor.visitNameTypePair(this);
+    }
+    return super.accept(v);
   }
 
   public boolean equals(Object obj)

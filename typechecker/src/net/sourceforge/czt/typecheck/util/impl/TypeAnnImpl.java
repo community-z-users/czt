@@ -19,6 +19,7 @@
 package net.sourceforge.czt.typecheck.util.impl;
 
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.visitor.*;
 
 /**
  * An implementation for TypeAnn that hides VariableType instances
@@ -50,6 +51,25 @@ public class TypeAnnImpl
       }
     }
     return result;
+  }
+
+  public net.sourceforge.czt.base.ast.Term create(Object [] args)
+  {
+    TypeAnn typeAnn = (TypeAnn) term_.create(args);
+    TypeAnn result = new TypeAnnImpl(typeAnn);
+    return result;
+  }
+
+  /**
+   * Accepts a visitor.
+   */
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof TypeAnnVisitor) {
+      TypeAnnVisitor visitor = (TypeAnnVisitor) v;
+      return visitor.visitTypeAnn(this);
+    }
+    return super.accept(v);
   }
 
   public boolean equals(Object obj)

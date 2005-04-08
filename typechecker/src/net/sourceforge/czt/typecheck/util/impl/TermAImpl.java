@@ -26,7 +26,7 @@ import net.sourceforge.czt.z.visitor.*;
  * An implementation for Term that hides VariableType instances
  * if they have a value.
  */
-public class TermAImpl
+public abstract class TermAImpl
   extends TermImpl
   implements TermA
 {

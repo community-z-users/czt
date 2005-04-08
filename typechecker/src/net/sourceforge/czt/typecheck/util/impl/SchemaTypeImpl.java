@@ -19,6 +19,7 @@
 package net.sourceforge.czt.typecheck.util.impl;
 
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.visitor.*;
 
 /**
  * An implementation for SchemaType that hides VariableSignature
@@ -50,6 +51,25 @@ public class SchemaTypeImpl
       }
     }
     return result;
+  }
+
+  public net.sourceforge.czt.base.ast.Term create(Object [] args)
+  {
+    SchemaType schemaType = (SchemaType) term_.create(args);
+    SchemaType result = new SchemaTypeImpl(schemaType);
+    return result;
+  }
+
+  /**
+   * Accepts a visitor.
+   */
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof SchemaTypeVisitor) {
+      SchemaTypeVisitor visitor = (SchemaTypeVisitor) v;
+      return visitor.visitSchemaType(this);
+    }
+    return super.accept(v);
   }
 
   public String toString()

@@ -277,6 +277,11 @@ public class Factory
     return result;
   }
 
+  public VariableClassType createVariableClassType()
+  {
+    return new VariableClassType();
+  }
+
   public VariableClassSig createVariableClassSig()
   {
     return new VariableClassSig(this);

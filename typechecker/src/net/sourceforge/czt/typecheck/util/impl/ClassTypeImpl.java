@@ -24,7 +24,7 @@ import net.sourceforge.czt.oz.ast.*;
  * An implementation for ClassRefType that hides VariableClassSig
  * instances if they have a value.
  */
-public class ClassTypeImpl
+public abstract class ClassTypeImpl
   extends Type2Impl
   implements ClassType
 {

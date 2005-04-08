@@ -64,7 +64,10 @@ public class UnknownType
 
     if (obj instanceof UnknownType) {
       UnknownType unknownType = (UnknownType) obj;
-      if (declName_ != null && declName_.equals(unknownType.getName())) {
+      if (declName_ == null && unknownType.getName() == null) {
+        result = true;
+      }
+      else if (declName_ != null && declName_.equals(unknownType.getName())) {
         result = true;
       }
     }
@@ -105,10 +108,8 @@ public class UnknownType
     UnknownType zedObject = null;
     try {
       zedObject = new UnknownType();
-      if (args.length == 1) {
-        DeclName declName = (DeclName) args[0];
-        zedObject.setName(declName);
-      }
+      DeclName declName = (DeclName) args[0];
+      zedObject.setName(declName);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();

@@ -22,7 +22,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 
 /**
- * An implementation for ClassRefType that hides VariableClassSignature
+ * An implementation for ClassRefType that hides VariableClassSig
  * instances if they have a value.
  */
 public class ClassRefTypeImpl
@@ -64,6 +64,13 @@ public class ClassRefTypeImpl
   {
     ClassRefType classRefType = (ClassRefType) term_;
     VisibilityList result = classRefType.getVisibilityList();
+    return result;
+  }
+
+  public net.sourceforge.czt.base.ast.Term create(Object [] args)
+  {
+    ClassRefType classRefType = (ClassRefType) term_.create(args);
+    ClassRefType result = new ClassRefTypeImpl(classRefType);
     return result;
   }
 }

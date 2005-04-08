@@ -19,6 +19,7 @@
 package net.sourceforge.czt.typecheck.util.impl;
 
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.visitor.*;
 
 /**
  * An implementation for NameSectTypeTriple that hides VariableType instances
@@ -74,6 +75,25 @@ public class NameSectTypeTripleImpl
       }
     }
     return result;
+  }
+
+  public net.sourceforge.czt.base.ast.Term create(Object [] args)
+  {
+    NameSectTypeTriple triple = (NameSectTypeTriple) term_.create(args);
+    NameSectTypeTriple result = new NameSectTypeTripleImpl(triple);
+    return result;
+  }
+
+  /**
+   * Accepts a visitor.
+   */
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof NameSectTypeTripleVisitor) {
+      NameSectTypeTripleVisitor visitor = (NameSectTypeTripleVisitor) v;
+      return visitor.visitNameSectTypeTriple(this);
+    }
+    return super.accept(v);
   }
 
   public boolean equals(Object obj)

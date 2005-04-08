@@ -26,7 +26,7 @@ import net.sourceforge.czt.z.visitor.*;
  * An implementation for Type that hides VariableType instances
  * if they have a value.
  */
-public class TypeImpl
+public abstract class TypeImpl
   extends TermAImpl
   implements Type
 {

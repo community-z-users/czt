@@ -188,7 +188,6 @@ public class SectTypeEnv
         triple.setType(type);
         result = false;
       }
-      updatePolyType(triple.getType(), type);
     }
 
     if (result) {
@@ -196,20 +195,6 @@ public class SectTypeEnv
         factory_.createNameSectTypeTriple(declName, section_, type);
       typeInfo_.add(insert);
     }
-
-    /*
-    //if not already declared, add this declaration to the environment
-    NameSectTypeTriple triple = getTriple(declName);
-    if (triple == null) {
-      NameSectTypeTriple insert =
-        factory_.createNameSectTypeTriple(declName, section_, type);
-      typeInfo_.add(insert);
-      result = true;
-    }
-    else {
-      triple.setType(type);
-    }
-    */
 
     return result;
   }
@@ -260,7 +245,7 @@ public class SectTypeEnv
       Type baseType = getType(baseName);
 
       if (isSchema(baseType)) {
-        CloningVisitor cloner = new CloningVisitor(factory_);
+        CloningVisitor cloner = new CloningVisitor();
         Type clonedType = (Type) baseType.accept(cloner);
         PowerType powerType = (PowerType) unwrapType(clonedType);
         SchemaType schemaType = (SchemaType) powerType.getType();
@@ -290,7 +275,6 @@ public class SectTypeEnv
         add(declName, result);
       }
     }
-
     return result;
   }
 
@@ -339,34 +323,6 @@ public class SectTypeEnv
       System.err.print(", (" + next.getSect());
       System.err.println(", (" + next.getType() + ")))");
     }
-  }
-
-  //if superClass is derived from a poly expr, and is a super class of
-  //subClass, add subClass's classname to the list of class references
-  protected void updatePolyType(Type superType, Type subType)
-  {
-    /*
-    PolyAnn ann = (PolyAnn) superType.getAnn(PolyAnn.class);
-    if (ann != null && isPowerClassType(subType)) {
-      PowerType powerSuperType = (PowerType) superType;
-      PowerType powerSubType = (PowerType) unwrapType(subType);
-      ClassType classSuperType = (ClassType) powerSuperType.getType();
-      ClassType classSubType = (ClassType) powerSubType.getType();
-      ClassSig cSuperSig = classSuperType.getClassSig();
-      ClassSig cSubSig = classSubType.getClassSig();
-      if (cSubSig.getClassName() != null) {
-        List<RefName> superClasses = cSubSig.getParentClass();
-        for (RefName superClass : superClasses) {
-          if (cSuperSig.getParentClass().contains(superClass)) {
-            DeclName className = cSubSig.getClassName();
-            RefName classRefName = factory_.createRefName(className);
-            cSuperSig.getParentClass().add(classRefName);
-            break;
-          }
-        }
-      }
-    }
-      */
   }
 
   protected boolean isPowerClassType(Type type)

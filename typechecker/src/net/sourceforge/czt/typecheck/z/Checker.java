@@ -327,8 +327,9 @@ abstract public class Checker
   //clone is used to do a recursive clone on a type
   protected Type cloneType(Type type)
   {
-    CloningVisitor cloningVisitor = new CloningVisitor(factory());
-    return (Type) type.accept(cloningVisitor);
+    CloningVisitor cloner = new CloningVisitor();
+    Type result = (Type) type.accept(cloner);
+    return result;
   }
 
   //converts a Term to a string

@@ -26,7 +26,7 @@ import net.sourceforge.czt.z.visitor.*;
  * An implementation for Type2 that hides VariableType instances
  * if they have a value.
  */
-public class Type2Impl
+public abstract class Type2Impl
   extends TypeImpl
   implements Type2
 {

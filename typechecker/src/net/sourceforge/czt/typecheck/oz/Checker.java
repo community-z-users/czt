@@ -114,18 +114,14 @@ abstract public class Checker
   }
 
   //get the type of "self"
-  protected ClassType getSelfType()
+  protected ClassRefType getSelfType()
   {
     RefName refName = factory().createRefName(OzString.SELF, list(), null);
     RefExpr refExpr = factory().createRefExpr(refName, list(), Boolean.FALSE);
     Type2 selfType = (Type2) refExpr.accept(exprChecker());
 
-    //if the type of "self" is not a class type, throw an exception
-    if (!instanceOf(selfType, ClassType.class)) {
-      throw new RuntimeException("\"self\" has type " + selfType +
-                                 " in class " + className());
-    }
-    return (ClassType) selfType;
+    assert selfType instanceof ClassRefType;
+    return (ClassRefType) selfType;
   }
 
   //check the class signature for duplicate declaration names

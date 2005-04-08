@@ -19,14 +19,13 @@
 package net.sourceforge.czt.typecheck.util.impl;
 
 import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
+import net.sourceforge.czt.base.visitor.*;
 
 /**
  * An implementation for Term that hides VariableType instances
  * if they have a value.
  */
-public class TermImpl
+public abstract class TermImpl
   implements Term
 {
   /** The Term that this type wraps. */
@@ -44,17 +43,16 @@ public class TermImpl
 
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    return term_.accept(v);
+    if (v instanceof TermVisitor) {
+      TermVisitor visitor = (TermVisitor) v;
+      return visitor.visitTerm(this);
+    }
+    return null;
   }
 
   public Object [] getChildren()
   {
     return term_.getChildren();
-  }
-
-  public net.sourceforge.czt.base.ast.Term create(Object [] args)
-  {
-    return term_.create(args);
   }
 
   public int hashCode()

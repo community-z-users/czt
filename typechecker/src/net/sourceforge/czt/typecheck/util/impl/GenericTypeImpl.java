@@ -19,6 +19,7 @@
 package net.sourceforge.czt.typecheck.util.impl;
 
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.visitor.*;
 
 /**
  * An implementation for GenericType that hides VariableType instances
@@ -32,6 +33,7 @@ public class GenericTypeImpl
   {
     super(genericType);
   }
+
 
   public net.sourceforge.czt.base.ast.ListTerm getName()
   {
@@ -74,6 +76,25 @@ public class GenericTypeImpl
   {
     GenericType genericType = (GenericType) term_;
     return genericType.toString();
+  }
+
+  public net.sourceforge.czt.base.ast.Term create(Object [] args)
+  {
+    GenericType genericType = (GenericType) term_.create(args);
+    GenericType result = new GenericTypeImpl(genericType);
+    return result;
+  }
+
+  /**
+   * Accepts a visitor.
+   */
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof GenericTypeVisitor) {
+      GenericTypeVisitor visitor = (GenericTypeVisitor) v;
+      return visitor.visitGenericType(this);
+    }
+    return super.accept(v);
   }
 
   public boolean equals(Object obj)

@@ -1306,7 +1306,6 @@ public class ExprChecker
 
     //add the annotation
     addTypeAnn(bindSelExpr, type);
-
     return type;
   }
 

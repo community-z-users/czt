@@ -20,6 +20,7 @@ package net.sourceforge.czt.typecheck.util.impl;
 
 import net.sourceforge.czt.base.ast.ListTerm;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.visitor.*;
 
 /**
  * An implementation for ProdType that hides VariableType instances
@@ -42,12 +43,31 @@ public class ProdTypeImpl
       Type2 type = (Type2) result.get(i);
       if (type instanceof VariableType) {
         VariableType vType = (VariableType) type;
-        if (vType.getValue() != null) {
+        if (vType.getValue() != vType) {
           result.set(i, vType.getValue());
         }
       }
     }
     return result;
+  }
+
+  public net.sourceforge.czt.base.ast.Term create(Object [] args)
+  {
+    ProdType prodType = (ProdType) term_.create(args);
+    ProdType result = new ProdTypeImpl(prodType);
+    return result;
+  }
+
+  /**
+   * Accepts a visitor.
+   */
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof ProdTypeVisitor) {
+      ProdTypeVisitor visitor = (ProdTypeVisitor) v;
+      return visitor.visitProdType(this);
+    }
+    return super.accept(v);
   }
 
   public String toString()
