@@ -30,6 +30,18 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
  */
 public class Mode
 {
+  /*========= constants for mode results =============*/
+  /** A constant for getSolutions().
+   *  Means that one solution is expected.
+   */
+  public static double ONE_SOLUTION = 1.0;
+
+  /** A constant for getSolutions().
+   *  Means that zero or one solutions are expected.
+   */
+  public static double MAYBE_ONE_SOLUTION = 0.5;
+
+  
   /** Constructor for Mode objects. */
   //@ requires solns > 0.0;
   public Mode(/*@non_null@*/Envir postEnv,
