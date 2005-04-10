@@ -20,6 +20,7 @@ package net.sourceforge.czt.typecheck.util.impl;
 
 import java.util.List;
 
+import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.typecheck.util.typingenv.*;
@@ -61,6 +62,25 @@ public class Factory
   public OzFactory getOzFactory()
   {
     return ozFactory_;
+  }
+
+  public static Term cloneTerm(Term term)
+  {
+    Object [] children = term.getChildren();
+    Object [] args = new Object [children.length];
+    for (int i = 0; i < children.length; i++) {
+      Object next = children[i];
+      if (next != null && next instanceof Term) {
+        Term nextTerm = (Term) next;
+        args[i] = cloneTerm(nextTerm);
+      }
+      else {
+        args[i] = children[i];
+      }
+    }
+    Term result = term.create(args);
+    assert result.equals(term);
+    return result;
   }
 
   public PowerType createPowerType()
@@ -120,9 +140,9 @@ public class Factory
 
   public NameTypePair createNameTypePair(DeclName declName, Type type)
   {
-    NameTypePair nameTypePair =
+    NameTypePair pair =
       zFactory_.createNameTypePair(declName, type);
-    NameTypePair result = new NameTypePairImpl(nameTypePair);
+    NameTypePair result = new NameTypePairImpl(pair);
     return result;
   }
 
@@ -142,9 +162,11 @@ public class Factory
     return zFactory_.createSignature();
   }
 
-  public Signature createSignature(List nameTypePair)
+  public Signature createSignature(List pairs)
   {
-    return zFactory_.createSignature(nameTypePair);
+
+
+    return zFactory_.createSignature(pairs);
   }
 
   public VariableSignature createVariableSignature()

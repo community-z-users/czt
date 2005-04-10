@@ -30,7 +30,6 @@ import java.util.Iterator;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
-import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.typecheck.util.*;
 import net.sourceforge.czt.typecheck.util.impl.*;
@@ -245,8 +244,9 @@ public class SectTypeEnv
       Type baseType = getType(baseName);
 
       if (isSchema(baseType)) {
-        CloningVisitor cloner = new CloningVisitor();
-        Type clonedType = (Type) baseType.accept(cloner);
+        // CloningVisitor cloner = new CloningVisitor();
+        Type clonedType = (Type) factory_.cloneTerm(baseType);
+        //Type clonedType = (Type) baseType.accept(cloner);
         PowerType powerType = (PowerType) unwrapType(clonedType);
         SchemaType schemaType = (SchemaType) powerType.getType();
 
@@ -254,7 +254,8 @@ public class SectTypeEnv
         List<NameTypePair> pairs =
           (List<NameTypePair>) schemaType.getSignature().getNameTypePair();
         for (NameTypePair pair : pairs) {
-          DeclName primedName = (DeclName) pair.getName().accept(cloner);
+          //DeclName primedName = (DeclName) pair.getName().accept(cloner);
+          DeclName primedName = (DeclName) factory_.cloneTerm(pair.getName());
           primedName.getStroke().add(factory_.createNextStroke());
           NameTypePair newPair =
             factory_.createNameTypePair(primedName, pair.getType());
@@ -323,18 +324,6 @@ public class SectTypeEnv
       System.err.print(", (" + next.getSect());
       System.err.println(", (" + next.getType() + ")))");
     }
-  }
-
-  protected boolean isPowerClassType(Type type)
-  {
-    boolean result = false;
-    if (unwrapType(type) instanceof PowerType) {
-      PowerType powerType = (PowerType) unwrapType(type);
-      if (powerType.getType() instanceof ClassType) {
-        result = true;
-      }
-    }
-    return result;
   }
 
   //get a triple whose name matches a specified name and it

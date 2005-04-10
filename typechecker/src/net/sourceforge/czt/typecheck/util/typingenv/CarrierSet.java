@@ -24,8 +24,6 @@ import java.util.Iterator;
 
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.oz.ast.*;
-import net.sourceforge.czt.oz.visitor.*;
 import net.sourceforge.czt.typecheck.util.impl.*;
 
 /**
@@ -38,8 +36,6 @@ public class CarrierSet
     GivenTypeVisitor,
     SchemaTypeVisitor,
     ProdTypeVisitor,
-    ClassTypeVisitor,
-    ClassSigVisitor,
     VariableTypeVisitor,
     UnknownTypeVisitor
 {
@@ -124,19 +120,6 @@ public class CarrierSet
     return result;
   }
 
-  public Object visitClassType(ClassType classType)
-  {
-    ClassSig cSig = classType.getClassSig();
-    Expr expr = (Expr) cSig.accept(this);
-    return expr;
-  }
-
-  public Object visitClassSig(ClassSig cSig)
-  {
-    RefName refName = (RefName) cSig.getClasses().get(0);
-    RefExpr result = zFactory_.createRefExpr(refName, list(), Boolean.FALSE);
-    return result;
-  }
 
   public Object visitUnknownType(UnknownType unknownType)
   {
@@ -148,7 +131,6 @@ public class CarrierSet
     if (vType.getValue() instanceof VariableType) {
       throw new UndeterminedTypeException();
     }
-
     return vType.getValue().accept(this);
   }
 

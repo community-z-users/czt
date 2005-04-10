@@ -104,7 +104,7 @@ public class VariableSignature
 
   public Object[] getChildren()
   {
-    Object[] result = { getNameTypePair(), getName() };
+    Object[] result = { getName(), value_, getNameTypePair() };
     return result;
   }
 
@@ -132,12 +132,12 @@ public class VariableSignature
   {
     VariableSignature zedObject = null;
     try {
-      java.util.List nameTypePair = (java.util.List) args[0];
-      DeclName declName = (DeclName) args[1];
+      DeclName declName = (DeclName) args[0];
       zedObject = new VariableSignature(declName);
-      if (nameTypePair != null) {
-        zedObject.getNameTypePair().addAll(nameTypePair);
-      }
+      Signature value = (Signature) args[1];
+      zedObject.setValue(value);
+      List pairs = (List) args[2];
+      zedObject.getNameTypePair().addAll(pairs);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();

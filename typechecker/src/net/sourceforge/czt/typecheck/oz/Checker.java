@@ -208,7 +208,7 @@ abstract public class Checker
     if (className() != null &&
         className().getWord().equals(name.getWord()) &&
         className().getStroke().equals(name.getStroke())) {
-      type = cloneType(type);
+      type = (Type2) factory().cloneTerm(type);
     }
 
     return type;

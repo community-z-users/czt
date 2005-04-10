@@ -282,7 +282,7 @@ abstract public class Checker
   //type
   protected boolean containsVariableType(Type2 type2)
   {
-    return UnificationEnv.containsVariableType(type2);
+    return UnificationEnv.containsVariable(type2);
   }
 
   //add an error to the list of error annotation
@@ -322,14 +322,6 @@ abstract public class Checker
         errors().remove(ann);
       }
     }
-  }
-
-  //clone is used to do a recursive clone on a type
-  protected Type cloneType(Type type)
-  {
-    CloningVisitor cloner = new CloningVisitor();
-    Type result = (Type) type.accept(cloner);
-    return result;
   }
 
   //converts a Term to a string
@@ -549,7 +541,8 @@ abstract public class Checker
     Type result = factory().createUnknownType();
 
     if (type instanceof GenericType) {
-      Type2 optionalType = (Type2) cloneType(genericType(type).getType());
+      Type2 optionalType =
+        (Type2) factory().cloneTerm(genericType(type).getType());
       if (genericType(type).getOptionalType() != null) {
         optionalType = genericType(type).getOptionalType();
       }
@@ -718,7 +711,7 @@ abstract public class Checker
     if (type instanceof UnknownType) {
       Type sectTypeEnvType = sectTypeEnv().getType(name);
       if (!instanceOf(sectTypeEnvType, UnknownType.class)) {
-        type = cloneType(sectTypeEnvType);
+        type = (Type) factory().cloneTerm(sectTypeEnvType);
       }
     }
 

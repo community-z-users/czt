@@ -100,65 +100,28 @@ public class UnificationEnv
     return result;
   }
 
-  public static boolean containsVariableType(Type2 type)
+  public static boolean containsVariable(Term term)
   {
     boolean result = false;
-
-    if (isVariableType(type)) {
-      VariableType vType = (VariableType) type;
-      result = vType.getValue() instanceof VariableType;
+    if (term instanceof VariableType &&
+        variableType(term).getValue() == term) {
+      return true;
     }
-    else if (isPowerType(type)) {
-      result = containsVariableType(powerType(type).getType());
-    }
-    else if (isGivenType(type)) {
-      result = false;
-    }
-    else if (isGenParamType(type)) {
-      result = false;
-    }
-    else if (isProdType(type)) {
-      List<Type2> types = prodType(type).getType();
-      result = false;
-      for (Type2 inner : types) {
-        if (containsVariableType(inner)) {
-          result = true;
-          break;
-        }
-      }
-    }
-    else if (isSchemaType(type)) {
-      Signature signature = schemaType(type).getSignature();
-      result = containsVariableType(signature);
-    }
-
-    return result;
-  }
-
-
-  protected static boolean containsVariableType(Signature signature)
-  {
-    boolean result = false;
-
-    if (signature instanceof VariableSignature) {
-      VariableSignature vSig = (VariableSignature) signature;
-      if (vSig.getValue() == vSig) {
-        result = true;
-      }
-      else {
-        result = containsVariableType(vSig.getValue());
-      }
+    else if (term instanceof VariableSignature &&
+             variableSignature(term).getValue() == term) {
+      return true;
     }
     else {
-      List<NameTypePair> pairs = signature.getNameTypePair();
-      for (NameTypePair pair : pairs) {
-        if (containsVariableType(unwrapType(pair.getType()))) {
-          result = true;
+      Object [] children = term.getChildren();
+      for (int i = 0; i < children.length; i++) {
+        if (children[i] instanceof Term) {
+          if (containsVariable((Term) children[i])) {
+            return true;
+          }
         }
       }
     }
-
-    return result;
+    return false;
   }
 
   public UResult unify(Type2 typeA, Type2 typeB)
@@ -208,11 +171,6 @@ public class UnificationEnv
       if (vType.getValue() instanceof VariableType) {
         result = PARTIAL;
       }
-    }
-    else if (type2 instanceof ClassType) {
-      VariableClassType vClassType = factory_.createVariableClassType();
-      vClassType.getValue().add((ClassType) type2);
-      vType.setValue(vClassType);
     }
     else {
       if (contains(type2, vType)) {
@@ -269,7 +227,7 @@ public class UnificationEnv
   }
 
   protected UResult unifyGenParamType(GenParamType genParamTypeA,
-                                    GenParamType genParamTypeB)
+                                      GenParamType genParamTypeB)
   {
     UResult result = genParamTypeA.equals(genParamTypeB) ? SUCC : FAIL;
     return result;
@@ -414,7 +372,7 @@ public class UnificationEnv
       }
       //the result must be PARTIAL if the signature contains
       //a variable type or variable signature
-      if (containsVariableType(sigB)) {
+      if (containsVariable(sigB)) {
         result = PARTIAL;
       }
     }
@@ -530,119 +488,119 @@ public class UnificationEnv
     return result;
   }
 
-  protected static boolean isType2(Type type)
+  protected static boolean isType2(Term term)
   {
-    return (type instanceof Type2);
+    return (term instanceof Type2);
   }
 
-  protected static boolean isSchemaType(Type type)
+  protected static boolean isSchemaType(Term term)
   {
-    return (type instanceof SchemaType);
+    return (term instanceof SchemaType);
   }
 
-  protected static boolean isPowerType(Type type)
+  protected static boolean isPowerType(Term term)
   {
-    return (type instanceof PowerType);
+    return (term instanceof PowerType);
   }
 
-  protected static boolean isGivenType(Type type)
+  protected static boolean isGivenType(Term term)
   {
-    return (type instanceof GivenType);
+    return (term instanceof GivenType);
   }
 
-  protected static boolean isGenericType(Type type)
+  protected static boolean isGenericType(Term term)
   {
-    return (type instanceof GenericType);
+    return (term instanceof GenericType);
   }
 
-  protected static boolean isGenParamType(Type type)
+  protected static boolean isGenParamType(Term term)
   {
-    return (type instanceof GenParamType);
+    return (term instanceof GenParamType);
   }
 
-  protected static boolean isProdType(Type type)
+  protected static boolean isProdType(Term term)
   {
-    return (type instanceof ProdType);
+    return (term instanceof ProdType);
   }
 
-  protected static boolean isUnknownType(Type type)
+  protected static boolean isUnknownType(Term term)
   {
-    return (type instanceof UnknownType);
+    return (term instanceof UnknownType);
   }
 
-  protected static boolean isVariableType(Type type)
+  protected static boolean isVariableType(Term term)
   {
-    return (type instanceof VariableType);
+    return (term instanceof VariableType);
   }
 
-  protected static boolean isVariableSignature(Signature signature)
+  protected static boolean isVariableSignature(Term term)
   {
-    return (signature instanceof VariableSignature);
+    return (term instanceof VariableSignature);
   }
 
-  protected static boolean isClassType(Type type)
+  protected static boolean isClassType(Term term)
   {
-    return (type instanceof ClassType);
-  }
-
-  //non-safe typecast
-  protected static SchemaType schemaType(Type type)
-  {
-    return (SchemaType) type;
+    return (term instanceof ClassType);
   }
 
   //non-safe typecast
-  protected static PowerType powerType(Type type)
+  protected static SchemaType schemaType(Term term)
   {
-    return (PowerType) type;
+    return (SchemaType) term;
   }
 
   //non-safe typecast
-  protected static GivenType givenType(Type type)
+  protected static PowerType powerType(Term term)
   {
-    return (GivenType) type;
+    return (PowerType) term;
   }
 
   //non-safe typecast
-  protected static GenericType genericType(Type type)
+  protected static GivenType givenType(Term term)
   {
-    return (GenericType) type;
+    return (GivenType) term;
   }
 
   //non-safe typecast
-  protected static GenParamType genParamType(Type type)
+  protected static GenericType genericType(Term term)
   {
-    return (GenParamType) type;
+    return (GenericType) term;
   }
 
   //non-safe typecast
-  protected static ProdType prodType(Type type)
+  protected static GenParamType genParamType(Term term)
   {
-    return (ProdType) type;
+    return (GenParamType) term;
   }
 
   //non-safe typecast
-  protected static UnknownType unknownType(Type type)
+  protected static ProdType prodType(Term term)
   {
-    return (UnknownType) type;
+    return (ProdType) term;
   }
 
   //non-safe typecast
-  protected static VariableType variableType(Type type)
+  protected static UnknownType unknownType(Term term)
   {
-    return (VariableType) type;
+    return (UnknownType) term;
   }
 
   //non-safe typecast
-  protected static VariableSignature variableSignature(Signature signature)
+  protected static VariableType variableType(Term term)
   {
-    return (VariableSignature) signature;
+    return (VariableType) term;
   }
 
   //non-safe typecast
-  protected static ClassType classType(Type type)
+  protected static VariableSignature variableSignature(Term term)
   {
-    return (ClassType) type;
+    return (VariableSignature) term;
+  }
+
+  //non-safe typecast
+  protected static ClassType classType(Term term)
+  {
+    return (ClassType) term;
   }
 
   protected void debug(Object o1, Object o2)

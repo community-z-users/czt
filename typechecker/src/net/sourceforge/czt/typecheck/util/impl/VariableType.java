@@ -111,7 +111,7 @@ public class VariableType
 
   public Object[] getChildren()
   {
-    Object[] result = { getName(), getValue() };
+    Object [] result = { getName(), value_ };
     return result;
   }
 

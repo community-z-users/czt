@@ -46,7 +46,7 @@ public class SchemaTypeImpl
     Signature result = schemaType.getSignature();
     if (result instanceof VariableSignature) {
       VariableSignature vSig = (VariableSignature) result;
-      if (vSig.getValue() != null) {
+      if (vSig.getValue() != vSig) {
         result = vSig.getValue();
       }
     }
