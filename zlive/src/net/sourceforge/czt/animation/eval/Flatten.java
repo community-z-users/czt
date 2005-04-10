@@ -96,7 +96,7 @@ public class Flatten
     knownRelations.add(ZString.ARG_TOK+ZString.GREATER+ZString.ARG_TOK);
     knownRelations.add(ZString.ARG_TOK+ZString.GEQ+ZString.ARG_TOK);
     knownRelations.add(ZString.ARG_TOK+ZString.NEQ+ZString.ARG_TOK);
-    knownRelations.add(ZString.ARG_TOK+ZString.NOTMEM+ZString.ARG_TOK);
+    knownRelations.add(ZString.ARG_TOK+ZString.NOTMEM+ZString.ARG_TOK);    
   }
 
   /** Flattens the toFlatten AST into a list of FlatPred predicates. */
@@ -302,7 +302,7 @@ public class Flatten
     if (def != null && def.getDeclNames().size() == e.getExpr().size()) {
       Expr newExpr = def.getExpr();
       System.out.println("DEBUG: visitRefExpr:" + e.getRefName().getWord()+" --> "+newExpr);
-      return newExpr.accept(this);
+      return newExpr.accept(this);      
     }
     return e.getRefName();
   }
@@ -367,7 +367,19 @@ public class Flatten
         RefName argVar = (RefName) arg.accept(this);
         flat_.add(new FlatNegate(argVar, result));
       }
-      
+      else if (funcname.equals("succ" + ZString.ARG_TOK)) {
+        /* succ _ = _ + 1; _ + 1 = result using FlatPlus */        
+        RefName argVar = (RefName) arg.accept(this);
+        Expr num1 = zlive_.getFactory().createNumExpr(1);
+        RefName refForNum1 = (RefName)num1.accept(this);
+        flat_.add(new FlatPlus(argVar, refForNum1, result));        
+      } 
+      else if (funcname.equals(ZString.ARG_TOK + ZString.CUP + ZString.ARG_TOK)) {
+          flat_.add(new FlatUnion(
+            (RefName)((Expr)argList.get(0)).accept(this),
+            (RefName)((Expr)argList.get(1)).accept(this), 
+            result));
+      }
       // else if (...)   TODO: add more cases...
       else {
 	return notYet(e, funcname);
