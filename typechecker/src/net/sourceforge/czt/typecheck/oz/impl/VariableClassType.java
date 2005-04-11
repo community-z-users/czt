@@ -16,12 +16,13 @@
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-package net.sourceforge.czt.typecheck.util.impl;
+package net.sourceforge.czt.typecheck.oz.impl;
 
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.oz.ast.*;
+import net.sourceforge.czt.typecheck.z.impl.*;
 
 /**
  * A Variable ClassType.

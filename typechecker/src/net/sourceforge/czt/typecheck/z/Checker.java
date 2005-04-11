@@ -30,7 +30,7 @@ import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.typecheck.util.typingenv.*;
-import net.sourceforge.czt.typecheck.util.impl.*;
+import net.sourceforge.czt.typecheck.z.impl.*;
 
 /**
  * A super class for the *Checker classes in the typechecker.

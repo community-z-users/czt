@@ -20,8 +20,6 @@ package net.sourceforge.czt.typecheck.util.typingenv;
 
 import java.util.List;
 
-import net.sourceforge.czt.typecheck.util.impl.*;
-
 /**
  * An annotation for recording a list of annotations associated with
  * an expression.

@@ -24,7 +24,7 @@ import java.util.Iterator;
 
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.typecheck.util.impl.*;
+import net.sourceforge.czt.typecheck.z.impl.*;
 
 /**
  * Calculates the carrier set of types.

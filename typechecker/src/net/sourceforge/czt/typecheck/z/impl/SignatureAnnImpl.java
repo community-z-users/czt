@@ -16,38 +16,38 @@
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-package net.sourceforge.czt.typecheck.util.impl;
+package net.sourceforge.czt.typecheck.z.impl;
 
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
 /**
- * An implementation for TypeAnn that hides VariableType instances
- * if they have a value.
+ * An implementation for SignatureAnn that hides VariableSignature
+ * instances if they have a value.
  */
-public class TypeAnnImpl
+public class SignatureAnnImpl
   extends TermImpl
-  implements TypeAnn
+  implements SignatureAnn
 {
-  protected TypeAnnImpl(TypeAnn typeAnn)
+  protected SignatureAnnImpl(SignatureAnn signatureAnn)
   {
-    super(typeAnn);
+    super(signatureAnn);
   }
 
-  public void setType(Type type)
+  public void setSignature(Signature signature)
   {
-    TypeAnn typeAnn = (TypeAnn) term_;
-    typeAnn.setType(type);
+    SignatureAnn signatureAnn = (SignatureAnn) term_;
+    signatureAnn.setSignature(signature);
   }
 
-  public Type getType()
+  public Signature getSignature()
   {
-    TypeAnn typeAnn = (TypeAnn) term_;
-    Type result = typeAnn.getType();
-    if (result instanceof VariableType) {
-      VariableType vType = (VariableType) result;
-      if (vType.getValue() != null) {
-        result = vType.getValue();
+    SignatureAnn signatureAnn = (SignatureAnn) term_;
+    Signature result = signatureAnn.getSignature();
+    if (result instanceof VariableSignature) {
+      VariableSignature vSignature = (VariableSignature) result;
+      if (vSignature.getValue() != null) {
+        result = vSignature.getValue();
       }
     }
     return result;
@@ -55,8 +55,8 @@ public class TypeAnnImpl
 
   public net.sourceforge.czt.base.ast.Term create(Object [] args)
   {
-    TypeAnn typeAnn = (TypeAnn) term_.create(args);
-    TypeAnn result = new TypeAnnImpl(typeAnn);
+    SignatureAnn signatureAnn = (SignatureAnn) term_.create(args);
+    SignatureAnn result = new SignatureAnnImpl(signatureAnn);
     return result;
   }
 
@@ -65,18 +65,18 @@ public class TypeAnnImpl
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof TypeAnnVisitor) {
-      TypeAnnVisitor visitor = (TypeAnnVisitor) v;
-      return visitor.visitTypeAnn(this);
+    if (v instanceof SignatureAnnVisitor) {
+      SignatureAnnVisitor visitor = (SignatureAnnVisitor) v;
+      return visitor.visitSignatureAnn(this);
     }
     return super.accept(v);
   }
 
   public boolean equals(Object obj)
   {
-    if (obj instanceof TypeAnn) {
-      TypeAnn typeAnn = (TypeAnn) obj;
-      return getType().equals(typeAnn.getType());
+    if (obj instanceof SignatureAnn) {
+      SignatureAnn signatureAnn = (SignatureAnn) obj;
+      return getSignature().equals(signatureAnn.getSignature());
     }
     return false;
   }
@@ -86,9 +86,9 @@ public class TypeAnnImpl
     final int constant = 31;
 
     int hashCode = super.hashCode();
-    hashCode += "TypeAnnImpl".hashCode();
-    if (getType() != null) {
-      hashCode += constant * getType().hashCode();
+    hashCode += "SignatureAnnImpl".hashCode();
+    if (getSignature() != null) {
+      hashCode += constant * getSignature().hashCode();
     }
     return hashCode;
   }

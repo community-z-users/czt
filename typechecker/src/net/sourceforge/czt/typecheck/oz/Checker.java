@@ -27,7 +27,8 @@ import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.util.OzString;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.typecheck.util.typingenv.*;
-import net.sourceforge.czt.typecheck.util.impl.*;
+import net.sourceforge.czt.typecheck.z.impl.*;
+import net.sourceforge.czt.typecheck.oz.impl.*;
 
 /**
  * A super class for the *Checker classes in the typechecker.

@@ -28,7 +28,8 @@ import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.visitor.*;
 import net.sourceforge.czt.oz.util.*;
 import net.sourceforge.czt.typecheck.util.typingenv.*;
-import net.sourceforge.czt.typecheck.util.impl.*;
+import net.sourceforge.czt.typecheck.z.impl.*;
+import net.sourceforge.czt.typecheck.oz.impl.*;
 import net.sourceforge.czt.typecheck.z.*;
 
 /**

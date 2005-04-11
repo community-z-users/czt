@@ -16,32 +16,14 @@
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-package net.sourceforge.czt.typecheck.util.impl;
+package net.sourceforge.czt.typecheck.oz.impl;
 
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
+import net.sourceforge.czt.util.Visitor;
 
 /**
- * An implementation for Term that hides VariableType instances
- * if they have a value.
+ * A visitor for VariableType.
  */
-public abstract class TermAImpl
-  extends TermImpl
-  implements TermA
+public interface VariableClassTypeVisitor extends Visitor
 {
-  protected TermAImpl(TermA termA)
-  {
-    super(termA);
-  }
-
-  public ListTerm getAnns()
-  {
-    return ((TermA) term_).getAnns();
-  }
-
-  public Object getAnn(Class aClass)
-  {
-    return ((TermA) term_).getAnn(aClass);
-  }
+  Object visitVariableClassType(VariableClassType variableClassType);
 }

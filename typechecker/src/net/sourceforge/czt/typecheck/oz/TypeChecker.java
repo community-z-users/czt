@@ -26,7 +26,7 @@ import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.oz.impl.OzFactoryImpl;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.typecheck.util.typingenv.*;
-import net.sourceforge.czt.typecheck.util.impl.*;
+import net.sourceforge.czt.typecheck.oz.impl.*;
 
 /**
  * The top-level class in the type checker classes.
@@ -47,7 +47,7 @@ public class TypeChecker
   public TypeChecker(TypeChecker info)
   {
     this(info.factory_.getZFactory(),
-         info.factory_.getOzFactory(),
+         ((Factory) info.factory_).getOzFactory(),
          info.sectInfo_);
   }
 

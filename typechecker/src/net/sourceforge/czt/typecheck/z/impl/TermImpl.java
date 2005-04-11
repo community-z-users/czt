@@ -16,22 +16,47 @@
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-package net.sourceforge.czt.typecheck.util.impl;
+package net.sourceforge.czt.typecheck.z.impl;
 
 import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
+import net.sourceforge.czt.base.visitor.*;
 
 /**
- * An implementation for Type2 that hides VariableType instances
+ * An implementation for Term that hides VariableType instances
  * if they have a value.
  */
-public abstract class Type2Impl
-  extends TypeImpl
-  implements Type2
+public abstract class TermImpl
+  implements Term
 {
-  protected Type2Impl(Type2 type)
+  /** The Term that this type wraps. */
+  protected Term term_;
+
+  protected TermImpl(Term term)
   {
-    super(type);
+    term_ = term;
+  }
+
+  public boolean equals(Object obj)
+  {
+    return term_.equals(obj);
+  }
+
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof TermVisitor) {
+      TermVisitor visitor = (TermVisitor) v;
+      return visitor.visitTerm(this);
+    }
+    return null;
+  }
+
+  public Object [] getChildren()
+  {
+    return term_.getChildren();
+  }
+
+  public int hashCode()
+  {
+    return term_.hashCode();
   }
 }

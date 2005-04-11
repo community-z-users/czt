@@ -32,7 +32,7 @@ import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.typecheck.util.*;
-import net.sourceforge.czt.typecheck.util.impl.*;
+import net.sourceforge.czt.typecheck.z.impl.*;
 
 /**
  * A <code>SectTypeEnv</code> maintains a mapping between a global

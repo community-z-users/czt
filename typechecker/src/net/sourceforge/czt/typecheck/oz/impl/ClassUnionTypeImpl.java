@@ -16,14 +16,29 @@
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-package net.sourceforge.czt.typecheck.util.impl;
+package net.sourceforge.czt.typecheck.oz.impl;
 
-import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.oz.ast.*;
+import net.sourceforge.czt.typecheck.z.impl.*;
 
 /**
- * A visitor for VariableType.
+ * An implementation for ClassUnionType that hides VariableClassSig
+ * instances if they have a value.
  */
-public interface VariableClassTypeVisitor extends Visitor
+public class ClassUnionTypeImpl
+  extends ClassTypeImpl
+  implements ClassUnionType
 {
-  Object visitVariableClassType(VariableClassType variableClassType);
+  protected ClassUnionTypeImpl(ClassUnionType classUnionType)
+  {
+    super(classUnionType);
+  }
+
+  public net.sourceforge.czt.base.ast.Term create(Object [] args)
+  {
+    ClassUnionType classUnionType = (ClassUnionType) term_.create(args);
+    ClassUnionType result = new ClassUnionTypeImpl(classUnionType);
+    return result;
+  }
 }

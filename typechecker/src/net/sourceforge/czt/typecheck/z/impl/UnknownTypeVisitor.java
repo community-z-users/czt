@@ -16,14 +16,14 @@
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-package net.sourceforge.czt.typecheck.util.impl;
+package net.sourceforge.czt.typecheck.z.impl;
 
 import net.sourceforge.czt.util.Visitor;
 
 /**
- * A visitor for VariableType.
+ * A visitor for UnknownType.
  */
-public interface VariableTypeVisitor extends Visitor
+public interface UnknownTypeVisitor extends Visitor
 {
-  Object visitVariableType(VariableType variableType);
+  Object visitUnknownType(UnknownType unknownType);
 }

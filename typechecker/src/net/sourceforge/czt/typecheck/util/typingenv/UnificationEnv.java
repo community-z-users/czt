@@ -29,7 +29,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.typecheck.z.*;
-import net.sourceforge.czt.typecheck.util.impl.*;
+import net.sourceforge.czt.typecheck.z.impl.*;
 
 /**
  * Provides unification of types.
@@ -153,9 +153,11 @@ public class UnificationEnv
     else if (isGenParamType(typeA) && isGenParamType(typeB)) {
       result = unifyGenParamType(genParamType(typeA), genParamType(typeB));
     }
+    /*
     else if (isClassType(typeA) && isClassType(typeB)) {
       result = unifyClassType(classType(typeA), classType(typeB));
     }
+    */
 
     return result;
   }
@@ -242,7 +244,7 @@ public class UnificationEnv
     UResult result = unifySignature(sigA, sigB);
     return result;
   }
-
+  /*
   protected UResult unifyClassType(ClassType classTypeA,
                                    ClassType classTypeB)
   {
@@ -295,6 +297,7 @@ public class UnificationEnv
 
     return result;
   }
+  */
 
   //unify 2 signatures
   protected UResult unifySignature(Signature sigA, Signature sigB)
@@ -339,7 +342,7 @@ public class UnificationEnv
 
     return result;
   }
-
+  /*
   protected UResult unifyVariableClassSig(VariableClassSig vcSig,
                                           ClassSig cSigB)
   {
@@ -359,7 +362,7 @@ public class UnificationEnv
 
     return result;
   }
-
+  */
   protected UResult unifyVariableSignature(VariableSignature vSig,
                                            Signature sigB)
   {
@@ -538,11 +541,6 @@ public class UnificationEnv
     return (term instanceof VariableSignature);
   }
 
-  protected static boolean isClassType(Term term)
-  {
-    return (term instanceof ClassType);
-  }
-
   //non-safe typecast
   protected static SchemaType schemaType(Term term)
   {
@@ -595,12 +593,6 @@ public class UnificationEnv
   protected static VariableSignature variableSignature(Term term)
   {
     return (VariableSignature) term;
-  }
-
-  //non-safe typecast
-  protected static ClassType classType(Term term)
-  {
-    return (ClassType) term;
   }
 
   protected void debug(Object o1, Object o2)

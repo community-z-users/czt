@@ -28,7 +28,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 
 import net.sourceforge.czt.typecheck.z.*;
-import net.sourceforge.czt.typecheck.util.impl.*;
+import net.sourceforge.czt.typecheck.z.impl.*;
 
 /**
  * A <code>TypeEnv</code> maintains a mapping from non-global

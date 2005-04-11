@@ -16,46 +16,58 @@
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-package net.sourceforge.czt.typecheck.util.impl;
+package net.sourceforge.czt.typecheck.z.impl;
 
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
 /**
- * An implementation for NameTypePair that hides VariableType instances
+ * An implementation for NameSectTypeTriple that hides VariableType instances
  * if they have a value.
  */
-public class NameTypePairImpl
+public class NameSectTypeTripleImpl
   extends TermImpl
-  implements NameTypePair
+  implements NameSectTypeTriple
 {
-  protected NameTypePairImpl(NameTypePair nameTypePair)
+  protected NameSectTypeTripleImpl(NameSectTypeTriple triple)
   {
-    super(nameTypePair);
+    super(triple);
+  }
+
+  public void setSect(String section)
+  {
+    NameSectTypeTriple triple = (NameSectTypeTriple) term_;
+    triple.setSect(section);
   }
 
   public void setName(DeclName declName)
   {
-    NameTypePair nameTypePair = (NameTypePair) term_;
-    nameTypePair.setName(declName);
-  }
-
-  public DeclName getName()
-  {
-    NameTypePair nameTypePair = (NameTypePair) term_;
-    return nameTypePair.getName();
+    NameSectTypeTriple triple = (NameSectTypeTriple) term_;
+    triple.setName(declName);
   }
 
   public void setType(Type type)
   {
-    NameTypePair nameTypePair = (NameTypePair) term_;
-    nameTypePair.setType(type);
+    NameSectTypeTriple triple = (NameSectTypeTriple) term_;
+    triple.setType(type);
+  }
+
+  public String getSect()
+  {
+    NameSectTypeTriple triple = (NameSectTypeTriple) term_;
+    return triple.getSect();
+  }
+
+  public DeclName getName()
+  {
+    NameSectTypeTriple triple = (NameSectTypeTriple) term_;
+    return triple.getName();
   }
 
   public Type getType()
   {
-    NameTypePair nameTypePair = (NameTypePair) term_;
-    Type result = nameTypePair.getType();
+    NameSectTypeTriple triple = (NameSectTypeTriple) term_;
+    Type result = triple.getType();
     if (result instanceof VariableType) {
       VariableType vType = (VariableType) result;
       if (vType.getValue() != null) {
@@ -67,8 +79,8 @@ public class NameTypePairImpl
 
   public net.sourceforge.czt.base.ast.Term create(Object [] args)
   {
-    NameTypePair pair = (NameTypePair) term_.create(args);
-    NameTypePair result = new NameTypePairImpl(pair);
+    NameSectTypeTriple triple = (NameSectTypeTriple) term_.create(args);
+    NameSectTypeTriple result = new NameSectTypeTripleImpl(triple);
     return result;
   }
 
@@ -77,19 +89,20 @@ public class NameTypePairImpl
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof NameTypePairVisitor) {
-      NameTypePairVisitor visitor = (NameTypePairVisitor) v;
-      return visitor.visitNameTypePair(this);
+    if (v instanceof NameSectTypeTripleVisitor) {
+      NameSectTypeTripleVisitor visitor = (NameSectTypeTripleVisitor) v;
+      return visitor.visitNameSectTypeTriple(this);
     }
     return super.accept(v);
   }
 
   public boolean equals(Object obj)
   {
-    if (obj instanceof NameTypePair) {
-      NameTypePair pair = (NameTypePair) obj;
-      if (!getName().equals(pair.getName()) ||
-          !getType().equals(pair.getType())) {
+    if (obj instanceof NameSectTypeTriple) {
+      NameSectTypeTriple triple = (NameSectTypeTriple) obj;
+      if (!getSect().equals(triple.getSect()) ||
+          !getName().equals(triple.getName()) ||
+          !getType().equals(triple.getType())) {
         return false;
       }
       return true;
@@ -102,9 +115,12 @@ public class NameTypePairImpl
     final int constant = 31;
 
     int hashCode = super.hashCode();
-    hashCode += "NameTypePairImpl".hashCode();
+    hashCode += "NameSectTypeTripleImpl".hashCode();
     if (getName() != null) {
       hashCode += constant * getName().hashCode();
+    }
+    if (getSect() != null) {
+      hashCode += constant * getSect().hashCode();
     }
     if (getType() != null) {
       hashCode += constant * getType().hashCode();

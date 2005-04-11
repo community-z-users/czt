@@ -16,61 +16,62 @@
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-package net.sourceforge.czt.typecheck.util.impl;
+package net.sourceforge.czt.typecheck.z.impl;
 
 import java.util.List;
 
-import net.sourceforge.czt.z.visitor.SignatureVisitor;
-import net.sourceforge.czt.z.ast.DeclName;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.Stroke;
-import net.sourceforge.czt.z.ast.Signature;
+import net.sourceforge.czt.z.ast.DeclName;
 
 /**
- * An implementation for Signature that represents a signature variable.
+ * A VariableType.
  */
-public class VariableSignature
-  extends net.sourceforge.czt.base.impl.TermImpl
-  implements Signature
+public class VariableType
+  extends Type2Impl
 {
   /**
-   * The Greek beta character as a string. Prefix with an
-   * underscore to avoid clashes with user-defined variables.
+   * The Greek alpha character as a string. Prefix with an underscore
+   * to avoid clashes with user-defined variables.
    */
-  protected static final String BETA = "_" + Character.toString('\u03B2');
+  protected static final String ALPHA = "_" + Character.toString('\u03B1');
 
-  /** The number stroke of the next beta variable. */
+  /** The number stroke of the next alpha variable. */
   protected static int serial_ = 0;
 
   /** The name of this variable. */
   protected DeclName declName_ = null;
 
-  /** The unified value of this signature. */
-  protected Signature value_ = null;
+  /** The value of this variable. */
+  protected Type2 value_ = null;
 
-  protected VariableSignature(Factory factory)
+  protected VariableType(Factory factory)
   {
+    super(null);
     List<Stroke> strokes = new java.util.ArrayList();
     strokes.add(factory.createNumStroke(new Integer(serial_++)));
-    declName_ = factory.createDeclName(BETA, strokes, null);
+    declName_ = factory.createDeclName(ALPHA, strokes, null);
   }
 
-  protected VariableSignature(DeclName declName)
+  protected VariableType(DeclName declName)
   {
+    super(null);
     declName_ = declName;
   }
 
   /**
-   * @return the value of the unified signature, or this signature if
-   * it is not yet unified
+   * @return The value of this variable, or itself if no value as been
+   * assigned.
    */
-  public Signature getValue()
+  public Type2 getValue()
   {
     if (value_ == null) {
       return this;
     }
     else {
-      if (value_ instanceof VariableSignature) {
-        VariableSignature vType = (VariableSignature) value_;
+      if (value_ instanceof VariableType) {
+        VariableType vType = (VariableType) value_;
         return vType.getValue();
       }
       return value_;
@@ -78,12 +79,18 @@ public class VariableSignature
   }
 
   /**
-   * Set the value of the signature.
-   * @param signature the value of the signature
+   * Sets the value of this variable.
+   * @param value - the value of this variable.
    */
-  public void setValue(Signature signature)
+  public void setValue(Type2 value)
   {
-    value_ = signature;
+    if (value_ instanceof VariableType) {
+      VariableType vType = (VariableType) value_;
+      vType.setValue(value);
+    }
+    else {
+      value_ = value;
+    }
   }
 
   /**
@@ -104,40 +111,18 @@ public class VariableSignature
 
   public Object[] getChildren()
   {
-    Object[] result = { getName(), value_, getNameTypePair() };
+    Object [] result = { getName(), value_ };
     return result;
   }
 
-  public net.sourceforge.czt.base.ast.ListTerm getNameTypePair()
+  public Term create(Object[] args)
   {
-    return new net.sourceforge.czt.base.impl.ListTermImpl();
-  }
-
-  /**
-   * Accepts a visitor.
-   */
-  public Object accept(net.sourceforge.czt.util.Visitor v)
-  {
-    if (v instanceof SignatureVisitor) {
-      SignatureVisitor visitor = (SignatureVisitor) v;
-      return visitor.visitSignature(this);
-    }
-    return super.accept(v);
-  }
-
-  /**
-   * Returns a new object of this class.
-   */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args)
-  {
-    VariableSignature zedObject = null;
+    VariableType zedObject = null;
     try {
       DeclName declName = (DeclName) args[0];
-      zedObject = new VariableSignature(declName);
-      Signature value = (Signature) args[1];
+      Type2 value = (Type2) args[1];
+      zedObject = new VariableType(declName);
       zedObject.setValue(value);
-      List pairs = (List) args[2];
-      zedObject.getNameTypePair().addAll(pairs);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -155,11 +140,11 @@ public class VariableSignature
     if (value_ != null) {
       result += value_.toString();
     }
-    else if (declName_.getWord().indexOf(BETA) >= 0) {
+    else if (declName_.getWord().indexOf(ALPHA) >= 0) {
       result += declName_.toString();
     }
     else {
-      result += "VSIG(" + declName_.toString() + ")";
+      result += "VTYPE(" + declName_.toString() + ")";
     }
 
     return result;
@@ -169,9 +154,9 @@ public class VariableSignature
   {
     boolean result = false;
 
-    if (o instanceof VariableSignature) {
-      VariableSignature variableSignature = (VariableSignature) o;
-      if (declName_.equals(variableSignature.getName())) {
+    if (o instanceof VariableType) {
+      VariableType variableType = (VariableType) o;
+      if (declName_.equals(variableType.getName())) {
         result = true;
       }
     }
@@ -184,10 +169,19 @@ public class VariableSignature
     final int constant = 31;
 
     int hashCode = super.hashCode();
-    hashCode += "VariableSignature".hashCode();
+    hashCode += "VariableType".hashCode();
     if (declName_ != null) {
       hashCode += constant * declName_.hashCode();
     }
     return hashCode;
+  }
+
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof VariableTypeVisitor) {
+      VariableTypeVisitor visitor = (VariableTypeVisitor) v;
+      return visitor.visitVariableType(this);
+    }
+    return super.accept(v);
   }
 }

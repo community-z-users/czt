@@ -16,22 +16,14 @@
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-package net.sourceforge.czt.typecheck.util.impl;
+package net.sourceforge.czt.typecheck.z.impl;
 
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
+import net.sourceforge.czt.util.Visitor;
 
 /**
- * An implementation for Type that hides VariableType instances
- * if they have a value.
+ * A visitor for VariableType.
  */
-public abstract class TypeImpl
-  extends TermAImpl
-  implements Type
+public interface VariableTypeVisitor extends Visitor
 {
-  protected TypeImpl(Type type)
-  {
-    super(type);
-  }
+  Object visitVariableType(VariableType variableType);
 }

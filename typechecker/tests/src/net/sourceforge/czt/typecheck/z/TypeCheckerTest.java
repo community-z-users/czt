@@ -33,7 +33,6 @@ import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.parser.z.ParseUtils;
 
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.typecheck.util.impl.*;
 import net.sourceforge.czt.typecheck.util.typingenv.SectTypeEnv;
 
 import net.sourceforge.czt.typecheck.testutil.TypeParser;

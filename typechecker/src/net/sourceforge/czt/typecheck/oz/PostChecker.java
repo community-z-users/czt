@@ -21,8 +21,9 @@ package net.sourceforge.czt.typecheck.oz;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.typecheck.util.impl.*;
 import net.sourceforge.czt.typecheck.util.typingenv.*;
+import net.sourceforge.czt.typecheck.z.impl.*;
+import net.sourceforge.czt.typecheck.oz.impl.*;
 
 /**
  * At the end of the typechecker, this checker visits any previously

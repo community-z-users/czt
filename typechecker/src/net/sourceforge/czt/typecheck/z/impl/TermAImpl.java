@@ -16,28 +16,32 @@
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-package net.sourceforge.czt.typecheck.util.impl;
+package net.sourceforge.czt.typecheck.z.impl;
 
 import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.oz.ast.*;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.visitor.*;
 
 /**
- * An implementation for ClassUnionType that hides VariableClassSig
- * instances if they have a value.
+ * An implementation for Term that hides VariableType instances
+ * if they have a value.
  */
-public class ClassUnionTypeImpl
-  extends ClassTypeImpl
-  implements ClassUnionType
+public abstract class TermAImpl
+  extends TermImpl
+  implements TermA
 {
-  protected ClassUnionTypeImpl(ClassUnionType classUnionType)
+  protected TermAImpl(TermA termA)
   {
-    super(classUnionType);
+    super(termA);
   }
 
-  public net.sourceforge.czt.base.ast.Term create(Object [] args)
+  public ListTerm getAnns()
   {
-    ClassUnionType classUnionType = (ClassUnionType) term_.create(args);
-    ClassUnionType result = new ClassUnionTypeImpl(classUnionType);
-    return result;
+    return ((TermA) term_).getAnns();
+  }
+
+  public Object getAnn(Class aClass)
+  {
+    return ((TermA) term_).getAnn(aClass);
   }
 }

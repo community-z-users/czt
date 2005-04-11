@@ -16,62 +16,61 @@
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-package net.sourceforge.czt.typecheck.util.impl;
+package net.sourceforge.czt.typecheck.z.impl;
 
 import java.util.List;
 
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.z.ast.Type2;
-import net.sourceforge.czt.z.ast.Stroke;
+import net.sourceforge.czt.z.visitor.SignatureVisitor;
 import net.sourceforge.czt.z.ast.DeclName;
+import net.sourceforge.czt.z.ast.Stroke;
+import net.sourceforge.czt.z.ast.Signature;
 
 /**
- * A VariableType.
+ * An implementation for Signature that represents a signature variable.
  */
-public class VariableType
-  extends Type2Impl
+public class VariableSignature
+  extends net.sourceforge.czt.base.impl.TermImpl
+  implements Signature
 {
   /**
-   * The Greek alpha character as a string. Prefix with an underscore
-   * to avoid clashes with user-defined variables.
+   * The Greek beta character as a string. Prefix with an
+   * underscore to avoid clashes with user-defined variables.
    */
-  protected static final String ALPHA = "_" + Character.toString('\u03B1');
+  protected static final String BETA = "_" + Character.toString('\u03B2');
 
-  /** The number stroke of the next alpha variable. */
+  /** The number stroke of the next beta variable. */
   protected static int serial_ = 0;
 
   /** The name of this variable. */
   protected DeclName declName_ = null;
 
-  /** The value of this variable. */
-  protected Type2 value_ = null;
+  /** The unified value of this signature. */
+  protected Signature value_ = null;
 
-  protected VariableType(Factory factory)
+  protected VariableSignature(Factory factory)
   {
-    super(null);
     List<Stroke> strokes = new java.util.ArrayList();
     strokes.add(factory.createNumStroke(new Integer(serial_++)));
-    declName_ = factory.createDeclName(ALPHA, strokes, null);
+    declName_ = factory.createDeclName(BETA, strokes, null);
   }
 
-  protected VariableType(DeclName declName)
+  protected VariableSignature(DeclName declName)
   {
-    super(null);
     declName_ = declName;
   }
 
   /**
-   * @return The value of this variable, or itself if no value as been
-   * assigned.
+   * @return the value of the unified signature, or this signature if
+   * it is not yet unified
    */
-  public Type2 getValue()
+  public Signature getValue()
   {
     if (value_ == null) {
       return this;
     }
     else {
-      if (value_ instanceof VariableType) {
-        VariableType vType = (VariableType) value_;
+      if (value_ instanceof VariableSignature) {
+        VariableSignature vType = (VariableSignature) value_;
         return vType.getValue();
       }
       return value_;
@@ -79,18 +78,12 @@ public class VariableType
   }
 
   /**
-   * Sets the value of this variable.
-   * @param value - the value of this variable.
+   * Set the value of the signature.
+   * @param signature the value of the signature
    */
-  public void setValue(Type2 value)
+  public void setValue(Signature signature)
   {
-    if (value_ instanceof VariableType) {
-      VariableType vType = (VariableType) value_;
-      vType.setValue(value);
-    }
-    else {
-      value_ = value;
-    }
+    value_ = signature;
   }
 
   /**
@@ -111,18 +104,40 @@ public class VariableType
 
   public Object[] getChildren()
   {
-    Object [] result = { getName(), value_ };
+    Object[] result = { getName(), value_, getNameTypePair() };
     return result;
   }
 
-  public Term create(Object[] args)
+  public net.sourceforge.czt.base.ast.ListTerm getNameTypePair()
   {
-    VariableType zedObject = null;
+    return new net.sourceforge.czt.base.impl.ListTermImpl();
+  }
+
+  /**
+   * Accepts a visitor.
+   */
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof SignatureVisitor) {
+      SignatureVisitor visitor = (SignatureVisitor) v;
+      return visitor.visitSignature(this);
+    }
+    return super.accept(v);
+  }
+
+  /**
+   * Returns a new object of this class.
+   */
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  {
+    VariableSignature zedObject = null;
     try {
       DeclName declName = (DeclName) args[0];
-      Type2 value = (Type2) args[1];
-      zedObject = new VariableType(declName);
+      zedObject = new VariableSignature(declName);
+      Signature value = (Signature) args[1];
       zedObject.setValue(value);
+      List pairs = (List) args[2];
+      zedObject.getNameTypePair().addAll(pairs);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -140,11 +155,11 @@ public class VariableType
     if (value_ != null) {
       result += value_.toString();
     }
-    else if (declName_.getWord().indexOf(ALPHA) >= 0) {
+    else if (declName_.getWord().indexOf(BETA) >= 0) {
       result += declName_.toString();
     }
     else {
-      result += "VTYPE(" + declName_.toString() + ")";
+      result += "VSIG(" + declName_.toString() + ")";
     }
 
     return result;
@@ -154,9 +169,9 @@ public class VariableType
   {
     boolean result = false;
 
-    if (o instanceof VariableType) {
-      VariableType variableType = (VariableType) o;
-      if (declName_.equals(variableType.getName())) {
+    if (o instanceof VariableSignature) {
+      VariableSignature variableSignature = (VariableSignature) o;
+      if (declName_.equals(variableSignature.getName())) {
         result = true;
       }
     }
@@ -169,19 +184,10 @@ public class VariableType
     final int constant = 31;
 
     int hashCode = super.hashCode();
-    hashCode += "VariableType".hashCode();
+    hashCode += "VariableSignature".hashCode();
     if (declName_ != null) {
       hashCode += constant * declName_.hashCode();
     }
     return hashCode;
-  }
-
-  public Object accept(net.sourceforge.czt.util.Visitor v)
-  {
-    if (v instanceof VariableTypeVisitor) {
-      VariableTypeVisitor visitor = (VariableTypeVisitor) v;
-      return visitor.visitVariableType(this);
-    }
-    return super.accept(v);
   }
 }

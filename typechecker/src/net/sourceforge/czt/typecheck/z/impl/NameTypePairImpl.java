@@ -16,34 +16,46 @@
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-package net.sourceforge.czt.typecheck.util.impl;
+package net.sourceforge.czt.typecheck.z.impl;
 
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
 /**
- * An implementation for PowerType that hides VariableType instances
+ * An implementation for NameTypePair that hides VariableType instances
  * if they have a value.
  */
-public class PowerTypeImpl
-  extends Type2Impl
-  implements PowerType
+public class NameTypePairImpl
+  extends TermImpl
+  implements NameTypePair
 {
-  protected PowerTypeImpl(PowerType powerType)
+  protected NameTypePairImpl(NameTypePair nameTypePair)
   {
-    super(powerType);
+    super(nameTypePair);
   }
 
-  public void setType(Type2 type)
+  public void setName(DeclName declName)
   {
-    PowerType powerType = (PowerType) term_;
-    powerType.setType(type);
+    NameTypePair nameTypePair = (NameTypePair) term_;
+    nameTypePair.setName(declName);
   }
 
-  public Type2 getType()
+  public DeclName getName()
   {
-    PowerType powerType = (PowerType) term_;
-    Type2 result = powerType.getType();
+    NameTypePair nameTypePair = (NameTypePair) term_;
+    return nameTypePair.getName();
+  }
+
+  public void setType(Type type)
+  {
+    NameTypePair nameTypePair = (NameTypePair) term_;
+    nameTypePair.setType(type);
+  }
+
+  public Type getType()
+  {
+    NameTypePair nameTypePair = (NameTypePair) term_;
+    Type result = nameTypePair.getType();
     if (result instanceof VariableType) {
       VariableType vType = (VariableType) result;
       if (vType.getValue() != null) {
@@ -55,8 +67,8 @@ public class PowerTypeImpl
 
   public net.sourceforge.czt.base.ast.Term create(Object [] args)
   {
-    PowerType powerType = (PowerType) term_.create(args);
-    PowerType result = new PowerTypeImpl(powerType);
+    NameTypePair pair = (NameTypePair) term_.create(args);
+    NameTypePair result = new NameTypePairImpl(pair);
     return result;
   }
 
@@ -65,24 +77,22 @@ public class PowerTypeImpl
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof PowerTypeVisitor) {
-      PowerTypeVisitor visitor = (PowerTypeVisitor) v;
-      return visitor.visitPowerType(this);
+    if (v instanceof NameTypePairVisitor) {
+      NameTypePairVisitor visitor = (NameTypePairVisitor) v;
+      return visitor.visitNameTypePair(this);
     }
     return super.accept(v);
   }
 
-  public String toString()
-  {
-    PowerType powerType = (PowerType) term_;
-    return powerType.toString();
-  }
-
   public boolean equals(Object obj)
   {
-    if (obj instanceof PowerType) {
-      PowerType powerType = (PowerType) obj;
-      return getType().equals(powerType.getType());
+    if (obj instanceof NameTypePair) {
+      NameTypePair pair = (NameTypePair) obj;
+      if (!getName().equals(pair.getName()) ||
+          !getType().equals(pair.getType())) {
+        return false;
+      }
+      return true;
     }
     return false;
   }
@@ -92,7 +102,10 @@ public class PowerTypeImpl
     final int constant = 31;
 
     int hashCode = super.hashCode();
-    hashCode += "PowerTypeImpl".hashCode();
+    hashCode += "NameTypePairImpl".hashCode();
+    if (getName() != null) {
+      hashCode += constant * getName().hashCode();
+    }
     if (getType() != null) {
       hashCode += constant * getType().hashCode();
     }

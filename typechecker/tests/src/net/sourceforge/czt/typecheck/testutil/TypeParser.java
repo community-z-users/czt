@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.typecheck.util.impl.*;
+import net.sourceforge.czt.typecheck.z.impl.*;
 
 /**
  * Parses a Z type written in an abstract format and produces CZT Type
