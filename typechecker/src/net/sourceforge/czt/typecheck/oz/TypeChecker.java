@@ -25,7 +25,7 @@ import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.oz.impl.OzFactoryImpl;
 import net.sourceforge.czt.session.SectionInfo;
-import net.sourceforge.czt.typecheck.util.typingenv.*;
+import net.sourceforge.czt.typecheck.z.util.*;
 import net.sourceforge.czt.typecheck.oz.impl.*;
 
 /**

@@ -16,14 +16,35 @@
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-package net.sourceforge.czt.typecheck.util.typingenv;
+package net.sourceforge.czt.typecheck.z.util;
 
 /**
- * An annotation for recording undeclared reference names.
+ * An enumeration for representing the results of unification.
  */
-public class UndeclaredAnn
+public enum UResult
 {
-  public UndeclaredAnn()
+  /** The possible results of a unification. */
+  /** Succeed. */
+  SUCC,
+
+  /** Failure. */
+  FAIL,
+
+  /** Partial (there are still variable types after unification). */
+  PARTIAL;
+
+  /**
+   * A conjunction of two UResults.
+   */
+  public static UResult conj(UResult left, UResult right)
   {
+    UResult result = SUCC;
+    if (left == FAIL || right == FAIL) {
+      result = FAIL;
+    }
+    else if (left == PARTIAL || right == PARTIAL) {
+      result = PARTIAL;
+    }
+    return result;
   }
 }

@@ -32,7 +32,7 @@ import net.sourceforge.czt.oz.ast.OzFactory;
 import net.sourceforge.czt.oz.impl.OzFactoryImpl;
 import net.sourceforge.czt.parser.oz.*;
 import net.sourceforge.czt.parser.util.*;
-import net.sourceforge.czt.typecheck.util.typingenv.*;
+import net.sourceforge.czt.typecheck.z.util.*;
 
 /**
  * Utilities for typechecking Object-Z specifications.

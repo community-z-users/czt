@@ -16,35 +16,26 @@
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-package net.sourceforge.czt.typecheck.util.typingenv;
+package net.sourceforge.czt.typecheck.z.util;
+
+import java.util.List;
 
 /**
- * An enumeration for representing the results of unification.
+ * An annotation for recording a list of annotations associated with
+ * an expression.
  */
-public enum UResult
+public class ParameterAnn
 {
-  /** The possible results of a unification. */
-  /** Succeed. */
-  SUCC,
+  /** The parameters. */
+  protected List parameters_;
 
-  /** Failure. */
-  FAIL,
-
-  /** Partial (there are still variable types after unification). */
-  PARTIAL;
-
-  /**
-   * A conjunction of two UResults.
-   */
-  public static UResult conj(UResult left, UResult right)
+  public ParameterAnn(List anns)
   {
-    UResult result = SUCC;
-    if (left == FAIL || right == FAIL) {
-      result = FAIL;
-    }
-    else if (left == PARTIAL || right == PARTIAL) {
-      result = PARTIAL;
-    }
-    return result;
+    parameters_ = anns;
+  }
+
+  public List getParameters()
+  {
+    return parameters_;
   }
 }

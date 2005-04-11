@@ -16,26 +16,14 @@
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-package net.sourceforge.czt.typecheck.util.typingenv;
-
-import java.util.List;
+package net.sourceforge.czt.typecheck.z.util;
 
 /**
- * An annotation for recording a list of annotations associated with
- * an expression.
+ * An annotation for recording undeclared reference names.
  */
-public class ParameterAnn
+public class UndeclaredAnn
 {
-  /** The parameters. */
-  protected List parameters_;
-
-  public ParameterAnn(List anns)
+  public UndeclaredAnn()
   {
-    parameters_ = anns;
-  }
-
-  public List getParameters()
-  {
-    return parameters_;
   }
 }

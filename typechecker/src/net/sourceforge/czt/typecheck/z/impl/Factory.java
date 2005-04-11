@@ -23,7 +23,6 @@ import java.util.List;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
-import net.sourceforge.czt.typecheck.util.typingenv.*;
 
 /**
  * A factory for creating types that hide VariableTypes.

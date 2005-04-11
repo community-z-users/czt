@@ -21,7 +21,7 @@ package net.sourceforge.czt.typecheck;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import net.sourceforge.czt.typecheck.util.typingenv.UnificationEnvTest;
+import net.sourceforge.czt.typecheck.util.UnificationEnvTest;
 import net.sourceforge.czt.typecheck.z.TypeInference;
 
 /**

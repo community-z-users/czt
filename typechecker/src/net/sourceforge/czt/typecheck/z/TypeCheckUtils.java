@@ -29,7 +29,7 @@ import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.parser.util.*;
-import net.sourceforge.czt.typecheck.util.typingenv.*;
+import net.sourceforge.czt.typecheck.z.util.*;
 
 /**
  * Utilities for typechecking Z specifications.
