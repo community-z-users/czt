@@ -27,7 +27,6 @@ import java.util.Iterator;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
 
@@ -153,11 +152,6 @@ public class UnificationEnv
     else if (isGenParamType(typeA) && isGenParamType(typeB)) {
       result = unifyGenParamType(genParamType(typeA), genParamType(typeB));
     }
-    /*
-    else if (isClassType(typeA) && isClassType(typeB)) {
-      result = unifyClassType(classType(typeA), classType(typeB));
-    }
-    */
 
     return result;
   }
@@ -244,60 +238,6 @@ public class UnificationEnv
     UResult result = unifySignature(sigA, sigB);
     return result;
   }
-  /*
-  protected UResult unifyClassType(ClassType classTypeA,
-                                   ClassType classTypeB)
-  {
-    UResult result = FAIL;
-    if (classTypeA instanceof VariableClassType) {
-      VariableClassType vClassTypeA = (VariableClassType) classTypeA;
-      if (classTypeB instanceof VariableClassType) {
-        VariableClassType vClassTypeB = (VariableClassType) classTypeB;
-        vClassTypeA.getValue().addAll(vClassTypeB.getValue());
-        vClassTypeB.setValue(vClassTypeA.getValue());
-      }
-      else {
-        vClassTypeA.getValue().add(classTypeB);
-      }
-    }
-    else {
-      //try to unify the two class signatures
-      ClassSig cSigA = classTypeA.getClassSig();
-      ClassSig cSigB = classTypeB.getClassSig();
-      result = unifyClassSig(cSigA, cSigB);
-    }
-    return result;
-  }
-
-  protected UResult unifyClassSig(ClassSig cSigA, ClassSig cSigB)
-  {
-    UResult result = FAIL;
-
-    if (cSigA instanceof VariableClassSig) {
-      result =
-        unifyVariableClassSig((VariableClassSig) cSigA, cSigB);
-    }
-    else if (cSigB instanceof VariableClassSig) {
-      result =
-        unifyVariableClassSig((VariableClassSig) cSigB, cSigA);
-    }
-    else {
-      //the classes that make up class A
-      List<ClassRef> aClasses = cSigA.getClasses();
-      //the classes that make up class B
-      List<ClassRef> bClasses = cSigB.getClasses();
-      for (ClassRef aClassRef : aClasses) {
-        for (ClassRef bClassRef : bClasses) {
-          if (aClassRef.equals(bClassRef)) {
-            return SUCC;
-          }
-        }
-      }
-    }
-
-    return result;
-  }
-  */
 
   //unify 2 signatures
   protected UResult unifySignature(Signature sigA, Signature sigB)
@@ -342,27 +282,7 @@ public class UnificationEnv
 
     return result;
   }
-  /*
-  protected UResult unifyVariableClassSig(VariableClassSig vcSig,
-                                          ClassSig cSigB)
-  {
-    UResult result = SUCC;
 
-    //if this signature is not unified
-    if (vcSig.getValue() == vcSig) {
-      if (vcSig.getValue() != cSigB) {
-        vcSig.setValue(cSigB);
-      }
-    }
-    //if the signature is unified, check that the unified value unifies
-    //with cSigB
-    else {
-      result = unifyClassSig(vcSig.getValue(), cSigB);
-    }
-
-    return result;
-  }
-  */
   protected UResult unifyVariableSignature(VariableSignature vSig,
                                            Signature sigB)
   {

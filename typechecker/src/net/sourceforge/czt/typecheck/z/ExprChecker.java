@@ -152,7 +152,7 @@ public class ExprChecker
           }
         }
         //instantiate the type
-        ((Checker) exprChecker()).instantiate(genericType);
+        exprChecker().instantiate(genericType);
 
         if (instantiations.size() > 0) {
           //if there is not already a parameter annotation, add
@@ -202,7 +202,7 @@ public class ExprChecker
             }
           }
           //instantiate the type
-          ((Checker) exprChecker()).instantiate(genericType);
+          exprChecker().instantiate(genericType);
           unificationEnv().exitScope();
         }
         else {

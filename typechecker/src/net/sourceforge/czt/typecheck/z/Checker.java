@@ -566,7 +566,7 @@ abstract public class Checker
       DeclName genName = genParamType.getName();
 
       //try to get the type from the UnificationEnv
-      Type unificationEnvType =  unificationEnv().getType(genName);
+      Type unificationEnvType = unificationEnv().getType(genName);
 
       //if this type's reference is in the parameters
       if (containsDoubleEquals(typeEnv().getParameters(), genName)) {
