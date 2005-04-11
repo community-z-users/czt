@@ -89,15 +89,6 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="SchChannelPara" type="CIRCUS:SchChannelPara" substitutionGroup="Z:Para">
-    <xs:annotation>
-      <xs:documentation>
-        A special channel declaration that uses declared variables
-        from a schema expression,
-        where the predicate part of the schema is ignored.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
   <xs:element name="ChannelSetPara" type="CIRCUS:ChannelSetPara" substitutionGroup="Z:Para">
     <xs:annotation>
       <xs:documentation>
@@ -807,6 +798,71 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
+  
+  <xs:element name="ProcessType" type="CIRCUS:ProcessType" substitutionGroup="Z:Type2">
+		<xs:annotation>
+			<xs:documentation>
+				A process type contains its signature.
+				Generic process parameters must be resolved.
+			</xs:documentation>
+		</xs:annotation>
+  </xs:element>  
+  <xs:element name="ProcessSignature" type="CIRCUS:ProcessSignature">
+		<xs:annotation>
+			<xs:documentation>
+				A process signature consists of the process name, formal parameters, and the channels usage.
+				Generic parameters are resolved while type checking similarly to Z and ObjectZ (see ClassSignature and oz.TypeChecker).
+				The channels usage is function from channel name to a set of usage flags.
+				These flags can be either IN, OUT, SYNCH or HIDE.
+				In the case of HIDE, all other flags are irrelevant.
+				These usage flags are built up by collecting the channel usage from action signatures.
+			</xs:documentation>
+		</xs:annotation>
+  </xs:element>
+  <xs:element name="ProcessAnn" type="CIRCUS:ProcessAnn">
+		<xs:annotation>
+			<xs:documentation>
+				A process annotation contains a process signature
+			</xs:documentation>
+		</xs:annotation>
+  </xs:element>
+  
+  <xs:element name="BasicProcessSignature" type="CIRCUS:BasicProcessSignature" substitutionGroup="CIRCUS:ProcessSignature">
+		<xs:annotation>
+			<xs:documentation>
+				Extends process signature to contain basic process declarations of 
+				local variables, actions, and name sets.
+				Local variables comes from either VarDeclCommand, or action formal parameters.
+			</xs:documentation>
+		</xs:annotation>
+  </xs:element>
+    
+  <xs:element name="ActionType" type="CIRCUS:ActionType" substitutionGroup="Z:Type2">
+		<xs:annotation>
+			<xs:documentation>
+				An action type contains its signature.				
+			</xs:documentation>
+		</xs:annotation>
+  </xs:element>  
+  <xs:element name="ActionSignature" type="CIRCUS:ActionSignature">
+		<xs:annotation>
+			<xs:documentation>
+				An action signature consists of the action name, formal parameters, and the channels usage.				
+				The channels usage is function from channel name to a set of usage flags.
+				These flags can be either IN, OUT, SYNCH or HIDE.
+				In the case of HIDE, all other flags are irrelevant.				
+			</xs:documentation>
+		</xs:annotation>
+  </xs:element>
+  <xs:element name="ActionAnn" type="CIRCUS:ActionAnn">
+		<xs:annotation>
+			<xs:documentation>
+				An action annotation contains an action signature.
+				Action types are not needed since actions are local in the process signature.
+			</xs:documentation>
+		</xs:annotation>
+  </xs:element>
+  
 
   <!-- ************************************************************ -->
   <!-- Definitions of the complexTypes                              -->
@@ -819,21 +875,12 @@
           <!-- Channel names could have strokes but some restrictions
                might apply to avoid "?" or "!" for instance.
                This should be checked by code. -->
-          <xs:element ref="Z:VarDecl"/>
+          <xs:element ref="Z:Decl" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="SchChannelPara">
-    <xs:complexContent>
-      <xs:extension base="Z:Para">
-        <xs:sequence>
-          <xs:element ref="Z:RefName"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="ChannelSetPara">
+	  <xs:complexType name="ChannelSetPara">
     <xs:complexContent>
       <xs:extension base="Z:Para">
         <xs:sequence>
@@ -1179,8 +1226,7 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:Action">
         <xs:sequence>
-          <!-- Z:SchExpr instead of SchText because we want a schema action
-               to be a schema expression. -->
+          <!-- Z:SchExpr instead of SchText because we want a schema action to be an expression. -->
           <xs:element ref="Z:SchExpr"/>          
         </xs:sequence>
         <xs:attribute name="IsState" type="xs:boolean" use="optional" default="false"/>
@@ -1505,4 +1551,103 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
+  
+  <xs:complexType name="ProcessType">
+		<xs:complexContent>
+			<xs:extension base="Z:Type2">
+				<xs:sequence>
+					<xs:element ref="CIRCUS:ProcessSignature"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+  </xs:complexType>  
+	<xs:complexType name="ProcessSignature" mixed="false">
+		<xs:sequence>
+			<xs:element name="ProcessName" type="Z:DeclName"/>
+			<xs:element name="FormalParams" type="Z:VarDecl"/>
+			<!-- TODO: include channel usage latter on -->
+			<!--<xs:element ref="CIRCUS:ChannelUsage" minOccurs="0" maxOccurs="unbounded"/>-->			
+		</xs:sequence>
+	</xs:complexType>	
+	<xs:complexType name="BasicProcessSignature">
+		<xs:complexContent>
+			<xs:extension base="CIRCUS:ProcessSignature">
+				<xs:sequence>   
+					<xs:element ref="Z:Signature">
+						<xs:annotation>
+							<xs:appinfo>
+								<jaxb:property name="StateSignature"/>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element> 
+					<xs:element ref="Z:Signature" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:appinfo>
+								<jaxb:property name="LocalZDeclsSignature"/>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element> 
+					<xs:element ref="CIRCUS:ActionSignature" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:appinfo>
+								<jaxb:property name="ActionsSignature"/>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ref="Z:DeclName" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:appinfo>
+								<jaxb:property name="DeclNameSets"/>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+    </xs:complexContent>    
+	</xs:complexType>
+	
+	<xs:complexType name="ProcessAnn">
+	    <xs:complexContent>
+	      <xs:extension base="Z:Ann">
+	        <xs:sequence>
+	          <xs:element ref="CIRCUS:ProcessSignature"/>
+	        </xs:sequence>
+	      </xs:extension>
+	    </xs:complexContent>
+  </xs:complexType>	
+	<xs:complexType name="ActionAnn">
+		<xs:complexContent>
+			<xs:extension base="Z:Ann">
+				<xs:sequence>
+					<xs:element ref="CIRCUS:ActionSignature"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+  </xs:complexType>  
+  
+  <xs:complexType name="ActionType">
+		<xs:complexContent>
+			<xs:extension base="Z:Type2">
+				<xs:sequence>
+					<xs:element ref="CIRCUS:ActionSignature"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+  </xs:complexType>  
+	<xs:complexType name="ActionSignature" mixed="false">
+		<xs:sequence>
+			<xs:element name="ActionName" type="Z:DeclName"/>
+			<!-- Action formal parameters are treated as local variables -->
+			<xs:element ref="Z:Signature">
+				<xs:annotation>
+					<xs:appinfo>
+						<jaxb:property name="LocalVarsSignature"/>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<!-- TODO: include channel usage latter on -->
+			<!--<xs:element ref="CIRCUS:ChannelUsage" minOccurs="0" maxOccurs="unbounded"/>-->			
+		</xs:sequence>
+	</xs:complexType>	
+	
 </xs:schema>
