@@ -4176,7 +4176,7 @@ operation ::=
            RESULT = factory_.createOperation(n, opExpr, Box.SchBox);
         :}
         |
-        DECLWORD:dw DEFEQUAL opExpr:oe
+        DECORWORD:dw DEFEQUAL opExpr:oe
         {:
            DeclName dn = factory_.createDeclName(dw, list(), null);
            RESULT = factory_.createOperation(dn, oe, Box.OmitBox);
