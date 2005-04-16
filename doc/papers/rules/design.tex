@@ -3,6 +3,11 @@
 \newenvironment{Rationale}{\\ \textbf{Rationale:}\it}{}
 \newcommand{\V}{\mathcal{V}}
 
+% Simulate some standard Z commands
+\newenvironment{zsection}{\begin{zed}}{\end{zed}}
+\newcommand{\SECTION}{\textbf{section}~}
+\newcommand{\parents}{\mathrel{\textbf{parents}}}
+
 % Rule syntax: \begin{zedrule}{Name} Ant1 \\ Ant2 \derive Concl \end{zedrule}
 \newenvironment{zedrule}[1]{\par\textbf{rule }#1\vspace{-2ex}\infrule}{\endinfrule}
 \newcommand{\derives}{\derive{}}
@@ -116,8 +121,16 @@ The goals of this proposal are:
 
 \section{Rule Syntax}
 
+\begin{zsection}
+  \SECTION Intro \parents standard\_toolkit
+\end{zsection}
+
+
 My (Mark's) original proposal was to write rewrite rules within the
 existing standard Z syntax, as conjectures:
+\begin{axdef}
+  E1, E2 : \num
+\end{axdef}
 \begin{zed}
   \vdash? E1 - E2 = E1 + (\negate E2)
 \end{zed}
@@ -320,7 +333,7 @@ or U+25B8 in Unicode) to improve readability and avoid syntactic ambiguity.
   than just checking it.  We also need some way of type checking
   a predicate -- $\proviso \{|P\}:\power []$ would work, or we
   could do something prettier like $\proviso P:Bool$?
-\item[Calculate:] $\proviso Joker == Expr$, or $\proviso PredJoker==Pred$.
+\item[Calculate:] $\proviso ExprJoker == Expr$, or $\proviso PredJoker==Pred$.
   This calculates the right hand side, then assigns it to the left hand
   side joker (which must be an Expr joker or a NameList joker
   in the first case, or a Pred joker in the second case).
@@ -377,7 +390,7 @@ the schema types are compatible.
 
 Note: If we had used the other (more traditional) style of searching
 for paragraphs in contexts, this would be written as
-\begin{zedrule}{UnfoldSchema2}
+\begin{zedrule}{UnfoldSchema2b}
    \Context_1; v==[D2|P2]; \Context_2 \vdash
       \proviso [D1; D2; D3] : T
 \derives
@@ -531,7 +544,7 @@ antecedent ::= predicate
 
 /* The various proviso side conditions of CZT rules */
 proviso ::= typeProviso
-        | calcProviso
+        | calculateProviso
         | checkProviso
         | lookupProviso
         ;
@@ -546,23 +559,28 @@ baseType ::= expression ;
 /* Joker == Expr, or Joker == Pred, where Expr/Pred must contain a
    restricted set of operators as described above.
 */
-calcProviso ::= name DEFEQUALS term ;
+calculateProviso ::= name DEFEQUALS expr
+        | name DEFEQUALS pred ;
 
 
 /* Simple predicates such as equality, membership, subset of sets of names.*/
-testProviso ::= predicate ;
+checkProviso ::= predicate ;
 
 
 /* This searches the context (usually the specification)
    for a given definition or predicate.
    QUESTION is the '?' character.
+   It would be useful to be able to search for any Z paragraph
+   like this:
+        lookupProviso ::= QUESTION paragraph ;
+   but it is not possible with the current Z standard syntax
+   to write a paragraph within another paragraph, so we will
+   just provide lookups of a few specific kinds of paragraphs
+   instead.
 */
-lookupProviso ::= QUESTION paragraph ;
 
-Or we could restrict this to a few simple kinds of lookup:
 lookupProviso ::=
         QUESTION name == expr
-        | QUESTION name : expr
         | QUESTION predicate
         ;
 \end{verbatim}
@@ -571,7 +589,26 @@ lookupProviso ::=
 
 \section{Examples}
 
+\begin{zsection}
+  \SECTION zpattern\_toolkit \parents standard\_toolkit
+\end{zsection}
+
+This toolkit section (which should be moved into the usual
+library area), will define any operators or functions used
+in the provisos of rules.
+
+\begin{gendef}[T]
+  unPrefix : T \cross T \fun T \\
+  fresh : T \fun T
+\end{gendef}
+
+
+
 \subsection{Simple Rewrite Rules}
+
+\begin{zsection}
+  \SECTION SimpleRewrites \parents zpattern\_toolkit
+\end{zsection}
 
 Here is an example of a simple rewrite rule
 for rewriting subtraction into addition of a negated number.
@@ -590,6 +627,10 @@ Java methods that process and apply the rewrite rules.
 
 
 \subsection{Schema Normalisation Rules}
+
+\begin{zsection}
+  \SECTION SchNorm \parents zpattern\_toolkit
+\end{zsection}
 
 Here is a set of rules for normalising and unfolding schemas
 (that is, moving all the fancy type information out of the
@@ -611,7 +652,10 @@ okay to use equality directly.
 
 We process the declarations one by one, from left to right.
 The first step in the process is to move the predicates into
-the normalised result.
+the normalised result.    NOTE: it might be nice to define
+a different equality relation here, which has the same semantics
+as equality, but with the extra property that the right hand side
+is a schema in normalised form.
 \begin{zedrule}{startNormalise}
    [D1 | true] = [D2 | P2]
 \derives
@@ -633,81 +677,118 @@ becomes the first declaration within $D1$.
 
 The rule for constant declarations is similar.
 \begin{zedrule}{normaliseConstDecl}
-   \proviso S : \power T \\
+   \proviso S : T \\
    [D1 | true] = [D2 | P2]
 \derives
-   [v==S; D1 | true] = [v:\power T; D2 | v = S \land P2]
+   [v==S; D1 | true] = [v: T; D2 | v = S \land P2]
 \end{zedrule}
 
 A schema inclusion can be an arbitrary schema expression,
 so we need to have a whole set of rules for expanding
 the various kinds of schema operators (see below for a 
-few examples of these).
-\begin{zedrule}{normalizeIncludeDecl}
+few examples of these).  TODO: check that D1 and D2 are
+normalised.
+\begin{zedrule}{normaliseIncludeDecl}
    S = [D1 | P1] \\
-   [D | true] = [D2 | P2]
+   [D | true] = [D2 | P2] \\
+   \proviso [D1;D2] : \power [D3]
 \derives
-   [S; D | true] = [D1; D2 | P1 \land P2]
+   [S; D | true] = [D3 | P1 \land P2]
 \end{zedrule}
 
 The base case is an empty declaration list, $[|true]$.
 For this we only need the reflexivity axiom $E=E$ which
 is probably available as part of whatever logic we are
 using.  However, for completeness, here it is as a special rule:
-\begin{zedrule}{normalizeEmpty}
+\begin{zedrule}{normaliseEmpty}
    [~ | true] = [~ | true]
 \end{zedrule}
 
 
 \subsection{Schema Expression Expansion Rules}
 
-This rule expands a simple undecorated schema name.
+This rule expands a schema name $S$ (which may be
+a simple name like $foo$, or may be generic like 
+$foo[\nat,\nat \fun Colour]$).  Note that the
+$\proviso? S==E$ proviso does the lookup of the
+name and also instantiates any generic parameters
+of the definition that it finds.  The typing proviso
+could be dropped if we wanted, it simply prevents
+fruitless attempts to prove $E=[D|P]$ when $E$
+is not the name of a schema.
 \begin{zedrule}{SchemaName}
-  \proviso? v == S \\
-  \proviso S : \power [\_] \\
-  S = [D|P]
+  \proviso? S == E \\
+  \proviso E : \power [\_] \\
+  E = [D|P]
 \derives
-  v = [D|P]
+  S = [D|P]
 \end{zedrule}
 
-Expanding a generic (but undecorated) schema name
-could be done as follows.  Note that the $==$ proviso
-must instantiate $S$ with the type parameter list $EL$.
-\begin{zedrule}{SchemaName}
-  \proviso? v[EL] == S \\
-  \proviso S : \power [\_] \\
-  S = [D|P]
-\derives
-  v[EL] = [D|P]
-\end{zedrule}
 
 To expand a decorated schema name or expression is more complex.
 We need a joker that ranges over decorations 
 (or even better, over decoration sequences)!
 Without this we would have to have at least 13 separate rules,
 one for each possible decoration.  The next rule shows
-how we would use a joker over decoration lists -- it is
-the non-generic version, but the generic version would
-be used instead in practice.
+how we would use a joker over decoration lists.
+(Note that the parser will parse $E~d$ as an ApplExpr
+expression, but must transform this to a DecorExpr in the
+case when $d$ is a Decor/DecorList joker.
 
 \begin{zedjoker}{DecorList} d \end{zedjoker}
 
-\begin{zedrule}{SchemaNameDecor}
-  \proviso? v == S \\
-  \proviso S : \power [\_] \\
-  S = [D|P]
+To start with, we will define one rule for each decoration.
+
+\begin{zedrule}{SchemaDecor}
+  E = [D|P] \\
+  \proviso E2 == [D|P]~'
 \derives
-  v_d = [D_d|P_d]
+  E~' = E2
 \end{zedrule}
 
-The Z convention of how to expand $\Delta N$ and $\Xi N$
-does not seem possible to encode as a rule, since the $\Delta$
-and $\Xi$ are part of the name (unless we added a
-special proviso for recognising such names and extracting the $N$
-part).  But it is probably easier to build these naming conventions
-into our CZT section manager, so that it automatically constructs
-the result of $\Delta N$ when we look up that name.
+\begin{zedrule}{SchemaDecor}
+  E = [D|P] \\
+  \proviso E2 == [D|P]~\_1
+\derives
+  E~\_1 = E2
+\end{zedrule}
 
+Eventually, it might be nice to have one general
+rule for these, but that will require introducing
+a decoration list joker, plus some way of parsing
+it.
+\begin{zedrule}{SchemaDecor}
+  E = [D|P] \\
+  \proviso E2 == [D|P]~d
+\derives
+  E~d = E2
+\end{zedrule}
+
+To handle the Z conventions of $\Delta N$ and $\Xi N$,
+we use a proviso which strips a given prefix (such as $\Delta$)
+off a given name: $\proviso N == unPrefix(\Delta,S)$.
+This proviso may also be useful for Z extensions/styles that use
+other prefix naming conventions for schemas.
+Note that the following two rules should be applied
+only when the above SchemaName rule has failed.
+
+\begin{zedrule}{DeltaSchema}
+  \proviso N == unPrefix(\Delta,S) \\
+  \proviso? N == E \\
+  [E; E~'] = [D|P]
+\derives
+  S = [D|P]
+\end{zedrule}
+
+\begin{zedrule}{XiSchema}
+  \proviso N == unPrefix(\Xi,S) \\
+  \proviso? N == E \\
+  [E; E~'| \theta E = \theta E~'] = [D|P]
+\derives
+  S = [D|P]
+\end{zedrule}
+
+ 
 Here is a rule for expanding a schema conjunction.
 Note that the proviso that calculates $[D1;D2]$ will fail
 if $D1$ and $D2$ are not signature compatible, as described above.
@@ -716,10 +797,11 @@ a proviso (which runs a Java algorithm), rather than simply
 putting $D1;D2$ directly into the right hand side of the
 conclusion (which might create a badly typed schema).
 
-\begin{zedrule}{SchemaNameDecor}
+\begin{zedrule}{SchemaAnd}
   S1 = [D1|P1] \\
   S2 = [D2|P2] \\
-  \proviso D == [D1;D2]
+  \proviso D == [D1;D2] \\
+  \proviso [D1;D2] : \power [D]
 \derives
   S1 \land S2 = [D|P1 \land P2]
 \end{zedrule}
@@ -729,20 +811,27 @@ Expanding a schema disjunction is a little different,
 since it is necessary for the semantics that the two
 disjuncts are normalised.  We check this by using
 the typechecker to calculate the base types and check
-that they are the same as $D1$ and $D2$.
+that they are the same as $D1$ and $D2$.  That is,
+the first two typing provisos are simply ensuring
+that D1 and D2 contain only base types, and no predicate
+(subtyping) information which would be lost when
+we calculate merge the signatures to $[D]$.
 
 \begin{zedrule}{SchemaNameDecor}
   S1 = [D1|P1] \\
   S2 = [D2|P2] \\
-  \proviso [D1] : \power D1 \\
-  \proviso [D2] : \power D2 \\
-  \proviso D == [D1;D2]
+  \proviso [D1] : \power [D1] \\
+  \proviso [D2] : \power [D2] \\
+  \proviso [D1;D2] : \power [D]
 \derives
   S1 \lor S2 = [D|P1 \lor P2]
 \end{zedrule}
 
 The other boolean schema operators are similar.
 
+\begin{zsection}
+  \SECTION OlderRules \parents zpattern\_toolkit
+\end{zsection}
 
 Here are some quite complex rules for unfolding schema compositions
 ($S1 \semi S2$) one step at a time.  We assume here that $S1$
@@ -811,20 +900,19 @@ are proposed above:
 
 To implement this proposal, the following steps will be necessary:
 \begin{enumerate}
-\item extend the XML schema of Z to support the metavariable
-  declarations, the corresponding joker expressions/predicates etc.
-  and the rule paragraphs.  DONE.
+\item [DONE] Extend the XML schema of ZPattern (an extension of Z)
+  to support the metavariable declarations, the corresponding joker
+  expressions/predicates etc.~and the rule paragraphs.
 
   An interesting design issue here
   will be how to make these rewrite rule facilities available
   to the Object-Z and TCOZ schemas, which are independent extensions
   of the standard Z XML schema.
 
-\item Generate Java AST classes for this extended XML schema
-  
-  DONE: thanks to Petra's GnAST tool, this is automatic.
+\item [DONE] Generate Java AST classes for this extended XML schema.
+  Thanks to Petra's GnAST tool, this is automatic.
 
-\item Modify the parser to handle the extensions.
+\item [Tim] Modify the parser to handle the extensions.
   It must parse the two new kinds of paragraphs (MetaVar and ZedRule), and
   replace metavariable names by joker terms (within ZedRules only).
   This gives us a way of defining rulesets (in \LaTeX\ or Unicode)
@@ -836,24 +924,65 @@ To implement this proposal, the following steps will be necessary:
   that does not contain MetaVar or ZedRule paragraphs is a standard
   Z section).
 
-\item Implement the expressions and predicates that are used
-  in the provisos.  This amounts to writing subclasses of
-  those Expr classes that implement an 'evaluate()' method,
-  which has the semantics described above (for each kind of expression).
-  When a proviso is executed (with its \verb!check()! method),
-  its evaluate method will be called to compute the result.
+\item [Petra] Implement the $\proviso ExprJoker == Expr$ proviso.
+  This amounts to writing a subclass of CalculateProviso, which
+  implements the check() method by calling a visitor that evaluates the 
+  Expr (the right hand side) by calculating the operators discussed/used
+  above.
+  The evaluation visitor should throw an exception if an unknown operator or
+  expression is found, or if any kind of joker is encountered
+  that is not already instantiated.  If the check() method of this proviso
+  catches an instantiated joker exception, then getStatus() will be set to
+  UNKNOWN.  Other kinds of exceptions are serious errors by the person who
+  wrote the rule, so should be reported to the user (that is, do not
+  catch them here).  So if check() finishes without throwing an exception,
+  then getStatus() should return either UNKNOWN or PASS for this proviso.
+  
 
-  When parsing provisos, the parser could either use a factory that 
-  returns these special Expr classes, or it could use the normal factory,
-  then have a post-processing visitor that checks that only the allowable
-  expressions appear in the provisos and replaces the standard expression
-  objects by the special proviso subclasses (with the `evaluate' method).
+\item [Petra] Implement the $\proviso Expr : Type$ proviso by writing
+  a subclass of TypeProviso.
+  Note that the $Type$ term is actually an $Expr$, so this
+  needs to be translated to a type AST before calling the
+  typechecker, then translated back into an Expr AST after the
+  typechecker returns its results.  For example, if we have
+  $\proviso E : \power T$, where the ExprJoker E is instantiated
+  to some expression, but the ExprJoker T is not instantiated,
+  then the expression $\power T$ must be translated to PowerType
+  applied to a type variable.  Then the check() method will call
+  the typechecker with this partially instantiated type AST.
+  If the typechecker succeeds, it will return with a more instantiated
+  type AST, which must be translated back into an Expr
+  AST and unified with the original $\power T$ expression so that
+  the ExprJoker T is instantiated.  After check() returns, getStatus()
+  should return PASS if the typechecker found a valid type and that
+  type unified with the original $Type$ expression (right hand side),
+  FAIL otherwise.
 
-\item Define the \texttt{Deduction} interface and implement a
+\item [Petra] Implement the $\proviso? LHS == RHS$ proviso by writing
+  a subclass of LookupConstDeclProviso.
+  Syntactically, LHS and RHS are both expressions.  However,
+  this proviso fails if LHS is not a RefExpr (or an ExprJoker
+  bound to a RefExpr, of course).  Note that if check() is called
+  when LHS is an uninstantiated ExprJoker, then getStatus() should
+  return UNKNOWN.  When this proviso is executed,
+  it looks up the name of the RefExpr in the current DefinitionTable
+  and unifies RHS with the expression returned from the DefinitionTable,
+  then sets getStatus() to return PASS.
+  If there is no matching definition in the DefinitionTable, then
+  getStatus() should return FAIL.
+
+  Eventually, this proviso should also handle RefExprs with a list
+  of actual type parameters (list of Expr), by instantiating the
+  formal type parameters of the definition with the actual parameters
+  from the RefExpr.
+
+\item [DONE] Define the \texttt{Deduction} interface and implement a
   subclass of it that allows a given rule to be applied to
   a proof tree.
 
   Here is the proposed \texttt{Deduction} interface.
+  [NOW SUPERSEDED BY THE Deduction interface in the 
+  net.sourceforge.czt.zpatt package].
 \begin{verbatim}
 interface Deduction
 {
@@ -897,24 +1026,25 @@ interface Deduction
   \item PredSequent, that contains a predicate.  This kind of sequent
     can be 'proved' by applying a Deduction object to it.
     
-  \item Primitive sequents which implement the built-in CZT side conditions,
+  \item Provisos, which implement the built-in CZT side conditions,
     such as calling the typechecker, checking membership or non-membership
     of a signature, or looking up a definition.  These primitive
     sequents cannot be proved using a Deduction object, so never have
     children.  Instead, they provide a 'check()' method that checks
     the correctness of the sidecondition.  Before this check() method
-    is called, we say that the sequent has \emph{Unknown} status.
+    is called, we say that the sequent has \emph{UNCHECKED} status.
     After this check() method
     has been called, the sequent can be in one of three states:
-    \emph{Pass} (the side-condition was correctly discharged),
-    \emph{Fail} (the side-condition is false),
-    \emph{TooEarly} (the side-condition needs to be checked later,
+    \emph{PASS} (the side-condition was correctly discharged),
+    \emph{FAIL} (the side-condition is false),
+    \emph{UNKNOWN} (the side-condition needs to be checked later,
     when the sequent is instantiated more fully). 
   \end{itemize}
 
   To support traversal of the proof tree, and to distinguish
   the two kinds of Sequent and allow its status to be queried,
-  the Sequent interface has these methods:
+  the Sequent interface has these methods: [SUPERSEDED BY VERSION
+  IN CVS].
 \begin{verbatim}
   /** False for PredSequent objects, True for all other Sequent subclasses. */
   boolean isPrimitive();
@@ -934,19 +1064,25 @@ interface Deduction
 \end{verbatim}
 
 
-\item Implement a more sophisticated subclasses of Deduction
-  whose constructors take a \emph{set} of rules (for example, all the rules
+\item Implement a class/method 
+  which takes a \emph{set} of rules (for example, all the rules
   in a given Z section) and applies one of those rules to the given
-  sequent.  If several rules match, it should apply each matching rule
+  sequent.  Note that `applying a rule' means calling the check()
+  methods of all of its provisos (in the order that they are written)
+  and the rule application succeeds only if all those provisos have
+  getStatus() equals PASS.
+  If several rules match, it should apply each matching rule
   in turn.  (Petra did a prototype of such a `rule set interpreter'
   last year, but it will need a few changes to bring it up to date).
 
-  Secondly, write a higher-level Deduction subclass that takes
-  another Deduction class/factory as a parameter, and applies it
-  to a given sequent, then applies the same Deduction subclass to the
+
+  Secondly, implement another class/method that takes
+  the above class/object as a parameter, and applies it
+  to a given sequent, then applies it to the
   children of that sequent, and so on, recursively.  This is effectively
   a hard-coded recursive tactic, similar to those found in most
-  theorem prover tactic languages.
+  theorem prover tactic languages.  For example, this will
+  implement the repeated application of the schema unfolding rules.
 
 \item [Later] Possibly implement ANGEL (using Java iterators)
   so that more flexible and higher-level tactics can be written.
