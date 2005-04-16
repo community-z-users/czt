@@ -19,7 +19,7 @@ toUnicode(net.sourceforge.czt.base.ast.Term spec,
 
 toUnicode(net.sourceforge.czt.base.ast.Term spec,
           java.io.Writer writer,
-          net.sourceforge.czt.session.SectionManager manger)
+          net.sourceforge.czt.session.SectionManager manager)
 {
   net.sourceforge.czt.print.z.PrintUtils.printUnicode(spec, writer, manager);
 }
