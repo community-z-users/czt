@@ -113,6 +113,15 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
         debug("converting " + get_info(result) + " to DECLWORD");
         result.sym = Sym.DECLWORD;
       }
+<add:oz>
+      else {
+        Symbol currsym = dumb_.pop();
+        if (currsym.sym == Sym.SDEF) {
+          result.sym = Sym.OPNAME;
+        }
+        dumb_.push(currsym);
+      }  
+</add:oz>
     }
     else if (result.sym == Sym.SCH ||
 <add:oz>

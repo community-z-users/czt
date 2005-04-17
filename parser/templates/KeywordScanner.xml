@@ -137,6 +137,7 @@ public class KeywordScanner
     result.put(OzString.DGCH, new Integer(Sym.DGCH));
     result.put(OzString.DCNJ, new Integer(Sym.DCNJ));
     result.put(OzString.CLASSUNION, new Integer(Sym.CLASSUNION));
+    result.put(OzString.SDEF, new Integer(Sym.SDEF));
     result.put(OzString.POLY, new Integer(Sym.POLY));
     result.put(OzString.CONTAINMENT, new Integer(Sym.CONTAINMENT));
     result.put(OzString.INITWORD, new Integer(Sym.INITWORD));

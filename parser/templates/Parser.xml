@@ -909,7 +909,7 @@ terminal
         CIRCUS,
 </add:circus>
 <add:oz>
-        DELTA, CLASS, STATE, INIT, OPSCH,
+        DELTA, CLASS, STATE, INIT, OPSCH, SDEF,
         VISIBILITY, INHERITS, INITWORD, POLY, CONTAINMENT,
         DCNJ, DGCH, DSQC, PARALLEL, ASSOCPARALLEL, GCH, CLASSUNION,
 </add:oz>
@@ -926,6 +926,9 @@ terminal String
         JOKERNAME, JOKERNAMELIST, JOKEREXPR, JOKERPRED,
         JOKERDECLLIST, JOKERTYPE,
 </add:zpatt>
+<add:oz>
+        OPNAME,
+</add:oz>
         TEXT, DECORWORD, DECLWORD,
         PREP, PRE, POSTP, POST, IP, I, LP, L, ELP, EL, ERP, ER,
         SRP, SR, EREP, ERE, SREP, SRE, ES, SS;
@@ -1179,12 +1182,10 @@ non terminal InitialState
     initialState;
 
 non terminal Para
-    unboxedLocalDefinition;
+    localDefinition;
 
 non terminal List /*Para*/
-    localDefinitionList,
-    unboxedLocalDefinitionBlock,
-    unboxedLocalDefinitionList;
+    localDefinitionList;
 
 non terminal List /* RefName */
     deltaList;
@@ -3971,15 +3972,9 @@ optRenameList ::=
         ;
 
 localDefinitionList ::=
-        localDefinitionList:ldl boxedLocalDefinition:bld
+        localDefinitionList:ldl optNL localDefinition:bld
         {:
            ldl.add(bld);
-           RESULT = ldl;
-        :}
-        |
-        localDefinitionList:ldl unboxedLocalDefinitionBlock:uldb
-        {: 
-           ldl.addAll(uldb);
            RESULT = ldl;
         :}
 	|
@@ -3987,32 +3982,16 @@ localDefinitionList ::=
         {: RESULT = list(); :}
         ;
 
-boxedLocalDefinition ::=
+localDefinition ::=
         axiomaticDefinition:ad
         {: RESULT = ad; :}
         |
         genericAxDefinition:gad
         {: RESULT = gad; :}
-        ;
-
-unboxedLocalDefinitionBlock ::=
-        //ZED unboxedLocalDefinitionList:uldl END
-        unboxedLocalDefinitionList:uldl
-        {: RESULT = uldl; :}
-        ;
-
-unboxedLocalDefinitionList ::=
-        unboxedLocalDefinitionList:uldl NL unboxedLocalDefinition:uld
-        {:
-           uldl.add(uld);
-           RESULT = uldl;
-        :}
         |
-        unboxedLocalDefinition:uld
-        {: RESULT = list(uld); :}
-        ;
-
-unboxedLocalDefinition ::=
+        schema:s
+        {: RESULT = s; :}
+        |
         basicTypeDefinition:gtd
         {: RESULT = gtd; :}
         |
@@ -4024,7 +4003,7 @@ unboxedLocalDefinition ::=
         ;
 
 state ::=
-        // empty
+        //empty
         {: RESULT = null; :}
         |
         STATE stateDecl:sd BAR predicate:p END
@@ -4163,22 +4142,15 @@ initialState ::=
         ;
 
 operation ::=
-        SCH name:n opText:ot END
-        {:
-           OpExpr opExpr = factory_.createAnonOpExpr(ot);
-           RESULT = factory_.createOperation(n, opExpr, Box.SchBox);
-        :}
-        |
-        /** TODO: remove this and have the scanner map OPSCH --> SCH **/
         OPSCH name:n opText:ot END
         {:
            OpExpr opExpr = factory_.createAnonOpExpr(ot);
            RESULT = factory_.createOperation(n, opExpr, Box.SchBox);
         :}
         |
-        DECORWORD:dw DEFEQUAL opExpr:oe
+        OPNAME:on SDEF opExpr:oe
         {:
-           DeclName dn = factory_.createDeclName(dw, list(), null);
+           DeclName dn = factory_.createDeclName(on, list(), null);
            RESULT = factory_.createOperation(dn, oe, Box.OmitBox);
         :}
         ;

@@ -333,6 +333,8 @@ RULE = {RULECHAR}
   {AX}          { begins_++; return symbol(Sym.AX); }
   {GENAX}       { begins_++; return symbol(Sym.GENAX); }
   {SCH}         { begins_++; return symbol(Sym.SCH); }
+  /* Object-Z operation */
+  {SCH} "op"    { begins_++; return symbol(Sym.OPSCH); }
   </add:oz>
 
   /* Brackets */

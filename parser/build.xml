@@ -102,8 +102,7 @@
   </target>
 
   <target name="generate-src"
-    depends="generate-z-src, generate-zpatt-src, generate-circus-src,
-    generate-oz-src, generate-tcoz-src, generate-print-src"/>
+    depends="generate-z-src, generate-zpatt-src, generate-circus-src, generate-oz-src, generate-print-src"/>
 
   <target name="generate-print-src"
     depends="print-scanner"/>
@@ -880,7 +879,7 @@
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="SmartScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.oz"/>
-      <param name="add" expression="{z}"/>
+      <param name="add" expression="{oz}"/>
     </xslt>
   </target>
 

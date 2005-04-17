@@ -566,8 +566,7 @@ NAME =   {NOT_LB}*
           nested_ = true;
           assert ! addSpace_;
           braceToSpace_ = true;
-          String result =
-            ZString.SCH + ZString.SPACE + "class" + ZString.SPACE;
+          String result = ZString.SCH + ZString.SPACE + "class" + ZString.SPACE;
           begin("class");
           return result(result);
         }
@@ -761,7 +760,7 @@ NAME =   {NOT_LB}*
           assert ! addSpace_;
           braceToSpace_ = true;
           begin("op");
-          return result(ZString.SCH);
+          return result(ZString.SCH + "op" + ZString.SPACE);
         }
   "\\begin" {IGNORE}* "{schema}"
         {
