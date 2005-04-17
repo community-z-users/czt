@@ -10,7 +10,7 @@
 \maketitle
 
 \begin{zsection}
-  \SECTION CreditCard \parents standard\_toolkit
+  \SECTION CreditCard \parents standard\_toolkit, oz\_toolkit
 \end{zsection}
 
 \begin{class}{CreditCard} 
@@ -29,25 +29,25 @@
 	\begin{init}
 		balance = 0
 	\end{init} \\
-	\begin{schema}{withdraw}
+	\begin{op}{withdraw}
 		\Delta (balance) \\
 		amount? : \nat
 	\where
 		amount? \leq balance + limit \\
 		balance' = balance - amount?
-	\end{schema} \\
-	\begin{schema}{deposit}
+	\end{op} \\
+	\begin{op}{deposit}
 		\Delta (balance) \\
 		amount? : \nat
 	\where
 		balance' = balance + amount?
-	\end{schema} \\
-	\begin{schema}{withdrawAvail}
+	\end{op} \\
+	\begin{op}{withdrawAvail}
 		\Delta (balance) \\
 		amount! : \nat
 	\where
 		amount! = balance + limit \\
 		balance' = \negate limit
-	\end{schema}	
+	\end{op}	
 \end{class}
 \end{document}

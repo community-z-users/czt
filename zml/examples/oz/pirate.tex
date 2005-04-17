@@ -23,15 +23,15 @@
 		numSteps = 0 \\
 		firstVisit = \langle \rangle
 	\end{init} \\
-	\begin{schema}{stepLeft}
+	\begin{op}{stepLeft}
 		\Delta (curPosn, numSteps)
 	\where	
 	        curPosn \neq 0 \\
 		curPosn \neq 10 \\
 		curPosn' = curPosn - 1 \\
 		numSteps' = numSteps + 1 \\
-	\end{schema} \\
-	\begin{schema}{stepRight}
+	\end{op} \\
+	\begin{op}{stepRight}
 		\Delta (curPosn, numSteps, firstVisit)
 	\where
 	        curPosn \neq 10 \\
@@ -40,8 +40,8 @@
 		(\#firstVisit \leq curPosn) \implies firstVisit' = firstVisit \cat
 			\langle numSteps \rangle \\
 		(\#firstVisit > curPosn) \implies firstVisit' = firstVisit
-	\end{schema} \\
-	step == stepLeft \gch stepRight
+	\end{op} \\
+	step \sdef stepLeft \gch stepRight
 	\end{class}
 
 \begin{class}{WalkPlank}
@@ -52,18 +52,18 @@
 	\begin{init}
 		p.\Init
 	\end{init}\\
-	\begin{schema}{fell}
+	\begin{op}{fell}
         \where
 		p.curPosn = 10
-	\end{schema} \\
-	\begin{schema}{getVisits}
+	\end{op} \\
+	\begin{op}{getVisits}
 		numSteps! : \seq \nat
 	\where
-		fell \\
+		p.curPosn = 10\\
 		numSteps! = p.firstVisit
-	\end{schema} \\
+	\end{op} \\
 	\\
-        walk == (p.step \semi walk) \gch fell
+        walk \sdef (p.step \semi walk) \gch fell
 \end{class}
 
 \begin{class}{Pirates}
@@ -84,21 +84,21 @@
 		\forall j : \dom total @ total(j) = 0 \\ 
 		\forall p : pirates @ p.\Init
 	\end{init} \\
-        allwalk == \dcnj p : \ran pirates @ p.walk\\
-	\begin{schema}{add}
+        allwalk \sdef \dcnj p : \ran pirates @ p.walk\\
+	\begin{op}{add}
 		\Delta (total) \\
 		numSteps? : \seq \nat
 	\where
 		\forall j : \dom total @
 			total'(j) = total(j) + numSteps?(j)
-	\end{schema} \\
-	\begin{schema}{outputAverage}
+	\end{op} \\
+	\begin{op}{outputAverage}
 		average! : \seq \num
 	\where
 		\forall j : \dom average! @
 			average!(j) = total(j) \div maxPirates
-	\end{schema} \\
-	getAverages == (\dsqc p : \ran pirates @ p.getVisits \parallel add) \\
+	\end{op} \\
+	getAverages \sdef (\dsqc p : \ran pirates @ p.getVisits \parallel add) \\
 		\t2 \semi \\
 		\t2 outputAverage
 \end{class}

@@ -10,16 +10,16 @@ date:  \nat
 \end{state}
 \begin{init}
 date' = 0\end{init}
-\begin{schema}{getDate}
+\begin{op}{getDate}
 today!:  \nat  
 \where
 today! = date
-\end{schema}
-\begin{schema}{nextDay}
+\end{op}
+\begin{op}{nextDay}
 \Delta (date)
 \where
 date' = date + 1
-\end{schema} 
+\end{op} 
 \end{class} 
 
 \begin{class}{FareDataBase}[STATION]
@@ -29,7 +29,7 @@ fare: STATION \cross STATION \pfun  \nat
 \end{state} \\ 
 \begin{init}
 fare' = \emptyset\end{init} \\ 
-\begin{schema}{addFare}
+\begin{op}{addFare}
 \Delta (fare)\\
 start?: STATION \\ 
 finish?: STATION \\ 
@@ -37,8 +37,8 @@ fare?:  \nat
 \where
 (start?, finish?) \notin  \dom fare \\ 
 fare' = fare \cup \{(start?, finish?) \mapsto fare?\} \\ 
-\end{schema} \\ 
-\begin{schema}{updateFare}
+\end{op} \\ 
+\begin{op}{updateFare}
 \Delta (fare)\\
 start?: STATION \\ 
 finish?: STATION \\ 
@@ -46,25 +46,25 @@ newfare?:  \nat
 \where
  (start?, finish?) \in  \dom fare \\ 
 fare' = fare \oplus \{(start?, finish?) \mapsto newfare?\} \\ 
-\end{schema} \\ 
-\begin{schema}{checkFare}
+\end{op} \\ 
+\begin{op}{checkFare}
 start?: STATION \\ 
 finish?: STATION \\ 
 fare!:  \nat  
 \where
  (start?, finish?) \in  \dom fare \\ 
 fare! = fare(start?, finish?)
-\end{schema} 
+\end{op} 
 \end{class} 
 
 
 \begin{class}{Tickets}[TICKET, STATION]
 \also
-\begin{zed}
+%\begin{zed}
 TYPE ::= single | multi | season \\
 MultiValue == \{50, 100\} \\ 
 SeasonDuration == \{7, 31, 365\}
-\end{zed}
+%\end{zed}
 \begin{state}
 singles:  \power TICKET \\ 
 multis:  \power TICKET \\ 
@@ -84,7 +84,7 @@ seasons' = \emptyset \\
 value' = \emptyset \\ 
 entrypoint' = \emptyset
 \end{init} \\ 
-\begin{schema}{issue}
+\begin{op}{issue}
 \Delta (expiry, singles, multi, seasons, value)\\
 ticket?: TICKET \\ 
 today?:  \nat  \\ 
@@ -109,9 +109,9 @@ type? = season \implies\\
 \t1 value' = value \cup \{ticket? \mapsto 1\} \land \\ 
 \t1 seasons' = seasons \cup \{ticket?\} \land \\ 
 \t1 singles' = singles \land  multi' = multi
-\end{schema}
+\end{op}
 \\ 
-\begin{schema}{reIssue}
+\begin{op}{reIssue}
 \Delta (expiry, value, entrypoint)\\
 ticket?: TICKET \\ 
 today?:  \nat  \\ 
@@ -130,8 +130,8 @@ ticket? \in season \implies\\
 \t1 expiry' = expiry \oplus \{ticket? \mapsto today? + value?\} \land \\ 
 \t1 value' = value \oplus \{ticket? \mapsto 1\}\\
 entrypoint' = \{ticket?\} \ndres entrypoint
-\end{schema} \\ 
-\begin{schema}{enterStation}
+\end{op} \\ 
+\begin{op}{enterStation}
 \Delta (entrypoint)\\
 ticket?: TICKET \\ 
 station?: STATION \\ 
@@ -142,15 +142,15 @@ today?:  \nat
 \t2 expiry(ticket?) \geq today? \land \\ 
 \t2 \{ticket?\} \dres entrypoint = \emptyset \\ 
 entrypoint' = entrypoint \cup \{ticket? \mapsto station?\} \\ 
-\end{schema} \\ 
-\begin{schema}{entry}
+\end{op} \\ 
+\begin{op}{entry}
 ticket?: TICKET \\ 
 station!: STATION 
 \where
  ticket? \in  \dom entrypoint \\ 
 station! = entrypoint(ticket?) \\ 
-\end{schema} \\ 
-\begin{schema}{exitStation}
+\end{op} \\ 
+\begin{op}{exitStation}
 \Delta (entrypoint, value)\\
 fare?:  \nat  \\ 
 ticket?: TICKET \\ 
@@ -167,5 +167,5 @@ ticket? \in season \implies\\
 \t1 value' = value\\
 start! = entrypoint(ticket?) \\ 
 entrypoint' = \{ticket?\} \ndres entrypoint
-\end{schema} 
+\end{op} 
 \end{class} 

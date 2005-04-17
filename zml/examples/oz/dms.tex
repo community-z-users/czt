@@ -21,111 +21,111 @@
   \lnot (\exists x:  X @ (x, x) \in tc)
 \end{state}
 \begin{init}
-  nodes' = \emptyset \\ 
-  ddo' = \emptyset
+  nodes = \emptyset \\ 
+  ddo = \emptyset
 \end{init}
-\begin{schema}{NoNodes}
+\begin{op}{NoNodes}
   result!:  \bool 
 \where
   result! \iff nodes = \emptyset \\ 
-\end{schema}
-\begin{schema}{IsNode}
+\end{op}
+\begin{op}{IsNode}
   x?:  X  \\
   result!:  \bool  
 \where
   result! \iff x? \in nodes
-\end{schema}
-\begin{schema}{AddNode}
+\end{op}
+\begin{op}{AddNode}
   \Delta (nodes)\\
   x?:  X  
 \where
   x? \notin nodes \\ 
   nodes' = nodes \cup \{x?\}
-\end{schema}
-\begin{schema}{RemoveNode}
-  \Delta (nodes, ddo, tc)\\
+\end{op}
+\begin{op}{RemoveNode}
+  \Delta (nodes, ddo)\\
   x?:  X  
 \where
   x? \in nodes \setminus  \ran ddo \\
   nodes' = nodes \setminus \{x?\} \land \\ 
   ddo' = \{x?\} \ndres ddo
-\end{schema}
-\begin{schema}{NoDependencies}
+\end{op}
+\begin{op}{NoDependencies}
   result!:  \bool  
 \where
   result! \iff ddo = \emptyset
-\end{schema}
-\begin{schema}{DependedUpon}
+\end{op}
+\begin{op}{DependedUpon}
   x?:  X  \\
   result!:  \bool  
 \where
   x? \in nodes\\
   result! \iff x? \in  \ran ddo
-\end{schema}
-\begin{schema}{IsDependency}
+\end{op}
+\begin{op}{IsDependency}
   x?, y?:  X  \\
   result!:  \bool  
 \where
   \{x?, y?\} \subseteq nodes \\ 
   result! \iff (x?, y?) \in ddo 
-\end{schema}
-\begin{schema}{CanAdd}
+\end{op}
+\begin{op}{CanAdd}
   x?, y?:  X  \\
   result!:  \bool  
 \where
   \{x?, y?\} \subseteq nodes \\ 
   result! \iff ((y?, x?) \notin tc \land x? \neq y?)
-\end{schema}
-\begin{schema}{AddDependency}
-  \Delta (ddo, tc)\\
+\end{op}
+\begin{op}{AddDependency}
+  \Delta (ddo)\\
   x?, y?:  X  
 \where
   \{x?, y?\} \subseteq nodes \\
   x? \neq y? \\
   (y?, x?) \notin tc \\ 
   ddo' = ddo \cup \{(x?, y?)\}
-\end{schema}
-\begin{schema}{RemoveDependency}
-  \Delta (ddo, tc)\\
+\end{op}
+\begin{op}{RemoveDependency}
+  \Delta (ddo)\\
   x?, y?:  X  
 \where
   (x?, y?) \in ddo \\ 
   ddo' = ddo \setminus \{(x?, y?)\}
-\end{schema}
-\begin{schema}{Dependents}
+\end{op}
+\begin{op}{Dependents}
   x?:  X  \\
   ns!:  \finset  X  
 \where
   x? \in nodes \\ 
   ns! = \{n: nodes | (n, x?) \in tc\}
-\end{schema}
-\begin{schema}{Supporters}
+\end{op}
+\begin{op}{Supporters}
   x?:  X  \\
   ns!: \finset  X  
 \where
   x? \in nodes \\ 
   ns! = \{n: nodes | (x?, n) \in tc\}
-\end{schema}
-\begin{schema}{UltSupporters}
+\end{op}
+\begin{op}{UltSupporters}
   x?:  X  \\
   ns!: \finset  X  
 \where
   x? \in nodes \\ 
   ns! = \{n: nodes | (x?, n) \in tc \land n \notin  \dom ddo\}
-\end{schema}
-\begin{schema}{CandidateSupporters}
+\end{op}
+\begin{op}{CandidateSupporters}
   x?:  X  \\
   cs!:  \finset  X 
 \where
   x? \in nodes \\ 
   cs! = \{ n: nodes | (n, x?) \notin tc \land \\ n \neq x?\}
-\end{schema}
-\begin{schema}{SomeDirectDependent}
+\end{op}
+\begin{op}{SomeDirectDependent}
   x?:  X  \\
   n!:  X  
 \where
   x? \in  \ran ddo \\ 
   (n!, x?) \in ddo
-\end{schema} 
+\end{op} 
 \end{class} 
 \end{document}
