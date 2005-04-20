@@ -7,6 +7,7 @@
       <char id="DGCH" hex="2AFF" description="distributed choice (n-ary choice)"/>
       <char id="DCNJ" hex="22C0" description="distributed conjunction (n-ary and)"/>
       <char id="CLASSUNION" hex="2A42" description="class union"/>
+      <char id="SDEF" hex="2259" description="horizontal operation definition"/>
     </CORESYMBOL>
     <OZTOOLKITSYMBOL>
       <!-- Section Toolkit -->
