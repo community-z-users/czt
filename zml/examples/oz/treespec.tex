@@ -1,4 +1,5 @@
-\documentstyle[a4large,oz,wizard]{article}
+\documentclass{article}
+\usepackage{ltcadiz}
 \begin{document}
 \begin{center}
 \begin{large}
@@ -76,7 +77,7 @@ Node == NullNode \classuni ValNode
 
 \begin{class}{IntTree}
 \visibility (DIR,\Init,addChild,clear,setRoot,setValue,getValue,canMove,moveCurrent) \\
-DIR ::= PARENT | LEFT | RIGHT
+DIR ::= PARENT | LEFT | RIGHT\classbreak
 \begin{axdef}
 	canMoveFunc: DIR \cross Node \cross Node \fun \bool
 \where
@@ -84,17 +85,17 @@ DIR ::= PARENT | LEFT | RIGHT
 		\t2 d = PARENT \land root \neq curr \lor \\
 		\t2 d = LEFT \land curr.left \notin NullNode \lor \\
 		\t2 d = RIGHT \land curr.right \notin NullNode
-\end{axdef}
+\end{axdef}\classbreak
 \begin{state}
 	root, curr : Node
 \where
 	curr \in root.subnodes
-\end{state}
+\end{state}\classbreak
 \begin{init}
 	root \in ValNode \\
         root.\Init \\
         curr = root
-\end{init}\\
+\end{init}\classbreak
 \begin{op}{addChildAux}
         \Delta (curr) \\
 	newnode : ValNode \\
@@ -108,7 +109,7 @@ DIR ::= PARENT | LEFT | RIGHT
 	curr' = newnode \\
 	oldleft = curr.left \land oldright = curr.right \\
 	oldval = curr.val
-\end{op}\\
+\end{op}\classbreak
 addChild \sdef addChildAux @ \\
 	\t2 newnode.setNode[null1/l?,null2/r?] \land \\
 	\t2 (([ d? : DIR | d? = LEFT ]
@@ -120,13 +121,13 @@ addChild \sdef addChildAux @ \\
         v? : \num
 \where
         canMoveFunc (d?,root,curr)
-\end{op}\\
+\end{op}\classbreak
 \begin{op}{addChildRootNodeExc}
         d? : DIR; \\
         v? : \num
 \where
         d? = PARENT \land curr = root
-\end{op}\\
+\end{op}\classbreak
 \begin{op}{clearAux}
 	null1,null2 : NullNode \\
 	oldval: \num
@@ -134,25 +135,25 @@ addChild \sdef addChildAux @ \\
 	\{ null1,null2 \} \cap root.subnodes = \emptyset \\
 	null1 \neq null2 \\
 	oldval = curr.val
-\end{op}\\
+\end{op}\classbreak
 clear \sdef clearAux @ curr.setNode[oldval/v?,null1/l?,null2/r?] \\
 \begin{op}{setRoot}
         \Delta (curr)
 \where
 	curr' = root
-\end{op}\\
-setValue \sdef [ v? : \num ; l, r : Node | l = curr.left \land r = curr.right ] @ curr.setNode[l/l?,r/r?] \\
+\end{op}\classbreak
+setValue \sdef [ v? : \num ; l, r : Node | l = curr.left \land r = curr.right ] @ curr.setNode[l/l?,r/r?] \classbreak
 \begin{op}{getValue}
         v! : \num
 \where
 	v! = curr.val
-\end{op}\\
+\end{op}\classbreak
 \begin{op}{canMove}
 	d? : DIR \\
         v! : \bool
 \where
 	v! = canMoveFunc(d?,root,curr)
-\end{op}\\
+\end{op}\classbreak
 \begin{op}{moveCurrent}
         \Delta (curr) \\
         d? : DIR
@@ -162,7 +163,7 @@ setValue \sdef [ v? : \num ; l, r : Node | l = curr.left \land r = curr.right ] 
 			@ curr' = n \\
 	d? = LEFT \implies curr' = curr.left \\
 	d? = RIGHT \implies curr' = curr.right
-\end{op}\\
+\end{op}\classbreak
 \begin{op}{moveCurrentNotNodeExc}
         d? : DIR
 \where

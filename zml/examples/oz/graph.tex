@@ -1,9 +1,14 @@
+\documentclass[11pt]{article}
+\usepackage{ltcadiz}
+
+\begin{document}
+
 \begin{zsection}
   \SECTION graph \parents oz\_toolkit, standard\_toolkit
 \end{zsection}
 
 \zedindent=2mm
-\begin{class}{Graph}[DATA]
+\begin{class}{Graph[DATA]}
 \also
 \begin{state}
 nodes:  \finset DATA \\ 
@@ -11,18 +16,18 @@ edges: DATA \rel DATA
 \where
  \dom (edges) \cup  \ran (edges) \subseteq nodes \\ 
  \lnot (\exists x: DATA@ (x, x) \in edges)
-\end{state}\\
+\end{state}\classbreak
 \begin{init}
 nodes = \emptyset \\ 
 edges = \emptyset
-\end{init} \\
+\end{init} \classbreak
 \begin{op}{AddNode}
 \Delta(nodes)\\
 d?: DATA 
 \where
  d? \notin nodes \\ 
  nodes' = nodes \cup \{d?\} 
-\end{op} \\
+\end{op} \classbreak
 \begin{op}{RemoveNode}
 \Delta (nodes)\\
 d?: DATA 
@@ -30,7 +35,7 @@ d?: DATA
   \lnot \exists n: nodes @ (n, d?) \in edges \lor 
     (d?, n) \in edges\\ 
  nodes' = nodes \setminus \{d?\} 
-\end{op} \\
+\end{op} \classbreak
 \begin{op}{AddEdge}
 \Delta (edges)\\
 x?, y?: DATA 
@@ -38,14 +43,14 @@ x?, y?: DATA
  \{x?, y?\} \subseteq nodes \land  x? \neq y? \land 
          (x?, y?) \notin edges \\ 
  edges' = edges \cup \{(x?, y?)\} 
-\end{op}\\
+\end{op}\classbreak
 \begin{op}{RemoveEdge}
 \Delta (edges)\\
 x?, y?: DATA 
 \where
  (x?, y?) \in edges \\ 
  edges' = edges \setminus \{(x?, y?)\} \\ 
-\end{op} \\
+\end{op} \classbreak
 \begin{op}{FindPath}
 x?, y?: DATA \\ 
 s!:  \iseq nodes 
@@ -58,3 +63,4 @@ s!:  \iseq nodes
 \end{op} 
 \end{class} 
 \zedindent=\leftmargini
+\end{document}

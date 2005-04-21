@@ -1,6 +1,5 @@
-\documentclass[11pt,a4paper]{article}
-\usepackage{oz}
-\usepackage{wizard}
+\documentclass{article}
+\usepackage{ltcadiz}
 \begin{document}
 \noindent
 
@@ -42,7 +41,7 @@ $DIR$, which represents directions.
 \also
 \begin{state}
   posn: Posn
-\end{state} 
+\end{state} \classbreak
 \begin{op}{move}
   \Delta(posn) \\
   d? : DIR
@@ -62,15 +61,12 @@ circle is moved.
 \begin{class}{BlackCircle}
 \also
 \inherits Circle\\
-
 \begin{state}
   count: \nat
-\end{state}
-
+\end{state} \classbreak
 \begin{init}
   count = 0
-\end{init}
-
+\end{init} \classbreak
 \begin{op}{move}
   \Delta(count)
 \where
@@ -91,24 +87,21 @@ board.
   \forall m,n: white @ \\
       \t1 (m \neq n \iff m.posn \neq n.posn) \land \\
       \t1 m.posn \neq black.posn
-\end{state}
-
+\end{state} \classbreak
 \begin{init}
   black.posn = 22 \\
   \{w: white @ w.posn\} = \{18,23,27,32\} \\ 
-\end{init}
- 
+\end{init} \classbreak
 \begin{op}{end}
   count! : \nat
 \where
   \{w: white @ w.posn\} = \{17,18,24,25\} \\
   count! = black.count
-\end{op} 
-
-move \sdef black.move \land
+\end{op}  \classbreak
+move \sdef black.move \land\\
          \t2 ( \dgch u, t : white | t.posn = black.posn' \land
-                u \neq t \land u.posn \neq t.posn @
-		\t3 t.move
+                u \neq t \land u.posn \neq t.posn @\\
+		\t3 t.move\\
 		\t2 \gch \\
 		\t2 end )
 \end{class}

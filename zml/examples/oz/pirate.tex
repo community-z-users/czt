@@ -1,7 +1,5 @@
-\documentclass[11pt,a4paper]{article}
-\usepackage{oz}
-\usepackage{rc}
-\usepackage{wizard}
+\documentclass{article}
+\usepackage{ltcadiz}
 \begin{document}
 
 \begin{zsection}
@@ -17,12 +15,12 @@
 	\where
 		curPosn \leq 10 \\
 		\#firstVisit \leq 11
-	\end{state} \\
+	\end{state} \classbreak
 	\begin{init}
 		curPosn = 0 \\
 		numSteps = 0 \\
 		firstVisit = \langle \rangle
-	\end{init} \\
+	\end{init} \classbreak
 	\begin{op}{stepLeft}
 		\Delta (curPosn, numSteps)
 	\where	
@@ -30,7 +28,7 @@
 		curPosn \neq 10 \\
 		curPosn' = curPosn - 1 \\
 		numSteps' = numSteps + 1 \\
-	\end{op} \\
+	\end{op} \classbreak
 	\begin{op}{stepRight}
 		\Delta (curPosn, numSteps, firstVisit)
 	\where
@@ -40,7 +38,7 @@
 		(\#firstVisit \leq curPosn) \implies firstVisit' = firstVisit \cat
 			\langle numSteps \rangle \\
 		(\#firstVisit > curPosn) \implies firstVisit' = firstVisit
-	\end{op} \\
+	\end{op} \classbreak
 	step \sdef stepLeft \gch stepRight
 	\end{class}
 
@@ -48,20 +46,20 @@
 \also
         \begin{state}
                 p : Pirate
-        \end{state} \\
+        \end{state} \classbreak
 	\begin{init}
 		p.\Init
-	\end{init}\\
+	\end{init}\classbreak
 	\begin{op}{fell}
         \where
 		p.curPosn = 10
-	\end{op} \\
+	\end{op} \classbreak
 	\begin{op}{getVisits}
 		numSteps! : \seq \nat
 	\where
 		p.curPosn = 10\\
 		numSteps! = p.firstVisit
-	\end{op} \\
+	\end{op} \classbreak
 	\\
         walk \sdef (p.step \semi walk) \gch fell
 \end{class}
@@ -72,18 +70,18 @@
 		maxPirates : \nat
 	\where
 		maxPirates = 10000
-	\end{axdef}
+	\end{axdef}\\
 	\begin{state}
 		pirates : \iseq WalkPlank \\
 		total : \seq \nat
 	\where
 		\#total = 11 \\
-	\end{state} \\
+	\end{state} \classbreak
 	\begin{init}
 		\#pirates = maxPirates \\
 		\forall j : \dom total @ total(j) = 0 \\ 
 		\forall p : pirates @ p.\Init
-	\end{init} \\
+	\end{init} \classbreak
         allwalk \sdef \dcnj p : \ran pirates @ p.walk\\
 	\begin{op}{add}
 		\Delta (total) \\
@@ -91,13 +89,13 @@
 	\where
 		\forall j : \dom total @
 			total'(j) = total(j) + numSteps?(j)
-	\end{op} \\
+	\end{op} \classbreak
 	\begin{op}{outputAverage}
 		average! : \seq \num
 	\where
 		\forall j : \dom average! @
 			average!(j) = total(j) \div maxPirates
-	\end{op} \\
+	\end{op} \classbreak
 	getAverages \sdef (\dsqc p : \ran pirates @ p.getVisits \parallel add) \\
 		\t2 \semi \\
 		\t2 outputAverage
