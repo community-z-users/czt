@@ -505,10 +505,13 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="SchTextAction" type="CIRCUS:SchTextAction" substitutionGroup="CIRCUS:Action">
+  <xs:element name="SchExprAction" type="CIRCUS:SchExprAction" substitutionGroup="CIRCUS:Action">
     <xs:annotation>
       <xs:documentation>
-        An action given as a schema text.
+        An action given as a schema expression.
+        In this way, schema expressions are included into the Action subtree
+        in a similar way as schema expressions are included in the declaration and
+        predicat subtrees.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -1222,7 +1225,7 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="SchTextAction">
+  <xs:complexType name="SchExprAction">
     <xs:complexContent>
       <xs:extension base="CIRCUS:Action">
         <xs:sequence>
