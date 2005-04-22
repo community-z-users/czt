@@ -3706,8 +3706,8 @@ proviso ::=
         name:n DEFEQUAL expression:e
         {:
            SequentContext sc = factory_.createSequentContext();
-           RESULT = factory_.createDefnSequent(sc, n, e);
-           addLocAnn(RESULT, nleft, nright);
+           //czt.todo RESULT = factory_.createLookupConstDeclProviso(sc, n, e);
+           //czt.todo addLocAnn(RESULT, nleft, nright);
         :}
         |
         DECLWORD:dw COLON baseType:bt
@@ -3787,7 +3787,7 @@ antecedent ::=
            RefName rn = factory_.createRefName(dw, list(), null);
            RefExpr re = factory_.createRefExpr(rn);
            SequentContext sc = factory_.createSequentContext();
-           RESULT = factory_.createTypeSequent(sc, re, bt);
+           RESULT = factory_.createTypeProviso(sc, re, bt);
            addLocAnn(RESULT, dwleft, dwright);
         :}
         ;
@@ -3857,7 +3857,7 @@ nameTypePairList ::=
 circusPara ::=
         CIRCUS:c varDecl:vd END
         {:
-           RESULT = factory_.createChannelPara(vd);
+           // RESULT = factory_.createChannelPara(vd);
         :}
         ;
 </add:circus>
@@ -4010,28 +4010,28 @@ state ::=
         {:
            List dp = (List) sd.getFirst();
            List sa = (List) sd.getSecond();
-           RESULT = factory_.createState(dp, sa); //p);
+           RESULT = factory_.createState(dp, sa, p);
         :}
         |
         STATE stateDecl:sd END
         {:
            List dp = (List) sd.getFirst();
            List sa = (List) sd.getSecond();
-           RESULT = factory_.createState(dp, sa); //p);
+           RESULT = factory_.createState(dp, sa, null);
         :}
         |
         LSCH stateDecl:sd BAR predicate:p RSQUARE
         {:
            List dp = (List) sd.getFirst();
            List sa = (List) sd.getSecond();
-           RESULT = factory_.createState(dp, sa); //p);
+           RESULT = factory_.createState(dp, sa, p);
         :}
         |
         LSCH stateDecl:sd RSQUARE
         {:
            List dp = (List) sd.getFirst();
            List sa = (List) sd.getSecond();
-           RESULT = factory_.createState(dp, sa); //p);
+           RESULT = factory_.createState(dp, sa, null);
         :}
         ;
 
