@@ -1,0 +1,39 @@
+\begin{zsection}
+  \SECTION template \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A[X]}
+  \begin{state}
+    a : \nat
+  \end{state}\\
+  \begin{op}{Op1}
+    x? : \nat
+  \end{op}
+\end{class}
+
+\begin{class}{B}
+  \inherits A[\nat]\\
+  \begin{state}
+    b : \power \nat
+  \end{state}\\
+  \begin{op}{Op2}
+    x? : \power \nat
+  \end{op}
+\end{class}
+
+\begin{class}{C}
+  \begin{axdef}
+    a : \poly A[\nat]\\
+    b : B
+%  \where
+%    a.a = \{1\}\\
+%    b.b = \{1\}
+  \end{axdef}\\
+  \begin{state}
+    sa : \poly A[\nat]\\
+    sb : B
+  \end{state}\\
+  Op3 \sdef sa.Op1\\
+  Op4 \sdef sb.Op1\\
+  Op5 \sdef sb.Op2
+\end{class}

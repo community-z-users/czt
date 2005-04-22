@@ -1,0 +1,18 @@
+\begin{zsection}
+  \SECTION NonClassInOpPromExpr\_OpPromExpr \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+ \begin{op}{Op1}
+   x? : \nat
+ \end{op}
+\end{class}
+
+\begin{class}{B}
+ \begin{state}
+   a : A\\
+   n : \nat
+ \end{state}\\
+  op2 \sdef a.Op1\\
+  op3 \sdef n.Op1
+\end{class}
