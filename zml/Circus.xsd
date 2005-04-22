@@ -879,8 +879,8 @@
   <xs:element name="ProcessSignature" type="CIRCUS:ProcessSignature">
 		<xs:annotation>
 			<xs:documentation>
-				A process signature consists of the process name, formal parameters, and the channels usage.
-				Generic parameters are resolved while type checking similarly to Z and ObjectZ (see ClassSignature and oz.TypeChecker).
+				A process signature consists of the process name, formal parameters or indexes, and the channels usage.
+				Generic actuals must be resolved while type checking similarly to Z and ObjectZ (see ClassSignature and oz.TypeChecker).
 				The channels usage is function from channel name to a set of usage flags.
 				These flags can be either IN, OUT, SYNCH or HIDE.
 				In the case of HIDE, all other flags are irrelevant.
@@ -894,8 +894,7 @@
 				A process annotation contains a process signature
 			</xs:documentation>
 		</xs:annotation>
-  </xs:element>
-  
+  </xs:element>  
   <xs:element name="BasicProcessSignature" type="CIRCUS:BasicProcessSignature" substitutionGroup="CIRCUS:ProcessSignature">
 		<xs:annotation>
 			<xs:documentation>
@@ -904,8 +903,7 @@
 				Local variables comes from either VarDeclCommand, or action formal parameters.
 			</xs:documentation>
 		</xs:annotation>
-  </xs:element>
-    
+  </xs:element>    
   <xs:element name="ActionType" type="CIRCUS:ActionType" substitutionGroup="Z:Type2">
 		<xs:annotation>
 			<xs:documentation>
@@ -973,7 +971,7 @@
           <xs:element ref="Z:DeclName" minOccurs="1" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:appinfo>
-								<jaxb:property name="GenericTypes"/>
+								<jaxb:property name="GenFormals"/>
 							</xs:appinfo>
             </xs:annotation>
           </xs:element>
@@ -1714,14 +1712,22 @@
 			</xs:extension>
 		</xs:complexContent>
   </xs:complexType>  
+  
 	<xs:complexType name="ProcessSignature" mixed="false">
 		<xs:sequence>
 			<xs:element name="ProcessName" type="Z:DeclName"/>
-			<xs:element name="FormalParams" type="Z:VarDecl"/>
+			<xs:element ref="Z:Signature">
+				<xs:annotation>
+					<xs:appinfo>
+						<jaxb:property name="ParamsOrIndexes"/>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
 			<!-- TODO: include channel usage latter on -->
 			<!--<xs:element ref="CIRCUS:ChannelUsage" minOccurs="0" maxOccurs="unbounded"/>-->			
 		</xs:sequence>
 	</xs:complexType>	
+		
 	<xs:complexType name="BasicProcessSignature">
 		<xs:complexContent>
 			<xs:extension base="CIRCUS:ProcessSignature">
