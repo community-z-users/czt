@@ -1,5 +1,5 @@
 <project name="Zlive" default="all">
-  <property name="czt.home" location=".."/>
+  <property name="czt.home" location=".."/>  
   <property file="${czt.home}/czt.properties"/>
   <property name="zlive.jar.dir" location="${czt.home}/${jar.dir}"/>
   <property name="jar.file" location="${zlive.jar.dir}/${zlive.jar.file}"/>
@@ -48,7 +48,8 @@
       source="1.5"
       deprecation="yes"
       optimize="${optimize}">
-      <classpath refid="classpath"/>
+      <classpath refid="classpath"/>      
+      <!--<compilerarg value="-Xlint:unchecked"/>-->
     </javac>
   </target>
 
