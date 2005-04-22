@@ -40,11 +40,12 @@ public class PostChecker
              SetExprVisitor
 {
   //calculates the carrier set for a type
-  protected CarrierSet carrierSet_ = new CarrierSet();
+  protected CarrierSet carrierSet_ = null;
 
   public PostChecker(TypeChecker typeChecker)
   {
     super(typeChecker);
+    carrierSet_ = new CarrierSet();
   }
 
   public Object visitRefExpr(RefExpr refExpr)
@@ -80,6 +81,7 @@ public class PostChecker
       for (Type2 type : gParams) {
         try {
           Expr expr = (Expr) type.accept(carrierSet_);
+          assert expr != null;
           exprs.add(expr);
         }
         catch (UndeterminedTypeException e) {

@@ -40,7 +40,7 @@ public class TypeChecker
   protected static boolean debug_ = false;
 
   //a Factory for creating Z terms
-  protected Factory factory_;
+  protected Factory zFactory_;
 
   //the SectTypeEnv for all parent specifications
   protected SectTypeEnv sectTypeEnv_;
@@ -76,7 +76,7 @@ public class TypeChecker
 
   public TypeChecker(TypeChecker info)
   {
-    this(info.factory_.getZFactory(),
+    this(info.zFactory_.getZFactory(),
          info.sectInfo_);
   }
 
@@ -88,7 +88,7 @@ public class TypeChecker
   public TypeChecker(ZFactory zFactory,
                      SectionInfo sectInfo)
   {
-    factory_ = new Factory(zFactory);
+    zFactory_ = new Factory(zFactory);
     sectInfo_ = sectInfo;
     sectTypeEnv_ = new SectTypeEnv(zFactory);
     typeEnv_ = new TypeEnv(zFactory);

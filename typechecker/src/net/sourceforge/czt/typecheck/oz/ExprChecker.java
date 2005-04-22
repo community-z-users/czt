@@ -41,8 +41,9 @@ import net.sourceforge.czt.typecheck.z.*;
  */
 public class ExprChecker
   extends Checker
-          //  implements ClassUnionExprVisitor,
-             //PolyExprVisitor,
+  implements
+    //ClassUnionExprVisitor,
+    PolyExprVisitor
              //PredExprVisitor,
              //BindSelExprVisitor
 {
@@ -104,14 +105,14 @@ public class ExprChecker
 
     return type;
   }
-
+  */
 
   public Object visitPolyExpr(PolyExpr polyExpr)
   {
     Type2 type = factory().createUnknownType();
 
     Expr expr = polyExpr.getExpr();
-    Type2 exprType = (Type2) expr.accept(this);
+    Type2 exprType = (Type2) expr.accept(exprChecker());
 
     //if the left expr is not a class description, raise an error
     ClassRefType vClassRefType = factory().createClassRefType();
@@ -121,62 +122,59 @@ public class ExprChecker
     //if the expr is not a class type, raise an error
     if (unified == FAIL) {
       Object [] params = {polyExpr, exprType};
-      error(polyExpr, ErrorMessage.NON_CLASS_IN_POLYEXPR, params);
-    }
-    else if (!instanceOf(expr, RefExpr.class)) {
-      Object [] params = {polyExpr};
       error(polyExpr, ErrorMessage.NON_REF_IN_POLYEXPR, params);
     }
     else {
-      RefExpr refExpr = (RefExpr) expr;
       ClassSig cSig = vClassRefType.getClassSig();
       if (!instanceOf(cSig, VariableClassSig.class)) {
-        ClassRef cName = vClassRefType.getThisClass();
-        List<RefName> subClasses = list(cName);
+        PowerType powerType = (PowerType) exprType;
+        ClassRefType rootClassType = (ClassRefType) powerType.getType();
+        ClassRef cRef = rootClassType.getThisClass();
+        List<ClassRef> subClasses = list(cRef);
 
         //find any subclasses
-        List<NameSectTypeTriple> triples =
-          sectTypeEnv().getNameSectTypeTriple();
+        List<NameSectTypeTriple> triples = sectTypeEnv().getNameSectTypeTriple();
         for (NameSectTypeTriple triple : triples) {
-
-          Type2 subClassRefType = unwrapType(triple.getType());
-          if (isClassExpr(subClassRefType)) {
-            ClassRefType classType = (ClassRefType) powerType(subClassRefType).getType();
-            ClassSig subClassSig = classType.getClassSig();
-
-            //if the type is a subclass, try to add it to the subclass list
-            //if (subClassSig.getClassName() != null &&
-            //    subClassSig.getParentClass().contains(cName)) {
-
+          Type2 nextType = unwrapType(triple.getType());
+          if (isPowerClassRefType(nextType)) {
+            ClassRefType subType = (ClassRefType) powerType(nextType).getType();
+            if (contains(subType.getSuperClass(), cRef)) {
               //the subclasses must have the same number of parameters as
               //the "top-level" class
-              ClassRef subRef = classType.getThisClass();
               if (triple.getType() instanceof GenericType) {
                 GenericType gType = (GenericType) triple.getType();
-                final int superSize = refExpr.getExpr().size();
+                final int superSize = cRef.getType2().size();
                 final int subSize = gType.getName().size();
+                System.err.println("super = " + superSize);
+                System.err.println("sub = " + subSize);
                 if (superSize != subSize) {
-                  Object [] params = {subRef, superSize, subSize};
+                  Object [] params = {subType, superSize, subSize};
                   error(polyExpr,
                         ErrorMessage.PARAMETER_MISMATCH_IN_POLYEXPR, params);
                 }
               }
-              subClasses.add(subRef);
-              //}
+              ClassRef subCRef = factory().createClassRef();
+              subCRef.setRefName(subType.getThisClass().getRefName());
+              subCRef.getType2().addAll(cRef.getType2());
+              subCRef.getNameNamePair().addAll(cRef.getNameNamePair());
+              if (!contains(subClasses, subCRef)) {
+                subClasses.add(subCRef);
+              }
+            }
           }
         }
         ClassSig polySig =
           factory().createClassSig(subClasses, cSig.getState(),
                                    cSig.getAttribute(),
                                    cSig.getOperation());
-        ClassPolyType polyClass = factory().createClassPolyType(polySig);
+        ClassPolyType polyClass =
+          factory().createClassPolyType(polySig, rootClassType.getThisClass());
         type = factory().createPowerType(polyClass);
       }
     }
 
     //add the type annotation
     addTypeAnn(polyExpr, type);
-
     return type;
   }
 
@@ -194,7 +192,6 @@ public class ExprChecker
         Object [] params = {pred};
         error(pred, ErrorMessage.FACT_AS_EXPR, params);
       }
-
       //create a boolean type
       type = factory().createBoolType();
     }
@@ -205,6 +202,7 @@ public class ExprChecker
     return type;
   }
 
+  /*
   public Object visitBindSelExpr(BindSelExpr bindSelExpr)
   {
     Type2 type = factory().createUnknownType();

@@ -39,22 +39,22 @@ import net.sourceforge.czt.typecheck.z.*;
  */
 public class OpExprChecker
   extends Checker
-          /*
-  implements AnonOpExprVisitor,
-             OpPromotionExprVisitor,
-             OpTextVisitor,
-             OpExprVisitor
-          */
+  implements
+      AnonOpExprVisitor,
+      OpPromotionExprVisitor,
+      OpTextVisitor,
+      OpExprVisitor
 {
   public OpExprChecker(TypeChecker typeChecker)
   {
     super(typeChecker);
   }
-  /*
+
   public Object visitOpExpr(OpExpr opExpr)
   {
     return factory().createSignature();
   }
+
 
   public Object visitAnonOpExpr(AnonOpExpr anonOpExpr)
   {
@@ -107,7 +107,8 @@ public class OpExprChecker
     //get the type of the expression
     Type2 exprType = (Type2) expr.accept(exprChecker());
 
-    ClassType vClassType = factory().createClassType();
+    VariableClassType vClassType = factory().createVariableClassType();
+    vClassType.complete();
     UResult unified = unify(vClassType, exprType);
     //if the type is not a class type, raise an error
     if (unified == FAIL) {
@@ -124,18 +125,11 @@ public class OpExprChecker
           error(opPromExpr, ErrorMessage.NON_EXISTENT_NAME_IN_OPPROMEXPR, params);
         }
         else {
-          if (!isVisible(refName, cSig)) {
-            Object [] params = {refName, opPromExpr};
-            error(opPromExpr, ErrorMessage.OP_NOT_VISIBLE_IN_OPPROMEXPR, params);
-          }
-          else {
-            signature = opSig;
-          }
+          signature = opSig;
         }
       }
     }
 
     return signature;
   }
-*/
 }

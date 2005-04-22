@@ -146,8 +146,6 @@ public class Factory
 
   public Signature createSignature(List pairs)
   {
-
-
     return zFactory_.createSignature(pairs);
   }
 

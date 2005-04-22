@@ -37,29 +37,31 @@ import net.sourceforge.czt.typecheck.z.*;
  */
 public class ParaChecker
   extends Checker
-          /*
-  implements ClassParaVisitor,
-             StateVisitor,
-             InitialStateVisitor,
-             OperationVisitor
-          */
+  implements
+    ParaVisitor,
+    SchTextVisitor,
+    ClassParaVisitor,
+    StateVisitor,
+    InitialStateVisitor,
+    OperationVisitor
 {
-  protected TypeChecker typeChecker_;
-
   protected net.sourceforge.czt.typecheck.z.ParaChecker zParaChecker_;
 
   public ParaChecker(TypeChecker typeChecker)
   {
     super(typeChecker);
-    typeChecker_ = typeChecker;
     zParaChecker_ =
       new net.sourceforge.czt.typecheck.z.ParaChecker(typeChecker);
   }
 
-  /*
-  public Object visitTerm(Term term)
+  public Object visitPara(Para para)
   {
-    return term.accept(zParaChecker_);
+    return para.accept(zParaChecker_);
+  }
+
+  public Object visitSchText(SchText schText)
+  {
+    return schText.accept(zParaChecker_);
   }
 
   public Object visitClassPara(ClassPara classPara)
@@ -82,13 +84,12 @@ public class ParaChecker
 
     //create the class type from the information so far
     ClassSig cSig = factory().createClassSig();
-    cSig.setClassName(className());
     cSig.setState(factory().createSignature());
 
-    ClassRef classRef =
-      factory().createClassRef(className(), list(), list());
+    ClassRef thisClass = factory().createClassRef(className(), list(), list());
+    cSig.getClasses().add(thisClass);
     ClassRefType classType =
-      factory().createClassRefType(classRef, cSig, list(), list());
+      factory().createClassRefType(cSig, thisClass, list(), null);
     PowerType powerType = factory().createPowerType(classType);
 
     //add this class name and "self" to the typing environments
@@ -99,7 +100,7 @@ public class ParaChecker
     //visit each inherited class
     List<Expr> inheritedClass = classPara.getInheritedClass();
     for (Expr iClass : inheritedClass) {
-      visitInheritedClass(iClass, cSig);
+      visitInheritedClass(iClass, classType);
     }
 
     //visit the attributes
@@ -148,7 +149,7 @@ public class ParaChecker
 
     //add the visibility list to the signature now after the paragraph
     //has been completely visited
-    classType.setVisibility(classPara.getVisibility());
+    classType.setVisibilityList(classPara.getVisibilityList());
 
     //create the signature of this paragraph
     NameTypePair cPair =
@@ -164,13 +165,12 @@ public class ParaChecker
 
     return signature;
   }
-*/
+
   /**
    * Returns a pair containing two lists of NameTypePairs. The first
    * element in the pair is the primary declarations, the second pair
    * is the second declarations.
    */
-  /*
   public Object visitState(State state)
   {
     List<NameTypePair> pairs = list();
@@ -200,14 +200,17 @@ public class ParaChecker
     typeEnv().add(pairs);
 
     //typecheck the predicate
-    //Pred pred = state.getPred();
-    //if (pred != null) {
-    //  UResult solved = (UResult) pred.accept(predChecker());
+    //czt.todo: Uncomment this when corejava classes are regenerated
+    /*
+    Pred pred = state.getPred();
+    if (pred != null) {
+      UResult solved = (UResult) pred.accept(predChecker());
       //if there unsolved unifications, visit this again
-    //  if (solved == PARTIAL) {
-    //    pred.accept(predChecker());
-    //  }
-    //}
+      if (solved == PARTIAL) {
+        pred.accept(predChecker());
+      }
+    }
+    */
 
     //exit the type env
     typeEnv().exitScope();
@@ -248,13 +251,12 @@ public class ParaChecker
     return pair;
   }
 
-  protected Object visitInheritedClass(Expr expr, ClassSig cSig)
+  protected Object visitInheritedClass(Expr expr, ClassRefType superClass)
   {
     //visit the expr
     Type2 exprType = (Type2) expr.accept(exprChecker());
 
     ClassRefType vClassRefType = factory().createClassRefType();
-    vClassRefType.setClassSig(factory().createVariableClassSig());
     PowerType vPowerType = factory().createPowerType(vClassRefType);
     UResult unified = unify(vPowerType, exprType);
 
@@ -266,15 +268,15 @@ public class ParaChecker
     //otherwise, add this information to the current class signature
     else {
       ClassSig icSig = vClassRefType.getClassSig();
-
+      ClassSig cSig = superClass.getClassSig();
       if (!instanceOf(icSig, VariableClassSig.class)) {
         //add the superclasses of the inherited class to the subclass's
         //parent list
         cSig.getClasses().addAll(icSig.getClasses());
 
         //add the name of the superclass to the subclass's parent list
-        ClassRef rcRef = vClassRefType.getClassRef();
-        cSig.getParentClass().add(rcRef);
+        ClassRef thisClass = vClassRefType.getThisClass();
+        superClass.getSuperClass().add(thisClass);
 
         //add the attributes to the subclass's signature and the type env
         cSig.getAttribute().addAll(icSig.getAttribute());
@@ -309,5 +311,4 @@ public class ParaChecker
       typeEnv().add(primed, pair.getType());
     }
   }
-*/
 }

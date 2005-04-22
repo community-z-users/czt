@@ -25,7 +25,7 @@ import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.oz.impl.OzFactoryImpl;
 import net.sourceforge.czt.session.SectionInfo;
-import net.sourceforge.czt.typecheck.z.util.*;
+import net.sourceforge.czt.typecheck.oz.util.*;
 import net.sourceforge.czt.typecheck.oz.impl.*;
 
 /**
@@ -34,6 +34,9 @@ import net.sourceforge.czt.typecheck.oz.impl.*;
 public class TypeChecker
   extends net.sourceforge.czt.typecheck.z.TypeChecker
 {
+  //a factory for object types
+  protected Factory ozFactory_;
+
   //operation expr typechecker
   protected Checker opExprChecker_;
 
@@ -46,8 +49,8 @@ public class TypeChecker
 
   public TypeChecker(TypeChecker info)
   {
-    this(info.factory_.getZFactory(),
-         ((Factory) info.factory_).getOzFactory(),
+    this(info.zFactory_.getZFactory(),
+         info.ozFactory_.getOzFactory(),
          info.sectInfo_);
   }
 
@@ -63,13 +66,9 @@ public class TypeChecker
                      SectionInfo sectInfo)
   {
     super(sectInfo);
-    factory_ = new Factory(zFactory, ozFactory);
+    ozFactory_ = new Factory(zFactory, ozFactory);
     sectInfo_ = sectInfo;
-    sectTypeEnv_ = new SectTypeEnv(zFactory);
-    typeEnv_ = new TypeEnv(zFactory);
-    pending_ = new TypeEnv(zFactory);
     unificationEnv_ = new UnificationEnv(zFactory);
-    errors_ = new java.util.ArrayList();
     specChecker_ = new SpecChecker(this);
     paraChecker_ = new ParaChecker(this);
     declChecker_ = new DeclChecker(this);

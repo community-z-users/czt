@@ -46,6 +46,7 @@
            destdir="${typecheck.build.dir}"
            debug="${debug}" debuglevel="${debuglevel}" optimize="${optimize}">
       <classpath refid="classpath"/>
+<!--      <compilerarg value="-Xlint"/> -->
     </javac>
   </target>
 

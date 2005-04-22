@@ -380,28 +380,28 @@ abstract public class Checker
     return result;
   }
 
-  protected static List list()
+  protected static <E> List<E> list()
   {
-    return new java.util.ArrayList();
+    return new java.util.ArrayList<E>();
   }
 
-  protected static List list(Object o)
+  protected static <E> List<E> list(E e)
   {
     List result = list();
-    result.add(o);
+    result.add(e);
     return result;
   }
 
-  protected static List list(Object o1, Object o2)
+  protected static <E> List<E> list(E e1, E e2)
   {
-    List result = list(o1);
-    result.add(o2);
+    List result = list(e1);
+    result.add(e2);
     return result;
   }
 
-  protected static List list(List list)
+  protected static <E> List<E> list(List<E> list)
   {
-    List result = new java.util.ArrayList(list);
+    List<E> result = new java.util.ArrayList<E>(list);
     return result;
   }
 
@@ -413,7 +413,7 @@ abstract public class Checker
   //a Factory for creating Z terms
   protected Factory factory()
   {
-    return typeChecker_.factory_;
+    return typeChecker_.zFactory_;
   }
 
   //the SectTypeEnv for all parent specifications

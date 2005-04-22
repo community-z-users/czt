@@ -57,6 +57,36 @@ public class Factory
     return ozFactory_;
   }
 
+  public ClassRef createClassRef()
+  {
+    ClassRef result = ozFactory_.createClassRef();
+    return result;
+  }
+
+  public ClassRef createClassRef(DeclName declName,
+                                 List type,
+                                 List pairs)
+  {
+    RefName refName = createRefName(declName);
+    ClassRef result = createClassRef(refName, type, pairs);
+    return result;
+  }
+
+  public ClassRef createClassRef(RefName refName, List type, List pairs)
+  {
+    ClassRef result = ozFactory_.createClassRef(refName, type, pairs);
+    return result;
+  }
+
+  public ClassRefType createClassRefType()
+  {
+    ClassRefType classRefType = ozFactory_.createClassRefType();
+    ClassSig classSig = createVariableClassSig();
+    classRefType.setClassSig(classSig);
+    ClassRefType result = new ClassRefTypeImpl(classRefType);
+    return result;
+  }
+
   public ClassRefType createClassRefType(ClassSig classSig,
                                          ClassRef thisClass,
                                          java.util.List superClass,
@@ -69,9 +99,26 @@ public class Factory
     return result;
   }
 
+  public ClassPolyType createClassPolyType()
+  {
+    ClassSig classSig = createVariableClassSig();
+    ClassPolyType classPolyType = ozFactory_.createClassPolyType();
+    classPolyType.setClassSig(classSig);
+    ClassPolyType result = new ClassPolyTypeImpl(classPolyType);
+    return result;
+  }
+
+  public ClassPolyType createClassPolyType(ClassSig classSig, ClassRef rootClass)
+  {
+    ClassPolyType classPolyType =
+      ozFactory_.createClassPolyType(classSig, rootClass);
+    ClassPolyType result = new ClassPolyTypeImpl(classPolyType);
+    return result;
+  }
+
   public VariableClassType createVariableClassType()
   {
-    return new VariableClassType();
+    return new VariableClassType(this);
   }
 
   public VariableClassSig createVariableClassSig()

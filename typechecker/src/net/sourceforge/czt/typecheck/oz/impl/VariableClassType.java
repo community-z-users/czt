@@ -21,6 +21,7 @@ package net.sourceforge.czt.typecheck.oz.impl;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
 
@@ -28,15 +29,27 @@ import net.sourceforge.czt.typecheck.z.impl.*;
  * A Variable ClassType.
  */
 public class VariableClassType
-  extends Type2Impl
+  extends VariableType
   implements ClassType
 {
-  /** The values of this variable. */
-  protected List<ClassType> value_ = new java.util.ArrayList<ClassType>();
+  /** The class signature of this class type. */
+  protected ClassSig classSig_ = null;
 
-  protected VariableClassType()
+  /** The possible types of this variable. */
+  protected List<ClassType> types_ = new java.util.ArrayList<ClassType>();
+
+  /** If this type is completely determined. */
+  protected boolean complete_ = false;
+
+  protected VariableClassType(Factory factory)
   {
-    super(null);
+    super(factory);
+    classSig_ = factory.createVariableClassSig();
+  }
+
+  protected VariableClassType(DeclName declName)
+  {
+    super(declName);
   }
 
   /**
@@ -46,7 +59,13 @@ public class VariableClassType
    */
   public ClassSig getClassSig()
   {
-    return null;
+    ClassSig result = classSig_;
+    Type2 type = getValue();
+    if (type instanceof ClassType && type != this) {
+      ClassType classType = (ClassType) type;
+      result = classType.getClassSig();
+    }
+    return result;
   }
 
   /**
@@ -57,28 +76,49 @@ public class VariableClassType
    */
   public void setClassSig(ClassSig classSig)
   {
-    throw new RuntimeException("Class signautre not permitted in variable class type");
+    throw new RuntimeException("Cannot set signature of VariableClassType");
   }
 
   /**
-   * @return The value of this variable.
+   * @return The types of this variable.
    */
-  public List<ClassType> getValue()
+  public List<ClassType> getTypes()
   {
-    return value_;
+    return types_;
   }
 
   /**
-   * Sets the possible values of the type to the specified value.
+   * Sets the possible types of the type.
    */
-  public void setValue(List<ClassType> value)
+  public void setTypes(List<ClassType> types)
   {
-    value_ = value;
+    types_ = types;
+  }
+
+  public boolean getComplete()
+  {
+    return complete_;
+  }
+
+  public void complete()
+  {
+    complete_ = true;
+  }
+
+  public Type2 getValue()
+  {
+    Type2 result = super.getValue();
+    if (complete_ && types_.size() == 1) {
+      value_ = types_.get(0);
+      assert value_ != null;
+      return value_;
+    }
+    return result;
   }
 
   public Object[] getChildren()
   {
-    Object[] result = { getValue() };
+    Object[] result = { getName(), value_, getTypes() };
     return result;
   }
 
@@ -86,9 +126,12 @@ public class VariableClassType
   {
     VariableClassType zedObject = null;
     try {
-      List<ClassType> value = (List<ClassType>) args[0];
-      zedObject = new VariableClassType();
+      DeclName declName = (DeclName) args[0];
+      List<ClassType> types = (List<ClassType>) args[1];
+      Type2 value = (Type2) args[2];
+      zedObject = new VariableClassType(declName);
       zedObject.setValue(value);
+      zedObject.setTypes(types);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -110,6 +153,12 @@ public class VariableClassType
       }
     }
 
+    return result;
+  }
+
+  public String toString()
+  {
+    String result = "VClassType " + super.toString();
     return result;
   }
 

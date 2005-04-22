@@ -27,7 +27,6 @@ import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.util.OzString;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.typecheck.z.util.*;
-import net.sourceforge.czt.typecheck.z.impl.*;
 import net.sourceforge.czt.typecheck.oz.impl.*;
 
 /**
@@ -43,6 +42,12 @@ abstract public class Checker
   {
     super(typeChecker);
     typeChecker_ = typeChecker;
+  }
+
+  //a Factory for creating Object-Z terms
+  protected Factory factory()
+  {
+    return typeChecker_.ozFactory_;
   }
 
   //non-safe typecast
@@ -108,10 +113,15 @@ abstract public class Checker
 
 
   //check if a name is in a signature's visibility list
-  protected boolean isVisible(RefName refName, ClassRefType classRefType)
+  protected boolean isVisible(RefName refName, ClassType classType)
   {
-    return classRefType.getVisibilityList() == null ||
-      classRefType.getVisibilityList().getRefName().contains(refName);
+    boolean result = true;
+    if (classType instanceof ClassRefType) {
+      ClassRefType classRefType = (ClassRefType) classType;
+      result = classRefType.getVisibilityList() == null ||
+        classRefType.getVisibilityList().getRefName().contains(refName);
+    }
+    return result;
   }
 
   //get the type of "self"
@@ -232,12 +242,12 @@ abstract public class Checker
     return classes;
   }
 
-  protected boolean isClassExpr(Type2 type)
+  protected boolean isPowerClassRefType(Type2 type)
   {
     boolean result = false;
     if (type instanceof PowerType) {
       PowerType powerType = (PowerType) type;
-      if (powerType.getType() instanceof ClassType) {
+      if (powerType.getType() instanceof ClassRefType) {
         result = true;
       }
     }
@@ -254,6 +264,18 @@ abstract public class Checker
     for(NameSignaturePair pair : pairs) {
       if (declName.equals(pair.getName())) {
         result = pair.getSignature();
+        break;
+      }
+    }
+    return result;
+  }
+
+  protected boolean contains(List<ClassRef> list, ClassRef classRef)
+  {
+    boolean result = false;
+    for (ClassRef element : list) {
+      if (classRef.getRefName().equals(element.getRefName())) {
+        result = true;
         break;
       }
     }
