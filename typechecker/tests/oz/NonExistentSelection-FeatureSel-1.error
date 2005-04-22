@@ -1,5 +1,5 @@
 \begin{zsection}
-  \SECTION NonExistentSelection\_BindSelExpr\_1 \parents oz\_toolkit
+  \SECTION NonExistentSelection\_FeatureSel\_1 \parents oz\_toolkit
 \end{zsection}
 
 \begin{class}{A}
