@@ -197,6 +197,33 @@ abstract public class Checker
           Signature signature = pair.getSignature();
           instantiate(signature);
         }
+
+	//instaniate the class references
+	List<ClassRef> classRefs = cSig.getClasses();
+	for (ClassRef classRef : classRefs) {
+	  List<Type2> types = classRef.getType2();
+	  for (int i = 0; i < types.size(); i++) {
+	    Type2 replaced = instantiate(types.get(i));
+	    types.set(i, replaced);
+	  }	  
+	}
+      }
+
+      ClassRef classRef = null;
+      if (type instanceof ClassRefType) {
+	ClassRefType classRefType = (ClassRefType) type;
+        classRef = classRefType.getThisClass();
+      }
+      else if (type instanceof ClassPolyType) {
+	ClassPolyType classPolyType = (ClassPolyType) type;
+        classRef = classPolyType.getRootClass();
+      }
+
+      if (classRef != null) {
+	List<Type2> types = classRef.getType2();
+	for (Type2 next : types) {
+	  instantiate(next);
+	}
       }
 
       result = classType;
@@ -219,7 +246,7 @@ abstract public class Checker
     if (className() != null &&
         className().getWord().equals(name.getWord()) &&
         className().getStroke().equals(name.getStroke())) {
-      type = (Type2) factory().cloneTerm(type);
+      type = (Type) factory().cloneTerm(type);
     }
 
     return type;
@@ -265,6 +292,17 @@ abstract public class Checker
       if (declName.equals(pair.getName())) {
         result = pair.getSignature();
         break;
+      }
+    }
+    return result;
+  }
+
+  protected ClassRef findRef(RefName refName, List<ClassRef> classRefs)
+  {
+    ClassRef result = null;
+    for (ClassRef classRef : classRefs) {
+      if (refName.equals(classRef.getRefName())) {
+        result = classRef;
       }
     }
     return result;

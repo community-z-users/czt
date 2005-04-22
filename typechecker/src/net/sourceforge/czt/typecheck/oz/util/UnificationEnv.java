@@ -86,58 +86,29 @@ public class UnificationEnv
     UResult result = SUCC;
     List<ClassRef> classRefsA = typeA.getClassSig().getClasses();
     List<ClassRef> classRefsB = typeB.getClassSig().getClasses();
-    for (ClassRef classRefA : classRefsA) {
-      ClassRef classRefB = findRef(classRefA.getRefName(), classRefsB);
-      if (classRefB == null) {
-        result = FAIL;
-        break;
-      }
-      if (!renamesEqual(classRefA, classRefB)) {
-        result = FAIL;
-        break;
-      }
-      UResult unified = instantiations(classRefA, classRefB);
-      if (unified == FAIL) {
-        result = FAIL;
-        break;
-      }
-      else if (PARTIAL.equals(unified)) {
-        result = PARTIAL;
-      }
+    if (classRefsA.size() != classRefsB.size()) {
+      result = FAIL;
     }
+    else {
+      for (ClassRef classRefA : classRefsA) {
+	ClassRef classRefB = findRef(classRefA.getRefName(), classRefsB);
+	if (classRefB == null) {
+	  result = FAIL;
+	  break;
+	}
 
-    if (result != FAIL) {
-      unifyClassSig(typeA.getClassSig(), typeB.getClassSig());
-      if (typeA instanceof ClassRefType && typeB instanceof ClassRefType) {
-        ClassRefType cTypeA = (ClassRefType) typeA;
-        ClassRefType cTypeB = (ClassRefType) typeB;
-        if (cTypeA.getThisClass() == null) {
-          setInfo(cTypeA, cTypeB);
-        }
-        else if (cTypeB.getThisClass() == null) {
-          setInfo(cTypeB, cTypeA);
-        }
-      }
-      else if (typeA instanceof ClassPolyType && typeB instanceof ClassPolyType) {
-        ClassPolyType cTypeA = (ClassPolyType) typeA;
-        ClassPolyType cTypeB = (ClassPolyType) typeB;
-        if (cTypeA.getRootClass() == null) {
-          cTypeA.setRootClass(cTypeB.getRootClass());
-        }
-        else if (cTypeA.getRootClass() == null) {
-          cTypeB.setRootClass(cTypeA.getRootClass());
-        }
+	UResult unified = instantiations(classRefA, classRefB);
+	if (unified == FAIL) {
+	  result = FAIL;
+	  break;
+	}
+	else if (PARTIAL.equals(unified)) {
+	  result = PARTIAL;
+	}
       }
     }
 
     return result;
-  }
-
-  protected void setInfo(ClassRefType typeA, ClassRefType typeB)
-  {
-    typeA.setThisClass(typeB.getThisClass());
-    typeA.setVisibilityList(typeB.getVisibilityList());
-    typeA.getSuperClass().addAll(typeB.getSuperClass());
   }
 
   protected void unifyClassSig(ClassSig sigA, ClassSig sigB)
@@ -150,20 +121,6 @@ public class UnificationEnv
       VariableClassSig vSig = (VariableClassSig) sigB;
       vSig.setValue(sigA);
     }
-  }
-
-  protected boolean renamesEqual(ClassRef classRefA, ClassRef classRefB)
-  {
-    boolean result = true;
-    List<NameNamePair> pairsA = classRefA.getNameNamePair();
-    for (NameNamePair pairA : pairsA) {
-      NameNamePair pairB = findPair(pairA.getOldName(), classRefB);
-      if (!pairA.getNewName().equals(pairB.getNewName())) {
-        result = false;
-        break;
-      }
-    }
-    return result;
   }
 
   protected UResult instantiations(ClassRef classRefA, ClassRef classRefB)

@@ -741,14 +741,8 @@ abstract public class Checker
   protected NameTypePair findInSignature(DeclName declName,
                                          Signature signature)
   {
-    NameTypePair result = null;
     List<NameTypePair> pairs = signature.getNameTypePair();
-    for (NameTypePair pair : pairs) {
-      if (pair.getName().equals(declName)) {
-        result = pair;
-        break;
-      }
-    }
+    NameTypePair result = findInPairList(declName, pairs);
     return result;
   }
 
@@ -757,6 +751,26 @@ abstract public class Checker
   {
     DeclName declName = factory().createDeclName(refName);
     return findInSignature(declName, signature);
+  }
+
+  protected NameTypePair findInPairList(DeclName declName,
+					List<NameTypePair> pairs)
+  {
+    NameTypePair result = null;
+    for (NameTypePair pair : pairs) {
+      if (pair.getName().equals(declName)) {
+        result = pair;
+        break;
+      }
+    }
+    return result;    
+  }
+
+  protected NameTypePair findInPairList(RefName refName,
+					List<NameTypePair> pairs)
+  {
+    DeclName declName = factory().createDeclName(refName);
+    return findInPairList(declName, pairs);
   }
 
   //print debuging info

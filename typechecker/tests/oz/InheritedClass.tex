@@ -1,8 +1,8 @@
 \begin{zsection}
-  \SECTION template \parents oz\_toolkit
+  \SECTION InheritedClass \parents oz\_toolkit
 \end{zsection}
 
-\begin{class}{A[X]}
+\begin{class}{A}
   \begin{state}
     a : \nat
   \end{state}\\
@@ -12,7 +12,7 @@
 \end{class}
 
 \begin{class}{B}
-  \inherits A[\nat]\\
+  \inherits A\\
   \begin{state}
     b : \power \nat
   \end{state}\\
@@ -23,14 +23,15 @@
 
 \begin{class}{C}
   \begin{axdef}
-    a : \poly A[\nat]\\
+    a : \poly A\\
     b : B
-%  \where
-%    a.a = \{1\}\\
-%    b.b = \{1\}
+  \where
+    a.a = 1\\
+    b.b = \{1\}\\
+    b.b = \{a.a\}
   \end{axdef}\\
   \begin{state}
-    sa : \poly A[\nat]\\
+    sa : \poly A\\
     sb : B
   \end{state}\\
   Op3 \sdef sa.Op1\\

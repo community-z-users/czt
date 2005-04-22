@@ -59,7 +59,8 @@ public class Factory
 
   public ClassRef createClassRef()
   {
-    ClassRef result = ozFactory_.createClassRef();
+    ClassRef classRef = ozFactory_.createClassRef();
+    ClassRef result = new ClassRefImpl(classRef);
     return result;
   }
 
@@ -74,7 +75,8 @@ public class Factory
 
   public ClassRef createClassRef(RefName refName, List type, List pairs)
   {
-    ClassRef result = ozFactory_.createClassRef(refName, type, pairs);
+    ClassRef classRef = ozFactory_.createClassRef(refName, type, pairs);
+    ClassRef result = new ClassRefImpl(classRef);
     return result;
   }
 
@@ -113,6 +115,21 @@ public class Factory
     ClassPolyType classPolyType =
       ozFactory_.createClassPolyType(classSig, rootClass);
     ClassPolyType result = new ClassPolyTypeImpl(classPolyType);
+    return result;
+  }
+
+  public ClassUnionType createClassUnionType()
+  {
+    ClassSig classSig = createVariableClassSig();
+    ClassUnionType classUnionType = createClassUnionType(classSig);
+    ClassUnionType result = new ClassUnionTypeImpl(classUnionType);
+    return result;
+  }
+
+  public ClassUnionType createClassUnionType(ClassSig classSig)
+  {
+    ClassUnionType classUnionType = ozFactory_.createClassUnionType(classSig);
+    ClassUnionType result = new ClassUnionTypeImpl(classUnionType);
     return result;
   }
 

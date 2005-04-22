@@ -1,5 +1,5 @@
 \begin{zsection}
-  \SECTION NonClassInPolyExpr\_PolyExpr \parents oz\_toolkit
+  \SECTION NonRefInPolyExpr\_PolyExpr\_1 \parents oz\_toolkit
 \end{zsection}
 
 \begin{axdef}

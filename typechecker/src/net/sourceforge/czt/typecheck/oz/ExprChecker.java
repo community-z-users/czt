@@ -42,10 +42,11 @@ import net.sourceforge.czt.typecheck.z.*;
 public class ExprChecker
   extends Checker
   implements
-    //ClassUnionExprVisitor,
-    PolyExprVisitor
-             //PredExprVisitor,
-             //BindSelExprVisitor
+    ClassUnionExprVisitor,
+    PolyExprVisitor,
+    PredExprVisitor,
+    BindSelExprVisitor,
+    RenameExprVisitor
 {
   //a Z expr checker
   protected net.sourceforge.czt.typecheck.z.ExprChecker zExprChecker_;
@@ -61,7 +62,7 @@ public class ExprChecker
   {
     return term.accept(zExprChecker_);
   }
-  /*
+
   public Object visitClassUnionExpr(ClassUnionExpr classUnionExpr)
   {
     Type2 type = factory().createUnknownType();
@@ -71,31 +72,57 @@ public class ExprChecker
     Type2 lType = (Type2) lExpr.accept(this);
     Type2 rType = (Type2) rExpr.accept(this);
 
-    ClassRefType vlClassRefType = factory().createClassRefType();
-    PowerType vlPowerType = factory().createPowerType(vlClassRefType);
-    ClassRefType vrClassRefType = factory().createClassRefType();
-    PowerType vrPowerType = factory().createPowerType(vrClassRefType);
+    PowerType vlPowerType = factory().createPowerType();
+    PowerType vrPowerType = factory().createPowerType();
 
     UResult lUnified = unify(vlPowerType, lType);
     UResult rUnified = unify(vrPowerType, rType);
     //if the left expr is not a class description, raise an error
-    if (lUnified == FAIL) {
+    if (!instanceOf(vlPowerType.getType(), ClassRefType.class) &&
+	!instanceOf(vlPowerType.getType(), ClassUnionType.class) &&
+	!instanceOf(vlPowerType.getType(), VariableType.class)) {
       Object [] params = {classUnionExpr, lType};
       error(classUnionExpr, ErrorMessage.NON_CLASS_IN_CLASSUNIONEXPR, params);
     }
 
     //if the right expr is not a class description, raise an error
-    if (rUnified == FAIL) {
+    if (!instanceOf(vrPowerType.getType(), ClassRefType.class) &&
+	!instanceOf(vrPowerType.getType(), ClassUnionType.class) &&
+	!instanceOf(vrPowerType.getType(), VariableType.class)) {
       Object [] params = {classUnionExpr, rType};
       error(classUnionExpr, ErrorMessage.NON_CLASS_IN_CLASSUNIONEXPR, params);
     }
 
-    if (lUnified != FAIL && rUnified != FAIL) {
-      List<ClassRef> classes = list(getClasses(vlPowerType.getType()));
-      parents.addAll(getClasses(vrPowerType.getType()));
-      Signature state = factory().createSignature();
-      ClassSig cSig =
-        factory().createClassSig(classes, state, list(), list());
+    //if we have class types, intersect the features of the two classes
+    if (vlPowerType.getType() instanceof ClassType &&
+	vrPowerType.getType() instanceof ClassType) {
+      ClassType lClassType = (ClassType) vlPowerType.getType();
+      ClassType rClassType = (ClassType) vrPowerType.getType();
+      ClassSig lcSig = lClassType.getClassSig();
+      ClassSig rcSig = rClassType.getClassSig();
+
+      ClassSig cSig = factory().createVariableClassSig();
+      //if both signatures are complete
+      if (!instanceOf(lcSig, VariableClassSig.class) &&
+	  !instanceOf(rcSig, VariableClassSig.class)) {
+
+	List<ClassRef> classes = list();
+	Signature state = factory().createVariableSignature();
+	List<NameTypePair> attrs = list();
+	List<NameSignaturePair> ops = list();
+	
+	//check that the features are compatible, and find common elements
+	List<NameTypePair> lPairs = lcSig.getState().getNameTypePair();
+	List<NameTypePair> rPairs = rcSig.getState().getNameTypePair();
+	for (NameTypePair lPair : lPairs) {
+	  NameTypePair rPair = findInPairList(lPair.getName(), rPairs);
+	  if (rPair != null) {
+	    //if the types do not unify, raise an error
+	    
+	  }
+	}
+      }
+      
       ClassUnionType classUnionType = factory().createClassUnionType(cSig);
       type = factory().createPowerType(classUnionType);
     }
@@ -105,7 +132,6 @@ public class ExprChecker
 
     return type;
   }
-  */
 
   public Object visitPolyExpr(PolyExpr polyExpr)
   {
@@ -115,21 +141,20 @@ public class ExprChecker
     Type2 exprType = (Type2) expr.accept(exprChecker());
 
     //if the left expr is not a class description, raise an error
-    ClassRefType vClassRefType = factory().createClassRefType();
-    PowerType vPowerType = factory().createPowerType(vClassRefType);
+    PowerType vPowerType = factory().createPowerType();
     UResult unified = unify(vPowerType, exprType);
 
     //if the expr is not a class type, raise an error
-    if (unified == FAIL) {
+    if (!instanceOf(vPowerType.getType(), ClassRefType.class) &&
+	!instanceOf(vPowerType.getType(), VariableType.class)) {
       Object [] params = {polyExpr, exprType};
       error(polyExpr, ErrorMessage.NON_REF_IN_POLYEXPR, params);
     }
-    else {
-      ClassSig cSig = vClassRefType.getClassSig();
+    else if (vPowerType.getType() instanceof ClassRefType) {
+      ClassRefType classRefType = (ClassRefType) vPowerType.getType();
+      ClassSig cSig = classRefType.getClassSig();
       if (!instanceOf(cSig, VariableClassSig.class)) {
-        PowerType powerType = (PowerType) exprType;
-        ClassRefType rootClassType = (ClassRefType) powerType.getType();
-        ClassRef cRef = rootClassType.getThisClass();
+        ClassRef cRef = classRefType.getThisClass();
         List<ClassRef> subClasses = list(cRef);
 
         //find any subclasses
@@ -137,24 +162,22 @@ public class ExprChecker
         for (NameSectTypeTriple triple : triples) {
           Type2 nextType = unwrapType(triple.getType());
           if (isPowerClassRefType(nextType)) {
-            ClassRefType subType = (ClassRefType) powerType(nextType).getType();
-            if (contains(subType.getSuperClass(), cRef)) {
+            ClassRefType subClass = (ClassRefType) powerType(nextType).getType();
+
+            if (contains(subClass.getSuperClass(), cRef)) {
               //the subclasses must have the same number of parameters as
               //the "top-level" class
-              if (triple.getType() instanceof GenericType) {
-                GenericType gType = (GenericType) triple.getType();
-                final int superSize = cRef.getType2().size();
-                final int subSize = gType.getName().size();
-                System.err.println("super = " + superSize);
-                System.err.println("sub = " + subSize);
-                if (superSize != subSize) {
-                  Object [] params = {subType, superSize, subSize};
-                  error(polyExpr,
-                        ErrorMessage.PARAMETER_MISMATCH_IN_POLYEXPR, params);
-                }
-              }
+	      final int superSize = cRef.getType2().size();
+	      final int subSize = subClass.getThisClass().getType2().size();
+	      if (superSize != subSize) {
+		Object [] params = {cRef.getRefName(), superSize, 
+				    subClass.getThisClass().getRefName(),
+				    subSize};
+		error(polyExpr,
+		      ErrorMessage.PARAMETER_MISMATCH_IN_POLYEXPR, params);
+	      }
               ClassRef subCRef = factory().createClassRef();
-              subCRef.setRefName(subType.getThisClass().getRefName());
+              subCRef.setRefName(subClass.getThisClass().getRefName());
               subCRef.getType2().addAll(cRef.getType2());
               subCRef.getNameNamePair().addAll(cRef.getNameNamePair());
               if (!contains(subClasses, subCRef)) {
@@ -168,7 +191,7 @@ public class ExprChecker
                                    cSig.getAttribute(),
                                    cSig.getOperation());
         ClassPolyType polyClass =
-          factory().createClassPolyType(polySig, rootClassType.getThisClass());
+          factory().createClassPolyType(polySig, classRefType.getThisClass());
         type = factory().createPowerType(polyClass);
       }
     }
@@ -202,7 +225,6 @@ public class ExprChecker
     return type;
   }
 
-  /*
   public Object visitBindSelExpr(BindSelExpr bindSelExpr)
   {
     Type2 type = factory().createUnknownType();
@@ -215,8 +237,32 @@ public class ExprChecker
       if (exprType instanceof SchemaType) {
         type = (Type2) zExprChecker_.visitBindSelExpr(bindSelExpr);
       }
-      else if (exprType instanceof ClassRefType) {
+      else if (exprType instanceof ClassType) {
+	ClassType classType = (ClassType) exprType;
+	ClassSig classSig = classType.getClassSig();
+	if (!instanceOf(classSig, VariableClassSig.class)) {
+	  RefName selectName = bindSelExpr.getName();
+	  
+	  //try to find the name in the state signature
+	  Signature signature = classSig.getState();
+	  NameTypePair pair = findInSignature(selectName, signature);
 
+	  //if it is not found, try the attributes
+	  if (pair == null) {
+	    List<NameTypePair> pairs = classSig.getAttribute();
+	    pair = findInPairList(selectName, pairs);
+	  }
+
+	  //if it is not in the state or attributes, raise an error
+	  if (pair == null) {
+	    Object [] params = {bindSelExpr};
+	    error(selectName, ErrorMessage.NON_EXISTENT_SELECTION, params);
+	  }
+	  //otherwise, the type is the type of the selection
+	  else {
+	    type = unwrapType(pair.getType());
+	  }
+	}
       }
       else {
         Object [] params = {bindSelExpr, exprType};
@@ -226,8 +272,43 @@ public class ExprChecker
 
     //add the type annotation
     addTypeAnn(bindSelExpr, type);
-
     return type;
   }
-*/
+
+  public Object visitRenameExpr(RenameExpr renameExpr)
+  {
+    Type2 type = factory().createUnknownType(); //factory().createVariableType();
+
+    //get the type of the expression
+    Expr expr = renameExpr.getExpr();
+    Type2 exprType = (Type2) expr.accept(exprChecker());
+
+    PowerType vPowerType = factory().createPowerType();
+    UResult unified = unify(vPowerType, exprType);
+
+    if (unified == FAIL) {
+      Object [] params = {renameExpr, exprType};
+      error(renameExpr, ErrorMessage.NON_SCHEXPR_IN_RENAMEEXPR, params);      
+    }
+    else if (!instanceOf(vPowerType.getType(), VariableType.class)) {
+      if (vPowerType.getType() instanceof ClassRefType) {
+	ClassType classType = (ClassType) vPowerType.getType();
+	ClassSig classSig = classType.getClassSig();
+	if (!instanceOf(classSig, VariableClassSig.class)) {
+	  
+	}
+      }
+      else if (vPowerType.getType() instanceof SchemaType) {
+        type = (Type2) zExprChecker_.visitRenameExpr(renameExpr);
+      }
+      else {
+        Object [] params = {renameExpr, exprType};
+	error(renameExpr, ErrorMessage.NON_SCHEXPR_IN_RENAMEEXPR, params);
+      }
+    }
+
+    //add the type annotation
+    addTypeAnn(renameExpr, type);
+    return type;
+  }
 }

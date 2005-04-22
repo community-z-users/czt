@@ -1,0 +1,15 @@
+\begin{zsection}
+  \SECTION TypeMismatchInEquality\_GenericClass \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A[X]}
+\end{class}
+
+\begin{axdef}
+  a1 : A[\nat]\\
+  a2 : A[\power \nat]\\
+  a3 : A[\power \nat]
+\where
+  a2 \in \{a3\}\\
+  a1 = a2
+\end{axdef}

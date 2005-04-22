@@ -1,5 +1,5 @@
 \begin{zsection}
-  \SECTION RedeclaredNameInClassPara\_Op \parents oz\_toolkit
+  \SECTION RedeclaredNameInClassPara\_Attr\_Op \parents oz\_toolkit
 \end{zsection}
 
 \begin{class}{A}
@@ -11,8 +11,5 @@
   \where
     a = a?
   \end{op}\\
-  \begin{op}{Op2}
-    a? : \nat
-  \end{op}\\
-  Op1 \sdef Op2
+  a \sdef Op1
 \end{class}

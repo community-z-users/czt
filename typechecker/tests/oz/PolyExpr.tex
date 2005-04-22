@@ -3,48 +3,79 @@
 \end{zsection}
 
 \begin{class}{A}
-  \begin{op}{a}
+  la == 1\\
+  \begin{state}
+    sa : \nat
+  \where
+    sa = la
+  \end{state}\\
+  \begin{op}{OpA}
     a? : \nat
   \end{op}
 \end{class}
 
 \begin{class}{B}
-  \inherits A
-  \begin{op}{b}
-    b? : \nat
+  \inherits A\\
+  lb == \{1\}\\
+  \begin{state}
+    sb : \power \nat
+  \end{state}
+  \begin{op}{OpB}
+    b? : \power \nat
   \end{op}
 \end{class}
 
 \begin{class}{C}
-  \inherits A
-\end{class}
-
-\begin{class}{D}
   \inherits B
 \end{class}
 
-\begin{axdef}
-  a : A\\
-  b : B\\
-  c : C\\
-  d : D\\
-  poly\_a : \poly A\\
-  poly\_b : \poly B\\
-  poly\_c : \poly C
-\where
-  a = poly\_a\\
-  c = poly\_c\\
-  b = poly\_a\\  
-  poly\_a = poly\_b\\
-\end{axdef}
+\begin{class}{D}
+  ld == 1\\
+  \begin{state}
+    sd : \nat
+  \end{state}\\
+  \begin{op}{OpD}
+    d? : \nat
+  \end{op}
+\end{class}
 
+\begin{class}{E}
+  \inherits A, D
+\end{class}
 
-Test that operations, attributes, and state variables are inherited
+Check that the state variables, attributes, and operations are all
+inherited correctly.
 \begin{class}{F}
   \begin{state}
     a : \poly A\\
-    b : B\\
+    b : \poly B\\
+    c : \poly C\\
+    d : \poly D\\
+    e : E
+  \where
+    a.sa = a.la\\
+    b.sa = b.la\\
+    b.sb = b.lb\\
+    c.sa = c.la\\
+    c.sb = c.lb\\
+    d.sd = d.ld\\
+    e.sa = e.la\\
+    e.sd = e.ld
   \end{state}\\
-  prom\_a \sdef a.a\\
-  prom\_b \sdef b.a\\
+  prom\_a\_OpA \sdef a.OpA\\
+  prom\_b\_OpA \sdef b.OpA\\
+  prom\_b\_OpB \sdef b.OpB\\
+  prom\_c\_OpA \sdef c.OpA\\
+  prom\_c\_OpB \sdef c.OpB\\
+  prom\_d\_OpD \sdef d.OpD\\
+  prom\_e\_OpA \sdef e.OpA\\
+  prom\_e\_OpD \sdef e.OpD
 \end{class}
+
+Check that F = \poly F is the class F has no subclasses
+\begin{axdef}
+  f : F\\
+  pf : \poly F
+\where
+  f = pf
+\end{axdef}

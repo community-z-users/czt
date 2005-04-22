@@ -72,7 +72,7 @@ public class VariableClassSig
       return this;
     }
     else {
-      if (value_ instanceof VariableClassSig) {
+      if (value_ instanceof VariableClassSig && value_ != this) {
         VariableClassSig vType = (VariableClassSig) value_;
         return vType.getValue();
       }
