@@ -79,6 +79,10 @@
 
   <xs:import namespace="http://czt.sourceforge.net/zml" schemaLocation="Z.xsd"/>
 
+  <!-- ************************************************************ -->
+  <!-- Definitions of the elements                                  -->
+  <!-- ************************************************************ -->
+
   <!-- Paragraphs -->
   <xs:element name="ChannelPara" type="CIRCUS:ChannelPara" substitutionGroup="Z:Para">
     <xs:annotation>
@@ -212,27 +216,13 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="CallProcess" type="CIRCUS:CallProcess" substitutionGroup="CIRCUS:ProcessDef">
-    <xs:annotation>
-      <xs:documentation>
-        Circus process reference call.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
   <xs:element name="Process1" type="CIRCUS:Process1" abstract="true" substitutionGroup="CIRCUS:ProcessDef">
     <xs:annotation>
       <xs:documentation>
         An abstract unary Circus process.
       </xs:documentation>
     </xs:annotation>
-  </xs:element>
-  <xs:element name="ProcessE" type="CIRCUS:ProcessE" abstract="true" substitutionGroup="CIRCUS:Process1">
-    <xs:annotation>
-      <xs:documentation>
-        An abstract unary Circus process involving expressions.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
+  </xs:element>  
   <xs:element name="ProcessD" type="CIRCUS:ProcessD" abstract="true" substitutionGroup="CIRCUS:Process1">
     <xs:annotation>
       <xs:documentation>
@@ -261,6 +251,62 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
+  
+	<xs:element name="RenameProcess" type="CIRCUS:RenameProcess" substitutionGroup="CIRCUS:ProcessDef">
+		<xs:annotation>
+			<xs:documentation>
+				Circus process with channel renaming. As channels in Circus are strongly-typed, type-checking is expected here.				
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+
+	<!-- Process Definition :: Calls -->
+
+	<!-- DESIGN DECISION: There are two approaches here: the first is an unambigous and demands specialised CallType attribute on 
+											 CallProcess; whereas the second introduces ambiguity and requires no special type of call. 
+
+										 1) In the production tree, one is allowed to use a ProcessDesc for renaming (ProcessDesc[N^+ := N^+]). 	  									 			  									 		
+												This allowed the definition of renaming on-the-fly (unamed) or via a call process.	  									 		
+												Ex:  (c?x \then Skip)[c := b] or P = (c?x \then Skip), Q = P[c := b].	  									 		
+												On the second case via CallProcess it means that the ProcessDef descendent of ProcessDesc is being selected.
+												In turn, the type of ProcessDef is CallProcess and the list of renaming names are under RenameProcess.
+
+												This allows both indexed and parameterised processes to use renaming because renaming used 
+												ProcessDesc instead of Process1 on its complexType.	  									 	  
+												For indexed and parameterised processes however, we cannot use ProcessDesc because 
+												a parameterised process with "\lfloor Expr^+ \rfloor", or an indexed process with "( Expr^+ )" 
+												are meaningless.  Therefore, we need to introduce the explicit type of calls for different kinds of 
+												processes. 
+
+												Tidying up everything we have the CallType attribute and the appropriate complexType definition for
+												RenameProcess, InstantiationProcess, ActualParamProcess as
+
+												RenameProcess 				-> uses ProcessDesc.
+												InstantiationProcess	-> uses IndexedProcessDesc
+												ActualParamProcess		-> uses ParamProcessDesc
+
+										 2) An alternative would be to have the production of ProcessDesc defined as follows:
+
+												ProcessDesc ::= ParamProcessDesc | IndexedProcessDesc
+												ParamProcessDesc ::= Decl \spot ProcessDef | ProcessDef
+												IndexedProcessDesc ::= Decl \odot ProcessDef | ProcessDef
+
+												This would remove the special CallType for Indexed and parameterised process but not generic 
+												type instantiation tough.
+										 -->
+  <xs:element name="CallProcess" type="CIRCUS:CallProcess" substitutionGroup="CIRCUS:ProcessDef">
+    <xs:annotation>
+      <xs:documentation>
+      	Circus process reference call. 
+      	It contains a reference name to lookup the process definition.
+      	Moreover, it contains a list of expressions and an attribute defining the kind of call this reference is related too.
+      	An empty list of expressions means a simple process call ``N''.
+      	If the list of expressions is not empty, then the CallType attribute defines if this is an indexed 
+      	process instantiation call, a parameterised process call, or a generic process instantiation call.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
 
   <!-- Process Definition :: Unary  -->
   <xs:element name="HideProcess" type="CIRCUS:HideProcess" substitutionGroup="CIRCUS:Process1">
@@ -270,45 +316,38 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="RenameProcess" type="CIRCUS:RenameProcess" substitutionGroup="CIRCUS:Process1">
+  
+  <!-- Process Definition :: ProcessDesc -->
+  
+  <xs:element name="ProcessE" type="CIRCUS:ProcessE" abstract="true" substitutionGroup="CIRCUS:ProcessDef">
     <xs:annotation>
       <xs:documentation>
-        Circus process with channel renaming.
-        As channels in Circus as strongly-typed,
-        type-checking is expected here.
+        An abstract Circus process involving expressions.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-
-    
-  <!-- Process Definition :: Unary :: Expression -->
-  
-  <!-- NEEDS REVISION WITH THE INTRODUCTION OF ProcessDesc TREE -->
-  <xs:element name="InstantiationProcess" type="CIRCUS:ProcessE" substitutionGroup="CIRCUS:ProcessE">
+  <xs:element name="InstantiationProcess" type="CIRCUS:InstantiationProcess" substitutionGroup="CIRCUS:ProcessE">
     <xs:annotation>
       <xs:documentation>
-        Circus process instantiation for process defined with an
-        indexing operator.
+        Defines a indexed Circus process on-the-fly with its actual instantiation
+        This enables on-the-fly declaration of indexed parameterised processes.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
   
-  <!-- NEEDS REVISION WITH THE INTRODUCTION OF ProcessDesc TREE -->
-  <xs:element name="ActualGenProcess" type="CIRCUS:ProcessE" substitutionGroup="CIRCUS:ProcessE">
-    <xs:annotation>
-      <xs:documentation>
-        Circus process with resolved generic types.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  
-  <!-- NEEDS REVISION WITH THE INTRODUCTION OF ProcessDesc TREE -->
-  <xs:element name="ActualParamProcess" type="CIRCUS:ProcessE" substitutionGroup="CIRCUS:ProcessE">
-    <xs:annotation>
-      <xs:documentation>
-        Circus process with actual parameters.
-      </xs:documentation>
-    </xs:annotation>
+	<xs:element name="ActualParamProcess" type="CIRCUS:ActualParamProcess" substitutionGroup="CIRCUS:ProcessE">
+		<xs:annotation>
+			<xs:documentation>
+				Defines a parameterised Circus process on-the-fly with its actual parameter.
+				This enables on-the-fly declaration of parameterised indexed processes.
+				
+				Ex: (x: T \spot c.x \then Skip)~(0) \equiv c.0 \then Skip.
+				Note that this is different from a parameterised process description with a reference name calling 
+				it with the given actual parameters.
+				Ex: P = (x: T \spot c.x \then Skip).
+						Q = P~(0).
+			</xs:documentation>
+		</xs:annotation>
   </xs:element>
 
   <!-- Process Definition :: Unary :: Declaration :: Replicated -->
@@ -549,14 +588,7 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="ActionD" type="CIRCUS:ActionD" abstract="true" substitutionGroup="CIRCUS:Action1">
-    <xs:annotation>
-      <xs:documentation>
-        An abstract unary CSP action definition with declarations.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  <xs:element name="ActionR" type="CIRCUS:ActionR" abstract="true" substitutionGroup="CIRCUS:ActionD">
+  <xs:element name="ActionR" type="CIRCUS:ActionR" abstract="true" substitutionGroup="CIRCUS:Action1">
     <xs:annotation>
       <xs:documentation>
         An abstract replicated unary CSP action definition.
@@ -581,6 +613,26 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
+  
+	<xs:element name="SubstitutionAction" type="CIRCUS:SubstitutionAction" substitutionGroup="CIRCUS:Action">
+		<xs:annotation>
+			<xs:documentation>
+				Circus action variable substitution. As variables in Circus are strongly-typed, type-checking is expected here.				
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+  
+
+	<!-- CSP Action :: ActionDesc -->
+	
+	<xs:element name="ActualParamAction" type="CIRCUS:ActualParamAction" substitutionGroup="CIRCUS:Action">
+		<xs:annotation>
+			<xs:documentation>
+				The CSP operator for parameterised action defined on the fly with its actual parameters.
+				Ex: (x: \nat \spot c.x \then Skip)(10)
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 
   <!-- CSP Action :: Basic -->      
   <xs:element name="BasicAction" type="CIRCUS:BasicAction" abstract="true" substitutionGroup="CIRCUS:Action">
@@ -639,22 +691,6 @@
     <xs:annotation>
       <xs:documentation>
         The CSP operator for actions prefixed with a communication.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  <xs:element name="ActualParamAction" type="CIRCUS:ActualParamAction" substitutionGroup="CIRCUS:Action1">
-    <xs:annotation>
-      <xs:documentation>
-        The CSP operator for action call with actual parameters.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-
-  <!-- CSP Action :: Unary :: Declaration -->
-  <xs:element name="FormalParamAction" type="CIRCUS:ActionD" substitutionGroup="CIRCUS:ActionD">
-    <xs:annotation>
-      <xs:documentation>
-        The CSP operator for actions with formal parameters.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -1010,7 +1046,7 @@
 			<xs:extension base="CIRCUS:ProcessDesc">
 				<xs:sequence>
 					<xs:element ref="Z:VarDecl" minOccurs="1" maxOccurs="unbounded"/>
-					<xs:element ref="CIRCUS:ProcessDef"/>
+					<xs:element ref="CIRCUS:ProcessDesc"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -1022,17 +1058,8 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:ProcessDesc"/>
     </xs:complexContent>
-  </xs:complexType>
+  </xs:complexType>  
   
-  <xs:complexType name="CallProcess">
-    <xs:complexContent>
-      <xs:extension base="CIRCUS:ProcessDef">
-        <xs:sequence>
-          <xs:element ref="Z:RefName"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
   <xs:complexType name="BasicProcess">
     <xs:complexContent>
       <xs:extension base="CIRCUS:ProcessDef">
@@ -1082,15 +1109,6 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="ProcessE">
-    <xs:complexContent>
-      <xs:extension base="CIRCUS:Process1">
-        <xs:sequence>
-          <xs:element ref="Z:Expr" minOccurs="1" maxOccurs="unbounded"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
   <xs:complexType name="ProcessD">
     <xs:complexContent>
       <xs:extension base="CIRCUS:Process1">
@@ -1134,6 +1152,70 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  
+	<xs:complexType name="RenameProcess">
+		<xs:complexContent>
+			<xs:extension base="CIRCUS:ProcessDef">
+				<xs:sequence>
+					<xs:element ref="CIRCUS:ProcessDesc"/>
+					<xs:element name="OldNames" type="Z:RefName" minOccurs="1" maxOccurs="unbounded"/>	 					
+	 				<xs:element name="NewNames" type="Z:RefName" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+  
+  <!-- Process Definition :: Calls --> 
+  
+  <xs:complexType name="CallProcess">
+		<xs:complexContent>
+			<xs:extension base="CIRCUS:ProcessDef">
+				<xs:sequence>
+					<xs:element ref="Z:RefName"/>
+					<xs:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>					
+				</xs:sequence>
+				<xs:attribute name="CallType" type="CIRCUS:CallType" use="optional" default="Normal"/>
+			</xs:extension>
+		</xs:complexContent>
+  </xs:complexType>
+	<xs:simpleType name="CallType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Normal"/>
+			<xs:enumeration value="Param"/>
+			<xs:enumeration value="Index"/>
+			<xs:enumeration value="Gen"/>
+		</xs:restriction>
+  </xs:simpleType>
+  
+  <!-- Process Definition :: ProcessDesc -->
+  
+  <xs:complexType name="ProcessE">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:ProcessDef">
+        <xs:sequence>
+          <xs:element ref="Z:Expr" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="InstantiationProcess">
+		<xs:complexContent>
+			<xs:extension base="CIRCUS:ProcessE">
+				<xs:sequence>
+					<xs:element ref="CIRCUS:IndexedProcessDesc"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+  </xs:complexType>    
+  <xs:complexType name="ActualParamProcess">
+		<xs:complexContent>
+			<xs:extension base="CIRCUS:ProcessE">
+				<xs:sequence>
+					<xs:element ref="CIRCUS:ParamProcessDesc"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+  </xs:complexType>  
 
   <!-- Process Definition :: Unary -->
   <xs:complexType name="HideProcess">
@@ -1141,16 +1223,6 @@
       <xs:extension base="CIRCUS:Process1">
         <xs:sequence>
           <xs:element ref="CIRCUS:ChannelSet"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="RenameProcess">
-    <xs:complexContent>
-      <xs:extension base="CIRCUS:Process1">
-        <xs:sequence>
-          <xs:element name="OldNames" type="Z:RefName" minOccurs="1" maxOccurs="unbounded"/>
-          <xs:element name="NewNames" type="Z:RefName" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1264,6 +1336,7 @@
 			<xs:extension base="Z:TermA"/>
 		</xs:complexContent>
   </xs:complexType>  
+  
   <xs:complexType name="ParamActionDesc">
 		<xs:complexContent>
 			<xs:extension base="CIRCUS:ActionDesc">
@@ -1275,26 +1348,29 @@
 		</xs:complexContent>
   </xs:complexType>
   
-
-  <!-- Action Definition complexType -->
-  <xs:complexType name="Action">
+	<xs:complexType name="Action">
     <xs:complexContent>
       <xs:extension base="CIRCUS:ActionDesc"/>
     </xs:complexContent>
   </xs:complexType>
+
+  <!-- Action Definition complexType -->
+  
   <xs:complexType name="CallAction">
-    <xs:complexContent>
-      <xs:extension base="CIRCUS:Action">
-        <xs:sequence>
-          <!-- Action names are not supposed to have strokes,
-               but are indeed reference to names
-               At the moment, just leave it as RefName and restrict that
-               in the code perhaps. -->
-          <xs:element ref="Z:RefName"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
+		<xs:complexContent>
+			<xs:extension base="CIRCUS:Action">
+				<xs:sequence>
+          <!-- Action names are not supposed to have strokes, but are indeed reference to names
+               At the moment, just leave it as RefName and restrict that in the code. -->
+					<xs:element ref="Z:RefName"/>
+					<xs:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>					
+				</xs:sequence>
+        <!-- For action, call type can only be either normal or Param as there are no indexed or generic action. -->
+				<xs:attribute name="CallType" type="CIRCUS:CallType" use="optional" default="Normal"/>
+			</xs:extension>
+		</xs:complexContent>
   </xs:complexType>
+  
   <xs:complexType name="SchExprAction">
     <xs:complexContent>
       <xs:extension base="CIRCUS:Action">
@@ -1315,18 +1391,13 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="ActionD">
+  <xs:complexType name="ActionR">
     <xs:complexContent>
       <xs:extension base="CIRCUS:Action1">
         <xs:sequence>
           <xs:element ref="Z:VarDecl" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="ActionR">
-    <xs:complexContent>
-      <xs:extension base="CIRCUS:ActionD"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="Action2">
@@ -1356,13 +1427,37 @@
       <xs:extension base="CIRCUS:Action"/>
     </xs:complexContent>
   </xs:complexType>
-
+      
+  <xs:complexType name="SubstitutionAction">
+		<xs:complexContent>
+			<xs:extension base="CIRCUS:Action">
+				<xs:sequence>
+					<xs:element ref="CIRCUS:ActionDesc"/>
+					<xs:element name="VarNames" type="Z:RefName" minOccurs="1" maxOccurs="unbounded"/>	 					
+					<xs:element ref="Z:Expr" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+  
   <!-- CSP Action complexType -->
   <xs:complexType name="BasicAction">
     <xs:complexContent>
       <xs:extension base="CIRCUS:Action"/>
     </xs:complexContent>
   </xs:complexType>
+
+  <xs:complexType name="ActualParamAction">
+		<xs:complexContent>
+			<xs:extension base="CIRCUS:Action">
+				<xs:sequence>
+					<xs:element ref="CIRCUS:ParamActionDesc"/>
+					<xs:element ref="Z:Expr" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>  
+
 
   <!-- CSP Action complexType :: Unary -->
   <xs:complexType name="MuAction">
@@ -1397,15 +1492,6 @@
       <xs:extension base="CIRCUS:Action1">
         <xs:sequence>
           <xs:element ref="CIRCUS:Communication"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="ActualParamAction">
-    <xs:complexContent>
-      <xs:extension base="CIRCUS:Action1">
-        <xs:sequence>
-          <xs:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
