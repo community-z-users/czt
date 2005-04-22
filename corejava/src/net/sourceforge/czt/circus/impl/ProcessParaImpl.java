@@ -79,13 +79,23 @@ public class ProcessParaImpl
             return false;
           }
         }
-        if (processDef_ != null) {
-          if (!processDef_.equals(object.processDef_)) {
+        if (genericTypes_ != null) {
+          if (!genericTypes_.equals(object.genericTypes_)) {
             return false;
           }
         }
         else {
-          if (object.processDef_ != null) {
+          if (object.genericTypes_ != null) {
+            return false;
+          }
+        }
+        if (processDesc_ != null) {
+          if (!processDesc_.equals(object.processDesc_)) {
+            return false;
+          }
+        }
+        else {
+          if (object.processDesc_ != null) {
             return false;
           }
         }
@@ -107,8 +117,11 @@ public class ProcessParaImpl
     if (declName_ != null) {
       hashCode += constant * declName_.hashCode();
     }
-    if (processDef_ != null) {
-      hashCode += constant * processDef_.hashCode();
+    if (genericTypes_ != null) {
+      hashCode += constant * genericTypes_.hashCode();
+    }
+    if (processDesc_ != null) {
+      hashCode += constant * processDesc_.hashCode();
     }
     return hashCode;
   }
@@ -133,10 +146,14 @@ public class ProcessParaImpl
     ProcessPara zedObject = null;
     try {
       net.sourceforge.czt.z.ast.DeclName declName = (net.sourceforge.czt.z.ast.DeclName) args[0];
-      ProcessDef processDef = (ProcessDef) args[1];
+      java.util.List genericTypes = (java.util.List) args[1];
+      ProcessDesc processDesc = (ProcessDesc) args[2];
       zedObject = new ProcessParaImpl();
       zedObject.setDeclName(declName);
-      zedObject.setProcessDef(processDef);
+      if (genericTypes != null) {
+        zedObject.getGenericTypes().addAll(genericTypes);
+      }
+      zedObject.setProcessDesc(processDesc);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -149,7 +166,7 @@ public class ProcessParaImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getDeclName(), getProcessDef() };
+    Object[] erg = { getDeclName(), getGenericTypes(), getProcessDesc() };
     return erg;
   }
 
@@ -165,15 +182,24 @@ public class ProcessParaImpl
     declName_ = declName;
   }
 
-  private ProcessDef processDef_;
 
-  public ProcessDef getProcessDef()
+  private net.sourceforge.czt.base.ast.ListTerm genericTypes_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.DeclName.class);
+
+  public net.sourceforge.czt.base.ast.ListTerm getGenericTypes()
   {
-    return processDef_;
+    return genericTypes_;
   }
 
-  public void setProcessDef(ProcessDef processDef)
+  private ProcessDesc processDesc_;
+
+  public ProcessDesc getProcessDesc()
   {
-    processDef_ = processDef;
+    return processDesc_;
+  }
+
+  public void setProcessDesc(ProcessDesc processDesc)
+  {
+    processDesc_ = processDesc;
   }
 }

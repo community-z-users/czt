@@ -103,15 +103,12 @@ public abstract class ActionDImpl
   }
 
 
-  private net.sourceforge.czt.z.ast.VarDecl varDecl_;
 
-  public net.sourceforge.czt.z.ast.VarDecl getVarDecl()
+  private net.sourceforge.czt.base.ast.ListTerm varDecl_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.VarDecl.class);
+
+  public net.sourceforge.czt.base.ast.ListTerm getVarDecl()
   {
     return varDecl_;
-  }
-
-  public void setVarDecl(net.sourceforge.czt.z.ast.VarDecl varDecl)
-  {
-    varDecl_ = varDecl;
   }
 }

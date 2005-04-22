@@ -45,7 +45,7 @@ import net.sourceforge.czt.circus.visitor.ProcessDefVisitor;
  * @author Gnast version 0.1
  */
 public abstract class ProcessDefImpl
-  extends TermAImpl   implements ProcessDef
+  extends ProcessDescImpl   implements ProcessDef
 {
 
   /**

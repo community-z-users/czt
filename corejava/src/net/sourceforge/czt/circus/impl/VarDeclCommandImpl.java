@@ -69,13 +69,13 @@ public class VarDeclCommandImpl
     if (obj != null) {
       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
         VarDeclCommandImpl object = (VarDeclCommandImpl) obj;
-        if (varDecl_ != null) {
-          if (!varDecl_.equals(object.varDecl_)) {
+        if (declarations_ != null) {
+          if (!declarations_.equals(object.declarations_)) {
             return false;
           }
         }
         else {
-          if (object.varDecl_ != null) {
+          if (object.declarations_ != null) {
             return false;
           }
         }
@@ -104,8 +104,8 @@ public class VarDeclCommandImpl
 
     int hashCode = super.hashCode();
     hashCode += "VarDeclCommandImpl".hashCode();
-    if (varDecl_ != null) {
-      hashCode += constant * varDecl_.hashCode();
+    if (declarations_ != null) {
+      hashCode += constant * declarations_.hashCode();
     }
     if (action_ != null) {
       hashCode += constant * action_.hashCode();
@@ -132,10 +132,12 @@ public class VarDeclCommandImpl
   {
     VarDeclCommand zedObject = null;
     try {
-      net.sourceforge.czt.z.ast.VarDecl varDecl = (net.sourceforge.czt.z.ast.VarDecl) args[0];
+      java.util.List declarations = (java.util.List) args[0];
       Action action = (Action) args[1];
       zedObject = new VarDeclCommandImpl();
-      zedObject.setVarDecl(varDecl);
+      if (declarations != null) {
+        zedObject.getDeclarations().addAll(declarations);
+      }
       zedObject.setAction(action);
     }
     catch (IndexOutOfBoundsException e) {
@@ -149,20 +151,17 @@ public class VarDeclCommandImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getVarDecl(), getAction() };
+    Object[] erg = { getDeclarations(), getAction() };
     return erg;
   }
 
-  private net.sourceforge.czt.z.ast.VarDecl varDecl_;
 
-  public net.sourceforge.czt.z.ast.VarDecl getVarDecl()
-  {
-    return varDecl_;
-  }
+  private net.sourceforge.czt.base.ast.ListTerm declarations_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.VarDecl.class);
 
-  public void setVarDecl(net.sourceforge.czt.z.ast.VarDecl varDecl)
+  public net.sourceforge.czt.base.ast.ListTerm getDeclarations()
   {
-    varDecl_ = varDecl;
+    return declarations_;
   }
 
   private Action action_;

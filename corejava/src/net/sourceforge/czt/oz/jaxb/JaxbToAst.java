@@ -374,7 +374,9 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
       Object o = dispatch(obj);
       secondaryDecl.add(o);
     }
-    State erg = mOzFactory_.createState(primaryDecl, secondaryDecl);
+    net.sourceforge.czt.z.ast.Pred pred =
+      (net.sourceforge.czt.z.ast.Pred) dispatch(jaxbObject.getPred());
+    State erg = mOzFactory_.createState(primaryDecl, secondaryDecl, pred);
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();

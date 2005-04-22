@@ -69,13 +69,13 @@ public class ChannelParaImpl
     if (obj != null) {
       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
         ChannelParaImpl object = (ChannelParaImpl) obj;
-        if (varDecl_ != null) {
-          if (!varDecl_.equals(object.varDecl_)) {
+        if (decl_ != null) {
+          if (!decl_.equals(object.decl_)) {
             return false;
           }
         }
         else {
-          if (object.varDecl_ != null) {
+          if (object.decl_ != null) {
             return false;
           }
         }
@@ -94,8 +94,8 @@ public class ChannelParaImpl
 
     int hashCode = super.hashCode();
     hashCode += "ChannelParaImpl".hashCode();
-    if (varDecl_ != null) {
-      hashCode += constant * varDecl_.hashCode();
+    if (decl_ != null) {
+      hashCode += constant * decl_.hashCode();
     }
     return hashCode;
   }
@@ -119,9 +119,11 @@ public class ChannelParaImpl
   {
     ChannelPara zedObject = null;
     try {
-      net.sourceforge.czt.z.ast.VarDecl varDecl = (net.sourceforge.czt.z.ast.VarDecl) args[0];
+      java.util.List decl = (java.util.List) args[0];
       zedObject = new ChannelParaImpl();
-      zedObject.setVarDecl(varDecl);
+      if (decl != null) {
+        zedObject.getDecl().addAll(decl);
+      }
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -134,19 +136,16 @@ public class ChannelParaImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getVarDecl() };
+    Object[] erg = { getDecl() };
     return erg;
   }
 
-  private net.sourceforge.czt.z.ast.VarDecl varDecl_;
 
-  public net.sourceforge.czt.z.ast.VarDecl getVarDecl()
-  {
-    return varDecl_;
-  }
+  private net.sourceforge.czt.base.ast.ListTerm decl_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.Decl.class);
 
-  public void setVarDecl(net.sourceforge.czt.z.ast.VarDecl varDecl)
+  public net.sourceforge.czt.base.ast.ListTerm getDecl()
   {
-    varDecl_ = varDecl;
+    return decl_;
   }
 }

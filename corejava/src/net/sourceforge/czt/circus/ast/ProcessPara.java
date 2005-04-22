@@ -54,17 +54,27 @@ public interface ProcessPara extends Para
   void setDeclName(net.sourceforge.czt.z.ast.DeclName declName);
 
   /**
-   * Returns the ProcessDef element.
+   * <p>Returns the GenericTypes elements.</p>
+   * <p>To add or remove elements, use the methods provided by
+   * the List interface (that's why there is no need for a setter
+   * method).</p>
    *
-   * @return the ProcessDef element.
+   * @return a list of DeclName elements.
    */
-  ProcessDef getProcessDef();
+  net.sourceforge.czt.base.ast.ListTerm getGenericTypes();
 
   /**
-   * Sets the ProcessDef element.
+   * Returns the ProcessDesc element.
    *
-   * @param processDef   the ProcessDef element.
-   * @see #getProcessDef
+   * @return the ProcessDesc element.
    */
-  void setProcessDef(ProcessDef processDef);
+  ProcessDesc getProcessDesc();
+
+  /**
+   * Sets the ProcessDesc element.
+   *
+   * @param processDesc   the ProcessDesc element.
+   * @see #getProcessDesc
+   */
+  void setProcessDesc(ProcessDesc processDesc);
 }

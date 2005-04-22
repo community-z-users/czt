@@ -53,17 +53,17 @@ public interface ActionPara extends Para
   void setDeclName(net.sourceforge.czt.z.ast.DeclName declName);
 
   /**
-   * Returns the Action element.
+   * Returns the ActionDesc element.
    *
-   * @return the Action element.
+   * @return the ActionDesc element.
    */
-  Action getAction();
+  ActionDesc getActionDesc();
 
   /**
-   * Sets the Action element.
+   * Sets the ActionDesc element.
    *
-   * @param action   the Action element.
-   * @see #getAction
+   * @param actionDesc   the ActionDesc element.
+   * @see #getActionDesc
    */
-  void setAction(Action action);
+  void setActionDesc(ActionDesc actionDesc);
 }

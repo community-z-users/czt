@@ -143,30 +143,6 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     return erg;
   }
 
-  public Object visitTypeSequent(net.sourceforge.czt.zpatt.jaxb.gen.TypeSequent jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitTypeSequent", jaxbObject);
-    SequentContext sequentContext =
-      (SequentContext) dispatch(jaxbObject.getSequentContext());
-    net.sourceforge.czt.z.ast.Expr expr =
-      (net.sourceforge.czt.z.ast.Expr) dispatch(jaxbObject.getExpr());
-    net.sourceforge.czt.z.ast.Type type =
-      (net.sourceforge.czt.z.ast.Type) dispatch(jaxbObject.getType());
-    TypeSequent erg = mZpattFactory_.createTypeSequent(sequentContext, expr, type);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitTypeSequent", erg);
-    return erg;
-  }
-
   public Object visitJokerExprBinding(net.sourceforge.czt.zpatt.jaxb.gen.JokerExprBinding jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitJokerExprBinding", jaxbObject);
@@ -179,6 +155,30 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     return erg;
   }
 
+  public Object visitLookupConstDeclProviso(net.sourceforge.czt.zpatt.jaxb.gen.LookupConstDeclProviso jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitLookupConstDeclProviso", jaxbObject);
+    SequentContext sequentContext =
+      (SequentContext) dispatch(jaxbObject.getSequentContext());
+    net.sourceforge.czt.z.ast.Expr leftExpr =
+      (net.sourceforge.czt.z.ast.Expr) dispatch(jaxbObject.getLeftExpr());
+    net.sourceforge.czt.z.ast.Expr rightExpr =
+      (net.sourceforge.czt.z.ast.Expr) dispatch(jaxbObject.getRightExpr());
+    LookupConstDeclProviso erg = mZpattFactory_.createLookupConstDeclProviso(sequentContext, leftExpr, rightExpr);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitLookupConstDeclProviso", erg);
+    return erg;
+  }
+
   public Object visitJokerExprList(net.sourceforge.czt.zpatt.jaxb.gen.JokerExprList jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitJokerExprList", jaxbObject);
@@ -186,6 +186,52 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
       (String) dispatch(jaxbObject.getName());
     JokerExprList erg = mZpattFactory_.createJokerExprList(name);
     getLogger().exiting("JaxbToAst", "visitJokerExprList", erg);
+    return erg;
+  }
+
+  public Object visitLookupPredProviso(net.sourceforge.czt.zpatt.jaxb.gen.LookupPredProviso jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitLookupPredProviso", jaxbObject);
+    SequentContext sequentContext =
+      (SequentContext) dispatch(jaxbObject.getSequentContext());
+    net.sourceforge.czt.z.ast.Pred pred =
+      (net.sourceforge.czt.z.ast.Pred) dispatch(jaxbObject.getPred());
+    LookupPredProviso erg = mZpattFactory_.createLookupPredProviso(sequentContext, pred);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitLookupPredProviso", erg);
+    return erg;
+  }
+
+  public Object visitCalculateProviso(net.sourceforge.czt.zpatt.jaxb.gen.CalculateProviso jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitCalculateProviso", jaxbObject);
+    SequentContext sequentContext =
+      (SequentContext) dispatch(jaxbObject.getSequentContext());
+    net.sourceforge.czt.z.ast.Expr leftExpr =
+      (net.sourceforge.czt.z.ast.Expr) dispatch(jaxbObject.getLeftExpr());
+    net.sourceforge.czt.z.ast.Expr rightExpr =
+      (net.sourceforge.czt.z.ast.Expr) dispatch(jaxbObject.getRightExpr());
+    CalculateProviso erg = mZpattFactory_.createCalculateProviso(sequentContext, leftExpr, rightExpr);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitCalculateProviso", erg);
     return erg;
   }
 
@@ -257,6 +303,28 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     return erg;
   }
 
+  public Object visitCheckProviso(net.sourceforge.czt.zpatt.jaxb.gen.CheckProviso jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitCheckProviso", jaxbObject);
+    SequentContext sequentContext =
+      (SequentContext) dispatch(jaxbObject.getSequentContext());
+    net.sourceforge.czt.z.ast.Pred pred =
+      (net.sourceforge.czt.z.ast.Pred) dispatch(jaxbObject.getPred());
+    CheckProviso erg = mZpattFactory_.createCheckProviso(sequentContext, pred);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitCheckProviso", erg);
+    return erg;
+  }
+
   public Object visitJokerDeclList(net.sourceforge.czt.zpatt.jaxb.gen.JokerDeclList jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitJokerDeclList", jaxbObject);
@@ -275,6 +343,30 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     return erg;
   }
 
+  public Object visitTypeProviso(net.sourceforge.czt.zpatt.jaxb.gen.TypeProviso jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitTypeProviso", jaxbObject);
+    SequentContext sequentContext =
+      (SequentContext) dispatch(jaxbObject.getSequentContext());
+    net.sourceforge.czt.z.ast.Expr expr =
+      (net.sourceforge.czt.z.ast.Expr) dispatch(jaxbObject.getExpr());
+    net.sourceforge.czt.z.ast.Type type =
+      (net.sourceforge.czt.z.ast.Type) dispatch(jaxbObject.getType());
+    TypeProviso erg = mZpattFactory_.createTypeProviso(sequentContext, expr, type);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitTypeProviso", erg);
+    return erg;
+  }
+
   public Object visitJokerDeclListBinding(net.sourceforge.czt.zpatt.jaxb.gen.JokerDeclListBinding jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitJokerDeclListBinding", jaxbObject);
@@ -288,30 +380,6 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     }
     JokerDeclListBinding erg = mZpattFactory_.createJokerDeclListBinding(jokerDeclList, decl);
     getLogger().exiting("JaxbToAst", "visitJokerDeclListBinding", erg);
-    return erg;
-  }
-
-  public Object visitDefnSequent(net.sourceforge.czt.zpatt.jaxb.gen.DefnSequent jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitDefnSequent", jaxbObject);
-    SequentContext sequentContext =
-      (SequentContext) dispatch(jaxbObject.getSequentContext());
-    net.sourceforge.czt.z.ast.DeclName declName =
-      (net.sourceforge.czt.z.ast.DeclName) dispatch(jaxbObject.getDeclName());
-    net.sourceforge.czt.z.ast.Expr expr =
-      (net.sourceforge.czt.z.ast.Expr) dispatch(jaxbObject.getExpr());
-    DefnSequent erg = mZpattFactory_.createDefnSequent(sequentContext, declName, expr);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitDefnSequent", erg);
     return erg;
   }
 

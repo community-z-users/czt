@@ -238,7 +238,7 @@ public interface OzFactory
    *
    * @return the new instance of State.
    */
-  State createState(java.util.List primaryDecl, java.util.List secondaryDecl);
+  State createState(java.util.List primaryDecl, java.util.List secondaryDecl, net.sourceforge.czt.z.ast.Pred pred);
 
   /**
    * Creates an instance of {@link OpPromotionExpr}.

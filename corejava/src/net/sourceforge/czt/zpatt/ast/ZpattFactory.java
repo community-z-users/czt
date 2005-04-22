@@ -101,20 +101,6 @@ public interface ZpattFactory
   JokerExprListBinding createJokerExprListBinding(JokerExprList jokerExprList, java.util.List expr);
 
   /**
-   * Creates an instance of {@link TypeSequent}.
-   *
-   * @return the new instance of TypeSequent.
-   */
-  TypeSequent createTypeSequent();
-
-  /**
-   * Creates an instance of {@link TypeSequent} with the given children.
-   *
-   * @return the new instance of TypeSequent.
-   */
-  TypeSequent createTypeSequent(SequentContext sequentContext, net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.z.ast.Type type);
-
-  /**
    * Creates an instance of {@link JokerExprBinding}.
    *
    * @return the new instance of JokerExprBinding.
@@ -129,6 +115,20 @@ public interface ZpattFactory
   JokerExprBinding createJokerExprBinding(JokerExpr jokerExpr, net.sourceforge.czt.z.ast.Expr expr);
 
   /**
+   * Creates an instance of {@link LookupConstDeclProviso}.
+   *
+   * @return the new instance of LookupConstDeclProviso.
+   */
+  LookupConstDeclProviso createLookupConstDeclProviso();
+
+  /**
+   * Creates an instance of {@link LookupConstDeclProviso} with the given children.
+   *
+   * @return the new instance of LookupConstDeclProviso.
+   */
+  LookupConstDeclProviso createLookupConstDeclProviso(SequentContext sequentContext, net.sourceforge.czt.z.ast.Expr leftExpr, net.sourceforge.czt.z.ast.Expr rightExpr);
+
+  /**
    * Creates an instance of {@link JokerExprList}.
    *
    * @return the new instance of JokerExprList.
@@ -141,6 +141,34 @@ public interface ZpattFactory
    * @return the new instance of JokerExprList.
    */
   JokerExprList createJokerExprList(String name);
+
+  /**
+   * Creates an instance of {@link LookupPredProviso}.
+   *
+   * @return the new instance of LookupPredProviso.
+   */
+  LookupPredProviso createLookupPredProviso();
+
+  /**
+   * Creates an instance of {@link LookupPredProviso} with the given children.
+   *
+   * @return the new instance of LookupPredProviso.
+   */
+  LookupPredProviso createLookupPredProviso(SequentContext sequentContext, net.sourceforge.czt.z.ast.Pred pred);
+
+  /**
+   * Creates an instance of {@link CalculateProviso}.
+   *
+   * @return the new instance of CalculateProviso.
+   */
+  CalculateProviso createCalculateProviso();
+
+  /**
+   * Creates an instance of {@link CalculateProviso} with the given children.
+   *
+   * @return the new instance of CalculateProviso.
+   */
+  CalculateProviso createCalculateProviso(SequentContext sequentContext, net.sourceforge.czt.z.ast.Expr leftExpr, net.sourceforge.czt.z.ast.Expr rightExpr);
 
   /**
    * Creates an instance of {@link SequentContext}.
@@ -192,6 +220,20 @@ public interface ZpattFactory
   Rule createRule(java.util.List sequent, String name);
 
   /**
+   * Creates an instance of {@link CheckProviso}.
+   *
+   * @return the new instance of CheckProviso.
+   */
+  CheckProviso createCheckProviso();
+
+  /**
+   * Creates an instance of {@link CheckProviso} with the given children.
+   *
+   * @return the new instance of CheckProviso.
+   */
+  CheckProviso createCheckProviso(SequentContext sequentContext, net.sourceforge.czt.z.ast.Pred pred);
+
+  /**
    * Creates an instance of {@link JokerDeclList}.
    *
    * @return the new instance of JokerDeclList.
@@ -213,6 +255,20 @@ public interface ZpattFactory
   Binding createBinding();
 
   /**
+   * Creates an instance of {@link TypeProviso}.
+   *
+   * @return the new instance of TypeProviso.
+   */
+  TypeProviso createTypeProviso();
+
+  /**
+   * Creates an instance of {@link TypeProviso} with the given children.
+   *
+   * @return the new instance of TypeProviso.
+   */
+  TypeProviso createTypeProviso(SequentContext sequentContext, net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.z.ast.Type type);
+
+  /**
    * Creates an instance of {@link JokerDeclListBinding}.
    *
    * @return the new instance of JokerDeclListBinding.
@@ -225,20 +281,6 @@ public interface ZpattFactory
    * @return the new instance of JokerDeclListBinding.
    */
   JokerDeclListBinding createJokerDeclListBinding(JokerDeclList jokerDeclList, java.util.List decl);
-
-  /**
-   * Creates an instance of {@link DefnSequent}.
-   *
-   * @return the new instance of DefnSequent.
-   */
-  DefnSequent createDefnSequent();
-
-  /**
-   * Creates an instance of {@link DefnSequent} with the given children.
-   *
-   * @return the new instance of DefnSequent.
-   */
-  DefnSequent createDefnSequent(SequentContext sequentContext, net.sourceforge.czt.z.ast.DeclName declName, net.sourceforge.czt.z.ast.Expr expr);
 
   /**
    * Creates an instance of {@link Jokers}.

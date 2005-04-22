@@ -31,6 +31,9 @@ import net.sourceforge.czt.z.ast.*;
 
 /**
  * A CSP communication that is part of a prefixing.
+        It can be either a communication for synchronisation, input, output, or mixed.
+        Synchronisation has no fields. Input and Output has only input or output fields repectively. 
+        Finally, mixed communication has both input and output fields, for example in "c?x:P!v -&gt; A".
  *
  * @author Gnast version 0.1
  */

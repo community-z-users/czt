@@ -102,21 +102,6 @@ public class ZpattFactoryImpl
     return zedObject;
   }
 
-  public TypeSequent createTypeSequent()
-  {
-    TypeSequent zedObject = new TypeSequentImpl();
-    return zedObject;
-  }
-
-  public TypeSequent createTypeSequent(SequentContext sequentContext, net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.z.ast.Type type)
-  {
-    TypeSequent zedObject = createTypeSequent();
-    zedObject.setSequentContext(sequentContext);
-    zedObject.setExpr(expr);
-    zedObject.setType(type);
-    return zedObject;
-  }
-
   public JokerExprBinding createJokerExprBinding()
   {
     JokerExprBinding zedObject = new JokerExprBindingImpl();
@@ -131,6 +116,21 @@ public class ZpattFactoryImpl
     return zedObject;
   }
 
+  public LookupConstDeclProviso createLookupConstDeclProviso()
+  {
+    LookupConstDeclProviso zedObject = new LookupConstDeclProvisoImpl();
+    return zedObject;
+  }
+
+  public LookupConstDeclProviso createLookupConstDeclProviso(SequentContext sequentContext, net.sourceforge.czt.z.ast.Expr leftExpr, net.sourceforge.czt.z.ast.Expr rightExpr)
+  {
+    LookupConstDeclProviso zedObject = createLookupConstDeclProviso();
+    zedObject.setSequentContext(sequentContext);
+    zedObject.setLeftExpr(leftExpr);
+    zedObject.setRightExpr(rightExpr);
+    return zedObject;
+  }
+
   public JokerExprList createJokerExprList()
   {
     JokerExprList zedObject = new JokerExprListImpl();
@@ -141,6 +141,35 @@ public class ZpattFactoryImpl
   {
     JokerExprList zedObject = createJokerExprList();
     zedObject.setName(name);
+    return zedObject;
+  }
+
+  public LookupPredProviso createLookupPredProviso()
+  {
+    LookupPredProviso zedObject = new LookupPredProvisoImpl();
+    return zedObject;
+  }
+
+  public LookupPredProviso createLookupPredProviso(SequentContext sequentContext, net.sourceforge.czt.z.ast.Pred pred)
+  {
+    LookupPredProviso zedObject = createLookupPredProviso();
+    zedObject.setSequentContext(sequentContext);
+    zedObject.setPred(pred);
+    return zedObject;
+  }
+
+  public CalculateProviso createCalculateProviso()
+  {
+    CalculateProviso zedObject = new CalculateProvisoImpl();
+    return zedObject;
+  }
+
+  public CalculateProviso createCalculateProviso(SequentContext sequentContext, net.sourceforge.czt.z.ast.Expr leftExpr, net.sourceforge.czt.z.ast.Expr rightExpr)
+  {
+    CalculateProviso zedObject = createCalculateProviso();
+    zedObject.setSequentContext(sequentContext);
+    zedObject.setLeftExpr(leftExpr);
+    zedObject.setRightExpr(rightExpr);
     return zedObject;
   }
 
@@ -199,6 +228,20 @@ public class ZpattFactoryImpl
     return zedObject;
   }
 
+  public CheckProviso createCheckProviso()
+  {
+    CheckProviso zedObject = new CheckProvisoImpl();
+    return zedObject;
+  }
+
+  public CheckProviso createCheckProviso(SequentContext sequentContext, net.sourceforge.czt.z.ast.Pred pred)
+  {
+    CheckProviso zedObject = createCheckProviso();
+    zedObject.setSequentContext(sequentContext);
+    zedObject.setPred(pred);
+    return zedObject;
+  }
+
   public JokerDeclList createJokerDeclList()
   {
     JokerDeclList zedObject = new JokerDeclListImpl();
@@ -218,6 +261,21 @@ public class ZpattFactoryImpl
     return zedObject;
   }
 
+  public TypeProviso createTypeProviso()
+  {
+    TypeProviso zedObject = new TypeProvisoImpl();
+    return zedObject;
+  }
+
+  public TypeProviso createTypeProviso(SequentContext sequentContext, net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.z.ast.Type type)
+  {
+    TypeProviso zedObject = createTypeProviso();
+    zedObject.setSequentContext(sequentContext);
+    zedObject.setExpr(expr);
+    zedObject.setType(type);
+    return zedObject;
+  }
+
   public JokerDeclListBinding createJokerDeclListBinding()
   {
     JokerDeclListBinding zedObject = new JokerDeclListBindingImpl();
@@ -231,21 +289,6 @@ public class ZpattFactoryImpl
     if (decl != null) {
       zedObject.getDecl().addAll(decl);
     }
-    return zedObject;
-  }
-
-  public DefnSequent createDefnSequent()
-  {
-    DefnSequent zedObject = new DefnSequentImpl();
-    return zedObject;
-  }
-
-  public DefnSequent createDefnSequent(SequentContext sequentContext, net.sourceforge.czt.z.ast.DeclName declName, net.sourceforge.czt.z.ast.Expr expr)
-  {
-    DefnSequent zedObject = createDefnSequent();
-    zedObject.setSequentContext(sequentContext);
-    zedObject.setDeclName(declName);
-    zedObject.setExpr(expr);
     return zedObject;
   }
 

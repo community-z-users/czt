@@ -248,7 +248,7 @@ public class OzFactoryImpl
     return zedObject;
   }
 
-  public State createState(java.util.List primaryDecl, java.util.List secondaryDecl)
+  public State createState(java.util.List primaryDecl, java.util.List secondaryDecl, net.sourceforge.czt.z.ast.Pred pred)
   {
     State zedObject = createState();
     if (primaryDecl != null) {
@@ -257,6 +257,7 @@ public class OzFactoryImpl
     if (secondaryDecl != null) {
       zedObject.getSecondaryDecl().addAll(secondaryDecl);
     }
+    zedObject.setPred(pred);
     return zedObject;
   }
 

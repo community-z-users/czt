@@ -43,7 +43,7 @@ import net.sourceforge.czt.z.visitor.LocAnnVisitor;
  * @author Gnast version 0.1
  */
 public class LocAnnImpl
-  extends TermImpl   implements LocAnn
+  extends AnnImpl   implements LocAnn
 {
   /**
    * The default constructor.

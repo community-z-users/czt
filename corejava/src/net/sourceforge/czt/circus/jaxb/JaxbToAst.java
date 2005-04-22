@@ -73,45 +73,17 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
                                             + object.getClass().getName());
   }
 
-  public Object visitSeqActionR(net.sourceforge.czt.circus.jaxb.gen.SeqActionR jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitSeqActionR", jaxbObject);
-    Action action =
-      (Action) dispatch(jaxbObject.getAction());
-    net.sourceforge.czt.z.ast.VarDecl varDecl =
-      (net.sourceforge.czt.z.ast.VarDecl) dispatch(jaxbObject.getVarDecl());
-    SeqActionR erg = mCircusFactory_.createSeqActionR(action, varDecl);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitSeqActionR", erg);
-    return erg;
-  }
-
-  public Object visitSchChannelPara(net.sourceforge.czt.circus.jaxb.gen.SchChannelPara jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitSchChannelPara", jaxbObject);
-    net.sourceforge.czt.z.ast.RefName refName =
-      (net.sourceforge.czt.z.ast.RefName) dispatch(jaxbObject.getRefName());
-    SchChannelPara erg = mCircusFactory_.createSchChannelPara(refName);
-    getLogger().exiting("JaxbToAst", "visitSchChannelPara", erg);
-    return erg;
-  }
-
   public Object visitInterleaveProcessRI(net.sourceforge.czt.circus.jaxb.gen.InterleaveProcessRI jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitInterleaveProcessRI", jaxbObject);
     ProcessDef processDef =
       (ProcessDef) dispatch(jaxbObject.getProcessDef());
-    net.sourceforge.czt.z.ast.VarDecl varDecl =
-      (net.sourceforge.czt.z.ast.VarDecl) dispatch(jaxbObject.getVarDecl());
+    List varDecl = new Vector();
+    for (Iterator iter = jaxbObject.getVarDecl().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      varDecl.add(o);
+    }
     InterleaveProcessRI erg = mCircusFactory_.createInterleaveProcessRI(processDef, varDecl);
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getany() != null) {
@@ -124,50 +96,6 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
       }
     }
     getLogger().exiting("JaxbToAst", "visitInterleaveProcessRI", erg);
-    return erg;
-  }
-
-  public Object visitInterleaveActionR(net.sourceforge.czt.circus.jaxb.gen.InterleaveActionR jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitInterleaveActionR", jaxbObject);
-    Action action =
-      (Action) dispatch(jaxbObject.getAction());
-    net.sourceforge.czt.z.ast.VarDecl varDecl =
-      (net.sourceforge.czt.z.ast.VarDecl) dispatch(jaxbObject.getVarDecl());
-    InterleaveActionR erg = mCircusFactory_.createInterleaveActionR(action, varDecl);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitInterleaveActionR", erg);
-    return erg;
-  }
-
-  public Object visitGuardedAction(net.sourceforge.czt.circus.jaxb.gen.GuardedAction jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitGuardedAction", jaxbObject);
-    Action action =
-      (Action) dispatch(jaxbObject.getAction());
-    net.sourceforge.czt.z.ast.Pred pred =
-      (net.sourceforge.czt.z.ast.Pred) dispatch(jaxbObject.getPred());
-    GuardedAction erg = mCircusFactory_.createGuardedAction(action, pred);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitGuardedAction", erg);
     return erg;
   }
 
@@ -197,14 +125,14 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     return erg;
   }
 
-  public Object visitFormalParamProcess(net.sourceforge.czt.circus.jaxb.gen.FormalParamProcess jaxbObject)
+  public Object visitGuardedAction(net.sourceforge.czt.circus.jaxb.gen.GuardedAction jaxbObject)
   {
-    getLogger().entering("JaxbToAst", "visitFormalParamProcess", jaxbObject);
-    ProcessDef processDef =
-      (ProcessDef) dispatch(jaxbObject.getProcessDef());
-    net.sourceforge.czt.z.ast.VarDecl varDecl =
-      (net.sourceforge.czt.z.ast.VarDecl) dispatch(jaxbObject.getVarDecl());
-    FormalParamProcess erg = mCircusFactory_.createFormalParamProcess(processDef, varDecl);
+    getLogger().entering("JaxbToAst", "visitGuardedAction", jaxbObject);
+    Action action =
+      (Action) dispatch(jaxbObject.getAction());
+    net.sourceforge.czt.z.ast.Pred pred =
+      (net.sourceforge.czt.z.ast.Pred) dispatch(jaxbObject.getPred());
+    GuardedAction erg = mCircusFactory_.createGuardedAction(action, pred);
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
@@ -215,7 +143,7 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
         annsList.add(o);
       }
     }
-    getLogger().exiting("JaxbToAst", "visitFormalParamProcess", erg);
+    getLogger().exiting("JaxbToAst", "visitGuardedAction", erg);
     return erg;
   }
 
@@ -247,41 +175,17 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     return erg;
   }
 
-  public Object visitSpecStmtCommand(net.sourceforge.czt.circus.jaxb.gen.SpecStmtCommand jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitSpecStmtCommand", jaxbObject);
-    List frame = new Vector();
-    for (Iterator iter = jaxbObject.getFrame().iterator(); iter.hasNext();) {
-      Object obj = iter.next();
-      Object o = dispatch(obj);
-      frame.add(o);
-    }
-    net.sourceforge.czt.z.ast.Pred pre =
-      (net.sourceforge.czt.z.ast.Pred) dispatch(jaxbObject.getPre());
-    net.sourceforge.czt.z.ast.Pred post =
-      (net.sourceforge.czt.z.ast.Pred) dispatch(jaxbObject.getPost());
-    SpecStmtCommand erg = mCircusFactory_.createSpecStmtCommand(frame, pre, post);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitSpecStmtCommand", erg);
-    return erg;
-  }
-
   public Object visitSeqProcessR(net.sourceforge.czt.circus.jaxb.gen.SeqProcessR jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitSeqProcessR", jaxbObject);
     ProcessDef processDef =
       (ProcessDef) dispatch(jaxbObject.getProcessDef());
-    net.sourceforge.czt.z.ast.VarDecl varDecl =
-      (net.sourceforge.czt.z.ast.VarDecl) dispatch(jaxbObject.getVarDecl());
+    List varDecl = new Vector();
+    for (Iterator iter = jaxbObject.getVarDecl().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      varDecl.add(o);
+    }
     SeqProcessR erg = mCircusFactory_.createSeqProcessR(processDef, varDecl);
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getany() != null) {
@@ -294,28 +198,6 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
       }
     }
     getLogger().exiting("JaxbToAst", "visitSeqProcessR", erg);
-    return erg;
-  }
-
-  public Object visitMuAction(net.sourceforge.czt.circus.jaxb.gen.MuAction jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitMuAction", jaxbObject);
-    Action action =
-      (Action) dispatch(jaxbObject.getAction());
-    net.sourceforge.czt.z.ast.DeclName declName =
-      (net.sourceforge.czt.z.ast.DeclName) dispatch(jaxbObject.getDeclName());
-    MuAction erg = mCircusFactory_.createMuAction(action, declName);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitMuAction", erg);
     return erg;
   }
 
@@ -359,40 +241,6 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     return erg;
   }
 
-  public Object visitProcessPara(net.sourceforge.czt.circus.jaxb.gen.ProcessPara jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitProcessPara", jaxbObject);
-    net.sourceforge.czt.z.ast.DeclName declName =
-      (net.sourceforge.czt.z.ast.DeclName) dispatch(jaxbObject.getDeclName());
-    ProcessDef processDef =
-      (ProcessDef) dispatch(jaxbObject.getProcessDef());
-    ProcessPara erg = mCircusFactory_.createProcessPara(declName, processDef);
-    getLogger().exiting("JaxbToAst", "visitProcessPara", erg);
-    return erg;
-  }
-
-  public Object visitSeqAction(net.sourceforge.czt.circus.jaxb.gen.SeqAction jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitSeqAction", jaxbObject);
-    Action leftAction =
-      (Action) dispatch(jaxbObject.getLeftAction());
-    Action rightAction =
-      (Action) dispatch(jaxbObject.getRightAction());
-    SeqAction erg = mCircusFactory_.createSeqAction(leftAction, rightAction);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitSeqAction", erg);
-    return erg;
-  }
-
   public Object visitSkipAction(net.sourceforge.czt.circus.jaxb.gen.SkipAction jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitSkipAction", jaxbObject);
@@ -411,83 +259,13 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     return erg;
   }
 
-  public Object visitActualGenProcess(net.sourceforge.czt.circus.jaxb.gen.ActualGenProcess jaxbObject)
+  public Object visitProcessType(net.sourceforge.czt.circus.jaxb.gen.ProcessType jaxbObject)
   {
-    getLogger().entering("JaxbToAst", "visitActualGenProcess", jaxbObject);
-    ProcessDef processDef =
-      (ProcessDef) dispatch(jaxbObject.getProcessDef());
-    List expr = new Vector();
-    for (Iterator iter = jaxbObject.getExpr().iterator(); iter.hasNext();) {
-      Object obj = iter.next();
-      Object o = dispatch(obj);
-      expr.add(o);
-    }
-    ActualGenProcess erg = mCircusFactory_.createActualGenProcess(processDef, expr);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitActualGenProcess", erg);
-    return erg;
-  }
-
-  public Object visitCallAction(net.sourceforge.czt.circus.jaxb.gen.CallAction jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitCallAction", jaxbObject);
-    net.sourceforge.czt.z.ast.RefName refName =
-      (net.sourceforge.czt.z.ast.RefName) dispatch(jaxbObject.getRefName());
-    CallAction erg = mCircusFactory_.createCallAction(refName);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitCallAction", erg);
-    return erg;
-  }
-
-  public Object visitChannelSetPara(net.sourceforge.czt.circus.jaxb.gen.ChannelSetPara jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitChannelSetPara", jaxbObject);
-    net.sourceforge.czt.z.ast.DeclName declName =
-      (net.sourceforge.czt.z.ast.DeclName) dispatch(jaxbObject.getDeclName());
-    ChannelSet channelSet =
-      (ChannelSet) dispatch(jaxbObject.getChannelSet());
-    ChannelSetPara erg = mCircusFactory_.createChannelSetPara(declName, channelSet);
-    getLogger().exiting("JaxbToAst", "visitChannelSetPara", erg);
-    return erg;
-  }
-
-  public Object visitIntChoiceProcessR(net.sourceforge.czt.circus.jaxb.gen.IntChoiceProcessR jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitIntChoiceProcessR", jaxbObject);
-    ProcessDef processDef =
-      (ProcessDef) dispatch(jaxbObject.getProcessDef());
-    net.sourceforge.czt.z.ast.VarDecl varDecl =
-      (net.sourceforge.czt.z.ast.VarDecl) dispatch(jaxbObject.getVarDecl());
-    IntChoiceProcessR erg = mCircusFactory_.createIntChoiceProcessR(processDef, varDecl);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitIntChoiceProcessR", erg);
+    getLogger().entering("JaxbToAst", "visitProcessType", jaxbObject);
+    ProcessSignature processSignature =
+      (ProcessSignature) dispatch(jaxbObject.getProcessSignature());
+    ProcessType erg = mCircusFactory_.createProcessType(processSignature);
+    getLogger().exiting("JaxbToAst", "visitProcessType", erg);
     return erg;
   }
 
@@ -496,8 +274,12 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     getLogger().entering("JaxbToAst", "visitIntChoiceActionR", jaxbObject);
     Action action =
       (Action) dispatch(jaxbObject.getAction());
-    net.sourceforge.czt.z.ast.VarDecl varDecl =
-      (net.sourceforge.czt.z.ast.VarDecl) dispatch(jaxbObject.getVarDecl());
+    List varDecl = new Vector();
+    for (Iterator iter = jaxbObject.getVarDecl().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      varDecl.add(o);
+    }
     IntChoiceActionR erg = mCircusFactory_.createIntChoiceActionR(action, varDecl);
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getany() != null) {
@@ -535,22 +317,16 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     return erg;
   }
 
-  public Object visitMixedField(net.sourceforge.czt.circus.jaxb.gen.MixedField jaxbObject)
+  public Object visitBasicChannelSet(net.sourceforge.czt.circus.jaxb.gen.BasicChannelSet jaxbObject)
   {
-    getLogger().entering("JaxbToAst", "visitMixedField", jaxbObject);
-    List inputField = new Vector();
-    for (Iterator iter = jaxbObject.getInputField().iterator(); iter.hasNext();) {
+    getLogger().entering("JaxbToAst", "visitBasicChannelSet", jaxbObject);
+    List refName = new Vector();
+    for (Iterator iter = jaxbObject.getRefName().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
-      inputField.add(o);
+      refName.add(o);
     }
-    List outputField = new Vector();
-    for (Iterator iter = jaxbObject.getOutputField().iterator(); iter.hasNext();) {
-      Object obj = iter.next();
-      Object o = dispatch(obj);
-      outputField.add(o);
-    }
-    MixedField erg = mCircusFactory_.createMixedField(inputField, outputField);
+    BasicChannelSet erg = mCircusFactory_.createBasicChannelSet(refName);
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
@@ -561,7 +337,753 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
         annsList.add(o);
       }
     }
-    getLogger().exiting("JaxbToAst", "visitMixedField", erg);
+    getLogger().exiting("JaxbToAst", "visitBasicChannelSet", erg);
+    return erg;
+  }
+
+  public Object visitUnionChannelSet(net.sourceforge.czt.circus.jaxb.gen.UnionChannelSet jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitUnionChannelSet", jaxbObject);
+    ChannelSet leftOperand =
+      (ChannelSet) dispatch(jaxbObject.getLeftOperand());
+    ChannelSet rightOperand =
+      (ChannelSet) dispatch(jaxbObject.getRightOperand());
+    UnionChannelSet erg = mCircusFactory_.createUnionChannelSet(leftOperand, rightOperand);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitUnionChannelSet", erg);
+    return erg;
+  }
+
+  public Object visitParallelProcessRI(net.sourceforge.czt.circus.jaxb.gen.ParallelProcessRI jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitParallelProcessRI", jaxbObject);
+    ProcessDef processDef =
+      (ProcessDef) dispatch(jaxbObject.getProcessDef());
+    List varDecl = new Vector();
+    for (Iterator iter = jaxbObject.getVarDecl().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      varDecl.add(o);
+    }
+    ChannelSet channelSet =
+      (ChannelSet) dispatch(jaxbObject.getChannelSet());
+    ParallelProcessRI erg = mCircusFactory_.createParallelProcessRI(processDef, varDecl, channelSet);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitParallelProcessRI", erg);
+    return erg;
+  }
+
+  public Object visitInterleaveAction(net.sourceforge.czt.circus.jaxb.gen.InterleaveAction jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitInterleaveAction", jaxbObject);
+    Action leftAction =
+      (Action) dispatch(jaxbObject.getLeftAction());
+    Action rightAction =
+      (Action) dispatch(jaxbObject.getRightAction());
+    NameSet leftNameSet =
+      (NameSet) dispatch(jaxbObject.getLeftNameSet());
+    NameSet rightNameSet =
+      (NameSet) dispatch(jaxbObject.getRightNameSet());
+    InterleaveAction erg = mCircusFactory_.createInterleaveAction(leftAction, rightAction, leftNameSet, rightNameSet);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitInterleaveAction", erg);
+    return erg;
+  }
+
+  public Object visitIntChoiceProcess(net.sourceforge.czt.circus.jaxb.gen.IntChoiceProcess jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitIntChoiceProcess", jaxbObject);
+    ProcessDef leftProc =
+      (ProcessDef) dispatch(jaxbObject.getLeftProc());
+    ProcessDef rightProc =
+      (ProcessDef) dispatch(jaxbObject.getRightProc());
+    IntChoiceProcess erg = mCircusFactory_.createIntChoiceProcess(leftProc, rightProc);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitIntChoiceProcess", erg);
+    return erg;
+  }
+
+  public Object visitSeqProcessRI(net.sourceforge.czt.circus.jaxb.gen.SeqProcessRI jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitSeqProcessRI", jaxbObject);
+    ProcessDef processDef =
+      (ProcessDef) dispatch(jaxbObject.getProcessDef());
+    List varDecl = new Vector();
+    for (Iterator iter = jaxbObject.getVarDecl().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      varDecl.add(o);
+    }
+    SeqProcessRI erg = mCircusFactory_.createSeqProcessRI(processDef, varDecl);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitSeqProcessRI", erg);
+    return erg;
+  }
+
+  public Object visitSchExprAction(net.sourceforge.czt.circus.jaxb.gen.SchExprAction jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitSchExprAction", jaxbObject);
+    net.sourceforge.czt.z.ast.SchExpr schExpr =
+      (net.sourceforge.czt.z.ast.SchExpr) dispatch(jaxbObject.getSchExpr());
+    Boolean isState =
+      (Boolean) dispatch(jaxbObject.getIsState());
+    SchExprAction erg = mCircusFactory_.createSchExprAction(schExpr, isState);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitSchExprAction", erg);
+    return erg;
+  }
+
+  public Object visitIfGuardedCommand(net.sourceforge.czt.circus.jaxb.gen.IfGuardedCommand jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitIfGuardedCommand", jaxbObject);
+    List guardedAction = new Vector();
+    for (Iterator iter = jaxbObject.getGuardedAction().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      guardedAction.add(o);
+    }
+    IfGuardedCommand erg = mCircusFactory_.createIfGuardedCommand(guardedAction);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitIfGuardedCommand", erg);
+    return erg;
+  }
+
+  public Object visitExtChoiceProcess(net.sourceforge.czt.circus.jaxb.gen.ExtChoiceProcess jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitExtChoiceProcess", jaxbObject);
+    ProcessDef leftProc =
+      (ProcessDef) dispatch(jaxbObject.getLeftProc());
+    ProcessDef rightProc =
+      (ProcessDef) dispatch(jaxbObject.getRightProc());
+    ExtChoiceProcess erg = mCircusFactory_.createExtChoiceProcess(leftProc, rightProc);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitExtChoiceProcess", erg);
+    return erg;
+  }
+
+  public Object visitStopAction(net.sourceforge.czt.circus.jaxb.gen.StopAction jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitStopAction", jaxbObject);
+    StopAction erg = mCircusFactory_.createStopAction();
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitStopAction", erg);
+    return erg;
+  }
+
+  public Object visitExtChoiceAction(net.sourceforge.czt.circus.jaxb.gen.ExtChoiceAction jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitExtChoiceAction", jaxbObject);
+    Action leftAction =
+      (Action) dispatch(jaxbObject.getLeftAction());
+    Action rightAction =
+      (Action) dispatch(jaxbObject.getRightAction());
+    ExtChoiceAction erg = mCircusFactory_.createExtChoiceAction(leftAction, rightAction);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitExtChoiceAction", erg);
+    return erg;
+  }
+
+  public Object visitRefChannelSet(net.sourceforge.czt.circus.jaxb.gen.RefChannelSet jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitRefChannelSet", jaxbObject);
+    net.sourceforge.czt.z.ast.RefName refName =
+      (net.sourceforge.czt.z.ast.RefName) dispatch(jaxbObject.getRefName());
+    RefChannelSet erg = mCircusFactory_.createRefChannelSet(refName);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitRefChannelSet", erg);
+    return erg;
+  }
+
+  public Object visitExtChoiceActionR(net.sourceforge.czt.circus.jaxb.gen.ExtChoiceActionR jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitExtChoiceActionR", jaxbObject);
+    Action action =
+      (Action) dispatch(jaxbObject.getAction());
+    List varDecl = new Vector();
+    for (Iterator iter = jaxbObject.getVarDecl().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      varDecl.add(o);
+    }
+    ExtChoiceActionR erg = mCircusFactory_.createExtChoiceActionR(action, varDecl);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitExtChoiceActionR", erg);
+    return erg;
+  }
+
+  public Object visitRefNameSet(net.sourceforge.czt.circus.jaxb.gen.RefNameSet jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitRefNameSet", jaxbObject);
+    net.sourceforge.czt.z.ast.RefName refName =
+      (net.sourceforge.czt.z.ast.RefName) dispatch(jaxbObject.getRefName());
+    RefNameSet erg = mCircusFactory_.createRefNameSet(refName);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitRefNameSet", erg);
+    return erg;
+  }
+
+  public Object visitPrefixingAction(net.sourceforge.czt.circus.jaxb.gen.PrefixingAction jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitPrefixingAction", jaxbObject);
+    Action action =
+      (Action) dispatch(jaxbObject.getAction());
+    Communication communication =
+      (Communication) dispatch(jaxbObject.getCommunication());
+    PrefixingAction erg = mCircusFactory_.createPrefixingAction(action, communication);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitPrefixingAction", erg);
+    return erg;
+  }
+
+  public Object visitDifferenceNameSet(net.sourceforge.czt.circus.jaxb.gen.DifferenceNameSet jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitDifferenceNameSet", jaxbObject);
+    NameSet leftOperand =
+      (NameSet) dispatch(jaxbObject.getLeftOperand());
+    NameSet rightOperand =
+      (NameSet) dispatch(jaxbObject.getRightOperand());
+    DifferenceNameSet erg = mCircusFactory_.createDifferenceNameSet(leftOperand, rightOperand);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitDifferenceNameSet", erg);
+    return erg;
+  }
+
+  public Object visitIndexedProcessDesc(net.sourceforge.czt.circus.jaxb.gen.IndexedProcessDesc jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitIndexedProcessDesc", jaxbObject);
+    List varDecl = new Vector();
+    for (Iterator iter = jaxbObject.getVarDecl().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      varDecl.add(o);
+    }
+    ProcessDef processDef =
+      (ProcessDef) dispatch(jaxbObject.getProcessDef());
+    IndexedProcessDesc erg = mCircusFactory_.createIndexedProcessDesc(varDecl, processDef);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitIndexedProcessDesc", erg);
+    return erg;
+  }
+
+  public Object visitAssignmentPair(net.sourceforge.czt.circus.jaxb.gen.AssignmentPair jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitAssignmentPair", jaxbObject);
+    net.sourceforge.czt.z.ast.RefName lHS =
+      (net.sourceforge.czt.z.ast.RefName) dispatch(jaxbObject.getLHS());
+    net.sourceforge.czt.z.ast.Expr rHS =
+      (net.sourceforge.czt.z.ast.Expr) dispatch(jaxbObject.getRHS());
+    AssignmentPair erg = mCircusFactory_.createAssignmentPair(lHS, rHS);
+    getLogger().exiting("JaxbToAst", "visitAssignmentPair", erg);
+    return erg;
+  }
+
+  public Object visitAssignmentCommand(net.sourceforge.czt.circus.jaxb.gen.AssignmentCommand jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitAssignmentCommand", jaxbObject);
+    List assignmentPair = new Vector();
+    for (Iterator iter = jaxbObject.getAssignmentPair().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      assignmentPair.add(o);
+    }
+    AssignmentCommand erg = mCircusFactory_.createAssignmentCommand(assignmentPair);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitAssignmentCommand", erg);
+    return erg;
+  }
+
+  public Object visitActualParamAction(net.sourceforge.czt.circus.jaxb.gen.ActualParamAction jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitActualParamAction", jaxbObject);
+    Action action =
+      (Action) dispatch(jaxbObject.getAction());
+    List expr = new Vector();
+    for (Iterator iter = jaxbObject.getExpr().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      expr.add(o);
+    }
+    ActualParamAction erg = mCircusFactory_.createActualParamAction(action, expr);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitActualParamAction", erg);
+    return erg;
+  }
+
+  public Object visitExtChoiceProcessRI(net.sourceforge.czt.circus.jaxb.gen.ExtChoiceProcessRI jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitExtChoiceProcessRI", jaxbObject);
+    ProcessDef processDef =
+      (ProcessDef) dispatch(jaxbObject.getProcessDef());
+    List varDecl = new Vector();
+    for (Iterator iter = jaxbObject.getVarDecl().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      varDecl.add(o);
+    }
+    ExtChoiceProcessRI erg = mCircusFactory_.createExtChoiceProcessRI(processDef, varDecl);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitExtChoiceProcessRI", erg);
+    return erg;
+  }
+
+  public Object visitAssumptionCommand(net.sourceforge.czt.circus.jaxb.gen.AssumptionCommand jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitAssumptionCommand", jaxbObject);
+    net.sourceforge.czt.z.ast.Pred pred =
+      (net.sourceforge.czt.z.ast.Pred) dispatch(jaxbObject.getPred());
+    AssumptionCommand erg = mCircusFactory_.createAssumptionCommand(pred);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitAssumptionCommand", erg);
+    return erg;
+  }
+
+  public Object visitBasicProcessSignature(net.sourceforge.czt.circus.jaxb.gen.BasicProcessSignature jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitBasicProcessSignature", jaxbObject);
+    net.sourceforge.czt.z.ast.DeclName processName =
+      (net.sourceforge.czt.z.ast.DeclName) dispatch(jaxbObject.getProcessName());
+    net.sourceforge.czt.z.ast.VarDecl formalParams =
+      (net.sourceforge.czt.z.ast.VarDecl) dispatch(jaxbObject.getFormalParams());
+    net.sourceforge.czt.z.ast.Signature stateSignature =
+      (net.sourceforge.czt.z.ast.Signature) dispatch(jaxbObject.getStateSignature());
+    List localZDeclsSignature = new Vector();
+    for (Iterator iter = jaxbObject.getLocalZDeclsSignature().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      localZDeclsSignature.add(o);
+    }
+    List actionsSignature = new Vector();
+    for (Iterator iter = jaxbObject.getActionsSignature().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      actionsSignature.add(o);
+    }
+    List declNameSets = new Vector();
+    for (Iterator iter = jaxbObject.getDeclNameSets().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      declNameSets.add(o);
+    }
+    BasicProcessSignature erg = mCircusFactory_.createBasicProcessSignature(processName, formalParams, stateSignature, localZDeclsSignature, actionsSignature, declNameSets);
+    getLogger().exiting("JaxbToAst", "visitBasicProcessSignature", erg);
+    return erg;
+  }
+
+  public Object visitSeqActionR(net.sourceforge.czt.circus.jaxb.gen.SeqActionR jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitSeqActionR", jaxbObject);
+    Action action =
+      (Action) dispatch(jaxbObject.getAction());
+    List varDecl = new Vector();
+    for (Iterator iter = jaxbObject.getVarDecl().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      varDecl.add(o);
+    }
+    SeqActionR erg = mCircusFactory_.createSeqActionR(action, varDecl);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitSeqActionR", erg);
+    return erg;
+  }
+
+  public Object visitInterleaveActionR(net.sourceforge.czt.circus.jaxb.gen.InterleaveActionR jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitInterleaveActionR", jaxbObject);
+    Action action =
+      (Action) dispatch(jaxbObject.getAction());
+    List varDecl = new Vector();
+    for (Iterator iter = jaxbObject.getVarDecl().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      varDecl.add(o);
+    }
+    InterleaveActionR erg = mCircusFactory_.createInterleaveActionR(action, varDecl);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitInterleaveActionR", erg);
+    return erg;
+  }
+
+  public Object visitSpecStmtCommand(net.sourceforge.czt.circus.jaxb.gen.SpecStmtCommand jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitSpecStmtCommand", jaxbObject);
+    List frame = new Vector();
+    for (Iterator iter = jaxbObject.getFrame().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      frame.add(o);
+    }
+    net.sourceforge.czt.z.ast.Pred pre =
+      (net.sourceforge.czt.z.ast.Pred) dispatch(jaxbObject.getPre());
+    net.sourceforge.czt.z.ast.Pred post =
+      (net.sourceforge.czt.z.ast.Pred) dispatch(jaxbObject.getPost());
+    SpecStmtCommand erg = mCircusFactory_.createSpecStmtCommand(frame, pre, post);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitSpecStmtCommand", erg);
+    return erg;
+  }
+
+  public Object visitMuAction(net.sourceforge.czt.circus.jaxb.gen.MuAction jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitMuAction", jaxbObject);
+    Action action =
+      (Action) dispatch(jaxbObject.getAction());
+    net.sourceforge.czt.z.ast.DeclName declName =
+      (net.sourceforge.czt.z.ast.DeclName) dispatch(jaxbObject.getDeclName());
+    MuAction erg = mCircusFactory_.createMuAction(action, declName);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitMuAction", erg);
+    return erg;
+  }
+
+  public Object visitProcessSignature(net.sourceforge.czt.circus.jaxb.gen.ProcessSignature jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitProcessSignature", jaxbObject);
+    net.sourceforge.czt.z.ast.DeclName processName =
+      (net.sourceforge.czt.z.ast.DeclName) dispatch(jaxbObject.getProcessName());
+    net.sourceforge.czt.z.ast.VarDecl formalParams =
+      (net.sourceforge.czt.z.ast.VarDecl) dispatch(jaxbObject.getFormalParams());
+    ProcessSignature erg = mCircusFactory_.createProcessSignature(processName, formalParams);
+    getLogger().exiting("JaxbToAst", "visitProcessSignature", erg);
+    return erg;
+  }
+
+  public Object visitProcessPara(net.sourceforge.czt.circus.jaxb.gen.ProcessPara jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitProcessPara", jaxbObject);
+    net.sourceforge.czt.z.ast.DeclName declName =
+      (net.sourceforge.czt.z.ast.DeclName) dispatch(jaxbObject.getDeclName());
+    List genericTypes = new Vector();
+    for (Iterator iter = jaxbObject.getGenericTypes().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      genericTypes.add(o);
+    }
+    ProcessDesc processDesc =
+      (ProcessDesc) dispatch(jaxbObject.getProcessDesc());
+    ProcessPara erg = mCircusFactory_.createProcessPara(declName, genericTypes, processDesc);
+    getLogger().exiting("JaxbToAst", "visitProcessPara", erg);
+    return erg;
+  }
+
+  public Object visitSeqAction(net.sourceforge.czt.circus.jaxb.gen.SeqAction jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitSeqAction", jaxbObject);
+    Action leftAction =
+      (Action) dispatch(jaxbObject.getLeftAction());
+    Action rightAction =
+      (Action) dispatch(jaxbObject.getRightAction());
+    SeqAction erg = mCircusFactory_.createSeqAction(leftAction, rightAction);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitSeqAction", erg);
+    return erg;
+  }
+
+  public Object visitActualGenProcess(net.sourceforge.czt.circus.jaxb.gen.ActualGenProcess jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitActualGenProcess", jaxbObject);
+    ProcessDef processDef =
+      (ProcessDef) dispatch(jaxbObject.getProcessDef());
+    List expr = new Vector();
+    for (Iterator iter = jaxbObject.getExpr().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      expr.add(o);
+    }
+    ActualGenProcess erg = mCircusFactory_.createActualGenProcess(processDef, expr);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitActualGenProcess", erg);
+    return erg;
+  }
+
+  public Object visitChannelSetPara(net.sourceforge.czt.circus.jaxb.gen.ChannelSetPara jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitChannelSetPara", jaxbObject);
+    net.sourceforge.czt.z.ast.DeclName declName =
+      (net.sourceforge.czt.z.ast.DeclName) dispatch(jaxbObject.getDeclName());
+    ChannelSet channelSet =
+      (ChannelSet) dispatch(jaxbObject.getChannelSet());
+    ChannelSetPara erg = mCircusFactory_.createChannelSetPara(declName, channelSet);
+    getLogger().exiting("JaxbToAst", "visitChannelSetPara", erg);
+    return erg;
+  }
+
+  public Object visitCallAction(net.sourceforge.czt.circus.jaxb.gen.CallAction jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitCallAction", jaxbObject);
+    net.sourceforge.czt.z.ast.RefName refName =
+      (net.sourceforge.czt.z.ast.RefName) dispatch(jaxbObject.getRefName());
+    CallAction erg = mCircusFactory_.createCallAction(refName);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitCallAction", erg);
+    return erg;
+  }
+
+  public Object visitIntChoiceProcessR(net.sourceforge.czt.circus.jaxb.gen.IntChoiceProcessR jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitIntChoiceProcessR", jaxbObject);
+    ProcessDef processDef =
+      (ProcessDef) dispatch(jaxbObject.getProcessDef());
+    List varDecl = new Vector();
+    for (Iterator iter = jaxbObject.getVarDecl().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      varDecl.add(o);
+    }
+    IntChoiceProcessR erg = mCircusFactory_.createIntChoiceProcessR(processDef, varDecl);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitIntChoiceProcessR", erg);
     return erg;
   }
 
@@ -570,8 +1092,12 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     getLogger().entering("JaxbToAst", "visitIntChoiceProcessRI", jaxbObject);
     ProcessDef processDef =
       (ProcessDef) dispatch(jaxbObject.getProcessDef());
-    net.sourceforge.czt.z.ast.VarDecl varDecl =
-      (net.sourceforge.czt.z.ast.VarDecl) dispatch(jaxbObject.getVarDecl());
+    List varDecl = new Vector();
+    for (Iterator iter = jaxbObject.getVarDecl().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      varDecl.add(o);
+    }
     IntChoiceProcessRI erg = mCircusFactory_.createIntChoiceProcessRI(processDef, varDecl);
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getany() != null) {
@@ -642,32 +1168,10 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     getLogger().entering("JaxbToAst", "visitActionPara", jaxbObject);
     net.sourceforge.czt.z.ast.DeclName declName =
       (net.sourceforge.czt.z.ast.DeclName) dispatch(jaxbObject.getDeclName());
-    Action action =
-      (Action) dispatch(jaxbObject.getAction());
-    ActionPara erg = mCircusFactory_.createActionPara(declName, action);
+    ActionDesc actionDesc =
+      (ActionDesc) dispatch(jaxbObject.getActionDesc());
+    ActionPara erg = mCircusFactory_.createActionPara(declName, actionDesc);
     getLogger().exiting("JaxbToAst", "visitActionPara", erg);
-    return erg;
-  }
-
-  public Object visitUnionChannelSet(net.sourceforge.czt.circus.jaxb.gen.UnionChannelSet jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitUnionChannelSet", jaxbObject);
-    ChannelSet leftOperand =
-      (ChannelSet) dispatch(jaxbObject.getLeftOperand());
-    ChannelSet rightOperand =
-      (ChannelSet) dispatch(jaxbObject.getRightOperand());
-    UnionChannelSet erg = mCircusFactory_.createUnionChannelSet(leftOperand, rightOperand);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitUnionChannelSet", erg);
     return erg;
   }
 
@@ -690,6 +1194,16 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
       }
     }
     getLogger().exiting("JaxbToAst", "visitHideProcess", erg);
+    return erg;
+  }
+
+  public Object visitActionAnn(net.sourceforge.czt.circus.jaxb.gen.ActionAnn jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitActionAnn", jaxbObject);
+    ActionSignature actionSignature =
+      (ActionSignature) dispatch(jaxbObject.getActionSignature());
+    ActionAnn erg = mCircusFactory_.createActionAnn(actionSignature);
+    getLogger().exiting("JaxbToAst", "visitActionAnn", erg);
     return erg;
   }
 
@@ -717,61 +1231,17 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     return erg;
   }
 
-  public Object visitSetChannelSet(net.sourceforge.czt.circus.jaxb.gen.SetChannelSet jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitSetChannelSet", jaxbObject);
-    List refName = new Vector();
-    for (Iterator iter = jaxbObject.getRefName().iterator(); iter.hasNext();) {
-      Object obj = iter.next();
-      Object o = dispatch(obj);
-      refName.add(o);
-    }
-    SetChannelSet erg = mCircusFactory_.createSetChannelSet(refName);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitSetChannelSet", erg);
-    return erg;
-  }
-
-  public Object visitParallelProcessRI(net.sourceforge.czt.circus.jaxb.gen.ParallelProcessRI jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitParallelProcessRI", jaxbObject);
-    ProcessDef processDef =
-      (ProcessDef) dispatch(jaxbObject.getProcessDef());
-    net.sourceforge.czt.z.ast.VarDecl varDecl =
-      (net.sourceforge.czt.z.ast.VarDecl) dispatch(jaxbObject.getVarDecl());
-    ChannelSet channelSet =
-      (ChannelSet) dispatch(jaxbObject.getChannelSet());
-    ParallelProcessRI erg = mCircusFactory_.createParallelProcessRI(processDef, varDecl, channelSet);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitParallelProcessRI", erg);
-    return erg;
-  }
-
   public Object visitParallelProcessR(net.sourceforge.czt.circus.jaxb.gen.ParallelProcessR jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitParallelProcessR", jaxbObject);
     ProcessDef processDef =
       (ProcessDef) dispatch(jaxbObject.getProcessDef());
-    net.sourceforge.czt.z.ast.VarDecl varDecl =
-      (net.sourceforge.czt.z.ast.VarDecl) dispatch(jaxbObject.getVarDecl());
+    List varDecl = new Vector();
+    for (Iterator iter = jaxbObject.getVarDecl().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      varDecl.add(o);
+    }
     ChannelSet channelSet =
       (ChannelSet) dispatch(jaxbObject.getChannelSet());
     ParallelProcessR erg = mCircusFactory_.createParallelProcessR(processDef, varDecl, channelSet);
@@ -789,13 +1259,27 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     return erg;
   }
 
+  public Object visitActionType(net.sourceforge.czt.circus.jaxb.gen.ActionType jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitActionType", jaxbObject);
+    ActionSignature actionSignature =
+      (ActionSignature) dispatch(jaxbObject.getActionSignature());
+    ActionType erg = mCircusFactory_.createActionType(actionSignature);
+    getLogger().exiting("JaxbToAst", "visitActionType", erg);
+    return erg;
+  }
+
   public Object visitParallelActionR(net.sourceforge.czt.circus.jaxb.gen.ParallelActionR jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitParallelActionR", jaxbObject);
     Action action =
       (Action) dispatch(jaxbObject.getAction());
-    net.sourceforge.czt.z.ast.VarDecl varDecl =
-      (net.sourceforge.czt.z.ast.VarDecl) dispatch(jaxbObject.getVarDecl());
+    List varDecl = new Vector();
+    for (Iterator iter = jaxbObject.getVarDecl().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      varDecl.add(o);
+    }
     NameSet leftNameSet =
       (NameSet) dispatch(jaxbObject.getLeftNameSet());
     NameSet rightNameSet =
@@ -814,28 +1298,6 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
       }
     }
     getLogger().exiting("JaxbToAst", "visitParallelActionR", erg);
-    return erg;
-  }
-
-  public Object visitIndexedProcess(net.sourceforge.czt.circus.jaxb.gen.IndexedProcess jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitIndexedProcess", jaxbObject);
-    ProcessDef processDef =
-      (ProcessDef) dispatch(jaxbObject.getProcessDef());
-    net.sourceforge.czt.z.ast.VarDecl varDecl =
-      (net.sourceforge.czt.z.ast.VarDecl) dispatch(jaxbObject.getVarDecl());
-    IndexedProcess erg = mCircusFactory_.createIndexedProcess(processDef, varDecl);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitIndexedProcess", erg);
     return erg;
   }
 
@@ -861,20 +1323,28 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     return erg;
   }
 
-  public Object visitDescProcess(net.sourceforge.czt.circus.jaxb.gen.DescProcess jaxbObject)
+  public Object visitProcessAnn(net.sourceforge.czt.circus.jaxb.gen.ProcessAnn jaxbObject)
   {
-    getLogger().entering("JaxbToAst", "visitDescProcess", jaxbObject);
-    net.sourceforge.czt.z.ast.RefName stateSchemaRefName =
-      (net.sourceforge.czt.z.ast.RefName) dispatch(jaxbObject.getStateSchemaRefName());
-    List para = new Vector();
-    for (Iterator iter = jaxbObject.getPara().iterator(); iter.hasNext();) {
+    getLogger().entering("JaxbToAst", "visitProcessAnn", jaxbObject);
+    ProcessSignature processSignature =
+      (ProcessSignature) dispatch(jaxbObject.getProcessSignature());
+    ProcessAnn erg = mCircusFactory_.createProcessAnn(processSignature);
+    getLogger().exiting("JaxbToAst", "visitProcessAnn", erg);
+    return erg;
+  }
+
+  public Object visitParamActionDesc(net.sourceforge.czt.circus.jaxb.gen.ParamActionDesc jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitParamActionDesc", jaxbObject);
+    List varDecl = new Vector();
+    for (Iterator iter = jaxbObject.getVarDecl().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
-      para.add(o);
+      varDecl.add(o);
     }
-    Action mainAction =
-      (Action) dispatch(jaxbObject.getMainAction());
-    DescProcess erg = mCircusFactory_.createDescProcess(stateSchemaRefName, para, mainAction);
+    Action action =
+      (Action) dispatch(jaxbObject.getAction());
+    ParamActionDesc erg = mCircusFactory_.createParamActionDesc(varDecl, action);
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
@@ -885,97 +1355,7 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
         annsList.add(o);
       }
     }
-    getLogger().exiting("JaxbToAst", "visitDescProcess", erg);
-    return erg;
-  }
-
-  public Object visitInterleaveAction(net.sourceforge.czt.circus.jaxb.gen.InterleaveAction jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitInterleaveAction", jaxbObject);
-    Action leftAction =
-      (Action) dispatch(jaxbObject.getLeftAction());
-    Action rightAction =
-      (Action) dispatch(jaxbObject.getRightAction());
-    NameSet leftNameSet =
-      (NameSet) dispatch(jaxbObject.getLeftNameSet());
-    NameSet rightNameSet =
-      (NameSet) dispatch(jaxbObject.getRightNameSet());
-    InterleaveAction erg = mCircusFactory_.createInterleaveAction(leftAction, rightAction, leftNameSet, rightNameSet);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitInterleaveAction", erg);
-    return erg;
-  }
-
-  public Object visitSchTextAction(net.sourceforge.czt.circus.jaxb.gen.SchTextAction jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitSchTextAction", jaxbObject);
-    net.sourceforge.czt.z.ast.SchExpr schExpr =
-      (net.sourceforge.czt.z.ast.SchExpr) dispatch(jaxbObject.getSchExpr());
-    SchTextAction erg = mCircusFactory_.createSchTextAction(schExpr);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitSchTextAction", erg);
-    return erg;
-  }
-
-  public Object visitIntChoiceProcess(net.sourceforge.czt.circus.jaxb.gen.IntChoiceProcess jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitIntChoiceProcess", jaxbObject);
-    ProcessDef leftProc =
-      (ProcessDef) dispatch(jaxbObject.getLeftProc());
-    ProcessDef rightProc =
-      (ProcessDef) dispatch(jaxbObject.getRightProc());
-    IntChoiceProcess erg = mCircusFactory_.createIntChoiceProcess(leftProc, rightProc);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitIntChoiceProcess", erg);
-    return erg;
-  }
-
-  public Object visitSeqProcessRI(net.sourceforge.czt.circus.jaxb.gen.SeqProcessRI jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitSeqProcessRI", jaxbObject);
-    ProcessDef processDef =
-      (ProcessDef) dispatch(jaxbObject.getProcessDef());
-    net.sourceforge.czt.z.ast.VarDecl varDecl =
-      (net.sourceforge.czt.z.ast.VarDecl) dispatch(jaxbObject.getVarDecl());
-    SeqProcessRI erg = mCircusFactory_.createSeqProcessRI(processDef, varDecl);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitSeqProcessRI", erg);
+    getLogger().exiting("JaxbToAst", "visitParamActionDesc", erg);
     return erg;
   }
 
@@ -1014,32 +1394,14 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
   public Object visitChannelPara(net.sourceforge.czt.circus.jaxb.gen.ChannelPara jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitChannelPara", jaxbObject);
-    net.sourceforge.czt.z.ast.VarDecl varDecl =
-      (net.sourceforge.czt.z.ast.VarDecl) dispatch(jaxbObject.getVarDecl());
-    ChannelPara erg = mCircusFactory_.createChannelPara(varDecl);
-    getLogger().exiting("JaxbToAst", "visitChannelPara", erg);
-    return erg;
-  }
-
-  public Object visitFormalParamAction(net.sourceforge.czt.circus.jaxb.gen.FormalParamAction jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitFormalParamAction", jaxbObject);
-    Action action =
-      (Action) dispatch(jaxbObject.getAction());
-    net.sourceforge.czt.z.ast.VarDecl varDecl =
-      (net.sourceforge.czt.z.ast.VarDecl) dispatch(jaxbObject.getVarDecl());
-    FormalParamAction erg = mCircusFactory_.createFormalParamAction(action, varDecl);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
+    List decl = new Vector();
+    for (Iterator iter = jaxbObject.getDecl().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      decl.add(o);
     }
-    getLogger().exiting("JaxbToAst", "visitFormalParamAction", erg);
+    ChannelPara erg = mCircusFactory_.createChannelPara(decl);
+    getLogger().exiting("JaxbToAst", "visitChannelPara", erg);
     return erg;
   }
 
@@ -1063,16 +1425,18 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     return erg;
   }
 
-  public Object visitIfGuardedCommand(net.sourceforge.czt.circus.jaxb.gen.IfGuardedCommand jaxbObject)
+  public Object visitFormalParamAction(net.sourceforge.czt.circus.jaxb.gen.FormalParamAction jaxbObject)
   {
-    getLogger().entering("JaxbToAst", "visitIfGuardedCommand", jaxbObject);
-    List guardedAction = new Vector();
-    for (Iterator iter = jaxbObject.getGuardedAction().iterator(); iter.hasNext();) {
+    getLogger().entering("JaxbToAst", "visitFormalParamAction", jaxbObject);
+    Action action =
+      (Action) dispatch(jaxbObject.getAction());
+    List varDecl = new Vector();
+    for (Iterator iter = jaxbObject.getVarDecl().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
-      guardedAction.add(o);
+      varDecl.add(o);
     }
-    IfGuardedCommand erg = mCircusFactory_.createIfGuardedCommand(guardedAction);
+    FormalParamAction erg = mCircusFactory_.createFormalParamAction(action, varDecl);
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
@@ -1083,95 +1447,7 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
         annsList.add(o);
       }
     }
-    getLogger().exiting("JaxbToAst", "visitIfGuardedCommand", erg);
-    return erg;
-  }
-
-  public Object visitExtChoiceProcess(net.sourceforge.czt.circus.jaxb.gen.ExtChoiceProcess jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitExtChoiceProcess", jaxbObject);
-    ProcessDef leftProc =
-      (ProcessDef) dispatch(jaxbObject.getLeftProc());
-    ProcessDef rightProc =
-      (ProcessDef) dispatch(jaxbObject.getRightProc());
-    ExtChoiceProcess erg = mCircusFactory_.createExtChoiceProcess(leftProc, rightProc);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitExtChoiceProcess", erg);
-    return erg;
-  }
-
-  public Object visitFormalGenProcess(net.sourceforge.czt.circus.jaxb.gen.FormalGenProcess jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitFormalGenProcess", jaxbObject);
-    ProcessDef processDef =
-      (ProcessDef) dispatch(jaxbObject.getProcessDef());
-    List formalGenTypes = new Vector();
-    for (Iterator iter = jaxbObject.getFormalGenTypes().iterator(); iter.hasNext();) {
-      Object obj = iter.next();
-      Object o = dispatch(obj);
-      formalGenTypes.add(o);
-    }
-    FormalGenProcess erg = mCircusFactory_.createFormalGenProcess(processDef, formalGenTypes);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitFormalGenProcess", erg);
-    return erg;
-  }
-
-  public Object visitStopAction(net.sourceforge.czt.circus.jaxb.gen.StopAction jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitStopAction", jaxbObject);
-    StopAction erg = mCircusFactory_.createStopAction();
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitStopAction", erg);
-    return erg;
-  }
-
-  public Object visitExtChoiceAction(net.sourceforge.czt.circus.jaxb.gen.ExtChoiceAction jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitExtChoiceAction", jaxbObject);
-    Action leftAction =
-      (Action) dispatch(jaxbObject.getLeftAction());
-    Action rightAction =
-      (Action) dispatch(jaxbObject.getRightAction());
-    ExtChoiceAction erg = mCircusFactory_.createExtChoiceAction(leftAction, rightAction);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitExtChoiceAction", erg);
+    getLogger().exiting("JaxbToAst", "visitFormalParamAction", erg);
     return erg;
   }
 
@@ -1199,6 +1475,18 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     return erg;
   }
 
+  public Object visitNameSetPara(net.sourceforge.czt.circus.jaxb.gen.NameSetPara jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitNameSetPara", jaxbObject);
+    net.sourceforge.czt.z.ast.DeclName declName =
+      (net.sourceforge.czt.z.ast.DeclName) dispatch(jaxbObject.getDeclName());
+    NameSet nameSet =
+      (NameSet) dispatch(jaxbObject.getNameSet());
+    NameSetPara erg = mCircusFactory_.createNameSetPara(declName, nameSet);
+    getLogger().exiting("JaxbToAst", "visitNameSetPara", erg);
+    return erg;
+  }
+
   public Object visitInterleaveProcess(net.sourceforge.czt.circus.jaxb.gen.InterleaveProcess jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitInterleaveProcess", jaxbObject);
@@ -1218,18 +1506,6 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
       }
     }
     getLogger().exiting("JaxbToAst", "visitInterleaveProcess", erg);
-    return erg;
-  }
-
-  public Object visitNameSetPara(net.sourceforge.czt.circus.jaxb.gen.NameSetPara jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitNameSetPara", jaxbObject);
-    net.sourceforge.czt.z.ast.DeclName declName =
-      (net.sourceforge.czt.z.ast.DeclName) dispatch(jaxbObject.getDeclName());
-    NameSet nameSet =
-      (NameSet) dispatch(jaxbObject.getNameSet());
-    NameSetPara erg = mCircusFactory_.createNameSetPara(declName, nameSet);
-    getLogger().exiting("JaxbToAst", "visitNameSetPara", erg);
     return erg;
   }
 
@@ -1255,48 +1531,6 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     return erg;
   }
 
-  public Object visitExtChoiceActionR(net.sourceforge.czt.circus.jaxb.gen.ExtChoiceActionR jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitExtChoiceActionR", jaxbObject);
-    Action action =
-      (Action) dispatch(jaxbObject.getAction());
-    net.sourceforge.czt.z.ast.VarDecl varDecl =
-      (net.sourceforge.czt.z.ast.VarDecl) dispatch(jaxbObject.getVarDecl());
-    ExtChoiceActionR erg = mCircusFactory_.createExtChoiceActionR(action, varDecl);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitExtChoiceActionR", erg);
-    return erg;
-  }
-
-  public Object visitRefChannelSet(net.sourceforge.czt.circus.jaxb.gen.RefChannelSet jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitRefChannelSet", jaxbObject);
-    net.sourceforge.czt.z.ast.RefName refName =
-      (net.sourceforge.czt.z.ast.RefName) dispatch(jaxbObject.getRefName());
-    RefChannelSet erg = mCircusFactory_.createRefChannelSet(refName);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitRefChannelSet", erg);
-    return erg;
-  }
-
   public Object visitSeqProcess(net.sourceforge.czt.circus.jaxb.gen.SeqProcess jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitSeqProcess", jaxbObject);
@@ -1319,6 +1553,46 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     return erg;
   }
 
+  public Object visitBasicProcess(net.sourceforge.czt.circus.jaxb.gen.BasicProcess jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitBasicProcess", jaxbObject);
+    net.sourceforge.czt.z.ast.RefName stateSchemaRefName =
+      (net.sourceforge.czt.z.ast.RefName) dispatch(jaxbObject.getStateSchemaRefName());
+    List declZParagraphs = new Vector();
+    for (Iterator iter = jaxbObject.getDeclZParagraphs().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      declZParagraphs.add(o);
+    }
+    List declActions = new Vector();
+    for (Iterator iter = jaxbObject.getDeclActions().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      declActions.add(o);
+    }
+    List declNameSets = new Vector();
+    for (Iterator iter = jaxbObject.getDeclNameSets().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      declNameSets.add(o);
+    }
+    Action mainAction =
+      (Action) dispatch(jaxbObject.getMainAction());
+    BasicProcess erg = mCircusFactory_.createBasicProcess(stateSchemaRefName, declZParagraphs, declActions, declNameSets, mainAction);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitBasicProcess", erg);
+    return erg;
+  }
+
   public Object visitIntersectChannelSet(net.sourceforge.czt.circus.jaxb.gen.IntersectChannelSet jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitIntersectChannelSet", jaxbObject);
@@ -1338,70 +1612,6 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
       }
     }
     getLogger().exiting("JaxbToAst", "visitIntersectChannelSet", erg);
-    return erg;
-  }
-
-  public Object visitRefNameSet(net.sourceforge.czt.circus.jaxb.gen.RefNameSet jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitRefNameSet", jaxbObject);
-    net.sourceforge.czt.z.ast.RefName refName =
-      (net.sourceforge.czt.z.ast.RefName) dispatch(jaxbObject.getRefName());
-    RefNameSet erg = mCircusFactory_.createRefNameSet(refName);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitRefNameSet", erg);
-    return erg;
-  }
-
-  public Object visitPrefixingAction(net.sourceforge.czt.circus.jaxb.gen.PrefixingAction jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitPrefixingAction", jaxbObject);
-    Action action =
-      (Action) dispatch(jaxbObject.getAction());
-    Communication communication =
-      (Communication) dispatch(jaxbObject.getCommunication());
-    PrefixingAction erg = mCircusFactory_.createPrefixingAction(action, communication);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitPrefixingAction", erg);
-    return erg;
-  }
-
-  public Object visitDifferenceNameSet(net.sourceforge.czt.circus.jaxb.gen.DifferenceNameSet jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitDifferenceNameSet", jaxbObject);
-    NameSet leftOperand =
-      (NameSet) dispatch(jaxbObject.getLeftOperand());
-    NameSet rightOperand =
-      (NameSet) dispatch(jaxbObject.getRightOperand());
-    DifferenceNameSet erg = mCircusFactory_.createDifferenceNameSet(leftOperand, rightOperand);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitDifferenceNameSet", erg);
     return erg;
   }
 
@@ -1431,26 +1641,18 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     return erg;
   }
 
-  public Object visitAssignmentPair(net.sourceforge.czt.circus.jaxb.gen.AssignmentPair jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitAssignmentPair", jaxbObject);
-    net.sourceforge.czt.z.ast.RefName lHS =
-      (net.sourceforge.czt.z.ast.RefName) dispatch(jaxbObject.getLHS());
-    net.sourceforge.czt.z.ast.Expr rHS =
-      (net.sourceforge.czt.z.ast.Expr) dispatch(jaxbObject.getRHS());
-    AssignmentPair erg = mCircusFactory_.createAssignmentPair(lHS, rHS);
-    getLogger().exiting("JaxbToAst", "visitAssignmentPair", erg);
-    return erg;
-  }
-
   public Object visitVarDeclCommand(net.sourceforge.czt.circus.jaxb.gen.VarDeclCommand jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitVarDeclCommand", jaxbObject);
-    net.sourceforge.czt.z.ast.VarDecl varDecl =
-      (net.sourceforge.czt.z.ast.VarDecl) dispatch(jaxbObject.getVarDecl());
+    List declarations = new Vector();
+    for (Iterator iter = jaxbObject.getDeclarations().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      declarations.add(o);
+    }
     Action action =
       (Action) dispatch(jaxbObject.getAction());
-    VarDeclCommand erg = mCircusFactory_.createVarDeclCommand(varDecl, action);
+    VarDeclCommand erg = mCircusFactory_.createVarDeclCommand(declarations, action);
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
@@ -1462,30 +1664,6 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
       }
     }
     getLogger().exiting("JaxbToAst", "visitVarDeclCommand", erg);
-    return erg;
-  }
-
-  public Object visitAssignmentCommand(net.sourceforge.czt.circus.jaxb.gen.AssignmentCommand jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitAssignmentCommand", jaxbObject);
-    List assignmentPair = new Vector();
-    for (Iterator iter = jaxbObject.getAssignmentPair().iterator(); iter.hasNext();) {
-      Object obj = iter.next();
-      Object o = dispatch(obj);
-      assignmentPair.add(o);
-    }
-    AssignmentCommand erg = mCircusFactory_.createAssignmentCommand(assignmentPair);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitAssignmentCommand", erg);
     return erg;
   }
 
@@ -1511,18 +1689,18 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     return erg;
   }
 
-  public Object visitActualParamAction(net.sourceforge.czt.circus.jaxb.gen.ActualParamAction jaxbObject)
+  public Object visitInterleaveProcessR(net.sourceforge.czt.circus.jaxb.gen.InterleaveProcessR jaxbObject)
   {
-    getLogger().entering("JaxbToAst", "visitActualParamAction", jaxbObject);
-    Action action =
-      (Action) dispatch(jaxbObject.getAction());
-    List expr = new Vector();
-    for (Iterator iter = jaxbObject.getExpr().iterator(); iter.hasNext();) {
+    getLogger().entering("JaxbToAst", "visitInterleaveProcessR", jaxbObject);
+    ProcessDef processDef =
+      (ProcessDef) dispatch(jaxbObject.getProcessDef());
+    List varDecl = new Vector();
+    for (Iterator iter = jaxbObject.getVarDecl().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
-      expr.add(o);
+      varDecl.add(o);
     }
-    ActualParamAction erg = mCircusFactory_.createActualParamAction(action, expr);
+    InterleaveProcessR erg = mCircusFactory_.createInterleaveProcessR(processDef, varDecl);
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
@@ -1533,7 +1711,33 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
         annsList.add(o);
       }
     }
-    getLogger().exiting("JaxbToAst", "visitActualParamAction", erg);
+    getLogger().exiting("JaxbToAst", "visitInterleaveProcessR", erg);
+    return erg;
+  }
+
+  public Object visitExtChoiceProcessR(net.sourceforge.czt.circus.jaxb.gen.ExtChoiceProcessR jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitExtChoiceProcessR", jaxbObject);
+    ProcessDef processDef =
+      (ProcessDef) dispatch(jaxbObject.getProcessDef());
+    List varDecl = new Vector();
+    for (Iterator iter = jaxbObject.getVarDecl().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      varDecl.add(o);
+    }
+    ExtChoiceProcessR erg = mCircusFactory_.createExtChoiceProcessR(processDef, varDecl);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitExtChoiceProcessR", erg);
     return erg;
   }
 
@@ -1559,36 +1763,30 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     return erg;
   }
 
-  public Object visitExtChoiceProcessR(net.sourceforge.czt.circus.jaxb.gen.ExtChoiceProcessR jaxbObject)
+  public Object visitActionSignature(net.sourceforge.czt.circus.jaxb.gen.ActionSignature jaxbObject)
   {
-    getLogger().entering("JaxbToAst", "visitExtChoiceProcessR", jaxbObject);
-    ProcessDef processDef =
-      (ProcessDef) dispatch(jaxbObject.getProcessDef());
-    net.sourceforge.czt.z.ast.VarDecl varDecl =
-      (net.sourceforge.czt.z.ast.VarDecl) dispatch(jaxbObject.getVarDecl());
-    ExtChoiceProcessR erg = mCircusFactory_.createExtChoiceProcessR(processDef, varDecl);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitExtChoiceProcessR", erg);
+    getLogger().entering("JaxbToAst", "visitActionSignature", jaxbObject);
+    net.sourceforge.czt.z.ast.DeclName actionName =
+      (net.sourceforge.czt.z.ast.DeclName) dispatch(jaxbObject.getActionName());
+    net.sourceforge.czt.z.ast.Signature localVarsSignature =
+      (net.sourceforge.czt.z.ast.Signature) dispatch(jaxbObject.getLocalVarsSignature());
+    ActionSignature erg = mCircusFactory_.createActionSignature(actionName, localVarsSignature);
+    getLogger().exiting("JaxbToAst", "visitActionSignature", erg);
     return erg;
   }
 
-  public Object visitInterleaveProcessR(net.sourceforge.czt.circus.jaxb.gen.InterleaveProcessR jaxbObject)
+  public Object visitParamProcessDesc(net.sourceforge.czt.circus.jaxb.gen.ParamProcessDesc jaxbObject)
   {
-    getLogger().entering("JaxbToAst", "visitInterleaveProcessR", jaxbObject);
+    getLogger().entering("JaxbToAst", "visitParamProcessDesc", jaxbObject);
+    List varDecl = new Vector();
+    for (Iterator iter = jaxbObject.getVarDecl().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      varDecl.add(o);
+    }
     ProcessDef processDef =
       (ProcessDef) dispatch(jaxbObject.getProcessDef());
-    net.sourceforge.czt.z.ast.VarDecl varDecl =
-      (net.sourceforge.czt.z.ast.VarDecl) dispatch(jaxbObject.getVarDecl());
-    InterleaveProcessR erg = mCircusFactory_.createInterleaveProcessR(processDef, varDecl);
+    ParamProcessDesc erg = mCircusFactory_.createParamProcessDesc(varDecl, processDef);
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
@@ -1599,29 +1797,7 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
         annsList.add(o);
       }
     }
-    getLogger().exiting("JaxbToAst", "visitInterleaveProcessR", erg);
-    return erg;
-  }
-
-  public Object visitExtChoiceProcessRI(net.sourceforge.czt.circus.jaxb.gen.ExtChoiceProcessRI jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitExtChoiceProcessRI", jaxbObject);
-    ProcessDef processDef =
-      (ProcessDef) dispatch(jaxbObject.getProcessDef());
-    net.sourceforge.czt.z.ast.VarDecl varDecl =
-      (net.sourceforge.czt.z.ast.VarDecl) dispatch(jaxbObject.getVarDecl());
-    ExtChoiceProcessRI erg = mCircusFactory_.createExtChoiceProcessRI(processDef, varDecl);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitExtChoiceProcessRI", erg);
+    getLogger().exiting("JaxbToAst", "visitParamProcessDesc", erg);
     return erg;
   }
 }

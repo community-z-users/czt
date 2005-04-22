@@ -36,7 +36,7 @@ import net.sourceforge.czt.base.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface SectTypeEnvAnn extends Term
+public interface SectTypeEnvAnn extends Ann
 {
 
   /**

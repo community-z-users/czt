@@ -144,26 +144,6 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link TypeSequent}.
-   *
-   * @return the new instance of TypeSequent.
-   */
-  public TypeSequent createTypeSequent()
-  {
-    return factory_.createTypeSequent();
-  }
-
-  /**
-   * Creates an instance of {@link TypeSequent} with the given children.
-   *
-   * @return the new instance of TypeSequent.
-   */
-  public TypeSequent createTypeSequent(SequentContext sequentContext, net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.z.ast.Type type)
-  {
-    return factory_.createTypeSequent(sequentContext, expr, type);
-  }
-
-  /**
    * Creates an instance of {@link JokerExprBinding}.
    *
    * @return the new instance of JokerExprBinding.
@@ -184,6 +164,26 @@ public class Factory
   }
 
   /**
+   * Creates an instance of {@link LookupConstDeclProviso}.
+   *
+   * @return the new instance of LookupConstDeclProviso.
+   */
+  public LookupConstDeclProviso createLookupConstDeclProviso()
+  {
+    return factory_.createLookupConstDeclProviso();
+  }
+
+  /**
+   * Creates an instance of {@link LookupConstDeclProviso} with the given children.
+   *
+   * @return the new instance of LookupConstDeclProviso.
+   */
+  public LookupConstDeclProviso createLookupConstDeclProviso(SequentContext sequentContext, net.sourceforge.czt.z.ast.Expr leftExpr, net.sourceforge.czt.z.ast.Expr rightExpr)
+  {
+    return factory_.createLookupConstDeclProviso(sequentContext, leftExpr, rightExpr);
+  }
+
+  /**
    * Creates an instance of {@link JokerExprList}.
    *
    * @return the new instance of JokerExprList.
@@ -201,6 +201,46 @@ public class Factory
   public JokerExprList createJokerExprList(String name)
   {
     return factory_.createJokerExprList(name);
+  }
+
+  /**
+   * Creates an instance of {@link LookupPredProviso}.
+   *
+   * @return the new instance of LookupPredProviso.
+   */
+  public LookupPredProviso createLookupPredProviso()
+  {
+    return factory_.createLookupPredProviso();
+  }
+
+  /**
+   * Creates an instance of {@link LookupPredProviso} with the given children.
+   *
+   * @return the new instance of LookupPredProviso.
+   */
+  public LookupPredProviso createLookupPredProviso(SequentContext sequentContext, net.sourceforge.czt.z.ast.Pred pred)
+  {
+    return factory_.createLookupPredProviso(sequentContext, pred);
+  }
+
+  /**
+   * Creates an instance of {@link CalculateProviso}.
+   *
+   * @return the new instance of CalculateProviso.
+   */
+  public CalculateProviso createCalculateProviso()
+  {
+    return factory_.createCalculateProviso();
+  }
+
+  /**
+   * Creates an instance of {@link CalculateProviso} with the given children.
+   *
+   * @return the new instance of CalculateProviso.
+   */
+  public CalculateProviso createCalculateProviso(SequentContext sequentContext, net.sourceforge.czt.z.ast.Expr leftExpr, net.sourceforge.czt.z.ast.Expr rightExpr)
+  {
+    return factory_.createCalculateProviso(sequentContext, leftExpr, rightExpr);
   }
 
   /**
@@ -274,6 +314,26 @@ public class Factory
   }
 
   /**
+   * Creates an instance of {@link CheckProviso}.
+   *
+   * @return the new instance of CheckProviso.
+   */
+  public CheckProviso createCheckProviso()
+  {
+    return factory_.createCheckProviso();
+  }
+
+  /**
+   * Creates an instance of {@link CheckProviso} with the given children.
+   *
+   * @return the new instance of CheckProviso.
+   */
+  public CheckProviso createCheckProviso(SequentContext sequentContext, net.sourceforge.czt.z.ast.Pred pred)
+  {
+    return factory_.createCheckProviso(sequentContext, pred);
+  }
+
+  /**
    * Creates an instance of {@link JokerDeclList}.
    *
    * @return the new instance of JokerDeclList.
@@ -304,6 +364,26 @@ public class Factory
   }
 
   /**
+   * Creates an instance of {@link TypeProviso}.
+   *
+   * @return the new instance of TypeProviso.
+   */
+  public TypeProviso createTypeProviso()
+  {
+    return factory_.createTypeProviso();
+  }
+
+  /**
+   * Creates an instance of {@link TypeProviso} with the given children.
+   *
+   * @return the new instance of TypeProviso.
+   */
+  public TypeProviso createTypeProviso(SequentContext sequentContext, net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.z.ast.Type type)
+  {
+    return factory_.createTypeProviso(sequentContext, expr, type);
+  }
+
+  /**
    * Creates an instance of {@link JokerDeclListBinding}.
    *
    * @return the new instance of JokerDeclListBinding.
@@ -321,26 +401,6 @@ public class Factory
   public JokerDeclListBinding createJokerDeclListBinding(JokerDeclList jokerDeclList, java.util.List decl)
   {
     return factory_.createJokerDeclListBinding(jokerDeclList, decl);
-  }
-
-  /**
-   * Creates an instance of {@link DefnSequent}.
-   *
-   * @return the new instance of DefnSequent.
-   */
-  public DefnSequent createDefnSequent()
-  {
-    return factory_.createDefnSequent();
-  }
-
-  /**
-   * Creates an instance of {@link DefnSequent} with the given children.
-   *
-   * @return the new instance of DefnSequent.
-   */
-  public DefnSequent createDefnSequent(SequentContext sequentContext, net.sourceforge.czt.z.ast.DeclName declName, net.sourceforge.czt.z.ast.Expr expr)
-  {
-    return factory_.createDefnSequent(sequentContext, declName, expr);
   }
 
   /**

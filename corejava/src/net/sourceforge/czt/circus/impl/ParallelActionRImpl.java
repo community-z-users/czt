@@ -146,13 +146,15 @@ public class ParallelActionRImpl
     ParallelActionR zedObject = null;
     try {
       Action action = (Action) args[0];
-      net.sourceforge.czt.z.ast.VarDecl varDecl = (net.sourceforge.czt.z.ast.VarDecl) args[1];
+      java.util.List varDecl = (java.util.List) args[1];
       NameSet leftNameSet = (NameSet) args[2];
       NameSet rightNameSet = (NameSet) args[3];
       ChannelSet channelSet = (ChannelSet) args[4];
       zedObject = new ParallelActionRImpl();
       zedObject.setAction(action);
-      zedObject.setVarDecl(varDecl);
+      if (varDecl != null) {
+        zedObject.getVarDecl().addAll(varDecl);
+      }
       zedObject.setLeftNameSet(leftNameSet);
       zedObject.setRightNameSet(rightNameSet);
       zedObject.setChannelSet(channelSet);

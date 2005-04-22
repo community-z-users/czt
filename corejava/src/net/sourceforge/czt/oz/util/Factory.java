@@ -338,9 +338,9 @@ public class Factory
    *
    * @return the new instance of State.
    */
-  public State createState(java.util.List primaryDecl, java.util.List secondaryDecl)
+  public State createState(java.util.List primaryDecl, java.util.List secondaryDecl, net.sourceforge.czt.z.ast.Pred pred)
   {
-    return factory_.createState(primaryDecl, secondaryDecl);
+    return factory_.createState(primaryDecl, secondaryDecl, pred);
   }
 
   /**

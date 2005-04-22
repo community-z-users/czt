@@ -43,7 +43,7 @@ import net.sourceforge.czt.z.visitor.SignatureAnnVisitor;
  * @author Gnast version 0.1
  */
 public class SignatureAnnImpl
-  extends TermImpl   implements SignatureAnn
+  extends AnnImpl   implements SignatureAnn
 {
   /**
    * The default constructor.

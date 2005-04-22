@@ -785,6 +785,11 @@ public class AstToJaxb
           newlist.add(o);
         }
       }
+      createElement_ = true;
+      if (zedObject.getPred() != null) {
+        Term term = zedObject.getPred();
+        jaxbObject.setPred((Pred) term.accept(this));
+      }
     }
     catch (Exception exception) {
       String message =

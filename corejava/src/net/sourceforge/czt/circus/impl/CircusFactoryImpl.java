@@ -40,72 +40,19 @@ public class CircusFactoryImpl
   extends net.sourceforge.czt.z.impl.ZFactoryImpl
   implements net.sourceforge.czt.circus.ast.CircusFactory
 {
-  public SeqActionR createSeqActionR()
-  {
-    SeqActionR zedObject = new SeqActionRImpl();
-    return zedObject;
-  }
-
-  public SeqActionR createSeqActionR(Action action, net.sourceforge.czt.z.ast.VarDecl varDecl)
-  {
-    SeqActionR zedObject = createSeqActionR();
-    zedObject.setAction(action);
-    zedObject.setVarDecl(varDecl);
-    return zedObject;
-  }
-
-  public SchChannelPara createSchChannelPara()
-  {
-    SchChannelPara zedObject = new SchChannelParaImpl();
-    return zedObject;
-  }
-
-  public SchChannelPara createSchChannelPara(net.sourceforge.czt.z.ast.RefName refName)
-  {
-    SchChannelPara zedObject = createSchChannelPara();
-    zedObject.setRefName(refName);
-    return zedObject;
-  }
-
   public InterleaveProcessRI createInterleaveProcessRI()
   {
     InterleaveProcessRI zedObject = new InterleaveProcessRIImpl();
     return zedObject;
   }
 
-  public InterleaveProcessRI createInterleaveProcessRI(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  public InterleaveProcessRI createInterleaveProcessRI(ProcessDef processDef, java.util.List varDecl)
   {
     InterleaveProcessRI zedObject = createInterleaveProcessRI();
     zedObject.setProcessDef(processDef);
-    zedObject.setVarDecl(varDecl);
-    return zedObject;
-  }
-
-  public InterleaveActionR createInterleaveActionR()
-  {
-    InterleaveActionR zedObject = new InterleaveActionRImpl();
-    return zedObject;
-  }
-
-  public InterleaveActionR createInterleaveActionR(Action action, net.sourceforge.czt.z.ast.VarDecl varDecl)
-  {
-    InterleaveActionR zedObject = createInterleaveActionR();
-    zedObject.setAction(action);
-    zedObject.setVarDecl(varDecl);
-    return zedObject;
-  }
-
-  public GuardedAction createGuardedAction()
-  {
-    GuardedAction zedObject = new GuardedActionImpl();
-    return zedObject;
-  }
-
-  public GuardedAction createGuardedAction(Action action, net.sourceforge.czt.z.ast.Pred pred)
-  {
-    GuardedAction zedObject = createGuardedAction();
-    zedObject.setAction(action);
-    zedObject.setPred(pred);
+    if (varDecl != null) {
+      zedObject.getVarDecl().addAll(varDecl);
+    }
     return zedObject;
   }
 
@@ -125,17 +72,17 @@ public class CircusFactoryImpl
     return zedObject;
   }
 
-  public FormalParamProcess createFormalParamProcess()
+  public GuardedAction createGuardedAction()
   {
-    FormalParamProcess zedObject = new FormalParamProcessImpl();
+    GuardedAction zedObject = new GuardedActionImpl();
     return zedObject;
   }
 
-  public FormalParamProcess createFormalParamProcess(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  public GuardedAction createGuardedAction(Action action, net.sourceforge.czt.z.ast.Pred pred)
   {
-    FormalParamProcess zedObject = createFormalParamProcess();
-    zedObject.setProcessDef(processDef);
-    zedObject.setVarDecl(varDecl);
+    GuardedAction zedObject = createGuardedAction();
+    zedObject.setAction(action);
+    zedObject.setPred(pred);
     return zedObject;
   }
 
@@ -156,48 +103,19 @@ public class CircusFactoryImpl
     return zedObject;
   }
 
-  public SpecStmtCommand createSpecStmtCommand()
-  {
-    SpecStmtCommand zedObject = new SpecStmtCommandImpl();
-    return zedObject;
-  }
-
-  public SpecStmtCommand createSpecStmtCommand(java.util.List frame, net.sourceforge.czt.z.ast.Pred pre, net.sourceforge.czt.z.ast.Pred post)
-  {
-    SpecStmtCommand zedObject = createSpecStmtCommand();
-    if (frame != null) {
-      zedObject.getFrame().addAll(frame);
-    }
-    zedObject.setPre(pre);
-    zedObject.setPost(post);
-    return zedObject;
-  }
-
   public SeqProcessR createSeqProcessR()
   {
     SeqProcessR zedObject = new SeqProcessRImpl();
     return zedObject;
   }
 
-  public SeqProcessR createSeqProcessR(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  public SeqProcessR createSeqProcessR(ProcessDef processDef, java.util.List varDecl)
   {
     SeqProcessR zedObject = createSeqProcessR();
     zedObject.setProcessDef(processDef);
-    zedObject.setVarDecl(varDecl);
-    return zedObject;
-  }
-
-  public MuAction createMuAction()
-  {
-    MuAction zedObject = new MuActionImpl();
-    return zedObject;
-  }
-
-  public MuAction createMuAction(Action action, net.sourceforge.czt.z.ast.DeclName declName)
-  {
-    MuAction zedObject = createMuAction();
-    zedObject.setAction(action);
-    zedObject.setDeclName(declName);
+    if (varDecl != null) {
+      zedObject.getVarDecl().addAll(varDecl);
+    }
     return zedObject;
   }
 
@@ -221,94 +139,22 @@ public class CircusFactoryImpl
     return zedObject;
   }
 
-  public ProcessPara createProcessPara()
-  {
-    ProcessPara zedObject = new ProcessParaImpl();
-    return zedObject;
-  }
-
-  public ProcessPara createProcessPara(net.sourceforge.czt.z.ast.DeclName declName, ProcessDef processDef)
-  {
-    ProcessPara zedObject = createProcessPara();
-    zedObject.setDeclName(declName);
-    zedObject.setProcessDef(processDef);
-    return zedObject;
-  }
-
-  public SeqAction createSeqAction()
-  {
-    SeqAction zedObject = new SeqActionImpl();
-    return zedObject;
-  }
-
-  public SeqAction createSeqAction(Action leftAction, Action rightAction)
-  {
-    SeqAction zedObject = createSeqAction();
-    zedObject.setLeftAction(leftAction);
-    zedObject.setRightAction(rightAction);
-    return zedObject;
-  }
-
   public SkipAction createSkipAction()
   {
     SkipAction zedObject = new SkipActionImpl();
     return zedObject;
   }
 
-  public ActualGenProcess createActualGenProcess()
+  public ProcessType createProcessType()
   {
-    ActualGenProcess zedObject = new ActualGenProcessImpl();
+    ProcessType zedObject = new ProcessTypeImpl();
     return zedObject;
   }
 
-  public ActualGenProcess createActualGenProcess(ProcessDef processDef, java.util.List expr)
+  public ProcessType createProcessType(ProcessSignature processSignature)
   {
-    ActualGenProcess zedObject = createActualGenProcess();
-    zedObject.setProcessDef(processDef);
-    if (expr != null) {
-      zedObject.getExpr().addAll(expr);
-    }
-    return zedObject;
-  }
-
-  public CallAction createCallAction()
-  {
-    CallAction zedObject = new CallActionImpl();
-    return zedObject;
-  }
-
-  public CallAction createCallAction(net.sourceforge.czt.z.ast.RefName refName)
-  {
-    CallAction zedObject = createCallAction();
-    zedObject.setRefName(refName);
-    return zedObject;
-  }
-
-  public ChannelSetPara createChannelSetPara()
-  {
-    ChannelSetPara zedObject = new ChannelSetParaImpl();
-    return zedObject;
-  }
-
-  public ChannelSetPara createChannelSetPara(net.sourceforge.czt.z.ast.DeclName declName, ChannelSet channelSet)
-  {
-    ChannelSetPara zedObject = createChannelSetPara();
-    zedObject.setDeclName(declName);
-    zedObject.setChannelSet(channelSet);
-    return zedObject;
-  }
-
-  public IntChoiceProcessR createIntChoiceProcessR()
-  {
-    IntChoiceProcessR zedObject = new IntChoiceProcessRImpl();
-    return zedObject;
-  }
-
-  public IntChoiceProcessR createIntChoiceProcessR(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
-  {
-    IntChoiceProcessR zedObject = createIntChoiceProcessR();
-    zedObject.setProcessDef(processDef);
-    zedObject.setVarDecl(varDecl);
+    ProcessType zedObject = createProcessType();
+    zedObject.setProcessSignature(processSignature);
     return zedObject;
   }
 
@@ -318,11 +164,13 @@ public class CircusFactoryImpl
     return zedObject;
   }
 
-  public IntChoiceActionR createIntChoiceActionR(Action action, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  public IntChoiceActionR createIntChoiceActionR(Action action, java.util.List varDecl)
   {
     IntChoiceActionR zedObject = createIntChoiceActionR();
     zedObject.setAction(action);
-    zedObject.setVarDecl(varDecl);
+    if (varDecl != null) {
+      zedObject.getVarDecl().addAll(varDecl);
+    }
     return zedObject;
   }
 
@@ -340,80 +188,18 @@ public class CircusFactoryImpl
     return zedObject;
   }
 
-  public MixedField createMixedField()
+  public BasicChannelSet createBasicChannelSet()
   {
-    MixedField zedObject = new MixedFieldImpl();
+    BasicChannelSet zedObject = new BasicChannelSetImpl();
     return zedObject;
   }
 
-  public MixedField createMixedField(java.util.List inputField, java.util.List outputField)
+  public BasicChannelSet createBasicChannelSet(java.util.List refName)
   {
-    MixedField zedObject = createMixedField();
-    if (inputField != null) {
-      zedObject.getInputField().addAll(inputField);
+    BasicChannelSet zedObject = createBasicChannelSet();
+    if (refName != null) {
+      zedObject.getRefName().addAll(refName);
     }
-    if (outputField != null) {
-      zedObject.getOutputField().addAll(outputField);
-    }
-    return zedObject;
-  }
-
-  public IntChoiceProcessRI createIntChoiceProcessRI()
-  {
-    IntChoiceProcessRI zedObject = new IntChoiceProcessRIImpl();
-    return zedObject;
-  }
-
-  public IntChoiceProcessRI createIntChoiceProcessRI(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
-  {
-    IntChoiceProcessRI zedObject = createIntChoiceProcessRI();
-    zedObject.setProcessDef(processDef);
-    zedObject.setVarDecl(varDecl);
-    return zedObject;
-  }
-
-  public Communication createCommunication()
-  {
-    Communication zedObject = new CommunicationImpl();
-    return zedObject;
-  }
-
-  public Communication createCommunication(net.sourceforge.czt.z.ast.RefName chanName, java.util.List chanFields, CommType commType, Integer multiSych)
-  {
-    Communication zedObject = createCommunication();
-    zedObject.setChanName(chanName);
-    if (chanFields != null) {
-      zedObject.getChanFields().addAll(chanFields);
-    }
-    zedObject.setCommType(commType);
-    zedObject.setMultiSych(multiSych);
-    return zedObject;
-  }
-
-  public OutputField createOutputField()
-  {
-    OutputField zedObject = new OutputFieldImpl();
-    return zedObject;
-  }
-
-  public OutputField createOutputField(net.sourceforge.czt.z.ast.Expr expression)
-  {
-    OutputField zedObject = createOutputField();
-    zedObject.setExpression(expression);
-    return zedObject;
-  }
-
-  public ActionPara createActionPara()
-  {
-    ActionPara zedObject = new ActionParaImpl();
-    return zedObject;
-  }
-
-  public ActionPara createActionPara(net.sourceforge.czt.z.ast.DeclName declName, Action action)
-  {
-    ActionPara zedObject = createActionPara();
-    zedObject.setDeclName(declName);
-    zedObject.setAction(action);
     return zedObject;
   }
 
@@ -431,139 +217,20 @@ public class CircusFactoryImpl
     return zedObject;
   }
 
-  public HideProcess createHideProcess()
-  {
-    HideProcess zedObject = new HideProcessImpl();
-    return zedObject;
-  }
-
-  public HideProcess createHideProcess(ProcessDef processDef, ChannelSet channelSet)
-  {
-    HideProcess zedObject = createHideProcess();
-    zedObject.setProcessDef(processDef);
-    zedObject.setChannelSet(channelSet);
-    return zedObject;
-  }
-
-  public ParallelProcess createParallelProcess()
-  {
-    ParallelProcess zedObject = new ParallelProcessImpl();
-    return zedObject;
-  }
-
-  public ParallelProcess createParallelProcess(ProcessDef leftProc, ProcessDef rightProc, ChannelSet channelSet)
-  {
-    ParallelProcess zedObject = createParallelProcess();
-    zedObject.setLeftProc(leftProc);
-    zedObject.setRightProc(rightProc);
-    zedObject.setChannelSet(channelSet);
-    return zedObject;
-  }
-
-  public SetChannelSet createSetChannelSet()
-  {
-    SetChannelSet zedObject = new SetChannelSetImpl();
-    return zedObject;
-  }
-
-  public SetChannelSet createSetChannelSet(java.util.List refName)
-  {
-    SetChannelSet zedObject = createSetChannelSet();
-    if (refName != null) {
-      zedObject.getRefName().addAll(refName);
-    }
-    return zedObject;
-  }
-
   public ParallelProcessRI createParallelProcessRI()
   {
     ParallelProcessRI zedObject = new ParallelProcessRIImpl();
     return zedObject;
   }
 
-  public ParallelProcessRI createParallelProcessRI(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl, ChannelSet channelSet)
+  public ParallelProcessRI createParallelProcessRI(ProcessDef processDef, java.util.List varDecl, ChannelSet channelSet)
   {
     ParallelProcessRI zedObject = createParallelProcessRI();
     zedObject.setProcessDef(processDef);
-    zedObject.setVarDecl(varDecl);
-    zedObject.setChannelSet(channelSet);
-    return zedObject;
-  }
-
-  public ParallelProcessR createParallelProcessR()
-  {
-    ParallelProcessR zedObject = new ParallelProcessRImpl();
-    return zedObject;
-  }
-
-  public ParallelProcessR createParallelProcessR(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl, ChannelSet channelSet)
-  {
-    ParallelProcessR zedObject = createParallelProcessR();
-    zedObject.setProcessDef(processDef);
-    zedObject.setVarDecl(varDecl);
-    zedObject.setChannelSet(channelSet);
-    return zedObject;
-  }
-
-  public ParallelActionR createParallelActionR()
-  {
-    ParallelActionR zedObject = new ParallelActionRImpl();
-    return zedObject;
-  }
-
-  public ParallelActionR createParallelActionR(Action action, net.sourceforge.czt.z.ast.VarDecl varDecl, NameSet leftNameSet, NameSet rightNameSet, ChannelSet channelSet)
-  {
-    ParallelActionR zedObject = createParallelActionR();
-    zedObject.setAction(action);
-    zedObject.setVarDecl(varDecl);
-    zedObject.setLeftNameSet(leftNameSet);
-    zedObject.setRightNameSet(rightNameSet);
-    zedObject.setChannelSet(channelSet);
-    return zedObject;
-  }
-
-  public IndexedProcess createIndexedProcess()
-  {
-    IndexedProcess zedObject = new IndexedProcessImpl();
-    return zedObject;
-  }
-
-  public IndexedProcess createIndexedProcess(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
-  {
-    IndexedProcess zedObject = createIndexedProcess();
-    zedObject.setProcessDef(processDef);
-    zedObject.setVarDecl(varDecl);
-    return zedObject;
-  }
-
-  public IntChoiceAction createIntChoiceAction()
-  {
-    IntChoiceAction zedObject = new IntChoiceActionImpl();
-    return zedObject;
-  }
-
-  public IntChoiceAction createIntChoiceAction(Action leftAction, Action rightAction)
-  {
-    IntChoiceAction zedObject = createIntChoiceAction();
-    zedObject.setLeftAction(leftAction);
-    zedObject.setRightAction(rightAction);
-    return zedObject;
-  }
-
-  public DescProcess createDescProcess()
-  {
-    DescProcess zedObject = new DescProcessImpl();
-    return zedObject;
-  }
-
-  public DescProcess createDescProcess(net.sourceforge.czt.z.ast.RefName stateSchemaRefName, java.util.List para, Action mainAction)
-  {
-    DescProcess zedObject = createDescProcess();
-    zedObject.setStateSchemaRefName(stateSchemaRefName);
-    if (para != null) {
-      zedObject.getPara().addAll(para);
+    if (varDecl != null) {
+      zedObject.getVarDecl().addAll(varDecl);
     }
-    zedObject.setMainAction(mainAction);
+    zedObject.setChannelSet(channelSet);
     return zedObject;
   }
 
@@ -580,19 +247,6 @@ public class CircusFactoryImpl
     zedObject.setRightAction(rightAction);
     zedObject.setLeftNameSet(leftNameSet);
     zedObject.setRightNameSet(rightNameSet);
-    return zedObject;
-  }
-
-  public SchTextAction createSchTextAction()
-  {
-    SchTextAction zedObject = new SchTextActionImpl();
-    return zedObject;
-  }
-
-  public SchTextAction createSchTextAction(net.sourceforge.czt.z.ast.SchExpr schExpr)
-  {
-    SchTextAction zedObject = createSchTextAction();
-    zedObject.setSchExpr(schExpr);
     return zedObject;
   }
 
@@ -616,70 +270,27 @@ public class CircusFactoryImpl
     return zedObject;
   }
 
-  public SeqProcessRI createSeqProcessRI(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  public SeqProcessRI createSeqProcessRI(ProcessDef processDef, java.util.List varDecl)
   {
     SeqProcessRI zedObject = createSeqProcessRI();
     zedObject.setProcessDef(processDef);
-    zedObject.setVarDecl(varDecl);
-    return zedObject;
-  }
-
-  public RenameProcess createRenameProcess()
-  {
-    RenameProcess zedObject = new RenameProcessImpl();
-    return zedObject;
-  }
-
-  public RenameProcess createRenameProcess(ProcessDef processDef, java.util.List oldNames, java.util.List newNames)
-  {
-    RenameProcess zedObject = createRenameProcess();
-    zedObject.setProcessDef(processDef);
-    if (oldNames != null) {
-      zedObject.getOldNames().addAll(oldNames);
-    }
-    if (newNames != null) {
-      zedObject.getNewNames().addAll(newNames);
+    if (varDecl != null) {
+      zedObject.getVarDecl().addAll(varDecl);
     }
     return zedObject;
   }
 
-  public ChannelPara createChannelPara()
+  public SchExprAction createSchExprAction()
   {
-    ChannelPara zedObject = new ChannelParaImpl();
+    SchExprAction zedObject = new SchExprActionImpl();
     return zedObject;
   }
 
-  public ChannelPara createChannelPara(net.sourceforge.czt.z.ast.VarDecl varDecl)
+  public SchExprAction createSchExprAction(net.sourceforge.czt.z.ast.SchExpr schExpr, Boolean isState)
   {
-    ChannelPara zedObject = createChannelPara();
-    zedObject.setVarDecl(varDecl);
-    return zedObject;
-  }
-
-  public FormalParamAction createFormalParamAction()
-  {
-    FormalParamAction zedObject = new FormalParamActionImpl();
-    return zedObject;
-  }
-
-  public FormalParamAction createFormalParamAction(Action action, net.sourceforge.czt.z.ast.VarDecl varDecl)
-  {
-    FormalParamAction zedObject = createFormalParamAction();
-    zedObject.setAction(action);
-    zedObject.setVarDecl(varDecl);
-    return zedObject;
-  }
-
-  public CallProcess createCallProcess()
-  {
-    CallProcess zedObject = new CallProcessImpl();
-    return zedObject;
-  }
-
-  public CallProcess createCallProcess(net.sourceforge.czt.z.ast.RefName refName)
-  {
-    CallProcess zedObject = createCallProcess();
-    zedObject.setRefName(refName);
+    SchExprAction zedObject = createSchExprAction();
+    zedObject.setSchExpr(schExpr);
+    zedObject.setIsState(isState);
     return zedObject;
   }
 
@@ -712,22 +323,6 @@ public class CircusFactoryImpl
     return zedObject;
   }
 
-  public FormalGenProcess createFormalGenProcess()
-  {
-    FormalGenProcess zedObject = new FormalGenProcessImpl();
-    return zedObject;
-  }
-
-  public FormalGenProcess createFormalGenProcess(ProcessDef processDef, java.util.List formalGenTypes)
-  {
-    FormalGenProcess zedObject = createFormalGenProcess();
-    zedObject.setProcessDef(processDef);
-    if (formalGenTypes != null) {
-      zedObject.getFormalGenTypes().addAll(formalGenTypes);
-    }
-    return zedObject;
-  }
-
   public StopAction createStopAction()
   {
     StopAction zedObject = new StopActionImpl();
@@ -748,77 +343,6 @@ public class CircusFactoryImpl
     return zedObject;
   }
 
-  public SetNameSet createSetNameSet()
-  {
-    SetNameSet zedObject = new SetNameSetImpl();
-    return zedObject;
-  }
-
-  public SetNameSet createSetNameSet(java.util.List refName)
-  {
-    SetNameSet zedObject = createSetNameSet();
-    if (refName != null) {
-      zedObject.getRefName().addAll(refName);
-    }
-    return zedObject;
-  }
-
-  public InterleaveProcess createInterleaveProcess()
-  {
-    InterleaveProcess zedObject = new InterleaveProcessImpl();
-    return zedObject;
-  }
-
-  public InterleaveProcess createInterleaveProcess(ProcessDef leftProc, ProcessDef rightProc)
-  {
-    InterleaveProcess zedObject = createInterleaveProcess();
-    zedObject.setLeftProc(leftProc);
-    zedObject.setRightProc(rightProc);
-    return zedObject;
-  }
-
-  public NameSetPara createNameSetPara()
-  {
-    NameSetPara zedObject = new NameSetParaImpl();
-    return zedObject;
-  }
-
-  public NameSetPara createNameSetPara(net.sourceforge.czt.z.ast.DeclName declName, NameSet nameSet)
-  {
-    NameSetPara zedObject = createNameSetPara();
-    zedObject.setDeclName(declName);
-    zedObject.setNameSet(nameSet);
-    return zedObject;
-  }
-
-  public UnionNameSet createUnionNameSet()
-  {
-    UnionNameSet zedObject = new UnionNameSetImpl();
-    return zedObject;
-  }
-
-  public UnionNameSet createUnionNameSet(NameSet leftOperand, NameSet rightOperand)
-  {
-    UnionNameSet zedObject = createUnionNameSet();
-    zedObject.setLeftOperand(leftOperand);
-    zedObject.setRightOperand(rightOperand);
-    return zedObject;
-  }
-
-  public ExtChoiceActionR createExtChoiceActionR()
-  {
-    ExtChoiceActionR zedObject = new ExtChoiceActionRImpl();
-    return zedObject;
-  }
-
-  public ExtChoiceActionR createExtChoiceActionR(Action action, net.sourceforge.czt.z.ast.VarDecl varDecl)
-  {
-    ExtChoiceActionR zedObject = createExtChoiceActionR();
-    zedObject.setAction(action);
-    zedObject.setVarDecl(varDecl);
-    return zedObject;
-  }
-
   public RefChannelSet createRefChannelSet()
   {
     RefChannelSet zedObject = new RefChannelSetImpl();
@@ -832,31 +356,19 @@ public class CircusFactoryImpl
     return zedObject;
   }
 
-  public SeqProcess createSeqProcess()
+  public ExtChoiceActionR createExtChoiceActionR()
   {
-    SeqProcess zedObject = new SeqProcessImpl();
+    ExtChoiceActionR zedObject = new ExtChoiceActionRImpl();
     return zedObject;
   }
 
-  public SeqProcess createSeqProcess(ProcessDef leftProc, ProcessDef rightProc)
+  public ExtChoiceActionR createExtChoiceActionR(Action action, java.util.List varDecl)
   {
-    SeqProcess zedObject = createSeqProcess();
-    zedObject.setLeftProc(leftProc);
-    zedObject.setRightProc(rightProc);
-    return zedObject;
-  }
-
-  public IntersectChannelSet createIntersectChannelSet()
-  {
-    IntersectChannelSet zedObject = new IntersectChannelSetImpl();
-    return zedObject;
-  }
-
-  public IntersectChannelSet createIntersectChannelSet(ChannelSet leftOperand, ChannelSet rightOperand)
-  {
-    IntersectChannelSet zedObject = createIntersectChannelSet();
-    zedObject.setLeftOperand(leftOperand);
-    zedObject.setRightOperand(rightOperand);
+    ExtChoiceActionR zedObject = createExtChoiceActionR();
+    zedObject.setAction(action);
+    if (varDecl != null) {
+      zedObject.getVarDecl().addAll(varDecl);
+    }
     return zedObject;
   }
 
@@ -901,19 +413,19 @@ public class CircusFactoryImpl
     return zedObject;
   }
 
-  public ActualParamProcess createActualParamProcess()
+  public IndexedProcessDesc createIndexedProcessDesc()
   {
-    ActualParamProcess zedObject = new ActualParamProcessImpl();
+    IndexedProcessDesc zedObject = new IndexedProcessDescImpl();
     return zedObject;
   }
 
-  public ActualParamProcess createActualParamProcess(ProcessDef processDef, java.util.List expr)
+  public IndexedProcessDesc createIndexedProcessDesc(java.util.List varDecl, ProcessDef processDef)
   {
-    ActualParamProcess zedObject = createActualParamProcess();
-    zedObject.setProcessDef(processDef);
-    if (expr != null) {
-      zedObject.getExpr().addAll(expr);
+    IndexedProcessDesc zedObject = createIndexedProcessDesc();
+    if (varDecl != null) {
+      zedObject.getVarDecl().addAll(varDecl);
     }
+    zedObject.setProcessDef(processDef);
     return zedObject;
   }
 
@@ -931,20 +443,6 @@ public class CircusFactoryImpl
     return zedObject;
   }
 
-  public VarDeclCommand createVarDeclCommand()
-  {
-    VarDeclCommand zedObject = new VarDeclCommandImpl();
-    return zedObject;
-  }
-
-  public VarDeclCommand createVarDeclCommand(net.sourceforge.czt.z.ast.VarDecl varDecl, Action action)
-  {
-    VarDeclCommand zedObject = createVarDeclCommand();
-    zedObject.setVarDecl(varDecl);
-    zedObject.setAction(action);
-    return zedObject;
-  }
-
   public AssignmentCommand createAssignmentCommand()
   {
     AssignmentCommand zedObject = new AssignmentCommandImpl();
@@ -957,20 +455,6 @@ public class CircusFactoryImpl
     if (assignmentPair != null) {
       zedObject.getAssignmentPair().addAll(assignmentPair);
     }
-    return zedObject;
-  }
-
-  public InputField createInputField()
-  {
-    InputField zedObject = new InputFieldImpl();
-    return zedObject;
-  }
-
-  public InputField createInputField(net.sourceforge.czt.z.ast.RefName variable, net.sourceforge.czt.z.ast.Pred restriction)
-  {
-    InputField zedObject = createInputField();
-    zedObject.setVariable(variable);
-    zedObject.setRestriction(restriction);
     return zedObject;
   }
 
@@ -990,6 +474,670 @@ public class CircusFactoryImpl
     return zedObject;
   }
 
+  public ExtChoiceProcessRI createExtChoiceProcessRI()
+  {
+    ExtChoiceProcessRI zedObject = new ExtChoiceProcessRIImpl();
+    return zedObject;
+  }
+
+  public ExtChoiceProcessRI createExtChoiceProcessRI(ProcessDef processDef, java.util.List varDecl)
+  {
+    ExtChoiceProcessRI zedObject = createExtChoiceProcessRI();
+    zedObject.setProcessDef(processDef);
+    if (varDecl != null) {
+      zedObject.getVarDecl().addAll(varDecl);
+    }
+    return zedObject;
+  }
+
+  public AssumptionCommand createAssumptionCommand()
+  {
+    AssumptionCommand zedObject = new AssumptionCommandImpl();
+    return zedObject;
+  }
+
+  public AssumptionCommand createAssumptionCommand(net.sourceforge.czt.z.ast.Pred pred)
+  {
+    AssumptionCommand zedObject = createAssumptionCommand();
+    zedObject.setPred(pred);
+    return zedObject;
+  }
+
+  public BasicProcessSignature createBasicProcessSignature()
+  {
+    BasicProcessSignature zedObject = new BasicProcessSignatureImpl();
+    return zedObject;
+  }
+
+  public BasicProcessSignature createBasicProcessSignature(net.sourceforge.czt.z.ast.DeclName processName, net.sourceforge.czt.z.ast.VarDecl formalParams, net.sourceforge.czt.z.ast.Signature stateSignature, java.util.List localZDeclsSignature, java.util.List actionsSignature, java.util.List declNameSets)
+  {
+    BasicProcessSignature zedObject = createBasicProcessSignature();
+    zedObject.setProcessName(processName);
+    zedObject.setFormalParams(formalParams);
+    zedObject.setStateSignature(stateSignature);
+    if (localZDeclsSignature != null) {
+      zedObject.getLocalZDeclsSignature().addAll(localZDeclsSignature);
+    }
+    if (actionsSignature != null) {
+      zedObject.getActionsSignature().addAll(actionsSignature);
+    }
+    if (declNameSets != null) {
+      zedObject.getDeclNameSets().addAll(declNameSets);
+    }
+    return zedObject;
+  }
+
+  public SeqActionR createSeqActionR()
+  {
+    SeqActionR zedObject = new SeqActionRImpl();
+    return zedObject;
+  }
+
+  public SeqActionR createSeqActionR(Action action, java.util.List varDecl)
+  {
+    SeqActionR zedObject = createSeqActionR();
+    zedObject.setAction(action);
+    if (varDecl != null) {
+      zedObject.getVarDecl().addAll(varDecl);
+    }
+    return zedObject;
+  }
+
+  public InterleaveActionR createInterleaveActionR()
+  {
+    InterleaveActionR zedObject = new InterleaveActionRImpl();
+    return zedObject;
+  }
+
+  public InterleaveActionR createInterleaveActionR(Action action, java.util.List varDecl)
+  {
+    InterleaveActionR zedObject = createInterleaveActionR();
+    zedObject.setAction(action);
+    if (varDecl != null) {
+      zedObject.getVarDecl().addAll(varDecl);
+    }
+    return zedObject;
+  }
+
+  public SpecStmtCommand createSpecStmtCommand()
+  {
+    SpecStmtCommand zedObject = new SpecStmtCommandImpl();
+    return zedObject;
+  }
+
+  public SpecStmtCommand createSpecStmtCommand(java.util.List frame, net.sourceforge.czt.z.ast.Pred pre, net.sourceforge.czt.z.ast.Pred post)
+  {
+    SpecStmtCommand zedObject = createSpecStmtCommand();
+    if (frame != null) {
+      zedObject.getFrame().addAll(frame);
+    }
+    zedObject.setPre(pre);
+    zedObject.setPost(post);
+    return zedObject;
+  }
+
+  public MuAction createMuAction()
+  {
+    MuAction zedObject = new MuActionImpl();
+    return zedObject;
+  }
+
+  public MuAction createMuAction(Action action, net.sourceforge.czt.z.ast.DeclName declName)
+  {
+    MuAction zedObject = createMuAction();
+    zedObject.setAction(action);
+    zedObject.setDeclName(declName);
+    return zedObject;
+  }
+
+  public ProcessSignature createProcessSignature()
+  {
+    ProcessSignature zedObject = new ProcessSignatureImpl();
+    return zedObject;
+  }
+
+  public ProcessSignature createProcessSignature(net.sourceforge.czt.z.ast.DeclName processName, net.sourceforge.czt.z.ast.VarDecl formalParams)
+  {
+    ProcessSignature zedObject = createProcessSignature();
+    zedObject.setProcessName(processName);
+    zedObject.setFormalParams(formalParams);
+    return zedObject;
+  }
+
+  public ProcessPara createProcessPara()
+  {
+    ProcessPara zedObject = new ProcessParaImpl();
+    return zedObject;
+  }
+
+  public ProcessPara createProcessPara(net.sourceforge.czt.z.ast.DeclName declName, java.util.List genericTypes, ProcessDesc processDesc)
+  {
+    ProcessPara zedObject = createProcessPara();
+    zedObject.setDeclName(declName);
+    if (genericTypes != null) {
+      zedObject.getGenericTypes().addAll(genericTypes);
+    }
+    zedObject.setProcessDesc(processDesc);
+    return zedObject;
+  }
+
+  public SeqAction createSeqAction()
+  {
+    SeqAction zedObject = new SeqActionImpl();
+    return zedObject;
+  }
+
+  public SeqAction createSeqAction(Action leftAction, Action rightAction)
+  {
+    SeqAction zedObject = createSeqAction();
+    zedObject.setLeftAction(leftAction);
+    zedObject.setRightAction(rightAction);
+    return zedObject;
+  }
+
+  public ActualGenProcess createActualGenProcess()
+  {
+    ActualGenProcess zedObject = new ActualGenProcessImpl();
+    return zedObject;
+  }
+
+  public ActualGenProcess createActualGenProcess(ProcessDef processDef, java.util.List expr)
+  {
+    ActualGenProcess zedObject = createActualGenProcess();
+    zedObject.setProcessDef(processDef);
+    if (expr != null) {
+      zedObject.getExpr().addAll(expr);
+    }
+    return zedObject;
+  }
+
+  public ChannelSetPara createChannelSetPara()
+  {
+    ChannelSetPara zedObject = new ChannelSetParaImpl();
+    return zedObject;
+  }
+
+  public ChannelSetPara createChannelSetPara(net.sourceforge.czt.z.ast.DeclName declName, ChannelSet channelSet)
+  {
+    ChannelSetPara zedObject = createChannelSetPara();
+    zedObject.setDeclName(declName);
+    zedObject.setChannelSet(channelSet);
+    return zedObject;
+  }
+
+  public CallAction createCallAction()
+  {
+    CallAction zedObject = new CallActionImpl();
+    return zedObject;
+  }
+
+  public CallAction createCallAction(net.sourceforge.czt.z.ast.RefName refName)
+  {
+    CallAction zedObject = createCallAction();
+    zedObject.setRefName(refName);
+    return zedObject;
+  }
+
+  public IntChoiceProcessR createIntChoiceProcessR()
+  {
+    IntChoiceProcessR zedObject = new IntChoiceProcessRImpl();
+    return zedObject;
+  }
+
+  public IntChoiceProcessR createIntChoiceProcessR(ProcessDef processDef, java.util.List varDecl)
+  {
+    IntChoiceProcessR zedObject = createIntChoiceProcessR();
+    zedObject.setProcessDef(processDef);
+    if (varDecl != null) {
+      zedObject.getVarDecl().addAll(varDecl);
+    }
+    return zedObject;
+  }
+
+  public IntChoiceProcessRI createIntChoiceProcessRI()
+  {
+    IntChoiceProcessRI zedObject = new IntChoiceProcessRIImpl();
+    return zedObject;
+  }
+
+  public IntChoiceProcessRI createIntChoiceProcessRI(ProcessDef processDef, java.util.List varDecl)
+  {
+    IntChoiceProcessRI zedObject = createIntChoiceProcessRI();
+    zedObject.setProcessDef(processDef);
+    if (varDecl != null) {
+      zedObject.getVarDecl().addAll(varDecl);
+    }
+    return zedObject;
+  }
+
+  public Communication createCommunication()
+  {
+    Communication zedObject = new CommunicationImpl();
+    return zedObject;
+  }
+
+  public Communication createCommunication(net.sourceforge.czt.z.ast.RefName chanName, java.util.List chanFields, CommType commType, Integer multiSych)
+  {
+    Communication zedObject = createCommunication();
+    zedObject.setChanName(chanName);
+    if (chanFields != null) {
+      zedObject.getChanFields().addAll(chanFields);
+    }
+    zedObject.setCommType(commType);
+    zedObject.setMultiSych(multiSych);
+    return zedObject;
+  }
+
+  public OutputField createOutputField()
+  {
+    OutputField zedObject = new OutputFieldImpl();
+    return zedObject;
+  }
+
+  public OutputField createOutputField(net.sourceforge.czt.z.ast.Expr expression)
+  {
+    OutputField zedObject = createOutputField();
+    zedObject.setExpression(expression);
+    return zedObject;
+  }
+
+  public ActionPara createActionPara()
+  {
+    ActionPara zedObject = new ActionParaImpl();
+    return zedObject;
+  }
+
+  public ActionPara createActionPara(net.sourceforge.czt.z.ast.DeclName declName, ActionDesc actionDesc)
+  {
+    ActionPara zedObject = createActionPara();
+    zedObject.setDeclName(declName);
+    zedObject.setActionDesc(actionDesc);
+    return zedObject;
+  }
+
+  public HideProcess createHideProcess()
+  {
+    HideProcess zedObject = new HideProcessImpl();
+    return zedObject;
+  }
+
+  public HideProcess createHideProcess(ProcessDef processDef, ChannelSet channelSet)
+  {
+    HideProcess zedObject = createHideProcess();
+    zedObject.setProcessDef(processDef);
+    zedObject.setChannelSet(channelSet);
+    return zedObject;
+  }
+
+  public ActionAnn createActionAnn()
+  {
+    ActionAnn zedObject = new ActionAnnImpl();
+    return zedObject;
+  }
+
+  public ActionAnn createActionAnn(ActionSignature actionSignature)
+  {
+    ActionAnn zedObject = createActionAnn();
+    zedObject.setActionSignature(actionSignature);
+    return zedObject;
+  }
+
+  public ParallelProcess createParallelProcess()
+  {
+    ParallelProcess zedObject = new ParallelProcessImpl();
+    return zedObject;
+  }
+
+  public ParallelProcess createParallelProcess(ProcessDef leftProc, ProcessDef rightProc, ChannelSet channelSet)
+  {
+    ParallelProcess zedObject = createParallelProcess();
+    zedObject.setLeftProc(leftProc);
+    zedObject.setRightProc(rightProc);
+    zedObject.setChannelSet(channelSet);
+    return zedObject;
+  }
+
+  public ParallelProcessR createParallelProcessR()
+  {
+    ParallelProcessR zedObject = new ParallelProcessRImpl();
+    return zedObject;
+  }
+
+  public ParallelProcessR createParallelProcessR(ProcessDef processDef, java.util.List varDecl, ChannelSet channelSet)
+  {
+    ParallelProcessR zedObject = createParallelProcessR();
+    zedObject.setProcessDef(processDef);
+    if (varDecl != null) {
+      zedObject.getVarDecl().addAll(varDecl);
+    }
+    zedObject.setChannelSet(channelSet);
+    return zedObject;
+  }
+
+  public ActionType createActionType()
+  {
+    ActionType zedObject = new ActionTypeImpl();
+    return zedObject;
+  }
+
+  public ActionType createActionType(ActionSignature actionSignature)
+  {
+    ActionType zedObject = createActionType();
+    zedObject.setActionSignature(actionSignature);
+    return zedObject;
+  }
+
+  public ParallelActionR createParallelActionR()
+  {
+    ParallelActionR zedObject = new ParallelActionRImpl();
+    return zedObject;
+  }
+
+  public ParallelActionR createParallelActionR(Action action, java.util.List varDecl, NameSet leftNameSet, NameSet rightNameSet, ChannelSet channelSet)
+  {
+    ParallelActionR zedObject = createParallelActionR();
+    zedObject.setAction(action);
+    if (varDecl != null) {
+      zedObject.getVarDecl().addAll(varDecl);
+    }
+    zedObject.setLeftNameSet(leftNameSet);
+    zedObject.setRightNameSet(rightNameSet);
+    zedObject.setChannelSet(channelSet);
+    return zedObject;
+  }
+
+  public IntChoiceAction createIntChoiceAction()
+  {
+    IntChoiceAction zedObject = new IntChoiceActionImpl();
+    return zedObject;
+  }
+
+  public IntChoiceAction createIntChoiceAction(Action leftAction, Action rightAction)
+  {
+    IntChoiceAction zedObject = createIntChoiceAction();
+    zedObject.setLeftAction(leftAction);
+    zedObject.setRightAction(rightAction);
+    return zedObject;
+  }
+
+  public ProcessAnn createProcessAnn()
+  {
+    ProcessAnn zedObject = new ProcessAnnImpl();
+    return zedObject;
+  }
+
+  public ProcessAnn createProcessAnn(ProcessSignature processSignature)
+  {
+    ProcessAnn zedObject = createProcessAnn();
+    zedObject.setProcessSignature(processSignature);
+    return zedObject;
+  }
+
+  public ParamActionDesc createParamActionDesc()
+  {
+    ParamActionDesc zedObject = new ParamActionDescImpl();
+    return zedObject;
+  }
+
+  public ParamActionDesc createParamActionDesc(java.util.List varDecl, Action action)
+  {
+    ParamActionDesc zedObject = createParamActionDesc();
+    if (varDecl != null) {
+      zedObject.getVarDecl().addAll(varDecl);
+    }
+    zedObject.setAction(action);
+    return zedObject;
+  }
+
+  public RenameProcess createRenameProcess()
+  {
+    RenameProcess zedObject = new RenameProcessImpl();
+    return zedObject;
+  }
+
+  public RenameProcess createRenameProcess(ProcessDef processDef, java.util.List oldNames, java.util.List newNames)
+  {
+    RenameProcess zedObject = createRenameProcess();
+    zedObject.setProcessDef(processDef);
+    if (oldNames != null) {
+      zedObject.getOldNames().addAll(oldNames);
+    }
+    if (newNames != null) {
+      zedObject.getNewNames().addAll(newNames);
+    }
+    return zedObject;
+  }
+
+  public ChannelPara createChannelPara()
+  {
+    ChannelPara zedObject = new ChannelParaImpl();
+    return zedObject;
+  }
+
+  public ChannelPara createChannelPara(java.util.List decl)
+  {
+    ChannelPara zedObject = createChannelPara();
+    if (decl != null) {
+      zedObject.getDecl().addAll(decl);
+    }
+    return zedObject;
+  }
+
+  public CallProcess createCallProcess()
+  {
+    CallProcess zedObject = new CallProcessImpl();
+    return zedObject;
+  }
+
+  public CallProcess createCallProcess(net.sourceforge.czt.z.ast.RefName refName)
+  {
+    CallProcess zedObject = createCallProcess();
+    zedObject.setRefName(refName);
+    return zedObject;
+  }
+
+  public FormalParamAction createFormalParamAction()
+  {
+    FormalParamAction zedObject = new FormalParamActionImpl();
+    return zedObject;
+  }
+
+  public FormalParamAction createFormalParamAction(Action action, java.util.List varDecl)
+  {
+    FormalParamAction zedObject = createFormalParamAction();
+    zedObject.setAction(action);
+    if (varDecl != null) {
+      zedObject.getVarDecl().addAll(varDecl);
+    }
+    return zedObject;
+  }
+
+  public SetNameSet createSetNameSet()
+  {
+    SetNameSet zedObject = new SetNameSetImpl();
+    return zedObject;
+  }
+
+  public SetNameSet createSetNameSet(java.util.List refName)
+  {
+    SetNameSet zedObject = createSetNameSet();
+    if (refName != null) {
+      zedObject.getRefName().addAll(refName);
+    }
+    return zedObject;
+  }
+
+  public NameSetPara createNameSetPara()
+  {
+    NameSetPara zedObject = new NameSetParaImpl();
+    return zedObject;
+  }
+
+  public NameSetPara createNameSetPara(net.sourceforge.czt.z.ast.DeclName declName, NameSet nameSet)
+  {
+    NameSetPara zedObject = createNameSetPara();
+    zedObject.setDeclName(declName);
+    zedObject.setNameSet(nameSet);
+    return zedObject;
+  }
+
+  public InterleaveProcess createInterleaveProcess()
+  {
+    InterleaveProcess zedObject = new InterleaveProcessImpl();
+    return zedObject;
+  }
+
+  public InterleaveProcess createInterleaveProcess(ProcessDef leftProc, ProcessDef rightProc)
+  {
+    InterleaveProcess zedObject = createInterleaveProcess();
+    zedObject.setLeftProc(leftProc);
+    zedObject.setRightProc(rightProc);
+    return zedObject;
+  }
+
+  public UnionNameSet createUnionNameSet()
+  {
+    UnionNameSet zedObject = new UnionNameSetImpl();
+    return zedObject;
+  }
+
+  public UnionNameSet createUnionNameSet(NameSet leftOperand, NameSet rightOperand)
+  {
+    UnionNameSet zedObject = createUnionNameSet();
+    zedObject.setLeftOperand(leftOperand);
+    zedObject.setRightOperand(rightOperand);
+    return zedObject;
+  }
+
+  public SeqProcess createSeqProcess()
+  {
+    SeqProcess zedObject = new SeqProcessImpl();
+    return zedObject;
+  }
+
+  public SeqProcess createSeqProcess(ProcessDef leftProc, ProcessDef rightProc)
+  {
+    SeqProcess zedObject = createSeqProcess();
+    zedObject.setLeftProc(leftProc);
+    zedObject.setRightProc(rightProc);
+    return zedObject;
+  }
+
+  public BasicProcess createBasicProcess()
+  {
+    BasicProcess zedObject = new BasicProcessImpl();
+    return zedObject;
+  }
+
+  public BasicProcess createBasicProcess(net.sourceforge.czt.z.ast.RefName stateSchemaRefName, java.util.List declZParagraphs, java.util.List declActions, java.util.List declNameSets, Action mainAction)
+  {
+    BasicProcess zedObject = createBasicProcess();
+    zedObject.setStateSchemaRefName(stateSchemaRefName);
+    if (declZParagraphs != null) {
+      zedObject.getDeclZParagraphs().addAll(declZParagraphs);
+    }
+    if (declActions != null) {
+      zedObject.getDeclActions().addAll(declActions);
+    }
+    if (declNameSets != null) {
+      zedObject.getDeclNameSets().addAll(declNameSets);
+    }
+    zedObject.setMainAction(mainAction);
+    return zedObject;
+  }
+
+  public IntersectChannelSet createIntersectChannelSet()
+  {
+    IntersectChannelSet zedObject = new IntersectChannelSetImpl();
+    return zedObject;
+  }
+
+  public IntersectChannelSet createIntersectChannelSet(ChannelSet leftOperand, ChannelSet rightOperand)
+  {
+    IntersectChannelSet zedObject = createIntersectChannelSet();
+    zedObject.setLeftOperand(leftOperand);
+    zedObject.setRightOperand(rightOperand);
+    return zedObject;
+  }
+
+  public ActualParamProcess createActualParamProcess()
+  {
+    ActualParamProcess zedObject = new ActualParamProcessImpl();
+    return zedObject;
+  }
+
+  public ActualParamProcess createActualParamProcess(ProcessDef processDef, java.util.List expr)
+  {
+    ActualParamProcess zedObject = createActualParamProcess();
+    zedObject.setProcessDef(processDef);
+    if (expr != null) {
+      zedObject.getExpr().addAll(expr);
+    }
+    return zedObject;
+  }
+
+  public VarDeclCommand createVarDeclCommand()
+  {
+    VarDeclCommand zedObject = new VarDeclCommandImpl();
+    return zedObject;
+  }
+
+  public VarDeclCommand createVarDeclCommand(java.util.List declarations, Action action)
+  {
+    VarDeclCommand zedObject = createVarDeclCommand();
+    if (declarations != null) {
+      zedObject.getDeclarations().addAll(declarations);
+    }
+    zedObject.setAction(action);
+    return zedObject;
+  }
+
+  public InputField createInputField()
+  {
+    InputField zedObject = new InputFieldImpl();
+    return zedObject;
+  }
+
+  public InputField createInputField(net.sourceforge.czt.z.ast.RefName variable, net.sourceforge.czt.z.ast.Pred restriction)
+  {
+    InputField zedObject = createInputField();
+    zedObject.setVariable(variable);
+    zedObject.setRestriction(restriction);
+    return zedObject;
+  }
+
+  public InterleaveProcessR createInterleaveProcessR()
+  {
+    InterleaveProcessR zedObject = new InterleaveProcessRImpl();
+    return zedObject;
+  }
+
+  public InterleaveProcessR createInterleaveProcessR(ProcessDef processDef, java.util.List varDecl)
+  {
+    InterleaveProcessR zedObject = createInterleaveProcessR();
+    zedObject.setProcessDef(processDef);
+    if (varDecl != null) {
+      zedObject.getVarDecl().addAll(varDecl);
+    }
+    return zedObject;
+  }
+
+  public ExtChoiceProcessR createExtChoiceProcessR()
+  {
+    ExtChoiceProcessR zedObject = new ExtChoiceProcessRImpl();
+    return zedObject;
+  }
+
+  public ExtChoiceProcessR createExtChoiceProcessR(ProcessDef processDef, java.util.List varDecl)
+  {
+    ExtChoiceProcessR zedObject = createExtChoiceProcessR();
+    zedObject.setProcessDef(processDef);
+    if (varDecl != null) {
+      zedObject.getVarDecl().addAll(varDecl);
+    }
+    return zedObject;
+  }
+
   public IntersectionNameSet createIntersectionNameSet()
   {
     IntersectionNameSet zedObject = new IntersectionNameSetImpl();
@@ -1004,45 +1152,33 @@ public class CircusFactoryImpl
     return zedObject;
   }
 
-  public ExtChoiceProcessR createExtChoiceProcessR()
+  public ActionSignature createActionSignature()
   {
-    ExtChoiceProcessR zedObject = new ExtChoiceProcessRImpl();
+    ActionSignature zedObject = new ActionSignatureImpl();
     return zedObject;
   }
 
-  public ExtChoiceProcessR createExtChoiceProcessR(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  public ActionSignature createActionSignature(net.sourceforge.czt.z.ast.DeclName actionName, net.sourceforge.czt.z.ast.Signature localVarsSignature)
   {
-    ExtChoiceProcessR zedObject = createExtChoiceProcessR();
+    ActionSignature zedObject = createActionSignature();
+    zedObject.setActionName(actionName);
+    zedObject.setLocalVarsSignature(localVarsSignature);
+    return zedObject;
+  }
+
+  public ParamProcessDesc createParamProcessDesc()
+  {
+    ParamProcessDesc zedObject = new ParamProcessDescImpl();
+    return zedObject;
+  }
+
+  public ParamProcessDesc createParamProcessDesc(java.util.List varDecl, ProcessDef processDef)
+  {
+    ParamProcessDesc zedObject = createParamProcessDesc();
+    if (varDecl != null) {
+      zedObject.getVarDecl().addAll(varDecl);
+    }
     zedObject.setProcessDef(processDef);
-    zedObject.setVarDecl(varDecl);
-    return zedObject;
-  }
-
-  public InterleaveProcessR createInterleaveProcessR()
-  {
-    InterleaveProcessR zedObject = new InterleaveProcessRImpl();
-    return zedObject;
-  }
-
-  public InterleaveProcessR createInterleaveProcessR(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
-  {
-    InterleaveProcessR zedObject = createInterleaveProcessR();
-    zedObject.setProcessDef(processDef);
-    zedObject.setVarDecl(varDecl);
-    return zedObject;
-  }
-
-  public ExtChoiceProcessRI createExtChoiceProcessRI()
-  {
-    ExtChoiceProcessRI zedObject = new ExtChoiceProcessRIImpl();
-    return zedObject;
-  }
-
-  public ExtChoiceProcessRI createExtChoiceProcessRI(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
-  {
-    ExtChoiceProcessRI zedObject = createExtChoiceProcessRI();
-    zedObject.setProcessDef(processDef);
-    zedObject.setVarDecl(varDecl);
     return zedObject;
   }
 

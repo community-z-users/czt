@@ -45,7 +45,7 @@ import net.sourceforge.czt.circus.visitor.ActionVisitor;
  * @author Gnast version 0.1
  */
 public abstract class ActionImpl
-  extends TermAImpl   implements Action
+  extends ActionDescImpl   implements Action
 {
 
   /**

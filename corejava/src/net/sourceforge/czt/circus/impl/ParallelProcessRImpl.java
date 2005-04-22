@@ -120,11 +120,13 @@ public class ParallelProcessRImpl
     ParallelProcessR zedObject = null;
     try {
       ProcessDef processDef = (ProcessDef) args[0];
-      net.sourceforge.czt.z.ast.VarDecl varDecl = (net.sourceforge.czt.z.ast.VarDecl) args[1];
+      java.util.List varDecl = (java.util.List) args[1];
       ChannelSet channelSet = (ChannelSet) args[2];
       zedObject = new ParallelProcessRImpl();
       zedObject.setProcessDef(processDef);
-      zedObject.setVarDecl(varDecl);
+      if (varDecl != null) {
+        zedObject.getVarDecl().addAll(varDecl);
+      }
       zedObject.setChannelSet(channelSet);
     }
     catch (IndexOutOfBoundsException e) {

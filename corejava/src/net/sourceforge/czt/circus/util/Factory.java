@@ -64,46 +64,6 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link SeqActionR}.
-   *
-   * @return the new instance of SeqActionR.
-   */
-  public SeqActionR createSeqActionR()
-  {
-    return factory_.createSeqActionR();
-  }
-
-  /**
-   * Creates an instance of {@link SeqActionR} with the given children.
-   *
-   * @return the new instance of SeqActionR.
-   */
-  public SeqActionR createSeqActionR(Action action, net.sourceforge.czt.z.ast.VarDecl varDecl)
-  {
-    return factory_.createSeqActionR(action, varDecl);
-  }
-
-  /**
-   * Creates an instance of {@link SchChannelPara}.
-   *
-   * @return the new instance of SchChannelPara.
-   */
-  public SchChannelPara createSchChannelPara()
-  {
-    return factory_.createSchChannelPara();
-  }
-
-  /**
-   * Creates an instance of {@link SchChannelPara} with the given children.
-   *
-   * @return the new instance of SchChannelPara.
-   */
-  public SchChannelPara createSchChannelPara(net.sourceforge.czt.z.ast.RefName refName)
-  {
-    return factory_.createSchChannelPara(refName);
-  }
-
-  /**
    * Creates an instance of {@link InterleaveProcessRI}.
    *
    * @return the new instance of InterleaveProcessRI.
@@ -118,49 +78,9 @@ public class Factory
    *
    * @return the new instance of InterleaveProcessRI.
    */
-  public InterleaveProcessRI createInterleaveProcessRI(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  public InterleaveProcessRI createInterleaveProcessRI(ProcessDef processDef, java.util.List varDecl)
   {
     return factory_.createInterleaveProcessRI(processDef, varDecl);
-  }
-
-  /**
-   * Creates an instance of {@link InterleaveActionR}.
-   *
-   * @return the new instance of InterleaveActionR.
-   */
-  public InterleaveActionR createInterleaveActionR()
-  {
-    return factory_.createInterleaveActionR();
-  }
-
-  /**
-   * Creates an instance of {@link InterleaveActionR} with the given children.
-   *
-   * @return the new instance of InterleaveActionR.
-   */
-  public InterleaveActionR createInterleaveActionR(Action action, net.sourceforge.czt.z.ast.VarDecl varDecl)
-  {
-    return factory_.createInterleaveActionR(action, varDecl);
-  }
-
-  /**
-   * Creates an instance of {@link GuardedAction}.
-   *
-   * @return the new instance of GuardedAction.
-   */
-  public GuardedAction createGuardedAction()
-  {
-    return factory_.createGuardedAction();
-  }
-
-  /**
-   * Creates an instance of {@link GuardedAction} with the given children.
-   *
-   * @return the new instance of GuardedAction.
-   */
-  public GuardedAction createGuardedAction(Action action, net.sourceforge.czt.z.ast.Pred pred)
-  {
-    return factory_.createGuardedAction(action, pred);
   }
 
   /**
@@ -184,23 +104,23 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link FormalParamProcess}.
+   * Creates an instance of {@link GuardedAction}.
    *
-   * @return the new instance of FormalParamProcess.
+   * @return the new instance of GuardedAction.
    */
-  public FormalParamProcess createFormalParamProcess()
+  public GuardedAction createGuardedAction()
   {
-    return factory_.createFormalParamProcess();
+    return factory_.createGuardedAction();
   }
 
   /**
-   * Creates an instance of {@link FormalParamProcess} with the given children.
+   * Creates an instance of {@link GuardedAction} with the given children.
    *
-   * @return the new instance of FormalParamProcess.
+   * @return the new instance of GuardedAction.
    */
-  public FormalParamProcess createFormalParamProcess(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  public GuardedAction createGuardedAction(Action action, net.sourceforge.czt.z.ast.Pred pred)
   {
-    return factory_.createFormalParamProcess(processDef, varDecl);
+    return factory_.createGuardedAction(action, pred);
   }
 
   /**
@@ -224,26 +144,6 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link SpecStmtCommand}.
-   *
-   * @return the new instance of SpecStmtCommand.
-   */
-  public SpecStmtCommand createSpecStmtCommand()
-  {
-    return factory_.createSpecStmtCommand();
-  }
-
-  /**
-   * Creates an instance of {@link SpecStmtCommand} with the given children.
-   *
-   * @return the new instance of SpecStmtCommand.
-   */
-  public SpecStmtCommand createSpecStmtCommand(java.util.List frame, net.sourceforge.czt.z.ast.Pred pre, net.sourceforge.czt.z.ast.Pred post)
-  {
-    return factory_.createSpecStmtCommand(frame, pre, post);
-  }
-
-  /**
    * Creates an instance of {@link SeqProcessR}.
    *
    * @return the new instance of SeqProcessR.
@@ -258,29 +158,9 @@ public class Factory
    *
    * @return the new instance of SeqProcessR.
    */
-  public SeqProcessR createSeqProcessR(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  public SeqProcessR createSeqProcessR(ProcessDef processDef, java.util.List varDecl)
   {
     return factory_.createSeqProcessR(processDef, varDecl);
-  }
-
-  /**
-   * Creates an instance of {@link MuAction}.
-   *
-   * @return the new instance of MuAction.
-   */
-  public MuAction createMuAction()
-  {
-    return factory_.createMuAction();
-  }
-
-  /**
-   * Creates an instance of {@link MuAction} with the given children.
-   *
-   * @return the new instance of MuAction.
-   */
-  public MuAction createMuAction(Action action, net.sourceforge.czt.z.ast.DeclName declName)
-  {
-    return factory_.createMuAction(action, declName);
   }
 
   /**
@@ -314,46 +194,6 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link ProcessPara}.
-   *
-   * @return the new instance of ProcessPara.
-   */
-  public ProcessPara createProcessPara()
-  {
-    return factory_.createProcessPara();
-  }
-
-  /**
-   * Creates an instance of {@link ProcessPara} with the given children.
-   *
-   * @return the new instance of ProcessPara.
-   */
-  public ProcessPara createProcessPara(net.sourceforge.czt.z.ast.DeclName declName, ProcessDef processDef)
-  {
-    return factory_.createProcessPara(declName, processDef);
-  }
-
-  /**
-   * Creates an instance of {@link SeqAction}.
-   *
-   * @return the new instance of SeqAction.
-   */
-  public SeqAction createSeqAction()
-  {
-    return factory_.createSeqAction();
-  }
-
-  /**
-   * Creates an instance of {@link SeqAction} with the given children.
-   *
-   * @return the new instance of SeqAction.
-   */
-  public SeqAction createSeqAction(Action leftAction, Action rightAction)
-  {
-    return factory_.createSeqAction(leftAction, rightAction);
-  }
-
-  /**
    * Creates an instance of {@link SkipAction}.
    *
    * @return the new instance of SkipAction.
@@ -364,83 +204,23 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link ActualGenProcess}.
+   * Creates an instance of {@link ProcessType}.
    *
-   * @return the new instance of ActualGenProcess.
+   * @return the new instance of ProcessType.
    */
-  public ActualGenProcess createActualGenProcess()
+  public ProcessType createProcessType()
   {
-    return factory_.createActualGenProcess();
+    return factory_.createProcessType();
   }
 
   /**
-   * Creates an instance of {@link ActualGenProcess} with the given children.
+   * Creates an instance of {@link ProcessType} with the given children.
    *
-   * @return the new instance of ActualGenProcess.
+   * @return the new instance of ProcessType.
    */
-  public ActualGenProcess createActualGenProcess(ProcessDef processDef, java.util.List expr)
+  public ProcessType createProcessType(ProcessSignature processSignature)
   {
-    return factory_.createActualGenProcess(processDef, expr);
-  }
-
-  /**
-   * Creates an instance of {@link CallAction}.
-   *
-   * @return the new instance of CallAction.
-   */
-  public CallAction createCallAction()
-  {
-    return factory_.createCallAction();
-  }
-
-  /**
-   * Creates an instance of {@link CallAction} with the given children.
-   *
-   * @return the new instance of CallAction.
-   */
-  public CallAction createCallAction(net.sourceforge.czt.z.ast.RefName refName)
-  {
-    return factory_.createCallAction(refName);
-  }
-
-  /**
-   * Creates an instance of {@link ChannelSetPara}.
-   *
-   * @return the new instance of ChannelSetPara.
-   */
-  public ChannelSetPara createChannelSetPara()
-  {
-    return factory_.createChannelSetPara();
-  }
-
-  /**
-   * Creates an instance of {@link ChannelSetPara} with the given children.
-   *
-   * @return the new instance of ChannelSetPara.
-   */
-  public ChannelSetPara createChannelSetPara(net.sourceforge.czt.z.ast.DeclName declName, ChannelSet channelSet)
-  {
-    return factory_.createChannelSetPara(declName, channelSet);
-  }
-
-  /**
-   * Creates an instance of {@link IntChoiceProcessR}.
-   *
-   * @return the new instance of IntChoiceProcessR.
-   */
-  public IntChoiceProcessR createIntChoiceProcessR()
-  {
-    return factory_.createIntChoiceProcessR();
-  }
-
-  /**
-   * Creates an instance of {@link IntChoiceProcessR} with the given children.
-   *
-   * @return the new instance of IntChoiceProcessR.
-   */
-  public IntChoiceProcessR createIntChoiceProcessR(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
-  {
-    return factory_.createIntChoiceProcessR(processDef, varDecl);
+    return factory_.createProcessType(processSignature);
   }
 
   /**
@@ -458,7 +238,7 @@ public class Factory
    *
    * @return the new instance of IntChoiceActionR.
    */
-  public IntChoiceActionR createIntChoiceActionR(Action action, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  public IntChoiceActionR createIntChoiceActionR(Action action, java.util.List varDecl)
   {
     return factory_.createIntChoiceActionR(action, varDecl);
   }
@@ -484,103 +264,23 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link MixedField}.
+   * Creates an instance of {@link BasicChannelSet}.
    *
-   * @return the new instance of MixedField.
+   * @return the new instance of BasicChannelSet.
    */
-  public MixedField createMixedField()
+  public BasicChannelSet createBasicChannelSet()
   {
-    return factory_.createMixedField();
+    return factory_.createBasicChannelSet();
   }
 
   /**
-   * Creates an instance of {@link MixedField} with the given children.
+   * Creates an instance of {@link BasicChannelSet} with the given children.
    *
-   * @return the new instance of MixedField.
+   * @return the new instance of BasicChannelSet.
    */
-  public MixedField createMixedField(java.util.List inputField, java.util.List outputField)
+  public BasicChannelSet createBasicChannelSet(java.util.List refName)
   {
-    return factory_.createMixedField(inputField, outputField);
-  }
-
-  /**
-   * Creates an instance of {@link IntChoiceProcessRI}.
-   *
-   * @return the new instance of IntChoiceProcessRI.
-   */
-  public IntChoiceProcessRI createIntChoiceProcessRI()
-  {
-    return factory_.createIntChoiceProcessRI();
-  }
-
-  /**
-   * Creates an instance of {@link IntChoiceProcessRI} with the given children.
-   *
-   * @return the new instance of IntChoiceProcessRI.
-   */
-  public IntChoiceProcessRI createIntChoiceProcessRI(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
-  {
-    return factory_.createIntChoiceProcessRI(processDef, varDecl);
-  }
-
-  /**
-   * Creates an instance of {@link Communication}.
-   *
-   * @return the new instance of Communication.
-   */
-  public Communication createCommunication()
-  {
-    return factory_.createCommunication();
-  }
-
-  /**
-   * Creates an instance of {@link Communication} with the given children.
-   *
-   * @return the new instance of Communication.
-   */
-  public Communication createCommunication(net.sourceforge.czt.z.ast.RefName chanName, java.util.List chanFields, CommType commType, Integer multiSych)
-  {
-    return factory_.createCommunication(chanName, chanFields, commType, multiSych);
-  }
-
-  /**
-   * Creates an instance of {@link OutputField}.
-   *
-   * @return the new instance of OutputField.
-   */
-  public OutputField createOutputField()
-  {
-    return factory_.createOutputField();
-  }
-
-  /**
-   * Creates an instance of {@link OutputField} with the given children.
-   *
-   * @return the new instance of OutputField.
-   */
-  public OutputField createOutputField(net.sourceforge.czt.z.ast.Expr expression)
-  {
-    return factory_.createOutputField(expression);
-  }
-
-  /**
-   * Creates an instance of {@link ActionPara}.
-   *
-   * @return the new instance of ActionPara.
-   */
-  public ActionPara createActionPara()
-  {
-    return factory_.createActionPara();
-  }
-
-  /**
-   * Creates an instance of {@link ActionPara} with the given children.
-   *
-   * @return the new instance of ActionPara.
-   */
-  public ActionPara createActionPara(net.sourceforge.czt.z.ast.DeclName declName, Action action)
-  {
-    return factory_.createActionPara(declName, action);
+    return factory_.createBasicChannelSet(refName);
   }
 
   /**
@@ -604,66 +304,6 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link HideProcess}.
-   *
-   * @return the new instance of HideProcess.
-   */
-  public HideProcess createHideProcess()
-  {
-    return factory_.createHideProcess();
-  }
-
-  /**
-   * Creates an instance of {@link HideProcess} with the given children.
-   *
-   * @return the new instance of HideProcess.
-   */
-  public HideProcess createHideProcess(ProcessDef processDef, ChannelSet channelSet)
-  {
-    return factory_.createHideProcess(processDef, channelSet);
-  }
-
-  /**
-   * Creates an instance of {@link ParallelProcess}.
-   *
-   * @return the new instance of ParallelProcess.
-   */
-  public ParallelProcess createParallelProcess()
-  {
-    return factory_.createParallelProcess();
-  }
-
-  /**
-   * Creates an instance of {@link ParallelProcess} with the given children.
-   *
-   * @return the new instance of ParallelProcess.
-   */
-  public ParallelProcess createParallelProcess(ProcessDef leftProc, ProcessDef rightProc, ChannelSet channelSet)
-  {
-    return factory_.createParallelProcess(leftProc, rightProc, channelSet);
-  }
-
-  /**
-   * Creates an instance of {@link SetChannelSet}.
-   *
-   * @return the new instance of SetChannelSet.
-   */
-  public SetChannelSet createSetChannelSet()
-  {
-    return factory_.createSetChannelSet();
-  }
-
-  /**
-   * Creates an instance of {@link SetChannelSet} with the given children.
-   *
-   * @return the new instance of SetChannelSet.
-   */
-  public SetChannelSet createSetChannelSet(java.util.List refName)
-  {
-    return factory_.createSetChannelSet(refName);
-  }
-
-  /**
    * Creates an instance of {@link ParallelProcessRI}.
    *
    * @return the new instance of ParallelProcessRI.
@@ -678,109 +318,9 @@ public class Factory
    *
    * @return the new instance of ParallelProcessRI.
    */
-  public ParallelProcessRI createParallelProcessRI(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl, ChannelSet channelSet)
+  public ParallelProcessRI createParallelProcessRI(ProcessDef processDef, java.util.List varDecl, ChannelSet channelSet)
   {
     return factory_.createParallelProcessRI(processDef, varDecl, channelSet);
-  }
-
-  /**
-   * Creates an instance of {@link ParallelProcessR}.
-   *
-   * @return the new instance of ParallelProcessR.
-   */
-  public ParallelProcessR createParallelProcessR()
-  {
-    return factory_.createParallelProcessR();
-  }
-
-  /**
-   * Creates an instance of {@link ParallelProcessR} with the given children.
-   *
-   * @return the new instance of ParallelProcessR.
-   */
-  public ParallelProcessR createParallelProcessR(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl, ChannelSet channelSet)
-  {
-    return factory_.createParallelProcessR(processDef, varDecl, channelSet);
-  }
-
-  /**
-   * Creates an instance of {@link ParallelActionR}.
-   *
-   * @return the new instance of ParallelActionR.
-   */
-  public ParallelActionR createParallelActionR()
-  {
-    return factory_.createParallelActionR();
-  }
-
-  /**
-   * Creates an instance of {@link ParallelActionR} with the given children.
-   *
-   * @return the new instance of ParallelActionR.
-   */
-  public ParallelActionR createParallelActionR(Action action, net.sourceforge.czt.z.ast.VarDecl varDecl, NameSet leftNameSet, NameSet rightNameSet, ChannelSet channelSet)
-  {
-    return factory_.createParallelActionR(action, varDecl, leftNameSet, rightNameSet, channelSet);
-  }
-
-  /**
-   * Creates an instance of {@link IndexedProcess}.
-   *
-   * @return the new instance of IndexedProcess.
-   */
-  public IndexedProcess createIndexedProcess()
-  {
-    return factory_.createIndexedProcess();
-  }
-
-  /**
-   * Creates an instance of {@link IndexedProcess} with the given children.
-   *
-   * @return the new instance of IndexedProcess.
-   */
-  public IndexedProcess createIndexedProcess(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
-  {
-    return factory_.createIndexedProcess(processDef, varDecl);
-  }
-
-  /**
-   * Creates an instance of {@link IntChoiceAction}.
-   *
-   * @return the new instance of IntChoiceAction.
-   */
-  public IntChoiceAction createIntChoiceAction()
-  {
-    return factory_.createIntChoiceAction();
-  }
-
-  /**
-   * Creates an instance of {@link IntChoiceAction} with the given children.
-   *
-   * @return the new instance of IntChoiceAction.
-   */
-  public IntChoiceAction createIntChoiceAction(Action leftAction, Action rightAction)
-  {
-    return factory_.createIntChoiceAction(leftAction, rightAction);
-  }
-
-  /**
-   * Creates an instance of {@link DescProcess}.
-   *
-   * @return the new instance of DescProcess.
-   */
-  public DescProcess createDescProcess()
-  {
-    return factory_.createDescProcess();
-  }
-
-  /**
-   * Creates an instance of {@link DescProcess} with the given children.
-   *
-   * @return the new instance of DescProcess.
-   */
-  public DescProcess createDescProcess(net.sourceforge.czt.z.ast.RefName stateSchemaRefName, java.util.List para, Action mainAction)
-  {
-    return factory_.createDescProcess(stateSchemaRefName, para, mainAction);
   }
 
   /**
@@ -801,26 +341,6 @@ public class Factory
   public InterleaveAction createInterleaveAction(Action leftAction, Action rightAction, NameSet leftNameSet, NameSet rightNameSet)
   {
     return factory_.createInterleaveAction(leftAction, rightAction, leftNameSet, rightNameSet);
-  }
-
-  /**
-   * Creates an instance of {@link SchTextAction}.
-   *
-   * @return the new instance of SchTextAction.
-   */
-  public SchTextAction createSchTextAction()
-  {
-    return factory_.createSchTextAction();
-  }
-
-  /**
-   * Creates an instance of {@link SchTextAction} with the given children.
-   *
-   * @return the new instance of SchTextAction.
-   */
-  public SchTextAction createSchTextAction(net.sourceforge.czt.z.ast.SchExpr schExpr)
-  {
-    return factory_.createSchTextAction(schExpr);
   }
 
   /**
@@ -858,89 +378,29 @@ public class Factory
    *
    * @return the new instance of SeqProcessRI.
    */
-  public SeqProcessRI createSeqProcessRI(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  public SeqProcessRI createSeqProcessRI(ProcessDef processDef, java.util.List varDecl)
   {
     return factory_.createSeqProcessRI(processDef, varDecl);
   }
 
   /**
-   * Creates an instance of {@link RenameProcess}.
+   * Creates an instance of {@link SchExprAction}.
    *
-   * @return the new instance of RenameProcess.
+   * @return the new instance of SchExprAction.
    */
-  public RenameProcess createRenameProcess()
+  public SchExprAction createSchExprAction()
   {
-    return factory_.createRenameProcess();
+    return factory_.createSchExprAction();
   }
 
   /**
-   * Creates an instance of {@link RenameProcess} with the given children.
+   * Creates an instance of {@link SchExprAction} with the given children.
    *
-   * @return the new instance of RenameProcess.
+   * @return the new instance of SchExprAction.
    */
-  public RenameProcess createRenameProcess(ProcessDef processDef, java.util.List oldNames, java.util.List newNames)
+  public SchExprAction createSchExprAction(net.sourceforge.czt.z.ast.SchExpr schExpr, Boolean isState)
   {
-    return factory_.createRenameProcess(processDef, oldNames, newNames);
-  }
-
-  /**
-   * Creates an instance of {@link ChannelPara}.
-   *
-   * @return the new instance of ChannelPara.
-   */
-  public ChannelPara createChannelPara()
-  {
-    return factory_.createChannelPara();
-  }
-
-  /**
-   * Creates an instance of {@link ChannelPara} with the given children.
-   *
-   * @return the new instance of ChannelPara.
-   */
-  public ChannelPara createChannelPara(net.sourceforge.czt.z.ast.VarDecl varDecl)
-  {
-    return factory_.createChannelPara(varDecl);
-  }
-
-  /**
-   * Creates an instance of {@link FormalParamAction}.
-   *
-   * @return the new instance of FormalParamAction.
-   */
-  public FormalParamAction createFormalParamAction()
-  {
-    return factory_.createFormalParamAction();
-  }
-
-  /**
-   * Creates an instance of {@link FormalParamAction} with the given children.
-   *
-   * @return the new instance of FormalParamAction.
-   */
-  public FormalParamAction createFormalParamAction(Action action, net.sourceforge.czt.z.ast.VarDecl varDecl)
-  {
-    return factory_.createFormalParamAction(action, varDecl);
-  }
-
-  /**
-   * Creates an instance of {@link CallProcess}.
-   *
-   * @return the new instance of CallProcess.
-   */
-  public CallProcess createCallProcess()
-  {
-    return factory_.createCallProcess();
-  }
-
-  /**
-   * Creates an instance of {@link CallProcess} with the given children.
-   *
-   * @return the new instance of CallProcess.
-   */
-  public CallProcess createCallProcess(net.sourceforge.czt.z.ast.RefName refName)
-  {
-    return factory_.createCallProcess(refName);
+    return factory_.createSchExprAction(schExpr, isState);
   }
 
   /**
@@ -984,26 +444,6 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link FormalGenProcess}.
-   *
-   * @return the new instance of FormalGenProcess.
-   */
-  public FormalGenProcess createFormalGenProcess()
-  {
-    return factory_.createFormalGenProcess();
-  }
-
-  /**
-   * Creates an instance of {@link FormalGenProcess} with the given children.
-   *
-   * @return the new instance of FormalGenProcess.
-   */
-  public FormalGenProcess createFormalGenProcess(ProcessDef processDef, java.util.List formalGenTypes)
-  {
-    return factory_.createFormalGenProcess(processDef, formalGenTypes);
-  }
-
-  /**
    * Creates an instance of {@link StopAction}.
    *
    * @return the new instance of StopAction.
@@ -1034,106 +474,6 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link SetNameSet}.
-   *
-   * @return the new instance of SetNameSet.
-   */
-  public SetNameSet createSetNameSet()
-  {
-    return factory_.createSetNameSet();
-  }
-
-  /**
-   * Creates an instance of {@link SetNameSet} with the given children.
-   *
-   * @return the new instance of SetNameSet.
-   */
-  public SetNameSet createSetNameSet(java.util.List refName)
-  {
-    return factory_.createSetNameSet(refName);
-  }
-
-  /**
-   * Creates an instance of {@link InterleaveProcess}.
-   *
-   * @return the new instance of InterleaveProcess.
-   */
-  public InterleaveProcess createInterleaveProcess()
-  {
-    return factory_.createInterleaveProcess();
-  }
-
-  /**
-   * Creates an instance of {@link InterleaveProcess} with the given children.
-   *
-   * @return the new instance of InterleaveProcess.
-   */
-  public InterleaveProcess createInterleaveProcess(ProcessDef leftProc, ProcessDef rightProc)
-  {
-    return factory_.createInterleaveProcess(leftProc, rightProc);
-  }
-
-  /**
-   * Creates an instance of {@link NameSetPara}.
-   *
-   * @return the new instance of NameSetPara.
-   */
-  public NameSetPara createNameSetPara()
-  {
-    return factory_.createNameSetPara();
-  }
-
-  /**
-   * Creates an instance of {@link NameSetPara} with the given children.
-   *
-   * @return the new instance of NameSetPara.
-   */
-  public NameSetPara createNameSetPara(net.sourceforge.czt.z.ast.DeclName declName, NameSet nameSet)
-  {
-    return factory_.createNameSetPara(declName, nameSet);
-  }
-
-  /**
-   * Creates an instance of {@link UnionNameSet}.
-   *
-   * @return the new instance of UnionNameSet.
-   */
-  public UnionNameSet createUnionNameSet()
-  {
-    return factory_.createUnionNameSet();
-  }
-
-  /**
-   * Creates an instance of {@link UnionNameSet} with the given children.
-   *
-   * @return the new instance of UnionNameSet.
-   */
-  public UnionNameSet createUnionNameSet(NameSet leftOperand, NameSet rightOperand)
-  {
-    return factory_.createUnionNameSet(leftOperand, rightOperand);
-  }
-
-  /**
-   * Creates an instance of {@link ExtChoiceActionR}.
-   *
-   * @return the new instance of ExtChoiceActionR.
-   */
-  public ExtChoiceActionR createExtChoiceActionR()
-  {
-    return factory_.createExtChoiceActionR();
-  }
-
-  /**
-   * Creates an instance of {@link ExtChoiceActionR} with the given children.
-   *
-   * @return the new instance of ExtChoiceActionR.
-   */
-  public ExtChoiceActionR createExtChoiceActionR(Action action, net.sourceforge.czt.z.ast.VarDecl varDecl)
-  {
-    return factory_.createExtChoiceActionR(action, varDecl);
-  }
-
-  /**
    * Creates an instance of {@link RefChannelSet}.
    *
    * @return the new instance of RefChannelSet.
@@ -1154,43 +494,23 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link SeqProcess}.
+   * Creates an instance of {@link ExtChoiceActionR}.
    *
-   * @return the new instance of SeqProcess.
+   * @return the new instance of ExtChoiceActionR.
    */
-  public SeqProcess createSeqProcess()
+  public ExtChoiceActionR createExtChoiceActionR()
   {
-    return factory_.createSeqProcess();
+    return factory_.createExtChoiceActionR();
   }
 
   /**
-   * Creates an instance of {@link SeqProcess} with the given children.
+   * Creates an instance of {@link ExtChoiceActionR} with the given children.
    *
-   * @return the new instance of SeqProcess.
+   * @return the new instance of ExtChoiceActionR.
    */
-  public SeqProcess createSeqProcess(ProcessDef leftProc, ProcessDef rightProc)
+  public ExtChoiceActionR createExtChoiceActionR(Action action, java.util.List varDecl)
   {
-    return factory_.createSeqProcess(leftProc, rightProc);
-  }
-
-  /**
-   * Creates an instance of {@link IntersectChannelSet}.
-   *
-   * @return the new instance of IntersectChannelSet.
-   */
-  public IntersectChannelSet createIntersectChannelSet()
-  {
-    return factory_.createIntersectChannelSet();
-  }
-
-  /**
-   * Creates an instance of {@link IntersectChannelSet} with the given children.
-   *
-   * @return the new instance of IntersectChannelSet.
-   */
-  public IntersectChannelSet createIntersectChannelSet(ChannelSet leftOperand, ChannelSet rightOperand)
-  {
-    return factory_.createIntersectChannelSet(leftOperand, rightOperand);
+    return factory_.createExtChoiceActionR(action, varDecl);
   }
 
   /**
@@ -1254,23 +574,23 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link ActualParamProcess}.
+   * Creates an instance of {@link IndexedProcessDesc}.
    *
-   * @return the new instance of ActualParamProcess.
+   * @return the new instance of IndexedProcessDesc.
    */
-  public ActualParamProcess createActualParamProcess()
+  public IndexedProcessDesc createIndexedProcessDesc()
   {
-    return factory_.createActualParamProcess();
+    return factory_.createIndexedProcessDesc();
   }
 
   /**
-   * Creates an instance of {@link ActualParamProcess} with the given children.
+   * Creates an instance of {@link IndexedProcessDesc} with the given children.
    *
-   * @return the new instance of ActualParamProcess.
+   * @return the new instance of IndexedProcessDesc.
    */
-  public ActualParamProcess createActualParamProcess(ProcessDef processDef, java.util.List expr)
+  public IndexedProcessDesc createIndexedProcessDesc(java.util.List varDecl, ProcessDef processDef)
   {
-    return factory_.createActualParamProcess(processDef, expr);
+    return factory_.createIndexedProcessDesc(varDecl, processDef);
   }
 
   /**
@@ -1294,26 +614,6 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link VarDeclCommand}.
-   *
-   * @return the new instance of VarDeclCommand.
-   */
-  public VarDeclCommand createVarDeclCommand()
-  {
-    return factory_.createVarDeclCommand();
-  }
-
-  /**
-   * Creates an instance of {@link VarDeclCommand} with the given children.
-   *
-   * @return the new instance of VarDeclCommand.
-   */
-  public VarDeclCommand createVarDeclCommand(net.sourceforge.czt.z.ast.VarDecl varDecl, Action action)
-  {
-    return factory_.createVarDeclCommand(varDecl, action);
-  }
-
-  /**
    * Creates an instance of {@link AssignmentCommand}.
    *
    * @return the new instance of AssignmentCommand.
@@ -1331,26 +631,6 @@ public class Factory
   public AssignmentCommand createAssignmentCommand(java.util.List assignmentPair)
   {
     return factory_.createAssignmentCommand(assignmentPair);
-  }
-
-  /**
-   * Creates an instance of {@link InputField}.
-   *
-   * @return the new instance of InputField.
-   */
-  public InputField createInputField()
-  {
-    return factory_.createInputField();
-  }
-
-  /**
-   * Creates an instance of {@link InputField} with the given children.
-   *
-   * @return the new instance of InputField.
-   */
-  public InputField createInputField(net.sourceforge.czt.z.ast.RefName variable, net.sourceforge.czt.z.ast.Pred restriction)
-  {
-    return factory_.createInputField(variable, restriction);
   }
 
   /**
@@ -1374,6 +654,866 @@ public class Factory
   }
 
   /**
+   * Creates an instance of {@link ExtChoiceProcessRI}.
+   *
+   * @return the new instance of ExtChoiceProcessRI.
+   */
+  public ExtChoiceProcessRI createExtChoiceProcessRI()
+  {
+    return factory_.createExtChoiceProcessRI();
+  }
+
+  /**
+   * Creates an instance of {@link ExtChoiceProcessRI} with the given children.
+   *
+   * @return the new instance of ExtChoiceProcessRI.
+   */
+  public ExtChoiceProcessRI createExtChoiceProcessRI(ProcessDef processDef, java.util.List varDecl)
+  {
+    return factory_.createExtChoiceProcessRI(processDef, varDecl);
+  }
+
+  /**
+   * Creates an instance of {@link AssumptionCommand}.
+   *
+   * @return the new instance of AssumptionCommand.
+   */
+  public AssumptionCommand createAssumptionCommand()
+  {
+    return factory_.createAssumptionCommand();
+  }
+
+  /**
+   * Creates an instance of {@link AssumptionCommand} with the given children.
+   *
+   * @return the new instance of AssumptionCommand.
+   */
+  public AssumptionCommand createAssumptionCommand(net.sourceforge.czt.z.ast.Pred pred)
+  {
+    return factory_.createAssumptionCommand(pred);
+  }
+
+  /**
+   * Creates an instance of {@link BasicProcessSignature}.
+   *
+   * @return the new instance of BasicProcessSignature.
+   */
+  public BasicProcessSignature createBasicProcessSignature()
+  {
+    return factory_.createBasicProcessSignature();
+  }
+
+  /**
+   * Creates an instance of {@link BasicProcessSignature} with the given children.
+   *
+   * @return the new instance of BasicProcessSignature.
+   */
+  public BasicProcessSignature createBasicProcessSignature(net.sourceforge.czt.z.ast.DeclName processName, net.sourceforge.czt.z.ast.VarDecl formalParams, net.sourceforge.czt.z.ast.Signature stateSignature, java.util.List localZDeclsSignature, java.util.List actionsSignature, java.util.List declNameSets)
+  {
+    return factory_.createBasicProcessSignature(processName, formalParams, stateSignature, localZDeclsSignature, actionsSignature, declNameSets);
+  }
+
+  /**
+   * Creates an instance of {@link SeqActionR}.
+   *
+   * @return the new instance of SeqActionR.
+   */
+  public SeqActionR createSeqActionR()
+  {
+    return factory_.createSeqActionR();
+  }
+
+  /**
+   * Creates an instance of {@link SeqActionR} with the given children.
+   *
+   * @return the new instance of SeqActionR.
+   */
+  public SeqActionR createSeqActionR(Action action, java.util.List varDecl)
+  {
+    return factory_.createSeqActionR(action, varDecl);
+  }
+
+  /**
+   * Creates an instance of {@link InterleaveActionR}.
+   *
+   * @return the new instance of InterleaveActionR.
+   */
+  public InterleaveActionR createInterleaveActionR()
+  {
+    return factory_.createInterleaveActionR();
+  }
+
+  /**
+   * Creates an instance of {@link InterleaveActionR} with the given children.
+   *
+   * @return the new instance of InterleaveActionR.
+   */
+  public InterleaveActionR createInterleaveActionR(Action action, java.util.List varDecl)
+  {
+    return factory_.createInterleaveActionR(action, varDecl);
+  }
+
+  /**
+   * Creates an instance of {@link SpecStmtCommand}.
+   *
+   * @return the new instance of SpecStmtCommand.
+   */
+  public SpecStmtCommand createSpecStmtCommand()
+  {
+    return factory_.createSpecStmtCommand();
+  }
+
+  /**
+   * Creates an instance of {@link SpecStmtCommand} with the given children.
+   *
+   * @return the new instance of SpecStmtCommand.
+   */
+  public SpecStmtCommand createSpecStmtCommand(java.util.List frame, net.sourceforge.czt.z.ast.Pred pre, net.sourceforge.czt.z.ast.Pred post)
+  {
+    return factory_.createSpecStmtCommand(frame, pre, post);
+  }
+
+  /**
+   * Creates an instance of {@link MuAction}.
+   *
+   * @return the new instance of MuAction.
+   */
+  public MuAction createMuAction()
+  {
+    return factory_.createMuAction();
+  }
+
+  /**
+   * Creates an instance of {@link MuAction} with the given children.
+   *
+   * @return the new instance of MuAction.
+   */
+  public MuAction createMuAction(Action action, net.sourceforge.czt.z.ast.DeclName declName)
+  {
+    return factory_.createMuAction(action, declName);
+  }
+
+  /**
+   * Creates an instance of {@link ProcessSignature}.
+   *
+   * @return the new instance of ProcessSignature.
+   */
+  public ProcessSignature createProcessSignature()
+  {
+    return factory_.createProcessSignature();
+  }
+
+  /**
+   * Creates an instance of {@link ProcessSignature} with the given children.
+   *
+   * @return the new instance of ProcessSignature.
+   */
+  public ProcessSignature createProcessSignature(net.sourceforge.czt.z.ast.DeclName processName, net.sourceforge.czt.z.ast.VarDecl formalParams)
+  {
+    return factory_.createProcessSignature(processName, formalParams);
+  }
+
+  /**
+   * Creates an instance of {@link ProcessPara}.
+   *
+   * @return the new instance of ProcessPara.
+   */
+  public ProcessPara createProcessPara()
+  {
+    return factory_.createProcessPara();
+  }
+
+  /**
+   * Creates an instance of {@link ProcessPara} with the given children.
+   *
+   * @return the new instance of ProcessPara.
+   */
+  public ProcessPara createProcessPara(net.sourceforge.czt.z.ast.DeclName declName, java.util.List genericTypes, ProcessDesc processDesc)
+  {
+    return factory_.createProcessPara(declName, genericTypes, processDesc);
+  }
+
+  /**
+   * Creates an instance of {@link SeqAction}.
+   *
+   * @return the new instance of SeqAction.
+   */
+  public SeqAction createSeqAction()
+  {
+    return factory_.createSeqAction();
+  }
+
+  /**
+   * Creates an instance of {@link SeqAction} with the given children.
+   *
+   * @return the new instance of SeqAction.
+   */
+  public SeqAction createSeqAction(Action leftAction, Action rightAction)
+  {
+    return factory_.createSeqAction(leftAction, rightAction);
+  }
+
+  /**
+   * Creates an instance of {@link ActualGenProcess}.
+   *
+   * @return the new instance of ActualGenProcess.
+   */
+  public ActualGenProcess createActualGenProcess()
+  {
+    return factory_.createActualGenProcess();
+  }
+
+  /**
+   * Creates an instance of {@link ActualGenProcess} with the given children.
+   *
+   * @return the new instance of ActualGenProcess.
+   */
+  public ActualGenProcess createActualGenProcess(ProcessDef processDef, java.util.List expr)
+  {
+    return factory_.createActualGenProcess(processDef, expr);
+  }
+
+  /**
+   * Creates an instance of {@link ChannelSetPara}.
+   *
+   * @return the new instance of ChannelSetPara.
+   */
+  public ChannelSetPara createChannelSetPara()
+  {
+    return factory_.createChannelSetPara();
+  }
+
+  /**
+   * Creates an instance of {@link ChannelSetPara} with the given children.
+   *
+   * @return the new instance of ChannelSetPara.
+   */
+  public ChannelSetPara createChannelSetPara(net.sourceforge.czt.z.ast.DeclName declName, ChannelSet channelSet)
+  {
+    return factory_.createChannelSetPara(declName, channelSet);
+  }
+
+  /**
+   * Creates an instance of {@link CallAction}.
+   *
+   * @return the new instance of CallAction.
+   */
+  public CallAction createCallAction()
+  {
+    return factory_.createCallAction();
+  }
+
+  /**
+   * Creates an instance of {@link CallAction} with the given children.
+   *
+   * @return the new instance of CallAction.
+   */
+  public CallAction createCallAction(net.sourceforge.czt.z.ast.RefName refName)
+  {
+    return factory_.createCallAction(refName);
+  }
+
+  /**
+   * Creates an instance of {@link IntChoiceProcessR}.
+   *
+   * @return the new instance of IntChoiceProcessR.
+   */
+  public IntChoiceProcessR createIntChoiceProcessR()
+  {
+    return factory_.createIntChoiceProcessR();
+  }
+
+  /**
+   * Creates an instance of {@link IntChoiceProcessR} with the given children.
+   *
+   * @return the new instance of IntChoiceProcessR.
+   */
+  public IntChoiceProcessR createIntChoiceProcessR(ProcessDef processDef, java.util.List varDecl)
+  {
+    return factory_.createIntChoiceProcessR(processDef, varDecl);
+  }
+
+  /**
+   * Creates an instance of {@link IntChoiceProcessRI}.
+   *
+   * @return the new instance of IntChoiceProcessRI.
+   */
+  public IntChoiceProcessRI createIntChoiceProcessRI()
+  {
+    return factory_.createIntChoiceProcessRI();
+  }
+
+  /**
+   * Creates an instance of {@link IntChoiceProcessRI} with the given children.
+   *
+   * @return the new instance of IntChoiceProcessRI.
+   */
+  public IntChoiceProcessRI createIntChoiceProcessRI(ProcessDef processDef, java.util.List varDecl)
+  {
+    return factory_.createIntChoiceProcessRI(processDef, varDecl);
+  }
+
+  /**
+   * Creates an instance of {@link Communication}.
+   *
+   * @return the new instance of Communication.
+   */
+  public Communication createCommunication()
+  {
+    return factory_.createCommunication();
+  }
+
+  /**
+   * Creates an instance of {@link Communication} with the given children.
+   *
+   * @return the new instance of Communication.
+   */
+  public Communication createCommunication(net.sourceforge.czt.z.ast.RefName chanName, java.util.List chanFields, CommType commType, Integer multiSych)
+  {
+    return factory_.createCommunication(chanName, chanFields, commType, multiSych);
+  }
+
+  /**
+   * Creates an instance of {@link OutputField}.
+   *
+   * @return the new instance of OutputField.
+   */
+  public OutputField createOutputField()
+  {
+    return factory_.createOutputField();
+  }
+
+  /**
+   * Creates an instance of {@link OutputField} with the given children.
+   *
+   * @return the new instance of OutputField.
+   */
+  public OutputField createOutputField(net.sourceforge.czt.z.ast.Expr expression)
+  {
+    return factory_.createOutputField(expression);
+  }
+
+  /**
+   * Creates an instance of {@link ActionPara}.
+   *
+   * @return the new instance of ActionPara.
+   */
+  public ActionPara createActionPara()
+  {
+    return factory_.createActionPara();
+  }
+
+  /**
+   * Creates an instance of {@link ActionPara} with the given children.
+   *
+   * @return the new instance of ActionPara.
+   */
+  public ActionPara createActionPara(net.sourceforge.czt.z.ast.DeclName declName, ActionDesc actionDesc)
+  {
+    return factory_.createActionPara(declName, actionDesc);
+  }
+
+  /**
+   * Creates an instance of {@link HideProcess}.
+   *
+   * @return the new instance of HideProcess.
+   */
+  public HideProcess createHideProcess()
+  {
+    return factory_.createHideProcess();
+  }
+
+  /**
+   * Creates an instance of {@link HideProcess} with the given children.
+   *
+   * @return the new instance of HideProcess.
+   */
+  public HideProcess createHideProcess(ProcessDef processDef, ChannelSet channelSet)
+  {
+    return factory_.createHideProcess(processDef, channelSet);
+  }
+
+  /**
+   * Creates an instance of {@link ActionAnn}.
+   *
+   * @return the new instance of ActionAnn.
+   */
+  public ActionAnn createActionAnn()
+  {
+    return factory_.createActionAnn();
+  }
+
+  /**
+   * Creates an instance of {@link ActionAnn} with the given children.
+   *
+   * @return the new instance of ActionAnn.
+   */
+  public ActionAnn createActionAnn(ActionSignature actionSignature)
+  {
+    return factory_.createActionAnn(actionSignature);
+  }
+
+  /**
+   * Creates an instance of {@link ParallelProcess}.
+   *
+   * @return the new instance of ParallelProcess.
+   */
+  public ParallelProcess createParallelProcess()
+  {
+    return factory_.createParallelProcess();
+  }
+
+  /**
+   * Creates an instance of {@link ParallelProcess} with the given children.
+   *
+   * @return the new instance of ParallelProcess.
+   */
+  public ParallelProcess createParallelProcess(ProcessDef leftProc, ProcessDef rightProc, ChannelSet channelSet)
+  {
+    return factory_.createParallelProcess(leftProc, rightProc, channelSet);
+  }
+
+  /**
+   * Creates an instance of {@link ParallelProcessR}.
+   *
+   * @return the new instance of ParallelProcessR.
+   */
+  public ParallelProcessR createParallelProcessR()
+  {
+    return factory_.createParallelProcessR();
+  }
+
+  /**
+   * Creates an instance of {@link ParallelProcessR} with the given children.
+   *
+   * @return the new instance of ParallelProcessR.
+   */
+  public ParallelProcessR createParallelProcessR(ProcessDef processDef, java.util.List varDecl, ChannelSet channelSet)
+  {
+    return factory_.createParallelProcessR(processDef, varDecl, channelSet);
+  }
+
+  /**
+   * Creates an instance of {@link ActionType}.
+   *
+   * @return the new instance of ActionType.
+   */
+  public ActionType createActionType()
+  {
+    return factory_.createActionType();
+  }
+
+  /**
+   * Creates an instance of {@link ActionType} with the given children.
+   *
+   * @return the new instance of ActionType.
+   */
+  public ActionType createActionType(ActionSignature actionSignature)
+  {
+    return factory_.createActionType(actionSignature);
+  }
+
+  /**
+   * Creates an instance of {@link ParallelActionR}.
+   *
+   * @return the new instance of ParallelActionR.
+   */
+  public ParallelActionR createParallelActionR()
+  {
+    return factory_.createParallelActionR();
+  }
+
+  /**
+   * Creates an instance of {@link ParallelActionR} with the given children.
+   *
+   * @return the new instance of ParallelActionR.
+   */
+  public ParallelActionR createParallelActionR(Action action, java.util.List varDecl, NameSet leftNameSet, NameSet rightNameSet, ChannelSet channelSet)
+  {
+    return factory_.createParallelActionR(action, varDecl, leftNameSet, rightNameSet, channelSet);
+  }
+
+  /**
+   * Creates an instance of {@link IntChoiceAction}.
+   *
+   * @return the new instance of IntChoiceAction.
+   */
+  public IntChoiceAction createIntChoiceAction()
+  {
+    return factory_.createIntChoiceAction();
+  }
+
+  /**
+   * Creates an instance of {@link IntChoiceAction} with the given children.
+   *
+   * @return the new instance of IntChoiceAction.
+   */
+  public IntChoiceAction createIntChoiceAction(Action leftAction, Action rightAction)
+  {
+    return factory_.createIntChoiceAction(leftAction, rightAction);
+  }
+
+  /**
+   * Creates an instance of {@link ProcessAnn}.
+   *
+   * @return the new instance of ProcessAnn.
+   */
+  public ProcessAnn createProcessAnn()
+  {
+    return factory_.createProcessAnn();
+  }
+
+  /**
+   * Creates an instance of {@link ProcessAnn} with the given children.
+   *
+   * @return the new instance of ProcessAnn.
+   */
+  public ProcessAnn createProcessAnn(ProcessSignature processSignature)
+  {
+    return factory_.createProcessAnn(processSignature);
+  }
+
+  /**
+   * Creates an instance of {@link ParamActionDesc}.
+   *
+   * @return the new instance of ParamActionDesc.
+   */
+  public ParamActionDesc createParamActionDesc()
+  {
+    return factory_.createParamActionDesc();
+  }
+
+  /**
+   * Creates an instance of {@link ParamActionDesc} with the given children.
+   *
+   * @return the new instance of ParamActionDesc.
+   */
+  public ParamActionDesc createParamActionDesc(java.util.List varDecl, Action action)
+  {
+    return factory_.createParamActionDesc(varDecl, action);
+  }
+
+  /**
+   * Creates an instance of {@link RenameProcess}.
+   *
+   * @return the new instance of RenameProcess.
+   */
+  public RenameProcess createRenameProcess()
+  {
+    return factory_.createRenameProcess();
+  }
+
+  /**
+   * Creates an instance of {@link RenameProcess} with the given children.
+   *
+   * @return the new instance of RenameProcess.
+   */
+  public RenameProcess createRenameProcess(ProcessDef processDef, java.util.List oldNames, java.util.List newNames)
+  {
+    return factory_.createRenameProcess(processDef, oldNames, newNames);
+  }
+
+  /**
+   * Creates an instance of {@link ChannelPara}.
+   *
+   * @return the new instance of ChannelPara.
+   */
+  public ChannelPara createChannelPara()
+  {
+    return factory_.createChannelPara();
+  }
+
+  /**
+   * Creates an instance of {@link ChannelPara} with the given children.
+   *
+   * @return the new instance of ChannelPara.
+   */
+  public ChannelPara createChannelPara(java.util.List decl)
+  {
+    return factory_.createChannelPara(decl);
+  }
+
+  /**
+   * Creates an instance of {@link CallProcess}.
+   *
+   * @return the new instance of CallProcess.
+   */
+  public CallProcess createCallProcess()
+  {
+    return factory_.createCallProcess();
+  }
+
+  /**
+   * Creates an instance of {@link CallProcess} with the given children.
+   *
+   * @return the new instance of CallProcess.
+   */
+  public CallProcess createCallProcess(net.sourceforge.czt.z.ast.RefName refName)
+  {
+    return factory_.createCallProcess(refName);
+  }
+
+  /**
+   * Creates an instance of {@link FormalParamAction}.
+   *
+   * @return the new instance of FormalParamAction.
+   */
+  public FormalParamAction createFormalParamAction()
+  {
+    return factory_.createFormalParamAction();
+  }
+
+  /**
+   * Creates an instance of {@link FormalParamAction} with the given children.
+   *
+   * @return the new instance of FormalParamAction.
+   */
+  public FormalParamAction createFormalParamAction(Action action, java.util.List varDecl)
+  {
+    return factory_.createFormalParamAction(action, varDecl);
+  }
+
+  /**
+   * Creates an instance of {@link SetNameSet}.
+   *
+   * @return the new instance of SetNameSet.
+   */
+  public SetNameSet createSetNameSet()
+  {
+    return factory_.createSetNameSet();
+  }
+
+  /**
+   * Creates an instance of {@link SetNameSet} with the given children.
+   *
+   * @return the new instance of SetNameSet.
+   */
+  public SetNameSet createSetNameSet(java.util.List refName)
+  {
+    return factory_.createSetNameSet(refName);
+  }
+
+  /**
+   * Creates an instance of {@link NameSetPara}.
+   *
+   * @return the new instance of NameSetPara.
+   */
+  public NameSetPara createNameSetPara()
+  {
+    return factory_.createNameSetPara();
+  }
+
+  /**
+   * Creates an instance of {@link NameSetPara} with the given children.
+   *
+   * @return the new instance of NameSetPara.
+   */
+  public NameSetPara createNameSetPara(net.sourceforge.czt.z.ast.DeclName declName, NameSet nameSet)
+  {
+    return factory_.createNameSetPara(declName, nameSet);
+  }
+
+  /**
+   * Creates an instance of {@link InterleaveProcess}.
+   *
+   * @return the new instance of InterleaveProcess.
+   */
+  public InterleaveProcess createInterleaveProcess()
+  {
+    return factory_.createInterleaveProcess();
+  }
+
+  /**
+   * Creates an instance of {@link InterleaveProcess} with the given children.
+   *
+   * @return the new instance of InterleaveProcess.
+   */
+  public InterleaveProcess createInterleaveProcess(ProcessDef leftProc, ProcessDef rightProc)
+  {
+    return factory_.createInterleaveProcess(leftProc, rightProc);
+  }
+
+  /**
+   * Creates an instance of {@link UnionNameSet}.
+   *
+   * @return the new instance of UnionNameSet.
+   */
+  public UnionNameSet createUnionNameSet()
+  {
+    return factory_.createUnionNameSet();
+  }
+
+  /**
+   * Creates an instance of {@link UnionNameSet} with the given children.
+   *
+   * @return the new instance of UnionNameSet.
+   */
+  public UnionNameSet createUnionNameSet(NameSet leftOperand, NameSet rightOperand)
+  {
+    return factory_.createUnionNameSet(leftOperand, rightOperand);
+  }
+
+  /**
+   * Creates an instance of {@link SeqProcess}.
+   *
+   * @return the new instance of SeqProcess.
+   */
+  public SeqProcess createSeqProcess()
+  {
+    return factory_.createSeqProcess();
+  }
+
+  /**
+   * Creates an instance of {@link SeqProcess} with the given children.
+   *
+   * @return the new instance of SeqProcess.
+   */
+  public SeqProcess createSeqProcess(ProcessDef leftProc, ProcessDef rightProc)
+  {
+    return factory_.createSeqProcess(leftProc, rightProc);
+  }
+
+  /**
+   * Creates an instance of {@link BasicProcess}.
+   *
+   * @return the new instance of BasicProcess.
+   */
+  public BasicProcess createBasicProcess()
+  {
+    return factory_.createBasicProcess();
+  }
+
+  /**
+   * Creates an instance of {@link BasicProcess} with the given children.
+   *
+   * @return the new instance of BasicProcess.
+   */
+  public BasicProcess createBasicProcess(net.sourceforge.czt.z.ast.RefName stateSchemaRefName, java.util.List declZParagraphs, java.util.List declActions, java.util.List declNameSets, Action mainAction)
+  {
+    return factory_.createBasicProcess(stateSchemaRefName, declZParagraphs, declActions, declNameSets, mainAction);
+  }
+
+  /**
+   * Creates an instance of {@link IntersectChannelSet}.
+   *
+   * @return the new instance of IntersectChannelSet.
+   */
+  public IntersectChannelSet createIntersectChannelSet()
+  {
+    return factory_.createIntersectChannelSet();
+  }
+
+  /**
+   * Creates an instance of {@link IntersectChannelSet} with the given children.
+   *
+   * @return the new instance of IntersectChannelSet.
+   */
+  public IntersectChannelSet createIntersectChannelSet(ChannelSet leftOperand, ChannelSet rightOperand)
+  {
+    return factory_.createIntersectChannelSet(leftOperand, rightOperand);
+  }
+
+  /**
+   * Creates an instance of {@link ActualParamProcess}.
+   *
+   * @return the new instance of ActualParamProcess.
+   */
+  public ActualParamProcess createActualParamProcess()
+  {
+    return factory_.createActualParamProcess();
+  }
+
+  /**
+   * Creates an instance of {@link ActualParamProcess} with the given children.
+   *
+   * @return the new instance of ActualParamProcess.
+   */
+  public ActualParamProcess createActualParamProcess(ProcessDef processDef, java.util.List expr)
+  {
+    return factory_.createActualParamProcess(processDef, expr);
+  }
+
+  /**
+   * Creates an instance of {@link VarDeclCommand}.
+   *
+   * @return the new instance of VarDeclCommand.
+   */
+  public VarDeclCommand createVarDeclCommand()
+  {
+    return factory_.createVarDeclCommand();
+  }
+
+  /**
+   * Creates an instance of {@link VarDeclCommand} with the given children.
+   *
+   * @return the new instance of VarDeclCommand.
+   */
+  public VarDeclCommand createVarDeclCommand(java.util.List declarations, Action action)
+  {
+    return factory_.createVarDeclCommand(declarations, action);
+  }
+
+  /**
+   * Creates an instance of {@link InputField}.
+   *
+   * @return the new instance of InputField.
+   */
+  public InputField createInputField()
+  {
+    return factory_.createInputField();
+  }
+
+  /**
+   * Creates an instance of {@link InputField} with the given children.
+   *
+   * @return the new instance of InputField.
+   */
+  public InputField createInputField(net.sourceforge.czt.z.ast.RefName variable, net.sourceforge.czt.z.ast.Pred restriction)
+  {
+    return factory_.createInputField(variable, restriction);
+  }
+
+  /**
+   * Creates an instance of {@link InterleaveProcessR}.
+   *
+   * @return the new instance of InterleaveProcessR.
+   */
+  public InterleaveProcessR createInterleaveProcessR()
+  {
+    return factory_.createInterleaveProcessR();
+  }
+
+  /**
+   * Creates an instance of {@link InterleaveProcessR} with the given children.
+   *
+   * @return the new instance of InterleaveProcessR.
+   */
+  public InterleaveProcessR createInterleaveProcessR(ProcessDef processDef, java.util.List varDecl)
+  {
+    return factory_.createInterleaveProcessR(processDef, varDecl);
+  }
+
+  /**
+   * Creates an instance of {@link ExtChoiceProcessR}.
+   *
+   * @return the new instance of ExtChoiceProcessR.
+   */
+  public ExtChoiceProcessR createExtChoiceProcessR()
+  {
+    return factory_.createExtChoiceProcessR();
+  }
+
+  /**
+   * Creates an instance of {@link ExtChoiceProcessR} with the given children.
+   *
+   * @return the new instance of ExtChoiceProcessR.
+   */
+  public ExtChoiceProcessR createExtChoiceProcessR(ProcessDef processDef, java.util.List varDecl)
+  {
+    return factory_.createExtChoiceProcessR(processDef, varDecl);
+  }
+
+  /**
    * Creates an instance of {@link IntersectionNameSet}.
    *
    * @return the new instance of IntersectionNameSet.
@@ -1394,63 +1534,43 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link ExtChoiceProcessR}.
+   * Creates an instance of {@link ActionSignature}.
    *
-   * @return the new instance of ExtChoiceProcessR.
+   * @return the new instance of ActionSignature.
    */
-  public ExtChoiceProcessR createExtChoiceProcessR()
+  public ActionSignature createActionSignature()
   {
-    return factory_.createExtChoiceProcessR();
+    return factory_.createActionSignature();
   }
 
   /**
-   * Creates an instance of {@link ExtChoiceProcessR} with the given children.
+   * Creates an instance of {@link ActionSignature} with the given children.
    *
-   * @return the new instance of ExtChoiceProcessR.
+   * @return the new instance of ActionSignature.
    */
-  public ExtChoiceProcessR createExtChoiceProcessR(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  public ActionSignature createActionSignature(net.sourceforge.czt.z.ast.DeclName actionName, net.sourceforge.czt.z.ast.Signature localVarsSignature)
   {
-    return factory_.createExtChoiceProcessR(processDef, varDecl);
+    return factory_.createActionSignature(actionName, localVarsSignature);
   }
 
   /**
-   * Creates an instance of {@link InterleaveProcessR}.
+   * Creates an instance of {@link ParamProcessDesc}.
    *
-   * @return the new instance of InterleaveProcessR.
+   * @return the new instance of ParamProcessDesc.
    */
-  public InterleaveProcessR createInterleaveProcessR()
+  public ParamProcessDesc createParamProcessDesc()
   {
-    return factory_.createInterleaveProcessR();
+    return factory_.createParamProcessDesc();
   }
 
   /**
-   * Creates an instance of {@link InterleaveProcessR} with the given children.
+   * Creates an instance of {@link ParamProcessDesc} with the given children.
    *
-   * @return the new instance of InterleaveProcessR.
+   * @return the new instance of ParamProcessDesc.
    */
-  public InterleaveProcessR createInterleaveProcessR(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  public ParamProcessDesc createParamProcessDesc(java.util.List varDecl, ProcessDef processDef)
   {
-    return factory_.createInterleaveProcessR(processDef, varDecl);
-  }
-
-  /**
-   * Creates an instance of {@link ExtChoiceProcessRI}.
-   *
-   * @return the new instance of ExtChoiceProcessRI.
-   */
-  public ExtChoiceProcessRI createExtChoiceProcessRI()
-  {
-    return factory_.createExtChoiceProcessRI();
-  }
-
-  /**
-   * Creates an instance of {@link ExtChoiceProcessRI} with the given children.
-   *
-   * @return the new instance of ExtChoiceProcessRI.
-   */
-  public ExtChoiceProcessRI createExtChoiceProcessRI(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
-  {
-    return factory_.createExtChoiceProcessRI(processDef, varDecl);
+    return factory_.createParamProcessDesc(varDecl, processDef);
   }
 
 

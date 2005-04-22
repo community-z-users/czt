@@ -43,7 +43,7 @@ import net.sourceforge.czt.z.visitor.ParenAnnVisitor;
  * @author Gnast version 0.1
  */
 public class ParenAnnImpl
-  extends TermImpl   implements ParenAnn
+  extends AnnImpl   implements ParenAnn
 {
   /**
    * The default constructor.

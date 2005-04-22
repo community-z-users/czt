@@ -38,17 +38,12 @@ public interface ActionD extends Action1
 {
 
   /**
-   * Returns the VarDecl element.
+   * <p>Returns the VarDecl elements.</p>
+   * <p>To add or remove elements, use the methods provided by
+   * the List interface (that's why there is no need for a setter
+   * method).</p>
    *
-   * @return the VarDecl element.
+   * @return a list of VarDecl elements.
    */
-  net.sourceforge.czt.z.ast.VarDecl getVarDecl();
-
-  /**
-   * Sets the VarDecl element.
-   *
-   * @param varDecl   the VarDecl element.
-   * @see #getVarDecl
-   */
-  void setVarDecl(net.sourceforge.czt.z.ast.VarDecl varDecl);
+  net.sourceforge.czt.base.ast.ListTerm getVarDecl();
 }

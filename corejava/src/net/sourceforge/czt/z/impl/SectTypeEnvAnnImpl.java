@@ -43,7 +43,7 @@ import net.sourceforge.czt.z.visitor.SectTypeEnvAnnVisitor;
  * @author Gnast version 0.1
  */
 public class SectTypeEnvAnnImpl
-  extends TermImpl   implements SectTypeEnvAnn
+  extends AnnImpl   implements SectTypeEnvAnn
 {
   /**
    * The default constructor.

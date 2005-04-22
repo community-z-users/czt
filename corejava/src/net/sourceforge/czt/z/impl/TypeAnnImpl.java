@@ -43,7 +43,7 @@ import net.sourceforge.czt.z.visitor.TypeAnnVisitor;
  * @author Gnast version 0.1
  */
 public class TypeAnnImpl
-  extends TermImpl   implements TypeAnn
+  extends AnnImpl   implements TypeAnn
 {
   /**
    * The default constructor.

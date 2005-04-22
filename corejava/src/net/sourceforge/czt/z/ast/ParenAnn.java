@@ -33,6 +33,6 @@ import net.sourceforge.czt.base.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface ParenAnn extends Term
+public interface ParenAnn extends Ann
 {
 }

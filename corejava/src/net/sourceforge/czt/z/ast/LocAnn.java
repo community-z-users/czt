@@ -33,7 +33,7 @@ import net.sourceforge.czt.base.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface LocAnn extends Term
+public interface LocAnn extends Ann
 {
 
   /**

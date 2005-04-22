@@ -43,7 +43,7 @@ import net.sourceforge.czt.z.visitor.TypeEnvAnnVisitor;
  * @author Gnast version 0.1
  */
 public class TypeEnvAnnImpl
-  extends TermImpl   implements TypeEnvAnn
+  extends AnnImpl   implements TypeEnvAnn
 {
   /**
    * The default constructor.

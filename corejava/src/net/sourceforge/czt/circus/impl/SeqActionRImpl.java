@@ -107,10 +107,12 @@ public class SeqActionRImpl
     SeqActionR zedObject = null;
     try {
       Action action = (Action) args[0];
-      net.sourceforge.czt.z.ast.VarDecl varDecl = (net.sourceforge.czt.z.ast.VarDecl) args[1];
+      java.util.List varDecl = (java.util.List) args[1];
       zedObject = new SeqActionRImpl();
       zedObject.setAction(action);
-      zedObject.setVarDecl(varDecl);
+      if (varDecl != null) {
+        zedObject.getVarDecl().addAll(varDecl);
+      }
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();

@@ -55,4 +55,19 @@ public interface State extends TermA
    * @return a list of SecondaryDecl elements.
    */
   net.sourceforge.czt.base.ast.ListTerm getSecondaryDecl();
+
+  /**
+   * Returns the Pred element.
+   *
+   * @return the Pred element.
+   */
+  net.sourceforge.czt.z.ast.Pred getPred();
+
+  /**
+   * Sets the Pred element.
+   *
+   * @param pred   the Pred element.
+   * @see #getPred
+   */
+  void setPred(net.sourceforge.czt.z.ast.Pred pred);
 }

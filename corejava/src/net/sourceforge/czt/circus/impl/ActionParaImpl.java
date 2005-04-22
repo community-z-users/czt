@@ -79,13 +79,13 @@ public class ActionParaImpl
             return false;
           }
         }
-        if (action_ != null) {
-          if (!action_.equals(object.action_)) {
+        if (actionDesc_ != null) {
+          if (!actionDesc_.equals(object.actionDesc_)) {
             return false;
           }
         }
         else {
-          if (object.action_ != null) {
+          if (object.actionDesc_ != null) {
             return false;
           }
         }
@@ -107,8 +107,8 @@ public class ActionParaImpl
     if (declName_ != null) {
       hashCode += constant * declName_.hashCode();
     }
-    if (action_ != null) {
-      hashCode += constant * action_.hashCode();
+    if (actionDesc_ != null) {
+      hashCode += constant * actionDesc_.hashCode();
     }
     return hashCode;
   }
@@ -133,10 +133,10 @@ public class ActionParaImpl
     ActionPara zedObject = null;
     try {
       net.sourceforge.czt.z.ast.DeclName declName = (net.sourceforge.czt.z.ast.DeclName) args[0];
-      Action action = (Action) args[1];
+      ActionDesc actionDesc = (ActionDesc) args[1];
       zedObject = new ActionParaImpl();
       zedObject.setDeclName(declName);
-      zedObject.setAction(action);
+      zedObject.setActionDesc(actionDesc);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -149,7 +149,7 @@ public class ActionParaImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getDeclName(), getAction() };
+    Object[] erg = { getDeclName(), getActionDesc() };
     return erg;
   }
 
@@ -165,15 +165,15 @@ public class ActionParaImpl
     declName_ = declName;
   }
 
-  private Action action_;
+  private ActionDesc actionDesc_;
 
-  public Action getAction()
+  public ActionDesc getActionDesc()
   {
-    return action_;
+    return actionDesc_;
   }
 
-  public void setAction(Action action)
+  public void setActionDesc(ActionDesc actionDesc)
   {
-    action_ = action;
+    actionDesc_ = actionDesc;
   }
 }

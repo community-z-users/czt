@@ -30,15 +30,15 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * An abstract process paragraph definition.
-        Available extensions are explicit process description; process call;
-        all forms of unary, binary, replicated, and indexed processes;
-        processes involving expressions; and processes involving declarations.
-        Process would be a nicer name but this conflicts with the interface
-        java.lang.Process.
+ * An abstract process definition. It is a kind of process description without parameters or indexation.
+				Available extensions are explicit process description; process call;
+				all forms of unary, binary, replicated, and indexed processes;
+				processes involving expressions; and processes involving declarations.
+				Process would be a nicer name but this conflicts with the interface
+				java.lang.Process.
  *
  * @author Gnast version 0.1
  */
-public interface ProcessDef extends TermA
+public interface ProcessDef extends ProcessDesc
 {
 }
