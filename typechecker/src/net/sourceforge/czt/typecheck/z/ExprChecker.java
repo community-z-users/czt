@@ -292,7 +292,9 @@ public class ExprChecker
     Type2 innerType = null;
     Type2 annType = (Type2) getTypeFromAnns(setExpr);
     if (annType instanceof PowerType) {
-      innerType = powerType(annType).getType();
+      if (!instanceOf(powerType(annType).getType(), UnknownType.class)) {
+	innerType = powerType(annType).getType();
+      }
     }
 
     //if the set is not empty find the inner type
@@ -1288,14 +1290,13 @@ public class ExprChecker
     else {
       Signature signature = vSchemaType.getSignature();
       if (!instanceOf(signature, VariableSignature.class)) {
-        RefName refName = bindSelExpr.getName();
-        DeclName selectName = factory().createDeclName(refName);
+        RefName selectName = bindSelExpr.getName();
 
         //if the select name is not in the signature, raise an error
         NameTypePair pair = findInSignature(selectName, signature);
         if (pair == null) {
           Object [] params = {bindSelExpr};
-          error(refName, ErrorMessage.NON_EXISTENT_SELECTION, params);
+          error(selectName, ErrorMessage.NON_EXISTENT_SELECTION, params);
         }
         //otherwise, get the type of that pair
         else {
