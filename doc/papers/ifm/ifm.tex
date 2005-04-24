@@ -1,0 +1,61 @@
+\documentclass{llncs}
+\pagestyle{headings}   % turn on page numbers
+
+\begin{document}
+\title{CZT support for Z extensions}
+\author{Leo Freitas \and Tim Miller \and Petra Malik \and Mark Utting}
+\maketitle
+
+\begin{abstract}
+  An integrated framework for supporting multiple dialects of a formal
+  notation.
+\end{abstract}
+
+
+\section{Introduction} \label{sec:intro}
+
+  Z\cite{isoz} is ...
+
+\section{XML Schemas and AST classes}
+
+  \begin{enumerate}
+    \item Gnast generation of ASTs from hierarchy of XML schemas.
+      (similar to other Jaxb projects?)
+
+    \item Benefits of having XML representation of each language
+      (AST interchange with other tools, in other languages).
+
+    \item Visitor pattern that supports multiple hierarchies.
+  \end{enumerate}
+
+\section{Parser, Typechecker and other Tools}
+
+  \begin{enumerate}
+    \item Multiple parsers and scanners (xml templates)
+    \item Multiple markups for each language.
+      (suits different communities:  Latex for researchers,
+      Unicode WYSIWYG editing for students and industry etc.)
+    \item Example: how a Circus visitor can reuse/extend a Z visitor
+      by overriding/adding a few methods.
+    \item Typechecker(s).
+      The (future!) modular design, using interfaces and visitors,
+      allows the core Z typechecker to be extended separately
+      to handle Object-Z and Circus.  (TODO!)
+    \item Animation of Circus using Z animator???
+      (Operational semantics of Circus are in Z itself,
+      so this makes a meta-level animation possible...) 
+  \end{enumerate}
+
+\section{Section Manager}
+
+  (is independent of Z/Object-Z/Circus etc.
+  Can easily be extended with new kinds of objects, commands)
+
+\section{Conclusions and Future Work} \label{sec:conclusions}
+
+\section*{Acknowledgements}
+
+\bibliographystyle{splncs}
+\bibliography{ifm}
+
+\end{document}
