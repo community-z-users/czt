@@ -252,6 +252,20 @@
 
   <!-- Circus support -->
 
+  <target name="circuschar">
+    <xslt
+      in="${czt.home}/devtools/circuschar.xml"
+      out="${corejava.build.src}/net/sourceforge/czt/circus/util/CircusChar.java"
+      style="${corejava.src.xsl}/circuschar2class.xsl"/>
+  </target>
+
+  <target name="circusstring">
+    <xslt
+      in="${czt.home}/devtools/circuschar.xml"
+      out="${corejava.build.src}/net/sourceforge/czt/circus/util/CircusString.java"
+      style="${corejava.src.xsl}/circuschar2stringclass.xsl"/>
+  </target>
+
   <target name="install-circus" depends="compile-circus"
           description="generate the Circus jar file" >
     <mkdir dir="${corejava.jar.dir}"/>
@@ -261,7 +275,7 @@
   </target>
 
   <target name="compile-circus"
-          depends="init, compile-base, compile-core"
+          depends="init, compile-base, compile-core, circuschar, circusstring"
           description="compile the Circus source code">
     <mkdir dir="${corejava.build.circus}"/>
     <javac
