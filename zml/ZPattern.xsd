@@ -393,7 +393,7 @@
       <xs:extension base="P:Proviso">
         <xs:sequence>
           <xs:element ref="Z:Expr"/>
-          <xs:element ref="Z:Type"/>
+          <xs:element ref="Z:Expr"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
