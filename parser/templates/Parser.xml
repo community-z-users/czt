@@ -1148,8 +1148,8 @@ non terminal Sequent
     provisoSequent,
     predSequent;
 
-non terminal Type2 baseType;
-non terminal List /* NameTypePair */ nameTypePairList;
+non terminal Expr baseType;
+non terminal List /* VarDecl */ varDeclList;
 </add:zpatt>
 
 <add:circus>
@@ -1605,14 +1605,14 @@ basicTypeDefinition ::=
         ;
 
 schema ::=
-        SCH:sch name:n optNL optFormalParameters:ofp schemaText:st END
+        SCH:sch name:n schemaText:st END
         {:
-           AxPara axPara = factory_.createSchema(n, ofp, st);
+           AxPara axPara = factory_.createSchema(n, list(), st);
            addLocAnn(axPara, schleft, schright);
            RESULT = axPara;
         :}
         |
-        GENSCH:gensch name:n formalParameters:fp schemaText:st END
+        GENSCH:gensch name:n optNL formalParameters:fp schemaText:st END
         {:
            AxPara axPara = factory_.createSchema(n, fp, st);
            addLocAnn(axPara, genschleft, genschright);
@@ -1969,12 +1969,6 @@ declaration ::=
            RESULT = factory_.createJokerDeclList(dl);
            addLocAnn(RESULT, dlleft, dlright);
         :}
-        |
-        declWordList:dwl COLON:colon baseType:bt
-//czt.todo: ??
-        {:
-           RESULT = factory_.createJokerDeclList();
-        :}
 </add:zpatt>
         ;
 
@@ -2007,7 +2001,8 @@ basicDeclaration ::=
 </add:circus>        
         ;
 
-varDecl ::= declWordList:dwl COLON:colon expression:e
+varDecl ::= 
+        declWordList:dwl COLON:colon expression:e
         {:
            VarDecl varDecl = factory_.createVarDecl(dwl, e);
            addLocAnn(varDecl, colonleft, colonright);
@@ -2015,7 +2010,8 @@ varDecl ::= declWordList:dwl COLON:colon expression:e
         :}
         ;
 
-constDecl ::= declName:dn DEFEQUAL:defequal expression:e
+constDecl ::= 
+        declName:dn DEFEQUAL:defequal expression:e
         {:
            ConstDecl constDecl = factory_.createConstDecl(dn, e);
            addLocAnn(constDecl, defequalleft, defequalright);
@@ -3838,66 +3834,69 @@ antecedent ::=
            RefName rn = factory_.createRefName(dw, list(), null);
            RefExpr re = factory_.createRefExpr(rn);
            SequentContext sc = factory_.createSequentContext();
-           RESULT = factory_.createTypeProviso(sc, re, bt);
+/* czt.todo: should this take an Expr? */
+           RESULT = factory_.createTypeProviso(sc, re, factory_.createGivenType());
            addLocAnn(RESULT, dwleft, dwright);
         :}
         ;
 
 baseType ::=
-        GIVEN:g name:n
+        refName:rn
         {:
-           RESULT = factory_.createGivenType(n);
-           addLocAnn(RESULT, gleft, gright);
+           RESULT = factory_.createRefExpr(rn);
+           addLocAnn(RESULT, rnleft, rnright);
         :}
         |
         POWER:p baseType:bt
         {:
-           RESULT = factory_.createPowerType(bt);
+           RESULT = factory_.createPowerExpr(bt);
            addLocAnn(RESULT, pleft, pright);
         :}
         |
         baseType:lbt CROSS baseType:rbt
         {:
-           if (lbt instanceof ProdType) {
-             ProdType pt = (ProdType) lbt;
-             pt.getType().add(rbt);
+           if (lbt instanceof ProdExpr) {
+             ProdExpr pt = (ProdExpr) lbt;
+             pt.getExpr().add(rbt);
            }
            else {
-             RESULT = factory_.createProdType(list(lbt, rbt));
+             RESULT = factory_.createProdExpr(list(lbt, rbt));
            }
            addLocAnn(RESULT, lbtleft, lbtright);
         :}
         |
-        LSCH:lsch nameTypePairList:ntpl RSQUARE
+        LSCH:lsch varDeclList:vdl RSQUARE
         {:
-           Signature s = factory_.createSignature(ntpl);
-           RESULT = factory_.createSchemaType(s);
+           SchText st = factory_.createSchText(vdl, null);
+           RESULT = factory_.createSchExpr(st);
            addLocAnn(RESULT, lschleft, lschright);
         :}
         |
         LSQUARE:lsq ARG RSQUARE
         {:
-           RESULT = factory_.createSchemaType();
+           RESULT = factory_.createSchExpr();
            addLocAnn(RESULT, lsqleft, lsqright);
         :}
         |
         JOKERTYPE:jt
-//czt.todo: variable types??
-        {: RESULT = factory_.createGivenType(); :}
+        {:
+           RESULT = factory_.createJokerExpr(jt);
+           addLocAnn(RESULT, jtleft, jtright);
+        :}
         ;
 
-nameTypePairList ::=
-        nameTypePairList:ntpl SEMICOLON name:n COLON baseType:bt
+varDeclList ::=
+        varDeclList:vdl SEMICOLON declName:dn COLON baseType:bt
         {:
-           NameTypePair ntp = factory_.createNameTypePair(n, bt);
-           ntpl.add(ntp);
-           RESULT = ntpl;
+           VarDecl vd = factory_.createVarDecl(list(dn), bt);
+           vdl.add(vd);
+           RESULT = vdl;
         :}
         |
-        name:n COLON baseType:bt
+        declName:dn COLON baseType:bt
         {:
-           NameTypePair ntp = factory_.createNameTypePair(n, bt);
-           RESULT = list(ntp);
+           VarDecl vd = factory_.createVarDecl(list(dn), bt);
+           RESULT = list(vd);
         :}
         ;
 
