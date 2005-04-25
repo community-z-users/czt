@@ -11,7 +11,6 @@
   notation.
 \end{abstract}
 
-
 \section{Introduction} \label{sec:intro}
 
   Z\cite{isoz} is ...
@@ -25,31 +24,83 @@
     \item Benefits of having XML representation of each language
       (AST interchange with other tools, in other languages).
 
+      \begin{itemize}
+        \item[LEO]
+        The old Circus parser has a series of problems in the Z part that the CZT XML classes and parser have solved.
+        Z/Eves files are also defined in XML and I've got the internal documentation and I am used with it (good for comparison).
+        It may be an interesting example on how the idea of XML seems to be the way forward.
+      \end{itemize}
+
     \item Visitor pattern that supports multiple hierarchies.
+      \begin{itemize}
+        \item[LEO] Here I can include the architecture of the Circus Compiler that uses
+                   two Visitors, one for each semantic function.
+
+                   The multiple hierarchies are really helpful as it allows me to implement
+                   the compilation rules piecewise.
+      \end{itemize}
   \end{enumerate}
 
-\section{Parser, Typechecker and other Tools}
+\section{Parsing}
 
   \begin{enumerate}
     \item Multiple parsers and scanners (xml templates)
+        \begin{itemize}
+            \item[LEO] Here Tim or I could include the basics for setting up and extending parsers.
+        \end{itemize}
+
     \item Multiple markups for each language.
       (suits different communities:  Latex for researchers,
       Unicode WYSIWYG editing for students and industry etc.)
-    \item Example: how a Circus visitor can reuse/extend a Z visitor
-      by overriding/adding a few methods.
-    \item Typechecker(s).
-      The (future!) modular design, using interfaces and visitors,
-      allows the core Z typechecker to be extended separately
-      to handle Object-Z and Circus.  (TODO!)
-    \item Animation of Circus using Z animator???
-      (Operational semantics of Circus are in Z itself,
-      so this makes a meta-level animation possible...) 
+      \begin{itemize}
+         \item[LEO] Worthwhile mentioning performance penalties as the section manager,
+                OpTable, and DefinitionTable, are quite slow.
+      \end{itemize}
   \end{enumerate}
 
-\section{Section Manager}
+\subsection{Section Manager}
 
   (is independent of Z/Object-Z/Circus etc.
   Can easily be extended with new kinds of objects, commands)
+
+    \begin{itemize}
+        \item[LEO] The SectionManager commands archiecture is a clever solution I believe worthwhile explaining.
+    \end{itemize}
+
+\section{Type Checking}
+
+      The (future!) modular design, using interfaces and visitors,
+      allows the core Z typechecker to be extended separately
+      to handle Object-Z and Circus.  (TODO!)
+
+    \begin{itemize}
+        \item[LEO] I can include my experiences in extending the Z:TypeChecker for Circus.
+                    I should also discuss with Tim some of the ideas for decoupling the type checker.
+    \end{itemize}
+
+\section{Animating}
+
+    Animation of Circus using Z animator???
+      (Operational semantics of Circus are in Z itself, so this makes a meta-level animation possible...)
+    This could set the scenario for the possibilities CZT gives towards integration.
+
+    \begin{itemize}
+        \item[LEO] I can write here about the Circus refinement engine that uses ZLive, as well as the compiler.
+    \end{itemize}
+
+
+\section{Other Tools}
+
+    \begin{itemize}
+        \item[LEO]
+        There is another tool under development that translates Circus (Latex) specifications into Java code.
+        It uses JCSP (a java csp-occam library) that allows execution of Circus.
+        In the Z part, due to the lack of tools, extreme simplifications (via data refinement in the original Circus)
+        are needed.
+        This tool could also use ZLive to be able to animate/execute (run!) more expressive Circus specifications quite
+        automatically, or at least minimise the data refinement effort required for the translation
+    \end{itemize}
+
 
 \section{Conclusions and Future Work} \label{sec:conclusions}
 
