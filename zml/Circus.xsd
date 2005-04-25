@@ -1796,7 +1796,7 @@
 	<xs:complexType name="ActionSignature" mixed="false">
 		<xs:sequence>
 			<xs:element name="ActionName" type="Z:DeclName"/>
-			<!-- Action formal parameters are treated as local variables -->
+			<!-- Action formal parameters are treated as the first local variables -->
 			<xs:element ref="Z:Signature">
 				<xs:annotation>
 					<xs:appinfo>
