@@ -3902,16 +3902,6 @@ varDeclList ::=
 
 </add:zpatt>
 
-<add:circus>
-/// Circus constructs ///////////////////////////////////////////////
-circusPara ::=
-        CIRCUS:c varDecl:vd END
-        {:
-           // RESULT = factory_.createChannelPara(vd);
-        :}
-        ;
-</add:circus>
-
 <add:oz>
 /// Object-Z constructs ///////////////////////////////////////////////
 class ::= 
