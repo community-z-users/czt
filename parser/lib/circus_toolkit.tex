@@ -1,0 +1,18 @@
+\begin{zsection}
+  \SECTION circus\_toolkit \parents standard\_toolkit
+\end{zsection}
+
+%%Zpreword \circchannel
+
+Synchronisation channels type.
+
+\begin{zed}
+   [Synch]
+\end{zed}
+
+Old parser do not handle multiplication, so bridge it with the next axiomatic definition.
+\begin{axdef}
+   mult: \num \cross \num \fun \num
+\where
+   \forall a, b: \num @ mult~(a,b) = a * b
+\end{axdef}
