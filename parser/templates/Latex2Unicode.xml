@@ -40,6 +40,10 @@ import net.sourceforge.czt.oz.util.OzString;
 import net.sourceforge.czt.tcoz.util.TcozString;
 </add:tcoz>
 
+<add:circus>
+import net.sourceforge.czt.circus.util.CircusString;
+</add:circus>
+
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.util.ZString;
 <add:zpatt>
@@ -651,6 +655,7 @@ NAME =   {NOT_LB}*
           return result(result + ZPattString.PROVISO);
         }
 </add:zpatt>
+
   "\\end" {IGNORE}* "{axdef}"
         {
           end("axdef", yyline, yycolumn);
@@ -732,6 +737,7 @@ NAME =   {NOT_LB}*
           return new Symbol(LatexSym.END, yyline, yycolumn, result);
         }
 </add:zpatt>
+<add:circus>
   "\\end" {IGNORE}* "{circus}"
         {
           end("circus", yyline, yycolumn);
@@ -739,6 +745,7 @@ NAME =   {NOT_LB}*
           String result = addSpace() + ZString.END;
           return new Symbol(LatexSym.END, yyline, yycolumn, result);
         }
+</add:circus>
 <add:oz>
   "\\begin" {IGNORE}* "{axdef}"
         {

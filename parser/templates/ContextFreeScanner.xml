@@ -39,7 +39,8 @@ import net.sourceforge.czt.parser.util.ScanException;
  * &lt;p&gt;The context-free lexer for
 <add:z> * Z</add:z>
 <add:print> * Z</add:print>
-<add:oz> * Object Z</add:oz><add:tcoz> and TCOZ</add:tcoz>
+<add:oz> * Object Z</add:oz>
+<add:tcoz> and TCOZ</add:tcoz>
  * specifications in unicode format.&lt;/p&gt;
  *
  * @author Petra Malik
