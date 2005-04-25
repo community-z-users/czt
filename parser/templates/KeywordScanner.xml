@@ -42,6 +42,10 @@ import net.sourceforge.czt.oz.util.OzString;
 import net.sourceforge.czt.tcoz.util.TcozString;
 </add:tcoz>
 
+<add:circus>
+import net.sourceforge.czt.circus.util.CircusString;
+</add:circus>
+
 /**
  * &lt;p&gt;This is a keyword lexer (part of context-sensitive lexis) for
 <add:z> * Z</add:z>
@@ -162,6 +166,9 @@ public class KeywordScanner
    result.put("sensor", new Integer(Sym.SENSOR));
    result.put("actuator", new Integer(Sym.ACTUATOR));
 </add:tcoz>  
+<add:circus>
+   result.put(CircusString.CIRCCHAN, new Integer(Sym.CIRCCHAN));
+</add:circus>
     return result;
   }
 
