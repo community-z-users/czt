@@ -45,6 +45,7 @@ import net.sourceforge.czt.zpatt.ast.*;
 </add:zpatt>
 <add:circus>
 import net.sourceforge.czt.circus.util.Factory;
+import net.sourceforge.czt.circus.ast.*;
 </add:circus>
 <add:oz>
 import net.sourceforge.czt.oz.util.OzString;
@@ -906,7 +907,8 @@ terminal
         JOKER, RULE, RULELINE, VDASH, PROVISO, GIVEN,
 </add:zpatt>
 <add:circus>
-        CIRCUS,
+        // What do I need to do in order to make the END suitable for \\end{circus}?
+        CIRCUS, CIRCCHAN,
 </add:circus>
 <add:oz>
         DELTA, CLASS, STATE, INIT, OPSCH, SDEF,
@@ -1151,9 +1153,18 @@ non terminal List /* NameTypePair */ nameTypePairList;
 </add:zpatt>
 
 <add:circus>
+non terminal List /*Para*/
+    circusParaItemList;
+
 /// Circus constructs ///////////////////////////////////////////////
 non terminal Para
-    circusPara;
+    circusParaItem;
+    
+non terminal ChannelPara 
+    channelPara;
+    
+//non terminal List /* VarDecl*/        
+//    varDeclList;
 </add:circus>
 
 <add:oz>
@@ -1486,11 +1497,6 @@ boxedParagraph ::=
         rulePara:rp
         {: RESULT = rp; :}
 </add:zpatt>
-<add:circus>
-        |
-        circusPara:c
-        {: RESULT = c; :}
-</add:circus>
 <add:oz>
         |
         class:c
@@ -1512,7 +1518,12 @@ narrParagraph ::=
 unboxedParagraphList ::=
         ZED unboxedParagraphItemList:uil END
         {: RESULT = uil; :}
+<add:circus>
         |
+        CIRCUS circusParaItemList:cil END
+        {: RESULT = cil; :}
+</add:circus>        
+        |        
         ZED error END
         {: RESULT = list(); :}
         ;
@@ -1530,6 +1541,21 @@ unboxedParagraphItemList ::=
         :}
         ;
 
+<add:circus>        
+circusParaItemList ::=
+        circusParaItemList:cil NL circusParaItem:ci
+        {:
+           if (ci != null) cil.add(ci);
+           RESULT = cil;
+        :}
+        |
+        circusParaItem:ci
+        {:
+           RESULT = (ci == null) ? list() : list(ci);
+        :}
+        ;
+</add:circus>
+        
 unboxedParagraphItem ::=
         basicTypeDefinition:btd
         {: RESULT = btd; :}
@@ -1562,6 +1588,13 @@ unboxedParagraphItem ::=
         :}
         ;
 
+<add:circus>
+circusParaItem ::=
+        channelPara:cp
+        {: RESULT = cp; :}
+        ;
+</add:circus>
+        
 basicTypeDefinition ::= 
         LSQUARE:lsquare nameList:nl RSQUARE
         {:
@@ -1882,7 +1915,18 @@ varg ::=
         :}
         ;
 
+<add:circus>   
+/// Channel Paragraph ////////////////////////////////
 
+channelPara ::= 
+        CIRCCHAN:chan declPart:dp
+        {:  
+            RESULT = factory_.createChannelPara(dp); 
+            addLocAnn(RESULT, chanleft, chanright);
+        :}                
+        ;
+</add:circus>     
+                
 /// schema text ///////////////////////////////////////////
 
 schemaText ::= 
@@ -1954,6 +1998,13 @@ basicDeclaration ::=
         |
         constDecl:cd
         {: RESULT = cd; :}
+<add:circus>
+        |
+        declWordList:dwl
+        {:                      
+           RESULT = factory_.createVarDecl(dwl, null);
+        :}
+</add:circus>        
         ;
 
 varDecl ::= declWordList:dwl COLON:colon expression:e
