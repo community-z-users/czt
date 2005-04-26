@@ -65,7 +65,7 @@ public final class TypeCheckUtils
   }
 
   public static void main(String[] args)
-    throws FileNotFoundException
+    throws IOException
   {
     if (args.length == 0) {
       System.err.println("usage: oztypechecker [-s] filename ...");
@@ -93,7 +93,8 @@ public final class TypeCheckUtils
       Term term = null;
       try {
         if (file.endsWith(".error")) {
-          term = ParseUtils.parseLatexFile(file, manager);
+	  Source src = new FileSource(file);
+          term = ParseUtils.parse(src, manager);
         }
         else {
           term = ParseUtils.parse(file, manager);
