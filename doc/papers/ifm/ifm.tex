@@ -69,23 +69,38 @@
       the way forward.
   \end{itemize}
 
- The \emph{annotated syntax tree} (AST) provides a tree view of a
-  parsed Z specification using Java interfaces and classes.  This
+
+
+  The Java \emph{annotated syntax tree} (AST) provides a tree view of
+  a parsed Z specification using Java interfaces and classes.  This
   allows easy access to syntactical objects like, for instance,
   paragraphs, predicates, and expressions, from within Java programs.
 
-  The AST interfaces and classes were automatically generated from the
-  XML Schema describing ZML using our self-written code generator
-  \emph{GnAST} (GeNerator for AST). [TODO: mention similarities to
-  other Java XML binding compilers like JAXB].
+  The CZT Java AST interfaces and classes were automatically generated
+  from the XML Schema describing ZML using our code generator
+  \emph{GnAST} (GeNerator for AST).  The generated code looks similar
+  to the code Java data binding tools like JAXB [TODO: cite] and
+  Castor [TODO: cite] are producing.  The generated Java interfaces
+  and classes represent the structures defined in the XML Schema
+  instance document.  While the main purpose of a Java binding tool is
+  to provide the ability to convert from XML format to Java objects
+  and vice versa, the main purpose of GnAST is to generate
+  well-designed AST classes.  For example, the AST classes generated
+  by GnAST support the visitor design pattern described later on.
 
-  [TODO: explain that tools need to traverse AST]
+  GnAST has also been used to generate AST interfaces and classes for
+  Z extensions like Object Z, TCOZ, and Circus.  This provides a very
+  convenient way to obtain AST's for Z extensions that fit well into
+  the AST for Standard Z.  For example, the AST classes for Z
+  extensions also support the visitor design pattern described below.
 
-  The visitor design pattern~\cite{GamEA:95} provides a way to
-  separate the structure of a set of objects from the operations
-  performed on these objects.  This allows a new operation to be
-  defined without modifying the AST classes.  To define a new
-  operation, all you need to do is to implement a new visitor class.
+  This architectrue makes it very easy to write tools like
+  typechecker, printer, etc. that need to traverse an AST.  The
+  visitor design pattern~\cite{GamEA:95} provides a way to separate
+  the structure of a set of objects from the operations performed on
+  these objects.  This allows a new operation to be defined without
+  modifying the AST classes.  To define a new operation, all you need
+  to do is to implement a new visitor class.
 
   A variety of variants~\cite{MaiCha:01} of the visitor design pattern
   have been proposed, all having different advantages and
