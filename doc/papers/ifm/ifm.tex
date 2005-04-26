@@ -13,33 +13,97 @@
 
 \section{Introduction} \label{sec:intro}
 
-  Z\cite{isoz} is ...
+  The Z language~\cite{isoz} is a formal specification language that
+  can be used to precisely specify the behaviour of systems, and
+  analyse it via proof, animation, test generation etc.  The Community
+  Z Tools (CZT) project~\cite{czt} is an open-source Java framework
+  for building formal methods tools for Z and Z dialects.
+
+  [TODO: write more]
 
 \section{XML Schemas and AST classes}
 
-  \begin{enumerate}
-    \item Gnast generation of ASTs from hierarchy of XML schemas.
-      (similar to other Jaxb projects?)
+  The first step was the development of an XML Schema\cite{UttEA:03}
+  that describes the XML markup for Z specifications (ZML).  This is
+  an interchange format that can be used to exchange parsed and even
+  typechecked Z specifications between sessions and tools.
 
-    \item Benefits of having XML representation of each language
-      (AST interchange with other tools, in other languages).
+  Standard Z allows specifications to be exchanged using Unicode,
+  \LaTeX\ or email markup.  However, implementing a parser for such
+  specifications is a non-trivial task that might take several weeks
+  or even months to be finished.  ZML, in contrast, can be parsed
+  immediatly using one of the available XML parsers [TODO: cite some].
 
-      \begin{itemize}
-        \item[LEO]
-        The old Circus parser has a series of problems in the Z part that the CZT XML classes and parser have solved.
-        Z/Eves files are also defined in XML and I've got the internal documentation and I am used with it (good for comparison).
-        It may be an interesting example on how the idea of XML seems to be the way forward.
-      \end{itemize}
+  Tools also benefit from being able to annotate terms with type
+  information, anticipated usage, comments, and so on.  The ZML format
+  allows such annotations.
 
-    \item Visitor pattern that supports multiple hierarchies.
-      \begin{itemize}
-        \item[LEO] Here I can include the architecture of the Circus Compiler that uses
-                   two Visitors, one for each semantic function.
+  The XML Schema for ZML has been carefully designed to be extensible
+  in order to allow Z dialects and extensions to profit from those
+  advantages as well.  The following strategies have been used to
+  achieve this.
 
-                   The multiple hierarchies are really helpful as it allows me to implement
-                   the compilation rules piecewise.
-      \end{itemize}
-  \end{enumerate}
+  The any element can be used in an XML Schema to enable instance XML
+  documents to contain additional elements not specified by the
+  schema.  This concept has been used to define annotations.  That is,
+  an annotation to a term can either be one of the annotations defined
+  in the XML Schema for Z or any other kind of data.  This allows a
+  tool builder to decide what data makes sense for a particular tool.
+
+  Secondly, inheritance is used extensively.  Abstract elements are
+  used to provide placeholders for their derived elements.
+
+  [TODO: The XML Schema can be extended without touching it.]
+
+  [TODO: Perhaps give an example of how the Z hierarchy can be
+  extended in Object Z?]
+
+  [TODO: are there other things that make the Schema extensible?]
+
+  \begin{itemize}
+    \item[LEO] The old Circus parser has a series of problems in the Z
+      part that the CZT XML classes and parser have solved.  Z/Eves
+      files are also defined in XML and I've got the internal
+      documentation and I am used with it (good for comparison).  It
+      may be an interesting example on how the idea of XML seems to be
+      the way forward.
+  \end{itemize}
+
+ The \emph{annotated syntax tree} (AST) provides a tree view of a
+  parsed Z specification using Java interfaces and classes.  This
+  allows easy access to syntactical objects like, for instance,
+  paragraphs, predicates, and expressions, from within Java programs.
+
+  The AST interfaces and classes were automatically generated from the
+  XML Schema describing ZML using our self-written code generator
+  \emph{GnAST} (GeNerator for AST). [TODO: mention similarities to
+  other Java XML binding compilers like JAXB].
+
+  [TODO: explain that tools need to traverse AST]
+
+  The visitor design pattern~\cite{GamEA:95} provides a way to
+  separate the structure of a set of objects from the operations
+  performed on these objects.  This allows a new operation to be
+  defined without modifying the AST classes.  To define a new
+  operation, all you need to do is to implement a new visitor class.
+
+  A variety of variants~\cite{MaiCha:01} of the visitor design pattern
+  have been proposed, all having different advantages and
+  disadvantages.  The visitor design used in CZT is the result of a
+  lot of experimentation and redesign.  We discussed many variants and
+  implemented three or four different designs before we found a design
+  that met all our requirements.
+
+  [TODO: describe CZT visitor design pattern, or just refer to the CZT
+  paper?; at least mention that it supports multiple hierarchies]
+
+
+  \begin{itemize}
+    \item[LEO] Here I can include the architecture of the Circus
+      Compiler that uses two Visitors, one for each semantic function.
+      The multiple hierarchies are really helpful as it allows me to
+      implement the compilation rules piecewise.
+  \end{itemize}
 
 \section{Parsing}
 
