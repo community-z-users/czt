@@ -214,8 +214,9 @@ abstract public class Checker
   //adds a type annotation created from a type to a TermA
   protected void addTypeAnn(TermA termA, Type type)
   {
-    TypeAnn typeAnn = (TypeAnn) termA.getAnn(TypeAnn.class);
+    assert type != null;
 
+    TypeAnn typeAnn = (TypeAnn) termA.getAnn(TypeAnn.class);
     if (typeAnn == null) {
       typeAnn = factory().createTypeAnn(type);
       termA.getAnns().add(typeAnn);
