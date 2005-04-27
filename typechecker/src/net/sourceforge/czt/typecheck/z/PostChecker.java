@@ -30,9 +30,10 @@ import net.sourceforge.czt.typecheck.z.impl.*;
 
 /**
  * At the end of the typechecker, this checker visits any previously
- * unresolved SetExprs and RefExprs (expressions that may introduce a
- * variable type into their type) to ensure that all implicit
- * parameters have been determined.
+ * unresolved ThetaExpr, SetExprs, and RefExprs (expressions that may
+ * introduce a variable type into their type, or may have undeclared
+ * names) to ensure that all implicit parameters have been determined
+ * and all names declared.
  */
 public class PostChecker
   extends Checker
