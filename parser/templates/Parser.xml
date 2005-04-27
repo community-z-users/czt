@@ -3003,7 +3003,7 @@ inner_term ::=
            while (it instanceof DecorExpr) {
              DecorExpr de = (DecorExpr) it;
              Stroke s = de.getStroke();
-             sl.add(s);
+             sl.add(0, s);
              it = de.getExpr();
            }
            ThetaExpr thetaExpr = factory_.createThetaExpr(expr(it), sl);
