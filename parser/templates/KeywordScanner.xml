@@ -43,7 +43,7 @@ import net.sourceforge.czt.tcoz.util.TcozString;
 </add:tcoz>
 
 <add:circus>
-import net.sourceforge.czt.circus.util.CircusString;
+//import net.sourceforge.czt.circus.util.CircusString;
 </add:circus>
 
 /**
@@ -167,7 +167,7 @@ public class KeywordScanner
    result.put("actuator", new Integer(Sym.ACTUATOR));
 </add:tcoz>  
 <add:circus>
-   result.put(CircusString.CIRCCHAN, new Integer(Sym.CIRCCHAN));
+//   result.put(CircusString.CIRCCHAN, new Integer(Sym.CIRCCHAN));
 </add:circus>
     return result;
   }

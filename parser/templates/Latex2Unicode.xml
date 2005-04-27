@@ -41,7 +41,7 @@ import net.sourceforge.czt.tcoz.util.TcozString;
 </add:tcoz>
 
 <add:circus>
-import net.sourceforge.czt.circus.util.CircusString;
+//import net.sourceforge.czt.circus.util.CircusString;
 </add:circus>
 
 import net.sourceforge.czt.util.CztLogger;
@@ -543,11 +543,11 @@ NAME =   {NOT_LB}*
           braceToSpace_ = true;
           return result(ZPattString.JOKER);
         }
-  "\\begin" {IGNORE}* "{rule}"
+  "\\begin" {IGNORE}* "{zedrule}"
         {
           yybegin(ZED);
           assert ! addSpace_;
-          begin("rule");
+          begin("zedrule");
           braceToSpace_ = true;
           return result(ZPattString.RULE);
         }
@@ -729,9 +729,9 @@ NAME =   {NOT_LB}*
           String result = addSpace() + ZString.END;
           return new Symbol(LatexSym.END, yyline, yycolumn, result);
         }
-  "\\end" {IGNORE}* "{rule}"
+  "\\end" {IGNORE}* "{zedrule}"
         {
-          end("rule", yyline, yycolumn);
+          end("zedrule", yyline, yycolumn);
           yybegin(YYINITIAL);
           String result = addSpace() + ZString.END;
           return new Symbol(LatexSym.END, yyline, yycolumn, result);

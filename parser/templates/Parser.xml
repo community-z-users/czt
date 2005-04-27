@@ -1148,7 +1148,9 @@ non terminal Sequent
     provisoSequent,
     predSequent;
 
-non terminal Expr baseType;
+non terminal Expr
+    jokerExpr,
+    baseType;
 non terminal List /* VarDecl */ varDeclList;
 </add:zpatt>
 
@@ -1962,14 +1964,6 @@ declaration ::=
         |
         expression:e
         {: RESULT = factory_.createInclDecl(e); :}
-<add:zpatt>
-        |
-        JOKERDECLLIST:dl
-        {:
-           RESULT = factory_.createJokerDeclList(dl);
-           addLocAnn(RESULT, dlleft, dlright);
-        :}
-</add:zpatt>
         ;
 
 schemaTextNoExpression ::=
@@ -1998,7 +1992,15 @@ basicDeclaration ::=
         {:                      
            RESULT = factory_.createVarDecl(dwl, null);
         :}
-</add:circus>        
+</add:circus>
+<add:zpatt>
+        |
+        JOKERDECLLIST:dl
+        {:
+           RESULT = factory_.createJokerDeclList(dl);
+           addLocAnn(RESULT, dlleft, dlright);
+        :}
+</add:zpatt> 
         ;
 
 varDecl ::= 
@@ -2008,6 +2010,15 @@ varDecl ::=
            addLocAnn(varDecl, colonleft, colonright);
            RESULT = varDecl;
         :}
+<add:zpatt>
+        |
+        JOKERNAME:jn COLON expression:e
+        {:
+           DeclName dn = factory_.createJokerName(jn, list(), null, jn);
+           RESULT = factory_.createVarDecl(list(dn), e);
+           addLocAnn(RESULT, jnleft, jnright);
+        :}
+</add:zpatt>
         ;
 
 constDecl ::= 
@@ -2017,6 +2028,15 @@ constDecl ::=
            addLocAnn(constDecl, defequalleft, defequalright);
            RESULT = constDecl;
         :}
+<add:zpatt>
+        |
+        JOKERNAME:jn DEFEQUAL:defequal expression:e
+        {:
+           DeclName dn = factory_.createJokerName(jn, list(), null, jn);
+           RESULT = factory_.createConstDecl(dn, e);
+           addLocAnn(RESULT, defequalleft, defequalright);
+        :}
+</add:zpatt>
         ;  
 
 sep ::=
@@ -2093,7 +2113,7 @@ declWordList ::=
            addLocAnn(dn, dwleft, dwright);
            RESULT = list(dn); 
         :}
-        |
+        |      
         misusedOpName:mon
         {:
            misusedOpName(mon, monleft, monright);
@@ -3059,10 +3079,23 @@ inner_term ::=
         :}
         |
         JOKEREXPR:je
-        {: 
-           RESULT = factory_.createJokerPred(je);
+        {:
+           RESULT = factory_.createJokerExpr(je);
            addLocAnn(RESULT, jeleft, jeright);
         :}
+        |
+        JOKERTYPE:jt
+        {: 
+           RESULT = factory_.createJokerExpr(jt);
+           addLocAnn(RESULT, jtleft, jtright);
+        :}
+        |
+        JOKERNAME:jn
+        {:
+           RefName rn = factory_.createRefName(jn);
+           RESULT = factory_.createRefExpr(rn, list(), Boolean.FALSE);
+           addLocAnn(RESULT, jnleft, jnright);
+        :}      
 </add:zpatt>
         ;
 
@@ -3695,7 +3728,6 @@ jokerList ::=
        {: RESULT = list(dw); :}
        ;
 
-
 optAntecedents ::=
         antecedents:a RULELINE
         {:
@@ -3707,7 +3739,7 @@ optAntecedents ::=
         ;
 
 antecedents ::=
-        antecedents:a sep sequent:s
+        antecedents:a NL sequent:s
         {:
            a.add(s);
            RESULT = a;
@@ -3724,7 +3756,7 @@ conclusion ::=
         {:
            //czt.todo: What is the context?
            SequentContext sc = factory_.createSequentContext();
-           RESULT = factory_.createPredSequent(sc, p, null);
+           RESULT = factory_.createPredSequent(sc, pred(p), null);
            addLocAnn(RESULT, pleft, pright);
         :}
         ;
@@ -3739,35 +3771,32 @@ sequent ::=
 
 provisoSequent ::=
         sequentLHS:slhs VDASH PROVISO proviso:p
-        {:
-           RESULT = factory_.createPredSequent();
-           System.err.println("PrivisoSequent VDASH");
-        :}
+        {: RESULT = p; :}
         |
         PROVISO proviso:p
-//czt.todo: not sure what this should do here
         {: RESULT = p; :}
         ;
 
 proviso ::=
-        name:n DEFEQUAL expression:e
+        jokerExpr:je DEFEQUAL expression:e
         {:
            SequentContext sc = factory_.createSequentContext();
-           //czt.todo RESULT = factory_.createLookupConstDeclProviso(sc, n, e);
-           //czt.todo addLocAnn(RESULT, nleft, nright);
+           RESULT = factory_.createCalculateProviso(sc, je, e);
+           addLocAnn(RESULT, jeleft, jeright);
         :}
         |
-        DECLWORD:dw COLON baseType:bt
+        term:t COLON baseType:bt
 //czt.todo: ??
         {:
-           RESULT = factory_.createPredSequent();
+           RESULT = factory_.createTypeProviso();
+           addLocAnn(RESULT, tleft, tright);
         :}
         |
-        predicate:p
+        term:t
         {:
            SequentContext sc = factory_.createSequentContext();
-           RESULT = factory_.createPredSequent(sc, p, null);
-           addLocAnn(RESULT, pleft, pright);
+           RESULT = factory_.createCheckProviso(sc, pred(t));
+           addLocAnn(RESULT, tleft, tright);
         :}
         |
         lookupProviso:lp
@@ -3775,29 +3804,27 @@ proviso ::=
         ;
 
 lookupProviso ::=
-        INSTROKE:is name:n DEFEQUAL expression:e
+        INSTROKE:is jokerExpr:je DEFEQUAL expression:e
         {:
-//czt.todo: ???
-           RESULT = factory_.createPredSequent();
-        :}
-        |
-        INSTROKE:is name:n COLON expression:e
-        {:
-//czt.todo: ???
-           RESULT = factory_.createPredSequent();
+           SequentContext sc = factory_.createSequentContext();
+           RESULT = factory_.createLookupConstDeclProviso(sc, je, e);
+           addLocAnn(RESULT, isleft, isright);
         :}
         |
         INSTROKE:is term:t
         {:
-//czt.todo: ???
-           RESULT = factory_.createPredSequent();
+           SequentContext sc = factory_.createSequentContext();
+           RESULT = factory_.createLookupPredProviso(sc, pred(t));
+           addLocAnn(RESULT, tleft, tright);
         :}        
         ;
 
 predSequent ::=
         sequentLHS:slhs VDASH term:t
         {:
-           System.err.println("PredSequent VDASH");
+           SequentContext sc = factory_.createSequentContext();
+           RESULT = factory_.createPredSequent(sc , pred(t), null);
+           addLocAnn(RESULT, tleft, tright);
         :}
         |
         term:t
@@ -3828,16 +3855,16 @@ antecedent ::=
            RESULT = factory_.createPredSequent(sc, pred(t), null);
            addLocAnn(RESULT, tleft, tright);
         :}
+/*
         |
-        DECLWORD:dw COLON baseType:bt
+        jokerExpr:je COLON baseType:bt
         {:
-           RefName rn = factory_.createRefName(dw, list(), null);
-           RefExpr re = factory_.createRefExpr(rn);
            SequentContext sc = factory_.createSequentContext();
-/* czt.todo: should this take an Expr? */
-           RESULT = factory_.createTypeProviso(sc, re, factory_.createGivenType());
-           addLocAnn(RESULT, dwleft, dwright);
+           // czt.todo: should this be a type proviso? 
+           RESULT = factory_.createTypeProviso(sc, je, factory_.createGivenType());
+           addLocAnn(RESULT, jeleft, heright);
         :}
+*/
         ;
 
 baseType ::=
@@ -3893,10 +3920,38 @@ varDeclList ::=
            RESULT = vdl;
         :}
         |
+        varDeclList:vdl SEMICOLON JOKERDECLLIST:jdl
+        {:
+           JokerDeclList decl = factory_.createJokerDeclList(jdl);
+           vdl.add(decl);
+           RESULT = vdl;
+        :}
+        |
         declName:dn COLON baseType:bt
         {:
            VarDecl vd = factory_.createVarDecl(list(dn), bt);
            RESULT = list(vd);
+        :}
+        |
+        JOKERDECLLIST:jdl
+        {:
+           JokerDeclList decl = factory_.createJokerDeclList(jdl);
+           RESULT = list(decl);
+        :}        
+        ;
+
+jokerExpr ::=
+        JOKEREXPR:je
+        {:
+           RESULT = factory_.createJokerExpr(je);
+           addLocAnn(RESULT, jeleft, jeright);
+        :}
+        |
+        JOKERPRED:jp
+        {:
+           //czt.todo: should this be an expression?
+           //RESULT = factory_.createJokerPred(jp);
+           //addLocAnn(RESULT, jpleft, jpright);
         :}
         ;
 

@@ -104,6 +104,12 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
         result.sym = Sym.LSCH;
       }
 </add:oz>
+<add:zpatt>
+      else if (currsym.sym == Sym.JOKERDECLLIST) {
+        result.sym = Sym.LSCH;
+      }
+</add:zpatt>
+
 
       dumb_.push(currsym);
     }
