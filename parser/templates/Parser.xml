@@ -893,7 +893,7 @@ scan with {: return local_next_token(); :};
 terminal
         THETA, MU, LAMBDA,
         NEXTSTROKE, OUTSTROKE, INSTROKE,
-        LPAREN, RPAREN, LSCH, LSQUARE, RSQUARE, LBIND, RBIND,
+        LPAREN, RPAREN, LSQUARE, RSQUARE, LBIND, RBIND,
         LDATA, RDATA, LBRACE, RBRACE,
         BAR, ANDALSO, CONJECTURE, AND, OR, IMP, IFF, NOT, 
         ALL, EXI, CROSS, POWER,
@@ -1305,7 +1305,7 @@ precedence left         RULELINE;
 </add:zpatt>
 precedence left         DOT;
 precedence right        THETA;
-precedence left         LSCH, LSQUARE, RSQUARE;
+precedence left         LSQUARE, RSQUARE;
 precedence left         DECORWORD <add:oz>, INITWORD</add:oz>;
 
 
@@ -2965,11 +2965,10 @@ inner_term ::=
         :}
         |
         /* schema construction */
-        LSCH:lsquare schemaTextNoExpression:stne RSQUARE
+        LSQUARE:lsquare schemaTextNoExpression:stne RSQUARE
         {:
-           SchExpr schExpr = factory_.createSchExpr(stne);
-           addLocAnn(schExpr, lsquareleft, lsquareright);
-           RESULT = schExpr;
+           RESULT = factory_.createSchExpr(stne);
+           addLocAnn(RESULT, lsquareleft, lsquareright);
         :}
         |
         /* binding selection */
@@ -3015,6 +3014,13 @@ inner_term ::=
         /* If inner_term is changed to refName
            (as in the grammar given in the Z Standard),
            rename expressions fail to parse. */
+        inner_term:it LSQUARE schemaTextNoExpression:st RSQUARE
+        {:
+           SchExpr se = factory_.createSchExpr(st);
+           RESULT = factory_.createApplExpr(expr(it), se, Boolean.FALSE);
+           addLocAnn(RESULT, itleft, itright);
+        :}
+        |
         inner_term:it LSQUARE expressionList:el RSQUARE
         {:
            RefExpr refExpr =
@@ -3892,11 +3898,11 @@ baseType ::=
            addLocAnn(RESULT, lbtleft, lbtright);
         :}
         |
-        LSCH:lsch varDeclList:vdl RSQUARE
+        LSQUARE:lsq varDeclList:vdl RSQUARE
         {:
            SchText st = factory_.createSchText(vdl, null);
            RESULT = factory_.createSchExpr(st);
-           addLocAnn(RESULT, lschleft, lschright);
+           addLocAnn(RESULT, lsqleft, lsqright);
         :}
         |
         LSQUARE:lsq ARG RSQUARE
@@ -4115,14 +4121,14 @@ state ::=
            RESULT = factory_.createState(dp, sa, null);
         :}
         |
-        LSCH stateDecl:sd BAR predicate:p RSQUARE
+        LSQUARE stateDecl:sd BAR predicate:p RSQUARE
         {:
            List dp = (List) sd.getFirst();
            List sa = (List) sd.getSecond();
            RESULT = factory_.createState(dp, sa, p);
         :}
         |
-        LSCH stateDecl:sd RSQUARE
+        LSQUARE stateDecl:sd RSQUARE
         {:
            List dp = (List) sd.getFirst();
            List sa = (List) sd.getSecond();
@@ -4308,7 +4314,7 @@ opExpr ::=
 
 opExpr1 ::=
         /* a horizontal operation expression */
-        LSCH opText:ot RSQUARE
+        LSQUARE opText:ot RSQUARE
         {: RESULT = factory_.createAnonOpExpr(ot); :}
         |
         /* operator promotion */

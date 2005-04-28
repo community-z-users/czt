@@ -39,7 +39,7 @@ import net.sourceforge.czt.z.util.Factory;
 public class <class/>
   implements Scanner
 {
-  private TokenStack tokenStack_;
+  private Scanner scanner_;
   private JokerTable table_;
   private Factory factory_;
 
@@ -52,7 +52,7 @@ public class <class/>
 
   <class/>(Scanner scanner)
   {
-    tokenStack_ = new TokenStack(scanner);
+    scanner_ = scanner;
     factory_ = new Factory();
   }
 
@@ -69,7 +69,7 @@ public class <class/>
   public Symbol next_token()
     throws Exception
   {
-    Symbol result = tokenStack_.pop();
+    Symbol result = scanner_.next_token();
 
     if (result.sym == Sym.RULE) {
       lookup_ = true;
@@ -119,15 +119,6 @@ public class <class/>
       result = (type == -1) ? symbol : new Symbol(type, 
                                                   symbol.left, 
                                                   symbol.right, name);
-    }
-    else if (symbol.sym == Sym.LSQUARE) {
-      Symbol lookAhead = next_token();
-      if (lookAhead.sym == Sym.JOKERDECLLIST ||
-          lookAhead.sym == Sym.JOKEREXPR) {
-        symbol.sym = Sym.LSCH;
-        result = symbol;
-      }
-      tokenStack_.push(lookAhead);
     }
     else {
       result = symbol;

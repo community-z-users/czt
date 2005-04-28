@@ -84,35 +84,6 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
       //don't look ahead if the previous token was a box token
       inBoxName = false;
     }
-    else if (result.sym == Sym.LSQUARE) {      
-      Symbol currsym = dumb_.pop();
-      debug("seen LSQUARE, popping: " + get_info(currsym));
-      //empty declaration
-      if (currsym.sym == Sym.BAR) {
-        result.sym = Sym.LSCH;
-        debug("empty decl: " + get_info(result));
-      }
-      else if (currsym.sym == Sym.DECORWORD || currsym.sym == Sym.ARG ||
-               currsym.sym == Sym.LISTARG) {
-        //if we see any type of decl, we return LSCH instead of LSQUARE
-        if (isColonDecl() || isOtherDecl()) {
-          result.sym = Sym.LSCH;
-        }
-      }
-<add:oz>
-      else if (currsym.sym == Sym.DELTA) {
-        result.sym = Sym.LSCH;
-      }
-</add:oz>
-<add:zpatt>
-      else if (currsym.sym == Sym.JOKERDECLLIST) {
-        result.sym = Sym.LSCH;
-      }
-</add:zpatt>
-
-
-      dumb_.push(currsym);
-    }
     else if (result.sym == Sym.DECORWORD &amp;&amp; !inBoxName) {
       //if this is a colon decl, convert the DECORWORD to a DECLWORD
       if (isColonDecl()) {
@@ -169,46 +140,6 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     }
     pushList(tokens, isColonDecl);
     return isColonDecl;
-  }
-
-  private boolean isOtherDecl()
-    throws Exception
-  {
-    boolean isDecl = false;
-    boolean doLookahead = true;
-    LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();
-    Symbol currsym = dumb_.pop();
-    debug("popping: " + get_info(currsym));
-    tokens.addLast(currsym);
-
-    //if an LSQUARE, read to the RSQUARE and look at the next token
-    if (currsym.sym == Sym.LSQUARE) {
-      int level = 1;
-      while(level > 0) {
-        currsym = dumb_.pop();
-        tokens.addLast(currsym);
-        if (currsym.sym == Sym.LSQUARE) level++;
-        if (currsym.sym == Sym.RSQUARE) level--;
-      }
-
-      currsym = dumb_.pop();
-      tokens.addLast(currsym);
-    }
-
-    //skip any decoration tokens
-    while (currsym.sym == Sym.INSTROKE  || currsym.sym == Sym.OUTSTROKE ||
-           currsym.sym == Sym.NEXTSTROKE) {
-      currsym = dumb_.pop();
-      tokens.addLast(currsym);      
-    }
-
-    //if there is a BAR, SEMICOLON, or, DEFEQUAL, this is a decl
-    if (currsym.sym == Sym.BAR || currsym.sym == Sym.SEMICOLON ||
-        currsym.sym == Sym.DEFEQUAL || currsym.sym == Sym.NL) {
-      isDecl = true;
-    }
-    pushList(tokens, false);
-    return isDecl;
   }
 
   private void pushList(List &lt; Symbol &gt; tokens, boolean isColonDecl)
