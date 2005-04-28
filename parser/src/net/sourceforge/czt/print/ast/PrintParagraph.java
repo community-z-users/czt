@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004 Petra Malik
+  Copyright (C) 2004, 2005 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -27,7 +27,7 @@ import net.sourceforge.czt.z.ast.Assoc;
 import net.sourceforge.czt.z.impl.ParaImpl;
 
 /**
- * A printable predicate.
+ * A printable paragraph.
  *
  * @author Petra Malik
  */
