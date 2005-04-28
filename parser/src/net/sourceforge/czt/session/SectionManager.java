@@ -331,7 +331,7 @@ public class SectionManager
         throw exception;
       }
       catch(Exception exception) {
-        String message = "LatexMarkupFunctionCommand failed:";
+        String message = "OpTableCommand failed:";
         throw new CommandException(message, exception);
       }
       return true;
