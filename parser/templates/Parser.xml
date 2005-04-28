@@ -3010,10 +3010,7 @@ inner_term ::=
            RESULT = thetaExpr;
         :}
         |
-        /* generic instantiation */
-        /* If inner_term is changed to refName
-           (as in the grammar given in the Z Standard),
-           rename expressions fail to parse. */
+        /* function application with schema expr as argument */
         inner_term:it LSQUARE schemaTextNoExpression:st RSQUARE
         {:
            SchExpr se = factory_.createSchExpr(st);
@@ -3021,6 +3018,10 @@ inner_term ::=
            addLocAnn(RESULT, itleft, itright);
         :}
         |
+        /* generic instantiation */
+        /* If inner_term is changed to refName
+           (as in the grammar given in the Z Standard),
+           rename expressions fail to parse. */
         inner_term:it LSQUARE expressionList:el RSQUARE
         {:
            RefExpr refExpr =
