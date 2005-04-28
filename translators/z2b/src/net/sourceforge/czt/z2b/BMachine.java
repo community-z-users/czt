@@ -166,7 +166,7 @@ public class BMachine
     if (variables.size() > 0) {
       dest.continueSection("MACHINE","VARIABLES");
       printNames(dest,variables);
-      assert properties.size() > 0;
+      assert invariant.size() > 0;
       dest.continueSection("MACHINE","INVARIANT");
       dest.printPreds(invariant);
     }

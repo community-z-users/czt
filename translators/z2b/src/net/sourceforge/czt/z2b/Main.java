@@ -134,7 +134,9 @@ public class Main {
     }
     // Now strip off any known suffix
     if (outName.endsWith(".xml")
-	|| outName.endsWith(".zml")) {
+	|| outName.endsWith(".zml")
+	|| outName.endsWith(".tex")
+	|| outName.endsWith(".zed")) {
       outName = outName.substring(0, outName.length()-4);
     }
 

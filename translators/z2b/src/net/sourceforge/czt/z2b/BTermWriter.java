@@ -134,7 +134,8 @@ public class BTermWriter
     out = dest;
     
     // Set up the operator translation table
-    // This uses the precedences (-10..+10) defined in the B Toolkit.
+    // This uses the precedences (-10..+10) defined in the B Toolkit
+    // (where higher numbers mean tighter binding).
     // See http://www.b-core.com/ONLINEDOC/MathsNotation.html
     //
     // NOTE: Atelier B has different precedence numbers (0..250), but the
@@ -146,6 +147,7 @@ public class BTermWriter
     if (ops_.size() == 0) {
       // ============== unary prefix operators =============
       addPrefix("\u2119", "POW");
+      addPrefix("\u0001\uD53D", "POW");
       ops_.put("dom",    new BOperator("dom"));  // not an operator
       ops_.put("ran",    new BOperator("ran"));  // not an operator
       addPrefix("min",    "min");
@@ -270,18 +272,20 @@ public class BTermWriter
       if (i.hasNext())
         out.printSeparator(" || ");
     }
-    out.endSection("END");
+    out.endSection("ANY");
   }
 
 
   /** Print a list of predicates, separated by '&' and newlines. */
   //@ requires preds != null && preds.size() > 0;
+  //  requires non_null_elements(preds);
   public void printPreds(List preds) {
     out.beginPrec(AND_PREC+1);
     Iterator i = preds.iterator();
     assert i.hasNext();
     while (i.hasNext()) {
       Pred p = (Pred)i.next();
+      assert p != null;
       printPred(p);
       if (i.hasNext())
         out.printSeparator(" & ");

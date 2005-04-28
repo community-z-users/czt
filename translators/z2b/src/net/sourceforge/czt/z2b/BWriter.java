@@ -199,7 +199,7 @@ public class BWriter extends PrintWriter
   private int indent = 0;
 
   // the name of the current section
-  protected String currSection = "";
+  protected LinkedList<String> currSection = new LinkedList<String>();
 
 
   /** Start a new line in the B file.
@@ -226,7 +226,9 @@ public class BWriter extends PrintWriter
    *  You can also insert a complete nested section at any time.
    *  This will use deeper indentation.
    */
+  //@ requires sectName != null;
   public void startSection(String sectName) {
+    currSection.addFirst(sectName);
     print(sectName);
     indent++;
     if (indent <= 1) {
@@ -237,7 +239,8 @@ public class BWriter extends PrintWriter
   }
 
   /** Start the second/third/... part of the current section.
-   *  @param sectName 
+   *  @param sectName  Must match the current section.
+   *  @param part      The next keyword within the current section.
    *
    *  After each startSection(S), you can call continueSection(S,...) 
    *  zero or more times (for example, to print the ELSE keyword of an
@@ -246,8 +249,11 @@ public class BWriter extends PrintWriter
    *  You can also insert a complete nested section at any time.
    *  This will use deeper indentation.
    */
+  //@ requires sectName != null;
+  //@ requires part != null;
   public void continueSection(String sectName, String part) {
-    assert sectName.equals(currSection);
+    assert currSection.size() > 0;
+    assert sectName.equals(currSection.getFirst());
     indent--;
     nl();
     print(part);
@@ -262,7 +268,9 @@ public class BWriter extends PrintWriter
    *  @param sectName 
    */
   public void endSection(String sectName) {
-    assert sectName.equals(currSection);
+    assert currSection.size() > 0;
+    assert sectName.equals(currSection.getFirst());
+    currSection.removeFirst();
     indent--;
     nl();
     print("END");

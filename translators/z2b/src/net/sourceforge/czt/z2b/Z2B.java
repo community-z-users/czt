@@ -158,12 +158,14 @@ public class Z2B
 
     // Add state variables
     declareVars(svars, mach_.getVariables(), mach_.getInvariant());
-    // add other invariant predicates
-    addPred(invar, mach_.getInvariant());
+    // add any other invariant predicates
+    if (invar != null)
+      addPred(invar, mach_.getInvariant());
 
     // Add init conditions
     declareVars(initvars, new ArrayList(), mach_.getInitialisation());
-    addPred(initpred, mach_.getInitialisation());
+    if (initpred != null)
+      addPred(initpred, mach_.getInitialisation());
 
     // operations
     Iterator i = opSchemas.iterator();
@@ -227,8 +229,10 @@ public class Z2B
   }
 
   /** Flatten conjuncts and add them to the given list. */
+  //@ requires pred != null;
   protected void addPred(Pred pred, List preds)
   {
+    assert(pred != null);
     if (pred instanceof AndPred) {
       AndPred and = (AndPred) pred;
       addPred(and.getLeftPred(), preds);
