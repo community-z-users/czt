@@ -251,7 +251,7 @@ public class AstToPrintTreeVisitor
     List list = new ArrayList();
     Box box = axPara.getBox();
     if (box == null || Box.AxBox.equals(box)) {
-      if (axPara.getDeclName().isEmpty()) {
+      if (! isGeneric(axPara)) {
         list.add(ZString.AX);
       }
       else {
@@ -310,36 +310,58 @@ public class AstToPrintTreeVisitor
       list.add(ZString.END);
     }
     else if (Box.SchBox.equals(box)) {
-      list.add(ZString.SCH);
-      List decls = axPara.getSchText().getDecl();
-      ConstDecl cdecl = (ConstDecl) decls.get(0);
-      String declName = cdecl.getDeclName().getWord();
-      if (declName == null) throw new CztException();
-      list.add(visit(declName));
-      if (axPara.getDeclName().size() > 0) {
-        list.add(ZString.LSQUARE);
-        for (Iterator iter = axPara.getDeclName().iterator(); iter.hasNext();) {
-          list.add(visit(iter.next()));
-          if (iter.hasNext()) list.add(ZString.COMMA);
-        }
-        list.add(ZString.RSQUARE);
-      }
-      SchExpr schExpr = (SchExpr) cdecl.getExpr();
-      SchText schText = schExpr.getSchText();
-      for (Iterator iter = schText.getDecl().iterator(); iter.hasNext();) {
-        list.add(visit(iter.next()));
-        if (iter.hasNext()) list.add(ZString.NL);
-      }
-      if (schText.getPred() != null) {
-        list.add(ZString.BAR);
-        list.add(visit(schText.getPred()));
-      }
-      list.add(ZString.END);
+      return handleSchemaDefinition(axPara);
     }
     else {
       throw new CztException("Unexpected Box " + box);
     }
     return new PrintParagraph(list);
+  }
+
+  private PrintParagraph handleSchemaDefinition(AxPara axPara)
+  {
+    List list = new ArrayList();
+    assert Box.SchBox.equals(axPara.getBox());
+    if (isGeneric(axPara)) {
+      list.add(ZString.GENSCH);
+    }
+    else {
+      list.add(ZString.SCH);
+    }
+    List decls = axPara.getSchText().getDecl();
+    ConstDecl cdecl = (ConstDecl) decls.get(0);
+    String declName = cdecl.getDeclName().getWord();
+    if (declName == null) throw new CztException();
+    list.add(visit(declName));
+    if (isGeneric(axPara)) {
+      list.add(ZString.LSQUARE);
+      for (Iterator iter = axPara.getDeclName().iterator(); iter.hasNext();) {
+        list.add(visit(iter.next()));
+        if (iter.hasNext()) list.add(ZString.COMMA);
+      }
+      list.add(ZString.RSQUARE);
+    }
+    SchExpr schExpr = (SchExpr) cdecl.getExpr();
+    SchText schText = schExpr.getSchText();
+    for (Iterator iter = schText.getDecl().iterator(); iter.hasNext();) {
+      list.add(visit(iter.next()));
+      if (iter.hasNext()) list.add(ZString.NL);
+    }
+    if (schText.getPred() != null) {
+      list.add(ZString.BAR);
+      list.add(visit(schText.getPred()));
+    }
+    list.add(ZString.END);
+    return new PrintParagraph(list);
+  }
+
+  /**
+   * Returns whether an axiomatic paragraph is generic, i.e.
+   * whether it contains formal parameters.
+   */
+  private boolean isGeneric(AxPara axPara)
+  {
+    return ! axPara.getDeclName().isEmpty();
   }
 
   public Object visitMemPred(MemPred memPred)

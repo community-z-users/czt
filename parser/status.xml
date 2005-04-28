@@ -19,6 +19,12 @@
            Fixed a bug in the Foo class.
          </action>
     -->
+    <release version="0.4" date="unreleased">
+      <action dev="Petra" type="fix">
+        Fix the Unicode printer to print a GENSCH token (instead of a SCH
+        token) when a generic schema definition is printed.
+      </action>
+    </release>
     <release version="0.3" date="March 17, 2005">
       <action dev="Petra" type="add">
         Add support for unicode supplementary characters as it is used by

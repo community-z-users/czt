@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004 Petra Malik
+  Copyright (C) 2004, 2005 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -794,6 +794,9 @@ public class ZPrintVisitor
         }
         else if (string.equals(ZString.SCH)) {
           print(Sym.SCH);
+        }
+        else if (string.equals(ZString.GENSCH)) {
+          print(Sym.GENSCH);
         }
         else if (string.equals(ZString.LSQUARE)) {
           print(Sym.LSQUARE);
