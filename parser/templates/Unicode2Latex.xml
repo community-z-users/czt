@@ -567,9 +567,9 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                 parser.write(result);
              :}
              |
-             GENSCH tokenSeq:s END
+             GENSCH decorword:w tokenSeq:s END
              {:
-                String result = begin("schema");
+                String result = begin("schema") + "{" + w.getName() + "}";
                 if (s != null) result += s.getName();
                 result += end("schema");
                 parser.write(result);
