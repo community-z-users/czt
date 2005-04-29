@@ -14,7 +14,7 @@ AUXBAK		= $(AUX).bak
 
 TEX		= 
 STY		= 
-FIGEPS		= 
+FIGEPS		= tc-design.eps
 FIGEEPIC	= 
 EEPIC           = $(FIGEEPIC:%.fig=%.eepic)
 EPS		= $(FIGEPS:%.fig=%.eps) $(EEPIC:%.eepic=%.eps)

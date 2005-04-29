@@ -1,5 +1,6 @@
 \documentclass{llncs}
 \pagestyle{headings}   % turn on page numbers
+\usepackage{epsf}
 
 \usepackage{url}
 
@@ -132,37 +133,277 @@
       implement the compilation rules piecewise.
   \end{itemize}
 
-\section{Parsing}
+\section{Parsers, Typecheckers and other Tools}
 
-  CZT includes parsers for Standard Z specifications given either in
-  Unicode or using \LaTeX\ mark-up.  Support for e-mail mark-up is
-  planned.  The different mark-up languages suit different
-  communities.  For example, \LaTeX\ is prefered by researchers while
-  Unicode WYSIWYG editing might be more attractive for students or
-  industrial users.
+  CZT includes a suite of important tools for things such as parsing,
+  typechecking, and markup conversion. In addition to a parser and
+  typechecker for Z, an Object Z parser is provided, and a Circus
+  parser, Object-Z typechecker, and TCOZ parser are under development.
+  The Object Z, TCOZ, and Circus tools extend the Z tools by adding
+  support for the additional constructs that languages provide.  Each
+  dialect is an extension of Z, so it is tempting to just keep adding
+  to the tools for each extension and use the largest superset of all
+  dialects. For example, use the TCOZ tools to parse and typecheck
+  Z. However, this has two distinct problems. Firstly, one aim of the
+  CZT project is to create tools that strongly conform to the Z
+  standard, so allowing extra constructs and different type rules will
+  break the strong conformance. Secondly, the extensions of Z are not
+  linear. For example, Object-Z extends Z with class paragraphs, and
+  TCOZ extends Object-Z with concurrency operators, but Circus extends
+  neither of these - only Z. Therefore, CZT requires an approach that
+  produces separate tools for each dialect, maximises the commonality
+  between the parsers, and minimises versioning and maintenance
+  problems via reuse.
 
-  The CZT parser is generated using the Java
-  Cup\footnote{\url{http://www.cs.princeton.edu/~appel/modern/java/CUP}}
-  parser generator.
-
-  In addition to a parser for Z, an Object Z parser is provided, and a
-  Circus parser as well as a TCOZ parser are under development.  The
-  Object Z, TCOS, and Circus parser and scanner extend the Z parser
-  and scanner by some more tokens and grammar rules.  Unfortunately,
-  it is quite difficult to reuse code from an automatically generated
-  scanner or parser, and Java Cup does not provide means to do so.  To
-  avoid duplicated code, XML templates are used that contain the
-  different parser and scanner variants.  From this, the different
-  source files are generated.  This maximises the commonality between
-  the parsers and minimises versioning and maintenance problems.
+%Unfortunately, it is quite difficult to reuse code from an
+%automatically generated scanner or parser, and Java Cup does not
+%provide means to do so.  To avoid duplicated code, XML templates are
+%used that contain the different parser and scanner variants.  From
+%this, the different source files are generated.  This maximises the
+%commonality between the parsers and minimises versioning and
+%maintenance problems.
 
   \begin{itemize}
     \item[LEO] Here Tim or I could include the basics for setting up
-               and extending parsers.
+               and extending parsers. {\bf Tim:} Done!
     \item[LEO] Worthwhile mentioning performance penalties as the
                section manager, OpTable, and DefinitionTable, are
                quite slow.
   \end{itemize}
+
+
+\subsection{Parsers and Scanners}
+
+  CZT includes parsers for Standard Z specifications given either in
+  Unicode or using \LaTeX\ mark-up.  Support for e-mail mark-up is
+  planned. To produce different parsers and scanners for Z and its
+  dialects, CZT uses XML templates, and generates the code from these
+  templates using XSL. Java Cup\footnote{See
+  \url{http://www.cs.princeton.edu/\~{}appel/modern/java/CUP/}} is
+  used to generate the CZT parsers from an LALR grammar, and
+  JFlex\footnote{See \url{http://jflex.de/}} is used to generate the
+  scanners. Neither of these tools explicitly supports inheritance for
+  parser or scanners respectively.
+
+The parser and scanner for all dialects are maintained in two master
+XML files: one for the parser and one for the scanner. Each master
+file contains several XML tags that are used for substituting text for
+the dialects. For example, the tag {\tt <package/>} is placed wherever
+one would normally write the Java package name, so that each parser
+and scanner can be contained in their own package. The tags {\tt
+<add:}{\em dialect}{\tt >} and {\tt </add:}{\em dialect}{\tt >} are
+used to wrap around code that are specific to particular dialects. So
+to add a new type of expression to the Object-Z parser, one would add
+a new production to the expression rule in the master file, and place
+it between the {\tt <add:oz>} and {\tt </add:oz>} tags.
+
+To generate the individual Java Cup files for each dialect, XSLT is
+used to include the necessary code, and to substitute in values for
+tags. For example, to generate the Object-Z parser, XSLT is applied to
+the master file, and supplied with these three arguments in the Ant
+script used to build the parser:
+\begin{enumerate}
+  \item {\tt param name="class" expression="Parser"}
+  \item {\tt param name="package" expression="net.sourceforge.czt.parser.oz"}
+  \item {\tt param name="add" expression="{oz}"}
+\end{enumerate}
+
+This specifies that each instance of the tag {\tt class} is
+substituted with {\tt Parser}, each instance of {\tt package} with
+{\tt net.sourceforge.czt.parser.oz}, and that anything between the
+{\tt <add:oz>} and {\tt </add:oz>} tags is to be included. Additional
+arguments including the input and output files are also required.
+
+Similar rules are specified for each dialect. The result is a series
+of Java Cup and JFlex files, one for each dialect, which can then be
+used to generate the parser and scanner code.
+
+\subsection{Multiple Markups}
+
+ CZT supports multiple markups for each dialect.  The different
+ mark-up languages suit different communities.  For example, \LaTeX\
+ is prefered by researchers while Unicode WYSIWYG editing might be
+ more attractive for students or industrial users. At present,
+ Unicode, \LaTeX, and the ZML format \cite{UttEA:03} are supported,
+ but adding additional markups is straightforward, as this section
+ will present.  ZML scanning will not be discussed here, because it is
+ quite different to the other markups. For ZML, JAXB code ({\bf find a
+ reference}) is used to covert the ZML into an abstract syntax tree.
+
+The CZT parsers are markup independent, but all of our scanners will
+provide their respective parsers with Unicode when scanning Z variable
+names etc. The reason for this is straightforward: Z specifications
+are made up of sections, with each section having a name and a list of
+parent sections. The definitions in a parent section are included in
+the child section for a specification. For example, the Z toolkit is
+specified as a series sections in \LaTeX. Now, consider the case in
+which a person would like to use the Z toolkit, but would like to use
+Unicode for their own specifications. This would require CZT to
+provide a Z toolkit in Unicode, because the names used for
+declarations in the Z toolkit would be in \LaTeX~instead of
+Unicode. To work around this problem, all markups are converted to
+Unicode, therefore allowing different sections of a specification to
+be written in different markups.
+
+Therefore, CZT provides a Unicode scanner, which performs lexical
+analysis on a Unicode stream and breaks it into the necessary
+tokens. CZT's \LaTeX~scanner, instead of implementing all of the
+scanner rules, converts its \LaTeX~stream into a Unicode stream. In
+addition to solving the problem discussed above, this greatly
+simplifies the \LaTeX~scanner, because much of the conversion is
+straightforward in comparision to scanning Z tokens. Location
+information is recorded in the ASTs using annotations on each of the
+nodes, and this points to the location in the original specification.
+
+Of course, the \LaTeX~to Unicode scanner needs to know how to convert
+\LaTeX~tokens into Unicode. This is done by specifying, in the file,
+the Unicode representation for each \LaTeX~token used. For example, in
+the Z toolkit, the following rule is written specifying the \LaTeX~
+token for powerset, \verb+\power+:
+\begin{verbatim}
+  %%Zprechar \power U+2119
+\end{verbatim}
+
+The {\tt \%\%Zprechar} keyword specifies that \verb+\power+ is a
+prefix character (that is, the is always a hard space after it), and
+that its Unicode equivalent is U+2119. There are similar operators for
+postfix, infix, and nofix characters, as well as words.
+
+An additional component parses these definitions, and records this in
+a symbol table. Each time a \LaTeX~token is read, a lookup is
+performed on this table to find the Unicode mapping. If the lookup
+fails because the token is not in the table, a warning is issued, and
+the \LaTeX~token is used, minus the \verb+\+ token at the
+front. Therefore, for each new \LaTeX~token introduced into a
+specification, a unique Unicode mapping must be provided for the
+\LaTeX~to Unicode scanner, or be content with using the \LaTeX token's
+base name.
+
+To parser a specification written using a new markup, for example, the
+Email text-based markup, one only has to implement an Email to Unicode
+scanner.
+
+This approach has additional advantage: the scanners can function as a
+converters between different markups without have to parse the
+specifications. This simplifies many other tools in the suite as
+well. For example, the CZT tool suite provides printing of abstract
+syntax trees into the different markups. However, instead of
+implementing a printer for each markup, only a Unicode printer is
+implemented, and converters are used to print the other markups.
+
+\subsection{Extending Tools using Visitors}
+\label{extending-visitors}
+
+\subsection{Typecheckers}
+
+Typecheckers in CZT are written in a much different way to the parsers
+and scanners. While each Z dialect has its own typechecker, and reuse
+is of high importance, using XML templates is unnecessary, because
+Java interfaces and inheritance can be used to extend typecheckers.
+
+The Z typechecker is the base implementation. Most of the typechecker
+is written using visitors, which can be extended as discussed in
+Section~\ref{extending-visitors}. There are a few additional classes
+that are used, such as the class that performs the unification of two
+types for type inference and for checking type consistency.
+
+The typechecker is designed for extendability. Application of the type
+rules is implemented using visitor classes. While it is tempting to
+write the typechecker as one large visitor, this creates maintenance
+problems as this visitor would be quite large. Therefore, the
+type-rule visitors are split over several classes: one for
+typechecking expressions, another for typechecking predicates,
+etc. These will be referred to as the {\em type-rule visitors}.
+
+However, the type-rule visitors require access to shared resources,
+such as typing environments and the class for unification, as well as
+common methods used throughout the implementation. So, each type-rule
+visitor inherits an abstract class called {\tt Checker}. This class
+contains the common methods that are to be used, as well as an
+instance of a class called {\tt TypeChecker}. {\tt TypeChecker}
+contains references to all of the shared resources that are required,
+and each type-rule visitor is constructed using the same instance of
+{\tt TypeChecker} for each copy of the typechecker that is
+running. {\tt TypeChecker} also contains references to the instance of
+each type-rule visitor, so they are able to call visit methods on each
+other. Of course, this could all be implemented without the {\tt
+TypeChecker} class by just passing each resource to a subclass, but
+the approach that has been implemented allows extensions to the
+typechecker to reuse constructors and other intialisation code.
+
+To extend a typechecker for another dialect, a new package is created.
+In this package, a new {\tt Checker} class is implemented, which
+inherits the base {\tt Checker} class. In this new class, any common
+methods that are to be used by the extended typechecker are
+implemented. Then, new type-rule visitors are created; one for
+expressions, one for predicates, etc.  These type-rule visitors
+implement the visit methods only for additional constructs in the
+language, or for constructs in the base language that may have
+additional constraints. Clearly, this does not handle constructs in
+the base language, so for each type-rule visitor, an instance to the
+corresponding visitor of the base language (for example, the
+expression visitor) is created. Then, an additional visit method is
+implemented - one that ``catches'' all AST nodes for the base
+language, and the base type-rule visitor is used to typecheck these
+nodes. Finally, a new {\tt TypeChecker} class is created, which
+inherits the base version, and instead of creating type-rule visitors
+from the base typechecker, it creates them using the new type-rule
+visitors. Because visitor interfaces are used, the underlying
+implementation of the extended typechecker need not inherit from the
+base typechecker, but the way to access these type-rule visitors via
+the {\tt TypeChecker} class remains the same. Therefore, the same
+piece of code that gets an expression to accept the expression
+type-rule visitor in the base typechecker will accept the extended
+type-rule visitor in the extended typechecker.
+
+This is an unusual design, but it provides good support for
+extension. An alternative approach is to extend the base type-rule
+visitors for each new type-rule visitor. However, this means that the
+common code implemented in the {\tt Checker} class must all be
+implemented in the base {\tt Checker} class, which requires a strong
+coupling between all of the typecheckers.
+
+To help clarify this design, we present the design of the Z
+typechecker, and the Object-Z typechecker that extends
+it. Figure~\ref{tc-design} ({\bf not sure about this figure}) presents
+a UML-like outline of the class design. From this figure, one can see
+that the class {\tt oz.Checker} inherits from {\tt z.Checker}, and
+then the type-rule visitors inherit from their respective {\tt
+Checker} class.
+
+\def\epsfsize#1#2{0.70#1}
+\begin{figure}[t]
+\begin{center}
+\epsfbox{tc-design.eps}
+\label{tc-design}
+\end{center}
+\end{figure}
+\def\epsfsize#1#2{\epsfxsize}
+
+{\tt oz.ExprVisitor} implements visit methods for all additional
+Object-Z constructs, as well as for {\tt Expr}, the super-interface of
+all expression constructs. This is implement as follows:
+
+\begin{verbatim}
+  public Object visitExpr(Expr expr)
+  {
+    return expr.accept(zExprChecker_);
+  }
+\end{verbatim}
+
+Therefore, when {\tt oz.ExprChecker} does not implement a visit method
+for a particular expression, it calls the instance of {\tt
+  z.ExprChecker} to visit that expression.
+
+Other components of the typecheckers are also extended using
+inheritance. For example, the class for unification is extended by
+overriding the {\tt unify} method in that class. {\tt unify} takes two
+types and attempts to unify them, returning whether the unification
+was successful. For Object-Z, an additional type is needed to handle
+instances of classes. The overriding method first checks if the types
+of class types, and attempts unification on them. If they are not, the
+overridden method is called using the {\tt super} keyword.
+
 
 \subsection{Section Manager}
 
