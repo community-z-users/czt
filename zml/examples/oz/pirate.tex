@@ -80,7 +80,7 @@
 	\begin{init}
 		\#pirates = maxPirates \\
 		\forall j : \dom total @ total(j) = 0 \\ 
-		\forall p : pirates @ p.\Init
+		\forall p : \ran pirates @ p.\Init
 	\end{init} \classbreak
         allwalk \sdef \dcnj p : \ran pirates @ p.walk\\
 	\begin{op}{add}

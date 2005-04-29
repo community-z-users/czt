@@ -14,7 +14,7 @@
 date:  \nat
 \end{state}\classbreak
 \begin{init}
-date' = 0
+date = 0
 \end{init}\classbreak
 \begin{op}{getDate}
 today!:  \nat  
@@ -34,7 +34,7 @@ date' = date + 1
 fare: STATION \cross STATION \pfun  \nat  
 \end{state} \classbreak
 \begin{init}
-fare' = \emptyset
+fare = \emptyset
 \end{init} \classbreak
 \begin{op}{addFare}
 \Delta (fare)\\
@@ -67,6 +67,8 @@ fare! = fare(start?, finish?)
 
 \begin{class}{Tickets[TICKET, STATION]}
 \also
+%TICKET == 1 \upto 10\\
+%STATION == 1 \upto 10\\
 TYPE ::= single | multi | season \\
 MultiValue == \{50, 100\} \\ 
 SeasonDuration == \{7, 31, 365\}\\
@@ -79,18 +81,19 @@ expiry: TICKET \pfun  \nat  \\
 entrypoint: TICKET \pfun STATION 
 \where
  \dom value = (singles \cup multis \cup seasons) \\ 
-\forall t: (singles \cup multis \cup seasons) @ \# (\{t\} \dres
-entrypoint) \leq 1\end{state} \classbreak 
+\forall t : (singles \cup multis \cup seasons) @
+   \# (\{t\} \dres entrypoint) \leq 1
+\end{state} \classbreak 
 \begin{init}
-expiry' = \emptyset \\ 
-singles' = \emptyset \\ 
-multis' = \emptyset \\ 
-seasons' = \emptyset \\ 
-value' = \emptyset \\ 
-entrypoint' = \emptyset
+expiry = \emptyset \\ 
+singles = \emptyset \\ 
+multis = \emptyset \\ 
+seasons = \emptyset \\ 
+value = \emptyset \\ 
+entrypoint = \emptyset
 \end{init} \classbreak 
 \begin{op}{issue}
-\Delta (expiry, singles, multi, seasons, value)\\
+\Delta (expiry, singles, multis, seasons, value)\\
 ticket?: TICKET \\ 
 today?:  \nat  \\ 
 type?: TYPE \\ 
@@ -103,7 +106,7 @@ type? = single \implies \\
 \t1 expiry' = expiry \cup \{ticket? \mapsto today?\} \land \\ 
 \t1 singles' = singles \cup \{ticket?\} \land \\ 
 \t1 value' = value \cup \{ticket? \mapsto value?\} \land\\ 
-\t1 multi' = multi \land seasons' = seasons\\
+\t1 multis' = multis \land seasons' = seasons\\
 type? = multi \implies\\
 \t1 expiry' = expiry \cup \{ticket? \mapsto (today? + 730)\} \land \\ 
 \t1 value' = value \cup \{ticket? \mapsto value?\} \land \\ 
@@ -113,7 +116,7 @@ type? = season \implies\\
 \t1 expiry' = expiry \cup \{ticket? \mapsto today? + value?\} \land \\ 
 \t1 value' = value \cup \{ticket? \mapsto 1\} \land \\ 
 \t1 seasons' = seasons \cup \{ticket?\} \land \\ 
-\t1 singles' = singles \land  multi' = multi
+\t1 singles' = singles \land  multis' = multis
 \end{op}
 \classbreak 
 \begin{op}{reIssue}
@@ -123,15 +126,15 @@ today?:  \nat  \\
 value?:  \nat  
 \where
  ticket? \in (singles \cup multis \cup seasons) \land\\
-     (type? = multi \implies value? \in MultiValue) \land\\
-     (type? = season \implies value? \in SeasonDuration)\\
+     (ticket? \in multis \implies value? \in MultiValue) \land\\
+     (ticket? \in seasons \implies value? \in SeasonDuration)\\
 ticket? \in singles \implies\\
 \t1 expiry' = expiry \oplus \{ticket? \mapsto today?\} \land \\ 
 \t1 value' = value \oplus \{ticket? \mapsto value?\}\\ 
 ticket? \in multis \implies\\
 \t1 expiry' = expiry \oplus  \{ticket? \mapsto (today? + 730)\} \land \\ 
 \t1 value' = value \oplus \{ticket? \mapsto value?\} \\ 
-ticket? \in season \implies\\
+ticket? \in seasons \implies\\
 \t1 expiry' = expiry \oplus \{ticket? \mapsto today? + value?\} \land \\ 
 \t1 value' = value \oplus \{ticket? \mapsto 1\}\\
 entrypoint' = \{ticket?\} \ndres entrypoint
@@ -167,8 +170,8 @@ ticket? \in singles \implies\\
 \t1 fare? \leq value(ticket?) \land \\ 
 \t1 value' = value \oplus \{ticket? \mapsto 0\}\\
 ticket? \in multis \implies\\ 
-\t1 value' = value \oplus \{ticket? \mapsto max \{0, value(ticket?) - fare\}\}\\ 
-ticket? \in season \implies\\
+\t1 value' = value \oplus \{ticket? \mapsto max \{0, value(ticket?) - fare?\}\}\\ 
+ticket? \in seasons \implies\\
 \t1 value' = value\\
 start! = entrypoint(ticket?) \\ 
 entrypoint' = \{ticket?\} \ndres entrypoint
