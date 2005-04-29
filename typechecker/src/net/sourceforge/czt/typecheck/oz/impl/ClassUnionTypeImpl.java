@@ -20,6 +20,7 @@ package net.sourceforge.czt.typecheck.oz.impl;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.oz.ast.*;
+import net.sourceforge.czt.oz.visitor.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
 
 /**
@@ -40,5 +41,17 @@ public class ClassUnionTypeImpl
     ClassUnionType classUnionType = (ClassUnionType) term_.create(args);
     ClassUnionType result = new ClassUnionTypeImpl(classUnionType);
     return result;
+  }
+
+  /**
+   * Accepts a visitor.
+   */
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof ClassUnionTypeVisitor) {
+      ClassUnionTypeVisitor visitor = (ClassUnionTypeVisitor) v;
+      return visitor.visitClassUnionType(this);
+    }
+    return super.accept(v);
   }
 }

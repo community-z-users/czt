@@ -185,10 +185,10 @@ abstract public class Checker
         }
 
         //instantiate the attributes
-        List<NameSignaturePair> attrs = cSig.getAttribute();
-        for (NameSignaturePair pair : attrs) {
-          Signature signature = pair.getSignature();
-          instantiate(signature);
+        List<NameTypePair> attrs = cSig.getAttribute();
+        for (NameTypePair pair : attrs) {
+          Type2 pairType = unwrapType(pair.getType());
+          instantiate(pairType);
         }
 
         //instantiate the operations
@@ -198,32 +198,32 @@ abstract public class Checker
           instantiate(signature);
         }
 
-	//instaniate the class references
-	List<ClassRef> classRefs = cSig.getClasses();
-	for (ClassRef classRef : classRefs) {
-	  List<Type2> types = classRef.getType2();
-	  for (int i = 0; i < types.size(); i++) {
-	    Type2 replaced = instantiate(types.get(i));
-	    types.set(i, replaced);
-	  }	  
-	}
+        //instaniate the class references
+        List<ClassRef> classRefs = cSig.getClasses();
+        for (ClassRef classRef : classRefs) {
+          List<Type2> types = classRef.getType2();
+          for (int i = 0; i < types.size(); i++) {
+            Type2 replaced = instantiate(types.get(i));
+            types.set(i, replaced);
+          }
+        }
       }
 
       ClassRef classRef = null;
       if (type instanceof ClassRefType) {
-	ClassRefType classRefType = (ClassRefType) type;
+        ClassRefType classRefType = (ClassRefType) type;
         classRef = classRefType.getThisClass();
       }
       else if (type instanceof ClassPolyType) {
-	ClassPolyType classPolyType = (ClassPolyType) type;
+        ClassPolyType classPolyType = (ClassPolyType) type;
         classRef = classPolyType.getRootClass();
       }
 
       if (classRef != null) {
-	List<Type2> types = classRef.getType2();
-	for (Type2 next : types) {
-	  instantiate(next);
-	}
+        List<Type2> types = classRef.getType2();
+        for (Type2 next : types) {
+          instantiate(next);
+        }
       }
 
       result = classType;

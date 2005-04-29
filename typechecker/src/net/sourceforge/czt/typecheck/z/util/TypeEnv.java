@@ -46,7 +46,7 @@ public class TypeEnv
    * The list of current generic parameters. Used for tracking the
    * order of generic parameters for type unification.
    */
-  protected List<DeclName> parameters_;
+  protected Stack<List<DeclName>> parameters_;
 
   public TypeEnv()
   {
@@ -57,31 +57,36 @@ public class TypeEnv
   {
     factory_ = new Factory(zFactory);
     typeInfo_ = new Stack<List<NameTypePair>>();
-    parameters_ = new ArrayList<DeclName>();
+    parameters_ = new Stack<List<DeclName>>();
   }
 
   public void enterScope()
   {
     List<NameTypePair> info = new ArrayList<NameTypePair>();
     typeInfo_.push(info);
+    List<DeclName> parameters = new ArrayList<DeclName>();
+    parameters_.push(parameters);
   }
 
   public void exitScope()
   {
-    pop();
-    if (typeInfo_.size() == 0) {
-      parameters_ = new ArrayList<DeclName>();
-    }
+    typeInfo_.pop();
+    parameters_.pop();
   }
 
-  public void setParameters(List<DeclName> parameters)
+  public void addParameters(List<DeclName> parameters)
   {
-    parameters_ = parameters;
+    parameters_.peek().addAll(parameters);
   }
 
   public List<DeclName> getParameters()
   {
-    return parameters_;
+    List<DeclName> result = new ArrayList<DeclName>();
+    for (List<DeclName> declNames : parameters_) {
+      result.addAll(declNames);
+    }
+    return result;
+    //return parameters_;
   }
 
   public void add(DeclName declName, Type type)
@@ -92,7 +97,7 @@ public class TypeEnv
 
   public void add(NameTypePair pair)
   {
-    peek().add(pair);
+    typeInfo_.peek().add(pair);
   }
 
   /**
@@ -123,7 +128,7 @@ public class TypeEnv
 
   public List<NameTypePair> getNameTypePair()
   {
-    return peek();
+    return typeInfo_.peek();
   }
 
   public Type getTypeFromAnns(TermA termA)
@@ -138,26 +143,6 @@ public class TypeEnv
       }
     }
 
-    return result;
-  }
-
-  //peeks at the top of the stack
-  private List<NameTypePair> peek()
-  {
-    List<NameTypePair> result = new ArrayList<NameTypePair>();
-    if (typeInfo_.size() != 0) {
-      result = typeInfo_.peek();
-    }
-    return result;
-  }
-
-  //pops the top of the stack
-  private List<NameTypePair> pop()
-  {
-    List<NameTypePair> result = new ArrayList<NameTypePair>();
-    if (typeInfo_.size() != 0) {
-      result = typeInfo_.pop();
-    }
     return result;
   }
 

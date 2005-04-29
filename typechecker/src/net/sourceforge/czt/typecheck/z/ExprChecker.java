@@ -293,7 +293,7 @@ public class ExprChecker
     Type2 annType = (Type2) getTypeFromAnns(setExpr);
     if (annType instanceof PowerType) {
       if (!instanceOf(powerType(annType).getType(), UnknownType.class)) {
-	innerType = powerType(annType).getType();
+        innerType = powerType(annType).getType();
       }
     }
 
@@ -1163,48 +1163,48 @@ public class ExprChecker
       SchemaType schemaType = (SchemaType) vPowerType.getType();
       Signature signature = schemaType.getSignature();
       if (!instanceOf(signature, VariableSignature.class)) {
-	//check that each name in the signature is present in the
-	//environment, which any decorations
-	List<NameTypePair> pairs = signature.getNameTypePair();
-	for (NameTypePair pair : pairs) {
-	  //add the strokes to the name
-	  RefName name = factory().createRefName(pair.getName());
-	  name.getStroke().addAll(thetaExpr.getStroke());
+        //check that each name in the signature is present in the
+        //environment, which any decorations
+        List<NameTypePair> pairs = signature.getNameTypePair();
+        for (NameTypePair pair : pairs) {
+          //add the strokes to the name
+          RefName name = factory().createRefName(pair.getName());
+          name.getStroke().addAll(thetaExpr.getStroke());
 
-	  //lookup the name in the environment
-	  Type envType = getType(name);
-	  Object undecAnn = name.getAnn(UndeclaredAnn.class);
-	  //if the name is undeclared, copy the annotation to the name
-	  //in the signature
-	  if (undecAnn != null) {
-	    pair.getName().getAnns().add(undecAnn);
-	    if (!containsDoubleEquals(errors(), thetaExpr)) {
-	      errors().add(thetaExpr);
-	    }
-	  }
-	  //otherwise, remove the annotation
-	  else {
-	    removeAnn(pair.getName(), UndeclaredAnn.class);
-	  }
+          //lookup the name in the environment
+          Type envType = getType(name);
+          Object undecAnn = name.getAnn(UndeclaredAnn.class);
+          //if the name is undeclared, copy the annotation to the name
+          //in the signature
+          if (undecAnn != null) {
+            pair.getName().getAnns().add(undecAnn);
+            if (!containsDoubleEquals(errors(), thetaExpr)) {
+              errors().add(thetaExpr);
+            }
+          }
+          //otherwise, remove the annotation
+          else {
+            removeAnn(pair.getName(), UndeclaredAnn.class);
+          }
 
-	  //if the type of the name is generic, raise an error
-	  if (envType instanceof GenericType) {
-	    Object [] params = {name, thetaExpr, exprType};
-	    error(thetaExpr, ErrorMessage.GENERICTYPE_IN_THETAEXPR, params);
-	  }
-	  else {
-	    //if the type in the signature and the type in the
-	    //environment are not the same, raise an error
-	    Type2 envType2 = (Type2) envType;
-	    Type2 pairType2 = unwrapType(pair.getType());
-	    
-	    unified = unify(envType2, pairType2);
-	    if (unified == FAIL) {
-	      Object [] params = {name, thetaExpr, envType2, pairType2};
-	      error(thetaExpr, ErrorMessage.TYPE_MISMATCH_IN_THETAEXPR, params);
-	    }
-	  }
-	}
+          //if the type of the name is generic, raise an error
+          if (envType instanceof GenericType) {
+            Object [] params = {name, thetaExpr, exprType};
+            error(thetaExpr, ErrorMessage.GENERICTYPE_IN_THETAEXPR, params);
+          }
+          else {
+            //if the type in the signature and the type in the
+            //environment are not the same, raise an error
+            Type2 envType2 = (Type2) envType;
+            Type2 pairType2 = unwrapType(pair.getType());
+
+            unified = unify(envType2, pairType2);
+            if (unified == FAIL) {
+              Object [] params = {name, thetaExpr, envType2, pairType2};
+              error(thetaExpr, ErrorMessage.TYPE_MISMATCH_IN_THETAEXPR, params);
+            }
+          }
+        }
       }
       type = vPowerType.getType();
     }

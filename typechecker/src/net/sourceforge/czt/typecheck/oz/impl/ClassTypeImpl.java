@@ -19,6 +19,7 @@
 package net.sourceforge.czt.typecheck.oz.impl;
 
 import net.sourceforge.czt.oz.ast.*;
+import net.sourceforge.czt.oz.visitor.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
 
 /**
@@ -78,5 +79,17 @@ public abstract class ClassTypeImpl
       hashCode += constant * getClassSig().hashCode();
     }
     return hashCode;
+  }
+
+  /**
+   * Accepts a visitor.
+   */
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof ClassTypeVisitor) {
+      ClassTypeVisitor visitor = (ClassTypeVisitor) v;
+      return visitor.visitClassType(this);
+    }
+    return super.accept(v);
   }
 }

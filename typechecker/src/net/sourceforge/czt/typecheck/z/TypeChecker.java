@@ -54,6 +54,9 @@ public class TypeChecker
   //the UnificationEnv for recording unified generic types
   protected UnificationEnv unificationEnv_;
 
+  //a visitor for calculating carrier set
+  protected CarrierSet carrierSet_;
+
   //a section manager
   protected SectionInfo sectInfo_;
 
@@ -94,6 +97,7 @@ public class TypeChecker
     typeEnv_ = new TypeEnv(zFactory);
     pending_ = new TypeEnv(zFactory);
     unificationEnv_ = new UnificationEnv(zFactory);
+    carrierSet_ = new CarrierSet();
     errors_ = new java.util.ArrayList();
     specChecker_ = new SpecChecker(this);
     paraChecker_ = new ParaChecker(this);

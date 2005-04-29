@@ -411,6 +411,11 @@ abstract public class Checker
     return unificationEnv().unify(type1, type2);
   }
 
+  protected CarrierSet carrierSet()
+  {
+    return typeChecker_.carrierSet_;
+  }
+
   //a Factory for creating Z terms
   protected Factory factory()
   {
@@ -642,6 +647,7 @@ abstract public class Checker
   protected boolean isPending(GenericType gType)
   {
     List<DeclName> params = typeEnv().getParameters();
+    debug("\nsize==>" + params.size());
     DeclName param = (DeclName) gType.getName().get(0);
     return containsDoubleEquals(params, param);
   }
@@ -665,7 +671,7 @@ abstract public class Checker
   //add generic types from a list of DeclNames to the TypeEnv
   protected void addGenParamTypes(List<DeclName> declNames)
   {
-    typeEnv().setParameters(declNames);
+    typeEnv().addParameters(declNames);
 
     //add each DeclName and its type
     List<String> names = list();
@@ -755,7 +761,7 @@ abstract public class Checker
   }
 
   protected NameTypePair findInPairList(DeclName declName,
-					List<NameTypePair> pairs)
+                                        List<NameTypePair> pairs)
   {
     NameTypePair result = null;
     for (NameTypePair pair : pairs) {
@@ -764,11 +770,11 @@ abstract public class Checker
         break;
       }
     }
-    return result;    
+    return result;
   }
 
   protected NameTypePair findInPairList(RefName refName,
-					List<NameTypePair> pairs)
+                                        List<NameTypePair> pairs)
   {
     DeclName declName = factory().createDeclName(refName);
     return findInPairList(declName, pairs);

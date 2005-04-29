@@ -20,6 +20,7 @@ package net.sourceforge.czt.typecheck.oz.impl;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.oz.ast.*;
+import net.sourceforge.czt.oz.visitor.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
 
 /**
@@ -53,5 +54,17 @@ public class ClassPolyTypeImpl
     ClassPolyType classPolyType = (ClassPolyType) term_.create(args);
     ClassPolyType result = new ClassPolyTypeImpl(classPolyType);
     return result;
+  }
+
+  /**
+   * Accepts a visitor.
+   */
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof ClassPolyTypeVisitor) {
+      ClassPolyTypeVisitor visitor = (ClassPolyTypeVisitor) v;
+      return visitor.visitClassPolyType(this);
+    }
+    return super.accept(v);
   }
 }

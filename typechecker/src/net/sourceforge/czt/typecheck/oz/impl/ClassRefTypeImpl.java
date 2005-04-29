@@ -20,6 +20,7 @@ package net.sourceforge.czt.typecheck.oz.impl;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.oz.ast.*;
+import net.sourceforge.czt.oz.visitor.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
 
 /**
@@ -73,5 +74,17 @@ public class ClassRefTypeImpl
     ClassRefType classRefType = (ClassRefType) term_.create(args);
     ClassRefType result = new ClassRefTypeImpl(classRefType);
     return result;
+  }
+
+  /**
+   * Accepts a visitor.
+   */
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof ClassRefTypeVisitor) {
+      ClassRefTypeVisitor visitor = (ClassRefTypeVisitor) v;
+      return visitor.visitClassRefType(this);
+    }
+    return super.accept(v);
   }
 }

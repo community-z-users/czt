@@ -38,16 +38,12 @@ import net.sourceforge.czt.typecheck.z.impl.*;
 public class PostChecker
   extends Checker
   implements ThetaExprVisitor,
-	     RefExprVisitor,
+             RefExprVisitor,
              SetExprVisitor
 {
-  //calculates the carrier set for a type
-  protected CarrierSet carrierSet_ = null;
-
   public PostChecker(TypeChecker typeChecker)
   {
     super(typeChecker);
-    carrierSet_ = new CarrierSet();
   }
 
   public Object visitThetaExpr(ThetaExpr thetaExpr)
@@ -60,18 +56,18 @@ public class PostChecker
       Signature signature = schemaType(type).getSignature();
       List<NameTypePair> pairs = signature.getNameTypePair();
       for (NameTypePair pair : pairs) {
-	//if the name is not in the environment, raise an error
-	Object undecAnn = pair.getName().getAnn(UndeclaredAnn.class);
-	if (undecAnn != null) {
-	  DeclName decorName = factory().createDeclName(pair.getName());
-	  decorName.getStroke().addAll(thetaExpr.getStroke());
-	  Object [] params = {decorName, thetaExpr};
-	  ErrorAnn errorAnn =
-	    errorAnn(thetaExpr, 
-		     ErrorMessage.UNDECLARED_IDENTIFIER_IN_EXPR, params);
-	  addAnn(thetaExpr, errorAnn);
-	  return errorAnn;
-	}
+        //if the name is not in the environment, raise an error
+        Object undecAnn = pair.getName().getAnn(UndeclaredAnn.class);
+        if (undecAnn != null) {
+          DeclName decorName = factory().createDeclName(pair.getName());
+          decorName.getStroke().addAll(thetaExpr.getStroke());
+          Object [] params = {decorName, thetaExpr};
+          ErrorAnn errorAnn =
+            errorAnn(thetaExpr,
+                     ErrorMessage.UNDECLARED_IDENTIFIER_IN_EXPR, params);
+          addAnn(thetaExpr, errorAnn);
+          return errorAnn;
+        }
       }
     }
 
@@ -110,7 +106,7 @@ public class PostChecker
       List<Expr> exprs = list();
       for (Type2 type : gParams) {
         try {
-          Expr expr = (Expr) type.accept(carrierSet_);
+          Expr expr = (Expr) type.accept(carrierSet());
           assert expr != null;
           exprs.add(expr);
         }

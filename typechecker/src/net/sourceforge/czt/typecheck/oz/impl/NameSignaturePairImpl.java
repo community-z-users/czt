@@ -19,7 +19,8 @@
 package net.sourceforge.czt.typecheck.oz.impl;
 
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.oz.ast.NameSignaturePair;
+import net.sourceforge.czt.oz.ast.*;
+import net.sourceforge.czt.oz.visitor.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
 
 /**
@@ -71,6 +72,18 @@ public class NameSignaturePairImpl
     NameSignaturePair pair = (NameSignaturePair) term_.create(args);
     NameSignaturePair result = new NameSignaturePairImpl(pair);
     return result;
+  }
+
+  /**
+   * Accepts a visitor.
+   */
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof NameSignaturePairVisitor) {
+      NameSignaturePairVisitor visitor = (NameSignaturePairVisitor) v;
+      return visitor.visitNameSignaturePair(this);
+    }
+    return super.accept(v);
   }
 
   public boolean equals(Object obj)

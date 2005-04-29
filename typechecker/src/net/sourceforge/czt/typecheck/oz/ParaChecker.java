@@ -257,12 +257,12 @@ public class ParaChecker
 
     //if the expr is not a class type, raise an error
     if (!instanceOf(vPowerType.getType(), ClassRefType.class) &&
-	!instanceOf(vPowerType.getType(), VariableType.class)) {
+        !instanceOf(vPowerType.getType(), VariableType.class)) {
       Object [] params = {expr, exprType};
       error(expr, ErrorMessage.NON_CLASS_INHERITED, params);
     }
     //otherwise, add this information to the current class signature
-    else if (vPowerType.getType() instanceof ClassRefType) {      
+    else if (vPowerType.getType() instanceof ClassRefType) {
       ClassRefType classRefType = (ClassRefType) vPowerType.getType();
       ClassSig icSig = classRefType.getClassSig();
       ClassSig cSig = current.getClassSig();
@@ -274,7 +274,7 @@ public class ParaChecker
         //add the name of the superclass to current's superclass list
         ClassRef thisClass = classRefType.getThisClass();
         current.getSuperClass().add(thisClass);
-	
+
         //add the attributes to the subclass's signature and the type env
         cSig.getAttribute().addAll(icSig.getAttribute());
         typeEnv().add(icSig.getAttribute());
