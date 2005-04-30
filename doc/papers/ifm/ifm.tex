@@ -4,6 +4,7 @@
 
 \usepackage{url}
 
+\newcommand{\Circus}{{\sf\slshape Circus}}
 \newcommand{\Class}[1]{\texttt{#1}}
 \newcommand{\Interface}[1]{\texttt{#1}}
 \newcommand{\Method}[1]{\texttt{#1}}
@@ -26,6 +27,22 @@
   Z Tools (CZT) project~\cite{czt} is an open-source Java framework
   for building formal methods tools for Z and Z dialects.
 
+  In recent years, there has been an increasing interest in combining
+  different programming paradigms within a uniform formal notation and
+  semantics, where Z plays a central role. This gave rise to many Z
+  dialects that includes process algebras~\cite{fischer-1998,fischer-2000,circus.sem:intro},
+  object orientation~\cite{oz,ohcircus}, time~\cite{tcoz,circus.sem:real.time2},
+  mobility~\cite{circus.sem:mobility}, and so forth.
+
+  Among these extensions, the CZT currently supports Object-Z~\cite{oz} and
+  Timed Communicating Object-Z (TCOZ)~\cite{tcoz}, with parsing, typechecking, and
+  other facilities.
+  [TODO: Write something short about Object-Z and TCOZ]
+  Recently, we are extending the CZT to support \Circus~\cite{circus.sem:intro},
+  an unified refinement language that combines Z, CSP~\cite{csp.books:roscoe},
+  and the refinement calculus~\cite{fm.ref:morgan}, with Hoare and He's
+  \textit{Unifying Theories of Programming} (UTP) as the semantic background~\cite{hoare.utp}.
+
   [TODO: write more]
 
 \section{XML Schemas and AST classes}
@@ -39,7 +56,7 @@
   \LaTeX\ or email markup.  However, implementing a parser for such
   specifications is a non-trivial task that might take several weeks
   or even months to be finished.  ZML, in contrast, can be parsed
-  immediatly using one of the available XML parsers like
+  immediately using one of the available XML parsers like
   Xerces\footnote{\url{http://xml.apache.org/xerces-j/}} or
   Crimson\footnote{\url{http://xml.apache.org/crimson/}}.
 
@@ -52,8 +69,8 @@
   advantages as well.  The following strategies have been used to
   achieve this.
 
-  The any element can be used in an XML Schema to enable instance XML
-  documents to contain additional elements not specified by the
+  The \textit{``any''} element can be used in an XML Schema to enable
+  instance XML documents to contain additional elements not specified by the
   schema.  This concept has been used to define annotations.  That is,
   an annotation to a term can either be one of the annotations defined
   in the XML Schema for Z or any other kind of data.  This allows a
@@ -61,24 +78,37 @@
 
   Secondly, inheritance is used extensively.  Abstract elements are
   used to provide placeholders for their derived elements.
+  Different language entities have independent hierarchy trees,
+  hence allowing stepwise development.
+  For instance Z declarations, paragraphs, expressions, and predicates
+  have completely separate hierarchy trees.
+  Dependency between language entities, such as expressions as declarations
+  or predicates, are encapsulated within each tree.
+  This allows one to implement each part of the language independently.
 
   [TODO: The XML Schema can be extended without touching it.]
 
   [TODO: Perhaps give an example of how the Z hierarchy can be
   extended in Object Z?]
 
+  For example, Object-Z introduces a class paragraph, polymorphic expressions,
+  extended types for classes and references. As one would expect, each of those
+  directly extend the Z paragraphs, expressions, and types hierarchy trees
+  respectively. This enables code reuse and extensibility in a great extent
+  through inheritance. This approach is also taken for the extensions with
+  TCOZ and \Circus.
+
   [TODO: are there other things that make the Schema extensible?]
 
-  \begin{itemize}
-    \item[LEO] The old Circus parser has a series of problems in the Z
-      part that the CZT XML classes and parser have solved.  Z/Eves
-      files are also defined in XML and I've got the internal
-      documentation and I am used with it (good for comparison).  It
-      may be an interesting example on how the idea of XML seems to be
-      the way forward.
-  \end{itemize}
-
-
+  The use of XML in the CZT has shown as an efficient and extensible solution
+  for representing a Z specification and its dialects.
+  The XML approach helps to clarify design decisions in a straightforward fashion.
+  This representation is the key for the integrated development and exchange of
+  information between different Z tools.
+  Another attempt to represent Z with XML is been explored with the Z/Eves theorem
+  prover~\cite{tp.tools:zeves.ref}. It allowed one to create a customised theorem
+  prover with additional tactics tailored for a particular specification by modifying
+  the XML representation of the Z specification in Z/Eves~\cite{tp.tools:zeves.api}.
 
   The Java \emph{annotated syntax tree} (AST) provides a tree view of
   a parsed Z specification using Java interfaces and classes.  This
@@ -100,12 +130,12 @@
   later on.
 
   GnAST has also been used to generate AST interfaces and classes for
-  Z extensions like Object Z, TCOZ, and Circus.  This provides a very
+  Z extensions like Object Z, TCOZ, and \Circus.  This provides a very
   convenient way to obtain AST's for Z extensions that fit well into
   the AST for Standard Z.  For example, the AST classes for Z
   extensions also support the visitor design pattern described below.
 
-  This architectrue makes it very easy to write tools like
+  This architecture makes it very easy to write tools like
   typechecker, printer, etc.\ that need to traverse an AST.  The
   visitor design pattern~\cite{GamEA:95,MaiCha:01} provides a way to
   separate the structure of a set of objects from the operations
@@ -114,32 +144,40 @@
   operation, all you need to do is to implement a new visitor class.
 
   In CZT, a visitor interface is defined for every AST class,
-  including abstract superclasses.  If a visitor implements this
-  interface, then any \Interface{AxPara} AST nodes that it visits will
-  call the visitor's \Method{visitAxPara} method.  However, if the
-  visitor does not implement the \Interface{AxParaVisitor} interface,
-  then the \Interface{AxPara} AST nodes will search up though their
+  including abstract superclasses. So, if a visitor implements this
+  interface, say \Interface{AxPara}, then any \Interface{AxPara} AST nodes
+  that it visits will call the visitor's \Method{visitAxPara} method.
+  However, if the visitor does not implement the \Interface{AxParaVisitor}
+  interface, then the \Interface{AxPara} AST nodes will search up though their
   superclasses and call the first \Method{visit$AAA$} method that the
   visitor implements (for example, \Interface{visitPara} or
-  \Interface{visitTermA} or \Interface{visitTerm}).  With this
-  approach, the AST classes themselves take care of calling the
+  \Interface{visitTermA} or \Interface{visitTerm}, the superclasses of \Interface{AxPara}).
+  With this approach, the AST classes themselves take care of calling the
   closest (with respect to the inheritance hierarchy) \Method{visit}
   method implemented by the visitor.
 
-  \begin{itemize}
-    \item[LEO] Here I can include the architecture of the Circus
-      Compiler that uses two Visitors, one for each semantic function.
-      The multiple hierarchies are really helpful as it allows me to
-      implement the compilation rules piecewise.
-  \end{itemize}
+  This flexibility and independency of visitors is very useful during
+  the development of new tools.
+  As the hierarchy trees of different language entities are independent,
+  one can implement visiting methods for specific parts of the language such
+  as declarations or paragraphs.
+  That allows one to implement the hierarchy trees piecemeal, checking the
+  conformance within every stable subset.
+  Whenever problems are found, they are contained within the visit methods
+  for the particular hierarchy tree, hence improving debugging and maintainability.
+  For instance, in the development of the \Circus\ compiler used in a
+  model checking tool~\cite{circus.mc:leo}, the use of CZT visitors allowed
+  the implementation of the smallest subset needed for initial testing.
+  This makes the CZT visitor not only an elegant object oriented solution,
+  but also the ground for consistent rapid prototyping.
 
 \section{Parsers, Typecheckers and other Tools}
 
   CZT includes a suite of important tools for things such as parsing,
   typechecking, and markup conversion. In addition to a parser and
-  typechecker for Z, an Object Z parser is provided, and a Circus
+  typechecker for Z, an Object Z parser is provided, and a \Circus\
   parser, Object-Z typechecker, and TCOZ parser are under development.
-  The Object Z, TCOZ, and Circus tools extend the Z tools by adding
+  The Object Z, TCOZ, and \Circus\ tools extend the Z tools by adding
   support for the additional constructs that languages provide.  Each
   dialect is an extension of Z, so it is tempting to just keep adding
   to the tools for each extension and use the largest superset of all
@@ -149,7 +187,7 @@
   standard, so allowing extra constructs and different type rules will
   break the strong conformance. Secondly, the extensions of Z are not
   linear. For example, Object-Z extends Z with class paragraphs, and
-  TCOZ extends Object-Z with concurrency operators, but Circus extends
+  TCOZ extends Object-Z with concurrency operators, but \Circus\ extends
   neither of these - only Z. Therefore, CZT requires an approach that
   produces separate tools for each dialect, maximises the commonality
   between the parsers, and minimises versioning and maintenance
@@ -374,7 +412,7 @@ Checker} class.
 \def\epsfsize#1#2{0.70#1}
 \begin{figure}[t]
 \begin{center}
-\epsfbox{tc-design.eps}
+%\epsfbox{tc-design.eps}
 \label{tc-design}
 \end{center}
 \end{figure}
@@ -407,7 +445,7 @@ overridden method is called using the {\tt super} keyword.
 
 \subsection{Section Manager}
 
-  (is independent of Z/Object-Z/Circus etc.
+  (is independent of Z/Object-Z/\Circus\ etc.
   Can easily be extended with new kinds of objects, commands)
 
     \begin{itemize}
@@ -418,21 +456,21 @@ overridden method is called using the {\tt super} keyword.
 
       The (future!) modular design, using interfaces and visitors,
       allows the core Z typechecker to be extended separately
-      to handle Object-Z and Circus.  (TODO!)
+      to handle Object-Z and \Circus.  (TODO!)
 
     \begin{itemize}
-        \item[LEO] I can include my experiences in extending the Z:TypeChecker for Circus.
+        \item[LEO] I can include my experiences in extending the Z:TypeChecker for \Circus.
                     I should also discuss with Tim some of the ideas for decoupling the type checker.
     \end{itemize}
 
 \section{Animating}
 
-    Animation of Circus using Z animator???
-      (Operational semantics of Circus are in Z itself, so this makes a meta-level animation possible...)
+    Animation of \Circus\ using Z animator???
+      (Operational semantics of \Circus\ are in Z itself, so this makes a meta-level animation possible...)
     This could set the scenario for the possibilities CZT gives towards integration.
 
     \begin{itemize}
-        \item[LEO] I can write here about the Circus refinement engine that uses ZLive, as well as the compiler.
+        \item[LEO] I can write here about the \Circus\ refinement engine that uses ZLive, as well as the compiler.
     \end{itemize}
 
 
@@ -440,11 +478,11 @@ overridden method is called using the {\tt super} keyword.
 
     \begin{itemize}
         \item[LEO]
-        There is another tool under development that translates Circus (Latex) specifications into Java code.
-        It uses JCSP (a java csp-occam library) that allows execution of Circus.
-        In the Z part, due to the lack of tools, extreme simplifications (via data refinement in the original Circus)
+        There is another tool under development that translates \Circus\ (Latex) specifications into Java code.
+        It uses JCSP (a java csp-occam library) that allows execution of \Circus.
+        In the Z part, due to the lack of tools, extreme simplifications (via data refinement in the original \Circus)
         are needed.
-        This tool could also use ZLive to be able to animate/execute (run!) more expressive Circus specifications quite
+        This tool could also use ZLive to be able to animate/execute (run!) more expressive \Circus\ specifications quite
         automatically, or at least minimise the data refinement effort required for the translation
     \end{itemize}
 
