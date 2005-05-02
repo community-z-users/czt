@@ -164,7 +164,17 @@ public class SectionManager
   }
 
   /**
-   * Lookup a key in the section manager.  It should never return <code>null</code>.
+   * Returns whether the given Key has already been computed
+   * and is cached.
+   */
+  public boolean isCached(Key key)
+  {
+    return content_.get(key) != null;
+  }
+
+  /**
+   * Lookup a key in the section manager.
+   * It should never return <code>null</code>.
    *
    * @param key   The key to be looked up.
    * @return      An instance of key.getType().
@@ -186,7 +196,8 @@ public class SectionManager
       command.compute(name, this);
       result = content_.get(new Key(name, infoType));
       if (result == null) {
-        throw new CommandException("Key " + key + " not computed by " + command);
+        final String message = "Key " + key + " not computed by " + command;
+        throw new CommandException(message);
       }
     }
     final String message = "Leaving method get and returning " + result;
@@ -279,23 +290,14 @@ public class SectionManager
                            SectionManager manager)
       throws CommandException
     {
-      try {
-        Source source = (Source) manager.get(new Key(name, Source.class));
-        LatexToUnicode l2u = new LatexToUnicode(source,
-                                                manager,
-                                                manager.getProperties());
-        while (l2u.next_token().sym != LatexSym.EOF) {
-          // do nothing
+      Key key = new Key(name, LatexMarkupFunction.class);
+      if (! manager.isCached(key)) {
+        ZSect zsect = (ZSect) manager.get(new Key(name, ZSect.class));
+        if (! manager.isCached(key) && zsect != null) {
+          manager.put(key, new LatexMarkupFunction(name));
         }
-        return true;
       }
-      catch(RuntimeException exception) {
-        throw exception;
-      }
-      catch(Exception exception) {
-        String message = "LatexMarkupFunctionCommand failed:";
-        throw new CommandException(message, exception);
-      }
+      return true;
     }
   }
 
@@ -309,30 +311,14 @@ public class SectionManager
                            SectionManager manager)
       throws CommandException
     {
-      try {
-        Source source = (Source) manager.get(new Key(name, Source.class));
-        if (source != null) {
-          ParseUtils.parse(source, manager);
-          Key key = new Key(name, OpTable.class);
-          Object result = (OpTable) manager.get(key);
-          if (result == null) {
-            OpTableVisitor visitor = new OpTableVisitor(manager);
-            ZSect zSect = (ZSect) manager.get(new Key(name, ZSect.class));
-            if (zSect != null) {
-              result = (OpTable) visitor.run(zSect);
-              if (result != null) {
-                manager.put(key, result);
-              }
-            }
-          }
+      final Key key = new Key(name, OpTable.class);
+      if ( ! manager.isCached(key)) {
+        ZSect zSect = (ZSect) manager.get(new Key(name, ZSect.class));
+        if ( ! manager.isCached(key)) {
+          OpTableVisitor visitor = new OpTableVisitor(manager);
+          OpTable opTable = (OpTable) visitor.run(zSect);
+          manager.put(key, opTable);
         }
-      }
-      catch(RuntimeException exception) {
-        throw exception;
-      }
-      catch(Exception exception) {
-        String message = "OpTableCommand failed:";
-        throw new CommandException(message, exception);
       }
       return true;
     }
