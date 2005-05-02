@@ -626,6 +626,8 @@ a full compliance typechecker should not be too difficult.
     mode and subtype analysis~\cite{winikooff98}.
     Mode analysis is a procedure that determines the possible modes that a
     Z term can be evaluated. It works much like the solutions for a system of equations.
+    It consists of including additional (type and formulae ordering) information not
+    present in specifications, which enable evaluation and animation.
 
     The tool expects a typechecked CZT AST corresponding to the Z specification to animate
     as input. Its architecture is based on a previous Z animator implemented in Haskell~\cite{utting-jaza}.
@@ -652,6 +654,11 @@ a full compliance typechecker should not be too difficult.
     At the moment no predicate reordering is being performed yet.
     We expect to include predicate reorder using $A^*$ or topological-sort algorithms,
     as suggested in~\cite{winikooff98}.
+
+    Another target is to extend the available flattened predicates in order to cover most
+    frequently Z constructs used in \Circus\ specifications.
+    We also expect to include in ZLive predicate transformers, schema unfolding, and a
+    tactic language in the spirit of ANGEL~\cite{z.others:angel}.
 
 \subsection{Building GUI for Z Specifications}
 
