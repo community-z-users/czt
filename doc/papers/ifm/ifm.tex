@@ -6,6 +6,7 @@
 
 \newcommand{\Circus}{{\sf\slshape Circus}}
 \newcommand{\Class}[1]{\texttt{#1}}
+\newcommand{\Element}[1]{\texttt{#1}}
 \newcommand{\Interface}[1]{\texttt{#1}}
 \newcommand{\Method}[1]{\texttt{#1}}
 
@@ -28,29 +29,40 @@
   for building formal methods tools for Z and Z dialects.
 
   In recent years, there has been an increasing interest in combining
-  different programming paradigms within a uniform formal notation and
-  semantics, where Z plays a central role. This gave rise to many Z
-  dialects that includes process algebras~\cite{fischer-1998,fischer-2000,circus.sem:intro},
-  object orientation~\cite{oz,ohcircus}, time~\cite{tcoz,circus.sem:real.time2},
+  different programming paradigms within an uniform formal notation,
+  where Z plays a central role. This gave rise to many Z dialects that
+  includes process
+  algebras~\cite{fischer-1998,fischer-2000,circus.sem:intro}, object
+  orientation~\cite{oz,ohcircus},
+  time~\cite{tcoz,circus.sem:real.time2},
   mobility~\cite{circus.sem:mobility}, and so forth.
 
-  Among these extensions, the CZT currently supports Object-Z~\cite{oz} and
-  Timed Communicating Object-Z (TCOZ)~\cite{tcoz}, with parsing, typechecking, and
-  other facilities.
-  [TODO: Write something short about Object-Z and TCOZ]
-  Recently, we are extending the CZT to support \Circus~\cite{circus.sem:intro},
-  an unified refinement language that combines Z, CSP~\cite{csp.books:roscoe},
-  and the refinement calculus~\cite{fm.ref:morgan}, with Hoare and He's
-  \textit{Unifying Theories of Programming} (UTP) as the semantic background~\cite{hoare.utp}.
+  Among these extensions, CZT supports Object-Z~\cite{oz} with
+  parsing, typechecking, and other facilities.  [TODO: Write something
+  short about Object-Z].  Currently, we are working on extensions for
+  Timed Communicating Object-Z (TCOZ)~\cite{tcoz} and
+  \Circus~\cite{circus.sem:intro}.  [TODO: Write something about
+  TCOZ].  \Circus\ is an unified refinement language that combines Z,
+  CSP~\cite{csp.books:roscoe}, and the refinement
+  calculus~\cite{fm.ref:morgan}, with Hoare and He's \textit{Unifying
+  Theories of Programming} (UTP) as the semantic
+  background~\cite{hoare.utp}.
 
   [TODO: write more]
 
-\section{XML Schemas and AST classes}
+\section{XML Schemas}
 
-  The first step was the development of an XML Schema~\cite{UttEA:03}
-  that describes the XML markup for Z specifications (ZML).  This is
-  an interchange format that can be used to exchange parsed and even
-  typechecked Z specifications between sessions and tools.
+  The first step in designing the CZT tools and libraries was the
+  development of an XML Schema that describes an XML markup for Z
+  specifications (ZML)~\cite{UttEA:03}.  This is an interchange format
+  that can be used to exchange parsed and even typechecked Z
+  specifications between sessions and tools.
+
+  Another attempt to represent Z with XML is been explored with the
+  Z/Eves theorem prover~\cite{tp.tools:zeves.ref}. It allowed one to
+  create a customised theorem prover with additional tactics tailored
+  for a particular specification by modifying the XML representation
+  of the Z specification in Z/Eves~\cite{tp.tools:zeves.api}.
 
   Standard Z allows specifications to be exchanged using Unicode,
   \LaTeX\ or email markup.  However, implementing a parser for such
@@ -62,7 +74,7 @@
 
   Tools also benefit from being able to annotate terms with type
   information, anticipated usage, comments, and so on.  The ZML format
-  allows such annotations.
+  allows such annotations. [TODO: are there other advantages of ZML?]
 
   The XML Schema for ZML has been carefully designed to be extensible
   in order to allow Z dialects and extensions to profit from those
@@ -70,55 +82,61 @@
   achieve this.
 
   The \textit{``any''} element can be used in an XML Schema to enable
-  instance XML documents to contain additional elements not specified by the
-  schema.  This concept has been used to define annotations.  That is,
-  an annotation to a term can either be one of the annotations defined
-  in the XML Schema for Z or any other kind of data.  This allows a
-  tool builder to decide what data makes sense for a particular tool.
+  instance XML documents to contain additional elements not specified
+  by the schema.  This concept has been used to define annotations.
+  That is, an annotation to a term can either be one of the
+  annotations defined in the XML Schema for Z or any other kind of
+  data.  This allows a tool builder to decide what data makes sense
+  for a particular tool.
 
-  Secondly, inheritance is used extensively.  Abstract elements are
-  used to provide placeholders for their derived elements.
-  Different language entities have independent hierarchy trees,
-  hence allowing stepwise development.
-  For instance Z declarations, paragraphs, expressions, and predicates
-  have completely separate hierarchy trees.
-  Dependency between language entities, such as expressions as declarations
-  or predicates, are encapsulated within each tree.
-  This allows one to implement each part of the language independently.
+  Secondly, inheritance is used extensively throughout the XML Schema.
+  Abstract elements are used to provide placeholders for their derived
+  elements.  For example, the abstract element \Element{Para} is the
+  parent of all concrete Z paragraphs like, for example, axiomatic
+  paragraphs (element \Element{AxPara}) and free types paragraph
+  (element \Element{FreePara}).  This makes it easy to include a
+  reference to any kind of paragraph into other elements as, for
+  example, in the definition of a Z section (element \Element{ZSect})
+  which contains a sequence of paragraphs.
 
-  [TODO: The XML Schema can be extended without touching it.]
+  More important is, however, that the inheritance hierarchy defined
+  in the XML Schema for ZML can be extended without even touching the
+  ZML Schema file.  For example, the XML Schema for Object Z imports
+  the ZML Schema file and defines a new paragraph for classes (element
+  \Element ClassPara) that is derived from element \Element{Para}
+  defined in the ZML Schema.  Instance documents of the Object Z
+  Schema can now contain class paragraphs in addition to the Z
+  paragraphs wherever a paragraph is expected.  The same strategy has
+  been used to define expression (abstract element \Element{Expr}),
+  predicates (abstract element \Element{Pred}), declaration (abstract
+  element \Element{Decl}) and others, making it possible for
+  extensions to add new kinds of expressions, predicates, etc.
 
-  [TODO: Perhaps give an example of how the Z hierarchy can be
-  extended in Object Z?]
-
-  For example, Object-Z introduces a class paragraph, polymorphic expressions,
-  extended types for classes and references. As one would expect, each of those
-  directly extend the Z paragraphs, expressions, and types hierarchy trees
-  respectively. This enables code reuse and extensibility in a great extent
-  through inheritance. This approach is also taken for the extensions with
-  TCOZ and \Circus.
+  This can be carried on to extending an extension.  For example, the
+  additional elements provided by the Object Z Schema are further
+  extended by the TCOZ Schema.  Again, the definitions of the elements
+  for TCOZ are encapsulated into a TCOZ Schema file, and the ZML or
+  Object Z Schema do not need to be modified.
 
   [TODO: are there other things that make the Schema extensible?]
 
-  The use of XML in the CZT has shown as an efficient and extensible solution
-  for representing a Z specification and its dialects.
-  The XML approach helps to clarify design decisions in a straightforward fashion.
-  This representation is the key for the integrated development and exchange of
-  information between different Z tools.
-  Another attempt to represent Z with XML is been explored with the Z/Eves theorem
-  prover~\cite{tp.tools:zeves.ref}. It allowed one to create a customised theorem
-  prover with additional tactics tailored for a particular specification by modifying
-  the XML representation of the Z specification in Z/Eves~\cite{tp.tools:zeves.api}.
+  The use of XML in the CZT has shown as an efficient and extensible
+  solution for representing a Z specification and its dialects.  The
+  XML approach helps to clarify design decisions in a straightforward
+  fashion.  This representation is the key for the integrated
+  development and exchange of information between different Z tools.
+
+ \section{Java AST Classes}
 
   The Java \emph{annotated syntax tree} (AST) provides a tree view of
-  a parsed Z specification using Java interfaces and classes.  This
+  a parsed specification using Java interfaces and classes.  This
   allows easy access to syntactical objects like, for instance,
   paragraphs, predicates, and expressions, from within Java programs.
 
   The CZT Java AST interfaces and classes were automatically generated
-  from the XML Schema describing ZML using our code generator
-  \emph{GnAST} (GeNerator for AST).  The generated code looks similar
-  to the code Java data binding tools like
+  from the XML Schemas described in the previous section using our
+  code generator \emph{GnAST} (GeNerator for AST).  The generated code
+  looks similar to the code Java data binding tools like
   JAXB\footnote{\url{http://java.sun.com/xml/jaxb/}} or
   Castor\footnote{\url{http://www.castor.org/}} are producing.  The
   generated Java interfaces and classes represent the structures
@@ -130,46 +148,47 @@
   later on.
 
   GnAST has also been used to generate AST interfaces and classes for
-  Z extensions like Object Z, TCOZ, and \Circus.  This provides a very
-  convenient way to obtain AST's for Z extensions that fit well into
-  the AST for Standard Z.  For example, the AST classes for Z
-  extensions also support the visitor design pattern described below.
+  Object Z, TCOZ, and \Circus.  This provides a very convenient way to
+  obtain AST's for Z extensions that fit well into the AST for
+  Standard Z.  That is, the AST classes for Z extensions also support
+  the visitor design pattern described below.
 
-  This architecture makes it very easy to write tools like
-  typechecker, printer, etc.\ that need to traverse an AST.  The
-  visitor design pattern~\cite{GamEA:95,MaiCha:01} provides a way to
-  separate the structure of a set of objects from the operations
-  performed on these objects.  This allows a new operation to be
-  defined without modifying the AST classes.  To define a new
-  operation, all you need to do is to implement a new visitor class.
+  The visitor design pattern~\cite{GamEA:95,MaiCha:01} makes it very
+  easy to write tools like typechecker, printer, etc.\ that need to
+  traverse an AST. It provides a way to separate the structure of a
+  set of objects from the operations performed on these objects.  This
+  allows a new operation to be defined without modifying the AST
+  classes.  To define a new operation, all you need to do is to
+  implement a new visitor class.
 
   In CZT, a visitor interface is defined for every AST class,
-  including abstract superclasses. So, if a visitor implements this
-  interface, say \Interface{AxPara}, then any \Interface{AxPara} AST nodes
-  that it visits will call the visitor's \Method{visitAxPara} method.
-  However, if the visitor does not implement the \Interface{AxParaVisitor}
-  interface, then the \Interface{AxPara} AST nodes will search up though their
-  superclasses and call the first \Method{visit$AAA$} method that the
-  visitor implements (for example, \Interface{visitPara} or
-  \Interface{visitTermA} or \Interface{visitTerm}, the superclasses of \Interface{AxPara}).
-  With this approach, the AST classes themselves take care of calling the
-  closest (with respect to the inheritance hierarchy) \Method{visit}
-  method implemented by the visitor.
+  including abstract superclasses.  So, if a visitor implements this
+  interface, say \Interface{AxPara}, then any \Interface{AxPara} AST
+  nodes that it visits will call the visitor's \Method{visitAxPara}
+  method.  However, if the visitor does not implement the
+  \Interface{AxParaVisitor} interface, then the \Interface{AxPara} AST
+  nodes will search up though their superclasses and call the first
+  \Method{visit$AAA$} method that the visitor implements (for example,
+  \Interface{visitPara} or \Interface{visitTermA} or
+  \Interface{visitTerm}, the superclasses of \Interface{AxPara}).
+  With this approach, the AST classes themselves take care of calling
+  the closest (with respect to the inheritance hierarchy)
+  \Method{visit} method implemented by the visitor.
 
   This flexibility and independency of visitors is very useful during
-  the development of new tools.
-  As the hierarchy trees of different language entities are independent,
-  one can implement visiting methods for specific parts of the language such
-  as declarations or paragraphs.
-  That allows one to implement the hierarchy trees piecemeal, checking the
-  conformance within every stable subset.
-  Whenever problems are found, they are contained within the visit methods
-  for the particular hierarchy tree, hence improving debugging and maintainability.
-  For instance, in the development of the \Circus\ compiler used in a
-  model checking tool~\cite{circus.mc:leo}, the use of CZT visitors allowed
-  the implementation of the smallest subset needed for initial testing.
-  This makes the CZT visitor not only an elegant object oriented solution,
-  but also the ground for consistent rapid prototyping.
+  the development of new tools.  As the hierarchy trees of different
+  language entities are independent, one can implement visiting
+  methods for specific parts of the language such as declarations or
+  paragraphs.  That allows one to implement the hierarchy trees
+  piecemeal, checking the conformance within every stable subset.
+  Whenever problems are found, they are contained within the visit
+  methods for the particular hierarchy tree, hence improving debugging
+  and maintainability.  For instance, in the development of the
+  \Circus\ compiler used in a model checking
+  tool~\cite{circus.mc:leo}, the use of CZT visitors allowed the
+  implementation of the smallest subset needed for initial testing.
+  This makes the CZT visitor not only an elegant object oriented
+  solution, but also the ground for consistent rapid prototyping.
 
 \section{Parsers, Typecheckers and other Tools}
 
@@ -193,6 +212,8 @@
   between the parsers, and minimises versioning and maintenance
   problems via reuse.
 
+% Petra: Why is this uncommented? It sounds quite nice!
+
 %Unfortunately, it is quite difficult to reuse code from an
 %automatically generated scanner or parser, and Java Cup does not
 %provide means to do so.  To avoid duplicated code, XML templates are
@@ -206,7 +227,9 @@
                and extending parsers. {\bf Tim:} Done!
     \item[LEO] Worthwhile mentioning performance penalties as the
                section manager, OpTable, and DefinitionTable, are
-               quite slow.
+               quite slow. {\bf Petra:} Not sure that the section
+               manager is slow; I guess it would be slower without a
+               section manager.
   \end{itemize}
 
 
