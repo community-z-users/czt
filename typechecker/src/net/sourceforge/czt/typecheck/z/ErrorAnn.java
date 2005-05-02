@@ -154,8 +154,8 @@ public class ErrorAnn
   //converts a Term to a string
   protected String format(Object object, SectionInfo sectInfo, String sectName)
   {
-    if (object instanceof Type) {
-      return formatType((Type) object);
+    if (object instanceof Type || object instanceof Signature) {
+      return formatType((Term) object);
     }
     else if (object instanceof Term) {
       try {
@@ -171,12 +171,12 @@ public class ErrorAnn
     return object.toString();
   }
 
-  protected String formatType(Type type)
+  protected String formatType(Term term)
   {
     //TypeFormatter formatter = new TypeFormatter();
     //Expr expr = (Expr) type.accept(formatter);
     //return format(expr);
-    return type.toString();
+    return term.toString();
   }
 }
 

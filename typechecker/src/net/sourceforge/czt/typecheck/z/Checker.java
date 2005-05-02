@@ -306,9 +306,21 @@ abstract public class Checker
     error(termA, errorAnn);
   }
 
+  protected void error(TermA termA, String error, Object [] params)
+  {
+    ErrorAnn errorAnn = errorAnn(termA, error, params);
+    error(termA, errorAnn);
+  }
+
   protected ErrorAnn errorAnn(TermA termA, ErrorMessage error, Object [] params)
   {
-    ErrorAnn errorAnn = new ErrorAnn(error.toString(), params, sectInfo(),
+    ErrorAnn errorAnn = errorAnn(termA, error.toString(), params);
+    return errorAnn;
+  }
+
+  protected ErrorAnn errorAnn(TermA termA, String error, Object [] params)
+  {
+    ErrorAnn errorAnn = new ErrorAnn(error, params, sectInfo(),
                                      sectName(), nearestLocAnn(termA));
     return errorAnn;
   }
@@ -406,9 +418,14 @@ abstract public class Checker
     return result;
   }
 
-  protected UResult unify(Type2 type1, Type2 type2)
+  protected UResult unify(Type2 typeA, Type2 typeB)
   {
-    return unificationEnv().unify(type1, type2);
+    return unificationEnv().unify(typeA, typeB);
+  }
+
+  protected UResult unify(Signature sigA, Signature sigB)
+  {
+    return unificationEnv().unify(sigA, sigB);
   }
 
   protected CarrierSet carrierSet()
@@ -514,10 +531,18 @@ abstract public class Checker
     return typeChecker_.postChecker_;
   }
 
+  protected void checkForDuplicates(List<NameTypePair> pairs,
+                                    TermA termA)
+  {
+    checkForDuplicates(pairs, termA,
+                       ErrorMessage.TYPE_MISMATCH_IN_SIGNATURE.toString());
+  }
 
   //check for type mismatches in a list of decls. Add an ErrorAnn to
   //any name that is in error
-  protected void checkForDuplicates(List<NameTypePair> pairs, TermA termA)
+  protected void checkForDuplicates(List<NameTypePair> pairs,
+                                    TermA termA,
+                                    String errorMessage)
   {
     for (int i = 0; i < pairs.size(); i++) {
       NameTypePair first = pairs.get(i);
@@ -531,7 +556,7 @@ abstract public class Checker
           //if the types don't agree, raise an error
           if (unified == FAIL) {
             Object [] params = {first.getName(), firstType, secondType};
-            error(termA, ErrorMessage.TYPE_MISMATCH_IN_SIGNATURE, params);
+            error(second.getName(), errorMessage, params);
           }
           //if the types do agree, we don't need the second declaration
           else {
@@ -647,7 +672,6 @@ abstract public class Checker
   protected boolean isPending(GenericType gType)
   {
     List<DeclName> params = typeEnv().getParameters();
-    debug("\nsize==>" + params.size());
     DeclName param = (DeclName) gType.getName().get(0);
     return containsDoubleEquals(params, param);
   }

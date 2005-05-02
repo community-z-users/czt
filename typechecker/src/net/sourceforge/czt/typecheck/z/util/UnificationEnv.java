@@ -123,6 +123,12 @@ public class UnificationEnv
     return false;
   }
 
+  public UResult unify(Signature sigA, Signature sigB)
+  {
+    UResult result = unifySignature(sigA, sigB);
+    return result;
+  }
+
   public UResult unify(Type2 typeA, Type2 typeB)
   {
     UResult result = FAIL;

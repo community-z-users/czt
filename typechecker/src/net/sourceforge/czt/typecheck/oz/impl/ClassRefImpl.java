@@ -103,7 +103,7 @@ public class ClassRefImpl
 
     if (obj != null) {
       if (obj instanceof ClassRef) {
-	ClassRef classRef = (ClassRef) obj;
+        ClassRef classRef = (ClassRef) obj;
         if (getRefName() != null) {
           if (!getRefName().equals(classRef.getRefName())) {
             return false;
@@ -115,22 +115,22 @@ public class ClassRefImpl
           }
         }
 
-	if (getType2().size() == classRef.getType2().size()) {
-	  for (int i = 0; i < getType2().size(); i++) {
-	    Type2 typeA = (Type2) getType2().get(i);
-	    Type2 typeB = (Type2) classRef.getType2().get(i);
-	    if (!typeA.equals(typeB)) {
-	      return false;
-	    }
-	  }
-	}
+        if (getType2().size() == classRef.getType2().size()) {
+          for (int i = 0; i < getType2().size(); i++) {
+            Type2 typeA = (Type2) getType2().get(i);
+            Type2 typeB = (Type2) classRef.getType2().get(i);
+            if (!typeA.equals(typeB)) {
+              return false;
+            }
+          }
+        }
         if (getNameNamePair() != null) {
           if (!getNameNamePair().equals(classRef.getNameNamePair())) {
             return false;
           }
         }
 
-	return true;
+        return true;
       }
     }
     return false;

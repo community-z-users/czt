@@ -78,6 +78,9 @@ public class ParaChecker
     //reset the primary variable list
     resetPrimary();
 
+    //the list of names declared by this paragraph
+    List<DeclName> declNames = list(className());
+
     //declare the info needed to create the class type
     List<NameTypePair> attributes = list();
 
@@ -107,23 +110,40 @@ public class ParaChecker
     }
 
     //visit the attributes
+    List<NameTypePair> attrDecls = list();
     List<Para> attrs = classPara.getLocalDef();
     for (Para para : attrs) {
       Signature signature = (Signature) para.accept(paraChecker());
-      List<NameTypePair> attrDecls = signature.getNameTypePair();
-      cSig.getAttribute().addAll(attrDecls);
-      typeEnv().add(attrDecls);
+      List<NameTypePair> decls = list(cSig.getAttribute());
+      List<NameTypePair> newDecls = signature.getNameTypePair();
+      decls.addAll(newDecls);
+      checkForDuplicates(decls, para, ErrorMessage.INCOMPATIBLE_OVERRIDING);
+      typeEnv().add(newDecls);
+      attrDecls.addAll(newDecls);
+
+      //get the names of declarations
+      for (NameTypePair decl : newDecls) {
+        declNames.add(decl.getName());
+      }
     }
+    //add the declarations to the class signature
+    cSig.getAttribute().addAll(attrDecls);
 
     //visit the state
+    List<NameTypePair> stateDecls = list();
     State state = classPara.getState();
     if (state != null) {
       Signature signature = (Signature) state.accept(paraChecker());
-      cSig.getState().getNameTypePair().addAll(signature.getNameTypePair());
-    }
+      List<NameTypePair> decls = cSig.getState().getNameTypePair();
+      List<NameTypePair> newDecls = signature.getNameTypePair();
+      decls.addAll(newDecls);
+      checkForDuplicates(decls, state, ErrorMessage.INCOMPATIBLE_OVERRIDING);
 
-    //add the types in the state to the type env
-    typeEnv().add(cSig.getState().getNameTypePair());
+      //get the names of declarations
+      for (NameTypePair decl : newDecls) {
+        declNames.add(decl.getName());
+      }
+    }
 
     //visit the initial predicate
     InitialState initialState = classPara.getInitialState();
@@ -141,14 +161,17 @@ public class ParaChecker
       //visit the operation, and add its definition to the class info
       NameSignaturePair pair =
         (NameSignaturePair) operation.accept(paraChecker());
-      cSig.getOperation().add(pair);
+      addOperation(pair, cSig);
+
+      //get the names of declarations
+      declNames.add(pair.getName());
 
       //exit the scope
       typeEnv().exitScope();
     }
 
     //check the class signature for duplicate declaration names
-    checkForDuplicates(cSig);
+    checkForDuplicates(declNames);
 
     //add the visibility list to the signature now after the paragraph
     //has been completely visited
@@ -177,7 +200,7 @@ public class ParaChecker
     //enter a new type env
     typeEnv().enterScope();
 
-    //visit the decls
+    //get the decls
     List<PrimaryDecl> primaryDecls = state.getPrimaryDecl();
     List<SecondaryDecl> secondaryDecls = state.getSecondaryDecl();
 

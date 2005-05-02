@@ -119,13 +119,13 @@ public class OpExprChecker
       ClassSig cSig = vClassType.getClassSig();
       if (!instanceOf(cSig, VariableClassSig.class)) {
         RefName refName = opPromExpr.getName();
-        Signature opSig = findOperation(refName, cSig);
-        if (opSig == null) {
+        NameSignaturePair opDef = findOperation(refName, cSig);
+        if (opDef == null) {
           Object [] params = {opPromExpr};
           error(opPromExpr, ErrorMessage.NON_EXISTENT_NAME_IN_OPPROMEXPR, params);
         }
         else {
-          signature = opSig;
+          signature = opDef.getSignature();
         }
       }
     }

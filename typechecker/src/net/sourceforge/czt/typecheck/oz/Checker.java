@@ -111,6 +111,12 @@ abstract public class Checker
     return errorAnn;
   }
 
+  protected ErrorAnn errorAnn(TermA termA, String error, Object [] params)
+  {
+    ErrorAnn errorAnn = new ErrorAnn(error, params, sectInfo(),
+                                     sectName(), nearestLocAnn(termA));
+    return errorAnn;
+  }
 
   //check if a name is in a signature's visibility list
   protected boolean isVisible(RefName refName, ClassType classType)
@@ -135,7 +141,77 @@ abstract public class Checker
     return (ClassRefType) selfType;
   }
 
-  //check the class signature for duplicate declaration names
+  //merge two class signatures and place result in newSig
+  protected void merge(ClassSig newSig, ClassSig oldSig, TermA termA)
+  {
+    //merge the attributes
+    List<NameTypePair> attrDecls = newSig.getAttribute();
+    attrDecls.addAll(oldSig.getAttribute());
+    checkForDuplicates(attrDecls, termA, ErrorMessage.INCOMPATIBLE_OVERRIDING);
+
+    //merge the state signature
+    List<NameTypePair> stateDecls = newSig.getState().getNameTypePair();
+    stateDecls.addAll(oldSig.getState().getNameTypePair());
+    checkForDuplicates(stateDecls, termA, ErrorMessage.INCOMPATIBLE_OVERRIDING);
+
+    //merge the operations
+    List<NameSignaturePair> newPairs = newSig.getOperation();
+    for (NameSignaturePair newPair : newPairs) {
+      DeclName declName = newPair.getName();
+      NameSignaturePair oldPair = findNameSigPair(declName, oldSig.getOperation());
+      if (oldPair == null) {
+        newSig.getOperation().add(newPair);
+      }
+      else {
+        UResult unified = unify(oldPair.getSignature(), newPair.getSignature());
+        if (unified == FAIL) {
+          Object [] params = {declName, termA};
+          error(declName, ErrorMessage.INCOMPATIBLE_OVERRIDING, params);
+        }
+      }
+    }
+  }
+
+  protected void addOperation(NameSignaturePair op, ClassSig cSig)
+  {
+    List<NameSignaturePair> ops = cSig.getOperation();
+    DeclName opName = op.getName();
+    NameSignaturePair existing = findOperation(opName, cSig);
+    if (existing != null) {
+      UResult unified = unify(op.getSignature(), existing.getSignature());
+      if (unified == FAIL) {
+        Object [] params = {opName, op.getSignature(), existing.getSignature()};
+        error(opName, ErrorMessage.INCOMPATIBLE_OP_OVERRIDING, params);
+      }
+    }
+    else {
+      cSig.getOperation().add(op);
+    }
+  }
+
+  protected void checkForDuplicates(List<NameTypePair> pairs,
+                                    TermA termA,
+                                    ErrorMessage error)
+  {
+    checkForDuplicates(pairs, termA, error.toString());
+  }
+
+  //check for duplicate names a class paragraph
+  protected void checkForDuplicates(List<DeclName> declNames)
+  {
+    for (int i = 0; i < declNames.size(); i++) {
+      DeclName first = declNames.get(i);
+      for (int j = i + 1; j < declNames.size(); j++) {
+        DeclName second = declNames.get(j);
+        if (first.equals(second)) {
+          Object [] params = {second, className()};
+          error(second, ErrorMessage.REDECLARED_NAME_IN_CLASSPARA, params);
+        }
+      }
+    }
+  }
+
+  //check for duplicates in a class paragraph
   protected void checkForDuplicates(ClassSig cSig)
   {
     List<DeclName> decls = list(className());
@@ -281,19 +357,33 @@ abstract public class Checker
     return result;
   }
 
-  protected Signature findOperation(RefName refName, ClassSig cSig)
+  //find a NameSignaturePair in a class signature
+  protected NameSignaturePair findOperation(DeclName declName, ClassSig cSig)
   {
-    Signature result = null;
+    NameSignaturePair result = findNameSigPair(declName, cSig.getOperation());
+    return result;
+  }
 
-    //find the operation that has this name
+  protected NameSignaturePair findOperation(RefName refName, ClassSig cSig)
+  {
     DeclName declName = factory().createDeclName(refName);
-    List<NameSignaturePair> pairs = cSig.getOperation();
+    NameSignaturePair result = findOperation(declName, cSig);
+    return result;
+  }
+
+  protected NameSignaturePair findNameSigPair(DeclName declName,
+                                              List<NameSignaturePair> pairs)
+  {
+    NameSignaturePair result = null;
+
+    //find the pair that has this name
     for(NameSignaturePair pair : pairs) {
       if (declName.equals(pair.getName())) {
-        result = pair.getSignature();
+        result = pair;
         break;
       }
     }
+
     return result;
   }
 
