@@ -399,12 +399,17 @@ import net.sourceforge.czt.parser.util.ScanException;
 
   private void end(String name, int line, int column)
   {
-    String openCommand = openBeginCommands_.pop();
-    if (! name.equals(openCommand)) {
+    if (openBeginCommands_.empty()) {
       reportError(ParseMessage.MSG_UNMATCHED_BEGIN_END,
-                  openCommand, source_, line, column);
+                  name, source_, line, column);
     }
-
+    else {
+      String openCommand = openBeginCommands_.pop();
+      if (! name.equals(openCommand)) {
+        reportError(ParseMessage.MSG_UNMATCHED_BEGIN_END,
+                    openCommand, source_, line, column);
+      }
+    }
   }
 
   /**
