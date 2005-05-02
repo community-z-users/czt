@@ -126,7 +126,7 @@
   fashion.  This representation is the key for the integrated
   development and exchange of information between different Z tools.
 
- \section{Java AST Classes}
+\section{Java AST Classes}\label{java-ast-classes}
 
   The Java \emph{annotated syntax tree} (AST) provides a tree view of
   a parsed specification using Java interfaces and classes.  This
@@ -192,12 +192,12 @@
 
 \section{Parsers, Typecheckers and other Tools}
 
-  CZT includes a suite of important tools for things such as parsing,
+  CZT includes a suite of important tools for operations such as parsing,
   typechecking, and markup conversion. In addition to a parser and
   typechecker for Z, an Object Z parser is provided, and a \Circus\
   parser, Object-Z typechecker, and TCOZ parser are under development.
   The Object Z, TCOZ, and \Circus\ tools extend the Z tools by adding
-  support for the additional constructs that languages provide.  Each
+  support for the additional constructs these languages provide.  Each
   dialect is an extension of Z, so it is tempting to just keep adding
   to the tools for each extension and use the largest superset of all
   dialects. For example, use the TCOZ tools to parse and typecheck
@@ -212,24 +212,17 @@
   between the parsers, and minimises versioning and maintenance
   problems via reuse.
 
-% Petra: Why is this uncommented? It sounds quite nice!
-
-%Unfortunately, it is quite difficult to reuse code from an
-%automatically generated scanner or parser, and Java Cup does not
-%provide means to do so.  To avoid duplicated code, XML templates are
-%used that contain the different parser and scanner variants.  From
-%this, the different source files are generated.  This maximises the
-%commonality between the parsers and minimises versioning and
-%maintenance problems.
+  Unfortunately, it is quite difficult to reuse code from an
+  automatically generated scanner or parser, and Java Cup does not
+  provide means to do so.  To avoid duplicated code, XML templates are
+  used that contain the different parser and scanner variants.  From
+  this, the different source files are generated.  This maximises the
+  commonality between the parsers and minimises versioning and
+  maintenance problems.
 
   \begin{itemize}
-    \item[LEO] Here Tim or I could include the basics for setting up
-               and extending parsers. {\bf Tim:} Done!
-    \item[LEO] Worthwhile mentioning performance penalties as the
-               section manager, OpTable, and DefinitionTable, are
-               quite slow. {\bf Petra:} Not sure that the section
-               manager is slow; I guess it would be slower without a
-               section manager.
+    \item[LEO] Ok. What do you think about the idea of hard-coded toolkits to
+               improve performance that I've included in Section~\ref{multiple-markups}?
   \end{itemize}
 
 
@@ -246,10 +239,12 @@
   scanners. Neither of these tools explicitly supports inheritance for
   parser or scanners respectively.
 
+  [LEO: What is XSL/XSLT? Is it too obvious, or should it have a reference?]
+
 The parser and scanner for all dialects are maintained in two master
 XML files: one for the parser and one for the scanner. Each master
 file contains several XML tags that are used for substituting text for
-the dialects. For example, the tag {\tt <package/>} is placed wherever
+each dialect. For example, the {\tt <package/>} tag is placed wherever
 one would normally write the Java package name, so that each parser
 and scanner can be contained in their own package. The tags {\tt
 <add:}{\em dialect}{\tt >} and {\tt </add:}{\em dialect}{\tt >} are
@@ -261,7 +256,8 @@ it between the {\tt <add:oz>} and {\tt </add:oz>} tags.
 To generate the individual Java Cup files for each dialect, XSLT is
 used to include the necessary code, and to substitute in values for
 tags. For example, to generate the Object-Z parser, XSLT is applied to
-the master file, and supplied with these three arguments in the Ant
+the master file, and supplied with these three arguments in a make file
+using Apache Ant scripts [LEO: Should this have a reference too?]
 script used to build the parser:
 \begin{enumerate}
   \item {\tt param name="class" expression="Parser"}
@@ -271,7 +267,7 @@ script used to build the parser:
 
 This specifies that each instance of the tag {\tt class} is
 substituted with {\tt Parser}, each instance of {\tt package} with
-{\tt net.sourceforge.czt.parser.oz}, and that anything between the
+{\tt net.sourceforge.czt.parser.oz}, and that text between the
 {\tt <add:oz>} and {\tt </add:oz>} tags is to be included. Additional
 arguments including the input and output files are also required.
 
@@ -279,13 +275,21 @@ Similar rules are specified for each dialect. The result is a series
 of Java Cup and JFlex files, one for each dialect, which can then be
 used to generate the parser and scanner code.
 
-\subsection{Multiple Markups}
+The use of XML templates enables parsing code to be reused and easily maintained.
+Extending the framework for a new dialect incurs in few clutter but just the important
+grammar and lexer rules.
+For example, we are experimenting the incorporation of the available \Circus\ parser
+rules within the flexible CZT framework~\cite{circus.other:parser}. The obvious advantages
+are the widely tested and supported Standard Z classes, \LaTeX\ markup and Unicode,
+visiting and other facilities.
+
+\subsection{Multiple Markups}\label{multiple-markups}
 
  CZT supports multiple markups for each dialect.  The different
  mark-up languages suit different communities.  For example, \LaTeX\
- is prefered by researchers while Unicode WYSIWYG editing might be
+ is preferred by researchers while Unicode WYSIWYG editing might be
  more attractive for students or industrial users. At present,
- Unicode, \LaTeX, and the ZML format \cite{UttEA:03} are supported,
+ Unicode, \LaTeX, and the ZML format are supported~\cite{UttEA:03},
  but adding additional markups is straightforward, as this section
  will present.  ZML scanning will not be discussed here, because it is
  quite different to the other markups. For ZML, JAXB code ({\bf find a
@@ -293,11 +297,11 @@ used to generate the parser and scanner code.
 
 The CZT parsers are markup independent, but all of our scanners will
 provide their respective parsers with Unicode when scanning Z variable
-names etc. The reason for this is straightforward: Z specifications
+names, for instance. The reason for this is straightforward: Z specifications
 are made up of sections, with each section having a name and a list of
 parent sections. The definitions in a parent section are included in
 the child section for a specification. For example, the Z toolkit is
-specified as a series sections in \LaTeX. Now, consider the case in
+specified as a series of \LaTeX\ sections. Now, consider the case in
 which a person would like to use the Z toolkit, but would like to use
 Unicode for their own specifications. This would require CZT to
 provide a Z toolkit in Unicode, because the names used for
@@ -305,6 +309,8 @@ declarations in the Z toolkit would be in \LaTeX~instead of
 Unicode. To work around this problem, all markups are converted to
 Unicode, therefore allowing different sections of a specification to
 be written in different markups.
+With this architecture, each Z dialect can also provide its own
+particular toolkit extension given as a \LaTeX\ specification file.
 
 Therefore, CZT provides a Unicode scanner, which performs lexical
 analysis on a Unicode stream and breaks it into the necessary
@@ -312,21 +318,21 @@ tokens. CZT's \LaTeX~scanner, instead of implementing all of the
 scanner rules, converts its \LaTeX~stream into a Unicode stream. In
 addition to solving the problem discussed above, this greatly
 simplifies the \LaTeX~scanner, because much of the conversion is
-straightforward in comparision to scanning Z tokens. Location
+straightforward in comparison to scanning Z tokens. Moreover, location
 information is recorded in the ASTs using annotations on each of the
-nodes, and this points to the location in the original specification.
+nodes, and this points to the location in the original specification file.
 
 Of course, the \LaTeX~to Unicode scanner needs to know how to convert
-\LaTeX~tokens into Unicode. This is done by specifying, in the file,
-the Unicode representation for each \LaTeX~token used. For example, in
+\LaTeX~tokens into Unicode. This is done by specifying, in the \LaTeX\ file,
+the corresponding Unicode representation for each \LaTeX~token used. For example, in
 the Z toolkit, the following rule is written specifying the \LaTeX~
-token for powerset, \verb+\power+:
+token for powerset (\verb+\power+):
 \begin{verbatim}
   %%Zprechar \power U+2119
 \end{verbatim}
 
 The {\tt \%\%Zprechar} keyword specifies that \verb+\power+ is a
-prefix character (that is, the is always a hard space after it), and
+prefix character that always has a hard space after it, and
 that its Unicode equivalent is U+2119. There are similar operators for
 postfix, infix, and nofix characters, as well as words.
 
@@ -337,14 +343,23 @@ fails because the token is not in the table, a warning is issued, and
 the \LaTeX~token is used, minus the \verb+\+ token at the
 front. Therefore, for each new \LaTeX~token introduced into a
 specification, a unique Unicode mapping must be provided for the
-\LaTeX~to Unicode scanner, or be content with using the \LaTeX token's
+\LaTeX~to Unicode scanner, or be content with using the \LaTeX~token's
 base name.
+
+The price to pay for such flexibility is a slower parsing experience
+whenever too complex markup is found.
+We are currently working in ways around this performance penalty.
+One possible optimisation is to have the option to use hard-coded versions
+of standard sections such as the Z toolkit.
+Since most Z section specifications do include the Z toolkit, then this should
+improve parsing performance considerably because no parsing will be necessary for
+the Z toolkit.
+This notion can be generalised for other dialects, provided their toolkits reach
+an enabling level of stability.
 
 To parser a specification written using a new markup, for example, the
 Email text-based markup, one only has to implement an Email to Unicode
-scanner.
-
-This approach has additional advantage: the scanners can function as a
+scanner. This approach has an additional advantage: the scanners can function as
 converters between different markups without have to parse the
 specifications. This simplifies many other tools in the suite as
 well. For example, the CZT tool suite provides printing of abstract
@@ -355,116 +370,197 @@ implemented, and converters are used to print the other markups.
 \subsection{Extending Tools using Visitors}
 \label{extending-visitors}
 
+
 \subsection{Typecheckers}
 
-Typecheckers in CZT are written in a much different way to the parsers
-and scanners. While each Z dialect has its own typechecker, and reuse
-is of high importance, using XML templates is unnecessary, because
-Java interfaces and inheritance can be used to extend typecheckers.
+\begin{quotation}
+[LEO: Comments at paragraphs from: ``To extend a typechecker for another dialect,
+      a new package is created.''
+
+      \vspace{5pt}
+
+      These paragraphs are too dense. They require (or presume) good knowledge of
+      the underlying architecture. For example, the intrinsic relationship between
+      individual checkers and the main typechecker class, or the unification environment.
+      I suggest to change some of it, perhaps with a running example, so that it is easier
+      for the naive reader to follow.
+      Moreover, although I understand the argument for the unusual design,
+      I think it ought to be strengthened. As it is, it does not sound convincing
+      enough perhaps because of the text's density. The example with oz could be
+      a good thing to come earlier, but it is far from clear.
+
+      \vspace{5pt}
+
+      Tim, what do you think? Does it make sense?
+      I will include some text and rearrange text a little to (hope to) improve clarity.
+
+      Remark: on the code example given, the class {\tt oz.ExprVisitor} is mentioned.
+      Don't you mean {\tt oz.ExprChecker}?
+
+      Please, let me know what do you think, ok? So that I do not include any non-sense! :)
+      I will also blend my experiences with the \Circus\ typechecker in the end.
+      ]
+\end{quotation}
+
+Typecheckers in CZT are written in a much different way from the parsers
+and scanners. Each Z dialect has its own typechecker, reuse
+is of high importance, and using XML templates is unnecessary because
+differently from the parsers, Java interfaces and inheritance can be used to
+extend typecheckers.
 
 The Z typechecker is the base implementation. Most of the typechecker
 is written using visitors, which can be extended as discussed in
 Section~\ref{extending-visitors}. There are a few additional classes
 that are used, such as the class that performs the unification of two
 types for type inference and for checking type consistency.
+The product of the Z typechecker is the original AST annotated with type
+information as defined in the ISO Standard~\cite[Section~10]{isoz}.
 
 The typechecker is designed for extendability. Application of the type
 rules is implemented using visitor classes. While it is tempting to
 write the typechecker as one large visitor, this creates maintenance
-problems as this visitor would be quite large. Therefore, the
-type-rule visitors are split over several classes: one for
-typechecking expressions, another for typechecking predicates,
-etc. These will be referred to as the {\em type-rule visitors}.
+problems as this visitor would be quite large.
+In order to enable code reuse within the typechecker architecture, we
+allow each language entity to be checked by independent checker classes.
+Currently, for the main Standard Z typechecker, we have an individual checker
+for expressions, predicates, declarations, and paragraphs. Each of these checkers
+implements visitors for the corresponding hierarchy tree.
+These will be referred to as the {\em type-rule visitors}.
+
+This does not only enable reuse, but also increases modularity and maintainability.
+For example, additional functionality, such as post checking for unresolved set and
+reference expressions that may introduce a variable into their type, are implemented in
+the same way with another checker. This post checker ensures that all implicit
+parameters such as generic actuals have been completely determined.
+Furthermore, from the development point of view, it allows (possibly different) teams
+to implement different language entities, and/or development through iterations.
+This also provides a good aid for debugging as one can guarantee the conformance of each
+checker, hence isolating (if not minimising) debugging efforts.
 
 However, the type-rule visitors require access to shared resources,
-such as typing environments and the class for unification, as well as
-common methods used throughout the implementation. So, each type-rule
-visitor inherits an abstract class called {\tt Checker}. This class
-contains the common methods that are to be used, as well as an
-instance of a class called {\tt TypeChecker}. {\tt TypeChecker}
-contains references to all of the shared resources that are required,
-and each type-rule visitor is constructed using the same instance of
-{\tt TypeChecker} for each copy of the typechecker that is
-running. {\tt TypeChecker} also contains references to the instance of
-each type-rule visitor, so they are able to call visit methods on each
-other. Of course, this could all be implemented without the {\tt
-TypeChecker} class by just passing each resource to a subclass, but
-the approach that has been implemented allows extensions to the
-typechecker to reuse constructors and other intialisation code.
+such as typing environments and the class for type unification, as well as
+common methods used throughout the implementation such as error reporting.
+So, each type-rule visitor inherits an abstract class called {\tt Checker}
+containing such shared functionality.
 
-To extend a typechecker for another dialect, a new package is created.
-In this package, a new {\tt Checker} class is implemented, which
-inherits the base {\tt Checker} class. In this new class, any common
-methods that are to be used by the extended typechecker are
-implemented. Then, new type-rule visitors are created; one for
-expressions, one for predicates, etc.  These type-rule visitors
+Each type-rule visitor implemented through individual {\tt Checker} subclasses
+are blended together in the {\tt TypeChecker} class containing references to all
+required shared resources;~they share an aggregation by reference relationship.
+That is, each type-rule visitor is constructed and owned by the same instance of
+{\tt TypeChecker} for each copy of the typechecker that is running.
+This means that the {\tt TypeChecker} class also contains references to an instance
+of each type-rule visitor, so they are able to call visit methods on each other.
+Of course, this could all be implemented without the {\tt TypeChecker} class by just
+passing each resource to a subclass, but the approach that has been implemented allows
+extensions to the typechecker to reuse constructors and other initialisation code,
+as well as different type-rule visitors.
+
+For example, for type checking a schema-text of an {\tt AxPara} for, say an
+axiomatic definition, the {\tt ParaChecker} class needs to type check both the
+declarations and the predicate parts. Although visiting through the given AST is the
+general solution, the typechecking of the declarations part is delegated to the {\tt DeclChecker} class,
+whereas the typechecking of the predicate part is delegated to the {\tt PredChecker} class.
+The {\tt DeclChecker} in turn uses the {\tt ExprChecker} to ensure that expressions defining the
+declaring variables type are well-formed.
+Moreover, as the job of each {\tt Checker} class is distinct, it is easier to establish an
+uniform visiting protocol. For instance, all the visiting methods of the {\tt ParaChecker} class,
+which typechecks the AST hierarchy tree from the {\tt Para} abstract class, returns a {\tt Signature}
+of name and type pairs. Similarly, the {\tt DeclChecker} class typechecks the {\tt Decl} subtree
+returning the list of name and type pairs that will form the {\tt ParaChecker} signatures.
+As one would expect, the {\tt PredChecker} class typechecks the {\tt Pred} subtree
+returning the type unification result, and the {\tt ExprChecker} class typechecks the {\tt Expr} subtree
+returning a {\tt Type} with resolved reference parameters, where type unification has already taken place.
+
+To extend a typechecker for another dialect, a new package is created, say {\tt oz}.
+In this package, a new {\tt oz.Checker} class is implemented, which
+inherits the base {\tt z.Checker} class. In this new class, any common
+methods that are to be used by the extended typechecker are implemented.
+Then, new type-rule visitors are created, one for each language entity that
+requires additional type-rule visitor.  These type-rule visitors
 implement the visit methods only for additional constructs in the
 language, or for constructs in the base language that may have
 additional constraints. Clearly, this does not handle constructs in
-the base language, so for each type-rule visitor, an instance to the
-corresponding visitor of the base language (for example, the
-expression visitor) is created. Then, an additional visit method is
-implemented - one that ``catches'' all AST nodes for the base
-language, and the base type-rule visitor is used to typecheck these
-nodes. Finally, a new {\tt TypeChecker} class is created, which
-inherits the base version, and instead of creating type-rule visitors
-from the base typechecker, it creates them using the new type-rule
-visitors. Because visitor interfaces are used, the underlying
-implementation of the extended typechecker need not inherit from the
-base typechecker, but the way to access these type-rule visitors via
-the {\tt TypeChecker} class remains the same. Therefore, the same
-piece of code that gets an expression to accept the expression
-type-rule visitor in the base typechecker will accept the extended
-type-rule visitor in the extended typechecker.
+the base language.
 
-This is an unusual design, but it provides good support for
-extension. An alternative approach is to extend the base type-rule
-visitors for each new type-rule visitor. However, this means that the
-common code implemented in the {\tt Checker} class must all be
-implemented in the base {\tt Checker} class, which requires a strong
-coupling between all of the typecheckers.
-
-To help clarify this design, we present the design of the Z
-typechecker, and the Object-Z typechecker that extends
-it. Figure~\ref{tc-design} ({\bf not sure about this figure}) presents
-a UML-like outline of the class design. From this figure, one can see
-that the class {\tt oz.Checker} inherits from {\tt z.Checker}, and
-then the type-rule visitors inherit from their respective {\tt
-Checker} class.
-
-\def\epsfsize#1#2{0.70#1}
-\begin{figure}[t]
-\begin{center}
-%\epsfbox{tc-design.eps}
-\label{tc-design}
-\end{center}
-\end{figure}
-\def\epsfsize#1#2{\epsfxsize}
-
-{\tt oz.ExprVisitor} implements visit methods for all additional
-Object-Z constructs, as well as for {\tt Expr}, the super-interface of
-all expression constructs. This is implement as follows:
-
+As far as core reuse is concerned, this is the point where our design
+with distributed checkers for each language entity managed by a
+centralised {\tt TypeChecker} class pays off.
+For each new type-rule visitor, say the {\tt oz.ExprChecker} class, an
+instance to the corresponding visitor of the base language
+({\tt z.ExprChecker}) is created. Therefore, Object-Z expressions are
+handled by the {\tt oz.ExprChecker} class, whereas Z expressions must
+be handled by the {\tt z.ExprChecker} class.
+To enable this idea to work, we rely on the general visiting protocol
+described in Sections~\ref{java-ast-classes}~and~\ref{extending-visitors}.
+That is, firstly the {\tt oz.ExprChecker} catches all Object-Z expressions.
+Secondly, an additional visit method is implemented --- one that ``catches'' all
+AST nodes for the base language ---, and the base type-rule visitor is used to
+typecheck these nodes.
+For example, in the {\tt oz.ExprChecker}, apart from all the Object-Z expressions
+visiting methods, an additional visit methods for remaining {\tt Expr} is implemented as
+%
 \begin{verbatim}
-  public Object visitExpr(Expr expr)
-  {
+  private z.ExprChecker zExprChecker_;
+  ...
+  public Object visitExpr(Expr expr) {
     return expr.accept(zExprChecker_);
   }
 \end{verbatim}
+%
+Therefore, when {\tt oz.ExprChecker} does not implement a visit method for
+a particular expression, it calls the instance of {\tt z.ExprChecker} to visit
+that expression.
+Finally, a new {\tt oz.TypeChecker} class, which inherits the base {\tt z.TypeChecker},
+is created aggregating (by reference) the new type-rule visitors.
+Since it inherits from the {\tt z.TypeChecker}, the original type-rule visitors
+are accessible to enabled the extended typechecker to forward type-rules to the base typechecker.
+Because visitor interfaces are used, the underlying implementation of the extended typechecker
+need not inherit from the base typechecker, but the way to access these type-rule visitors via
+the {\tt TypeChecker} class remains the same.
+Therefore, the same piece of code that gets an expression {\tt expr} to accept the {\tt z.ExprChecker}
+type-rule visitor in the base {\tt z.TypeChecker}, will accept the extended type-rule visitor
+{\tt oz.ExprChecker} in the extended {\tt oz.TypeChecker}.
 
-Therefore, when {\tt oz.ExprChecker} does not implement a visit method
-for a particular expression, it calls the instance of {\tt
-  z.ExprChecker} to visit that expression.
+To help clarify this scenario, we present the design of the Z typechecker, and the
+Object-Z typechecker that extends it. Figure~\ref{tc-design} ({\bf not sure about this figure})
+presents a UML-like outline of the class design. From this figure, one can see
+that the class {\tt oz.Checker} inherits from {\tt z.Checker}, and then the type-rule visitors
+inherit from their respective {\tt Checker} class.
+%
+\def\epsfsize#1#2{0.70#1}
+\begin{figure}[t]
+\begin{center}
+\epsfbox{tc-design.eps}
+\caption{Individual checkers}\label{tc-design}
+\end{center}
+\end{figure}
+\def\epsfsize#1#2{\epsfxsize}
+%
+Although this is an unusual design, it is clear that it provides good and elegant support for extension.
+An alternative approach is to extend the base type-rule visitors for each new type-rule visitor.
+However, this means that the common code implemented in the {\tt Checker} class must all be
+implemented in the base {\tt Checker} class, which requires a strong coupling between
+all of the typecheckers.
 
-Other components of the typecheckers are also extended using
-inheritance. For example, the class for unification is extended by
-overriding the {\tt unify} method in that class. {\tt unify} takes two
-types and attempts to unify them, returning whether the unification
-was successful. For Object-Z, an additional type is needed to handle
-instances of classes. The overriding method first checks if the types
-of class types, and attempts unification on them. If they are not, the
-overridden method is called using the {\tt super} keyword.
+Other components of the typecheckers are also extended using inheritance.
+For example, the class for type unification is extended by overriding the {\tt unify} method in that class.
+It takes two {\tt Type}s as parameters and attempts to unify them, returning whether the unification
+was successful, partial, or failed.
+For Object-Z, an additional type is needed to handle instances of classes.
+The overriding method first checks if the types of class types, and attempts unification on them.
+If they are not unifiable, the overridden method is called using the {\tt super} keyword.
 
+In general, provided that type and scoping-rules are available, this recipe
+can be used for other dialects as well.
+For example, an initial typechecker environment for \Circus\ has been developed following
+the guidelines for Z and Object-Z. Although the formal type-rules for \Circus\ are under
+development~\cite{circus.other:typechecker}, we already have a prototype version of a \Circus\ typechecker.
+Provided the architecture and the design decisions are understood, the implementation task is relatively
+straightforward through code reuse and elegant object-oriented design.
+In practice, after understanding the design, creating the prototype typechecker for \Circus\ took a couple
+of days. The obvious advantage is that by inheriting from the base Z typechecker, the prototype already enforces
+Standard Z type-checking conformance. Once the type-rules are available, extending the prototype for
+a full compliance typechecker should not be too difficult.
 
 \subsection{Section Manager}
 
@@ -482,8 +578,7 @@ overridden method is called using the {\tt super} keyword.
       to handle Object-Z and \Circus.  (TODO!)
 
     \begin{itemize}
-        \item[LEO] I can include my experiences in extending the Z:TypeChecker for \Circus.
-                    I should also discuss with Tim some of the ideas for decoupling the type checker.
+        \item[LEO] What about this section? Should the typechecking above be here?
     \end{itemize}
 
 \section{Animating}
@@ -506,9 +601,12 @@ overridden method is called using the {\tt super} keyword.
         In the Z part, due to the lack of tools, extreme simplifications (via data refinement in the original \Circus)
         are needed.
         This tool could also use ZLive to be able to animate/execute (run!) more expressive \Circus\ specifications quite
-        automatically, or at least minimise the data refinement effort required for the translation
+        automatically, or at least minimise the data refinement effort required for the translation.
     \end{itemize}
 
+    \begin{itemize}
+        \item[LEO]: I think we should also mention the testing facilities (and test cases performed) in the CZT!
+    \end{itemize}
 
 \section{Conclusions and Future Work} \label{sec:conclusions}
 
