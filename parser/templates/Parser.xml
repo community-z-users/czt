@@ -3793,7 +3793,6 @@ proviso ::=
         :}
         |
         term:t COLON baseType:bt
-//czt.todo: ??
         {:
            RESULT = factory_.createTypeProviso();
            addLocAnn(RESULT, tleft, tright);
@@ -4108,32 +4107,36 @@ state ::=
         //empty
         {: RESULT = null; :}
         |
-        STATE stateDecl:sd BAR predicate:p END
+        STATE:s stateDecl:sd BAR predicate:p END
         {:
            List dp = (List) sd.getFirst();
            List sa = (List) sd.getSecond();
            RESULT = factory_.createState(dp, sa, p);
+           addLocAnn(RESULT, sleft, sright);
         :}
         |
-        STATE stateDecl:sd END
+        STATE:s stateDecl:sd END
         {:
            List dp = (List) sd.getFirst();
            List sa = (List) sd.getSecond();
            RESULT = factory_.createState(dp, sa, null);
+           addLocAnn(RESULT, sleft, sright);
         :}
         |
-        LSQUARE stateDecl:sd BAR predicate:p RSQUARE
+        LSQUARE:lsq stateDecl:sd BAR predicate:p RSQUARE
         {:
            List dp = (List) sd.getFirst();
            List sa = (List) sd.getSecond();
            RESULT = factory_.createState(dp, sa, p);
+           addLocAnn(RESULT, lsqleft, lsqright);
         :}
         |
-        LSQUARE stateDecl:sd RSQUARE
+        LSQUARE:lsq stateDecl:sd RSQUARE
         {:
            List dp = (List) sd.getFirst();
            List sa = (List) sd.getSecond();
            RESULT = factory_.createState(dp, sa, null);
+           addLocAnn(RESULT, lsqleft, lsqright);
         :}
         ;
 
