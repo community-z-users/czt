@@ -62,40 +62,41 @@
   object orientation~\cite{oz,ohcircus}, time~\cite{tcoz,circus.sem:real.time2},
   mobility~\cite{circus.sem:mobility}, and so forth.
 
-  Among these extensions, CZT supports Object-Z~\cite{oz}, an
+  Among these extensions, CZT supports Object-Z~\cite{oz}, a
   specification language that extends Z with modularity and reuse
   constructs that resemble the object-oriented programming
   paradigm. Such constructs include classes, inheritance, and
   polymorphism. CZT supports Object-Z in the form of parsing,
   typechecking, and other facilities.  Currently, we are working on
-  extensions for Timed Communicating Object-Z (TCOZ)~\cite{tcoz}, a
-  blend of Object-Z and Timed-CSP~\cite{timed-csp}, and
-  \Circus~\cite{circus.sem:intro}.  \Circus\ is an unified refinement
-  language that combines Z, CSP~\cite{csp.books:roscoe}, and the
-  refinement calculus~\cite{fm.ref:morgan}, with Hoare and He's
-  \textit{Unifying Theories of Programming} (UTP) as the semantic
+  extensions for Timed Communicating Object-Z (TCOZ)~\cite{tcoz},
+  which is a blend of Object-Z and Timed-CSP~\cite{timed-csp}, as well
+  as extensions for \Circus~\cite{circus.sem:intro}, a unified
+  refinement language that combines Z, CSP~\cite{csp.books:roscoe},
+  and the refinement calculus~\cite{fm.ref:morgan}, with Hoare and
+  He's \textit{Unifying Theories of Programming} (UTP) as the semantic
   background~\cite{hoare.utp}.
 
   In CZT, we aim to provide tool support for all of these extensions,
   while maximising the commonality between the languages, and
   minimising versioning and maintenance. This paper presents a
-  framework for doing so using many different techniques: each suited
+  framework for doing so using many different techniques, each suited
   to the type of tool that is being implemented. {\bf This paragraph is
   not quite there!!}
 
   In Section~\ref{xml-schemas}, we present a method for specifying an
   XML interchange format that maximises commonality, while
-  Section~\ref{java-ast-classes} presents the generation of AST
-  classes from this documentation. Section~\ref{parsers} presents a
-  method for generating parsers, scanners, and other related tools for
-  the different extensions, and Section~\ref{typecheckers} presents
+  Section~\ref{java-ast-classes} presents the generation of
+  \emph{Annotated Syntax Tree} (AST) classes from this XML
+  documentation. Section~\ref{parsers} presents a method for
+  generating parsers, scanners, and other related tools for the
+  different the Z extensions, and Section~\ref{typecheckers} presents
   the design of the CZT typecheckers, which are tailored for
-  extendability. Section~\ref{animation} presents the animation method
-  used in the CZT animator, ZLive, and discusses the possible
-  extension to this for animating extensions to
+  extendability and reuse. Section~\ref{animation} presents the
+  animation method used in the CZT animator, ZLive, and discusses the
+  possibility of using this to animate extensions to
   Z. Section~\ref{section-manager} presents the design of the {\em
   section manager}, an integral component of CZT that caches
-  information abouta specifications to improve the efficiency of the
+  information about specifications to improve the efficiency of the
   tools, while Section~\ref{other-tools} briefly discusses other CZT
   tools. Section~\ref{sec:conclusions} concludes the paper and
   discusses the future of the CZT project.
@@ -273,7 +274,7 @@
   \Circus\ and TCOZ parsers, as well as Object-Z and \Circus\
   typecheckers, are under development.  The Object-Z, TCOZ, and
   \Circus\ tools extend the Z tools by adding support for the
-  additional constructs these languages provide.  Each dialect is an
+  additional constructs these languages provide.  Each language is an
   extension of Z, so it is tempting to just keep adding to the tools
   for each extension and use the largest superset of all extensions. For
   example, use the TCOZ tools to parse and typecheck Z. However, this
@@ -284,7 +285,7 @@
   example, Object-Z extends Z with class paragraphs, and TCOZ extends
   Object-Z with concurrency operators, but \Circus\ extends neither of
   these --- only Z. Therefore, CZT requires an approach that produces
-  separate tools for each dialect, maximises the commonality between
+  separate tools for each Z extension, maximises the commonality between
   the parsers, and minimises versioning and maintenance problems via
   reuse.
 
@@ -325,20 +326,21 @@
 The parser and scanner for all Z extensions are maintained in two
 master XML files: one for the parser and one for the scanner. Each
 master file contains several XML tags that are used for substituting
-text for each dialect. For example, the {\tt <package/>} tag is placed
-wherever one would normally write the Java package name, so that each
-parser and scanner can be contained in their own package. The tags
-{\tt <add:}{\em dialect}{\tt >} and {\tt </add:}{\em dialect}{\tt >}
-are used to wrap around code that are specific to particular Z
-extensions. So to add a new type of expression to the Object-Z parser,
-one would add a new production to the expression rule in the master
-file, and place it between the {\tt <add:oz>} and {\tt </add:oz>}
-tags, for example.
+text for each Z extension. For example, the {\tt <package/>} tag is
+placed wherever one would normally write the Java package name, so
+that each parser and scanner can be contained in their own
+package. The tags {\tt <add:}{\em extension}{\tt >} and {\tt </add:}{\em
+extension}{\tt >} are used to wrap around code that are specific to
+particular Z extensions. So to add a new type of expression to the
+Object-Z parser, one would add a new production to the expression rule
+in the master file, and place it between the {\tt <add:oz>} and {\tt
+</add:oz>} tags, for example.
 
-To generate the individual Java Cup files for each dialect, XSLT is
-used to include the necessary code, and to substitute in values for
-tags. For example, to generate the Object-Z parser, XSLT is applied to
-the master file, and supplied with the three arguments below:
+To generate the individual Java Cup files for each extension of Z,
+XSLT is used to include the necessary code, and to substitute in
+values for tags. For example, to generate the Object-Z parser, XSLT is
+applied to the master file, and supplied with the three arguments
+below:
 \begin{enumerate}
   \item {\tt "class"} substituted with {\tt "Parser"}.
   \item {\tt "package"} substituted with {\tt "net.sourceforge.czt.parser.oz"}.
@@ -348,8 +350,8 @@ the master file, and supplied with the three arguments below:
 Additional arguments including the input and output files are also
 required.
 
-Similar rules are specified for each dialect. The result is a series
-of Java Cup and JFlex files, one for each dialect, which can then be
+Similar rules are specified for each Z extension. The result is a series
+of Java Cup and JFlex files, one for each extension, which can then be
 used to generate the parser and scanner code.
 
 The use of XML templates enables parsing code to be reused and easily maintained.
@@ -362,7 +364,7 @@ markup and Unicode, visiting and other facilities.
 
 \subsection{Multiple Markups}\label{multiple-markups}
 
- CZT supports multiple markups for each dialect.  The different
+ CZT supports multiple markups for each Z extension.  The different
  markup languages suit different communities.  For example, \LaTeX\
  is preferred by researchers while Unicode WYSIWYG editing might be
  more attractive for students or industrial users. At present,
@@ -454,7 +456,7 @@ implemented, and converters are used to print the other markups.
 \label{typecheckers}
 
 \begin{quotation}
-[LEO: Comments at paragraphs from: ``To extend a typechecker for another dialect,
+[LEO: Comments at paragraphs from: ``To extend the Z typechecker,
       a new package is created.''
 
       \vspace{5pt}
@@ -489,7 +491,7 @@ implemented, and converters are used to print the other markups.
 \end{quotation}
 
 Typecheckers in CZT are written in a much different way from the parsers
-and scanners. Each dialect has its own typechecker, and while reuse
+and scanners. Each Z extension has its own typechecker, and while reuse
 is of high importance, and using XML templates is unnecessary because
 differently from the parsers, Java interfaces and inheritance can be used to
 extend the typecheckers.
@@ -569,7 +571,7 @@ ExprChecker} class typechecks the {\tt Expr} subtree returning a {\tt
 Type} with resolved reference parameters, in which type unification
 has already taken place.
 
-To extend a typechecker for another dialect, a new package is created, say {\tt oz}.
+To extend the Z typechecker, a new package is created, say {\tt oz}.
 In this package, a new {\tt oz.Checker} class is implemented, which
 inherits the base {\tt z.Checker} class. In this new class, any common
 methods that are to be used by the extended typechecker are implemented.
