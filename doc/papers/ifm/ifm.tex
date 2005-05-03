@@ -76,7 +76,7 @@
   \textit{Unifying Theories of Programming} (UTP) as the semantic
   background~\cite{hoare.utp}.
 
-  In CZT, we aim to provide tool support for all of these dialects,
+  In CZT, we aim to provide tool support for all of these extensions,
   while maximising the commonality between the languages, and
   minimising versioning and maintenance. This paper presents a
   framework for doing so using many different techniques: each suited
@@ -92,9 +92,9 @@
   the design of the CZT typecheckers, which are tailored for
   extendability. Section~\ref{animation} presents the animation method
   used in the CZT animator, ZLive, and discusses the possible
-  extension to this for animating other Z
-  dialects. Section~\ref{section-manager} presents the design of the
-  {\em section manager}, an integral component of CZT that caches
+  extension to this for animating extensions to
+  Z. Section~\ref{section-manager} presents the design of the {\em
+  section manager}, an integral component of CZT that caches
   information abouta specifications to improve the efficiency of the
   tools, while Section~\ref{other-tools} briefly discusses other CZT
   tools. Section~\ref{sec:conclusions} concludes the paper and
@@ -275,7 +275,7 @@
   \Circus\ tools extend the Z tools by adding support for the
   additional constructs these languages provide.  Each dialect is an
   extension of Z, so it is tempting to just keep adding to the tools
-  for each extension and use the largest superset of all dialects. For
+  for each extension and use the largest superset of all extensions. For
   example, use the TCOZ tools to parse and typecheck Z. However, this
   has two distinct problems. Firstly, one aim of the CZT project is to
   create tools that strongly conform to the Z standard, so allowing
@@ -299,7 +299,7 @@
   CZT includes parsers for standard Z specifications given either in
   Unicode or using \LaTeX\ markup.  Support for e-mail markup is
   planned. To produce different parsers and scanners for Z and its
-  dialects, CZT uses XML templates, and generates the code from these
+  extensions, CZT uses XML templates, and generates the code from these
   templates using XSLT, a language for transforming XML. Java
   Cup\footnote{See
   \url{http://www.cs.princeton.edu/\~{}appel/modern/java/CUP/}} is
@@ -322,17 +322,18 @@
   XML translation tools.  This maximises the commonality between the
   parsers and minimises versioning and maintenance problems.
 
-The parser and scanner for all dialects are maintained in two master
-XML files: one for the parser and one for the scanner. Each master
-file contains several XML tags that are used for substituting text for
-each dialect. For example, the {\tt <package/>} tag is placed wherever
-one would normally write the Java package name, so that each parser
-and scanner can be contained in their own package. The tags {\tt
-<add:}{\em dialect}{\tt >} and {\tt </add:}{\em dialect}{\tt >} are
-used to wrap around code that are specific to particular dialects. So
-to add a new type of expression to the Object-Z parser, one would add
-a new production to the expression rule in the master file, and place
-it between the {\tt <add:oz>} and {\tt </add:oz>} tags, for example.
+The parser and scanner for all Z extensions are maintained in two
+master XML files: one for the parser and one for the scanner. Each
+master file contains several XML tags that are used for substituting
+text for each dialect. For example, the {\tt <package/>} tag is placed
+wherever one would normally write the Java package name, so that each
+parser and scanner can be contained in their own package. The tags
+{\tt <add:}{\em dialect}{\tt >} and {\tt </add:}{\em dialect}{\tt >}
+are used to wrap around code that are specific to particular Z
+extensions. So to add a new type of expression to the Object-Z parser,
+one would add a new production to the expression rule in the master
+file, and place it between the {\tt <add:oz>} and {\tt </add:oz>}
+tags, for example.
 
 To generate the individual Java Cup files for each dialect, XSLT is
 used to include the necessary code, and to substitute in values for
@@ -425,15 +426,15 @@ specification, a unique Unicode mapping must be provided for the
 base name.
 
 The price to pay for such flexibility is a slower parsing experience
-whenever too complex markup is found.
-We are currently working in ways around this performance penalty.
-One possible optimisation is to have the option to use hard-coded versions
-of standard sections such as the Z toolkit.
-Since most Z section specifications do include the Z toolkit, then this should
-improve parsing performance considerably because no parsing will be necessary for
-the Z toolkit included as a parent of other used-defined Z sections.
-This notion can be generalised for other dialects, provided their extended toolkits
-reach an enabling level of stability.
+whenever too complex markup is found.  We are currently working in
+ways around this performance penalty.  One possible optimisation is to
+have the option to use hard-coded versions of standard sections such
+as the Z toolkit.  Since most Z section specifications do include the
+Z toolkit, then this should improve parsing performance considerably
+because no parsing will be necessary for the Z toolkit included as a
+parent of other used-defined Z sections.  This notion can be
+generalised for other Z extensions, provided their extended toolkits reach
+an enabling level of stability.
 
 To parse a specification written using a new markup, for example, the
 e-mail text-based markup, one only has to implement an e-mail to Unicode
@@ -764,7 +765,7 @@ a full compliance typechecker should not be too difficult.
     for GUI front-end animation for other CZT Z extensions such as Object-Z or \Circus.
     This is another argument that strengthens the idea of an interchangeable format with
     the CZT AST classes and ZML markup.
-     such that other Z dialects
+     such that other Z extensions
     can also benefit from GUI front-end animation. Therefore, extending the tool for Object-Z
     or \Circus\ is possible. That is only possible because all tools share the same
     representation of a Z specification, namely the ZML markup (or the CZT AST classes).
@@ -845,7 +846,7 @@ a full compliance typechecker should not be too difficult.
   containing section foo.  Here, the Z parser is the default command
   to compute data of type \Interface{ZSect.class}.
 
-  When working with different Z extensions or dialects, a different
+  When working with different Z extensions, a different
   parser might be required to parse specification documents.  The
   section manager can be reconfigured to use a different default
   command to compute data of type \Interface{ZSect.class}.  For
