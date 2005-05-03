@@ -129,7 +129,7 @@
   in the XML Schema for ZML can be extended without even touching the
   ZML Schema file.  For example, the XML Schema for Object-Z imports
   the ZML Schema file and defines a new paragraph for classes (element
-  \Element ClassPara) that is derived from element \Element{Para}
+  \Element{ClassPara}) that is derived from element \Element{Para}
   defined in the ZML Schema.  Instance documents of the Object-Z
   Schema can now contain class paragraphs in addition to the Z
   paragraphs wherever a paragraph is expected.  The same strategy has
@@ -285,10 +285,6 @@
   JFlex\footnote{See \url{http://jflex.de/}} is used to generate the
   scanners. Neither of these tools explicitly supports inheritance for
   parser or scanners respectively.
-
-  [LEO: What is XSL/XSLT? Is it too obvious, or should it have a
-  reference? {\bf Petra} I tried to add an explanation.  Do you think
-  this is sufficient?]
 
 The parser and scanner for all dialects are maintained in two master
 XML files: one for the parser and one for the scanner. Each master
@@ -567,7 +563,7 @@ that expression, hence reusing the code implementation for the base language.
 Finally, a new {\tt oz.TypeChecker} class, which inherits the base {\tt z.TypeChecker},
 is created aggregating (by reference) the new type-rule visitors.
 Since it inherits from the {\tt z.TypeChecker}, the original type-rule visitors
-are accessible to enabled the extended typechecker to forward type-rule visitorss to the base typechecker.
+are accessible to enabled the extended typechecker to forward type-rule visitors to the base typechecker.
 Because visitor interfaces are used, the underlying implementation of the extended typechecker
 need not inherit from the base typechecker, and the way to access these type-rule visitors via
 the {\tt TypeChecker} class remains the same.
@@ -782,23 +778,23 @@ a full compliance typechecker should not be too difficult.
   Most of the tools mentioned in the previous sections use the section
   manager to enquire about specific aspects of a specification.  The
   section manager caches information about all the specifications and
-  Z sections that are being processed; records dependencies between
-  them; finds imported sections and toolkits; automatically runs tools
-  such as markup converters, parsers and typecheckers when necessary;
-  and is extensible to support user-defined commands.
+  Z sections that are being processed;~records dependencies between
+  them;~finds imported sections and toolkits;~automatically runs tools
+  such as markup converters, parsers and typecheckers when necessary;~and
+  is extensible to support user-defined commands.
 
   The CZT section manager can store any kind of data and is therefore
-  independent of the Z dialect used.  The cache is basically a mapping
+  independent of the Z extension used.  The cache is basically a mapping
   from a key to the actual data.  The key is a pair of a string,
   usually the name of the section, and a description of the type of
   data cached under this key.  For example, the Z parser adds the AST
   representation of a specification it has parsed to the section
   manager.  The type of a Z section in Java is
   \Interface{ZSect.class}, thus the AST for a section called foo is
-  cached under the key (``foo'',~ZSect.class).
+  cached under the key \texttt{(``foo'',~ZSect.class)}.
 
   The default commands of the section manager are responsible to
-  automatically compute requested data about sections.  For example,if
+  automatically compute requested data about sections. For example, if
   the AST (i.e. data of type \Interface{ZSect.class}) for section foo
   is required and has not already been cached, the Z parser is called
   by the section manager in order to parse the specification file
@@ -814,21 +810,31 @@ a full compliance typechecker should not be too difficult.
 
 \section{Other Tools}
 
-    \begin{itemize}
-        \item[LEO]
+[LEO: Shall we mention the zpatt package here?]
+
+\subsection{Testing Suites}
+
+testing facilities (and test cases performed) in the CZT
+
+\subsection{Converters}
+
+z2b, zml2xhtml
+
+\subsection{Available Front-Ends}
+
+jedit, beanshell
+
+\section{Conclusions and Future Work} \label{sec:conclusions}
+
+\subsection{\Circus\ to JCSP}
+
         There is another tool under development that translates \Circus\ (Latex) specifications into Java code.
         It uses JCSP (a java csp-occam library) that allows execution of \Circus.
         In the Z part, due to the lack of tools, extreme simplifications (via data refinement in the original \Circus)
         are needed.
         This tool could also use ZLive to be able to animate/execute (run!) more expressive \Circus\ specifications quite
         automatically, or at least minimise the data refinement effort required for the translation.
-    \end{itemize}
 
-    \begin{itemize}
-        \item[LEO]: I think we should also mention the testing facilities (and test cases performed) in the CZT!
-    \end{itemize}
-
-\section{Conclusions and Future Work} \label{sec:conclusions}
 
 \section*{Acknowledgements}
 
