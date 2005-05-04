@@ -289,6 +289,12 @@
   \begin{itemize}
     \item[LEO] Ok. What do you think about the idea of hard-coded toolkits to
                improve performance that I've included in Section~\ref{multiple-markups}?
+    \item[Petra] I suspect it wouldn't help much.  I think we even
+                 tried to use ZML versions of the toolkit (is that
+                 what you mean with hard-coded toolkits?), but then
+                 the loading time for JAXB and XML parser classes made
+                 it slow again.  Having a section manager helps since
+                 it makes sure that the toolkit is only parsed once.
   \end{itemize}
 
 \subsection{Parsers and Scanners}
@@ -360,14 +366,16 @@ facilities.
 \subsection{Multiple Markups}\label{multiple-markups}
 
  CZT supports multiple markups for each Z extension.  The different
- markup languages suit different communities.  For example, \LaTeX\
- is preferred by researchers while Unicode WYSIWYG editing might be
- more attractive for students or industrial users. At present,
- Unicode, \LaTeX, and the ZML format are supported~\cite{UttEA:03},
- but adding additional markups is straightforward, as this section
- will present.  ZML scanning will not be discussed here, because it is
- quite different to the other markups. Section~\ref{java-ast-classes}
- discusses the production of AST classes from ZML.
+ markup languages suit different communities.  For example, \LaTeX\ is
+ preferred by researchers while Unicode WYSIWYG editing might be more
+ attractive for students or industrial users. At present, Unicode,
+ \LaTeX, and the XML format are supported.  Adding additional markups
+ is straightforward, as this section will present.  XML markup is not
+ considered any further because it can be parsed immediatly using
+ existing XML parsers.  CZT uses
+ JAXB\footnote{\url{http://java.sun.com/xml/jaxb/}} to unmarshal an
+ XML document into a tree of Java objects, and then uses the visitor
+ design pattern to convert this tree into an AST.
 
 The CZT parsers are markup independent, but all of our scanners
 provide their respective parsers with Unicode when scanning Z variable
@@ -383,6 +391,7 @@ declarations in the Z toolkit would be in \LaTeX~instead of
 Unicode. To work around this problem, all markups are converted to
 Unicode, therefore allowing different sections of a specification to
 be written in different markups.
+
 With this architecture, each Z extension can also provide its own
 particular toolkit extension given as a \LaTeX\ specification file.
 The extended toolkits usually contains keywords, special symbols,
@@ -444,9 +453,50 @@ syntax trees into the different markups. However, instead of
 implementing a printer for each markup, only a Unicode printer is
 implemented, and converters are used to print the other markups.
 
+  \begin{itemize}
+    \item[Petra] Below is another version of this section.  I started
+    with a few changes and ended up rewriting everything.  No idea
+    what to do now ...
+  \end{itemize}
+
+[First paragraphs stays the same]
+
+In order to avoid having to provide a parser for each markup language,
+all specifications are first translated into Unicode and subsequently
+parsed by a Unicode parser\footnote{See \cite{czt} for a more detailed
+description of the parser architecture.}.  This makes also sure that
+names in the AST are markup independent: they are represented in
+Unicode independently on the actual markup used in the source
+document.  This is a necessary precondition to allowing different
+sections of a specification to be written in different markups.
+
+Another consequence of this architecture is that extensions of Z need
+to support at least Unicode.  CZT provides a Z Unicode scanner, which
+performs lexical analysis on a Unicode stream and breaks it into the
+necessary tokens.  A scanner for a Z extension can be derived by
+adding additional scanner rules to the CZT scanner template as
+described above.  In order to support \LaTeX\ markup, it is convenient
+to provide a \LaTeX\ toolkit section for a given extension.  In
+addition to defining new operators, these \LaTeX\ markup documents
+contain \LaTeX\ markup directives~\cite{isoz,czt} used to specify how
+certain \LaTeX\ commands are to be converted into Unicode.  The
+\LaTeX\ to Unicode translator parses these definitions and converts
+each \LaTeX\ command into the corresponding Unicode sequence.
+However, \LaTeX\ \verb+\begin{xxx}+ and \verb+\end{xxx}+ commands
+cannot be defined using \LaTeX\ markup directives.  If a Z extension
+needs to provide new paragraphs, the \LaTeX\ to Unicode converter
+needs to be adapted directly.  Again, this is possible by adding new
+rules to the converter template file.
+
+
 \subsection{Extending Tools using Visitors}
 \label{extending-visitors}
 
+  \begin{itemize}
+    \item[Petra] Can this subsection be removed?  The visitor is
+    described in section ``Java AST classes'', so examples could go
+    there.
+  \end{itemize}
 
 \section{Typecheckers}
 \label{typecheckers}
