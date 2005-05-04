@@ -43,8 +43,8 @@
   usefulness of such an integrated framework.
 
   \noindent
-  \textbf{Keywords}: Standard Z, Object-Z, \Circus, TCOZ, design patterns, parsing, typechecking, animation.
-
+  \textbf{Keywords}: Standard Z, Object-Z, \Circus, TCOZ, design patterns, framework,
+                     AST, parsing, typechecking, animation.
 \end{abstract}
 
 \section{Introduction} \label{sec:intro}
@@ -199,8 +199,8 @@
   from the XML Schemas described in the previous section using our
   code generator \emph{GnAST} (GeNerator for AST).  The generated code
   looks similar to the code Java data binding tools like
-  JAXB\footnote{\url{http://java.sun.com/xml/jaxb/}} or
-  Castor\footnote{\url{http://www.castor.org/}} are producing.  The
+  JAXB~\footnote{\url{http://java.sun.com/xml/jaxb/}} or
+  Castor~\footnote{\url{http://www.castor.org/}} are producing.  The
   generated Java interfaces and classes represent the structures
   defined in the XML Schema instance document.  While the main purpose
   of a Java binding tool is to provide the ability to convert from XML
@@ -285,18 +285,6 @@
   for each Z extension, maximises the commonality between the parsers,
   and minimises versioning and maintenance problems via reuse.
 
-
-  \begin{itemize}
-    \item[LEO] Ok. What do you think about the idea of hard-coded toolkits to
-               improve performance that I've included in Section~\ref{multiple-markups}?
-    \item[Petra] I suspect it wouldn't help much.  I think we even
-                 tried to use ZML versions of the toolkit (is that
-                 what you mean with hard-coded toolkits?), but then
-                 the loading time for JAXB and XML parser classes made
-                 it slow again.  Having a section manager helps since
-                 it makes sure that the toolkit is only parsed once.
-  \end{itemize}
-
 \subsection{Parsers and Scanners}
 
   CZT includes parsers for standard Z specifications given either in
@@ -308,7 +296,7 @@
   \url{http://www.cs.princeton.edu/\~{}appel/modern/java/CUP/}} is
   used to generate the CZT parsers from an LALR grammar, and
   JFlex\footnote{See \url{http://jflex.de/}} is used to generate the
-  scanners. 
+  scanners.
 
   \begin{itemize}
     \item[Tim] I have moved this paragraph below from the opening
@@ -496,45 +484,12 @@ rules to the converter template file.
     \item[Petra] Can this subsection be removed?  The visitor is
     described in section ``Java AST classes'', so examples could go
     there.
+    \item[Leo] I think so, we could just expand the visiting descriptions
+        there and point out to the ZandB paper.
   \end{itemize}
 
 \section{Typecheckers}
 \label{typecheckers}
-
-\begin{quotation}
-[LEO: Comments at paragraphs from: ``To extend the Z typechecker,
-      a new package is created.''
-
-      \vspace{5pt}
-
-      These paragraphs are too dense. They require (or presume) good knowledge of
-      the underlying architecture. For example, the intrinsic relationship between
-      individual checkers and the main typechecker class, or the unification environment.
-      I suggest to change some of it, perhaps with a running example, so that it is easier
-      for the naive reader to follow.
-      Moreover, although I understand the argument for the unusual design,
-      I think it ought to be strengthened. As it is, it does not sound convincing
-      enough perhaps because of the text's density. The example with oz could be
-      a good thing to come earlier, but it is far from clear.
-
-      \vspace{5pt}
-
-      Tim, what do you think? Does it make sense?
-      I will include some text and rearrange text a little to (hope
-      to) improve clarity.
-
-      [Tim]: Leo, this is very good. I only hacked this up on Friday
-      and hadn't read it at all, but these changes are very nice.
-
-      Remark: on the code example given, the class {\tt oz.ExprVisitor} is mentioned.
-      Don't you mean {\tt oz.ExprChecker}?
-
-     [Tim]: Yes indeedly.
-
-      Please, let me know what do you think, ok? So that I do not include any non-sense! :)
-      I will also blend my experiences with the \Circus\ typechecker in the end.
-      ]
-\end{quotation}
 
 Typecheckers in CZT are written in a much different way from the parsers
 and scanners. Each Z extension has its own typechecker, and while reuse
@@ -935,7 +890,58 @@ straightforward.
 \section{Other Tools}
 \label{other-tools}
 
-[LEO: Shall we mention the zpatt package here?]
+\begin{itemize}
+    \item[Leo] Shall we mention the zpatt package here as well?
+\end{itemize}
+
+\subsection{From \Circus\ to Java}
+
+\begin{itemize}
+    \item[Leo] Should it be here or in the future work section?
+\end{itemize}
+
+There is ongoing research in a translation strategy from \Circus\ to Java~\cite{angela-2005}.
+In a \Circus\ specification, CSP operators given as actions, as well as Z paragraphs are intermixed.
+The strategy expects a concrete \Circus\ specification refined using both CSP and Z refinement laws
+using tools such as FDR~\cite{csp.tools:fdrm} and a Z refinement tool~\cite{angela-2003}.
+The approach for translation is basically to traverse an AST representing the specification,
+recursively applying the refinement steps to each node.
+It then consists of a number of further refinement steps applied to the concrete specification in
+order to get closer to what the Java code would look like~\cite{marcel-2004}.
+
+The requirements of the translation tool are well-defined by the translation strategy.
+The implementation and verification is based on a series of case studies written using \LaTeX\ markup.
+The tool will be used to perform the verification of the some of the translation laws given in~\cite{marcel-2004}.
+The verification technique employed is similar to the one given in~\cite{welch-martin2000}.
+However, instead of CSP it uses \Circus, and instead of model checking with FDR~\cite{csp.tools:fdrm} it
+uses the refinement calculus~\cite{fm.ref:morgan}.
+This will form the bases for a \Circus\ model for Java.
+
+With the construction of further tools for \Circus\ such as a model checker~\cite{circus.mc:leo},
+and a theorem prover~\cite{circus.sem:pp}, these refinement stages can be done in a much more
+integrated fashion with less expressibility and semantic compromises due to restrictions among
+different tool input formats and semantics.
+In this scenario, the CZT tools could play an important integrating role.
+
+For the CSP parts, the translation strategy use JCSP~\footnote{\url{http://www.cs.ukc.ac.uk/projects/ofa/jcsp/}},
+an implementation of \texttt{occam}~\cite{csp.tools:occam} in Java that offers most important
+CSP primitives for concurrency, hence allowing a subset of CSP to be directly translated into Java
+code for execution. Although Java natively provides some concurrent features such as shared locks and
+synchronisation, these do not stop the programmer to introduce race hazards and deadlocks.
+JCSP then acts as a layer between the programmer and the language to free the the latter from
+dealing with concurrent code complexities.
+The advantage of JCSP is that it shifts the focus from worrying about deadlocks and race hazard,
+to the actual behaviour to be implemented, hence simplifying the programmer's work.
+For the Z part, the strategy relies on the previous refinement steps to have reached a concrete
+enough state and operations representation so that they can be directly implemented using Java data types.
+At this point, the use of ZLive could represent an interesting improvement in the expressibility
+of specifications the translation can handle, as well as alleviating the need for numerous refinement iterations.
+
+As the support for \Circus\ in the CZT matures, tools such as this can directly benefit
+not only from the animation point of view through ZLive, but also by other available facilities.
+For example, as \Circus\ is represented in the CZT AST, this translation tool can directly
+benefit from the many advantages already discussed in the paper.
+This shows the extent to which such an integrated framework planned for extension can reach.
 
 \subsection{Testing Suites}
 
@@ -950,16 +956,6 @@ z2b, zml2xhtml
 jedit, beanshell
 
 \section{Conclusions and Future Work} \label{sec:conclusions}
-
-\subsection{\Circus\ to JCSP}
-
-        There is another tool under development that translates \Circus\ (Latex) specifications into Java code.
-        It uses JCSP (a java csp-occam library) that allows execution of \Circus.
-        In the Z part, due to the lack of tools, extreme simplifications (via data refinement in the original \Circus)
-        are needed.
-        This tool could also use ZLive to be able to animate/execute (run!) more expressive \Circus\ specifications quite
-        automatically, or at least minimise the data refinement effort required for the translation.
-
 
 \section*{Acknowledgements}
 
