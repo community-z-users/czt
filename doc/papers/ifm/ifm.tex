@@ -32,15 +32,17 @@
 
 
 \begin{abstract}
-  The Community Z Tools (CZT) is an integrated framework for supporting the Z formal notation
-  and its multiple extensions. Through extensible design patterns it considerably improves
-  code reuse, maintainability, debugging, and so on.
-  The main facilities provided are parsing, typechecking, and an interchangeable markup format
-  that conforms with the Z ISO standard. This markup format accepts inputs such as \LaTeX,
-  Unicode, and e-mail. Furthermore, other facilities like animation, persistence, and automated
-  GUI building are also available.
-  The available Z extensions are present across all these facilities, hence showing the
-  usefulness of such an integrated framework.
+  The Community Z Tools (CZT) is an integrated framework for
+  supporting the Z formal notation and its multiple
+  extensions. Through extensible design patterns it considerably
+  improves code reuse, maintainability, debugging, and so on.  The
+  main facilities provided are parsing, typechecking, and an
+  interchangeable markup format that conforms with the Z ISO
+  standard. This markup format accepts inputs such as \LaTeX, Unicode,
+  and e-mail. Furthermore, other facilities like animation,
+  persistence, and automated GUI building are also available.  The
+  available Z extensions are present across all these facilities,
+  hence showing the usefulness of such an integrated framework.
 
   \noindent
   \textbf{Keywords}: Standard Z, Object-Z, \Circus, TCOZ, design patterns, framework,
@@ -365,100 +367,16 @@ facilities.
  XML document into a tree of Java objects, and then uses the visitor
  design pattern to convert this tree into an AST.
 
-The CZT parsers are markup independent, but all of our scanners
-provide their respective parsers with Unicode when scanning Z variable
-names, for instance. The reason for this is straightforward: Z specifications
-are made up of sections, with each section having a name and a list of
-parent sections. The definitions in a parent section are included in
-the child section for a specification. For example, the Z toolkit is
-specified as a series of \LaTeX\ sections. Now, consider the case in
-which a person would like to use the Z toolkit, but would like to use
-Unicode for their own specifications. This would require CZT to
-provide a Z toolkit in Unicode, because the names used for
-declarations in the Z toolkit would be in \LaTeX~instead of
-Unicode. To work around this problem, all markups are converted to
-Unicode, therefore allowing different sections of a specification to
-be written in different markups.
-
-With this architecture, each Z extension can also provide its own
-particular toolkit extension given as a \LaTeX\ specification file.
-The extended toolkits usually contains keywords, special symbols,
-and commonly used functionality described with standard Z templates, for instance.
-
-Therefore, CZT provides a Unicode scanner, which performs lexical
-analysis on a Unicode stream and breaks it into the necessary
-tokens. CZT's \LaTeX~scanner, instead of implementing all of the
-scanner rules, converts its \LaTeX~stream into a Unicode stream. In
-addition to solving the problem discussed above, this greatly
-simplifies the \LaTeX~scanner, because much of the conversion is
-straightforward in comparison to scanning Z tokens. Moreover, location
-information is recorded in the ASTs using annotations on each of the
-nodes, and this points to the location in the original specification file.
-
-Of course, the \LaTeX~to Unicode scanner needs to know how to convert
-\LaTeX~tokens into Unicode. This is done by specifying, in the \LaTeX\
-file that the token is first used, the corresponding Unicode
-representation for each \LaTeX~token used. For example, in the Z
-toolkit \LaTeX~file, the following rule is written specifying the
-\LaTeX\ token for powerset (\verb+\power+):
-\begin{verbatim}
-  %%Zprechar \power U+2119
-\end{verbatim}
-%
-The {\tt \%\%Zprechar} keyword specifies that \verb+\power+ is a
-prefix character that always has a hard space after it, and that its
-Unicode equivalent is U+2119. There are
-similar operators for postfix, infix, and nofix characters, as well as
-words.
-
-An additional component parses these definitions, and records this in
-a symbol table. Each time a \LaTeX~token is read, a lookup is
-performed on this table to find the Unicode mapping. If the lookup
-fails because the token is not in the table, a warning is issued, and
-the \LaTeX~token is used, minus the \verb+\+ token at the
-front. Therefore, for each new \LaTeX~token introduced into a
-specification, a unique Unicode mapping must be provided for the
-\LaTeX~to Unicode scanner, or be content with using the \LaTeX~token's
-base name.
-
-The price to pay for such flexibility is a slower parsing experience.
-We are currently working in ways around this performance penalty.  One
-possible optimisation is to have the option to use hard-coded versions
-of standard sections such as the Z toolkit.  Since most Z section
-specifications do include the Z toolkit, then this should improve
-parsing performance considerably because no parsing will be necessary
-for the Z toolkit included as a parent of other used-defined Z
-sections.  This notion can be generalised for other Z extensions,
-provided their extended toolkits reach an enabling level of stability.
-
-To parse a specification written using a new markup, for example, the
-e-mail text-based markup, one only has to implement an e-mail to Unicode
-scanner. This approach has an additional advantage: the scanners can function as
-converters between different markups without have to parse the
-specifications. This simplifies many other tools in the suite as
-well. For example, the CZT tool suite provides printing of abstract
-syntax trees into the different markups. However, instead of
-implementing a printer for each markup, only a Unicode printer is
-implemented, and converters are used to print the other markups.
-
-  \begin{itemize}
-    \item[Petra] Below is another version of this section.  I started
-    with a few changes and ended up rewriting everything.  No idea
-    what to do now ...
-  \end{itemize}
-
-[First paragraphs stays the same]
-
 In order to avoid having to provide a parser for each markup language,
 all specifications are first translated into Unicode and subsequently
 parsed by a Unicode parser\footnote{See \cite{czt} for a more detailed
-description of the parser architecture.}.  This makes also sure that
+description of the parser architecture.}.  This also makes sure that
 names in the AST are markup independent: they are represented in
 Unicode independently on the actual markup used in the source
 document.  This is a necessary precondition to allowing different
 sections of a specification to be written in different markups.
 
-Another consequence of this architecture is that extensions of Z need
+A consequence of this architecture is that extensions of Z need
 to support at least Unicode.  CZT provides a Z Unicode scanner, which
 performs lexical analysis on a Unicode stream and breaks it into the
 necessary tokens.  A scanner for a Z extension can be derived by
@@ -477,15 +395,91 @@ needs to be adapted directly.  Again, this is possible by adding new
 rules to the converter template file.
 
 
-\subsection{Extending Tools using Visitors}
-\label{extending-visitors}
+%The CZT parsers are markup independent, but all of our scanners
+%provide their respective parsers with Unicode when scanning Z variable
+%names, for instance. The reason for this is straightforward: Z specifications
+%are made up of sections, with each section having a name and a list of
+%parent sections. The definitions in a parent section are included in
+%the child section for a specification. For example, the Z toolkit is
+%specified as a series of \LaTeX\ sections. Now, consider the case in
+%which a person would like to use the Z toolkit, but would like to use
+%Unicode for their own specifications. This would require CZT to
+%provide a Z toolkit in Unicode, because the names used for
+%declarations in the Z toolkit would be in \LaTeX~instead of
+%Unicode. To work around this problem, all markups are converted to
+%Unicode, therefore allowing different sections of a specification to
+%be written in different markups.
+
+%With this architecture, each Z extension can also provide its own
+%particular toolkit extension given as a \LaTeX\ specification file.
+%The extended toolkits usually contains keywords, special symbols, and
+%commonly used functionality described with standard Z templates, for
+%instance.
+
+%Therefore, CZT provides a Unicode scanner, which performs lexical
+%analysis on a Unicode stream and breaks it into the necessary
+%tokens. CZT's \LaTeX~scanner, instead of implementing all of the
+%scanner rules, converts its \LaTeX~stream into a Unicode stream. In
+%addition to solving the problem discussed above, this greatly
+%simplifies the \LaTeX~scanner, because much of the conversion is
+%straightforward in comparison to scanning Z tokens. Moreover, location
+%information is recorded in the ASTs using annotations on each of the
+%nodes, and this points to the location in the original specification file.
+
+%Of course, the \LaTeX~to Unicode scanner needs to know how to convert
+%\LaTeX~tokens into Unicode. This is done by specifying, in the \LaTeX\
+%file that the token is first used, the corresponding Unicode
+%representation for each \LaTeX~token used. For example, in the Z
+%toolkit \LaTeX~file, the following rule is written specifying the
+%\LaTeX\ token for powerset (\verb+\power+):
+%\begin{verbatim}
+  %%Zprechar \power U+2119
+%\end{verbatim}
+%
+%The {\tt \%\%Zprechar} keyword specifies that \verb+\power+ is a
+%prefix character that always has a hard space after it, and that its
+%Unicode equivalent is U+2119. There are
+%similar operators for postfix, infix, and nofix characters, as well as
+%words.
+
+%An additional component parses these definitions, and records this in
+%a symbol table. Each time a \LaTeX~token is read, a lookup is
+%performed on this table to find the Unicode mapping. If the lookup
+%fails because the token is not in the table, a warning is issued, and
+%the \LaTeX~token is used, minus the \verb+\+ token at the
+%front. Therefore, for each new \LaTeX~token introduced into a
+%specification, a unique Unicode mapping must be provided for the
+%\LaTeX~to Unicode scanner, or be content with using the \LaTeX~token's
+%base name.
+
+%The price to pay for such flexibility is a slower parsing experience.
+%We are currently working in ways around this performance penalty.  One
+%possible optimisation is to have the option to use hard-coded versions
+%of standard sections such as the Z toolkit.  Since most Z section
+%specifications do include the Z toolkit, then this should improve
+%parsing performance considerably because no parsing will be necessary
+%for the Z toolkit included as a parent of other used-defined Z
+%sections.  This notion can be generalised for other Z extensions,
+%provided their extended toolkits reach an enabling level of stability.
+
+Another advantage of this approach is that to parse a specification
+written using a new markup, for example, the e-mail text-based markup,
+one only has to implement an e-mail to Unicode scanner. In addition,
+the scanners can function as converters between different markups
+without have to parse the specifications. This simplifies many other
+tools in the suite as well. For example, the CZT tool suite provides
+printing of abstract syntax trees into the different markups. However,
+instead of implementing a printer for each markup, only a Unicode
+printer is implemented, and converters are used to print the other
+markups.
 
   \begin{itemize}
-    \item[Petra] Can this subsection be removed?  The visitor is
-    described in section ``Java AST classes'', so examples could go
-    there.
-    \item[Leo] I think so, we could just expand the visiting descriptions
-        there and point out to the ZandB paper.
+    \item[Petra] Below is another version of this section.  I started
+    with a few changes and ended up rewriting everything.  No idea
+    what to do now ...
+    \item[Tim] Very nice, Petra! I've merged this in with the first
+    few paragraphs, and the last paragraphs from the ones we have
+    earlier.
   \end{itemize}
 
 \section{Typecheckers}
@@ -922,6 +916,11 @@ and a theorem prover~\cite{circus.sem:pp}, these refinement stages can be done i
 integrated fashion with less expressibility and semantic compromises due to restrictions among
 different tool input formats and semantics.
 In this scenario, the CZT tools could play an important integrating role.
+
+\begin{itemize}
+  \item[Tim] Leo, the bibtex entry for csp.tools.occam did not run
+  through my version. ``phl'' and ``iscs'' were not recognised.
+\end{itemize}
 
 For the CSP parts, the translation strategy use JCSP~\footnote{\url{http://www.cs.ukc.ac.uk/projects/ofa/jcsp/}},
 an implementation of \texttt{occam}~\cite{csp.tools:occam} in Java that offers most important
