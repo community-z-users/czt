@@ -578,26 +578,34 @@ action code
       }
     }
 
-    private OpTable getOperatorTable(String section)
-      throws CommandException
+    private OpTable getOperatorTable(String section, int line, int column)
+      throws ParseException
     {
-      return (OpTable) sectInfo_.get(new Key(section, OpTable.class));
+      try {
+        return (OpTable) sectInfo_.get(new Key(section, OpTable.class));
+      }
+      catch (CommandException e) {
+        Object [] args = { section,
+                           new LocInfo(file_, line, column) };
+        parser.report_error(ParseMessage.MSG_PARENT_NOT_FOUND, args);
+        return null;
+      }
     }
 
     private void resetOpTable(String section, List parents,
                               int line, int column)
-      throws CommandException
+      throws ParseException
     {
       List parentOpTables = list();
       if (PRELUDE.equals(section)) {
         assert parents.size() == 0;
       }
       else {
-        OpTable parentOp = getOperatorTable(PRELUDE);
+        OpTable parentOp = getOperatorTable(PRELUDE, line, column);
         if (parentOp != null) parentOpTables.add(parentOp);
         for (Iterator iter = parents.iterator(); iter.hasNext();) {
           final String parent = ((Parent) iter.next()).getWord();
-          parentOp = getOperatorTable(parent);
+          parentOp = getOperatorTable(parent, line, column);
           if (parentOp != null) {
             parentOpTables.add(parentOp);
           }
