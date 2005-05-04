@@ -86,7 +86,6 @@ public class TypeEnv
       result.addAll(declNames);
     }
     return result;
-    //return parameters_;
   }
 
   public void add(DeclName declName, Type type)
