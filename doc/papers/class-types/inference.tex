@@ -90,7 +90,7 @@ algorithm.
   {\bf fun} & $intersect(\psi_1:\power ClassRef, \psi_2:\power ClassRef) : \bool =$\\
    & \quad\quad$\exists r_1 \in \psi_1; r_2 \in \psi_2 @$\\
    & \quad\quad\quad\quad $r_1.refName = r_2.refName \land \#r_1.type = \#r_2.type \land$\\
-   & \quad\quad\quad\quad $r_1.rename = r_2.rename \land$\\
+%   & \quad\quad\quad\quad $r_1.rename = r_2.rename \land$\\
    & \quad\quad\quad\quad $\forall n \in \dom r_1.type @
        weakUnify(r_1.type(n), r_2.type(n))$
 \end{tabular}
@@ -129,7 +129,7 @@ If two class types are unified, the algorithm checks that the set of
 class references in the signatures are intersect using the $intersect$
 function. $intersect$ returns true if and only if there exists a class
 reference in both sets of class references with the same class name,
-same feature renames, and each of the instantiated types unify.
+and for which each of the instantiated types unify.
 
 If any of generic parameters have not been explicitly instantiated,
 that is, their types are variables, then the unification algorithm
@@ -179,7 +179,8 @@ shown in Figure~\ref{equal-classref}.
   {\bf fun} & $equal(\psi_1:\power ClassRef, \psi_2:\power ClassRef) : \bool =$\\
    & \quad\quad$\#\psi_1 = \#\psi_2 \land$\\
    & \quad\quad$\forall r_1 \in \psi_1 @ \exists r_2 \in \psi_2 | r_1.refName = r_2.refName @$\\
-   & \quad\quad\quad\quad $\#r_1.type = \#r_2.type \land r_1.rename = r_2.rename \land$\\
+   & \quad\quad\quad\quad $\#r_1.type = \#r_2.type \land$\\
+% \land r_1.rename = r_2.rename \land$\\
    & \quad\quad\quad\quad $\forall n \in \dom r_1.type @
        weakUnify(r_1.type(n), r_2.type(n))$
 \end{tabular}
@@ -189,6 +190,6 @@ shown in Figure~\ref{equal-classref}.
 
 The $equal$ function returns true if and only if for each class
 reference in either set, there is a class reference in the other set
-with the same class name, same feature renames, and each of the
-instantiated types unify.
+with the same class name, and for which each of the instantiated types
+unify.
 

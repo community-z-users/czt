@@ -96,12 +96,7 @@ are declared using $A$: one with $X$ instantiated to $\nat$ and the
 other to $\power \nat$. The equality $a_{1} = a_{2}$ is type incorrect
 because $A[\nat]$ and $A[\power \nat]$ are disjoint sets of object
 identities. If only the class name is used, we cannot not detect this,
-because the types of both instances is $\{A\}$. In addition, Object-Z
-supports the renaming of features in a class, for example, renaming an
-operation. The class $A$ with operation $op$ is disjoint from the
-class $A[newOp/op]$, which is the class $A$ with the oepration $op$
-renamed to $newOp$. Again, using only class names is not flexible
-enough to support this.
+because the types of both instances is $\{A\}$. 
 
 \begin{figure}[t]
 \input{fig/generic-class-A.tex}
@@ -121,6 +116,15 @@ polymorphic core of $\{A,B,C\}$ each time it is referenced. We believe
 a class type that records features, including those inherited from any
 superclasses, simplifies and optimises the implementation of the
 typechecker.
+
+In addition, Object-Z supports the renaming of features in a class,
+for example, renaming an operation. The class $A$ with operation $op$
+is not disjoint from the class $A[newOp/op]$, which is the class $A$ with
+the operation $op$ renamed to $newOp$. The Object-Z reference manual
+\cite{smith00} defines the set of object identites of a renamed class
+to be equal to that of its base class. Using only the object
+identities is not flexible enough to detect whether a reference to a
+feature is valid.
 
 The purpose of the work in this paper is to extend Chen's model with a
 way of modelling classes to provide a suitable class type that
