@@ -32,17 +32,23 @@
 
 
 \begin{abstract}
-  The Community Z Tools (CZT) is an integrated framework for
-  supporting the Z formal notation and its multiple
-  extensions. Through extensible design patterns it considerably
-  improves code reuse, maintainability, debugging, and so on.  The
-  main facilities provided are parsing, typechecking, and an
-  interchangeable markup format that conforms with the Z ISO
-  standard. This markup format accepts inputs such as \LaTeX, Unicode,
-  and e-mail. Furthermore, other facilities like animation,
-  persistence, and automated GUI building are also provided.  The
-  available Z extensions are present across all these facilities,
-  hence showing the usefulness of such an integrated framework.
+  The Community Z Tools (CZT) is an integrated
+  framework for the Z formal specification language.  In this
+  paper, we show how it is also designed to support extensions
+  of Z, in a way that minimises the work required to build a
+  new Z extension.  The goals of the framework are to maximise
+  extensibility and reuse, and minimise code duplication and
+  maintenance effort.  To achieve these goals, CZT uses a variety of
+  different reuse mechanisms, including generation of Java
+  code from a hierarchy of XML schemas, XML templates for shared
+  code, and several design patterns for maximising reuse of Java
+  algorithms.
+  %
+  The CZT framework is being used to implement several integrated
+  formal methods, which add object-orientation, real-time features
+  and process algebra extensions to Z.  The effort required to
+  implement such extensions of Z has been dramatically reduced
+  by using the CZT framework.
 
   \noindent
   \textbf{Keywords}: Standard Z, Object-Z, \Circus, TCOZ, design patterns, framework,
@@ -57,11 +63,24 @@
   Z Tools (CZT) project~\cite{czt} is an open-source Java framework
   for building formal methods tools for Z and Z extensions.
 
+  CZT provides the basic tools expected in a Z environment, such as
+  conversion between \LaTeX, Unicode and XML formats for Z, and
+  parsing, unparsing, typechecking and animation tools.
+  There are also several more experimental tools under development,
+  such as a Z-to-B translator and a semi-automated GUI-builder for
+  Z specifications.  However, the main design goal of CZT is to
+  provide a framework which makes it easy to develop new Z tools.
+  This paper describes how the framework also makes it easy to develop
+  tools for extensions of Z.
+
   In recent years, there has been an increasing interest in combining
   different programming paradigms within an uniform formal notation,
-  where Z plays a central role. This gave rise to many Z extensions that
-  includes process algebras~\cite{fischer-1998,fischer-2000,circus.sem:intro},
-  object orientation~\cite{oz,ohcircus}, time~\cite{tcoz,circus.sem:real.time2},
+  where Z plays a central role. This has given rise to many Z
+  extensions, which add features such as
+  %
+  process algebras~\cite{fischer-1998,fischer-2000,circus.sem:intro}, 
+  object orientation~\cite{oz,ohcircus},
+  time~\cite{tcoz,circus.sem:real.time2},
   mobility~\cite{circus.sem:mobility}, and so forth.
 
   Among these extensions, CZT supports Object-Z~\cite{oz}, a
@@ -78,12 +97,12 @@
   He's \textit{Unifying Theories of Programming} (UTP) as the semantic
   background~\cite{hoare.utp}.
 
-  In CZT, we aim to provide tool support for all of these extensions,
-  while maximising the commonality between the languages, and
-  minimising versioning and maintenance. This paper presents a
-  framework for doing so using many different techniques, each suited
-  to the type of tool that is being implemented. {\bf This paragraph is
-  not quite there!!}
+  This paper describes the engineering techniques used in the CZT framework
+  to maximise extensibility and reuse.
+  Most of these techniques could also be applied to frameworks
+  for other integrated formal methods, especially when the
+  framework must support several different extensions of a common
+  base language (like the role of Z in CZT).
 
   In Section~\ref{xml-schemas}, we present a method for specifying an
   XML interchange format that maximises commonality, while
