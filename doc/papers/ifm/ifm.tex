@@ -871,17 +871,30 @@ should be straightforward.
     \begin{itemize}
         \item[Leo] A sentence about what the section manager is (abstractly) would be good.
                     I reviewed this section and pointed some unclear points, what do you think?
+        \item[Petra] Good points you raised; thanks for reviewing, Leo.
+        \item[Petra] I wonder whether the name ``section manager'' is
+                     appropriate.  What about something like data
+                     manager, specification manager, cache, session
+                     manager, ...
     \end{itemize}
 
-  Most of the tools mentioned in the previous sections use the section
-  manager to enquire about specific aspects of a specification.  The
-  section manager caches information about all the specifications and
-  Z sections that are being processed;~records dependencies between
-  them;~finds imported sections and toolkits;~automatically runs tools
-  such as markup converters, parsers and typecheckers when necessary;~and
-  is extensible to support user-defined commands.
+  Most of the tools mentioned in the previous sections use the
+  \emph{section manager} to enquire about specific aspects of a
+  specification.  For example, to be able to parse a Z section, the Z
+  parser needs the operator definitions of the parent sections.  In
+  order to typecheck a Z section, the section must be parsed and the
+  parents of that section typechecked.  To print a Z section in
+  \LaTeX\ markup, the operator definitions and \LaTeX\ markup
+  directives of the parent sections are needed.
 
-  [Leo: Should we review the punctuation of the last sentence of the paragraph above?]
+  While it is possible to hard-code these dependencies and let, for
+  example, the \LaTeX\ markup printer call the parser for the parent
+  sections directly, it is more convenient, extensible, and efficient
+  to have a kind of data manager that is responsible for this task.
+  The CZT section manager caches information about all the
+  specifications and Z sections that are being processed and
+  automatically runs tools such as markup converters, parsers and
+  typecheckers when necessary.
 
   The CZT section manager can store any kind of data and is therefore
   independent of the Z extension used.  Abstractly, the cache is a
