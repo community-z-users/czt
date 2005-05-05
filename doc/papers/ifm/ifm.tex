@@ -59,9 +59,14 @@
 
   The Z language~\cite{isoz} is a formal specification notation that
   can be used to precisely specify the behaviour of systems, and
-  analyse it via proof, animation, test generation, and so on.  The Community
+  analyse it via proof, animation, test generation, and so on.  
+  Z was approved as an ISO standard in 2002, but currently there are few
+  tools that conform to the standard.\footnote{CADiZ 
+  (\url{http://www-users.cs.york.ac.uk/~ian/cadiz} is the only Z tool
+  that conforms closely to the Z standard.  It is freely available, 
+  but is not open source and does not aim at supporting Z extensions.}
   Z Tools (CZT) project~\cite{czt} is an open-source Java framework
-  for building formal methods tools for Z and Z extensions.
+  for building formal methods tools for standard Z and Z extensions.
 
   CZT provides the basic tools expected in a Z environment, such as
   conversion between \LaTeX, Unicode and XML formats for Z, and
@@ -876,10 +881,16 @@ should be straightforward.
                      appropriate.  What about something like data
                      manager, specification manager, cache, session
                      manager, ...
+	\item[Mark] Yes, I like SpecManager, personally (sounds a bit
+		more high-level than SectionManager, and generic enough
+		that it is applicable to all the Z extensions as well.
     \end{itemize}
 
+  One of the core components of the CZT framework is the 
+  \emph{section manager}, which is an extensible repository for
+  formal methods objects.
   Most of the tools mentioned in the previous sections use the
-  \emph{section manager} to enquire about specific aspects of a
+  section manager to enquire about specific aspects of a
   specification.  For example, to be able to parse a Z section, the Z
   parser needs the operator definitions of the parent sections.  In
   order to typecheck a Z section, the section must be parsed and the
@@ -887,53 +898,57 @@ should be straightforward.
   \LaTeX\ markup, the operator definitions and \LaTeX\ markup
   directives of the parent sections are needed.
 
-  While it is possible to hard-code these dependencies and let, for
+  While it would be possible to hard-code these dependencies and let, for
   example, the \LaTeX\ markup printer call the parser for the parent
   sections directly, it is more convenient, extensible, and efficient
-  to have a kind of data manager that is responsible for this task.
+  to have a central repository that is responsible for this task.
   The CZT section manager caches information about all the
   specifications and Z sections that are being processed and
   automatically runs tools such as markup converters, parsers and
-  typecheckers when necessary.
-
-  The CZT section manager can store any kind of data and is therefore
-  independent of the Z extension used.  Abstractly, the cache is a
-  mapping from a key to the actual data.  The key is a pair of a
-  string, usually the name of the section, and a description of the
-  type of data cached under this key.  For example, the Z parser adds
-  the AST representation of a specification it has parsed to the
-  section manager.  The type of a Z section in Java is
+  typecheckers when necessary.  The caching of the parsed form of
+  commonly used objects, such as standard toolkit sections, avoids
+  repeated parsing and analysis of these objects and can give significant
+  performance improvements.  Abstractly, the cache is a
+  mapping from a key to the actual data.  The key is a $(String,Class)$ pair,
+  where the $String$ is usually the name of the section, and the $Class$ is
+  the Java class of the type of data associated with this key.  This allows
+  several different kinds of objects to be associated with one section,
+  and provides some dynamic type security.
+  For example, the Z parser adds the AST of a specification 
+  it has parsed to the section manager.  The type of a Z section in Java is
   \Interface{ZSect.class}. Thus the AST for a section called \texttt{foo} is
   cached under the key \texttt{(``foo'',~ZSect.class)}.
 
-  The default commands of the section manager are responsible to
-  automatically compute requested data about sections;~they are implemented
-  using the command design pattern~\cite{GamEA:95}. For example, if
-  the AST (i.e. data of type \Interface{ZSect.class}) for section \texttt{foo}
-  is required and has not already been cached, the Z parser is called
-  by the section manager in order to parse the specification file
-  containing section \texttt{foo}.  Here, the Z parser is the default command
-  to compute data of type \Interface{ZSect.class}.
+  The CZT section manager supports two important kinds of extensibility:
+  \begin{description}
+  \item[Type Extensibility:] Z extensions can easily use the section
+    manager to store new types of information, since the flexible
+    $(String,Class)$ key system allows arbitrary Java objects to be stored
+    and retrieved.  That is, the kinds of objects managed by the section 
+    manager is open-ended, rather than being a fixed set of Z-related objects.
+  \item[Command Extensibility:] A Z extension can easily add or override
+    the \emph{default commands} of the section manager.  
+    The default commands of the section manager are responsible for
+    automatically computing requested objects;~they are
+    implemented using the command design pattern~\cite{GamEA:95}. For
+    example, if the AST (i.e. data of type \Interface{ZSect.class})
+    for section \texttt{foo} is required and has not already been
+    cached, the Z parser is called by the section manager in order to
+    parse the specification file containing section \texttt{foo}.
+    Here, the Z parser is the default command to compute data of type
+    \Interface{ZSect.class}.  A Z extension that needs to use a different
+    parser can simply override the default command associated with
+    the type \Interface{ZSect.class}.  For example, the section
+    manager can be configured to always use the Object-Z parser.
+    \end{description}
 
-  [Leo: This last sentence on the paragraph above is unclear to me.]
+  A major advantage of this default command approach is that it simplifies
+  tool development and makes tools more flexible, because a particular
+  tool does not have to know which other tools to use in order to
+  find information about a section --- it simply requests the key that
+  it wants and the section manager will locate the information if it is able.
+  This gives a more flexible, \emph{plugin} style of tool development.
 
-  When working with different Z extensions, a different
-  parser might be required to parse specification documents.  The
-  section manager can be reconfigured to use a different default
-  command to compute data of type \Interface{ZSect.class}.  For
-  example, the section manager can be configured to always use the
-  Object-Z parser.
-
-  [Leo: This last sentence on the paragraph above is unclear to me.
-        Answering ``what is it good for?'' could improve.
-
-        I couldn't quite understand the paragraph below as well :(]
-
-  In addition to caching sections to improve the efficiency of CZT
-  tools, the section manager simplifies tool development because the
-  tools often do not need to know which other tools to use in order to
-  find information about a section --- the section manager will locate
-  the information if it is able.
 
 \section{Other Tools}
 \label{other-tools}
