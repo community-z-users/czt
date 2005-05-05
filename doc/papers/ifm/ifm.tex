@@ -65,8 +65,8 @@
   (\url{http://www-users.cs.york.ac.uk/~ian/cadiz}) is the only Z tool
   that conforms closely to the Z standard.  It is freely available, 
   but is not open source and does not aim at supporting Z extensions.}
-  Z Tools (CZT) project~\cite{czt} is an open-source Java framework
-  for building formal methods tools for standard Z and Z extensions.
+  The Community Z Tools (CZT) project~\cite{czt} is an open-source Java
+  framework for building formal methods tools for standard Z and Z extensions.
 
   CZT provides the basic tools expected in a Z environment, such as
   conversion between \LaTeX, Unicode and XML formats for Z, and
@@ -136,66 +136,95 @@
   The first step in designing the CZT tools and libraries was the
   development of an XML schema that describes an XML markup for Z
   specifications (ZML)~\cite{UttEA:03}.  This is an interchange format
-  that can be used to exchange parsed and even typechecked Z
-  specifications between sessions and tools.
+  that can be used to exchange parsed Z specifications between 
+  sessions and tools.  
+
+  Standard Z allows specifications to be exchanged using Unicode,
+  \LaTeX\ or e-mail markup.  However, implementing a parser for such
+  specifications is a non-trivial task that can take several months.
+  ZML, in contrast, can be parsed
+  immediately using one of the available XML parsers like
+  Xerces\footnote{See~\url{http://xml.apache.org/xerces-j/}} or
+  Crimson\footnote{See~\url{http://xml.apache.org/crimson/}}.
+  An important advantage of XML is that it allows
+  exchange between tools written in different languages, since virtually
+  all programming languages provide XML reading and writing libraries.
 
   The idea of using Z with XML has also been explored in the
-  Z/Eves theorem prover~\cite{tp.tools:zeves.ref}. It allowed one to
+  Z/Eves theorem prover~\cite{tp.tools:zeves.ref}.  It allowed one to
   create a customised theorem prover with additional tactics tailored
   for a particular specification by modifying the XML representation
   of the Z specification in Z/Eves~\cite{tp.tools:zeves.api}.
   The main problem however, was the lack of a common standard.
-  The effort indeed pointed to an appropriate direction tough.
 
-  Standard Z allows specifications to be exchanged using Unicode,
-  \LaTeX\ or e-mail markup.  However, implementing a parser for such
-  specifications is a non-trivial task that might take several weeks
-  or even months to be finished.  ZML, in contrast, can be parsed
-  immediately using one of the available XML parsers like
-  Xerces\footnote{See~\url{http://xml.apache.org/xerces-j/}} or
-  Crimson\footnote{See~\url{http://xml.apache.org/crimson/}}.
-
-  Tools also benefit from being able to annotate terms with type
-  information, anticipated usage, comments, location, and so on.
-  The ZML format allows such annotations. 
-  [TODO: are there other advantages of ZML?]
-
-  The XML schema for ZML has been carefully designed to be extensible
-  in order to allow Z extensions to profit from those advantages as well.
-  The following strategies have been used to achieve this.
+  The XML schema for ZML was carefully designed, via consensus between
+  several groups of interested people, by selecting the best features
+  of the abstract syntaxes of CADiZ, Zeta and the Z standard.  
+  ZML supports several kinds of extensibility:
+  \begin{description}
+  \item[Extensible Annotations:] Each Z construct can be \emph{annotated}
+    with arbitrary information, such as type information, comments,
+    anticipated usage, source-file location.
+  \item[Extensible Expressions, Predicates, Paragraphs etc:] This
+    allows Z extensions to add new kinds of expressions, paragraphs etc. 
+  \item[Extensible Schemas:] The standard XML schema features, such as
+    namespaces and importing, mean that Z extension can be defined without
+    modifying the original ZML schema.
+  \end{description}
+  The following strategies have been used to achieve these kinds
+  of extensibility.
 
   The \textit{``any''} element can be used in an XML schema to enable
   instance XML documents to contain additional elements not specified
   by the schema.  This concept has been used to define annotations.
   That is, an annotation to a term can either be one of the
   annotations defined in the XML schema for Z, or any other kind of
-  data.  This allows a tool builder to decide what data makes sense
-  for a particular tool.
+  data.  New kinds of annotations can be added without changing the ZML
+  schema.  This allows a tool builder to decide what data makes sense
+  for a particular tool.  Tools that do not use a particular kind
+  of annotation simply ignore those annotations.
 
-  Secondly, inheritance is used extensively throughout the XML schema.
-  Abstract elements are used to provide placeholders for their derived
-  elements.  For example, the abstract element \Element{Para} is the
-  parent of all concrete Z paragraphs like, for example, axiomatic
-  paragraphs (element \Element{AxPara}), and free types paragraph
-  (element \Element{FreePara}).  This makes it easy to include a
-  reference to any kind of paragraph into other elements as, for
-  example, in the definition of a Z section (element \Element{ZSect})
-  which contains a sequence of paragraphs.
+  A typical style of defining XML schemas or DTDs is to explicitly
+  list the possible alternatives for expressions, predicates etc.
+  This makes it difficult to extend the syntax of expressions or
+  predicates.  In contrast, ZML uses \emph{inheritance}
+  (\emph{substitution groups} in XML schema terminology) extensively
+  throughout the XML schema.  Abstract elements are used to provide
+  placeholders for their derived elements.  For example, the abstract
+  element \Element{Para} is the parent of all concrete Z paragraphs,
+  such as axiomatic paragraphs (element \Element{AxPara}), and free
+  types paragraph (element \Element{FreePara}).  Other elements that
+  contain paragraphs, like Z section (element \Element{ZSect}), are
+  defined to contain a \emph{reference} to the abstract \Element{Para}
+  element.  This allows any subtype of \Element{Para} to be used
+  instead.  This has the same extensibility advantages as subtyping
+  in object-oriented languages.
 
-  More important is, however, that the inheritance hierarchy defined
-  in the XML schema for ZML can be extended without even touching the
-  ZML schema file.  For example, the XML schema for Object-Z imports
+  A Z extension can add new kinds of paragraphs, expressions and predicates
+  etc.~simply by extending these ZML inheritance hierarchies.  It is
+  important to note that this can be done without modifying the
+  ZML schema file.  Instead, the Z extension creates a new XML schema
+  which \emph{imports} the original ZML schema file, then defines the
+  additional constructs using a new namespace.  
+  This means that several separate extensions of Z can easily coexist.
+  For example, the XML schema for Object-Z imports
   the ZML schema file, and defines a new paragraph for classes (element
   \Element{ClassPara}) that is derived from element \Element{Para}
   defined in the ZML schema.  Instance documents of the Object-Z
   schema can now contain class paragraphs in addition to the standard Z
-  paragraphs wherever an element \Element{Para} is expected.  The same strategy has
-  been used to define expression (abstract element \Element{Expr}),
-  predicates (abstract element \Element{Pred}), declaration (abstract
-  element \Element{Decl}) and others, making it possible for
-  extensions to add new kinds of expressions, predicates, \textit{etc}.
+  paragraphs wherever an element \Element{Para} is expected.  Thus,
+  an Object-Z specification in XML format can contain a mixture of
+  Z and Object-Z constructs, such as:
+\begin{small}
+\begin{verbatim}
+    <Z:ZSect>
+      <OZ:ClassPara> ...  <Z:True/> ... </OZ:ClassPara>
+    </Z:ZSect>
+\end{verbatim}
+\end{small}
 
-  This can be carried on to extending an extension.  For example, the
+  This process of extending the XML schema can be done multiple times, so
+  that even a Z extension can be extended.  For example, the
   additional elements provided by the Object-Z XML schema are further
   extended by the TCOZ XML schema.  Again, the definitions of the elements
   for TCOZ are encapsulated into a TCOZ XML schema file, and the ZML and
@@ -206,11 +235,9 @@
   different layers of CZT tools.
   The resulting net effect is that once one package is finished, it
   can be directly extended through inheritance, hence simplifying the
-  task of extending standard Z in a great extent.
+  task of extending standard Z to a great extent.
 
-  [TODO: are there other things that make the schema extensible?]
-
-  The use of XML in the CZT has shown as an efficient and extensible
+  The use of XML in the CZT has proved to be an efficient and extensible
   solution for representing a Z specification and its extensions.  The
   XML approach helps to clarify design decisions in a straightforward
   fashion.  This representation is the key for the integrated
@@ -218,45 +245,66 @@
 
 \section{Java AST Classes}\label{java-ast-classes}
 
-  The Java \emph{Annotated Syntax Tree} (AST) of CZT provides a tree view of
-  a parsed specification using Java interfaces and classes.  This
-  allows easy access to syntactical objects like, for instance,
-  paragraphs, declarations, predicates, and expressions, from within
-  Java programs.
+  To manipulate Z \emph{Annotated Syntax Trees} (AST) within Java (or
+  any other programming language), we must convert ZML files into Java
+  objects.  This could easily be done using one of the Java XML
+  reader/writer libraries, such as DOM, but this would result in a
+  very generic interface to the Java objects -- to the programmer they
+  would appear to be an N-ary tree of \texttt{Element} and
+  \texttt{Text} objects etc.  This does not accurately reflect the Z
+  syntax or semantics, and is ugly and error-prone to use.
 
-  The CZT Java AST interfaces and classes were automatically generated
-  from the XML schemas described in the previous section using our
-  code generator \emph{GnAST} (GeNerator for AST).  The generated code
-  looks similar to the code Java data binding tools like
+  Instead, we provide a customised Java interface for each Z
+  construct, with appropriately named \emph{get} and \emph{set}
+  methods for each subcomponent.  This makes programs more readable,
+  and provides much stronger type checking.  However, there are some
+  situations where the generic N-ary tree view is more convenient
+  (for example, writing a deep copy procedure), so our Java interfaces
+  also provide a low-level generic view of each node, via the following
+  two methods:
+\begin{small}
+\begin{verbatim}
+    Object[] getChildren();  // return all children of this node
+    Term create(Object[] args); // create a new version of this node,
+                                // with the given children.
+\end{verbatim}
+\end{small}
+  Having these two alternative views of each node of the AST gives
+  the best of both worlds -- one can write generic tree traversal 
+  algorithms as well as readable and type-safe Z-specific syntax
+  manipulations.
+  
+  In fact, these CZT Java AST interfaces and their implementation
+  classes are automatically generated from the XML schemas described
+  in the previous section, using our code generator \emph{GnAST}
+  (GeNerator for AST).  The generated code looks similar to the code
+  Java data binding tools like
   JAXB\footnote{See~\url{http://java.sun.com/xml/jaxb/}} or
-  Castor\footnote{See~\url{http://www.castor.org/}} are producing.  The
-  generated Java interfaces and classes represent the structures
-  defined in the XML schema instance document.  While the main purpose
-  of a Java binding tool is to provide the ability to convert from XML
-  format to Java objects and vice versa, the main purpose of GnAST is
-  to generate well-designed AST classes.  For example, the AST classes
-  generated by GnAST support an extensible variant of the visitor
-  design pattern.
+  Castor\footnote{See~\url{http://www.castor.org/}} are
+  producing. While the main purpose of a Java binding tool is to
+  provide the ability to convert from XML format to Java objects and
+  vice versa, the main purpose of GnAST is to generate well-designed
+  AST classes.  For example, the AST classes generated by GnAST
+  support an extensible variant of the visitor design pattern.
 
-  The automatic AST generation from the XML schemas alone is already a
-  considerable improvement in productivity and maintainability.  For
+  The automatic AST generation from the XML schemas dramatically
+  reduces the time required to develop a new Z extension, ensures a
+  common style of interface, and improves maintainability.  For
   instance, the complete AST folder representing standard Z contains
   around $420$ Java files.  GnAST has also been used to generate AST
   interfaces and classes for Object-Z, TCOZ, and \Circus.  In total,
-  from the four XML schema files for standard Z and its extensions, GnAST
-  automatically generates around $2300$ Java files.  This provides a
-  very convenient way to obtain AST interfaces and classes for Z
-  extensions that fit well into the AST for standard Z.  That is, the
-  AST classes for Z extensions also support the visitor design pattern
-  described below.
+  from the four XML schema files for standard Z and its extensions,
+  GnAST automatically generates around $2300$ Java files.  This
+  provides a very convenient way to obtain AST interfaces and classes
+  for Z extensions that fit well into the AST for standard Z.  That
+  is, the AST classes for Z extensions also support the visitor design
+  pattern described below.
 
   The visitor design pattern~\cite{GamEA:95,MaiCha:01} makes it very
-  easy to write tools like typecheckers and printers, that need to
-  traverse an AST.  It provides a way to separate the structure of a
-  set of objects from the operations performed on these objects.  This
-  allows a new operation to be defined without modifying the AST
-  classes.  To define a new operation, all you need to do is to
-  implement a new visitor class.
+  easy to write tools like typecheckers and printers, which need to
+  traverse an AST.  It allows new traversal operations to be defined 
+  without modifying the AST classes.  To define a new operation, all 
+  you need to do is to implement a new visitor class.
 
   The visitor design pattern used in CZT has been described in detail
   in~\cite{czt}.  It is a variant of of the \emph{acyclic
@@ -267,20 +315,21 @@
   advantage of the AST inheritance relationships.
 
   This has a big impact on the applicability of visitors for
-  extensions like Object-Z, TCOZ, and \Circus.  It firstly makes sure
+  extensions like Object-Z, TCOZ, and \Circus.  Firstly, it ensures
   that the Z AST classes can be extended without having to modify
-  existing Z visitors like typechecker, printer, \textit{etc}.  It is a
-  prerequisite for CZT to be extensible.  The second feature makes it
-  easy to reuse existing visitors in extensions.  By defining default
-  behaviours for abstract classes, it is possible to implement tools
-  that are applicable to all extensions.  For example, a copy visitor
-  that copies an AST can provide a default behaviour for
-  \Interface{Term}, the base of the AST inheritance hierarchy.  Since
-  AST classes for extensions also derive from \Interface{Term}, this
-  copy visitor works for any extension.  If the default behaviour of a
-  visitor does not provide the required functionality for a particular
-  class, it can be simply overwritten by providing a new method with
-  the required functionality for this class.
+  existing Z visitors like typechecker, printer,
+  \textit{etc}. Secondly, it makes it easy to reuse existing visitors
+  in Z extensions.  By defining default behaviours for abstract
+  classes, it is possible to implement tools that are applicable to
+  all extensions.  For example, a copy visitor that copies an AST can
+  provide a default behaviour for \Interface{Term}, the base of the
+  AST inheritance hierarchy.  Since AST classes for extensions also
+  derive from \Interface{Term}, this copy visitor works for any
+  extension.  On the other hand, if the default copy behaviour is not
+  wanted for a particular extension class, \texttt{XYZ}, one can
+  simply add a \texttt{visitXYZ} method to the copy visitor, and that
+  method will be used instead of the default \texttt{visitTerm}
+  method.
 
   [TODO: examples of visitors?]
 
