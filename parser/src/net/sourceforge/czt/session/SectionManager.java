@@ -36,8 +36,53 @@ import net.sourceforge.czt.z.ast.*;
 
 /**
  * This class is a repository for information about Z specs/sections.
- * It provides several services like computing
- * the markup function for a given section name.
+ * It stores all the objects used during parsing and transforming,
+ * and provides several services like computing the operator table
+ * or the markup function for a given section.  Note that the keys
+ * to access an object within the section manager are a (Name,Class)
+ * pair, which means that several different kinds of objects can be
+ * associated with the same name.
+ * <p>
+ * One of the main goals of this class is to cache commonly used
+ * objects (such as the parsed forms of toolkit sections) so that they
+ * do not have to be repeatedly parsed.  This can give major performance
+ * improvements!
+ * </p>
+ * <p>  
+ * However, a fundamental problem is that things can become
+ * inconsistent if you add a section XYZ, then add other sections that
+ * use it, then reload a new version of XYZ (the other sections will
+ * not notice this, so will still be using the old version of XYZ).
+ * </p>
+ * <p>
+ * We have no good solution for this at the moment (we have
+ * investigated recording dependency information, but found it
+ * incredibly hard to get right!).  So our current solution is to
+ * leave this consistency issue to the clients!  That is, clients
+ * should clone or reset the section manager to avoid adding
+ * the same object twice.  If you do try to add the same key twice,
+ * the section manager will simply give a warning, 
+ * "Attempt to add duplicate key:...".  In the future, this will become
+ * a fatal error.
+ * We are still experimenting with the best approach here.
+ * </p>
+ * <p>
+ * There are currently three ways of getting/reusing a section 
+ * manager object. 
+ * <ol>
+ *   <li> <code>new SectionManager()</code> 
+ *      -- which starts with an empty cache, so gives you the overhead
+ *         of parsing toolkits again.</li>
+ *   <li> <code>oldSectMan.reset()</code> -- currently this clears the
+ *        whole cache, but it SHOULD leave the toolkit entries there.</li>
+ *   <li> <code>oldSectMan.clone()</code> -- depending upon WHEN you do 
+ *        this clone, you can decide just how much you want to leave in
+ *        the cache.</li>
+ * </ol> 
+ * To avoid reparsing toolkits repeatedly (which makes things slow!),
+ * you should avoid creating new section managers and use the reset or
+ * clone methods instead.
+ * </p>
  *
  * @author Petra Malik
  * @author Mark Utting
