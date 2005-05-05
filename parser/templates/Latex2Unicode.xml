@@ -153,7 +153,11 @@ import net.sourceforge.czt.parser.util.ScanException;
    * (no space to be inserted after the scripts)
    * or &lt;code&gt;BraceType.SUB_SPACE&lt;/code&gt;
    * (space has to be inserted after
-   * the scripts) on the stack.  All other "{"-token just push a
+   * the scripts) on the stack.
+   * The "{"-token that encloses a schema name
+   * pushes a  &lt;code&gt;BraceType.SCHEMA&lt;/code&gt;
+   * (space has to be inserted after closing brace) on the stack.
+   * All other "{"-token just push a
    * &lt;code&gt;BraceType.BRACE&lt;/code&gt; on the stack.
    */
   private Stack braceStack_ = new Stack();
@@ -440,6 +444,11 @@ import net.sourceforge.czt.parser.util.ScanException;
     SUPER_SPACE,
 
     /**
+     * The brace that starts a schema name.
+     */
+    SCHEMA,
+
+    /**
      * All remaining braces.
      */
     BRACE;
@@ -490,6 +499,7 @@ NAME =   {NOT_LB}*
 %state ZED
 %state MARKUP
 %state COMMENT_STATE
+%state ERROR
 
 %%
 /* ------------------------Lexical Rules Section---------------------- */
@@ -509,21 +519,25 @@ NAME =   {NOT_LB}*
           begin("gendef");
           return result(ZString.GENAX);
         }
-  "\\begin" {IGNORE}* "{schema}" / {IGNORE}* "{" {NAME} "}" {IGNORE}* "["
+  "\\begin" {IGNORE}* "{schema}" {IGNORE}* "{" / {NAME} "}" {IGNORE}* "["
         {
           yybegin(ZED);
           assert ! addSpace_;
-          braceToSpace_ = true;
           begin("schema");
+          braceStack_.push(BraceType.SCHEMA);
           return result(ZString.SCHCHAR + ZString.GENCHAR);
+        }
+  "\\begin" {IGNORE}* "{schema}" {IGNORE}* "{"
+        {
+          yybegin(ZED);
+          assert ! addSpace_;
+          begin("schema");
+          braceStack_.push(BraceType.SCHEMA);
+          return result(ZString.SCH);
         }
   "\\begin" {IGNORE}* "{schema}"
         {
-          yybegin(ZED);
-          assert ! addSpace_;
-          braceToSpace_ = true;
-          begin("schema");
-          return result(ZString.SCH);
+          yybegin(ERROR);
         }
   "\\begin" {IGNORE}* "{zed}"
         {
@@ -960,6 +974,8 @@ NAME =   {NOT_LB}*
           } else if (brace.equals(BraceType.SUB_SPACE)) {
             result += ZString.NW;
             addSpace_ = true;
+          } else if (brace.equals(BraceType.SCHEMA)) {
+            result += ZString.SPACE;
           } else if (braceToSpace_) {
             result += ZString.SPACE;
             braceToSpace_ = false;
@@ -1031,5 +1047,14 @@ NAME =   {NOT_LB}*
        {
          // do nothing
        }
+}
+
+&lt;ERROR&gt; {
+  .
+        {
+          yybegin(YYINITIAL);
+          reportError(ParseMessage.MSG_UNEXPECTED_TOKEN,
+                      yytext(), source_, yyline, yycolumn);
+        }
 }
 </scanner>
