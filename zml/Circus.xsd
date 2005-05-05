@@ -857,17 +857,8 @@
     </xs:annotation>
   </xs:element>
 
+	<!-- Additional Circus Types and Signatures -->
 
-  <!-- Miscellaneous Circus Elements-->
-  <xs:element name="AssignmentPair" type="CIRCUS:AssignmentPair">
-    <xs:annotation>
-      <xs:documentation>
-        A pair containing a reference to a variable name
-        and an expression for the assignment command.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  
   <xs:element name="ProcessType" type="CIRCUS:ProcessType" substitutionGroup="Z:Type2">
 		<xs:annotation>
 			<xs:documentation>
@@ -888,13 +879,6 @@
 			</xs:documentation>
 		</xs:annotation>
   </xs:element>
-  <xs:element name="ProcessAnn" type="CIRCUS:ProcessAnn">
-		<xs:annotation>
-			<xs:documentation>
-				A process annotation contains a process signature
-			</xs:documentation>
-		</xs:annotation>
-  </xs:element>  
   <xs:element name="BasicProcessSignature" type="CIRCUS:BasicProcessSignature" substitutionGroup="CIRCUS:ProcessSignature">
 		<xs:annotation>
 			<xs:documentation>
@@ -903,7 +887,7 @@
 				Local variables comes from either VarDeclCommand, or action formal parameters.
 			</xs:documentation>
 		</xs:annotation>
-  </xs:element>    
+  </xs:element>      
   <xs:element name="ActionType" type="CIRCUS:ActionType" substitutionGroup="Z:Type2">
 		<xs:annotation>
 			<xs:documentation>
@@ -921,14 +905,45 @@
 			</xs:documentation>
 		</xs:annotation>
   </xs:element>
-  <xs:element name="ActionAnn" type="CIRCUS:ActionAnn">
+  
+  <!-- Additional Circus Annotations --> 
+  
+  <xs:element name="ProcessAnn" type="CIRCUS:ProcessAnn">
+		<xs:annotation>
+			<xs:documentation>
+				A process annotation contains a process signature
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>  
+	<xs:element name="ActionAnn" type="CIRCUS:ActionAnn">
 		<xs:annotation>
 			<xs:documentation>
 				An action annotation contains an action signature.
 				Action types are not needed since actions are local in the process signature.
 			</xs:documentation>
 		</xs:annotation>
-  </xs:element>
+	</xs:element>
+
+
+  <!-- Miscellaneous Circus Elements-->
+  <xs:element name="AssignmentPair" type="CIRCUS:AssignmentPair">
+    <xs:annotation>
+      <xs:documentation>
+        A pair containing a reference to a variable name
+        and an expression for the assignment command.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>  
+  
+  <!--
+	<xs:element name="Arc" type="Z:Expr" abstract="true">
+		<xs:annotation>
+			<xs:documentation>
+				An arc expression used by the Circus compiler and operational semantics
+			</xs:documentation>
+		</xs:annotation>
+  </xs:element>  
+  -->
   
 
   <!-- ************************************************************ -->
