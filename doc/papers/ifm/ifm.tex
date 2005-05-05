@@ -343,7 +343,9 @@ are used to wrap around code that are specific to particular Z
 extensions. Thus, to add a new type of expression to the Object-Z parser,
 one would add a new production to the appropriate grammar rule in the
 master file, and place it between the {\tt <add:oz>} and {\tt
-</add:oz>} tags.
+</add:oz>} tags. In other programming languages, conditional compilation
+could be used to achieve the same result. However, Java does not
+support conditional compilation, so we use the XSL approach.
 
 To generate the individual Java Cup files for each extension of Z,
 XSLT is used to include the necessary code, and to substitute in
@@ -390,8 +392,11 @@ parsed by a Unicode parser\footnote{See \cite{czt} for a more detailed
 description of the parser architecture.}.  This also makes sure that
 names in the AST are markup independent: they are represented in
 Unicode independently on the actual markup used in the source
-document.  This is a necessary precondition to allowing different
-sections of a specification to be written in different markups.
+document.  This is a necessary precondition of allowing different
+sections of a specification to be written in different markups.  If a
+user requires a parser for a different markup, for example, the e-mail
+text-based markup, they need only to implement an e-mail to Unicode
+scanner.
 
 A consequence of this architecture is that extensions of Z need
 to support at least Unicode.  CZT provides a Z Unicode scanner, which
@@ -399,7 +404,8 @@ performs lexical analysis on a Unicode stream and breaks it into the
 necessary tokens.  A scanner for a Z extension can be derived by
 adding additional scanner rules to the CZT scanner template as
 described above.  In order to support \LaTeX\ markup, it is convenient
-to provide a \LaTeX\ toolkit section for a given extension.  In
+to provide a \LaTeX\ toolkit section for a given extension that
+defines new operators for that language.  In
 addition to defining new operators, these \LaTeX\ markup documents
 contain \LaTeX\ markup directives~\cite{isoz,czt} used to specify how
 certain \LaTeX\ commands are to be converted into Unicode.  The
@@ -411,91 +417,15 @@ needs to provide new paragraphs, the \LaTeX\ to Unicode converter
 needs to be adapted directly.  Again, this is possible by adding new
 rules to the converter template file.
 
-
-%The CZT parsers are markup independent, but all of our scanners
-%provide their respective parsers with Unicode when scanning Z variable
-%names, for instance. The reason for this is straightforward: Z specifications
-%are made up of sections, with each section having a name and a list of
-%parent sections. The definitions in a parent section are included in
-%the child section for a specification. For example, the Z toolkit is
-%specified as a series of \LaTeX\ sections. Now, consider the case in
-%which a person would like to use the Z toolkit, but would like to use
-%Unicode for their own specifications. This would require CZT to
-%provide a Z toolkit in Unicode, because the names used for
-%declarations in the Z toolkit would be in \LaTeX~instead of
-%Unicode. To work around this problem, all markups are converted to
-%Unicode, therefore allowing different sections of a specification to
-%be written in different markups.
-
-%With this architecture, each Z extension can also provide its own
-%particular toolkit extension given as a \LaTeX\ specification file.
-%The extended toolkits usually contains keywords, special symbols, and
-%commonly used functionality described with standard Z templates, for
-%instance.
-
-%Therefore, CZT provides a Unicode scanner, which performs lexical
-%analysis on a Unicode stream and breaks it into the necessary
-%tokens. CZT's \LaTeX~scanner, instead of implementing all of the
-%scanner rules, converts its \LaTeX~stream into a Unicode stream. In
-%addition to solving the problem discussed above, this greatly
-%simplifies the \LaTeX~scanner, because much of the conversion is
-%straightforward in comparison to scanning Z tokens. Moreover, location
-%information is recorded in the ASTs using annotations on each of the
-%nodes, and this points to the location in the original specification file.
-
-%Of course, the \LaTeX~to Unicode scanner needs to know how to convert
-%\LaTeX~tokens into Unicode. This is done by specifying, in the \LaTeX\
-%file that the token is first used, the corresponding Unicode
-%representation for each \LaTeX~token used. For example, in the Z
-%toolkit \LaTeX~file, the following rule is written specifying the
-%\LaTeX\ token for powerset (\verb+\power+):
-%\begin{verbatim}
-  %%Zprechar \power U+2119
-%\end{verbatim}
-%
-%The {\tt \%\%Zprechar} keyword specifies that \verb+\power+ is a
-%prefix character that always has a hard space after it, and that its
-%Unicode equivalent is U+2119. There are
-%similar operators for postfix, infix, and nofix characters, as well as
-%words.
-
-%An additional component parses these definitions, and records this in
-%a symbol table. Each time a \LaTeX~token is read, a lookup is
-%performed on this table to find the Unicode mapping. If the lookup
-%fails because the token is not in the table, a warning is issued, and
-%the \LaTeX~token is used, minus the \verb+\+ token at the
-%front. Therefore, for each new \LaTeX~token introduced into a
-%specification, a unique Unicode mapping must be provided for the
-%\LaTeX~to Unicode scanner, or be content with using the \LaTeX~token's
-%base name.
-
-%The price to pay for such flexibility is a slower parsing experience.
-%We are currently working on ways around this performance penalty.  One
-%possible optimisation is to have the option to use hard-coded versions
-%of standard sections such as the Z toolkit.
-%That means, a large singleton~\cite{GamEA:95} class that mocks up
-%the parser (or even the typechecker) job.
-%The benefit is simple:~the ``parsing'' time can be reduced to a minimum
-%of class loading and object instantiation.
-%Moreover, inheritance can be used for the extensions' toolkits, as well as
-%the visitor pattern to automatically generate the hard-coded files similarly
-%to the way GnAST works. Since most Z section
-%specifications do include the Z toolkit, then this should improve
-%parsing performance considerably because no parsing will be necessary
-%for the Z toolkit included as a parent of other used-defined Z
-%sections.  This notion can be generalised for other Z extensions,
-%provided their extended toolkits reach an enabling level of stability.
-
-Another advantage of this approach is that to parse a specification
-written using a new markup, for example, the e-mail text-based markup,
-one only has to implement an e-mail to Unicode scanner. In addition,
-the scanners can function as converters between different markups
-without have to parse the specifications. This simplifies many other
-tools in the suite as well. For example, the CZT tool suite provides
-printing of abstract syntax trees into the different markups. However,
-instead of implementing a printer for each markup, only a Unicode
-printer is implemented, and converters are used to print the other
-markups.
+An additional benefit of this approach is that it reduces the number
+of converters needed between languages. That is, CZT currently
+implements \LaTeX\ to Unicode and Unicode to \LaTeX\ converters. In
+the future, we plan to implement an e-mail to Unicode converter to
+allow parsing of specification written in e-mail. Using this and the
+Unicode to \LaTeX\ converter, we could convert e-mail to \LaTeX. So,
+using an intermediate format reduces the number of converter tools
+that need to be implemented from $M*(M-1)$ to $2*(M-1)$, in which $M$
+is the number of markup languages supported.
 
   \begin{itemize}
     \item[Petra] Below is another version of this section.  I started
@@ -509,6 +439,8 @@ markups.
     If we agree on this performance point (and the possible solution),
     I think it is a good idea to mention it. I've included something else
     after a revision that I will include to the commented paragraph.
+    \item[Tim] Should we add a brief paragraph justifying why Unicode
+    was chosen as the intermediate markup?
   \end{itemize}
 
 \section{Typecheckers}
