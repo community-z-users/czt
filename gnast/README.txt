@@ -67,3 +67,16 @@ argument to Ant:
 	jar	- builds the jar
 	run	- runs the code generator using the settings
 		  in gnast.properties
+
+
+Here is an example of how to run GnAST to regenerate all/some
+of the ../corejava files from the ../zml/*.xsd XML schemas.
+
+1) Set the gnast.properties file with the packages you want to rebuild.
+   (and set dest.dir = ../corejava/src usually).
+2) Clean the source files of packages being rebuilt to avoid conflicts 
+   from files that should be deleted.
+3) Call GnAST "run" ant target for  generating the sources under corejava
+4) Call GnAST "gen" ant target for generating the JAXB files
+6) Start building corejava and then other projects.
+   (The best way to do this is just "ant" in the top-level directory of CZT)
