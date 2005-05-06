@@ -116,6 +116,7 @@
   <xs:element name="Binding" type="P:Binding">
     <xs:annotation>
       <xs:documentation>
+	Base class for the various kinds of bindings within each joker.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -393,7 +394,13 @@
       <xs:extension base="P:Proviso">
         <xs:sequence>
           <xs:element ref="Z:Expr"/>
-          <xs:element ref="Z:Expr"/>
+          <xs:element ref="Z:Expr">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Type"/>
+              </xs:appinfo>
+            </xs:annotation>
+	  </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
