@@ -478,139 +478,149 @@ using an intermediate format reduces the number of converter tools
 that need to be implemented from $M*(M-1)$ to $2*(M-1)$, in which $M$
 is the number of markup languages supported.
 
-  \begin{itemize}
-    \item[Petra] Below is another version of this section.  I started
-    with a few changes and ended up rewriting everything.  No idea
-    what to do now ...
-    \item[Tim] Very nice, Petra! I've merged this in with the first
-    few paragraphs, and the last paragraphs from the ones we have
-    earlier.
-    \item[Leo] It is nice indeed!
-    What about the last commented paragraph?
-    If we agree on this performance point (and the possible solution),
-    I think it is a good idea to mention it. I've included something else
-    after a revision that I will include to the commented paragraph.
-    \item[Tim] Should we add a brief paragraph justifying why Unicode
-    was chosen as the intermediate markup?
-  \end{itemize}
 
 \section{Typecheckers}
 \label{typecheckers}
 
-Typecheckers in CZT are written in a much different way from the parsers
+Typecheckers in CZT are written in a very different way from the parsers
 and scanners. Each Z extension has its own typechecker, and while reuse
 is of high importance, using XML templates is unnecessary because
-differently from the parsers, Java interfaces and inheritance can be used to
+unlike the parsers, Java interfaces and inheritance can be used to
 extend the typecheckers.
 
-The Z typechecker is the base implementation. Most of the typechecker
-is written using visitors, which can be extended as discussed in
-Section~\ref{java-ast-classes}. There are a few additional classes
-that are used, such as the class that performs the unification of two
-types for type inference and for checking type consistency. If the
-specification is type-correct, the product of the Z typechecker is the
-original AST annotated with type information as defined in the ISO
-standard~\cite[Section~10]{isoz}.  If not, the result is the parsed AST
-together with a list of messages outlining the type errors.
+The Z typechecker is the base implementation.  When a Z specification
+AST is passed to this typechecker, it applies all the typechecking
+rules and, if the specification is type-correct, it returns TRUE and
+annotates the original AST with type information as defined in the ISO
+standard~\cite[Section~10]{isoz}.  If the specification contains type errors,
+the result is FALSE, the AST is unchanged and a list of error messages 
+describing the type errors (including their line and column position)
+is made available.
 
-The typechecker is designed for extendibility. Application of the type-rules
-is implemented using visitor classes. While it is tempting to
-write the typechecker as one large visitor, this creates maintenance
-problems as this visitor would be quite large.  In order to enable
-code reuse within the typechecker architecture, we allow each language
-entity to be checked by independent checker classes.  Currently, for
-the standard Z typechecker, we have an individual checker for
-sections, expressions, predicates, declarations, and paragraphs. Each
-of these checkers implements visitors for the corresponding AST hierarchy
-subtree.  These will be referred to as the {\em type-rule visitors}.
+Most of the typechecker is written using visitors, which can be
+extended as discussed in Section~\ref{java-ast-classes}.  While it is
+tempting to write the typechecker as one large visitor, this would
+create maintenance problems as this visitor would be quite large and
+monolithic.  So we use a more sophisticated and extensible design,
+shown in Fig.~\ref{fig:ztypechecker}.  
 
-This does not only enable reuse, but also increases modularity and
-maintainability.  For example, additional functionality, such as post
-checking for unresolved set and reference expressions that may
-introduce an unresolved type, are implemented in the same way with
-another checker. This post checker ensures that all implicit
-parameters such as generic actuals have been completely determined.
-Furthermore, from the development point of view, it allows (possibly
-different) teams to implement different language entities, and/or
-development through iterations.  This also provides a good aid for
-debugging as one can guarantee the conformance of each checker, hence
-isolating (if not minimising) debugging efforts.
+\def\epsfsize#1#2{0.50#1}
+\begin{figure}[t]
+\begin{center}
+\fbox{\epsfbox{ZTypeChecker.eps}}
+\caption{UML class diagram for Z Typechecker}\label{fig:ztypechecker}
+\end{center}
+\end{figure}
+\def\epsfsize#1#2{\epsfxsize}
 
-However, the type-rule visitors require access to shared resources,
-such as typing environments and the class for type unification, as
-well as common ``helper'' methods used throughout the implementation
-such as error reporting.  So, each type-rule visitor inherits an
-abstract class called {\tt Checker} containing such shared
-functionality.
+This breaks up the overall task of typechecking into several
+(currently six) smaller \texttt{Checker} visitors -- each subclass of
+\texttt{Checker} typechecks a different kind of syntactic construct
+(paragraphs, predicates, expressions etc.).  The \texttt{Checker}
+class itself defines some shared resources, such as typing
+environments and the type unification facilities, as well as common
+``helper'' methods used throughout the implementation such as error
+reporting.  In addition, each checker subclass object has a reference
+back to the top-level \texttt{TypeChecker} object, which has links to
+all the checkers -- this allows one checker to call another via the
+\texttt{TypeChecker} object.
 
-Each type-rule visitor implemented through individual {\tt Checker}
-subclasses are blended together in the {\tt TypeChecker} class
-containing references to all required shared resources. They have an
-aggregation-by-reference relationship.  That is, each type-rule
-visitor is constructed and owned by the same instance of {\tt
-TypeChecker} for each copy of the typechecker that is running.  Each
-type-rule visitor is passed a reference to their parent {\tt
-TypeChecker} so they are able to call visit methods on each other.  Of
-course, this could all be implemented without the {\tt TypeChecker}
-class by just passing each resource to a subclass, but the approach
-that has been implemented allows extensions to the typechecker to
-reuse constructors and other initialisation code, as well as different
-type-rule visitors and ``helper'' methods.
+For example, for type checking a schema text of an {\tt AxPara}, the
+{\tt ParaChecker} class, which typechecks Z paragraphs, needs to type
+check both the declarations and the predicate parts of the schema
+text.  Although visiting through the given AST is the general
+solution, the typechecking of the declarations part is delegated to
+the {\tt DeclChecker} class, whereas the typechecking of the predicate
+part is delegated to the {\tt PredChecker} class.  The {\tt
+DeclChecker} in turn uses the {\tt ExprChecker} to ensure that
+expressions defining the declaring variables type are well-formed.
 
-For example, for type checking a schema-text of an {\tt AxPara} for,
-say an axiomatic definition, the {\tt ParaChecker} class implementing
-the type-rule visitor of Z paragraphs needs to type check both the
-declarations and the predicate parts.  Although visiting through the
-given AST is the general solution, the typechecking of the
-declarations part is delegated to the {\tt DeclChecker} class, whereas
-the typechecking of the predicate part is delegated to the {\tt
-PredChecker} class.  The {\tt DeclChecker} in turn uses the {\tt
-ExprChecker} to ensure that expressions defining the declaring
-variables type are well-formed.  Moreover, as the job of each {\tt
-Checker} class is distinct, it is easier to establish an uniform
-visiting protocol. For instance, all the visiting methods of the {\tt
-ParaChecker} class, which typechecks the AST hierarchy tree from the
-{\tt Para} abstract class, returns a {\tt Signature} of name and type
-pairs declared in that {\tt Para}. Similarly, the {\tt DeclChecker}
-class typechecks the {\tt Decl} subtree returning the list of name and
-type pairs that will form the {\tt ParaChecker} signatures.  As one
-would expect, the {\tt PredChecker} class typechecks the {\tt Pred}
-subtree returning the type unification result, and the {\tt
-ExprChecker} class typechecks the {\tt Expr} subtree returning a {\tt
-Type} with resolved reference parameters, in which type unification
-has already taken place.
+There are a few additional classes that are used in the typechecker,
+but not shown in Fig.~\ref{fig:ztypechecker}, such as the 
+\texttt{UnificationEnv} class that performs
+the unification of two types for type inference and for checking type
+consistency.
 
-To extend the Z typechecker, a new package is created, say {\tt oz}
-for an Object-Z typechecker.  In this package, a new {\tt oz.Checker}
-class is implemented, which inherits the base {\tt z.Checker}
-class. In this new class, any common methods that are to be used by
-the extended typechecker are implemented, and existing methods are
-overridden or overloaded if additional functionality is needed.  Then,
-new type-rule visitors are created, one for each language entity that
-requires an additional type-rule visitor.  These type-rule visitors
-implement the visit methods only for additional constructs in the
-language, or for constructs in the base language that may have
-additional constraints. Clearly, this does not handle constructs in
-the base language.
+The advantages of this typechecker design include:
+\begin{itemize}
 
-As far as code reuse is concerned, this is the point where our design
-with distributed checkers for each language entity managed by a
-centralised {\tt TypeChecker} class pays off.  For each new type-rule
-visitor, say the {\tt oz.ExprChecker} class, an instance to the
-corresponding visitor of the base language ({\tt z.ExprChecker}) is
-created. Therefore, Object-Z expressions are handled by the {\tt
-oz.ExprChecker} class, whereas Z expressions must be handled by delegation
-to the {\tt z.ExprChecker} class.  To enable this idea to work, we rely on
-the general visiting protocol described in Section~\ref{java-ast-classes} 
-and in~\cite{czt}.
-That is, firstly {\tt oz.ExprChecker} catches all Object-Z expressions.
-Secondly, an additional visit method is implemented --- one that
-``catches'' all AST nodes for the base language ---, and the base
-type-rule visitor is used to typecheck these nodes.  For example, in
-the {\tt oz.ExprChecker}, apart from the Object-Z expressions
-visiting methods, an additional visit method for remaining {\tt Expr}
-is implemented as
-%
+\item Methods that are common to all the Checker subclasses can be put in
+  the \texttt{Checker} superclass.  Data that is shared between the checkers
+  can be managed by the \texttt{Typechecker} class and made accessible
+  to the checkers in a controlled way via access methods.
+
+\item Splitting the overall typechecking task into several parts increases 
+  modularity and maintainability, and provides better encapsulation
+  for the different checkers.  This aids debugging and allows development
+  of the checkers to be somewhat independent (for example, assigned to
+  different teams or to different iterations of an agile lifecycle).
+
+\item Each \texttt{Checker} subclass is typechecking similar kinds of
+  nodes (e.g., all expressions), so can have a uniform visiting
+  protocol, which increases regularity and helps to reduce errors.
+  For example, all the visitor methods of the
+  \texttt{ParaChecker} class, which typechecks Z paragraphs, return a
+  \texttt{Signature} of the name and type pairs declared in that
+  \texttt{Para}.  In contrast, the \texttt{ExprChecker} class
+  typechecks expression nodes and all its visitor methods return a
+  \texttt{Type} with resolved reference parameters in which type
+  unification has already been performed.
+
+\item By defining several Checker subclasses over the same kinds of 
+  AST nodes, it becomes easy to have multiple algorithms over the same
+  syntax nodes.  For example, post-checking for unresolved set and
+  reference expressions, that may introduce an unresolved type, is
+  implemented as a second kind of ExprChecker. This post-typechecking
+  pass ensures that all implicit parameters such as generic actuals
+  have been completely determined.  This would not be possible with a
+  single monolithic visitor design, because one could not have two
+  \texttt{visitRefExpr} methods in the same visitor.
+
+\end{itemize}
+
+
+\def\epsfsize#1#2{0.50#1}
+\begin{figure}[t]
+\begin{center}
+\fbox{\epsfbox{OZTypeChecker.eps}}
+\caption{UML class diagram for Object-Z Typechecker}\label{fig:oztypechecker}
+\end{center}
+\end{figure}
+\def\epsfsize#1#2{\epsfxsize}
+
+Fig.~\ref{fig:oztypechecker} shows how this design is extended to
+define a typechecker for a Z extension -- Object-Z in this case.  A
+new package (oz) is created, for the Object-Z typechecker.  In this
+package, a new {\tt oz.Checker} class is implemented, which inherits
+the base {\tt z.Checker} class.  In this new class, any common methods
+that are to be used by the Object-Z typechecker are implemented, and
+existing methods are overridden or overloaded if additional
+functionality is needed.  Then, new Checker subclasses are created,
+one for each kind of language entity that requires Object-Z-specific
+typechecking.  Each of these checkers (the
+\texttt{oz.\emph{XXXX}Checker} subclasses in
+Fig.~\ref{fig:oztypechecker}) implement the visitor methods only for
+Object-Z constructs and for any Z constructs that require additional
+Object-Z-specific checking.  The remaining standard Z constructs are
+handled by delegation to the original
+\texttt{z.\emph{XXXX}Checker} object.  
+
+It is interesting to see how this delegation is achieved, given than
+Java does not support multiple inheritance.  
+
+MARK: I think we can shorten the next three paragraphs to just a 
+few sentences (to explain the delegation).
+
+We rely on the general
+visiting protocol described in Section~\ref{java-ast-classes} and
+in~\cite{czt}.  That is, firstly {\tt oz.ExprChecker} catches all
+Object-Z expressions.  Secondly, an additional visit method is
+implemented --- one that ``catches'' all AST nodes for the base
+language ---, and the base type-rule visitor is used to typecheck
+these nodes.  For example, in the {\tt oz.ExprChecker}, apart from the
+Object-Z expressions visiting methods, an additional visit method for
+remaining {\tt Expr} is implemented as
+
 \begin{verbatim}
   private z.ExprChecker zExprChecker_;
   ...
@@ -618,7 +628,7 @@ is implemented as
     return expr.accept(zExprChecker_);
   }
 \end{verbatim}
-%
+
 Therefore, when {\tt oz.ExprChecker} does not implement a visit method
 for a particular expression, it calls the instance of {\tt
 z.ExprChecker} to visit that expression, hence reusing the code
@@ -647,29 +657,19 @@ instance of {\tt z.ExprChecker}, but in the case of the Object-Z
 typechecker, would be an instance of {\tt oz.ExprChecker}.
 
 
-To help clarify this scenario, we present the design of the Z
-typechecker, and the Object-Z typechecker that extends
-it. Figure~\ref{tc-design} presents a UML-like outline of the class
-design. From this figure, one can see that the class {\tt oz.Checker}
-inherits from {\tt z.Checker}, and then the type-rule visitors inherit
-from their respective {\tt Checker} class.
-%
-\def\epsfsize#1#2{0.70#1}
-\begin{figure}[t]
-\begin{center}
-\epsfbox{tc-design.eps}
-\caption{Individual checkers}\label{tc-design}
-\end{center}
-\end{figure}
-\def\epsfsize#1#2{\epsfxsize}
-%
+
 Although this is an unusual design, it is clear that it provides good
-and elegant support for extension.  An alternative approach is to
-extend the base type-rule visitors for each new type-rule visitor.
-However, this means that the common code implemented in the {\tt
-Checker} class must all be implemented in the base {\tt Checker}
-class, which requires a strong coupling between all of the
-typecheckers.
+and elegant support for extension.  An alternative approach that we
+considered was for the Object-Z checkers to directly subclass the Z
+checker subclasses (e.g., \texttt{oz.ParaChecker} to inherit
+\texttt{z.ParaChecker}).  However, this would have meant that the
+common code implemented in the current
+\texttt{oz.Checker} class would have had to have been 
+implemented in the base {\tt Checker} class, which would have created
+an undesirable strong coupling between all of the typecheckers.
+
+Mark: should we remove this next para?  It sounds like just a use of standard 
+OO subclassing, with the unify method being overridden and calling super?
 
 Other components of the typecheckers are also extended using
 inheritance.  For example, the class for type unification is extended
@@ -682,11 +682,13 @@ overriding method first checks if the types of class types, and
 attempts unification on them.  If they are not unifiable, the
 overridden method is called using the {\tt super} keyword.
 
-In general, provided that type and scoping-rules are available, this
-recipe can be used for other extensions as well.  For example, an
-initial typechecker environment for \Circus\ has been developed
-following the guidelines for Z and Object-Z. Although the formal
-type-rules for \Circus\ are under
+Our experience is that the above extensible typechecker design makes
+it much easier to build multi-lingual typecheckers.  That is, a family
+of typechecker objects for Z and various extensions of Z.
+%
+For example, an initial typechecker environment for \Circus\ has been
+developed following the guidelines for Z and Object-Z. Although the
+formal type-rules for \Circus\ are under
 development~\cite{circus.other:typechecker}, we already have a
 prototype version of a \Circus\ typechecker.  Provided the
 architecture and the design decisions are understood, the

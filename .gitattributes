@@ -12,6 +12,7 @@ corejava/src/net/sourceforge/czt/zpatt/jaxb/gen/bgm.ser svneol=native#unset
 corejava/src/org/w3/_2001/xmlschema/bgm.ser svneol=native#unset
 doc/architecture.pdf -text
 doc/architecture.sxd -text
+doc/papers/ifm/Typecheckers.zuml -text
 doc/papers/ifm/mc.arch.stages.eps -text
 gaffe/doc/thesis/exercises.pdf svneol=native#unset
 gaffe/doc/thesis/guide.pdf svneol=native#unset
