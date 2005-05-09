@@ -52,18 +52,18 @@
 
   \noindent
   \textbf{Keywords}: Standard Z, Object-Z, \Circus, TCOZ, design patterns,
-	 framework, AST, parsing, typechecking, animation.
+     framework, AST, parsing, typechecking, animation.
 \end{abstract}
 
 \section{Introduction} \label{sec:intro}
 
   The Z language~\cite{isoz} is a formal specification notation that
   can be used to precisely specify the behaviour of systems, and
-  analyse it via proof, animation, test generation, and so on.  
+  analyse it via proof, animation, test generation, and so on.
   Z was approved as an ISO standard in 2002, but currently there are few
-  tools that conform to the standard.\footnote{CADiZ 
+  tools that conform to the standard.\footnote{CADiZ
   (\url{http://www-users.cs.york.ac.uk/~ian/cadiz}) is the only Z tool
-  that conforms closely to the Z standard.  It is freely available, 
+  that conforms closely to the Z standard.  It is freely available,
   but is not open source and does not aim at supporting Z extensions.}
   The Community Z Tools (CZT) project~\cite{czt} is an open-source Java
   framework for building formal methods tools for standard Z and Z extensions.
@@ -71,7 +71,7 @@
   CZT provides the basic tools expected in a Z environment, such as
   conversion between \LaTeX, Unicode and XML formats for Z, and
   parsing, unparsing, typechecking and animation tools, with a WYSIWYG
-  Z editing environment integrated within the 
+  Z editing environment integrated within the
   jEdit\footnote{See \url{http://www.jedit.org}.} editor.
   There are also several more experimental tools under development,
   such as a Z-to-B translator and a semi-automated GUI-builder for
@@ -85,7 +85,7 @@
   where Z plays a central role. This has given rise to many Z
   extensions, which add features such as
   %
-  process algebras~\cite{fischer-1998,fischer-2000,circus.sem:intro}, 
+  process algebras~\cite{fischer-1998,fischer-2000,circus.sem:intro},
   object orientation~\cite{oz,ohcircus},
   time~\cite{tcoz,circus.sem:real.time2},
   mobility~\cite{circus.sem:mobility}, and so forth.
@@ -135,8 +135,8 @@
   The first step in designing the CZT tools and libraries was the
   development of an XML schema that describes an XML markup for Z
   specifications (ZML)~\cite{UttEA:03}.  This is an interchange format
-  that can be used to exchange parsed Z specifications between 
-  sessions and tools.  
+  that can be used to exchange parsed Z specifications between
+  sessions and tools.
 
   Standard Z allows specifications to be exchanged using Unicode,
   \LaTeX\ or e-mail markup.  However, implementing a parser for such
@@ -158,16 +158,16 @@
 
   The XML schema for ZML was carefully designed, via consensus between
   several groups of interested people, by selecting the best features
-  of the abstract syntaxes of CADiZ, Zeta and the Z standard.  
+  of the abstract syntaxes of CADiZ, Zeta and the Z standard.
   ZML supports several kinds of extensibility:
   \begin{description}
   \item[Extensible Annotations:] Each Z construct can be \emph{annotated}
     with arbitrary information, such as type information, comments,
     anticipated usage, source-file location.
   \item[Extensible Expressions, Predicates, Paragraphs etc:] This
-    allows Z extensions to add new kinds of expressions, paragraphs etc. 
+    allows Z extensions to add new kinds of expressions, paragraphs etc.
   \item[Extensible Schemas:] The standard XML schema features, such as
-    namespaces and importing, mean that Z extension can be defined without
+    namespaces and importing, mean that Z extensions can be defined without
     modifying the original ZML schema.
   \end{description}
   The following strategies have been used to achieve these kinds
@@ -184,7 +184,7 @@
   of annotation simply ignore those annotations.
 
   A typical style of defining XML schemas or DTDs is to explicitly
-  list the possible alternatives for expressions, predicates etc.
+  list the possible alternatives for expressions, predicates, \textit{etc}.
   This makes it difficult to extend the syntax of expressions or
   predicates.  In contrast, ZML uses \emph{inheritance}
   (\emph{substitution groups} in XML schema terminology) extensively
@@ -204,7 +204,7 @@
   important to note that this can be done without modifying the
   ZML schema file.  Instead, the Z extension creates a new XML schema
   which \emph{imports} the original ZML schema file, then defines the
-  additional constructs using a new namespace.  
+  additional constructs using a new namespace.
   This means that several separate extensions of Z can easily coexist.
   For example, the XML schema for Object-Z imports
   the ZML schema file, and defines a new paragraph for classes (element
@@ -248,10 +248,10 @@
   any other programming language), we must convert ZML files into Java
   objects.  This could easily be done using one of the Java XML
   reader/writer libraries, such as DOM, but this would result in a
-  very generic interface to the Java objects -- to the programmer they
+  very generic interface to the Java objects --- to the programmer they
   would appear to be an N-ary tree of \texttt{Element} and
-  \texttt{Text} objects etc.  This does not accurately reflect the Z
-  syntax or semantics, and is ugly and error-prone to use.
+  \texttt{Text} objects. This does not accurately reflect the Z
+  syntax or semantics, is not elegant, and is error-prone to use.
 
   Instead, we provide a customised Java interface for each Z
   construct, with appropriately named \emph{get} and \emph{set}
@@ -269,10 +269,10 @@
 \end{verbatim}
 \end{small}
   Having these two alternative views of each node of the AST gives
-  the best of both worlds -- one can write generic tree traversal 
-  algorithms as well as readable and type-safe Z-specific syntax
+  the best of both worlds --- one can write generic tree traversal
+  algorithms, as well as readable and type-safe Z-specific syntax
   manipulations.
-  
+
   In fact, these CZT Java AST interfaces and their implementation
   classes are automatically generated from the XML schemas described
   in the previous section, using our code generator \emph{GnAST}
@@ -294,15 +294,15 @@
   interfaces and classes for Object-Z, TCOZ, and \Circus.  In total,
   from the four XML schema files for standard Z and its extensions,
   GnAST automatically generates around $2300$ Java files.  This
-  provides a very convenient way to obtain AST interfaces and classes
-  for Z extensions that fit well into the AST for standard Z.  That
-  is, the AST classes for Z extensions also support the visitor design
+  provides a very convenient and consistent way to obtain AST interfaces
+  and classes for Z extensions that fit well into the AST for standard Z.
+  That is, the AST classes for Z extensions also support the visitor design
   pattern described below.
 
   The visitor design pattern~\cite{GamEA:95,MaiCha:01} makes it very
   easy to write tools like typecheckers and printers, which need to
-  traverse an AST.  It allows new traversal operations to be defined 
-  without modifying the AST classes.  To define a new operation, all 
+  traverse an AST.  It allows new traversal operations to be defined
+  without modifying the AST classes.  To define a new operation, all
   you need to do is to implement a new visitor class.
 
   The visitor design pattern used in CZT has been described in detail
@@ -312,28 +312,33 @@
   allows the AST interfaces and classes to be extended without
   affecting existing visitors, and that it allows a visitor to take
   advantage of the AST inheritance relationships.
+  For example, a copy visitor that copies an AST can
+  provide a default behaviour for \Interface{Term}, the base of the
+  AST inheritance hierarchy.  Since AST classes for extensions also
+  derive from \Interface{Term}, this copy visitor works for any
+  extension.  On the other hand, if the default copy behaviour is not
+  wanted for a particular extension class, say \texttt{XYZ}, one can
+  simply add a \texttt{visitXYZ} method to the copy visitor, and that
+  method will be used instead of the default \texttt{visitTerm}
+  method.
 
   This has a big impact on the applicability of visitors for
   extensions like Object-Z, TCOZ, and \Circus.  Firstly, it ensures
   that the Z AST classes can be extended without having to modify
   existing Z visitors like typechecker, printer,
   \textit{etc}. Secondly, it makes it easy to reuse existing visitors
-  in Z extensions.  By defining default behaviours for abstract
+  in Z extensions.  Finally, by defining default behaviours for abstract
   classes, it is possible to implement tools that are applicable to
-  all extensions.  For example, a copy visitor that copies an AST can
-  provide a default behaviour for \Interface{Term}, the base of the
-  AST inheritance hierarchy.  Since AST classes for extensions also
-  derive from \Interface{Term}, this copy visitor works for any
-  extension.  On the other hand, if the default copy behaviour is not
-  wanted for a particular extension class, \texttt{XYZ}, one can
-  simply add a \texttt{visitXYZ} method to the copy visitor, and that
-  method will be used instead of the default \texttt{visitTerm}
-  method.
-
-  [TODO: examples of visitors?]
+  all extensions.
+  Overall, the CZT AST classes provide:
+  \begin{description}
+    \item[Automation:] via \textbf{GnAST} code generation.
+    \item[Structural reuse:] via the generality of operations of the \textbf{visitor pattern}.
+    \item[Extensibility:] via flexible \textbf{XML schema} notation.
+  \end{description}
 
   This flexibility and independency of the CZT visitor has also been
-  shown to be very useful during the development of new tools.  By
+  shown to be very useful during the development of new tools.  For instance, by
   providing default behaviour, it is possible to concentrate on
   specific aspects of the language and ignore others.  This allows for
   rapid prototyping and eases debugging.
@@ -353,8 +358,8 @@
   extensions. For example, use the TCOZ tools to parse and typecheck
   Z. However, this has two distinct problems. Firstly, one aim of the
   CZT project is to create tools that strongly conform to the Z
-  standard, so allowing extra constructs to be parsed and different
-  type-rules will break the strong conformance. Secondly, the
+  standard, hence allowing extra constructs to be parsed. However,
+  different type-rules will break the strong conformance. Secondly, the
   extensions of Z are not linear. For example, Object-Z extends Z with
   class paragraphs, and TCOZ extends Object-Z with concurrency
   operators, but \Circus\ extends neither of these --- only
@@ -369,7 +374,7 @@
   planned. To produce different parsers and scanners for Z and its
   extensions, CZT uses XML templates, and generates the code from these
   templates using XSLT, a language for transforming XML\footnote{See~\url{http://www.w3.org/TR/xslt}}. Java
-  Cup\footnote{See~\url{http://www.cs.princeton.edu/\~{}appel/modern/java/CUP/}} is
+  Cup\footnote{See~\url{http://www.cs.princeton.edu/~appel/modern/java/CUP/}} is
   used to generate the CZT parsers from an LALR grammar, and
   JFlex\footnote{See~\url{http://jflex.de/}} is used to generate the
   scanners.
@@ -395,8 +400,9 @@ extensions. Thus, to add a new type of expression to the Object-Z parser,
 one would add a new production to the appropriate grammar rule in the
 master file, and place it between the {\tt <add:oz>} and {\tt
 </add:oz>} tags. In other programming languages, conditional compilation
-could be used to achieve the same result. However, Java does not
-support conditional compilation, so we use the XSL approach.
+could be used to achieve the same result. However, as Java does not
+support conditional compilation, so we use the XML template translation
+approach.
 
 To generate the individual Java Cup files for each extension of Z,
 XSLT is used to include the necessary code, and to substitute in
@@ -409,7 +415,7 @@ below:
   \item code in {\tt "oz"} tags to be included.
 \end{enumerate}
 
-Similar rules are specified for each parser and scanner variant. The
+Similar rules are specified for each parser and scanner variants. The
 result is a series of Java Cup and JFlex files, one for each language,
 which can then be used to generate the parser and scanner code.
 
@@ -462,9 +468,9 @@ contain \LaTeX\ markup directives~\cite{isoz,czt} used to specify how
 certain \LaTeX\ commands are to be converted into Unicode.  The
 \LaTeX\ to Unicode translator parses these definitions and converts
 each \LaTeX\ command into the corresponding Unicode sequence.
-However, \LaTeX\ \verb+\begin{xxx}+ and \verb+\end{xxx}+ commands
+However, \LaTeX\ \verb+\begin{xxx}+ and \verb+\end{xxx}+ environments
 cannot be defined using \LaTeX\ markup directives.  If a Z extension
-needs to provide new paragraphs, the \LaTeX\ to Unicode converter
+needs to provide new \LaTeX\ environments, the \LaTeX\ to Unicode converter
 needs to be adapted directly.  Again, this is possible by adding new
 rules to the converter template file.
 
@@ -493,7 +499,7 @@ AST is passed to this typechecker, it applies all the typechecking
 rules and, if the specification is type-correct, it returns TRUE and
 annotates the original AST with type information as defined in the ISO
 standard~\cite[Section~10]{isoz}.  If the specification contains type errors,
-the result is FALSE, the AST is unchanged and a list of error messages 
+the result is FALSE, the AST is unchanged and a list of error messages
 describing the type errors (including their line and column position)
 is made available.
 
@@ -502,7 +508,7 @@ extended as discussed in Section~\ref{java-ast-classes}.  While it is
 tempting to write the typechecker as one large visitor, this would
 create maintenance problems as this visitor would be quite large and
 monolithic.  So we use a more sophisticated and extensible design,
-shown in Fig.~\ref{fig:ztypechecker}.  
+shown in Fig.~\ref{fig:ztypechecker}.
 
 \def\epsfsize#1#2{0.50#1}
 \begin{figure}[t]
@@ -536,7 +542,7 @@ DeclChecker} in turn uses the {\tt ExprChecker} to ensure that
 expressions defining the declaring variables type are well-formed.
 
 There are a few additional classes that are used in the typechecker,
-but not shown in Fig.~\ref{fig:ztypechecker}, such as the 
+but not shown in Fig.~\ref{fig:ztypechecker}, such as the
 \texttt{UnificationEnv} class that performs
 the unification of two types for type inference and for checking type
 consistency.
@@ -549,7 +555,7 @@ The advantages of this typechecker design include:
   can be managed by the \texttt{Typechecker} class and made accessible
   to the checkers in a controlled way via access methods.
 
-\item Splitting the overall typechecking task into several parts increases 
+\item Splitting the overall typechecking task into several parts increases
   modularity and maintainability, and provides better encapsulation
   for the different checkers.  This aids debugging and allows development
   of the checkers to be somewhat independent (for example, assigned to
@@ -566,7 +572,7 @@ The advantages of this typechecker design include:
   \texttt{Type} with resolved reference parameters in which type
   unification has already been performed.
 
-\item By defining several Checker subclasses over the same kinds of 
+\item By defining several Checker subclasses over the same kinds of
   AST nodes, it becomes easy to have multiple algorithms over the same
   syntax nodes.  For example, post-checking for unresolved set and
   reference expressions, that may introduce an unresolved type, is
@@ -603,12 +609,12 @@ Fig.~\ref{fig:oztypechecker}) implement the visitor methods only for
 Object-Z constructs and for any Z constructs that require additional
 Object-Z-specific checking.  The remaining standard Z constructs are
 handled by delegation to the original
-\texttt{z.\emph{XXXX}Checker} object.  
+\texttt{z.\emph{XXXX}Checker} object.
 
 It is interesting to see how this delegation is achieved, given than
-Java does not support multiple inheritance.  
+Java does not support multiple inheritance.
 
-MARK: I think we can shorten the next three paragraphs to just a 
+MARK: I think we can shorten the next three paragraphs to just a
 few sentences (to explain the delegation).
 
 We rely on the general
@@ -664,11 +670,11 @@ considered was for the Object-Z checkers to directly subclass the Z
 checker subclasses (e.g., \texttt{oz.ParaChecker} to inherit
 \texttt{z.ParaChecker}).  However, this would have meant that the
 common code implemented in the current
-\texttt{oz.Checker} class would have had to have been 
+\texttt{oz.Checker} class would have had to have been
 implemented in the base {\tt Checker} class, which would have created
 an undesirable strong coupling between all of the typecheckers.
 
-Mark: should we remove this next para?  It sounds like just a use of standard 
+Mark: should we remove this next para?  It sounds like just a use of standard
 OO subclassing, with the unify method being overridden and calling super?
 
 Other components of the typecheckers are also extended using
@@ -678,7 +684,7 @@ Type}s as parameters and attempts to unify them, returning whether the
 unification was successful, partial (unification did not fail, but
 there are still unresolved types), or failed.  For Object-Z, an
 additional type is needed to handle instances of classes.  The
-overriding method first checks if the types of class types, and
+overriding method first checks if the types are class types, and
 attempts unification on them.  If they are not unifiable, the
 overridden method is called using the {\tt super} keyword.
 
@@ -695,13 +701,11 @@ architecture and the design decisions are understood, the
 implementation task is relatively straightforward, and directly
 benefits from code reuse and elegant object-oriented design.  In
 practice, after understanding the design, creating the prototype
-typechecker for \Circus\ took a couple of days, with the author of the
-\Circus\ typechecker having not previously seen the Z
-typechecker. The obvious advantage is that by inheriting from the
-base Z typechecker, the prototype already enforces standard Z
-type-checking conformance. Once the additional type-rules for \Circus\
-are available, extending the prototype for a full compliance typechecker
-should be straightforward.
+typechecker for \Circus\ took a couple of days. The obvious advantage
+is that by inheriting from the base Z typechecker, the prototype already
+enforces standard Z type-checking conformance. Once the additional
+type-rules for \Circus\ are available, extending the prototype for a full
+compliance typechecker should be straightforward.
 
 
 \section{Animation}
@@ -714,9 +718,9 @@ should be straightforward.
     exploring early specifications in order to ensure that they meet
     the informal requirements.  Moreover, it also provides a
     user-friendly way to present a formal Z specification to users
-    with no prior Z knowledge such as students and industrial users.
+    with no prior Z knowledge such as students and industrial customers.
 
-    Apart from rapid prototyping, another main advantages for
+    Apart from rapid prototyping, other main advantages for
     animating Z specifications are finite theorem proving (or theorem
     testing), and model checking.  These enable one to search for a
     particular solution, or a counter example.  Yet restricted to
@@ -727,7 +731,7 @@ should be straightforward.
     the Z standard.  That is, available animators do not handle some
     constructs, or even worst, deal wrongly with less used ones such
     as definite descriptions ($\mu$).  An extensive discussion and
-    comparison about Z animation tools available are given
+    comparison among Z animation tools available are given
     in~\cite{utting-jaza}.
 
 \subsection{Animation Engine}
@@ -773,7 +777,7 @@ should be straightforward.
     variables-defined, where the solution is just a matter of
     fiddling;~functional, where all inputs are known and one output is
     calculated;~and one-input mode, where at least $n-1$ variables
-    must be defined regardless the orders. At the moment no predicate
+    must be defined regardless the order. At the moment no predicate
     reordering is being performed.  We expect to include predicate
     reorder using $A^*$ or topological-sort algorithms, as suggested
     in~\cite{winikooff98}.
@@ -788,54 +792,6 @@ should be straightforward.
     can form the basis of an open-source cross-platform theorem prover
     (or tester) in Java for Z (and possibly its extensions) in Java
     within the CZT framework.
-
-\subsection{Building GUI for Z Specifications}
-
-
-
-    CZT also contains an automatic graphical animator front-end for
-    Z~\cite{daley2003}.  It is a GUI builder for Z specifications that
-    uses ZLive (or any other engine) for animation, and is based in
-    \textit{Java Beans}~\cite{javabeans}, \textit{Java
-    Script}\footnote{See~\url{http://www.w3schools.com/js}}, and the
-    CZT AST classes. \textit{Java Beans} enables arbitrarily complex
-    user interfaces, \textit{Java Script} enables arbitrarily complex
-    interface behaviour, where the CZT AST plays a central role as the
-    underlying format for animation and persistence through ZML.  This
-    allows the generation of different interface styles by varying the
-    underlying Java Beans properties, where the actual behaviour keeps
-    being managed in the same way by the underlying animation engine
-    \textit{e.g.}, ZLive.
-
-    The main goals of the tool is to provide open-source
-    cross-platform, savable, and customisable GUI front-ends with
-    little or no programming effort, where the history of animation
-    states are managed and controlled by the user interface animation
-    tool.  Once more, XML markup is used as the file format for
-    interfaces to be saved.  This allows, for instance, persistency
-    implementation and animation sessions to be replayed.
-
-    The tool is divided in three stages:~(i)~GUI generation, (ii)~GUI
-    customisation, and~(iii)~GUI animation. The generator
-    automatically provides a default GUI front-end for Z
-    specifications. As Z can be animated in different ways, the
-    designer allows the user to manually build (or customise) the
-    generated user interface using few button clicks, but direct
-    programming (or scripting) is also an option.  Finally, the
-    animator attaches to any underlying animation engine (in the case
-    ZLive), hence enabling the actual animation.
-
-    As occurred for other CZT tools, the front-end generator is also
-    built for extension.  Since it is based on the CZT AST classes and
-    ZML markup, it already opens the possibility for GUI front-end
-    animation for other CZT Z extensions such as Object-Z or \Circus.
-    This is another argument that strengthens the idea of an
-    interchangeable format with the CZT AST classes and ZML markup,
-    since other Z extensions can also directly benefit from GUI
-    front-end animation. Therefore, extending the tool for Object-Z or
-    \Circus\ is possible. That is only possible because all tools
-    share the same representation of a Z specification, namely the ZML
-    markup (or the CZT AST classes).
 
 \subsection{Animating \Circus}
 
@@ -861,15 +817,15 @@ should be straightforward.
     represent (possibly infinite specifications) base on the
     operational semantics of \Circus~\cite{circus.mc:opsem}, and a
     refinement engine that integrates refinement model checking
-    algorithms together with theorem proving facilities.  %
+    algorithms together with theorem proving functionality.  %
     \begin{figure}[t] \begin{center} \epsfig{clip=, scale=0.9,
     file=mc.arch.stages.eps} \end{center} \caption{\Circus\ Model
-    Checking Stages}\label{mc-stages} \end{figure} % The theorem
+    Checking Stages}\label{mc-stages} \end{figure} The theorem
     proving module presents both in the compiler and refinement engine
-    dispatches requests for evaluation of Z expressions and predicates
-    as verification conditions over the state operations defined in Z,
-    or possible enabling paths available for investigation from the
-    behavioural actions given using CSP.  At this point theorem
+    dispatches requests for evaluation of Z expressions and predicates.
+    These are either verification conditions over the state operations
+    defined in Z, or possible enabling paths available for investigation
+    from the behavioural actions given using CSP.  At this point theorem
     proving is usually necessary to discharge proof obligations, and
     simplify expressions or predicates. Nevertheless, for
     specifications with simple state operations, animation is also a
@@ -900,12 +856,12 @@ should be straightforward.
                      appropriate.  What about something like data
                      manager, specification manager, cache, session
                      manager, ...
-	\item[Mark] Yes, I like SpecManager, personally (sounds a bit
-		more high-level than SectionManager, and generic enough
-		that it is applicable to all the Z extensions as well.
+    \item[Mark] Yes, I like SpecManager, personally (sounds a bit
+        more high-level than SectionManager, and generic enough
+        that it is applicable to all the Z extensions as well.
     \end{itemize}
 
-  One of the core components of the CZT framework is the 
+  One of the core components of the CZT framework is the
   \emph{section manager}, which is an extensible repository for
   formal methods objects.
   Most of the tools mentioned in the previous sections use the
@@ -933,7 +889,7 @@ should be straightforward.
   the Java class of the type of data associated with this key.  This allows
   several different kinds of objects to be associated with one section,
   and provides some dynamic type security.
-  For example, the Z parser adds the AST of a specification 
+  For example, the Z parser adds the AST of a specification
   it has parsed to the section manager.  The type of a Z section in Java is
   \Interface{ZSect.class}. Thus the AST for a section called \texttt{foo} is
   cached under the key \texttt{(``foo'',~ZSect.class)}.
@@ -943,10 +899,10 @@ should be straightforward.
   \item[Type Extensibility:] Z extensions can easily use the section
     manager to store new types of information, since the flexible
     $(String,Class)$ key system allows arbitrary Java objects to be stored
-    and retrieved.  That is, the kinds of objects managed by the section 
-    manager is open-ended, rather than being a fixed set of Z-related objects.
+    and retrieved.  That is, the kinds of objects managed by the section
+    manager are open-ended, rather than being a fixed set of Z-related objects.
   \item[Command Extensibility:] A Z extension can easily add or override
-    the \emph{default commands} of the section manager.  
+    the \emph{default commands} of the section manager.
     The default commands of the section manager are responsible for
     automatically computing requested objects;~they are
     implemented using the command design pattern~\cite{GamEA:95}. For
@@ -968,78 +924,8 @@ should be straightforward.
   it wants and the section manager will locate the information if it is able.
   This gives a more flexible, \emph{plugin} style of tool development.
 
-
 \section{Other Tools}
 \label{other-tools}
-
-\begin{itemize}
-   \item[Leo] Shall we mention the zpatt package here as well?
-   \item[Leo] Should it be here or in the future work section?
-   \item[Petra] Is it really relevant for this paper?  Perhaps it
-     should go into a completely new paper ...
-\end{itemize}
-
-\subsection{From \Circus\ to Java}
-
-There is ongoing research in a translation strategy from \Circus\ to
-Java~\cite{angela-2005}.  In a \Circus\ specification, CSP operators
-given as actions, as well as Z paragraphs are intermixed.  The
-strategy expects a concrete \Circus\ specification refined using both
-CSP and Z refinement laws using tools such as
-FDR~\cite{csp.tools:fdrm} and a Z refinement tool~\cite{angela-2003}.
-The approach for translation is basically to traverse an AST
-representing the \Circus\ specification, recursively applying the
-refinement steps to the concrete specification in order to get closer
-to what the Java code would look like~\cite{marcel-2004}.
-
-The requirements of the translation tool are well-defined by the
-translation strategy.  The implementation and verification is based on
-a series of case studies written using \LaTeX\ markup.  The tool will
-be used to perform the verification of the some of the translation
-laws given in~\cite{marcel-2004}.  The verification technique employed
-is similar to the one given in~\cite{welch-martin2000}.  However,
-instead of CSP it uses \Circus, and instead of model checking with
-FDR~\cite{csp.tools:fdrm} it uses the refinement
-calculus~\cite{fm.ref:morgan}.  This will form the bases for a
-\Circus\ model for Java.
-
-With the construction of further tools for \Circus\ such as a model
-checker~\cite{circus.mc:leo}, and a theorem
-prover~\cite{circus.sem:pp}, these refinement stages can be done in a
-much more integrated fashion with less expressibility and semantic
-compromises due to restrictions among different tool input formats and
-semantics.  In this scenario, the CZT tools could play an important
-integrating role.
-
-For the CSP parts, the translation strategy uses
-JCSP~\footnote{See~\url{http://www.cs.ukc.ac.uk/projects/ofa/jcsp/}},
-an implementation of \texttt{occam}~\cite{csp.tools:occam} in Java
-that offers most important CSP primitives for concurrency, hence
-allowing a subset of CSP to be directly translated into Java code for
-execution.  For the Z part, the strategy relies on the previous
-refinement steps to have reached a concrete enough state and
-operations representation so that they can be directly implemented
-using Java data types.
-
-Although Java natively provides some concurrent features such as
-shared locks and synchronisation, these do not stop the programmer to
-introduce race hazards and deadlocks.  JCSP then acts as a layer
-between the programmer and the language to free the the latter from
-dealing with concurrent code complexities.  The advantage of JCSP is
-that it shifts the focus from worrying about deadlocks and race
-hazard, to the actual behaviour to be implemented, hence simplifying
-the programmer's work.  At this point, the use of ZLive could
-represent an interesting improvement in the expressibility of
-specifications the translation can handle, as well as alleviating the
-need for numerous refinement iterations.
-
-As the support for \Circus\ in the CZT matures, tools such as this can
-directly benefit not only from the animation point of view through
-ZLive, but also by other available facilities.  For example, as
-\Circus\ is represented in the CZT AST, this translation tool can
-directly benefit from the many advantages already discussed in the
-paper.  This shows the extent to which such an integrated framework
-planned for extension can reach.
 
 \section{Conclusions and Future Work} \label{sec:conclusions}
 
