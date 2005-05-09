@@ -78,9 +78,6 @@ public class ParaChecker
     //reset the primary variable list
     resetPrimary();
 
-    //the list of names declared by this paragraph
-    List<DeclName> declNames = list(className());
-
     //declare the info needed to create the class type
     List<NameTypePair> attributes = list();
 
@@ -120,17 +117,11 @@ public class ParaChecker
       checkForDuplicates(decls, para, ErrorMessage.INCOMPATIBLE_OVERRIDING);
       typeEnv().add(newDecls);
       attrDecls.addAll(newDecls);
-
-      //get the names of declarations
-      for (NameTypePair decl : newDecls) {
-        declNames.add(decl.getName());
-      }
     }
     //add the declarations to the class signature
     cSig.getAttribute().addAll(attrDecls);
 
     //visit the state
-    List<NameTypePair> stateDecls = list();
     State state = classPara.getState();
     if (state != null) {
       Signature signature = (Signature) state.accept(paraChecker());
@@ -138,19 +129,26 @@ public class ParaChecker
       List<NameTypePair> newDecls = signature.getNameTypePair();
       decls.addAll(newDecls);
       checkForDuplicates(decls, state, ErrorMessage.INCOMPATIBLE_OVERRIDING);
-
-      //get the names of declarations
-      for (NameTypePair decl : newDecls) {
-        declNames.add(decl.getName());
-      }
     }
 
     //visit the initial predicate
     InitialState initialState = classPara.getInitialState();
     if (initialState != null) {
+      //enter a new scope
+      typeEnv().enterScope();
+
+      //add the types in the state to the type env
+      typeEnv().add(cSig.getState().getNameTypePair());
+
       List<NameTypePair> pairs = (List) initialState.accept(paraChecker());
       cSig.getState().getNameTypePair().addAll(pairs);
+
+      //exit the scope
+      typeEnv().exitScope();
     }
+
+    //the list of operation names declared by this paragraph
+    List<DeclName> opNames = list();
 
     //visit each operation
     List<Operation> operations = classPara.getOperation();
@@ -163,15 +161,16 @@ public class ParaChecker
         (NameSignaturePair) operation.accept(paraChecker());
       addOperation(pair, cSig);
 
-      //get the names of declarations
-      declNames.add(pair.getName());
+      //add the name of the operation
+      opNames.add(pair.getName());
 
       //exit the scope
       typeEnv().exitScope();
     }
 
     //check the class signature for duplicate declaration names
-    checkForDuplicates(declNames);
+    checkForDuplicates(cSig);
+    checkForDuplicates(opNames);
 
     //add the visibility list to the signature now after the paragraph
     //has been completely visited

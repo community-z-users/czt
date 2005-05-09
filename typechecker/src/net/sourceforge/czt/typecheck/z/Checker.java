@@ -555,7 +555,8 @@ abstract public class Checker
 
           //if the types don't agree, raise an error
           if (unified == FAIL) {
-            Object [] params = {first.getName(), firstType, secondType};
+            //termA is not printed in some error messages
+            Object [] params = {second.getName(), firstType, secondType, termA};
             error(second.getName(), errorMessage, params);
           }
           //if the types do agree, we don't need the second declaration

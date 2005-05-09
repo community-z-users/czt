@@ -357,6 +357,21 @@ abstract public class Checker
     return result;
   }
 
+  //find an attribute in a class signature
+  protected NameTypePair findAttribute(DeclName declName, ClassSig cSig)
+  {
+    NameTypePair result = findInPairList(declName, cSig.getAttribute());
+    return result;
+  }
+
+  //find a state variable in a class signature
+  protected NameTypePair findStateDecl(DeclName declName, ClassSig cSig)
+  {
+    List<NameTypePair> decls = cSig.getState().getNameTypePair();
+    NameTypePair result = findInPairList(declName, decls);
+    return result;
+  }
+
   //find a NameSignaturePair in a class signature
   protected NameSignaturePair findOperation(DeclName declName, ClassSig cSig)
   {

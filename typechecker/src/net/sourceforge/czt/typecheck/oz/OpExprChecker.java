@@ -97,15 +97,15 @@ public class OpExprChecker
   {
     Signature signature = factory().createVariableSignature();
 
-    //if the expression is null, then we use "self" as the instance
     Expr expr = opPromExpr.getExpr();
-    if (expr == null) {
-      RefName refName = factory().createRefName(OzString.SELF, list(), null);
-      expr = factory().createRefExpr(refName, list(), Boolean.FALSE);
-    }
+    Type2 exprType = getSelfType();
 
+    //if the expression is not null, then we use the type of expr
+    if (expr != null) {
+      exprType = (Type2) expr.accept(exprChecker());
+    }
     //get the type of the expression
-    Type2 exprType = (Type2) expr.accept(exprChecker());
+    //Type2 exprType = (Type2) expr.accept(exprChecker());
 
     VariableClassType vClassType = factory().createVariableClassType();
     vClassType.complete();

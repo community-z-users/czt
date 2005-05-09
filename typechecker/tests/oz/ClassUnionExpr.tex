@@ -1,0 +1,43 @@
+\begin{zsection}
+  \SECTION ClassUnionExpr \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  a == 1\\
+  b == \{1\}\\
+  \begin{state}
+    s : \nat\\
+    t : \power \nat
+  \end{state}\\
+  \begin{op}{Op1}
+    s? : \nat
+  \end{op}\\
+  \begin{op}{Op2}
+    t? : \power \nat
+  \end{op}
+\end{class}
+
+\begin{class}{B}
+  b == \{1\}\\
+  c == \{\{1\}\}\\
+  \begin{state}
+    t : \power \nat\\
+    u : \power \power \nat
+  \end{state}\\
+  \begin{op}{Op2}
+    t? : \power \nat
+  \end{op}\\
+  \begin{op}{Op3}
+    u? : \power \power \nat
+  \end{op}
+\end{class}
+
+\begin{class}{Test}
+  \begin{state}
+    ab : A \classuni B\\
+  \where
+    ab.b = \{1\}\\
+    ab.t = \{1\}
+  \end{state}\\
+  OpProm \sdef ab.Op2
+\end{class}

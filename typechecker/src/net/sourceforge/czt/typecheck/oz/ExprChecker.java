@@ -79,23 +79,23 @@ public class ExprChecker
     UResult rUnified = unify(vrPowerType, rType);
     //if the left expr is not a class description, raise an error
     if (!instanceOf(vlPowerType.getType(), ClassRefType.class) &&
-	!instanceOf(vlPowerType.getType(), ClassUnionType.class) &&
-	!instanceOf(vlPowerType.getType(), VariableType.class)) {
+        !instanceOf(vlPowerType.getType(), ClassUnionType.class) &&
+        !instanceOf(vlPowerType.getType(), VariableType.class)) {
       Object [] params = {classUnionExpr, lType};
       error(classUnionExpr, ErrorMessage.NON_CLASS_IN_CLASSUNIONEXPR, params);
     }
 
     //if the right expr is not a class description, raise an error
     if (!instanceOf(vrPowerType.getType(), ClassRefType.class) &&
-	!instanceOf(vrPowerType.getType(), ClassUnionType.class) &&
-	!instanceOf(vrPowerType.getType(), VariableType.class)) {
+        !instanceOf(vrPowerType.getType(), ClassUnionType.class) &&
+        !instanceOf(vrPowerType.getType(), VariableType.class)) {
       Object [] params = {classUnionExpr, rType};
       error(classUnionExpr, ErrorMessage.NON_CLASS_IN_CLASSUNIONEXPR, params);
     }
 
     //if we have class types, intersect the features of the two classes
     if (vlPowerType.getType() instanceof ClassType &&
-	vrPowerType.getType() instanceof ClassType) {
+        vrPowerType.getType() instanceof ClassType) {
       ClassType lClassType = (ClassType) vlPowerType.getType();
       ClassType rClassType = (ClassType) vrPowerType.getType();
       ClassSig lcSig = lClassType.getClassSig();
@@ -104,25 +104,65 @@ public class ExprChecker
       ClassSig cSig = factory().createVariableClassSig();
       //if both signatures are complete
       if (!instanceOf(lcSig, VariableClassSig.class) &&
-	  !instanceOf(rcSig, VariableClassSig.class)) {
+          !instanceOf(rcSig, VariableClassSig.class)) {
 
-	List<ClassRef> classes = list();
-	Signature state = factory().createVariableSignature();
-	List<NameTypePair> attrs = list();
-	List<NameSignaturePair> ops = list();
-	
-	//check that the features are compatible, and find common elements
-	List<NameTypePair> lPairs = lcSig.getState().getNameTypePair();
-	List<NameTypePair> rPairs = rcSig.getState().getNameTypePair();
-	for (NameTypePair lPair : lPairs) {
-	  NameTypePair rPair = findInPairList(lPair.getName(), rPairs);
-	  if (rPair != null) {
-	    //if the types do not unify, raise an error
-	    
-	  }
-	}
+        List<ClassRef> classes = list();
+        Signature state = factory().createSignature();
+        List<NameTypePair> attrs = list();
+        List<NameSignaturePair> ops = list();
+
+        //check that the features are compatible, and find common elements
+        List<NameTypePair> lsPairs = lcSig.getState().getNameTypePair();
+        List<NameTypePair> rsPairs = rcSig.getState().getNameTypePair();
+        for (NameTypePair lPair : lsPairs) {
+          NameTypePair rPair = findInPairList(lPair.getName(), rsPairs);
+          if (rPair != null) {
+            state.getNameTypePair().add(lPair);
+            state.getNameTypePair().add(rPair);
+          }
+        }
+        //check compatibility
+        checkForDuplicates(state.getNameTypePair(), classUnionExpr,
+                           ErrorMessage.INCOMPATIBLE_FEATURE_IN_CLASSUNIONEXPR);
+
+        List<NameTypePair> laPairs = lcSig.getAttribute();
+        List<NameTypePair> raPairs = rcSig.getAttribute();
+        for (NameTypePair lPair : laPairs) {
+          NameTypePair rPair = findInPairList(lPair.getName(), raPairs);
+          if (rPair != null) {
+            attrs.add(lPair);
+            attrs.add(rPair);
+          }
+        }
+        //check compatibility
+        checkForDuplicates(attrs, classUnionExpr,
+                           ErrorMessage.INCOMPATIBLE_FEATURE_IN_CLASSUNIONEXPR);
+
+        List<NameSignaturePair> loPairs = lcSig.getOperation();
+        List<NameSignaturePair> roPairs = rcSig.getOperation();
+        for (NameSignaturePair lPair : loPairs) {
+          DeclName lName = lPair.getName();
+          NameSignaturePair rPair = findOperation(lName, rcSig);
+          if (rPair != null) {
+            Signature lSig = lPair.getSignature();
+            Signature rSig = rPair.getSignature();
+            UResult unified = unify(lSig, rSig);
+            if (unified == FAIL) {
+              Object [] params = {lName, classUnionExpr, lSig, rSig};
+              error(lName, ErrorMessage.INCOMPATIBLE_OP_IN_CLASSUNIONEXPR, params);
+            }
+            else {
+              ops.add(lPair);
+            }
+          }
+        }
+
+        //add the class references
+        classes.addAll(lcSig.getClasses());
+        classes.addAll(rcSig.getClasses());
+        cSig = factory().createClassSig(classes, state, attrs, ops);
       }
-      
+
       ClassUnionType classUnionType = factory().createClassUnionType(cSig);
       type = factory().createPowerType(classUnionType);
     }
@@ -146,7 +186,7 @@ public class ExprChecker
 
     //if the expr is not a class type, raise an error
     if (!instanceOf(vPowerType.getType(), ClassRefType.class) &&
-	!instanceOf(vPowerType.getType(), VariableType.class)) {
+        !instanceOf(vPowerType.getType(), VariableType.class)) {
       Object [] params = {polyExpr, exprType};
       error(polyExpr, ErrorMessage.NON_REF_IN_POLYEXPR, params);
     }
@@ -167,15 +207,15 @@ public class ExprChecker
             if (contains(subClass.getSuperClass(), cRef)) {
               //the subclasses must have the same number of parameters as
               //the "top-level" class
-	      final int superSize = cRef.getType2().size();
-	      final int subSize = subClass.getThisClass().getType2().size();
-	      if (superSize != subSize) {
-		Object [] params = {cRef.getRefName(), superSize, 
-				    subClass.getThisClass().getRefName(),
-				    subSize};
-		error(polyExpr,
-		      ErrorMessage.PARAMETER_MISMATCH_IN_POLYEXPR, params);
-	      }
+              final int superSize = cRef.getType2().size();
+              final int subSize = subClass.getThisClass().getType2().size();
+              if (superSize != subSize) {
+                Object [] params = {cRef.getRefName(), superSize,
+                                    subClass.getThisClass().getRefName(),
+                                    subSize};
+                error(polyExpr,
+                      ErrorMessage.PARAMETER_MISMATCH_IN_POLYEXPR, params);
+              }
               ClassRef subCRef = factory().createClassRef();
               subCRef.setRefName(subClass.getThisClass().getRefName());
               subCRef.getType2().addAll(cRef.getType2());
@@ -238,31 +278,31 @@ public class ExprChecker
         type = (Type2) zExprChecker_.visitBindSelExpr(bindSelExpr);
       }
       else if (exprType instanceof ClassType) {
-	ClassType classType = (ClassType) exprType;
-	ClassSig classSig = classType.getClassSig();
-	if (!instanceOf(classSig, VariableClassSig.class)) {
-	  RefName selectName = bindSelExpr.getName();
-	  
-	  //try to find the name in the state signature
-	  Signature signature = classSig.getState();
-	  NameTypePair pair = findInSignature(selectName, signature);
+        ClassType classType = (ClassType) exprType;
+        ClassSig classSig = classType.getClassSig();
+        if (!instanceOf(classSig, VariableClassSig.class)) {
+          RefName selectName = bindSelExpr.getName();
 
-	  //if it is not found, try the attributes
-	  if (pair == null) {
-	    List<NameTypePair> pairs = classSig.getAttribute();
-	    pair = findInPairList(selectName, pairs);
-	  }
+          //try to find the name in the state signature
+          Signature signature = classSig.getState();
+          NameTypePair pair = findInSignature(selectName, signature);
 
-	  //if it is not in the state or attributes, raise an error
-	  if (pair == null) {
-	    Object [] params = {bindSelExpr};
-	    error(selectName, ErrorMessage.NON_EXISTENT_SELECTION, params);
-	  }
-	  //otherwise, the type is the type of the selection
-	  else {
-	    type = unwrapType(pair.getType());
-	  }
-	}
+          //if it is not found, try the attributes
+          if (pair == null) {
+            List<NameTypePair> pairs = classSig.getAttribute();
+            pair = findInPairList(selectName, pairs);
+          }
+
+          //if it is not in the state or attributes, raise an error
+          if (pair == null) {
+            Object [] params = {bindSelExpr};
+            error(selectName, ErrorMessage.NON_EXISTENT_SELECTION, params);
+          }
+          //otherwise, the type is the type of the selection
+          else {
+            type = unwrapType(pair.getType());
+          }
+        }
       }
       else {
         Object [] params = {bindSelExpr, exprType};
@@ -288,22 +328,22 @@ public class ExprChecker
 
     if (unified == FAIL) {
       Object [] params = {renameExpr, exprType};
-      error(renameExpr, ErrorMessage.NON_SCHEXPR_IN_RENAMEEXPR, params);      
+      error(renameExpr, ErrorMessage.NON_SCHEXPR_IN_RENAMEEXPR, params);
     }
     else if (!instanceOf(vPowerType.getType(), VariableType.class)) {
       if (vPowerType.getType() instanceof ClassRefType) {
-	ClassType classType = (ClassType) vPowerType.getType();
-	ClassSig classSig = classType.getClassSig();
-	if (!instanceOf(classSig, VariableClassSig.class)) {
-	  
-	}
+        ClassType classType = (ClassType) vPowerType.getType();
+        ClassSig classSig = classType.getClassSig();
+        if (!instanceOf(classSig, VariableClassSig.class)) {
+
+        }
       }
       else if (vPowerType.getType() instanceof SchemaType) {
         type = (Type2) zExprChecker_.visitRenameExpr(renameExpr);
       }
       else {
         Object [] params = {renameExpr, exprType};
-	error(renameExpr, ErrorMessage.NON_SCHEXPR_IN_RENAMEEXPR, params);
+        error(renameExpr, ErrorMessage.NON_SCHEXPR_IN_RENAMEEXPR, params);
       }
     }
 
