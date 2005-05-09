@@ -614,9 +614,6 @@ handled by delegation to the original
 It is interesting to see how this delegation is achieved, given than
 Java does not support multiple inheritance.
 
-MARK: I think we can shorten the next three paragraphs to just a
-few sentences (to explain the delegation).
-
 We rely on the general
 visiting protocol described in Section~\ref{java-ast-classes} and
 in~\cite{czt}.  That is, firstly {\tt oz.ExprChecker} catches all
@@ -635,33 +632,12 @@ remaining {\tt Expr} is implemented as
   }
 \end{verbatim}
 
-Therefore, when {\tt oz.ExprChecker} does not implement a visit method
-for a particular expression, it calls the instance of {\tt
-z.ExprChecker} to visit that expression, hence reusing the code
-implementation for the base language.  Finally, a new {\tt
-oz.TypeChecker} class, which inherits the base {\tt z.TypeChecker}, is
-created aggregating (by reference) the new type-rule visitors.  Since
-it inherits from the {\tt z.TypeChecker}, the original type-rule
-visitors are accessible to enabled the extended typechecker to forward
-type-rule visitors to the base typechecker.  Because visitor
-interfaces are used, the underlying implementation of the extended
-typechecker need not inherit from the base typechecker, and the way to
-access these type-rule visitors via the {\tt TypeChecker} class
-remains the same.  So, a statement in a type-rule visitor asking
-an {\tt Expr} to accept a visitor would be written:
-%
-\begin{verbatim}
-  Type2 type = (Type2) expr.accept(exprChecker());
-\end{verbatim}
-%
-The method {\tt exprChecker()} returns a {\tt Checker} instance, and
-is implemented in {\tt z.Checker}. It is shorthand for the expression
-type-rule visitor inside the {\tt TypeChecker} object. Therefore, the
-visitor that this {\tt Expr} accepts is based on the runtime value of
-that object, which in the case of the Z typechecker, would be an
-instance of {\tt z.ExprChecker}, but in the case of the Object-Z
-typechecker, would be an instance of {\tt oz.ExprChecker}.
-
+Each time a checker is needed to visit an object, the call is
+delegated to the appropriate reference in the {\tt TypeChecker}
+class. Therefore, a call to the {\tt ExprChecker} in the program code
+that is used to implement the Z typechecker, will call the above
+method in the Object-Z {\tt ExprChecker} if we are using Object-Z {\tt
+TypeChecker} class.
 
 
 Although this is an unusual design, it is clear that it provides good
@@ -674,19 +650,10 @@ common code implemented in the current
 implemented in the base {\tt Checker} class, which would have created
 an undesirable strong coupling between all of the typecheckers.
 
-Mark: should we remove this next para?  It sounds like just a use of standard
-OO subclassing, with the unify method being overridden and calling super?
-
-Other components of the typecheckers are also extended using
-inheritance.  For example, the class for type unification is extended
-by overriding the {\tt unify} method in that class.  It takes two {\tt
-Type}s as parameters and attempts to unify them, returning whether the
-unification was successful, partial (unification did not fail, but
-there are still unresolved types), or failed.  For Object-Z, an
-additional type is needed to handle instances of classes.  The
-overriding method first checks if the types are class types, and
-attempts unification on them.  If they are not unifiable, the
-overridden method is called using the {\tt super} keyword.
+Other components are extended using inheritance. For example, the
+class for type unification is extended by overriding the {\tt unify}
+method in that class, and calling the superclass's {\tt unify} method
+for standard Z types.
 
 Our experience is that the above extensible typechecker design makes
 it much easier to build multi-lingual typecheckers.  That is, a family
