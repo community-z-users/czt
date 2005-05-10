@@ -610,7 +610,7 @@ Object-Z-specific checking.  The remaining standard Z constructs are
 handled by delegation to the original
 \texttt{z.\emph{XXXX}Checker} object.
 
-It is interesting to see how this delegation is achieved, given than
+It is interesting to see how this delegation is achieved, given that
 Java does not support multiple inheritance.
 
 We rely on the general
@@ -639,15 +639,15 @@ method in the Object-Z {\tt ExprChecker} if we are using Object-Z {\tt
 TypeChecker} class.
 
 
-Although this is an unusual design, it is clear that it provides good
+Although this is an unusual design, it has proven to provide good
 and elegant support for extension.  An alternative approach that we
 considered was for the Object-Z checkers to directly subclass the Z
 checker subclasses (e.g., \texttt{oz.ParaChecker} to inherit
 \texttt{z.ParaChecker}).  However, this would have meant that the
 common code implemented in the current
 \texttt{oz.Checker} class would have had to have been
-implemented in the base {\tt Checker} class, which would have created
-an undesirable strong coupling between all of the typecheckers.
+implemented in the base {\tt Checker} class, which results in an
+undesirable strong coupling between all of the typecheckers.
 
 Other components are extended using inheritance. For example, the
 class for type unification is extended by overriding the {\tt unify}
@@ -671,7 +671,7 @@ typechecker for \Circus\ took a couple of days. The obvious advantage
 is that by inheriting from the base Z typechecker, the prototype already
 enforces standard Z type-checking conformance. Once the additional
 type-rules for \Circus\ are available, extending the prototype for a full
-compliance typechecker should be straightforward.
+compliance typechecker is straightforward.
 
 
 \section{Animation}
