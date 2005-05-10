@@ -122,10 +122,9 @@
   reuse. Section~\ref{animation} presents the animation method used in
   the CZT animator, ZLive, and discusses the possibility of using this
   to animate extensions to Z. Section~\ref{section-manager} presents
-  the design of the {\em section manager}, an integral component of
-  CZT that caches information about specifications to improve the
-  efficiency of the tools, while Section~\ref{other-tools} briefly
-  discusses other CZT tools. Section~\ref{sec:conclusions} concludes
+  the design of the {\em specification manager}, an integral component
+  of CZT that caches information about specifications to improve the
+  efficiency of the tools.  Section~\ref{sec:conclusions} concludes
   the paper and discusses the future of the CZT project.
 
 
@@ -815,84 +814,75 @@ compliance typechecker should be straightforward.
     resort to some alternative solution such as SAT solvers, and
     general-purpose theorem provers.
 
-\section{Section Manager}
+\section{Specification Manager}
 \label{section-manager}
 
-    \begin{itemize}
-        \item[Petra] I wonder whether the name ``section manager'' is
-                     appropriate.  What about something like data
-                     manager, specification manager, cache, session
-                     manager, ...
-    \item[Mark] Yes, I like SpecManager, personally (sounds a bit
-        more high-level than SectionManager, and generic enough
-        that it is applicable to all the Z extensions as well.
-    \end{itemize}
-
   One of the core components of the CZT framework is the
-  \emph{section manager}, which is an extensible repository for
-  formal methods objects.
-  Most of the tools mentioned in the previous sections use the
-  section manager to enquire about specific aspects of a
-  specification.  For example, to be able to parse a Z section, the Z
-  parser needs the operator definitions of the parent sections.  In
-  order to typecheck a Z section, the section must be parsed and the
-  parents of that section typechecked.  To print a Z section in
-  \LaTeX\ markup, the operator definitions and \LaTeX\ markup
-  directives of the parent sections are needed.
+  \emph{specification manager}, which is an extensible repository for
+  formal methods objects.  Most of the tools mentioned in the previous
+  sections use the specification manager to enquire about specific
+  aspects of a specification.  For example, to be able to parse a Z
+  section, the Z parser needs the operator definitions of the parent
+  sections.  In order to typecheck a Z section, the section must be
+  parsed and the parents of that section typechecked.  To print a Z
+  section in \LaTeX\ markup, the operator definitions and \LaTeX\
+  markup directives of the parent sections are needed.
 
-  While it would be possible to hard-code these dependencies and let, for
-  example, the \LaTeX\ markup printer call the parser for the parent
-  sections directly, it is more convenient, extensible, and efficient
-  to have a central repository that is responsible for this task.
-  The CZT section manager caches information about all the
-  specifications and Z sections that are being processed and
+  While it would be possible to hard-code these dependencies and let,
+  for example, the \LaTeX\ markup printer call the parser for the
+  parent sections directly, it is more convenient, extensible, and
+  efficient to have a central repository that is responsible for this
+  task.  The CZT specification manager caches information about all
+  the specifications and Z sections that are being processed and
   automatically runs tools such as markup converters, parsers and
   typecheckers when necessary.  The caching of the parsed form of
   commonly used objects, such as standard toolkit sections, avoids
-  repeated parsing and analysis of these objects and can give significant
-  performance improvements.  Abstractly, the cache is a
-  mapping from a key to the actual data.  The key is a $(String,Class)$ pair,
-  where the $String$ is usually the name of the section, and the $Class$ is
-  the Java class of the type of data associated with this key.  This allows
-  several different kinds of objects to be associated with one section,
-  and provides some dynamic type security.
-  For example, the Z parser adds the AST of a specification
-  it has parsed to the section manager.  The type of a Z section in Java is
-  \Interface{ZSect.class}. Thus the AST for a section called \texttt{foo} is
-  cached under the key \texttt{(``foo'',~ZSect.class)}.
+  repeated parsing and analysis of these objects and can give
+  significant performance improvements.  Abstractly, the cache is a
+  mapping from a key to the actual data.  The key is a
+  $(String,Class)$ pair, where the $String$ is usually the name of the
+  section, and the $Class$ is the Java class of the type of data
+  associated with this key.  This allows several different kinds of
+  objects to be associated with one section, and provides some dynamic
+  type security.  For example, the Z parser adds the AST of a
+  specification it has parsed to the specification manager.  The type
+  of a Z section in Java is \Interface{ZSect.class}. Thus the AST for
+  a section called \texttt{foo} is cached under the key
+  \texttt{(``foo'',~ZSect.class)}.
 
-  The CZT section manager supports two important kinds of extensibility:
+  The CZT specification manager supports two important kinds of
+  extensibility:
   \begin{description}
-  \item[Type Extensibility:] Z extensions can easily use the section
-    manager to store new types of information, since the flexible
-    $(String,Class)$ key system allows arbitrary Java objects to be stored
-    and retrieved.  That is, the kinds of objects managed by the section
-    manager are open-ended, rather than being a fixed set of Z-related objects.
-  \item[Command Extensibility:] A Z extension can easily add or override
-    the \emph{default commands} of the section manager.
-    The default commands of the section manager are responsible for
-    automatically computing requested objects;~they are
+  \item[Type Extensibility:] Z extensions can easily use the
+    specification manager to store new types of information, since the
+    flexible $(String,Class)$ key system allows arbitrary Java objects
+    to be stored and retrieved.  That is, the kinds of objects managed
+    by the specification manager are open-ended, rather than being a
+    fixed set of Z-related objects.
+  \item[Command Extensibility:] A Z extension can easily add or
+    override the \emph{default commands} of the specification manager.
+    The default commands of the specification manager are responsible
+    for automatically computing requested objects;~they are
     implemented using the command design pattern~\cite{GamEA:95}. For
     example, if the AST (i.e. data of type \Interface{ZSect.class})
     for section \texttt{foo} is required and has not already been
-    cached, the Z parser is called by the section manager in order to
-    parse the specification file containing section \texttt{foo}.
-    Here, the Z parser is the default command to compute data of type
-    \Interface{ZSect.class}.  A Z extension that needs to use a different
-    parser can simply override the default command associated with
-    the type \Interface{ZSect.class}.  For example, the section
-    manager can be configured to always use the Object-Z parser.
+    cached, the Z parser is called by the specification manager in
+    order to parse the specification file containing section
+    \texttt{foo}.  Here, the Z parser is the default command to
+    compute data of type \Interface{ZSect.class}.  A Z extension that
+    needs to use a different parser can simply override the default
+    command associated with the type \Interface{ZSect.class}.  For
+    example, the specification manager can be configured to always use
+    the Object-Z parser.
     \end{description}
 
-  A major advantage of this default command approach is that it simplifies
-  tool development and makes tools more flexible, because a particular
-  tool does not have to know which other tools to use in order to
-  find information about a section --- it simply requests the key that
-  it wants and the section manager will locate the information if it is able.
-  This gives a more flexible, \emph{plugin} style of tool development.
-
-\section{Other Tools}
-\label{other-tools}
+  A major advantage of this default command approach is that it
+  simplifies tool development and makes tools more flexible, because a
+  particular tool does not have to know which other tools to use in
+  order to find information about a section --- it simply requests the
+  key that it wants and the specification manager will locate the
+  information if it is able.  This gives a more flexible,
+  \emph{plugin} style of tool development.
 
 \section{Conclusions and Future Work} \label{sec:conclusions}
 
