@@ -102,7 +102,7 @@
   refinement language that combines Z, CSP~\cite{csp.books:roscoe},
   and the refinement calculus~\cite{fm.ref:morgan}, with Hoare and
   He's \textit{Unifying Theories of Programming} (UTP) as the semantic
-  background~\cite{hoare.utp}.
+  background~\cite{hoare.utp}\footnote{See~\url{http://www.cs.york.ac.uk/circus/}}.
 
   This paper describes the engineering techniques used in the CZT framework
   to maximise extensibility and reuse.
@@ -674,145 +674,161 @@ type-rules for \Circus\ are available, extending the prototype for a full
 compliance typechecker is straightforward.
 
 
-\section{Animation}
-\label{animation}
+\section{Animation}\label{animation}
 
     Further to parsing and typechecking standard Z and its extensions,
-    CZT also includes animation facilities. Z animation is
-    particularly useful for testing, rapid prototyping, and
-    experimenting. These facilitates the tasks of debugging and
-    exploring early specifications in order to ensure that they meet
-    the informal requirements.  Moreover, it also provides a
-    user-friendly way to present a formal Z specification to users
-    with no prior Z knowledge such as students and industrial customers.
+    CZT also includes animation facilities with the ZLive tool.
+    Z animation is particularly useful for testing, rapid prototyping,
+    and experimenting.
 
-    Apart from rapid prototyping, other main advantages for
-    animating Z specifications are finite theorem proving (or theorem
-    testing), and model checking.  These enable one to search for a
-    particular solution, or a counter example.  Yet restricted to
-    finite state models, it allows validation, verification, and
-    experimentation with Z specifications.
+    Other main advantages for animating Z specifications are finite
+    theorem proving (or theorem testing), and model checking.
+    Yet restricted to finite state models, animation allows validation,
+    verification, and experimentation with Z specifications.
+    An extensive discussion and comparison among Z animation tools
+    available are given in~\cite{utting-jaza}.
 
-    Another important aspect about Z animators is the conformance with
-    the Z standard.  That is, available animators do not handle some
-    constructs, or even worst, deal wrongly with less used ones such
-    as definite descriptions ($\mu$).  An extensive discussion and
-    comparison among Z animation tools available are given
-    in~\cite{utting-jaza}.
+\subsection{Extending ZLive}
 
-\subsection{Animation Engine}
-
-    As the CZT already implements parsing and typechecking for
-    standard Z, a typechecked AST is already available for the CZT Z
-    animator:~ZLive.  ZLive is an animator capable of evaluating
-    predicates and expressions using mode and subtype
-    analysis~\cite{winikooff98}.  Mode analysis is a procedure that
-    determines the possible modes that a Z term can be evaluated. It
-    works much like the solutions for a system of linear equations.
+    ZLive is an animator capable of evaluating predicates and
+    expressions using mode and subtype analysis~\cite{winikooff98},
+    where its architecture is based on a previous Z animator implemented in
+    Haskell\footnote{See~\url{http://www.cs.waikato.ac.nz/~marku/jaza/}}.
     Mode analysis consists of including additional (type and formulae
     ordering) information not present in specifications, which enable
     evaluation and animation.
 
-    The tool expects a typechecked CZT AST corresponding to the Z
-    specification to animate as input. Its architecture is based on a
-    previous Z animator implemented in
-    Haskell\footnote{See~\url{http://www.cs.waikato.ac.nz/~marku/jaza/}}.
     The ZLive architecture is divided into six tasks.  Firstly, a
-    target expression within the loaded specification is given.
-    Secondly, the definitions are unfolded so that schema inclusions
-    and toolkit operations are grounded to base terms. Next, the
-    unfolded definitions are flattened into atomic predicates, hence
-    reducing the specification to a normal form.  After that, possible
-    evaluation modes are calculated for each flatten predicate.  This
-    also includes an estimated number solutions.  These
-    moded-predicates are then reordered to the cheapest solution order
-    in terms of number of solutions. Finally, all solutions are lazily
+    target expression is given. Secondly, the definitions are unfolded
+    so that schema inclusions are grounded to base terms. Next, the
+    unfolded definitions are flattened into a normal form of atomic predicates.
+    After that, possible evaluation modes are calculated for each flatten predicate.
+    These moded-predicates are then reordered according to the cheapest solution
+    order in terms of number of solutions. Finally, all solutions are lazily
     enumerated as requested.
 
-    ZLive currently supports the following flattened predicate
-    constructs: arithmetic operators such as $-$, $+$, $*$, $\leq$,
-    $<$, $\mathtt{div}$, $\mathtt{mod}$, and $\mathtt{succ}$;~set
-    representations for comprehension, ranges, and displays;~most
-    logic ($\forall$, $\exists$, $\lnot$, $\land$), and set operators
-    ($=$, $\in$, $\#$);~unfolding of simple definitions; ~tuples,
-    schema bindings and constants.  We are working to include other
-    set operators such as $\cup$ and $\cap$ soon.  While performing
-    mode analysis, the main issue is to find the best mode with
-    respect to the complexity of solutions it represents. At the
-    moment ZLive only implements three modes:~all-free
+    ZLive currently supports basic logic and arithmetic operators
+    (\textit{e.g.} $\forall$, $\exists$, $\lnot$, $\land$, $-$,
+    $+$, $*$, $\leq$, $<$, $\mathtt{div}$, $\mathtt{mod}$, $\mathtt{succ}$),
+    set representations (comprehension, ranges, and displays), unfolding
+    of simple definitions, tuples, and schema bindings.
+    While performing mode analysis, the main issue is to find the best
+    mode with respect to the complexity of solutions it represents.
+    Currently ZLive only implements three modes:~all-free
     variables-defined, where the solution is just a matter of
     fiddling;~functional, where all inputs are known and one output is
     calculated;~and one-input mode, where at least $n-1$ variables
-    must be defined regardless the order. At the moment no predicate
-    reordering is being performed.  We expect to include predicate
-    reorder using $A^*$ or topological-sort algorithms, as suggested
-    in~\cite{winikooff98}.
+    must be defined regardless the order.
 
-    We are currently experimenting with ZLive within the development
-    of a model checker for \Circus~\cite{circus.mc:leo}.  Thus, we
-    plan to extend the available flattened predicates in order to
-    cover most frequently Z constructs used in \Circus\
-    specifications.  We also expect to include in ZLive predicate
-    transformers, schema unfolding, and a tactic language in the
-    spirit of ANGEL~\cite{z.others:angel}.  These last improvements
-    can form the basis of an open-source cross-platform theorem prover
-    (or tester) in Java for Z (and possibly its extensions) in Java
-    within the CZT framework.
+    We envisage the following possibilities in using ZLive for a new Z extension:
+    \begin{description}
+        \item[Explicit Inclusion:] Each new Z construct, as well as further
+            evaluation algorithms, are \textbf{directly} added to ZLive \textbf{via interface
+            and class inheritance} similarly to the CZT typechecker.
 
-\subsection{Animating \Circus}
+        \item[Transformation to Standard Z:] If each new Z construct can be transformed
+            back into standard Z \textbf{using rewriting rules}, then ZLive can be used directly.
+            This is the approach taken by the proposed Object-Z animator~\textbf{*(any reference?)*}.
+            This approach is of rewriting specifications is similar to the Z
+            \textbf{refinement calculus}~\cite{z.others:ana.phd,fm.ref:morgan}.
 
-    Another interesting task under development is the use of ZLive
-    within the \Circus\ model checker in order to evaluate the Z part
-    of \Circus\ specifications~\cite{circus.mc:leo}.  As already
-    mentioned, \Circus\ is a unified language~\cite{circus.sem:intro}
-    tailored for refinement that combines Z,
-    CSP~\cite{csp.books:roscoe} and the refinement
-    calculus~\cite{fm.ref:morgan} using the \textit{Unified Theories
-    of Programming}~\cite{hoare.utp} as the semantic background.
-    Among other aspects, we are particularly interested in integration
-    of model checking and theorem proving facilities for \Circus. In
-    this direction, animation plays an important part in the
-    evaluation of Z terms used to describe state aspects of dependable
-    and distributed systems.
+        \item[Operational Semantics:] If the operational semantics
+            of the new language can be given in standard Z, one can use ZLive
+            directly to animate the new Z extension. Although it is \textbf{a
+            meta-level approach for execution}, its performance should not
+            suffer much as the semantics is animated using standard Z in
+            ZLive directly. This approach is taken for animating the
+            operational semantics of \Circus~\cite{circus.mc:opsem}.
+    \end{description}
+    Depending on the new language constructs to be animated, these possibilities
+    can be combined. Furthermore, we expect to include in ZLive predicate transformers,
+    schema unfolding, and a tactic language in the spirit of ANGEL~\cite{z.others:angel}.
+    These improvements enable a basis for a theorem prover for standard Z
+    and its extensions that is open-source and cross-platform.
+
+\subsection{Extension Example: Animating \Circus}
+
+    We are currently experimenting using ZLive within the development
+    of a model checker for \Circus~\cite{circus.mc:leo}. Among other aspects,
+    we are particularly interested in integration of model checking and
+    theorem proving facilities for \Circus. In this direction, animation plays
+    an important part in the evaluation of Z terms used to describe state
+    aspects of dependable and distributed systems.
 
     The \Circus\ model checker architecture is divided into four main
-    tasks as shown in Figure~\ref{mc-stages}.  The first two involve
-    parsing and typechecking. They use the CZT tools described in
-    earlier sections. The last two stages involve the construction of
-    a \textit{Predicate Transition System} (PTS) that finitely
-    represent (possibly infinite specifications) base on the
-    operational semantics of \Circus~\cite{circus.mc:opsem}, and a
-    refinement engine that integrates refinement model checking
-    algorithms together with theorem proving functionality.  %
-    \begin{figure}[t] \begin{center} \epsfig{clip=, scale=0.9,
-    file=mc.arch.stages.eps} \end{center} \caption{\Circus\ Model
-    Checking Stages}\label{mc-stages} \end{figure} The theorem
-    proving module presents both in the compiler and refinement engine
-    dispatches requests for evaluation of Z expressions and predicates.
-    These are either verification conditions over the state operations
-    defined in Z, or possible enabling paths available for investigation
-    from the behavioural actions given using CSP.  At this point theorem
-    proving is usually necessary to discharge proof obligations, and
-    simplify expressions or predicates. Nevertheless, for
-    specifications with simple state operations, animation is also a
-    good idea that can improve the automation of the model checking
-    process.
+    tasks as shown in Fig.~\ref{mc-stages}.  The first two involve
+    parsing a \Circus\ specification in \LaTeX\ to produce an CZT AST,
+    and typechecking to produce an annotated AST$_{+}$.
+    They use the CZT parser and typechecker described in earlier sections.
+    The last two stages involve compilation and refinement search.
+    From the annotated AST$_{+}$ the compiler builds a \textit{Predicate Transition System}
+    (PTS) that finitely represent (possibly infinite specifications) base on the
+    operational semantics of \Circus~\cite{circus.mc:opsem}. Both the PTS and
+    the AST$_{+}$ are given to the model checker engine that integrates refinement
+    model checking algorithms~\cite{csp.mc:main,csp.mc:bissequiv}
+    together with theorem proving and debugging
+    functionalities\footnote{See~\url{http://www.cs.york.ac.uk/circus/model-checker}}.
+    The result is a (possibly empty) set of witnesses representing failed
+    refinement conditions. More details of this architecture can be found in~\cite{circus.mc:leo}.
+    \begin{figure}[t]
+        \begin{center}
+            \epsfig{clip=, scale=0.9, file=mc.arch.stages.eps}
+        \end{center} \caption{\Circus\ Model Checking Stages}\label{mc-stages}
+    \end{figure}
 
-    The role ZLive plays in this architecture is to tackle the
-    requests to evaluate Z expressions and predicates from the
-    compiler and refinement engine.  As the operational semantics of
+    In this architecture ZLive is used from two different perspectives:~(i)~to
+    the Z part of \Circus\ specifications, and~(ii)~to evaluate the operational
+    semantics of \Circus\ given in Z while performing the model checking search.
+    The former extends ZLive available flattened predicates in order to cover
+    most frequently Z constructs used in \Circus\ specifications, whereas the
+    latter directly uses available constructs to animate the \Circus\ semantics.
+
+    For example, as both \Circus\ specifications and the language operational
+    semantics are heavily based on the schema calculus, extension of ZLive with
+    with schema unfolding and operators such as $\theta$ is very important.
+    This illustrates the first and third approaches for extending ZLive
+    we have mentioned earlier. Although the approach on transformation rules
+    can avoid necessary extensions, it demands the rewriting laws to be proved.
+    As \Circus\ is heavily based on the notion of stepwise refinement,
+    the second approach fits nicely with the philosophy of \Circus.
+    Work in this direction of a refinement calculus for \Circus\ is under
+    development~\cite{circus.ref:marcel}. It also includes the basis for a
+    \Circus\ theorem prover~\cite{circus.sem:pp}.
+
+    The theorem proving module in the model checker presents both in the
+    compiler and refinement engine dispatches requests for evaluation of Z
+    expressions and predicates. These are either verification conditions over
+    the state operations defined in Z, or possible enabling paths available
+    for investigation from the behavioural actions given using CSP.
+    They are both given as standard Z statements from the operational semantics of \Circus.
+    At this point theorem proving is usually necessary to discharge proof obligations,
+    and transform expressions or predicates. Nevertheless, for specifications
+    with simple state operations, animation is also a good idea that can improve
+    the automation levels of the model checking process.
+
+    The role ZLive plays in this scenario is to tackle the requests to
+    evaluate Z expressions and predicates from the theorem proving module
+    within the compiler and refinement engine.  As the operational semantics of
     \Circus\ is given in Z itself, we can use ZLive as a meta-level
     animator for simple specifications, hence enabling automatic model
-    checking of state-rich \Circus\ specifications.  With few
-    improvements and extensions to the current implementation of ZLive
-    to handle more of the schema calculus, we expect this to be a good
-    example of how to integrate different CZT tools across different
-    paradigms and tool boundaries. Furthermore, as the theorem proving
-    integration architecture of the \Circus\ model checker allows
-    pluggable solutions suitable for individual contexts, if ZLive
-    cannot handle some complex \Circus\ specifications, we can still
-    resort to some alternative solution such as SAT solvers, and
-    general-purpose theorem provers.
+    checking of state-rich \Circus\ specifications.
+
+    With few improvements and extensions to the current implementation of
+    the schema calculus, it should be possible to automatically model check
+    simple-state \Circus\ specifications with in ZLive.
+    Furthermore, as the theorem proving integration architecture of the
+    \Circus\ model checker allows pluggable solutions suitable for individual
+    contexts, if ZLive cannot handle some complex \Circus\ specifications,
+    we can still resort to some alternative solution such as SAT solvers,
+    and general-purpose theorem provers.
+    Nevertheless, the fact ZLive architecture itself already envisage a term
+    rewriting module, theorem proving integration could be done both directly
+    via stand-alone ZLive animation, or indirectly through the combination of
+    ZLive requesting a particular (ANGEL~\cite{z.others:angel}) tactic to be
+    evaluated elsewhere.
+    This is a good \textbf{example of how to integrate different CZT tools across
+    different paradigms and tool boundaries}, from standard Z parsing through
+    extended typechecking and animation.
 
 \section{Specification Manager}
 \label{section-manager}
@@ -886,21 +902,52 @@ compliance typechecker is straightforward.
 
 \section{Conclusions and Future Work} \label{sec:conclusions}
 
-  [Petra: The very first ideas for conclusions; probably needs
-  rewriting:]
+\begin{itemize}
+    \item[Petra:] The very first ideas for conclusions; probably needs rewriting.
+\end{itemize}
 
   In this paper, we presented reuse and extensibility mechanisms that
   makes the CZT framework an ideal starting point to develop new
-  integrated formal methods tools for Z and its extensions.  It is
+  integrated formal methods tools for Z and its extensions.  It has
   shown how the XML schemas for Z and its extensions support reuse of
   all or parts of the language constructs provided.  The generation
   and design of the AST classes is presented.  Using examples from
-  Object Z, TCOZ, and \Circus, it is shown how the CZT tools like
+  Object-Z, TCOZ, and \Circus, it has been shown how the CZT tools like
   parser, typechecker, and animators developed for Standard Z can be
   reused in a way that minimises code duplication and maintenance.
   The strategies presented can also help developers of integrated
   formal methods tools not based on Z to make their framework as
   extensible as possible.
+
+  The process of including a new extension within the CZT framework for
+  parsing and typechecking is divided as follows:
+  \begin{description}
+    \item[1. Extended XML Schema:] Provide a XML schema containing the new language constructs.
+        Depending on the extension, this can import the base standard Z like \Circus\ does, or
+        an already available extension like TCOZ does with Object-Z. Provided the extension
+        language has a well structure BNF syntax, the \textbf{XML schema} should not
+        \textbf{take} more than \textbf{a week to be built}. A good design is one that reuse
+        as much as possible the available XML schema constructs.
+
+    \item[2. New Parsing and Scanning Rules:] Add to the XML template files the new parsing and
+        scanning rules. At this point extensions to the standard toolkit and keywords are also
+        included. Provided one is familiar with Java CUP and JFlex, including new rules should
+        not be very demanding as most of the precedence and reduction problems comes from
+        standard Z complex productions such as operator templates.
+
+    \item[3. Extended Checkers:] Inherit (or create) necessary checker classes for new constructs.
+        As the \textbf{flexible typechecking architecture allows considerable code reuse}, the overall
+        task should be straightforward.
+  \end{description}
+
+  Z parsing and typechecking is neither a novel idea, nor a unavailable resource.
+  Nevertheless, flexible and integrated open-source support for ISO standard Z
+  heavily focused on strong conformance and extensibility was not yet available.
+  The \textbf{philosophy CZT advocates} is simple: \textbf{provide an open-source
+  framework with a set of tools for editing, parsing, typechecking and animating
+  formal specifications written in Z with support for Z extensions}.
+  As new extensions are included and the framework matures, we expect it to become
+  the common base for a growing number of strongly conformed tools for Z and its extensions.
 
 \bibliographystyle{splncs}
 \bibliography{ifm}
