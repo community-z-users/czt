@@ -307,14 +307,13 @@
   you need to do is to implement a new visitor class.
 
   The visitor design pattern used in CZT has been described in detail
-  in~\cite{czt}.  It is a variant of of the \emph{acyclic
+  in~\cite{czt}.  It is a variant of the \emph{acyclic
   visitor}~\cite{Mar:97} pattern and the \emph{default
   visitor}~\cite{Nor:97} pattern.  Its additional advantages over the
-  standard visitor pattern are that it
-  allows the AST interfaces and classes to be extended without
-  affecting existing visitors, and that it allows a visitor to take
-  advantage of the AST inheritance relationships.
-  For example, a copy visitor that copies an AST can
+  standard visitor pattern are that it allows the AST interfaces and
+  classes to be extended without affecting existing visitors, and that
+  it allows a visitor to take advantage of the AST inheritance
+  relationships.  For example, a copy visitor that copies an AST can
   provide a default behaviour for \Interface{Term}, the base of the
   AST inheritance hierarchy.  Since AST classes for extensions also
   derive from \Interface{Term}, this copy visitor works for any
@@ -949,19 +948,38 @@ Circus typechecker should be straightforward.
     \item[Petra:] The very first ideas for conclusions; probably needs rewriting.
 \end{itemize}
 
-  In this paper, we presented reuse and extensibility mechanisms that
-  makes the CZT framework an ideal starting point to develop new
-  integrated formal methods tools for Z and its extensions.  It has
-  shown how the XML schemas for Z and its extensions support reuse of
-  all or parts of the language constructs provided.  The generation
-  and design of the AST classes is presented.  Using examples from
-  Object-Z, TCOZ, and \Circus, it has been shown how the CZT tools like
-  parser, typechecker, and animators developed for Standard Z can be
-  reused in a way that minimises code duplication and maintenance.
-  The strategies presented can also help developers of integrated
-  formal methods tools not based on Z to make their framework as
-  extensible as possible.
+  In this paper, we presented a variety of reuse and extensibility
+  mechanisms that makes the CZT framework an ideal starting point to
+  develop new integrated formal methods tools for Z and its
+  extensions.  It has shown how the XML schemas for Z and its
+  extensions support reuse of all or parts of the language constructs
+  provided.  The generation and design of the AST classes is
+  presented.  Using examples from Object-Z, TCOZ, and \Circus, it has
+  been shown how the CZT tools like parser, typechecker, and animators
+  developed for Standard Z can be reused in a way that minimises code
+  duplication and maintenance.  The strategies presented can also help
+  developers of integrated formal methods tools not based on Z to make
+  their framework as extensible as possible.
 
+  Z parsing and typechecking is neither a novel idea, nor a
+  unavailable resource.  Nevertheless, flexible and integrated
+  open-source support for ISO standard Z heavily focused on strong
+  conformance and extensibility was not yet available.  The
+  \textbf{philosophy CZT advocates} is simple: \textbf{provide an
+  open-source framework with a set of tools for editing, parsing,
+  typechecking and animating formal specifications written in Z with
+  support for Z extensions}.  As new extensions are included and the
+  framework matures, we expect it to become the common base for a
+  growing number of strongly conformed tools for Z and its extensions.
+
+\begin{itemize}
+  \item [Petra] The following does not really fit into the paper
+    because it is more a step by step guide how to extend CZT (which
+    is only a subtheme of the paper theme).  I discussed with Mark
+    that the conclusions outlined above should be sufficient.  Adding
+    all the extension strategies turns out to be too verbose.  Leo,
+    are you happy with removing the paragraph below?
+\end{itemize}
   The process of including a new extension within the CZT framework for
   parsing and typechecking is divided as follows:
   \begin{description}
@@ -983,14 +1001,6 @@ Circus typechecker should be straightforward.
         task should be straightforward.
   \end{description}
 
-  Z parsing and typechecking is neither a novel idea, nor a unavailable resource.
-  Nevertheless, flexible and integrated open-source support for ISO standard Z
-  heavily focused on strong conformance and extensibility was not yet available.
-  The \textbf{philosophy CZT advocates} is simple: \textbf{provide an open-source
-  framework with a set of tools for editing, parsing, typechecking and animating
-  formal specifications written in Z with support for Z extensions}.
-  As new extensions are included and the framework matures, we expect it to become
-  the common base for a growing number of strongly conformed tools for Z and its extensions.
 
 \bibliographystyle{splncs}
 \bibliography{ifm}
