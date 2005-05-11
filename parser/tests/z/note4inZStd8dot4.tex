@@ -44,3 +44,15 @@ rest should be a function application.
   c9 == x [ a[\nat]; b[\nat]]\\
   c10 == x [ a == \nat]
 \end{zed}
+
+Here are some examples provided by Ian Toyn.  The first one is an
+instantiation with \mu expression.  The second and third are
+applications to schemas formed from sets of bindings.
+
+\begin{zed}
+  c11 == \emptyset [ \mu a == 42 @ \{ a \} ] \\
+  c12 == \emptyset [ \{ \lblot x == 42 \rblot \} ;
+                     \{ \lblot x == 42 \rblot \} ] \\
+  c13 == \emptyset [ \{ ( \mu a == \lblot x == 42 \rblot ) \} ;
+                     \{ \lblot x == 42 \rblot \} ]
+\end{zed}
