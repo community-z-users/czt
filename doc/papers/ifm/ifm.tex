@@ -270,7 +270,7 @@
 \end{small}
   Having these two alternative views of each node of the AST gives
   the best of both worlds --- one can write generic tree traversal
-  algorithms using the above two methods, as well as readable and 
+  algorithms using the above two methods, as well as readable and
   type-safe Z-specific syntax manipulations using the node-specific
   get and set methods.
 
@@ -326,7 +326,7 @@
   This has a big impact on the applicability of visitors for
   extensions like Object-Z, TCOZ, and \Circus.  Firstly, it ensures
   that the Z AST classes can be extended without having to modify
-  existing Z visitors like typechecker, printer, \textit{etc}. 
+  existing Z visitors like typechecker, printer, \textit{etc}.
   %
   Secondly, it makes it easy to extend existing visitors
   to handle Z extensions -- one can simply define a new visitor class
@@ -334,14 +334,14 @@
   methods for the new or changed language constructs.
   %
   Finally, by defining default behaviours for abstract classes such as
-  \texttt{Expr} or \texttt{Decl}, it is possible to implement tools 
+  \texttt{Expr} or \texttt{Decl}, it is possible to implement tools
   that are applicable to all Z extensions.
 
   In conclusion, the CZT AST classes provide:
   \begin{description}
     \item[A Choice of Coding Style:] one for generic low-level algorithms
       and the other for high-level node-specific algorithms.
-    \item[Automation:] the AST classes are created automatically via 
+    \item[Automation:] the AST classes are created automatically via
       \textbf{GnAST} code generation.
     \item[Reuse of Algorithms:] the CZT \textbf{visitor pattern} allows
       AST traversal algorithms to be reused and extended in flexible ways.
@@ -624,10 +624,10 @@ Java does not support multiple inheritance.
 We rely on the general
 visiting protocol described in Section~\ref{java-ast-classes} and
 in~\cite{czt}.  For example, the \texttt{oz.ExprChecker} class catches
-all Object-Z-specific expressions.  It also implements an additional 
+all Object-Z-specific expressions.  It also implements an additional
 \texttt{visitExpr} method which ``catches'' all remaining Expr AST
 nodes and uses the visitor from \texttt{z.ExprChecker} to check those
-nodes.  
+nodes.
 \begin{verbatim}
   private z.ExprChecker zExprChecker_;
   ...
@@ -641,7 +641,7 @@ but in the Object-Z typechecker, this points to an \texttt{oz.ExprChecker}
 instead.  When an Object-Z expression is typechecked, it is handled
 directly by the \texttt{oz.ExprChecker} instance.  When a standard Z
 expression is typechecked, the above \texttt{visitExpr} method
-is called, delegating the typechecking to an instance of 
+is called, delegating the typechecking to an instance of
 \texttt{z.ExprChecker}.  Any subexpressions of the Z expression are
 be passed back to the top-level typechecker, which uses the
 \texttt{oz.ExprChecker} instance, to ensure that Object-Z subexpressions
@@ -703,16 +703,16 @@ Circus typechecker should be straightforward.
     ordering) information not present in specifications, which enable
     evaluation and animation.
     The architecture of ZLive is an evolution of a previous Z animator
-    implemented in 
+    implemented in
     Haskell\footnote{See~\url{http://www.cs.waikato.ac.nz/~marku/jaza/}}.
 
     The ZLive architecture is divided into six tasks.  Firstly, a
     target expression is given. Secondly, the definitions are unfolded
     so that schema inclusions are grounded to base terms. Next, the
     unfolded definitions are flattened into a normal form of atomic predicates.
-    After that, possible evaluation modes are calculated for each flatten 
-    predicate.  These moded-predicates are then reordered according to the 
-    cheapest solution order in terms of number of solutions.  Finally, 
+    After that, possible evaluation modes are calculated for each flatten
+    predicate.  These moded-predicates are then reordered according to the
+    cheapest solution order in terms of number of solutions.  Finally,
     all solutions are lazily enumerated as requested.
 
     ZLive currently supports basic logic and arithmetic operators
@@ -761,14 +761,8 @@ Circus typechecker should be straightforward.
 
     \end{description}
 
-    Depending on the new language constructs to be animated, these 
+    Depending on the new language constructs to be animated, these
     possibilities can be combined.
-    %
-    % Furthermore, we expect to include in ZLive predicate transformers,
-    % schema unfolding, and a tactic language in the spirit of 
-    % ANGEL~\cite{z.others:angel}.
-    % These improvements enable a basis for a theorem prover for standard Z
-    % and its extensions that is open-source and cross-platform.
 
 \subsection{Extension Example: Animating \Circus}
 
@@ -800,9 +794,9 @@ Circus typechecker should be straightforward.
         \end{center} \caption{\Circus\ Model Checking Stages}\label{mc-stages}
     \end{figure}
 
-    In this architecture ZLive is used from two different perspectives:
-    (i)~to animate the Z part of \Circus\ specifications, and
-    (ii)~to evaluate the operational semantics of \Circus\ given in Z, 
+    In this architecture ZLive is used from two different
+    perspectives:~(i)~to animate the Z part of \Circus\ specifications, and
+    (ii)~to evaluate the operational semantics of \Circus\ given in Z,
     while performing the model checking search.
 
     To implement the first perspective, we are extending ZLive via
@@ -851,21 +845,6 @@ Circus typechecker should be straightforward.
     contexts, if ZLive cannot handle some complex \Circus\ specifications,
     we can still resort to some alternative solution such as SAT solvers,
     and general-purpose theorem provers.
-
-    \begin{description}
-    \item[Mark:] Leo, I'm not sure what to do about this next paragraph, since
-    the proposed rewriting support is a general CZT feature, not specific
-    to ZLive.  Similarly for the tactic language (ANGEL) idea, but that
-    is not even planned at the moment -- just a vague possibility that 
-    someone might decide to investigate in the future.  We could just
-    delete it, or perhaps rewrite it some way?
-    \end{description}
-
-    Nevertheless, since the ZLive architecture itself already envisages a term
-    rewriting module, theorem proving integration could be done both directly
-    via stand-alone ZLive animation, or indirectly through the combination of
-    ZLive requesting a particular (ANGEL~\cite{z.others:angel}) tactic to be
-    evaluated elsewhere.
 
     These \Circus\ tools, some of which are currently under development,
     give some good examples of how to \textbf{integrate different CZT
@@ -957,6 +936,30 @@ Circus typechecker should be straightforward.
   duplication and maintenance.  The strategies presented can also help
   developers of integrated formal methods tools not based on Z to make
   their framework as extensible as possible.
+
+    \begin{description}
+    \item[Mark:] Leo, I'm not sure what to do about this next paragraph, since
+    the proposed rewriting support is a general CZT feature, not specific
+    to ZLive.  Similarly for the tactic language (ANGEL) idea, but that
+    is not even planned at the moment -- just a vague possibility that
+    someone might decide to investigate in the future.  We could just
+    delete it, or perhaps rewrite it some way?
+    \item[Leo:] Ok. I think this is sound. However, what about rewriting then
+        as future work? And what about a paragraph resuming that section on
+        Circus2Java as future work as well?
+    \end{description}
+    %Nevertheless, since the ZLive architecture itself already envisages a term
+    %rewriting module, theorem proving integration could be done both directly
+    %via stand-alone ZLive animation, or indirectly through the combination of
+    %ZLive requesting a particular (ANGEL~\cite{z.others:angel}) tactic to be
+    %evaluated elsewhere.
+    %
+    % Furthermore, we expect to include in ZLive predicate transformers,
+    % schema unfolding, and a tactic language in the spirit of
+    % ANGEL~\cite{z.others:angel}.
+    % These improvements enable a basis for a theorem prover for standard Z
+    % and its extensions that is open-source and cross-platform.
+
 
   Z parsing and typechecking is neither a novel idea, nor a
   unavailable resource.  Nevertheless, flexible and integrated
