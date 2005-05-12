@@ -13,13 +13,13 @@
 
 \begin{document}
 \title{CZT Support for Z Extensions}
-\author{Leo Freitas$^1$ \and Tim Miller$^2$ \and Petra Malik$^3$ \and Mark Utting$^3$}
+\author{Tim Miller$^1$ \and Leo Freitas$^2$ \and Petra Malik$^3$ \and Mark Utting$^3$}
 
 \institute{%
    \begin{tabular}{cc}
-      University of York, UK  $\quad\quad$ & University of Liverpool, UK
+      University of Liverpool, UK  $\quad\quad$ & University of York, UK
       \\ %
-      $^1$\texttt{leo@cs.york.ac.uk} $\quad\quad$ & $^2$\texttt{tim@csc.liv.ac.uk}
+      $^1$\texttt{tim@csc.liv.ac.uk} $\quad\quad$ & $^2$\texttt{leo@cs.york.ac.uk}
    \end{tabular}
    \begin{tabular}{c}
       University of Waikato, New Zealand
@@ -944,10 +944,6 @@ Circus typechecker should be straightforward.
 
 \section{Conclusions and Future Work} \label{sec:conclusions}
 
-\begin{itemize}
-    \item[Petra:] The very first ideas for conclusions; probably needs rewriting.
-\end{itemize}
-
   In this paper, we presented a variety of reuse and extensibility
   mechanisms that makes the CZT framework an ideal starting point to
   develop new integrated formal methods tools for Z and its
@@ -971,36 +967,6 @@ Circus typechecker should be straightforward.
   support for Z extensions}.  As new extensions are included and the
   framework matures, we expect it to become the common base for a
   growing number of strongly conformed tools for Z and its extensions.
-
-\begin{itemize}
-  \item [Petra] The following does not really fit into the paper
-    because it is more a step by step guide how to extend CZT (which
-    is only a subtheme of the paper theme).  I discussed with Mark
-    that the conclusions outlined above should be sufficient.  Adding
-    all the extension strategies turns out to be too verbose.  Leo,
-    are you happy with removing the paragraph below?
-\end{itemize}
-  The process of including a new extension within the CZT framework for
-  parsing and typechecking is divided as follows:
-  \begin{description}
-    \item[1. Extended XML Schema:] Provide a XML schema containing the new language constructs.
-        Depending on the extension, this can import the base standard Z like \Circus\ does, or
-        an already available extension like TCOZ does with Object-Z. Provided the extension
-        language has a well structure BNF syntax, the \textbf{XML schema} should not
-        \textbf{take} more than \textbf{a week to be built}. A good design is one that reuse
-        as much as possible the available XML schema constructs.
-
-    \item[2. New Parsing and Scanning Rules:] Add to the XML template files the new parsing and
-        scanning rules. At this point extensions to the standard toolkit and keywords are also
-        included. Provided one is familiar with Java CUP and JFlex, including new rules should
-        not be very demanding as most of the precedence and reduction problems comes from
-        standard Z complex productions such as operator templates.
-
-    \item[3. Extended Checkers:] Inherit (or create) necessary checker classes for new constructs.
-        As the \textbf{flexible typechecking architecture allows considerable code reuse}, the overall
-        task should be straightforward.
-  \end{description}
-
 
 \bibliographystyle{splncs}
 \bibliography{ifm}
