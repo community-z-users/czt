@@ -1,42 +1,34 @@
-@misc{cadiz,
-  title = "{CADiZ}",
-  author = "I. Toyn",
-  year = "2002",
-  howpublished = "http://www-users.cs.york.ac.uk/\textasciitilde ian/cadiz/",
-}
-
-@misc{zeta,
-  title = "{ZETA}",
-  author = "W. Grieskamp",
-  year = "2000",
-  howpublished = "http://uebb.cs.tu-berlin.de/zeta",
-}
+@string{SPRINGER="Springer-Verlag"}
+@string{FAC="Formal Aspects of Computing"}
 
 @inproceedings{UttEA:03,
    author = {Mark Utting and Ian Toyn and Jing Sun and Andrew Martin and
              Jin Song Dong and Nicholas Daley and David Currie},
    title = {{ZML}: {XML} Support for Standard {Z}},
    booktitle = {{ZB} 2003: Formal Specification and Development in {Z} and {B}:
-               Third International Conference of B and Z Users,
+               Third International Conference of {B} and {Z} Users,
                Turku, Finland, June 4-6, 2003. Proceedings},
    year = "2003",
-   publisher = {Springer-Verlag Heidelberg},
-   pages = {437-456},
+   publisher = SPRINGER,
+   pages = {437--456},
 }
 
 @inproceedings{czt,
-   author = {Petra Malik and Mark Utting},
-   title = {{{CZT}: A Framework for {Z} Tools}},
-   booktitle = {{ZB} 2005: Formal Specification and Development in {Z} and {B}:
-               Forth International Conference of B and Z Users,
-               Guildford, UK, April 13-15, 2005. Proceedings},
-   year = "2005",
-   publisher = {Springer-Verlag Heidelberg},
+  author = {Petra Malik and Mark Utting},
+  title = {{{CZT}: A Framework for {Z} Tools}},
+  booktitle = {{ZB} 2005: Formal Specification and Development in {Z} and {B}:
+                4th International Conference of {B} and {Z} Users,
+                Guildford, {UK}, April 13-15, 2005. Proceedings},
+  year = 2005,
+  publisher = SPRINGER,
+  editor = {Helen Treharne and Steve King and
+            Martin Henson and Steve Schneider},
+  isbn = {3-540-25559-1},
 }
 
 @InProceedings{Saa:97,
   author =       "M. Saaltink",
-  title =        "{{The Z/EVES system}}",
+  title =        "The {Z/EVES} System",
   booktitle =    "Proc. 10th Int. Conf. on the {Z} Formal Method (ZUM)",
   year =         "1997",
   month =        apr,
@@ -45,7 +37,7 @@
   editor =       "J. Bowen and M. Hinchey and D. Till",
   pages =        "72--88",
   address =      "Reading, UK",
-  publisher =    "Springer-Verlag, Berlin",
+  publisher =    SPRINGER,
   keyword =      "Z, theorem prover",
 }
 
@@ -116,80 +108,22 @@
   volume =   {2391},
   series =   {LNCS},
   month =    jul,
-  publisher =    {Springer-Verlag},
+  publisher = SPRINGER,
   annote =   {Describes the {BZ-TT} test generation method,
                   focusing on the calculation of boudnary goals and
                   boundary states.}
 }
 
-@InProceedings{   z:toyn02,
-  title     = "Characters + Mark-up = {Z} Lexis",
-  pages     = "100-119",
-  author    = "Ian Toyn and Susan Stepney",
-  abstract  = {The mathematical symbols in Z have caused problems for
-          users and tool builders in the past--precisely what is
-          allowed? ISO Standard Z answers this question. This paper
-          considers the Z notation at the level of the individual
-          characters that make up a specification. For Z authors: it
-          reviews the internationalisation of Z, discusses what
-          characters can be used in forming names, and summarises the
-          changes made to LATEX mark-up in ISO Standard Z. For Z tool
-          builders: it explains the sequence of processing that is
-          prerequisite to the lexing of a Standard Z specification,
-          and considers in detail the processing of LATEX mark-up.},
-  crossref  = "z:zb2002"
-}
-
-@Proceedings{     z:zb2002,
+@Proceedings{z:zb2002,
   booktitle = "{ZB} 2002: Formal Specification and Development in {Z} and {B}:
           2nd International Conference of B and Z Users, Grenoble,
           France, January 23-25, 2002. Proceedings",
   editors   = "D. Bert and J.P. Bowen and M.C. Henson and K. Robinson",
-  publisher = "Springer-Verlag Heidelberg",
+  publisher = SPRINGER,
   series    = "LNCS",
   volume    = "2272",
   year      = "2002",
   issn      = "0302-9743"
-}
-
-@inproceedings{z:toyn00,
-  author = "Ian Toyn and Samuel H. Valentine and Susan Stepney and Steve King",
-  title = "Typechecking {Z}",
-  pages = "264--285",
-  crossref = "ZB2000"
-}
-
-@proceedings{ZB2000,
-  title = "{ZB} 2000: First International Conference of {B} and {Z} Users,
-           York, UK, August 2000",
-  booktitle = "{ZB} 2000: First International Conference of {B} and {Z} Users,
-               York, UK, August 2000",
-  editor = "Jonathan P. Bowen and Steve Dunne and Andy Galloway and Steve King",
-  series = "LNCS",
-  volume = 1878,
-  publisher = "Springer-Verlag",
-  year = 2000
-}
-
-@Misc{z:draft-corr04,
-  key =      {ZCorr2004},
-  author =   {Ian Toyn},
-  title =    {Information technology -- {Z} formal specification notation
-                  -- {Syntax}, type system and semantics.  {DRAFT TECHNICAL
-                  CORRIGENDUM 1}, {Corrections} to use of {Unicode}},
-  howpublished = {Available from \url{http://www-users.cs.york.ac.uk/~ian/zstan/IS.html}},
-  month =    sep,
-  year =     2004,
-  note =     {This draft has yet to be submitted for official ballot.}
-}
-
-@book{spivey:z,
- author =    {J. Michael Spivey},
- title =    {{The {Z} Notation: A Reference Manual}},
- publisher =    {Prentice-Hall International (UK) Ltd},
- series =    {International Series in Computer Science},
- edition =     {Second},
- year =    "1992"
 }
 
 @book{oz,
@@ -224,14 +158,14 @@
 
 @TECHREPORT{fischer-1998,
   AUTHOR       = {Clemens Fischer},
-  TITLE        = {{How to Combine Z with Process Algebras}},
+  TITLE        = {How to Combine {Z} with Process Algebras},
   INSTITUTION  = {University of Oldenburg},
   YEAR         = {1998}
 }
 
 @PHDTHESIS{fischer-2000,
   AUTHOR       = {Clemens Fischer},
-  TITLE        = {{Combination and Implementation of Process and Data: from CSP-OZ to Java}},
+  TITLE        = {Combination and Implementation of Process and Data: from {CSP-OZ} to {Java}},
   YEAR         = {2000},
   SCHOOL       = {University of Oldenburg},
   month        = {January},
@@ -242,27 +176,29 @@
 @inproceedings{circus.sem:mobility,
   author    = {Xinbei Tang and
                Jim Woodcock},
-  title     = {{Towards Mobile Processes in Unifying Theories.}},
-  booktitle = {SEFM},
+  title     = {Towards Mobile Processes in Unifying Theories},
+  booktitle = {{SEFM2004}: the 2nd {IEEE} International Conference
+               on Software Engineering and Formal Methods},
   year      = {2004},
-  pages     = {44-53}
+  editor = {Jorge Cuellar and Zhiming Liu},
+  pages     = {44--53}
 }
 
 @INPROCEEDINGS{circus.sem:real.time2,
   AUTHOR       = {Adnan Sherif and Jifeng He},
   editor       = {C. George and H. Miao},
-  TITLE        = {{Toward a Time Model for \Circus}},
+  TITLE        = {Toward a Time Model for {\Circus}},
   BOOKTITLE    = {ICFEM 2002},
   YEAR         = {2002},
-  publisher    = {Springer-Verlag},
+  publisher    = SPRINGER,
   volume       = {2495},
   series       = {LNCS},
-  pages        = {613-624}
+  pages        = {613--624}
 }
 
 @ARTICLE{circus.sem:intro,
   AUTHOR       = {Jim Woodcock and Ana Cavalcanti},
-  TITLE        = {{A Concurrent Language for Refinement}},
+  TITLE        = {A Concurrent Language for Refinement},
   YEAR         = {2001},
   JOURNAL      = {5th Irish Workshop on Formal Methods},
   annote       = {Introduction to the {\Circus\ }language and its operators, and a broad view on how the UTP semantics is used
@@ -271,33 +207,33 @@
 }
 
 @BOOK{csp.books:roscoe,
-  AUTHOR       = {A.W. Roscoe},
-  TITLE        = {{The Theory and Practice of Concurrency}},
+  AUTHOR       = {A. W. Roscoe},
+  TITLE        = {The Theory and Practice of Concurrency},
   YEAR         = {1997},
   PUBLISHER    = {Prentice-Hall},
   series       = {International Series in Computer Science},
-  edition      = {1st},
+  edition      = {First},
   priority     = {1},
   annote       = {Main book of the version CSP under consideration.}
 }
 
 @BOOK{fm.ref:morgan,
   AUTHOR       = {Carroll Morgan},
-  TITLE        = {{Programming from Specifications}},
+  TITLE        = {Programming from Specifications},
   YEAR         = {1994},
   PUBLISHER    = {Prentice-Hall},
-  edition      = {2nd},
+  edition      = {Second},
   annote       = {...}
 }
 
 @BOOK{hoare.utp,
   AUTHOR       = {C.A.R Hoare and He Jifeng},
-  TITLE        = {{Unifying Theories of Programming}},
+  TITLE        = {Unifying Theories of Programming},
   YEAR         = {1998},
   PUBLISHER    = {Prentice-Hall},
   series       = {International Series in Computer Science},
-  edition      = {$1^{st}$},
-  note         = {ISBN: 0134587618},
+  edition      = {First},
+  isbn         = {0134587618},
   annote       = {Main book of unified semantics of programming languages. Main book on the theoretical basis of Circus.}
 }
 
@@ -320,15 +256,15 @@
 
 @PHDTHESIS{circus.mc:leo,
   AUTHOR       = {Leonardo Freitas},
-  TITLE        = {Model Checking \Circus},
+  TITLE        = {Model Checking {\Circus}},
   YEAR         = {2005},
   SCHOOL       = {Univeristy of York},
-  note         = {to appear in October 2005}
+  note         = {To appear in October 2005}
 }
 
 @UNPUBLISHED{circus.other:parser,
   AUTHOR       = {Andr\'{e} Barbosa},
-  TITLE        = {{A Parser} for {\Circus}},
+  TITLE        = {A Parser for {\Circus}},
   year         = {2002},
   NOTE         = {Graduation Research Project},
   source       = {{Universidade Federal de Pernambuco, Brazil}},
@@ -344,7 +280,7 @@
 
 @TECHREPORT{winikooff98,
   AUTHOR       = {Michael Winikoff},
-  TITLE        = {{Analysing Modes and Subtypes in Z Specifications}},
+  TITLE        = {Analysing Modes and Subtypes in {Z} Specifications},
   INSTITUTION  = {University of Melbourne},
   YEAR         = {1998},
   address      = {Department of Computer Science, Parkville, Victoria 3052, Australia},
@@ -353,7 +289,7 @@
 
 @MASTERSTHESIS{daley2003,
   AUTHOR       = {Nicholas Daley},
-  TITLE        = {{Gaffe: Graphical Front-ends for Z Animation}},
+  TITLE        = {{Gaffe}: Graphical Front-ends for {Z} Animation},
   YEAR         = {2003},
   SCHOOL       = {University of Waikato},
   address      = {New Zeland}
@@ -368,7 +304,7 @@
 
 @TECHREPORT{utting-jaza,
   AUTHOR       = {Mark Utting},
-  TITLE        = {{Data Structures for Z Testing Tools}},
+  TITLE        = {Data Structures for {Z} Testing Tools},
   INSTITUTION  = {University of Waikato},
   YEAR         = {1999},
   address      = {Hamilton, New Zeland}
@@ -385,19 +321,32 @@
   pages        = {}
 }
 
+@ARTICLE{csp.mc:bisequiv,
+  AUTHOR       = {Rance Cleaveland and Matthew Hennessy},
+  TITLE        = {Testing Equivalence as a Bisimulation Equivalence},
+  YEAR         = {1993},
+  JOURNAL      = FAC,
+  volume       = {5},
+  PAGES        = {1--20},
+  annote       = {Very important reference regarding the understanding on
+                  how the normalisation of CSP works, as well as the
+                  formal calculations of divergences, acceptances, and
+                  an algorithm to build the normal form.}
+}
+
 @ARTICLE{z.others:angel,
-  AUTHOR       = {A.P.Martin and P.H.B. Gardiner and J.C.P.Woodcock},
-  TITLE        = {{A Tactic Calculus}},
+  AUTHOR       = {A. P. Martin and P. H. B. Gardiner and J. C. P. Woodcock},
+  TITLE        = {A Tactic Calculus},
   YEAR         = {1996},
-  JOURNAL      = {Formal Aspects of Computing},
+  JOURNAL      = FAC,
   volume       = {8},
   number       = {E},
-  pages        = {244-285}
+  pages        = {244--285}
 }
 
 @ARTICLE{ohcircus,
  author = {A. L. C. Cavalcanti and A. Sampaio and J. C. P. Woodcock},
- title = {{Unifying Classes and Processes}},
+ title = {Unifying Classes and Processes},
  journal = {Journal on Software and Systems Modelling},
  year = {2005},
  note = {To appear}
@@ -405,7 +354,8 @@
 
 @MASTERSTHESIS{angela-2005,
   AUTHOR       = {Angela Freitas},
-  TITLE        = {{From \Circus\ to Java: Implementation and Verification of a Translation Strategy}},
+  TITLE        = {{From \Circus\ to Java}:
+                  Implementation and Verification of a Translation Strategy},
   YEAR         = {2005},
   SCHOOL       = {University of York},
   note         = {To appear}
@@ -414,28 +364,29 @@
 @INPROCEEDINGS{angela-2003,
   AUTHOR       = {A. F. Freitas and C. M. P. Nascimento and A. L. C. Cavalcanti},
   editor       = {J. S. Dong and J. C. P. Woodcock},
-  TITLE        = {{A Refinement Tool for Z}},
+  TITLE        = {A Refinement Tool for {Z}},
   BOOKTITLE    = {Formal Methods and Software Engineering: 5th International Conference on Formal Engineering Methods (ICFEM)},
   YEAR         = {2003},
-  publisher    = {Springer-Verlag},
+  publisher    = SPRINGER,
   volume       = {2885},
   series       = {Lecture Notes in Computer Science},
-  pages        = {396-415}
+  pages        = {396--415}
 }
 
 
 @INPROCEEDINGS{marcel-2004,
-  AUTHOR       = {M. V. M. Oliveira and A. L. C. Cavalcanti and J. C. P. Woodcock},
-  editor       = {I. East and J. Martin and P. Welch and D. Duce and M.Green},
-  TITLE        = {{Refining Industrial Scale Systems in \Circus}},
+  AUTHOR       = {M. V. M. Oliveira and A. L. C. Cavalcanti and
+                  J. C. P. Woodcock},
+  editor       = {I. East and J. Martin and P. Welch and D. Duce and M. Green},
+  TITLE        = {Refining Industrial Scale Systems in {\Circus}},
   BOOKTITLE    = {Communicating Process Architectures},
   YEAR         = {2004},
-  pages        = {281-309}
+  pages        = {281--309}
 }
 
 @MANUAL{csp.tools:fdrm,
   author       = {Michael Goldsmith},
-  TITLE        = {{FDR2 User's Manual version 2.67}},
+  TITLE        = {{FDR2} User's Manual version 2.67},
   year         = {2000},
   month        = {May},
   organization = {Formal System Methods (Europe) Ltd.},
@@ -445,7 +396,7 @@
 
 @TECHREPORT{circus.sem:pp,
   AUTHOR       = {Marcel Oliveira and Ana Cavalcanti and Jim Woodcock},
-  TITLE        = {{Unifying Theories in ProofPowerZ}},
+  TITLE        = {Unifying Theories in {ProofPowerZ}},
   INSTITUTION  = {Univeristy of York},
   YEAR         = {2005},
   type         = {draft}
@@ -457,7 +408,7 @@
   YEAR         = {1998},
   PUBLISHER    = {Prentice-Hall},
   series       = {International Series in Computer Science},
-  edition      = {1st},
+  edition      = {First},
   annote       = {Book describing occam and how to program in this language.}
 }
 
@@ -470,45 +421,33 @@
   publisher    = {WoTUG, IOS Press (Amsterdam)},
   volume       = {58},
   series       = {Concurrent Systems Engineering},
-  pages        = {275-301}
+  pages        = {275--301}
 }
 
 @PHDTHESIS{z.others:ana.phd,
   AUTHOR       = {Ana Cavalcanti},
-  TITLE        = {A Refinement Calculus for Z},
+  TITLE        = {A Refinement Calculus for {Z}},
   YEAR         = {1997},
   SCHOOL       = {Oxford University},
-  note         = {Also published as a PRG Technical Monograph at web.comlab.ox.ac.uk/oucl/publications/monos/prg-123.html}
+  note         = {Also published as a PRG Technical Monograph at
+                  \url{web.comlab.ox.ac.uk/oucl/publications/monos/prg-123.html}}
 }
 
 @PHDTHESIS{circus.ref:marcel,
   AUTHOR       = {Marcel Oliveira},
-  TITLE        = {{A Refinement Calculus} for {\Circus}},
+  TITLE        = {A Refinement Calculus for {\Circus}},
   YEAR         = {2005},
   SCHOOL       = {University of York},
-  NOTE         = {to appear in December 2005}
+  NOTE         = {To appear in December 2005}
 }
 
 @INBOOK{csp.mc:main,
-  AUTHOR       = {{A.W.~Roscoe}},
-  TITLE        = {{Model Checking CSP}},
+  AUTHOR       = {{A. W. Roscoe}},
+  TITLE        = {Model Checking {CSP}},
   booktitle    = {{A Classical Mind: Essays in Honour of C. A. R. Hoare}},
   YEAR         = {1994},
   PUBLISHER    = {Prentice-Hall},
   CHAPTER      = {21},
-  PAGES        = {353-378},
+  PAGES        = {353--378},
   annote       = {Reference that explains in deep detail the model-checking process of CSPm}
-}
-
-@INBOOK{csp.mc:bissequiv,
-  AUTHOR       = {Rance Cleaveland and Matthew Hennessy},
-  TITLE        = {{Testing Equivalence as a Bissimulation Equivalence}},
-  booktitle    = {Formal Aspects of Computing Journal},
-  YEAR         = {1993},
-  PUBLISHER    = {Springer-Verlag},
-  CHAPTER      = {1},
-  PAGES        = {1-20},
-  volume       = {5},
-  annote       = {Very important reference regarding the understanding on how the normalisation of CSP works, as well as the formal calculations
-                  of divergences, acceptances, and an algorithm to build the normal form.}
 }
