@@ -51,8 +51,8 @@
   by using the CZT framework.
 
   \noindent
-  \textbf{Keywords}: Standard Z, Object-Z, \Circus, TCOZ, design patterns,
-     framework, AST, parsing, typechecking, animation.
+  \textbf{Keywords}: Standard Z, Object-Z, \Circus, parsing,
+     typechecking, animation, TCOZ, design patterns, framework, AST.
 \end{abstract}
 
 \section{Introduction} \label{sec:intro}
@@ -339,14 +339,14 @@
 
   In conclusion, the CZT AST classes provide:
   \begin{description}
-    \item[A Choice of Coding Styles:] one for generic low-level algorithms
+    \item[A Choice of Coding Style:] one for generic low-level algorithms
       and the other for high-level node-specific algorithms.
     \item[Automation:] the AST classes are created automatically via 
       \textbf{GnAST} code generation.
     \item[Reuse of Algorithms:] the CZT \textbf{visitor pattern} allows
       AST traversal algorithms to be reused and extended in flexible ways.
-    \item[Extensibility:] the Z AST can easily be extended by defining
-      new \textbf{XML schemas}.
+    \item[Extensibility:] the standard Z AST can easily be extended by
+      defining new \textbf{XML schemas}.
   \end{description}
 
 
@@ -452,7 +452,7 @@ facilities.
 
 In order to avoid having to provide a parser for each markup language,
 all specifications are first translated into Unicode and subsequently
-parsed by a Unicode parser\footnote{See \cite{czt} for a more detailed
+parsed by a Unicode parser\footnote{See~\cite{czt} for a more detailed
 description of the parser architecture.}.  This also makes sure that
 names in the AST are markup independent: they are represented in
 Unicode independently on the actual markup used in the source
@@ -638,10 +638,10 @@ nodes.
 
 The Z typechecker has a pointer to a \texttt{z.ExprChecker} object,
 but in the Object-Z typechecker, this points to an \texttt{oz.ExprChecker}
-instead.  When an Object-Z expression must be typechecked, it is handled
-directly by this \texttt{oz.ExprChecker} instance.  When a standard Z
-expression must be typechecked, the above \texttt{visitExpr} method
-is called, and delegates the typechecking to an instance of 
+instead.  When an Object-Z expression is typechecked, it is handled
+directly by the \texttt{oz.ExprChecker} instance.  When a standard Z
+expression is typechecked, the above \texttt{visitExpr} method
+is called, delegating the typechecking to an instance of 
 \texttt{z.ExprChecker}.  Any subexpressions of the Z expression are
 be passed back to the top-level typechecker, which uses the
 \texttt{oz.ExprChecker} instance, to ensure that Object-Z subexpressions
@@ -659,9 +659,10 @@ implemented in the base {\tt Checker} class, which would have resulted
 in an undesirable strong coupling between all of the typecheckers.
 
 Other components are extended using inheritance.  For example, the
-\texttt{UnificationEnv} class for type unification is extended by
-overriding its {\tt unify} method to handle the new Object-Z types,
-while using the superclass's {\tt unify} method for standard Z types.
+class \texttt{UnificationEnv}, which is responsible for type
+unification, is extended by overriding its {\tt unify} method to
+handle the new Object-Z types, while using the superclass's {\tt
+unify} method for standard Z types.
 
 Our experience is that the above extensible typechecker design makes
 it much easier to build multi-lingual typecheckers.  That is, a family
@@ -788,7 +789,7 @@ Circus typechecker should be straightforward.
     (PTS) that finitely represent (possibly infinite specifications) base on the
     operational semantics of \Circus~\cite{circus.mc:opsem}. Both the PTS and
     the AST$_{+}$ are given to the model checker engine that integrates refinement
-    model checking algorithms~\cite{csp.mc:main,csp.mc:bissequiv}
+    model checking algorithms~\cite{csp.mc:main,csp.mc:bisequiv}
     together with theorem proving and debugging
     functionalities\footnote{See~\url{http://www.cs.york.ac.uk/circus/model-checker}}.
     The result is a (possibly empty) set of witnesses representing failed
