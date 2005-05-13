@@ -23,6 +23,7 @@
 package <package/>;
 
 import java.io.*;
+import java.util.Properties;
 import net.sourceforge.czt.java_cup.runtime.*;
       
 import net.sourceforge.czt.parser.util.CztReader;
@@ -56,17 +57,17 @@ public class UnicodeScanner
   KeywordScanner keywordScanner_;
   SmartScanner smartScanner_;
 
-  public <class/>(Reader in)
+  public <class/>(Reader in, Properties properties)
   {
     contextFreeScanner_ = new ContextFreeScanner(in);
-    keywordScanner_ = new KeywordScanner(contextFreeScanner_);
+    keywordScanner_ = new KeywordScanner(contextFreeScanner_, properties);
     smartScanner_ = new SmartScanner(keywordScanner_);
   }
 
-  public <class/>(CztReader in)
+  public <class/>(CztReader in, Properties properties)
   {
     contextFreeScanner_ = new ContextFreeScanner(in);
-    keywordScanner_ = new KeywordScanner(contextFreeScanner_);
+    keywordScanner_ = new KeywordScanner(contextFreeScanner_, properties);
     smartScanner_ = new SmartScanner(keywordScanner_);
   }
 
@@ -78,7 +79,7 @@ public class UnicodeScanner
       InputStream stream = new FileInputStream(argv[0]);
       InputStreamReader reader = new InputStreamReader(stream, "UTF-8");
 
-      <class/> scanner = new <class/>(reader);
+      <class/> scanner = new <class/>(reader, new Properties());
       DebugUtils.scan(scanner, Sym.class);
     }
     catch (Exception e) {

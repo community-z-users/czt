@@ -70,7 +70,7 @@ public class <class/>
   {
     latexLexer_ = new LatexToUnicode(reader, sectInfo, properties);
     CztReader cztReader = new CztReader(latexLexer_);
-    unicodeLexer_ = new UnicodeScanner(cztReader);
+    unicodeLexer_ = new UnicodeScanner(cztReader, properties);
   }
 
   /**

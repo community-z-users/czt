@@ -65,7 +65,7 @@ public final class <class/>
     }
     else if (source.getMarkup() == Markup.UNICODE) {
       UnicodeParser parser =
-        new UnicodeParser(source.getReader(), source.toString(), sectInfo);
+        new UnicodeParser(source.getReader(), source.toString(), sectInfo, properties);
       return parser.parse();
     }
     else {
@@ -146,7 +146,7 @@ public final class <class/>
       logger.fine("Parse utf8 file " + filename);
       Reader in =
         new InputStreamReader(new FileInputStream(filename), encoding);
-      UnicodeParser parser = new UnicodeParser(in, filename, sectInfo);
+      UnicodeParser parser = new UnicodeParser(in, filename, sectInfo, new Properties());
       return parser.parse();
     }
     catch(UnsupportedEncodingException e) {
@@ -168,7 +168,7 @@ public final class <class/>
       logger.fine("Parse utf8 file " + url.toString());
       Reader in =
         new InputStreamReader(url.openStream(), encoding);
-      UnicodeParser parser = new UnicodeParser(in, url.toString(), sectInfo);
+      UnicodeParser parser = new UnicodeParser(in, url.toString(), sectInfo, new Properties());
       return parser.parse();
     }
     catch(UnsupportedEncodingException e) {
@@ -185,7 +185,7 @@ public final class <class/>
     throws ParseException, IOException
   {
     Reader in = new StringReader(input);
-    UnicodeParser parser = new UnicodeParser(in, "Standard input", sectInfo);
+    UnicodeParser parser = new UnicodeParser(in, "Standard input", sectInfo, new Properties());
     return parser.parse();
   }
 
@@ -205,7 +205,7 @@ public final class <class/>
       logger.fine("Parse utf16 file " + filename);
       Reader in =
         new InputStreamReader(new FileInputStream(filename), encoding);
-      UnicodeParser parser = new UnicodeParser(in, filename, sectInfo);
+      UnicodeParser parser = new UnicodeParser(in, filename, sectInfo, new Properties());
       return parser.parse();
     }
     catch(UnsupportedEncodingException e) {
@@ -227,7 +227,7 @@ public final class <class/>
       logger.fine("Parse utf16 file " + url.toString());
       Reader in =
         new InputStreamReader(url.openStream(), encoding);
-      UnicodeParser parser = new UnicodeParser(in, url.toString(), sectInfo);
+      UnicodeParser parser = new UnicodeParser(in, url.toString(), sectInfo, new Properties());
       return parser.parse();
     }
     catch(UnsupportedEncodingException e) {

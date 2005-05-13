@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright (C) 2004 Petra Malik, Tim Miller
+     Copyright (C) 2004, 2005 Petra Malik, Tim Miller
      This file is part of the czt project.
      
      The czt project contains free software;
@@ -25,9 +25,12 @@ package <package/>;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
+import java.util.Stack;
 
 import net.sourceforge.czt.java_cup.runtime.*;
 
+import net.sourceforge.czt.parser.util.ParsePropertiesKeys;
 import net.sourceforge.czt.util.CztLogger;
 
 import net.sourceforge.czt.z.util.ZString;
@@ -67,12 +70,12 @@ import net.sourceforge.czt.tcoz.util.TcozString;
 public class KeywordScanner
   implements Scanner
 {
-  private ContextFreeScanner scanner_;
+  private SeparateDelimiter scanner_;
   private Map keywords_ = createKeywordMap();
 
-  public KeywordScanner(ContextFreeScanner scanner)
+  public KeywordScanner(ContextFreeScanner scanner, Properties properties)
   {
-    scanner_ = scanner;
+    scanner_ = new SeparateDelimiter(scanner, properties);
   }
 
   private Map createKeywordMap()
@@ -190,6 +193,130 @@ public class KeywordScanner
       }
     }
     return symbol;
+  }
+}
+
+class SeparateDelimiter
+  implements Scanner, ParsePropertiesKeys
+{
+  private Properties properties_;
+  private ContextFreeScanner scanner_;
+  private Stack&lt;Symbol&gt; nextTokens_ = new Stack&lt;Symbol&gt;();
+
+  public SeparateDelimiter(ContextFreeScanner scanner, Properties properties)
+  {
+    scanner_ = scanner;
+    properties_ = properties;
+  }
+
+  private boolean getBooleanProperty(String propertyKey)
+  {
+    if (properties_ == null) {
+      return false;
+    }
+    return "true".equals(properties_.getProperty(propertyKey));
+  }
+
+  private String separateFromEnd(String what,
+                                 String where,
+                                 int left,
+                                 int right,
+                                 Stack tokenList)
+  {
+    String value = where;
+    if (value.endsWith(what)) {
+      Symbol symbol = new Symbol(Sym.DECORWORD, left, right, what);
+      tokenList.push(symbol);
+      value = value.substring(0, value.length() - what.length());
+    }
+    return value;
+  }
+
+  private String separateFromBegin(String what,
+                                   String where,
+                                   int left,
+                                   int right,
+                                   Stack tokenList)
+  {
+    String value = where;
+    if (value.startsWith(what)) {
+      Symbol symbol = new Symbol(Sym.DECORWORD, left, right, what);
+      tokenList.push(symbol);
+      value = value.substring(what.length(), value.length());
+    }
+    return value;
+  }
+
+  private void fillStack()
+    throws IOException
+  {
+    if (! nextTokens_.empty()) return;
+    Symbol symbol = scanner_.next_token();
+    if (symbol.sym == Sym.DECORWORD &amp;&amp;
+        getBooleanProperty(PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS)) {
+      String value = (String) symbol.value;
+      // special cases ",," and ".."
+      if (ZString.LISTARG.equals(value) ||
+           "..".equals(value)) {
+        nextTokens_.push(symbol);
+        return;
+      }
+      int length = value.length();
+      // TODO compute line and column number correctly (not possible?)
+      while (length > (value = separateFromEnd(ZString.COMMA,
+                                               value,
+                                               symbol.left,
+                                               symbol.right,
+                                               nextTokens_)).length() ||
+             length > (value = separateFromEnd(ZString.SEMI,
+                                               value,
+                                               symbol.left,
+                                               symbol.right,
+                                               nextTokens_)).length() ||
+             length > (value = separateFromEnd(ZString.DOT,
+                                               value,
+                                               symbol.left,
+                                               symbol.right,
+                                               nextTokens_)).length()) {
+        length = value.length();
+      }
+      Stack&lt;Symbol&gt; tmpStack = new Stack&lt;Symbol&gt;();
+      while (length > (value = separateFromBegin(ZString.COMMA,
+                                                 value,
+                                                 symbol.left,
+                                                 symbol.right,
+                                                 tmpStack)).length() ||
+             length > (value = separateFromBegin(ZString.SEMI,
+                                                 value,
+                                                  symbol.left,
+                                                 symbol.right,
+                                                 tmpStack)).length() ||
+             length > (value = separateFromBegin(ZString.DOT,
+                                                 value,
+                                                 symbol.left,
+                                                 symbol.right,
+                                                 tmpStack)).length()) {
+        length = value.length();
+      }
+      if (! "".equals(value)) {
+        nextTokens_.push(new Symbol(Sym.DECORWORD,
+                                    symbol.left, symbol.right,
+                                    value));
+      }
+      while (! tmpStack.empty()) {
+        nextTokens_.push(tmpStack.pop());
+      }
+    }
+    else {
+      nextTokens_.push(symbol);
+    }
+  }
+
+  public Symbol next_token()
+    throws IOException
+  {
+    fillStack();
+    return nextTokens_.pop();
   }
 }
 </scanner>

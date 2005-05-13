@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.parser.z;
 
 import java.io.*;
+import java.util.Properties;
 import net.sourceforge.czt.java_cup.runtime.*;
 
 import junit.framework.*;
@@ -46,7 +47,7 @@ public class UnicodeScannerTest extends TestCase
   private static final String ZED = ZString.ZED;
 
   private UnicodeScanner lexer_ =
-    new UnicodeScanner(new java.io.StringReader(""));
+    new UnicodeScanner(new java.io.StringReader(""), new Properties());
 
   private void resetLexer(String string)
     throws Exception

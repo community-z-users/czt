@@ -24,6 +24,7 @@ package <package/>;
 
 import java.io.*;
 import java.util.logging.Logger;
+import java.util.Properties;
 
 import net.sourceforge.czt.java_cup.runtime.Scanner;
 import net.sourceforge.czt.java_cup.runtime.Symbol;
@@ -67,15 +68,15 @@ public class <class/>
 {
   Parser parser_;
 
-  public <class/>(Reader in, SectionInfo sectInfo)
+  public <class/>(Reader in, SectionInfo sectInfo, Properties properties)
   {
-    this(in, null, sectInfo);
+    this(in, null, sectInfo, properties);
   }
 
   public <class/>(Reader in, String filename,
-                  SectionInfo sectInfo)
+                  SectionInfo sectInfo, Properties properties)
   {
-    Scanner scanner = new UnicodeScanner(in);
+    Scanner scanner = new UnicodeScanner(in, properties);
     parser_ = new Parser(scanner, filename, sectInfo);
   }
 
@@ -113,7 +114,7 @@ public class <class/>
         }
       }
       <class/> parser =
-        new <class/>(in, filename, new SectionManager());
+        new <class/>(in, filename, new SectionManager(), new Properties());
       Term term = parser.parse();
       AstValidator validator = new JaxbValidator();
       if (! validator.validate(term)) {
