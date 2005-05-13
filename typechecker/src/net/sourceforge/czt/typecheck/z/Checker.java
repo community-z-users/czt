@@ -703,12 +703,6 @@ abstract public class Checker
     for (DeclName declName : declNames) {
       //declName.setId("" + id++);
 
-      //check if there are strokes in the name
-      if (declName.getStroke().size() > 0) {
-        Object [] params = {declName};
-        error(declName, ErrorMessage.STROKE_IN_GEN, params);
-      }
-
       GenParamType genParamType = factory().createGenParamType(declName);
       PowerType powerType = factory().createPowerType(genParamType);
 

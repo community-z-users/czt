@@ -66,12 +66,6 @@ public class ParaChecker
     //get each DeclName
     List<DeclName> declNames = givenPara.getDeclName();
     for (DeclName declName : declNames) {
-      //check if there are strokes in the name
-      if (declName.getStroke().size() > 0) {
-        Object [] params = {declName};
-        error(declName, ErrorMessage.STROKE_IN_GIVEN, params);
-      }
-
       //create the type
       GivenType givenType = factory().createGivenType(declName);
       PowerType powerType = factory().createPowerType(givenType);

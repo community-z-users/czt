@@ -1,7 +1,0 @@
-\begin{zsection}
-  \SECTION StrokeInGen\_AxPara
-\end{zsection}
-
-\begin{gendef}[X']
-  x : X'
-\end{gendef}
