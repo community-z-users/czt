@@ -36,6 +36,8 @@ public class CommunityZToolsPlugin
     new DefaultErrorSource("CZT");
   private static final Handler handler_ = new ErrorHandler();
   public static final String OPTION_PREFIX = "options.czt.";
+  public static final String PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS =
+    "CommunityZToolsPlugin.extractCommaOrSemiFromDecorwors";
   public static final String PROP_SPACE_BEFORE_PUNCTATION =
     "CommunityZToolsPlugin.addSpaceBeforeLatexPunctation";
   public static final String PROP_IGNORE_UNKNOWN_LATEX_COMMANDS =

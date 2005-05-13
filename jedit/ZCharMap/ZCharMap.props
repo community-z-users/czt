@@ -20,6 +20,7 @@ czt.label=Community Z Tools
 options.czt.label=Community Z Tools
 options.czt.code=new CztOptionPane();
 options.czt.standardConformance=<html><h3>CZT Extensions to Z Standard</h3></html>
+options.czt.extractCommaOrSemi=Extract comma, semicolon, and dot from the beginning and end of a DECORWORD
 options.czt.addSpaceBeforeLatexPunctation=Add space before latex punctation (, and ; characters)
 options.czt.ignoreUnknownLatexCommands=Allow latex commands that do not have mark-up directives
 options.czt.resetButton=Reset all options to be Z Standard conforming

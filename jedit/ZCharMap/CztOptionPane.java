@@ -29,12 +29,16 @@ import org.gjt.sp.jedit.*;
 
 public class CztOptionPane extends AbstractOptionPane
 {
+  private final String EXTRACT_COMMA_OR_SEMI =
+    CommunityZToolsPlugin.PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS;
   private final String SPACE_BEFORE_PUNCTATION =
     CommunityZToolsPlugin.PROP_SPACE_BEFORE_PUNCTATION;
   private final String IGNORE_UNKNOWN_LATEX_COMMANDS =
     CommunityZToolsPlugin.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS;
   private final String PROP_LABEL_STD_CONFORMANCE =
     CommunityZToolsPlugin.OPTION_PREFIX + "standardConformance";
+  private final String PROP_LABEL_EXTRACT_COMMA_OR_SEMI =
+    CommunityZToolsPlugin.OPTION_PREFIX + "extractCommaOrSemi";
   private final String PROP_LABEL_ADD_SPACE_BEFORE_PUNCTATION =
     CommunityZToolsPlugin.OPTION_PREFIX + "addSpaceBeforeLatexPunctation";
   private final String PROP_LABEL_IGNORE_UNKNOWN_LATEX_COMMANDS =
@@ -42,6 +46,7 @@ public class CztOptionPane extends AbstractOptionPane
   private final String PROP_LABEL_RESET =
     CommunityZToolsPlugin.OPTION_PREFIX + "resetButton";
 
+  private JCheckBox extractCommaOrSemi_;
   private JCheckBox spaceBeforePunctation_;
   private JCheckBox ignoreUnknownLatexCommands_;
 
@@ -54,9 +59,15 @@ public class CztOptionPane extends AbstractOptionPane
   {
     addComponent(new JLabel(jEdit.getProperty(PROP_LABEL_STD_CONFORMANCE)));
 
+    extractCommaOrSemi_ =
+      new JCheckBox(jEdit.getProperty(PROP_LABEL_EXTRACT_COMMA_OR_SEMI));
+    boolean value = jEdit.getBooleanProperty(EXTRACT_COMMA_OR_SEMI);
+     extractCommaOrSemi_.getModel().setSelected(value);
+    addComponent(extractCommaOrSemi_);
+
     spaceBeforePunctation_ =
       new JCheckBox(jEdit.getProperty(PROP_LABEL_ADD_SPACE_BEFORE_PUNCTATION));
-    boolean value = jEdit.getBooleanProperty(SPACE_BEFORE_PUNCTATION);
+    value = jEdit.getBooleanProperty(SPACE_BEFORE_PUNCTATION);
     spaceBeforePunctation_.getModel().setSelected(value);
     addComponent(spaceBeforePunctation_);
 
@@ -74,7 +85,9 @@ public class CztOptionPane extends AbstractOptionPane
 
   protected void _save()
   {
-    boolean value = spaceBeforePunctation_.getModel().isSelected();
+    boolean value = extractCommaOrSemi_.getModel().isSelected();
+    jEdit.setBooleanProperty(EXTRACT_COMMA_OR_SEMI, value);
+    value = spaceBeforePunctation_.getModel().isSelected();
     jEdit.setBooleanProperty(SPACE_BEFORE_PUNCTATION, value);
     value = ignoreUnknownLatexCommands_.getModel().isSelected();
     jEdit.setBooleanProperty(IGNORE_UNKNOWN_LATEX_COMMANDS, value);
@@ -84,6 +97,7 @@ public class CztOptionPane extends AbstractOptionPane
   {
     public void actionPerformed(ActionEvent e)
     {
+      extractCommaOrSemi_.getModel().setSelected(false);
       spaceBeforePunctation_.getModel().setSelected(false);
       ignoreUnknownLatexCommands_.getModel().setSelected(false);
     }
