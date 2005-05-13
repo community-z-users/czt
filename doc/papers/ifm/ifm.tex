@@ -24,7 +24,7 @@
    \begin{tabular}{c}
       University of Waikato, New Zealand
       \\ %
-       $^3$\texttt{\{petra, marku\}@cs.waikato.ac.nz}
+       $^3$\{\texttt{petra, marku}\}\texttt{@cs.waikato.ac.nz}
    \end{tabular}
 } %
 
@@ -166,7 +166,7 @@
   \item[Extensible ASTs:] This allows Z extensions to add new kinds
     of expressions, predicates, paragraphs etc.
   \item[Extensible Schemas:] The standard XML schema features, such as
-    namespaces and importing, mean that Z extensions can be defined without
+    name\-spa\-ces and importing, mean that Z extensions can be defined without
     modifying the original ZML schema.
   \end{description}
   The following strategies have been used to achieve these kinds
@@ -732,7 +732,7 @@ Circus typechecker should be straightforward.
 
       \item[Explicit Inclusion:] Animation support for each new
       language construct, including any new evaluation algorithms, is
-      \textbf{directly} added to ZLive by \textbf{adding new Java
+      \textbf{directly} added to ZLive by \textbf{add\-ing new Java
       classes and methods}.  This would use interfaces, inheritance
       and visitors to achieve an extensible architecture, similar to
       the CZT typechecker.
@@ -742,7 +742,7 @@ Circus typechecker should be straightforward.
       \textbf{using rewriting rules}, then ZLive can be used directly
       on the result of that translation.
       This approach is being used to develop an Object-Z
-      animator~\textbf{*(any reference?)*}, with Object-Z objects being
+      animator, with Object-Z objects being
       transformed into Z bindings etc.  This approach of
       rewriting specifications is similar to the Z \textbf{refinement
       calculus}~\cite{z.others:ana.phd,fm.ref:morgan}.
@@ -937,35 +937,19 @@ Circus typechecker should be straightforward.
   developers of integrated formal methods tools not based on Z to make
   their framework as extensible as possible.
 
-    \begin{description}
-    \item[Mark:] Leo, I'm not sure what to do about this next paragraph, since
-    the proposed rewriting support is a general CZT feature, not specific
-    to ZLive.  Similarly for the tactic language (ANGEL) idea, but that
-    is not even planned at the moment -- just a vague possibility that
-    someone might decide to investigate in the future.  We could just
-    delete it, or perhaps rewrite it some way?
-    \item[Leo:] Ok. I think this is sound. However, what about rewriting then
-        as future work? And what about a paragraph resuming that section on
-        Circus2Java as future work as well?
-    \end{description}
-    %Nevertheless, since the ZLive architecture itself already envisages a term
-    %rewriting module, theorem proving integration could be done both directly
-    %via stand-alone ZLive animation, or indirectly through the combination of
-    %ZLive requesting a particular (ANGEL~\cite{z.others:angel}) tactic to be
-    %evaluated elsewhere.
-    %
-    % Furthermore, we expect to include in ZLive predicate transformers,
-    % schema unfolding, and a tactic language in the spirit of
-    % ANGEL~\cite{z.others:angel}.
-    % These improvements enable a basis for a theorem prover for standard Z
-    % and its extensions that is open-source and cross-platform.
-
+  Other tools as well as extensions for CZT are planned.
+  For instance, extensions of ZLive providing Object-Z constructs,
+  schema unfolding, predicate reordering, rewriting rules, and
+  a tactic language in the spirit of ANGEL~\cite{z.others:angel} are
+  in our agenda. These improvements would enable a basis for a theorem
+  prover for standard Z and its extensions that is open-source and
+  cross-platform.
 
   Z parsing and typechecking is neither a novel idea, nor a
   unavailable resource.  Nevertheless, flexible and integrated
-  open-source support for ISO standard Z heavily focused on strong
-  conformance and extensibility was not yet available.  The
-  \textbf{philosophy CZT advocates} is simple: \textbf{provide an
+  open-source support for ISO standard Z heavily focused
+  on strong conformance and extensibility was not yet available.
+  The \textbf{philosophy CZT advocates is simple: provide an
   open-source framework with a set of tools for editing, parsing,
   typechecking and animating formal specifications written in Z with
   support for Z extensions}.  As new extensions are included and the
