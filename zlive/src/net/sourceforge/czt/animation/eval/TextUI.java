@@ -20,7 +20,7 @@ package net.sourceforge.czt.animation.eval;
 
 import java.io.*;
 import java.util.*;
-import java.util.logging.Logger;
+import java.util.logging.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
@@ -47,6 +47,12 @@ public class TextUI {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     String str;
     System.out.println("\n\nZLive Version 0.1\n2004 Release\n");
+
+    // set the logger to use a human-readable format
+    Handler fh = new FileHandler("zlive.log");
+    fh.setFormatter(new ZFormatter());
+    Logger.getLogger("").addHandler(fh);
+
     boolean finished = false;
     while (!finished) {
       System.out.print("zlive>");
