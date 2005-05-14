@@ -87,7 +87,6 @@ public class FlatEqualsTest
   public void testIO()
   {
     Envir envX = empty.add(x,i10);
-    Assert.assertTrue(envX.lookup(y) == null);
     Mode m = pred.chooseMode(envX);
     Assert.assertTrue(m != null);
     Assert.assertEquals(2, m.getNumArgs());

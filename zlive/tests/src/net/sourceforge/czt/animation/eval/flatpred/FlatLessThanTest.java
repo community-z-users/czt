@@ -101,7 +101,6 @@ public class FlatLessThanTest
   public void testIO()
   {
     Envir envX = empty.add(x,i20);
-    Assert.assertTrue(envX.lookup(y) == null);
     Mode m = pred.chooseMode(envX);
     Assert.assertTrue(m != null);
     Assert.assertEquals(2, m.getNumArgs());

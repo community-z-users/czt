@@ -131,7 +131,6 @@ public class FlatDivTest
   {
     Envir envX = empty.add(x,in6);
     Envir envXY = envX.add(y,in5);
-    Assert.assertTrue(envXY.lookup(z) == null);
     Mode m = pred.chooseMode(envXY);
     Assert.assertTrue(m != null);
     Assert.assertEquals(3, m.getNumArgs());

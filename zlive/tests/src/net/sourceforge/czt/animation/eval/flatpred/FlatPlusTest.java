@@ -88,7 +88,6 @@ public class FlatPlusTest
     Envir envX = empty.add(x,i10);
     Envir envXY = envX.add(y,i20);
     Envir envXYZ = envXY.add(z,i30);
-//    Assert.assertTrue(envXYZ.lookup(z) == null);
     Mode m = pred.chooseMode(envXYZ);
     Assert.assertTrue(m != null);
     Assert.assertEquals(3, m.getNumArgs());
@@ -112,7 +111,6 @@ public class FlatPlusTest
   {
     Envir envX = empty.add(x,i10);
     Envir envXY = envX.add(y,i20);
-    Assert.assertTrue(envXY.lookup(z) == null);
     Mode m = pred.chooseMode(envXY);
     Assert.assertTrue(m != null);
     Assert.assertEquals(3, m.getNumArgs());

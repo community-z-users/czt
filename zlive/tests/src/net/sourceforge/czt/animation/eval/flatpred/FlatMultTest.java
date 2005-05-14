@@ -113,7 +113,6 @@ public class FlatMultTest
   {
     Envir envX = empty.add(x,i10);
     Envir envXY = envX.add(y,i20);
-    Assert.assertTrue(envXY.lookup(z) == null);
     Mode m = pred.chooseMode(envXY);
     Assert.assertTrue(m != null);
     Assert.assertEquals(3, m.getNumArgs());

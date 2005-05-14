@@ -95,17 +95,16 @@ public class EnvirTest
   
   public void testLookupxEmpty()
   {
-    Assert.assertTrue(empty.lookup(x)==null);
+    try {
+	Assert.assertFalse(empty.lookup(x)==null);
+    }
+    catch (EvalException ex) {
+    }
   }
   
   public void testLookupxx10()
   {
     Assert.assertTrue(x10.lookup(x).equals(i10));
-  }
-
-  public void testLookupxy10()
-  {
-    Assert.assertTrue(y10.lookup(x)==null);
   }
 
   public void testLookupxx10x20()

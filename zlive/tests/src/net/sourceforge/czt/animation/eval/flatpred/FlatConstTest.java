@@ -83,7 +83,6 @@ public class FlatConstTest
 
   public void testO()
   {
-    Assert.assertTrue(empty.lookup(x) == null);
     Mode m = pred.chooseMode(empty);
     Assert.assertTrue(m != null);
     Assert.assertEquals(1, m.getNumArgs());
