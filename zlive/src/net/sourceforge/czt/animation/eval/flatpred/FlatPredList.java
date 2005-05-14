@@ -36,38 +36,39 @@ import net.sourceforge.czt.session.CommandException;
  *  <p>
  *  Here is a typical use of FlatPredList:
  *  </p>
- *  <code>
-    // Stage 1: Setup.
-    predlist = new FlatPredList( ...a Flatten object...);
-    ... now add decls, preds, and expressions...
-    RefName resultName = predlist.addExpr(expr);
-    Envir env0 = new Envir(); // empty environment
-
-    // Stage 2: Optimisation.
-    // Ask the FlatPredList to optimise itself for
-    // efficient evaluation, given the inputs in env0.
-    Mode m = predlist.chooseMode(env0);
-    if (m == null)
-      throw new EvalException("Cannot find mode to evaluate " + expr);
-
-    // Stage 3: Evaluation.
-    predlist.startEvaluation(m,env0);
-    while (predlist.nextEvaluation())
-        // lookup the result and do something with it.
-        System.out.println(predlist.getOutputEnvir().lookup(resultName));
-    </code>
+ *  <pre>
+ *  // Stage 1: Setup.
+ *  predlist = new FlatPredList( ...a Flatten object...);
+ *  ... now add decls, preds, and expressions...
+ *  RefName resultName = predlist.addExpr(expr);
+ *  Envir env0 = new Envir(); // empty environment
+ *
+ *  // Stage 2: Optimisation.
+ *  // Ask the FlatPredList to optimise itself for
+ *  // efficient evaluation, given the inputs in env0.
+ *  Mode m = predlist.chooseMode(env0);
+ *  if (m == null)
+ *    throw new EvalException("Cannot find mode to evaluate " + expr);
+ *
+ *  // Stage 3: Evaluation.
+ *  predlist.startEvaluation(m,env0);
+ *  while (predlist.nextEvaluation())
+ *      // lookup the result and do something with it.
+ *      System.out.println(predlist.getOutputEnvir().lookup(resultName));
+ *  </pre>
  */
 public class FlatPredList
 {
-  private static final Logger sLogger
-  = Logger.getLogger("net.sourceforge.czt.animation.eval");
+  private static final Logger LOG
+  = Logger.getLogger("net.sourceforge.czt.animation.eval.FlatPredList");
   
   /** This stores the list of FlatPreds used in the current evaluation. */
   protected List/*<FlatPred>*/ predlist_ = new ArrayList();
   
-  /** Records the bound variables in this list.
+  /** Records the bound variables in this list
    *  (Ignoring the tmp vars produced by Flatten).
-   *  This is set up as Declarations are added.
+   *  In fact, it contains BOTH the DeclName and RefName form of each bound var.
+   *  It is set up as Declarations are added.
    */
   protected /*@non_null@*/ Set/*<DeclName>*/ boundVars_ = new HashSet();
 
@@ -121,6 +122,13 @@ public class FlatPredList
    */
   public /*@non_null@*/ Iterator iterator()
   { return predlist_.iterator(); }
+
+  /** Returns the bound variables of this FlatPredList,
+   *  ignoring any temporary variables.
+   *  It contains BOTH the DeclName and RefName forms of each bound variable.
+   */
+  public /*@non_null@*/ Set boundVars()
+  { return boundVars_; }
 
   /** Returns the free variables of all the FlatPreds. */
   public /*@non_null@*/ Set freeVars() {
@@ -250,32 +258,34 @@ public class FlatPredList
    *  @czt.todo Implement a simple reordering algorithm here.
    *  The current implement does no reordering.
    */
-  public Mode chooseMode(Envir env0) {
+  public Mode chooseMode(Envir env0)
+  {
+    LOG.entering("FlatPredList","chooseMode",env0);
     Envir env = env0;
     double cost = 1.0;
     Iterator i = predlist_.iterator();
-    //System.out.println("DEBUG: chooseMode "+this.hashCode());
+    LOG.finer(this.hashCode()+" starting");
     while (i.hasNext()) {
       FlatPred fp = (FlatPred)i.next();
       Mode m = fp.chooseMode(env);
       if (m == null) {
-        //if (fp instanceof FlatEquals)
-          //System.out.println("DEBUG chooseMode "+this.hashCode()+": "+env);
-        //System.out.println("DEBUG chooseMode "+this.hashCode()+" returns null because of "+fp+"\n final env="+env);
+	LOG.exiting("FlatPredList","chooseMode",null);
         return null;
       }
       env = m.getEnvir();
       cost *= m.getSolutions();
-      //System.out.println("DEBUG chooseMode "+this.hashCode()+" "+fp+" gives cost="+cost);
+      LOG.finer(this.hashCode()+" "+fp+" gives cost="+cost);
     }
-    //System.out.println("DEBUG... final cost = "+cost+", final env="+env);
-    return new Mode(env, empty_, cost);
+    Mode result = new Mode(env, empty_, cost);
+    LOG.exiting("FlatPredList","chooseMode",result);
+    return result;
   }
 
   /** Starts a fresh evaluation.
    */
   public void startEvaluation(/*@non_null@*/Mode mode, Envir env0)
   {
+    LOG.entering("FlatPredList","startEvaluation",new Object[] {mode,env0});
     evalMode_ = mode;
     inputEnv_ = env0;
     solutionsReturned = 0;
@@ -292,9 +302,11 @@ public class FlatPredList
       fp.setMode(m);
       env = m.getEnvir();
       cost *= m.getSolutions();
-      //System.out.println("DEBUG startEval "+this.hashCode()+" "+fp+" gives cost="+cost);
+      LOG.finer("startEvaluation "+fp+" gives cost="+cost);
     }
     outputEnv_ = env;
+    LOG.fine("outputEnv_ = "+env);
+    LOG.exiting("FlatPredList","startEvaluation");
    }
 
   /** The output environment of this FlatPred list.
@@ -310,7 +322,7 @@ public class FlatPredList
    *  @return true iff a new solution was found.
    */
   public boolean nextEvaluation() {
-    sLogger.entering("Flatten","visitMemPred");
+    LOG.entering("FlatPredList","nextEvaluation");
     assert inputEnv_ != null;
     assert outputEnv_ != null;
     final int end = predlist_.size();
@@ -318,38 +330,39 @@ public class FlatPredList
     if (solutionsReturned == 0) {
       // start from the beginning of the list
       solutionsReturned++;
-      sLogger.fine("starting search");
+      LOG.fine("starting search, size=" + end);
       curr = 0;
       if (end == 0) {
-        sLogger.exiting("Flatten","visitMemPred",Boolean.TRUE);
+        LOG.exiting("FlatPredList","nextEvaluation",Boolean.TRUE);
         return true;  // we return true just once.
       }
       ((FlatPred)predlist_.get(curr)).startEvaluation();
     }
     else {
       // start backtracking from the end of the list
-      sLogger.fine("starting backtracking");
+      LOG.fine("starting backtracking");
       solutionsReturned++;
       curr = end - 1;
     }
+    // invariant: outputEnv contains a valid solution for predlist[0..curr-1]
     while (0 <= curr && curr < end) {
       FlatPred fp = (FlatPred)predlist_.get(curr);
       if (fp.nextEvaluation()) {
         curr++;
         if (curr < end) {
           FlatPred nextfp = (FlatPred)predlist_.get(curr);
-          sLogger.fine("moving forward to "+curr+": "+nextfp);
+          LOG.fine("moving forward to "+curr+": "+nextfp);
           nextfp.startEvaluation();
         } else {
-          sLogger.fine("moving forward to "+curr+".");
+          LOG.fine("moving forward to "+curr+".");
         }
       }
       else {
         curr--;
-        sLogger.fine("moving backwards to "+curr);
+        LOG.fine("moving backwards to "+curr);
      }
     }
-    sLogger.exiting("Flatten","visitMemPred",new Boolean(curr == end));
+    LOG.exiting("FlatPredList","nextEvaluation",new Boolean(curr == end));
     return curr == end;
   }
 
