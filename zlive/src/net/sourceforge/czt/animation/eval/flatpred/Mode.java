@@ -101,4 +101,17 @@ public class Mode
   //@ ensures \result == postEnvir_;
   public /*@pure@*/ Envir getEnvir()
   { return postEnvir_; }
+
+  public String toString()
+  {
+    StringBuffer io = new StringBuffer();
+    for (Object/*Boolean*/ input : inputs_) {
+      if ( ((Boolean)input).booleanValue() )
+	io.append("i");
+      else
+	io.append("O");
+    }
+    return "Mode{" + io.toString() + " " + solutions_
+	 + " envir=" + postEnvir_.toString() + "}";
+  }
 }
