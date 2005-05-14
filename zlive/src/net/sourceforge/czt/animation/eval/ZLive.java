@@ -101,17 +101,6 @@ public class ZLive
               + e);
       e.printStackTrace();
     }
-    // set up our debug log.
-    try {
-      Handler handler = new FileHandler("zlive.log");
-      handler.setLevel(Level.ALL);
-      handler.setEncoding("utf8");
-      Logger.getLogger("").addHandler(handler);
-      Logger.getLogger("net.sourceforge.czt.animation.eval").setLevel(
-          Level.FINEST);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
   }
 
   /**
@@ -176,7 +165,8 @@ public class ZLive
     Mode m = predlist_.chooseMode(env0);
     if (m == null)
       throw new EvalException("Cannot find mode to evaluate " + pred);
-    predlist_.startEvaluation(m,env0);
+    predlist_.setMode(m);
+    predlist_.startEvaluation();
     Pred result;
     if (predlist_.nextEvaluation())
       result = factory_.createTruePred();
@@ -238,7 +228,8 @@ public class ZLive
     Mode m = predlist_.chooseMode(env0);
     if (m == null)
       throw new EvalException("Cannot find mode to evaluate " + expr);
-    predlist_.startEvaluation(m,env0);
+    predlist_.setMode(m);
+    predlist_.startEvaluation();
     if ( ! predlist_.nextEvaluation())
         throw new CztException("No solution for expression");
     Expr result = predlist_.getOutputEnvir().lookup(resultName);

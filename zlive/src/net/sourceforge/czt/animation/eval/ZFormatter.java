@@ -32,7 +32,7 @@ import java.util.logging.*;
     // set the logger to use a human-readable format
     Handler fh = new FileHandler("zlive.log");
     fh.setFormatter(new ZFormatter());
-    Logger.getLogger("").addHandler(fh);
+    Logger.getLogger(...).addHandler(fh);
     </pre>
  */
 public class ZFormatter extends SimpleFormatter {
@@ -51,6 +51,7 @@ public class ZFormatter extends SimpleFormatter {
     if (msg.startsWith("ENTRY"))
 	depth++;
     StringBuffer indent = new StringBuffer();
+    indent.append(depth);
     for (int i=0; i<depth; i++)
 	indent.append("  ");
     if (msg.startsWith("RETURN"))
@@ -61,11 +62,14 @@ public class ZFormatter extends SimpleFormatter {
     StringBuffer params = new StringBuffer();
     Object args[] = record.getParameters();
     if (args != null) {
-      for (int i=0; i<args.length; i++)
-	params.append(PARAM_PREFIX + i + "=" + args[i].toString() + "\n");
+      for (int i=0; i<args.length; i++) {
+	Object arg = args[i];
+	String argstr = (arg==null) ? "null" : arg.toString();
+	params.append(PARAM_PREFIX + i + "=" + argstr + "\n");
+      }
     }
 
-    return depth + " " + indent + cls + ":" + meth 
+    return indent + cls + ":" + meth 
 	+ " " + msg + "\n" + params;
   }
 }
