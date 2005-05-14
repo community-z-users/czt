@@ -80,6 +80,7 @@ public class FlatTuple extends FlatPred
   {
     assert (evalMode_ != null);
     assert (solutionsReturned >= 0);
+    // @czt.todo package these assertions into a separate function.
     if(!evalMode_.isInput(args.size()-1)) {
       for (int i=0;i<args.size()-1;i++) 
         assert (evalMode_.isInput(i));
@@ -97,17 +98,20 @@ public class FlatTuple extends FlatPred
         if(memberList.size() == args.size()-1) {
           boolean flag = true;
           for(int i=0;i<memberList.size();i++) {
-            //if a RefName is not in the env, then it is set seeing the value in env.tuple
-            if(evalMode_.getEnvir().lookup((RefName)args.get(i)) == null) {
-              evalMode_.getEnvir().setValue((RefName)args.get(i),(Expr)memberList.get(i));
+	    RefName elem = (RefName)args.get(i);
+	    Object value = evalMode_.getEnvir().lookup(elem);
+            //if value of elem is unknown (null), we do envir(elem) := value from tuple
+            if(value == null) {
+              evalMode_.getEnvir().setValue(elem,(Expr)memberList.get(i));
             }
-            //if a RefName is there in the env, it is checked to be equal to the corresponsing one in env.tuple
             else {
-              if(!(evalMode_.getEnvir().lookup((RefName)args.get(i)).equals((Expr)memberList.get(i))))
+              // value is known, so check it is equal to value in tuple
+              if ( ! (value.equals((Expr)memberList.get(i))))
                 flag = false;
             }
           }
-          //the result is set to false even if one of the RefNames differs in the env.tuple and in the inputs
+          // result is true iff envir now contains the same values as the tuple
+	  //  (for the variables that appear in the tuple)
           result = flag;
         }
       }

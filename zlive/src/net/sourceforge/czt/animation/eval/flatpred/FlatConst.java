@@ -60,6 +60,8 @@ public class FlatConst extends FlatPred
   {
     Mode m = modeOneOutput(env);
     // set the value of the constant now to improve later analysis
+    // (note that when m!=null => args.get(0) is defined,
+    //   but a null value means that its value is unknown)
     if (m != null && m.getEnvir().lookup((RefName)args.get(0)) == null)
       m.getEnvir().setValue((RefName)args.get(0), constant);
     return m;
