@@ -4255,16 +4255,19 @@ initialState ::=
         ;
 
 operation ::=
-        OPSCH name:n opText:ot END
+        OPSCH:osch name:n opText:ot END
         {:
            OpExpr opExpr = factory_.createAnonOpExpr(ot);
            RESULT = factory_.createOperation(n, opExpr, Box.SchBox);
+           addLocAnn(RESULT, oschleft, oschright);
         :}
         |
         OPNAME:on SDEF opExpr:oe
         {:
            DeclName dn = factory_.createDeclName(on, list(), null);
            RESULT = factory_.createOperation(dn, oe, Box.OmitBox);
+           addLocAnn(RESULT, onleft, onright);
+           addLocAnn(dn, onleft, onright);
         :}
         ;
 
