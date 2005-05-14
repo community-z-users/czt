@@ -54,7 +54,7 @@ public class Envir
         return env.expr_;
       env = env.nextEnv;
     }
-    return null;
+    throw new EvalException("Missing name in envir: " + want);
   }
 
   protected boolean sameName(/*@non_null@*/RefName a, RefName b) {
@@ -64,7 +64,7 @@ public class Envir
         && a.getStroke().equals(b.getStroke());
   }
   
-  /** Lookup a name in the Environment. 
+  /** See if a name is defined in the Environment. 
    @return true if the name exists, false if it does not exist.
    */
   public/*@pure@*/boolean isDefined(/*@non_null@*/RefName want) {
@@ -153,11 +153,13 @@ public class Envir
   
   public String toString() {
     StringBuffer result = new StringBuffer();
+    result.append("Envir{");
     Envir env = this;
     while (env != null) {
-      result.append("Envir("+Integer.toHexString(env.hashCode())+","+env.name_+"="+env.expr_+")\n");
+      result.append(Integer.toHexString(env.hashCode())+":"+env.name_+"="+env.expr_+",  ");
       env = env.nextEnv;
     }
+    result.append("}");
     return result.toString();
   }
 }
