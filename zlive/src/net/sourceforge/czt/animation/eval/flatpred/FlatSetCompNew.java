@@ -126,7 +126,8 @@ public class FlatSetCompNew extends FlatSetComp {
                 env = EnvirUtils.merge(env, declsEnv_);
                 // Execute F in {D|F} = s in an env, where the freeVars() are ok?
                 bodyMode_ = predsF_.chooseMode(env);
-                predsF_.startEvaluation(bodyMode_, env);
+                predsF_.setMode(bodyMode_);
+                predsF_.startEvaluation();
                 Envir O = predsF_.getOutputEnvir();
                 if (EnvirUtils.subset(D, O)) { // D.sameAs(O); D = O
                     m = new Mode(env, inputs, bodyMode_.getSolutions());

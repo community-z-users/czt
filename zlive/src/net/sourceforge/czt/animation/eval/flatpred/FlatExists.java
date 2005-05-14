@@ -72,9 +72,8 @@ public class FlatExists extends FlatPred
     assert(evalMode_ != null);
     super.startEvaluation();
     schMode_ = schText_.chooseMode(evalMode_.getEnvir());
-    schText_.startEvaluation(schMode_, evalMode_.getEnvir());
+    //schText_ TODO.startEvaluation(schMode_, evalMode_.getEnvir());
     bodyMode_ = body_.chooseMode(schMode_.getEnvir());
-    body_.startEvaluation(bodyMode_,schMode_.getEnvir());
   }
 
   /** Does the actual evaluation */
@@ -83,9 +82,8 @@ public class FlatExists extends FlatPred
     assert(evalMode_ != null);
     assert(schMode_ != null);
     assert(bodyMode_ != null);
-    Envir bodyEnv = schMode_.getEnvir();
     while (schText_.nextEvaluation()) {
-      body_.startEvaluation(bodyMode_,bodyEnv);
+      body_.startEvaluation();
       if (body_.nextEvaluation())
         return true;
     }

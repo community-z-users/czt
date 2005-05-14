@@ -157,7 +157,8 @@ public class FlatSetComp
       if (m == null)
         throw new EvalException("Cannot generate members of SetComp: " + this);
       knownMembers_ = new HashSet();
-      predsAll_.startEvaluation(m, env0);
+      predsAll_.setMode(m);
+      predsAll_.startEvaluation();
       Envir env = predsAll_.getOutputEnvir();
       while (predsAll_.nextEvaluation())
         knownMembers_.add(env.lookup(resultName_));
@@ -204,7 +205,8 @@ public class FlatSetComp
     Mode m = predsOne_.chooseMode(env);
     if (m == null)
       throw new EvalException("Cannot even test member of SetComp: " + this);
-    predsOne_.startEvaluation(m, env);
+    predsOne_.setMode(m);
+    predsOne_.startEvaluation();
     return predsOne_.nextEvaluation();
   }
 

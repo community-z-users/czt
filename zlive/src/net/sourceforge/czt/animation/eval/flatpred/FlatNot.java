@@ -53,11 +53,22 @@ public class FlatNot extends FlatPred
   */
   
   /** Chooses the mode in which the predicate can be evaluated.*/
-  public Mode chooseMode(/*@non_null@*/ Envir env)
+  public ModeList chooseMode(/*@non_null@*/ Envir env)
   {
-    return modeAllDefined(env);
+    Mode result = modeAllDefined(env);
+    if (result == null)
+      return null;
+    else
+      return predlist_.chooseMode(env);
   }
-  
+
+  //@ requires mode instanceof ModeList;
+  public void setMode(/*@non_null@*/Mode mode)
+  {
+    super.setMode(mode);
+    predlist_.setMode( (ModeList)mode );
+  }
+
   public Set freeVars()
   {
     return predlist_.freeVars();
@@ -67,7 +78,7 @@ public class FlatNot extends FlatPred
   {
     assert(evalMode_ != null);
     super.startEvaluation();
-    predlist_.startEvaluation(evalMode_,evalMode_.getEnvir());
+    predlist_.startEvaluation();
   }
 
   /** Does the actual evaluation */

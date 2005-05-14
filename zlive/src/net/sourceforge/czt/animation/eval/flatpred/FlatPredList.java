@@ -49,18 +49,20 @@ import net.sourceforge.czt.session.CommandException;
  *  Mode m = predlist.chooseMode(env0);
  *  if (m == null)
  *    throw new EvalException("Cannot find mode to evaluate " + expr);
- *
+ *  predlist.setMode(m);
+ *  
  *  // Stage 3: Evaluation.
- *  predlist.startEvaluation(m,env0);
+ *  predlist.startEvaluation();
  *  while (predlist.nextEvaluation())
  *      // lookup the result and do something with it.
  *      System.out.println(predlist.getOutputEnvir().lookup(resultName));
  *  </pre>
+ * @czt.todo make this inherit from FlatPred.
  */
 public class FlatPredList
 {
   private static final Logger LOG
-  = Logger.getLogger("net.sourceforge.czt.animation.eval.FlatPredList");
+  = Logger.getLogger("net.sourceforge.czt.animation.eval");
   
   /** This stores the list of FlatPreds used in the current evaluation. */
   protected List/*<FlatPred>*/ predlist_ = new ArrayList();
@@ -90,13 +92,8 @@ public class FlatPredList
 
   private final static ArrayList empty_ = new ArrayList();
   
-  private Mode evalMode_;
+  private ModeList evalMode_;
 
-  /** czt.todo This is not currently used. */
-  private Envir inputEnv_;
-
-  private Envir outputEnv_;
-  
   /** The number of solutions that have been returned by nextEvaluation().
   This is -1 before startEvaluation() is called and 0 immediately
   after it has been called.
@@ -258,9 +255,10 @@ public class FlatPredList
    *  @czt.todo Implement a simple reordering algorithm here.
    *  The current implement does no reordering.
    */
-  public Mode chooseMode(Envir env0)
+  public ModeList chooseMode(Envir env0)
   {
     LOG.entering("FlatPredList","chooseMode",env0);
+    List<Mode> submodes = new ArrayList<Mode>();
     Envir env = env0;
     double cost = 1.0;
     Iterator i = predlist_.iterator();
@@ -272,48 +270,51 @@ public class FlatPredList
 	LOG.exiting("FlatPredList","chooseMode",null);
         return null;
       }
+      submodes.add(m);
       env = m.getEnvir();
       cost *= m.getSolutions();
       LOG.finer(this.hashCode()+" "+fp+" gives cost="+cost);
     }
-    Mode result = new Mode(env, empty_, cost);
+    ModeList result = new ModeList(env, empty_, cost, submodes);
     LOG.exiting("FlatPredList","chooseMode",result);
     return result;
   }
 
+ /** Set the mode that will be used to evaluate this list.
+  *  @param mode Must be one of the modes returned previously by chooseMode.
+  */
+  //@ requires mode instanceof ModeList;
+  //@ ensures evalMode_ == mode;
+  public void setMode(/*@non_null@*/Mode mode)
+  {
+    evalMode_ = (ModeList)mode;
+
+    // set modes of all the flatpreds in the list.
+    Iterator preds = predlist_.iterator();
+    Iterator modes = evalMode_.iterator();
+    while (preds.hasNext())
+      ((FlatPred)preds.next()).setMode((Mode)modes.next());
+
+    solutionsReturned = -1;
+  }
+
   /** Starts a fresh evaluation.
    */
-  public void startEvaluation(/*@non_null@*/Mode mode, Envir env0)
+  //@ requires evalMode_ != null;
+  public void startEvaluation()
   {
-    LOG.entering("FlatPredList","startEvaluation",new Object[] {mode,env0});
-    evalMode_ = mode;
-    inputEnv_ = env0;
+    LOG.entering("FlatPredList","startEvaluation");
+    assert evalMode_ != null;
     solutionsReturned = 0;
-    // Now set the mode of all the preds in the list.
-    double cost = 1.0;
-    Iterator i = predlist_.iterator();
-    Envir env = env0;
-    while (i.hasNext()) {
-      FlatPred fp = (FlatPred)i.next();
-      Mode m = fp.chooseMode(env);
-      if (m == null) {
-        throw new EvalException("mode error in FlatPredList "+fp);
-      }
-      fp.setMode(m);
-      env = m.getEnvir();
-      cost *= m.getSolutions();
-      LOG.finer("startEvaluation "+fp+" gives cost="+cost);
-    }
-    outputEnv_ = env;
-    LOG.fine("outputEnv_ = "+env);
     LOG.exiting("FlatPredList","startEvaluation");
    }
 
   /** The output environment of this FlatPred list.
    *  This is only valid after startEvaluation.
    */
+  //@ requires evalMode_ != null;
   public Envir getOutputEnvir() {
-    return outputEnv_;
+    return evalMode_.getEnvir();
   }
 
   /** Returns the next solution from this list of FlatPreds.
@@ -323,8 +324,6 @@ public class FlatPredList
    */
   public boolean nextEvaluation() {
     LOG.entering("FlatPredList","nextEvaluation");
-    assert inputEnv_ != null;
-    assert outputEnv_ != null;
     final int end = predlist_.size();
     int curr;
     if (solutionsReturned == 0) {
@@ -332,11 +331,11 @@ public class FlatPredList
       solutionsReturned++;
       LOG.fine("starting search, size=" + end);
       curr = 0;
-      if (end == 0) {
-        LOG.exiting("FlatPredList","nextEvaluation",Boolean.TRUE);
-        return true;  // we return true just once.
+      if (curr < end)
+	((FlatPred)predlist_.get(curr)).startEvaluation();
+      else {
+	// curr==end==0, so we do not enter the loop below at all.
       }
-      ((FlatPred)predlist_.get(curr)).startEvaluation();
     }
     else {
       // start backtracking from the end of the list
@@ -344,7 +343,7 @@ public class FlatPredList
       solutionsReturned++;
       curr = end - 1;
     }
-    // invariant: outputEnv contains a valid solution for predlist[0..curr-1]
+    // invariant: the output env contains a valid solution for predlist[0..curr-1]
     while (0 <= curr && curr < end) {
       FlatPred fp = (FlatPred)predlist_.get(curr);
       if (fp.nextEvaluation()) {
