@@ -201,7 +201,7 @@ class SeparateDelimiter
 {
   private Properties properties_;
   private ContextFreeScanner scanner_;
-  private Stack&lt;Symbol&gt; nextTokens_ = new Stack&lt;Symbol&gt;();
+  private Stack&lt;Symbol&gt; tokens_ = new Stack&lt;Symbol&gt;();
 
   public SeparateDelimiter(ContextFreeScanner scanner, Properties properties)
   {
@@ -217,106 +217,51 @@ class SeparateDelimiter
     return "true".equals(properties_.getProperty(propertyKey));
   }
 
-  private String separateFromEnd(String what,
-                                 String where,
-                                 int left,
-                                 int right,
-                                 Stack tokenList)
+  private boolean needsSeparation(char c)
   {
-    String value = where;
-    if (value.endsWith(what)) {
-      Symbol symbol = new Symbol(Sym.DECORWORD, left, right, what);
-      tokenList.push(symbol);
-      value = value.substring(0, value.length() - what.length());
-    }
-    return value;
+    return c == ',' || c == ';' || c == '.';
   }
 
-  private String separateFromBegin(String what,
-                                   String where,
-                                   int left,
-                                   int right,
-                                   Stack tokenList)
-  {
-    String value = where;
-    if (value.startsWith(what)) {
-      Symbol symbol = new Symbol(Sym.DECORWORD, left, right, what);
-      tokenList.push(symbol);
-      value = value.substring(what.length(), value.length());
-    }
-    return value;
-  }
-
-  private void fillStack()
-    throws IOException
-  {
-    if (! nextTokens_.empty()) return;
-    Symbol symbol = scanner_.next_token();
-    if (symbol.sym == Sym.DECORWORD &amp;&amp;
-        getBooleanProperty(PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS)) {
-      String value = (String) symbol.value;
-      // special cases ",," and ".."
-      if (ZString.LISTARG.equals(value) ||
-           "..".equals(value)) {
-        nextTokens_.push(symbol);
-        return;
-      }
-      int length = value.length();
-      // TODO compute line and column number correctly (not possible?)
-      while (length > (value = separateFromEnd(ZString.COMMA,
-                                               value,
-                                               symbol.left,
-                                               symbol.right,
-                                               nextTokens_)).length() ||
-             length > (value = separateFromEnd(ZString.SEMI,
-                                               value,
-                                               symbol.left,
-                                               symbol.right,
-                                               nextTokens_)).length() ||
-             length > (value = separateFromEnd(ZString.DOT,
-                                               value,
-                                               symbol.left,
-                                               symbol.right,
-                                               nextTokens_)).length()) {
-        length = value.length();
-      }
-      Stack&lt;Symbol&gt; tmpStack = new Stack&lt;Symbol&gt;();
-      while (length > (value = separateFromBegin(ZString.COMMA,
-                                                 value,
-                                                 symbol.left,
-                                                 symbol.right,
-                                                 tmpStack)).length() ||
-             length > (value = separateFromBegin(ZString.SEMI,
-                                                 value,
-                                                  symbol.left,
-                                                 symbol.right,
-                                                 tmpStack)).length() ||
-             length > (value = separateFromBegin(ZString.DOT,
-                                                 value,
-                                                 symbol.left,
-                                                 symbol.right,
-                                                 tmpStack)).length()) {
-        length = value.length();
-      }
-      if (! "".equals(value)) {
-        nextTokens_.push(new Symbol(Sym.DECORWORD,
-                                    symbol.left, symbol.right,
-                                    value));
-      }
-      while (! tmpStack.empty()) {
-        nextTokens_.push(tmpStack.pop());
-      }
-    }
-    else {
-      nextTokens_.push(symbol);
-    }
-  }
-
+  // TODO compute line and column number correctly (not possible?)
   public Symbol next_token()
     throws IOException
   {
-    fillStack();
-    return nextTokens_.pop();
+    if (! tokens_.empty()) return tokens_.pop();
+    Symbol symbol = scanner_.next_token();
+    int left = symbol.left;
+    int right = symbol.right;
+    if (symbol.sym == Sym.DECORWORD &amp;&amp;
+        getBooleanProperty(PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS)) {
+      String value = (String) symbol.value;
+      char[] charArray = value.toCharArray();
+      int length = charArray.length;
+      int suffix = length - 1;
+      while(needsSeparation(charArray[suffix])) {
+        if (suffix &lt;= 0) {
+          return symbol;
+        }
+        suffix--;
+      }
+      assert suffix >= 0;
+      if (suffix &lt; length - 1) {
+        String string = new String(charArray, suffix + 1, length - suffix - 1);
+        tokens_.push(new Symbol(Sym.DECORWORD, left, right, string));
+      }
+      int prefix = 0;
+      while(needsSeparation(charArray[suffix])) {
+        prefix++;
+      }
+      assert prefix &lt;= suffix;
+      String string = new String(charArray, prefix, suffix - prefix + 1);
+      Symbol newSymbol = new Symbol(Sym.DECORWORD, left, right, string);
+      if (prefix == 0) {
+        return newSymbol;
+      }
+      tokens_.push(newSymbol);
+      string = new String(charArray, 0, prefix);
+      return new Symbol(Sym.DECORWORD, left, right, string);
+    }
+    return symbol;
   }
 }
 </scanner>
