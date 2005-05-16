@@ -950,6 +950,59 @@ In conclusion, CZT supports extendability in its typecheckers by:
   information if it is able.  This gives a more flexible,
   \emph{plugin} style of tool development.
 
+\section{Related Work}
+
+  Integrated formal methods frameworks have been investigated in the
+  past. Anderson et al.\ \cite{uitp-anderson} discuss a framework for
+  integrating different formal methods tools. However, their aim is to
+  specify generic interfaces to support integration of formal methods
+  tools. Three types of interfaces are used: between the engineer and
+  the tools; between cooperating tools; and between the tools and the
+  project environment. They achieve this by using an {\em
+  Encapsulation Toolkit} to allow a formal methods tool to communicate
+  with other components in an intermediate format, and an {\em Active
+  Document Toolkit} to allow communication between tools and their
+  human users. The goals of this project are different to CZT, which
+  aims to provide components for Z tools that can be extended and
+  integrated into the project or other tools.
+
+  Brillant\footnote{See \url{https://gna.org/projects/brillant}.}  is
+  an open-source project with similar aims to CZT, but for the B
+  method. It aims to integrate several existing projects (BCaml,
+  jBTools and ABTools), which all contain parsers and typecheckers for
+  various dialects of B.  Brillant is an approach to integrating these
+  tools in a loosely-coupled style, with tools being written in
+  several different languages (OCaml, Java and XSLT) and communicating
+  via a common XML format for B machines.  Brillant includes a
+  translator from UML to B, plus some experimental B extensions (Event
+  B and a real-time extension of B based on the duration calculus),
+  but the extensions seem to be designed on an individual basis,
+  rather than being tightly integrated extensions of a core
+  architecture like in CZT.  The extensible architecture of CZT, and
+  of course, the consistent use of Java for writing the
+  tools, enables a higher degree of reuse.
+
+  Other formal methods toolkits exists, such as RODIN
+  project\footnote{See \url{http://rodin-b-sharp.sourceforge.net/}.}
+  for the B specification language, and the Overture
+  toolset\footnote{See \url{http://www.overturetool.org/}.} for VDM,
+  but they focus on providing specific tool support for their
+  respective languages, whereas CZT aim to provide extensible
+  components that can also be used by other tools.
+
+  Projects such as Eclipse\footnote{See
+  \url{http://www.eclipse.org/}.}  and UQ* \footnote{See
+  \url{http://www.itee.uq.edu.au/~uqstar/}.} are projects aimed at
+  providing generic language-based environments for software
+  development. However, these projects are not tailored towards formal
+  methods, and provide support for generic languages, leaving the
+  development of parsers, typecheckers, etc.\ for languages up to
+  users who want such support. CZT is exactly the opposite of this, in
+  that it focuses only Z and various Z extensions, allowing specific
+  components, such as parsers and typecheckers, to be included within
+  the framework. Therefore, CZT could be integrated into the Eclipse
+  or UQ* environments.
+
 \section{Conclusions and Future Work} \label{sec:conclusions}
 
   In this paper, we presented a variety of reuse and extensibility
