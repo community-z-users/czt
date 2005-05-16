@@ -355,7 +355,7 @@
   CZT includes a suite of important tools for operations such as
   parsing, typechecking, and markup conversion. In addition to a
   parser and typechecker for Z, an Object-Z parser is provided, and
-  \Circus\ and TCOZ parsers, as well as a Object-Z typechecker, are
+  \Circus\ and TCOZ parsers, as well as an Object-Z typechecker, are
   under development.  The Object-Z, TCOZ, and \Circus\ tools extend
   the Z tools by adding support for the additional constructs these
   languages provide.  As each language is an
@@ -685,23 +685,24 @@ Our experience is that the above extensible typechecker design makes
 it much easier to build multi-lingual typecheckers.  That is, a family
 of typechecker objects for Z and various extensions of Z.
 %
-For example, an initial definition loading environment for the \Circus\
-operational semantics given in~\cite{circus.mc:opsem} has been developed following the
-guidelines for Z and Object-Z typecheckers.
-The formal type-rules for \Circus\ are under development~\cite{circus.other:typechecker}.
-Provided the architecture and the design decisions are understood, the
-implementation task of a \Circus\ typechecker should be considerably simplified,
-and directly benefit from code reuse and elegant object-oriented design.
-The obvious advantage is that by inheriting from the base Z typechecker,
-a possible \Circus\ typechecker implementation already enforces standard Z
-type-checking conformance. Therefore, one can concentrate on the implementation
-of new type-rules for \Circus.
+For example, a static checker for Circus that checks some context sensitive
+rules such as variable and action declaration scope has been developed
+following the guidelines for Z and Object-Z typecheckers. The information collected
+serve as an initial environment for the \Circus\ operational semantics~\cite{circus.mc:opsem}.
+The formal type-rules for \Circus\ are under development in~\cite{circus.other:typechecker}.
+Provided the architecture and the design decisions are understood, this static checker can
+be used as the basis of a \Circus\ typechecker implementation. It would directly benefit from
+code reuse and elegant object-oriented design of the CZT. Furthermore,
+another obvious advantage is that by inheriting from the base Z typechecker,
+the \Circus\ typechecker implementation would already enforce standard Z type-checking conformance.
+Therefore, one can concentrate on the implementation of new type-rules for \Circus\
+from this available skeleton for a \Circus\ typechecker.
 
 In conclusion, CZT supports extendability in its typecheckers by:
 \begin{description}
  \item[Using Multiple Visitors]: A separate visitor is used for each
   group of type rules --- this provides a straightforward way to implement
-  type rules for new constructs (by adding new visitors), or override 
+  type rules for new constructs (by adding new visitors), or override
   existing type rules (by subclassing existing visitors).
  \item[Sharing Common Code via Inheritance and Delegation:]
    Methods used throughout the typechecker
@@ -814,7 +815,7 @@ In conclusion, CZT supports extendability in its typecheckers by:
     checking algorithms~\cite{csp.mc:main,csp.mc:bisequiv} together
     with theorem proving and debugging
     functionalities\footnote{See
-	\url{http://www.cs.york.ac.uk/circus/model-checker}}.
+    \url{http://www.cs.york.ac.uk/circus/model-checker}}.
     The result is a (possibly empty) set of witnesses representing
     failed refinement conditions. More details of this architecture
     can be found in~\cite{circus.mc:leo}.  \begin{figure}[t]
