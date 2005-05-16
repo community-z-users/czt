@@ -653,8 +653,8 @@ directly by the \texttt{oz.ExprChecker} instance.  When a standard Z
 expression is typechecked, the above \texttt{visitExpr} method
 is called, delegating the typechecking to an instance of
 \texttt{z.ExprChecker}.  Any subexpressions of the Z expression are
-passed back to the top-level typechecker, which uses the
-\texttt{oz.ExprChecker} instance, to ensure that Object-Z subexpressions
+passed back to the top-level type\-chec\-ker, which uses the
+\texttt{oz.Expr\-Chec\-ker} instance, to ensure that Ob\-ject-Z subexpressions
 are checked correctly.
 
 This also allows type rules to be overridden. For example, a
