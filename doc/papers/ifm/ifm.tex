@@ -330,7 +330,7 @@
   existing Z visitors like typechecker, printer, \textit{etc}.
   %
   Secondly, it makes it easy to extend existing visitors
-  to handle Z extensions -- one can simply define a new visitor class
+  to handle Z extensions --- one can simply define a new visitor class
   which inherits behaviour from an existing Z visitor and adds a few
   methods for the new or changed language constructs.
   %
@@ -357,10 +357,10 @@
   CZT includes a suite of important tools for operations such as
   parsing, typechecking, and markup conversion. In addition to a
   parser and typechecker for Z, an Object-Z parser is provided, and
-  \Circus\ and TCOZ parsers, as well as Object-Z and \Circus\
-  typecheckers, are under development.  The Object-Z, TCOZ, and
-  \Circus\ tools extend the Z tools by adding support for the
-  additional constructs these languages provide.  As each language is an
+  \Circus\ and TCOZ parsers, as well as a Object-Z typechecker, are
+  under development.  The Object-Z, TCOZ, and \Circus\ tools extend
+  the Z tools by adding support for the additional constructs these
+  languages provide.  As each language is an
   extension of Z, it is tempting to just keep adding to the tools
   for each extension, and use the largest superset of all
   extensions. For example, use the TCOZ tools to parse and typecheck
@@ -456,7 +456,7 @@ In order to avoid having to provide a parser for each markup language,
 all specifications are first translated into Unicode and subsequently
 parsed by a Unicode parser\footnote{See~\cite{czt} for a more detailed
 description of the parser architecture.}.  This also makes sure that
-names in the AST are markup independent: they are represented in
+names in the AST are markup independent:~they are represented in
 Unicode independently on the actual markup used in the source
 document.  This is a necessary precondition of allowing different
 sections of a specification to be written in different markups.  If a
@@ -538,7 +538,7 @@ shown in Fig.~\ref{fig:ztypechecker}.
 \def\epsfsize#1#2{\epsfxsize}
 
 This breaks up the overall task of typechecking into several
-(currently six) smaller \texttt{Checker} visitors -- each subclass of
+(currently six) smaller \texttt{Checker} visitors --- each subclass of
 \texttt{Checker} typechecks a different kind of syntactic construct
 (paragraphs, predicates, expressions etc.).  The \texttt{Checker}
 class itself defines some shared resources, such as typing
@@ -546,7 +546,7 @@ environments and the type unification facilities, as well as common
 ``helper'' methods used throughout the implementation such as error
 reporting.  In addition, each checker subclass object has a reference
 back to the top-level \texttt{TypeChecker} object, which has links to
-all the checkers -- this allows one checker to call another via the
+all the checkers --- this allows one checker to call another via the
 \texttt{TypeChecker} object.
 
 For example, for type checking a schema text of an {\tt AxPara}, the
@@ -617,7 +617,7 @@ The advantages of this typechecker design include:
 \def\epsfsize#1#2{\epsfxsize}
 
 Fig.~\ref{fig:oztypechecker} shows how this design is extended to
-define a typechecker for a Z extension -- Object-Z in this case.  A
+define a typechecker for a Z extension --- Object-Z in this case.  A
 new package (oz) is created, for the Object-Z typechecker.  In this
 package, a new {\tt oz.Checker} class is implemented, which inherits
 the base {\tt z.Checker} class.  In this new class, any common methods
@@ -660,7 +660,7 @@ is called, delegating the typechecking to an instance of
 \texttt{z.ExprChecker}.  Any subexpressions of the Z expression are
 be passed back to the top-level typechecker, which uses the
 \texttt{oz.ExprChecker} instance, to ensure that Object-Z subexpressions
-are checked correctly. 
+are checked correctly.
 
 This also allows type rules to be overridden. For example, a
 selection expression, $a.b$, in standard Z requires that $a$ is a
@@ -690,20 +690,17 @@ Our experience is that the above extensible typechecker design makes
 it much easier to build multi-lingual typecheckers.  That is, a family
 of typechecker objects for Z and various extensions of Z.
 %
-For example, an initial typechecker environment for \Circus\ has been
-developed following the guidelines for Z and Object-Z. Although the
-formal type-rules for \Circus\ are under
-development~\cite{circus.other:typechecker}, we already have a
-prototype version of a \Circus\ typechecker.  Provided the
-architecture and the design decisions are understood, the
-implementation task is relatively straightforward, and directly
-benefits from code reuse and elegant object-oriented design.  In
-practice, after understanding the design, creating the prototype
-typechecker for \Circus\ took a couple of days. The obvious advantage
-is that by inheriting from the base Z typechecker, the prototype already
-enforces standard Z type-checking conformance. Once the additional
-type-rules for \Circus\ are available, extending the prototype into a full
-Circus typechecker should be straightforward.
+For example, an initial definition loading environment for the \Circus\
+operational semantics given in~\cite{circus.mc:opsem} has been developed following the
+guidelines for Z and Object-Z typecheckers.
+The formal type-rules for \Circus\ are under development~\cite{circus.other:typechecker}.
+Provided the architecture and the design decisions are understood, the
+implementation task of a \Circus\ typechecker should be considerably simplified,
+and directly benefit from code reuse and elegant object-oriented design.
+The obvious advantage is that by inheriting from the base Z typechecker,
+a possible \Circus\ typechecker implementation already enforces standard Z
+type-checking conformance. Therefore, one can concentrate on the implementation
+of new type-rules for \Circus.
 
 In conclusion, CZT supports extendability in its typecheckers by:
 \begin{description}
