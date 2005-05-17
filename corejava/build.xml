@@ -5,6 +5,7 @@
   <property name="corejava.src.dir" location="src"/>
   <property name="corejava.src.xsl" location="xsl"/>
   <property name="corejava.build.dir" location="build"/>
+  <property name="corejava.build.xsd" location="${corejava.build.dir}/xsd"/>
   <property name="corejava.build.src" location="${corejava.build.dir}/src"/>
   <property name="corejava.build.base" location="${corejava.build.dir}/base"/>
   <property name="corejava.build.core" location="${corejava.build.dir}/core"/>
@@ -21,6 +22,7 @@
   <property name="corejava.jaxb.jar" location="${corejava.jar.dir}/${corejava.jaxb.jar.file}"/>
   <property name="corejava.api.dir" location="doc/api"/>
   <property name="corejava.api.jaxb.dir" location="doc/jaxb-api"/>
+  <property name="src.xsl" location="../gnast/src/xsl"/>
 
   <target name="all" depends="install, api"
     description="build the jar files and the API documentation"/>
@@ -29,6 +31,7 @@
     <tstamp/>
     <mkdir dir="${corejava.build.dir}"/>
     <mkdir dir="${corejava.build.src}"/>
+    <mkdir dir="${corejava.build.xsd}"/>
   </target>
 
   <target name="install"
@@ -43,6 +46,64 @@
 
   <target name="build-src"
     depends="zchar, zstring"/>
+
+  <!-- build source files -->
+
+  <target name="gen-jaxb" depends="pre"
+    description="Generate Jaxb classes">
+    <taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
+      <classpath>
+        <pathelement path="${jwsdp.classpath}"/>
+        <pathelement location="${czt.home}/${jar.dir}/${corejava.base.jar.file}"/>
+      </classpath>
+    </taskdef>
+    <xjc target="${corejava.build.src}"
+      extension="true" removeOldOutput="yes">
+      <schema  dir="${corejava.build.xsd}" includes="*.xsd"/>
+      <depends dir="${czt.home}/zml" includes="*.xsd"/>
+      <produces dir="${corejava.build.src}/net/sourceforge/czt/z/jaxb/gen"
+        includes="**"/>
+      <produces dir="${corejava.build.src}/net/sourceforge/czt/oz/jaxb/gen"
+        includes="**"/>
+      <produces dir="${corejava.build.src}/net/sourceforge/czt/tcoz/jaxb/gen"
+        includes="**"/>
+      <produces dir="${corejava.build.src}/net/sourceforge/czt/circus/jaxb/gen"
+        includes="**"/>
+      <produces dir="${corejava.build.src}/net/sourceforge/czt/zpatt/jaxb/gen"
+        includes="**"/>
+      <produces dir="${corejava.build.src}/org"
+        includes="**"/>
+    </xjc>
+  </target>
+
+  <target name="pre" depends="preZ, preZPatt, preOZ, preTCOZ, preCircus"
+    description="Preprocesses the Schemas (used by the JAXB generator)"/>
+
+  <target name="preZ" depends="init">
+    <xslt in="../zml/Z.xsd" out="${corejava.build.xsd}/Z.xsd"
+      style="${src.xsl}/annotateJaxbBindings.xsl"/>
+  </target>
+
+  <target name="preZPatt" depends="init">
+    <xslt in="../zml/ZPattern.xsd" out="${corejava.build.xsd}/ZPattern.xsd"
+      style="${src.xsl}/annotateJaxbBindings.xsl"/>
+  </target>
+
+  <target name="preCircus" depends="init">
+    <xslt in="../zml/Circus.xsd" out="${corejava.build.xsd}/Circus.xsd"
+      style="${src.xsl}/annotateJaxbBindings.xsl"/>
+  </target>
+
+  <target name="preOZ" depends="init">
+    <xslt in="../zml/Object-Z.xsd" out="${corejava.build.xsd}/Object-Z.xsd"
+      style="${src.xsl}/annotateJaxbBindings.xsl"/>
+  </target>
+
+  <target name="preTCOZ" depends="init">
+    <xslt in="../zml/TCOZ.xsd" out="${corejava.build.xsd}/TCOZ.xsd"
+      style="${src.xsl}/annotateJaxbBindings.xsl"/>
+  </target>
+
 
   <!-- base -->
 

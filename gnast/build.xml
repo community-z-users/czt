@@ -5,8 +5,6 @@
   <property file="${czt.home}/czt.properties"/>
   <property name="corejava.src" location="${czt.home}/corejava/src"/>
   <property name="src.java" location="src/java"/>
-  <property name="src.xsd" location="src/xsd"/>
-  <property name="src.xsl" location="src/xsl"/>
   <property name="build" location="build"/>
   <property name="api.destdir" location="doc/api"/>
   <property name="gnast.jar.dir" location="${czt.home}/${jar.dir}"/>
@@ -67,60 +65,6 @@
       <arg line="-v"/>
       <classpath refid="classpath.run"/> 
     </java>
-  </target>
-
-  <target name="gen" depends="pre"
-    description="Generate Jaxb classes in ${corejava.src}.  WARNING: This will overwrite existing classes in subproject corejava!">
-    <echo message="${czt.home}/${jar.dir}/${corejava.base.jar.file}"/>
-    <taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
-      <classpath>
-        <pathelement path="${jwsdp.classpath}"/>
-        <pathelement location="${czt.home}/${jar.dir}/${corejava.base.jar.file}"/>
-      </classpath>
-    </taskdef>
-    <xjc target="${corejava.src}"
-      extension="true" removeOldOutput="yes">
-      <schema  dir="src/xsd" includes="*.xsd"/>
-      <depends dir="${czt.home}/zml" includes="*.xsd"/>
-      <produces dir="${corejava.src}/net/sourceforge/czt/z/jaxb/gen"
-        includes="**"/>
-      <produces dir="${corejava.src}/net/sourceforge/czt/oz/jaxb/gen"
-        includes="**"/>
-      <produces dir="${corejava.src}/net/sourceforge/czt/tcoz/jaxb/gen"
-        includes="**"/>
-      <produces dir="${corejava.src}/net/sourceforge/czt/zpatt/jaxb/gen"
-        includes="**"/>
-      <produces dir="${corejava.src}/org"
-        includes="**"/>
-    </xjc>
-  </target>
-
-  <target name="pre" depends="preZ, preZPatt, preOZ, preTCOZ, preCircus"
-    description="Preprocesses the Schemas (used by the JAXB generator)"/>
-
-  <target name="preZ">
-    <xslt in="../zml/Z.xsd" out="${src.xsd}/Z.xsd"
-      style="${src.xsl}/annotateJaxbBindings.xsl"/>
-  </target>
-
-  <target name="preZPatt">
-    <xslt in="../zml/ZPattern.xsd" out="${src.xsd}/ZPattern.xsd"
-      style="${src.xsl}/annotateJaxbBindings.xsl"/>
-  </target>
-
-  <target name="preCircus">
-    <xslt in="../zml/Circus.xsd" out="${src.xsd}/Circus.xsd"
-      style="${src.xsl}/annotateJaxbBindings.xsl"/>
-  </target>
-
-  <target name="preOZ">
-    <xslt in="../zml/Object-Z.xsd" out="${src.xsd}/Object-Z.xsd"
-      style="${src.xsl}/annotateJaxbBindings.xsl"/>
-  </target>
-
-  <target name="preTCOZ">
-    <xslt in="../zml/TCOZ.xsd" out="${src.xsd}/TCOZ.xsd"
-      style="${src.xsl}/annotateJaxbBindings.xsl"/>
   </target>
 
   <target name="checkstyle" description="check java sources">
