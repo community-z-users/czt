@@ -5,6 +5,7 @@ FIG=fig/z-types.fig
 INCLUDES=*.tex fig/*
 BASEFIG=$(subst .fig,,$(FIG))
 EPS=$(subst .fig,.eps,$(FIG))
+FIG2EPS=fig2dev -L eps -l 0
 
 all: $(TARGET).dvi
 pdf: $(TARGET).pdf
@@ -24,13 +25,13 @@ $(TARGET).dvi: $(TARGET).tex $(INCLUDES) $(BIBLIOGRAPHY) $(FIGURES) $(REFERENCES
 	latex $(TARGET)
 
 %.eps: %.fig
-	cd fig;\
 	for i in *.fig; do\
-		(figtex2eps $$i);\
+		($(FIG2EPS) $< $@);\
 	done
 
 clean:
 	rm -f *.aux *.log *.toc *.bbl *.blg *.plg *.dvi *.bak *.tex~
+	rm -f $(EPS)
 
 CLEAN: clean
 	rm -f $(TARGET).dvi
