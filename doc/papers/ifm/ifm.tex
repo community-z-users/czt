@@ -59,12 +59,12 @@
 
   The Z language~\cite{isoz} is a formal specification notation that
   can be used to precisely specify the behaviour of systems, and
-  analyse it via proof, animation, test generation, and so on.
+  analyse them via proof, animation, test generation, and so on.
   Z was approved as an ISO standard in 2002, but currently there are few
   tools that conform to the standard.\footnote{CADiZ
   (\url{http://www-users.cs.york.ac.uk/~ian/cadiz}) is the only Z tool
   that conforms closely to the Z standard.  It is freely available,
-  but is not open source and does not aim at supporting Z extensions.}
+  but is not open-source and does not aim at supporting Z extensions.}
   The Community Z Tools (CZT) project~\cite{czt} is an open-source Java
   framework for building formal methods tools for standard Z and Z extensions.
 
@@ -160,7 +160,7 @@
     with arbitrary information, such as type information, comments,
     anticipated usage, and source-file location.
   \item[Extensible ASTs:] This allows Z extensions to add new kinds
-    of expressions, predicates, paragraphs etc.
+    of expressions, predicates, paragraphs, \textit{etc}.
   \item[Extensible Schemas:] The standard XML schema features, such as
     name\-spa\-ces and importing, mean that Z extensions can be defined without
     modifying the original ZML schema.
@@ -180,7 +180,7 @@
 
   A typical style of defining XML schemas or DTDs is to explicitly
   list the possible alternatives for expressions, predicates, \textit{etc}.
-  This makes it difficult to extend the syntax of ASTs, to allow new
+  This makes it difficult to extend the syntax of ASTs to allow new
   kinds of expressions or
   predicates.  In contrast, ZML uses \emph{inheritance}
   (\emph{substitution groups} in XML schema terminology) extensively
@@ -195,8 +195,8 @@
   instead.  This has the same extensibility advantages as subtyping
   in object-oriented languages.
 
-  A Z extension can add new kinds of paragraphs, expressions and predicates
-  etc.~simply by extending these ZML inheritance hierarchies.  It is
+  A Z extension can add new kinds of paragraphs, expressions and predicates,
+  simply by extending these ZML inheritance hierarchies.  It is
   important to note that this can be done without modifying the
   ZML schema file.  Instead, the Z extension creates a new XML schema
   which \emph{imports} the original ZML schema file, then defines the
@@ -272,7 +272,7 @@
 
   In fact, these CZT Java AST interfaces and their implementation
   classes are automatically generated from the XML schemas described
-  in the previous section, using our code generator \emph{GnAST}
+  in the previous section using our code generator \emph{GnAST}
   (GeNerator for AST).  The generated code looks similar to the code
   produced by Java data binding tools like
   JAXB\footnote{See~\url{http://java.sun.com/xml/jaxb/}} or
@@ -299,7 +299,7 @@
   easy to write tools like typecheckers and printers, which need to
   traverse an AST.  It allows new traversal operations to be defined
   without modifying the AST classes.  To define a new operation, all
-  you need to do is to implement a new visitor class.
+  one needs to do is to implement a new visitor class.
 
   The visitor design pattern used in CZT has been described in detail
   in~\cite{czt}.  It is a variant of the \emph{acyclic
@@ -334,11 +334,11 @@
 
   In conclusion, the CZT AST classes provide:
   \begin{description}
-    \item[A Choice of Coding Style:] one for generic low-level algorithms
-      and the other for high-level node-specific algorithms.
+    \item[A Choice of Coding Style:] One for \textbf{generic low-level} algorithms
+      and the other for \textbf{node-specific high-level} algorithms.
     \item[Automation:] the AST classes are generated automatically by
       \textbf{GnAST}.
-    \item[Reuse of Algorithms:] the CZT \textbf{visitor pattern} allows
+    \item[Reuse of Algorithms:] The CZT \textbf{visitor pattern} allows
       AST traversal algorithms to be reused and extended in flexible ways.
     \item[Extensibility:] the standard Z AST can easily be extended by
       defining new \textbf{XML schemas}.
@@ -433,7 +433,7 @@ facilities.
 
  CZT supports multiple markups for each Z extension.  The different
  markup languages suit different communities.  For example, \LaTeX\ is
- preferred by researchers while Unicode WYSIWYG editing might be more
+ preferred by researchers, while Unicode WYSIWYG editing might be more
  attractive for students or industrial users. At present, Unicode,
  \LaTeX, and the XML format are supported.  Adding additional markups
  is straightforward, as this section will present.  XML markup is not
@@ -477,7 +477,7 @@ An additional benefit of this approach is that it reduces the number
 of converters needed between languages. That is, CZT currently
 implements \LaTeX\ to Unicode and Unicode to \LaTeX\ converters. In
 the future, we plan to implement an e-mail to Unicode converter to
-allow parsing of specification written in e-mail. Using this and the
+allow parsing of specifications written in e-mail. Using this and the
 Unicode to \LaTeX\ converter, we could convert e-mail to \LaTeX. So,
 using an intermediate format reduces the number of converter tools
 that need to be implemented from $M*(M-1)$ to $2*(M-1)$, in which $M$
@@ -529,8 +529,8 @@ shown in Fig.~\ref{fig:ztypechecker}.
 
 This breaks up the overall task of typechecking into several
 (currently six) smaller \texttt{Checker} visitors --- each subclass of
-\texttt{Checker} typechecks a different kind of syntactic construct
-(paragraphs, predicates, expressions etc.).  The \texttt{Checker}
+\texttt{Checker} typechecks a different kind of syntactic construct such
+as paragraphs, predicates, expressions, \textit{etc}.  The \texttt{Checker}
 class itself defines some shared resources, such as typing
 environments and the type unification facilities, as well as common
 ``helper'' methods used throughout the implementation such as error
@@ -562,7 +562,7 @@ consistency.
 The advantages of this typechecker design include:
 \begin{itemize}
 
-\item Methods that are common to all the Checker subclasses can be put in
+\item Methods that are common to all the \texttt{Checker} subclasses can be put in
   the \texttt{Checker} superclass.  Data that is shared between the checkers
   can be managed by the \texttt{Typechecker} class and made accessible
   to the checkers in a controlled way via access methods.
@@ -574,7 +574,7 @@ The advantages of this typechecker design include:
   different teams or to different iterations of an agile lifecycle).
 
 \item Each \texttt{Checker} subclass is typechecking similar kinds of
-  nodes (e.g., all expressions), so can have a uniform visiting
+  nodes (\textit{e.g.}, all expressions), so can have a uniform visiting
   protocol, which increases regularity and helps to reduce errors.
   For example, all the visitor methods of the
   \texttt{ParaChecker} class, which typechecks Z paragraphs, return a
@@ -584,7 +584,7 @@ The advantages of this typechecker design include:
   \texttt{Type} with resolved reference parameters in which type
   unification has already been performed.
 
-\item By defining several Checker subclasses over the same kinds of
+\item By defining several \texttt{Checker} subclasses over the same kinds of
   AST nodes, it becomes easy to have multiple algorithms over the same
   syntax nodes.  For example, post-checking for unresolved set and
   reference expressions, which may introduce an unresolved type, is
@@ -608,12 +608,12 @@ The advantages of this typechecker design include:
 
 Fig.~\ref{fig:oztypechecker} shows how this design is extended to
 define a typechecker for a Z extension --- Object-Z in this case.  A
-new package (oz) is created, for the Object-Z typechecker.  In this
+new package (oz) is created for the Object-Z typechecker.  In this
 package, a new {\tt oz.Checker} class is implemented, which inherits
 the base {\tt z.Checker} class.  In this new class, any common methods
 that are to be used by the Object-Z typechecker are implemented, and
 existing methods are overridden or overloaded if additional
-functionality is needed.  Then, new Checker subclasses are created,
+functionality is needed.  Then, new \texttt{Checker} subclasses are created,
 one for each kind of language entity that requires Object-Z-specific
 typechecking.  Each of these checkers (the
 \texttt{oz.\emph{XXXX}Checker} subclasses in
@@ -630,7 +630,7 @@ We rely on the general
 visiting protocol described in Section~\ref{java-ast-classes} and
 in~\cite{czt}.  For example, the \texttt{oz.ExprChecker} class catches
 all Object-Z-specific expressions.  It also implements an additional
-\texttt{visitExpr} method which ``catches'' all remaining Expr AST
+\texttt{visitExpr} method which ``catches'' all remaining \texttt{Expr} AST
 nodes and uses the visitor from \texttt{z.ExprChecker} to check those
 nodes.
 \begin{verbatim}
@@ -652,7 +652,7 @@ passed back to the top-level type\-chec\-ker, which uses the
 \texttt{oz.Expr\-Chec\-ker} instance, to ensure that Ob\-ject-Z subexpressions
 are checked correctly.
 
-This also allows type rules to be overridden. For example, a
+This also allows type-rules to be overridden. For example, a
 selection expression, $a.b$, in standard Z requires that $a$ is a
 schema binding, whereas in Object-Z, $a$ can also be an object. The
 {\tt ExprChecker} in the Object-Z implements the visit method for such
@@ -663,7 +663,7 @@ not, delegates the call to the Z typechecker.
 Although this is an unusual design, it has proven to provide good
 and elegant support for extension.  An alternative approach that we
 considered was for the Object-Z checkers to directly subclass the Z
-checker subclasses (e.g., \texttt{oz.ParaChecker} to inherit
+checker subclasses (\textit{e.g.}, \texttt{oz.ParaChecker} to inherit
 \texttt{z.ParaChecker}).  However, this would have meant that the
 common code implemented in the current
 \texttt{oz.Checker} class would have had to have been
@@ -680,25 +680,28 @@ Our experience is that the above extensible typechecker design makes
 it much easier to build multi-lingual typecheckers.  That is, a family
 of typechecker objects for Z and various extensions of Z.
 %
-For example, a static checker for Circus that checks some context sensitive
-rules such as variable and action declaration scope has been developed
-following the guidelines for Z and Object-Z typecheckers. The information collected
-serve as an initial environment for the \Circus\ operational semantics~\cite{circus.mc:opsem}.
-The formal type-rules for \Circus\ are under development in~\cite{circus.other:typechecker}.
-Provided the architecture and the design decisions are understood, this static checker can
-be used as the basis of a \Circus\ typechecker implementation. It would directly benefit from
-code reuse and elegant object-oriented design of the CZT. Furthermore,
-another obvious advantage is that by inheriting from the base Z typechecker,
-the \Circus\ typechecker implementation would already enforce standard Z type-checking conformance.
-Therefore, one can concentrate on the implementation of new type-rules for \Circus\
-from this available skeleton for a \Circus\ typechecker.
+For example, a static checker for Circus that checks some
+context-sensitive rules such as variable and action declaration scope
+has been developed following the guidelines for Z and Object-Z
+typecheckers. This took only three to four days to develop and the task was
+made significantly easier because of the code reuse and elegant
+object-oriented design of the CZT typechecker.  The information
+collected by this static checker is being used as an initial
+environment for the \Circus\ operational
+semantics~\cite{circus.mc:opsem}.  In the future, this static checker
+can also be used as the basis for a full \Circus\ typechecker --- the
+type-rules for \Circus\ are under development in~\cite{circus.other:typechecker}.
+An obvious advantage of reusing the base Z typechecker is that the \Circus\ typechecker
+will already enforce standard Z type-checking conformance.  Therefore, one can
+concentrate on the implementation of new type-rules for \Circus\ in
+this available skeleton for a \Circus\ typechecker.
 
 In conclusion, CZT supports extendibility in its typecheckers by:
 \begin{description}
  \item[Using Multiple Visitors]: A separate visitor is used for each
-  group of type rules --- this provides a straightforward way to implement
-  type rules for new constructs (by adding new visitors), or override
-  existing type rules (by subclassing existing visitors).
+  group of type-rules --- this provides a straightforward way to implement
+  type-rules for new constructs (by adding new visitors), or override
+  existing type-rules (by subclassing existing visitors).
  \item[Sharing Common Code via Inheritance and Delegation:]
    Methods used throughout the typechecker
    are shared in several abstract super classes that are reused
@@ -739,7 +742,7 @@ In conclusion, CZT supports extendibility in its typecheckers by:
     all solutions are lazily enumerated as requested.
 
     ZLive currently supports basic logic and arithmetic operators
-    (\textit{e.g.} $\forall$, $\exists$, $\lnot$, $\land$, $-$,
+    (\textit{e.g.}, $\forall$, $\exists$, $\lnot$, $\land$, $-$,
     $+$, $*$, $\leq$, $<$, $\mathtt{div}$, $\mathtt{mod}$, $\mathtt{succ}$),
     set representations (comprehension, ranges, and displays), unfolding
     of simple definitions, tuples, and schema bindings.
@@ -755,26 +758,26 @@ In conclusion, CZT supports extendibility in its typecheckers by:
 
       \item[Explicit Inclusion:] Animation support for each new
       language construct, including any new evaluation algorithms, is
-      \textbf{directly} added to ZLive by \textbf{add\-ing new Java
-      classes and methods}.  This would use interfaces, inheritance
+      directly added to ZLive by add\-ing new Java
+      classes and methods.  This would use interfaces, inheritance
       and visitors to achieve an extensible architecture, similar to
       the CZT typechecker.
 
       \item[Transformation to Standard Z:] If each new construct of
       the Z extension can be transformed back into standard Z
-      \textbf{using rewriting rules}, then ZLive can be used directly
+      using rewriting rules, then ZLive can be used directly
       on the result of that translation.
       This approach is being used to develop an Object-Z
       animator, with Object-Z objects being
-      transformed into Z bindings etc.  This approach of
-      rewriting specifications is similar to the Z \textbf{refinement
-      calculus}~\cite{z.others:ana.phd,fm.ref:morgan}.
+      transformed into Z bindings, \textit{etc}.  This approach of
+      rewriting specifications is similar to the Z refinement
+      calculus~\cite{z.others:ana.phd,fm.ref:morgan}.
 
       \item[Meta-Level Animation:] If the operational semantics of
       the new language can be given in standard Z, one can use ZLive
       directly to animate the new Z extension by animating its
-      operational semantics.  Although this is a \textbf{meta-level
-      approach} to execution, which usually results in very slow
+      operational semantics.  Although this is a meta-level
+      approach to execution, which usually results in very slow
       performance, the performance impact should be less in this case,
       because any standard Z constructs within the Z extension can
       animated efficiently and directly by ZLive.  That is, only the
@@ -871,8 +874,8 @@ In conclusion, CZT supports extendibility in its typecheckers by:
     and general-purpose theorem provers.
 
     These \Circus\ tools, some of which are currently under development,
-    give some good examples of how to \textbf{integrate different CZT
-    tools across different notations and tool boundaries}, from standard
+    give some good examples of how to integrate different CZT
+    tools across different notations and tool boundaries, from standard
     Z parsing through to extended typechecking and animation for \Circus.
 
 
@@ -903,8 +906,8 @@ In conclusion, CZT supports extendibility in its typecheckers by:
   significant performance improvements.
 
   Abstractly, the cache is a mapping from a key to the actual data.
-  The key is a $(String,Class)$ pair, where the $String$ is usually
-  the name of the section, and the $Class$ is the Java class of the
+  The key is a \texttt{(String, Class)} pair, where the \texttt{String} is usually
+  the name of the section, and the \texttt{Class} is the Java class of the
   type of data associated with this key.  This allows several
   different kinds of objects to be associated with one section, and
   provides some dynamic type security.  For example, the Z parser adds
@@ -919,7 +922,7 @@ In conclusion, CZT supports extendibility in its typecheckers by:
   \begin{description}
   \item[Type Extensibility:] Z extensions can easily use the
     specification manager to store new types of information, since the
-    flexible $(String,Class)$ key system allows arbitrary Java objects
+    flexible \texttt{(String, Class)} key system allows arbitrary Java objects
     to be stored and retrieved.  That is, the kinds of objects managed
     by the specification manager are open-ended, rather than being a
     fixed set of Z-related objects.
@@ -928,8 +931,8 @@ In conclusion, CZT supports extendibility in its typecheckers by:
     The default commands of the specification manager are responsible
     for automatically computing requested objects;~they are
     implemented using the command design pattern~\cite{GamEA:95}. For
-    example, if the AST (i.e. data of type \Interface{ZSect.class})
-    for section \texttt{foo} is required and has not already been
+    example, if the AST for section \texttt{foo} (\textit{i.e.}, data
+    of type \Interface{ZSect.class}) is required and has not already been
     cached, the Z parser is called by the specification manager in
     order to parse the specification file containing section
     \texttt{foo}.  Here, the Z parser is the default command to
@@ -980,7 +983,7 @@ In conclusion, CZT supports extendibility in its typecheckers by:
   of course, the consistent use of Java for writing the
   tools, enables a higher degree of reuse.
 
-  Other formal methods toolkits exists, such as RODIN
+  Other formal methods toolkits exists, such as the RODIN
   project\footnote{See \url{http://rodin-b-sharp.sourceforge.net/}.}
   for the B specification language, and the Overture
   toolset\footnote{See \url{http://www.overturetool.org/}.} for VDM,
@@ -994,8 +997,8 @@ In conclusion, CZT supports extendibility in its typecheckers by:
   providing generic language-based environments for software
   development. However, these projects are not tailored towards formal
   methods, and provide support for generic languages, leaving the
-  development of parsers, typecheckers, etc.\ for languages up to
-  users who want such support. CZT is exactly the opposite of this, in
+  development of parsers, typecheckers, and other language-specific tools
+  up to users who want such support. CZT is exactly the opposite of this, in
   that it focuses only Z and various Z extensions, allowing specific
   components, such as parsers and typecheckers, to be included within
   the framework. Therefore, CZT could be integrated into the Eclipse
@@ -1009,7 +1012,7 @@ In conclusion, CZT supports extendibility in its typecheckers by:
   extensions.  We have shown how the XML schemas for Z, and for
   extensions of Z, support reuse and extension of the Z language.
   They also enable automatic generation of Java AST classes with two
-  levels of interface and a consistent implementation of the CZT visitor
+  levels of interface, and a consistent implementation of the CZT visitor
   pattern.
 
   Using examples from Object-Z, TCOZ, and \Circus, we have discussed
@@ -1026,8 +1029,8 @@ In conclusion, CZT supports extendibility in its typecheckers by:
   For instance, extensions of ZLive providing Object-Z constructs,
   schema unfolding, predicate reordering, rewriting rules, and
   a tactic language in the spirit of ANGEL~\cite{z.others:angel} are
-  on our agenda. These improvements would enable a basis for a theorem
-  prover for standard Z and its extensions that is open-source and
+  on our agenda. These improvements would enable a basis for an extensible
+  theorem prover for standard Z and its extensions that is open-source and
   cross-platform.
 
   Z parsing and typechecking is neither a novel idea, nor a
