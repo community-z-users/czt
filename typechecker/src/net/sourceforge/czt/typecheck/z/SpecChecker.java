@@ -52,10 +52,11 @@ public class SpecChecker
 
     //sectTypeEnv().dump();
 
-    //if there are any errors, return false
-    Boolean result = Boolean.TRUE;
-    if (errors().size() > 0) {
-      result = Boolean.FALSE;
+
+    //get the result and return it
+    Boolean result = getResult();
+    if (result == Boolean.FALSE) {
+      removeTypeAnns(spec);
     }
     return result;
   }
@@ -138,10 +139,10 @@ public class SpecChecker
     //and its parents
     addAnn(zSect, sectTypeEnv().getSectTypeEnvAnn());
 
-    //if there are any errors, return false
-    Boolean result = Boolean.TRUE;
-    if (errors().size() > 0) {
-      result = Boolean.FALSE;
+    //get the result and return it
+    Boolean result = getResult();
+    if (result == Boolean.FALSE) {
+      removeTypeAnns(zSect);
     }
     return result;
   }
@@ -175,5 +176,39 @@ public class SpecChecker
       sectTypeEnv().setSection(section);
     }
     return null;
+  }
+
+  /**
+   * Return the result result of the typechecking process -- FALSE if
+   * there are any error messages, TRUE otherwise.
+   */
+  protected Boolean getResult()
+  {
+    Boolean result = Boolean.TRUE;
+    if (errors().size() > 0) {
+      result = Boolean.FALSE;
+    }
+    return result;
+  }
+
+  protected void removeTypeAnns(Term term)
+  {
+    //remove the type annotation
+    if (term instanceof TermA) {
+      TermA termA = (TermA) term;
+      Object ann = termA.getAnn(TypeAnn.class);
+      if (ann != null) {
+	removeAnn(termA, ann);
+      }
+    }
+
+    //do the same for the children
+    Object [] children = term.getChildren();
+    for (int i = 0; i < children.length; i++) {
+      Object next = children[i];
+      if (next != null && next instanceof Term) {
+	removeTypeAnns((Term) next);
+      }
+    }
   }
 }

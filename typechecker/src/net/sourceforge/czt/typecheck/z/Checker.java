@@ -321,7 +321,7 @@ abstract public class Checker
   protected ErrorAnn errorAnn(TermA termA, String error, Object [] params)
   {
     ErrorAnn errorAnn = new ErrorAnn(error, params, sectInfo(),
-                                     sectName(), nearestLocAnn(termA));
+                                     sectName(), nearestLocAnn(termA), termA);
     return errorAnn;
   }
 

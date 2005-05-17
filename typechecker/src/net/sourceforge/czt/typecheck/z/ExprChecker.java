@@ -600,43 +600,40 @@ public class ExprChecker
   {
     Type2 type = factory().createUnknownType();
 
-    //if the expr part of the expr is not null, then apply rule
-    //13.9.6.12
-    if (muExpr.getExpr() != null) {
-      type = visitMuOrLetExpr(muExpr);
+    //enter a new variable scope
+    typeEnv().enterScope();
+    
+    //get and visit the SchText
+    SchText schText = muExpr.getSchText();
+    Signature signature = (Signature) schText.accept(exprChecker());
+
+    //get the expr
+    Expr expr = muExpr.getExpr();
+
+    //if the expr is not null, calculate the type from the expr
+    if (expr != null) {
+      type = (Type2) expr.accept(exprChecker());
     }
-    //otherwise, apply transformation rule C.6.37.2
+    //otherwise, calculate the type from the schema text
     else {
-      SchText schText = muExpr.getSchText();
-      List<Expr> exprList = list();
-      List<Decl> decls = schText.getDecl();
-      for (Decl decl : decls) {
-        //for each declaration, get the name and add it to the expr
-        //part of the MuExpr
-        List<NameTypePair> pairs =
-          (List<NameTypePair>) decl.accept(declChecker());
-        for (NameTypePair pair : pairs) {
-          DeclName declName = pair.getName();
-          RefName refName = factory().createRefName(declName);
-          RefExpr refExpr =
-            factory().createRefExpr(refName, list(), Boolean.FALSE);
-          exprList.add(refExpr);
-        }
+      //the type is the cross product of the declarations types
+      List<Type2> types = list();
+      List<NameTypePair> pairs = signature.getNameTypePair();
+      for (NameTypePair pair : pairs) {
+	Type2 nextType = unwrapType(pair.getType());
+	types.add(nextType);
       }
 
-      //if there is more than one declaration, then the expr
-      //is a tuple expr
-      MuExpr transformedMuExpr = null;
-      if (exprList.size() == 1) {
-        Expr firstExpr = (Expr) exprList.get(0);
-        transformedMuExpr = factory().createMuExpr(schText, firstExpr);
+      if (types.size() > 1) {
+	type = factory().createProdType(types);
       }
       else {
-        TupleExpr tupleExpr = factory().createTupleExpr(exprList);
-        transformedMuExpr = factory().createMuExpr(schText, tupleExpr);
+	type = (Type2) types.get(0);
       }
-      type = visitMuOrLetExpr(transformedMuExpr);
     }
+
+    //exit the current scope
+    typeEnv().exitScope();
 
     //add the type annotation
     addTypeAnn(muExpr, type);
@@ -646,7 +643,19 @@ public class ExprChecker
 
   public Object visitLetExpr(LetExpr letExpr)
   {
-    Type2 type = visitMuOrLetExpr(letExpr);
+    //enter a new variable scope
+    typeEnv().enterScope();
+
+    //get and visit visit the SchText
+    SchText schText = letExpr.getSchText();
+    schText.accept(exprChecker());
+
+    //calculate the type from the expr
+    Expr expr = letExpr.getExpr();    
+    Type2 type = (Type2) expr.accept(exprChecker());
+
+    //exit the current scope
+    typeEnv().exitScope();
 
     //add the type annotation
     addTypeAnn(letExpr, type);
@@ -654,39 +663,6 @@ public class ExprChecker
     return type;
   }
 
-  //a 'let' expression is easily transformed to a 'mu' expression, so
-  //we visit them with  the same method
-  private Type2 visitMuOrLetExpr(Expr muOrLetExpr)
-  {
-    //get the SchText and Expr of muOrLetExpr
-    SchText schText = null;
-    Expr expr = null;
-    if (muOrLetExpr instanceof MuExpr) {
-      MuExpr muExpr = (MuExpr) muOrLetExpr;
-      schText = muExpr.getSchText();
-      expr = muExpr.getExpr();
-    }
-    else {
-      LetExpr letExpr = (LetExpr) muOrLetExpr;
-      schText = letExpr.getSchText();
-      expr = letExpr.getExpr();
-    }
-
-    //enter a new variable scope
-    typeEnv().enterScope();
-
-    //visit the SchText
-    schText.accept(exprChecker());
-
-    //get the type of the expression, which is also the type
-    //of the entire expression (the MuExpr or LetExpr);
-    Type2 type = (Type2) expr.accept(exprChecker());
-
-    //exit the current scope
-    typeEnv().exitScope();
-
-    return type;
-  }
 
   /**
    * AndExpr, OrExpr, IffExpr, and ImpliesExpr objects are visited as
