@@ -16,7 +16,7 @@ Requirements
   http://java.sun.com/j2se/
 - Ant (>= 1.6.0)
   http://ant.apache.org/
-- JFlex
+- JFlex (>= 1.4.1)
   http://jflex.de/
 
 - Junit (only needed for running the tests)
