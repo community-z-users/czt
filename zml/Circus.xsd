@@ -923,7 +923,40 @@
 			</xs:documentation>
 		</xs:annotation>
 	</xs:element>
+	
+	<!-- Circus Assertion Checks -->
+	  
+	<xs:element name="CircusAssertion" type="CIRCUS:CircusAssertion" abstract="true">
+		<xs:annotation>
+			<xs:documentation>
+				Represents an assertion to be checked by any Circus tool. 				
+			</xs:documentation>
+		</xs:annotation>		
+	</xs:element>  
 
+	<xs:element name="RefinementAssertion" type="CIRCUS:RefinementAssertion" substitutionGroup="CIRCUS:CircusAssertion">
+		<xs:annotation>
+			<xs:documentation>
+				Refinement assertion between two circus specifications.				
+			</xs:documentation>
+		</xs:annotation>		
+	</xs:element>      
+	
+	<xs:element name="ExprAssertion" type="CIRCUS:ExprAssertion" substitutionGroup="CIRCUS:CircusAssertion">
+		<xs:annotation>
+			<xs:documentation>
+				 Expression evaluation assertion.
+			</xs:documentation>
+		</xs:annotation>		
+	</xs:element>    
+	
+	<xs:element name="PredAssertion" type="CIRCUS:PredAssertion" substitutionGroup="CIRCUS:CircusAssertion">
+		<xs:annotation>
+			<xs:documentation>
+				 Predicate evaluation assertion.
+			</xs:documentation>
+		</xs:annotation>		
+	</xs:element>    
 
   <!-- Miscellaneous Circus Elements-->
   <xs:element name="AssignmentPair" type="CIRCUS:AssignmentPair">
@@ -934,17 +967,16 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>  
-  
-  <!--
-	<xs:element name="Arc" type="Z:Expr" abstract="true">
+    
+  <xs:element name="Arc" type="CIRCUS:Arc" substitutionGroup="Z:Expr">
 		<xs:annotation>
 			<xs:documentation>
-				An arc expression used by the Circus compiler and operational semantics
+				An arc expression used by the Circus compiler and operational semantics. It is not meant to be parsed.
+				However, it can be used to represent in ZML cached compilation sessions, as well as to allow events
+				(whithin arcs) to be part of the Z:Expr hierarchy tree.
 			</xs:documentation>
 		</xs:annotation>
   </xs:element>  
-  -->
-  
 
   <!-- ************************************************************ -->
   <!-- Definitions of the complexTypes                              -->
@@ -1586,7 +1618,7 @@
         <xs:attribute name="MultiSych" type="xs:nonNegativeInteger" use="optional" default="0"/>
       </xs:extension>
     </xs:complexContent>
-  </xs:complexType>
+  </xs:complexType>  
   <xs:simpleType name="CommType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="Synch"/>
@@ -1701,22 +1733,8 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-
-  <!-- Miscellaneous Circus Elements -->
-  <!-- Defined like NameExprPair; mixed=false instructs GnAST
-       to extend it from Term and not TermA -->
-  <xs:complexType name="AssignmentPair" mixed="false">
-    <xs:sequence>
-      <xs:element name="LHS" type="Z:RefName"/>
-      <xs:element ref="Z:Expr">
-        <xs:annotation>
-          <xs:appinfo>
-            <jaxb:property name="RHS"/>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-    </xs:sequence>
-  </xs:complexType>
+  
+  <!-- Circus Types and Annotations -->
   
   <xs:complexType name="ProcessType">
 		<xs:complexContent>
@@ -1726,8 +1744,8 @@
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
-  </xs:complexType>  
-  
+	</xs:complexType>  
+
 	<xs:complexType name="ProcessSignature" mixed="false">
 		<xs:sequence>
 			<xs:element name="ProcessName" type="Z:DeclName"/>
@@ -1742,7 +1760,7 @@
 			<!--<xs:element ref="CIRCUS:ChannelUsage" minOccurs="0" maxOccurs="unbounded"/>-->			
 		</xs:sequence>
 	</xs:complexType>	
-		
+
 	<xs:complexType name="BasicProcessSignature">
 		<xs:complexContent>
 			<xs:extension base="CIRCUS:ProcessSignature">
@@ -1777,18 +1795,18 @@
 					</xs:element>
 				</xs:sequence>
 			</xs:extension>
-    </xs:complexContent>    
+		</xs:complexContent>    
 	</xs:complexType>
-	
+
 	<xs:complexType name="ProcessAnn">
-	    <xs:complexContent>
-	      <xs:extension base="Z:Ann">
-	        <xs:sequence>
-	          <xs:element ref="CIRCUS:ProcessSignature"/>
-	        </xs:sequence>
-	      </xs:extension>
-	    </xs:complexContent>
-  </xs:complexType>	
+			<xs:complexContent>
+				<xs:extension base="Z:Ann">
+					<xs:sequence>
+						<xs:element ref="CIRCUS:ProcessSignature"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+	</xs:complexType>	
 	<xs:complexType name="ActionAnn">
 		<xs:complexContent>
 			<xs:extension base="Z:Ann">
@@ -1797,9 +1815,9 @@
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
-  </xs:complexType>  
-  
-  <xs:complexType name="ActionType">
+	</xs:complexType>  
+
+	<xs:complexType name="ActionType">
 		<xs:complexContent>
 			<xs:extension base="Z:Type2">
 				<xs:sequence>
@@ -1807,7 +1825,7 @@
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
-  </xs:complexType>  
+	</xs:complexType>  
 	<xs:complexType name="ActionSignature" mixed="false">
 		<xs:sequence>
 			<xs:element name="ActionName" type="Z:DeclName"/>
@@ -1823,5 +1841,106 @@
 			<!--<xs:element ref="CIRCUS:ChannelUsage" minOccurs="0" maxOccurs="unbounded"/>-->			
 		</xs:sequence>
 	</xs:complexType>	
+  
+  <!-- Circus Assertion Check Elements -->
+  
+  <xs:complexType name="CircusAssertion">
+		<xs:complexContent>
+			<xs:extension base="Z:TermA"/>
+		</xs:complexContent>
+	</xs:complexType>
 	
+	<xs:complexType name="RefinementAssertion">
+		<xs:complexContent>
+			<xs:extension base="CIRCUS:CircusAssertion">
+				<xs:sequence>
+					<xs:element ref="CIRCUS:Action">
+						<xs:annotation>
+							<xs:appinfo>
+								<jaxb:property name="Specification"/>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>					
+					<xs:element ref="CIRCUS:Action">
+						<xs:annotation>
+							<xs:appinfo>
+								<jaxb:property name="Implementation"/>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>					
+				</xs:sequence>	
+				<xs:attribute name="Model" type="CIRCUS:Model" use="optional" default="FlDv"/>
+			</xs:extension>
+		</xs:complexContent>
+  </xs:complexType>    
+	<xs:simpleType name="Model">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Tr"/>
+			<xs:enumeration value="SFl"/>
+			<xs:enumeration value="FlDv"/>
+		</xs:restriction>
+  </xs:simpleType>
+
+	<xs:complexType name="ExprAssertion">
+		<xs:complexContent>
+			<xs:extension base="CIRCUS:CircusAssertion">
+				<xs:sequence>
+					<xs:element ref="Z:Expr"/>
+				</xs:sequence>	
+			</xs:extension>
+		</xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="PredAssertion">
+		<xs:complexContent>
+			<xs:extension base="CIRCUS:CircusAssertion">
+				<xs:sequence>
+					<xs:element ref="Z:Pred"/>
+				</xs:sequence>	
+			</xs:extension>
+		</xs:complexContent>
+  </xs:complexType>    
+  
+  <!-- Miscellaneous Circus Elements -->
+  <!-- Defined like NameExprPair; mixed=false instructs GnAST
+       to extend it from Term and not TermA -->
+  <xs:complexType name="AssignmentPair" mixed="false">
+    <xs:sequence>
+      <xs:element name="LHS" type="Z:RefName"/>
+      <xs:element ref="Z:Expr">
+        <xs:annotation>
+          <xs:appinfo>
+            <jaxb:property name="RHS"/>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+		
+	<xs:complexType name="Arc">
+		<xs:complexContent>
+			<xs:extension base="Z:Expr">
+				<xs:sequence>
+					<xs:element name="ChannelName" type="Z:DeclName"/>					
+					<xs:element ref="Z:Expr">
+						<xs:annotation>
+							<xs:appinfo>
+								<jaxb:property name="DefiningSet"/>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>					
+					<!--
+					<xs:element ref="Z:Expr">
+						<xs:annotation>
+							<xs:appinfo>
+								<jaxb:property name="CharacteristicExpr"/>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					-->
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+  </xs:complexType>    
+  
 </xs:schema>
