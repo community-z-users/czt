@@ -124,8 +124,9 @@
   extensions to Z. Section~\ref{section-manager} presents the design
   of the {\em specification manager}, an integral component of CZT
   that caches information about specifications to improve the
-  efficiency of the tools.  Section~\ref{sec:conclusions} concludes
-  the paper and discusses the future of the CZT project.
+  efficiency of the tools.  Section~\ref{sec:related-work} gives an
+  overview of related work.  Finally, Section~\ref{sec:conclusions}
+  concludes the paper and discusses the future of the CZT project.
 
 
 \section{XML Schemas}
@@ -135,25 +136,20 @@
   development of an XML schema that describes an XML markup for Z
   specifications (ZML)~\cite{UttEA:03}.  This is an interchange format
   that can be used to exchange parsed Z specifications between
-  sessions and tools.
+  sessions and tools written in different languages.
 
   Standard Z allows specifications to be exchanged using Unicode,
   \LaTeX\ or e-mail markup.  However, implementing a parser for such
   specifications is a non-trivial task that can take several months.
-  ZML, in contrast, can be parsed
-  immediately using one of the available XML parsers like
-  Xerces\footnote{See~\url{http://xml.apache.org/xerces-j/}} or
-  Crimson\footnote{See~\url{http://xml.apache.org/crimson/}}.
-  An important advantage of XML is that it allows
-  exchange between tools written in different languages, since virtually
-  all programming languages provide XML reading and writing libraries.
+  ZML, in contrast, can be parsed immediately since virtually all
+  programming languages provide XML reading and writing libraries.
 
-  The idea of using Z with XML has also been explored in the
-  Z/Eves theorem prover~\cite{tp.tools:zeves.ref}.  It allows one to
+  The idea of using XML for Z has also been explored in the
+  Z/EVES theorem prover~\cite{tp.tools:zeves.ref}.  It allows one to
   create a customised theorem prover with additional tactics tailored
   for a particular specification by modifying the XML representation
-  of the Z specification in Z/Eves~\cite{tp.tools:zeves.api}.
-  The main problem however, was the lack of a common standard.
+  of the Z specification in Z/EVES~\cite{tp.tools:zeves.api}.
+  The main problem however, is the lack of a common standard.
 
   The XML schema for ZML was carefully designed, via consensus between
   several groups of interested people, by selecting the best features
@@ -280,7 +276,7 @@
   (GeNerator for AST).  The generated code looks similar to the code
   produced by Java data binding tools like
   JAXB\footnote{See~\url{http://java.sun.com/xml/jaxb/}} or
-  Castor\footnote{See~\url{http://www.castor.org/}}
+  Castor\footnote{See~\url{http://www.castor.org/}}.
   While the main purpose of a Java binding tool is to
   provide the ability to convert from XML format to Java objects and
   vice versa, the main purpose of GnAST is to generate well-designed
@@ -392,21 +388,21 @@
   for transforming XML.  This maximises the commonality between the
   parsers and minimises versioning and maintenance problems.
 
-All parser and scanner variants are maintained in two master XML
-files: one for the parser and one for the scanner. Each master file
-contains several XML tags that are used for substituting text for each
-Z extension. For example, the {\tt <package/>} tag is placed wherever
-one would normally write the Java package name, so that each parser
-and scanner can be contained in their own package. The tags {\tt
-<add:}{\em extension}{\tt >} and {\tt </add:}{\em extension}{\tt >}
-are used to wrap around code that are specific to particular Z
-extensions. Thus, to add a new type of expression to the Object-Z parser,
-one would add a new production to the appropriate grammar rule in the
-master file, and place it between the {\tt <add:oz>} and {\tt
-</add:oz>} tags. In other programming languages, conditional compilation
-could be used to achieve the same result. However, as Java does not
-support conditional compilation, we use the XML template translation
-approach.
+  All parser and scanner variants are maintained in master XML files.
+  Each master file contains several XML tags that are used for
+  substituting text for each Z extension. For example, the {\tt
+  <package/>} tag is placed wherever one would normally write the Java
+  package name, so that each parser and scanner can be contained in
+  their own package. The tags {\tt <add:}{\em extension}{\tt >} and
+  {\tt </add:}{\em extension}{\tt >} are used to wrap around code that
+  are specific to particular Z extensions. Thus, to add a new type of
+  expression to the Object-Z parser, one would add a new production to
+  the appropriate grammar rule in the master file, and place it
+  between the {\tt <add:oz>} and {\tt </add:oz>} tags. In other
+  programming languages, conditional compilation could be used to
+  achieve the same result. However, as Java does not support
+  conditional compilation, we use the XML template translation
+  approach.
 
 To generate the individual Java Cup files for each extension of Z,
 XSLT is used to include the necessary code, and to substitute in
@@ -455,9 +451,8 @@ names in the AST are markup independent:~they are represented in
 Unicode independently on the actual markup used in the source
 document.  This is a necessary precondition of allowing different
 sections of a specification to be written in different markups.  If a
-user requires a parser for a different markup, for example, the e-mail
-text-based markup, they need only to implement an e-mail to Unicode
-scanner.
+parser for a new markup is required, only a translator to Unicode
+needs to be implemented.
 
 A consequence of this architecture is that extensions of Z need
 to support at least Unicode.  CZT provides a Z Unicode scanner, which
@@ -698,7 +693,7 @@ the \Circus\ typechecker implementation would already enforce standard Z type-ch
 Therefore, one can concentrate on the implementation of new type-rules for \Circus\
 from this available skeleton for a \Circus\ typechecker.
 
-In conclusion, CZT supports extendability in its typecheckers by:
+In conclusion, CZT supports extendibility in its typecheckers by:
 \begin{description}
  \item[Using Multiple Visitors]: A separate visitor is used for each
   group of type rules --- this provides a straightforward way to implement
@@ -905,16 +900,18 @@ In conclusion, CZT supports extendability in its typecheckers by:
   typecheckers when necessary.  The caching of the parsed form of
   commonly used objects, such as standard toolkit sections, avoids
   repeated parsing and analysis of these objects and can give
-  significant performance improvements.  Abstractly, the cache is a
-  mapping from a key to the actual data.  The key is a
-  $(String,Class)$ pair, where the $String$ is usually the name of the
-  section, and the $Class$ is the Java class of the type of data
-  associated with this key.  This allows several different kinds of
-  objects to be associated with one section, and provides some dynamic
-  type security.  For example, the Z parser adds the AST of a
-  specification it has parsed to the specification manager.  The type
-  of a Z section in Java is \Interface{ZSect.class}. Thus the AST for
-  a section called \texttt{foo} is cached under the key
+  significant performance improvements.
+
+  Abstractly, the cache is a mapping from a key to the actual data.
+  The key is a $(String,Class)$ pair, where the $String$ is usually
+  the name of the section, and the $Class$ is the Java class of the
+  type of data associated with this key.  This allows several
+  different kinds of objects to be associated with one section, and
+  provides some dynamic type security.  For example, the Z parser adds
+  the AST of a specification it has parsed to the specification
+  manager.  The type of a Z section in Java is
+  \Interface{ZSect.class}. Thus the AST for a section called
+  \texttt{foo} is cached under the key
   \texttt{(``foo'',~ZSect.class)}.
 
   The CZT specification manager supports two important kinds of
@@ -951,7 +948,7 @@ In conclusion, CZT supports extendability in its typecheckers by:
   information if it is able.  This gives a more flexible,
   \emph{plugin} style of tool development.
 
-\section{Related Work}
+\section{Related Work}\label{sec:related-work}
 
   Integrated formal methods frameworks have been investigated in the
   past. Anderson et al.\ \cite{uitp-anderson} discuss a framework for
@@ -1017,7 +1014,7 @@ In conclusion, CZT supports extendability in its typecheckers by:
 
   Using examples from Object-Z, TCOZ, and \Circus, we have discussed
   several practical strategies and techniques that allow the CZT tools
-  like parsers, typecheckers, and animators developed for Standard Z
+  like parsers, typecheckers, and animators developed for standard Z
   to be reused within these Z extensions in a way that minimises code
   duplication and maintenance.  The strategies and techniques
   presented can also help developers of integrated formal methods
