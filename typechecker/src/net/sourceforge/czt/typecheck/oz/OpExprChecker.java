@@ -44,6 +44,9 @@ public class OpExprChecker
     OpPromotionExprVisitor,
     OpExpr2Visitor,
     SeqOpExprVisitor,
+    ParallelOpExprVisitor,
+    HideOpExprVisitor,
+    RenameOpExprVisitor,
     OpTextVisitor,
     OpExprVisitor
 {
@@ -159,18 +162,18 @@ public class OpExprChecker
     Signature rSig = (Signature) rOpExpr.accept(opExprChecker());
 
     if (!instanceOf(lSig, VariableSignature.class) &&
-	!instanceOf(rSig, VariableSignature.class)) {
+        !instanceOf(rSig, VariableSignature.class)) {
       List<NameTypePair> newPairs = list(lSig.getNameTypePair());
       newPairs.addAll(rSig.getNameTypePair());
       checkForDuplicates(newPairs, opExpr2,
-			 ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
+                         ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
       signature = factory().createSignature(newPairs);
     }
 
     //add the signature annotation
     addSignatureAnn(opExpr2, signature);
 
-    return signature;    
+    return signature;
   }
 
   public Object visitSeqOpExpr(SeqOpExpr seqOpExpr)
@@ -184,16 +187,78 @@ public class OpExprChecker
     Signature rSig = (Signature) rOpExpr.accept(opExprChecker());
 
     if (!instanceOf(lSig, VariableSignature.class) &&
-	!instanceOf(rSig, VariableSignature.class)) {
+        !instanceOf(rSig, VariableSignature.class)) {
       String errorMessage = ErrorMessage.TYPE_MISMATCH_IN_SEQOPEXPR.toString();
       signature = createCompSig(lSig, rSig, seqOpExpr, errorMessage);
       checkForDuplicates(signature.getNameTypePair(), seqOpExpr,
-			 ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
+                         ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
     }
 
     //add the signature annotation
     addSignatureAnn(seqOpExpr, signature);
 
+    return signature;
+  }
+
+  public Object visitParallelOpExpr(ParallelOpExpr parallelOpExpr)
+  {
+    Signature signature = factory().createVariableSignature();
+
+    //get the signatures of the left and right operations
+    OpExpr lOpExpr = parallelOpExpr.getLeftOpExpr();
+    OpExpr rOpExpr = parallelOpExpr.getRightOpExpr();
+    Signature lSig = (Signature) lOpExpr.accept(opExprChecker());
+    Signature rSig = (Signature) rOpExpr.accept(opExprChecker());
+
+    if (!instanceOf(lSig, VariableSignature.class) &&
+        !instanceOf(rSig, VariableSignature.class)) {
+      String errorMessage =
+        ErrorMessage.TYPE_MISMATCH_IN_PARALLELOPEXPR.toString();
+      Signature sigA = createPipeSig(lSig, rSig, parallelOpExpr, errorMessage);
+      Signature sigB = createPipeSig(rSig, lSig, parallelOpExpr, errorMessage);
+      signature = intersect(sigA, sigB);
+      checkForDuplicates(signature.getNameTypePair(), parallelOpExpr,
+                         ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
+    }
+
+    //add the signature annotation
+    addSignatureAnn(parallelOpExpr, signature);
+
+    return signature;
+  }
+
+  public Object visitHideOpExpr(HideOpExpr hideOpExpr)
+  {
+    Signature signature = factory().createVariableSignature();
+
+    //get the signature of the operation expr
+    OpExpr opExpr = hideOpExpr.getOpExpr();
+    Signature hideSig = (Signature) opExpr.accept(opExprChecker());
+
+    //hide the declarations
+    if (!instanceOf(hideSig, VariableSignature.class)) {
+      signature = createHideSig(hideSig, hideOpExpr.getName(), hideOpExpr);
+    }
+    return signature;
+  }
+
+  public Object visitRenameOpExpr(RenameOpExpr renameOpExpr)
+  {
+    Signature signature = factory().createVariableSignature();
+
+    //get the signature of the operation expr
+    OpExpr opExpr = renameOpExpr.getOpExpr();
+    Signature renameSig = (Signature) opExpr.accept(opExprChecker());
+
+    //hide the declarations
+    if (!instanceOf(renameSig, VariableSignature.class)) {
+        String errorMessage =
+          ErrorMessage.DUPLICATE_NAME_IN_RENAMEOPEXPR.toString();
+        List<NameNamePair> namePairs = renameOpExpr.getNameNamePair();
+        signature = createRenameSig(renameSig, namePairs,
+                                    renameOpExpr, errorMessage);
+        checkForDuplicates(signature.getNameTypePair(), renameOpExpr);
+    }
     return signature;
   }
 }

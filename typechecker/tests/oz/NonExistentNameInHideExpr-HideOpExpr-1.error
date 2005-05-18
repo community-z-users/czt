@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION NonExistentNameInHideExpr\_OpHideExpr\_1 \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  error \sdef [x : \nat] \hide (y)
+\end{class}

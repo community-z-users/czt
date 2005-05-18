@@ -602,7 +602,7 @@ public class ExprChecker
 
     //enter a new variable scope
     typeEnv().enterScope();
-    
+
     //get and visit the SchText
     SchText schText = muExpr.getSchText();
     Signature signature = (Signature) schText.accept(exprChecker());
@@ -620,15 +620,15 @@ public class ExprChecker
       List<Type2> types = list();
       List<NameTypePair> pairs = signature.getNameTypePair();
       for (NameTypePair pair : pairs) {
-	Type2 nextType = unwrapType(pair.getType());
-	types.add(nextType);
+        Type2 nextType = unwrapType(pair.getType());
+        types.add(nextType);
       }
 
       if (types.size() > 1) {
-	type = factory().createProdType(types);
+        type = factory().createProdType(types);
       }
       else {
-	type = (Type2) types.get(0);
+        type = (Type2) types.get(0);
       }
     }
 
@@ -651,7 +651,7 @@ public class ExprChecker
     schText.accept(exprChecker());
 
     //calculate the type from the expr
-    Expr expr = letExpr.getExpr();    
+    Expr expr = letExpr.getExpr();
     Type2 type = (Type2) expr.accept(exprChecker());
 
     //exit the current scope
@@ -809,9 +809,9 @@ public class ExprChecker
       Signature rSig = schemaType(vRightPower.getType()).getSignature();
       if (!instanceOf(lSig, VariableSignature.class) &&
           !instanceOf(rSig, VariableSignature.class)) {
-	String errorMessage = ErrorMessage.TYPE_MISMATCH_IN_COMPEXPR.toString();
-	Signature signature = createCompSig(lSig, rSig, compExpr, errorMessage);
-	checkForDuplicates(signature.getNameTypePair(), compExpr);
+        String errorMessage = ErrorMessage.TYPE_MISMATCH_IN_COMPEXPR.toString();
+        Signature signature = createCompSig(lSig, rSig, compExpr, errorMessage);
+        checkForDuplicates(signature.getNameTypePair(), compExpr);
         schemaType.setSignature(signature);
       }
       type = factory().createPowerType(schemaType);
@@ -860,8 +860,8 @@ public class ExprChecker
       if (!instanceOf(lSig, VariableSignature.class) &&
           !instanceOf(rSig, VariableSignature.class)) {
         //create the signature
-	String errorMessage = ErrorMessage.TYPE_MISMATCH_IN_PIPEEXPR.toString();
-        Signature signature = createPipeSig(lSig, rSig, pipeExpr, errorMessage);	
+        String errorMessage = ErrorMessage.TYPE_MISMATCH_IN_PIPEEXPR.toString();
+        Signature signature = createPipeSig(lSig, rSig, pipeExpr, errorMessage);
         checkForDuplicates(signature.getNameTypePair(), pipeExpr);
         schemaType.setSignature(signature);
       }
@@ -898,33 +898,10 @@ public class ExprChecker
       Signature signature = schemaType.getSignature();
       SchemaType hideSchemaType = factory().createSchemaType();
       if (!instanceOf(signature, VariableSignature.class)) {
-        //create a new name/type pair list
-        List<NameTypePair> pairs = signature.getNameTypePair();
-        List<NameTypePair> newPairs = list(pairs);
-
-        //iterate over every name, removing it from the signature
-        List<RefName> refNames = hideExpr.getName();
-        for (RefName refName : refNames) {
-          DeclName declName = factory().createDeclName(refName);
-          NameTypePair rPair = findInSignature(declName, signature);
-
-          //if this is name is not in the schema, raise an error
-          if (rPair == null) {
-            Object [] params = {hideExpr, declName};
-            error(hideExpr, ErrorMessage.NON_EXISTENT_NAME_IN_HIDEEXPR, params);
-          }
-          //if it is in the schema, remove it
-          else {
-            for (Iterator pIter = newPairs.iterator(); pIter.hasNext(); ) {
-              NameTypePair nPair = (NameTypePair) pIter.next();
-              if (nPair == rPair) {
-                pIter.remove();
-              }
-            }
-          }
-        }
-        Signature newSignature = factory().createSignature(newPairs);
-        hideSchemaType.setSignature(newSignature);
+        Signature hideSig =
+          createHideSig(signature, hideExpr.getName(), hideExpr);
+        checkForDuplicates(hideSig.getNameTypePair(), hideExpr);
+        hideSchemaType.setSignature(hideSig);
       }
       type = factory().createPowerType(hideSchemaType);
     }
@@ -1187,39 +1164,12 @@ public class ExprChecker
       Signature signature = schemaType.getSignature();
       SchemaType newSchemaType = factory().createSchemaType();
       if (!instanceOf(signature, VariableSignature.class)) {
-        List<NameTypePair> existingPairs = signature.getNameTypePair();
-        //a list for tracking that old names are not duplicated
-        List<RefName> oldNames = list();
-        List<NameTypePair> newPairs = list();
-        for (NameTypePair pair : existingPairs) {
-          DeclName name = factory().createDeclName(pair.getName());
-          NameTypePair newPair =
-            factory().createNameTypePair(name, pair.getType());
-          newPairs.add(newPair);
-        }
-        Signature newSignature = factory().createSignature(newPairs);
+        String errorMessage = ErrorMessage.DUPLICATE_NAME_IN_RENAMEEXPR.toString();
         List<NameNamePair> namePairs = renameExpr.getNameNamePair();
-        for (NameNamePair namePair : namePairs) {
-          RefName oldName = namePair.getOldName();
-          DeclName newName = namePair.getNewName();
-
-          //if the old name is duplicated, raise an error
-          if (oldNames.contains(oldName)) {
-            Object [] params = {renameExpr, oldName};
-            error(renameExpr, ErrorMessage.DUPLICATE_NAME_IN_RENAMEEXPR, params);
-          }
-          oldNames.add(oldName);
-
-          //find this name in the signature, and rename it
-          DeclName oldDeclName = factory().createDeclName(oldName);
-          NameTypePair newPair = findInSignature(oldDeclName, newSignature);
-          if (newPair != null) {
-            //set the new name
-            newPair.setName(newName);
-          }
-        }
-        checkForDuplicates(newSignature.getNameTypePair(), renameExpr);
-        newSchemaType.setSignature(newSignature);
+        Signature newSig = createRenameSig(signature, namePairs,
+                                           renameExpr, errorMessage);
+        checkForDuplicates(newSig.getNameTypePair(), renameExpr);
+        newSchemaType.setSignature(newSig);
       }
       type = factory().createPowerType(newSchemaType);
     }

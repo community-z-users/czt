@@ -14,5 +14,5 @@
   \begin{op}{Op2}
     a? : \nat
   \end{op}\\
-  Op1 \sdef Op2
+  Op1 \sdef Op2\\
 \end{class}

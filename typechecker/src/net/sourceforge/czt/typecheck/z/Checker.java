@@ -568,8 +568,8 @@ abstract public class Checker
     }
   }
 
-  protected Signature createCompSig(Signature lSig, Signature rSig, 
-				    TermA termA, String errorMessage)
+  protected Signature createCompSig(Signature lSig, Signature rSig,
+                                    TermA termA, String errorMessage)
   {
     //b3 and b4 correspond to the variable names "\Beta_3" and
     //"\Beta_4" in the standard
@@ -578,34 +578,34 @@ abstract public class Checker
     List<NameTypePair> rPairs = rSig.getNameTypePair();
     for (NameTypePair rPair : rPairs) {
       DeclName rName = (DeclName) rPair.getName();
-      
+
       //if the name + nextstoke is in lSig, remove it from b3, and
       //remove name from b4
       List<Stroke> strokes = list(rName.getStroke());
       int size = strokes.size();
       strokes.add(factory().createNextStroke());
       DeclName sName = factory().createDeclName(rName.getWord(),
-						strokes, null);
+                                                strokes, null);
       NameTypePair foundPair = findInSignature(sName, lSig);
       if (foundPair != null) {
-	Type2 fType = unwrapType(foundPair.getType());
-	Type2 rType = unwrapType(rPair.getType());
-	UResult unified = unify(fType, rType);
-	if (unified == FAIL) {
-	  Object [] params = {termA, sName, fType, rName, rType};
-	  error(termA, errorMessage, params);
-	}
-	b3Pairs.remove(foundPair);
-	b4Pairs.remove(rPair);
+        Type2 fType = unwrapType(foundPair.getType());
+        Type2 rType = unwrapType(rPair.getType());
+        UResult unified = unify(fType, rType);
+        if (unified == FAIL) {
+          Object [] params = {termA, sName, fType, rName, rType};
+          error(termA, errorMessage, params);
+        }
+        b3Pairs.remove(foundPair);
+        b4Pairs.remove(rPair);
       }
-    }    
+    }
     b3Pairs.addAll(b4Pairs);
-    Signature signature = factory().createSignature(b3Pairs);
-    return signature;
+    Signature result = factory().createSignature(b3Pairs);
+    return result;
   }
 
-  protected Signature createPipeSig(Signature lSig, Signature rSig, 
-				    TermA termA, String errorMessage)
+  protected Signature createPipeSig(Signature lSig, Signature rSig,
+                                    TermA termA, String errorMessage)
   {
     //b3 and b4 correspond to the variable names "\Beta_3" and
     //"\Beta_4" in the standard
@@ -617,28 +617,98 @@ abstract public class Checker
       List<Stroke> strokes = list(rName.getStroke());
       int size = strokes.size();
       if (size > 0 && strokes.get(size - 1) instanceof InStroke) {
-	OutStroke out = factory().createOutStroke();
-	strokes.set(size - 1, out);
-	DeclName sName = factory().createDeclName(rName.getWord(),
-						  strokes, null);
-	NameTypePair foundPair = findInSignature(sName, lSig);
-	if (foundPair != null) {
-	  Type2 fType = unwrapType(foundPair.getType());
-	  Type2 rType = unwrapType(rPair.getType());
-	  UResult unified = unify(fType, rType);
-	  if (unified == FAIL) {
-	    Object [] params = {termA, sName, fType, rName, rType};
-	    error(termA, errorMessage, params);
-	  }
-	  b3Pairs.remove(foundPair);
-	  b4Pairs.remove(rPair);
-	}
+        OutStroke out = factory().createOutStroke();
+        strokes.set(size - 1, out);
+        DeclName sName = factory().createDeclName(rName.getWord(),
+                                                  strokes, null);
+        NameTypePair foundPair = findInSignature(sName, lSig);
+        if (foundPair != null) {
+          Type2 fType = unwrapType(foundPair.getType());
+          Type2 rType = unwrapType(rPair.getType());
+          UResult unified = unify(fType, rType);
+          if (unified == FAIL) {
+            Object [] params = {termA, sName, fType, rName, rType};
+            error(termA, errorMessage, params);
+          }
+          b3Pairs.remove(foundPair);
+          b4Pairs.remove(rPair);
+        }
       }
     }
     //create the signature
     b3Pairs.addAll(b4Pairs);
-    Signature signature = factory().createSignature(b3Pairs);
-    return signature;
+    Signature result = factory().createSignature(b3Pairs);
+    return result;
+  }
+
+  protected Signature createHideSig(Signature signature,
+                                    List<RefName> refNames, TermA termA)
+  {
+    //create a new name/type pair list
+    List<NameTypePair> pairs = signature.getNameTypePair();
+    List<NameTypePair> newPairs = list(pairs);
+
+    //iterate over every name, removing it from the signature
+    for (RefName refName : refNames) {
+      DeclName declName = factory().createDeclName(refName);
+      NameTypePair rPair = findInSignature(declName, signature);
+
+      //if this is name is not in the schema, raise an error
+      if (rPair == null) {
+        Object [] params = {termA, declName};
+        error(termA, ErrorMessage.NON_EXISTENT_NAME_IN_HIDEEXPR, params);
+      }
+      //if it is in the schema, remove it
+      else {
+        for (Iterator pIter = newPairs.iterator(); pIter.hasNext(); ) {
+          NameTypePair nPair = (NameTypePair) pIter.next();
+          if (nPair == rPair) {
+            pIter.remove();
+          }
+        }
+      }
+    }
+    Signature result = factory().createSignature(newPairs);
+    return result;
+  }
+
+  protected Signature createRenameSig(Signature signature,
+                                      List<NameNamePair> namePairs,
+                                      TermA termA, String errorMessage)
+  {
+    List<NameTypePair> existingPairs = signature.getNameTypePair();
+    //a list for tracking that old names are not duplicated
+    List<RefName> oldNames = list();
+    List<NameTypePair> newPairs = list();
+    for (NameTypePair pair : existingPairs) {
+      DeclName name = factory().createDeclName(pair.getName());
+      NameTypePair newPair =
+        factory().createNameTypePair(name, pair.getType());
+      newPairs.add(newPair);
+    }
+
+    Signature newSignature = factory().createSignature(newPairs);
+    for (NameNamePair namePair : namePairs) {
+      RefName oldName = namePair.getOldName();
+      DeclName newName = namePair.getNewName();
+
+      //if the old name is duplicated, raise an error
+      if (oldNames.contains(oldName)) {
+        Object [] params = {termA, oldName};
+        error(termA, errorMessage, params);
+      }
+      oldNames.add(oldName);
+
+      //find this name in the signature, and rename it
+      DeclName oldDeclName = factory().createDeclName(oldName);
+      NameTypePair newPair = findInSignature(oldDeclName, newSignature);
+      if (newPair != null) {
+        //set the new name
+        newPair.setName(newName);
+      }
+    }
+    Signature result = factory().createSignature(newPairs);
+    return result;
   }
 
   protected Type instantiate(Type type)

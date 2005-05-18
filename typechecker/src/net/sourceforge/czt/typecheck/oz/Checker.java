@@ -140,6 +140,22 @@ abstract public class Checker
     return (ClassRefType) selfType;
   }
 
+  //take the intersection of 2 signatures
+  protected Signature intersect(Signature sigA, Signature sigB)
+  {
+    Signature signature = factory().createSignature();
+    List<NameTypePair> pairsA = sigA.getNameTypePair();
+    List<NameTypePair> pairsB = sigB.getNameTypePair();
+    for (NameTypePair pairA : pairsA) {
+      NameTypePair pairB = findInSignature(pairA.getName(), sigB);
+      if (pairB != null) {
+        signature.getNameTypePair().add(pairA);
+        signature.getNameTypePair().add(pairB);
+      }
+    }
+    return signature;
+  }
+
   //merge two class signatures and place result in newSig
   protected void merge(ClassSig newSig, ClassSig oldSig, TermA termA)
   {

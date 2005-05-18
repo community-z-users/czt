@@ -1,0 +1,8 @@
+\begin{zsection}
+  \SECTION TypeMismatchInSeqOpExpr\_ParallelOpExpr\_MtoM \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  error \sdef [x? : \power \nat; y : \nat; z? : \power \nat] \parallel
+       [x! : \nat; y : \power \nat; z! : \nat]
+\end{class}

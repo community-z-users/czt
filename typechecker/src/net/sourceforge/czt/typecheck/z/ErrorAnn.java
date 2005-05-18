@@ -155,7 +155,13 @@ public class ErrorAnn
   protected String format(Object object, SectionInfo sectInfo, String sectName)
   {
     if (object instanceof Type || object instanceof Signature) {
-      return formatType((Term) object);
+      //return formatType((Term) object);
+      net.sourceforge.czt.typecheck.z.util.CarrierSet cSet = new
+        net.sourceforge.czt.typecheck.z.util.CarrierSet();
+      Term term = (Term) ((Term) object).accept(cSet);
+      StringWriter writer = new StringWriter();
+      PrintUtils.printLatex(term, writer, sectInfo, sectName);
+      return writer.toString();
     }
     else if (object instanceof Term) {
       try {
