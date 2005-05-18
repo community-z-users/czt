@@ -592,13 +592,50 @@ abstract public class Checker
 	Type2 rType = unwrapType(rPair.getType());
 	UResult unified = unify(fType, rType);
 	if (unified == FAIL) {
-	  Object [] params = {termA, rName, fType, sName, rType};
+	  Object [] params = {termA, sName, fType, rName, rType};
 	  error(termA, errorMessage, params);
 	}
 	b3Pairs.remove(foundPair);
 	b4Pairs.remove(rPair);
       }
     }    
+    b3Pairs.addAll(b4Pairs);
+    Signature signature = factory().createSignature(b3Pairs);
+    return signature;
+  }
+
+  protected Signature createPipeSig(Signature lSig, Signature rSig, 
+				    TermA termA, String errorMessage)
+  {
+    //b3 and b4 correspond to the variable names "\Beta_3" and
+    //"\Beta_4" in the standard
+    List<NameTypePair> b3Pairs = list(lSig.getNameTypePair());
+    List<NameTypePair> b4Pairs = list(rSig.getNameTypePair());
+    List<NameTypePair> rPairs = rSig.getNameTypePair();
+    for (NameTypePair rPair : rPairs) {
+      DeclName rName = (DeclName) rPair.getName();
+      List<Stroke> strokes = list(rName.getStroke());
+      int size = strokes.size();
+      if (size > 0 && strokes.get(size - 1) instanceof InStroke) {
+	OutStroke out = factory().createOutStroke();
+	strokes.set(size - 1, out);
+	DeclName sName = factory().createDeclName(rName.getWord(),
+						  strokes, null);
+	NameTypePair foundPair = findInSignature(sName, lSig);
+	if (foundPair != null) {
+	  Type2 fType = unwrapType(foundPair.getType());
+	  Type2 rType = unwrapType(rPair.getType());
+	  UResult unified = unify(fType, rType);
+	  if (unified == FAIL) {
+	    Object [] params = {termA, sName, fType, rName, rType};
+	    error(termA, errorMessage, params);
+	  }
+	  b3Pairs.remove(foundPair);
+	  b4Pairs.remove(rPair);
+	}
+      }
+    }
+    //create the signature
     b3Pairs.addAll(b4Pairs);
     Signature signature = factory().createSignature(b3Pairs);
     return signature;
