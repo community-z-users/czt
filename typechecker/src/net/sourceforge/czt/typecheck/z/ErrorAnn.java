@@ -160,7 +160,7 @@ public class ErrorAnn
     else if (object instanceof Term) {
       try {
         StringWriter writer = new StringWriter();
-        PrintUtils.printUnicode((Term) object, writer, sectInfo, sectName);
+        PrintUtils.printLatex((Term) object, writer, sectInfo, sectName);
         return writer.toString();
       }
       catch (Exception e) {

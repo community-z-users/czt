@@ -19,7 +19,6 @@
 package net.sourceforge.czt.typecheck.oz;
 
 import java.util.List;
-import java.lang.RuntimeException;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;

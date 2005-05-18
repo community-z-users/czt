@@ -250,12 +250,7 @@ public class ExprChecker
     UResult solved = (UResult) pred.accept(predChecker());
 
     if (solved == SUCC) {
-      //if this is a true or false literal, raise an error
-      if (pred instanceof Fact) {
-        Object [] params = {pred};
-        error(pred, ErrorMessage.FACT_AS_EXPR, params);
-      }
-      //create a boolean type
+      //create a boolean type (a power type containing an empty schema type)
       type = factory().createBoolType();
     }
 

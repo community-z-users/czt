@@ -40,10 +40,12 @@ import net.sourceforge.czt.typecheck.z.*;
 public class OpExprChecker
   extends Checker
   implements
-      AnonOpExprVisitor,
-      OpPromotionExprVisitor,
-      OpTextVisitor,
-      OpExprVisitor
+    AnonOpExprVisitor,
+    OpPromotionExprVisitor,
+    OpExpr2Visitor,
+    SeqOpExprVisitor,
+    OpTextVisitor,
+    OpExprVisitor
 {
   public OpExprChecker(TypeChecker typeChecker)
   {
@@ -61,6 +63,10 @@ public class OpExprChecker
     //get the signature of the operation text
     OpText opText = anonOpExpr.getOpText();
     Signature signature = (Signature) opText.accept(opExprChecker());
+
+    //add the signature annotation
+    addSignatureAnn(anonOpExpr, signature);
+
     return signature;
   }
 
@@ -89,6 +95,9 @@ public class OpExprChecker
 
     //exit the variable scope
     typeEnv().exitScope();
+
+    //add the signature annotation
+    addSignatureAnn(opText, signature);
 
     return signature;
   }
@@ -129,6 +138,61 @@ public class OpExprChecker
         }
       }
     }
+
+    //add the signature annotation
+    addSignatureAnn(opPromExpr, signature);
+
+    return signature;
+  }
+
+  /**
+   * Visits ConjOpExprs and ExChoiceOpExpr, which have the same type rules.
+   */
+  public Object visitOpExpr2(OpExpr2 opExpr2)
+  {
+    Signature signature = factory().createVariableSignature();
+
+    //get the signatures of the left and right operations
+    OpExpr lOpExpr = opExpr2.getLeftOpExpr();
+    OpExpr rOpExpr = opExpr2.getRightOpExpr();
+    Signature lSig = (Signature) lOpExpr.accept(opExprChecker());
+    Signature rSig = (Signature) rOpExpr.accept(opExprChecker());
+
+    if (!instanceOf(lSig, VariableSignature.class) &&
+	!instanceOf(rSig, VariableSignature.class)) {
+      List<NameTypePair> newPairs = list(lSig.getNameTypePair());
+      newPairs.addAll(rSig.getNameTypePair());
+      checkForDuplicates(newPairs, opExpr2,
+			 ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
+      signature = factory().createSignature(newPairs);
+    }
+
+    //add the signature annotation
+    addSignatureAnn(opExpr2, signature);
+
+    return signature;    
+  }
+
+  public Object visitSeqOpExpr(SeqOpExpr seqOpExpr)
+  {
+    Signature signature = factory().createVariableSignature();
+
+    //get the signatures of the left and right operations
+    OpExpr lOpExpr = seqOpExpr.getLeftOpExpr();
+    OpExpr rOpExpr = seqOpExpr.getRightOpExpr();
+    Signature lSig = (Signature) lOpExpr.accept(opExprChecker());
+    Signature rSig = (Signature) rOpExpr.accept(opExprChecker());
+
+    if (!instanceOf(lSig, VariableSignature.class) &&
+	!instanceOf(rSig, VariableSignature.class)) {
+      String errorMessage = ErrorMessage.TYPE_MISMATCH_IN_SEQOPEXPR.toString();
+      signature = createCompSig(lSig, rSig, seqOpExpr, errorMessage);
+      checkForDuplicates(signature.getNameTypePair(), seqOpExpr,
+			 ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
+    }
+
+    //add the signature annotation
+    addSignatureAnn(seqOpExpr, signature);
 
     return signature;
   }

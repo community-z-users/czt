@@ -568,6 +568,42 @@ abstract public class Checker
     }
   }
 
+  protected Signature createCompSig(Signature lSig, Signature rSig, 
+				    TermA termA, String errorMessage)
+  {
+    //b3 and b4 correspond to the variable names "\Beta_3" and
+    //"\Beta_4" in the standard
+    List<NameTypePair> b3Pairs = list(lSig.getNameTypePair());
+    List<NameTypePair> b4Pairs = list(rSig.getNameTypePair());
+    List<NameTypePair> rPairs = rSig.getNameTypePair();
+    for (NameTypePair rPair : rPairs) {
+      DeclName rName = (DeclName) rPair.getName();
+      
+      //if the name + nextstoke is in lSig, remove it from b3, and
+      //remove name from b4
+      List<Stroke> strokes = list(rName.getStroke());
+      int size = strokes.size();
+      strokes.add(factory().createNextStroke());
+      DeclName sName = factory().createDeclName(rName.getWord(),
+						strokes, null);
+      NameTypePair foundPair = findInSignature(sName, lSig);
+      if (foundPair != null) {
+	Type2 fType = unwrapType(foundPair.getType());
+	Type2 rType = unwrapType(rPair.getType());
+	UResult unified = unify(fType, rType);
+	if (unified == FAIL) {
+	  Object [] params = {termA, rName, fType, sName, rType};
+	  error(termA, errorMessage, params);
+	}
+	b3Pairs.remove(foundPair);
+	b4Pairs.remove(rPair);
+      }
+    }    
+    b3Pairs.addAll(b4Pairs);
+    Signature signature = factory().createSignature(b3Pairs);
+    return signature;
+  }
+
   protected Type instantiate(Type type)
   {
     Type result = factory().createUnknownType();

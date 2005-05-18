@@ -1,5 +1,5 @@
 \begin{zsection}
-  \SECTION IncompatibleFeatureInClassUnionExpr\_Attr \parents oz\_toolkit
+  \SECTION IncompatibleFeatureInClassUnionExpr\_Op \parents oz\_toolkit
 \end{zsection}
 
 \begin{class}{A}

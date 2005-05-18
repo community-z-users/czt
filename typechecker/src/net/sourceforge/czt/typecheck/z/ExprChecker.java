@@ -809,41 +809,9 @@ public class ExprChecker
       Signature rSig = schemaType(vRightPower.getType()).getSignature();
       if (!instanceOf(lSig, VariableSignature.class) &&
           !instanceOf(rSig, VariableSignature.class)) {
-        //b3 and b4 correspond to the variable names "\Beta_3" and
-        //"\Beta_4" in the standard
-        List<NameTypePair> b3Pairs = list(lSig.getNameTypePair());
-        List<NameTypePair> b4Pairs = list(rSig.getNameTypePair());
-        List<NameTypePair> rPairs = rSig.getNameTypePair();
-        for (NameTypePair rPair : rPairs) {
-          DeclName rName = (DeclName) rPair.getName();
-
-          //if the name + nextstoke is in lSig, remove it from b3, and
-          //remove name from b4
-          List<Stroke> strokes = list(rName.getStroke());
-          int size = strokes.size();
-          strokes.add(factory().createNextStroke());
-          DeclName sName = factory().createDeclName(rName.getWord(),
-                                                    strokes, null);
-          NameTypePair foundPair = findInSignature(sName, lSig);
-          if (foundPair != null) {
-            Type2 fType = unwrapType(foundPair.getType());
-            Type2 rType = unwrapType(rPair.getType());
-            UResult unified = unify(fType, rType);
-            if (unified == FAIL) {
-              Object [] params = {rPair.getName(), fType, rType};
-              error(compExpr, ErrorMessage.TYPE_MISMATCH_IN_SIGNATURE, params);
-            }
-            b3Pairs.remove(foundPair);
-            b4Pairs.remove(rPair);
-          }
-        }
-
-        //check that the schemas are compatible
-        b3Pairs.addAll(b4Pairs);
-        checkForDuplicates(b3Pairs, compExpr);
-
-        //create the signature
-        Signature signature = factory().createSignature(b3Pairs);
+	String errorMessage = ErrorMessage.TYPE_MISMATCH_IN_COMPEXPR.toString();
+	Signature signature = createCompSig(lSig, rSig, compExpr, errorMessage);
+	checkForDuplicates(signature.getNameTypePair(), compExpr);
         schemaType.setSignature(signature);
       }
       type = factory().createPowerType(schemaType);

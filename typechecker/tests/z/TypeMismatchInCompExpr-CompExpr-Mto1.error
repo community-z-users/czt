@@ -1,5 +1,5 @@
 \begin{zsection}
-  \SECTION IncompatibleSignatures\_CompExpr\_M\_1
+  \SECTION TypeMismatchInCompExpr\_CompExpr\_M\_1
 \end{zsection}
 
 \begin{zed}
