@@ -26,6 +26,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.typecheck.z.util.CarrierSet;
 
 /**
  * A class for annotating terms associated with error messages.
@@ -154,19 +155,11 @@ public class ErrorAnn
   //converts a Term to a string
   protected String format(Object object, SectionInfo sectInfo, String sectName)
   {
-    if (object instanceof Type || object instanceof Signature) {
-      //return formatType((Term) object);
-      net.sourceforge.czt.typecheck.z.util.CarrierSet cSet = new
-        net.sourceforge.czt.typecheck.z.util.CarrierSet();
-      Term term = (Term) ((Term) object).accept(cSet);
-      StringWriter writer = new StringWriter();
-      PrintUtils.printLatex(term, writer, sectInfo, sectName);
-      return writer.toString();
-    }
-    else if (object instanceof Term) {
+    if (object instanceof Term) {
       try {
+        Term term = (Term) ((Term) object).accept(getCarrierSet());
         StringWriter writer = new StringWriter();
-        PrintUtils.printLatex((Term) object, writer, sectInfo, sectName);
+        PrintUtils.printLatex(term, writer, sectInfo, sectName);
         return writer.toString();
       }
       catch (Exception e) {
@@ -183,6 +176,11 @@ public class ErrorAnn
     //Expr expr = (Expr) type.accept(formatter);
     //return format(expr);
     return term.toString();
+  }
+
+  protected CarrierSet getCarrierSet()
+  {
+    return new CarrierSet();
   }
 }
 

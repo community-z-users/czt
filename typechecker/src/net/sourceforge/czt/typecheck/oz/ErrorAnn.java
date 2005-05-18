@@ -26,6 +26,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.typecheck.oz.util.CarrierSet;
 
 /**
  * A class for annotating terms associated with error messages.
@@ -49,6 +50,11 @@ public class ErrorAnn
                   LocAnn locAnn, TermA termA)
   {
     super(errorMessage, params, sectInfo, sectName, locAnn, termA);
+  }
+
+  protected CarrierSet getCarrierSet()
+  {
+    return new CarrierSet();
   }
 }
 

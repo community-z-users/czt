@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
@@ -31,10 +33,12 @@ import net.sourceforge.czt.typecheck.z.impl.*;
  */
 public class CarrierSet
   implements
+    TermVisitor,
     PowerTypeVisitor,
     GenParamTypeVisitor,
     GivenTypeVisitor,
     SchemaTypeVisitor,
+    SignatureVisitor,
     ProdTypeVisitor,
     VariableTypeVisitor,
     UnknownTypeVisitor
@@ -49,6 +53,11 @@ public class CarrierSet
   public CarrierSet(ZFactory zFactory)
   {
     zFactory_ = zFactory;
+  }
+
+  public Object visitTerm(Term term)
+  {
+    return term;
   }
 
   public Object visitPowerType(PowerType powerType)
@@ -90,8 +99,14 @@ public class CarrierSet
   public Object visitSchemaType(SchemaType schemaType)
   {
     Signature signature = schemaType.getSignature();
-    List<NameTypePair> pairs = signature.getNameTypePair();
+    SchText schText = (SchText) signature.accept(this);
+    SchExpr result = zFactory_.createSchExpr(schText);
+    return result;
+  }
 
+  public Object visitSignature(Signature signature)
+  {
+    List<NameTypePair> pairs = signature.getNameTypePair();
     List<Decl> decls = list();
     for (NameTypePair pair : pairs) {
       Expr expr = (Expr) pair.getType().accept(this);
@@ -99,11 +114,8 @@ public class CarrierSet
       VarDecl varDecl = zFactory_.createVarDecl(name, expr);
       decls.add(varDecl);
     }
-
     SchText schText = zFactory_.createSchText(decls, null);
-    SchExpr result = zFactory_.createSchExpr(schText);
-
-    return result;
+    return schText;
   }
 
   public Object visitProdType(ProdType prodType)
