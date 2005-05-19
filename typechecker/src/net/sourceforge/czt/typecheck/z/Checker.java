@@ -341,8 +341,10 @@ abstract public class Checker
   protected String format(Term term)
   {
     try {
+      CarrierSet cSet = new CarrierSet();
+      Term newTerm = (Term) term.accept(cSet);
       StringWriter writer = new StringWriter();
-      PrintUtils.printUnicode(term, writer, sectInfo(), sectName());
+      PrintUtils.printLatex(newTerm, writer, sectInfo(), sectName());
       return writer.toString();
     }
     catch (Exception e) {

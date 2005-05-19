@@ -45,8 +45,10 @@ public class OpExprChecker
     OpExpr2Visitor,
     SeqOpExprVisitor,
     ParallelOpExprVisitor,
+    AssoParallelOpExprVisitor,
     HideOpExprVisitor,
     RenameOpExprVisitor,
+    ScopeEnrichOpExprVisitor,
     OpTextVisitor,
     OpExprVisitor
 {
@@ -149,7 +151,8 @@ public class OpExprChecker
   }
 
   /**
-   * Visits ConjOpExprs and ExChoiceOpExpr, which have the same type rules.
+   * Visits ConjOpExprs and ExChoiceOpExpr which have the same type
+   * rules.
    */
   public Object visitOpExpr2(OpExpr2 opExpr2)
   {
@@ -227,6 +230,37 @@ public class OpExprChecker
     return signature;
   }
 
+  public Object visitAssoParallelOpExpr(AssoParallelOpExpr assoParallelOpExpr)
+  {
+    Signature signature = factory().createVariableSignature();
+
+    //get the signatures of the left and right operations
+    OpExpr lOpExpr = assoParallelOpExpr.getLeftOpExpr();
+    OpExpr rOpExpr = assoParallelOpExpr.getRightOpExpr();
+    Signature lSig = (Signature) lOpExpr.accept(opExprChecker());
+    Signature rSig = (Signature) rOpExpr.accept(opExprChecker());
+
+    if (!instanceOf(lSig, VariableSignature.class) &&
+        !instanceOf(rSig, VariableSignature.class)) {
+      String errorMessage =
+        ErrorMessage.TYPE_MISMATCH_IN_ASSOPARALLELOPEXPR.toString();
+      Signature sigA = createPipeSig(lSig, rSig, assoParallelOpExpr, errorMessage);
+      Signature sigB = createPipeSig(rSig, lSig, assoParallelOpExpr, errorMessage);
+      signature = intersect(sigA, sigB);
+      System.err.println("NEXT");
+      System.err.println("\tsigA = " + format(sigA));
+      System.err.println("\tsigB = " + format(sigB));
+      System.err.println("\tsigi = " + format(signature));
+      checkForDuplicates(signature.getNameTypePair(), assoParallelOpExpr,
+                         ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
+    }
+
+    //add the signature annotation
+    addSignatureAnn(assoParallelOpExpr, signature);
+
+    return signature;
+  }
+
   public Object visitHideOpExpr(HideOpExpr hideOpExpr)
   {
     Signature signature = factory().createVariableSignature();
@@ -259,6 +293,43 @@ public class OpExprChecker
                                     renameOpExpr, errorMessage);
         checkForDuplicates(signature.getNameTypePair(), renameOpExpr);
     }
+    return signature;
+  }
+
+  public Object visitScopeEnrichOpExpr(ScopeEnrichOpExpr scopeEnrichOpExpr)
+  {
+    //enter a new variable scope
+    typeEnv().enterScope();
+
+    //get the signature of the left operation expression
+    OpExpr lOpExpr = scopeEnrichOpExpr.getLeftOpExpr();
+    Signature signature = (Signature) lOpExpr.accept(opExprChecker());
+
+    //add the types into the typing environment
+    typeEnv().add(signature.getNameTypePair());
+
+    //get and visit the right expr
+    OpExpr rOpExpr = scopeEnrichOpExpr.getRightOpExpr();
+    Signature rSig = (Signature) rOpExpr.accept(opExprChecker());
+
+    //check that the signatures of the two expressions are disjoint
+    List<NameTypePair> pairsA = signature.getNameTypePair();
+    List<NameTypePair> pairsB = rSig.getNameTypePair();
+    for (NameTypePair pairA : pairsA) {
+      NameTypePair pairB = findInSignature(pairA.getName(), rSig);
+      if (pairB != null) {
+	Object [] params = {pairA.getName(), scopeEnrichOpExpr};
+	error(scopeEnrichOpExpr,
+	      ErrorMessage.DUPLICATE_NAME_IN_SCOPEENRICHOPEXPR, params);
+      }
+    }
+
+    //exit the variable scope
+    typeEnv().exitScope();
+
+    //add the signature annotation
+    addSignatureAnn(scopeEnrichOpExpr, signature);
+
     return signature;
   }
 }
