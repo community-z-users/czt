@@ -1,25 +1,26 @@
-/**
-Copyright 2003 Petra Malik
-This file is part of the czt project.
+/*
+  Copyright 2003, 2005 Petra Malik
+  This file is part of the czt project.
 
-The czt project contains free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+  The czt project contains free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
 
-The czt project is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+  The czt project is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with czt; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  You should have received a copy of the GNU General Public License
+  along with czt; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 package net.sourceforge.czt.gnast;
 
 import java.io.*;
+import java.net.URL;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -346,6 +347,8 @@ public class Gnast implements GlobalProperties
 
   /**
    * Returns the properties provided in the given file.
+   * First, the current working directory is tried,
+   * then the name is treated as a resource.
    * If the given file cannot be found or read, logging
    * messages are written and the empty property map is
    * returned.  This means that the caller cannot distinguish
@@ -357,21 +360,34 @@ public class Gnast implements GlobalProperties
    *         empty property mapping (should never be
    *         <code>null</code>).
    */
-  public static Properties loadProperties(String filename)
+  public static Properties loadProperties(String name)
   {
     final String methodName = "loadProperties";
-    getLogger().entering(getClassName(), methodName, filename);
+    getLogger().entering(getClassName(), methodName, name);
     Properties erg = new Properties();
-    if (filename != null) {
+    if (name != null) {
       try {
-        erg.load(new FileInputStream(filename));
+        erg.load(new FileInputStream(name));
       }
-      catch (FileNotFoundException e) {
-        getLogger().warning("Cannot find property file " + filename);
+      catch (FileNotFoundException fnfe) {
+        URL url = Gnast.class.getResource("/" + name);
+        if (url != null) {
+          try {
+            erg.load(url.openStream());
+          }
+          catch (java.io.IOException ioe) {
+            getLogger().warning("Cannot read property resource " + name);
+          }
+        }
+        else {
+          getLogger().warning("Cannot find property file " + name);
+        }
       }
-      catch (java.io.IOException e) {
-        getLogger().warning("Cannot read property file " + filename);
+      catch (java.io.IOException ioe) {
+        getLogger().warning("Cannot read property file " + name);
       }
+    }
+    if (name != null) {
     }
     getLogger().exiting(getClassName(), methodName, erg);
     return erg;
