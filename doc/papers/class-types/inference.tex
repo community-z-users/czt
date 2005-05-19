@@ -20,10 +20,20 @@ a notion of {\em weak} type consistency between class types. That is,
 it unifies two class types if any of the class references in those
 types unify. The second has a notion of {\em strong} type consistency
 between class types. It enforces that the sets of class references of
-two class types are equal. That is, the above predicate $a = b$
-is considered inconsistent. 
-%In the CZT Object-Z typechecker, a switch is provided
-%for the user to tell the typechecker which one to use.
+two class types are equal. That is, the above predicate $a = b$ is
+considered inconsistent.
+
+The Object-Z reference manual \cite{smith00} specifies that class
+types are consistent if they are equal, meaning that strong typing
+should be used.  However, for certain specifications, this can be too
+restrictive. For example, if one declares a set of objects, $s : \poly
+A$, and $B$ is a subclass of $A$, then it is reasonable to allow an
+object whose static type is $B$ to be added to the set $s$. Providing
+both weak and strong typing in the typechecker gives users the
+flexibility to decide whether they would like this restriction or not
+for individual specifications. Therefore, in the CZT Object-Z
+typechecker, a switch is provided for the user to specify whether they
+want to use strong or weak typing.
 
 \subsection{Weak Type Consistency}
 
