@@ -16,3 +16,25 @@ Old parser do not handle multiplication, so bridge it with the next axiomatic de
 \where
    \forall a, b: \num @ mult~(a,b) = a * b
 \end{axdef}
+
+
+\begin{gendef}[X]
+    gendj: \power~(\power~X) \cross \power~(\power~X) \fun \power~X
+\where
+    \forall S, P: \power~(\power X) @ gendj~(P, S) = (\bigcap~P)~\setminus~(\bigcup~(S~\setminus~P))
+\end{gendef}
+
+\begin{gendef}[X]
+    regions: \power_1~(\power~X) \fun \power_1~(\power~X)
+\where
+    \forall S: \power_1~(\power~X) @ \\
+     	\t1 regions~S = \{ P: \power_1~(\power~X) | P \subseteq S @ gendj(P, S) \}~\setminus~\{\{\}\}
+\end{gendef}
+
+\begin{gendef}[X]
+    minimal: \power~(\power~X) \fun \power~(\power~X)
+\where
+   \forall SS: \power~(\power~X) @ \\
+   	\t1 minimal~SS = \{ S: \power~X | S \in SS \land \\
+                \t2 \lnot~(~\exists R: \power~X | R \in SS @ R \subset S~) \}
+\end{gendef}
