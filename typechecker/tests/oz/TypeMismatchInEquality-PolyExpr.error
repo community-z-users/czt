@@ -12,7 +12,7 @@
 \end{class}
 
 \begin{class}{B}
-  \inherits A\\
+  A\\
   \begin{state}
     b : \nat
   \end{state}

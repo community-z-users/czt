@@ -6,7 +6,7 @@
 \end{class}
 
 \begin{class}{B}[Z]
-  \inherits A[Z,Z]
+  A[Z,Z]
 \end{class}
 
 \begin{axdef}

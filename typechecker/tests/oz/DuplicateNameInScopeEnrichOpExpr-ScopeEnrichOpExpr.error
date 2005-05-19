@@ -1,5 +1,5 @@
 \begin{zsection}
-  \SECTION ScopeEnrichOpExpr \parents oz\_toolkit
+  \SECTION DuplicateNameInScopeEnrichOpExpr\_ScopeEnrichOpExpr \parents oz\_toolkit
 \end{zsection}
 
 \begin{class}{A}

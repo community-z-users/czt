@@ -15,7 +15,7 @@ This tests that a type of definition (state variable) in one class is
 not duplicated in a second 
 
 \begin{class}{B}
-  \inherits A\\
+  A\\
   s == \{1\}
 \end{class}
 

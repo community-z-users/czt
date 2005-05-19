@@ -11,7 +11,7 @@
 \end{class}
 
 \begin{class}{C}
-  \inherits A\\
+  A\\
   a == 1\\
   b == a\\
   \begin{axdef}

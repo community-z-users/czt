@@ -15,7 +15,7 @@ This tests that a duplicate operation with the same signature is
 detected.
 
 \begin{class}{B}
-  \inherits A\\
+  A\\
   \begin{op}{Op2}
     s? : \power \nat
   \end{op}\\

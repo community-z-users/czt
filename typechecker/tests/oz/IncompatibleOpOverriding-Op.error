@@ -12,7 +12,7 @@
 \end{class}
 
 \begin{class}{B}
-  \inherits A\\
+  A\\
   \begin{op}{Op1}
     s? : \power \nat
   \end{op}
