@@ -3,5 +3,5 @@
 \end{zsection}
 
 \begin{class}{A}
-  error \sdef [z! : \nat] \parallel [z? : \power \nat]
+  error \sdef [z! : \nat] \pll [z? : \power \nat]
 \end{class}

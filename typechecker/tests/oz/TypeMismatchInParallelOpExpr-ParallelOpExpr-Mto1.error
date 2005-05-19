@@ -3,6 +3,6 @@
 \end{zsection}
 
 \begin{class}{A}
-  error \sdef [x : \power \nat; y : \nat; z! : \power \nat] \parallel
+  error \sdef [x : \power \nat; y : \nat; z! : \power \nat] \pll
            [z? : \nat]
 \end{class}
