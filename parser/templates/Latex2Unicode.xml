@@ -817,20 +817,6 @@ NAME =   {NOT_LB}*
         {
           yybegin(ERROR);
         }
-  "\\begin" {IGNORE}* "{zed}"
-        {
-          yybegin(ZED);
-          assert ! addSpace_;
-          begin("zed");
-          return result(ZString.ZED);
-        }
-  "\\begin" {IGNORE}* "{zsection}"
-        {
-          yybegin(ZED);
-          assert ! addSpace_;
-          begin("zsection");
-          return result(ZString.ZED);
-        }
   "\\end" {IGNORE}* "{class}"
         {
           end("class", yyline, yycolumn);

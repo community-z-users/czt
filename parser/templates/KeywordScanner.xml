@@ -139,8 +139,7 @@ public class KeywordScanner
     result.put(ZString.DELTA, new Integer(Sym.DELTA));
     result.put(OzString.GCH, new Integer(Sym.GCH));
     result.put(OzString.PARALLEL, new Integer(Sym.PARALLEL));
-    result.put(OzString.PARALLEL + ZString.SE + ZString.OUTSTROKE + ZString.NW,
-               new Integer(Sym.ASSOCPARALLEL));
+    result.put(OzString.ASSOPARALLEL, new Integer(Sym.ASSOPARALLEL));
     result.put(OzString.DGCH, new Integer(Sym.DGCH));
     result.put(OzString.DCNJ, new Integer(Sym.DCNJ));
     result.put(OzString.CLASSUNION, new Integer(Sym.CLASSUNION));

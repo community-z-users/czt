@@ -921,7 +921,7 @@ terminal
 <add:oz>
         DELTA, CLASS, STATE, INIT, OPSCH, SDEF,
         INHERITS, INITWORD, POLY, CONTAINMENT,
-        DCNJ, DGCH, DSQC, PARALLEL, ASSOCPARALLEL, GCH, CLASSUNION,
+        DCNJ, DGCH, DSQC, PARALLEL, ASSOPARALLEL, GCH, CLASSUNION,
 </add:oz>
 <add:tcoz>
         ATTIME, NEXTPRO, INTCHOICE, DIC, INTERLEAVE,
@@ -1157,9 +1157,12 @@ non terminal Sequent
     predSequent;
 
 non terminal Expr
-    jokerExpr,
+    jokerRefExpr,
     baseType;
+
 non terminal List /* VarDecl */ varDeclList;
+
+non terminal String anyJoker;
 </add:zpatt>
 
 <add:circus>
@@ -1278,7 +1281,7 @@ precedence right        LAMBDA;
 precedence right        MU;
 precedence right        LET;
 <add:oz>
-precedence left         ASSOCPARALLEL;
+precedence left         ASSOPARALLEL;
 precedence left         PARALLEL<add:tcoz>, INTERLEAVE, INTERRUPT,
 TIMEOUT, TIMEEND</add:tcoz>;
 precedence left         GCH <add:tcoz>, INTCHOICE </add:tcoz>;
@@ -2859,6 +2862,18 @@ term ::=
            RESULT = hideExpr;
         :}
         |
+<add:zpatt>
+        /* schema hiding */
+        term:t ZHIDE:hide LPAREN JOKERNAMELIST:jnl RPAREN
+        {:
+           RefName rn = factory_.createRefName(jnl, list());
+           List rnl = list(rn);
+           HideExpr hideExpr = factory_.createHideExpr(expr(t), rnl);
+           addLocAnn(hideExpr, hideleft, hideright);
+           RESULT = hideExpr;
+        :}
+        |
+</add:zpatt>
         /* schema projection */
         term:lhs ZPROJ:proj term:rhs
         {:
@@ -3817,11 +3832,11 @@ provisoSequent ::=
         ;
 
 proviso ::=
-        jokerExpr:je DEFEQUAL expression:e
+        jokerRefExpr:jre DEFEQUAL expression:e
         {:
            SequentContext sc = factory_.createSequentContext();
-           RESULT = factory_.createCalculateProviso(sc, je, e);
-           addLocAnn(RESULT, jeleft, jeright);
+           RESULT = factory_.createCalculateProviso(sc, jre, e);
+           addLocAnn(RESULT, jreleft, jreright);
         :}
         |
         term:t COLON baseType:bt
@@ -3842,10 +3857,10 @@ proviso ::=
         ;
 
 lookupProviso ::=
-        INSTROKE:is jokerExpr:je DEFEQUAL expression:e
+        INSTROKE:is jokerRefExpr:jre DEFEQUAL expression:e
         {:
            SequentContext sc = factory_.createSequentContext();
-           RESULT = factory_.createLookupConstDeclProviso(sc, je, e);
+           RESULT = factory_.createLookupConstDeclProviso(sc, jre, e);
            addLocAnn(RESULT, isleft, isright);
         :}
         |
@@ -3978,19 +3993,30 @@ varDeclList ::=
         :}        
         ;
 
-jokerExpr ::=
-        JOKEREXPR:je
+jokerRefExpr ::=
+        anyJoker:aj
         {:
-           RESULT = factory_.createJokerExpr(je);
-           addLocAnn(RESULT, jeleft, jeright);
+           RefName rn = factory_.createRefName(aj, list());
+           RESULT = factory_.createRefExpr(rn, list(), Boolean.FALSE);
+           addLocAnn(RESULT, ajleft, ajright);
         :}
+        ;
+
+anyJoker ::=
+        JOKEREXPR:je
+        {: RESULT = je; :}
         |
         JOKERPRED:jp
-        {:
-           //czt.todo: should this be an expression?
-           //RESULT = factory_.createJokerPred(jp);
-           //addLocAnn(RESULT, jpleft, jpright);
-        :}
+        {: RESULT = jp; :}
+        |
+        JOKERNAME:jn
+        {: RESULT = jn; :}
+        |
+        JOKERDECLLIST:jdl
+        {: RESULT = jdl; :}
+        |
+        JOKERTYPE:jt
+        {: RESULT = jt; :}
         ;
 
 </add:zpatt>
@@ -4395,7 +4421,7 @@ opExpr1 ::=
         :}
         |
         /* associative parallel conjunction */
-        opExpr1:lhs ASSOCPARALLEL opExpr1:rhs
+        opExpr1:lhs PARALLEL OUTSTROKE opExpr1:rhs
         {:
            RESULT = factory_.createAssoParallelOpExpr(lhs, rhs);
            addLocAnn(RESULT, lhsleft, lhsright);
