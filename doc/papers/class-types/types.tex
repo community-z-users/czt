@@ -87,10 +87,13 @@ $singleton$, which holds if the supplied set is a singleton set.
 % set containing a single element is called a singleton set.
 
 
-This adds ``$singleton~\_ : [X] \power $ {\tt GENTYPE} $X$ into the
-type environment''. When this name is referenced, the generic
-parameter $X$ is instantiated to be the type of the set parameter. For
-example, in the paragraph:
+This adds ``$singleton~\_ : [X] \power $ {\tt GENTYPE} $X$'' into the
+type environment, in which ``{\tt GENTYPE} $X$'' is the generic
+parameter type, and ``$[X] \power $ {\tt GENTYPE} $X$'' is the generic
+type\footnote{The {\tt GENTYPE} keyword suggests this is the wrong way
+around, but we follow the definition from \ISOZ{10.2}.}. When this
+name is referenced, the generic parameter $X$ is instantiated to be
+the type of the set parameter. For example, in the paragraph:
 \begin{axdef}
   resources : \power Resource
 \where
@@ -124,11 +127,13 @@ their types. The Z type hierarchy can be seen in Figure~\ref{z-types}.
 Extending this type system to include class types is straightforward:
 add a new type {\em ClassType}, which is a subtype of {\em
 Type2}. This {\em ClassType} is used represent the set of object
-identities and the polymorphic core of those identities. For a class
-$A$, the type of the name $A$ introduced into the type environment is
-a power set of the class type representing the objects in
-$A$. Figure~\ref{ClassType.fig} specifies in Object-Z
-the structure of the class type.
+identities and the polymorphic core\footnote{Recall from
+Section~\ref{background} that the polymorphic core is the common
+features of a set of classes.} of those identities. For a class $A$,
+the type of the name $A$ introduced into the type environment is a
+power set of the class type representing the objects in
+$A$. Figure~\ref{ClassType.fig} specifies, in Object-Z, the structure of
+the class type.
 
 \begin{figure}[t]
  \input{fig/ClassType}
@@ -139,13 +144,12 @@ the structure of the class type.
 \vspace{2mm} {\em ClassType} is made up only of a signature called
 the {\em ClassSignature}. Each class signature has 4 features:
 \begin{itemize}
-  \item {\em classRef}: The list of class names and
-    their generic parameter instantiations (empty for
-    generic classes), that make up the core of
-    this class. For example, if we have a class $A$, then for an
-    instance of $A$, $classRef = \{ A \}$. If we have a generic class
-    $B[X]$, then for an instance from the class union $A \classuni
-    B[Resource]$, $classRef = \{ A, B[${\tt GIVEN} $Resource]\}$.
+  \item {\em classRef}: The list of class names and their generic
+    parameter instantiations (empty for non-generic classes), that
+    make up the core of this class. For example, if we have a class
+    $A$, then $classRef = \{ A \}$. If we have a generic class $B[X]$,
+    then for the class union $A \classuni B[Resource]$,
+    $classRef = \{ A, B[${\tt GIVEN} $Resource]\}$.
   \item {\em attribute}: A function of variable names to types that records
     both the local and inherited variable definitions.
   \item {\em state}: A signature contains the declarations made in a

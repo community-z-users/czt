@@ -1,16 +1,19 @@
 \section{Type Inference and Unification}
 \label{inference}
 
-Abstractly, the unification of class types is checking that the
-sets of object identities in the two types intersect, meanwhile
-unifying the types of the variables contained in those identities. For
-example, if we have the object $a \in \poly A$ and the object $b
-\in B$, in which $B$ is a subclass of $A$, the the predicate $a
-= b$ is type correct. This may seem strange because it is possible
-that $a \in A$, but from a specification point of view,
-typechecking is used to eliminate type consistencies to prevent
-meaningless predicates that can never be true. However, the predicate
-$a = b$ can be true if $a \in B$.
+Abstractly, the unification of class types is checking that the sets
+of object identities in the two types intersect, meanwhile unifying
+the types of the variables contained in those identities. For example,
+if we have the object $a \in \poly A$ and the object $b \in B$, in
+which $B$ is a subclass of $A$, the the predicate $a = b$ is type
+correct. This may seem strange because it is possible that $a \in A$,
+and therefore the predicate $a = b$ would be false because the object
+identities of $a$ and $b$ could not be equal if they come from
+different classes.  However, from a specification point of view,
+typechecking is used to eliminate type consistencies in order to
+prevent meaningless predicates that can never be true. Therefore,
+because the predicate $a = b$ can be true if $a \in B$, this is type
+correct.
 
 In this section, we present two unification algorithms. The first has
 a notion of {\em weak} type consistency between class types. That is,
@@ -30,8 +33,8 @@ type of an expression is as yet unknown, and must be
 inferred. These variables are assigned values by via unification. For
 example, if we unify ``$\power$ {\tt GIVEN g}'' with ``$\power \alpha_1$'', in
 which $\alpha_1$ is a type variable, the unification assigns the value
-``{\tt GIVEN g}'' to $\alpha_1$. This variable assignment propogates
-througout the specification, and other types that refer to $\alpha_1$
+``{\tt GIVEN g}'' to $\alpha_1$. This variable assignment propagates
+throughout the specification, and other types that refer to $\alpha_1$
 are also updated.
 
 We extend Spivey's algorithm for unification by including class
@@ -114,8 +117,8 @@ $\alpha$ with a new class type variable $\varclasstype$. A class type
 variable is similar to a type variable, except that is holds a set of
 possible class types. In the case that a variable type is unified with
 a class type, the new class type variable's value is a set containing
-only that class type. If two class types are unified, the two values
-are unioned.
+only that class type. If two class type variables are unified, the two
+values are unioned.
   
 Similarly, if a class signature of one class type is variable, we
 cannot assign the value of the second class signature to this
@@ -126,10 +129,11 @@ Figure~\ref{ClassType.fig}). So, if the class names and instantiation
 of the generic parameters unify, then the signatures must match.
 
 If two class types are unified, the algorithm checks that the set of
-class references in the signatures are intersect using the $intersect$
-function. $intersect$ returns true if and only if there exists a class
-reference in both sets of class references with the same class name,
-and for which each of the instantiated types unify.
+class references in the signatures intersect. This is done by using
+the $intersect$ function, which returns true if and only if
+there exists a class reference in both sets of class references with
+the same class name, and for which each of the instantiated types
+unify.
 
 If any of generic parameters have not been explicitly instantiated,
 that is, their types are variables, then the unification algorithm
@@ -182,7 +186,7 @@ shown in Figure~\ref{equal-classref}.
    & \quad\quad\quad\quad $\#r_1.type = \#r_2.type \land$\\
 % \land r_1.rename = r_2.rename \land$\\
    & \quad\quad\quad\quad $\forall n \in \dom r_1.type @
-       weakUnify(r_1.type(n), r_2.type(n))$
+       strongUnify(r_1.type(n), r_2.type(n))$
 \end{tabular}
 \caption{Function $equal$ used for Strong Type Unification}
 \label{equal-classref}

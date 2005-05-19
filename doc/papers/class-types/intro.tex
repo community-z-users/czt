@@ -19,13 +19,26 @@ extensions, as well as a typechecker for Z. Current development
 includes an editing environment, a Z animator, and of course, an
 Object-Z typechecker.
 
+Typechecking Object-Z is a difficult task, and presents many more
+problems than typechecking standard Z. Object-Z introduces such
+notions as polymorphic types, in which an expression can have one of
+many different subtypes; class unions, which allow the specifier to
+union two classes, thus creating a new type containing two unrelated
+class subtypes; implicit downcasting, in which an object can be
+downcast to one of many subtypes that cannot be determined statically,
+thus making the detection a problem; and feature renaming, which, in
+allowing the specifier to rename operations or attributes in a class,
+create a new interface for a class, but does not create a new class.
+
 In this paper, we present our model of {\em class types}, which are
 used to annotate expressions in an abstract syntax tree of a parsed
 Object-Z specification, and to allow automatic application of type
-rules to find type inconsistencies in specifications. We also present
-two unification algorithms for type inference and determining type
-consistency between two class types. The first enforces a {\em weak}
-form of consistency between two class types, and the second enforces a
-{\em strong} form. Our class type model and unification algorithm
-should be flexible enough to work for other formal object-oriented
-specification languages with type systems similar to Object-Z.
+rules to find type inconsistencies in specifications. This class type
+is flexible enough to solve the problems discussed above. We also
+present two unification algorithms for type inference and determining
+type consistency between two class types. The first enforces a {\em
+weak} form of consistency between two class types, and the second
+enforces a {\em strong} form. Our class type model and unification
+algorithm should be flexible enough to work for other formal
+object-oriented specification languages with type systems similar to
+Object-Z.
