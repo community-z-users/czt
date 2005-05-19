@@ -44,7 +44,7 @@ public interface OzString extends ZString
   String INHERITS = "inherits";
   String SELF = "self";
   String OBJECT = "Object";
-  String ASSOPARALLEL = PARALLEL + SE + OUTSTROKE + NW;
+  String ASSOPARALLEL = PARALLEL + OUTSTROKE;
 }
 <xsl:text>
 </xsl:text>
