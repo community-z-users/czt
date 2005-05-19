@@ -4421,7 +4421,7 @@ opExpr1 ::=
         :}
         |
         /* associative parallel conjunction */
-        opExpr1:lhs PARALLEL OUTSTROKE opExpr1:rhs
+        opExpr1:lhs ASSOPARALLEL opExpr1:rhs
         {:
            RESULT = factory_.createAssoParallelOpExpr(lhs, rhs);
            addLocAnn(RESULT, lhsleft, lhsright);
