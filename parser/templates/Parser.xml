@@ -920,7 +920,7 @@ terminal
 </add:circus>
 <add:oz>
         DELTA, CLASS, STATE, INIT, OPSCH, SDEF,
-        INHERITS, INITWORD, POLY, CONTAINMENT,
+        INITWORD, POLY, CONTAINMENT,
         DCNJ, DGCH, DSQC, PARALLEL, ASSOPARALLEL, GCH, CLASSUNION,
 </add:oz>
 <add:tcoz>
@@ -1337,9 +1337,8 @@ narrSect ::=
 	|
 	narrWordList:nwl
 	{:
-           NarrSect narrSect = factory_.createNarrSect(nwl);
-           addLocAnn(narrSect, nwlleft, nwlright);
-           RESULT = narrSect;
+           RESULT = factory_.createNarrSect(nwl);
+           addLocAnn(RESULT, nwlleft, nwlright);
         :}
         ;
 
@@ -1397,9 +1396,8 @@ section ::=
         sectionHeader:header paragraphList:pl
         {:
            header.getPara().addAll(pl);
-           ZSect zSect = updateZSect(header, opTable_
+           RESULT = updateZSect(header, opTable_
              <add:zpatt>, jokerTable_ </add:zpatt>);
-           RESULT = zSect;
         :}
         ;
 
@@ -1418,9 +1416,8 @@ sectionHeader ::=
              p.add(parent);
            }
 
-           ZSect zSect = createZSect(name, p);
-           addLocAnn(zSect, sleft, sright);
-           RESULT = zSect;
+           RESULT = createZSect(name, p);
+           addLocAnn(RESULT, sleft, sright);
         :}
         ;
 
@@ -1430,7 +1427,7 @@ parents ::=
            RESULT = list();
         :}
         |
-       PARENTS
+        PARENTS
         {:
            RESULT = list();
         :}
@@ -1519,9 +1516,8 @@ boxedParagraph ::=
 narrParagraph ::=
         narrWordList:nwl
         {:
-           NarrPara narrPara = factory_.createNarrPara(nwl);
-           addLocAnn(narrPara, nwlleft, nwlright);
-           RESULT = narrPara;
+           RESULT = factory_.createNarrPara(nwl);
+           addLocAnn(RESULT, nwlleft, nwlright);
         :}
         ;
 
@@ -1575,14 +1571,14 @@ unboxedParagraphItem ::=
         |
         freeTypeList:ftl
         {:
-           FreePara freePara = factory_.createFreePara(ftl);
-           addLocAnn(freePara, ftlleft, ftlright);
-           RESULT = freePara;
+           RESULT = factory_.createFreePara(ftl);
+           addLocAnn(RESULT, ftlleft, ftlright);
         :}
         |
         optFormalParameters:ofp CONJECTURE predicate:p
         {:
            RESULT = factory_.createConjPara(ofp, p);
+           addLocAnn(RESULT, ofpleft, ofpright);
         :}
         |
         operatorTemplate:ot
@@ -1608,34 +1604,30 @@ circusParaItem ::=
 basicTypeDefinition ::= 
         LSQUARE:lsquare nameList:nl RSQUARE
         {:
-           GivenPara givenPara = factory_.createGivenPara(nl);
-           addLocAnn(givenPara, lsquareleft, lsquareright);
-           RESULT = givenPara;
+           RESULT = factory_.createGivenPara(nl);
+           addLocAnn(RESULT, lsquareleft, lsquareright);
         :}
         ;
 
 schema ::=
         SCH:sch name:n schemaText:st END
         {:
-           AxPara axPara = factory_.createSchema(n, list(), st);
-           addLocAnn(axPara, schleft, schright);
-           RESULT = axPara;
+           RESULT = factory_.createSchema(n, list(), st);
+           addLocAnn(RESULT, schleft, schright);
         :}
         |
         GENSCH:gensch name:n optNL formalParameters:fp schemaText:st END
         {:
-           AxPara axPara = factory_.createSchema(n, fp, st);
-           addLocAnn(axPara, genschleft, genschright);
-           RESULT = axPara;
+           RESULT = factory_.createSchema(n, fp, st);
+           addLocAnn(RESULT, genschleft, genschright);
         :}
         ;       
 
 genericAxDefinition ::= 
         GENAX:genax formalParameters:fp schemaText:st END
         {:
-           AxPara axPara = factory_.createAxPara(fp, st, Box.AxBox);
-           addLocAnn(axPara, genaxleft, genaxright);
-           RESULT = axPara;
+           RESULT = factory_.createAxPara(fp, st, Box.AxBox);
+           addLocAnn(RESULT, genaxleft, genaxright);
         :}
         ;
 
@@ -1655,8 +1647,8 @@ formalParameters ::=
 axiomaticDefinition ::= 
         AX:ax schemaText:st END
         {:
-           AxPara axPara = factory_.createAxPara(null, st, Box.AxBox);
-           RESULT = axPara;
+           RESULT = factory_.createAxPara(null, st, Box.AxBox);
+           addLocAnn(RESULT, axleft, axright);
         :}
         ;
 
@@ -1669,7 +1661,8 @@ abbreviationDefinition ::=
            addLocAnn(cd, equalleft, equalright);
            SchText st = factory_.createSchText(list(cd), null);
            addLocAnn(st, dnleft, dnright);
-           RESULT = factory_.createAxPara(null, st, Box.OmitBox);      
+           RESULT = factory_.createAxPara(null, st, Box.OmitBox);
+           addLocAnn(RESULT, dnleft, dnright);
         :}
         |
         //TODO: check this. Should be name:n, but the toolkit won't parse
@@ -1681,6 +1674,7 @@ abbreviationDefinition ::=
            SchText st = factory_.createSchText(list(cd), null);
            addLocAnn(st, dnleft, dnright);
            RESULT = factory_.createAxPara(fp, st, Box.OmitBox);
+           addLocAnn(RESULT, dnleft, dnright);
         :}
         |
         genName:gn DEFEQUAL:equal expression:e
@@ -1690,9 +1684,8 @@ abbreviationDefinition ::=
            ConstDecl cd = factory_.createConstDecl(dn, e);
            addLocAnn(cd, equalleft, equalright);
            SchText st = factory_.createSchText(list(cd), null);
-           AxPara axPara = factory_.createAxPara(fp, st, Box.OmitBox);
-           addLocAnn(axPara, gnleft, gnright);
-           RESULT = axPara;
+           RESULT = factory_.createAxPara(fp, st, Box.OmitBox);
+           addLocAnn(RESULT, gnleft, gnright);
         :}
         ;
 
@@ -1712,9 +1705,8 @@ freeTypeList ::=
 freeTypeDefinition ::=
         name:n DEFFREE:deffree branchList:bl
         {:
-           Freetype freetype = factory_.createFreetype(n, bl);
-           addLocAnn(freetype, deffreeleft, deffreeright);
-           RESULT = freetype;
+           RESULT = factory_.createFreetype(n, bl);
+           addLocAnn(RESULT, deffreeleft, deffreeright);
         :}
         ;
 
@@ -1733,16 +1725,14 @@ branchList ::=
 branch ::=
         declName:dn
         {:
-           Branch branch = factory_.createBranch(dn, null);
-           addLocAnn(branch, dnleft, dnright);
-           RESULT = branch;
+           RESULT = factory_.createBranch(dn, null);
+           addLocAnn(RESULT, dnleft, dnright);
         :}
         |
         declName:dn LDATA expression:e RDATA
         {:
-           Branch branch = factory_.createBranch(dn, e);
-           addLocAnn(branch, dnleft, dnright);
-           RESULT = branch;
+           RESULT = factory_.createBranch(dn, e);
+           addLocAnn(RESULT, dnleft, dnright);
         :}
         ;
 
@@ -1762,12 +1752,10 @@ narrWordList ::=
 operatorTemplate ::=
         RELATION:rel template:t
         {:
-           OptempPara otp =
-             factory_.createOptempPara();
-           otp.getOper().addAll(t);
-           otp.setCat(Cat.Relation);
-           addLocAnn(otp, relleft, relright);
-           RESULT = otp;
+           RESULT = factory_.createOptempPara();
+           RESULT.getOper().addAll(t);
+           RESULT.setCat(Cat.Relation);
+           addLocAnn(RESULT, relleft, relright);
         :}
         |
         FUNCTION:fun catTemplate:ct
@@ -1803,32 +1791,28 @@ template ::=
 catTemplate ::=
         prefixTemplate:pt
         {: 
-           OptempPara otp = factory_.createOptempPara();
-           otp.getOper().addAll(pt);
-           RESULT = otp;
+           RESULT = factory_.createOptempPara();
+           RESULT.getOper().addAll(pt);
         :}
         |
         postfixTemplate:pt
         {: 
-           OptempPara otp = factory_.createOptempPara();
-           otp.getOper().addAll(pt);
-           RESULT = otp;
+           RESULT = factory_.createOptempPara();
+           RESULT.getOper().addAll(pt);
         :}
         |
         NUMERAL:pr assoc:a infixTemplate:it
         {:
-           OptempPara otp = factory_.createOptempPara();
-           otp.setPrec(pr);
-           otp.getOper().addAll(it);
-           otp.setAssoc(a);
-           RESULT = otp;
+           RESULT = factory_.createOptempPara();
+           RESULT.setPrec(pr);
+           RESULT.getOper().addAll(it);
+           RESULT.setAssoc(a);
         :}
         |
         nofixTemplate:nt
         {:
-           OptempPara otp = factory_.createOptempPara();
-           otp.getOper().addAll(nt);
-           RESULT = otp;
+           RESULT = factory_.createOptempPara();
+           RESULT.getOper().addAll(nt);
         :}
         ;
 
@@ -1852,8 +1836,7 @@ prefixTemplate ::=
 	|
 	LPAREN POWER:p varg:v RPAREN
 	{:
-           List l = list(createOperator(ZString.POWER, pleft, pright), v);
-           RESULT = l;
+           RESULT = list(createOperator(ZString.POWER, pleft, pright), v);
 	:}
         ;
 
@@ -1911,18 +1894,12 @@ templateTag ::=
         {: RESULT = v; :}
         |
         LISTARG:listarg
-        {:
-           Operand operand = factory_.createOperand(Boolean.TRUE);
-           RESULT = operand;
-        :}
+        {: RESULT = factory_.createOperand(Boolean.TRUE); :}
         ;
 
 varg ::=
         ARG:arg
-        {:
-           Operand operand = factory_.createOperand(Boolean.FALSE);
-           RESULT = operand;
-        :}
+        {: RESULT = factory_.createOperand(Boolean.FALSE); :}
         ;
 
 <add:circus>   
@@ -1931,8 +1908,8 @@ varg ::=
 channelPara ::= 
         CIRCCHAN:chan declPart:dp
         {:  
-            RESULT = factory_.createChannelPara(dp); 
-            addLocAnn(RESULT, chanleft, chanright);
+           RESULT = factory_.createChannelPara(dp); 
+           addLocAnn(RESULT, chanleft, chanright);
         :}                
         ;
 </add:circus>     
@@ -1997,9 +1974,7 @@ basicDeclaration ::=
 <add:circus>
         |
         declWordList:dwl
-        {:                      
-           RESULT = factory_.createVarDecl(dwl, null);
-        :}
+        {: RESULT = factory_.createVarDecl(dwl, null); :}
 </add:circus>
 <add:zpatt>
         |
@@ -2014,9 +1989,8 @@ basicDeclaration ::=
 varDecl ::= 
         declWordList:dwl COLON:colon expression:e
         {:
-           VarDecl varDecl = factory_.createVarDecl(dwl, e);
-           addLocAnn(varDecl, colonleft, colonright);
-           RESULT = varDecl;
+           RESULT = factory_.createVarDecl(dwl, e);
+           addLocAnn(RESULT, colonleft, colonright);
         :}
 <add:zpatt>
         |
@@ -2032,9 +2006,8 @@ varDecl ::=
 constDecl ::= 
         declName:dn DEFEQUAL:defequal expression:e
         {:
-           ConstDecl constDecl = factory_.createConstDecl(dn, e);
-           addLocAnn(constDecl, defequalleft, defequalright);
-           RESULT = constDecl;
+           RESULT = factory_.createConstDecl(dn, e);
+           addLocAnn(RESULT, defequalleft, defequalright);
         :}
 <add:zpatt>
         |
@@ -2080,18 +2053,16 @@ name ::=
         DECORWORD:dw
         {:
            checkName(dw, dwleft, dwright);
-           DeclName dn = factory_.createDeclName(dw);
-           addLocAnn(dn, dwleft, dwright);
-           RESULT = dn;
+           RESULT = factory_.createDeclName(dw);
+           addLocAnn(RESULT, dwleft, dwright);
         :}
 <add:oz>
         |
         DEFNAME:dfn
         {:
            checkName(dfn, dfnleft, dfnright);
-           DeclName dn = factory_.createDeclName(dfn);
-           addLocAnn(dn, dfnleft, dfnright);
-           RESULT = dn;
+           RESULT = factory_.createDeclName(dfn);
+           addLocAnn(RESULT, dfnleft, dfnright);
         :}
 </add:oz>
         ;
@@ -2204,25 +2175,22 @@ declName ::=
         DECORWORD:dw
         {:
            checkName(dw, dwleft, dwright);
-           DeclName dn = factory_.createDeclName(dw);
-           addLocAnn(dn, dwleft, dwright);
-           RESULT = dn;
+           RESULT = factory_.createDeclName(dw);
+           addLocAnn(RESULT, dwleft, dwright);
         :}
         |
         opName:on
         {:
-           DeclName dn = strListToDeclName(on);
-           addLocAnn(dn, onleft, onright);
-           RESULT = dn;
+           RESULT = strListToDeclName(on);
+           addLocAnn(RESULT, onleft, onright);
         :}
 <add:oz>
         |
         DEFNAME:dfn
         {:
            checkName(dfn, dfnleft, dfnright);
-           DeclName dn = factory_.createDeclName(dfn);
-           addLocAnn(dn, dfnleft, dfnright);
-           RESULT = dn;
+           RESULT = factory_.createDeclName(dfn);
+           addLocAnn(RESULT, dfnleft, dfnright);
         :}
 </add:oz>
         ;
@@ -2269,29 +2237,26 @@ refName ::=
         DECORWORD:dw
         {:
            checkName(dw, dwleft, dwright);
-           RefName rn = factory_.createRefName(dw);
-           addLocAnn(rn, dwleft, dwright);
-           RESULT = rn;
+           RESULT = factory_.createRefName(dw);
+           addLocAnn(RESULT, dwleft, dwright);
         :}        
         <add:oz>
         |
         INITWORD:iw
         {:
-           RefName rn = factory_.createRefName(OzString.INITWORD);
-           addLocAnn(rn, iwleft, iwright);
-           RESULT = rn;
+           RESULT = factory_.createRefName(OzString.INITWORD);
+           addLocAnn(RESULT, iwleft, iwright);
         :}
         </add:oz>
         |
         LPAREN opName:on RPAREN
         {:
            DeclName declName = strListToDeclName(on);
-           RefName rn = factory_.createRefName(declName.getWord(),
-                                               declName.getStroke(),
-                                               null);
-           rn.getAnns().add(factory_.createParenAnn());
-           addLocAnn(rn, onleft, onright);
-           RESULT = rn;
+           RESULT = factory_.createRefName(declName.getWord(),
+                                           declName.getStroke(),
+                                           null);
+           RESULT.getAnns().add(factory_.createParenAnn());
+           addLocAnn(RESULT, onleft, onright);
         :}
         ;
 
@@ -2319,20 +2284,18 @@ prefixName ::=
         |
         L:l optVargEsSsList:ouesl argEreOrSre:aeos varg
         {: 
-           List pName = list(l);
-           pName.addAll(ouesl);
-           pName.addAll(aeos);
-           pName.add(ARG_TOK);
-           RESULT = pName;
+           RESULT = list(l);
+           RESULT.addAll(ouesl);
+           RESULT.addAll(aeos);
+           RESULT.add(ARG_TOK);
         :}
         |
         LP:lp optVargEsSsList:ouesl argErepOrSrep:aeos varg
         {: 
-           List pName = list(lp);
-           pName.addAll(ouesl);
-           pName.addAll(aeos);
-           pName.add(ARG_TOK);
-           RESULT = pName;
+           RESULT = list(lp);
+           RESULT.addAll(ouesl);
+           RESULT.addAll(aeos);
+           RESULT.add(ARG_TOK);
         :}
         ;
 
@@ -2345,20 +2308,18 @@ postfixName ::=
         |
         varg EL:el optVargEsSsList:ouesl argErOrSr:aeos
         {:
-           List pName = list(ARG_TOK);
-           pName.add(el);
-           pName.addAll(ouesl);
-           pName.addAll(aeos);
-           RESULT = pName;
+           RESULT = list(ARG_TOK);
+           RESULT.add(el);
+           RESULT.addAll(ouesl);
+           RESULT.addAll(aeos);
         :}
         |
         varg ELP:elp optVargEsSsList:ouesl argErpOrSrp:aeos
         {:
-           List pName = list(ARG_TOK);
-           pName.add(elp);
-           pName.addAll(ouesl);
-           pName.addAll(aeos);
-           RESULT = pName;
+           RESULT = list(ARG_TOK);
+           RESULT.add(elp);
+           RESULT.addAll(ouesl);
+           RESULT.addAll(aeos);
         :}
         ;
 
@@ -2366,56 +2327,50 @@ postfixName ::=
 infixName ::=
         varg I:i varg
         {:
-           List iName = list(ARG_TOK);
-           iName.add(i);
-           iName.add(ARG_TOK);
-           RESULT = iName;
+           RESULT = list(ARG_TOK);
+           RESULT.add(i);
+           RESULT.add(ARG_TOK);
         :}
         |
         varg IP:ip varg
         {:
-           List iName = list(ARG_TOK);
-           iName.add(ip);
-           iName.add(ARG_TOK);
-           RESULT = iName;
+           RESULT = list(ARG_TOK);
+           RESULT.add(ip);
+           RESULT.add(ARG_TOK);
         :}
         |
         varg EL:el optVargEsSsList:ouesl argEreOrSre:aeos varg
         {:
-           List iName = list(ARG_TOK);
-           iName.add(el);
-           iName.addAll(ouesl);
-           iName.addAll(aeos);
-           iName.add(ARG_TOK);
-           RESULT = iName;
+           RESULT = list(ARG_TOK);
+           RESULT.add(el);
+           RESULT.addAll(ouesl);
+           RESULT.addAll(aeos);
+           RESULT.add(ARG_TOK);
         :}
         |
         varg ELP:elp optVargEsSsList:ouesl argErepOrSrep:aeos varg
         {:
-           List iName = list(ARG_TOK);
-           iName.add(elp);
-           iName.addAll(ouesl);
-           iName.addAll(aeos);
-           iName.add(ARG_TOK);
-           RESULT = iName;
+           RESULT = list(ARG_TOK);
+           RESULT.add(elp);
+           RESULT.addAll(ouesl);
+           RESULT.addAll(aeos);
+           RESULT.add(ARG_TOK);
         :}
         ;
 
 nofixName ::=
         L:l optVargEsSsList:ouesl argErOrSr:aeos
         {:
-           List nName = list(l);
-           nName.addAll(ouesl);
-           nName.addAll(aeos);
-           RESULT = nName;
+           RESULT = list(l);
+           RESULT.addAll(ouesl);
+           RESULT.addAll(aeos);
         :}
         |
         LP:lp optVargEsSsList:ouesl argErpOrSrp:aeos
         {:
-           List nName = list(lp);
-           nName.addAll(ouesl);
-           nName.addAll(aeos);
-           RESULT = nName;
+           RESULT = list(lp);
+           RESULT.addAll(ouesl);
+           RESULT.addAll(aeos);
         :}
         ;
 
@@ -2653,9 +2608,8 @@ erOrSr ::=
 predicate ::=
         predicate:lhs sep:s term:rhs
         {:
-           AndPred andPred = factory_.createAndPred(lhs, pred(rhs), s);
-           addLocAnn(andPred, sleft, sright);
-           RESULT = andPred;
+           RESULT = factory_.createAndPred(lhs, pred(rhs), s);
+           addLocAnn(RESULT, sleft, sright);
         :}
         |
         term:p
@@ -2672,9 +2626,8 @@ expression ::=
 septerm ::=
         septerm:lhs sep:s term:rhs
         {:
-           AndPred andPred = factory_.createAndPred(pred(lhs), pred(rhs), s);
-           addLocAnn(andPred, sleft, sright);
-           RESULT = andPred;
+           RESULT = factory_.createAndPred(pred(lhs), pred(rhs), s);
+           addLocAnn(RESULT, sleft, sright);
         :}
 	|
 	term:t
@@ -2685,181 +2638,147 @@ term ::=
         /* conditional */
         IF:i predicate:p THEN term:te ELSE term:fe
         {:
-           CondExpr condExpr = factory_.createCondExpr(p, expr(te), expr(fe));
-           addLocAnn(condExpr, ileft, iright);
-           RESULT = condExpr;
+           RESULT = factory_.createCondExpr(p, expr(te), expr(fe));
+           addLocAnn(RESULT, ileft, iright);
         :}
         |
         /* (schema) universal quantification */
         ALL:all schemaText:st SPOT term:t
         {: 
            if (t instanceof Expr) {
-             ForallExpr forallExpr = factory_.createForallExpr(st, expr(t));
-             addLocAnn(forallExpr, allleft, allright);
-             RESULT = forallExpr;
+             RESULT = factory_.createForallExpr(st, expr(t));
            }
            else {
-             ForallPred forallPred = factory_.createForallPred(st, pred(t));
-             addLocAnn(forallPred, allleft, allright);
-             RESULT = forallPred;
+             RESULT = factory_.createForallPred(st, pred(t));
            }
+           addLocAnn(RESULT, allleft, allright);
         :}
         |
         /* (schema) existential quantification */
         EXI:exi schemaText:st SPOT term:t
         {:
            if (t instanceof Expr) {
-             ExistsExpr existsExpr = factory_.createExistsExpr(st, expr(t));
-             addLocAnn(existsExpr, exileft, exiright);
-             RESULT = existsExpr;
+             RESULT = factory_.createExistsExpr(st, expr(t));
            }
            else {
-             ExistsPred existsPred = factory_.createExistsPred(st, pred(t));
-             addLocAnn(existsPred, exileft, exiright);
-             RESULT = existsPred;
+             RESULT = factory_.createExistsPred(st, pred(t));
            }
+           addLocAnn(RESULT, exileft, exiright);
         :}
         |
         /* (schema) unique existential quantification */
         EXIONE:exione schemaText:st SPOT term:t
         {: 
            if (t instanceof Expr) {
-             Exists1Expr exists1Expr = factory_.createExists1Expr(st, expr(t));
-             addLocAnn(exists1Expr, exioneleft, exioneright);
-             RESULT = exists1Expr;
+             RESULT = factory_.createExists1Expr(st, expr(t));
            }
            else {
-             Exists1Pred exists1Pred = factory_.createExists1Pred(st, pred(t));
-             addLocAnn(exists1Pred, exioneleft, exioneright);
-             RESULT = exists1Pred;
+             RESULT = factory_.createExists1Pred(st, pred(t));
            }
+           addLocAnn(RESULT, exioneleft, exioneright);
         :}
         |
         /* function construction */
         LAMBDA:lambda schemaText:st SPOT term:t
         {:
-           LambdaExpr lambdaExpr = factory_.createLambdaExpr(st, expr(t));
-           addLocAnn(lambdaExpr, lambdaleft, lambdaright);
-           RESULT = lambdaExpr;
+           RESULT = factory_.createLambdaExpr(st, expr(t));
+           addLocAnn(RESULT, lambdaleft, lambdaright);
         :} %prec LAMBDA
         |
         /* definite description */
         MU:mu schemaText:st SPOT term:t
         {:
-           MuExpr muExpr = factory_.createMuExpr(st, expr(t));
-           addLocAnn(muExpr, muleft, muright);
-           RESULT = muExpr;
+           RESULT = factory_.createMuExpr(st, expr(t));
+           addLocAnn(RESULT, muleft, muright);
         :} %prec MU
         |
         /* substitution expression */
         LET:let letDefinitionList:ldl SPOT term:t 
         {: 
            SchText st = factory_.createSchText(ldl, null);
-           LetExpr letExpr = factory_.createLetExpr(st, expr(t));
-           addLocAnn(letExpr, letleft, letright);
-           RESULT = letExpr;
+           RESULT = factory_.createLetExpr(st, expr(t));
+           addLocAnn(RESULT, letleft, letright);
         :} %prec LET
         |
         /* (schema) equivalence */
         term:lhs IFF:iff term:rhs
         {:
           if (lhs instanceof Expr &amp;&amp; rhs instanceof Expr) {
-            IffExpr iffExpr = factory_.createIffExpr(expr(lhs), expr(rhs));
-            addLocAnn(iffExpr, iffleft, iffright);
-            RESULT = iffExpr;
+            RESULT = factory_.createIffExpr(expr(lhs), expr(rhs));
           }
           else {
-            IffPred iffPred = factory_.createIffPred(pred(lhs), pred(rhs));
-            addLocAnn(iffPred, iffleft, iffright);
-            RESULT = iffPred;
+            RESULT = factory_.createIffPred(pred(lhs), pred(rhs));
           }
+          addLocAnn(RESULT, iffleft, iffright);
         :}
         |
         /* (schema) implication */
         term:lhs IMP:imp term:rhs
         {:
           if (lhs instanceof Expr &amp;&amp; rhs instanceof Expr) {
-            ImpliesExpr impliesExpr =
-              factory_.createImpliesExpr(expr(lhs), expr(rhs));
-            addLocAnn(impliesExpr, impleft, impright);
-            RESULT = impliesExpr;
+            RESULT = factory_.createImpliesExpr(expr(lhs), expr(rhs));
           }
           else {
-            ImpliesPred impliesPred =
-              factory_.createImpliesPred(pred(lhs), pred(rhs));
-            addLocAnn(impliesPred, impleft, impright);
-            RESULT = impliesPred;
+            RESULT = factory_.createImpliesPred(pred(lhs), pred(rhs));
           }
+          addLocAnn(RESULT, impleft, impright);
         :}
         |
         /* (schema) disjunction */
         term:lhs OR:or term:rhs
         {:
           if (lhs instanceof Expr &amp;&amp; rhs instanceof Expr) {
-            OrExpr orExpr = factory_.createOrExpr(expr(lhs), expr(rhs));
-            addLocAnn(orExpr, orleft, orright);
-            RESULT = orExpr;
+            RESULT = factory_.createOrExpr(expr(lhs), expr(rhs));
           }
           else {
-            OrPred orPred = factory_.createOrPred(pred(lhs), pred(rhs));
-            addLocAnn(orPred, orleft, orright);
-            RESULT = orPred;
+            RESULT = factory_.createOrPred(pred(lhs), pred(rhs));
           }
+          addLocAnn(RESULT, orleft, orright);
         :}
         |
         /* (schema) conjunction */
         term:lhs AND:and term:rhs
         {:
           if (lhs instanceof Expr &amp;&amp; rhs instanceof Expr) {
-            AndExpr andExpr = factory_.createAndExpr(expr(lhs), expr(rhs));
-            addLocAnn(andExpr, andleft, andright);
-            RESULT = andExpr;
+            RESULT = factory_.createAndExpr(expr(lhs), expr(rhs));
           }
           else {
-            AndPred andPred =
-              factory_.createAndPred(pred(lhs), pred(rhs), Op.And);
-            addLocAnn(andPred, andleft, andright);
-            RESULT = andPred;
+            RESULT = factory_.createAndPred(pred(lhs), pred(rhs), Op.And);
           }
+          addLocAnn(RESULT, andleft, andright);
         :}
         |
         /* (schema) negation */
         NOT:not term:t
         {:
           if (t instanceof Expr) {
-            NegExpr negExpr = factory_.createNegExpr(expr(t));
-            addLocAnn(negExpr, notleft, notright);
-            RESULT = negExpr;
+            RESULT = factory_.createNegExpr(expr(t));
           }
           else {
-            NegPred negPred = factory_.createNegPred(pred(t));
-            addLocAnn(negPred, notleft, notright);
-            RESULT = negPred;
+            RESULT = factory_.createNegPred(pred(t));
           }
+          addLocAnn(RESULT, notleft, notright);
         :}
         |
         /* schema composition */
         term:lhs ZCOMP:comp term:rhs
         {:
-           CompExpr compExpr = factory_.createCompExpr(expr(lhs), expr(rhs));
-           addLocAnn(compExpr, compleft, compright);
-           RESULT = compExpr;
+           RESULT = factory_.createCompExpr(expr(lhs), expr(rhs));
+           addLocAnn(RESULT, compleft, compright);
         :}
         |
         /* schema piping */
         term:lhs ZPIPE:pipe term:rhs
         {:
-           PipeExpr pipeExpr = factory_.createPipeExpr(expr(lhs), expr(rhs));
-           addLocAnn(pipeExpr, pipeleft, piperight);
-           RESULT = pipeExpr;
+           RESULT = factory_.createPipeExpr(expr(lhs), expr(rhs));
+           addLocAnn(RESULT, pipeleft, piperight);
         :}
         |
         /* schema hiding */
         term:t ZHIDE:hide LPAREN refNameList:rnl RPAREN
         {:
-           HideExpr hideExpr = factory_.createHideExpr(expr(t), rnl);
-           addLocAnn(hideExpr, hideleft, hideright);
-           RESULT = hideExpr;
+           RESULT = factory_.createHideExpr(expr(t), rnl);
+           addLocAnn(RESULT, hideleft, hideright);
         :}
         |
 <add:zpatt>
@@ -2868,42 +2787,37 @@ term ::=
         {:
            RefName rn = factory_.createRefName(jnl, list());
            List rnl = list(rn);
-           HideExpr hideExpr = factory_.createHideExpr(expr(t), rnl);
-           addLocAnn(hideExpr, hideleft, hideright);
-           RESULT = hideExpr;
+           RESULT = factory_.createHideExpr(expr(t), rnl);
+           addLocAnn(RESULT, hideleft, hideright);
         :}
         |
 </add:zpatt>
         /* schema projection */
         term:lhs ZPROJ:proj term:rhs
         {:
-           ProjExpr projExpr = factory_.createProjExpr(expr(lhs), expr(rhs));
-           addLocAnn(projExpr, projleft, projright);
-           RESULT = projExpr;
+           RESULT = factory_.createProjExpr(expr(lhs), expr(rhs));
+           addLocAnn(RESULT, projleft, projright);
         :}
         |
         /* schema precondition */
         ZPRE:pre term:t
         {:
-           PreExpr preExpr = factory_.createPreExpr(expr(t));
-           addLocAnn(preExpr, preleft, preright);
-           RESULT = preExpr;
+           RESULT = factory_.createPreExpr(expr(t));
+           addLocAnn(RESULT, preleft, preright);
         :}
         |
         /* powerset */
         POWER:power term:t
         {:
-           PowerExpr powerExpr = factory_.createPowerExpr(expr(t));
-           addLocAnn(powerExpr, powerleft, powerright);
-           RESULT = powerExpr;
+           RESULT = factory_.createPowerExpr(expr(t));
+           addLocAnn(RESULT, powerleft, powerright);
         :}
         |
         /* Cartesian product */
         prodExpressionList:pel
         {:
-           ProdExpr prodExpr = factory_.createProdExpr(pel);
-           addLocAnn(prodExpr, pelleft, pelright);
-           RESULT = prodExpr;
+           RESULT = factory_.createProdExpr(pel);
+           addLocAnn(RESULT, pelleft, pelright);
         :}
         |
         /* relation operator application */
@@ -2945,10 +2859,8 @@ term ::=
 func_appl ::=
         func_appl:fa inner_term:it
         {:
-           ApplExpr applExpr =
-             factory_.createApplExpr(expr(fa), expr(it), Boolean.FALSE);
-           addLocAnn(applExpr, faleft, itright);
-           RESULT = applExpr;
+           RESULT = factory_.createApplExpr(expr(fa), expr(it), Boolean.FALSE);
+           addLocAnn(RESULT, faleft, itright);
         :} %prec _APPLICATION
         |
         inner_term:it
@@ -2959,42 +2871,37 @@ inner_term ::=
         /* set extension */
         LBRACE:lbrace optExpressionList:oel RBRACE
         {:
-           SetExpr setExpr = factory_.createSetExpr(oel);
-           addLocAnn(setExpr, lbraceleft, lbraceright);
-           RESULT = setExpr;
+           RESULT = factory_.createSetExpr(oel);
+           addLocAnn(RESULT, lbraceleft, lbraceright);
         :}
         |
         /* set comprehension */
         LBRACE:lbrace schemaText:st SPOT expression:e RBRACE
         {:
-           SetCompExpr setCompExpr = factory_.createSetCompExpr(st, e);
-           addLocAnn(setCompExpr, lbraceleft, lbraceright);
-           RESULT = setCompExpr;
+           RESULT = factory_.createSetCompExpr(st, e);
+           addLocAnn(RESULT, lbraceleft, lbraceright);
         :}
 	|
         /*  characteristic set comprehension */
         LBRACE:lbrace schemaTextNoExpression:stne RBRACE
         {:
-           SetCompExpr setCompExpr = factory_.createSetCompExpr(stne, null);
-           addLocAnn(setCompExpr, lbraceleft, lbraceright);
-           RESULT = setCompExpr;
+           RESULT = factory_.createSetCompExpr(stne, null);
+           addLocAnn(RESULT, lbraceleft, lbraceright);
         :}
 	|
         /* tuple extension */
         LPAREN:lparen expressionList:el COMMA expression:e RPAREN
         {: 
            el.add(e);
-           TupleExpr tupleExpr = factory_.createTupleExpr(el);
-           addLocAnn(tupleExpr, lparenleft, lparenright);
-           RESULT = tupleExpr;
+           RESULT = factory_.createTupleExpr(el);
+           addLocAnn(RESULT, lparenleft, lparenright);
         :}
         |
         /* characteristic definite description */
         LPAREN MU schemaText:st RPAREN
         {:
-           MuExpr me = factory_.createMuExpr(st, null);
-           me.getAnns().add(factory_.createParenAnn());
-           RESULT = me;
+           RESULT = factory_.createMuExpr(st, null);
+           RESULT.getAnns().add(factory_.createParenAnn());
         :}
         |
         nofixRel:nfr
@@ -3006,9 +2913,8 @@ inner_term ::=
         /* binding extension */
         LBIND:lbind optNameExprPairList:onepl RBIND
         {:
-           BindExpr bindExpr = factory_.createBindExpr(onepl);
-           addLocAnn(bindExpr, lbindleft, lbindright);
-           RESULT = bindExpr;
+           RESULT = factory_.createBindExpr(onepl);
+           addLocAnn(RESULT, lbindleft, lbindright);
         :}
         |
         /* schema construction */
@@ -3021,26 +2927,22 @@ inner_term ::=
         /* binding selection */
         inner_term:it DOT:dot refName:rn
         {:
-           BindSelExpr bindSelExpr = factory_.createBindSelExpr(expr(it), rn);
-           addLocAnn(bindSelExpr, dotleft, dotright);
-           RESULT = bindSelExpr;
+           RESULT = factory_.createBindSelExpr(expr(it), rn);
+           addLocAnn(RESULT, dotleft, dotright);
         :}
         |
         /* tuple selection */
         inner_term:it DOT:dot NUMERAL:n
         {:
-           TupleSelExpr tupleSelExpr =
-             factory_.createTupleSelExpr(expr(it), n);
-           addLocAnn(tupleSelExpr, dotleft, dotright);
-           RESULT = tupleSelExpr;
+           RESULT = factory_.createTupleSelExpr(expr(it), n);
+           addLocAnn(RESULT, dotleft, dotright);
         :}
         |
         /* schema decoration */
         inner_term:it stroke:s
         {:
-           DecorExpr decorExpr = factory_.createDecorExpr(expr(it), s);
-           addLocAnn(decorExpr, itleft, itright);
-           RESULT = decorExpr;
+           RESULT = factory_.createDecorExpr(expr(it), s);
+           addLocAnn(RESULT, itleft, itright);
         :}
         |
         /* binding construction */
@@ -3052,9 +2954,8 @@ inner_term ::=
              sl.add(0, s);
              it = de.getExpr();
            }
-           ThetaExpr thetaExpr = factory_.createThetaExpr(expr(it), sl);
-           addLocAnn(thetaExpr, thetaleft, thetaright);
-           RESULT = thetaExpr;
+           RESULT = factory_.createThetaExpr(expr(it), sl);
+           addLocAnn(RESULT, thetaleft, thetaright);
         :}
         |
         /* function application with schema expr as argument */
@@ -3071,27 +2972,22 @@ inner_term ::=
            rename expressions fail to parse. */
         inner_term:it LSQUARE expressionList:el RSQUARE
         {:
-           RefExpr refExpr =
-             factory_.createRefExpr(refname(it), el, Boolean.FALSE);
-           addLocAnn(refExpr, itleft, itright);
-           RESULT = refExpr;
+           RESULT = factory_.createRefExpr(refname(it), el, Boolean.FALSE);
+           addLocAnn(RESULT, itleft, itright);
         :}
         |
         /* schema renaming */
         inner_term:it LSQUARE renameList:rnl RSQUARE
         {:
-           RenameExpr renameExpr = factory_.createRenameExpr(expr(it), rnl);
-           addLocAnn(renameExpr, itleft, itright);
-           RESULT = renameExpr;
+           RESULT = factory_.createRenameExpr(expr(it), rnl);
+           addLocAnn(RESULT, itleft, itright);
         :} %prec _RENAME
         |
         /* number literal */
         NUMERAL:n
         {:
-           NumExpr numExpr =
-             factory_.createNumExpr(new BigInteger(n.toString()));
-           addLocAnn(numExpr, nleft, nright);
-           RESULT = numExpr;
+           RESULT = factory_.createNumExpr(new BigInteger(n.toString()));
+           addLocAnn(RESULT, nleft, nright);
         :}
         |
         /* parenthesized expression/predicate */
@@ -3104,25 +3000,22 @@ inner_term ::=
         /* reference */
         refName:rn
         {:
-           RefExpr refExpr = factory_.createRefExpr(rn);
-           addLocAnn(refExpr, rnleft, rnright);
-           RESULT = refExpr;
+           RESULT = factory_.createRefExpr(rn);
+           addLocAnn(RESULT, rnleft, rnright);
         :}
         |
         /* truth */
         TRUE:t
         {:
-           TruePred truePred = factory_.createTruePred();
-           addLocAnn(truePred, tright, tleft);
-           RESULT = truePred;
+           RESULT = factory_.createTruePred();
+           addLocAnn(RESULT, tright, tleft);
         :}
         |
         /* falsity */
         FALSE:f
         {:
-           FalsePred falsePred = factory_.createFalsePred();
-           addLocAnn(falsePred, fleft, fright);
-           RESULT = falsePred;
+           RESULT = factory_.createFalsePred();
+           addLocAnn(RESULT, fleft, fright);
         :}
 <add:zpatt>
         |
@@ -3223,9 +3116,8 @@ letDefinitionList ::=
 letDefinition ::=
         declName:n DEFEQUAL:defequal expression:e
         {:
-           ConstDecl constDecl = factory_.createConstDecl(n,e);
-           addLocAnn(constDecl, defequalleft, defequalright);
-           RESULT = constDecl;
+           RESULT = factory_.createConstDecl(n,e);
+           addLocAnn(RESULT, defequalleft, defequalright);
         :}
         ;
 
@@ -3291,10 +3183,8 @@ prefixRel ::=
         {:
            List opName = list(p);
            opName.add(ARG_TOK);
-           MemPred memPred = localCreateMemPred(opName, list(expr(t)),
-                                                pleft, pright);
-           addLocAnn(memPred, pleft, pright);
-           RESULT = memPred;
+           RESULT = localCreateMemPred(opName, list(expr(t)), pleft, pright);
+           addLocAnn(RESULT, pleft, pright);
         :}
         |
         LP:lp expSep:es term:t1 EREP:erep term:t2
@@ -3308,10 +3198,8 @@ prefixRel ::=
            addExpSepExp(expList, es);
            expList.add(expr(t1));
            expList.add(expr(t2));
-           MemPred memPred = localCreateMemPred(opName, expList,
-                                                lpleft, lpright);
-           addLocAnn(memPred, lpleft, lpright);
-           RESULT = memPred;
+           RESULT = localCreateMemPred(opName, expList, lpleft, lpright);
+           addLocAnn(RESULT, lpleft, lpright);
         :}
         |
         LP:lp expSep:es optExpressionList:oel SREP:srep term:t
@@ -3327,20 +3215,16 @@ prefixRel ::=
            addLocAnn(seq, oelleft, oelright);
            expList.add(seq);
            expList.add(expr(t));
-           MemPred memPred = localCreateMemPred(opName, expList,
-                                                lpleft, lpright);
-           addLocAnn(memPred, lpleft, lpright);
-           RESULT = memPred;
+           RESULT = localCreateMemPred(opName, expList, lpleft, lpright);
+           addLocAnn(RESULT, lpleft, lpright);
         :}
         ;
 
 postfixRel ::=
         term:t POSTP:p
         {:
-           MemPred memPred = localCreateMemPred(list(p), list(expr(t)),
-                                                tleft, tright);
-           addLocAnn(memPred, pleft, pright);
-           RESULT = memPred;
+           RESULT = localCreateMemPred(list(p), list(expr(t)), tleft, tright);
+           addLocAnn(RESULT, pleft, pright);
         :}
         |
         term:t1 ELP:elp expSep:es term:t2 ERP:erp
@@ -3354,10 +3238,8 @@ postfixRel ::=
            List expList = list(expr(t1));
            addExpSepExp(expList, es);
            expList.add(expr(t2));
-           MemPred memPred = localCreateMemPred(opName, expList,
-                                                t1left, t1right);
-           addLocAnn(memPred, elpleft, elpright);
-           RESULT = memPred;
+           RESULT = localCreateMemPred(opName, expList, t1left, t1right);
+           addLocAnn(RESULT, elpleft, elpright);
         :}
         |
         term:t ELP:elp expSep:es optExpressionList:oel SRP:srp
@@ -3374,10 +3256,8 @@ postfixRel ::=
            addLocAnn(seq, oelleft, oelright);
            expList.add(seq);
            //expList.add(factory_.createSequence(oel));
-           MemPred memPred = localCreateMemPred(opName, expList,
-                                                tleft, tright);
-           addLocAnn(memPred, elpleft, elpright);
-           RESULT = memPred;
+           RESULT = localCreateMemPred(opName, expList, tleft, tright);
+           addLocAnn(RESULT, elpleft, elpright);
         :}
         ;
 
@@ -3398,10 +3278,8 @@ infixRel ::=
            addExpSepExp(expList, es);
            expList.add(expr(t2));
            expList.add(expr(t3));
-           MemPred memPred = localCreateMemPred(opName, expList,
-                                                t1left, t2right);
-           addLocAnn(memPred, elpleft, elpright);
-           RESULT = memPred;
+           RESULT = localCreateMemPred(opName, expList, t1left, t2right);
+           addLocAnn(RESULT, elpleft, elpright);
         :}
         |
         term:t1 ELP:elp expSep:es optExpressionList:oel SREP:erep term:t2
@@ -3420,10 +3298,8 @@ infixRel ::=
            expList.add(seq);
            //expList.add(factory_.createSequence(oel));
            expList.add(expr(t2));
-           MemPred memPred = localCreateMemPred(opName, expList,
-                                                t1left, t1right);
-           addLocAnn(memPred, elpleft, elpright);
-           RESULT = memPred;
+           RESULT = localCreateMemPred(opName, expList, t1left, t1right);
+           addLocAnn(RESULT, elpleft, elpright);
         :}
         ;
 
@@ -3431,17 +3307,15 @@ infixChainRel ::=
         term:lhs MEM:m term:rhs
         {:
            previousChain_ = Sym.MEM;
-           MemPred memPred = factory_.createMemPred(expr(lhs), expr(rhs), Boolean.FALSE);
-           addLocAnn(memPred, mleft, mright);
-           RESULT = memPred;
+           RESULT = factory_.createMemPred(expr(lhs), expr(rhs), Boolean.FALSE);
+           addLocAnn(RESULT, mleft, mright);
         :}
         |
         term:lhs EQUALS:equals term:rhs
         {:
            previousChain_ = Sym.EQUALS;
-           MemPred memPred = factory_.createEquality(expr(lhs), expr(rhs));
-           addLocAnn(memPred, equalsleft, equalsright);
-           RESULT = memPred;
+           RESULT = factory_.createEquality(expr(lhs), expr(rhs));
+           addLocAnn(RESULT, equalsleft, equalsright);
         :}
         |
         term:lhs IP:ip term:rhs
@@ -3450,41 +3324,36 @@ infixChainRel ::=
            List opName = list(ARG_TOK);
            opName.add(ip);
            opName.add(ARG_TOK);
-           MemPred memPred =
-             localCreateMemPred(opName, list(expr(lhs), expr(rhs)),
-                                lhsleft, lhsright);
-           addLocAnn(memPred, ipleft, ipright);
-           RESULT = memPred;
+           RESULT = localCreateMemPred(opName, list(expr(lhs), expr(rhs)),
+                                       lhsleft, lhsright);
+           addLocAnn(RESULT, ipleft, ipright);
         :}
         |
         //apply syntactic transformation rule 12.2.10.3
         infixChainRel:icr MEM term:rhs
         {:
-           Pred pred = transformChainRel(icr, Sym.MEM, expr(rhs),
-                                         icrleft, icrright);
-           addLocAnn(pred, icrleft, icrright);           
+           RESULT = transformChainRel(icr, Sym.MEM, expr(rhs),
+                                      icrleft, icrright);
+           addLocAnn(RESULT, icrleft, icrright);           
            previousChain_ = Sym.MEM;
-           RESULT = pred;
         :}
         |
         //apply syntactic transformation rule 12.2.10.3
         infixChainRel:icr EQUALS term:rhs
         {:
-           Pred pred = transformChainRel(icr, Sym.EQUALS, expr(rhs),
-                                         icrleft, icrright);
-           addLocAnn(pred, icrleft, icrright);
+           RESULT = transformChainRel(icr, Sym.EQUALS, expr(rhs),
+                                      icrleft, icrright);
+           addLocAnn(RESULT, icrleft, icrright);
            previousChain_ = Sym.EQUALS;
-           RESULT = pred;
         :}
         |
         //apply syntactic transformation rule 12.2.10.3
         infixChainRel:icr IP:ip term:rhs
         {:
-           Pred pred = transformChainRelInfix(icr, expr(rhs), ip,
-                                              icrleft, icrright);
-           addLocAnn(pred, icrleft, icrright);
+           RESULT = transformChainRelInfix(icr, expr(rhs), ip,
+                                           icrleft, icrright);
+           addLocAnn(RESULT, icrleft, icrright);
            previousChain_ = Sym.IP;
-           RESULT = pred;
         :}
         ;
 
@@ -3499,10 +3368,8 @@ nofixRel ::=
            List expList = list();
            addExpSepExp(expList, es);
            expList.add(expr(t));
-           MemPred memPred = localCreateMemPred(opName, expList,
-                                                lpleft, lpright);
-           addLocAnn(memPred, lpleft, lpright);
-           RESULT = memPred;
+           RESULT = localCreateMemPred(opName, expList, lpleft, lpright);
+           addLocAnn(RESULT, lpleft, lpright);
         :}
         |
         LP:lp expSep:es optExpressionList:oel SRP:srp
@@ -3518,10 +3385,8 @@ nofixRel ::=
            addLocAnn(seq, oelleft, oelright);
            expList.add(seq);
            //expList.add(factory_.createSequence(oel));
-           MemPred memPred = localCreateMemPred(opName, expList,
-                                                lpleft, lpright);
-           addLocAnn(memPred, lpleft, lpright);
-           RESULT = memPred;
+           RESULT = localCreateMemPred(opName, expList, lpleft, lpright);
+           addLocAnn(RESULT, lpleft, lpright);
         :}
         ;
 
@@ -3542,11 +3407,9 @@ application ::=
 prefixApp ::=
         PRE:pre term:t
         {:
-           Expr expr =
-             localCreateMixfixExpr(list(pre, ARG_TOK), list(expr(t)),
-                                   preleft, preright);
-           addLocAnn(expr, preleft, preright);
-           RESULT = expr;
+           RESULT = localCreateMixfixExpr(list(pre, ARG_TOK), list(expr(t)),
+                                          preleft, preright);
+           addLocAnn(RESULT, preleft, preright);
         :}
         |
         L:l expSep:es term:t1 ERE:ere term:t2
@@ -3561,9 +3424,8 @@ prefixApp ::=
            addExpSepExp(expList, es);
            expList.add(expr(t1));
            expList.add(expr(t2));
-           Expr expr = localCreateMixfixExpr(opName, expList, lleft, lright);
-           addLocAnn(expr, lleft, lright);
-           RESULT = expr;
+           RESULT = localCreateMixfixExpr(opName, expList, lleft, lright);
+           addLocAnn(RESULT, lleft, lright);
         :}
         |
         L:l expSep:es optExpressionList:oel SRE:sre term:t
@@ -3581,20 +3443,17 @@ prefixApp ::=
            expList.add(seq);
            //expList.add(factory_.createSequence(oel));
            expList.add(expr(t));
-           Expr expr = localCreateMixfixExpr(opName, expList, lleft, lright);
-           addLocAnn(expr, lleft, lright);
-           RESULT = expr;
+           RESULT = localCreateMixfixExpr(opName, expList, lleft, lright);
+           addLocAnn(RESULT, lleft, lright);
         :}
         ;
 
 postfixApp ::=
         term:t POST:post
         {:
-           Expr expr =
-             localCreateMixfixExpr(list(ARG_TOK, post), list(expr(t)),
-                                   tleft, tright);
-           addLocAnn(expr, postleft, postright);
-           RESULT = expr;
+           RESULT = localCreateMixfixExpr(list(ARG_TOK, post), list(expr(t)),
+                                          tleft, tright);
+           addLocAnn(RESULT, postleft, postright);
         :}
         |
         term:t1 EL:el expSep:es term:t2 ER:er
@@ -3608,9 +3467,8 @@ postfixApp ::=
            List expList = list(expr(t1));
            addExpSepExp(expList, es);
            expList.add(expr(t2));
-           Expr expr = localCreateMixfixExpr(opName, expList, t1left, t1right);
-           addLocAnn(expr, elleft, elright);
-           RESULT = expr;
+           RESULT = localCreateMixfixExpr(opName, expList, t1left, t1right);
+           addLocAnn(RESULT, elleft, elright);
         :}
         |
         term:t EL:el expSep:es optExpressionList:oel SR:sr
@@ -3627,9 +3485,8 @@ postfixApp ::=
            addLocAnn(seq, oelleft, oelright);
            expList.add(seq);
            //expList.add(factory_.createSequence(oel));
-           Expr expr = localCreateMixfixExpr(opName, expList, tleft, tright);
-           addLocAnn(expr, elleft, elright);
-           RESULT = expr;
+           RESULT = localCreateMixfixExpr(opName, expList, tleft, tright);
+           addLocAnn(RESULT, elleft, elright);
         :}
         ;
 
@@ -3639,10 +3496,9 @@ infixApp ::=
            List opName = list(ARG_TOK);
            opName.add(i);
            opName.add(ARG_TOK);
-           Expr expr = localCreateMixfixExpr(opName, list(lhs, rhs),
-                                             lhsleft, lhsright);
-           addLocAnn(expr, ileft, iright);
-           RESULT = expr;
+           RESULT = localCreateMixfixExpr(opName, list(lhs, rhs),
+                                          lhsleft, lhsright);
+           addLocAnn(RESULT, ileft, iright);
         :}
         |
         term:t1 EL:el expSep:es term:t2 ERE:ere term:t3
@@ -3658,9 +3514,8 @@ infixApp ::=
            addExpSepExp(expList, es);
            expList.add(expr(t2));
            expList.add(expr(t3));
-           Expr expr = localCreateMixfixExpr(opName, expList, t1left, t1right);
-           addLocAnn(expr, elleft, elright);
-           RESULT = expr;
+           RESULT = localCreateMixfixExpr(opName, expList, t1left, t1right);
+           addLocAnn(RESULT, elleft, elright);
         :}
         |
         term:t1 EL:el expSep:es optExpressionList:oel SRE:sre term:t2
@@ -3679,9 +3534,8 @@ infixApp ::=
            expList.add(seq);
            //expList.add(factory_.createSequence(oel));
            expList.add(expr(t2));
-           Expr expr = localCreateMixfixExpr(opName, expList, t1left, t1right);
-           addLocAnn(expr, elleft, elright);
-           RESULT = expr;
+           RESULT = localCreateMixfixExpr(opName, expList, t1left, t1right);
+           addLocAnn(RESULT, elleft, elright);
         :}
         ;
 
@@ -3696,9 +3550,8 @@ nofixApp ::=
            List expList = list();
            addExpSepExp(expList, es);
            expList.add(expr(t));
-           Expr expr = localCreateMixfixExpr(opName, expList, lleft, lright);
-           addLocAnn(expr, lleft, lright);
-           RESULT = expr;
+           RESULT = localCreateMixfixExpr(opName, expList, lleft, lright);
+           addLocAnn(RESULT, lleft, lright);
         :}
         |
         L:l expSep:es optExpressionList:oel SR:sr
@@ -3713,9 +3566,8 @@ nofixApp ::=
            Expr seq = factory_.createSequence(oel);
            addLocAnn(seq, oelleft, oelright);
            expList.add(seq);
-           Expr expr = localCreateMixfixExpr(opName, expList, lleft, lright);
-           addLocAnn(expr, lleft, lright);
-           RESULT = expr;
+           RESULT = localCreateMixfixExpr(opName, expList, lleft, lright);
+           addLocAnn(RESULT, lleft, lright);
         :}
         ;
 
@@ -4044,10 +3896,8 @@ class ::=
              RefExpr re = factory_.createRefExpr(rn, list(), Boolean.FALSE);
              il.add(re);
            }
-           ClassPara classPara =
-             factory_.createClassPara(n, ofp, vl, il, ldl, s, is, ol);
-           addLocAnn(classPara, cleft, cright);
-           RESULT = classPara;
+           RESULT = factory_.createClassPara(n, ofp, vl, il, ldl, s, is, ol);
+           addLocAnn(RESULT, cleft, cright);
         :}
         ;
 
@@ -4078,8 +3928,7 @@ inheritedList ::=
            RESULT = list();
         :}
         |
-//        INHERITS 
- inheritedClassList:icl optNL
+        inheritedClassList:icl optNL
         {: RESULT = icl; :}
         ;
 
@@ -4279,13 +4128,12 @@ channel ::=
 secondaryDeclPart ::=
         DELTA sep declPart:dp
         {:
-           List sdl = list();
+           RESULT = list();
            List &lt; Decl &gt; decls = dp;
            for (Decl d : decls) {
              SecondaryDecl sd = factory_.createSecondaryDecl(d);
-             sdl.add(sd);
+             RESULT.add(sd);
            }
-           RESULT = sdl;
         :}
         ;
 

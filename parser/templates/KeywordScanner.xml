@@ -147,7 +147,6 @@ public class KeywordScanner
     result.put(OzString.POLY, new Integer(Sym.POLY));
     result.put(OzString.CONTAINMENT, new Integer(Sym.CONTAINMENT));
     result.put(OzString.INITWORD, new Integer(Sym.INITWORD));
-    result.put(OzString.INHERITS, new Integer(Sym.INHERITS));
 </add:oz>
 <add:tcoz>
    result.put(TcozString.ATTIME, new Integer(Sym.ATTIME));

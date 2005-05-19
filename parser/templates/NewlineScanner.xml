@@ -62,8 +62,7 @@ public class <class/>
 </add:zpatt>
 <add:oz>
                 Sym.CLASS, Sym.STATE, Sym.INIT, Sym.OPSCH,
-                Sym.INHERITS, Sym.PARALLEL, Sym.SDEF,
-                Sym.ASSOCPARALLEL, Sym.GCH, 
+                Sym.PARALLEL, Sym.ASSOPARALLEL, Sym.GCH, Sym.SDEF,
 </add:oz>
 <add:tcoz>
                 Sym.NEXTPRO, Sym.INTCHOICE, Sym.INTERLEAVE,
