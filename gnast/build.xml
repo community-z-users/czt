@@ -27,8 +27,9 @@
     <mkdir dir="${gnast.jar.dir}"/>
     <jar jarfile="${jar.file}">
       <fileset dir="${build}"/>
-      <fileset dir="${src.java}">
-        <include name="**/*.properties"/>
+      <fileset dir=".">
+        <include name="gnast.properties"/>
+        <include name="mapping.properties"/>
       </fileset>
     </jar>
   </target>
