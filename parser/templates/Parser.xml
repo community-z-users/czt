@@ -920,7 +920,7 @@ terminal
 </add:circus>
 <add:oz>
         DELTA, CLASS, STATE, INIT, OPSCH, SDEF,
-        VISIBILITY, INHERITS, INITWORD, POLY, CONTAINMENT,
+        INHERITS, INITWORD, POLY, CONTAINMENT,
         DCNJ, DGCH, DSQC, PARALLEL, ASSOCPARALLEL, GCH, CLASSUNION,
 </add:oz>
 <add:tcoz>
@@ -937,7 +937,7 @@ terminal String
         JOKERDECLLIST, JOKERTYPE,
 </add:zpatt>
 <add:oz>
-        OPNAME,
+        OPNAME, DEFNAME,
 </add:oz>
         TEXT, DECORWORD, DECLWORD,
         PREP, PRE, POSTP, POST, IP, I, LP, L, ELP, EL, ERP, ER,
@@ -1214,9 +1214,6 @@ non terminal List /* RefName */
 non terminal VisibilityList
     visibilityList;
                         
-non terminal String
-    visibility;
-
 non terminal Expr
     opPromotionLhs;
 
@@ -2084,6 +2081,16 @@ name ::=
            addLocAnn(dn, dwleft, dwright);
            RESULT = dn;
         :}
+<add:oz>
+        |
+        DEFNAME:dfn
+        {:
+           checkName(dfn, dfnleft, dfnright);
+           DeclName dn = factory_.createDeclName(dfn);
+           addLocAnn(dn, dfnleft, dfnright);
+           RESULT = dn;
+        :}
+</add:oz>
         ;
 
 declWordList ::=
@@ -2205,6 +2212,16 @@ declName ::=
            addLocAnn(dn, onleft, onright);
            RESULT = dn;
         :}
+<add:oz>
+        |
+        DEFNAME:dfn
+        {:
+           checkName(dfn, dfnleft, dfnright);
+           DeclName dn = factory_.createDeclName(dfn);
+           addLocAnn(dn, dfnleft, dfnright);
+           RESULT = dn;
+        :}
+</add:oz>
         ;
 
 refNameList ::=
@@ -2575,6 +2592,14 @@ formalParameterName ::=
            checkName(dw, dwleft, dwright);
            RESULT = factory_.createDeclName(dw);
         :}
+<add:oz>
+        |
+        DEFNAME:dn
+        {:
+           checkName(dn, dnleft, dnright);
+           RESULT = factory_.createDeclName(dn);
+        :}
+</add:oz>
         ;
 
 //an optNameEsSsList is returned as a pair, with the first item
@@ -2594,7 +2619,6 @@ optNameEsSsList ::=
            RESULT = ouesl;
         :}
         ;
-
 
 esOrSs ::=
         ES:es
@@ -3974,7 +3998,7 @@ jokerExpr ::=
 <add:oz>
 /// Object-Z constructs ///////////////////////////////////////////////
 class ::= 
-        CLASS:c name:n
+        CLASS:c name:n optNL
             optFormalParameters:ofp
             visibilityList:vl
             inheritedList:il
@@ -4018,14 +4042,8 @@ visibilityList ::=
         //empty
         {: RESULT = factory_.createVisibilityList(); :}
         |
-        visibility LPAREN refNameList:rnl RPAREN optNL
+        ZPROJ LPAREN refNameList:rnl RPAREN optNL
         {: RESULT = factory_.createVisibilityList(rnl); :}
-        ;
-
-visibility ::=
-        VISIBILITY
-        |
-        ZPROJ %prec VISIBILITY
         ;
 
 inheritedList ::=
@@ -4034,7 +4052,8 @@ inheritedList ::=
            RESULT = list();
         :}
         |
-        INHERITS inheritedClassList:icl optNL
+//        INHERITS 
+ inheritedClassList:icl optNL
         {: RESULT = icl; :}
         ;
 
@@ -4050,17 +4069,18 @@ inheritedClassList ::=
         ;
 
 inheritedClass ::=
-        refName:rn optActualParameters:oap optRenameList:ore
+        DECORWORD:dw optActualParameters:oap optRenameList:ore
         {:
+           RefName rn = factory_.createRefName(dw, list(), null);
            RefExpr refExpr = factory_.createRefExpr(rn, oap, Boolean.FALSE);
            if (ore.size() > 0) {
              RESULT = factory_.createRenameExpr(refExpr, ore);
-             addLocAnn(refExpr, rnleft, rnright);
+             addLocAnn(refExpr, dwleft, dwright);
            }
            else {
              RESULT = refExpr;
            }
-           addLocAnn(RESULT, rnleft, rnright);
+           addLocAnn(RESULT, dwleft, dwright);
          :}
         ;
 

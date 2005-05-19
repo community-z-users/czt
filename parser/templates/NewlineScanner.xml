@@ -61,9 +61,9 @@ public class <class/>
                 Sym.RULELINE, Sym.RULE, Sym.JOKER, Sym.RULELINE,
 </add:zpatt>
 <add:oz>
-                Sym.CLASS, Sym.STATE, Sym.INIT,
-                Sym.VISIBILITY, Sym.INHERITS, Sym.PARALLEL,
-                Sym.ASSOCPARALLEL, Sym.GCH, Sym.OPSCH,
+                Sym.CLASS, Sym.STATE, Sym.INIT, Sym.OPSCH,
+                Sym.INHERITS, Sym.PARALLEL, Sym.SDEF,
+                Sym.ASSOCPARALLEL, Sym.GCH, 
 </add:oz>
 <add:tcoz>
                 Sym.NEXTPRO, Sym.INTCHOICE, Sym.INTERLEAVE,
@@ -93,7 +93,7 @@ public class <class/>
                 Sym.PROVISO,
 </add:zpatt>
 <add:oz>
-                Sym.DCNJ, Sym.DGCH, Sym.DSQC,
+                Sym.DCNJ, Sym.DGCH, Sym.DSQC, Sym.OPNAME,
 </add:oz>
 <add:tcoz>
 		Sym.DGCH, Sym.DIL, Sym.DIC, Sym.DPARA,

@@ -145,7 +145,11 @@ public class <class/>
       return symbol;
     }
     Symbol result = null;
-    if (symbol.sym == Sym.DECORWORD || symbol.sym == Sym.DECLWORD) {
+    if (symbol.sym == Sym.DECORWORD ||
+<add:oz>
+        symbol.sym == Sym.DEFNAME ||
+</add:oz>
+        symbol.sym == Sym.DECLWORD) {
       String name = (String) symbol.value;
       assert table_ != null;
       OperatorTokenType optype = table_.getTokenType(name);
