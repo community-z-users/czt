@@ -1,0 +1,3 @@
+#!/bin/sh
+source `dirname $0`/settings.sh
+java -ea -classpath ${JWSDP}:${TYPECHECKER}:${PARSER}:${COREJAVA}:${JAVA_CUP} net.sourceforge.czt.typecheck.oz.TypeCheckUtils "$@"
