@@ -4,7 +4,7 @@
 
 \begin{class}{A}
   \begin{state}
-    a : \nat
+    n : \nat
   \end{state}\\
   \begin{op}{Op1}
     x? : \nat
@@ -14,7 +14,7 @@
 \begin{class}{B}
   A\\
   \begin{state}
-    b : \power \nat
+    pn : \power \nat
   \end{state}\\
   \begin{op}{Op2}
     x? : \power \nat
@@ -26,9 +26,9 @@
     a : \poly A\\
     b : B
   \where
-    a.a = 1\\
-    b.b = \{1\}\\
-    b.b = \{a.a\}
+    a.n = 1\\
+    b.pn = \{1\}\\
+    b.pn = \{a.n\}
   \end{axdef}\\
   \begin{state}
     sa : \poly A\\
@@ -37,4 +37,20 @@
   Op3 \sdef sa.Op1\\
   Op4 \sdef sb.Op1\\
   Op5 \sdef sb.Op2
+\end{class}
+
+Multiple inheritance
+\begin{class}{D}
+  B, C\\
+  \begin{state}
+    d : \nat
+  \where
+    d = n\\
+    d \in pn\\
+    a \in \poly A\\
+    b \in B
+  \end{state}\\
+  Op4 \sdef Op3 \land sa.Op1\\
+  Op6 \sdef Op3 \land sa.Op1\\
+  Op7 \sdef Op4 \land sb.Op1
 \end{class}
