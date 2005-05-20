@@ -3915,7 +3915,10 @@ operationList ::=
 /// class paragraphs ///////////////////////////////////////////////
 
 visibilityList ::=
-        //empty
+        //no list
+        {: RESULT = null; :}
+        |
+        ZPROJ LPAREN RPAREN optNL  //an empty list
         {: RESULT = factory_.createVisibilityList(); :}
         |
         ZPROJ LPAREN refNameList:rnl RPAREN optNL
