@@ -1,0 +1,22 @@
+\begin{zsection}
+  \SECTION DistOpExpr \parents oz\_toolkit
+\end{zsection}
+
+Variable hiding is used to check that names are present in the
+expression. 
+
+\begin{class}{A}  
+  Op1 \sdef [m : \nat; n? : \nat]\\
+  Op2 \sdef [m : \nat; p? : \nat; o! : \nat]\\
+\end{class}
+
+\begin{class}{B}
+  Op1 \sdef \dcnj a : A @ a.Op1\\
+  Op2 \sdef \dcnj a : A @ a.Op2\\
+  Op3 \sdef \dsqc a : A @ a.Op1\\
+  Op4 \sdef \dsqc a : A @ a.Op2\\
+  Test1 \sdef Op1 \hide (m, n?)\\
+  Test2 \sdef Op2 \hide (m, p?, o!)\\
+  Test3 \sdef Op1 \hide (m, n?)\\
+  Test4 \sdef Op2 \hide (m, p?, o!)\\
+\end{class}

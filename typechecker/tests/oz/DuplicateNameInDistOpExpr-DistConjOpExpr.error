@@ -1,0 +1,15 @@
+\begin{zsection}
+  \SECTION DuplicateNameInDistOpExpr\_DistConjOpExpr \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  Op1 \sdef [a : \nat]
+\end{class}
+
+
+\begin{class}{B}
+  \begin{state}
+   pa : \power A
+  \end{state}\\
+  Op2 \sdef \dcnj a : pa @ a.Op1 
+\end{class}

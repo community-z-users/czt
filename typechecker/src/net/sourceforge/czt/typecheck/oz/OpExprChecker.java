@@ -49,6 +49,7 @@ public class OpExprChecker
     HideOpExprVisitor,
     RenameOpExprVisitor,
     ScopeEnrichOpExprVisitor,
+    DistOpExprVisitor,
     OpTextVisitor,
     OpExprVisitor
 {
@@ -325,6 +326,63 @@ public class OpExprChecker
 
     //add the signature annotation
     addSignatureAnn(scopeEnrichOpExpr, signature);
+
+    return signature;
+  }
+
+  public Object visitDistOpExpr(DistOpExpr distOpExpr)
+  {
+    //enter a new variable scope
+    typeEnv().enterScope();
+
+    //get the signature from the schema text. The ExprChecker will add
+    //the declarations to the typing environment
+    SchText schText = distOpExpr.getSchText();
+    Signature distSig = (Signature) schText.accept(exprChecker());
+
+    //get the signature of the operation expression
+    //this is the signature of the entire distributed operation
+    OpExpr opExpr = distOpExpr.getOpExpr();
+    Signature signature = (Signature) opExpr.accept(opExprChecker());
+
+    //check that there are no common names between the distributed
+    //operator declarations and the op expr declarations
+    List<NameTypePair> distPairs = distSig.getNameTypePair();
+    for (NameTypePair distPair : distPairs) {
+      DeclName distName = distPair.getName();
+      NameTypePair opExprPair = findInSignature(distName, signature);
+      if (opExprPair != null) {
+	Object [] params = {distName, distOpExpr};
+	error(distOpExpr, ErrorMessage.DUPLICATE_NAME_IN_DISTOPEXPR, params);
+      }
+    }
+
+    //distributed sequential operations have an additional type
+    //rule. Implementing it here rather than using its own visit
+    //simplifies things somewhat
+    if (distOpExpr instanceof DistSeqOpExpr) {
+      for (NameTypePair distPair : distPairs) {
+	DeclName distName = distPair.getName();
+	List<Stroke> strokes = list(distName.getStroke());
+	int size = strokes.size();
+	if (size > 0 && strokes.get(size - 1) instanceof OutStroke) {
+	  strokes.remove(size - 1);
+	  DeclName baseName = factory().createDeclName(distName.getWord(),
+						       strokes, null);
+	  NameTypePair opExprPair = findInSignature(baseName, signature);
+	  if (opExprPair != null) {
+	    Object [] params = {distName, baseName, distOpExpr};
+	    error(distOpExpr, ErrorMessage.DUPLICATE_OUTNAME_IN_DISTOPEXPR, params);
+	  }
+	}
+      }      
+    }
+
+    //exit the variable scope
+    typeEnv().exitScope();
+
+    //add the signature annotation
+    addSignatureAnn(distOpExpr, signature);
 
     return signature;
   }

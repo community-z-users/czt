@@ -193,11 +193,13 @@ abstract public class Checker
     DeclName opName = op.getName();
     NameSignaturePair existing = findOperation(opName, cSig);
     if (existing != null) {
-      UResult unified = unify(op.getSignature(), existing.getSignature());
-      if (unified == FAIL) {
-        Object [] params = {opName, op.getSignature(), existing.getSignature()};
-        error(opName, ErrorMessage.INCOMPATIBLE_OP_OVERRIDING, params);
-      }
+      List<NameTypePair> pairs = list(op.getSignature().getNameTypePair());
+      pairs.addAll(existing.getSignature().getNameTypePair());
+      checkForDuplicates(pairs, opName, ErrorMessage.INCOMPATIBLE_OP_OVERRIDING);
+      Signature newSig = factory().createSignature(pairs);
+      NameSignaturePair newPair = factory().createNameSignaturePair(opName, newSig);
+      cSig.getOperation().remove(existing);
+      cSig.getOperation().add(newPair);
     }
     else {
       cSig.getOperation().add(op);
