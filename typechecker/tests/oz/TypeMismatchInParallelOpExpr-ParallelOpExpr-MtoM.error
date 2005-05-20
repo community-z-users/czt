@@ -1,5 +1,5 @@
 \begin{zsection}
-  \SECTION TypeMismatchInSeqOpExpr\_ParallelOpExpr\_MtoM \parents oz\_toolkit
+  \SECTION TypeMismatchInParallelOpExpr\_ParallelOpExpr\_MtoM \parents oz\_toolkit
 \end{zsection}
 
 \begin{class}{A}

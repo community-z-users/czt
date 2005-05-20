@@ -244,13 +244,9 @@ public class OpExprChecker
         !instanceOf(rSig, VariableSignature.class)) {
       String errorMessage =
         ErrorMessage.TYPE_MISMATCH_IN_ASSOPARALLELOPEXPR.toString();
-      Signature sigA = createPipeSig(lSig, rSig, assoParallelOpExpr, errorMessage);
-      Signature sigB = createPipeSig(rSig, lSig, assoParallelOpExpr, errorMessage);
+      Signature sigA = createPloSig(lSig, rSig, assoParallelOpExpr, errorMessage);
+      Signature sigB = createPloSig(rSig, lSig, assoParallelOpExpr, errorMessage);
       signature = intersect(sigA, sigB);
-      System.err.println("NEXT");
-      System.err.println("\tsigA = " + format(sigA));
-      System.err.println("\tsigB = " + format(sigB));
-      System.err.println("\tsigi = " + format(signature));
       checkForDuplicates(signature.getNameTypePair(), assoParallelOpExpr,
                          ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
     }
