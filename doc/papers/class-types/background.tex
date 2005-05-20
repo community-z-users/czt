@@ -80,7 +80,7 @@ Chen \cite{chen94} discusses a model in which a class type is a set of
 classes. That is, if we have a class $A$ with subclasses $B$ and $C$,
 then the expression $\poly A$ is the set of classes $\{A, B,
 C\}$. This idea is used as the basis for the class type in our
-typechecker, but we make two significant changes.
+typechecker, but we make two significant improvements.
 
 Firstly, Chen does not discuss how to represent classes. In Object-Z,
 classes are defined as countably infinite sets of object
@@ -104,12 +104,20 @@ because the types of both instances is $\{A\}$.
 \label{generic-class-A}
 \end{figure}
 
+The second difference is that we model the polymorphic core as part of
+the class type. This is used to support Object-Z's renaming of
+features in a class, for example, renaming an operation. The class $A$
+with operation $op$ is not disjoint from the class $A[newOp/op]$,
+which is the class $A$ with the operation $op$ renamed to $newOp$. The
+Object-Z reference manual \cite{smith00} defines the set of object
+identites of a renamed class to be equal to that of its base
+class. Using only the object identities is not flexible enough to
+detect whether a reference to a feature is valid.
 
-The second difference between our approach and Chen's approach is on
-an implementation level. If we reference a feature of an instance (for
-example, $a.x$), then we have to lookup the type of $x$ in $a$ each
-time we encounter such a reference, because the class type itself does
-not maintain features and their signatures or types.  Similarly, if we
+In addition, if we reference a feature of an instance (for example,
+$a.x$), then we have to lookup the type of $x$ in $a$ each time we
+encounter such a reference, because the class type itself does not
+maintain features and their signatures or types.  Similarly, if we
 have a reference to a type $\{ A, B, C\}$ constructed via a class
 union, then for a reference $a.x$, we need to calculate the
 polymorphic core of $\{A,B,C\}$ each time it is referenced. We believe
@@ -117,18 +125,9 @@ a class type that records features, including those inherited from any
 superclasses, simplifies and optimises the implementation of the
 typechecker.
 
-In addition, Object-Z supports the renaming of features in a class,
-for example, renaming an operation. The class $A$ with operation $op$
-is not disjoint from the class $A[newOp/op]$, which is the class $A$ with
-the operation $op$ renamed to $newOp$. The Object-Z reference manual
-\cite{smith00} defines the set of object identites of a renamed class
-to be equal to that of its base class. Using only the object
-identities is not flexible enough to detect whether a reference to a
-feature is valid.
-
 The purpose of the work in this paper is to extend Chen's model with a
 way of modelling classes to provide a suitable class type that
 supports class union, polymorphic expressions, and appropriately
 manages dereferencing on objects, and to specify a unification
 algorithm for these types to support type inference.
-% ``class reference expressions'' == ``dereferencing of object types''??
+

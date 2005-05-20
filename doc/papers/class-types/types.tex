@@ -152,7 +152,7 @@ the {\em ClassSignature}. Each class signature has 4 features:
     $classRef = \{ A, B[${\tt GIVEN} $Resource]\}$.
   \item {\em attribute}: A function of variable names to types that records
     both the local and inherited variable definitions.
-  \item {\em state}: A signature contains the declarations made in a
+  \item {\em state}: A signature containing the declarations made in a
     class's state (after being conjoined with any superclasses).
   \item {\em operation}: A function of names to signatures that
     records the operations declared in a class, their signatures, and
@@ -177,9 +177,10 @@ instantiations are all equal.
 
 In addition to the class references, the attributes, operations, and
 state variables are modelled in the class type. These three features
-together model the polymorphic core of the type. Therefore, our model
-is flexible enough to handle class references, polymorphic
-expressions, and class unions.
+together model the polymorphic core of the type. This is useful for
+feature renaming because we can record the rename information of one
+class expression while specifying that the set of object identites
+for that expression remain the same.
 
 However, there is other information that needs to be recorded when a
 class is declared using a class paragraph: the generic parameters, the
@@ -211,7 +212,8 @@ reference to $X$ in the state declaration) is far greater than the
 possible values of $a_2 \in A[1..2]$, but the two sets contain the
 same object identities. Using carrier sets, one can see that the set
 of object identities $A[\nat]$ is disjoint from $A[\power
-\nat]$.
+\nat]$, therefore recording instantiations as part of a $ClassRef$
+is important.
 
 Subclassing $ClassType$ for the three distinct flavours of class types
 is useful because the $ClassRefType$ needs to model information that
@@ -228,10 +230,11 @@ Having a $ClassSignature$ is important, because the type system must
 be developed in such a way that unification can be partially
 performed. That is, we can infer from the context that the type of a
 particular name reference is a class type, but cannot infer the class
-signature until the class is later declared.  To this point, {\em
-variable class signatures} can be used, which are similar to {\em
-variable types} and {\em variable signatures} in Z, as discussed in
-\cite{toyn00}. 
+signature until the class is later declared\footnote{Object-Z supports
+use before declaration for classes.}.  To this point, {\em variable
+class signatures} can be used, which are similar to {\em variable
+types} and {\em variable signatures} in Z, as discussed in
+\cite{toyn00}.
 
 As an example, take the declaration $b : \poly B$. From the reference
 to $\poly B$, the typechecker can infer that $B$ is a class reference

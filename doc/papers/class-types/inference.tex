@@ -2,26 +2,27 @@
 \label{inference}
 
 Abstractly, the unification of class types is checking that the sets
-of object identities in the two types intersect, meanwhile unifying
-the types of the variables contained in those identities. For example,
-if we have the object $a \in \poly A$ and the object $b \in B$, in
-which $B$ is a subclass of $A$, the the predicate $a = b$ is type
-correct. This may seem strange because it is possible that $a \in A$,
-and therefore the predicate $a = b$ would be false because the object
-identities of $a$ and $b$ could not be equal if they come from
-different classes.  However, from a specification point of view,
-typechecking is used to eliminate type consistencies in order to
-prevent meaningless predicates that can never be true. Therefore,
-because the predicate $a = b$ can be true if $a \in B$, this is type
-correct.
+of object identities in the two types are compatible, meanwhile
+unifying the types of the variables contained in those identities.
 
 In this section, we present two unification algorithms. The first has
 a notion of {\em weak} type consistency between class types. That is,
 it unifies two class types if any of the class references in those
-types unify. The second has a notion of {\em strong} type consistency
-between class types. It enforces that the sets of class references of
-two class types are equal. That is, the above predicate $a = b$ is
-considered inconsistent.
+types unify.  For example, if we have the object $a \in \poly A$ and
+the object $b \in B$, in which $B$ is a subclass of $A$, the the
+predicate $a = b$ is type correct. This may seem strange because it is
+possible that $a \in A$, and therefore the predicate $a = b$ contains
+a possible illegal downcast if the identities of $a$ and $b$ come from
+different classes.  However, from a specification point of view,
+typechecking is used to eliminate type consistencies in order to
+prevent meaningless predicates that can never be true. Therefore,
+because the predicate $a = b$ also contains a possible legal downcast
+when $a \in B$, this can be considered type correct.
+
+The second has a notion of {\em strong} type consistency between class
+types. It enforces that the sets of class references of two class
+types are equal. That is, the above predicate $a = b$ is considered
+inconsistent.
 
 The Object-Z reference manual \cite{smith00} specifies that class
 types are consistent if they are equal, meaning that strong typing
@@ -123,12 +124,13 @@ unification algorithm, when we unify a variable type $\alpha$ with a
 non-variable type $\tau$, we do not assign the value $\tau$ to
 $\alpha$ each time --- we do so only when the type is not a class
 type. Instead, the algorithm assigns the value of the variable
-$\alpha$ with a new class type variable $\varclasstype$. A class type
-variable is similar to a type variable, except that is holds a set of
-possible class types. In the case that a variable type is unified with
-a class type, the new class type variable's value is a set containing
-only that class type. If two class type variables are unified, the two
-values are unioned.
+$\alpha$ with a new {\em class type variable} $\varclasstype$. A class
+type variable is similar to a type variable, except that is holds a
+set of possible class types. In the case that a variable type is
+unified with a class type, the new class type variable's value is a
+set containing only that class type. If two class type
+variables are unified, the two values are unioned, because the final
+type could be any of the types in either of the variables.
   
 Similarly, if a class signature of one class type is variable, we
 cannot assign the value of the second class signature to this

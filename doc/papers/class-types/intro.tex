@@ -21,14 +21,14 @@ Object-Z typechecker.
 
 Typechecking Object-Z is a difficult task, and presents many more
 problems than typechecking standard Z. Object-Z introduces such
-notions as polymorphic types, in which an expression can have one of
-many different subtypes; class unions, which allow the specifier to
-union two classes, thus creating a new type containing two unrelated
-class subtypes; implicit downcasting, in which an object can be
-downcast to one of many subtypes that cannot be determined statically,
-thus making the detection a problem; and feature renaming, which, in
-allowing the specifier to rename operations or attributes in a class,
-create a new interface for a class, but does not create a new class.
+notions as inheritance and polymorphism, which create types containing
+many different (possibly unrelated) subtypes; implicit downcasting, in
+which an object can be implicitly downcast to one of many subtypes
+that cannot be determined statically, thus making the detection of
+type errors difficult; generic classes, which specify a set of classes
+instead of a single class; and feature renaming, which, in allowing
+the specifier to rename operations or attributes in a class, creates a
+new interface for a class, but does not introduce a new class type.
 
 In this paper, we present our model of {\em class types}, which are
 used to annotate expressions in an abstract syntax tree of a parsed
