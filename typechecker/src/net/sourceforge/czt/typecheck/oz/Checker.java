@@ -118,11 +118,11 @@ abstract public class Checker
   }
 
   //check if a name is in a signature's visibility list
-  protected boolean isVisible(RefName refName, ClassType classType)
+  protected boolean isVisible(RefName refName, Type2 type)
   {
     boolean result = true;
-    if (classType instanceof ClassRefType) {
-      ClassRefType classRefType = (ClassRefType) classType;
+    if (type instanceof ClassRefType) {
+      ClassRefType classRefType = (ClassRefType) type;
       result = classRefType.getVisibilityList() == null ||
         classRefType.getVisibilityList().getRefName().contains(refName);
     }

@@ -135,6 +135,7 @@ public class OpExprChecker
       if (!instanceOf(cSig, VariableClassSig.class)) {
         RefName refName = opPromExpr.getName();
         NameSignaturePair opDef = findOperation(refName, cSig);
+	//if there is no operation with this name, raise an error
         if (opDef == null) {
           Object [] params = {opPromExpr};
           error(opPromExpr, ErrorMessage.NON_EXISTENT_NAME_IN_OPPROMEXPR, params);
@@ -142,6 +143,12 @@ public class OpExprChecker
         else {
           signature = opDef.getSignature();
         }
+
+	//if there is an operation, but it is not visible, raise an error
+	if (opDef != null && !isVisible(refName, vClassType.getValue())) {
+	  Object [] params = {refName, opPromExpr};
+	  error(opPromExpr, ErrorMessage.NON_VISIBLE_NAME_IN_OPPROMEXPR, params);
+	}
       }
     }
 

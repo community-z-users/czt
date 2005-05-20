@@ -297,6 +297,12 @@ public class ExprChecker
           else {
             type = unwrapType(pair.getType());
           }
+
+	  //if the feature exists, but it is not visible, raise an error
+	  if (pair != null && !isVisible(selectName, exprType)) {
+	    Object [] params = {selectName, bindSelExpr};
+	    error(bindSelExpr, ErrorMessage.NON_VISIBLE_NAME_IN_SELEXPR, params);
+	  }
         }
       }
       else {
