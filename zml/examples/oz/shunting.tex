@@ -60,7 +60,6 @@ circle is moved.
 
 \begin{class}{BlackCircle}
 \also
-%\inherits 
 Circle\\
 \begin{state}
   count: \nat
@@ -100,7 +99,7 @@ board.
   count! = black.count
 \end{op}  \classbreak
 move \sdef black.move \land\\
-         \t2 ( \dgch u, t : white | t.posn = black.posn' \land
+         \t2 ( \dgch u, t : white | t.posn = black'.posn \land
                 u \neq t \land u.posn \neq t.posn @\\
 		\t3 t.move\\
 		\t2 \gch \\
