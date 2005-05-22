@@ -1027,9 +1027,6 @@ non terminal List /*RefName*/ refNameList;
 non terminal RefName refName;
 
 non terminal List /*NameNamePair*/
-<add:oz>
-    optRenameList,
-</add:oz>
     renameList;
 non terminal NameNamePair rename;
     
@@ -1185,9 +1182,6 @@ non terminal ChannelPara
 non terminal Expr
     inheritedClass;
 
-non terminal List /* Expr */
-    optActualParameters;
-
 non terminal ClassPara
     class;
 
@@ -1224,12 +1218,6 @@ non terminal OpExpr
     opExpr,
     opExpr1;
 
-non terminal AxPara
-    boxedLocalDefinition;
-
-non terminal List /*DeclName*/ 
-    declNameList;
-
 non terminal List /*Expr*/ 
     inheritedList,
     inheritedClassList;
@@ -1242,9 +1230,6 @@ non terminal Operation
 
 non terminal List /*Operation*/
     operationList;
-
-non terminal Op
-    optSep;
 
 </add:oz>
 <add:tcoz>
@@ -3947,35 +3932,24 @@ inheritedClassList ::=
         ;
 
 inheritedClass ::=
-        DECORWORD:dw optActualParameters:oap optRenameList:ore
+        DECORWORD:dw
         {:
-           RefName rn = factory_.createRefName(dw, list(), null);
-           RefExpr refExpr = factory_.createRefExpr(rn, oap, Boolean.FALSE);
-           if (ore.size() > 0) {
-             RESULT = factory_.createRenameExpr(refExpr, ore);
-             addLocAnn(refExpr, dwleft, dwright);
-           }
-           else {
-             RESULT = refExpr;
-           }
+           RefName rn = factory_.createRefName(dw);
+           RESULT = factory_.createRefExpr(rn, list(), Boolean.FALSE);
            addLocAnn(RESULT, dwleft, dwright);
-         :}
-        ;
-
-optActualParameters ::=
-        //empty
-        {: RESULT = list(); :}
+        :}
         |
-        LSQUARE expressionList:el RSQUARE
-        {: RESULT = el; :}
-        ;
-
-optRenameList ::=
-        //empty
-        {: RESULT = list(); :}
+        inheritedClass:ic LSQUARE expressionList:el RSQUARE
+        {:
+           RESULT = factory_.createRefExpr(refname(ic), el, Boolean.FALSE);
+           addLocAnn(RESULT, icleft, icright);
+        :}
         |
-        LSQUARE renameList:rnl  RSQUARE
-        {: RESULT = rnl; :}
+        inheritedClass:ic LSQUARE renameList:rl RSQUARE
+        {:
+           RESULT = factory_.createRenameExpr(ic, rl);
+           addLocAnn(RESULT, icleft, icright);
+        :} %prec _RENAME
         ;
 
 localDefinitionList ::=
@@ -4147,7 +4121,7 @@ initialState ::=
         INIT predicate:p END
         {: RESULT = factory_.createInitialState(p); :}
         |
-        INITWORD DEFEQUAL LSQUARE predicate:p RSQUARE
+        INITWORD SDEF LSQUARE predicate:p RSQUARE
         {: RESULT = factory_.createInitialState(p); :}
         ;
 
@@ -4442,24 +4416,6 @@ event ::=
         :}
         ;            
 </add:tcoz>
-
-
-optSep ::=
-        optNL
-        |
-        SEMICOLON
-        ;
-
-declNameList ::=
-        declNameList:dnl COMMA declName:dn
-        {:
-           dnl.add(dn);
-           RESULT = dnl;
-        :}
-        |
-        declName:dn
-        {: RESULT = list(dn); :}
-        ;
 
 opPromotionLhs ::=
         refName:rn
