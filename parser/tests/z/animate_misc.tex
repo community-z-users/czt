@@ -86,4 +86,28 @@ the constant undefnum should have an undefined left-hand-side.
 \begin{zed} \vdash?  \lnot(false \iff true) \end{zed}
 \begin{zed} \vdash?  false \iff false \end{zed}
 
+
+\section{Testing logical quantifiers}
+\begin{zed} \vdash? \forall x:0 \upto 4 | x \neq 4 @ x \in 0 \upto 3 \end{zed}
+\begin{zed} \vdash?  \lnot \forall x:0 \upto 4 | x \neq 2 @ x < 4 \end{zed}
+\begin{zed} \vdash?  \lnot \forall x:0 \upto 4 | x \neq 2 @ x > 0 \end{zed}
+\begin{zed} \vdash?  \lnot \forall x:0 \upto 4 @ x \neq 2 \end{zed}
+
+\begin{zed} \vdash? \exists x:0 \upto 4 | x \neq 4 @ x \in 1 \upto 2 \end{zed}
+\begin{zed} \vdash? \exists x:0 \upto 4 | x \neq 2 @ x < 4 \end{zed}
+\begin{zed} \vdash? \exists x:0 \upto 4 | x \neq 2 @ x > 0 \end{zed}
+\begin{zed} \vdash? \exists x:0 \upto 4 @ x \neq 2 \end{zed}
+\begin{zed} \vdash? \lnot \exists x:0 \upto 4 @ \lnot x \in 0 \upto 4 \end{zed}
+
+\begin{zed} \vdash? \lnot \exists_1 x:0 \upto 4 | x \neq 4 @ x \in 1 \upto 2 \end{zed}
+\begin{zed} \vdash? \exists_1 x:0 \upto 4 | x \neq 2 @ x \leq 0 \end{zed}
+\begin{zed} \vdash? \exists_1 x:0 \upto 4 | x \neq 2 @ x \geq 4 \end{zed}
+\begin{zed} \vdash? \exists_1 x:0 \upto 4 | x \neq 2 @ x \in 1 \upto 2\end{zed}
+\begin{zed} \vdash? \exists_1 x:0 \upto 4 | x \neq 2 @ x \in 2 \upto 3\end{zed}
+\begin{zed} \vdash? \lnot \exists_1 x:0 \upto 4 | x \neq 2 @ x \in 1 \upto 3\end{zed}
+\begin{zed} \vdash? \lnot \exists_1 x:0 \upto 4 | x \neq 2 @ \lnot x \in 1 \upto 3\end{zed}
+
+TODO: it would be nice to have some way of testing that a predicate is 
+      undefined (that is, its truth value is unknown according to the Z 
+      standard semantics), but this would be an extension of standard Z syntax.
 \end{document}
