@@ -135,11 +135,13 @@ public class <class/>
   public static void main(String[] args)
   {
     String usage = "Usage: java <package/>.<class/>"
-      + " [ -in &lt;inputfile&gt;] [ -out &lt;outputfile&gt;]";
+      + " [-in &lt;inputfile&gt;] [-out &lt;outputfile&gt;]"
+      + " [-encoding &lt;encoding&gt;]";
     try {
       String source = null;
       InputStream input = System.in;
       Writer writer = new PrintWriter(System.out);
+      String outfile = null;
       String encoding = "UTF-8";
       for (int i = 0; i &lt; args.length; i++) {
         if ("-in".equals(args[i])) {
@@ -161,9 +163,7 @@ public class <class/>
         }
         else if ("-out".equals(args[i])) {
           if (i &lt; args.length) {
-            FileOutputStream stream = new FileOutputStream(args[++i]);
-            writer =
-              new OutputStreamWriter(stream, encoding);
+            outfile = args[++i];
           }
           else {
             System.err.println(usage);
@@ -174,6 +174,10 @@ public class <class/>
           System.err.println(usage);
           return;
         }
+      }
+      if (outfile != null) {
+        FileOutputStream stream = new FileOutputStream(outfile);
+        writer = new OutputStreamWriter(stream, encoding);
       }
       convert(input, source, writer, new Properties());
       writer.close();
