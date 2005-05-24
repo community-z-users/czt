@@ -169,7 +169,8 @@ public class ParaChecker
     }
 
     //check the class signature for duplicate declaration names
-    checkForDuplicates(cSig);
+    checkForDuplicates(cSig, className(),
+                       ErrorMessage.REDECLARED_NAME_IN_CLASSPARA);
     checkForDuplicates(opNames);
 
     //add the visibility list to the signature now after the paragraph

@@ -1,5 +1,5 @@
 \begin{zsection}
-  \SECTION DuplicateNameInDistOpExpr\_DistSeqOpExpr \parents oz\_toolkit
+  \SECTION DuplicateOutNameInDistOpExpr\_DistSeqOpExpr \parents oz\_toolkit
 \end{zsection}
 
 \begin{class}{A}

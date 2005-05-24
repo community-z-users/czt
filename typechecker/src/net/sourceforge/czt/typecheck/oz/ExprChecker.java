@@ -115,7 +115,7 @@ public class ExprChecker
         List<NameTypePair> lsPairs = lcSig.getState().getNameTypePair();
         List<NameTypePair> rsPairs = rcSig.getState().getNameTypePair();
         for (NameTypePair lPair : lsPairs) {
-          NameTypePair rPair = findInPairList(lPair.getName(), rsPairs);
+          NameTypePair rPair = findNameTypePair(lPair.getName(), rsPairs);
           if (rPair != null) {
             state.getNameTypePair().add(lPair);
             state.getNameTypePair().add(rPair);
@@ -128,7 +128,7 @@ public class ExprChecker
         List<NameTypePair> laPairs = lcSig.getAttribute();
         List<NameTypePair> raPairs = rcSig.getAttribute();
         for (NameTypePair lPair : laPairs) {
-          NameTypePair rPair = findInPairList(lPair.getName(), raPairs);
+          NameTypePair rPair = findNameTypePair(lPair.getName(), raPairs);
           if (rPair != null) {
             attrs.add(lPair);
             attrs.add(rPair);
@@ -280,12 +280,12 @@ public class ExprChecker
 
           //try to find the name in the state signature
           Signature signature = classSig.getState();
-          NameTypePair pair = findInSignature(selectName, signature);
+          NameTypePair pair = findNameTypePair(selectName, signature);
 
           //if it is not found, try the attributes
           if (pair == null) {
             List<NameTypePair> pairs = classSig.getAttribute();
-            pair = findInPairList(selectName, pairs);
+            pair = findNameTypePair(selectName, pairs);
           }
 
           //if it is not in the state or attributes, raise an error
@@ -298,11 +298,11 @@ public class ExprChecker
             type = unwrapType(pair.getType());
           }
 
-	  //if the feature exists, but it is not visible, raise an error
-	  if (pair != null && !isVisible(selectName, exprType)) {
-	    Object [] params = {selectName, bindSelExpr};
-	    error(bindSelExpr, ErrorMessage.NON_VISIBLE_NAME_IN_SELEXPR, params);
-	  }
+          //if the feature exists, but it is not visible, raise an error
+          if (pair != null && !isVisible(selectName, exprType)) {
+            Object [] params = {selectName, bindSelExpr};
+            error(bindSelExpr, ErrorMessage.NON_VISIBLE_NAME_IN_SELEXPR, params);
+          }
         }
       }
       else {
@@ -318,7 +318,7 @@ public class ExprChecker
 
   public Object visitRenameExpr(RenameExpr renameExpr)
   {
-    Type2 type = factory().createUnknownType(); //factory().createVariableType();
+    Type2 type = factory().createUnknownType();
 
     //get the type of the expression
     Expr expr = renameExpr.getExpr();
@@ -333,10 +333,20 @@ public class ExprChecker
     }
     else if (!instanceOf(vPowerType.getType(), VariableType.class)) {
       if (vPowerType.getType() instanceof ClassRefType) {
-        ClassType classType = (ClassType) vPowerType.getType();
-        ClassSig classSig = classType.getClassSig();
+        ClassRefType classRefType = (ClassRefType) vPowerType.getType();
+        ClassSig classSig = classRefType.getClassSig();
         if (!instanceOf(classSig, VariableClassSig.class)) {
-
+          String errorMessage =
+            ErrorMessage.DUPLICATE_NAME_IN_RENAMEEXPR.toString();
+          List<NameNamePair> namePairs = renameExpr.getNameNamePair();
+          ClassSig renameClassSig =
+            createRenameClassSig(classSig, renameExpr, errorMessage);
+          ClassRefType newRefType =
+            factory().createClassRefType(renameClassSig,
+                                         classRefType.getThisClass(),
+                                         classRefType.getSuperClass(),
+                                         classRefType.getVisibilityList());
+          type = factory().createPowerType(newRefType);
         }
       }
       else if (vPowerType.getType() instanceof SchemaType) {

@@ -588,7 +588,7 @@ abstract public class Checker
       strokes.add(factory().createNextStroke());
       DeclName sName = factory().createDeclName(rName.getWord(),
                                                 strokes, null);
-      NameTypePair foundPair = findInSignature(sName, lSig);
+      NameTypePair foundPair = findNameTypePair(sName, lSig);
       if (foundPair != null) {
         Type2 fType = unwrapType(foundPair.getType());
         Type2 rType = unwrapType(rPair.getType());
@@ -623,7 +623,7 @@ abstract public class Checker
         strokes.set(size - 1, out);
         DeclName sName = factory().createDeclName(rName.getWord(),
                                                   strokes, null);
-        NameTypePair foundPair = findInSignature(sName, lSig);
+        NameTypePair foundPair = findNameTypePair(sName, lSig);
         if (foundPair != null) {
           Type2 fType = unwrapType(foundPair.getType());
           Type2 rType = unwrapType(rPair.getType());
@@ -653,7 +653,7 @@ abstract public class Checker
     //iterate over every name, removing it from the signature
     for (RefName refName : refNames) {
       DeclName declName = factory().createDeclName(refName);
-      NameTypePair rPair = findInSignature(declName, signature);
+      NameTypePair rPair = findNameTypePair(declName, signature);
 
       //if this is name is not in the schema, raise an error
       if (rPair == null) {
@@ -674,25 +674,14 @@ abstract public class Checker
     return result;
   }
 
-  protected Signature createRenameSig(Signature signature,
-                                      List<NameNamePair> namePairs,
-                                      TermA termA, String errorMessage)
+  //check for duplicate names in a list of renames
+  protected void checkForDuplicateRenames(List<NameNamePair> namePairs,
+                                          TermA termA, String errorMessage)
   {
-    List<NameTypePair> existingPairs = signature.getNameTypePair();
-    //a list for tracking that old names are not duplicated
+    //first check for duplicate renames
     List<RefName> oldNames = list();
-    List<NameTypePair> newPairs = list();
-    for (NameTypePair pair : existingPairs) {
-      DeclName name = factory().createDeclName(pair.getName());
-      NameTypePair newPair =
-        factory().createNameTypePair(name, pair.getType());
-      newPairs.add(newPair);
-    }
-
-    Signature newSignature = factory().createSignature(newPairs);
     for (NameNamePair namePair : namePairs) {
       RefName oldName = namePair.getOldName();
-      DeclName newName = namePair.getNewName();
 
       //if the old name is duplicated, raise an error
       if (oldNames.contains(oldName)) {
@@ -700,16 +689,37 @@ abstract public class Checker
         error(termA, errorMessage, params);
       }
       oldNames.add(oldName);
+    }
+  }
 
-      //find this name in the signature, and rename it
-      DeclName oldDeclName = factory().createDeclName(oldName);
-      NameTypePair newPair = findInSignature(oldDeclName, newSignature);
-      if (newPair != null) {
-        //set the new name
-        newPair.setName(newName);
+  //rename the declarations
+  protected Signature rename(Signature signature,
+                             List<NameNamePair> namePairs)
+  {
+    List<NameTypePair> newPairs = list();
+    List<NameTypePair> pairs = signature.getNameTypePair();
+    for (NameTypePair pair : pairs) {
+      NameNamePair namePair = findNameNamePair(pair.getName(), namePairs);
+      if (namePair != null) {
+        DeclName newName = namePair.getNewName();
+        NameTypePair newPair =
+          factory().createNameTypePair(newName, pair.getType());
+        newPairs.add(newPair);
+      }
+      else {
+        newPairs.add(pair);
       }
     }
     Signature result = factory().createSignature(newPairs);
+    return result;
+  }
+
+  protected Signature createRenameSig(Signature signature,
+                                      List<NameNamePair> namePairs,
+                                      TermA termA, String errorMessage)
+  {
+    checkForDuplicateRenames(namePairs, termA, errorMessage);
+    Signature result = rename(signature, namePairs);
     return result;
   }
 
@@ -909,23 +919,43 @@ abstract public class Checker
 
   //get a name/type pair corresponding with a particular name
   //return null if this name is not in the signature
-  protected NameTypePair findInSignature(DeclName declName,
-                                         Signature signature)
+  protected NameTypePair findNameTypePair(DeclName declName,
+                                          Signature signature)
   {
     List<NameTypePair> pairs = signature.getNameTypePair();
-    NameTypePair result = findInPairList(declName, pairs);
+    NameTypePair result = findNameTypePair(declName, pairs);
     return result;
   }
 
-  protected NameTypePair findInSignature(RefName refName,
-                                         Signature signature)
+  protected NameTypePair findNameTypePair(RefName refName,
+                                          Signature signature)
   {
     DeclName declName = factory().createDeclName(refName);
-    return findInSignature(declName, signature);
+    return findNameTypePair(declName, signature);
   }
 
-  protected NameTypePair findInPairList(DeclName declName,
-                                        List<NameTypePair> pairs)
+  protected NameNamePair findNameNamePair(DeclName declName,
+                                          List<NameNamePair> pairs)
+  {
+    RefName refName = factory().createRefName(declName);
+    return findNameNamePair(refName, pairs);
+  }
+
+  protected NameNamePair findNameNamePair(RefName refName,
+                                                List<NameNamePair> pairs)
+  {
+    NameNamePair result = null;
+    for (NameNamePair pair : pairs) {
+      if (pair.getOldName().equals(refName)) {
+        result = pair;
+        break;
+      }
+    }
+    return result;
+  }
+
+  protected NameTypePair findNameTypePair(DeclName declName,
+                                          List<NameTypePair> pairs)
   {
     NameTypePair result = null;
     for (NameTypePair pair : pairs) {
@@ -937,11 +967,11 @@ abstract public class Checker
     return result;
   }
 
-  protected NameTypePair findInPairList(RefName refName,
-                                        List<NameTypePair> pairs)
+  protected NameTypePair findNameTypePair(RefName refName,
+                                          List<NameTypePair> pairs)
   {
     DeclName declName = factory().createDeclName(refName);
-    return findInPairList(declName, pairs);
+    return findNameTypePair(declName, pairs);
   }
 
   //print debuging info

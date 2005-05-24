@@ -1203,7 +1203,7 @@ public class ExprChecker
         RefName selectName = bindSelExpr.getName();
 
         //if the select name is not in the signature, raise an error
-        NameTypePair pair = findInSignature(selectName, signature);
+        NameTypePair pair = findNameTypePair(selectName, signature);
         if (pair == null) {
           Object [] params = {bindSelExpr};
           error(selectName, ErrorMessage.NON_EXISTENT_SELECTION, params);
@@ -1289,16 +1289,13 @@ public class ExprChecker
   {
     //the list for this signature
     List<NameTypePair> pairs = list();
-
     List<NameTypePair> lPairs = lSig.getNameTypePair();
     for (NameTypePair lPair : lPairs) {
-      NameTypePair rPair =
-        findInSignature(lPair.getName(), rSig);
+      NameTypePair rPair = findNameTypePair(lPair.getName(), rSig);
       if (rPair == null) {
         pairs.add(lPair);
       }
     }
-
     Signature result = factory().createSignature(pairs);
     return result;
   }

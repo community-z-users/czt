@@ -147,7 +147,7 @@ abstract public class Checker
     List<NameTypePair> pairsA = sigA.getNameTypePair();
     List<NameTypePair> pairsB = sigB.getNameTypePair();
     for (NameTypePair pairA : pairsA) {
-      NameTypePair pairB = findInSignature(pairA.getName(), sigB);
+      NameTypePair pairB = findNameTypePair(pairA.getName(), sigB);
       if (pairB != null) {
         signature.getNameTypePair().add(pairA);
         signature.getNameTypePair().add(pairB);
@@ -229,7 +229,8 @@ abstract public class Checker
   }
 
   //check for duplicates in a class paragraph
-  protected void checkForDuplicates(ClassSig cSig)
+  protected void checkForDuplicates(ClassSig cSig, TermA termA,
+                                    ErrorMessage errorMessage)
   {
     List<DeclName> decls = list(className());
 
@@ -254,15 +255,15 @@ abstract public class Checker
       for (int j = i + 1; j < decls.size(); j++) {
         DeclName second = decls.get(j);
         if (first.equals(second)) {
-          Object [] params = {first, className()};
-          error(first, ErrorMessage.REDECLARED_NAME_IN_CLASSPARA, params);
+          Object [] params = {first, termA};
+          error(first, errorMessage, params);
         }
       }
     }
   }
 
   protected Signature createPloSig(Signature lSig, Signature rSig,
-				   TermA termA, String errorMessage)
+                                   TermA termA, String errorMessage)
   {
     //b3 and b4 correspond to the variable names "\Beta_3" and
     //"\Beta_4" in the standard for piping expr
@@ -279,7 +280,7 @@ abstract public class Checker
         strokes.set(size - 1, out);
         DeclName sName = factory().createDeclName(rName.getWord(),
                                                   strokes, null);
-        NameTypePair foundPair = findInSignature(sName, lSig);
+        NameTypePair foundPair = findNameTypePair(sName, lSig);
         if (foundPair != null) {
           Type2 fType = unwrapType(foundPair.getType());
           Type2 rType = unwrapType(rPair.getType());
@@ -295,6 +296,51 @@ abstract public class Checker
     //create the signature
     b3Pairs.addAll(b4Pairs);
     Signature result = factory().createSignature(b3Pairs);
+    return result;
+  }
+
+  //rename the declarations
+  protected List<NameSignaturePair> renameOps(List<NameSignaturePair> ops,
+                                              List<NameNamePair> namePairs)
+  {
+    List<NameSignaturePair> newPairs = list();
+    for (NameSignaturePair pair : ops) {
+      NameNamePair namePair = findNameNamePair(pair.getName(), namePairs);
+      if (namePair != null) {
+        DeclName newName = namePair.getNewName();
+        NameSignaturePair newPair =
+          factory().createNameSignaturePair(newName, pair.getSignature());
+        newPairs.add(newPair);
+      }
+      else {
+        newPairs.add(pair);
+      }
+    }
+    return newPairs;
+  }
+
+  protected ClassSig createRenameClassSig(ClassSig classSig,
+                                          RenameExpr renameExpr,
+                                          String errorMessage)
+  {
+    List<NameNamePair> namePairs = renameExpr.getNameNamePair();
+    checkForDuplicateRenames(namePairs, renameExpr,  errorMessage);
+
+    List<NameTypePair> attrs = classSig.getAttribute();
+    Signature attrSig = factory().createSignature(attrs);
+    Signature newAttrSig = rename(attrSig, namePairs);
+    List<NameTypePair> newAttrs = newAttrSig.getNameTypePair();
+
+    Signature state = classSig.getState();
+    Signature newState = rename(state, namePairs);
+
+    List<NameSignaturePair> ops = classSig.getOperation();
+    List<NameSignaturePair> newOps = renameOps(ops, namePairs);
+
+    ClassSig result = factory().createClassSig(classSig.getClasses(),
+                                               newState, newAttrs, newOps);
+    checkForDuplicates(result, renameExpr,
+                       ErrorMessage.REDECLARED_NAME_IN_RENAMEEXPR);
     return result;
   }
 
@@ -414,7 +460,7 @@ abstract public class Checker
   //find an attribute in a class signature
   protected NameTypePair findAttribute(DeclName declName, ClassSig cSig)
   {
-    NameTypePair result = findInPairList(declName, cSig.getAttribute());
+    NameTypePair result = findNameTypePair(declName, cSig.getAttribute());
     return result;
   }
 
@@ -422,7 +468,7 @@ abstract public class Checker
   protected NameTypePair findStateDecl(DeclName declName, ClassSig cSig)
   {
     List<NameTypePair> decls = cSig.getState().getNameTypePair();
-    NameTypePair result = findInPairList(declName, decls);
+    NameTypePair result = findNameTypePair(declName, decls);
     return result;
   }
 

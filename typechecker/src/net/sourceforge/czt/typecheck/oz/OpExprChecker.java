@@ -8,7 +8,7 @@
   (at your option) any later version.
 
   The czt project is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  but WITHOUT ANY  WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
@@ -135,7 +135,7 @@ public class OpExprChecker
       if (!instanceOf(cSig, VariableClassSig.class)) {
         RefName refName = opPromExpr.getName();
         NameSignaturePair opDef = findOperation(refName, cSig);
-	//if there is no operation with this name, raise an error
+        //if there is no operation with this name, raise an error
         if (opDef == null) {
           Object [] params = {opPromExpr};
           error(opPromExpr, ErrorMessage.NON_EXISTENT_NAME_IN_OPPROMEXPR, params);
@@ -144,11 +144,11 @@ public class OpExprChecker
           signature = opDef.getSignature();
         }
 
-	//if there is an operation, but it is not visible, raise an error
-	if (opDef != null && !isVisible(refName, vClassType.getValue())) {
-	  Object [] params = {refName, opPromExpr};
-	  error(opPromExpr, ErrorMessage.NON_VISIBLE_NAME_IN_OPPROMEXPR, params);
-	}
+        //if there is an operation, but it is not visible, raise an error
+        if (opDef != null && !isVisible(refName, vClassType.getValue())) {
+          Object [] params = {refName, opPromExpr};
+          error(opPromExpr, ErrorMessage.NON_VISIBLE_NAME_IN_OPPROMEXPR, params);
+        }
       }
     }
 
@@ -320,11 +320,11 @@ public class OpExprChecker
     List<NameTypePair> pairsA = signature.getNameTypePair();
     List<NameTypePair> pairsB = rSig.getNameTypePair();
     for (NameTypePair pairA : pairsA) {
-      NameTypePair pairB = findInSignature(pairA.getName(), rSig);
+      NameTypePair pairB = findNameTypePair(pairA.getName(), rSig);
       if (pairB != null) {
-	Object [] params = {pairA.getName(), scopeEnrichOpExpr};
-	error(scopeEnrichOpExpr,
-	      ErrorMessage.DUPLICATE_NAME_IN_SCOPEENRICHOPEXPR, params);
+        Object [] params = {pairA.getName(), scopeEnrichOpExpr};
+        error(scopeEnrichOpExpr,
+              ErrorMessage.DUPLICATE_NAME_IN_SCOPEENRICHOPEXPR, params);
       }
     }
 
@@ -357,10 +357,10 @@ public class OpExprChecker
     List<NameTypePair> distPairs = distSig.getNameTypePair();
     for (NameTypePair distPair : distPairs) {
       DeclName distName = distPair.getName();
-      NameTypePair opExprPair = findInSignature(distName, signature);
+      NameTypePair opExprPair = findNameTypePair(distName, signature);
       if (opExprPair != null) {
-	Object [] params = {distName, distOpExpr};
-	error(distOpExpr, ErrorMessage.DUPLICATE_NAME_IN_DISTOPEXPR, params);
+        Object [] params = {distName, distOpExpr};
+        error(distOpExpr, ErrorMessage.DUPLICATE_NAME_IN_DISTOPEXPR, params);
       }
     }
 
@@ -369,20 +369,20 @@ public class OpExprChecker
     //simplifies things somewhat
     if (distOpExpr instanceof DistSeqOpExpr) {
       for (NameTypePair distPair : distPairs) {
-	DeclName distName = distPair.getName();
-	List<Stroke> strokes = list(distName.getStroke());
-	int size = strokes.size();
-	if (size > 0 && strokes.get(size - 1) instanceof OutStroke) {
-	  strokes.remove(size - 1);
-	  DeclName baseName = factory().createDeclName(distName.getWord(),
-						       strokes, null);
-	  NameTypePair opExprPair = findInSignature(baseName, signature);
-	  if (opExprPair != null) {
-	    Object [] params = {distName, baseName, distOpExpr};
-	    error(distOpExpr, ErrorMessage.DUPLICATE_OUTNAME_IN_DISTOPEXPR, params);
-	  }
-	}
-      }      
+        DeclName distName = distPair.getName();
+        List<Stroke> strokes = list(distName.getStroke());
+        int size = strokes.size();
+        if (size > 0 && strokes.get(size - 1) instanceof OutStroke) {
+          strokes.remove(size - 1);
+          DeclName baseName = factory().createDeclName(distName.getWord(),
+                                                       strokes, null);
+          NameTypePair opExprPair = findNameTypePair(baseName, signature);
+          if (opExprPair != null) {
+            Object [] params = {distName, baseName, distOpExpr};
+            error(distOpExpr, ErrorMessage.DUPLICATE_OUTNAME_IN_DISTOPEXPR, params);
+          }
+        }
+      }
     }
 
     //exit the variable scope
