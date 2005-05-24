@@ -5,8 +5,7 @@ This is the BirthdayBook specification, from
 Spivey~\cite{spivey:z-notation2}.  We extend it slightly
 by adding an extra operation, $RemindOne$, that is non-deterministic.
 
-─NAME == 1 .. 5 
-─DATE == 10 .. 15 
+─[NAME,  DATE] 
 
 The $BirthdayBook$ schema defines the \emph{state space} of 
 the birthday book system. 
