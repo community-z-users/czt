@@ -144,7 +144,7 @@ public class Apgen
   private void init()
   {
     try {
-      Velocity.init(Gnast.loadProperties("velocity.properties"));
+      Velocity.init("velocity.properties");
     }
     catch (Exception e) {
       LOGGER.severe("Cannot initialise velocity.");
