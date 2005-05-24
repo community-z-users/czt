@@ -584,6 +584,19 @@ NAME =   {NOT_LB}*
         }
 </add:circus>
 <add:oz>
+  //look ahead to see if this is a generic class
+  //this also supports the "[" inside the "{..}" because the latex
+  //style does not print it correctly otherwise
+  "\\begin" {IGNORE}* "{class}" {IGNORE}* "{" / {NOT_NL}* "["
+        {
+          yybegin(ZED);
+          nested_ = true;
+          assert ! addSpace_;
+          String result = ZString.SCH + ZString.SPACE + "genclass" + ZString.SPACE;
+          begin("class");
+          braceStack_.push(BraceType.NAME);
+          return result(result);
+        }
   "\\begin" {IGNORE}* "{class}" {IGNORE}* "{"
         {
           yybegin(ZED);

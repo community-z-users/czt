@@ -249,7 +249,7 @@ JOKER = {JOKERCHAR}
 RULE = {RULECHAR}
 </add:zpatt>
 
-%state Z
+%state Z CLASS
 
 %%
 /* ------------------------Lexical Rules Section---------------------- */
@@ -283,6 +283,10 @@ RULE = {RULECHAR}
   {SCHCHAR} ({SPACE} | {CONTROL}) "class"
                 {  begins_++;
                    yybegin(Z); return symbol(Sym.CLASS); }
+  /* Object-Z class paragraph */
+  {SCHCHAR} ({SPACE} | {CONTROL}) "genclass"
+                {  begins_++;
+                   yybegin(Z); return symbol(Sym.GENCLASS); }
   </add:oz>
 
   {TEXT}        {  return symbol(Sym.TEXT, yytext()); }

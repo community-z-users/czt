@@ -919,7 +919,7 @@ terminal
         CIRCUS, CIRCCHAN,
 </add:circus>
 <add:oz>
-        DELTA, CLASS, STATE, INIT, OPSCH, SDEF,
+        DELTA, CLASS, GENCLASS, STATE, INIT, OPSCH, SDEF,
         INITWORD, POLY, CONTAINMENT,
         DCNJ, DGCH, DSQC, PARALLEL, ASSOPARALLEL, GCH, CLASSUNION,
 </add:oz>
@@ -1184,6 +1184,9 @@ non terminal Expr
 
 non terminal ClassPara
     class;
+
+non terminal Pair /* DeclName, List DeclName */
+    classHeader;
 
 non terminal State
     state;
@@ -1587,10 +1590,10 @@ circusParaItem ::=
 </add:circus>
         
 basicTypeDefinition ::= 
-        LSQUARE:lsquare nameList:nl RSQUARE
+        LSQUARE:lsq nameList:nl RSQUARE
         {:
            RESULT = factory_.createGivenPara(nl);
-           addLocAnn(RESULT, lsquareleft, lsquareright);
+           addLocAnn(RESULT, lsqleft, lsqright);
         :}
         ;
 
@@ -2903,10 +2906,10 @@ inner_term ::=
         :}
         |
         /* schema construction */
-        LSQUARE:lsquare schemaTextNoExpression:stne RSQUARE
+        LSQUARE:lsq schemaTextNoExpression:stne RSQUARE
         {:
            RESULT = factory_.createSchExpr(stne);
-           addLocAnn(RESULT, lsquareleft, lsquareright);
+           addLocAnn(RESULT, lsqleft, lsqright);
         :}
         |
         /* binding selection */
@@ -3860,9 +3863,8 @@ anyJoker ::=
 
 <add:oz>
 /// Object-Z constructs ///////////////////////////////////////////////
-class ::= 
-        CLASS:c name:n optNL
-            optFormalParameters:ofp
+class ::=
+        classHeader:ch optNL
             visibilityList:vl
             inheritedList:il
             localDefinitionList:ldl
@@ -3871,19 +3873,19 @@ class ::=
             operationList:ol
         END
         {:
-
-           //if there are no superclasses and the name is not
-           //"Object", add "Object" as the superclass
-           if (il.size() == 0 &amp;&amp;
-               !OzString.OBJECT.equals(n.getWord())) {
-             RefName rn =
-               factory_.createRefName(OzString.OBJECT, list(), null);
-             RefExpr re = factory_.createRefExpr(rn, list(), Boolean.FALSE);
-             il.add(re);
-           }
-           RESULT = factory_.createClassPara(n, ofp, vl, il, ldl, s, is, ol);
-           addLocAnn(RESULT, cleft, cright);
+           DeclName dn = (DeclName) ch.getFirst();
+           List ofp = (List) ch.getSecond();
+           RESULT = factory_.createClassPara(dn, ofp, vl, il, ldl, s, is, ol);
+           addLocAnn(RESULT, chleft, chright);
         :}
+        ;
+
+classHeader ::=
+        CLASS name:n
+        {: RESULT = pair(n, list()); :}
+        |
+        GENCLASS name:n formalParameters:fp
+        {: RESULT = pair(n, fp); :}
         ;
 
 operationList ::=
@@ -3934,6 +3936,7 @@ inheritedClassList ::=
 inheritedClass ::=
         DECORWORD:dw
         {:
+           checkName(dw, dwleft, dwright);
            RefName rn = factory_.createRefName(dw);
            RESULT = factory_.createRefExpr(rn, list(), Boolean.FALSE);
            addLocAnn(RESULT, dwleft, dwright);
@@ -3953,7 +3956,7 @@ inheritedClass ::=
         ;
 
 localDefinitionList ::=
-        localDefinitionList:ldl optNL localDefinition:bld
+        localDefinitionList:ldl optNL localDefinition:bld optNL
         {:
            ldl.add(bld);
            RESULT = ldl;
