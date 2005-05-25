@@ -44,6 +44,7 @@ public class ExprChecker
   implements
     ClassUnionExprVisitor,
     PolyExprVisitor,
+    ContainmentExprVisitor,
     PredExprVisitor,
     BindSelExprVisitor,
     RenameExprVisitor
@@ -239,6 +240,32 @@ public class ExprChecker
     //add the type annotation
     addTypeAnn(polyExpr, type);
     return type;
+  }
+
+  public Object visitContainmentExpr(ContainmentExpr containmentExpr)
+  {
+    Type2 type = factory().createUnknownType();
+
+    Expr expr = containmentExpr.getExpr();
+    Type2 exprType = (Type2) expr.accept(exprChecker());
+
+    //if the left expr is not a class description, raise an error
+    PowerType vPowerType = factory().createPowerType();
+    UResult unified = unify(vPowerType, exprType);
+
+    //if the expr is not a class type, raise an error
+    if (!instanceOf(vPowerType.getType(), ClassRefType.class) &&
+        !instanceOf(vPowerType.getType(), VariableType.class)) {
+      Object [] params = {containmentExpr, exprType};
+      error(containmentExpr, ErrorMessage.NON_REF_IN_CONTAINMENTEXPR, params);
+    }
+    else if (vPowerType.getType() instanceof ClassRefType) {
+      type = exprType;
+    }
+
+    //add the type annotation
+    addTypeAnn(containmentExpr, type);
+    return type;			      
   }
 
   public Object visitPredExpr(PredExpr predExpr)

@@ -867,8 +867,6 @@ abstract public class Checker
     //add each DeclName and its type
     List<String> names = list();
     for (DeclName declName : declNames) {
-      //declName.setId("" + id++);
-
       GenParamType genParamType = factory().createGenParamType(declName);
       PowerType powerType = factory().createPowerType(genParamType);
 

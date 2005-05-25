@@ -1,0 +1,21 @@
+\begin{zsection}
+  \SECTION ContainmentExpr \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  a == 1\\
+  \begin{state}
+    m : \nat
+  \end{state}
+  Op1 \sdef [x? : \nat]
+\end{class}
+
+
+\begin{class}{B}
+  \begin{state}
+   a : A\copyright
+  \where
+    a.a = a.m
+  \end{state}\\
+  Op1 \sdef a.Op1
+\end{class}

@@ -31,7 +31,6 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.typecheck.z.*;
-import net.sourceforge.czt.typecheck.util.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
 
 /**
