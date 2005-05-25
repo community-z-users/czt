@@ -49,7 +49,7 @@
   
   <target name="run" depends="install">
     <junit fork="yes" printsummary="yes" showoutput="yes">
-      <formatter type="plain" usefile="false"/>
+      <formatter type="xml"/>
       <test name="net.sourceforge.czt.typecheck.Suite"/>
       <jvmarg value="-Dczt.home=${czt.home}"/>
       <classpath>
@@ -62,7 +62,7 @@
     </junit>
   </target>
 
-  <target name="report">
+  <target name="test-report">
     <junitreport todir=".">
       <fileset dir=".">
         <include name="TEST-*.xml"/>
