@@ -23,8 +23,8 @@ import java.util.List;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.oz.util.OzString;
-import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.typecheck.z.util.*;
 import net.sourceforge.czt.typecheck.oz.impl.*;
 
@@ -94,7 +94,7 @@ abstract public class Checker
   //typecheck a file using an instance of this typechecker
   protected List typecheck(TermA termA, SectionInfo sectInfo)
   {
-    return TypeCheckUtils.typecheck(termA, sectInfo);
+    return TypeCheckUtils.typecheck(termA, sectInfo, markup());
   }
 
   protected void error(TermA termA, ErrorMessage error, Object [] params)
@@ -106,14 +106,16 @@ abstract public class Checker
   protected ErrorAnn errorAnn(TermA termA, ErrorMessage error, Object [] params)
   {
     ErrorAnn errorAnn = new ErrorAnn(error.toString(), params, sectInfo(),
-                                     sectName(), nearestLocAnn(termA));
+                                     sectName(), nearestLocAnn(termA),
+				     markup());
     return errorAnn;
   }
 
   protected ErrorAnn errorAnn(TermA termA, String error, Object [] params)
   {
     ErrorAnn errorAnn = new ErrorAnn(error, params, sectInfo(),
-                                     sectName(), nearestLocAnn(termA));
+                                     sectName(), nearestLocAnn(termA),
+				     markup());
     return errorAnn;
   }
 

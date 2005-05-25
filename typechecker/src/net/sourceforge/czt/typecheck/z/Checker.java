@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.typecheck.z.util.*;
@@ -64,6 +64,10 @@ abstract public class Checker
     System.err.println(this.getClass().getName() +
                        " being asked to visit " +
                        term.getClass().getName());
+    LocAnn locAnn = (LocAnn) ((TermA) term).getAnn(LocAnn.class);
+    if (locAnn != null) {
+      System.err.println("location = " + locAnn.getLoc());
+    }
     return factory().createUnknownType();
   }
 
@@ -321,7 +325,8 @@ abstract public class Checker
   protected ErrorAnn errorAnn(TermA termA, String error, Object [] params)
   {
     ErrorAnn errorAnn = new ErrorAnn(error, params, sectInfo(),
-                                     sectName(), nearestLocAnn(termA), termA);
+                                     sectName(), nearestLocAnn(termA),
+				     termA, markup());
     return errorAnn;
   }
 
@@ -344,7 +349,7 @@ abstract public class Checker
       CarrierSet cSet = new CarrierSet();
       Term newTerm = (Term) term.accept(cSet);
       StringWriter writer = new StringWriter();
-      PrintUtils.printLatex(newTerm, writer, sectInfo(), sectName());
+      PrintUtils.print(newTerm, writer, sectInfo(), sectName(), markup());
       return writer.toString();
     }
     catch (Exception e) {
@@ -471,6 +476,12 @@ abstract public class Checker
     return typeChecker_.sectInfo_;
   }
 
+  //the markup
+  protected Markup markup()
+  {
+    return typeChecker_.markup_;
+  }
+
   //the current section name
   protected String sectName()
   {
@@ -499,7 +510,7 @@ abstract public class Checker
   //typecheck a file using an instance of this typechecker
   protected List typecheck(TermA termA, SectionInfo sectInfo)
   {
-    return TypeCheckUtils.typecheck(termA, sectInfo);
+    return TypeCheckUtils.typecheck(termA, sectInfo, markup());
   }
 
   //the visitors used to typechecker a spec

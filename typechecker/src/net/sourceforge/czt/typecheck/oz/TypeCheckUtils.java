@@ -54,12 +54,13 @@ public final class TypeCheckUtils
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List typecheck(Term term,
-                               SectionInfo sectInfo)
+                               SectionInfo sectInfo,
+			       Markup markup)
   {
     ZFactory zFactory = new ZFactoryImpl();
     OzFactory ozFactory = new OzFactoryImpl();
     TypeChecker typeChecker =
-      new TypeChecker(zFactory, ozFactory, sectInfo);
+      new TypeChecker(zFactory, ozFactory, sectInfo, markup);
     typeChecker.visitTerm(term);
     return typeChecker.errors();
   }
@@ -106,7 +107,8 @@ public final class TypeCheckUtils
 
       //if the parse succeeded, typecheck the term
       if (term != null && typecheck) {
-        List errors = TypeCheckUtils.typecheck(term, manager);
+	Markup markup = ParseUtils.getMarkup(file);
+        List errors = TypeCheckUtils.typecheck(term, manager, markup);
 
         //print any errors
         for (Object next : errors) {

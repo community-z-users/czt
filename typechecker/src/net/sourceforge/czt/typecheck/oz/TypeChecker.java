@@ -22,9 +22,9 @@ import java.util.List;
 
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.oz.impl.OzFactoryImpl;
-import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.typecheck.oz.util.*;
 import net.sourceforge.czt.typecheck.oz.impl.*;
 
@@ -51,21 +51,32 @@ public class TypeChecker
   {
     this(info.zFactory_.getZFactory(),
          info.ozFactory_.getOzFactory(),
-         info.sectInfo_);
+         info.sectInfo_,
+	 info.markup_);
   }
 
   public TypeChecker(SectionInfo sectInfo)
   {
     this(new ZFactoryImpl(),
          new OzFactoryImpl(),
-         sectInfo);
+         sectInfo,
+	 Markup.UNICODE);
+  }
+
+  public TypeChecker(SectionInfo sectInfo, Markup markup)
+  {
+    this(new ZFactoryImpl(),
+         new OzFactoryImpl(),
+         sectInfo,
+	 markup);
   }
 
   public TypeChecker(ZFactory zFactory,
                      OzFactory ozFactory,
-                     SectionInfo sectInfo)
+                     SectionInfo sectInfo,
+		     Markup markup)
   {
-    super(sectInfo);
+    super(sectInfo, markup);
     ozFactory_ = new Factory(zFactory, ozFactory);
     sectInfo_ = sectInfo;
     unificationEnv_ = new UnificationEnv(zFactory);

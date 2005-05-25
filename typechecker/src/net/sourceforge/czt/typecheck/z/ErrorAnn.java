@@ -24,8 +24,8 @@ import java.io.StringWriter;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.print.z.PrintUtils;
-import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.typecheck.z.util.CarrierSet;
 
 /**
@@ -56,15 +56,19 @@ public class ErrorAnn
   /** The term that is in error. */
   protected TermA termA_;
 
+  /** The markup to be printed. */
+  protected Markup markup_;
+
   public ErrorAnn(String errorMessage, Object [] params,
-                  SectionInfo sectInfo, String sectName, LocAnn locAnn)
+                  SectionInfo sectInfo, String sectName,
+		  LocAnn locAnn, Markup markup)
   {
-    this(errorMessage, params, sectInfo, sectName, locAnn, null);
+    this(errorMessage, params, sectInfo, sectName, locAnn, null, markup);
   }
 
   public ErrorAnn(String errorMessage, Object [] params,
                   SectionInfo sectInfo, String sectName,
-                  LocAnn locAnn, TermA termA)
+                  LocAnn locAnn, TermA termA, Markup markup)
   {
     errorMessage_ = errorMessage;
     params_ = params;
@@ -72,6 +76,7 @@ public class ErrorAnn
     sectName_ = new String(sectName);
     locAnn_ = locAnn;
     termA_ = termA;
+    markup_ = markup;
   }
 
   public void setErrorMessage(String errorMessage)
@@ -118,6 +123,16 @@ public class ErrorAnn
     return termA_;
   }
 
+  public void setMarkup(Markup markup)
+  {
+    markup_ = markup;
+  }
+
+  public Markup getMarkup()
+  {
+    return markup_;
+  }
+
   public String toString()
   {
     String result = new String();
@@ -159,7 +174,7 @@ public class ErrorAnn
       try {
         Term term = (Term) ((Term) object).accept(getCarrierSet());
         StringWriter writer = new StringWriter();
-        PrintUtils.printLatex(term, writer, sectInfo, sectName);
+        PrintUtils.print(term, writer, sectInfo, sectName, markup_);
         return writer.toString();
       }
       catch (Exception e) {

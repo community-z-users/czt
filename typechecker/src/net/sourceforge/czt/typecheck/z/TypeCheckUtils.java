@@ -47,14 +47,17 @@ public final class TypeCheckUtils
 
   /**
    * Typecheck and type annotate a file.
-   * @param term the term to typecheck.
-   * @return the list of ErrorAnns in the AST added by the typechecker.
+   * @param term the <code>Term</code> to typecheck.
+   * @param sectInfo the <code>SectionInfo</code> object to use.
+   * @param markup the <code>Markup</code> of the specification.
+   * returns the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List typecheck(Term term,
-                               SectionInfo sectInfo)
+                               SectionInfo sectInfo,
+			       Markup markup)
   {
     ZFactory zFactory = new ZFactoryImpl();
-    TypeChecker typeChecker = new TypeChecker(zFactory, sectInfo);
+    TypeChecker typeChecker = new TypeChecker(zFactory, sectInfo, markup);
     typeChecker.visitTerm(term);
     return typeChecker.errors();
   }
@@ -99,7 +102,8 @@ public final class TypeCheckUtils
 
       //if the parse succeeded, typecheck the term
       if (term != null && typecheck) {
-        List errors = TypeCheckUtils.typecheck(term, manager);
+	Markup markup = ParseUtils.getMarkup(file);
+        List errors = TypeCheckUtils.typecheck(term, manager, markup);
 
         //print any errors
         for (Object next : errors) {

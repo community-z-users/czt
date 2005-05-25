@@ -23,11 +23,11 @@ import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.parser.oz.ParseUtils;
-import net.sourceforge.czt.session.SectionManager;
 
 /**
  * A JUnit test class for testing the typechecker. This reads any
@@ -64,10 +64,10 @@ public class TypeCheckerTest
     return ParseUtils.parseLatexFile(file, manager_);
   }
 
-  protected List typecheck(Term term)
+  protected List typecheck(Term term, Markup markup)
     throws Exception
   {
-    return TypeCheckUtils.typecheck(term, manager_);
+    return TypeCheckUtils.typecheck(term, manager_, markup);
   }
 
   public void testAll()

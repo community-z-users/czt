@@ -24,8 +24,8 @@ import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
-import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.typecheck.z.util.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
 import net.sourceforge.czt.util.CztLogger;
@@ -57,6 +57,9 @@ public class TypeChecker
   //a visitor for calculating carrier set
   protected CarrierSet carrierSet_;
 
+  //the markup used to print error messages
+  protected Markup markup_;
+
   //a section manager
   protected SectionInfo sectInfo_;
 
@@ -80,16 +83,22 @@ public class TypeChecker
   public TypeChecker(TypeChecker info)
   {
     this(info.zFactory_.getZFactory(),
-         info.sectInfo_);
+         info.sectInfo_, info.markup_);
   }
 
   public TypeChecker(SectionInfo sectInfo)
   {
-    this(new ZFactoryImpl(), sectInfo);
+    this(new ZFactoryImpl(), sectInfo, Markup.UNICODE);
+  }
+
+  public TypeChecker(SectionInfo sectInfo, Markup markup)
+  {
+    this(new ZFactoryImpl(), sectInfo, markup);
   }
 
   public TypeChecker(ZFactory zFactory,
-                     SectionInfo sectInfo)
+                     SectionInfo sectInfo,
+		     Markup markup)
   {
     zFactory_ = new Factory(zFactory);
     sectInfo_ = sectInfo;
@@ -97,6 +106,7 @@ public class TypeChecker
     typeEnv_ = new TypeEnv(zFactory);
     pending_ = new TypeEnv(zFactory);
     unificationEnv_ = new UnificationEnv(zFactory);
+    markup_ = markup == null ? Markup.LATEX : markup;
     carrierSet_ = new CarrierSet();
     errors_ = new java.util.ArrayList();
     specChecker_ = new SpecChecker(this);

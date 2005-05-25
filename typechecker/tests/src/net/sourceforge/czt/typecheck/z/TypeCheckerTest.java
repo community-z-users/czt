@@ -32,7 +32,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.parser.z.ParseUtils;
 
-import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.typecheck.z.util.SectTypeEnv;
 
 import net.sourceforge.czt.typecheck.testutil.TypeParser;
@@ -117,10 +117,10 @@ public class TypeCheckerTest
     return ParseUtils.parseLatexFile(file, manager_);
   }
 
-  protected List typecheck(Term term)
+  protected List typecheck(Term term, Markup markup)
     throws Exception
   {
-    return TypeCheckUtils.typecheck(term, manager_);
+    return TypeCheckUtils.typecheck(term, manager_, markup);
   }
 
   protected void handleNormal(String file)
@@ -128,7 +128,8 @@ public class TypeCheckerTest
     List<ErrorAnn> errors = new java.util.ArrayList();
     try {
       Term term = parse(file);
-      errors = typecheck(term);
+      Markup markup = ParseUtils.getMarkup(file);
+      errors = typecheck(term, markup);
     }
     catch (RuntimeException e) {
       e.printStackTrace();
@@ -161,7 +162,8 @@ public class TypeCheckerTest
         fail("Parser returned null");
       }
       else {
-        errors = typecheck(term);
+	Markup markup = ParseUtils.getMarkup(file);
+        errors = typecheck(term, markup);
       }
     }
     catch (RuntimeException e) {

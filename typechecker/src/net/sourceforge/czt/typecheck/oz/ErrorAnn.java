@@ -24,8 +24,8 @@ import java.io.StringWriter;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.print.z.PrintUtils;
-import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.typecheck.oz.util.CarrierSet;
 
 /**
@@ -40,16 +40,17 @@ public class ErrorAnn
     ResourceBundle.getBundle(RESOURCE_NAME);
 
   public ErrorAnn(String errorMessage, Object [] params,
-                  SectionInfo sectInfo, String sectName, LocAnn locAnn)
+                  SectionInfo sectInfo, String sectName,
+		  LocAnn locAnn, Markup markup)
   {
-    this(errorMessage, params, sectInfo, sectName, locAnn, null);
+    this(errorMessage, params, sectInfo, sectName, locAnn, null, markup);
   }
 
   public ErrorAnn(String errorMessage, Object [] params,
                   SectionInfo sectInfo, String sectName,
-                  LocAnn locAnn, TermA termA)
+                  LocAnn locAnn, TermA termA, Markup markup)
   {
-    super(errorMessage, params, sectInfo, sectName, locAnn, termA);
+    super(errorMessage, params, sectInfo, sectName, locAnn, termA, markup);
   }
 
   protected CarrierSet getCarrierSet()
