@@ -73,7 +73,7 @@
     </junit>
   </target>
 
-  <target name="report">
+  <target name="test-report">
     <junitreport todir=".">
       <fileset dir=".">
         <include name="TEST-*.xml"/>

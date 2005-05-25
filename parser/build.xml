@@ -1047,7 +1047,7 @@
   <target name="test" depends="install"
     description="Builds and runs the tests.  A browsable version of the test results is created in tests/build/report/index.html.">
     <ant dir="tests"/>
-    <ant dir="tests" target="report"/>
+    <ant dir="tests" target="test-report"/>
   </target>
 
   <target name="with.clover" description="Initializes clover.">
