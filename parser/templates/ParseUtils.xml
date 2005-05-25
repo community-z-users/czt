@@ -406,6 +406,21 @@ public final class <class/>
     return cdecl.getExpr();
   }
 
+  /**
+   * Determine the markup of a file.
+   */
+  public static Markup getMarkup(String filename)
+  {
+    Markup result = null;
+    if (filename.endsWith(".tex") || filename.endsWith(".TEX")) {
+      result = Markup.LATEX;
+    }
+    else if (filename.endsWith(".utf8") || filename.endsWith(".UTF8") ||
+             filename.endsWith(".utf16") || filename.endsWith(".UTF16")) {
+      result = Markup.UNICODE;
+    }
+    return result;
+  }
 
   /**
    * Get a <code>Command</code> object for use 

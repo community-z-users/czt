@@ -43,6 +43,56 @@ public final class PrintUtils
   }
 
   /**
+   * Prints a given term (usually a Spec or Sect) in the specified
+   * markup to the given writer.  The section information is used to
+   * obtain the operator table and latex markup table needed for
+   * printing, and should therefore be able to provide information of
+   * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>
+   * and
+   * <code>net.sourceforge.czt.parser.util.LatexMarkupTable.class</code>.
+   *
+   * This method may be used for terms like Spec and Sect that contain
+   * a section header so that context information can be obtained from
+   * the tree itself.  See {@link
+   * #print(Term,Writer,SectionInfo,String,Markup)} for
+   * writing trees that do not contain context information.
+   */
+  public static void print(Term term,
+			   Writer out,
+			   SectionInfo sectInfo,
+			   Markup markup)
+  {
+    if (markup == Markup.LATEX) {
+      printLatex(term, out, sectInfo);
+    }
+    else if (markup == Markup.UNICODE) {
+      printUnicode(term, out, sectInfo);
+    }
+    else {
+      String message = "Attempt to print unsupported markup";
+      throw new UnsupportedOperationException(message);
+    }
+  }
+
+  public static void print(Term term,
+			   Writer out,
+			   SectionInfo sectInfo,
+			   String sectName,
+			   Markup markup)
+  {
+    if (markup == Markup.LATEX) {
+      printLatex(term, out, sectInfo, sectName);
+    }
+    else if (markup == Markup.UNICODE) {
+      printUnicode(term, out, sectInfo, sectName);
+    }
+    else {
+      String message = "Attempt to print unsupported markup";
+      throw new UnsupportedOperationException(message);
+    }
+  }
+
+  /**
    * Prints a given term (usually a Spec or Sect) as latex markup to
    * the given writer.  The section information is used to obtain the
    * operator table and latex markup table needed for printing, and
