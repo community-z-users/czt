@@ -86,7 +86,7 @@
     <delete dir="${corejava.src.dir}/net/sourceforge/czt/zpatt/visitor"/>
   </target>
 
-  <target name="gen-jaxb" depends="pre, delete-cvs-jaxb"
+  <target name="gen-jaxb" depends="pre, delete-cvs-jaxb, install-base"
     description="Generate Jaxb classes">
     <taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
       <classpath>
