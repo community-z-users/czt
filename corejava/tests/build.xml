@@ -21,7 +21,7 @@
   <target name="run" depends="compile">
     <junit dir="${basedir}" fork="yes" printsummary="on">
       <jvmarg value="-Dczt.home=${czt.home}"/>
-      <formatter type="brief" usefile="false"/>
+      <formatter type="xml"/>
       <test name="net.sourceforge.czt.base.visitor.VisitorUtilsTest"/>
       <test name="net.sourceforge.czt.util.DelegatorTest"/>
       <test name="net.sourceforge.czt.util.TypesafeListTest"/>
@@ -34,6 +34,15 @@
         <enable/>
       </assertions>
     </junit>
+  </target>
+
+  <target name="test-report">
+    <junitreport todir=".">
+      <fileset dir=".">
+        <include name="TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="build/report"/>
+    </junitreport>
   </target>
 
   <target name="clean">
