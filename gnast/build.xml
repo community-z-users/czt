@@ -69,6 +69,14 @@
     </java>
   </target>
 
+  <target name="generate" depends="install" 
+    description="Generate AST classes into ../corejava/build/src">
+    <java classname="net.sourceforge.czt.gnast.Gnast" fork="true">
+      <arg line="-d ../corejava/build/src"/>
+      <classpath refid="classpath.run"/> 
+    </java>
+  </target>
+
   <target name="checkstyle" description="check java sources">
     <taskdef resource="checkstyletask.properties"
       classpath="${checkstyle.jar}"/>
