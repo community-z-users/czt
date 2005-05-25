@@ -329,9 +329,20 @@ set TYPECHECKER=${typechecker.win}
     <ant dir="corejava" target="test"/>
     <ant dir="parser" target="test"/>
     <ant dir="typechecker" target="test"/>
+    <ant dir="." target="test-report"/>
   </target>
 
-  <target name="changelog" description="generates a changelog report for the last 10 days">
+  <target name="test-report">
+    <junitreport todir=".">
+      <fileset dir=".">
+        <include name="**/TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="tests"/>
+    </junitreport>
+  </target>
+
+  <target name="changelog"
+    description="generates a changelog report for the last 10 days">
     <cvschangelog dir="."
       destfile="changelog.xml"
       daysinpast="10"/>
