@@ -71,6 +71,7 @@
 
   <target name="generate" depends="install" 
     description="Generate AST classes into ../corejava/build/src">
+    <echo message="NOTE: This may take some time (about 5 minutes on a 2GHz Pentium)."/>
     <java classname="net.sourceforge.czt.gnast.Gnast" fork="true">
       <arg line="-d ../corejava/build/src"/>
       <classpath refid="classpath.run"/> 
