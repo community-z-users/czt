@@ -48,8 +48,17 @@ public class SectTypeEnv
   /** The list of all NameSectTypeTriples add so far. */
   protected List<NameSectTypeTriple> typeInfo_;
 
+  /** The list of variables declared so far. */
+  protected List<DeclName> declarations_;
+
+  /** The list of sections declared so far. */
+  protected List<String> sectionDeclarations_;
+
   /** The current section. */
   protected String section_ = null;
+
+  /** True if the typechecker is traversing for a 2nd time. */
+  protected boolean secondTime_ = false;
 
   /** The currently visible sections. */
   protected Set<String> visibleSections_;
@@ -69,6 +78,8 @@ public class SectTypeEnv
   {
     factory_ = new Factory(zFactory);
     typeInfo_ = new ArrayList<NameSectTypeTriple>();
+    declarations_ = new ArrayList<DeclName>();
+    sectionDeclarations_ = new ArrayList<String>();
     visibleSections_ = new HashSet<String>();
     checkedSections_ = new HashSet<String>();
     parents_ = new HashMap<String, Set<String>>();
@@ -85,6 +96,16 @@ public class SectTypeEnv
     section_ = section;
   }
 
+  public void setSecondTime(boolean secondTime)
+  {
+    secondTime_ = secondTime;
+  }
+
+  public boolean getSecondTime()
+  {
+    return secondTime_;
+  }
+
   public Factory getFactory()
   {
     return factory_;
@@ -95,7 +116,13 @@ public class SectTypeEnv
    */
   public boolean isChecked(String section)
   {
-    return checkedSections_.contains(section);
+    boolean result = checkedSections_.contains(section);
+
+    if (secondTime_) {
+      result = sectionDeclarations_.contains(section);
+      sectionDeclarations_.add(section);
+    }
+    return result;
   }
 
   /**
@@ -149,7 +176,7 @@ public class SectTypeEnv
 
   /**
    * Add a <code>NameSectTypeTriple</code> to this environment.
-   * @return true if and only if this name is already declared
+   * @return false if and only if this name is already declared
    */
   public boolean add(NameSectTypeTriple triple)
   {
@@ -165,12 +192,17 @@ public class SectTypeEnv
       existing.setType(triple.getType());
     }
 
+    if (secondTime_) {
+      result = !declarations_.contains(triple.getName());
+      declarations_.add(triple.getName());
+    }
+
     return result;
   }
 
   /**
    * Add a <code>NameTypePair</code> to this environment.
-   * @return true if and only if this name is already declared
+   * @return false if and only if this name is already declared
    */
   public boolean add(NameTypePair nameTypePair)
   {
@@ -179,7 +211,7 @@ public class SectTypeEnv
 
   public boolean add(DeclName declName, Type type)
   {
-    boolean result = true;
+    boolean result = false;
 
     for (NameSectTypeTriple triple : typeInfo_) {
       if (triple.getName().equals(declName)) {
@@ -188,10 +220,15 @@ public class SectTypeEnv
       }
     }
 
-    if (result) {
+    if (!result) {
       NameSectTypeTriple insert =
         factory_.createNameSectTypeTriple(declName, section_, type);
       typeInfo_.add(insert);
+    }
+
+    if (secondTime_) {
+      result = !declarations_.contains(declName);
+      declarations_.add(declName);
     }
 
     return result;

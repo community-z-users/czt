@@ -128,7 +128,7 @@ public class ExprChecker
     }
 
     //get an existing parameter annotations
-    ParameterAnn pAnn = (ParameterAnn) refExpr.getAnn(ParameterAnn.class);
+    ParameterAnn pAnn = (ParameterAnn) refExpr.getAnn(ParameterAnn.class);    
     List<Expr> exprs = refExpr.getExpr();
 
     //if it is a generic type, but has not been declared in the
@@ -161,6 +161,7 @@ public class ExprChecker
             pAnn = new ParameterAnn(instantiations);
           }
           refExpr.getAnns().add(pAnn);
+	  refExprs().add(refExpr);
         }
 
         //add this expr for post checking
@@ -1198,10 +1199,9 @@ public class ExprChecker
     }
     //if expr is a binding, then get the type of the name
     else {
+      RefName selectName = bindSelExpr.getName();
       Signature signature = vSchemaType.getSignature();
       if (!instanceOf(signature, VariableSignature.class)) {
-        RefName selectName = bindSelExpr.getName();
-
         //if the select name is not in the signature, raise an error
         NameTypePair pair = findNameTypePair(selectName, signature);
         if (pair == null) {

@@ -302,9 +302,8 @@ public class ExprChecker
       else if (exprType instanceof ClassType) {
         ClassType classType = (ClassType) exprType;
         ClassSig classSig = classType.getClassSig();
+	RefName selectName = bindSelExpr.getName();
         if (!instanceOf(classSig, VariableClassSig.class)) {
-          RefName selectName = bindSelExpr.getName();
-
           //try to find the name in the state signature
           Signature signature = classSig.getState();
           NameTypePair pair = findNameTypePair(selectName, signature);

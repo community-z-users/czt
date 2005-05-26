@@ -69,6 +69,9 @@ public class TypeChecker
   //the list of errors thrown by retrieving type info
   protected List errors_;
 
+  //the RefExprs that have a ParameterAnn annotated to them
+  protected List<RefExpr> refExprs_;
+
   //used for logging warning messages.
   protected Logger logger_ = CztLogger.getLogger(TypeChecker.class);
 
@@ -109,6 +112,7 @@ public class TypeChecker
     markup_ = markup == null ? Markup.LATEX : markup;
     carrierSet_ = new CarrierSet();
     errors_ = new java.util.ArrayList();
+    refExprs_ = new java.util.ArrayList<RefExpr>();
     specChecker_ = new SpecChecker(this);
     paraChecker_ = new ParaChecker(this);
     declChecker_ = new DeclChecker(this);

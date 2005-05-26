@@ -23,7 +23,7 @@
 
 \begin{class}{C}
   \begin{axdef}
-    a : \poly A[\nat]\\
+    a : A[\nat]\\
     b : B[\nat]
   \where
     a.n = 1\\
@@ -31,7 +31,7 @@
     b.pn = \{a.n\}
   \end{axdef}\\
   \begin{state}
-    sa : \poly A[\nat]\\
+    sa : A[\nat]\\
     sb : B[\nat]
   \end{state}\\
   Op3 \sdef sa.Op1\\
@@ -47,7 +47,7 @@ Multiple inheritance
   \where
     d = n\\
     d \in pn\\
-    a \in \poly A[\nat]\\
+    a \in A[\nat]\\
     b \in B[\nat]
   \end{state}\\
   Op4 \sdef Op3 \land sa.Op1\\

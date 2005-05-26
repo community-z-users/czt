@@ -300,6 +300,14 @@ abstract public class Checker
   //to the term
   protected void error(TermA termA, ErrorAnn errorAnn)
   {
+    for (Object ann : termA.getAnns()) {
+      if (ann instanceof ErrorAnn) {
+	ErrorAnn existingAnn = (ErrorAnn) ann;
+	if (errorAnn.getErrorMessage().equals(existingAnn.getErrorMessage())) {
+	  return;
+	}
+      }
+    }
     termA.getAnns().add(errorAnn);
     error(errorAnn);
   }
@@ -499,6 +507,11 @@ abstract public class Checker
   protected List errors()
   {
     return typeChecker_.errors_;
+  }
+
+  protected List<RefExpr> refExprs()
+  {
+    return typeChecker_.refExprs_;
   }
 
   //the logger instance
@@ -867,6 +880,8 @@ abstract public class Checker
     //add each DeclName and its type
     List<String> names = list();
     for (DeclName declName : declNames) {
+      //declName.setId("" + id++);
+
       GenParamType genParamType = factory().createGenParamType(declName);
       PowerType powerType = factory().createPowerType(genParamType);
 
@@ -905,7 +920,7 @@ abstract public class Checker
       }
     }
 
-    //if not in either environments, return a variable type with the
+    //if not in any of the environments, return a variable type with the
     //specified name
     if (type instanceof UnknownType) {
       DeclName declName =
@@ -981,6 +996,66 @@ abstract public class Checker
   {
     DeclName declName = factory().createDeclName(refName);
     return findNameTypePair(declName, pairs);
+  }
+
+  protected void removeTypeAnns(Term term)
+  {
+    //remove the type annotation
+    if (term instanceof TermA) {
+      TermA termA = (TermA) term;
+      Object ann = termA.getAnn(TypeAnn.class);
+      if (ann != null) {
+	removeAnn(termA, ann);
+      }
+    }
+
+    //do the same for the children
+    Object [] children = term.getChildren();
+    for (int i = 0; i < children.length; i++) {
+      Object next = children[i];
+      if (next != null && next instanceof Term) {
+	removeTypeAnns((Term) next);
+      }
+    }
+  }
+
+  protected void removeErrorAnns(Term term)
+  {
+    //remove the type annotation
+    if (term instanceof TermA) {
+      TermA termA = (TermA) term;
+      Object ann = termA.getAnn(ErrorAnn.class);
+      while (ann != null) {
+	removeAnn(termA, ann);
+	ann = termA.getAnn(ErrorAnn.class);
+      }
+    }
+  }
+
+  protected void removeErrorAndTypeAnns(Term term)
+  {
+    //remove the type annotation
+    if (term instanceof TermA) {
+      TermA termA = (TermA) term;
+      Object ann = termA.getAnn(TypeAnn.class);
+      if (ann != null) {
+	removeAnn(termA, ann);
+      }
+      ann = termA.getAnn(ErrorAnn.class);
+      while (ann != null) {
+	removeAnn(termA, ann);
+	ann = termA.getAnn(ErrorAnn.class);
+      }
+    }
+
+    //do the same for the children
+    Object [] children = term.getChildren();
+    for (int i = 0; i < children.length; i++) {
+      Object next = children[i];
+      if (next != null && next instanceof Term) {
+	removeErrorAndTypeAnns((Term) next);
+      }
+    }
   }
 
   //print debuging info

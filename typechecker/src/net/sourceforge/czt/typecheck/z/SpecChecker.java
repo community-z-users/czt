@@ -52,12 +52,8 @@ public class SpecChecker
 
     //sectTypeEnv().dump();
 
-
     //get the result and return it
     Boolean result = getResult();
-    if (result == Boolean.FALSE) {
-      removeTypeAnns(spec);
-    }
     return result;
   }
 
@@ -116,6 +112,20 @@ public class SpecChecker
           error(pair.getName(), ErrorMessage.REDECLARED_GLOBAL_NAME, params);
         }
       }
+    }
+
+    if (!sectTypeEnv().getSecondTime()) {
+      for (RefExpr refExpr : refExprs()) {
+	removeAnn(refExpr, ParameterAnn.class);
+	Object undecAnn = refExpr.getAnn(UndeclaredAnn.class);
+	if (undecAnn != null) {
+	  //refExpr.accept(exprChecker());
+	}
+      }
+      errors().clear();
+      removeErrorAndTypeAnns(zSect);
+      sectTypeEnv().setSecondTime(true);
+      zSect.accept(specChecker());
     }
 
     //post-check any previously unresolved expressions
@@ -189,26 +199,5 @@ public class SpecChecker
       result = Boolean.FALSE;
     }
     return result;
-  }
-
-  protected void removeTypeAnns(Term term)
-  {
-    //remove the type annotation
-    if (term instanceof TermA) {
-      TermA termA = (TermA) term;
-      Object ann = termA.getAnn(TypeAnn.class);
-      if (ann != null) {
-	removeAnn(termA, ann);
-      }
-    }
-
-    //do the same for the children
-    Object [] children = term.getChildren();
-    for (int i = 0; i < children.length; i++) {
-      Object next = children[i];
-      if (next != null && next instanceof Term) {
-	removeTypeAnns((Term) next);
-      }
-    }
   }
 }
