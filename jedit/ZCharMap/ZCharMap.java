@@ -622,7 +622,9 @@ public class ZCharMap extends JPanel
 	SectionManager manager = new SectionManager();
 	Term term = parse(manager);
         if (term != null) {
-          List errors = TypeCheckUtils.typecheck(term, manager);
+          List errors = TypeCheckUtils.typecheck(term, manager,
+            markup.getSelectedIndex()==0 ? Markup.LATEX : Markup.UNICODE
+            );
           //print any errors
           for (Iterator iter = errors.iterator(); iter.hasNext(); ) {
             ErrorAnn errorAnn = (ErrorAnn) iter.next();
