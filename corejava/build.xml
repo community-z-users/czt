@@ -421,6 +421,9 @@
       <fileset dir="${corejava.src.dir}">
         <include name="**/*.properties"/>
       </fileset>
+      <fileset dir="${corejava.build.src}">
+        <include name="**/*.properties"/>
+      </fileset>
     </jar>
   </target>
 
