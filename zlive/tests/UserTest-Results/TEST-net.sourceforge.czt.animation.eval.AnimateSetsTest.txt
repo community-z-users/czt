@@ -1,547 +1,400 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateSetsTest
-Tests run: 214, Failures: 188, Errors: 0, Time elapsed: 0.28 sec
+Tests run: 214, Failures: 185, Errors: 0, Time elapsed: 0.339 sec
 
 ------------- Standard Output ---------------
-DEBUG chooseMode 12839401 FlatConst(tmp355,1) gives cost=1.0
-DEBUG chooseMode 12839401 FlatConst(tmp356,2) gives cost=1.0
-DEBUG chooseMode 12839401 FlatConst(tmp357,3) gives cost=1.0
-DEBUG chooseMode 12839401 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp355,tmp356,tmp357,tmp358) gives cost=1.0
-DEBUG chooseMode 12839401 FlatConst(tmp359,1) gives cost=1.0
-DEBUG chooseMode 12839401 net.sourceforge.czt.animation.eval.flatpred.FlatMember(tmp358,tmp359) gives cost=0.5
-DEBUG... final cost = 0.5
-DEBUG startEval 12839401 FlatConst(tmp355,1) gives cost=1.0
-DEBUG startEval 12839401 FlatConst(tmp356,2) gives cost=1.0
-DEBUG startEval 12839401 FlatConst(tmp357,3) gives cost=1.0
-DEBUG startEval 12839401 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp355,tmp356,tmp357,tmp358) gives cost=1.0
-DEBUG startEval 12839401 FlatConst(tmp359,1) gives cost=1.0
-DEBUG startEval 12839401 net.sourceforge.czt.animation.eval.flatpred.FlatMember(tmp358,tmp359) gives cost=0.5
+visitRefExpr:s13 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
+visitRefExpr:s13 --> net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
 Passed test:animate_sets.tex:34
-DEBUG chooseMode 3273383 FlatConst(tmp360,1) gives cost=1.0
-DEBUG chooseMode 3273383 FlatConst(tmp361,2) gives cost=1.0
-DEBUG chooseMode 3273383 FlatConst(tmp362,3) gives cost=1.0
-DEBUG chooseMode 3273383 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp360,tmp361,tmp362,tmp363) gives cost=1.0
-DEBUG chooseMode 3273383 FlatConst(tmp364,2) gives cost=1.0
-DEBUG chooseMode 3273383 net.sourceforge.czt.animation.eval.flatpred.FlatMember(tmp363,tmp364) gives cost=0.5
-DEBUG... final cost = 0.5
-DEBUG startEval 3273383 FlatConst(tmp360,1) gives cost=1.0
-DEBUG startEval 3273383 FlatConst(tmp361,2) gives cost=1.0
-DEBUG startEval 3273383 FlatConst(tmp362,3) gives cost=1.0
-DEBUG startEval 3273383 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp360,tmp361,tmp362,tmp363) gives cost=1.0
-DEBUG startEval 3273383 FlatConst(tmp364,2) gives cost=1.0
-DEBUG startEval 3273383 net.sourceforge.czt.animation.eval.flatpred.FlatMember(tmp363,tmp364) gives cost=0.5
+visitRefExpr:s13 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
+visitRefExpr:s13 --> net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
 Passed test:animate_sets.tex:35
-DEBUG chooseMode 20039836 FlatConst(tmp365,1) gives cost=1.0
-DEBUG chooseMode 20039836 FlatConst(tmp366,2) gives cost=1.0
-DEBUG chooseMode 20039836 FlatConst(tmp367,3) gives cost=1.0
-DEBUG chooseMode 20039836 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp365,tmp366,tmp367,tmp368) gives cost=1.0
-DEBUG chooseMode 20039836 FlatConst(tmp369,3) gives cost=1.0
-DEBUG chooseMode 20039836 net.sourceforge.czt.animation.eval.flatpred.FlatMember(tmp368,tmp369) gives cost=0.5
-DEBUG... final cost = 0.5
-DEBUG startEval 20039836 FlatConst(tmp365,1) gives cost=1.0
-DEBUG startEval 20039836 FlatConst(tmp366,2) gives cost=1.0
-DEBUG startEval 20039836 FlatConst(tmp367,3) gives cost=1.0
-DEBUG startEval 20039836 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp365,tmp366,tmp367,tmp368) gives cost=1.0
-DEBUG startEval 20039836 FlatConst(tmp369,3) gives cost=1.0
-DEBUG startEval 20039836 net.sourceforge.czt.animation.eval.flatpred.FlatMember(tmp368,tmp369) gives cost=0.5
+visitRefExpr:s13 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
+visitRefExpr:s13 --> net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
 Passed test:animate_sets.tex:36
-DEBUG chooseMode 23690087 FlatConst(tmp370,4) gives cost=1.0
-DEBUG chooseMode 23690087 FlatConst(tmp371,1) gives cost=1.0
-DEBUG chooseMode 23690087 FlatConst(tmp372,2) gives cost=1.0
-DEBUG chooseMode 23690087 FlatConst(tmp373,3) gives cost=1.0
-DEBUG chooseMode 23690087 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp371,tmp372,tmp373,tmp374) gives cost=1.0
-DEBUG chooseMode 23690087 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp370,tmp374,tmp375) gives cost=1.0
-DEBUG chooseMode 23690087 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember( _ ? _ ,tmp375)
-DEBUG chooseMode 2409635 FlatConst(tmp376,4) gives cost=1.0
-DEBUG chooseMode 2409635 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember(?,tmp376)
-DEBUG chooseMode 32098350 FlatConst(tmp377,4) gives cost=1.0
-DEBUG chooseMode 32098350 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember(?,tmp377)
-DEBUG chooseMode 22367538 FlatConst(tmp379,1) gives cost=1.0
-DEBUG chooseMode 22367538 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp379,tmp378) gives cost=1.0
-DEBUG chooseMode 22367538 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp378,?,tmp380)
-DEBUG chooseMode 19509473 FlatConst(tmp384,0) gives cost=1.0
-DEBUG chooseMode 19509473 FlatConst(tmp386,1) gives cost=1.0
-DEBUG chooseMode 19509473 FlatConst(tmp387,10) gives cost=1.0
-DEBUG chooseMode 19509473 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp386,tmp387,tmp385) gives cost=1.0
-DEBUG chooseMode 19509473 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp384,tmp385,tmp388) gives cost=1.0
-DEBUG chooseMode 19509473 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember( _ ? _ ,tmp388)
-DEBUG chooseMode 1812813 FlatConst(tmp390,1) gives cost=1.0
-DEBUG chooseMode 1812813 FlatConst(tmp391,10) gives cost=1.0
-DEBUG chooseMode 1812813 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp390,tmp391,tmp389) gives cost=1.0
-DEBUG chooseMode 1812813 FlatConst(tmp392,1) gives cost=1.0
-DEBUG chooseMode 1812813 net.sourceforge.czt.animation.eval.flatpred.FlatMember(tmp389,tmp392) gives cost=0.5
-DEBUG... final cost = 0.5
-DEBUG startEval 1812813 FlatConst(tmp390,1) gives cost=1.0
-DEBUG startEval 1812813 FlatConst(tmp391,10) gives cost=1.0
-DEBUG startEval 1812813 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp390,tmp391,tmp389) gives cost=1.0
-DEBUG startEval 1812813 FlatConst(tmp392,1) gives cost=1.0
-DEBUG startEval 1812813 net.sourceforge.czt.animation.eval.flatpred.FlatMember(tmp389,tmp392) gives cost=0.5
+visitRefExpr: _ ? _  gives : null
+visitRefExpr:s13 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
+visitRefExpr:s13 --> net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
+visitRefExpr:? gives : null
+visitRefExpr:? gives : null
+visitRefExpr: _ ? _  gives : null
+visitRefExpr:? gives : null
+visitRefExpr:??1? gives : [] net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
+visitRefExpr:? --> net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
+DEBUG: declNames = x .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
+visitRefExpr:? gives : null
+visitRefExpr:? gives : null
+visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp351 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp351 gives : null
+visitRefExpr:x gives : null
+visitRefExpr: _ ? _  gives : null
+visitRefExpr:??1? gives : [] net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
+visitRefExpr:? --> net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
+DEBUG: declNames = x .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
+visitRefExpr:? gives : null
+visitRefExpr:? gives : null
+visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp357 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp357 gives : null
+visitRefExpr:x gives : null
+visitRefExpr: _ ? _  gives : null
 Passed test:animate_sets.tex:46
-DEBUG chooseMode 21846985 FlatConst(tmp394,1) gives cost=1.0
-DEBUG chooseMode 21846985 FlatConst(tmp395,10) gives cost=1.0
-DEBUG chooseMode 21846985 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp394,tmp395,tmp393) gives cost=1.0
-DEBUG chooseMode 21846985 FlatConst(tmp396,5) gives cost=1.0
-DEBUG chooseMode 21846985 net.sourceforge.czt.animation.eval.flatpred.FlatMember(tmp393,tmp396) gives cost=0.5
-DEBUG... final cost = 0.5
-DEBUG startEval 21846985 FlatConst(tmp394,1) gives cost=1.0
-DEBUG startEval 21846985 FlatConst(tmp395,10) gives cost=1.0
-DEBUG startEval 21846985 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp394,tmp395,tmp393) gives cost=1.0
-DEBUG startEval 21846985 FlatConst(tmp396,5) gives cost=1.0
-DEBUG startEval 21846985 net.sourceforge.czt.animation.eval.flatpred.FlatMember(tmp393,tmp396) gives cost=0.5
 Passed test:animate_sets.tex:47
-DEBUG chooseMode 29683960 FlatConst(tmp398,1) gives cost=1.0
-DEBUG chooseMode 29683960 FlatConst(tmp399,10) gives cost=1.0
-DEBUG chooseMode 29683960 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp398,tmp399,tmp397) gives cost=1.0
-DEBUG chooseMode 29683960 FlatConst(tmp400,10) gives cost=1.0
-DEBUG chooseMode 29683960 net.sourceforge.czt.animation.eval.flatpred.FlatMember(tmp397,tmp400) gives cost=0.5
-DEBUG... final cost = 0.5
-DEBUG startEval 29683960 FlatConst(tmp398,1) gives cost=1.0
-DEBUG startEval 29683960 FlatConst(tmp399,10) gives cost=1.0
-DEBUG startEval 29683960 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp398,tmp399,tmp397) gives cost=1.0
-DEBUG startEval 29683960 FlatConst(tmp400,10) gives cost=1.0
-DEBUG startEval 29683960 net.sourceforge.czt.animation.eval.flatpred.FlatMember(tmp397,tmp400) gives cost=0.5
 Passed test:animate_sets.tex:48
-DEBUG chooseMode 8180602 FlatConst(tmp401,11) gives cost=1.0
-DEBUG chooseMode 8180602 FlatConst(tmp403,1) gives cost=1.0
-DEBUG chooseMode 8180602 FlatConst(tmp404,10) gives cost=1.0
-DEBUG chooseMode 8180602 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp403,tmp404,tmp402) gives cost=1.0
-DEBUG chooseMode 8180602 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp401,tmp402,tmp405) gives cost=1.0
-DEBUG chooseMode 8180602 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember( _ ? _ ,tmp405)
-DEBUG chooseMode 18885993 FlatConst(tmp407,5) gives cost=1.0
-DEBUG chooseMode 18885993 FlatConst(tmp408,5) gives cost=1.0
-DEBUG chooseMode 18885993 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp407,tmp408,tmp406) gives cost=1.0
-DEBUG chooseMode 18885993 FlatConst(tmp409,5) gives cost=1.0
-DEBUG chooseMode 18885993 net.sourceforge.czt.animation.eval.flatpred.FlatMember(tmp406,tmp409) gives cost=0.5
-DEBUG... final cost = 0.5
-DEBUG startEval 18885993 FlatConst(tmp407,5) gives cost=1.0
-DEBUG startEval 18885993 FlatConst(tmp408,5) gives cost=1.0
-DEBUG startEval 18885993 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp407,tmp408,tmp406) gives cost=1.0
-DEBUG startEval 18885993 FlatConst(tmp409,5) gives cost=1.0
-DEBUG startEval 18885993 net.sourceforge.czt.animation.eval.flatpred.FlatMember(tmp406,tmp409) gives cost=0.5
+visitRefExpr: _ ? _  gives : null
 Passed test:animate_sets.tex:50
-DEBUG chooseMode 25515362 FlatConst(tmp410,5) gives cost=1.0
-DEBUG chooseMode 25515362 FlatConst(tmp412,5) gives cost=1.0
-DEBUG chooseMode 25515362 FlatConst(tmp413,4) gives cost=1.0
-DEBUG chooseMode 25515362 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp412,tmp413,tmp411) gives cost=1.0
-DEBUG chooseMode 25515362 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp410,tmp411,tmp414) gives cost=1.0
-DEBUG chooseMode 25515362 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember( _ ? _ ,tmp414)
-DEBUG chooseMode 11050211 FlatConst(tmp415,5) gives cost=1.0
-DEBUG chooseMode 11050211 FlatConst(tmp417,6) gives cost=1.0
-DEBUG chooseMode 11050211 FlatConst(tmp418,5) gives cost=1.0
-DEBUG chooseMode 11050211 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp417,tmp418,tmp416) gives cost=1.0
-DEBUG chooseMode 11050211 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp415,tmp416,tmp419) gives cost=1.0
-DEBUG chooseMode 11050211 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember( _ ? _ ,tmp419)
-DEBUG chooseMode 30685694 FlatConst(tmp421,6) gives cost=1.0
-DEBUG chooseMode 30685694 FlatConst(tmp422,5) gives cost=1.0
-DEBUG chooseMode 30685694 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp421,tmp422,tmp420) gives cost=1.0
-DEBUG chooseMode 30685694 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp423) gives cost=1.0
-DEBUG chooseMode 30685694 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp420,tmp423) gives cost=0.5
-DEBUG... final cost = 0.5
-DEBUG startEval 30685694 FlatConst(tmp421,6) gives cost=1.0
-DEBUG startEval 30685694 FlatConst(tmp422,5) gives cost=1.0
-DEBUG startEval 30685694 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp421,tmp422,tmp420) gives cost=1.0
-DEBUG startEval 30685694 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp423) gives cost=1.0
-DEBUG startEval 30685694 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp420,tmp423) gives cost=0.5
+visitRefExpr: _ ? _  gives : null
+visitRefExpr: _ ? _  gives : null
+DEBUG: result is true
 Passed test:animate_sets.tex:53
-DEBUG chooseMode 21559496 FlatConst(tmp425,6) gives cost=1.0
-DEBUG chooseMode 21559496 FlatConst(tmp426,5) gives cost=1.0
-DEBUG chooseMode 21559496 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp425,tmp426,tmp424) gives cost=1.0
-DEBUG chooseMode 21559496 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp424,?) gives cost=1.0
-DEBUG... final cost = 1.0
-DEBUG startEval 21559496 FlatConst(tmp425,6) gives cost=1.0
-DEBUG startEval 21559496 FlatConst(tmp426,5) gives cost=1.0
-DEBUG startEval 21559496 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp425,tmp426,tmp424) gives cost=1.0
-DEBUG startEval 21559496 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp424,?) gives cost=1.0
+visitRefExpr:? gives : [X] net.sourceforge.czt.z.impl.SetCompExprImpl@9843347
 Passed test:animate_sets.tex:54
-DEBUG chooseMode 29705835 FlatConst(tmp428,6) gives cost=1.0
-DEBUG chooseMode 29705835 FlatConst(tmp429,5) gives cost=1.0
-DEBUG chooseMode 29705835 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp428,tmp429,tmp427) gives cost=1.0
-DEBUG chooseMode 29705835 FlatConst(tmp431,10) gives cost=1.0
-DEBUG chooseMode 29705835 FlatConst(tmp432,0) gives cost=1.0
-DEBUG chooseMode 29705835 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp431,tmp432,tmp430) gives cost=1.0
-DEBUG chooseMode 29705835 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp427,tmp430) gives cost=0.5
-DEBUG... final cost = 0.5
-DEBUG startEval 29705835 FlatConst(tmp428,6) gives cost=1.0
-DEBUG startEval 29705835 FlatConst(tmp429,5) gives cost=1.0
-DEBUG startEval 29705835 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp428,tmp429,tmp427) gives cost=1.0
-DEBUG startEval 29705835 FlatConst(tmp431,10) gives cost=1.0
-DEBUG startEval 29705835 FlatConst(tmp432,0) gives cost=1.0
-DEBUG startEval 29705835 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp431,tmp432,tmp430) gives cost=1.0
-DEBUG startEval 29705835 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp427,tmp430) gives cost=0.5
 Passed test:animate_sets.tex:55
-DEBUG: FLATSETCOMP HAS SIZE 10 11
-DEBUG chooseMode 25252664 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatSetComp( _ > _ ,tmp546)
-DEBUG chooseMode 25068634 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatEquals(?,?)
-DEBUG chooseMode 19097823 FlatConst(tmp571,0) gives cost=1.0
-DEBUG chooseMode 19097823 FlatConst(tmp572,1) gives cost=1.0
-DEBUG chooseMode 19097823 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp571,tmp572,tmp573) gives cost=1.0
-DEBUG chooseMode 19097823 FlatConst(tmp574,0) gives cost=1.0
-DEBUG chooseMode 19097823 FlatConst(tmp575,1) gives cost=1.0
-DEBUG chooseMode 19097823 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp574,tmp575,tmp576) gives cost=1.0
-DEBUG chooseMode 19097823 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp573,tmp576) gives cost=0.5
-DEBUG... final cost = 0.5
-DEBUG startEval 19097823 FlatConst(tmp571,0) gives cost=1.0
-DEBUG startEval 19097823 FlatConst(tmp572,1) gives cost=1.0
-DEBUG startEval 19097823 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp571,tmp572,tmp573) gives cost=1.0
-DEBUG startEval 19097823 FlatConst(tmp574,0) gives cost=1.0
-DEBUG startEval 19097823 FlatConst(tmp575,1) gives cost=1.0
-DEBUG startEval 19097823 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp574,tmp575,tmp576) gives cost=1.0
-DEBUG startEval 19097823 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp573,tmp576) gives cost=0.5
+DEBUG: declNames = x .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
+visitRefExpr:? gives : null
+visitRefExpr:? gives : null
+visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp486 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp486 gives : null
+visitRefExpr:x gives : null
+DEBUG: declNames = x .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
+visitRefExpr:? gives : null
+visitRefExpr:? gives : null
+visitRefExpr:x gives : null
+DEBUG: declNames = x .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
+visitRefExpr:? gives : null
+visitRefExpr:? gives : null
+visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp503 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp503 gives : null
+visitRefExpr:x gives : null
+DEBUG: declNames = x y .
+DEBUG: declNames = s .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1363315
+DEBUG: declNames = s .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1363315
+DEBUG: declNames = s t .
+DEBUG: declNames = x y .
+DEBUG: declNames = x y .
+DEBUG: declNames = x y .
+DEBUG: declNames = x y .
+DEBUG: declNames = x y .
+DEBUG: declNames = x y .
+DEBUG: declNames = x .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
+visitRefExpr:? gives : null
+visitRefExpr:? gives : null
+visitRefExpr:tmp540 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp540 gives : null
+visitRefExpr:x gives : null
+DEBUG: declNames = x .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
+visitRefExpr:??1? gives : [] net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
+visitRefExpr:? --> net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
+DEBUG: declNames = x .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
+visitRefExpr:? gives : null
+visitRefExpr:? gives : null
+visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp545 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp545 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:??1? gives : [] net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
+visitRefExpr:? --> net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
+DEBUG: declNames = x .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
+visitRefExpr:? gives : null
+visitRefExpr:? gives : null
+visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp549 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp549 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp543 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp543 gives : null
+visitRefExpr:x gives : null
+DEBUG: declNames = x .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
+visitRefExpr:s13 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
+visitRefExpr:s13 --> net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
+visitRefExpr:s13 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
+visitRefExpr:s13 --> net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
+visitRefExpr:tmp554 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp554 gives : null
+visitRefExpr:x gives : null
+Passed test:animate_sets.tex:245
+visitRefExpr: _ ? _  gives : null
+DEBUG: declNames = x .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
+visitRefExpr:s15 gives : [] net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
+visitRefExpr:s15 --> net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
+visitRefExpr:s15 gives : [] net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
+visitRefExpr:s15 --> net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
+visitRefExpr: _ ? _  gives : null
+visitRefExpr:x gives : null
+visitRefExpr:s13 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
+visitRefExpr:s13 --> net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
+visitRefExpr: _ ? _  gives : null
+visitRefExpr:x gives : null
+visitRefExpr:s13 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
+visitRefExpr:s13 --> net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
+visitRefExpr:tmp566 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp566 gives : null
+visitRefExpr:x gives : null
+DEBUG: declNames = x .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
+visitRefExpr:s15 gives : [] net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
+visitRefExpr:s15 --> net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
+visitRefExpr:s15 gives : [] net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
+visitRefExpr:s15 --> net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
+visitRefExpr: _ ? _  gives : null
+visitRefExpr:x gives : null
+visitRefExpr:s13 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
+visitRefExpr:s13 --> net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
+visitRefExpr: _ ? _  gives : null
+visitRefExpr:x gives : null
+visitRefExpr:s13 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
+visitRefExpr:s13 --> net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
+visitRefExpr:tmp585 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp585 gives : null
+visitRefExpr:x gives : null
+DEBUG: declNames = x .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
+visitRefExpr:s15 gives : [] net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
+visitRefExpr:s15 --> net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
+visitRefExpr:s15 gives : [] net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
+visitRefExpr:s15 --> net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
+visitRefExpr: _ ? _  gives : null
+visitRefExpr:x gives : null
+visitRefExpr:s13 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
+visitRefExpr:s13 --> net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
+visitRefExpr: _ ? _  gives : null
+visitRefExpr:x gives : null
+visitRefExpr:s13 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
+visitRefExpr:s13 --> net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
+visitRefExpr:tmp604 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp604 gives : null
+visitRefExpr:x gives : null
+visitRefExpr: _ ? _  gives : null
+DEBUG: declNames = x .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
+visitRefExpr:s15 gives : [] net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
+visitRefExpr:s15 --> net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
+visitRefExpr:s15 gives : [] net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
+visitRefExpr:s15 --> net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
+visitRefExpr: _ ? _  gives : null
+visitRefExpr:x gives : null
+visitRefExpr:s13 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
+visitRefExpr:s13 --> net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
+visitRefExpr: _ ? _  gives : null
+visitRefExpr:x gives : null
+visitRefExpr:s13 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
+visitRefExpr:s13 --> net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
+visitRefExpr:tmp624 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp624 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:s15 gives : [] net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
+visitRefExpr:s15 --> net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
+visitRefExpr:s15 gives : [] net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
+visitRefExpr:s15 --> net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
+visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp643 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp643 gives : null
+visitRefExpr:x gives : null
+Passed test:animate_sets.tex:250
+visitRefExpr: _ ? _  gives : null
+DEBUG: declNames = x .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
+visitRefExpr:??1? gives : [] net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
+visitRefExpr:? --> net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
+DEBUG: declNames = x .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
+visitRefExpr:? gives : null
+visitRefExpr:? gives : null
+visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp661 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp661 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:??1? gives : [] net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
+visitRefExpr:? --> net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
+DEBUG: declNames = x .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
+visitRefExpr:? gives : null
+visitRefExpr:? gives : null
+visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp665 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp665 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp659 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp659 gives : null
+visitRefExpr:x gives : null
+visitRefExpr: _ ? _  gives : null
+visitRefExpr:??1? gives : [] net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
+visitRefExpr:? --> net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
+DEBUG: declNames = x .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
+visitRefExpr:? gives : null
+visitRefExpr:? gives : null
+visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp674 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp674 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:??1? gives : [] net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
+visitRefExpr:? --> net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
+DEBUG: declNames = x .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
+visitRefExpr:? gives : null
+visitRefExpr:? gives : null
+visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp678 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp678 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp672 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp672 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:? gives : [X] net.sourceforge.czt.z.impl.SetCompExprImpl@9843347
+visitRefExpr:? gives : [X] net.sourceforge.czt.z.impl.SetCompExprImpl@9843347
+visitRefExpr:? gives : [X] net.sourceforge.czt.z.impl.SetCompExprImpl@9843347
+adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd707
+adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd726
+adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd707
+adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd726
+DEBUG: result is true
 Passed test:animate_sets.tex:258
-DEBUG chooseMode 28970806 FlatConst(tmp582,1) gives cost=1.0
-DEBUG chooseMode 28970806 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp582,tmp581) gives cost=1.0
-DEBUG chooseMode 28970806 FlatConst(tmp583,1) gives cost=1.0
-DEBUG chooseMode 28970806 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp581,tmp583,tmp584) gives cost=1.0
-DEBUG chooseMode 28970806 FlatConst(tmp585,1) gives cost=1.0
-DEBUG chooseMode 28970806 FlatConst(tmp586,2) gives cost=1.0
-DEBUG chooseMode 28970806 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp585,tmp586,tmp587) gives cost=1.0
-DEBUG chooseMode 28970806 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp584,tmp587,tmp588) gives cost=1.0
-DEBUG chooseMode 28970806 FlatConst(tmp590,1) gives cost=1.0
-DEBUG chooseMode 28970806 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp590,tmp589) gives cost=1.0
-DEBUG chooseMode 28970806 FlatConst(tmp591,1) gives cost=1.0
-DEBUG chooseMode 28970806 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp589,tmp591,tmp592) gives cost=1.0
-DEBUG chooseMode 28970806 net.sourceforge.czt.animation.eval.flatpred.FlatMember(tmp588,tmp592) gives cost=0.5
-DEBUG... final cost = 0.5
-DEBUG startEval 28970806 FlatConst(tmp582,1) gives cost=1.0
-DEBUG startEval 28970806 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp582,tmp581) gives cost=1.0
-DEBUG startEval 28970806 FlatConst(tmp583,1) gives cost=1.0
-DEBUG startEval 28970806 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp581,tmp583,tmp584) gives cost=1.0
-DEBUG startEval 28970806 FlatConst(tmp585,1) gives cost=1.0
-DEBUG startEval 28970806 FlatConst(tmp586,2) gives cost=1.0
-DEBUG startEval 28970806 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp585,tmp586,tmp587) gives cost=1.0
-DEBUG startEval 28970806 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp584,tmp587,tmp588) gives cost=1.0
-DEBUG startEval 28970806 FlatConst(tmp590,1) gives cost=1.0
-DEBUG startEval 28970806 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp590,tmp589) gives cost=1.0
-DEBUG startEval 28970806 FlatConst(tmp591,1) gives cost=1.0
-DEBUG startEval 28970806 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp589,tmp591,tmp592) gives cost=1.0
-DEBUG startEval 28970806 net.sourceforge.czt.animation.eval.flatpred.FlatMember(tmp588,tmp592) gives cost=0.5
+adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd726
+adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd6e8
+adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd726
+adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd745
+DEBUG: result is false
+adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd726
+adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd6e8
+adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd726
+adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd6e8
+DEBUG: result is true
 Passed test:animate_sets.tex:260
-DEBUG chooseMode 3975755 FlatConst(tmp594,0) gives cost=1.0
-DEBUG chooseMode 3975755 FlatConst(tmp595,1) gives cost=1.0
-DEBUG chooseMode 3975755 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp594,tmp595,tmp596) gives cost=1.0
-DEBUG chooseMode 3975755 FlatConst(tmp597,0) gives cost=1.0
-DEBUG chooseMode 3975755 FlatConst(tmp599,1) gives cost=1.0
-DEBUG chooseMode 3975755 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp599,tmp598) gives cost=1.0
-DEBUG chooseMode 3975755 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp597,tmp598,tmp600) gives cost=1.0
-DEBUG chooseMode 3975755 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp596,tmp600,tmp601) gives cost=1.0
-DEBUG chooseMode 3975755 FlatConst(tmp602,0) gives cost=1.0
-DEBUG chooseMode 3975755 FlatConst(tmp604,1) gives cost=1.0
-DEBUG chooseMode 3975755 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp604,tmp603) gives cost=1.0
-DEBUG chooseMode 3975755 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp602,tmp603,tmp605) gives cost=1.0
-DEBUG chooseMode 3975755 net.sourceforge.czt.animation.eval.flatpred.FlatMember(tmp601,tmp605) gives cost=0.5
-DEBUG... final cost = 0.5
-DEBUG startEval 3975755 FlatConst(tmp594,0) gives cost=1.0
-DEBUG startEval 3975755 FlatConst(tmp595,1) gives cost=1.0
-DEBUG startEval 3975755 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp594,tmp595,tmp596) gives cost=1.0
-DEBUG startEval 3975755 FlatConst(tmp597,0) gives cost=1.0
-DEBUG startEval 3975755 FlatConst(tmp599,1) gives cost=1.0
-DEBUG startEval 3975755 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp599,tmp598) gives cost=1.0
-DEBUG startEval 3975755 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp597,tmp598,tmp600) gives cost=1.0
-DEBUG startEval 3975755 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp596,tmp600,tmp601) gives cost=1.0
-DEBUG startEval 3975755 FlatConst(tmp602,0) gives cost=1.0
-DEBUG startEval 3975755 FlatConst(tmp604,1) gives cost=1.0
-DEBUG startEval 3975755 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp604,tmp603) gives cost=1.0
-DEBUG startEval 3975755 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp602,tmp603,tmp605) gives cost=1.0
-DEBUG startEval 3975755 net.sourceforge.czt.animation.eval.flatpred.FlatMember(tmp601,tmp605) gives cost=0.5
+adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd707
+adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd6e8
+adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd707
+adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd726
+DEBUG: result is false
+adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd707
+adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd6e8
+adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd707
+adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd6e8
+DEBUG: result is true
 Passed test:animate_sets.tex:266
-DEBUG chooseMode 13640204 FlatConst(tmp606,0) gives cost=1.0
-DEBUG chooseMode 13640204 FlatConst(tmp607,0) gives cost=1.0
-DEBUG chooseMode 13640204 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp606,tmp607,tmp608) gives cost=1.0
-DEBUG chooseMode 13640204 FlatConst(tmp609,1) gives cost=1.0
-DEBUG chooseMode 13640204 FlatConst(tmp610,1) gives cost=1.0
-DEBUG chooseMode 13640204 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp609,tmp610,tmp611) gives cost=1.0
-DEBUG chooseMode 13640204 FlatConst(tmp612,2) gives cost=1.0
-DEBUG chooseMode 13640204 FlatConst(tmp613,2) gives cost=1.0
-DEBUG chooseMode 13640204 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp612,tmp613,tmp614) gives cost=1.0
-DEBUG chooseMode 13640204 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp608,tmp611,tmp614,tmp615) gives cost=1.0
-DEBUG chooseMode 13640204 FlatConst(tmp616,1) gives cost=1.0
-DEBUG chooseMode 13640204 FlatConst(tmp617,1) gives cost=1.0
-DEBUG chooseMode 13640204 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp616,tmp617,tmp618) gives cost=1.0
-DEBUG chooseMode 13640204 net.sourceforge.czt.animation.eval.flatpred.FlatMember(tmp615,tmp618) gives cost=0.5
-DEBUG... final cost = 0.5
-DEBUG startEval 13640204 FlatConst(tmp606,0) gives cost=1.0
-DEBUG startEval 13640204 FlatConst(tmp607,0) gives cost=1.0
-DEBUG startEval 13640204 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp606,tmp607,tmp608) gives cost=1.0
-DEBUG startEval 13640204 FlatConst(tmp609,1) gives cost=1.0
-DEBUG startEval 13640204 FlatConst(tmp610,1) gives cost=1.0
-DEBUG startEval 13640204 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp609,tmp610,tmp611) gives cost=1.0
-DEBUG startEval 13640204 FlatConst(tmp612,2) gives cost=1.0
-DEBUG startEval 13640204 FlatConst(tmp613,2) gives cost=1.0
-DEBUG startEval 13640204 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp612,tmp613,tmp614) gives cost=1.0
-DEBUG startEval 13640204 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp608,tmp611,tmp614,tmp615) gives cost=1.0
-DEBUG startEval 13640204 FlatConst(tmp616,1) gives cost=1.0
-DEBUG startEval 13640204 FlatConst(tmp617,1) gives cost=1.0
-DEBUG startEval 13640204 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp616,tmp617,tmp618) gives cost=1.0
-DEBUG startEval 13640204 net.sourceforge.czt.animation.eval.flatpred.FlatMember(tmp615,tmp618) gives cost=0.5
+adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd726
+adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd745
+DEBUG: result is false
+adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd726
+adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd707
+DEBUG: result is false
+adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd726
+adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd726
+DEBUG: result is true
 Passed test:animate_sets.tex:269
-DEBUG chooseMode 7031149 FlatConst(tmp620,1) gives cost=1.0
-DEBUG chooseMode 7031149 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp620,tmp619) gives cost=1.0
-DEBUG chooseMode 7031149 FlatConst(tmp622,1) gives cost=1.0
-DEBUG chooseMode 7031149 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp622,tmp621) gives cost=1.0
-DEBUG chooseMode 7031149 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp619,tmp621,tmp623) gives cost=1.0
-DEBUG chooseMode 7031149 FlatConst(tmp625,1) gives cost=1.0
-DEBUG chooseMode 7031149 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp625,tmp624) gives cost=1.0
-DEBUG chooseMode 7031149 FlatConst(tmp627,1) gives cost=1.0
-DEBUG chooseMode 7031149 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp627,tmp626) gives cost=1.0
-DEBUG chooseMode 7031149 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp624,tmp626,tmp628) gives cost=1.0
-DEBUG chooseMode 7031149 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp623,tmp628,tmp629) gives cost=1.0
-DEBUG chooseMode 7031149 FlatConst(tmp631,1) gives cost=1.0
-DEBUG chooseMode 7031149 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp631,tmp630) gives cost=1.0
-DEBUG chooseMode 7031149 FlatConst(tmp633,1) gives cost=1.0
-DEBUG chooseMode 7031149 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp633,tmp632) gives cost=1.0
-DEBUG chooseMode 7031149 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp630,tmp632,tmp634) gives cost=1.0
-DEBUG chooseMode 7031149 net.sourceforge.czt.animation.eval.flatpred.FlatMember(tmp629,tmp634) gives cost=0.5
-DEBUG... final cost = 0.5
-DEBUG startEval 7031149 FlatConst(tmp620,1) gives cost=1.0
-DEBUG startEval 7031149 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp620,tmp619) gives cost=1.0
-DEBUG startEval 7031149 FlatConst(tmp622,1) gives cost=1.0
-DEBUG startEval 7031149 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp622,tmp621) gives cost=1.0
-DEBUG startEval 7031149 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp619,tmp621,tmp623) gives cost=1.0
-DEBUG startEval 7031149 FlatConst(tmp625,1) gives cost=1.0
-DEBUG startEval 7031149 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp625,tmp624) gives cost=1.0
-DEBUG startEval 7031149 FlatConst(tmp627,1) gives cost=1.0
-DEBUG startEval 7031149 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp627,tmp626) gives cost=1.0
-DEBUG startEval 7031149 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp624,tmp626,tmp628) gives cost=1.0
-DEBUG startEval 7031149 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp623,tmp628,tmp629) gives cost=1.0
-DEBUG startEval 7031149 FlatConst(tmp631,1) gives cost=1.0
-DEBUG startEval 7031149 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp631,tmp630) gives cost=1.0
-DEBUG startEval 7031149 FlatConst(tmp633,1) gives cost=1.0
-DEBUG startEval 7031149 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp633,tmp632) gives cost=1.0
-DEBUG startEval 7031149 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp630,tmp632,tmp634) gives cost=1.0
-DEBUG startEval 7031149 net.sourceforge.czt.animation.eval.flatpred.FlatMember(tmp629,tmp634) gives cost=0.5
+adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd6e8
+adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd6e8
+DEBUG: result is true
 Passed test:animate_sets.tex:273
-DEBUG chooseMode 27366488 FlatConst(tmp636,9999) gives cost=1.0
-DEBUG chooseMode 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp636,tmp635) gives cost=1.0
-DEBUG chooseMode 27366488 FlatConst(tmp638,9999) gives cost=1.0
-DEBUG chooseMode 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp638,tmp637) gives cost=1.0
-DEBUG chooseMode 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp635,tmp637,tmp639) gives cost=1.0
-DEBUG chooseMode 27366488 FlatConst(tmp641,5000) gives cost=1.0
-DEBUG chooseMode 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp641,tmp640) gives cost=1.0
-DEBUG chooseMode 27366488 FlatConst(tmp643,5000) gives cost=1.0
-DEBUG chooseMode 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp643,tmp642) gives cost=1.0
-DEBUG chooseMode 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp640,tmp642,tmp644) gives cost=1.0
-DEBUG chooseMode 27366488 FlatConst(tmp646,1) gives cost=1.0
-DEBUG chooseMode 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp646,tmp645) gives cost=1.0
-DEBUG chooseMode 27366488 FlatConst(tmp648,1) gives cost=1.0
-DEBUG chooseMode 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp648,tmp647) gives cost=1.0
-DEBUG chooseMode 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp645,tmp647,tmp649) gives cost=1.0
-DEBUG chooseMode 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp639,tmp644,tmp649,tmp650) gives cost=1.0
-DEBUG chooseMode 27366488 FlatConst(tmp652,9999) gives cost=1.0
-DEBUG chooseMode 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp652,tmp651) gives cost=1.0
-DEBUG chooseMode 27366488 FlatConst(tmp654,9999) gives cost=1.0
-DEBUG chooseMode 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp654,tmp653) gives cost=1.0
-DEBUG chooseMode 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp651,tmp653,tmp655) gives cost=1.0
-DEBUG chooseMode 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatMember(tmp650,tmp655) gives cost=0.5
-DEBUG... final cost = 0.5
-DEBUG startEval 27366488 FlatConst(tmp636,9999) gives cost=1.0
-DEBUG startEval 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp636,tmp635) gives cost=1.0
-DEBUG startEval 27366488 FlatConst(tmp638,9999) gives cost=1.0
-DEBUG startEval 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp638,tmp637) gives cost=1.0
-DEBUG startEval 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp635,tmp637,tmp639) gives cost=1.0
-DEBUG startEval 27366488 FlatConst(tmp641,5000) gives cost=1.0
-DEBUG startEval 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp641,tmp640) gives cost=1.0
-DEBUG startEval 27366488 FlatConst(tmp643,5000) gives cost=1.0
-DEBUG startEval 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp643,tmp642) gives cost=1.0
-DEBUG startEval 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp640,tmp642,tmp644) gives cost=1.0
-DEBUG startEval 27366488 FlatConst(tmp646,1) gives cost=1.0
-DEBUG startEval 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp646,tmp645) gives cost=1.0
-DEBUG startEval 27366488 FlatConst(tmp648,1) gives cost=1.0
-DEBUG startEval 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp648,tmp647) gives cost=1.0
-DEBUG startEval 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp645,tmp647,tmp649) gives cost=1.0
-DEBUG startEval 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp639,tmp644,tmp649,tmp650) gives cost=1.0
-DEBUG startEval 27366488 FlatConst(tmp652,9999) gives cost=1.0
-DEBUG startEval 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp652,tmp651) gives cost=1.0
-DEBUG startEval 27366488 FlatConst(tmp654,9999) gives cost=1.0
-DEBUG startEval 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp654,tmp653) gives cost=1.0
-DEBUG startEval 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp651,tmp653,tmp655) gives cost=1.0
-DEBUG startEval 27366488 net.sourceforge.czt.animation.eval.flatpred.FlatMember(tmp650,tmp655) gives cost=0.5
+visitRefExpr:set951 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@e0333162
+visitRefExpr:set951 --> net.sourceforge.czt.z.impl.SetExprImpl@e0333162
+adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbeb1c36
+adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbeb1c36
+DEBUG: result is true
 Passed test:animate_sets.tex:282
-DEBUG chooseMode 17975110 FlatConst(tmp656,0) gives cost=1.0
-DEBUG chooseMode 17975110 FlatConst(tmp657,0) gives cost=1.0
-DEBUG chooseMode 17975110 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp656,tmp657,tmp658) gives cost=1.0
-DEBUG chooseMode 17975110 FlatConst(tmp660,9999) gives cost=1.0
-DEBUG chooseMode 17975110 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp660,tmp659) gives cost=1.0
-DEBUG chooseMode 17975110 FlatConst(tmp662,9999) gives cost=1.0
-DEBUG chooseMode 17975110 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp662,tmp661) gives cost=1.0
-DEBUG chooseMode 17975110 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp659,tmp661,tmp663) gives cost=1.0
-DEBUG chooseMode 17975110 FlatConst(tmp665,5000) gives cost=1.0
-DEBUG chooseMode 17975110 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp665,tmp664) gives cost=1.0
-DEBUG chooseMode 17975110 FlatConst(tmp667,5000) gives cost=1.0
-DEBUG chooseMode 17975110 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp667,tmp666) gives cost=1.0
-DEBUG chooseMode 17975110 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp664,tmp666,tmp668) gives cost=1.0
-DEBUG chooseMode 17975110 FlatConst(tmp670,1) gives cost=1.0
-DEBUG chooseMode 17975110 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp670,tmp669) gives cost=1.0
-DEBUG chooseMode 17975110 FlatConst(tmp672,1) gives cost=1.0
-DEBUG chooseMode 17975110 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp672,tmp671) gives cost=1.0
-DEBUG chooseMode 17975110 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp669,tmp671,tmp673) gives cost=1.0
-DEBUG chooseMode 17975110 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp663,tmp668,tmp673,tmp674) gives cost=1.0
-DEBUG chooseMode 17975110 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp658,tmp674,tmp675) gives cost=1.0
-DEBUG chooseMode 17975110 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember( _ ? _ ,tmp675)
-DEBUG chooseMode 17131806 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatCard(?,tmp734)
-DEBUG chooseMode 3682584 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp737) gives cost=1.0
-DEBUG chooseMode 3682584 net.sourceforge.czt.animation.eval.flatpred.FlatCard(tmp737,tmp736) gives cost=1.0
-DEBUG chooseMode 3682584 FlatConst(tmp738,0) gives cost=1.0
-DEBUG chooseMode 3682584 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp736,tmp738) gives cost=0.5
-DEBUG... final cost = 0.5
-DEBUG startEval 3682584 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp737) gives cost=1.0
-DEBUG startEval 3682584 net.sourceforge.czt.animation.eval.flatpred.FlatCard(tmp737,tmp736) gives cost=1.0
-DEBUG startEval 3682584 FlatConst(tmp738,0) gives cost=1.0
-DEBUG startEval 3682584 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp736,tmp738) gives cost=0.5
+visitRefExpr: _ ? _  gives : null
+visitRefExpr:set951 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@e0333162
+visitRefExpr:set951 --> net.sourceforge.czt.z.impl.SetExprImpl@e0333162
+visitRefExpr: _ ? _  gives : null
+visitRefExpr: _ ? _  gives : null
+visitRefExpr: _ ? _  gives : null
+visitRefExpr: _ ? _  gives : null
+visitRefExpr: _ ? _  gives : null
+visitRefExpr: _ ? _  gives : null
+visitRefExpr: _ ? _  gives : null
+visitRefExpr: _ ? _  gives : null
+visitRefExpr: _ ? _  gives : null
+visitRefExpr: _ ? _  gives : null
+visitRefExpr: _ ? _  gives : null
+visitRefExpr: _ ? _  gives : null
+visitRefExpr: _ ? _  gives : null
+visitRefExpr: _ ? _  gives : null
+visitRefExpr: _ ? _  gives : null
+visitRefExpr: _ ? _  gives : null
+visitRefExpr: _ ? _  gives : null
+visitRefExpr: _ ? _  gives : null
+visitRefExpr: _ ? _  gives : null
+visitRefExpr:? gives : [X] net.sourceforge.czt.z.impl.SetCompExprImpl@9843347
 Passed test:animate_sets.tex:361
-DEBUG chooseMode 18818021 FlatConst(tmp743,1) gives cost=1.0
-DEBUG chooseMode 18818021 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp743,tmp742) gives cost=1.0
-DEBUG chooseMode 18818021 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp742,tmp744) gives cost=1.0
-DEBUG chooseMode 18818021 net.sourceforge.czt.animation.eval.flatpred.FlatCard(tmp744,tmp741) gives cost=1.0
-DEBUG chooseMode 18818021 FlatConst(tmp745,1) gives cost=1.0
-DEBUG chooseMode 18818021 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp741,tmp745) gives cost=0.5
-DEBUG... final cost = 0.5
-DEBUG startEval 18818021 FlatConst(tmp743,1) gives cost=1.0
-DEBUG startEval 18818021 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp743,tmp742) gives cost=1.0
-DEBUG startEval 18818021 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp742,tmp744) gives cost=1.0
-DEBUG startEval 18818021 net.sourceforge.czt.animation.eval.flatpred.FlatCard(tmp744,tmp741) gives cost=1.0
-DEBUG startEval 18818021 FlatConst(tmp745,1) gives cost=1.0
-DEBUG startEval 18818021 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp741,tmp745) gives cost=0.5
+DEBUG: declNames = x .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
+visitRefExpr:x gives : null
 Passed test:animate_sets.tex:369
-DEBUG chooseMode 23971937 FlatConst(tmp751,2) gives cost=1.0
-DEBUG chooseMode 23971937 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp751,tmp750) gives cost=1.0
-DEBUG chooseMode 23971937 FlatConst(tmp753,1) gives cost=1.0
-DEBUG chooseMode 23971937 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp753,tmp752) gives cost=1.0
-DEBUG chooseMode 23971937 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp750,tmp752,tmp749) gives cost=1.0
-DEBUG chooseMode 23971937 net.sourceforge.czt.animation.eval.flatpred.FlatCard(tmp749,tmp748) gives cost=1.0
-DEBUG chooseMode 23971937 FlatConst(tmp754,2) gives cost=1.0
-DEBUG chooseMode 23971937 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp748,tmp754) gives cost=0.5
-DEBUG... final cost = 0.5
-DEBUG startEval 23971937 FlatConst(tmp751,2) gives cost=1.0
-DEBUG startEval 23971937 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp751,tmp750) gives cost=1.0
-DEBUG startEval 23971937 FlatConst(tmp753,1) gives cost=1.0
-DEBUG startEval 23971937 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp753,tmp752) gives cost=1.0
-DEBUG startEval 23971937 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp750,tmp752,tmp749) gives cost=1.0
-DEBUG startEval 23971937 net.sourceforge.czt.animation.eval.flatpred.FlatCard(tmp749,tmp748) gives cost=1.0
-DEBUG startEval 23971937 FlatConst(tmp754,2) gives cost=1.0
-DEBUG startEval 23971937 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp748,tmp754) gives cost=0.5
+DEBUG: declNames = x .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
+visitRefExpr:x gives : null
 Passed test:animate_sets.tex:373
-DEBUG chooseMode 8293453 FlatConst(tmp756,1) gives cost=1.0
-DEBUG chooseMode 8293453 FlatConst(tmp757,2) gives cost=1.0
-DEBUG chooseMode 8293453 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp756,tmp757,tmp758) gives cost=1.0
-DEBUG chooseMode 8293453 net.sourceforge.czt.animation.eval.flatpred.FlatCard(tmp758,tmp755) gives cost=1.0
-DEBUG chooseMode 8293453 FlatConst(tmp759,2) gives cost=1.0
-DEBUG chooseMode 8293453 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp755,tmp759) gives cost=0.5
-DEBUG... final cost = 0.5
-DEBUG startEval 8293453 FlatConst(tmp756,1) gives cost=1.0
-DEBUG startEval 8293453 FlatConst(tmp757,2) gives cost=1.0
-DEBUG startEval 8293453 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp756,tmp757,tmp758) gives cost=1.0
-DEBUG startEval 8293453 net.sourceforge.czt.animation.eval.flatpred.FlatCard(tmp758,tmp755) gives cost=1.0
-DEBUG startEval 8293453 FlatConst(tmp759,2) gives cost=1.0
-DEBUG startEval 8293453 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp755,tmp759) gives cost=0.5
 Passed test:animate_sets.tex:379
-DEBUG chooseMode 2955420 FlatConst(tmp764,1) gives cost=1.0
-DEBUG chooseMode 2955420 FlatConst(tmp765,2) gives cost=1.0
-DEBUG chooseMode 2955420 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp764,tmp765,tmp763) gives cost=1.0
-DEBUG chooseMode 2955420 net.sourceforge.czt.animation.eval.flatpred.FlatCard(tmp763,tmp762) gives cost=1.0
-DEBUG chooseMode 2955420 FlatConst(tmp766,2) gives cost=1.0
-DEBUG chooseMode 2955420 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp762,tmp766) gives cost=0.5
-DEBUG... final cost = 0.5
-DEBUG startEval 2955420 FlatConst(tmp764,1) gives cost=1.0
-DEBUG startEval 2955420 FlatConst(tmp765,2) gives cost=1.0
-DEBUG startEval 2955420 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp764,tmp765,tmp763) gives cost=1.0
-DEBUG startEval 2955420 net.sourceforge.czt.animation.eval.flatpred.FlatCard(tmp763,tmp762) gives cost=1.0
-DEBUG startEval 2955420 FlatConst(tmp766,2) gives cost=1.0
-DEBUG startEval 2955420 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp762,tmp766) gives cost=0.5
+DEBUG: declNames = x .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
+visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp900 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp900 gives : null
+visitRefExpr:x gives : null
+Passed test:animate_sets.tex:381
 Passed test:animate_sets.tex:383
-DEBUG chooseMode 11200622 FlatConst(tmp769,10) gives cost=1.0
-DEBUG chooseMode 11200622 FlatConst(tmp770,10) gives cost=1.0
-DEBUG chooseMode 11200622 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp769,tmp770,tmp768) gives cost=1.0
-DEBUG chooseMode 11200622 net.sourceforge.czt.animation.eval.flatpred.FlatCard(tmp768,tmp767) gives cost=1.0
-DEBUG chooseMode 11200622 FlatConst(tmp771,1) gives cost=1.0
-DEBUG chooseMode 11200622 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp767,tmp771) gives cost=0.5
-DEBUG... final cost = 0.5
-DEBUG startEval 11200622 FlatConst(tmp769,10) gives cost=1.0
-DEBUG startEval 11200622 FlatConst(tmp770,10) gives cost=1.0
-DEBUG startEval 11200622 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp769,tmp770,tmp768) gives cost=1.0
-DEBUG startEval 11200622 net.sourceforge.czt.animation.eval.flatpred.FlatCard(tmp768,tmp767) gives cost=1.0
-DEBUG startEval 11200622 FlatConst(tmp771,1) gives cost=1.0
-DEBUG startEval 11200622 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp767,tmp771) gives cost=0.5
 Passed test:animate_sets.tex:384
-DEBUG chooseMode 8495511 FlatConst(tmp774,10) gives cost=1.0
-DEBUG chooseMode 8495511 FlatConst(tmp775,0) gives cost=1.0
-DEBUG chooseMode 8495511 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp774,tmp775,tmp773) gives cost=1.0
-DEBUG chooseMode 8495511 net.sourceforge.czt.animation.eval.flatpred.FlatCard(tmp773,tmp772) gives cost=1.0
-DEBUG chooseMode 8495511 FlatConst(tmp776,0) gives cost=1.0
-DEBUG chooseMode 8495511 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp772,tmp776) gives cost=0.5
-DEBUG... final cost = 0.5
-DEBUG startEval 8495511 FlatConst(tmp774,10) gives cost=1.0
-DEBUG startEval 8495511 FlatConst(tmp775,0) gives cost=1.0
-DEBUG startEval 8495511 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp774,tmp775,tmp773) gives cost=1.0
-DEBUG startEval 8495511 net.sourceforge.czt.animation.eval.flatpred.FlatCard(tmp773,tmp772) gives cost=1.0
-DEBUG startEval 8495511 FlatConst(tmp776,0) gives cost=1.0
-DEBUG startEval 8495511 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp772,tmp776) gives cost=0.5
 Passed test:animate_sets.tex:385
-DEBUG chooseMode 9949222 FlatConst(tmp778,1) gives cost=1.0
-DEBUG chooseMode 9949222 FlatConst(tmp779,1) gives cost=1.0
-DEBUG chooseMode 9949222 FlatConst(tmp780,1) gives cost=1.0
-DEBUG chooseMode 9949222 FlatConst(tmp781,1) gives cost=1.0
-DEBUG chooseMode 9949222 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp778,tmp779,tmp780,tmp781,tmp782) gives cost=1.0
-DEBUG chooseMode 9949222 net.sourceforge.czt.animation.eval.flatpred.FlatCard(tmp782,tmp777) gives cost=1.0
-DEBUG chooseMode 9949222 FlatConst(tmp783,1) gives cost=1.0
-DEBUG chooseMode 9949222 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp777,tmp783) gives cost=0.5
-DEBUG... final cost = 0.5
-DEBUG startEval 9949222 FlatConst(tmp778,1) gives cost=1.0
-DEBUG startEval 9949222 FlatConst(tmp779,1) gives cost=1.0
-DEBUG startEval 9949222 FlatConst(tmp780,1) gives cost=1.0
-DEBUG startEval 9949222 FlatConst(tmp781,1) gives cost=1.0
-DEBUG startEval 9949222 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp778,tmp779,tmp780,tmp781,tmp782) gives cost=1.0
-DEBUG startEval 9949222 net.sourceforge.czt.animation.eval.flatpred.FlatCard(tmp782,tmp777) gives cost=1.0
-DEBUG startEval 9949222 FlatConst(tmp783,1) gives cost=1.0
-DEBUG startEval 9949222 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp777,tmp783) gives cost=0.5
 Passed test:animate_sets.tex:386
-DEBUG chooseMode 14850080 FlatConst(tmp785,1) gives cost=1.0
-DEBUG chooseMode 14850080 FlatConst(tmp787,1) gives cost=1.0
-DEBUG chooseMode 14850080 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp787,tmp786) gives cost=1.0
-DEBUG chooseMode 14850080 FlatConst(tmp788,1) gives cost=1.0
-DEBUG chooseMode 14850080 FlatConst(tmp790,1) gives cost=1.0
-DEBUG chooseMode 14850080 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp790,tmp789) gives cost=1.0
-DEBUG chooseMode 14850080 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp785,tmp786,tmp788,tmp789,tmp791) gives cost=1.0
-DEBUG chooseMode 14850080 net.sourceforge.czt.animation.eval.flatpred.FlatCard(tmp791,tmp784) gives cost=1.0
-DEBUG chooseMode 14850080 FlatConst(tmp792,2) gives cost=1.0
-DEBUG chooseMode 14850080 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp784,tmp792) gives cost=0.5
-DEBUG... final cost = 0.5
-DEBUG startEval 14850080 FlatConst(tmp785,1) gives cost=1.0
-DEBUG startEval 14850080 FlatConst(tmp787,1) gives cost=1.0
-DEBUG startEval 14850080 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp787,tmp786) gives cost=1.0
-DEBUG startEval 14850080 FlatConst(tmp788,1) gives cost=1.0
-DEBUG startEval 14850080 FlatConst(tmp790,1) gives cost=1.0
-DEBUG startEval 14850080 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp790,tmp789) gives cost=1.0
-DEBUG startEval 14850080 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp785,tmp786,tmp788,tmp789,tmp791) gives cost=1.0
-DEBUG startEval 14850080 net.sourceforge.czt.animation.eval.flatpred.FlatCard(tmp791,tmp784) gives cost=1.0
-DEBUG startEval 14850080 FlatConst(tmp792,2) gives cost=1.0
-DEBUG startEval 14850080 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp784,tmp792) gives cost=0.5
 Passed test:animate_sets.tex:387
-DEBUG chooseMode 7433399 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp794) gives cost=1.0
-DEBUG chooseMode 7433399 FlatConst(tmp795,2) gives cost=1.0
-DEBUG chooseMode 7433399 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp795,tmp796) gives cost=1.0
-DEBUG chooseMode 7433399 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp797) gives cost=1.0
-DEBUG chooseMode 7433399 FlatConst(tmp798,2) gives cost=1.0
-DEBUG chooseMode 7433399 FlatConst(tmp800,1) gives cost=1.0
-DEBUG chooseMode 7433399 FlatConst(tmp801,1) gives cost=1.0
-DEBUG chooseMode 7433399 net.sourceforge.czt.animation.eval.flatpred.FlatPlus(tmp800,tmp801,tmp799) gives cost=1.0
-DEBUG chooseMode 7433399 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp798,tmp799,tmp802) gives cost=1.0
-DEBUG chooseMode 7433399 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp794,tmp796,tmp797,tmp802,tmp803) gives cost=1.0
-DEBUG chooseMode 7433399 net.sourceforge.czt.animation.eval.flatpred.FlatCard(tmp803,tmp793) gives cost=1.0
-DEBUG chooseMode 7433399 FlatConst(tmp804,2) gives cost=1.0
-DEBUG chooseMode 7433399 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp793,tmp804) gives cost=0.5
-DEBUG... final cost = 0.5
-DEBUG startEval 7433399 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp794) gives cost=1.0
-DEBUG startEval 7433399 FlatConst(tmp795,2) gives cost=1.0
-DEBUG startEval 7433399 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp795,tmp796) gives cost=1.0
-DEBUG startEval 7433399 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp797) gives cost=1.0
-DEBUG startEval 7433399 FlatConst(tmp798,2) gives cost=1.0
-DEBUG startEval 7433399 FlatConst(tmp800,1) gives cost=1.0
-DEBUG startEval 7433399 FlatConst(tmp801,1) gives cost=1.0
-DEBUG startEval 7433399 net.sourceforge.czt.animation.eval.flatpred.FlatPlus(tmp800,tmp801,tmp799) gives cost=1.0
-DEBUG startEval 7433399 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp798,tmp799,tmp802) gives cost=1.0
-DEBUG startEval 7433399 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp794,tmp796,tmp797,tmp802,tmp803) gives cost=1.0
-DEBUG startEval 7433399 net.sourceforge.czt.animation.eval.flatpred.FlatCard(tmp803,tmp793) gives cost=1.0
-DEBUG startEval 7433399 FlatConst(tmp804,2) gives cost=1.0
-DEBUG startEval 7433399 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp793,tmp804) gives cost=0.5
+adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd745
+adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd745
+DEBUG: result is true
+adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd745
+DEBUG: result is false
+DEBUG: result is true
 Passed test:animate_sets.tex:388
 ------------- ---------------- ---------------
 Testcase: animate_sets.tex:37(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
@@ -569,14 +422,14 @@ junit.framework.AssertionFailedError: Should not throw exception net.sourceforge
 
 
 Testcase: animate_sets.tex:41(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@f9b1ab43
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@f9b1ab43
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_sets.tex:42(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@b67b0a7
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@b67b0a7
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
@@ -1055,80 +908,80 @@ junit.framework.AssertionFailedError: Should not throw exception java.lang.Runti
 
 
 Testcase: animate_sets.tex:176(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@e3d55102
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@e3d55102
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@112492f9
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@112492f9
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_sets.tex:177(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@3eb76844
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@3eb76844
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_sets.tex:178(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@8bbcd4d8
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@8bbcd4d8
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@5cf39545
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@5cf39545
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_sets.tex:181(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@27ae4871
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@27ae4871
+Should not throw exception java.lang.IllegalArgumentException: x cannot be inserted into a list of net.sourceforge.czt.z.ast.Expr
+junit.framework.AssertionFailedError: Should not throw exception java.lang.IllegalArgumentException: x cannot be inserted into a list of net.sourceforge.czt.z.ast.Expr
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_sets.tex:185(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@4e761177
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@4e761177
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@203bbeae
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@203bbeae
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_sets.tex:189(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@fd645573
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@fd645573
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@203bbeae
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@203bbeae
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_sets.tex:196(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@835b73f2
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@835b73f2
+Should not throw exception java.lang.IllegalArgumentException: s cannot be inserted into a list of net.sourceforge.czt.z.ast.Expr
+junit.framework.AssertionFailedError: Should not throw exception java.lang.IllegalArgumentException: s cannot be inserted into a list of net.sourceforge.czt.z.ast.Expr
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_sets.tex:200(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@26837815
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@26837815
+Should not throw exception java.lang.IllegalArgumentException: x cannot be inserted into a list of net.sourceforge.czt.z.ast.Expr
+junit.framework.AssertionFailedError: Should not throw exception java.lang.IllegalArgumentException: x cannot be inserted into a list of net.sourceforge.czt.z.ast.Expr
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_sets.tex:203(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@bac7e716
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@bac7e716
+Should not throw exception java.lang.IllegalArgumentException: x cannot be inserted into a list of net.sourceforge.czt.z.ast.Expr
+junit.framework.AssertionFailedError: Should not throw exception java.lang.IllegalArgumentException: x cannot be inserted into a list of net.sourceforge.czt.z.ast.Expr
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_sets.tex:206(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@f39edad3
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@f39edad3
+Should not throw exception java.lang.IllegalArgumentException: x cannot be inserted into a list of net.sourceforge.czt.z.ast.Expr
+junit.framework.AssertionFailedError: Should not throw exception java.lang.IllegalArgumentException: x cannot be inserted into a list of net.sourceforge.czt.z.ast.Expr
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_sets.tex:209(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@8bbdadf4
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@8bbdadf4
+Should not throw exception java.lang.IllegalArgumentException: x cannot be inserted into a list of net.sourceforge.czt.z.ast.Expr
+junit.framework.AssertionFailedError: Should not throw exception java.lang.IllegalArgumentException: x cannot be inserted into a list of net.sourceforge.czt.z.ast.Expr
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_sets.tex:212(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@2c8a1021
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@2c8a1021
+Should not throw exception java.lang.IllegalArgumentException: x cannot be inserted into a list of net.sourceforge.czt.z.ast.Expr
+junit.framework.AssertionFailedError: Should not throw exception java.lang.IllegalArgumentException: x cannot be inserted into a list of net.sourceforge.czt.z.ast.Expr
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_sets.tex:215(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@f21bff73
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@f21bff73
+Should not throw exception java.lang.IllegalArgumentException: x cannot be inserted into a list of net.sourceforge.czt.z.ast.Expr
+junit.framework.AssertionFailedError: Should not throw exception java.lang.IllegalArgumentException: x cannot be inserted into a list of net.sourceforge.czt.z.ast.Expr
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
@@ -1229,62 +1082,50 @@ junit.framework.AssertionFailedError: Should not throw exception java.lang.Runti
 
 
 Testcase: animate_sets.tex:243(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@ee28d3e2
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@ee28d3e2
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@c6eb4271
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@c6eb4271
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_sets.tex:244(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@143aa963
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@143aa963
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
-
-
-Testcase: animate_sets.tex:245(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@9ba63722
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@9ba63722
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@63141d10
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@63141d10
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_sets.tex:246(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@a3962978
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@a3962978
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@f4faeaef
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@f4faeaef
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_sets.tex:247(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@a3962978
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@a3962978
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@bf28aade
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@bf28aade
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_sets.tex:248(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@a3962978
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@a3962978
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@bf28ae9f
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@bf28ae9f
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_sets.tex:249(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@a3962978
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@a3962978
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
-
-
-Testcase: animate_sets.tex:250(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@ae4b5d62
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@ae4b5d62
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@f5253172
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@f5253172
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_sets.tex:251(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@143aa963
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@143aa963
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@ce54d597
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@ce54d597
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_sets.tex:252(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@96e1c0ee
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@96e1c0ee
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
@@ -1643,20 +1484,14 @@ junit.framework.AssertionFailedError: Should not throw exception net.sourceforge
 
 
 Testcase: animate_sets.tex:363(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@44349106
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@44349106
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_sets.tex:371(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@15f46f83
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@15f46f83
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
-
-
-Testcase: animate_sets.tex:381(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@6a3f1c4b
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@6a3f1c4b
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 

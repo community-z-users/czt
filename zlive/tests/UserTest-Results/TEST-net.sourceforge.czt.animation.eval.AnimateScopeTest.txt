@@ -1,6 +1,10 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateScopeTest
-Tests run: 18, Failures: 18, Errors: 0, Time elapsed: 0.047 sec
+Tests run: 18, Failures: 18, Errors: 0, Time elapsed: 0.033 sec
 
+------------- Standard Output ---------------
+visitRefExpr:S1 gives : [] net.sourceforge.czt.z.impl.ExistsExprImpl@555a1683
+visitRefExpr:S1 --> net.sourceforge.czt.z.impl.ExistsExprImpl@555a1683
+------------- ---------------- ---------------
 Testcase: animate_scope.tex:22(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@dfc732bd
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@dfc732bd
@@ -44,14 +48,14 @@ junit.framework.AssertionFailedError: Should not throw exception java.lang.Runti
 
 
 Testcase: animate_scope.tex:41(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ExistsPredImpl@d653af57
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ExistsPredImpl@d653af57
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ExistsPredImpl@ff9eda4c
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ExistsPredImpl@ff9eda4c
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_scope.tex:44(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ExistsPredImpl@2468adea
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ExistsPredImpl@2468adea
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ExistsPredImpl@4db3d8df
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ExistsPredImpl@4db3d8df
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 

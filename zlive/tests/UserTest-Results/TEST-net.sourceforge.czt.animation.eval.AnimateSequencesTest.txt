@@ -1,6 +1,50 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateSequencesTest
-Tests run: 87, Failures: 87, Errors: 0, Time elapsed: 0.109 sec
+Tests run: 87, Failures: 87, Errors: 0, Time elapsed: 0.148 sec
 
+------------- Standard Output ---------------
+visitRefExpr: _ infix _  gives : null
+visitRefExpr: _ infix _  gives : null
+visitRefExpr: _ infix _  gives : null
+visitRefExpr: _ infix _  gives : null
+visitRefExpr: _ infix _  gives : null
+visitRefExpr: _ infix _  gives : null
+visitRefExpr: _ ? _  gives : null
+visitRefExpr: _ infix _  gives : null
+visitRefExpr: _ infix _  gives : null
+visitRefExpr: _ infix _  gives : null
+visitRefExpr: _ infix _  gives : null
+visitRefExpr: _ infix _  gives : null
+visitRefExpr: _ infix _  gives : null
+visitRefExpr: _ ? _  gives : null
+visitRefExpr: _ ? _  gives : null
+visitRefExpr: _ ? _  gives : null
+visitRefExpr: _ ? _  gives : null
+visitRefExpr: _ infix _  gives : null
+visitRefExpr: _ infix _  gives : null
+visitRefExpr: _ infix _  gives : null
+visitRefExpr: _ infix _  gives : null
+visitRefExpr: _ prefix _  gives : null
+visitRefExpr: _ prefix _  gives : null
+visitRefExpr: _ prefix _  gives : null
+visitRefExpr: _ prefix _  gives : null
+visitRefExpr: _ prefix _  gives : null
+visitRefExpr: _ suffix _  gives : null
+visitRefExpr: _ suffix _  gives : null
+visitRefExpr: _ suffix _  gives : null
+visitRefExpr: _ suffix _  gives : null
+visitRefExpr: _ suffix _  gives : null
+visitRefExpr: _ infix _  gives : null
+visitRefExpr: _ infix _  gives : null
+visitRefExpr: _ infix _  gives : null
+visitRefExpr: _ infix _  gives : null
+visitRefExpr: _ infix _  gives : null
+visitRefExpr: _ infix _  gives : null
+visitRefExpr: _ infix _  gives : null
+visitRefExpr: _ infix _  gives : null
+visitRefExpr: _ infix _  gives : null
+DEBUG: declNames = s .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1363315
+------------- ---------------- ---------------
 Testcase: animate_sequences.tex:29(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@b8505ce5
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@b8505ce5
@@ -398,8 +442,8 @@ junit.framework.AssertionFailedError: Should not throw exception java.lang.Runti
 
 
 Testcase: animate_sequences.tex:127(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@a051cf63
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: SetComp must have result expression: net.sourceforge.czt.z.impl.SetCompExprImpl@a051cf63
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@9fc35c15
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@9fc35c15
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
