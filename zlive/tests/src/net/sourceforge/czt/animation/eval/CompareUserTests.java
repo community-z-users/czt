@@ -160,40 +160,19 @@ public class CompareUserTests
   public static void main (String args[])
   throws IOException
   {
-    String versionNumber1,versionNumber2;
-    String date1,date2;
     String userdir = System.getProperty("user.dir");
-    if(args.length == 4) {
-      versionNumber1 = args[0];
-      date1 = args[1];
-      versionNumber2 = args[2];
-      date2 = args[3];
-      versionDirectoryName1 = "version" + versionNumber1 + "_" + date1;
-      versionDirectoryName2 = "version" + versionNumber2 + "_" + date2;
-    }
-    else if(args.length == 2) {
+    if(args.length == 2) {
       versionDirectoryName1 = args[0];
       versionDirectoryName2 = args[1];
-      int temp = versionDirectoryName1.lastIndexOf(File.separator);
-      versionNumber1 = versionDirectoryName1.substring(temp+1);
-      temp = versionDirectoryName2.lastIndexOf(File.separator);
-      versionNumber2 = versionDirectoryName2.substring(temp+1);
     }
     else {
-      BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-      System.out.print("Enter the version number for the first file (1,2,3...) : ");
-      versionNumber1 = br.readLine();
-      System.out.print("Enter date (dd-mm-yyyy) of first file : ");
-      date1 = br.readLine();
-      System.out.print("Enter the version number for the second file (1,2,3...) : ");
-      versionNumber2 = br.readLine();
-      System.out.print("Enter date (dd-mm-yyyy) of second file : ");
-      date2 = br.readLine();
-      versionDirectoryName1 = "version" + versionNumber1 + "_" + date1;
-      versionDirectoryName2 = "version" + versionNumber2 + "_" + date2;
+      System.out.println("Usage: CompareUserTests oldDirectory newDirectory");
+      System.out.println(" note: The two directories must both contain junit output");
+      System.out.println("       files with names like TEST-...AnimateIntsTest.txt");
+      System.out.println("       newDirectory can equal '.'");
+      System.exit(2);
     }
     out = System.out;
-    out.println("--VERSION "+versionNumber1+" VS VERSION "+versionNumber2+"--");
     
     compareFile("Ints");
     compareFile("Freetypes");
