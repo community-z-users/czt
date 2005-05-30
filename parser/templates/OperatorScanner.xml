@@ -150,9 +150,10 @@ public class <class/>
         symbol.sym == Sym.DEFNAME ||
 </add:oz>
         symbol.sym == Sym.DECLWORD) {
-      String name = (String) symbol.value;
+      Decorword decorword = (Decorword) symbol.value;
+      String name = decorword.getName();
       assert table_ != null;
-      OperatorTokenType optype = table_.getTokenType(name);
+      OperatorTokenType optype = table_.getTokenType(decorword);
       int type = -1;
       if (optype != null) {
         Field[] fields = Sym.class.getFields();

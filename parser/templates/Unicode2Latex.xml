@@ -474,9 +474,10 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    END_MARKUP, TOKENSEQ;
 terminal ZSect     SECTHEAD;
 terminal Integer   NUMERAL, NUMSTROKE;
-terminal String    DECORWORD, TEXT,
+terminal String    TEXT,
                    CHAR_MARKUP, WORD_MARKUP, INWORD_MARKUP, PREWORD_MARKUP,
                    POSTWORD_MARKUP;
+terminal Decorword DECORWORD;
 
 /* Non terminals */
 non terminal              input, narrWordList, sectionHeader,
@@ -670,7 +671,7 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
    decorword ::= DECORWORD:s
              {:
                 assert s != null;
-                RESULT = toLatex(s, sleft, sright);
+                RESULT = toLatex(s.getName(), sleft, sright);
              :}
              ;
 

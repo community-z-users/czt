@@ -28,6 +28,7 @@ import net.sourceforge.czt.java_cup.runtime.Symbol;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.base.util.*;
+import net.sourceforge.czt.parser.util.Decorword;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZString;
@@ -76,9 +77,9 @@ public class UnicodePrinter
   /**
    * Prints a DECORWORD.
    */
-  public void printDECORWORD(String decorword)
+  public void printDECORWORD(Decorword decorword)
   {
-    print(decorword);
+    print(decorword.getName());
   }
 
   /**
@@ -373,7 +374,7 @@ public class UnicodePrinter
             printNUMERAL((Integer) s.value);
             break;
           case(Sym.DECORWORD):
-            printDECORWORD((String) s.value);
+            printDECORWORD((Decorword) s.value);
             break;
           default :
             throw new CztException("Unexpected token " + s.sym);

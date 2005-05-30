@@ -167,44 +167,12 @@ action code
       return new Pair(o1, o2);
     }
 
-    /**
-     * &lt;p&gt;Checks whether a Z NAME (given as a String) has a following NW
-     * character for every SE character, and a following SW character
-     * for every NE character, and that these occur only in nested
-     * pairs (see also Z Standard, first edition, 7.4.1).&lt;/p&gt;
-     *
-     * &lt;p&gt;The Z Standard requires this only for the WORD part's
-     * of NAME, but I think this does not make a difference.&lt;/p&gt;
-     *
-     * @czt.todo Is it better to move this method into the createDeclName
-     *           and createRefName methods of the factory?
-     */
-    private void checkName(String name, int line, int column)
+    private void checkName(Decorword decorword, int line, int column)
     {
-      Stack&lt;ZChar&gt; stack = new Stack();
-      ZChar[] zchars = ZChar.toZChars(name);
-      for(int i = 0; i &lt; zchars.length; i++) {
-        if (zchars[i].equals(ZChar.NE) || zchars[i].equals(ZChar.SE)) {
-          stack.push(zchars[i]);
-        }
-        else if (zchars[i].equals(ZChar.NW) || zchars[i].equals(ZChar.SW)) {
-          if (! stack.empty()) {
-            ZChar zchar = stack.pop();
-            boolean sub = zchars[i].equals(ZChar.NW) &amp;&amp;
-              zchar.equals(ZChar.SE);
-            boolean sup = zchars[i].equals(ZChar.SW) &amp;&amp;
-              zchar.equals(ZChar.NE);
-            if (! (sub || sup)) {
-              final LocInfo locInfo = getLocation(line, column);
-              Object[] params = { zchars[i], locInfo };
-              parser.report_error(ParseMessage.MSG_UNMATCHED_WORDGLUE, params);
-            }
-          }
-        }
-      }
-      if (! stack.empty()) {
+      ZChar unmatched = decorword.check();
+      if (unmatched != null) {
         final LocInfo locInfo = getLocation(line, column);
-        Object[] params = { stack.pop(), locInfo };
+        Object[] params = { unmatched, locInfo };
         parser.report_error(ParseMessage.MSG_UNMATCHED_WORDGLUE, params);
       }
     }
@@ -220,6 +188,12 @@ action code
     private SchText createSchText(List decl, Pred pred)
     {
       return factory_.createSchText(decl, pred);
+    }
+
+    private Operator createOperator(Decorword decorword, int line, int column)
+      throws ParseException
+    {
+      return createOperator(decorword.getName(), line, column);
     }
 
     private Operator createOperator(String name, int line, int column)
@@ -936,14 +910,16 @@ terminal String
         JOKERNAME, JOKERNAMELIST, JOKEREXPR, JOKERPRED,
         JOKERDECLLIST, JOKERTYPE,
 </add:zpatt>
-<add:oz>
-        OPNAME, DEFNAME,
-</add:oz>
-        TEXT, DECORWORD, DECLWORD,
-        PREP, PRE, POSTP, POST, IP, I, LP, L, ELP, EL, ERP, ER,
+        TEXT, PREP, PRE, POSTP, POST, IP, I, LP, L, ELP, EL, ERP, ER,
         SRP, SR, EREP, ERE, SREP, SRE, ES, SS;
 
 terminal Integer NUMERAL, NUMSTROKE;
+
+terminal Decorword
+<add:oz>
+        DEFNAME, OPNAME,
+</add:oz>
+        DECORWORD, DECLWORD;
 
 non terminal Spec
     input,
@@ -1392,9 +1368,10 @@ section ::=
 sectionHeader ::=
         //ZED token at the start of sections is ignored by
         //local_next_token to avoid a few problems
-        SECTION:s DECORWORD:name parents:p END 
+        SECTION:s DECORWORD:dw parents:p END 
         {:
-           checkName(name, nameleft, nameright);
+           String name = dw.getName();
+           checkName(dw, dwleft, dwright);
            resetOpTable(name, p, pleft, pright);
 <add:zpatt>
            resetJokerTable(name, p, pleft, pright);
@@ -1430,7 +1407,7 @@ parentList ::=
         parentList:pl COMMA DECORWORD:dw
         {:
            checkName(dw, dwleft, dwright);
-           Parent p = factory_.createParent(dw);
+           Parent p = factory_.createParent(dw.getName());
            addLocAnn(p, dwleft, dwright);
            pl.add(p);
            RESULT = pl;
@@ -1439,7 +1416,7 @@ parentList ::=
         DECORWORD:dw
         {:
            checkName(dw, dwleft, dwright);
-           Parent p = factory_.createParent(dw);
+           Parent p = factory_.createParent(dw.getName());
            addLocAnn(p, dwleft, dwright);
            RESULT = list(p);
         :}
@@ -2022,7 +1999,7 @@ nameList ::=
         nameList:nl COMMA DECORWORD:dw
         {: 
            checkName(dw, dwleft, dwright);
-           DeclName dn = factory_.createDeclName(dw);
+           DeclName dn = factory_.createDeclName(dw.getName());
            addLocAnn(dn, dwleft, dwright);
            nl.add(dn);
            RESULT = nl;
@@ -2031,7 +2008,7 @@ nameList ::=
         DECORWORD:dw
         {: 
            checkName(dw, dwleft, dwright);
-           DeclName dn = factory_.createDeclName(dw);
+           DeclName dn = factory_.createDeclName(dw.getName());
            addLocAnn(dn, dwleft, dwright);
            RESULT = list(dn);
         :}
@@ -2041,7 +2018,7 @@ name ::=
         DECORWORD:dw
         {:
            checkName(dw, dwleft, dwright);
-           RESULT = factory_.createDeclName(dw);
+           RESULT = factory_.createDeclName(dw.getName());
            addLocAnn(RESULT, dwleft, dwright);
         :}
 <add:oz>
@@ -2049,7 +2026,7 @@ name ::=
         DEFNAME:dfn
         {:
            checkName(dfn, dfnleft, dfnright);
-           RESULT = factory_.createDeclName(dfn);
+           RESULT = factory_.createDeclName(dfn.getName());
            addLocAnn(RESULT, dfnleft, dfnright);
         :}
 </add:oz>
@@ -2059,7 +2036,7 @@ declWordList ::=
         declWordList:dwl COMMA DECLWORD:dw
         {: 
            checkName(dw, dwleft, dwright);
-           DeclName dn = factory_.createDeclName(dw);
+           DeclName dn = factory_.createDeclName(dw.getName());
            addLocAnn(dn, dwleft, dwright);
            dwl.add(dn); 
            RESULT = dwl;
@@ -2086,7 +2063,7 @@ declWordList ::=
         DECLWORD:dw
         {:
            checkName(dw, dwleft, dwright);
-           DeclName dn = factory_.createDeclName(dw);
+           DeclName dn = factory_.createDeclName(dw.getName());
            addLocAnn(dn, dwleft, dwright);
            RESULT = list(dn); 
         :}
@@ -2163,7 +2140,7 @@ declName ::=
         DECORWORD:dw
         {:
            checkName(dw, dwleft, dwright);
-           RESULT = factory_.createDeclName(dw);
+           RESULT = factory_.createDeclName(dw.getName());
            addLocAnn(RESULT, dwleft, dwright);
         :}
         |
@@ -2177,7 +2154,7 @@ declName ::=
         DEFNAME:dfn
         {:
            checkName(dfn, dfnleft, dfnright);
-           RESULT = factory_.createDeclName(dfn);
+           RESULT = factory_.createDeclName(dfn.getName());
            addLocAnn(RESULT, dfnleft, dfnright);
         :}
 </add:oz>
@@ -2187,7 +2164,7 @@ refNameList ::=
         refNameList:rnl COMMA DECORWORD:dw
         {:
            checkName(dw, dwleft, dwright);
-           RefName rn = factory_.createRefName(dw);
+           RefName rn = factory_.createRefName(dw.getName());
            addLocAnn(rn, dwleft, dwright);
            rnl.add(rn);
            RESULT = rnl;
@@ -2206,7 +2183,7 @@ refNameList ::=
         DECORWORD:dw
         {:
            checkName(dw, dwleft, dwright);
-           RefName rn = factory_.createRefName(dw);
+           RefName rn = factory_.createRefName(dw.getName());
            addLocAnn(rn, dwleft, dwright);
            RESULT = list(rn);
         :}
@@ -2225,7 +2202,7 @@ refName ::=
         DECORWORD:dw
         {:
            checkName(dw, dwleft, dwright);
-           RESULT = factory_.createRefName(dw);
+           RESULT = factory_.createRefName(dw.getName());
            addLocAnn(RESULT, dwleft, dwright);
         :}        
         <add:oz>
@@ -2536,14 +2513,14 @@ formalParameterName ::=
         DECORWORD:dw
         {: 
            checkName(dw, dwleft, dwright);
-           RESULT = factory_.createDeclName(dw);
+           RESULT = factory_.createDeclName(dw.getName());
         :}
 <add:oz>
         |
         DEFNAME:dn
         {:
            checkName(dn, dnleft, dnright);
-           RESULT = factory_.createDeclName(dn);
+           RESULT = factory_.createDeclName(dn.getName());
         :}
 </add:oz>
         ;
@@ -3589,7 +3566,7 @@ optNL ::=
 jokerPara ::=
         JOKER:j DECORWORD:dw jokerList:jl END
         {:
-           RESULT = factory_.createJokers(jl, dw);
+           RESULT = factory_.createJokers(jl, dw.getName());
            addLocAnn(RESULT, jleft, jright);
            try {
              jokerTable_.add(RESULT);
@@ -3606,7 +3583,7 @@ rulePara ::=
         {:
            List sequents = list(c);
            sequents.addAll(oa);
-           RESULT = factory_.createRule(sequents, dw);
+           RESULT = factory_.createRule(sequents, dw.getName());
            addLocAnn(RESULT, rleft, rright);
         :}
         ;
@@ -3614,12 +3591,12 @@ rulePara ::=
 jokerList ::=
        jokerList:jl COMMA DECORWORD:dw
        {:
-          jl.add(dw);
+          jl.add(dw.getName());
           RESULT = jl;
        :}
        |
        DECORWORD:dw
-       {: RESULT = list(dw); :}
+       {: RESULT = list(dw.getName()); :}
        ;
 
 optAntecedents ::=
@@ -3937,7 +3914,7 @@ inheritedClass ::=
         DECORWORD:dw
         {:
            checkName(dw, dwleft, dwright);
-           RefName rn = factory_.createRefName(dw);
+           RefName rn = factory_.createRefName(dw.getName());
            RESULT = factory_.createRefExpr(rn, list(), Boolean.FALSE);
            addLocAnn(RESULT, dwleft, dwright);
         :}
@@ -4138,7 +4115,7 @@ operation ::=
         |
         OPNAME:on SDEF opExpr:oe
         {:
-           DeclName dn = factory_.createDeclName(on, list(), null);
+           DeclName dn = factory_.createDeclName(on.getName(), list(), null);
            RESULT = factory_.createOperation(dn, oe, Box.OmitBox);
            addLocAnn(RESULT, onleft, onright);
            addLocAnn(dn, onleft, onright);

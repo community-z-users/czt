@@ -24,15 +24,19 @@ package <package/>;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Stack;
 
 import net.sourceforge.czt.java_cup.runtime.*;
 
+import net.sourceforge.czt.parser.util.Decorword;
 import net.sourceforge.czt.parser.util.ParsePropertiesKeys;
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 
+import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZString;
 <add:zpatt>
 import net.sourceforge.czt.zpatt.util.ZPattString;
@@ -72,6 +76,7 @@ public class KeywordScanner
 {
   private SeparateDelimiter scanner_;
   private Map keywords_ = createKeywordMap();
+  private Stack&lt;Symbol&gt; tokens_ = new Stack&lt;Symbol&gt;();
 
   public KeywordScanner(ContextFreeScanner scanner, Properties properties)
   {
@@ -173,15 +178,45 @@ public class KeywordScanner
     return result;
   }
 
+  private Symbol toToken(Stroke stroke, int left, int right)
+  {
+    if (stroke instanceof InStroke) {
+      return new Symbol(Sym.INSTROKE, left, right);
+    }
+    else if (stroke instanceof OutStroke) {
+      return new Symbol(Sym.OUTSTROKE, left, right);
+    }
+    else if (stroke instanceof NextStroke) {
+      return new Symbol(Sym.NEXTSTROKE, left, right);
+    }
+    else if (stroke instanceof NumStroke) {
+      NumStroke numStroke = (NumStroke) stroke;
+      return new Symbol(Sym.NUMSTROKE, left, right, numStroke.getNumber());
+    }
+    else {
+      throw new CztException("Unexpected stroke");
+    }
+  }
+
   public Symbol next_token()
     throws IOException
   {
+    if (! tokens_.empty()) return tokens_.pop();
     Symbol symbol = scanner_.next_token();
     String logMessage =
       "Received token (" + symbol.sym + ", " + symbol.value + ")";
     CztLogger.getLogger(KeywordScanner.class).finer(logMessage);
     if (symbol.sym == Sym.DECORWORD) {
-      String value = (String) symbol.value;
+      Decorword decorword = (Decorword) symbol.value;
+      if ("".equals(decorword.getWord())) {
+        Stroke[] strokes = decorword.getStrokes();
+        assert strokes.length > 0;
+        for (int i = strokes.length - 1; i > 0; i--) {
+          tokens_.push(toToken(strokes[i], symbol.left, symbol.right));
+        }
+        return toToken(strokes[0], symbol.left, symbol.right);
+      }
+      String value = decorword.getName();
       Integer token = (Integer) keywords_.get(value);
       if (token != null) {
         logMessage =
@@ -230,7 +265,7 @@ class SeparateDelimiter
     int right = symbol.right;
     if (symbol.sym == Sym.DECORWORD &amp;&amp;
         getBooleanProperty(PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS)) {
-      String value = (String) symbol.value;
+      String value = ((Decorword) symbol.value).getName();
       char[] charArray = value.toCharArray();
       int length = charArray.length;
       int suffix = length - 1;
@@ -243,7 +278,8 @@ class SeparateDelimiter
       assert suffix >= 0;
       if (suffix &lt; length - 1) {
         String string = new String(charArray, suffix + 1, length - suffix - 1);
-        tokens_.push(new Symbol(Sym.DECORWORD, left, right, string));
+        Decorword dw = new Decorword(string);
+        tokens_.push(new Symbol(Sym.DECORWORD, left, right, dw));
       }
       int prefix = 0;
       while(needsSeparation(charArray[suffix])) {
@@ -251,13 +287,14 @@ class SeparateDelimiter
       }
       assert prefix &lt;= suffix;
       String string = new String(charArray, prefix, suffix - prefix + 1);
-      Symbol newSymbol = new Symbol(Sym.DECORWORD, left, right, string);
+      Symbol newSymbol =
+        new Symbol(Sym.DECORWORD, left, right, new Decorword(string));
       if (prefix == 0) {
         return newSymbol;
       }
       tokens_.push(newSymbol);
       string = new String(charArray, 0, prefix);
-      return new Symbol(Sym.DECORWORD, left, right, string);
+      return new Symbol(Sym.DECORWORD, left, right, new Decorword(string));
     }
     return symbol;
   }
