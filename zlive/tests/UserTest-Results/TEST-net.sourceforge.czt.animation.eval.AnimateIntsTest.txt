@@ -1,341 +1,676 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateIntsTest
-Tests run: 89, Failures: 48, Errors: 0, Time elapsed: 0.234 sec
+Tests run: 89, Failures: 48, Errors: 0, Time elapsed: 0.28 sec
 
 ------------- Standard Output ---------------
-DEBUG: chooseMode 26357574
-DEBUG chooseMode 26357574 FlatConst(tmp1,0) gives cost=1.0
-DEBUG chooseMode 26357574 FlatConst(tmp2,0) gives cost=1.0
-DEBUG chooseMode 26357574 net.sourceforge.czt.animation.eval.flatpred.FlatPlus(tmp1,tmp2,tmp0) gives cost=1.0
-DEBUG chooseMode 26357574 FlatConst(tmp3,0) gives cost=1.0
-DEBUG chooseMode 26357574 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp0,tmp3) gives cost=0.5
+DEBUG chooseMode 24840600 FlatConst(tmp1,0) gives cost=1.0
+DEBUG chooseMode 24840600 FlatConst(tmp2,0) gives cost=1.0
+DEBUG chooseMode 24840600 net.sourceforge.czt.animation.eval.flatpred.FlatPlus(tmp1,tmp2,tmp0) gives cost=1.0
+DEBUG chooseMode 24840600 FlatConst(tmp3,0) gives cost=1.0
+DEBUG chooseMode 24840600 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp0,tmp3) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 24840600 FlatConst(tmp1,0) gives cost=1.0
+DEBUG startEval 24840600 FlatConst(tmp2,0) gives cost=1.0
+DEBUG startEval 24840600 net.sourceforge.czt.animation.eval.flatpred.FlatPlus(tmp1,tmp2,tmp0) gives cost=1.0
+DEBUG startEval 24840600 FlatConst(tmp3,0) gives cost=1.0
+DEBUG startEval 24840600 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp0,tmp3) gives cost=0.5
 Passed test:animate_ints.tex:23
-DEBUG: chooseMode 18135083
-DEBUG chooseMode 18135083 FlatConst(tmp5,0) gives cost=1.0
-DEBUG chooseMode 18135083 FlatConst(tmp6,1) gives cost=1.0
-DEBUG chooseMode 18135083 net.sourceforge.czt.animation.eval.flatpred.FlatPlus(tmp5,tmp6,tmp4) gives cost=1.0
-DEBUG chooseMode 18135083 FlatConst(tmp7,1) gives cost=1.0
-DEBUG chooseMode 18135083 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp4,tmp7) gives cost=0.5
+DEBUG chooseMode 19623049 FlatConst(tmp5,0) gives cost=1.0
+DEBUG chooseMode 19623049 FlatConst(tmp6,1) gives cost=1.0
+DEBUG chooseMode 19623049 net.sourceforge.czt.animation.eval.flatpred.FlatPlus(tmp5,tmp6,tmp4) gives cost=1.0
+DEBUG chooseMode 19623049 FlatConst(tmp7,1) gives cost=1.0
+DEBUG chooseMode 19623049 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp4,tmp7) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 19623049 FlatConst(tmp5,0) gives cost=1.0
+DEBUG startEval 19623049 FlatConst(tmp6,1) gives cost=1.0
+DEBUG startEval 19623049 net.sourceforge.czt.animation.eval.flatpred.FlatPlus(tmp5,tmp6,tmp4) gives cost=1.0
+DEBUG startEval 19623049 FlatConst(tmp7,1) gives cost=1.0
+DEBUG startEval 19623049 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp4,tmp7) gives cost=0.5
 Passed test:animate_ints.tex:24
-DEBUG: chooseMode 876215
-DEBUG chooseMode 876215 FlatConst(tmp9,1) gives cost=1.0
-DEBUG chooseMode 876215 FlatConst(tmp10,0) gives cost=1.0
-DEBUG chooseMode 876215 net.sourceforge.czt.animation.eval.flatpred.FlatPlus(tmp9,tmp10,tmp8) gives cost=1.0
-DEBUG chooseMode 876215 FlatConst(tmp11,1) gives cost=1.0
-DEBUG chooseMode 876215 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp8,tmp11) gives cost=0.5
+DEBUG chooseMode 23602584 FlatConst(tmp9,1) gives cost=1.0
+DEBUG chooseMode 23602584 FlatConst(tmp10,0) gives cost=1.0
+DEBUG chooseMode 23602584 net.sourceforge.czt.animation.eval.flatpred.FlatPlus(tmp9,tmp10,tmp8) gives cost=1.0
+DEBUG chooseMode 23602584 FlatConst(tmp11,1) gives cost=1.0
+DEBUG chooseMode 23602584 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp8,tmp11) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 23602584 FlatConst(tmp9,1) gives cost=1.0
+DEBUG startEval 23602584 FlatConst(tmp10,0) gives cost=1.0
+DEBUG startEval 23602584 net.sourceforge.czt.animation.eval.flatpred.FlatPlus(tmp9,tmp10,tmp8) gives cost=1.0
+DEBUG startEval 23602584 FlatConst(tmp11,1) gives cost=1.0
+DEBUG startEval 23602584 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp8,tmp11) gives cost=0.5
 Passed test:animate_ints.tex:25
-DEBUG: chooseMode 29706134
-DEBUG chooseMode 29706134 FlatConst(tmp13,1) gives cost=1.0
-DEBUG chooseMode 29706134 FlatConst(tmp14,1) gives cost=1.0
-DEBUG chooseMode 29706134 net.sourceforge.czt.animation.eval.flatpred.FlatPlus(tmp13,tmp14,tmp12) gives cost=1.0
-DEBUG chooseMode 29706134 FlatConst(tmp15,2) gives cost=1.0
-DEBUG chooseMode 29706134 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp12,tmp15) gives cost=0.5
+DEBUG chooseMode 8140933 FlatConst(tmp13,1) gives cost=1.0
+DEBUG chooseMode 8140933 FlatConst(tmp14,1) gives cost=1.0
+DEBUG chooseMode 8140933 net.sourceforge.czt.animation.eval.flatpred.FlatPlus(tmp13,tmp14,tmp12) gives cost=1.0
+DEBUG chooseMode 8140933 FlatConst(tmp15,2) gives cost=1.0
+DEBUG chooseMode 8140933 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp12,tmp15) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 8140933 FlatConst(tmp13,1) gives cost=1.0
+DEBUG startEval 8140933 FlatConst(tmp14,1) gives cost=1.0
+DEBUG startEval 8140933 net.sourceforge.czt.animation.eval.flatpred.FlatPlus(tmp13,tmp14,tmp12) gives cost=1.0
+DEBUG startEval 8140933 FlatConst(tmp15,2) gives cost=1.0
+DEBUG startEval 8140933 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp12,tmp15) gives cost=0.5
 Passed test:animate_ints.tex:26
-DEBUG: chooseMode 7802158
-DEBUG chooseMode 7802158 FlatConst(tmp18,1) gives cost=1.0
-DEBUG chooseMode 7802158 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp18,tmp17) gives cost=1.0
-DEBUG chooseMode 7802158 FlatConst(tmp19,1) gives cost=1.0
-DEBUG chooseMode 7802158 net.sourceforge.czt.animation.eval.flatpred.FlatPlus(tmp17,tmp19,tmp16) gives cost=1.0
-DEBUG chooseMode 7802158 FlatConst(tmp20,0) gives cost=1.0
-DEBUG chooseMode 7802158 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp16,tmp20) gives cost=0.5
+DEBUG chooseMode 17423963 FlatConst(tmp18,1) gives cost=1.0
+DEBUG chooseMode 17423963 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp18,tmp17) gives cost=1.0
+DEBUG chooseMode 17423963 FlatConst(tmp19,1) gives cost=1.0
+DEBUG chooseMode 17423963 net.sourceforge.czt.animation.eval.flatpred.FlatPlus(tmp17,tmp19,tmp16) gives cost=1.0
+DEBUG chooseMode 17423963 FlatConst(tmp20,0) gives cost=1.0
+DEBUG chooseMode 17423963 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp16,tmp20) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 17423963 FlatConst(tmp18,1) gives cost=1.0
+DEBUG startEval 17423963 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp18,tmp17) gives cost=1.0
+DEBUG startEval 17423963 FlatConst(tmp19,1) gives cost=1.0
+DEBUG startEval 17423963 net.sourceforge.czt.animation.eval.flatpred.FlatPlus(tmp17,tmp19,tmp16) gives cost=1.0
+DEBUG startEval 17423963 FlatConst(tmp20,0) gives cost=1.0
+DEBUG startEval 17423963 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp16,tmp20) gives cost=0.5
 Passed test:animate_ints.tex:27
-DEBUG: chooseMode 162178
-DEBUG chooseMode 162178 FlatConst(tmp22,1) gives cost=1.0
-DEBUG chooseMode 162178 FlatConst(tmp24,1) gives cost=1.0
-DEBUG chooseMode 162178 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp24,tmp23) gives cost=1.0
-DEBUG chooseMode 162178 net.sourceforge.czt.animation.eval.flatpred.FlatPlus(tmp22,tmp23,tmp21) gives cost=1.0
-DEBUG chooseMode 162178 FlatConst(tmp25,0) gives cost=1.0
-DEBUG chooseMode 162178 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp21,tmp25) gives cost=0.5
+DEBUG chooseMode 15020576 FlatConst(tmp22,1) gives cost=1.0
+DEBUG chooseMode 15020576 FlatConst(tmp24,1) gives cost=1.0
+DEBUG chooseMode 15020576 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp24,tmp23) gives cost=1.0
+DEBUG chooseMode 15020576 net.sourceforge.czt.animation.eval.flatpred.FlatPlus(tmp22,tmp23,tmp21) gives cost=1.0
+DEBUG chooseMode 15020576 FlatConst(tmp25,0) gives cost=1.0
+DEBUG chooseMode 15020576 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp21,tmp25) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 15020576 FlatConst(tmp22,1) gives cost=1.0
+DEBUG startEval 15020576 FlatConst(tmp24,1) gives cost=1.0
+DEBUG startEval 15020576 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp24,tmp23) gives cost=1.0
+DEBUG startEval 15020576 net.sourceforge.czt.animation.eval.flatpred.FlatPlus(tmp22,tmp23,tmp21) gives cost=1.0
+DEBUG startEval 15020576 FlatConst(tmp25,0) gives cost=1.0
+DEBUG startEval 15020576 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp21,tmp25) gives cost=0.5
 Passed test:animate_ints.tex:28
-DEBUG: chooseMode 7832149
-DEBUG chooseMode 7832149 FlatConst(tmp27,10) gives cost=1.0
-DEBUG chooseMode 7832149 FlatConst(tmp28,11) gives cost=1.0
-DEBUG chooseMode 7832149 net.sourceforge.czt.animation.eval.flatpred.FlatPlus(tmp27,tmp28,tmp26) gives cost=1.0
-DEBUG chooseMode 7832149 FlatConst(tmp29,21) gives cost=1.0
-DEBUG chooseMode 7832149 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp26,tmp29) gives cost=0.5
+DEBUG chooseMode 20843194 FlatConst(tmp27,10) gives cost=1.0
+DEBUG chooseMode 20843194 FlatConst(tmp28,11) gives cost=1.0
+DEBUG chooseMode 20843194 net.sourceforge.czt.animation.eval.flatpred.FlatPlus(tmp27,tmp28,tmp26) gives cost=1.0
+DEBUG chooseMode 20843194 FlatConst(tmp29,21) gives cost=1.0
+DEBUG chooseMode 20843194 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp26,tmp29) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 20843194 FlatConst(tmp27,10) gives cost=1.0
+DEBUG startEval 20843194 FlatConst(tmp28,11) gives cost=1.0
+DEBUG startEval 20843194 net.sourceforge.czt.animation.eval.flatpred.FlatPlus(tmp27,tmp28,tmp26) gives cost=1.0
+DEBUG startEval 20843194 FlatConst(tmp29,21) gives cost=1.0
+DEBUG startEval 20843194 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp26,tmp29) gives cost=0.5
 Passed test:animate_ints.tex:29
-DEBUG: chooseMode 4881910
-DEBUG chooseMode 4881910 FlatConst(tmp38,0) gives cost=1.0
-DEBUG chooseMode 4881910 FlatConst(tmp39,0) gives cost=1.0
-DEBUG chooseMode 4881910 net.sourceforge.czt.animation.eval.flatpred.FlatMult(tmp38,tmp39,tmp37) gives cost=1.0
-DEBUG chooseMode 4881910 FlatConst(tmp40,0) gives cost=1.0
-DEBUG chooseMode 4881910 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp37,tmp40) gives cost=0.5
+DEBUG chooseMode 8755816 FlatConst(tmp31,10) gives cost=1.0
+DEBUG chooseMode 8755816 FlatConst(tmp32,11) gives cost=1.0
+DEBUG chooseMode 8755816 net.sourceforge.czt.animation.eval.flatpred.FlatPlus(tmp31,tmp32,tmp30) gives cost=1.0
+DEBUG chooseMode 8755816 FlatConst(tmp33,10) gives cost=1.0
+DEBUG chooseMode 8755816 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp30,tmp33,tmp34) gives cost=1.0
+DEBUG chooseMode 8755816 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember( _ ? _ ,tmp34)
+DEBUG chooseMode 12039161 FlatConst(tmp44,0) gives cost=1.0
+DEBUG chooseMode 12039161 FlatConst(tmp45,0) gives cost=1.0
+DEBUG chooseMode 12039161 net.sourceforge.czt.animation.eval.flatpred.FlatMult(tmp44,tmp45,tmp43) gives cost=1.0
+DEBUG chooseMode 12039161 FlatConst(tmp46,0) gives cost=1.0
+DEBUG chooseMode 12039161 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp43,tmp46) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 12039161 FlatConst(tmp44,0) gives cost=1.0
+DEBUG startEval 12039161 FlatConst(tmp45,0) gives cost=1.0
+DEBUG startEval 12039161 net.sourceforge.czt.animation.eval.flatpred.FlatMult(tmp44,tmp45,tmp43) gives cost=1.0
+DEBUG startEval 12039161 FlatConst(tmp46,0) gives cost=1.0
+DEBUG startEval 12039161 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp43,tmp46) gives cost=0.5
 Passed test:animate_ints.tex:45
-DEBUG: chooseMode 9690924
-DEBUG chooseMode 9690924 FlatConst(tmp42,0) gives cost=1.0
-DEBUG chooseMode 9690924 FlatConst(tmp43,1) gives cost=1.0
-DEBUG chooseMode 9690924 net.sourceforge.czt.animation.eval.flatpred.FlatMult(tmp42,tmp43,tmp41) gives cost=1.0
-DEBUG chooseMode 9690924 FlatConst(tmp44,0) gives cost=1.0
-DEBUG chooseMode 9690924 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp41,tmp44) gives cost=0.5
+DEBUG chooseMode 8970080 FlatConst(tmp48,0) gives cost=1.0
+DEBUG chooseMode 8970080 FlatConst(tmp49,1) gives cost=1.0
+DEBUG chooseMode 8970080 net.sourceforge.czt.animation.eval.flatpred.FlatMult(tmp48,tmp49,tmp47) gives cost=1.0
+DEBUG chooseMode 8970080 FlatConst(tmp50,0) gives cost=1.0
+DEBUG chooseMode 8970080 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp47,tmp50) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 8970080 FlatConst(tmp48,0) gives cost=1.0
+DEBUG startEval 8970080 FlatConst(tmp49,1) gives cost=1.0
+DEBUG startEval 8970080 net.sourceforge.czt.animation.eval.flatpred.FlatMult(tmp48,tmp49,tmp47) gives cost=1.0
+DEBUG startEval 8970080 FlatConst(tmp50,0) gives cost=1.0
+DEBUG startEval 8970080 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp47,tmp50) gives cost=0.5
 Passed test:animate_ints.tex:46
-DEBUG: chooseMode 2159683
-DEBUG chooseMode 2159683 FlatConst(tmp46,1) gives cost=1.0
-DEBUG chooseMode 2159683 FlatConst(tmp47,0) gives cost=1.0
-DEBUG chooseMode 2159683 net.sourceforge.czt.animation.eval.flatpred.FlatMult(tmp46,tmp47,tmp45) gives cost=1.0
-DEBUG chooseMode 2159683 FlatConst(tmp48,0) gives cost=1.0
-DEBUG chooseMode 2159683 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp45,tmp48) gives cost=0.5
+DEBUG chooseMode 78219 FlatConst(tmp52,1) gives cost=1.0
+DEBUG chooseMode 78219 FlatConst(tmp53,0) gives cost=1.0
+DEBUG chooseMode 78219 net.sourceforge.czt.animation.eval.flatpred.FlatMult(tmp52,tmp53,tmp51) gives cost=1.0
+DEBUG chooseMode 78219 FlatConst(tmp54,0) gives cost=1.0
+DEBUG chooseMode 78219 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp51,tmp54) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 78219 FlatConst(tmp52,1) gives cost=1.0
+DEBUG startEval 78219 FlatConst(tmp53,0) gives cost=1.0
+DEBUG startEval 78219 net.sourceforge.czt.animation.eval.flatpred.FlatMult(tmp52,tmp53,tmp51) gives cost=1.0
+DEBUG startEval 78219 FlatConst(tmp54,0) gives cost=1.0
+DEBUG startEval 78219 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp51,tmp54) gives cost=0.5
 Passed test:animate_ints.tex:47
-DEBUG: chooseMode 25463023
-DEBUG chooseMode 25463023 FlatConst(tmp50,1) gives cost=1.0
-DEBUG chooseMode 25463023 FlatConst(tmp51,1) gives cost=1.0
-DEBUG chooseMode 25463023 net.sourceforge.czt.animation.eval.flatpred.FlatMult(tmp50,tmp51,tmp49) gives cost=1.0
-DEBUG chooseMode 25463023 FlatConst(tmp52,1) gives cost=1.0
-DEBUG chooseMode 25463023 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp49,tmp52) gives cost=0.5
+DEBUG chooseMode 6011238 FlatConst(tmp56,1) gives cost=1.0
+DEBUG chooseMode 6011238 FlatConst(tmp57,1) gives cost=1.0
+DEBUG chooseMode 6011238 net.sourceforge.czt.animation.eval.flatpred.FlatMult(tmp56,tmp57,tmp55) gives cost=1.0
+DEBUG chooseMode 6011238 FlatConst(tmp58,1) gives cost=1.0
+DEBUG chooseMode 6011238 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp55,tmp58) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 6011238 FlatConst(tmp56,1) gives cost=1.0
+DEBUG startEval 6011238 FlatConst(tmp57,1) gives cost=1.0
+DEBUG startEval 6011238 net.sourceforge.czt.animation.eval.flatpred.FlatMult(tmp56,tmp57,tmp55) gives cost=1.0
+DEBUG startEval 6011238 FlatConst(tmp58,1) gives cost=1.0
+DEBUG startEval 6011238 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp55,tmp58) gives cost=0.5
 Passed test:animate_ints.tex:48
-DEBUG: chooseMode 3807284
-DEBUG chooseMode 3807284 FlatConst(tmp55,1) gives cost=1.0
-DEBUG chooseMode 3807284 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp55,tmp54) gives cost=1.0
-DEBUG chooseMode 3807284 FlatConst(tmp56,1) gives cost=1.0
-DEBUG chooseMode 3807284 net.sourceforge.czt.animation.eval.flatpred.FlatMult(tmp54,tmp56,tmp53) gives cost=1.0
-DEBUG chooseMode 3807284 FlatConst(tmp58,1) gives cost=1.0
-DEBUG chooseMode 3807284 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp58,tmp57) gives cost=1.0
-DEBUG chooseMode 3807284 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp53,tmp57) gives cost=0.5
+DEBUG chooseMode 32048085 FlatConst(tmp61,1) gives cost=1.0
+DEBUG chooseMode 32048085 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp61,tmp60) gives cost=1.0
+DEBUG chooseMode 32048085 FlatConst(tmp62,1) gives cost=1.0
+DEBUG chooseMode 32048085 net.sourceforge.czt.animation.eval.flatpred.FlatMult(tmp60,tmp62,tmp59) gives cost=1.0
+DEBUG chooseMode 32048085 FlatConst(tmp64,1) gives cost=1.0
+DEBUG chooseMode 32048085 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp64,tmp63) gives cost=1.0
+DEBUG chooseMode 32048085 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp59,tmp63) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 32048085 FlatConst(tmp61,1) gives cost=1.0
+DEBUG startEval 32048085 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp61,tmp60) gives cost=1.0
+DEBUG startEval 32048085 FlatConst(tmp62,1) gives cost=1.0
+DEBUG startEval 32048085 net.sourceforge.czt.animation.eval.flatpred.FlatMult(tmp60,tmp62,tmp59) gives cost=1.0
+DEBUG startEval 32048085 FlatConst(tmp64,1) gives cost=1.0
+DEBUG startEval 32048085 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp64,tmp63) gives cost=1.0
+DEBUG startEval 32048085 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp59,tmp63) gives cost=0.5
 Passed test:animate_ints.tex:49
-DEBUG: chooseMode 728272
-DEBUG chooseMode 728272 FlatConst(tmp60,1) gives cost=1.0
-DEBUG chooseMode 728272 FlatConst(tmp62,1) gives cost=1.0
-DEBUG chooseMode 728272 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp62,tmp61) gives cost=1.0
-DEBUG chooseMode 728272 net.sourceforge.czt.animation.eval.flatpred.FlatMult(tmp60,tmp61,tmp59) gives cost=1.0
-DEBUG chooseMode 728272 FlatConst(tmp64,1) gives cost=1.0
-DEBUG chooseMode 728272 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp64,tmp63) gives cost=1.0
-DEBUG chooseMode 728272 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp59,tmp63) gives cost=0.5
+DEBUG chooseMode 16426320 FlatConst(tmp66,1) gives cost=1.0
+DEBUG chooseMode 16426320 FlatConst(tmp68,1) gives cost=1.0
+DEBUG chooseMode 16426320 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp68,tmp67) gives cost=1.0
+DEBUG chooseMode 16426320 net.sourceforge.czt.animation.eval.flatpred.FlatMult(tmp66,tmp67,tmp65) gives cost=1.0
+DEBUG chooseMode 16426320 FlatConst(tmp70,1) gives cost=1.0
+DEBUG chooseMode 16426320 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp70,tmp69) gives cost=1.0
+DEBUG chooseMode 16426320 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp65,tmp69) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 16426320 FlatConst(tmp66,1) gives cost=1.0
+DEBUG startEval 16426320 FlatConst(tmp68,1) gives cost=1.0
+DEBUG startEval 16426320 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp68,tmp67) gives cost=1.0
+DEBUG startEval 16426320 net.sourceforge.czt.animation.eval.flatpred.FlatMult(tmp66,tmp67,tmp65) gives cost=1.0
+DEBUG startEval 16426320 FlatConst(tmp70,1) gives cost=1.0
+DEBUG startEval 16426320 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp70,tmp69) gives cost=1.0
+DEBUG startEval 16426320 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp65,tmp69) gives cost=0.5
 Passed test:animate_ints.tex:50
-DEBUG: chooseMode 26255574
-DEBUG chooseMode 26255574 FlatConst(tmp66,10) gives cost=1.0
-DEBUG chooseMode 26255574 FlatConst(tmp67,11) gives cost=1.0
-DEBUG chooseMode 26255574 net.sourceforge.czt.animation.eval.flatpred.FlatMult(tmp66,tmp67,tmp65) gives cost=1.0
-DEBUG chooseMode 26255574 FlatConst(tmp68,110) gives cost=1.0
-DEBUG chooseMode 26255574 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp65,tmp68) gives cost=0.5
+DEBUG chooseMode 24864323 FlatConst(tmp72,10) gives cost=1.0
+DEBUG chooseMode 24864323 FlatConst(tmp73,11) gives cost=1.0
+DEBUG chooseMode 24864323 net.sourceforge.czt.animation.eval.flatpred.FlatMult(tmp72,tmp73,tmp71) gives cost=1.0
+DEBUG chooseMode 24864323 FlatConst(tmp74,110) gives cost=1.0
+DEBUG chooseMode 24864323 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp71,tmp74) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 24864323 FlatConst(tmp72,10) gives cost=1.0
+DEBUG startEval 24864323 FlatConst(tmp73,11) gives cost=1.0
+DEBUG startEval 24864323 net.sourceforge.czt.animation.eval.flatpred.FlatMult(tmp72,tmp73,tmp71) gives cost=1.0
+DEBUG startEval 24864323 FlatConst(tmp74,110) gives cost=1.0
+DEBUG startEval 24864323 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp71,tmp74) gives cost=0.5
 Passed test:animate_ints.tex:51
-DEBUG: chooseMode 17689439
-DEBUG chooseMode 17689439 FlatConst(tmp70,0) gives cost=1.0
-DEBUG chooseMode 17689439 FlatConst(tmp71,1) gives cost=1.0
-DEBUG chooseMode 17689439 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp70,tmp71,tmp69) gives cost=1.0
-DEBUG chooseMode 17689439 FlatConst(tmp72,0) gives cost=1.0
-DEBUG chooseMode 17689439 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp69,tmp72) gives cost=0.5
+DEBUG chooseMode 7792807 FlatConst(tmp76,10) gives cost=1.0
+DEBUG chooseMode 7792807 FlatConst(tmp77,11) gives cost=1.0
+DEBUG chooseMode 7792807 net.sourceforge.czt.animation.eval.flatpred.FlatMult(tmp76,tmp77,tmp75) gives cost=1.0
+DEBUG chooseMode 7792807 FlatConst(tmp78,10) gives cost=1.0
+DEBUG chooseMode 7792807 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp75,tmp78,tmp79) gives cost=1.0
+DEBUG chooseMode 7792807 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember( _ ? _ ,tmp79)
+DEBUG chooseMode 14050342 FlatConst(tmp81,0) gives cost=1.0
+DEBUG chooseMode 14050342 FlatConst(tmp82,1) gives cost=1.0
+DEBUG chooseMode 14050342 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp81,tmp82,tmp80) gives cost=1.0
+DEBUG chooseMode 14050342 FlatConst(tmp83,0) gives cost=1.0
+DEBUG chooseMode 14050342 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp80,tmp83) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 14050342 FlatConst(tmp81,0) gives cost=1.0
+DEBUG startEval 14050342 FlatConst(tmp82,1) gives cost=1.0
+DEBUG startEval 14050342 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp81,tmp82,tmp80) gives cost=1.0
+DEBUG startEval 14050342 FlatConst(tmp83,0) gives cost=1.0
+DEBUG startEval 14050342 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp80,tmp83) gives cost=0.5
 Passed test:animate_ints.tex:65
-DEBUG: chooseMode 14137305
-DEBUG chooseMode 14137305 FlatConst(tmp75,1) gives cost=1.0
-DEBUG chooseMode 14137305 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp75,tmp74) gives cost=1.0
-DEBUG chooseMode 14137305 FlatConst(tmp76,1) gives cost=1.0
-DEBUG chooseMode 14137305 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp74,tmp76,tmp73) gives cost=1.0
-DEBUG chooseMode 14137305 FlatConst(tmp78,1) gives cost=1.0
-DEBUG chooseMode 14137305 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp78,tmp77) gives cost=1.0
-DEBUG chooseMode 14137305 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp73,tmp77) gives cost=0.5
+DEBUG chooseMode 21565109 FlatConst(tmp86,1) gives cost=1.0
+DEBUG chooseMode 21565109 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp86,tmp85) gives cost=1.0
+DEBUG chooseMode 21565109 FlatConst(tmp87,1) gives cost=1.0
+DEBUG chooseMode 21565109 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp85,tmp87,tmp84) gives cost=1.0
+DEBUG chooseMode 21565109 FlatConst(tmp89,1) gives cost=1.0
+DEBUG chooseMode 21565109 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp89,tmp88) gives cost=1.0
+DEBUG chooseMode 21565109 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp84,tmp88) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 21565109 FlatConst(tmp86,1) gives cost=1.0
+DEBUG startEval 21565109 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp86,tmp85) gives cost=1.0
+DEBUG startEval 21565109 FlatConst(tmp87,1) gives cost=1.0
+DEBUG startEval 21565109 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp85,tmp87,tmp84) gives cost=1.0
+DEBUG startEval 21565109 FlatConst(tmp89,1) gives cost=1.0
+DEBUG startEval 21565109 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp89,tmp88) gives cost=1.0
+DEBUG startEval 21565109 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp84,tmp88) gives cost=0.5
 Passed test:animate_ints.tex:66
-DEBUG: chooseMode 6758293
-DEBUG chooseMode 6758293 FlatConst(tmp80,1) gives cost=1.0
-DEBUG chooseMode 6758293 FlatConst(tmp81,1) gives cost=1.0
-DEBUG chooseMode 6758293 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp80,tmp81,tmp79) gives cost=1.0
-DEBUG chooseMode 6758293 FlatConst(tmp82,1) gives cost=1.0
-DEBUG chooseMode 6758293 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp79,tmp82) gives cost=0.5
+DEBUG chooseMode 23376028 FlatConst(tmp91,1) gives cost=1.0
+DEBUG chooseMode 23376028 FlatConst(tmp92,1) gives cost=1.0
+DEBUG chooseMode 23376028 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp91,tmp92,tmp90) gives cost=1.0
+DEBUG chooseMode 23376028 FlatConst(tmp93,1) gives cost=1.0
+DEBUG chooseMode 23376028 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp90,tmp93) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 23376028 FlatConst(tmp91,1) gives cost=1.0
+DEBUG startEval 23376028 FlatConst(tmp92,1) gives cost=1.0
+DEBUG startEval 23376028 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp91,tmp92,tmp90) gives cost=1.0
+DEBUG startEval 23376028 FlatConst(tmp93,1) gives cost=1.0
+DEBUG startEval 23376028 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp90,tmp93) gives cost=0.5
 Passed test:animate_ints.tex:67
-DEBUG: chooseMode 4889213
-DEBUG chooseMode 4889213 FlatConst(tmp84,0) gives cost=1.0
-DEBUG chooseMode 4889213 FlatConst(tmp86,1) gives cost=1.0
-DEBUG chooseMode 4889213 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp86,tmp85) gives cost=1.0
-DEBUG chooseMode 4889213 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp84,tmp85,tmp83) gives cost=1.0
-DEBUG chooseMode 4889213 FlatConst(tmp87,0) gives cost=1.0
-DEBUG chooseMode 4889213 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp83,tmp87) gives cost=0.5
+DEBUG chooseMode 25621063 FlatConst(tmp95,0) gives cost=1.0
+DEBUG chooseMode 25621063 FlatConst(tmp97,1) gives cost=1.0
+DEBUG chooseMode 25621063 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp97,tmp96) gives cost=1.0
+DEBUG chooseMode 25621063 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp95,tmp96,tmp94) gives cost=1.0
+DEBUG chooseMode 25621063 FlatConst(tmp98,0) gives cost=1.0
+DEBUG chooseMode 25621063 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp94,tmp98) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 25621063 FlatConst(tmp95,0) gives cost=1.0
+DEBUG startEval 25621063 FlatConst(tmp97,1) gives cost=1.0
+DEBUG startEval 25621063 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp97,tmp96) gives cost=1.0
+DEBUG startEval 25621063 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp95,tmp96,tmp94) gives cost=1.0
+DEBUG startEval 25621063 FlatConst(tmp98,0) gives cost=1.0
+DEBUG startEval 25621063 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp94,tmp98) gives cost=0.5
 Passed test:animate_ints.tex:68
-DEBUG: chooseMode 31761534
-DEBUG chooseMode 31761534 FlatConst(tmp90,1) gives cost=1.0
-DEBUG chooseMode 31761534 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp90,tmp89) gives cost=1.0
-DEBUG chooseMode 31761534 FlatConst(tmp92,1) gives cost=1.0
-DEBUG chooseMode 31761534 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp92,tmp91) gives cost=1.0
-DEBUG chooseMode 31761534 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp89,tmp91,tmp88) gives cost=1.0
-DEBUG chooseMode 31761534 FlatConst(tmp93,1) gives cost=1.0
-DEBUG chooseMode 31761534 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp88,tmp93) gives cost=0.5
+DEBUG chooseMode 7143488 FlatConst(tmp101,1) gives cost=1.0
+DEBUG chooseMode 7143488 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp101,tmp100) gives cost=1.0
+DEBUG chooseMode 7143488 FlatConst(tmp103,1) gives cost=1.0
+DEBUG chooseMode 7143488 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp103,tmp102) gives cost=1.0
+DEBUG chooseMode 7143488 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp100,tmp102,tmp99) gives cost=1.0
+DEBUG chooseMode 7143488 FlatConst(tmp104,1) gives cost=1.0
+DEBUG chooseMode 7143488 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp99,tmp104) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 7143488 FlatConst(tmp101,1) gives cost=1.0
+DEBUG startEval 7143488 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp101,tmp100) gives cost=1.0
+DEBUG startEval 7143488 FlatConst(tmp103,1) gives cost=1.0
+DEBUG startEval 7143488 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp103,tmp102) gives cost=1.0
+DEBUG startEval 7143488 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp100,tmp102,tmp99) gives cost=1.0
+DEBUG startEval 7143488 FlatConst(tmp104,1) gives cost=1.0
+DEBUG startEval 7143488 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp99,tmp104) gives cost=0.5
 Passed test:animate_ints.tex:69
-DEBUG: chooseMode 32200294
-DEBUG chooseMode 32200294 FlatConst(tmp95,1) gives cost=1.0
-DEBUG chooseMode 32200294 FlatConst(tmp97,1) gives cost=1.0
-DEBUG chooseMode 32200294 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp97,tmp96) gives cost=1.0
-DEBUG chooseMode 32200294 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp95,tmp96,tmp94) gives cost=1.0
-DEBUG chooseMode 32200294 FlatConst(tmp99,1) gives cost=1.0
-DEBUG chooseMode 32200294 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp99,tmp98) gives cost=1.0
-DEBUG chooseMode 32200294 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp94,tmp98) gives cost=0.5
+DEBUG chooseMode 2855942 FlatConst(tmp106,1) gives cost=1.0
+DEBUG chooseMode 2855942 FlatConst(tmp108,1) gives cost=1.0
+DEBUG chooseMode 2855942 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp108,tmp107) gives cost=1.0
+DEBUG chooseMode 2855942 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp106,tmp107,tmp105) gives cost=1.0
+DEBUG chooseMode 2855942 FlatConst(tmp110,1) gives cost=1.0
+DEBUG chooseMode 2855942 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp110,tmp109) gives cost=1.0
+DEBUG chooseMode 2855942 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp105,tmp109) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 2855942 FlatConst(tmp106,1) gives cost=1.0
+DEBUG startEval 2855942 FlatConst(tmp108,1) gives cost=1.0
+DEBUG startEval 2855942 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp108,tmp107) gives cost=1.0
+DEBUG startEval 2855942 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp106,tmp107,tmp105) gives cost=1.0
+DEBUG startEval 2855942 FlatConst(tmp110,1) gives cost=1.0
+DEBUG startEval 2855942 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp110,tmp109) gives cost=1.0
+DEBUG startEval 2855942 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp105,tmp109) gives cost=0.5
 Passed test:animate_ints.tex:70
-DEBUG: chooseMode 24463001
-DEBUG chooseMode 24463001 FlatConst(tmp101,0) gives cost=1.0
-DEBUG chooseMode 24463001 FlatConst(tmp102,4) gives cost=1.0
-DEBUG chooseMode 24463001 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp101,tmp102,tmp100) gives cost=1.0
-DEBUG chooseMode 24463001 FlatConst(tmp103,0) gives cost=1.0
-DEBUG chooseMode 24463001 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp100,tmp103) gives cost=0.5
+DEBUG chooseMode 16994425 FlatConst(tmp112,0) gives cost=1.0
+DEBUG chooseMode 16994425 FlatConst(tmp113,4) gives cost=1.0
+DEBUG chooseMode 16994425 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp112,tmp113,tmp111) gives cost=1.0
+DEBUG chooseMode 16994425 FlatConst(tmp114,0) gives cost=1.0
+DEBUG chooseMode 16994425 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp111,tmp114) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 16994425 FlatConst(tmp112,0) gives cost=1.0
+DEBUG startEval 16994425 FlatConst(tmp113,4) gives cost=1.0
+DEBUG startEval 16994425 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp112,tmp113,tmp111) gives cost=1.0
+DEBUG startEval 16994425 FlatConst(tmp114,0) gives cost=1.0
+DEBUG startEval 16994425 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp111,tmp114) gives cost=0.5
 Passed test:animate_ints.tex:72
-DEBUG: chooseMode 7216620
-DEBUG chooseMode 7216620 FlatConst(tmp105,1) gives cost=1.0
-DEBUG chooseMode 7216620 FlatConst(tmp106,4) gives cost=1.0
-DEBUG chooseMode 7216620 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp105,tmp106,tmp104) gives cost=1.0
-DEBUG chooseMode 7216620 FlatConst(tmp107,0) gives cost=1.0
-DEBUG chooseMode 7216620 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp104,tmp107) gives cost=0.5
+DEBUG chooseMode 9977237 FlatConst(tmp116,1) gives cost=1.0
+DEBUG chooseMode 9977237 FlatConst(tmp117,4) gives cost=1.0
+DEBUG chooseMode 9977237 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp116,tmp117,tmp115) gives cost=1.0
+DEBUG chooseMode 9977237 FlatConst(tmp118,0) gives cost=1.0
+DEBUG chooseMode 9977237 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp115,tmp118) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 9977237 FlatConst(tmp116,1) gives cost=1.0
+DEBUG startEval 9977237 FlatConst(tmp117,4) gives cost=1.0
+DEBUG startEval 9977237 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp116,tmp117,tmp115) gives cost=1.0
+DEBUG startEval 9977237 FlatConst(tmp118,0) gives cost=1.0
+DEBUG startEval 9977237 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp115,tmp118) gives cost=0.5
 Passed test:animate_ints.tex:73
-DEBUG: chooseMode 24027753
-DEBUG chooseMode 24027753 FlatConst(tmp109,3) gives cost=1.0
-DEBUG chooseMode 24027753 FlatConst(tmp110,4) gives cost=1.0
-DEBUG chooseMode 24027753 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp109,tmp110,tmp108) gives cost=1.0
-DEBUG chooseMode 24027753 FlatConst(tmp111,0) gives cost=1.0
-DEBUG chooseMode 24027753 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp108,tmp111) gives cost=0.5
+DEBUG chooseMode 15926420 FlatConst(tmp120,3) gives cost=1.0
+DEBUG chooseMode 15926420 FlatConst(tmp121,4) gives cost=1.0
+DEBUG chooseMode 15926420 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp120,tmp121,tmp119) gives cost=1.0
+DEBUG chooseMode 15926420 FlatConst(tmp122,0) gives cost=1.0
+DEBUG chooseMode 15926420 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp119,tmp122) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 15926420 FlatConst(tmp120,3) gives cost=1.0
+DEBUG startEval 15926420 FlatConst(tmp121,4) gives cost=1.0
+DEBUG startEval 15926420 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp120,tmp121,tmp119) gives cost=1.0
+DEBUG startEval 15926420 FlatConst(tmp122,0) gives cost=1.0
+DEBUG startEval 15926420 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp119,tmp122) gives cost=0.5
 Passed test:animate_ints.tex:74
-DEBUG: chooseMode 26100519
-DEBUG chooseMode 26100519 FlatConst(tmp113,4) gives cost=1.0
-DEBUG chooseMode 26100519 FlatConst(tmp114,4) gives cost=1.0
-DEBUG chooseMode 26100519 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp113,tmp114,tmp112) gives cost=1.0
-DEBUG chooseMode 26100519 FlatConst(tmp115,1) gives cost=1.0
-DEBUG chooseMode 26100519 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp112,tmp115) gives cost=0.5
+DEBUG chooseMode 20735553 FlatConst(tmp124,4) gives cost=1.0
+DEBUG chooseMode 20735553 FlatConst(tmp125,4) gives cost=1.0
+DEBUG chooseMode 20735553 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp124,tmp125,tmp123) gives cost=1.0
+DEBUG chooseMode 20735553 FlatConst(tmp126,1) gives cost=1.0
+DEBUG chooseMode 20735553 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp123,tmp126) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 20735553 FlatConst(tmp124,4) gives cost=1.0
+DEBUG startEval 20735553 FlatConst(tmp125,4) gives cost=1.0
+DEBUG startEval 20735553 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp124,tmp125,tmp123) gives cost=1.0
+DEBUG startEval 20735553 FlatConst(tmp126,1) gives cost=1.0
+DEBUG startEval 20735553 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp123,tmp126) gives cost=0.5
 Passed test:animate_ints.tex:75
-DEBUG: chooseMode 14342692
-DEBUG chooseMode 14342692 FlatConst(tmp117,5) gives cost=1.0
-DEBUG chooseMode 14342692 FlatConst(tmp118,4) gives cost=1.0
-DEBUG chooseMode 14342692 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp117,tmp118,tmp116) gives cost=1.0
-DEBUG chooseMode 14342692 FlatConst(tmp119,1) gives cost=1.0
-DEBUG chooseMode 14342692 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp116,tmp119) gives cost=0.5
+DEBUG chooseMode 6109469 FlatConst(tmp128,5) gives cost=1.0
+DEBUG chooseMode 6109469 FlatConst(tmp129,4) gives cost=1.0
+DEBUG chooseMode 6109469 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp128,tmp129,tmp127) gives cost=1.0
+DEBUG chooseMode 6109469 FlatConst(tmp130,1) gives cost=1.0
+DEBUG chooseMode 6109469 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp127,tmp130) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 6109469 FlatConst(tmp128,5) gives cost=1.0
+DEBUG startEval 6109469 FlatConst(tmp129,4) gives cost=1.0
+DEBUG startEval 6109469 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp128,tmp129,tmp127) gives cost=1.0
+DEBUG startEval 6109469 FlatConst(tmp130,1) gives cost=1.0
+DEBUG startEval 6109469 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp127,tmp130) gives cost=0.5
 Passed test:animate_ints.tex:76
-DEBUG: chooseMode 2595047
-DEBUG chooseMode 2595047 FlatConst(tmp121,8) gives cost=1.0
-DEBUG chooseMode 2595047 FlatConst(tmp122,4) gives cost=1.0
-DEBUG chooseMode 2595047 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp121,tmp122,tmp120) gives cost=1.0
-DEBUG chooseMode 2595047 FlatConst(tmp123,2) gives cost=1.0
-DEBUG chooseMode 2595047 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp120,tmp123) gives cost=0.5
+DEBUG chooseMode 5285449 FlatConst(tmp132,8) gives cost=1.0
+DEBUG chooseMode 5285449 FlatConst(tmp133,4) gives cost=1.0
+DEBUG chooseMode 5285449 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp132,tmp133,tmp131) gives cost=1.0
+DEBUG chooseMode 5285449 FlatConst(tmp134,2) gives cost=1.0
+DEBUG chooseMode 5285449 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp131,tmp134) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 5285449 FlatConst(tmp132,8) gives cost=1.0
+DEBUG startEval 5285449 FlatConst(tmp133,4) gives cost=1.0
+DEBUG startEval 5285449 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp132,tmp133,tmp131) gives cost=1.0
+DEBUG startEval 5285449 FlatConst(tmp134,2) gives cost=1.0
+DEBUG startEval 5285449 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp131,tmp134) gives cost=0.5
 Passed test:animate_ints.tex:77
-DEBUG: chooseMode 27754609
-DEBUG chooseMode 27754609 FlatConst(tmp126,1) gives cost=1.0
-DEBUG chooseMode 27754609 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp126,tmp125) gives cost=1.0
-DEBUG chooseMode 27754609 FlatConst(tmp127,4) gives cost=1.0
-DEBUG chooseMode 27754609 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp125,tmp127,tmp124) gives cost=1.0
-DEBUG chooseMode 27754609 FlatConst(tmp129,1) gives cost=1.0
-DEBUG chooseMode 27754609 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp129,tmp128) gives cost=1.0
-DEBUG chooseMode 27754609 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp124,tmp128) gives cost=0.5
+DEBUG chooseMode 13961193 FlatConst(tmp137,1) gives cost=1.0
+DEBUG chooseMode 13961193 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp137,tmp136) gives cost=1.0
+DEBUG chooseMode 13961193 FlatConst(tmp138,4) gives cost=1.0
+DEBUG chooseMode 13961193 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp136,tmp138,tmp135) gives cost=1.0
+DEBUG chooseMode 13961193 FlatConst(tmp140,1) gives cost=1.0
+DEBUG chooseMode 13961193 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp140,tmp139) gives cost=1.0
+DEBUG chooseMode 13961193 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp135,tmp139) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 13961193 FlatConst(tmp137,1) gives cost=1.0
+DEBUG startEval 13961193 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp137,tmp136) gives cost=1.0
+DEBUG startEval 13961193 FlatConst(tmp138,4) gives cost=1.0
+DEBUG startEval 13961193 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp136,tmp138,tmp135) gives cost=1.0
+DEBUG startEval 13961193 FlatConst(tmp140,1) gives cost=1.0
+DEBUG startEval 13961193 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp140,tmp139) gives cost=1.0
+DEBUG startEval 13961193 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp135,tmp139) gives cost=0.5
 Passed test:animate_ints.tex:78
-DEBUG: chooseMode 31556811
-DEBUG chooseMode 31556811 FlatConst(tmp132,3) gives cost=1.0
-DEBUG chooseMode 31556811 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp132,tmp131) gives cost=1.0
-DEBUG chooseMode 31556811 FlatConst(tmp133,4) gives cost=1.0
-DEBUG chooseMode 31556811 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp131,tmp133,tmp130) gives cost=1.0
-DEBUG chooseMode 31556811 FlatConst(tmp135,1) gives cost=1.0
-DEBUG chooseMode 31556811 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp135,tmp134) gives cost=1.0
-DEBUG chooseMode 31556811 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp130,tmp134) gives cost=0.5
+DEBUG chooseMode 1067475 FlatConst(tmp143,3) gives cost=1.0
+DEBUG chooseMode 1067475 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp143,tmp142) gives cost=1.0
+DEBUG chooseMode 1067475 FlatConst(tmp144,4) gives cost=1.0
+DEBUG chooseMode 1067475 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp142,tmp144,tmp141) gives cost=1.0
+DEBUG chooseMode 1067475 FlatConst(tmp146,1) gives cost=1.0
+DEBUG chooseMode 1067475 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp146,tmp145) gives cost=1.0
+DEBUG chooseMode 1067475 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp141,tmp145) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 1067475 FlatConst(tmp143,3) gives cost=1.0
+DEBUG startEval 1067475 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp143,tmp142) gives cost=1.0
+DEBUG startEval 1067475 FlatConst(tmp144,4) gives cost=1.0
+DEBUG startEval 1067475 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp142,tmp144,tmp141) gives cost=1.0
+DEBUG startEval 1067475 FlatConst(tmp146,1) gives cost=1.0
+DEBUG startEval 1067475 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp146,tmp145) gives cost=1.0
+DEBUG startEval 1067475 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp141,tmp145) gives cost=0.5
 Passed test:animate_ints.tex:79
-DEBUG: chooseMode 13982086
-DEBUG chooseMode 13982086 FlatConst(tmp138,4) gives cost=1.0
-DEBUG chooseMode 13982086 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp138,tmp137) gives cost=1.0
-DEBUG chooseMode 13982086 FlatConst(tmp139,4) gives cost=1.0
-DEBUG chooseMode 13982086 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp137,tmp139,tmp136) gives cost=1.0
-DEBUG chooseMode 13982086 FlatConst(tmp141,1) gives cost=1.0
-DEBUG chooseMode 13982086 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp141,tmp140) gives cost=1.0
-DEBUG chooseMode 13982086 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp136,tmp140) gives cost=0.5
+DEBUG chooseMode 22992473 FlatConst(tmp149,4) gives cost=1.0
+DEBUG chooseMode 22992473 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp149,tmp148) gives cost=1.0
+DEBUG chooseMode 22992473 FlatConst(tmp150,4) gives cost=1.0
+DEBUG chooseMode 22992473 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp148,tmp150,tmp147) gives cost=1.0
+DEBUG chooseMode 22992473 FlatConst(tmp152,1) gives cost=1.0
+DEBUG chooseMode 22992473 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp152,tmp151) gives cost=1.0
+DEBUG chooseMode 22992473 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp147,tmp151) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 22992473 FlatConst(tmp149,4) gives cost=1.0
+DEBUG startEval 22992473 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp149,tmp148) gives cost=1.0
+DEBUG startEval 22992473 FlatConst(tmp150,4) gives cost=1.0
+DEBUG startEval 22992473 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp148,tmp150,tmp147) gives cost=1.0
+DEBUG startEval 22992473 FlatConst(tmp152,1) gives cost=1.0
+DEBUG startEval 22992473 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp152,tmp151) gives cost=1.0
+DEBUG startEval 22992473 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp147,tmp151) gives cost=0.5
 Passed test:animate_ints.tex:80
-DEBUG: chooseMode 15245345
-DEBUG chooseMode 15245345 FlatConst(tmp144,5) gives cost=1.0
-DEBUG chooseMode 15245345 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp144,tmp143) gives cost=1.0
-DEBUG chooseMode 15245345 FlatConst(tmp145,4) gives cost=1.0
-DEBUG chooseMode 15245345 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp143,tmp145,tmp142) gives cost=1.0
-DEBUG chooseMode 15245345 FlatConst(tmp147,2) gives cost=1.0
-DEBUG chooseMode 15245345 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp147,tmp146) gives cost=1.0
-DEBUG chooseMode 15245345 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp142,tmp146) gives cost=0.5
+DEBUG chooseMode 9716945 FlatConst(tmp155,5) gives cost=1.0
+DEBUG chooseMode 9716945 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp155,tmp154) gives cost=1.0
+DEBUG chooseMode 9716945 FlatConst(tmp156,4) gives cost=1.0
+DEBUG chooseMode 9716945 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp154,tmp156,tmp153) gives cost=1.0
+DEBUG chooseMode 9716945 FlatConst(tmp158,2) gives cost=1.0
+DEBUG chooseMode 9716945 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp158,tmp157) gives cost=1.0
+DEBUG chooseMode 9716945 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp153,tmp157) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 9716945 FlatConst(tmp155,5) gives cost=1.0
+DEBUG startEval 9716945 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp155,tmp154) gives cost=1.0
+DEBUG startEval 9716945 FlatConst(tmp156,4) gives cost=1.0
+DEBUG startEval 9716945 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp154,tmp156,tmp153) gives cost=1.0
+DEBUG startEval 9716945 FlatConst(tmp158,2) gives cost=1.0
+DEBUG startEval 9716945 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp158,tmp157) gives cost=1.0
+DEBUG startEval 9716945 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp153,tmp157) gives cost=0.5
 Passed test:animate_ints.tex:81
-DEBUG: chooseMode 6885751
-DEBUG chooseMode 6885751 FlatConst(tmp150,8) gives cost=1.0
-DEBUG chooseMode 6885751 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp150,tmp149) gives cost=1.0
-DEBUG chooseMode 6885751 FlatConst(tmp151,4) gives cost=1.0
-DEBUG chooseMode 6885751 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp149,tmp151,tmp148) gives cost=1.0
-DEBUG chooseMode 6885751 FlatConst(tmp153,2) gives cost=1.0
-DEBUG chooseMode 6885751 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp153,tmp152) gives cost=1.0
-DEBUG chooseMode 6885751 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp148,tmp152) gives cost=0.5
+DEBUG chooseMode 3278348 FlatConst(tmp161,8) gives cost=1.0
+DEBUG chooseMode 3278348 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp161,tmp160) gives cost=1.0
+DEBUG chooseMode 3278348 FlatConst(tmp162,4) gives cost=1.0
+DEBUG chooseMode 3278348 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp160,tmp162,tmp159) gives cost=1.0
+DEBUG chooseMode 3278348 FlatConst(tmp164,2) gives cost=1.0
+DEBUG chooseMode 3278348 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp164,tmp163) gives cost=1.0
+DEBUG chooseMode 3278348 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp159,tmp163) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 3278348 FlatConst(tmp161,8) gives cost=1.0
+DEBUG startEval 3278348 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp161,tmp160) gives cost=1.0
+DEBUG startEval 3278348 FlatConst(tmp162,4) gives cost=1.0
+DEBUG startEval 3278348 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp160,tmp162,tmp159) gives cost=1.0
+DEBUG startEval 3278348 FlatConst(tmp164,2) gives cost=1.0
+DEBUG startEval 3278348 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp164,tmp163) gives cost=1.0
+DEBUG startEval 3278348 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp159,tmp163) gives cost=0.5
 Passed test:animate_ints.tex:82
-DEBUG: chooseMode 33136362
-DEBUG chooseMode 33136362 FlatConst(tmp155,1) gives cost=1.0
-DEBUG chooseMode 33136362 FlatConst(tmp157,4) gives cost=1.0
-DEBUG chooseMode 33136362 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp157,tmp156) gives cost=1.0
-DEBUG chooseMode 33136362 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp155,tmp156,tmp154) gives cost=1.0
-DEBUG chooseMode 33136362 FlatConst(tmp159,1) gives cost=1.0
-DEBUG chooseMode 33136362 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp159,tmp158) gives cost=1.0
-DEBUG chooseMode 33136362 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp154,tmp158) gives cost=0.5
+DEBUG chooseMode 2830910 FlatConst(tmp166,1) gives cost=1.0
+DEBUG chooseMode 2830910 FlatConst(tmp168,4) gives cost=1.0
+DEBUG chooseMode 2830910 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp168,tmp167) gives cost=1.0
+DEBUG chooseMode 2830910 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp166,tmp167,tmp165) gives cost=1.0
+DEBUG chooseMode 2830910 FlatConst(tmp170,1) gives cost=1.0
+DEBUG chooseMode 2830910 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp170,tmp169) gives cost=1.0
+DEBUG chooseMode 2830910 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp165,tmp169) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 2830910 FlatConst(tmp166,1) gives cost=1.0
+DEBUG startEval 2830910 FlatConst(tmp168,4) gives cost=1.0
+DEBUG startEval 2830910 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp168,tmp167) gives cost=1.0
+DEBUG startEval 2830910 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp166,tmp167,tmp165) gives cost=1.0
+DEBUG startEval 2830910 FlatConst(tmp170,1) gives cost=1.0
+DEBUG startEval 2830910 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp170,tmp169) gives cost=1.0
+DEBUG startEval 2830910 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp165,tmp169) gives cost=0.5
 Passed test:animate_ints.tex:83
-DEBUG: chooseMode 28623319
-DEBUG chooseMode 28623319 FlatConst(tmp161,3) gives cost=1.0
-DEBUG chooseMode 28623319 FlatConst(tmp163,4) gives cost=1.0
-DEBUG chooseMode 28623319 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp163,tmp162) gives cost=1.0
-DEBUG chooseMode 28623319 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp161,tmp162,tmp160) gives cost=1.0
-DEBUG chooseMode 28623319 FlatConst(tmp165,1) gives cost=1.0
-DEBUG chooseMode 28623319 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp165,tmp164) gives cost=1.0
-DEBUG chooseMode 28623319 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp160,tmp164) gives cost=0.5
+DEBUG chooseMode 32486590 FlatConst(tmp172,3) gives cost=1.0
+DEBUG chooseMode 32486590 FlatConst(tmp174,4) gives cost=1.0
+DEBUG chooseMode 32486590 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp174,tmp173) gives cost=1.0
+DEBUG chooseMode 32486590 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp172,tmp173,tmp171) gives cost=1.0
+DEBUG chooseMode 32486590 FlatConst(tmp176,1) gives cost=1.0
+DEBUG chooseMode 32486590 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp176,tmp175) gives cost=1.0
+DEBUG chooseMode 32486590 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp171,tmp175) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 32486590 FlatConst(tmp172,3) gives cost=1.0
+DEBUG startEval 32486590 FlatConst(tmp174,4) gives cost=1.0
+DEBUG startEval 32486590 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp174,tmp173) gives cost=1.0
+DEBUG startEval 32486590 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp172,tmp173,tmp171) gives cost=1.0
+DEBUG startEval 32486590 FlatConst(tmp176,1) gives cost=1.0
+DEBUG startEval 32486590 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp176,tmp175) gives cost=1.0
+DEBUG startEval 32486590 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp171,tmp175) gives cost=0.5
 Passed test:animate_ints.tex:84
-DEBUG: chooseMode 2236062
-DEBUG chooseMode 2236062 FlatConst(tmp167,4) gives cost=1.0
-DEBUG chooseMode 2236062 FlatConst(tmp169,4) gives cost=1.0
-DEBUG chooseMode 2236062 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp169,tmp168) gives cost=1.0
-DEBUG chooseMode 2236062 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp167,tmp168,tmp166) gives cost=1.0
-DEBUG chooseMode 2236062 FlatConst(tmp171,1) gives cost=1.0
-DEBUG chooseMode 2236062 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp171,tmp170) gives cost=1.0
-DEBUG chooseMode 2236062 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp166,tmp170) gives cost=0.5
+DEBUG chooseMode 4414010 FlatConst(tmp178,4) gives cost=1.0
+DEBUG chooseMode 4414010 FlatConst(tmp180,4) gives cost=1.0
+DEBUG chooseMode 4414010 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp180,tmp179) gives cost=1.0
+DEBUG chooseMode 4414010 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp178,tmp179,tmp177) gives cost=1.0
+DEBUG chooseMode 4414010 FlatConst(tmp182,1) gives cost=1.0
+DEBUG chooseMode 4414010 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp182,tmp181) gives cost=1.0
+DEBUG chooseMode 4414010 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp177,tmp181) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 4414010 FlatConst(tmp178,4) gives cost=1.0
+DEBUG startEval 4414010 FlatConst(tmp180,4) gives cost=1.0
+DEBUG startEval 4414010 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp180,tmp179) gives cost=1.0
+DEBUG startEval 4414010 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp178,tmp179,tmp177) gives cost=1.0
+DEBUG startEval 4414010 FlatConst(tmp182,1) gives cost=1.0
+DEBUG startEval 4414010 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp182,tmp181) gives cost=1.0
+DEBUG startEval 4414010 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp177,tmp181) gives cost=0.5
 Passed test:animate_ints.tex:85
-DEBUG: chooseMode 540190
-DEBUG chooseMode 540190 FlatConst(tmp173,5) gives cost=1.0
-DEBUG chooseMode 540190 FlatConst(tmp175,4) gives cost=1.0
-DEBUG chooseMode 540190 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp175,tmp174) gives cost=1.0
-DEBUG chooseMode 540190 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp173,tmp174,tmp172) gives cost=1.0
-DEBUG chooseMode 540190 FlatConst(tmp177,2) gives cost=1.0
-DEBUG chooseMode 540190 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp177,tmp176) gives cost=1.0
-DEBUG chooseMode 540190 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp172,tmp176) gives cost=0.5
+DEBUG chooseMode 30983464 FlatConst(tmp184,5) gives cost=1.0
+DEBUG chooseMode 30983464 FlatConst(tmp186,4) gives cost=1.0
+DEBUG chooseMode 30983464 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp186,tmp185) gives cost=1.0
+DEBUG chooseMode 30983464 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp184,tmp185,tmp183) gives cost=1.0
+DEBUG chooseMode 30983464 FlatConst(tmp188,2) gives cost=1.0
+DEBUG chooseMode 30983464 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp188,tmp187) gives cost=1.0
+DEBUG chooseMode 30983464 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp183,tmp187) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 30983464 FlatConst(tmp184,5) gives cost=1.0
+DEBUG startEval 30983464 FlatConst(tmp186,4) gives cost=1.0
+DEBUG startEval 30983464 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp186,tmp185) gives cost=1.0
+DEBUG startEval 30983464 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp184,tmp185,tmp183) gives cost=1.0
+DEBUG startEval 30983464 FlatConst(tmp188,2) gives cost=1.0
+DEBUG startEval 30983464 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp188,tmp187) gives cost=1.0
+DEBUG startEval 30983464 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp183,tmp187) gives cost=0.5
 Passed test:animate_ints.tex:86
-DEBUG: chooseMode 19287723
-DEBUG chooseMode 19287723 FlatConst(tmp179,8) gives cost=1.0
-DEBUG chooseMode 19287723 FlatConst(tmp181,4) gives cost=1.0
-DEBUG chooseMode 19287723 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp181,tmp180) gives cost=1.0
-DEBUG chooseMode 19287723 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp179,tmp180,tmp178) gives cost=1.0
-DEBUG chooseMode 19287723 FlatConst(tmp183,2) gives cost=1.0
-DEBUG chooseMode 19287723 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp183,tmp182) gives cost=1.0
-DEBUG chooseMode 19287723 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp178,tmp182) gives cost=0.5
+DEBUG chooseMode 17818297 FlatConst(tmp190,8) gives cost=1.0
+DEBUG chooseMode 17818297 FlatConst(tmp192,4) gives cost=1.0
+DEBUG chooseMode 17818297 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp192,tmp191) gives cost=1.0
+DEBUG chooseMode 17818297 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp190,tmp191,tmp189) gives cost=1.0
+DEBUG chooseMode 17818297 FlatConst(tmp194,2) gives cost=1.0
+DEBUG chooseMode 17818297 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp194,tmp193) gives cost=1.0
+DEBUG chooseMode 17818297 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp189,tmp193) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 17818297 FlatConst(tmp190,8) gives cost=1.0
+DEBUG startEval 17818297 FlatConst(tmp192,4) gives cost=1.0
+DEBUG startEval 17818297 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp192,tmp191) gives cost=1.0
+DEBUG startEval 17818297 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp190,tmp191,tmp189) gives cost=1.0
+DEBUG startEval 17818297 FlatConst(tmp194,2) gives cost=1.0
+DEBUG startEval 17818297 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp194,tmp193) gives cost=1.0
+DEBUG startEval 17818297 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp189,tmp193) gives cost=0.5
 Passed test:animate_ints.tex:87
-DEBUG: chooseMode 32961147
-DEBUG chooseMode 32961147 FlatConst(tmp186,1) gives cost=1.0
-DEBUG chooseMode 32961147 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp186,tmp185) gives cost=1.0
-DEBUG chooseMode 32961147 FlatConst(tmp188,4) gives cost=1.0
-DEBUG chooseMode 32961147 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp188,tmp187) gives cost=1.0
-DEBUG chooseMode 32961147 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp185,tmp187,tmp184) gives cost=1.0
-DEBUG chooseMode 32961147 FlatConst(tmp189,0) gives cost=1.0
-DEBUG chooseMode 32961147 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp184,tmp189) gives cost=0.5
+DEBUG chooseMode 32380043 FlatConst(tmp197,1) gives cost=1.0
+DEBUG chooseMode 32380043 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp197,tmp196) gives cost=1.0
+DEBUG chooseMode 32380043 FlatConst(tmp199,4) gives cost=1.0
+DEBUG chooseMode 32380043 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp199,tmp198) gives cost=1.0
+DEBUG chooseMode 32380043 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp196,tmp198,tmp195) gives cost=1.0
+DEBUG chooseMode 32380043 FlatConst(tmp200,0) gives cost=1.0
+DEBUG chooseMode 32380043 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp195,tmp200) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 32380043 FlatConst(tmp197,1) gives cost=1.0
+DEBUG startEval 32380043 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp197,tmp196) gives cost=1.0
+DEBUG startEval 32380043 FlatConst(tmp199,4) gives cost=1.0
+DEBUG startEval 32380043 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp199,tmp198) gives cost=1.0
+DEBUG startEval 32380043 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp196,tmp198,tmp195) gives cost=1.0
+DEBUG startEval 32380043 FlatConst(tmp200,0) gives cost=1.0
+DEBUG startEval 32380043 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp195,tmp200) gives cost=0.5
 Passed test:animate_ints.tex:88
-DEBUG: chooseMode 27890503
-DEBUG chooseMode 27890503 FlatConst(tmp192,3) gives cost=1.0
-DEBUG chooseMode 27890503 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp192,tmp191) gives cost=1.0
-DEBUG chooseMode 27890503 FlatConst(tmp194,4) gives cost=1.0
-DEBUG chooseMode 27890503 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp194,tmp193) gives cost=1.0
-DEBUG chooseMode 27890503 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp191,tmp193,tmp190) gives cost=1.0
-DEBUG chooseMode 27890503 FlatConst(tmp195,0) gives cost=1.0
-DEBUG chooseMode 27890503 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp190,tmp195) gives cost=0.5
+DEBUG chooseMode 25613444 FlatConst(tmp203,3) gives cost=1.0
+DEBUG chooseMode 25613444 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp203,tmp202) gives cost=1.0
+DEBUG chooseMode 25613444 FlatConst(tmp205,4) gives cost=1.0
+DEBUG chooseMode 25613444 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp205,tmp204) gives cost=1.0
+DEBUG chooseMode 25613444 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp202,tmp204,tmp201) gives cost=1.0
+DEBUG chooseMode 25613444 FlatConst(tmp206,0) gives cost=1.0
+DEBUG chooseMode 25613444 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp201,tmp206) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 25613444 FlatConst(tmp203,3) gives cost=1.0
+DEBUG startEval 25613444 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp203,tmp202) gives cost=1.0
+DEBUG startEval 25613444 FlatConst(tmp205,4) gives cost=1.0
+DEBUG startEval 25613444 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp205,tmp204) gives cost=1.0
+DEBUG startEval 25613444 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp202,tmp204,tmp201) gives cost=1.0
+DEBUG startEval 25613444 FlatConst(tmp206,0) gives cost=1.0
+DEBUG startEval 25613444 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp201,tmp206) gives cost=0.5
 Passed test:animate_ints.tex:89
-DEBUG: chooseMode 274614
-DEBUG chooseMode 274614 FlatConst(tmp198,4) gives cost=1.0
-DEBUG chooseMode 274614 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp198,tmp197) gives cost=1.0
-DEBUG chooseMode 274614 FlatConst(tmp200,4) gives cost=1.0
-DEBUG chooseMode 274614 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp200,tmp199) gives cost=1.0
-DEBUG chooseMode 274614 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp197,tmp199,tmp196) gives cost=1.0
-DEBUG chooseMode 274614 FlatConst(tmp201,1) gives cost=1.0
-DEBUG chooseMode 274614 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp196,tmp201) gives cost=0.5
+DEBUG chooseMode 15354046 FlatConst(tmp209,4) gives cost=1.0
+DEBUG chooseMode 15354046 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp209,tmp208) gives cost=1.0
+DEBUG chooseMode 15354046 FlatConst(tmp211,4) gives cost=1.0
+DEBUG chooseMode 15354046 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp211,tmp210) gives cost=1.0
+DEBUG chooseMode 15354046 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp208,tmp210,tmp207) gives cost=1.0
+DEBUG chooseMode 15354046 FlatConst(tmp212,1) gives cost=1.0
+DEBUG chooseMode 15354046 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp207,tmp212) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 15354046 FlatConst(tmp209,4) gives cost=1.0
+DEBUG startEval 15354046 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp209,tmp208) gives cost=1.0
+DEBUG startEval 15354046 FlatConst(tmp211,4) gives cost=1.0
+DEBUG startEval 15354046 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp211,tmp210) gives cost=1.0
+DEBUG startEval 15354046 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp208,tmp210,tmp207) gives cost=1.0
+DEBUG startEval 15354046 FlatConst(tmp212,1) gives cost=1.0
+DEBUG startEval 15354046 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp207,tmp212) gives cost=0.5
 Passed test:animate_ints.tex:90
-DEBUG: chooseMode 18481629
-DEBUG chooseMode 18481629 FlatConst(tmp204,5) gives cost=1.0
-DEBUG chooseMode 18481629 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp204,tmp203) gives cost=1.0
-DEBUG chooseMode 18481629 FlatConst(tmp206,4) gives cost=1.0
-DEBUG chooseMode 18481629 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp206,tmp205) gives cost=1.0
-DEBUG chooseMode 18481629 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp203,tmp205,tmp202) gives cost=1.0
-DEBUG chooseMode 18481629 FlatConst(tmp207,1) gives cost=1.0
-DEBUG chooseMode 18481629 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp202,tmp207) gives cost=0.5
+DEBUG chooseMode 21878616 FlatConst(tmp215,5) gives cost=1.0
+DEBUG chooseMode 21878616 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp215,tmp214) gives cost=1.0
+DEBUG chooseMode 21878616 FlatConst(tmp217,4) gives cost=1.0
+DEBUG chooseMode 21878616 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp217,tmp216) gives cost=1.0
+DEBUG chooseMode 21878616 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp214,tmp216,tmp213) gives cost=1.0
+DEBUG chooseMode 21878616 FlatConst(tmp218,1) gives cost=1.0
+DEBUG chooseMode 21878616 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp213,tmp218) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 21878616 FlatConst(tmp215,5) gives cost=1.0
+DEBUG startEval 21878616 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp215,tmp214) gives cost=1.0
+DEBUG startEval 21878616 FlatConst(tmp217,4) gives cost=1.0
+DEBUG startEval 21878616 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp217,tmp216) gives cost=1.0
+DEBUG startEval 21878616 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp214,tmp216,tmp213) gives cost=1.0
+DEBUG startEval 21878616 FlatConst(tmp218,1) gives cost=1.0
+DEBUG startEval 21878616 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp213,tmp218) gives cost=0.5
 Passed test:animate_ints.tex:91
-DEBUG: chooseMode 7364874
-DEBUG chooseMode 7364874 FlatConst(tmp210,8) gives cost=1.0
-DEBUG chooseMode 7364874 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp210,tmp209) gives cost=1.0
-DEBUG chooseMode 7364874 FlatConst(tmp212,4) gives cost=1.0
-DEBUG chooseMode 7364874 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp212,tmp211) gives cost=1.0
-DEBUG chooseMode 7364874 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp209,tmp211,tmp208) gives cost=1.0
-DEBUG chooseMode 7364874 FlatConst(tmp213,2) gives cost=1.0
-DEBUG chooseMode 7364874 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp208,tmp213) gives cost=0.5
+DEBUG chooseMode 24435002 FlatConst(tmp221,8) gives cost=1.0
+DEBUG chooseMode 24435002 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp221,tmp220) gives cost=1.0
+DEBUG chooseMode 24435002 FlatConst(tmp223,4) gives cost=1.0
+DEBUG chooseMode 24435002 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp223,tmp222) gives cost=1.0
+DEBUG chooseMode 24435002 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp220,tmp222,tmp219) gives cost=1.0
+DEBUG chooseMode 24435002 FlatConst(tmp224,2) gives cost=1.0
+DEBUG chooseMode 24435002 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp219,tmp224) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 24435002 FlatConst(tmp221,8) gives cost=1.0
+DEBUG startEval 24435002 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp221,tmp220) gives cost=1.0
+DEBUG startEval 24435002 FlatConst(tmp223,4) gives cost=1.0
+DEBUG startEval 24435002 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp223,tmp222) gives cost=1.0
+DEBUG startEval 24435002 net.sourceforge.czt.animation.eval.flatpred.FlatDiv(tmp220,tmp222,tmp219) gives cost=1.0
+DEBUG startEval 24435002 FlatConst(tmp224,2) gives cost=1.0
+DEBUG startEval 24435002 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp219,tmp224) gives cost=0.5
 Passed test:animate_ints.tex:92
+DEBUG chooseMode 27271771 FlatConst(tmp229,0) gives cost=1.0
+DEBUG chooseMode 27271771 FlatConst(tmp230,1) gives cost=1.0
+DEBUG chooseMode 27271771 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp229,tmp230,tmp231) gives cost=1.0
+DEBUG chooseMode 27271771 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember( _ < _ ,tmp231)
+DEBUG chooseMode 3115866 FlatConst(tmp232,0) gives cost=1.0
+DEBUG chooseMode 3115866 FlatConst(tmp233,10) gives cost=1.0
+DEBUG chooseMode 3115866 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp232,tmp233,tmp234) gives cost=1.0
+DEBUG chooseMode 3115866 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember( _ < _ ,tmp234)
+DEBUG chooseMode 23447542 FlatConst(tmp235,0) gives cost=1.0
+DEBUG chooseMode 23447542 FlatConst(tmp236,10) gives cost=1.0
+DEBUG chooseMode 23447542 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp235,tmp236,tmp237) gives cost=1.0
+DEBUG chooseMode 23447542 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember( _ < _ ,tmp237)
+DEBUG chooseMode 19589694 FlatConst(tmp242,1) gives cost=1.0
+DEBUG chooseMode 19589694 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp242,tmp241) gives cost=1.0
+DEBUG chooseMode 19589694 FlatConst(tmp243,0) gives cost=1.0
+DEBUG chooseMode 19589694 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp241,tmp243,tmp244) gives cost=1.0
+DEBUG chooseMode 19589694 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember( _ < _ ,tmp244)
+DEBUG chooseMode 9296972 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatNot( _ < _ )
+DEBUG chooseMode 24778599 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatNot( _ < _ )
+DEBUG chooseMode 9867226 FlatConst(tmp251,0) gives cost=1.0
+DEBUG chooseMode 9867226 FlatConst(tmp252,0) gives cost=1.0
+DEBUG chooseMode 9867226 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp251,tmp252,tmp253) gives cost=1.0
+DEBUG chooseMode 9867226 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember( _ ? _ ,tmp253)
+DEBUG chooseMode 12468716 FlatConst(tmp254,0) gives cost=1.0
+DEBUG chooseMode 12468716 FlatConst(tmp255,1) gives cost=1.0
+DEBUG chooseMode 12468716 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp254,tmp255,tmp256) gives cost=1.0
+DEBUG chooseMode 12468716 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember( _ ? _ ,tmp256)
+DEBUG chooseMode 14298351 FlatConst(tmp257,0) gives cost=1.0
+DEBUG chooseMode 14298351 FlatConst(tmp258,10) gives cost=1.0
+DEBUG chooseMode 14298351 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp257,tmp258,tmp259) gives cost=1.0
+DEBUG chooseMode 14298351 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember( _ ? _ ,tmp259)
+DEBUG chooseMode 29103856 FlatConst(tmp260,0) gives cost=1.0
+DEBUG chooseMode 29103856 FlatConst(tmp261,10) gives cost=1.0
+DEBUG chooseMode 29103856 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp260,tmp261,tmp262) gives cost=1.0
+DEBUG chooseMode 29103856 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember( _ ? _ ,tmp262)
+DEBUG chooseMode 25567987 FlatConst(tmp267,1) gives cost=1.0
+DEBUG chooseMode 25567987 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp267,tmp266) gives cost=1.0
+DEBUG chooseMode 25567987 FlatConst(tmp268,0) gives cost=1.0
+DEBUG chooseMode 25567987 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp266,tmp268,tmp269) gives cost=1.0
+DEBUG chooseMode 25567987 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember( _ ? _ ,tmp269)
+DEBUG chooseMode 23103355 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatNot( _ ? _ )
+DEBUG chooseMode 6206601 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatNot( _ > _ )
+DEBUG chooseMode 27182317 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatNot( _ > _ )
+DEBUG chooseMode 9624795 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatNot( _ > _ )
+DEBUG chooseMode 31571602 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatNot( _ > _ )
+DEBUG chooseMode 27682895 FlatConst(tmp286,1) gives cost=1.0
+DEBUG chooseMode 27682895 FlatConst(tmp287,0) gives cost=1.0
+DEBUG chooseMode 27682895 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp286,tmp287,tmp288) gives cost=1.0
+DEBUG chooseMode 27682895 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember( _ > _ ,tmp288)
+DEBUG chooseMode 671035 FlatConst(tmp289,10) gives cost=1.0
+DEBUG chooseMode 671035 FlatConst(tmp290,0) gives cost=1.0
+DEBUG chooseMode 671035 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp289,tmp290,tmp291) gives cost=1.0
+DEBUG chooseMode 671035 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember( _ > _ ,tmp291)
+DEBUG chooseMode 3808966 FlatConst(tmp292,0) gives cost=1.0
+DEBUG chooseMode 3808966 FlatConst(tmp294,1) gives cost=1.0
+DEBUG chooseMode 3808966 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp294,tmp293) gives cost=1.0
+DEBUG chooseMode 3808966 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp292,tmp293,tmp295) gives cost=1.0
+DEBUG chooseMode 3808966 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember( _ > _ ,tmp295)
+DEBUG chooseMode 18016247 FlatConst(tmp296,0) gives cost=1.0
+DEBUG chooseMode 18016247 FlatConst(tmp297,0) gives cost=1.0
+DEBUG chooseMode 18016247 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp296,tmp297,tmp298) gives cost=1.0
+DEBUG chooseMode 18016247 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember( _ ? _ ,tmp298)
+DEBUG chooseMode 3874616 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatNot( _ ? _ )
+DEBUG chooseMode 25086455 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatNot( _ ? _ )
+DEBUG chooseMode 16617866 FlatConst(tmp305,10) gives cost=1.0
+DEBUG chooseMode 16617866 FlatConst(tmp306,0) gives cost=1.0
+DEBUG chooseMode 16617866 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp305,tmp306,tmp307) gives cost=1.0
+DEBUG chooseMode 16617866 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember( _ ? _ ,tmp307)
+DEBUG chooseMode 22945909 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatNot( _ ? _ )
+DEBUG chooseMode 10822310 FlatConst(tmp313,1) gives cost=1.0
+DEBUG chooseMode 10822310 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp313,tmp312) gives cost=1.0
+DEBUG chooseMode 10822310 FlatConst(tmp315,3) gives cost=1.0
+DEBUG chooseMode 10822310 net.sourceforge.czt.animation.eval.flatpred.FlatNegate(tmp315,tmp314) gives cost=1.0
+DEBUG chooseMode 10822310 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp312,tmp314,tmp316) gives cost=1.0
+DEBUG chooseMode 10822310 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember( _ ? _ ,tmp316)
 ------------- ---------------- ---------------
 Testcase: animate_ints.tex:30(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@e41628e6
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@e41628e6
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@68429d18
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@68429d18
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
@@ -382,14 +717,14 @@ junit.framework.AssertionFailedError: Should not throw exception java.lang.Runti
 
 
 Testcase: animate_ints.tex:41(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@80254e43
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@80254e43
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@db0ce59e
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@db0ce59e
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_ints.tex:52(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@4fd1b9e5
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@4fd1b9e5
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@73f92bf9
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@73f92bf9
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
@@ -430,8 +765,8 @@ junit.framework.AssertionFailedError: Exception while evaluating undef expr. net
 
 
 Testcase: animate_ints.tex:95(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ForallPredImpl@4869afb5
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ForallPredImpl@4869afb5
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ForallPredImpl@657e692a
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ForallPredImpl@657e692a
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
@@ -472,152 +807,152 @@ junit.framework.AssertionFailedError: Should not throw exception java.lang.Runti
 
 
 Testcase: animate_ints.tex:106(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d4118d2d
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d4118d2d
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@7374ca8d
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@7374ca8d
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_ints.tex:107(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d411aef6
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d411aef6
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@7378e1e4
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@7378e1e4
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_ints.tex::67(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d411aef6
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d411aef6
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.AndPredImpl@ec204ed2
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.AndPredImpl@ec204ed2
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_ints.tex:109(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@cf513ca6
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@cf513ca6
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@e02b0a34
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@e02b0a34
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_ints.tex:110(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@644e7efb
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@644e7efb
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.NegPredImpl@644e7efb
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.NegPredImpl@644e7efb
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_ints.tex:111(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@6603579a
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@6603579a
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.NegPredImpl@6603579a
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.NegPredImpl@6603579a
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_ints.tex:114(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d411896c
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d411896c
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@4b4c3a56
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@4b4c3a56
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_ints.tex:115(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d4118d2d
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d4118d2d
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@4b4caeb5
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@4b4caeb5
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_ints.tex:116(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d411aef6
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d411aef6
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@4b50c60c
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@4b50c60c
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_ints.tex::74(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d411aef6
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d411aef6
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.AndPredImpl@32699082
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.AndPredImpl@32699082
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_ints.tex:118(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@cf513ca6
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@cf513ca6
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@b802ee5c
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@b802ee5c
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_ints.tex:119(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@8927f872
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@8927f872
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.NegPredImpl@8927f872
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.NegPredImpl@8927f872
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_ints.tex:122(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@341ef03a
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@341ef03a
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.NegPredImpl@341ef03a
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.NegPredImpl@341ef03a
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_ints.tex:123(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@349dc3c3
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@349dc3c3
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.NegPredImpl@349dc3c3
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.NegPredImpl@349dc3c3
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_ints.tex:124(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@5e30a573
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@5e30a573
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.NegPredImpl@5e30a573
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.NegPredImpl@5e30a573
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_ints.tex:125(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@3410d8b9
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@3410d8b9
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.NegPredImpl@3410d8b9
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.NegPredImpl@3410d8b9
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_ints.tex:126(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d411fdcb
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d411fdcb
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@dd4ee431
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@dd4ee431
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_ints.tex:127(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d4161522
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d4161522
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@ddcdb7ba
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@ddcdb7ba
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_ints.tex:128(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@70d186f2
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@70d186f2
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@d8807fea
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@d8807fea
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_ints.tex:131(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d411896c
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d411896c
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@80327597
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@80327597
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_ints.tex:132(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@ef626433
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@ef626433
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.NegPredImpl@ef626433
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.NegPredImpl@ef626433
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_ints.tex:133(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@efe137bc
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@efe137bc
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.NegPredImpl@efe137bc
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.NegPredImpl@efe137bc
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_ints.tex:134(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d4161522
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d4161522
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@80bf60a1
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@80bf60a1
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_ints.tex:135(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@1974196c
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@1974196c
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.NegPredImpl@1974196c
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.NegPredImpl@1974196c
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_ints.tex:136(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@6c1222ea
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@6c1222ea
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@e8450bd9
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@e8450bd9
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 

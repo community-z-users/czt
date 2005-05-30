@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateSchemasTest
-Tests run: 12, Failures: 12, Errors: 0, Time elapsed: 0.016 sec
+Tests run: 12, Failures: 12, Errors: 0, Time elapsed: 0.015 sec
 
 Testcase: animate_schemas.tex:40(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PreExprImpl@63c0a3a0

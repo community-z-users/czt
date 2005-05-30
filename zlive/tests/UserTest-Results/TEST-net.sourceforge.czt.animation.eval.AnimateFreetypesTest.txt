@@ -1,23 +1,24 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateFreetypesTest
-Tests run: 18, Failures: 18, Errors: 0, Time elapsed: 0.078 sec
+Tests run: 18, Failures: 18, Errors: 0, Time elapsed: 0.046 sec
 
 ------------- Standard Output ---------------
-DEBUG: chooseMode 25358187
-DEBUG chooseMode 25358187 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember(T,Happy)
-DEBUG: chooseMode 20214052
-DEBUG chooseMode 20214052 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember(T,Sad)
-DEBUG: chooseMode 32516997
-DEBUG chooseMode 32516997 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember(U,Unknown)
-DEBUG: chooseMode 22892006
-DEBUG chooseMode 22892006 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(Happy,Sad,tmp224)
-DEBUG: chooseMode 8550760
-DEBUG chooseMode 8550760 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(a,tmp226)
-DEBUG: chooseMode 32552915
-DEBUG chooseMode 32552915 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatCard(LETTER,tmp228)
-DEBUG: chooseMode 11845181
-DEBUG chooseMode 11845181 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatCard(T,tmp230)
-DEBUG: chooseMode 3521295
-DEBUG chooseMode 3521295 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatCard(V,tmp232)
+DEBUG chooseMode 9649099 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember(T,Happy)
+DEBUG chooseMode 3852606 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember(T,Sad)
+DEBUG chooseMode 24257622 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember(U,Unknown)
+DEBUG chooseMode 25804854 FlatConst(tmp323,1) gives cost=1.0
+DEBUG chooseMode 25804854 FlatConst(tmp324,2) gives cost=1.0
+DEBUG chooseMode 25804854 FlatConst(tmp325,3) gives cost=1.0
+DEBUG chooseMode 25804854 FlatConst(tmp326,4) gives cost=1.0
+DEBUG chooseMode 25804854 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp323,tmp324,tmp325,tmp326,tmp327) gives cost=1.0
+DEBUG chooseMode 25804854 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatTuple(Known,tmp327,tmp328)
+DEBUG chooseMode 11150143 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(Happy,Sad,tmp329)
+DEBUG chooseMode 32512553 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(Happy,tmp330)
+DEBUG chooseMode 4558657 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp332) gives cost=1.0
+DEBUG chooseMode 4558657 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatTuple(T,tmp332,tmp333)
+DEBUG chooseMode 18414151 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(a,tmp335)
+DEBUG chooseMode 14111765 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatCard(LETTER,tmp337)
+DEBUG chooseMode 13725633 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatCard(T,tmp339)
+DEBUG chooseMode 4899350 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatCard(V,tmp341)
 ------------- ---------------- ---------------
 Testcase: animate_freetypes.tex:47(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@ebcbcfa7
@@ -74,8 +75,8 @@ junit.framework.AssertionFailedError: Should not throw exception java.lang.Runti
 
 
 Testcase: animate_freetypes.tex:56(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@48b3e77e
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@48b3e77e
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@9d1e8e69
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@9d1e8e69
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
@@ -86,14 +87,14 @@ junit.framework.AssertionFailedError: Should not throw exception net.sourceforge
 
 
 Testcase: animate_freetypes.tex:60(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@117ae467
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@117ae467
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@e77551b7
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@e77551b7
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_freetypes.tex:61(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@7db3a4a
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@7db3a4a
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@bd1fb834
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@bd1fb834
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 

@@ -1,26 +1,131 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateRelationsTest
-Tests run: 102, Failures: 102, Errors: 0, Time elapsed: 0.124 sec
+Tests run: 102, Failures: 101, Errors: 0, Time elapsed: 0.125 sec
 
 ------------- Standard Output ---------------
-DEBUG: chooseMode 19948346
-DEBUG chooseMode 19948346 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp674) gives cost=1.0
-DEBUG chooseMode 19948346 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember(disjoint _ ,tmp674)
+DEBUG chooseMode 8304354 FlatConst(tmp805,1) gives cost=1.0
+DEBUG chooseMode 8304354 FlatConst(tmp806,1) gives cost=1.0
+DEBUG chooseMode 8304354 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp805,tmp806,tmp807) gives cost=1.0
+DEBUG chooseMode 8304354 FlatConst(tmp808,1) gives cost=1.0
+DEBUG chooseMode 8304354 FlatConst(tmp809,1) gives cost=1.0
+DEBUG chooseMode 8304354 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp808,tmp809,tmp810) gives cost=1.0
+DEBUG chooseMode 8304354 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp807,tmp810) gives cost=0.5
+DEBUG... final cost = 0.5
+DEBUG startEval 8304354 FlatConst(tmp805,1) gives cost=1.0
+DEBUG startEval 8304354 FlatConst(tmp806,1) gives cost=1.0
+DEBUG startEval 8304354 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp805,tmp806,tmp807) gives cost=1.0
+DEBUG startEval 8304354 FlatConst(tmp808,1) gives cost=1.0
+DEBUG startEval 8304354 FlatConst(tmp809,1) gives cost=1.0
+DEBUG startEval 8304354 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp808,tmp809,tmp810) gives cost=1.0
+DEBUG startEval 8304354 net.sourceforge.czt.animation.eval.flatpred.FlatEquals(tmp807,tmp810) gives cost=0.5
+Passed test:animate_relations.tex:23
+DEBUG: FLATSETCOMP HAS SIZE 9 10
+DEBUG chooseMode 18403721 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatSetComp( _ < _ ,tmp811)
+DEBUG: FLATSETCOMP HAS SIZE 9 10
+DEBUG chooseMode 6586390 FlatConst(tmp826,1) gives cost=1.0
+DEBUG chooseMode 6586390 FlatConst(tmp827,2) gives cost=1.0
+DEBUG chooseMode 6586390 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp826,tmp827,tmp828) gives cost=1.0
+DEBUG chooseMode 6586390 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatSetComp( _ > _ ,tmp829)
+DEBUG: FLATSETCOMP HAS SIZE 9 10
+DEBUG: FLATSETCOMP HAS SIZE 9 10
+DEBUG: FLATSETCOMP HAS SIZE 7 8
+DEBUG chooseMode 1397168 FlatConst(tmp874,1) gives cost=1.0
+DEBUG chooseMode 1397168 FlatConst(tmp875,2) gives cost=1.0
+DEBUG chooseMode 1397168 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp874,tmp875,tmp876) gives cost=1.0
+DEBUG chooseMode 1397168 net.sourceforge.czt.animation.eval.flatpred.FlatSetComp(tmp877) gives cost=1.0
+DEBUG chooseMode 1397168 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp876,tmp877,tmp889) gives cost=1.0
+DEBUG chooseMode 1397168 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember( _ ? _ ,tmp889)
+DEBUG chooseMode 27660658 FlatConst(tmp890,1) gives cost=1.0
+DEBUG chooseMode 27660658 FlatConst(tmp891,2) gives cost=1.0
+DEBUG chooseMode 27660658 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp890,tmp891,tmp892) gives cost=1.0
+DEBUG chooseMode 27660658 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember(succ _ ,tmp892)
+DEBUG chooseMode 9870377 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp971) gives cost=1.0
+DEBUG chooseMode 9870377 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember(disjoint _ ,tmp971)
+DEBUG chooseMode 31882858 FlatConst(tmp972,1) gives cost=1.0
+DEBUG chooseMode 31882858 FlatConst(tmp973,1) gives cost=1.0
+DEBUG chooseMode 31882858 FlatConst(tmp974,3) gives cost=1.0
+DEBUG chooseMode 31882858 FlatConst(tmp975,5) gives cost=1.0
+DEBUG chooseMode 31882858 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp973,tmp974,tmp975,tmp976) gives cost=1.0
+DEBUG chooseMode 31882858 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp972,tmp976,tmp977) gives cost=1.0
+DEBUG chooseMode 31882858 FlatConst(tmp978,3) gives cost=1.0
+DEBUG chooseMode 31882858 FlatConst(tmp979,2) gives cost=1.0
+DEBUG chooseMode 31882858 FlatConst(tmp980,4) gives cost=1.0
+DEBUG chooseMode 31882858 FlatConst(tmp981,6) gives cost=1.0
+DEBUG chooseMode 31882858 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp979,tmp980,tmp981,tmp982) gives cost=1.0
+DEBUG chooseMode 31882858 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp978,tmp982,tmp983) gives cost=1.0
+DEBUG chooseMode 31882858 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp977,tmp983,tmp984) gives cost=1.0
+DEBUG chooseMode 31882858 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember(disjoint _ ,tmp984)
+DEBUG chooseMode 24478976 FlatConst(tmp985,1) gives cost=1.0
+DEBUG chooseMode 24478976 FlatConst(tmp986,1) gives cost=1.0
+DEBUG chooseMode 24478976 FlatConst(tmp987,3) gives cost=1.0
+DEBUG chooseMode 24478976 FlatConst(tmp988,5) gives cost=1.0
+DEBUG chooseMode 24478976 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp986,tmp987,tmp988,tmp989) gives cost=1.0
+DEBUG chooseMode 24478976 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp985,tmp989,tmp990) gives cost=1.0
+DEBUG chooseMode 24478976 FlatConst(tmp991,3) gives cost=1.0
+DEBUG chooseMode 24478976 FlatConst(tmp992,2) gives cost=1.0
+DEBUG chooseMode 24478976 FlatConst(tmp993,4) gives cost=1.0
+DEBUG chooseMode 24478976 FlatConst(tmp994,6) gives cost=1.0
+DEBUG chooseMode 24478976 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp992,tmp993,tmp994,tmp995) gives cost=1.0
+DEBUG chooseMode 24478976 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp991,tmp995,tmp996) gives cost=1.0
+DEBUG chooseMode 24478976 FlatConst(tmp997,5) gives cost=1.0
+DEBUG chooseMode 24478976 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp998) gives cost=1.0
+DEBUG chooseMode 24478976 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp997,tmp998,tmp999) gives cost=1.0
+DEBUG chooseMode 24478976 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp990,tmp996,tmp999,tmp1000) gives cost=1.0
+DEBUG chooseMode 24478976 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember(disjoint _ ,tmp1000)
+DEBUG chooseMode 7263010 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatNot(disjoint _ )
+DEBUG chooseMode 31952022 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp1014) gives cost=1.0
+DEBUG chooseMode 31952022 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp1015) gives cost=1.0
+DEBUG chooseMode 31952022 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp1014,tmp1015,tmp1016) gives cost=1.0
+DEBUG chooseMode 31952022 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember( _ partition _ ,tmp1016)
+DEBUG chooseMode 12518719 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatNot( _ partition _ )
+DEBUG chooseMode 15831407 FlatConst(tmp1029,1) gives cost=1.0
+DEBUG chooseMode 15831407 FlatConst(tmp1030,1) gives cost=1.0
+DEBUG chooseMode 15831407 FlatConst(tmp1031,3) gives cost=1.0
+DEBUG chooseMode 15831407 FlatConst(tmp1032,5) gives cost=1.0
+DEBUG chooseMode 15831407 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp1030,tmp1031,tmp1032,tmp1033) gives cost=1.0
+DEBUG chooseMode 15831407 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp1029,tmp1033,tmp1034) gives cost=1.0
+DEBUG chooseMode 15831407 FlatConst(tmp1035,3) gives cost=1.0
+DEBUG chooseMode 15831407 FlatConst(tmp1036,2) gives cost=1.0
+DEBUG chooseMode 15831407 FlatConst(tmp1037,4) gives cost=1.0
+DEBUG chooseMode 15831407 FlatConst(tmp1038,6) gives cost=1.0
+DEBUG chooseMode 15831407 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp1036,tmp1037,tmp1038,tmp1039) gives cost=1.0
+DEBUG chooseMode 15831407 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp1035,tmp1039,tmp1040) gives cost=1.0
+DEBUG chooseMode 15831407 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp1034,tmp1040,tmp1041) gives cost=1.0
+DEBUG chooseMode 15831407 FlatConst(tmp1043,1) gives cost=1.0
+DEBUG chooseMode 15831407 FlatConst(tmp1044,6) gives cost=1.0
+DEBUG chooseMode 15831407 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp1043,tmp1044,tmp1042) gives cost=1.0
+DEBUG chooseMode 15831407 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp1041,tmp1042,tmp1045) gives cost=1.0
+DEBUG chooseMode 15831407 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember( _ partition _ ,tmp1045)
+DEBUG chooseMode 25374911 FlatConst(tmp1046,1) gives cost=1.0
+DEBUG chooseMode 25374911 FlatConst(tmp1047,1) gives cost=1.0
+DEBUG chooseMode 25374911 FlatConst(tmp1048,3) gives cost=1.0
+DEBUG chooseMode 25374911 FlatConst(tmp1049,5) gives cost=1.0
+DEBUG chooseMode 25374911 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp1047,tmp1048,tmp1049,tmp1050) gives cost=1.0
+DEBUG chooseMode 25374911 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp1046,tmp1050,tmp1051) gives cost=1.0
+DEBUG chooseMode 25374911 FlatConst(tmp1052,3) gives cost=1.0
+DEBUG chooseMode 25374911 FlatConst(tmp1053,2) gives cost=1.0
+DEBUG chooseMode 25374911 FlatConst(tmp1054,4) gives cost=1.0
+DEBUG chooseMode 25374911 FlatConst(tmp1055,6) gives cost=1.0
+DEBUG chooseMode 25374911 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp1053,tmp1054,tmp1055,tmp1056) gives cost=1.0
+DEBUG chooseMode 25374911 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp1052,tmp1056,tmp1057) gives cost=1.0
+DEBUG chooseMode 25374911 FlatConst(tmp1058,5) gives cost=1.0
+DEBUG chooseMode 25374911 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp1059) gives cost=1.0
+DEBUG chooseMode 25374911 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp1058,tmp1059,tmp1060) gives cost=1.0
+DEBUG chooseMode 25374911 net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet(tmp1051,tmp1057,tmp1060,tmp1061) gives cost=1.0
+DEBUG chooseMode 25374911 FlatConst(tmp1063,1) gives cost=1.0
+DEBUG chooseMode 25374911 FlatConst(tmp1064,6) gives cost=1.0
+DEBUG chooseMode 25374911 net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet(tmp1063,tmp1064,tmp1062) gives cost=1.0
+DEBUG chooseMode 25374911 net.sourceforge.czt.animation.eval.flatpred.FlatTuple(tmp1061,tmp1062,tmp1065) gives cost=1.0
+DEBUG chooseMode 25374911 returns null because of net.sourceforge.czt.animation.eval.flatpred.FlatMember( _ partition _ ,tmp1065)
 ------------- ---------------- ---------------
-Testcase: animate_relations.tex:23(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d412018c
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d412018c
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
-
-
 Testcase: animate_relations.tex:24(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@f3e17fcb
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@f3e17fcb
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@99c3d51b
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@99c3d51b
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_relations.tex:25(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@308fbae6
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@308fbae6
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@b0bd2801
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@b0bd2801
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
@@ -31,14 +136,14 @@ junit.framework.AssertionFailedError: Should not throw exception java.lang.Runti
 
 
 Testcase: animate_relations.tex:27(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@f3e17fcb
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@f3e17fcb
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@38af1550
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@38af1550
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_relations.tex:28(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@f3e17fcb
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@f3e17fcb
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@f8bd73e
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@f8bd73e
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
@@ -49,20 +154,20 @@ junit.framework.AssertionFailedError: Should not throw exception java.lang.Runti
 
 
 Testcase: animate_relations.tex:30(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@4fde4049
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@4fde4049
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@e45db64f
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@e45db64f
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_relations.tex:31(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@99fee6b5
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@99fee6b5
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@75337612
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@75337612
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_relations.tex:32(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d412054d
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d412054d
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@a436538e
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@a436538e
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
@@ -223,8 +328,8 @@ junit.framework.AssertionFailedError: Should not throw exception java.lang.Runti
 
 
 Testcase: animate_relations.tex:65(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@f772a901
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@f772a901
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@d4d1ed11
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@d4d1ed11
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
@@ -289,8 +394,8 @@ junit.framework.AssertionFailedError: Should not throw exception java.lang.Runti
 
 
 Testcase: animate_relations.tex:78(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@e5f7e3bc
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@e5f7e3bc
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@e4ec0c73
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@e4ec0c73
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
@@ -571,50 +676,50 @@ junit.framework.AssertionFailedError: Should not throw exception net.sourceforge
 
 
 Testcase: animate_relations.tex:157(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@a3f1551f
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@a3f1551f
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@f6878203
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@f6878203
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_relations.tex:158(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@a3f1551f
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@a3f1551f
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@675ad920
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@675ad920
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_relations.tex:159(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@eba9285
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@eba9285
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.NegPredImpl@eba9285
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.NegPredImpl@eba9285
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_relations.tex:161(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@b290abac
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@b290abac
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@1841c51c
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@1841c51c
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_relations.tex:162(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@7f198311
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@7f198311
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.NegPredImpl@7f198311
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.NegPredImpl@7f198311
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_relations.tex:163(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@a43e420f
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@a43e420f
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@3ae30af5
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@3ae30af5
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_relations.tex:164(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@95f394fa
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@95f394fa
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@a13c058e
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@a13c058e
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
 Testcase: animate_relations.tex:165(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@3f8b217d
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@3f8b217d
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@2a96096b
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@2a96096b
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
 
 
