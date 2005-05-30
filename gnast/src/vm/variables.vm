@@ -1,5 +1,0 @@
-#set($baseVisitor = "net.sourceforge.czt.util.Visitor")
-#set($term = "net.sourceforge.czt.base.ast.Term")
-#set($termA = "net.sourceforge.czt.base.ast.TermA")
-#set($termVisitor = "net.sourceforge.czt.core.visitor.TermVisitor")
-#set($visitor = ${project.getObject("AstVisitor")})

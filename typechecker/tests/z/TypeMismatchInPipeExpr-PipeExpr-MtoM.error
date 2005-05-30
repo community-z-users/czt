@@ -1,8 +1,0 @@
-\begin{zsection}
-  \SECTION IncompatibleSignatures\_PipeExpr\_M\_M
-\end{zsection}
-
-\begin{zed}
-  error == [x! : \power \nat; y : \nat; z! : \power \nat] \pipe
-       [x? : \nat; y : \power \nat; z? : \nat]
-\end{zed}
