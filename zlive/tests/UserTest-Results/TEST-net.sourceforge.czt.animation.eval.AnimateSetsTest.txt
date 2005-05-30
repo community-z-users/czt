@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateSetsTest
-Tests run: 214, Failures: 175, Errors: 0, Time elapsed: 0.922 sec
+Tests run: 214, Failures: 173, Errors: 0, Time elapsed: 1.492 sec
 
 ------------- Standard Output ---------------
 visitRefExpr:s13 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
@@ -13,14 +13,14 @@ visitRefExpr:s13 --> net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
 Passed test:animate_sets.tex:36
 visitRefExpr:s13 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
 visitRefExpr:s13 --> net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
-visitRefExpr:tmp342 gives : null
-visitRefExpr:tmp338 gives : null
+visitRefExpr:tmp390 gives : null
+visitRefExpr:tmp386 gives : null
 Passed test:animate_sets.tex:37
 visitRefExpr:? gives : null
 visitRefExpr:? gives : null
 visitRefExpr:? gives : null
 visitRefExpr:? gives : null
-visitRefExpr:tmp345 gives : null
+visitRefExpr:tmp393 gives : null
 visitRefExpr:??1? gives : [] net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
 visitRefExpr:? --> net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
 DEBUG: declNames = x .
@@ -29,9 +29,9 @@ visitRefExpr:? gives : null
 visitRefExpr:? gives : null
 visitRefExpr:x gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp348 gives : null
+visitRefExpr:tmp396 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp348 gives : null
+visitRefExpr:tmp396 gives : null
 visitRefExpr:x gives : null
 visitRefExpr:??1? gives : [] net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
 visitRefExpr:? --> net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
@@ -41,27 +41,27 @@ visitRefExpr:? gives : null
 visitRefExpr:? gives : null
 visitRefExpr:x gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp354 gives : null
+visitRefExpr:tmp402 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp354 gives : null
+visitRefExpr:tmp402 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp353 gives : null
-visitRefExpr:tmp352 gives : null
-visitRefExpr:tmp358 gives : null
-visitRefExpr:tmp357 gives : null
+visitRefExpr:tmp401 gives : null
+visitRefExpr:tmp400 gives : null
+visitRefExpr:tmp406 gives : null
+visitRefExpr:tmp405 gives : null
 Passed test:animate_sets.tex:45
 Passed test:animate_sets.tex:46
 Passed test:animate_sets.tex:47
 Passed test:animate_sets.tex:48
-visitRefExpr:tmp374 gives : null
-visitRefExpr:tmp373 gives : null
+visitRefExpr:tmp422 gives : null
+visitRefExpr:tmp421 gives : null
 Passed test:animate_sets.tex:49
 Passed test:animate_sets.tex:50
-visitRefExpr:tmp382 gives : null
-visitRefExpr:tmp381 gives : null
+visitRefExpr:tmp430 gives : null
+visitRefExpr:tmp429 gives : null
 Passed test:animate_sets.tex:51
-visitRefExpr:tmp386 gives : null
-visitRefExpr:tmp385 gives : null
+visitRefExpr:tmp434 gives : null
+visitRefExpr:tmp433 gives : null
 Passed test:animate_sets.tex:52
 DEBUG: result is true
 Passed test:animate_sets.tex:53
@@ -74,14 +74,9 @@ visitRefExpr:? gives : null
 visitRefExpr:? gives : null
 visitRefExpr:x gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp478 gives : null
+visitRefExpr:tmp526 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp478 gives : null
-visitRefExpr:x gives : null
-DEBUG: declNames = x .
-Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
-visitRefExpr:? gives : null
-visitRefExpr:? gives : null
+visitRefExpr:tmp526 gives : null
 visitRefExpr:x gives : null
 DEBUG: declNames = x .
 Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
@@ -91,11 +86,23 @@ visitRefExpr:x gives : null
 visitRefExpr:x gives : null
 visitRefExpr:x gives : null
 visitRefExpr:x gives : null
+visitRefExpr:tmp540 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp540 gives : null
+visitRefExpr:x gives : null
+DEBUG: declNames = x .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
+visitRefExpr:? gives : null
+visitRefExpr:? gives : null
 visitRefExpr:x gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp495 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp495 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp549 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp549 gives : null
 visitRefExpr:x gives : null
 DEBUG: declNames = x y .
 Set Comp new expr = net.sourceforge.czt.z.impl.TupleExprImpl@4ddc378c
@@ -103,6 +110,16 @@ visitRefExpr:? gives : null
 visitRefExpr:? gives : null
 visitRefExpr:y gives : null
 visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:y gives : null
+visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp558 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:y gives : null
+visitRefExpr:tmp558 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:y gives : null
 DEBUG: declNames = s .
 Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1363315
 DEBUG: declNames = s .
@@ -116,6 +133,15 @@ visitRefExpr:? gives : null
 visitRefExpr:x gives : null
 visitRefExpr:y gives : null
 visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:y gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp571 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:y gives : null
+visitRefExpr:tmp571 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:y gives : null
 DEBUG: declNames = x y .
 Set Comp new expr = net.sourceforge.czt.z.impl.TupleExprImpl@4ddc378c
 visitRefExpr:? gives : null
@@ -123,6 +149,15 @@ visitRefExpr:? gives : null
 visitRefExpr:x gives : null
 visitRefExpr:y gives : null
 visitRefExpr:y gives : null
+visitRefExpr:x gives : null
+visitRefExpr:y gives : null
+visitRefExpr:y gives : null
+visitRefExpr:tmp591 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:y gives : null
+visitRefExpr:tmp591 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:y gives : null
 DEBUG: declNames = x y .
 Set Comp new expr = net.sourceforge.czt.z.impl.TupleExprImpl@4ddc378c
 visitRefExpr:? gives : null
@@ -139,10 +174,10 @@ visitRefExpr:x gives : null
 visitRefExpr:y gives : null
 visitRefExpr:x gives : null
 visitRefExpr:y gives : null
-visitRefExpr:tmp528 gives : null
+visitRefExpr:tmp617 gives : null
 visitRefExpr:x gives : null
 visitRefExpr:y gives : null
-visitRefExpr:tmp528 gives : null
+visitRefExpr:tmp617 gives : null
 visitRefExpr:x gives : null
 visitRefExpr:y gives : null
 DEBUG: declNames = x y .
@@ -155,9 +190,9 @@ DEBUG: declNames = x .
 Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
 visitRefExpr:? gives : null
 visitRefExpr:? gives : null
-visitRefExpr:tmp563 gives : null
+visitRefExpr:tmp652 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp563 gives : null
+visitRefExpr:tmp652 gives : null
 visitRefExpr:x gives : null
 DEBUG: declNames = x .
 Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
@@ -169,9 +204,9 @@ visitRefExpr:? gives : null
 visitRefExpr:? gives : null
 visitRefExpr:x gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp568 gives : null
+visitRefExpr:tmp657 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp568 gives : null
+visitRefExpr:tmp657 gives : null
 visitRefExpr:x gives : null
 visitRefExpr:??1? gives : [] net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
 visitRefExpr:? --> net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
@@ -181,13 +216,13 @@ visitRefExpr:? gives : null
 visitRefExpr:? gives : null
 visitRefExpr:x gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp572 gives : null
+visitRefExpr:tmp661 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp572 gives : null
+visitRefExpr:tmp661 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp566 gives : null
+visitRefExpr:tmp655 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp566 gives : null
+visitRefExpr:tmp655 gives : null
 visitRefExpr:x gives : null
 DEBUG: declNames = x .
 Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
@@ -195,9 +230,9 @@ visitRefExpr:s13 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
 visitRefExpr:s13 --> net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
 visitRefExpr:s13 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
 visitRefExpr:s13 --> net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
-visitRefExpr:tmp577 gives : null
+visitRefExpr:tmp666 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp577 gives : null
+visitRefExpr:tmp666 gives : null
 visitRefExpr:x gives : null
 Passed test:animate_sets.tex:245
 DEBUG: declNames = x .
@@ -209,19 +244,19 @@ visitRefExpr:s15 --> net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
 visitRefExpr:x gives : null
 visitRefExpr:s13 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
 visitRefExpr:s13 --> net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
-visitRefExpr:tmp599 gives : null
+visitRefExpr:tmp688 gives : null
 visitRefExpr:x gives : null
 visitRefExpr:x gives : null
 visitRefExpr:s13 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
 visitRefExpr:s13 --> net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
-visitRefExpr:tmp603 gives : null
+visitRefExpr:tmp692 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp589 gives : null
+visitRefExpr:tmp678 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp589 gives : null
+visitRefExpr:tmp678 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp588 gives : null
-visitRefExpr:tmp587 gives : null
+visitRefExpr:tmp677 gives : null
+visitRefExpr:tmp676 gives : null
 Passed test:animate_sets.tex:246
 DEBUG: declNames = x .
 Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
@@ -232,16 +267,16 @@ visitRefExpr:s15 --> net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
 visitRefExpr:x gives : null
 visitRefExpr:s13 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
 visitRefExpr:s13 --> net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
-visitRefExpr:tmp615 gives : null
+visitRefExpr:tmp704 gives : null
 visitRefExpr:x gives : null
 visitRefExpr:x gives : null
 visitRefExpr:s13 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
 visitRefExpr:s13 --> net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
-visitRefExpr:tmp619 gives : null
+visitRefExpr:tmp708 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp605 gives : null
+visitRefExpr:tmp694 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp605 gives : null
+visitRefExpr:tmp694 gives : null
 visitRefExpr:x gives : null
 Passed test:animate_sets.tex:247
 DEBUG: declNames = x .
@@ -253,16 +288,16 @@ visitRefExpr:s15 --> net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
 visitRefExpr:x gives : null
 visitRefExpr:s13 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
 visitRefExpr:s13 --> net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
-visitRefExpr:tmp632 gives : null
+visitRefExpr:tmp721 gives : null
 visitRefExpr:x gives : null
 visitRefExpr:x gives : null
 visitRefExpr:s13 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
 visitRefExpr:s13 --> net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
-visitRefExpr:tmp636 gives : null
+visitRefExpr:tmp725 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp622 gives : null
+visitRefExpr:tmp711 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp622 gives : null
+visitRefExpr:tmp711 gives : null
 visitRefExpr:x gives : null
 Passed test:animate_sets.tex:248
 DEBUG: declNames = x .
@@ -274,19 +309,19 @@ visitRefExpr:s15 --> net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
 visitRefExpr:x gives : null
 visitRefExpr:s13 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
 visitRefExpr:s13 --> net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
-visitRefExpr:tmp650 gives : null
+visitRefExpr:tmp739 gives : null
 visitRefExpr:x gives : null
 visitRefExpr:x gives : null
 visitRefExpr:s13 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
 visitRefExpr:s13 --> net.sourceforge.czt.z.impl.SetExprImpl@c9ddc952
-visitRefExpr:tmp654 gives : null
+visitRefExpr:tmp743 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp640 gives : null
+visitRefExpr:tmp729 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp640 gives : null
+visitRefExpr:tmp729 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp639 gives : null
-visitRefExpr:tmp638 gives : null
+visitRefExpr:tmp728 gives : null
+visitRefExpr:tmp727 gives : null
 Passed test:animate_sets.tex:249
 visitRefExpr:s15 gives : [] net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
 visitRefExpr:s15 --> net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
@@ -294,9 +329,9 @@ visitRefExpr:s15 gives : [] net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
 visitRefExpr:s15 --> net.sourceforge.czt.z.impl.ApplExprImpl@fbfd82ab
 visitRefExpr:x gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp656 gives : null
+visitRefExpr:tmp745 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp656 gives : null
+visitRefExpr:tmp745 gives : null
 visitRefExpr:x gives : null
 Passed test:animate_sets.tex:250
 DEBUG: declNames = x .
@@ -309,39 +344,9 @@ visitRefExpr:? gives : null
 visitRefExpr:? gives : null
 visitRefExpr:x gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp674 gives : null
+visitRefExpr:tmp763 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp674 gives : null
-visitRefExpr:x gives : null
-visitRefExpr:??1? gives : [] net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
-visitRefExpr:? --> net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
-DEBUG: declNames = x .
-Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
-visitRefExpr:? gives : null
-visitRefExpr:? gives : null
-visitRefExpr:x gives : null
-visitRefExpr:x gives : null
-visitRefExpr:tmp678 gives : null
-visitRefExpr:x gives : null
-visitRefExpr:tmp678 gives : null
-visitRefExpr:x gives : null
-visitRefExpr:tmp672 gives : null
-visitRefExpr:x gives : null
-visitRefExpr:tmp672 gives : null
-visitRefExpr:x gives : null
-visitRefExpr:tmp671 gives : null
-visitRefExpr:tmp670 gives : null
-visitRefExpr:??1? gives : [] net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
-visitRefExpr:? --> net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
-DEBUG: declNames = x .
-Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
-visitRefExpr:? gives : null
-visitRefExpr:? gives : null
-visitRefExpr:x gives : null
-visitRefExpr:x gives : null
-visitRefExpr:tmp686 gives : null
-visitRefExpr:x gives : null
-visitRefExpr:tmp686 gives : null
+visitRefExpr:tmp763 gives : null
 visitRefExpr:x gives : null
 visitRefExpr:??1? gives : [] net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
 visitRefExpr:? --> net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
@@ -351,16 +356,46 @@ visitRefExpr:? gives : null
 visitRefExpr:? gives : null
 visitRefExpr:x gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp690 gives : null
+visitRefExpr:tmp767 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp690 gives : null
+visitRefExpr:tmp767 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp684 gives : null
+visitRefExpr:tmp761 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp684 gives : null
+visitRefExpr:tmp761 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp683 gives : null
-visitRefExpr:tmp681 gives : null
+visitRefExpr:tmp760 gives : null
+visitRefExpr:tmp759 gives : null
+visitRefExpr:??1? gives : [] net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
+visitRefExpr:? --> net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
+DEBUG: declNames = x .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
+visitRefExpr:? gives : null
+visitRefExpr:? gives : null
+visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp775 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp775 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:??1? gives : [] net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
+visitRefExpr:? --> net.sourceforge.czt.z.impl.SetCompExprImpl@41fc393
+DEBUG: declNames = x .
+Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
+visitRefExpr:? gives : null
+visitRefExpr:? gives : null
+visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp779 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp779 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp773 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp773 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp772 gives : null
+visitRefExpr:tmp770 gives : null
 visitRefExpr:? gives : [X] net.sourceforge.czt.z.impl.SetCompExprImpl@9843347
 visitRefExpr:? gives : [X] net.sourceforge.czt.z.impl.SetCompExprImpl@9843347
 visitRefExpr:? gives : [X] net.sourceforge.czt.z.impl.SetCompExprImpl@9843347
@@ -388,9 +423,6 @@ adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd6e8
 DEBUG: result is true
 Passed test:animate_sets.tex:266
 adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd726
-adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd745
-DEBUG: result is false
-adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd726
 adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd726
 DEBUG: result is true
 Passed test:animate_sets.tex:269
@@ -401,21 +433,24 @@ Passed test:animate_sets.tex:273
 visitRefExpr:set951 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@e0333162
 visitRefExpr:set951 --> net.sourceforge.czt.z.impl.SetExprImpl@e0333162
 adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbeb1c36
+adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbed798f
+DEBUG: result is false
+adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbeb1c36
 adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbeb1c36
 DEBUG: result is true
 Passed test:animate_sets.tex:282
 visitRefExpr:set951 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@e0333162
 visitRefExpr:set951 --> net.sourceforge.czt.z.impl.SetExprImpl@e0333162
-visitRefExpr:tmp803 gives : null
-visitRefExpr:tmp787 gives : null
-adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd707
-adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbeb1c36
-DEBUG: result is false
+visitRefExpr:tmp892 gives : null
+visitRefExpr:tmp876 gives : null
 adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd707
 adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbed798f
 DEBUG: result is false
 adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd707
 adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd6e8
+DEBUG: result is false
+adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd707
+adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbeb1c36
 DEBUG: result is false
 Passed test:animate_sets.tex:283
 visitRefExpr:? gives : [X] net.sourceforge.czt.z.impl.SetCompExprImpl@9843347
@@ -423,19 +458,35 @@ Passed test:animate_sets.tex:361
 DEBUG: declNames = x .
 Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
 visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp958 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp958 gives : null
+visitRefExpr:x gives : null
+Passed test:animate_sets.tex:363
 Passed test:animate_sets.tex:369
 DEBUG: declNames = x .
 Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
 visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp977 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:tmp977 gives : null
+visitRefExpr:x gives : null
+Passed test:animate_sets.tex:371
 Passed test:animate_sets.tex:373
 Passed test:animate_sets.tex:379
 DEBUG: declNames = x .
 Set Comp new expr = net.sourceforge.czt.z.impl.RefExprImpl@a1388bb5
 visitRefExpr:x gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp910 gives : null
+visitRefExpr:tmp1009 gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp910 gives : null
+visitRefExpr:tmp1009 gives : null
 visitRefExpr:x gives : null
 Passed test:animate_sets.tex:381
 Passed test:animate_sets.tex:383
@@ -443,11 +494,11 @@ Passed test:animate_sets.tex:384
 Passed test:animate_sets.tex:385
 Passed test:animate_sets.tex:386
 Passed test:animate_sets.tex:387
+DEBUG: result is true
+adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd745
+DEBUG: result is false
 adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd745
 adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd745
-DEBUG: result is true
-adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd745
-DEBUG: result is false
 DEBUG: result is true
 Passed test:animate_sets.tex:388
 ------------- ---------------- ---------------
@@ -938,20 +989,20 @@ junit.framework.AssertionFailedError: Should not throw exception net.sourceforge
 
 
 Testcase: animate_sets.tex:177(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@64a6706e
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@64a6706e
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
 
 Testcase: animate_sets.tex:178(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@d6d199c5
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@d6d199c5
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@fd500e65
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@fd500e65
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
 
 Testcase: animate_sets.tex:181(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@baf407e4
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@baf407e4
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
 
@@ -974,14 +1025,14 @@ junit.framework.AssertionFailedError: Should not throw exception java.lang.Runti
 
 
 Testcase: animate_sets.tex:200(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ ? _ 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ ? _ 
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@37b95792
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@37b95792
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
 
 Testcase: animate_sets.tex:203(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ ? _ 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ ? _ 
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@2c02c8b1
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@2c02c8b1
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
 
@@ -1474,18 +1525,6 @@ junit.framework.AssertionFailedError: Should not throw exception java.lang.Runti
 Testcase: animate_sets.tex:359(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@cdde9bd6
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@cdde9bd6
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-
-Testcase: animate_sets.tex:363(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-
-Testcase: animate_sets.tex:371(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
 

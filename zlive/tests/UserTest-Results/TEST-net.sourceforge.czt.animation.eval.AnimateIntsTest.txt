@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateIntsTest
-Tests run: 90, Failures: 33, Errors: 0, Time elapsed: 0.312 sec
+Tests run: 90, Failures: 18, Errors: 3, Time elapsed: 0.653 sec
 
 ------------- Standard Output ---------------
 Passed test:animate_ints.tex:23
@@ -50,6 +50,42 @@ Passed test:animate_ints.tex:89
 Passed test:animate_ints.tex:90
 Passed test:animate_ints.tex:91
 Passed test:animate_ints.tex:92
+visitRefExpr:b gives : null
+visitRefExpr:a gives : null
+visitRefExpr:b gives : null
+visitRefExpr:a gives : null
+visitRefExpr:b gives : null
+visitRefExpr:b gives : null
+visitRefExpr:b gives : null
+visitRefExpr:b gives : null
+visitRefExpr:tmp239 gives : null
+visitRefExpr:a gives : null
+visitRefExpr:a gives : null
+visitRefExpr:b gives : null
+visitRefExpr:b gives : null
+visitRefExpr:a gives : null
+visitRefExpr:b gives : null
+visitRefExpr:b gives : null
+visitRefExpr:b gives : null
+visitRefExpr:tmp255 gives : null
+visitRefExpr:a gives : null
+visitRefExpr:c gives : null
+visitRefExpr:b gives : null
+visitRefExpr:c gives : null
+visitRefExpr:a gives : null
+visitRefExpr:b gives : null
+Passed test:animate_ints.tex:106
+Passed test:animate_ints.tex:107
+Passed test:animate_ints.tex::68
+Passed test:animate_ints.tex:109
+Passed test:animate_ints.tex:110
+Passed test:animate_ints.tex:111
+Passed test:animate_ints.tex:114
+Passed test:animate_ints.tex:115
+Passed test:animate_ints.tex:116
+Passed test:animate_ints.tex::75
+Passed test:animate_ints.tex:118
+Passed test:animate_ints.tex:119
 Passed test:animate_ints.tex:122
 Passed test:animate_ints.tex:123
 Passed test:animate_ints.tex:124
@@ -148,22 +184,37 @@ junit.framework.AssertionFailedError: Exception while evaluating undef expr. net
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:138)
 
 
-Testcase: animate_ints.tex:95(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ForallPredImpl@5ec7a14b
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ForallPredImpl@5ec7a14b
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Testcase: animate_ints.tex:95(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	Caused an ERROR
+net/sourceforge/czt/animation/eval/flatpred/FlatForall
+java.lang.NoClassDefFoundError: net/sourceforge/czt/animation/eval/flatpred/FlatForall
+	at net.sourceforge.czt.animation.eval.Flatten.visitForallPred(Flatten.java:272)
+	at net.sourceforge.czt.z.impl.ForallPredImpl.accept(ForallPredImpl.java:95)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:98)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:193)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:172)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
 
-Testcase: animate_ints.tex::60(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ForallPredImpl@ac175b91
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ForallPredImpl@ac175b91
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Testcase: animate_ints.tex::60(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	Caused an ERROR
+net/sourceforge/czt/animation/eval/flatpred/FlatForall
+java.lang.NoClassDefFoundError: net/sourceforge/czt/animation/eval/flatpred/FlatForall
+	at net.sourceforge.czt.animation.eval.Flatten.visitForallPred(Flatten.java:272)
+	at net.sourceforge.czt.z.impl.ForallPredImpl.accept(ForallPredImpl.java:95)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:98)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:193)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:172)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
 
-Testcase: animate_ints.tex:97(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ForallPredImpl@2f239121
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ForallPredImpl@2f239121
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Testcase: animate_ints.tex:97(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	Caused an ERROR
+net/sourceforge/czt/animation/eval/flatpred/FlatForall
+java.lang.NoClassDefFoundError: net/sourceforge/czt/animation/eval/flatpred/FlatForall
+	at net.sourceforge.czt.animation.eval.Flatten.visitForallPred(Flatten.java:272)
+	at net.sourceforge.czt.z.impl.ForallPredImpl.accept(ForallPredImpl.java:95)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:98)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:193)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:172)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
 
 Testcase: animate_ints.tex:100(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
@@ -187,78 +238,6 @@ junit.framework.AssertionFailedError: Should not throw exception java.lang.Runti
 Testcase: animate_ints.tex:103(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@9ec8c0b5
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@9ec8c0b5
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-
-Testcase: animate_ints.tex:106(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-
-Testcase: animate_ints.tex:107(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-
-Testcase: animate_ints.tex::68(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-
-Testcase: animate_ints.tex:109(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-
-Testcase: animate_ints.tex:110(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-
-Testcase: animate_ints.tex:111(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-
-Testcase: animate_ints.tex:114(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ ? _ 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ ? _ 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-
-Testcase: animate_ints.tex:115(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ ? _ 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ ? _ 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-
-Testcase: animate_ints.tex:116(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ ? _ 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ ? _ 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-
-Testcase: animate_ints.tex::75(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ ? _ 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ ? _ 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-
-Testcase: animate_ints.tex:118(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ ? _ 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ ? _ 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-
-Testcase: animate_ints.tex:119(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ ? _ 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ ? _ 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
 

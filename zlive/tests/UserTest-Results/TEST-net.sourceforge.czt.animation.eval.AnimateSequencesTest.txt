@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateSequencesTest
-Tests run: 87, Failures: 87, Errors: 0, Time elapsed: 0.183 sec
+Tests run: 87, Failures: 87, Errors: 0, Time elapsed: 0.295 sec
 
 ------------- Standard Output ---------------
 visitRefExpr: _ infix _  gives : null

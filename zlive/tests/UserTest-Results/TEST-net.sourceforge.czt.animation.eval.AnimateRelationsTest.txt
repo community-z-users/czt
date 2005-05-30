@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateRelationsTest
-Tests run: 102, Failures: 99, Errors: 0, Time elapsed: 0.437 sec
+Tests run: 102, Failures: 98, Errors: 0, Time elapsed: 0.761 sec
 
 ------------- Standard Output ---------------
 Passed test:animate_relations.tex:23
@@ -7,31 +7,56 @@ visitRefExpr:x gives : null
 visitRefExpr:y gives : null
 visitRefExpr:x gives : null
 visitRefExpr:y gives : null
+visitRefExpr:tmp1069 gives : null
 visitRefExpr:x gives : null
 visitRefExpr:y gives : null
-visitRefExpr:tmp981 gives : null
+visitRefExpr:tmp1069 gives : null
 visitRefExpr:x gives : null
 visitRefExpr:y gives : null
-visitRefExpr:tmp981 gives : null
+Passed test:animate_relations.tex:24
 visitRefExpr:x gives : null
 visitRefExpr:y gives : null
-visitRefExpr:tmp980 gives : null
-visitRefExpr:tmp979 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:y gives : null
+visitRefExpr:tmp1085 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:y gives : null
+visitRefExpr:tmp1085 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:y gives : null
+visitRefExpr:tmp1084 gives : null
+visitRefExpr:tmp1083 gives : null
 Passed test:animate_relations.tex:25
 visitRefExpr:x gives : null
 visitRefExpr:y gives : null
 visitRefExpr:x gives : null
 visitRefExpr:y gives : null
-visitRefExpr:tmp1016 gives : null
+visitRefExpr:tmp1096 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:y gives : null
+visitRefExpr:tmp1096 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:y gives : null
+visitRefExpr:x gives : null
+visitRefExpr:y gives : null
+visitRefExpr:x gives : null
+visitRefExpr:y gives : null
+visitRefExpr:tmp1107 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:y gives : null
+visitRefExpr:tmp1107 gives : null
+visitRefExpr:x gives : null
+visitRefExpr:y gives : null
+visitRefExpr:tmp1126 gives : null
 visitRefExpr:x gives : null
 visitRefExpr:x gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp1016 gives : null
+visitRefExpr:tmp1126 gives : null
 visitRefExpr:x gives : null
 visitRefExpr:x gives : null
 visitRefExpr:x gives : null
-visitRefExpr:tmp1015 gives : null
-visitRefExpr:tmp1014 gives : null
+visitRefExpr:tmp1125 gives : null
+visitRefExpr:tmp1124 gives : null
 Passed test:animate_relations.tex:31
 visitRefExpr:succ _  gives : null
 visitRefExpr:disjoint _  gives : null
@@ -44,12 +69,6 @@ visitRefExpr: _ partition _  gives : null
 visitRefExpr: _ partition _  gives : null
 visitRefExpr: _ partition _  gives : null
 ------------- ---------------- ---------------
-Testcase: animate_relations.tex:24(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-
 Testcase: animate_relations.tex:26(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@7f6744a5
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@7f6744a5
@@ -57,14 +76,14 @@ junit.framework.AssertionFailedError: Should not throw exception java.lang.Runti
 
 
 Testcase: animate_relations.tex:27(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@38af1550
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@38af1550
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
 
 Testcase: animate_relations.tex:28(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ERROR: unknown binary relation  _ < _ 
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@f8bd73e
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@f8bd73e
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
 

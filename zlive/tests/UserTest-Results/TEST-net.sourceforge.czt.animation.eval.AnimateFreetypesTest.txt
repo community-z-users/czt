@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateFreetypesTest
-Tests run: 18, Failures: 18, Errors: 0, Time elapsed: 0.067 sec
+Tests run: 18, Failures: 18, Errors: 0, Time elapsed: 0.078 sec
 
 ------------- Standard Output ---------------
 visitRefExpr:T gives : null
@@ -17,7 +17,7 @@ visitRefExpr:U gives : null
 visitRefExpr:Known gives : null
 visitRefExpr:N14 gives : [] net.sourceforge.czt.z.impl.SetExprImpl@efd6ee37
 visitRefExpr:N14 --> net.sourceforge.czt.z.impl.SetExprImpl@efd6ee37
-visitRefExpr:tmp298 gives : null
+visitRefExpr:tmp335 gives : null
 visitRefExpr:Known gives : null
 visitRefExpr:T gives : null
 visitRefExpr:Happy gives : null
@@ -25,10 +25,10 @@ visitRefExpr:Sad gives : null
 visitRefExpr:T gives : null
 visitRefExpr:Happy gives : null
 visitRefExpr:T gives : null
-visitRefExpr:tmp300 gives : null
+visitRefExpr:tmp337 gives : null
 visitRefExpr:T gives : null
 visitRefExpr:T gives : null
-visitRefExpr:tmp301 gives : null
+visitRefExpr:tmp338 gives : null
 visitRefExpr:a gives : null
 visitRefExpr:LETTER gives : null
 visitRefExpr:T gives : null
