@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateMiscTest
-Tests run: 16, Failures: 16, Errors: 0, Time elapsed: 0.015 sec
+Tests run: 16, Failures: 16, Errors: 0, Time elapsed: 0.031 sec
 
 Testcase: animate_misc.tex:28(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@7102a14b
@@ -38,62 +38,62 @@ junit.framework.AssertionFailedError: Should not throw exception java.lang.Runti
 
 
 Testcase: animate_misc.tex:43(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@95172267
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@95172267
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@f8121399
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@f8121399
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
 
 Testcase: animate_misc.tex:45(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@9a1860e0
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@9a1860e0
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@967b95ee
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@967b95ee
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
 
 Testcase: animate_misc.tex:48(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@4888a8c4
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@4888a8c4
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@414f12e0
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@414f12e0
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
 
 Testcase: animate_misc.tex:50(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@184b0282
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@184b0282
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@11116c9e
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@11116c9e
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
 
 Testcase: animate_misc.tex:52(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@4214b97a
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@4214b97a
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@3adb2396
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@3adb2396
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
 
 Testcase: animate_misc.tex:54(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@11d71338
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@11d71338
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@a9d7d54
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@a9d7d54
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
 
 Testcase: animate_misc.tex:58(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.MuExprImpl@3aa939e3
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.MuExprImpl@3aa939e3
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.MuExprImpl@675c5dd6
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.MuExprImpl@675c5dd6
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
 
 Testcase: animate_misc.tex:59(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.MuExprImpl@72be707d
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.MuExprImpl@72be707d
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.MuExprImpl@9f719470
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.MuExprImpl@9f719470
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
 
 Testcase: animate_misc.tex:60(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.MuExprImpl@534ea07d
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.MuExprImpl@534ea07d
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.MuExprImpl@8001c470
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.MuExprImpl@8001c470
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
 
 Testcase: animate_misc.tex:61(net.sourceforge.czt.animation.eval.EvalTest$UndefTest):	FAILED
-Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Not implemented yet: net.sourceforge.czt.z.impl.TupleSelExprImpl@8e031791
-junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Not implemented yet: net.sourceforge.czt.z.impl.TupleSelExprImpl@8e031791
+Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Not implemented yet: net.sourceforge.czt.z.impl.TupleSelExprImpl@f7b471fe
+junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Not implemented yet: net.sourceforge.czt.z.impl.TupleSelExprImpl@f7b471fe
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:131)
 
 

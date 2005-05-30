@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateRelationsTest
-Tests run: 102, Failures: 102, Errors: 0, Time elapsed: 0.093 sec
+Tests run: 102, Failures: 102, Errors: 0, Time elapsed: 0.109 sec
 
 Testcase: animate_relations.tex:23(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d412018c
@@ -13,7 +13,7 @@ junit.framework.AssertionFailedError: Should not throw exception java.lang.Runti
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
 
-Testcase: animate_relations.tex::3(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
+Testcase: animate_relations.tex:25(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@308fbae6
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@308fbae6
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
@@ -43,13 +43,13 @@ junit.framework.AssertionFailedError: Should not throw exception java.lang.Runti
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
 
-Testcase: animate_relations.tex::8(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
+Testcase: animate_relations.tex:30(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@4fde4049
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@4fde4049
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
 
-Testcase: animate_relations.tex::9(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
+Testcase: animate_relations.tex:31(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@99fee6b5
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@99fee6b5
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
@@ -217,7 +217,7 @@ junit.framework.AssertionFailedError: Should not throw exception java.lang.Runti
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
 
-Testcase: animate_relations.tex::37(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
+Testcase: animate_relations.tex:65(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@f772a901
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@f772a901
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
@@ -283,7 +283,7 @@ junit.framework.AssertionFailedError: Should not throw exception java.lang.Runti
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
 
-Testcase: animate_relations.tex::48(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
+Testcase: animate_relations.tex:78(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@e5f7e3bc
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@e5f7e3bc
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
@@ -560,30 +560,30 @@ junit.framework.AssertionFailedError: Should not throw exception java.lang.Runti
 
 
 Testcase: animate_relations.tex:156(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@f3aee099
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@f3aee099
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@b6825066
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@b6825066
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
 
 Testcase: animate_relations.tex:157(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@33b41236
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@33b41236
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@a3f1551f
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@a3f1551f
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
 
 Testcase: animate_relations.tex:158(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@a4876953
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@a4876953
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@a3f1551f
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@a3f1551f
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
 
 Testcase: animate_relations.tex:159(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@7335a125
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@7335a125
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@eba9285
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.NegPredImpl@eba9285
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
 
-Testcase: animate_relations.tex::98(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
+Testcase: animate_relations.tex:161(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@b290abac
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@b290abac
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
@@ -595,19 +595,19 @@ junit.framework.AssertionFailedError: Should not throw exception java.lang.Runti
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
 
-Testcase: animate_relations.tex::100(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
+Testcase: animate_relations.tex:163(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@a43e420f
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@a43e420f
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
 
-Testcase: animate_relations.tex::101(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
+Testcase: animate_relations.tex:164(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@95f394fa
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@95f394fa
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
 
-Testcase: animate_relations.tex::102(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
+Testcase: animate_relations.tex:165(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@3f8b217d
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@3f8b217d
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
