@@ -328,7 +328,9 @@ set TYPECHECKER=${typechecker.win}
     depends="install-jars">
     <ant dir="corejava" target="test"/>
     <ant dir="parser" target="test"/>
+    <ant dir="translators/z2b" target="test"/>
     <ant dir="typechecker" target="test"/>
+    <ant dir="zlive" target="test"/>
     <ant dir="." target="test-report"/>
   </target>
 

@@ -55,7 +55,7 @@
   <target name="usertest" depends="install"
       description="Try all user tests and compare results with ${latest.usertests}">
     <junit fork="yes" forkmode="once" reloading="false" printsummary="on">
-      <formatter type="brief" usefile="true"/>
+      <formatter type="xml" usefile="true"/>
       <test name="net.sourceforge.czt.animation.eval.AnimateIntsTest"/>
       <test name="net.sourceforge.czt.animation.eval.AnimateMiscTest"/>
       <test name="net.sourceforge.czt.animation.eval.AnimateFreetypesTest"/>

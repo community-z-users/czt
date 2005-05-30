@@ -41,7 +41,7 @@
   
   <target name="test" depends="install" description="Run all unit tests">
     <junit fork="yes" forkmode="once" reloading="false" printsummary="off">
-      <formatter type="brief" usefile="false"/>
+      <formatter type="xml"/>
       <test name="net.sourceforge.czt.z2b.BWriterTest"/>
       <classpath>
         <path refid="classpath"/>
