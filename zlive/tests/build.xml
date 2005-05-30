@@ -1,8 +1,7 @@
 <?xml version="1.0"?>
-<project basedir="." default="usertest">
-  <!-- set this to the relative directory name of some recent usertest results. -->
-  <property name="latest.usertests" value="version12_07-03-2005"/>
-  <property name="tmp.usertests" value="tmp_usertests"/>
+<project basedir="." default="usertest_compare">
+  <!-- The directory of old 'usertest' results that 'compare' will use. -->
+  <property name="latest.usertests" value="UserTest-Results"/>
   <property name="czt.home" location="../.."/>
   <property file="${czt.home}/czt.properties"/>
   <property name="test.build.dir" value="build"/>
@@ -51,9 +50,12 @@
       </fileset>
     </jar>
   </target>
-  
+
+  <target name="usertest_compare" depends="usertest,compare"
+      description="Run user tests, then compare results with older results"/>
+
   <target name="usertest" depends="install"
-      description="Try all user tests and compare results with ${latest.usertests}">
+      description="Run all user tests">
     <junit fork="yes" forkmode="once" reloading="false" printsummary="on">
       <formatter type="xml" usefile="true"/>
       <test name="net.sourceforge.czt.animation.eval.AnimateIntsTest"/>
@@ -69,22 +71,20 @@
         <pathelement location="${test.jar.file}"/>
       </classpath>
     </junit>
-    <mkdir dir="${tmp.usertests}"/>
-    <copy todir="${tmp.usertests}">
-        <fileset dir="." includes="TEST-net.sourceforge.czt.*.txt"/>
-    </copy>
+  </target>
+
+  <target name="compare" depends="install"
+      description="Compare usertest output with previous UserTest-Results">
     <java classname="net.sourceforge.czt.animation.eval.CompareUserTests">
       <arg file="${latest.usertests}"/>
-      <arg file="${tmp.usertests}"/>
+      <arg file="."/>
       <classpath>
         <path refid="classpath"/>
         <pathelement location="${test.jar.file}"/>
       </classpath>
-      <assertions>
-        <enable/>
-      </assertions>
     </java>
   </target>
+
 
   <target name="test" depends="install" description="Run all unit tests">
     <junit fork="yes" forkmode="once" reloading="false" printsummary="off">
