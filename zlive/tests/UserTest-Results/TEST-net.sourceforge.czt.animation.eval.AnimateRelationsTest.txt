@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateRelationsTest
-Tests run: 102, Failures: 102, Errors: 0, Time elapsed: 0.109 sec
+Tests run: 102, Failures: 102, Errors: 0, Time elapsed: 0.124 sec
 
 Testcase: animate_relations.tex:23(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.TupleExprImpl@d412018c

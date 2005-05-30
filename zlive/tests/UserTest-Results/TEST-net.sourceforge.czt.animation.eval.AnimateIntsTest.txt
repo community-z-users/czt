@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateIntsTest
-Tests run: 89, Failures: 48, Errors: 0, Time elapsed: 0.202 sec
+Tests run: 89, Failures: 48, Errors: 0, Time elapsed: 0.203 sec
 
 ------------- Standard Output ---------------
 Passed test:animate_ints.tex:23
@@ -141,8 +141,8 @@ junit.framework.AssertionFailedError: Exception while evaluating undef expr. net
 
 
 Testcase: animate_ints.tex:95(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ForallPredImpl@3c11bc1b
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ForallPredImpl@3c11bc1b
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ForallPredImpl@e96dfddd
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ForallPredImpl@e96dfddd
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
 
