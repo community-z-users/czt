@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateFreetypesTest
-Tests run: 18, Failures: 18, Errors: 0, Time elapsed: 0.031 sec
+Tests run: 18, Failures: 18, Errors: 0, Time elapsed: 0.015 sec
 
 Testcase: animate_freetypes.tex::1(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.MemPredImpl@ebcbcfa7

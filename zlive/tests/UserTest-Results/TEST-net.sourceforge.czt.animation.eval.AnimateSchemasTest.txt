@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateSchemasTest
-Tests run: 12, Failures: 12, Errors: 0, Time elapsed: 0.016 sec
+Tests run: 12, Failures: 12, Errors: 0, Time elapsed: 0 sec
 
 Testcase: animate_schemas.tex:39(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode
