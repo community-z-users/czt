@@ -51,27 +51,33 @@
     </jar>
   </target>
 
+
   <target name="usertest_compare" depends="usertest,compare"
       description="Run user tests, then compare results with older results"/>
 
+
   <target name="usertest" depends="install"
-      description="Run all user tests">
+      description="Run all user tests, producing TEST-*.txt output files">
+    <!-- NOTE: we output TEST-*.txt files, rather than .xml files, because
+        (A) the compare target needs text files as input, and
+        (B) we do not want the usertest output to be included in the
+            top-level junit report, since it is for unit tests, whereas
+            these user-level tests are more like acceptance tests.
+    -->
     <junit fork="yes" forkmode="once" reloading="false" printsummary="on">
-      <formatter type="xml" usefile="true"/>
-      <test name="net.sourceforge.czt.animation.eval.AnimateIntsTest"/>
-      <test name="net.sourceforge.czt.animation.eval.AnimateMiscTest"/>
-      <test name="net.sourceforge.czt.animation.eval.AnimateFreetypesTest"/>
-      <test name="net.sourceforge.czt.animation.eval.AnimateScopeTest"/>
-      <test name="net.sourceforge.czt.animation.eval.AnimateSetsTest"/>
-      <test name="net.sourceforge.czt.animation.eval.AnimateRelationsTest"/>
-      <test name="net.sourceforge.czt.animation.eval.AnimateSequencesTest"/>
-      <test name="net.sourceforge.czt.animation.eval.AnimateSchemasTest"/>
+      <formatter type="plain" usefile="true"/>
+      <batchtest>
+        <fileset dir="src">
+          <include name="**/Animate*Test.java"/>
+        </fileset>
+      </batchtest>
       <classpath>
         <path refid="classpath"/>
         <pathelement location="${test.jar.file}"/>
       </classpath>
     </junit>
   </target>
+
 
   <target name="compare" depends="install"
       description="Compare usertest output with previous UserTest-Results">
