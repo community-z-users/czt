@@ -1,8 +1,0 @@
-\begin{zsection}
-  \SECTION TypeMismatchInSignature\_Local
-\end{zsection}
-
-\begin{axdef}
-\where
-  \exists x : \nat; y : \nat; x : \power \nat @ true
-\end{axdef}

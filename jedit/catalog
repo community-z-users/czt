@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<!DOCTYPE MODES SYSTEM "catalog.dtd">
-
-<MODES>
-  <MODE NAME="zed" FILE="zed.xml" FILE_NAME_GLOB="*.utf*"/>
-</MODES>

@@ -1,3 +1,0 @@
-#!/bin/sh
-source `dirname $0`/settings.sh
-java -classpath ${PARSER}:${GAFFE}:${COREJAVA}:${JWSDP}:${ZLIVE} net.sourceforge.czt.animation.eval.TextUI "$@"
