@@ -1,7 +1,0 @@
-\begin{zsection}
-  \SECTION NonSchExprInPreExpr\_PreExpr
-\end{zsection}
-
-\begin{zed}
-  error == \pre 1
-\end{zed}

@@ -1,9 +1,0 @@
-import net.sourceforge.czt.zpatt.util.Rewrite;
-
-rewrite(String termFile, String rulesFile)
-{
-  reader = new net.sourceforge.czt.zpatt.jaxb.JaxbXmlReader();
-  term = reader.read(new File(termFile));
-  return Rewrite.rewrite(term,
-                         collectRules(reader.read(new File(rulesFile))));
-}

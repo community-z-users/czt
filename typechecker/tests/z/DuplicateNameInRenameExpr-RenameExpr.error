@@ -1,7 +1,0 @@
-\begin{zsection}
-  \SECTION DuplicateNameInRenameExpr\_RenameExpr
-\end{zsection}
-
-\begin{zed}
-  error == [x : \nat] [a/x, b/x]
-\end{zed}
