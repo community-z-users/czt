@@ -1,7 +1,0 @@
-\begin{zsection}
-  \SECTION ParametersNotDetermined\_SetExpr\_PostCheck
-\end{zsection}
-
-\begin{zed}
-  a == \{\}
-\end{zed}
