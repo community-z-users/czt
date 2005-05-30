@@ -20,9 +20,35 @@
          </action>
     -->
     <release version="0.4" date="unreleased">
+      <action dev="Tim" type="add">
+        Add parse support for Z pattern and rule language.
+      </action>
+      <action dev="Tim" type="add">
+        Lots of improvements to the 
+        Object-Z and TCOZ parser.
+      </action>
+      <action dev="Petra" type="fix" fixes-bug="1200267">
+        Fix the Unicode scanner to return stroke tokens instead of
+        a DECORWORD token when, after separation of trailing subscript digits,
+        the WORD part of the DECORWORD becomes empty.
+      </action>
+      <action dev="Tim" type="fix" fixes-bug="1189143">
+        Fix the parsing of complex applications to schemas.
+      </action>
+      <action dev="Tim" type="fix">
+        Fix the parsing of theta expressions (decorations were being
+        added in reverse order).
+      </action>
       <action dev="Petra" type="fix">
         Fix the Unicode printer to print a GENSCH token (instead of a SCH
         token) when a generic schema definition is printed.
+      </action>
+      <action dev="Tim" type="fix">
+        Change the parser grammer to not accept (optional)
+        formal parameters after a SCH token.
+      </action>
+      <action dev="Tim" type="fix" fixes-bug="1175303">
+        Fix the parser to parse "id? : VID" correctly.
       </action>
     </release>
     <release version="0.3" date="March 17, 2005">
