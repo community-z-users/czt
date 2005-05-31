@@ -17,6 +17,26 @@ the constant undefnum should have an undefined left-hand-side.
   undefnum : \num
 \end{axdef}
 
+\section{Testing Explicit Bindings}
+
+Equality.
+\begin{zed}\vdash? \lblot\rblot= \lblot\rblot\end{zed}
+\begin{zed}\vdash? \lblot a==1\rblot= \lblot a==1\rblot\end{zed}
+\begin{zed}\vdash? \lblot a==1,b==2\rblot= \lblot a==1,b==2\rblot\end{zed}
+\begin{zed}\vdash? \lblot a==1,b==2\rblot\neq \lblot a==1,b==3\rblot\end{zed}
+\begin{zed}\vdash? \lblot a==1,b==2\rblot= \lblot b==2,a==1\rblot\end{zed}
+\begin{zed}\vdash? \lblot a==1,b==2 \rblot = \lblot a==1,b==(1+1)\rblot\end{zed}
+
+Selection.
+\begin{zed}\vdash? \lblot a==1,b==2,c==3 \rblot.a = 1 \end{zed}
+\begin{zed}\vdash? \lblot a==1,b==2,c==3 \rblot.b = 2 \end{zed}
+\begin{zed}\vdash? \lblot a==1,b==2,c==3 \rblot.c = 3 \end{zed}
+
+Membership/equality with schemas (sets of bindings).
+\begin{zed}\vdash? \lblot a==1,b==2 \rblot \in [a,b:1 \upto 3 | a < b]\end{zed}
+\begin{zed}\vdash?\{\lblot a==1,b==2 \rblot\} = [a,b:1 \upto 2 | a < b]\end{zed}
+
+
 \section{Testing finite schemas...}
 
 \begin{schema}{A}
@@ -72,9 +92,9 @@ echo Miscellaneous schema challenges
   (\exists i:\num @ (i,a') \in \{(a,4)\})
 \end{schema}
 
-This test case used to expose a subtle bug in Unfold.hs
+This test case used to expose a subtle bug in Unfold.hs of Jaza
 until it was fixed.
-\begin{zed} \vdash? \lblot a'==4 \rblot \in \{ Test1[a := 3] \} \end{zed}
+\begin{zed} \vdash? \lblot a'==4 \rblot \in [Test1 | a=3] \hide(a) \end{zed}
 
 \begin{schema}{SimpleHeap}
     items: \seq \nat \\
@@ -85,7 +105,7 @@ until it was fixed.
     currsize = \#(\ran items)
 \end{schema}
 
-A schema written by Dana that exposed scope errors in the one-point rule.
+A schema written by Dana that exposed scope errors in the one-point rule of Jaza.
 \begin{schema}{SimpleHeapRemove}
     offheap!: \nat \\
     \Delta SimpleHeap \\
@@ -97,22 +117,20 @@ A schema written by Dana that exposed scope errors in the one-point rule.
     maxsize' = maxsize 
 \end{schema}
 
-Now that exists are expanded inline within schemas, this is executable.
+This was executable with Jaza after exists were expanded inline within schemas.
 \begin{zed}
-  RemoveTest == SimpleHeapRemove[maxsize := 10, 
-                                    items := \langle 2 \rangle]
+  RemoveTest == [SimpleHeapRemove | maxsize = 10 \land items = \langle 2 \rangle]
 \end{zed}
 \begin{zed} \vdash? \# RemoveTest = 1 \end{zed}
 
 
-These, from Shaochun, failed to evaluate until the fixes of 6/12/2000.
+These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
 \begin{zed}
   SeqTest  == [s : \seq \nat | (\forall i : \dom s @ i \neq s~i) ] \\
   UniqSoln == [deref : \seq \nat | deref = \langle 1,3,5,7 \rangle] \\
-  MuTest1  == SeqTest[s := (\mu UniqSoln).deref] \\
-  MuTest2  == SeqTest[s := tail (\mu UniqSoln).deref]
+  MuTest1  == [SeqTest | s = (\mu UniqSoln).deref] \\
+  MuTest2  == [SeqTest | s = tail (\mu UniqSoln).deref]
 \end{zed}
-
 \begin{zed} \vdash? \# MuTest1 = 0 \end{zed}
 \begin{zed} \vdash? \# MuTest2 = 1 \end{zed}
 
