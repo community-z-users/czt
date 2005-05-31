@@ -75,6 +75,9 @@
         <path refid="classpath"/>
         <pathelement location="${test.jar.file}"/>
       </classpath>
+      <assertions>
+        <enable/>
+      </assertions>
     </junit>
   </target>
 
@@ -93,24 +96,15 @@
 
 
   <target name="test" depends="install" description="Run all unit tests">
-    <junit fork="yes" forkmode="once" reloading="false" printsummary="off">
-      <formatter type="brief" usefile="false"/>
-      <test name="net.sourceforge.czt.animation.eval.EnvirTest"/>
-      <test name="net.sourceforge.czt.animation.eval.flatpred.FlatPlusTest"/>
-      <test name="net.sourceforge.czt.animation.eval.flatpred.FlatNegateTest"/>
-      <test name="net.sourceforge.czt.animation.eval.flatpred.FlatConstTest"/>
-      <test name="net.sourceforge.czt.animation.eval.flatpred.FlatEqualsTest"/>
-      <test name="net.sourceforge.czt.animation.eval.flatpred.FlatMultTest"/>
-      <test name="net.sourceforge.czt.animation.eval.flatpred.FlatLessThanTest"/>
-      <test name="net.sourceforge.czt.animation.eval.flatpred.FlatLessThanEqualsTest"/>
-      <test name="net.sourceforge.czt.animation.eval.flatpred.FlatMemberTest"/>
-      <test name="net.sourceforge.czt.animation.eval.flatpred.FlatDivTest"/>
-      <test name="net.sourceforge.czt.animation.eval.flatpred.FlatModTest"/>
-      <test name="net.sourceforge.czt.animation.eval.flatpred.FlatRangeSetTest"/>
-      <test name="net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSetTest"/>
-      <test name="net.sourceforge.czt.animation.eval.flatpred.FlatSetCompTest"/>
-      <test name="net.sourceforge.czt.animation.eval.flatpred.FlatCardTest"/>
-      <test name="net.sourceforge.czt.animation.eval.flatpred.FlatTupleTest"/>
+    <junit fork="yes" forkmode="once" reloading="false" printsummary="on">
+      <formatter type="xml" usefile="true"/>
+      <batchtest>
+        <fileset dir="src">
+          <include name="**/*Test.java"/>
+          <exclude name="**/Animate*Test.java"/> <!-- see usertest target -->
+          <exclude name="**/EvalTest.java"/>  <!-- an abstract superclass -->
+        </fileset>
+      </batchtest>
       <classpath>
         <path refid="classpath"/>
         <pathelement location="${test.jar.file}"/>
