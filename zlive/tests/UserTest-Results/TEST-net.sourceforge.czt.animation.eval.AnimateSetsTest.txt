@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateSetsTest
-Tests run: 214, Failures: 163, Errors: 10, Time elapsed: 0,641 sec
+Tests run: 214, Failures: 163, Errors: 10, Time elapsed: 0,591 sec
 ------------- Standard Output ---------------
 Passed test:animate_sets.tex:34
 Passed test:animate_sets.tex:35
@@ -13,7 +13,6 @@ Passed test:animate_sets.tex:49
 Passed test:animate_sets.tex:50
 Passed test:animate_sets.tex:51
 Passed test:animate_sets.tex:52
-DEBUG: result is true
 Passed test:animate_sets.tex:53
 Passed test:animate_sets.tex:54
 Passed test:animate_sets.tex:55
@@ -23,59 +22,12 @@ Passed test:animate_sets.tex:247
 Passed test:animate_sets.tex:248
 Passed test:animate_sets.tex:249
 Passed test:animate_sets.tex:250
-adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd707
-adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd726
-adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd707
-adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd726
-DEBUG: result is true
 Passed test:animate_sets.tex:258
-adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd726
-adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd6e8
-adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd726
-adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd6e8
-DEBUG: result is true
 Passed test:animate_sets.tex:260
-adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd707
-adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd6e8
-adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd707
-adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd726
-DEBUG: result is false
-adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd707
-adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd6e8
-adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd707
-adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd6e8
-DEBUG: result is true
 Passed test:animate_sets.tex:266
-adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd726
-adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd707
-DEBUG: result is false
-adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd726
-adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd726
-DEBUG: result is true
 Passed test:animate_sets.tex:269
-adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd6e8
-adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd6e8
-DEBUG: result is true
 Passed test:animate_sets.tex:273
-adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbeb1c36
-adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd6e8
-DEBUG: result is false
-adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbeb1c36
-adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbed798f
-DEBUG: result is false
-adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbeb1c36
-adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbeb1c36
-DEBUG: result is true
 Passed test:animate_sets.tex:282
-adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd707
-adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd6e8
-DEBUG: result is false
-adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd707
-adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbed798f
-DEBUG: result is false
-adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd707
-adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbeb1c36
-DEBUG: result is false
 Passed test:animate_sets.tex:283
 Passed test:animate_sets.tex:361
 Passed test:animate_sets.tex:363
@@ -89,20 +41,12 @@ Passed test:animate_sets.tex:384
 Passed test:animate_sets.tex:385
 Passed test:animate_sets.tex:386
 Passed test:animate_sets.tex:387
-adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd745
-DEBUG: result is false
-adding s1 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd745
-adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd745
-DEBUG: result is true
-adding s2 member net.sourceforge.czt.z.impl.NumExprImpl@dbefd745
-DEBUG: result is false
-DEBUG: result is true
 Passed test:animate_sets.tex:388
 ------------- ---------------- ---------------
 
 Testcase: animate_sets.tex:34 took 0 sec
 Testcase: animate_sets.tex:35 took 0 sec
-Testcase: animate_sets.tex:36 took 0,07 sec
+Testcase: animate_sets.tex:36 took 0 sec
 Testcase: animate_sets.tex:37 took 0 sec
 Testcase: animate_sets.tex:38 took 0 sec
 	FAILED
@@ -110,7 +54,7 @@ Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Can
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@49dd3b13
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:39 took 0 sec
+Testcase: animate_sets.tex:39 took 0,01 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@49d66982
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@49d66982
@@ -163,7 +107,7 @@ Should not throw exception java.lang.NullPointerException
 junit.framework.AssertionFailedError: Should not throw exception java.lang.NullPointerException
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:63 took 0 sec
+Testcase: animate_sets.tex:63 took 0,01 sec
 	FAILED
 Should not throw exception java.lang.NullPointerException
 junit.framework.AssertionFailedError: Should not throw exception java.lang.NullPointerException
@@ -193,13 +137,13 @@ Should not throw exception java.lang.NullPointerException
 junit.framework.AssertionFailedError: Should not throw exception java.lang.NullPointerException
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:70 took 0 sec
+Testcase: animate_sets.tex:70 took 0,01 sec
 	FAILED
 Should not throw exception java.lang.NullPointerException
 junit.framework.AssertionFailedError: Should not throw exception java.lang.NullPointerException
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:71 took 0,01 sec
+Testcase: animate_sets.tex:71 took 0 sec
 	FAILED
 Should not throw exception java.lang.NullPointerException
 junit.framework.AssertionFailedError: Should not throw exception java.lang.NullPointerException
@@ -217,13 +161,13 @@ Should not throw exception java.lang.NullPointerException
 junit.framework.AssertionFailedError: Should not throw exception java.lang.NullPointerException
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:75 took 0 sec
+Testcase: animate_sets.tex:75 took 0,01 sec
 	FAILED
 Should not throw exception java.lang.NullPointerException
 junit.framework.AssertionFailedError: Should not throw exception java.lang.NullPointerException
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:76 took 0,01 sec
+Testcase: animate_sets.tex:76 took 0 sec
 	FAILED
 Should not throw exception java.lang.NullPointerException
 junit.framework.AssertionFailedError: Should not throw exception java.lang.NullPointerException
@@ -265,13 +209,13 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@b0604a20   (?)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:101 took 0 sec
+Testcase: animate_sets.tex:101 took 0,01 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@80d2844a   (?)
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@80d2844a   (?)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:102 took 0,01 sec
+Testcase: animate_sets.tex:102 took 0 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@84667c0b   (?)
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@84667c0b   (?)
@@ -301,7 +245,7 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@d7952e35   (?)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:107 took 0 sec
+Testcase: animate_sets.tex:107 took 0,01 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@d633c0c5   (?)
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@d633c0c5   (?)
@@ -325,7 +269,7 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@29e7e72a   (?)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:113 took 0,01 sec
+Testcase: animate_sets.tex:113 took 0 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@ebc5890b   (?)
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@ebc5890b   (?)
@@ -355,7 +299,7 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@b58ceb7e   (?)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:120 took 0 sec
+Testcase: animate_sets.tex:120 took 0,01 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@74f48a09   (?)
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@74f48a09   (?)
@@ -385,7 +329,7 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@b75df31f   (?)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:125 took 0,01 sec
+Testcase: animate_sets.tex:125 took 0 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@b920e33f   (?)
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@b920e33f   (?)
@@ -403,7 +347,7 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@10b6cdba   (?)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:130 took 0 sec
+Testcase: animate_sets.tex:130 took 0,01 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@d1b99cfd   (?)
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@d1b99cfd   (?)
@@ -439,7 +383,7 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@a28fbb26   ( _ ? _ )
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:141 took 0,01 sec
+Testcase: animate_sets.tex:141 took 0 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@7a701b48   ( _ ? _ )
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@7a701b48   ( _ ? _ )
@@ -451,7 +395,7 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@1d2088e4   ( _ ? _ )
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:144 took 0 sec
+Testcase: animate_sets.tex:144 took 0,01 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@7fe46016   ( _ ? _ )
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@7fe46016   ( _ ? _ )
@@ -487,7 +431,7 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@7314122b   ( _ ? _ )
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:151 took 0,01 sec
+Testcase: animate_sets.tex:151 took 0 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@9172261   ( _ ? _ )
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@9172261   ( _ ? _ )
@@ -499,7 +443,7 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@8e626978   ( _ ? _ )
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:154 took 0 sec
+Testcase: animate_sets.tex:154 took 0,01 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@5793b4b4   ( _ ? _ )
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@5793b4b4   ( _ ? _ )
@@ -535,7 +479,7 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@d741c911   ( _ ? _ )
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:161 took 0,01 sec
+Testcase: animate_sets.tex:161 took 0 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@6d75528f   ( _ ? _ )
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@6d75528f   ( _ ? _ )
@@ -547,7 +491,7 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@63383ed5   ( _ ? _ )
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:163 took 0,01 sec
+Testcase: animate_sets.tex:163 took 0 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@5fce8d97   ( _ ? _ )
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@5fce8d97   ( _ ? _ )
@@ -603,23 +547,23 @@ junit.framework.AssertionFailedError: Should not throw exception net.sourceforge
 
 Testcase: animate_sets.tex:177 took 0 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@d0fed096
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@d0fed096
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@2c4e8ab4
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@2c4e8ab4
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:178 took 0,01 sec
+Testcase: animate_sets.tex:178 took 0 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@885c1365
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@885c1365
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@f2535725
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@f2535725
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:181 took 0 sec
+Testcase: animate_sets.tex:181 took 0,01 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ProdExprImpl@31a74f5f   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ProdExprImpl@31a74f5f   ()
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:185 took 0,01 sec
+Testcase: animate_sets.tex:185 took 0 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@203bbeae   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@203bbeae   ()
@@ -631,34 +575,34 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@203bbeae   ()
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:196 took 0 sec
+Testcase: animate_sets.tex:196 took 0,01 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@203bbeae   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@203bbeae   ()
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:200 took 0,01 sec
+Testcase: animate_sets.tex:200 took 0 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@a411b7ba
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@a411b7ba
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@ff6171d8
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@ff6171d8
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:203 took 0 sec
+Testcase: animate_sets.tex:203 took 0,01 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@985b28d9
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@985b28d9
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@f3aae2f7
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@f3aae2f7
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:206 took 0,01 sec
+Testcase: animate_sets.tex:206 took 0 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@6a2aeb5d
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@6a2aeb5d
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@c57aa57b
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@c57aa57b
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:209 took 0 sec
+Testcase: animate_sets.tex:209 took 0,01 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@2131a4a5
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@2131a4a5
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@7c815ec3
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@7c815ec3
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
 Testcase: animate_sets.tex:212 took 0,01 sec
@@ -709,7 +653,7 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@75e38c09   ( _ \ _ )
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:228 took 0,01 sec
+Testcase: animate_sets.tex:228 took 0 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@580a48f9   ( _ \ _ )
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@580a48f9   ( _ \ _ )
@@ -739,7 +683,7 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@69133e1e   ( _ \ _ )
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:234 took 0 sec
+Testcase: animate_sets.tex:234 took 0,01 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@ff164e54   ( _ \ _ )
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@ff164e54   ( _ \ _ )
@@ -763,13 +707,13 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@fef26329   ( _ \ _ )
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:239 took 0,01 sec
+Testcase: animate_sets.tex:239 took 0 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@d462a6b3   ( _ \ _ )
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@d462a6b3   ( _ \ _ )
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:243 took 0 sec
+Testcase: animate_sets.tex:243 took 0,01 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@c6eb4271
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@c6eb4271
@@ -782,11 +726,11 @@ junit.framework.AssertionFailedError: Should not throw exception net.sourceforge
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
 Testcase: animate_sets.tex:245 took 0,01 sec
-Testcase: animate_sets.tex:246 took 0,07 sec
-Testcase: animate_sets.tex:247 took 0,01 sec
+Testcase: animate_sets.tex:246 took 0,01 sec
+Testcase: animate_sets.tex:247 took 0,07 sec
 Testcase: animate_sets.tex:248 took 0,01 sec
-Testcase: animate_sets.tex:249 took 0,02 sec
-Testcase: animate_sets.tex:250 took 0,01 sec
+Testcase: animate_sets.tex:249 took 0,01 sec
+Testcase: animate_sets.tex:250 took 0,02 sec
 Testcase: animate_sets.tex:251 took 0,01 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@ce54d597
@@ -805,7 +749,7 @@ Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Can
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@f829a782
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:257 took 0,011 sec
+Testcase: animate_sets.tex:257 took 0 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@8e9d6cf6   ( _ ? _ )
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@8e9d6cf6   ( _ ? _ )
@@ -818,7 +762,7 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@84bd4f36   ( _ ? _ )
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:260 took 0 sec
+Testcase: animate_sets.tex:260 took 0,01 sec
 Testcase: animate_sets.tex:262 took 0 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@9da9bef5   ( _ ? _ )
@@ -826,10 +770,10 @@ junit.framework.AssertionFailedError: Should not throw exception java.lang.Runti
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
 Testcase: animate_sets.tex:266 took 0 sec
-Testcase: animate_sets.tex:269 took 0,01 sec
+Testcase: animate_sets.tex:269 took 0 sec
 Testcase: animate_sets.tex:273 took 0 sec
-Testcase: animate_sets.tex:282 took 0 sec
-Testcase: animate_sets.tex:283 took 0,01 sec
+Testcase: animate_sets.tex:282 took 0,01 sec
+Testcase: animate_sets.tex:283 took 0 sec
 Testcase: animate_sets.tex:288 took 0 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@e98caea4   (Function=net.sourceforge.czt.z.impl.SetExprImpl@eb1e1baa)
@@ -848,7 +792,7 @@ java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.i
 	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:226)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:133)
 
-Testcase: animate_sets.tex:290 took 0 sec
+Testcase: animate_sets.tex:290 took 0,011 sec
 	Caused an ERROR
 Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@d1e657f9   (Function=net.sourceforge.czt.z.impl.SetExprImpl@3cef73b5)
 java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@d1e657f9   (Function=net.sourceforge.czt.z.impl.SetExprImpl@3cef73b5)
@@ -860,7 +804,7 @@ java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.i
 	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:226)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:133)
 
-Testcase: animate_sets.tex:292 took 0,01 sec
+Testcase: animate_sets.tex:292 took 0 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@2f1262c7   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@bbcfd746)
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@2f1262c7   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@bbcfd746)
@@ -938,7 +882,7 @@ java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.i
 	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:226)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:133)
 
-Testcase: animate_sets.tex:303 took 0,01 sec
+Testcase: animate_sets.tex:303 took 0 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@7ec8859f   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@adddf930)
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@7ec8859f   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@adddf930)
@@ -974,7 +918,7 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@965236d5   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@a65e493a)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:309 took 0,01 sec
+Testcase: animate_sets.tex:309 took 0 sec
 	Caused an ERROR
 Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@e783dd2d   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@178b3e66)
 java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@e783dd2d   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@178b3e66)
@@ -1028,7 +972,7 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@275dfd6d   ()
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:321 took 0,01 sec
+Testcase: animate_sets.tex:321 took 0 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@275dfd6d   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@275dfd6d   ()
@@ -1046,7 +990,7 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@383a5b70   ()
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:324 took 0 sec
+Testcase: animate_sets.tex:324 took 0,01 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c6b513b1   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c6b513b1   ()
@@ -1082,13 +1026,13 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@383a5b70   ()
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:330 took 0,01 sec
+Testcase: animate_sets.tex:330 took 0 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@383a5b70   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@383a5b70   ()
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:331 took 0 sec
+Testcase: animate_sets.tex:331 took 0,01 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@203bbeae   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@203bbeae   ()
@@ -1130,7 +1074,7 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@514c7a7c   (generic)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:339 took 0,01 sec
+Testcase: animate_sets.tex:339 took 0 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@40701c79   (generic)
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@40701c79   (generic)
@@ -1142,7 +1086,7 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@40701c79   (generic)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:341 took 0 sec
+Testcase: animate_sets.tex:341 took 0,01 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@dfc732bd   (generic)
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@dfc732bd   (generic)
@@ -1184,13 +1128,13 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@514c7a7c   (generic)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:348 took 0,01 sec
+Testcase: animate_sets.tex:348 took 0 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@514c7a7c   (generic)
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@514c7a7c   (generic)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_sets.tex:349 took 0 sec
+Testcase: animate_sets.tex:349 took 0,01 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@514c7a7c   (generic)
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@514c7a7c   (generic)
@@ -1218,8 +1162,8 @@ Testcase: animate_sets.tex:361 took 0 sec
 Testcase: animate_sets.tex:363 took 0,01 sec
 Testcase: animate_sets.tex:369 took 0 sec
 Testcase: animate_sets.tex:371 took 0 sec
-Testcase: animate_sets.tex:373 took 0,01 sec
-Testcase: animate_sets.tex:379 took 0 sec
+Testcase: animate_sets.tex:373 took 0 sec
+Testcase: animate_sets.tex:379 took 0,01 sec
 Testcase: animate_sets.tex:381 took 0 sec
 Testcase: animate_sets.tex:383 took 0 sec
 Testcase: animate_sets.tex:384 took 0,01 sec
@@ -1233,7 +1177,7 @@ Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalEx
 junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.ApplExprImpl@eaf1485a
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:138)
 
-Testcase: animate_sets.tex:395 took 0 sec
+Testcase: animate_sets.tex:395 took 0,01 sec
 	FAILED
 Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.ApplExprImpl@eaea76c9
 junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.ApplExprImpl@eaea76c9
