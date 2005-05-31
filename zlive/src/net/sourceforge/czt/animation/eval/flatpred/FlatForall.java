@@ -33,25 +33,25 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
 
 public class FlatForall extends FlatPred
 {
-  private static final Logger sLogger
+  protected static final Logger sLogger
   = Logger.getLogger("net.sourceforge.czt.animation.eval");
 
-  private FlatPredList schText_;
-  private FlatPredList body_;
+  protected FlatPredList schText_;
+  protected FlatPredList body_;
   private Set/*<RefName>*/ freeVars_;
   
   /** The mode returned by schText_ */
-  private Mode schMode_ = null;
+  protected Mode schMode_ = null;
 
   /** The mode returned by body_ */
-  private Mode bodyMode_ = null;
+  protected Mode bodyMode_ = null;
 
   public FlatForall(FlatPredList sch, FlatPredList body)
   {
     sLogger.entering("FlatForall","FlatForall");
     schText_ = sch;
     body_ = body;
-
+    
     // freeVars_ := sch.freeVars + (body.freeVars - sch.boundVars)
     freeVars_ = new HashSet(schText_.freeVars());
     sLogger.fine("schText freevars = "+schText_.freeVars());
@@ -62,7 +62,7 @@ public class FlatForall extends FlatPred
       if ( ! bound.contains(v))
         freeVars_.add(v);
     }
-    sLogger.fine("forall freevars = "+freeVars_);
+    sLogger.fine("freevars = "+freeVars_);
     freeVars_ = new HashSet();  // TODO: remove this when above name comparison works properly
     args = new ArrayList(freeVars_);
     solutionsReturned = -1;

@@ -30,63 +30,38 @@ import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.animation.eval.flatpred.*;
 
-public class FlatExists extends FlatPred
+/** This overrides the forall evaluation algorithm. */
+public class FlatExists extends FlatForall
 {
-  private FlatPredList schText_;
-  private FlatPredList body_;
-  private Set unionSet_;
-  
-  /** The mode returned by schText_ */
-  private Mode schMode_ = null;
-  
-  /** The mode returned by body_ */
-  private Mode bodyMode_ = null;
-
   public FlatExists(FlatPredList sch, FlatPredList body)
   {
-    schText_ = sch;
-    body_ = body;
-    unionSet_ = new HashSet(schText_.freeVars());
-    unionSet_.addAll(body_.freeVars());
-    args = new ArrayList(unionSet_);
-    solutionsReturned = -1;
-  }
-  
-  /** Chooses the mode in which the predicate can be evaluated.*/
-  public Mode chooseMode(/*@non_null@*/ Envir env)
-  { 
-    Mode m = modeAllDefined(env);
-    Mode schMode = schText_.chooseMode(env);
-    // TODO: call chooseMode on body_ too!
-    if (schMode == null)
-      return null;
-    else
-      return m;
-  }
-  
-  public Set freeVars()
-  { return unionSet_; }
-  
-  public void startEvaluation()
-  {
-    assert(evalMode_ != null);
-    super.startEvaluation();
-    schMode_ = schText_.chooseMode(evalMode_.getEnvir());
-    //schText_ TODO.startEvaluation(schMode_, evalMode_.getEnvir());
-    bodyMode_ = body_.chooseMode(schMode_.getEnvir());
+    super(sch,body);
   }
 
   /** Does the actual evaluation */
   public boolean nextEvaluation()
   {
+    sLogger.entering("FlatExists","nextEvaluation");
     assert(evalMode_ != null);
-    assert(schMode_ != null);
-    assert(bodyMode_ != null);
+    UndefException undef = null;
     while (schText_.nextEvaluation()) {
       body_.startEvaluation();
-      if (body_.nextEvaluation())
-        return true;
+      try {
+	if (body_.nextEvaluation()) {
+	  sLogger.exiting("FlatExists","nextEvaluation",Boolean.TRUE);
+	  return true;
+	}
+      }
+      catch (UndefException e) {
+        undef = e;
+	// and continue, in case we find a true.
+      }
     }
+    if (undef != null) {
+      sLogger.fine("FlatExists throwing UndefException");
+      throw undef;
+    }
+    sLogger.exiting("FlatExists","nextEvaluation",Boolean.FALSE);
     return false;
   }
 
