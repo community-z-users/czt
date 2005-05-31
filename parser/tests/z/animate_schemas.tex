@@ -25,7 +25,8 @@ Equality.
 \begin{zed}\vdash? \lblot a==1,b==2\rblot= \lblot a==1,b==2\rblot\end{zed}
 \begin{zed}\vdash? \lblot a==1,b==2\rblot\neq \lblot a==1,b==3\rblot\end{zed}
 \begin{zed}\vdash? \lblot a==1,b==2\rblot= \lblot b==2,a==1\rblot\end{zed}
-\begin{zed}\vdash? \lblot a==1,b==2 \rblot = \lblot a==1,b==(1+1)\rblot\end{zed}
+\begin{zed}\vdash? \forall a==2 @ \lblot a==1,b==2 \rblot = \lblot a==1,b==a\rblot\end{zed}
+\begin{zed}\vdash? \forall a==1 @ \lblot a==1,b==2 \rblot \neq \lblot a==1,b==a\rblot\end{zed}
 
 Selection.
 \begin{zed}\vdash? \lblot a==1,b==2,c==3 \rblot.a = 1 \end{zed}

@@ -88,17 +88,48 @@ the constant undefnum should have an undefined left-hand-side.
 
 
 \section{Testing logical quantifiers}
-\begin{zed} \vdash? \forall x:0 \upto 4 | x \neq 4 @ x \in 0 \upto 3 \end{zed}
-\begin{zed} \vdash?  \lnot \forall x:0 \upto 4 | x \neq 2 @ x < 4 \end{zed}
-\begin{zed} \vdash?  \lnot \forall x:0 \upto 4 | x \neq 2 @ x > 0 \end{zed}
-\begin{zed} \vdash?  \lnot \forall x:0 \upto 4 @ x \neq 2 \end{zed}
 
+Universal quantifiers with no bound variables.
+\begin{zed} \vdash?       \forall @ true \end{zed}
+\begin{zed} \vdash? \lnot \forall @ false \end{zed}
+\begin{zed} \vdash?       \forall | true @ true \end{zed}
+\begin{zed} \vdash? \lnot \forall | true @ false \end{zed}
+\begin{zed} \vdash?       \forall | false @ false \end{zed}
+\begin{zed} \vdash?       \forall | false @ true \end{zed}
+
+Universal quantifiers with one bound variable.
+\begin{zed} \vdash?       \forall x:0 \upto 4 | x < 0 @ false \end{zed}  %empty range
+\begin{zed} \vdash?       \forall x:0 \upto 4 | x \neq 4 @ x \in 0 \upto 3 \end{zed}
+\begin{zed} \vdash? \lnot \forall x:0 \upto 4 | x \neq 2 @ x < 4 \end{zed}
+\begin{zed} \vdash? \lnot \forall x:0 \upto 4 | x \neq 2 @ x > 0 \end{zed}
+\begin{zed} \vdash? \lnot \forall x:0 \upto 4 @ x \neq 2 \end{zed}
+
+Universal quantifiers with multiple bound variables.
+\begin{zed} \vdash?       \forall x,y:1 \upto 3 | y<1 @ false \end{zed} %empty range
+\begin{zed} \vdash?       \forall x,y:1 \upto 3 | x<y @ x*x < y*y \end{zed}
+\begin{zed} \vdash? \lnot \forall x,y:1 \upto 3 | x<y @ x*x+8 > y*y \end{zed}
+\begin{zed} \vdash? \lnot \forall x,y:0 \upto 2 | x \leq y @ x*x < y*y \end{zed}
+
+Existential quantifiers with no bound variables.
+\begin{zed} \vdash?       \exists @ true \end{zed}
+\begin{zed} \vdash? \lnot \exists @ false \end{zed}
+\begin{zed} \vdash?       \exists | true @ true \end{zed}
+\begin{zed} \vdash? \lnot \exists | true @ false \end{zed}
+\begin{zed} \vdash? \lnot \exists | false @ true \end{zed}
+\begin{zed} \vdash? \lnot \exists | false @ false \end{zed}
+
+Existential quantifiers with one bound variable.
 \begin{zed} \vdash? \exists x:0 \upto 4 | x \neq 4 @ x \in 1 \upto 2 \end{zed}
 \begin{zed} \vdash? \exists x:0 \upto 4 | x \neq 2 @ x < 4 \end{zed}
 \begin{zed} \vdash? \exists x:0 \upto 4 | x \neq 2 @ x > 0 \end{zed}
 \begin{zed} \vdash? \exists x:0 \upto 4 @ x \neq 2 \end{zed}
 \begin{zed} \vdash? \lnot \exists x:0 \upto 4 @ \lnot x \in 0 \upto 4 \end{zed}
 
+Existential quantifiers with multiple bound variables.
+\begin{zed} \vdash?       \exists x,y:1 \upto 4 | x<y @ x*x+5 = y*y \end{zed}
+\begin{zed} \vdash? \lnot \exists x,y:1 \upto 4 | x<y @ x*x+4 = y*y \end{zed}
+
+Unique existential quantifiers.
 \begin{zed} \vdash? \lnot \exists_1 x:0 \upto 4 | x \neq 4 @ x \in 1 \upto 2 \end{zed}
 \begin{zed} \vdash? \exists_1 x:0 \upto 4 | x \neq 2 @ x \leq 0 \end{zed}
 \begin{zed} \vdash? \exists_1 x:0 \upto 4 | x \neq 2 @ x \geq 4 \end{zed}
@@ -110,4 +141,7 @@ the constant undefnum should have an undefined left-hand-side.
 TODO: it would be nice to have some way of testing that a predicate is 
       undefined (that is, its truth value is unknown according to the Z 
       standard semantics), but this would be an extension of standard Z syntax.
+      If we added such syntax, then we could check that:
+      (\exists S@P) is undefined when P is never true, but sometimes undefined.
+      (\forall S@P) is undefined when P is sometimes undefined.
 \end{document}
