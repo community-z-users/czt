@@ -282,7 +282,7 @@ class SeparateDelimiter
         tokens_.push(new Symbol(Sym.DECORWORD, left, right, dw));
       }
       int prefix = 0;
-      while(needsSeparation(charArray[suffix])) {
+      while(needsSeparation(charArray[prefix])) {
         prefix++;
       }
       assert prefix &lt;= suffix;
