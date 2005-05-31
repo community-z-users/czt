@@ -64,7 +64,9 @@ public class Flatten
       SetExprVisitor,
       SetCompExprVisitor,
       ProdExprVisitor,
-      TupleExprVisitor
+      TupleExprVisitor,
+      BindExprVisitor,
+      NameExprPairVisitor
 {
   private ZLive zlive_;
   
@@ -90,7 +92,6 @@ public class Flatten
   {
     zlive_ = zlive;
     VisitorUtils.checkVisitorRules(this);
-    //System.out.println("Definition Table for " + currSect + "\n" + table_.toString());
     knownRelations.add(ZString.ARG_TOK+ZString.LESS+ZString.ARG_TOK);
     knownRelations.add(ZString.ARG_TOK+ZString.LEQ+ZString.ARG_TOK);
     knownRelations.add(ZString.ARG_TOK+ZString.GREATER+ZString.ARG_TOK);
@@ -99,7 +100,10 @@ public class Flatten
     knownRelations.add(ZString.ARG_TOK+ZString.NOTMEM+ZString.ARG_TOK);    
   }
 
-  /** Flattens the toFlatten AST into a list of FlatPred predicates. */
+  /** Flattens the toFlatten predicate into a list of FlatPred predicates.
+   *  @param  toFlatten The Pred to flatten.
+   *  @param  destination Generated FlatPred objects are appended to this list.
+   */
   public void flattenPred(Pred toFlatten, List destination)
     throws CommandException
   {
@@ -110,8 +114,11 @@ public class Flatten
     toFlatten.accept(this);
   }
 
-  /** Flattens the toFlatten AST into a list of FlatPred predicates.
-   *  @return The name of the variable that will contain the result, after evaluation.
+  /** Flattens the toFlatten expression into a list of FlatPred predicates.
+   *  @param  toFlatten An Expr to flatten.
+   *  @param  destination Generated FlatPred objects are appended to this list.
+   *  @return The name of the variable that will contain the result,
+   *          after evaluation.
    */
   public RefName flattenExpr(Expr toFlatten, List destination)
     throws CommandException
@@ -126,7 +133,6 @@ public class Flatten
   /** An auxiliary method for flattening a list of Decl in a Map. */
   protected List/*<DeclName>*/ declNames(List decls) {
     List result = new ArrayList();
-    System.out.print("DEBUG: declNames = ");
     for (Iterator i = decls.iterator(); i.hasNext();) {
       Decl decl = (Decl) i.next();
       if (decl instanceof VarDecl) {
@@ -135,20 +141,17 @@ public class Flatten
         while (id.hasNext()) {
           DeclName name = (DeclName)id.next();
           result.add(name);
-          System.out.print(name+" ");
         }
       }
       else if (decl instanceof ConstDecl) {
         ConstDecl cdecl = (ConstDecl) decl;
         DeclName name = cdecl.getDeclName();
         result.add(name);
-        System.out.print(name+" ");
       }
       else {
         throw new EvalException("Unknown kind of Decl: " + decl);
       }
     }
-    System.out.println(".");
     return result;
   }
 
@@ -185,7 +188,10 @@ public class Flatten
 
   /** We throw an error if we reach a kind of term that we do not handle. */
   public Object visitTerm(Term term) {
-    return notYet(term);
+    if (term instanceof List)
+      return VisitorUtils.visitTerm(this,term,true);
+    else
+      return notYet(term);
   }
 
   /** Adds both conjuncts to the flatten list. */
@@ -270,7 +276,6 @@ public class Flatten
     return null;
   }
 
-  /////////////// TODO: implement these, or unfold them //////////////////
   public Object visitExistsPred(ExistsPred p) {
     FlatPredList sch = new FlatPredList(zlive_);
     sch.addSchText(p.getSchText());
@@ -301,7 +306,6 @@ public class Flatten
     DefinitionTable.Definition def = table_.lookup(e.getRefName().toString());
     if (def != null && def.getDeclNames().size() == e.getExpr().size()) {
       Expr newExpr = def.getExpr();
-      System.out.println("DEBUG: visitRefExpr:" + e.getRefName().getWord()+" --> "+newExpr);
       return newExpr.accept(this);      
     }
     return e.getRefName();
@@ -425,7 +429,6 @@ public class Flatten
         }
         expr = zlive_.getFactory().createTupleExpr(refExprs);
       }
-      System.out.println("DEBUG: SetComp new expr = "+expr);
     }
     // We do not flatten decls/pred/expr, because FlatSetComp does it.
     flat_.add(new FlatSetComp(zlive_, decls, pred, expr, result));
@@ -438,6 +441,38 @@ public class Flatten
     RefName result = zlive_.createNewName();
     flat_.add(new FlatTuple(refnames, result));
     return result;
+  }
+
+  public Object visitBindExpr(BindExpr e)
+  {
+    return notYet(e);
+    /*
+    List pairs = (List) e.getNameExprPair().accept(this);
+    RefName result = zlive_.createNewName();
+    flat_.add(new FlatBinding(pairs, result));
+    return result;
+    */
+  }
+
+  /** Flattens the Expr part, then returns a (DeclName,RefName) pair.
+   *  Unlike most other visit methods in this class, this does not return
+   *  just a RefName.  Instead it returns new pair, which should be
+   *  handled by the callers of this method.  This is because NameExprPairs
+   *  are really part of the syntax of the parent AST node, rather than a
+   *  separate Z operator.
+   *  @param  pair A NameExprPair that needs to be flattened.
+   *  @return (DeclName,RefExpr) where DeclName is unchanged and RefExpr
+   *          contains the RefName that results from passing pair.getExpr()
+   *          to flattenExpr.
+   */
+  public Object visitNameExprPair(NameExprPair pair)
+  {
+    DeclName decl = pair.getName();
+    Expr expr = pair.getExpr();
+    RefName eresult = (RefName)expr.accept(this);  // recursive flatten
+    // we have to wrap a RefExpr around eresult, so it has the right type.
+    RefExpr refexpr = zlive_.getFactory().createRefExpr(eresult);
+    return zlive_.getFactory().createNameExprPair(decl,refexpr);
   }
 
 /*
@@ -456,9 +491,7 @@ public class Flatten
   public Object visitForallExpr(ForallExpr zedObject) {return zedObject; }
   public Object visitVarDecl(VarDecl zedObject) {return zedObject; }
   public Object visitCompExpr(CompExpr zedObject) {return zedObject; }
-  public Object visitBindExpr(BindExpr zedObject) {return zedObject; }
   public Object visitCondExpr(CondExpr zedObject) {return zedObject; }
-  public Object visitNameExprPair(NameExprPair zedObject) {return zedObject; }
   public Object visitTupleSelExpr(TupleSelExpr zedObject) {return zedObject; }
   public Object visitLambdaExpr(LambdaExpr zedObject) {return zedObject; }
   public Object visitIffExpr(IffExpr zedObject) {return zedObject; }
