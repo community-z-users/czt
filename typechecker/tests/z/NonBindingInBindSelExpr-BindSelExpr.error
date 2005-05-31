@@ -1,8 +1,0 @@
-\begin{zsection}
-  \SECTION NonBindingInBindSelExpr\_BindSelExpr
-\end{zsection}
-
-\begin{zed}
-  one == 1\\
-  error == one.two
-\end{zed}

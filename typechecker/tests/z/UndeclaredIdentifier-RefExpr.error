@@ -1,7 +1,0 @@
-\begin{zsection}
-  \SECTION UndeclaredIdentifier\_RefExpr
-\end{zsection}
-
-\begin{zed}
-  a == b
-\end{zed}
