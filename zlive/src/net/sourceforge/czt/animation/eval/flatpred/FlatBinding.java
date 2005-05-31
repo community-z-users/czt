@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.logging.*;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.BindExpr;
@@ -28,6 +29,9 @@ import net.sourceforge.czt.z.util.Factory;
  */
 public class FlatBinding extends FlatPred {
     
+    private static final Logger sLogger
+    = Logger.getLogger("net.sourceforge.czt.animation.eval");
+
     protected Factory factory_ = new Factory();
     
     /** Creates a new instance of FlatBinding */
@@ -35,16 +39,19 @@ public class FlatBinding extends FlatPred {
         this(Arrays.asList(bindings), bind);
     }
     
-    public FlatBinding(List bindings, RefName bind) {
+    public FlatBinding(List<NameExprPair> bindings, RefName bind)
+    {
+        sLogger.entering("FlatBinding","FlatBinding");
         HashSet names = new HashSet();
-        for(Object o : bindings) {
-            NameExprPair nep = (NameExprPair)o;
+        for(NameExprPair nep : bindings) {
+	    sLogger.fine("name/expr = "+nep.getName()+"/"+nep.getExpr());
             if (!names.add(nep.getName()))
                 throw new IllegalArgumentException("FlatBinding requires that given list of name-expr pairs has no duplicates");
         }
         args = new ArrayList(bindings);
         args.add(bind);
         solutionsReturned = -1;
+        sLogger.exiting("FlatBinding","FlatBinding");
     }
     
     //@ requires newargs.size() >= 1;
