@@ -319,7 +319,10 @@ public class FlatPredList
 
   /** Returns the next solution from this list of FlatPreds.
    *  This implements chronological backtracking, like Prolog.
-   *  If it returns true, the output environment has been updated.
+   *  If it returns true, the output environment, available via
+   *  getOutputEnvir(), will contain updated values for any bound
+   *  variables defined within this FlatPredList.
+   *  Note that the empty list of FlatPreds will return true once.
    *  @return true iff a new solution was found.
    */
   public boolean nextEvaluation() {
@@ -335,6 +338,7 @@ public class FlatPredList
 	((FlatPred)predlist_.get(curr)).startEvaluation();
       else {
 	// curr==end==0, so we do not enter the loop below at all.
+	// The result will be true.
       }
     }
     else {
@@ -371,8 +375,6 @@ public class FlatPredList
   public void printCode()
   {
     try {
-      System.out.println("Printing " + predlist_.size() + " preds:");
-      writer.write("Start of the Loop\n");
       for (Iterator i = predlist_.iterator(); i.hasNext(); ) {
         FlatPred p = (FlatPred) i.next();
         writer.write("Print flat " + p.toString() + "\n");
@@ -386,7 +388,6 @@ public class FlatPredList
     catch (Exception e) {
       e.printStackTrace();
     }
-    System.out.println("END");
   }
 
   public String toString() {

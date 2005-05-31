@@ -307,7 +307,6 @@ public abstract class FlatPred extends PredImpl
     Iterator it = s1.members();
     while (it.hasNext()) {
       Object value = it.next();
-      System.out.println("adding s1 member " + value);
       elems1.add(value);
     }
     Set elems2 = null;
@@ -318,13 +317,11 @@ public abstract class FlatPred extends PredImpl
       it = ((EvalSet)s2).members();
       while (it.hasNext()) {
         Object value = it.next();
-        System.out.println("adding s2 member "+value);
         elems2.add(value);
       }
     } else {
       return false;
     }
-    System.out.println("DEBUG: result is " + elems1.equals(elems2));
     return elems1.equals(elems2);
   }
 }
