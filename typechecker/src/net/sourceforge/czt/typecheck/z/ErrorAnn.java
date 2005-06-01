@@ -19,8 +19,8 @@
 package net.sourceforge.czt.typecheck.z;
 
 import java.util.*;
+import java.io.*;
 import java.text.MessageFormat;
-import java.io.StringWriter;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
@@ -174,11 +174,12 @@ public class ErrorAnn
       try {
         Term term = (Term) ((Term) object).accept(getCarrierSet());
         StringWriter writer = new StringWriter();
-        PrintUtils.print(term, writer, sectInfo, sectName, markup_);
+        print(term, writer, sectInfo, sectName, markup_);
         return writer.toString();
       }
       catch (Exception e) {
         String message = "Cannot be printed";
+	e.printStackTrace();
         return message;
       }
     }
@@ -196,6 +197,15 @@ public class ErrorAnn
   protected CarrierSet getCarrierSet()
   {
     return new CarrierSet();
+  }
+
+  protected void print(Term term,
+		       Writer writer,
+		       SectionInfo sectInfo,
+		       String sectName,
+		       Markup markup)
+  {
+    PrintUtils.print(term, writer, sectInfo, sectName, markup_);
   }
 }
 

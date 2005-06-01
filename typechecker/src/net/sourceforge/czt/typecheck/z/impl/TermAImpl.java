@@ -19,6 +19,7 @@
 package net.sourceforge.czt.typecheck.z.impl;
 
 import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.base.impl.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -37,11 +38,19 @@ public abstract class TermAImpl
 
   public ListTerm getAnns()
   {
-    return ((TermA) term_).getAnns();
+    ListTerm result = new ListTermImpl();
+    if (term_ != null) {
+      result = ((TermA) term_).getAnns();
+    }
+    return result;
   }
 
   public Object getAnn(Class aClass)
   {
-    return ((TermA) term_).getAnn(aClass);
+    Object result = null;
+    if (term_ != null) {
+      result = ((TermA) term_).getAnn(aClass);
+    }
+    return result;
   }
 }

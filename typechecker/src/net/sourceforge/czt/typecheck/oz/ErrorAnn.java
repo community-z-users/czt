@@ -19,13 +19,13 @@
 package net.sourceforge.czt.typecheck.oz;
 
 import java.util.*;
+import java.io.*;
 import java.text.MessageFormat;
-import java.io.StringWriter;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.print.z.PrintUtils;
+import net.sourceforge.czt.print.oz.PrintUtils;
 import net.sourceforge.czt.typecheck.oz.util.CarrierSet;
 
 /**
@@ -56,6 +56,15 @@ public class ErrorAnn
   protected CarrierSet getCarrierSet()
   {
     return new CarrierSet();
+  }
+
+  protected void print(Term term,
+		       Writer writer,
+		       SectionInfo sectInfo,
+		       String sectName,
+		       Markup markup)
+  {
+    PrintUtils.print(term, writer, sectInfo, sectName, markup_);
   }
 }
 
