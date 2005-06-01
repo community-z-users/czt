@@ -64,7 +64,7 @@ import net.sourceforge.czt.z.jaxb.JaxbValidator;
 import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
 </add:z>
 <add:zpatt>
-import net.sourceforge.czt.z.jaxb.JaxbValidator;
+import net.sourceforge.czt.zpatt.jaxb.JaxbValidator;
 import net.sourceforge.czt.zpatt.jaxb.JaxbXmlWriter;
 </add:zpatt>
 
