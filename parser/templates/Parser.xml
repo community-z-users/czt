@@ -3658,7 +3658,8 @@ proviso ::=
         |
         term:t COLON baseType:bt
         {:
-           RESULT = factory_.createTypeProviso();
+           SequentContext sc = factory_.createSequentContext();
+           RESULT = factory_.createTypeProviso(sc, expr(t), bt);
            addLocAnn(RESULT, tleft, tright);
         :}
         |
