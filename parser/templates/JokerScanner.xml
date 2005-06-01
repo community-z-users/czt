@@ -95,7 +95,7 @@ public class <class/>
     }
     Symbol result = null;
     if (symbol.sym == Sym.DECORWORD || symbol.sym == Sym.DECLWORD) {
-      String name = (String) symbol.value;
+      String name = ((Decorword) symbol.value).getName();
       assert table_ != null;
       JokerTokenType jokertype = table_.getTokenType(name);
       int type = -1;
