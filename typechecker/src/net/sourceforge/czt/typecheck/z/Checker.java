@@ -326,7 +326,7 @@ abstract public class Checker
 
   protected ErrorAnn errorAnn(TermA termA, ErrorMessage error, Object [] params)
   {
-    ErrorAnn errorAnn = errorAnn(termA, error.toString(), params);
+    ErrorAnn errorAnn = exprChecker().errorAnn(termA, error.toString(), params);
     return errorAnn;
   }
 

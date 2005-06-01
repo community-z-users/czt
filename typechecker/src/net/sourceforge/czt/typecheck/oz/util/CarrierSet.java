@@ -62,7 +62,8 @@ public class CarrierSet
   public Object visitClassPolyType(ClassPolyType classPolyType)
   {
     ClassRef classRef = classPolyType.getRootClass();
-    Expr result = (Expr) classRef.accept(this);
+    Expr expr = (Expr) classRef.accept(this);
+    PolyExpr result = ozFactory_.createPolyExpr(expr);
     return result;
   }
 

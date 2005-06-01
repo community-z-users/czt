@@ -99,7 +99,15 @@ abstract public class Checker
 
   protected void error(TermA termA, ErrorMessage error, Object [] params)
   {
-    ErrorAnn errorAnn = errorAnn(termA, error, params);
+    ErrorAnn errorAnn = this.errorAnn(termA, error, params);
+    error(termA, errorAnn);
+  }
+
+  protected void error(TermA termA,
+		       net.sourceforge.czt.typecheck.z.ErrorMessage error,
+		       Object [] params)
+  {
+    ErrorAnn errorAnn = this.errorAnn(termA, error.toString(), params);
     error(termA, errorAnn);
   }
 
