@@ -194,6 +194,7 @@
   <xs:element name="SecondaryDecl" type="OZ:SecondaryDecl"/>
   <xs:element name="InitialState" type="OZ:InitialState"/>
   <xs:element name="Operation" type="OZ:Operation"/>
+  <xs:element name="DeltaList" type="OZ:DeltaList"/>
 
   <!-- Definitions of the complexTypes -->
   <xs:complexType name="PredExpr">
@@ -250,6 +251,7 @@
           <xs:element ref="OZ:SecondaryDecl" minOccurs="0" maxOccurs="unbounded"/>
           <xs:element ref="Z:Pred" minOccurs="0"/>
         </xs:sequence>
+        <xs:attribute name="Box" type="Z:Box" use="optional" default="SchBox"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -277,6 +279,7 @@
         <xs:sequence>
           <xs:element ref="Z:Pred" minOccurs="0"/>
         </xs:sequence>
+        <xs:attribute name="Box" type="Z:Box" use="optional" default="SchBox"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -287,7 +290,16 @@
           <xs:element name="Name" type="Z:DeclName"/>
           <xs:element ref="OZ:OpExpr"/>
         </xs:sequence>
-        <xs:attribute name="Box" type="Z:Box" use="optional" default="OmitBox"/>
+        <xs:attribute name="Box" type="Z:Box" use="optional" default="SchBox"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DeltaList">
+    <xs:complexContent>
+      <xs:extension base="Z:TermA">
+        <xs:sequence>
+          <xs:element ref="Z:RefName" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -295,7 +307,7 @@
     <xs:complexContent>
       <xs:extension base="Z:TermA">
         <xs:sequence>
-          <xs:element name="Delta" type="Z:RefName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="OZ:DeltaList" minOccurs="0"/>
           <xs:element ref="Z:SchText"/>
         </xs:sequence>
       </xs:extension>
