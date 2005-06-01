@@ -17,7 +17,7 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.print.z;
+package net.sourceforge.czt.print.oz;
 
 import java.util.List;
 import java.util.Vector;
@@ -32,6 +32,8 @@ import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
+import net.sourceforge.czt.print.z.*;
+
 /**
  * This Scanner uses the print visitor to tokenize a
  * given Z term.
@@ -39,15 +41,8 @@ import net.sourceforge.czt.z.visitor.*;
  * @author Petra Malik
  */
 public class ZmlScanner
-  implements Scanner
+  extends net.sourceforge.czt.print.z.ZmlScanner
 {
-  protected List symbols_;
-  private int pos_ = 0;
-
-  public ZmlScanner()
-  {
-  }
-
   /**
    * Creates a new ZML scanner.
    */
@@ -57,45 +52,8 @@ public class ZmlScanner
       new PrecedenceParenAnnVisitor();
     term.accept(precVisitor);
     SymbolCollector collector = new SymbolCollector();
-    ZPrintVisitor visitor = new ZPrintVisitor(collector);
+    ZPrintVisitor visitor = new OzPrintVisitor(collector);
     term.accept(visitor);
     symbols_ = collector.getSymbols();
-  }
-
-  public void prepend(Symbol s)
-  {
-    symbols_.add(0, s);
-  }
-
-  public void append(Symbol s)
-  {
-    symbols_.add(s);
-  }
-
-  public Symbol next_token()
-  {
-    if (pos_ >= symbols_.size()) return new Symbol(0);
-    Symbol result = (Symbol) symbols_.get(pos_);
-    pos_++;
-    return result;
-  }
-
-  /**
-   * An implementation of AbstractPrintVisitor.ZPrinter.
-   */
-  public static class SymbolCollector
-    implements AbstractPrintVisitor.ZPrinter
-  {
-    private List symbolList_ = new Vector();
-
-    public void printSymbol(Symbol symbol)
-    {
-      symbolList_.add(symbol);
-    }
-
-    public List getSymbols()
-    {
-      return symbolList_;
-    }
   }
 }

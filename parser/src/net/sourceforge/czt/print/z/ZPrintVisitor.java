@@ -1190,12 +1190,12 @@ public class ZPrintVisitor
     return result.toString();
   }
 
-  private void printTermList(List list)
+  protected void printTermList(List list)
   {
     printTermList(list, ZString.COMMA);
   }
 
-  private void printTermList(List list, int separator)
+  protected void printTermList(List list, int separator)
   {
     for (Iterator iter = list.iterator(); iter.hasNext();) {
       Term term = (Term) iter.next();
@@ -1209,7 +1209,7 @@ public class ZPrintVisitor
   /**
    * @throws NullPointerException if separator is <code>null</code>.
    */
-  private void printTermList(List list, String separator)
+  protected void printTermList(List list, String separator)
   {
     if (separator == null) throw new NullPointerException();
     for (Iterator iter = list.iterator(); iter.hasNext();) {
@@ -1221,7 +1221,7 @@ public class ZPrintVisitor
     }
   }
 
-  private void printKeyword(String keyword)
+  protected void printKeyword(String keyword)
   {
     print(Sym.DECORWORD, new Decorword(keyword));
   }

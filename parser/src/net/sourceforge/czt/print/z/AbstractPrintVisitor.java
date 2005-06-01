@@ -56,7 +56,7 @@ public abstract class AbstractPrintVisitor
   /**
    * A printer that can print Z symbols.
    */
-  interface ZPrinter
+  public interface ZPrinter
   {
     void printSymbol(Symbol symbol);
   }
