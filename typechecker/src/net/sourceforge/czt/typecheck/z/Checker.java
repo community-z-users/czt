@@ -354,8 +354,7 @@ abstract public class Checker
   protected String format(Term term)
   {
     try {
-      CarrierSet cSet = new CarrierSet();
-      Term newTerm = (Term) term.accept(cSet);
+      Term newTerm = (Term) term.accept(getCarrierSet());
       StringWriter writer = new StringWriter();
       PrintUtils.print(newTerm, writer, sectInfo(), sectName(), markup());
       return writer.toString();
@@ -366,12 +365,9 @@ abstract public class Checker
     }
   }
 
-  protected String formatType(Type type)
+  protected CarrierSet getCarrierSet()
   {
-    //TypeFormatter formatter = new TypeFormatter();
-    //Expr expr = (Expr) type.accept(formatter);
-    //return format(expr);
-    return type.toString();
+    return new CarrierSet();
   }
 
   //get the position of a TermA from its annotations

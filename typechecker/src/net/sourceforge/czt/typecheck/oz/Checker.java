@@ -407,8 +407,9 @@ abstract public class Checker
 
       if (classRef != null) {
         List<Type2> types = classRef.getType2();
-        for (Type2 next : types) {
-          instantiate(next);
+	for (int i = 0; i < types.size(); i++) {
+	  Type2 replaced = instantiate(types.get(i));
+	  types.set(i, replaced);
         }
       }
 
@@ -533,5 +534,10 @@ abstract public class Checker
       }
     }
     return result;
+  }
+
+  protected CarrierSet getCarrierSet()
+  {
+    return new net.sourceforge.czt.typecheck.oz.util.CarrierSet();
   }
 }

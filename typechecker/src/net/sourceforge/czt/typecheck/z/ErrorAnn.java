@@ -186,14 +186,6 @@ public class ErrorAnn
     return object.toString();
   }
 
-  protected String formatType(Term term)
-  {
-    //TypeFormatter formatter = new TypeFormatter();
-    //Expr expr = (Expr) type.accept(formatter);
-    //return format(expr);
-    return term.toString();
-  }
-
   protected CarrierSet getCarrierSet()
   {
     return new CarrierSet();
