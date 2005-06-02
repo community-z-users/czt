@@ -1184,7 +1184,7 @@ non terminal Para
 non terminal List /*Para*/
     localDefinitionList;
 
-non terminal List /* RefName */
+non terminal DeltaList
     deltaList;
 
 non terminal VisibilityList
@@ -3972,7 +3972,7 @@ state ::=
         {:
            List dp = (List) sd.getFirst();
            List sa = (List) sd.getSecond();
-           RESULT = factory_.createState(dp, sa, p);
+           RESULT = factory_.createState(dp, sa, p, Box.SchBox);
            addLocAnn(RESULT, sleft, sright);
         :}
         |
@@ -3980,7 +3980,7 @@ state ::=
         {:
            List dp = (List) sd.getFirst();
            List sa = (List) sd.getSecond();
-           RESULT = factory_.createState(dp, sa, null);
+           RESULT = factory_.createState(dp, sa, null, Box.SchBox);
            addLocAnn(RESULT, sleft, sright);
         :}
         |
@@ -3988,7 +3988,7 @@ state ::=
         {:
            List dp = (List) sd.getFirst();
            List sa = (List) sd.getSecond();
-           RESULT = factory_.createState(dp, sa, p);
+           RESULT = factory_.createState(dp, sa, p, Box.OmitBox);
            addLocAnn(RESULT, lsqleft, lsqright);
         :}
         |
@@ -3996,7 +3996,7 @@ state ::=
         {:
            List dp = (List) sd.getFirst();
            List sa = (List) sd.getSecond();
-           RESULT = factory_.createState(dp, sa, null);
+           RESULT = factory_.createState(dp, sa, null, Box.OmitBox);
            addLocAnn(RESULT, lsqleft, lsqright);
         :}
         ;
@@ -4100,10 +4100,10 @@ initialState ::=
         {: RESULT = null; :}
         |
         INIT predicate:p END
-        {: RESULT = factory_.createInitialState(p); :}
+        {: RESULT = factory_.createInitialState(p, Box.SchBox); :}
         |
         INITWORD SDEF LSQUARE predicate:p RSQUARE
-        {: RESULT = factory_.createInitialState(p); :}
+        {: RESULT = factory_.createInitialState(p, Box.OmitBox); :}
         ;
 
 operation ::=
@@ -4137,10 +4137,10 @@ opText ::=
         {: RESULT = factory_.createOpText(dl, createSchText(list(), null)); :}
         |
         optDeclPart:dp BAR predicate:p
-        {: RESULT = factory_.createOpText(list(), createSchText(dp, p)); :}
+        {: RESULT = factory_.createOpText(null, createSchText(dp, p)); :}
         |
         optDeclPart:dp
-        {: RESULT = factory_.createOpText(list(), createSchText(dp, null)); :}
+        {: RESULT = factory_.createOpText(null, createSchText(dp, null)); :}
         ;
 
 opExpr ::=
@@ -4413,8 +4413,17 @@ opPromotionLhs ::=
         ;
 
 deltaList ::=
-        DELTA LPAREN refNameList:rnl RPAREN
-        {: RESULT = rnl; :}
+        DELTA:d LPAREN refNameList:rnl RPAREN
+        {:
+           RESULT = factory_.createDeltaList(rnl);
+           addLocAnn(RESULT, dleft, dright);
+        :}
+        |
+        DELTA:d LPAREN RPAREN
+        {:
+           RESULT = factory_.createDeltaList(list());
+           addLocAnn(RESULT, dleft, dright);
+        :}
         ;
 </add:oz>
 </parser>

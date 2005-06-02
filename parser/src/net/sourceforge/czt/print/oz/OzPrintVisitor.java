@@ -95,11 +95,17 @@ public class OzPrintVisitor
 
   public Object visitOpText(OpText opText)
   {
-    if (opText.getDelta().size() > 0) {
-      printKeyword(ZString.DELTA);
-      printTermList(opText.getDelta());
-    }
+    visit(opText.getDeltaList());
     visit(opText.getSchText());
+    return null;
+  }
+
+  public Object visitDeltaList(DeltaList deltaList)
+  {
+    printKeyword(ZString.DELTA);
+    print(Sym.LPAREN);
+    printTermList(deltaList.getRefName());
+    print(Sym.RPAREN);
     return null;
   }
 
