@@ -578,7 +578,14 @@ abstract public class Checker
           //if the types don't agree, raise an error
           if (unified == FAIL) {
             //termA is not printed in some error messages
-            Object [] params = {second.getName(), firstType, secondType, termA};
+            Object [] params = null;
+	    if (termA != null) {
+	      params = new Object []
+		{second.getName(), termA, firstType, secondType};
+	    }
+	    else {
+	      params = new Object [] {second.getName(), firstType, secondType};
+	    }
             error(second.getName(), errorMessage, params);
           }
           //if the types do agree, we don't need the second declaration

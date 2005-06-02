@@ -114,7 +114,7 @@ public class ParaChecker
       List<NameTypePair> decls = list(cSig.getAttribute());
       List<NameTypePair> newDecls = signature.getNameTypePair();
       decls.addAll(newDecls);
-      checkForDuplicates(decls, para, ErrorMessage.INCOMPATIBLE_OVERRIDING);
+      checkForDuplicates(decls, null, ErrorMessage.INCOMPATIBLE_OVERRIDING);
       typeEnv().add(newDecls);
       attrDecls.addAll(newDecls);
     }
@@ -128,7 +128,7 @@ public class ParaChecker
       List<NameTypePair> decls = cSig.getState().getNameTypePair();
       List<NameTypePair> newDecls = signature.getNameTypePair();
       decls.addAll(newDecls);
-      checkForDuplicates(decls, state, ErrorMessage.INCOMPATIBLE_OVERRIDING);
+      checkForDuplicates(decls, null, ErrorMessage.INCOMPATIBLE_OVERRIDING);
     }
 
     //visit the initial predicate

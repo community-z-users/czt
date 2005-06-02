@@ -102,7 +102,7 @@ public class ExprChecker
     }
 
     //check for duplicate names
-    checkForDuplicates(pairs, schText);
+    checkForDuplicates(pairs, null);
 
     //the signature for this schema text
     Signature signature = factory().createSignature(pairs);

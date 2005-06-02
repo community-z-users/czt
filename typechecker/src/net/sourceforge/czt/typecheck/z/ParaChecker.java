@@ -280,7 +280,7 @@ public class ParaChecker
     }
 
     //check that the types of duplicate names agree
-    checkForDuplicates(pairs, schText);
+    checkForDuplicates(pairs, null);
 
     //exit the pending scope
     pending().exitScope();
