@@ -86,12 +86,15 @@ public class OpExprChecker
     ClassSig selfSig = selfType.getClassSig();
 
     //check that each name in the delta list is a primary variable
-    List<RefName> deltaList = opText.getDelta();
-    for (RefName delta : deltaList) {
-      DeclName declName = factory().createDeclName(delta);
-      if (!primary().contains(declName)) {
-        Object [] params = {delta};
-        error(delta, ErrorMessage.NON_PRIMDECL_IN_DELTALIST, params);
+    DeltaList deltaList = opText.getDeltaList();
+    if (deltaList != null) {
+      List<RefName> refNames = deltaList.getRefName();
+      for (RefName delta : refNames) {
+	DeclName declName = factory().createDeclName(delta);
+	if (!primary().contains(declName)) {
+	  Object [] params = {delta};
+	  error(delta, ErrorMessage.NON_PRIMDECL_IN_DELTALIST, params);
+	}
       }
     }
 
