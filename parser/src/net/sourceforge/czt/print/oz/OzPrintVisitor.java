@@ -72,7 +72,24 @@ public class OzPrintVisitor
 
   public Object visitState(State state)
   {
-    throw new UnsupportedOperationException();
+    if (Box.SchBox.equals(state.getBox())) {
+      print(net.sourceforge.czt.parser.oz.Sym.STATE);
+    }
+    else {
+      print(Sym.LSQUARE);
+    }
+
+    visit(state.getPrimaryDecl());
+    visit(state.getSecondaryDecl());
+    visit(state.getPred());
+
+    if (Box.SchBox.equals(state.getBox())) {
+      print(Sym.END);
+    }
+    else {
+      print(Sym.RSQUARE);
+    }
+    return null;
   }
 
   public Object visitPrimaryDecl(PrimaryDecl primaryDecl)
