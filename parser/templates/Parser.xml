@@ -886,7 +886,7 @@ terminal
         DEFFREE, DEFEQUAL, EXIONE,
         END, AX, SCH, GENSCH, GENAX, ZED,
 <add:zpatt>
-        JOKER, RULE, RULELINE, VDASH, PROVISO, GIVEN,
+        JOKER, RULE, RULELINE, VDASH, PROVISO,
 </add:zpatt>
 <add:circus>
         // What do I need to do in order to make the END suitable for \\end{circus}?
@@ -997,7 +997,6 @@ non terminal List /*DeclName*/
 non terminal DeclName
     name,
     declName,
-    defName,
     formalParameterName;
 
 non terminal List /*RefName*/ refNameList;
@@ -1180,11 +1179,11 @@ non terminal List /* Decl */
 non terminal InitialState
     initialState;
 
-non terminal TermA//Para
-    localDefinition;
+non terminal TermA
+    innerPara;
 
-non terminal List /*Para*/
-    localDefinitionList;
+non terminal List /*TermA*/
+    innerParaList;
 
 non terminal DeltaList
     deltaList;
@@ -1622,7 +1621,7 @@ axiomaticDefinition ::=
 //according to the Z ISO standard, an abbreviation definition is to be
 //treated as an axiomatic definition, with ConstDecl(dn,e)
 abbreviationDefinition ::=
-        defName:dn DEFEQUAL:equal expression:e
+        declName:dn DEFEQUAL:equal expression:e
         {:
            ConstDecl cd = factory_.createConstDecl(dn, e);
            addLocAnn(cd, equalleft, equalright);
@@ -1633,8 +1632,8 @@ abbreviationDefinition ::=
         :}
         |
         //TODO: check this. Should be name:n, but the toolkit won't parse
-        //"\langle \_ \rangle [X] == .... without this
-        defName:dn formalParameters:fp DEFEQUAL:equal expression:e
+        //"\langle \listarg \rangle [X] == .... without this
+        declName:dn formalParameters:fp DEFEQUAL:equal expression:e
         {:
            ConstDecl cd = factory_.createConstDecl(dn, e);
            addLocAnn(cd, equalleft, equalright);
@@ -1971,7 +1970,7 @@ varDecl ::=
         ;
 
 constDecl ::= 
-        defName:dn DEFEQUAL:defequal expression:e
+        declName:dn DEFEQUAL:defequal expression:e
         {:
            RESULT = factory_.createConstDecl(dn, e);
            addLocAnn(RESULT, defequalleft, defequalright);
@@ -2146,22 +2145,6 @@ declName ::=
            addLocAnn(RESULT, dwleft, dwright);
         :}
         |
-        opName:on
-        {:
-           RESULT = strListToDeclName(on);
-           addLocAnn(RESULT, onleft, onright);
-        :}
-        ;
-
-defName ::=
-<add:z>
-        DECORWORD:dw
-        {:
-           checkName(dw, dwleft, dwright);
-           RESULT = factory_.createDeclName(dw.getName());
-           addLocAnn(RESULT, dwleft, dwright);
-        :}
-</add:z>
 <add:oz>
         DEFNAME:dfn
         {:
@@ -2169,7 +2152,13 @@ defName ::=
            RESULT = factory_.createDeclName(dfn.getName());
            addLocAnn(RESULT, dfnleft, dfnright);
         :}
+        |
 </add:oz>
+        opName:on
+        {:
+           RESULT = strListToDeclName(on);
+           addLocAnn(RESULT, onleft, onright);
+        :}
         ;
 
 refNameList ::=
@@ -3074,7 +3063,7 @@ nameExprPairList ::=
         ;       
 
 nameExprPair ::=
-        defName:dn DEFEQUAL expression:e
+        declName:dn DEFEQUAL expression:e
         {: RESULT = factory_.createNameExprPair(dn, e); :}
         ;
 
@@ -3091,7 +3080,7 @@ letDefinitionList ::=
         ;       
 
 letDefinition ::=
-        defName:n DEFEQUAL:defequal expression:e
+        declName:n DEFEQUAL:defequal expression:e
         {:
            RESULT = factory_.createConstDecl(n,e);
            addLocAnn(RESULT, defequalleft, defequalright);
@@ -3857,23 +3846,38 @@ class ::=
         classHeader:ch optNL
             visibilityList:vl
             inheritedList:il
-            localDefinitionList:ldl
-//*****            state:s
-            initialState:is
+            innerParaList:ipl
             operationList:ol
         END
         {:
-State s = null;
-for (Iterator iter = ldl.iterator(); iter.hasNext(); ) {
-  Object next = iter.next();
-  if (next instanceof State) {
-    s = (State) next;
-    iter.remove();
-  }
-}
+           //local definitions, states, and initial states are all
+           //parsed as innerPara, because upon a LSQUARE of a 
+           //horizontal state schema, javacup will shift to
+           //a basicTypeDefinition
+           State s = null;
+           InitialState is = null;
+           for (Iterator iter = ipl.iterator(); iter.hasNext(); ) {
+             Object next = iter.next();
+             if (next instanceof State) {
+               if (s != null) {
+                 ParseMessage message = ParseMessage.MSG_DUPLICATE_STATE;
+                 parser.report_error(message.toString(), next);
+               }
+               s = (State) next;
+               iter.remove();
+             }
+             else if (next instanceof InitialState) {
+               if (is != null) {
+                 ParseMessage message = ParseMessage.MSG_DUPLICATE_INIT;
+                 parser.report_error(message.toString(), next);
+               }
+               is = (InitialState) next;
+               iter.remove();
+             }
+           }
            DeclName dn = (DeclName) ch.getFirst();
            List ofp = (List) ch.getSecond();
-           RESULT = factory_.createClassPara(dn, ofp, vl, il, ldl, s, is, ol);
+           RESULT = factory_.createClassPara(dn, ofp, vl, il, ipl, s, is, ol);
            addLocAnn(RESULT, chleft, chright);
         :}
         ;
@@ -3953,19 +3957,18 @@ inheritedClass ::=
         :} %prec _RENAME
         ;
 
-localDefinitionList ::=
-//        localDefinitionList:ldl optNL localDefinition:bld optNL
-        localDefinition:bld optNL localDefinitionList:ldl optNL
+innerParaList ::=
+        innerPara:ip optNL innerParaList:ipl
         {:
-           ldl.add(bld);
-           RESULT = ldl;
-        :} %prec RSQUARE
-	|
+           ipl.add(0, ip);
+           RESULT = ipl;
+        :}
+        |
         //empty
         {: RESULT = list(); :}
         ;
 
-localDefinition ::=
+innerPara ::=
         axiomaticDefinition:ad
         {: RESULT = ad; :}
         |
@@ -3986,14 +3989,12 @@ localDefinition ::=
         |
         state:s
         {: RESULT = s; :}
+        |
+        initialState:is
+        {: RESULT = is; :}
         ;
 
 state ::=
-/******
-        //empty
-        {: RESULT = null; :}
-        |
-*/
         STATE:s stateDecl:sd BAR predicate:p END
         {:
            List dp = (List) sd.getFirst();
@@ -4142,14 +4143,17 @@ secondaryDeclPart ::=
         ;
 
 initialState ::=
-        // empty
-        {: RESULT = null; :}
+        INIT:i predicate:p END
+        {:
+           RESULT = factory_.createInitialState(p, Box.SchBox);
+           addLocAnn(RESULT, ileft, iright);
+        :}
         |
-        INIT predicate:p END
-        {: RESULT = factory_.createInitialState(p, Box.SchBox); :}
-        |
-        INITWORD SDEF LSQUARE predicate:p RSQUARE
-        {: RESULT = factory_.createInitialState(p, Box.OmitBox); :}
+        INITWORD:iw SDEF LSQUARE predicate:p RSQUARE
+        {:
+           RESULT = factory_.createInitialState(p, Box.OmitBox);
+           addLocAnn(RESULT, iwleft, iwright);
+        :}
         ;
 
 operation ::=
