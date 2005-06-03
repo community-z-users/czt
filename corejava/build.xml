@@ -52,8 +52,7 @@
   <!-- build source files -->
 
   <target name="build-src"
-    depends="zchar, zstring"/>
-    <!--    depends="zchar, zstring, gen"/> -->
+    depends="zchar, zstring, gen"/>
 
   <target name="gen"
     depends="gen-ast, gen-jaxb"/>
