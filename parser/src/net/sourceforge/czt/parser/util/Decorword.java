@@ -159,4 +159,15 @@ public class Decorword
     }
     return null;
   }
+
+  public String toString()
+  {
+    StringBuffer result = new StringBuffer();
+    result.append(getWord());
+    for (int i = 0; i < getStrokes().length; i++) {
+      Stroke stroke = (Stroke) getStrokes()[i];
+      result.append(stroke.toString());
+    }
+    return result.toString();
+  }
 }

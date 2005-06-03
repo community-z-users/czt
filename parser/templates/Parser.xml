@@ -997,6 +997,7 @@ non terminal List /*DeclName*/
 non terminal DeclName
     name,
     declName,
+    defName,
     formalParameterName;
 
 non terminal List /*RefName*/ refNameList;
@@ -1103,7 +1104,7 @@ non terminal String
     erOrSr,
     esOrSs;
 
-non terminal Op 
+non terminal Op
     optNL;
 
 <add:zpatt>
@@ -1168,6 +1169,7 @@ non terminal State
     state;
 
 non terminal Pair
+    stateDeclNoExpression,
     stateDecl;
 
 non terminal List /* Decl */
@@ -1178,7 +1180,7 @@ non terminal List /* Decl */
 non terminal InitialState
     initialState;
 
-non terminal Para
+non terminal TermA//Para
     localDefinition;
 
 non terminal List /*Para*/
@@ -1620,7 +1622,7 @@ axiomaticDefinition ::=
 //according to the Z ISO standard, an abbreviation definition is to be
 //treated as an axiomatic definition, with ConstDecl(dn,e)
 abbreviationDefinition ::=
-        declName:dn DEFEQUAL:equal expression:e
+        defName:dn DEFEQUAL:equal expression:e
         {:
            ConstDecl cd = factory_.createConstDecl(dn, e);
            addLocAnn(cd, equalleft, equalright);
@@ -1632,7 +1634,7 @@ abbreviationDefinition ::=
         |
         //TODO: check this. Should be name:n, but the toolkit won't parse
         //"\langle \_ \rangle [X] == .... without this
-        declName:dn formalParameters:fp DEFEQUAL:equal expression:e
+        defName:dn formalParameters:fp DEFEQUAL:equal expression:e
         {:
            ConstDecl cd = factory_.createConstDecl(dn, e);
            addLocAnn(cd, equalleft, equalright);
@@ -1969,7 +1971,7 @@ varDecl ::=
         ;
 
 constDecl ::= 
-        declName:dn DEFEQUAL:defequal expression:e
+        defName:dn DEFEQUAL:defequal expression:e
         {:
            RESULT = factory_.createConstDecl(dn, e);
            addLocAnn(RESULT, defequalleft, defequalright);
@@ -2149,8 +2151,18 @@ declName ::=
            RESULT = strListToDeclName(on);
            addLocAnn(RESULT, onleft, onright);
         :}
+        ;
+
+defName ::=
+<add:z>
+        DECORWORD:dw
+        {:
+           checkName(dw, dwleft, dwright);
+           RESULT = factory_.createDeclName(dw.getName());
+           addLocAnn(RESULT, dwleft, dwright);
+        :}
+</add:z>
 <add:oz>
-        |
         DEFNAME:dfn
         {:
            checkName(dfn, dfnleft, dfnright);
@@ -3062,7 +3074,7 @@ nameExprPairList ::=
         ;       
 
 nameExprPair ::=
-        declName:dn DEFEQUAL expression:e
+        defName:dn DEFEQUAL expression:e
         {: RESULT = factory_.createNameExprPair(dn, e); :}
         ;
 
@@ -3079,7 +3091,7 @@ letDefinitionList ::=
         ;       
 
 letDefinition ::=
-        declName:n DEFEQUAL:defequal expression:e
+        defName:n DEFEQUAL:defequal expression:e
         {:
            RESULT = factory_.createConstDecl(n,e);
            addLocAnn(RESULT, defequalleft, defequalright);
@@ -3846,11 +3858,19 @@ class ::=
             visibilityList:vl
             inheritedList:il
             localDefinitionList:ldl
-            state:s
+//*****            state:s
             initialState:is
             operationList:ol
         END
         {:
+State s = null;
+for (Iterator iter = ldl.iterator(); iter.hasNext(); ) {
+  Object next = iter.next();
+  if (next instanceof State) {
+    s = (State) next;
+    iter.remove();
+  }
+}
            DeclName dn = (DeclName) ch.getFirst();
            List ofp = (List) ch.getSecond();
            RESULT = factory_.createClassPara(dn, ofp, vl, il, ldl, s, is, ol);
@@ -3934,11 +3954,12 @@ inheritedClass ::=
         ;
 
 localDefinitionList ::=
-        localDefinitionList:ldl optNL localDefinition:bld optNL
+//        localDefinitionList:ldl optNL localDefinition:bld optNL
+        localDefinition:bld optNL localDefinitionList:ldl optNL
         {:
            ldl.add(bld);
            RESULT = ldl;
-        :}
+        :} %prec RSQUARE
 	|
         //empty
         {: RESULT = list(); :}
@@ -3962,12 +3983,17 @@ localDefinition ::=
         |
         abbreviationDefinition:ad
         {: RESULT = ad; :}
+        |
+        state:s
+        {: RESULT = s; :}
         ;
 
 state ::=
+/******
         //empty
         {: RESULT = null; :}
         |
+*/
         STATE:s stateDecl:sd BAR predicate:p END
         {:
            List dp = (List) sd.getFirst();
@@ -3992,10 +4018,10 @@ state ::=
            addLocAnn(RESULT, lsqleft, lsqright);
         :}
         |
-        LSQUARE:lsq stateDecl:sd RSQUARE
+        LSQUARE:lsq stateDeclNoExpression:sdne RSQUARE
         {:
-           List dp = (List) sd.getFirst();
-           List sa = (List) sd.getSecond();
+           List dp = (List) sdne.getFirst();
+           List sa = (List) sdne.getSecond();
            RESULT = factory_.createState(dp, sa, null, Box.OmitBox);
            addLocAnn(RESULT, lsqleft, lsqright);
         :}
@@ -4009,6 +4035,26 @@ stateDecl ::=
         secondaryDeclPart:sdp
         {: RESULT = pair(list(), sdp); :}
         |
+        primaryDeclPart:pdp sep secondaryDeclPart:sdp
+        {: RESULT = pair(pdp, sdp); :}
+        ;
+
+stateDeclNoExpression ::=
+        //empty
+        {: RESULT = pair(list(), list()); :}
+        |
+        secondaryDeclPart:sdp
+        {: RESULT = pair(list(), sdp); :}
+        |
+        primaryDeclPart:pdp sep declaration:d
+        {: RESULT = pair(pdp, list()); :}
+        |
+        basicDeclaration:bd
+        {:
+           PrimaryDecl pd = factory_.createPrimaryDecl(bd);
+           RESULT = pair(list(pd), list());
+        :}
+        |        
         primaryDeclPart:pdp sep secondaryDeclPart:sdp
         {: RESULT = pair(pdp, sdp); :}
         ;
