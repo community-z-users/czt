@@ -108,6 +108,7 @@ public final class TypeCheckUtils
         //print any errors
         for (Object next : errors) {
           System.out.println(next);
+	  System.out.println();
           result = -1;
         }
       }
