@@ -57,35 +57,12 @@
   <target name="gen"
     depends="gen-ast, gen-jaxb"/>
 
-  <target name="gen-ast" depends="init, delete-cvs-ast" unless="ast.uptodate" 
+  <target name="gen-ast" depends="init" unless="ast.uptodate" 
     description="Generate AST classes and interfaces">
     <ant dir="../gnast" target="generate"/>
   </target>
 
-  <target name="delete-cvs-ast">
-    <delete dir="${corejava.src.dir}/net/sourceforge/czt/z/ast"/>
-    <delete dir="${corejava.src.dir}/net/sourceforge/czt/z/impl"/>
-    <delete file="${corejava.src.dir}/net/sourceforge/czt/z/util/Factory.java"/>
-    <delete dir="${corejava.src.dir}/net/sourceforge/czt/z/visitor"/>
-    <delete dir="${corejava.src.dir}/net/sourceforge/czt/oz/ast"/>
-    <delete dir="${corejava.src.dir}/net/sourceforge/czt/oz/impl"/>
-    <delete file="${corejava.src.dir}/net/sourceforge/czt/oz/util/Factory.java"/>
-    <delete dir="${corejava.src.dir}/net/sourceforge/czt/oz/visitor"/>
-    <delete dir="${corejava.src.dir}/net/sourceforge/czt/tcoz/ast"/>
-    <delete dir="${corejava.src.dir}/net/sourceforge/czt/tcoz/impl"/>
-    <delete file="${corejava.src.dir}/net/sourceforge/czt/tcoz/util/Factory.java"/>
-    <delete dir="${corejava.src.dir}/net/sourceforge/czt/tcoz/visitor"/>
-    <delete dir="${corejava.src.dir}/net/sourceforge/czt/circus/ast"/>
-    <delete dir="${corejava.src.dir}/net/sourceforge/czt/circus/impl"/>
-    <delete file="${corejava.src.dir}/net/sourceforge/czt/circus/util/Factory.java"/>
-    <delete dir="${corejava.src.dir}/net/sourceforge/czt/circus/visitor"/>
-    <delete dir="${corejava.src.dir}/net/sourceforge/czt/zpatt/ast"/>
-    <delete dir="${corejava.src.dir}/net/sourceforge/czt/zpatt/impl"/>
-    <delete file="${corejava.src.dir}/net/sourceforge/czt/zpatt/util/Factory.java"/>
-    <delete dir="${corejava.src.dir}/net/sourceforge/czt/zpatt/visitor"/>
-  </target>
-
-  <target name="gen-jaxb" depends="pre, delete-cvs-jaxb, install-base"
+  <target name="gen-jaxb" depends="pre, install-base"
     description="Generate Jaxb classes">
     <taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
       <classpath>
@@ -110,25 +87,6 @@
       <produces dir="${corejava.build.src}/org"
         includes="**"/>
     </xjc>
-  </target>
-
-  <target name="delete-cvs-jaxb">
-    <delete dir="${corejava.src.dir}/org"/>
-    <delete dir="${corejava.src.dir}/net/sourceforge/czt/z/jaxb/gen"/>
-    <delete file="${corejava.src.dir}/net/sourceforge/czt/z/jaxb/AstToJaxb.java"/>
-    <delete file="${corejava.src.dir}/net/sourceforge/czt/z/jaxb/JaxbToAst.java"/>
-    <delete dir="${corejava.src.dir}/net/sourceforge/czt/oz/jaxb/gen"/>
-    <delete file="${corejava.src.dir}/net/sourceforge/czt/oz/jaxb/AstToJaxb.java"/>
-    <delete file="${corejava.src.dir}/net/sourceforge/czt/oz/jaxb/JaxbToAst.java"/>
-    <delete dir="${corejava.src.dir}/net/sourceforge/czt/tcoz/jaxb/gen"/>
-    <delete file="${corejava.src.dir}/net/sourceforge/czt/tcoz/jaxb/AstToJaxb.java"/>
-    <delete file="${corejava.src.dir}/net/sourceforge/czt/tcoz/jaxb/JaxbToAst.java"/>
-    <delete dir="${corejava.src.dir}/net/sourceforge/czt/circus/jaxb/gen"/>
-    <delete file="${corejava.src.dir}/net/sourceforge/czt/circus/jaxb/AstToJaxb.java"/>
-    <delete file="${corejava.src.dir}/net/sourceforge/czt/circus/jaxb/JaxbToAst.java"/>
-    <delete dir="${corejava.src.dir}/net/sourceforge/czt/zpatt/jaxb/gen"/>
-    <delete file="${corejava.src.dir}/net/sourceforge/czt/zpatt/jaxb/AstToJaxb.java"/>
-    <delete file="${corejava.src.dir}/net/sourceforge/czt/zpatt/jaxb/JaxbToAst.java"/>
   </target>
 
   <target name="pre" depends="preZ, preZPatt, preOZ, preTCOZ, preCircus"
