@@ -99,5 +99,7 @@ See http://xml.apache.org/forrest/linking.html for more info
     <gnomefonts href="http://www.gnome.org/fonts"/>
     <font-howto href="http://www.linux.org/docs/ldp/howto/Font-HOWTO/"/>
     <ttfonts href="http://linux.org.mt/article/ttfonts"/>
+    <velocity href="http://jakarta.apache.org/velocity/"/>
+    <xalan href=" http://xml.apache.org/xalan-j/"/>
   </external-refs>
 </site>

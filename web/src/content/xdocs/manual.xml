@@ -81,6 +81,42 @@
       </section>
     </section>
     <section>
+      <title>Sources from CVS</title>
+      <p>
+        If you are really feeling adventurous, you can try to build
+        CZT using the sources from CVS.  See the
+        <link href="site:cztcvsinfo">
+          documentation about CVS on sourceforge
+        </link>
+        for more information about how to access the CZT repository.
+      </p>
+      <p>
+        Starting from 3 June 2005, the corejava AST classes are no
+        no longer in the CVS repository but must be generated using
+        the code generator gnast, which is included in the CVS
+        repository.  The same applies to the JAXB generated classes.
+        This requires that, in addition to the software mentioned
+        above, you will need to install
+        <ul>
+          <li>
+            <link href="site:velocity">Velocity 1.4</link>
+          </li>
+          <li>
+            <link href="site:xalan">XalanJ 2.5.0</link>
+          </li>
+        </ul>
+        and customise the file
+        <code>czt.properties</code>
+        appropriately to build CZT from source.
+      </p>
+      <p>
+        Run
+        <code>ant</code> in the top level directory.
+        If this is not working report a bug at
+        <link href="site:development">Sourceforge</link>.
+      </p>
+    </section>
+    <section>
       <title>Installing the CZT jEdit plugin</title>
       <p>
         First make sure jEdit is really using Java 1.5,
