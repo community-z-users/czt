@@ -69,6 +69,9 @@ public class TypeChecker
   //the list of errors thrown by retrieving type info
   protected List errors_;
 
+  //allow variable use before declaration
+  protected boolean useBeforeDecl_;
+
   //the RefExprs that have a ParameterAnn annotated to them
   protected List<RefExpr> refExprs_;
 
@@ -101,7 +104,15 @@ public class TypeChecker
 
   public TypeChecker(ZFactory zFactory,
                      SectionInfo sectInfo,
-		     Markup markup)
+                     Markup markup)
+  {
+    this(zFactory, sectInfo, markup, false);
+  }
+
+  public TypeChecker(ZFactory zFactory,
+                     SectionInfo sectInfo,
+                     Markup markup,
+                     boolean useBeforeDecl)
   {
     zFactory_ = new Factory(zFactory);
     sectInfo_ = sectInfo;
@@ -113,6 +124,7 @@ public class TypeChecker
     carrierSet_ = new CarrierSet();
     errors_ = new java.util.ArrayList();
     refExprs_ = new java.util.ArrayList<RefExpr>();
+    useBeforeDecl_ = useBeforeDecl;
     specChecker_ = new SpecChecker(this);
     paraChecker_ = new ParaChecker(this);
     declChecker_ = new DeclChecker(this);

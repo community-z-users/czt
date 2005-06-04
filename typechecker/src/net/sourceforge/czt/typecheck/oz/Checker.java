@@ -104,8 +104,8 @@ abstract public class Checker
   }
 
   protected void error(TermA termA,
-		       net.sourceforge.czt.typecheck.z.ErrorMessage error,
-		       Object [] params)
+                       net.sourceforge.czt.typecheck.z.ErrorMessage error,
+                       Object [] params)
   {
     ErrorAnn errorAnn = this.errorAnn(termA, error.toString(), params);
     error(termA, errorAnn);
@@ -115,7 +115,7 @@ abstract public class Checker
   {
     ErrorAnn errorAnn = new ErrorAnn(error.toString(), params, sectInfo(),
                                      sectName(), nearestLocAnn(termA),
-				     markup());
+                                     markup());
     return errorAnn;
   }
 
@@ -123,7 +123,7 @@ abstract public class Checker
   {
     ErrorAnn errorAnn = new ErrorAnn(error, params, sectInfo(),
                                      sectName(), nearestLocAnn(termA),
-				     markup());
+                                     markup());
     return errorAnn;
   }
 
@@ -407,9 +407,9 @@ abstract public class Checker
 
       if (classRef != null) {
         List<Type2> types = classRef.getType2();
-	for (int i = 0; i < types.size(); i++) {
-	  Type2 replaced = instantiate(types.get(i));
-	  types.set(i, replaced);
+        for (int i = 0; i < types.size(); i++) {
+          Type2 replaced = instantiate(types.get(i));
+          types.set(i, replaced);
         }
       }
 

@@ -114,13 +114,9 @@ public class SpecChecker
       }
     }
 
-    if (!sectTypeEnv().getSecondTime()) {
+    if (useBeforeDecl() && !sectTypeEnv().getSecondTime()) {
       for (RefExpr refExpr : refExprs()) {
-	removeAnn(refExpr, ParameterAnn.class);
-	Object undecAnn = refExpr.getAnn(UndeclaredAnn.class);
-	if (undecAnn != null) {
-	  //refExpr.accept(exprChecker());
-	}
+        removeAnn(refExpr, ParameterAnn.class);
       }
       errors().clear();
       removeErrorAndTypeAnns(zSect);

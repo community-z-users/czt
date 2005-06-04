@@ -176,11 +176,11 @@ public class SectTypeEnv
 
   /**
    * Add a <code>NameSectTypeTriple</code> to this environment.
-   * @return false if and only if this name is already declared
+   * @return true if and only if this name is not a duplicate
    */
   public boolean add(NameSectTypeTriple triple)
   {
-    boolean result = false;
+    boolean result = true;
 
     //if not already declared, add this declaration to the environment
     NameSectTypeTriple existing = getTriple(triple.getName());
@@ -202,7 +202,7 @@ public class SectTypeEnv
 
   /**
    * Add a <code>NameTypePair</code> to this environment.
-   * @return false if and only if this name is already declared
+   * @return true if and only if this name is not a duplicate
    */
   public boolean add(NameTypePair nameTypePair)
   {
@@ -211,7 +211,7 @@ public class SectTypeEnv
 
   public boolean add(DeclName declName, Type type)
   {
-    boolean result = false;
+    boolean result = true;
 
     for (NameSectTypeTriple triple : typeInfo_) {
       if (triple.getName().equals(declName)) {
@@ -220,7 +220,7 @@ public class SectTypeEnv
       }
     }
 
-    if (!result) {
+    if (result) {
       NameSectTypeTriple insert =
         factory_.createNameSectTypeTriple(declName, section_, type);
       typeInfo_.add(insert);

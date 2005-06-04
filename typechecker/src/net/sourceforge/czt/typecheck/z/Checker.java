@@ -302,10 +302,10 @@ abstract public class Checker
   {
     for (Object ann : termA.getAnns()) {
       if (ann instanceof ErrorAnn) {
-	ErrorAnn existingAnn = (ErrorAnn) ann;
-	if (errorAnn.getErrorMessage().equals(existingAnn.getErrorMessage())) {
-	  return;
-	}
+        ErrorAnn existingAnn = (ErrorAnn) ann;
+        if (errorAnn.getErrorMessage().equals(existingAnn.getErrorMessage())) {
+          return;
+        }
       }
     }
     termA.getAnns().add(errorAnn);
@@ -334,7 +334,7 @@ abstract public class Checker
   {
     ErrorAnn errorAnn = new ErrorAnn(error, params, sectInfo(),
                                      sectName(), nearestLocAnn(termA),
-				     termA, markup());
+                                     termA, markup());
     return errorAnn;
   }
 
@@ -510,6 +510,11 @@ abstract public class Checker
     return typeChecker_.refExprs_;
   }
 
+  protected boolean useBeforeDecl()
+  {
+    return typeChecker_.useBeforeDecl_;
+  }
+
   //the logger instance
   protected Logger logger()
   {
@@ -579,13 +584,13 @@ abstract public class Checker
           if (unified == FAIL) {
             //termA is not printed in some error messages
             Object [] params = null;
-	    if (termA != null) {
-	      params = new Object []
-		{second.getName(), termA, firstType, secondType};
-	    }
-	    else {
-	      params = new Object [] {second.getName(), firstType, secondType};
-	    }
+            if (termA != null) {
+              params = new Object []
+                {second.getName(), termA, firstType, secondType};
+            }
+            else {
+              params = new Object [] {second.getName(), firstType, secondType};
+            }
             error(second.getName(), errorMessage, params);
           }
           //if the types do agree, we don't need the second declaration
@@ -1008,7 +1013,7 @@ abstract public class Checker
       TermA termA = (TermA) term;
       Object ann = termA.getAnn(TypeAnn.class);
       if (ann != null) {
-	removeAnn(termA, ann);
+        removeAnn(termA, ann);
       }
     }
 
@@ -1017,7 +1022,7 @@ abstract public class Checker
     for (int i = 0; i < children.length; i++) {
       Object next = children[i];
       if (next != null && next instanceof Term) {
-	removeTypeAnns((Term) next);
+        removeTypeAnns((Term) next);
       }
     }
   }
@@ -1029,8 +1034,8 @@ abstract public class Checker
       TermA termA = (TermA) term;
       Object ann = termA.getAnn(ErrorAnn.class);
       while (ann != null) {
-	removeAnn(termA, ann);
-	ann = termA.getAnn(ErrorAnn.class);
+        removeAnn(termA, ann);
+        ann = termA.getAnn(ErrorAnn.class);
       }
     }
   }
@@ -1042,12 +1047,12 @@ abstract public class Checker
       TermA termA = (TermA) term;
       Object ann = termA.getAnn(TypeAnn.class);
       if (ann != null) {
-	removeAnn(termA, ann);
+        removeAnn(termA, ann);
       }
       ann = termA.getAnn(ErrorAnn.class);
       while (ann != null) {
-	removeAnn(termA, ann);
-	ann = termA.getAnn(ErrorAnn.class);
+        removeAnn(termA, ann);
+        ann = termA.getAnn(ErrorAnn.class);
       }
     }
 
@@ -1056,7 +1061,7 @@ abstract public class Checker
     for (int i = 0; i < children.length; i++) {
       Object next = children[i];
       if (next != null && next instanceof Term) {
-	removeErrorAndTypeAnns((Term) next);
+        removeErrorAndTypeAnns((Term) next);
       }
     }
   }

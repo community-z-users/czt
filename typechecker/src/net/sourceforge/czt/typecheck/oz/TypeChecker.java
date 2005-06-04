@@ -52,7 +52,7 @@ public class TypeChecker
     this(info.zFactory_.getZFactory(),
          info.ozFactory_.getOzFactory(),
          info.sectInfo_,
-	 info.markup_);
+         info.markup_);
   }
 
   public TypeChecker(SectionInfo sectInfo)
@@ -60,7 +60,7 @@ public class TypeChecker
     this(new ZFactoryImpl(),
          new OzFactoryImpl(),
          sectInfo,
-	 Markup.UNICODE);
+         Markup.UNICODE);
   }
 
   public TypeChecker(SectionInfo sectInfo, Markup markup)
@@ -68,15 +68,24 @@ public class TypeChecker
     this(new ZFactoryImpl(),
          new OzFactoryImpl(),
          sectInfo,
-	 markup);
+         markup);
   }
 
   public TypeChecker(ZFactory zFactory,
                      OzFactory ozFactory,
                      SectionInfo sectInfo,
-		     Markup markup)
+                     Markup markup)
   {
-    super(sectInfo, markup);
+    this(zFactory, ozFactory, sectInfo, markup, false);
+  }
+
+  public TypeChecker(ZFactory zFactory,
+                     OzFactory ozFactory,
+                     SectionInfo sectInfo,
+                     Markup markup,
+                     boolean useBeforeDecl)
+  {
+    super(zFactory, sectInfo, markup, useBeforeDecl);
     ozFactory_ = new Factory(zFactory, ozFactory);
     sectInfo_ = sectInfo;
     unificationEnv_ = new UnificationEnv(zFactory);

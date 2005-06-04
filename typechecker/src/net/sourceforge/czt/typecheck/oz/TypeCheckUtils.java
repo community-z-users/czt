@@ -39,86 +39,89 @@ import net.sourceforge.czt.typecheck.z.util.*;
  *
  * @author Petra Malik, Tim Miller
  */
-public final class TypeCheckUtils
+public class TypeCheckUtils
+  extends net.sourceforge.czt.typecheck.z.TypeCheckUtils
 {
   /**
    * Do not generate instances of this class.
    */
-  private TypeCheckUtils()
+  protected TypeCheckUtils()
   {
   }
 
   /**
    * Typecheck and type annotate a file.
-   * @param term the term to typecheck.
-   * @return the list of ErrorAnns in the AST added by the typechecker.
+   * @param term the <code>Term</code> to typecheck.
+   * @param sectInfo the <code>SectionInfo</code> object to use.
+   * @param markup the <code>Markup</code> of the specification.
+   * returns the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List typecheck(Term term,
                                SectionInfo sectInfo,
-			       Markup markup)
+                               Markup markup)
+  {
+    TypeCheckUtils utils = new TypeCheckUtils();
+    return utils.lTypecheck(term, sectInfo, markup, false);
+  }
+
+  /**
+   * Typecheck and type annotate a file.
+   * @param term the <code>Term</code> to typecheck.
+   * @param sectInfo the <code>SectionInfo</code> object to use.
+   * @param markup the <code>Markup</code> of the specification.
+   * @param useBeforeDecl allow use of variables before declaration
+   * returns the list of ErrorAnns in the AST added by the typechecker.
+   */
+  public static List typecheck(Term term,
+                               SectionInfo sectInfo,
+                               Markup markup,
+                               boolean useBeforeDecl)
+  {
+    TypeCheckUtils utils = new TypeCheckUtils();
+    return utils.lTypecheck(term, sectInfo, markup, useBeforeDecl);
+  }
+
+  protected List lTypecheck(Term term,
+                               SectionInfo sectInfo,
+                               Markup markup,
+                               boolean useBeforeDecl)
   {
     ZFactory zFactory = new ZFactoryImpl();
     OzFactory ozFactory = new OzFactoryImpl();
     TypeChecker typeChecker =
-      new TypeChecker(zFactory, ozFactory, sectInfo, markup);
+      new TypeChecker(zFactory, ozFactory, sectInfo, markup, useBeforeDecl);
     typeChecker.visitTerm(term);
     return typeChecker.errors();
+  }
+
+  protected List lTypecheck(Term term,
+                                SectionInfo sectInfo,
+                                Markup markup)
+  {
+    return lTypecheck(term, sectInfo, markup, false);
+  }
+
+  protected Term parse(Source src, SectionInfo sectInfo)
+    throws IOException, net.sourceforge.czt.parser.util.ParseException
+  {
+    return ParseUtils.parse(src, sectInfo);
+  }
+
+  protected Term parse(String file, SectionInfo sectInfo)
+    throws IOException, net.sourceforge.czt.parser.util.ParseException
+  {
+    return ParseUtils.parse(file, sectInfo);
+  }
+
+  protected String name()
+  {
+    return "oztypecheck";
   }
 
   public static void main(String[] args)
     throws IOException
   {
-    if (args.length == 0) {
-      System.err.println("usage: oztypechecker [-s] filename ...");
-      System.exit(0);
-    }
-
-    List<String> files = new java.util.ArrayList<String>();
-    boolean typecheck = true;
-
-    for (int i = 0; i < args.length; i++) {
-      if ("-s".equals(args[i])) {
-        typecheck = false;
-      }
-      else {
-        files.add(args[i]);
-      }
-    }
-
-    int result = 0;
-    SectionManager manager = new SectionManager();
-    manager.putCommand(ZSect.class, ParseUtils.getCommand());
-    manager.putCommand(LatexMarkupFunction.class, ParseUtils.getCommand());
-    for (String file : files) {
-      //parse the file
-      Term term = null;
-      try {
-        if (file.endsWith(".error")) {
-	  Source src = new FileSource(file);
-          term = ParseUtils.parse(src, manager);
-        }
-        else {
-          term = ParseUtils.parse(file, manager);
-        }
-      }
-      catch (net.sourceforge.czt.parser.util.ParseException exception) {
-        exception.printErrorList();
-      }
-
-      //if the parse succeeded, typecheck the term
-      if (term != null && typecheck) {
-	Markup markup = ParseUtils.getMarkup(file);
-        List errors = TypeCheckUtils.typecheck(term, manager, markup);
-
-        //print any errors
-        for (Object next : errors) {
-          System.out.println(next);
-          System.out.println();
-          result = -1;
-        }
-      }
-    }
-
-    System.exit(result);
+    TypeCheckUtils utils = new TypeCheckUtils();
+    utils.run(args);
   }
 }
