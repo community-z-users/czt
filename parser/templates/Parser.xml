@@ -1875,6 +1875,7 @@ channelPara ::=
         CIRCCHAN:chan declPart:dp
         {:  
            //RESULT = factory_.createChannelPara(null, dp);  TODO:
+           RESULT = factory_.createChannelPara();
            addLocAnn(RESULT, chanleft, chanright);
         :}                
         ;
