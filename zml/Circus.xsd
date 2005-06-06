@@ -87,8 +87,7 @@
   <xs:element name="ChannelPara" type="CIRCUS:ChannelPara" substitutionGroup="Z:Para">
     <xs:annotation>
       <xs:documentation>
-        A channel declaration that introduces channel names
-        with corresponding types. 
+        A channel declaration that introduces channel names with corresponding types, possibly generic. 
         Channels are used in process definitions.
       </xs:documentation>
     </xs:annotation>
@@ -152,7 +151,7 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="IntersectChannelSet" type="CIRCUS:ChannelSet2" substitutionGroup="CIRCUS:ChannelSet2">
+  <xs:element name="IntersectionChannelSet" type="CIRCUS:ChannelSet2" substitutionGroup="CIRCUS:ChannelSet2">
     <xs:annotation>
       <xs:documentation>
         Set intersection over channel set expressions.
@@ -184,7 +183,7 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="IndexedProcessDesc" type="CIRCUS:ParamProcessDesc" substitutionGroup="CIRCUS:ParamProcessDesc">
+  <xs:element name="IndexedProcessDesc" type="CIRCUS:ParamProcessDesc" substitutionGroup="CIRCUS:ProcessDesc">
     <xs:annotation>
       <xs:documentation>
         An indexed process description.
@@ -298,7 +297,7 @@
   <xs:element name="CallProcess" type="CIRCUS:CallProcess" substitutionGroup="CIRCUS:ProcessDef">
     <xs:annotation>
       <xs:documentation>
-      	Circus process reference call. 
+      	Circus process reference call. In other words, it permits a name to be a process.
       	It contains a reference name to lookup the process definition.
       	Moreover, it contains a list of expressions and an attribute defining the kind of call this reference is related too.
       	An empty list of expressions means a simple process call ``N''.
@@ -372,19 +371,33 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="InterleaveProcessR" type="CIRCUS:ProcessR" substitutionGroup="CIRCUS:ProcessR">
+  <xs:element name="ParProcessR" type="CIRCUS:ParProcessR" substitutionGroup="CIRCUS:ProcessR" abstract="true">
+		<xs:annotation>
+			<xs:documentation>
+				Abstract circus replicated parallel process.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+  <xs:element name="InterleaveProcessR" type="CIRCUS:ParProcessR" substitutionGroup="CIRCUS:ParProcessR">
     <xs:annotation>
       <xs:documentation>
         Circus process for replicated interleaving.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="ParallelProcessR" type="CIRCUS:ParallelProcessR" substitutionGroup="CIRCUS:ProcessR">
+  <xs:element name="ParallelProcessR" type="CIRCUS:ParallelProcessR" substitutionGroup="CIRCUS:ParProcessR">
     <xs:annotation>
       <xs:documentation>
         Circus process for replicated parallel composition.
       </xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="AlphabetisedParallelProcessR" type="CIRCUS:AlphabetisedParallelProcessR" substitutionGroup="CIRCUS:ParProcessR">
+		<xs:annotation>
+			<xs:documentation>
+				Circus process for alphabetised replicated parallel composition.
+			</xs:documentation>
+		</xs:annotation>
   </xs:element>
 
   <!-- Process Definition :: Unary :: Declaration :: Replicated :: Indexed -->
@@ -409,19 +422,35 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="InterleaveProcessRI" type="CIRCUS:ProcessRI" substitutionGroup="CIRCUS:ProcessRI">
+  
+  <xs:element name="ParProcessRI" type="CIRCUS:ParProcessRI" substitutionGroup="CIRCUS:ProcessRI" abstract="true">
+		<xs:annotation>
+			<xs:documentation>
+				Abstract circus indexed replicated parallel process.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+  
+  <xs:element name="InterleaveProcessRI" type="CIRCUS:ParProcessRI" substitutionGroup="CIRCUS:ParProcessRI">
     <xs:annotation>
       <xs:documentation>
         Circus process for indexed and replicated interleaving.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="ParallelProcessRI" type="CIRCUS:ParallelProcessRI" substitutionGroup="CIRCUS:ProcessRI">
+  <xs:element name="ParallelProcessRI" type="CIRCUS:ParallelProcessRI" substitutionGroup="CIRCUS:ParProcessRI">
     <xs:annotation>
       <xs:documentation>
         Circus process for indexed and replicated parallel composition.
       </xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="AlphabetisedParallelProcessRI" type="CIRCUS:AlphabetisedParallelProcessRI" substitutionGroup="CIRCUS:ParProcessRI">
+		<xs:annotation>
+			<xs:documentation>
+				Circus process for alphabetised indexed and replicated parallel composition.
+			</xs:documentation>
+		</xs:annotation>
   </xs:element>
 
   <!-- Process Definition :: Binary -->
@@ -446,18 +475,32 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="InterleaveProcess" type="CIRCUS:Process2" substitutionGroup="CIRCUS:Process2">
+  <xs:element name="ParProcess" type="CIRCUS:ParProcess" substitutionGroup="CIRCUS:Process2" abstract="true">
+		<xs:annotation>
+			<xs:documentation>
+				Abstract circus process for parallel operators.
+			</xs:documentation>
+		</xs:annotation>
+  </xs:element>
+  <xs:element name="InterleaveProcess" type="CIRCUS:ParProcess" substitutionGroup="CIRCUS:ParProcess">
     <xs:annotation>
       <xs:documentation>
         Circus process for interleaving.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="ParallelProcess" type="CIRCUS:ParallelProcess" substitutionGroup="CIRCUS:Process2">
+  <xs:element name="ParallelProcess" type="CIRCUS:ParallelProcess" substitutionGroup="CIRCUS:ParProcess">
     <xs:annotation>
       <xs:documentation>
         Circus process for parallel composition;
         it includes the synchronisation set.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="AlphabetisedParallelProcess" type="CIRCUS:AlphabetisedParallelProcess" substitutionGroup="CIRCUS:ParProcess">
+    <xs:annotation>
+      <xs:documentation>
+        Circus alphabetised parallel process; it includes the two alphabets as channel sets.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -495,7 +538,7 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="SetNameSet" type="CIRCUS:SetNameSet" substitutionGroup="CIRCUS:NameSet">
+  <xs:element name="BasicNameSet" type="CIRCUS:BasicNameSet" substitutionGroup="CIRCUS:NameSet">
     <xs:annotation>
       <xs:documentation>
         A name set expression containing user state name set partition
@@ -717,19 +760,34 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="InterleaveActionR" type="CIRCUS:ActionR" substitutionGroup="CIRCUS:ActionR">
+  <xs:element name="ParActionR" type="CIRCUS:ParActionR" abstract="true" substitutionGroup="CIRCUS:ActionR">
+		<xs:annotation>
+			<xs:documentation>
+				An abstract parallel replicated action definition.
+				it includes the name set partitions of the state.
+			</xs:documentation>
+		</xs:annotation>
+  </xs:element>
+  <xs:element name="InterleaveActionR" type="CIRCUS:ParActionR" substitutionGroup="CIRCUS:ParActionR">
     <xs:annotation>
       <xs:documentation>
         Circus action for replicated interleaving.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="ParallelActionR" type="CIRCUS:ParallelActionR" substitutionGroup="CIRCUS:ActionR">
+  <xs:element name="ParallelActionR" type="CIRCUS:ParallelActionR" substitutionGroup="CIRCUS:ParActionR">
     <xs:annotation>
       <xs:documentation>
         Circus action for replicated parallel composition.
       </xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="AlphabetisedParallelActionR" type="CIRCUS:AlphabetisedParallelActionR" substitutionGroup="CIRCUS:ParActionR">
+	    <xs:annotation>
+	      <xs:documentation>
+	        Circus action for alphabetised replicated parallel composition.
+	      </xs:documentation>
+	    </xs:annotation>
   </xs:element>
 
   <!-- CSP Action :: Binary -->
@@ -777,13 +835,24 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
+  <xs:element name="AlphabetisedParallelAction" type="CIRCUS:AlphabetisedParallelAction" substitutionGroup="CIRCUS:ParAction">
+		<xs:annotation>
+			<xs:documentation>
+				Alphabetised Parallel composition between two actions;
+				it includes the channel set expression for both alphabets as synchronisation sets.
+			</xs:documentation>
+		</xs:annotation>
+  </xs:element>
 
   <!-- CSP Communication --> 
   <xs:element name="Communication" type="CIRCUS:Communication">
     <xs:annotation>
       <xs:documentation>
-        A CSP communication that is part of a prefixing.
+        A CSP communication that is part of a prefixing. If the communicating channel has been 
+        declared with generic types, the communication must carry the generic actual expressions.
         It can be either a communication for synchronisation, input, output, or mixed.
+        The semantics of dot (c.x) and output (c!x) is equivalent. For some applications, 
+        their evaluation can be done differently however.         
         Synchronisation has no fields. Input and Output has only input or output fields repectively. 
         Finally, mixed communication has both input and output fields, for example in "c?x:P!v -> A".
       </xs:documentation>
@@ -806,7 +875,19 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="OutputField" type="CIRCUS:OutputField" substitutionGroup="CIRCUS:Field">
+  <xs:element name="DotField" type="CIRCUS:DotField" substitutionGroup="CIRCUS:Field">
+		<xs:annotation>
+			<xs:documentation>
+				A CSP parameter that is part of a communication and contains an expression. 
+				In general, the "dot" is treated as output communication.
+				Depending on the purpose of use, this can be considered as a reading or writing synchronisation point, for instance.
+				Another example is in CSP_M and FDR where "dot" field is used for resolved expressions, whereas "output field" can
+				be used for expressions yet to be resolved. Roscoe's give some insight on further interesting possibilities that
+				motivates such differentiation in his CSP book (p.27).
+			</xs:documentation>
+		</xs:annotation>
+  </xs:element>
+  <xs:element name="OutputField" type="CIRCUS:DotField" substitutionGroup="CIRCUS:DotField">
     <xs:annotation>
       <xs:documentation>
         A CSP parameter that is part of an output communication.
@@ -968,12 +1049,22 @@
     </xs:annotation>
   </xs:element>  
     
-  <xs:element name="Arc" type="CIRCUS:Arc" substitutionGroup="Z:Expr">
+  <xs:element name="ArcExpr" type="Z:Expr2N" substitutionGroup="Z:SetExpr">
 		<xs:annotation>
 			<xs:documentation>
-				An arc expression used by the Circus compiler and operational semantics. It is not meant to be parsed.
-				However, it can be used to represent in ZML cached compilation sessions, as well as to allow events
-				(whithin arcs) to be part of the Z:Expr hierarchy tree.
+				An arc extension expression.
+				An arc extension expression is used by the Circus compiler and operational semantics. 
+				It is not meant to be parsed. However, it can be used: (i) to represent in ZML cached compilation 
+				sessions; (ii) to allow events (whithin arcs) to be part of the Z:Expr hierarchy tree; and
+				(iii) into symbolic execution and evaluation of arcs. See ArcCompExpr for a more expressible version.
+			</xs:documentation>
+		</xs:annotation>
+  </xs:element>  
+  
+  <xs:element name="ArcCompExpr" type="Z:QntExpr" substitutionGroup="Z:SetCompExpr">
+		<xs:annotation>
+			<xs:documentation>
+				An arc comprehension expression. See ArcExpr for a simple version by extension.
 			</xs:documentation>
 		</xs:annotation>
   </xs:element>  
@@ -986,6 +1077,8 @@
     <xs:complexContent>
       <xs:extension base="Z:Para">
         <xs:sequence>
+        	<!-- Generic types -->
+        	<xs:element ref="Z:DeclName" minOccurs="0" maxOccurs="unbounded"/>
           <!-- Channel names could have strokes but some restrictions
                might apply to avoid "?" or "!" for instance.
                This should be checked by code. -->
@@ -1090,7 +1183,8 @@
 		<xs:complexContent>
 			<xs:extension base="CIRCUS:ProcessDesc">
 				<xs:sequence>
-					<xs:element ref="Z:VarDecl" minOccurs="1" maxOccurs="unbounded"/>
+					<!-- Changed from VarDecl to Decl as one could use schema inclusion. ConstDecl is rulled out by the parser -->
+					<xs:element ref="Z:Decl" minOccurs="1" maxOccurs="unbounded"/>
 					<xs:element ref="CIRCUS:ProcessDesc"/>
 				</xs:sequence>
 			</xs:extension>
@@ -1112,28 +1206,39 @@
              to put here xs:any instead? -->
         <xs:sequence>          
           <!-- Reference to a previously declared schema name; must enforce that the schema name is within the Z:Para -->
-          <xs:element name="StateSchemaRefName" type="Z:RefName"/>
-          <xs:element ref="Z:Para" minOccurs="0" maxOccurs="unbounded">
+          <!-- 
+          Originally we had here a Z:RefName pointing to a previously declared schema name. Although that is usually 
+          the case, it is also possible to have a Schema expression, such as conjunction, as the state schema!
+          Therefore, we need to have a Z:Expr instead. For the usual cases, the Z:Expr will be a Z:RefExpr.          
+          
+          From the parsing rules, we reached a convention that is as follows:
+					State schemas can be defined using AxPara (Schema), Horizontal def (Schema) or on-the-fly with a Schema expression
+					such as S \land T. For the first two cases, we already have a declared "name" to refer to whereas for the last case
+					"ex: \circstate\ S \land T", we translate the on-the-fly description to the following convention:
+					"ex: \circstate\ \begin{schema}{[ProcessName]_$$state} S \land T\end{schema}
+          -->
+          <xs:element name="StateSchema" type="Z:RefName"/>
+          <xs:element name="ZPara" type="Z:Para" minOccurs="0" maxOccurs="unbounded">
 	          <xs:annotation>
 							<xs:appinfo>
-								<jaxb:property name="DeclZParagraphs"/>
+								<jaxb:property name="ZPara"/>
 							</xs:appinfo>
             </xs:annotation>
           </xs:element>          
-          <xs:element name="DeclActions" type="CIRCUS:ActionPara" minOccurs="0" maxOccurs="unbounded">          
+          <xs:element name="CircusActionPara" type="CIRCUS:ActionPara" minOccurs="0" maxOccurs="unbounded">
+          	<xs:annotation>
+							<xs:appinfo>
+								<jaxb:property name="CircusActionPara"/>
+							</xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+					<xs:element name="CircusNameSetPara" type="CIRCUS:NameSetPara" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:appinfo>
-								<jaxb:property name="DeclActions"/>
+								<jaxb:property name="CircusNameSetPara"/>
 							</xs:appinfo>
 						</xs:annotation>
-					 </xs:element>
-							<xs:element name="DeclNameSets" type="CIRCUS:NameSetPara" minOccurs="0" maxOccurs="unbounded">          
-							<xs:annotation>
-								<xs:appinfo>
-									<jaxb:property name="DeclNameSets"/>
-								</xs:appinfo>
-							</xs:annotation>
-					</xs:element>
+          </xs:element>
           <xs:element ref="CIRCUS:Action">
             <xs:annotation>
               <xs:appinfo>
@@ -1216,6 +1321,27 @@
 		<xs:complexContent>
 			<xs:extension base="CIRCUS:ProcessDef">
 				<xs:sequence>
+				  <!-- For on-the-fly ParamProc/IndexProc the refname is empty and the call type MUST NOT be NORMAL 
+				  		
+				  		CallType Invariants:				  		
+				  		
+				  		Nomal -> getRefName() != null && getExpr.isEmpty();
+				  			* Normal calls cannot be from a process defined on-the-fly or with parameters.
+				  		Index,
+				  		Param -> !getExpr.isEmpty()
+				  								getRefName() == null \implies on-the-fly
+				  								getRefName() != null \implies previously defined as Para.
+				  								
+				  			* Indexed/Parameterised processes must have at least one parameter.
+				  			  The refname defines if they were declared on-the-fly or through a 
+				  			  previously declared process.
+				  			  
+				  		Gen   -> getRefName() != null 
+				  			* Generic type instantiation must be on previoulsly declared processes.
+				  			  Note that we could have nesting of calls here in the case of generic 
+				  			  type instantiation of a process call itself.
+				  			  
+				  -->
 					<xs:element ref="Z:RefName"/>
 					<xs:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>					
 				</xs:sequence>
@@ -1274,36 +1400,127 @@
   </xs:complexType>
 
   <!-- Process Definition :: Unary :: Declaration :: Replicated -->
+  <xs:complexType name="ParProcessR">
+		<xs:complexContent>
+			<xs:extension base="CIRCUS:ProcessR">
+			</xs:extension>
+		</xs:complexContent>
+  </xs:complexType>
+  
   <xs:complexType name="ParallelProcessR">
     <xs:complexContent>
-      <xs:extension base="CIRCUS:ProcessR">
+      <xs:extension base="CIRCUS:ParProcessR">
         <xs:sequence>
           <xs:element ref="CIRCUS:ChannelSet"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="AlphabetisedParallelProcessR">
+		<xs:complexContent>
+			<xs:extension base="CIRCUS:ParProcessR">
+				<xs:sequence>
+					<xs:element ref="CIRCUS:ChannelSet">
+						<xs:annotation>
+							<xs:appinfo>
+								<jaxb:property name="LeftAlpha"/>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ref="CIRCUS:ChannelSet">
+						<xs:annotation>
+							<xs:appinfo>
+								<jaxb:property name="RightAlpha"/>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
   </xs:complexType>
 
   <!-- Process Definition :: Unary :: Declaration :: Replicated :: Indexed -->
-  <xs:complexType name="ParallelProcessRI">
+  <xs:complexType name="ParProcessRI">
+		<xs:complexContent>
+			<xs:extension base="CIRCUS:ProcessRI">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ParallelProcessRI">
+		<xs:complexContent>
+			<xs:extension base="CIRCUS:ParProcessRI">
+				<xs:sequence>
+					<xs:element ref="CIRCUS:ChannelSet"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="AlphabetisedParallelProcessRI">
+		<xs:complexContent>
+			<xs:extension base="CIRCUS:ParProcessRI">
+				<xs:sequence>
+					<xs:element ref="CIRCUS:ChannelSet">
+						<xs:annotation>
+							<xs:appinfo>
+								<jaxb:property name="LeftAlpha"/>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ref="CIRCUS:ChannelSet">
+						<xs:annotation>
+							<xs:appinfo>
+								<jaxb:property name="RightAlpha"/>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+  </xs:complexType>
+  
+  <!-- Process Definition :: Binary -->
+  
+  <xs:complexType name="ParProcess">
+		<xs:complexContent>
+			<xs:extension base="CIRCUS:Process2">
+			</xs:extension>
+		</xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="ParallelProcess">
     <xs:complexContent>
-      <xs:extension base="CIRCUS:ProcessRI">
+      <xs:extension base="CIRCUS:ParProcess">
         <xs:sequence>
           <xs:element ref="CIRCUS:ChannelSet"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-
-  <!-- Process Definition :: Binary -->
-  <xs:complexType name="ParallelProcess">
-    <xs:complexContent>
-      <xs:extension base="CIRCUS:Process2">
-        <xs:sequence>
-          <xs:element ref="CIRCUS:ChannelSet"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
+  
+  <xs:complexType name="AlphabetisedParallelProcess">
+		<xs:complexContent>
+			<xs:extension base="CIRCUS:ParProcess">
+				<xs:sequence>
+					<xs:element ref="CIRCUS:ChannelSet">
+						<xs:annotation>
+							<xs:appinfo>
+								<jaxb:property name="LeftAlpha"/>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ref="CIRCUS:ChannelSet">
+						<xs:annotation>
+							<xs:appinfo>
+								<jaxb:property name="RightAlpha"/>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
   </xs:complexType>
 
   <!-- Process Paragraphs complexTypes -->
@@ -1334,7 +1551,7 @@
       <xs:extension base="Z:TermA"/>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="SetNameSet">
+  <xs:complexType name="BasicNameSet">
     <xs:complexContent>
       <xs:extension base="CIRCUS:NameSet">
         <xs:sequence>
@@ -1420,8 +1637,13 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:Action">
         <xs:sequence>
-          <!-- Z:SchExpr instead of SchText because we want a schema action to be an expression. -->
-          <xs:element ref="Z:SchExpr"/>          
+          <!-- 
+          Z:Expr instead of Z:SchExpr or SchText because we want a schema action to be an expression. 
+          That means, we can have a schema definition as well as an expression using schemas (as in 
+          Spivey's SchExpr tree - that is not in the Z-Standard. From the CZT, these are reflected as 
+          Z:SchExpr, Z:SchExpr2, and Z:HideExpr.
+          -->          
+          <xs:element ref="Z:Expr"/>
         </xs:sequence>
         <xs:attribute name="IsState" type="xs:boolean" use="optional" default="false"/>
       </xs:extension>
@@ -1543,30 +1765,60 @@
   </xs:complexType>
 
   <!-- CSP Action complexType :: Unary :: Declaration :: Replicated -->
-  <xs:complexType name="ParallelActionR">
-    <xs:complexContent>
-      <xs:extension base="CIRCUS:ActionR">
-        <xs:sequence>
-          <xs:element ref="CIRCUS:NameSet">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="LeftNameSet"/>
-              </xs:appinfo>
-            </xs:annotation>
+  <xs:complexType name="ParActionR">
+		<xs:complexContent>
+			<xs:extension base="CIRCUS:ActionR">
+				<xs:sequence>
+					<xs:element ref="CIRCUS:NameSet">
+						<xs:annotation>
+							<xs:appinfo>
+								<jaxb:property name="LeftNameSet"/>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ref="CIRCUS:NameSet">
+						<xs:annotation>
+							<xs:appinfo>
+								<jaxb:property name="RightNameSet"/>
+							</xs:appinfo>
+						</xs:annotation>
           </xs:element>
-          <xs:element ref="CIRCUS:NameSet">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="RightNameSet"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element ref="CIRCUS:ChannelSet"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
   </xs:complexType>
-
+  <xs:complexType name="ParallelActionR">
+	    <xs:complexContent>
+	      <xs:extension base="CIRCUS:ParActionR">
+	        <xs:sequence>
+	          <xs:element ref="CIRCUS:ChannelSet"/>
+	        </xs:sequence>
+	      </xs:extension>
+	    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AlphabetisedParallelActionR">
+		<xs:complexContent>
+			<xs:extension base="CIRCUS:ParActionR">
+				<xs:sequence>
+					<xs:element ref="CIRCUS:ChannelSet">
+						<xs:annotation>
+							<xs:appinfo>
+								<jaxb:property name="LeftAlpha"/>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ref="CIRCUS:ChannelSet">
+						<xs:annotation>
+							<xs:appinfo>
+								<jaxb:property name="RightAlpha"/>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+  
   <!-- CSP Action complexType :: Binary -->
   <xs:complexType name="ParAction">
     <xs:complexContent>
@@ -1599,6 +1851,28 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  <xs:complexType name="AlphabetisedParallelAction">
+	    <xs:complexContent>
+	      <xs:extension base="CIRCUS:ParAction">
+					<xs:sequence>
+						<xs:element ref="CIRCUS:ChannelSet">
+							<xs:annotation>
+								<xs:appinfo>
+									<jaxb:property name="LeftAlpha"/>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+						<xs:element ref="CIRCUS:ChannelSet">
+							<xs:annotation>
+								<xs:appinfo>
+									<jaxb:property name="RightAlpha"/>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+	      </xs:extension>
+	    </xs:complexContent>
+  </xs:complexType>
 
   <!-- CSP Communication complexType -->
   <xs:complexType name="Communication">
@@ -1606,6 +1880,13 @@
       <xs:extension base="Z:TermA">
         <xs:sequence>
           <xs:element name="ChanName" type="Z:RefName"/>
+          <xs:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded">
+	          <xs:annotation>
+							<xs:appinfo>
+								<jaxb:property name="GenActuals"/>
+							</xs:appinfo>
+						</xs:annotation>
+          </xs:element>          
           <xs:element ref="CIRCUS:Field" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
               <xs:appinfo>
@@ -1619,6 +1900,12 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>  
+  <!-- Invariant: 
+  			Synch = getFields().isEmpty() 
+  			Input = !getFields().isEmpty() && forall getField().get(i) instanceof InputField  			
+  			Output= !getFields().isEmpty() && forall getField().get(i) instanceof OutputField || getField().get(i) instanceof DotField
+  			Mixed = !getFields().isEmpty() && there are more than one class: InputField, (OutputField/DotField).
+  	-->
   <xs:simpleType name="CommType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="Synch"/>
@@ -1650,7 +1937,7 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="OutputField">
+  <xs:complexType name="DotField">
     <xs:complexContent>
       <xs:extension base="CIRCUS:Field">
         <xs:sequence>
@@ -1915,32 +2202,6 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
-  </xs:complexType>
-		
-	<xs:complexType name="Arc">
-		<xs:complexContent>
-			<xs:extension base="Z:Expr">
-				<xs:sequence>
-					<xs:element name="ChannelName" type="Z:DeclName"/>					
-					<xs:element ref="Z:Expr">
-						<xs:annotation>
-							<xs:appinfo>
-								<jaxb:property name="DefiningSet"/>
-							</xs:appinfo>
-						</xs:annotation>
-					</xs:element>					
-					<!--
-					<xs:element ref="Z:Expr">
-						<xs:annotation>
-							<xs:appinfo>
-								<jaxb:property name="CharacteristicExpr"/>
-							</xs:appinfo>
-						</xs:annotation>
-					</xs:element>
-					-->
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-  </xs:complexType>    
+  </xs:complexType>			
   
 </xs:schema>
