@@ -1874,7 +1874,7 @@ varg ::=
 channelPara ::= 
         CIRCCHAN:chan declPart:dp
         {:  
-           RESULT = factory_.createChannelPara(dp); 
+           //RESULT = factory_.createChannelPara(null, dp);  TODO:
            addLocAnn(RESULT, chanleft, chanright);
         :}                
         ;
