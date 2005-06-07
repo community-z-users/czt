@@ -82,7 +82,7 @@ public class Rewrite
     if (prover.prove(predSequent)) {
       // TODO: Copy and remove joker before returning?
       // This should also check whether there are unbound jokers left.
-      return joker.getBinding().getExpr();
+      return joker.getBinding().getExpr().accept(new RemoveJokerVisitor());
     }
     return newExpr;
   }
@@ -98,4 +98,26 @@ public class Rewrite
     Rewrite visitor = new Rewrite(rules);
     return (Term) term.accept(visitor);
   }
+}
+
+class RemoveJokerVisitor
+  implements TermVisitor
+{
+  public Object visitTerm(Term term)
+  {
+    if (term instanceof Joker) {
+      Joker joker = (Joker) term;
+      Term boundTo = joker.boundTo();
+      if (boundTo == null) {
+        throw new UnboundJokerException();
+      }
+      return boundTo;
+    }
+    return VisitorUtils.visitTerm(this, term, true);
+  }
+}
+
+class UnboundJokerException
+  extends RuntimeException
+{
 }
