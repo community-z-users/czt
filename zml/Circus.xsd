@@ -17,7 +17,8 @@
       This XML schema defines XML markup for formal specifications 
       written in Circus, a concurrent language for refinement that
       combines CSP, Z and the refinement calculus.
-      More information at http://www.cs.york.ac.uk/~leo.
+      More information at <a href="http://www.cs.york.ac.uk/~circus">Circus main web page</a>
+      or at <a href="http://www.cs.york.ac.uk/~leo">the author'ss web page</a>.
 
       This file is part of the Community Z Tools (CZT) project.
  
