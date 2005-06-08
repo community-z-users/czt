@@ -1,0 +1,3 @@
+#!/bin/sh
+source `dirname $0`/../bin/settings.sh
+java -classpath `dirname $0`:${JWSDP}:${JAVA_CUP}:${TYPECHECKER}:${PARSER}:${COREJAVA}:../lib/ui.jar net.sourceforge.czt.ui.RewriteEngine "$@"
