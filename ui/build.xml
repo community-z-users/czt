@@ -1,0 +1,81 @@
+<project name="CZT User Interface" default="all">
+  <property name="czt.home" location=".."/>
+  <property file="${czt.home}/czt.properties"/>
+  <property name="ui.jar.dir" location="${czt.home}/${jar.dir}"/>
+  <property name="ui.jar.file" location="${ui.jar.dir}/ui.jar"/>
+  <property name="ui.src.dir" location="src/main/java"/>
+  <property name="ui.build.dir" location="build"/>
+  <property name="ui.api.dir" location="doc/api"/>
+
+  <path id="classpath">
+    <pathelement path="${jwsdp.classpath}"/>
+    <pathelement location="${typecheck.build.dir}"/>
+    <pathelement location="${czt.home}/${jar.dir}/${corejava.base.jar.file}"/>
+    <pathelement location="${czt.home}/${jar.dir}/${corejava.core.jar.file}"/>
+    <pathelement location="${czt.home}/${jar.dir}/${corejava.jaxb.jar.file}"/>
+    <pathelement location="${czt.home}/${jar.dir}/${corejava.zpatt.jar.file}"/>
+    <pathelement location="${czt.home}/${jar.dir}/${parser.jar.file}"/>
+    <pathelement location="${czt.home}/${jar.dir}/${java_cup.jar.file}"/>    
+    <pathelement location="${czt.home}/${jar.dir}/${typechecker.jar.file}"/>
+    <pathelement path="${java.class.path}"/>
+  </path>
+
+  <target name="init">
+    <tstamp/>
+    <mkdir dir="${ui.build.dir}"/>
+  </target>
+
+  <target name="all" depends="install, doc"
+    description="build the jar files and the documentation"/>
+
+  <target name="install" depends="compile"
+          description="build and install the jar files">
+    <mkdir dir="${ui.jar.dir}"/>
+    <jar jarfile="${ui.jar.file}">
+      <fileset dir="${ui.build.dir}"/>
+    </jar>
+  </target>
+
+  <target name="compile" depends="init"
+          description="compile the sources">
+    <javac
+      srcdir="${ui.src.dir}"
+      destdir="${ui.build.dir}"
+      debug="${debug}"
+      debuglevel="${debuglevel}"
+      optimize="${optimize}">
+      <classpath refid="classpath"/>
+    </javac>
+  </target>
+
+  <target name="doc" depends="api"
+    description="build all the documentation"/>
+
+  <target name="api"
+          description="build the API documentation">
+    <mkdir dir="${ui.api.dir}"/>
+    <javadoc
+      destdir="${ui.api.dir}"
+      private="true">
+      <packageset dir="${ui.src.dir}"/>
+      <tag name="czt.todo" description="To do:"/>
+      <classpath refid="classpath"/>
+    </javadoc>
+  </target>
+
+  <target name="checkstyle" description="check java sources">
+    <taskdef resource="checkstyletask.properties"
+      classpath="${checkstyle.jar}"/>
+    <checkstyle config="${czt.home}/devtools/checkstyle.xml">
+      <fileset dir="${ui.src.dir}"/>
+      <formatter type="plain"/>
+    </checkstyle>
+  </target>
+
+  <target name="clean"
+          description="clean up">
+    <delete dir="${ui.build.dir}"/>
+    <delete dir="${ui.api.dir}"/>
+    <ant dir="tests" target="clean"/>
+  </target>
+</project>
