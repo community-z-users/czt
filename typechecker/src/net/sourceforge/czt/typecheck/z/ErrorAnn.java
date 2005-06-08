@@ -179,6 +179,7 @@ public class ErrorAnn
       }
       catch (Exception e) {
         String message = "Cannot be printed";
+	e.printStackTrace();
         return message;
       }
     }
@@ -187,7 +188,7 @@ public class ErrorAnn
 
   protected CarrierSet getCarrierSet()
   {
-    return new CarrierSet(false);
+    return new CarrierSet(true);
   }
 
   protected void print(Term term,

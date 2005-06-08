@@ -845,6 +845,9 @@ abstract public class Checker
 
       result = prodType;
     }
+    else if (type instanceof UnknownType) {
+      result = type;
+    }
     return result;
   }
 
@@ -881,7 +884,7 @@ abstract public class Checker
   }
 
   //add generic types from a list of DeclNames to the TypeEnv
-  protected void addGenParamTypes(List<DeclName> declNames)
+  public void addGenParamTypes(List<DeclName> declNames)
   {
     typeEnv().addParameters(declNames);
 
@@ -926,11 +929,19 @@ abstract public class Checker
       if (!instanceOf(sectTypeEnvType, UnknownType.class)) {
         type = (Type) factory().cloneTerm(sectTypeEnvType);
       }
+      else {
+	UnknownType uType = (UnknownType) sectTypeEnvType;
+	RefExpr refExpr = uType.getRefExpr();
+	if (refExpr != null &&  !name.equals(refExpr.getRefName())) {
+	  type = resolveUnknownType(uType);
+	}
+      }
     }
 
     //if not in any of the environments, return a variable type with the
     //specified name
-    if (type instanceof UnknownType) {
+    if (type instanceof UnknownType && 
+	unknownType(type).getRefExpr() == null) {
       //add an UndeclaredAnn
       UndeclaredAnn ann = new UndeclaredAnn();
       name.getAnns().add(ann);
@@ -940,6 +951,37 @@ abstract public class Checker
       removeAnn(name, UndeclaredAnn.class);
     }
     return type;
+  }
+
+  protected Type2 resolveUnknownType(Type2 type)
+  {
+    Type2 result = type;    
+    if (sectTypeEnv().getSecondTime() && type instanceof UnknownType) {
+      UnknownType uType = (UnknownType) type;
+      if (uType.getRefExpr() != null) {
+	Type lookup = getType(uType.getRefExpr().getRefName());
+	typeEnv().enterScope();
+	if (lookup instanceof GenericType) {
+	  GenericType gType = (GenericType) lookup;
+	  List<DeclName> declNames = gType.getName();
+	  for (DeclName declName : declNames) {
+	    GenParamType paramType = factory().createGenParamType(declName);
+	    PowerType powerType = factory().createPowerType(paramType);
+	    typeEnv().add(declName, powerType);
+	  }
+	}
+	
+	Type2 refType = (Type2) uType.getRefExpr().accept(exprChecker());
+	if (uType.getIsMem() && refType instanceof PowerType) {
+	  result = powerType(refType).getType();
+	}
+	else if (!uType.getIsMem()) {
+	  result = refType;
+	}
+	typeEnv().exitScope();
+      }
+    }
+    return result;
   }
 
   //get a name/type pair corresponding with a particular name

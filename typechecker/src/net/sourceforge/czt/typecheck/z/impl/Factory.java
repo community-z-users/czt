@@ -53,11 +53,11 @@ public class Factory
     for (int i = 0; i < children.length; i++) {
       Object next = children[i];
       if (next != null && next instanceof Term) {
-        Term nextTerm = (Term) next;
-        args[i] = cloneTerm(nextTerm);
+	Term nextTerm = (Term) next;
+	args[i] = cloneTerm(nextTerm);
       }
       else {
-        args[i] = children[i];
+	args[i] = children[i];
       }
     }
     Term result = term.create(args);

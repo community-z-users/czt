@@ -122,7 +122,7 @@ public class PostChecker
       refExpr.getExpr().addAll(exprs);
       removeAnn(refExpr, pAnn);
     }
-
+    /*
     //check that the type of this RefExpr is determined
     TypeAnn typeAnn = getTypeAnn(refExpr);
     Type2 type = unwrapType(typeAnn.getType());
@@ -136,7 +136,7 @@ public class PostChecker
       addAnn(refExpr, errorAnn);
       return errorAnn;
     }
-
+    */
     return null;
   }
 

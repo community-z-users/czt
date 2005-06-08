@@ -313,12 +313,6 @@ public class ExprChecker
             List<NameTypePair> pairs = classSig.getAttribute();
             pair = findNameTypePair(selectName, pairs);
           }
-          else {
-            //System.err.println("found in state = " + pair.getType());
-            //System.err.println("*********");
-            //System.err.println(toString(exprType));
-            //System.err.println("*********");
-          }
 
           //if it is not in the state or attributes, raise an error
           if (pair == null) {
@@ -343,11 +337,12 @@ public class ExprChecker
       }
     }
 
-    //System.err.println(format(bindSelExpr) + " : " + type);
-    //System.err.println("\t" + format(expr) + " : " + exprType);
+    //try to resolve this type if it is unknown
+    type = resolveUnknownType(type);
 
     //add the type annotation
     addTypeAnn(bindSelExpr, type);
+
     return type;
   }
 

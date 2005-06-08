@@ -109,7 +109,7 @@ public class UnknownType
 
   public Object [] getChildren()
   {
-    Object [] children = { getRefExpr() };
+    Object [] children = { getRefExpr(), new Boolean(getIsMem()) };
     return children;
   }
 
@@ -128,7 +128,9 @@ public class UnknownType
     try {
       zedObject = new UnknownType();
       RefExpr refExpr = (RefExpr) args[0];
+      Boolean isMem = (Boolean) args[1];
       zedObject.setRefExpr(refExpr);
+      zedObject.setIsMem(isMem);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -144,7 +146,14 @@ public class UnknownType
     String result = "unknown";
 
     if (refExpr_ != null) {
-      result += "(" + refExpr_.getRefName() + ")";
+      result += "(";
+      if (getIsMem()) {
+	result += "member(";
+      }
+      result += refExpr_.getRefName() + ")";
+      if (getIsMem()) {
+	result += ")";
+      }      
     }
     return result;
   }

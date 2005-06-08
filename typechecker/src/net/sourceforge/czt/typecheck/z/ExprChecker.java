@@ -221,6 +221,20 @@ public class ExprChecker
     //add the type annotation
     addTypeAnn(refExpr, type);
 
+    if (useBeforeDecl()) {
+      if (type instanceof GenericType) {
+	GenericType gType = (GenericType) type;
+	GenericType newType =
+	  factory().createGenericType(gType.getName(),
+				      gType.getType(),
+				      null);
+	sectTypeEnv().update(refName, newType);
+      }
+      else {
+	sectTypeEnv().update(refName, type);
+      }
+    }
+
     Type2 result = unwrapType(type);
     return result;
   }

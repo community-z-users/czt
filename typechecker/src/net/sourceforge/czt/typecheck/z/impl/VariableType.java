@@ -168,7 +168,7 @@ public class VariableType
   {
     final int constant = 31;
 
-    int hashCode = super.hashCode();
+    int hashCode = 0;
     hashCode += "VariableType".hashCode();
     if (declName_ != null) {
       hashCode += constant * declName_.hashCode();

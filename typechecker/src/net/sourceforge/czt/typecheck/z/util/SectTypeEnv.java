@@ -78,17 +78,12 @@ public class SectTypeEnv
   /** The function of all sections to their immediate parents. */
   protected Map<String, Set<String>> parents_;
 
-  /** An ExprChecker for determininig unknown references. */
-  protected ExprChecker exprChecker_;
-
-  protected Set<DeclName> expanded_;
-
-  public SectTypeEnv(ExprChecker exprChecker)
+  public SectTypeEnv()
   {
-    this(new ZFactoryImpl(), exprChecker);
+    this(new ZFactoryImpl());
   }
 
-  public SectTypeEnv(ZFactory zFactory, ExprChecker exprChecker)
+  public SectTypeEnv(ZFactory zFactory)
   {
     factory_ = new Factory(zFactory);
     typeInfo_ = new ArrayList<NameSectTypeTriple>();
@@ -97,7 +92,6 @@ public class SectTypeEnv
     visibleSections_ = new HashSet<String>();
     checkedSections_ = new HashSet<String>();
     parents_ = new HashMap<String, Set<String>>();
-    exprChecker_ = exprChecker;
   }
 
   /**
@@ -114,15 +108,6 @@ public class SectTypeEnv
   public void setSecondTime(boolean secondTime)
   {
     secondTime_ = secondTime;
-    if (secondTime_) {
-      expanded_ = new HashSet<DeclName>();
-      //dump();
-      long st = System.currentTimeMillis();
-      expandTypes();
-      long endt = System.currentTimeMillis();
-      //System.err.println("time = " + (endt - st));
-      //dump();
-    }
   }
 
   public boolean getSecondTime()
@@ -255,6 +240,24 @@ public class SectTypeEnv
     }
 
     return result;
+  }
+
+  public boolean update(RefName refName, Type type)
+  {
+    NameSectTypeTriple triple = getTriple(refName);
+    if (triple != null) {
+      triple.setType(type);
+    }
+    else {
+      DeclName declName = factory_.createDeclName(refName.getWord(),
+						  refName.getStroke(),
+						  null);
+      NameSectTypeTriple insert =
+        factory_.createNameSectTypeTriple(declName, section_, type);
+      typeInfo_.add(insert);
+    }
+
+    return true;
   }
 
   public List<NameSectTypeTriple> getNameSectTypeTriple()
@@ -414,74 +417,6 @@ public class SectTypeEnv
       for (String parent : parents) {
         Set<String> transitiveParents = getTransitiveParents(parent);
         result.addAll(transitiveParents);
-      }
-    }
-    return result;
-  }
-
-  private void expandTypes()
-  {
-    for (NameSectTypeTriple next : typeInfo_) {
-      if (!contains(TOOLKITS, next.getSect())) {
-        if (!expanded_.contains(next.getName())) {
-          Type newType = (Type) updateType(next.getName(), next.getType());
-          next.setType(newType);
-        }
-      }
-    }
-  }
-
-  private Term updateType(DeclName declName, Term type)
-  {
-    Term result = factory_.createUnknownType();
-    if (type instanceof UnknownType) {
-      UnknownType uType = (UnknownType) type;
-      if (uType.getRefExpr() != null) {
-        RefName refName = uType.getRefExpr().getRefName();
-        DeclName name = factory_.createDeclName(refName.getWord(),
-                                                refName.getStroke(),
-                                                null);
-        if (!expanded_.contains(name)) {
-          NameSectTypeTriple triple = getTriple(refName);
-          Type newType = (Type) updateType(triple.getName(), triple.getType());
-          triple.setType(newType);
-        }
-        Type2 lookup = (Type2) uType.getRefExpr().accept(exprChecker_);
-        if (uType.getIsMem() && lookup instanceof PowerType) {
-          PowerType powerType = (PowerType) lookup;
-          result = powerType.getType();
-        }
-        else {
-          result = lookup;
-        }
-      }
-    }
-    else {
-      Object [] children = type.getChildren();
-      Object [] args = new Object [children.length];
-      for (int i = 0; i < children.length; i++) {
-        Object child = children[i];
-        if (child instanceof Term && child != type && child != null) {
-          args[i] = updateType(declName, (Term) child);
-        }
-        else {
-          args[i] = child;
-        }
-      }
-      result = type.create(args);
-    }
-    expanded_.add(declName);
-    return result;
-  }
-
-  protected boolean contains(Object [] array, Object obj)
-  {
-    assert obj != null;
-    boolean result = false;
-    for (int i = 0; i < array.length; i++) {
-      if (obj.equals(array[i])) {
-        result = true;
-        break;
       }
     }
     return result;

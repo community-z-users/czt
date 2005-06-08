@@ -55,7 +55,7 @@ public class ErrorAnn
 
   protected CarrierSet getCarrierSet()
   {
-    return new CarrierSet(false);
+    return new CarrierSet(true);
   }
 
   protected void print(Term term,

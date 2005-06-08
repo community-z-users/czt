@@ -150,7 +150,11 @@ public class CarrierSet
 
   public Object visitUnknownType(UnknownType unknownType)
   {
-    RefName refName = zFactory_.createRefName("unknown", list(), null);
+    if (!allowVariableTypes_) {
+      throw new UndeterminedTypeException();
+    }
+    RefName refName =
+      zFactory_.createRefName(unknownType.toString(), list(), null);
     RefExpr result = zFactory_.createRefExpr(refName, list(), Boolean.FALSE);
     return result;
   }

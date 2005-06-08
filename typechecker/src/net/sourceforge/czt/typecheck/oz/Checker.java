@@ -26,6 +26,7 @@ import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.oz.util.OzString;
 import net.sourceforge.czt.typecheck.z.util.*;
+import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.oz.impl.*;
 
 /**
@@ -541,13 +542,13 @@ abstract public class Checker
     return new net.sourceforge.czt.typecheck.oz.util.CarrierSet();
   }
 
-  protected String toString(Type type)
+  public static String toString(Type type)
   {
     String result = new String();
-    if (type instanceof PowerType &&
-        powerType(type).getType() instanceof ClassRefType) {
-      ClassRefType ctype = (ClassRefType) powerType(type).getType();
-      result = classRefTypeToString(ctype);
+    if (unwrapType(type) instanceof PowerType &&
+        powerType(unwrapType(type)).getType() instanceof ClassRefType) {
+      ClassRefType ctype = (ClassRefType) powerType(unwrapType(type)).getType();
+      result = "P " + classRefTypeToString(ctype);
     }
     else if (type instanceof ClassRefType) {
       ClassRefType ctype = (ClassRefType) type;
@@ -559,21 +560,25 @@ abstract public class Checker
     return result;
   }
 
-  protected String classRefTypeToString(ClassRefType ctype)
+  public static String classRefTypeToString(ClassRefType ctype)
   {
     String result = new String();
-    result += "CLASS " + ctype.getThisClass().getRefName() + "\n";
+    RefName className = ctype.getThisClass().getRefName();
+    result += "(CLASS " + className + ")\n";
+    /*
     ClassSig csig = ctype.getClassSig();
-    result += "\tATTR\n";
+    result += "\tATTR(" + className + ")\n";
     for (Object o : csig.getAttribute()) {
       NameTypePair pair = (NameTypePair) o;
       result += "\t\t" + pair.getName() + " : " + pair.getType() + "\n";
     }
-    result += "\tSTATE\n";
+    result += "\tSTATE(" + className + ")\n";
     for (Object o : csig.getState().getNameTypePair()) {
       NameTypePair pair = (NameTypePair) o;
-      result += "\t\t" + pair.getName() + " : " + pair.getType() + "\n";
+      result += "\t\t" + pair.getName() + " : " + toString(pair.getType()) + "\n";
     }
+    result += ")";
+    */
     return result;
   }
 }
