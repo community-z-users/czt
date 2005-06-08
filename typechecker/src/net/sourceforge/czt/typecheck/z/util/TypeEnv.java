@@ -111,9 +111,7 @@ public class TypeEnv
 
   public Type getType(RefName name)
   {
-    DeclName unknownName = factory_.createDeclName(name);
-
-    Type result = factory_.createUnknownType(unknownName);
+    Type result = factory_.createUnknownType();
 
     //get the info for this name
     NameTypePair pair = getPair(name);

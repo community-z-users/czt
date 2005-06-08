@@ -46,6 +46,12 @@ public class CarrierSet
     ozFactory_ = new net.sourceforge.czt.oz.impl.OzFactoryImpl();
   }
 
+  public CarrierSet(boolean allowVariableTypes)
+  {
+    this();
+    allowVariableTypes_ = allowVariableTypes;
+  }
+
   public CarrierSet(ZFactory zFactory, OzFactory ozFactory)
   {
     super(zFactory);

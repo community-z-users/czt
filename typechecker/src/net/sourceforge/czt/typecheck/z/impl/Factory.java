@@ -74,9 +74,9 @@ public class Factory
       TermA termA2 = (TermA) term2;
       LocAnn locAnn = (LocAnn) termA1.getAnn(LocAnn.class);
       if (locAnn != null) {
-	termA2.getAnns().add(locAnn);
+        termA2.getAnns().add(locAnn);
       }
-    }   
+    }
   }
 
   public PowerType createPowerType()
@@ -183,9 +183,9 @@ public class Factory
     return new UnknownType();
   }
 
-  public UnknownType createUnknownType(DeclName declName)
+  public UnknownType createUnknownType(RefExpr refExpr)
   {
-    return new UnknownType(declName);
+    return new UnknownType(refExpr);
   }
 
   public TypeAnn createTypeAnn()

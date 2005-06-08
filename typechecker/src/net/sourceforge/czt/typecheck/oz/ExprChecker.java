@@ -265,7 +265,7 @@ public class ExprChecker
 
     //add the type annotation
     addTypeAnn(containmentExpr, type);
-    return type;			      
+    return type;
   }
 
   public Object visitPredExpr(PredExpr predExpr)
@@ -302,7 +302,7 @@ public class ExprChecker
       else if (exprType instanceof ClassType) {
         ClassType classType = (ClassType) exprType;
         ClassSig classSig = classType.getClassSig();
-	RefName selectName = bindSelExpr.getName();
+        RefName selectName = bindSelExpr.getName();
         if (!instanceOf(classSig, VariableClassSig.class)) {
           //try to find the name in the state signature
           Signature signature = classSig.getState();
@@ -312,6 +312,12 @@ public class ExprChecker
           if (pair == null) {
             List<NameTypePair> pairs = classSig.getAttribute();
             pair = findNameTypePair(selectName, pairs);
+          }
+          else {
+            //System.err.println("found in state = " + pair.getType());
+            //System.err.println("*********");
+            //System.err.println(toString(exprType));
+            //System.err.println("*********");
           }
 
           //if it is not in the state or attributes, raise an error
@@ -336,6 +342,9 @@ public class ExprChecker
         error(bindSelExpr, ErrorMessage.NON_BINDING_IN_BINDSELEXPR, params);
       }
     }
+
+    //System.err.println(format(bindSelExpr) + " : " + type);
+    //System.err.println("\t" + format(expr) + " : " + exprType);
 
     //add the type annotation
     addTypeAnn(bindSelExpr, type);

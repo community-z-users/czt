@@ -67,8 +67,21 @@ public class DeclChecker
     }
     //otherwise, create the list of name/type pairs
     else {
-      //the type of the variable is the base type of the expr
-      Type2 baseType = vPowerType.getType();
+      Type2 baseType = null;
+      //if use-before-decl is switched on and the expr is undeclared,
+      //then set IsMem to true
+      if (useBeforeDecl() && exprType instanceof UnknownType){
+        UnknownType uType = (UnknownType) exprType;
+        if (uType.getRefExpr() != null) {
+          uType.setIsMem(true);
+        }
+        baseType = uType;
+      }
+      //otherwise, the type of the variable is the base type of the expr
+      else {
+        baseType = vPowerType.getType();
+      }
+
       //get the DeclNames
       List<DeclName> declNames = varDecl.getDeclName();
       for (DeclName declName : declNames) {
@@ -77,7 +90,6 @@ public class DeclChecker
         pairs.add(pair);
       }
     }
-
     return pairs;
   }
 

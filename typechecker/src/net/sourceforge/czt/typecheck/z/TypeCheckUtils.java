@@ -77,16 +77,16 @@ public class TypeCheckUtils
   }
 
   protected List lTypecheck(Term term,
-                                SectionInfo sectInfo,
-                                Markup markup)
+                            SectionInfo sectInfo,
+                            Markup markup)
   {
     return lTypecheck(term, sectInfo, markup, false);
   }
 
   protected List lTypecheck(Term term,
-                                SectionInfo sectInfo,
-                                Markup markup,
-                                boolean useBeforeDecl)
+                            SectionInfo sectInfo,
+                            Markup markup,
+                            boolean useBeforeDecl)
   {
     ZFactory zFactory = new ZFactoryImpl();
     TypeChecker typeChecker =

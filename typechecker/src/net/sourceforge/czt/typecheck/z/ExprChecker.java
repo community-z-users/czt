@@ -119,16 +119,20 @@ public class ExprChecker
     RefName refName = refExpr.getRefName();
     Type type = exprChecker().getType(refName);
 
-    //check if this name is declared
+    //add this reference for post checking
+    if (!containsDoubleEquals(errors(), refExpr)) {
+      errors().add(refExpr);
+    }
+
+    //if this is undeclared, create an unknown type with this RefExpr
     Object undecAnn = refName.getAnn(UndeclaredAnn.class);
     if (undecAnn != null) {
-      if (!containsDoubleEquals(errors(), refExpr)) {
-        errors().add(refExpr);
-      }
+      assert type instanceof UnknownType;
+      unknownType(type).setRefExpr(refExpr);
     }
 
     //get an existing parameter annotations
-    ParameterAnn pAnn = (ParameterAnn) refExpr.getAnn(ParameterAnn.class);    
+    ParameterAnn pAnn = (ParameterAnn) refExpr.getAnn(ParameterAnn.class);
     List<Expr> exprs = refExpr.getExpr();
 
     //if it is a generic type, but has not been declared in the
@@ -161,14 +165,8 @@ public class ExprChecker
             pAnn = new ParameterAnn(instantiations);
           }
           refExpr.getAnns().add(pAnn);
-	  refExprs().add(refExpr);
+          refExprs().add(refExpr);
         }
-
-        //add this expr for post checking
-        if (!containsDoubleEquals(errors(), refExpr)) {
-          errors().add(refExpr);
-        }
-
         unificationEnv().exitScope();
       }
       //if the instantiation is explicit
@@ -202,6 +200,7 @@ public class ExprChecker
               }
             }
           }
+
           //instantiate the type
           exprChecker().instantiate(genericType);
           unificationEnv().exitScope();

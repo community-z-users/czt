@@ -61,7 +61,7 @@ public class ErrorAnn
 
   public ErrorAnn(String errorMessage, Object [] params,
                   SectionInfo sectInfo, String sectName,
-		  LocAnn locAnn, Markup markup)
+                  LocAnn locAnn, Markup markup)
   {
     this(errorMessage, params, sectInfo, sectName, locAnn, null, markup);
   }
@@ -179,7 +179,6 @@ public class ErrorAnn
       }
       catch (Exception e) {
         String message = "Cannot be printed";
-	e.printStackTrace();
         return message;
       }
     }
@@ -188,14 +187,14 @@ public class ErrorAnn
 
   protected CarrierSet getCarrierSet()
   {
-    return new CarrierSet();
+    return new CarrierSet(false);
   }
 
   protected void print(Term term,
-		       Writer writer,
-		       SectionInfo sectInfo,
-		       String sectName,
-		       Markup markup)
+                       Writer writer,
+                       SectionInfo sectInfo,
+                       String sectName,
+                       Markup markup)
   {
     PrintUtils.print(term, writer, sectInfo, sectName, markup_);
   }

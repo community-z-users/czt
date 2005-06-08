@@ -755,7 +755,7 @@ abstract public class Checker
     return result;
   }
 
-  protected Type instantiate(Type type)
+  public Type instantiate(Type type)
   {
     Type result = factory().createUnknownType();
 
@@ -776,7 +776,7 @@ abstract public class Checker
     return result;
   }
 
-  protected Type2 instantiate(Type2 type)
+  public Type2 instantiate(Type2 type)
   {
     Type2 result = factory().createUnknownType();
 
@@ -792,7 +792,7 @@ abstract public class Checker
         result = type;
       }
       else if (unificationEnvType instanceof UnknownType &&
-               unknownType(unificationEnvType).getName() == null) {
+               unknownType(unificationEnvType).getRefExpr() == null) {
         VariableType vType = factory().createVariableType();
         result = vType;
         unificationEnv().addGenName(genName, result);
@@ -808,7 +808,7 @@ abstract public class Checker
       VariableType vType = (VariableType) type;
       Type2 possibleType = vType.getValue();
       if (possibleType instanceof UnknownType &&
-          unknownType(possibleType).getName() == null) {
+          unknownType(possibleType).getRefExpr() == null) {
         result = vType;
       }
       else if (possibleType instanceof Type2) {
@@ -931,12 +931,6 @@ abstract public class Checker
     //if not in any of the environments, return a variable type with the
     //specified name
     if (type instanceof UnknownType) {
-      DeclName declName =
-        factory().createDeclName(name.getWord(), name.getStroke(), null);
-      VariableType vType = factory().createVariableType();
-      vType.setName(declName);
-      type = vType;
-
       //add an UndeclaredAnn
       UndeclaredAnn ann = new UndeclaredAnn();
       name.getAnns().add(ann);
@@ -945,7 +939,6 @@ abstract public class Checker
       //remove an UndeclaredAnn if there is one
       removeAnn(name, UndeclaredAnn.class);
     }
-
     return type;
   }
 

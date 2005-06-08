@@ -116,7 +116,7 @@ public class TypeChecker
   {
     zFactory_ = new Factory(zFactory);
     sectInfo_ = sectInfo;
-    sectTypeEnv_ = new SectTypeEnv(zFactory);
+    sectTypeEnv_ = new SectTypeEnv(zFactory, new ExprChecker(this));
     typeEnv_ = new TypeEnv(zFactory);
     pending_ = new TypeEnv(zFactory);
     unificationEnv_ = new UnificationEnv(zFactory);

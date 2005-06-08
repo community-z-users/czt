@@ -125,7 +125,7 @@ public class ParaChecker
     State state = classPara.getState();
     if (state != null) {
       Signature signature = (Signature) state.accept(paraChecker());
-      List<NameTypePair> decls = cSig.getState().getNameTypePair();
+      List<NameTypePair> decls = list(cSig.getState().getNameTypePair());
       List<NameTypePair> newDecls = signature.getNameTypePair();
       decls.addAll(newDecls);
       checkForDuplicates(decls, null, ErrorMessage.INCOMPATIBLE_OVERRIDING);
@@ -192,7 +192,6 @@ public class ParaChecker
     return signature;
   }
 
-
   public Object visitState(State state)
   {
     List<NameTypePair> pairs = list();
@@ -220,6 +219,8 @@ public class ParaChecker
 
     //add these pairs to the type env
     typeEnv().add(pairs);
+
+    addStateVars(pairs);
 
     //typecheck the predicate
     Pred pred = state.getPred();
@@ -329,6 +330,15 @@ public class ParaChecker
       primed.getStroke().add(factory().createNextStroke());
       typeEnv().add(unprimed, pair.getType());
       typeEnv().add(primed, pair.getType());
+    }
+  }
+
+  protected void addStateVars(List<NameTypePair> pairs)
+  {
+    List<NameTypePair> already = getSelfType().getClassSig().getState().getNameTypePair();
+    for (NameTypePair pair : pairs) {
+
+      already.add(pair);
     }
   }
 }

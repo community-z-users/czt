@@ -123,6 +123,20 @@ public class PostChecker
       removeAnn(refExpr, pAnn);
     }
 
+    //check that the type of this RefExpr is determined
+    TypeAnn typeAnn = getTypeAnn(refExpr);
+    Type2 type = unwrapType(typeAnn.getType());
+    try {
+      Expr expr = (Expr) type.accept(carrierSet());
+    }
+    catch (UndeterminedTypeException e) {
+      Object [] params = {refExpr};
+      ErrorAnn errorAnn =
+        errorAnn(refExpr, ErrorMessage.TYPE_NOT_DETERMINED, params);
+      addAnn(refExpr, errorAnn);
+      return errorAnn;
+    }
+
     return null;
   }
 

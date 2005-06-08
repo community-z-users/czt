@@ -354,7 +354,7 @@ abstract public class Checker
     return result;
   }
 
-  protected Type2 instantiate(Type2 type)
+  public Type2 instantiate(Type2 type)
   {
     Type2 result = factory().createUnknownType();
 
@@ -539,5 +539,41 @@ abstract public class Checker
   protected CarrierSet getCarrierSet()
   {
     return new net.sourceforge.czt.typecheck.oz.util.CarrierSet();
+  }
+
+  protected String toString(Type type)
+  {
+    String result = new String();
+    if (type instanceof PowerType &&
+        powerType(type).getType() instanceof ClassRefType) {
+      ClassRefType ctype = (ClassRefType) powerType(type).getType();
+      result = classRefTypeToString(ctype);
+    }
+    else if (type instanceof ClassRefType) {
+      ClassRefType ctype = (ClassRefType) type;
+      result = classRefTypeToString(ctype);
+    }
+    else {
+      result = type.toString();
+    }
+    return result;
+  }
+
+  protected String classRefTypeToString(ClassRefType ctype)
+  {
+    String result = new String();
+    result += "CLASS " + ctype.getThisClass().getRefName() + "\n";
+    ClassSig csig = ctype.getClassSig();
+    result += "\tATTR\n";
+    for (Object o : csig.getAttribute()) {
+      NameTypePair pair = (NameTypePair) o;
+      result += "\t\t" + pair.getName() + " : " + pair.getType() + "\n";
+    }
+    result += "\tSTATE\n";
+    for (Object o : csig.getState().getNameTypePair()) {
+      NameTypePair pair = (NameTypePair) o;
+      result += "\t\t" + pair.getName() + " : " + pair.getType() + "\n";
+    }
+    return result;
   }
 }

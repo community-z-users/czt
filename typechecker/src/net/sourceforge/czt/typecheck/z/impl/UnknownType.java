@@ -19,7 +19,7 @@
 package net.sourceforge.czt.typecheck.z.impl;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.z.ast.DeclName;
+import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.impl.Type2Impl;
 
 /**
@@ -29,33 +29,48 @@ import net.sourceforge.czt.z.impl.Type2Impl;
 public class UnknownType
   extends Type2Impl
 {
-  /** The undefined name associated with this type. */
-  protected DeclName declName_;
+  /** The undefined reference associated with this type. */
+  protected RefExpr refExpr_;
+
+  /** True iff refExpr_ is the superset of this type. */
+  protected boolean isMem_;
 
   protected UnknownType()
   {
-    declName_ = null;
+    refExpr_ = null;
+    isMem_ = false;
   }
 
-  protected UnknownType(DeclName declName)
+  protected UnknownType(RefExpr refExpr)
   {
-    declName_ = declName;
-  }
-
-  /**
-   * Get the undefined name associated with this type.
-   */
-  public DeclName getName()
-  {
-    return declName_;
+    this();
+    refExpr_ = refExpr;
   }
 
   /**
-   * Set the undefined name associated with this type.
+   * Get the undefined reference associated with this type.
    */
-  public void setName(DeclName declName)
+  public RefExpr getRefExpr()
   {
-    declName_ = declName;
+    return refExpr_;
+  }
+
+  /**
+   * Set the undefined reference associated with this type.
+   */
+  public void setRefExpr(RefExpr refExpr)
+  {
+    refExpr_ = refExpr;
+  }
+
+  public void setIsMem(boolean isMem)
+  {
+    isMem_ = isMem;
+  }
+
+  public boolean getIsMem()
+  {
+    return isMem_;
   }
 
   public boolean equals(Object obj)
@@ -64,10 +79,14 @@ public class UnknownType
 
     if (obj instanceof UnknownType) {
       UnknownType unknownType = (UnknownType) obj;
-      if (declName_ == null && unknownType.getName() == null) {
+      if (refExpr_ == null && unknownType.getRefExpr() == null) {
         result = true;
       }
-      else if (declName_ != null && declName_.equals(unknownType.getName())) {
+      else if (refExpr_ != null && refExpr_.equals(unknownType.getRefExpr())) {
+        result = true;
+      }
+
+      if (result && isMem_ == unknownType.getIsMem()) {
         result = true;
       }
     }
@@ -81,8 +100,8 @@ public class UnknownType
 
     int hashCode = super.hashCode();
     hashCode += "UnknownType".hashCode();
-    if (declName_ != null) {
-      hashCode += constant * declName_.hashCode();
+    if (refExpr_ != null) {
+      hashCode += constant * refExpr_.hashCode();
     }
     return hashCode;
 
@@ -90,7 +109,7 @@ public class UnknownType
 
   public Object [] getChildren()
   {
-    Object [] children = { getName() };
+    Object [] children = { getRefExpr() };
     return children;
   }
 
@@ -108,8 +127,8 @@ public class UnknownType
     UnknownType zedObject = null;
     try {
       zedObject = new UnknownType();
-      DeclName declName = (DeclName) args[0];
-      zedObject.setName(declName);
+      RefExpr refExpr = (RefExpr) args[0];
+      zedObject.setRefExpr(refExpr);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -124,8 +143,8 @@ public class UnknownType
   {
     String result = "unknown";
 
-    if (declName_ != null) {
-      result += "(" + declName_.toString() + ")";
+    if (refExpr_ != null) {
+      result += "(" + refExpr_.getRefName() + ")";
     }
     return result;
   }

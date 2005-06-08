@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
@@ -42,6 +43,14 @@ public class SectTypeEnv
   /** The name of the prelude section. */
   public static final String PRELUDE = "prelude";
 
+  /** The names of the toolkit sections. */
+  public static final String [] TOOLKITS = {PRELUDE,
+                                            "set_toolkit",
+                                            "relation_toolkit",
+                                            "function_toolkit",
+                                            "sequence_toolkit",
+                                            "number_toolkit",
+                                            "standard_toolkit"};
   /** A Factory. */
   protected static Factory factory_;
 
@@ -69,12 +78,17 @@ public class SectTypeEnv
   /** The function of all sections to their immediate parents. */
   protected Map<String, Set<String>> parents_;
 
-  public SectTypeEnv()
+  /** An ExprChecker for determininig unknown references. */
+  protected ExprChecker exprChecker_;
+
+  protected Set<DeclName> expanded_;
+
+  public SectTypeEnv(ExprChecker exprChecker)
   {
-    this(new ZFactoryImpl());
+    this(new ZFactoryImpl(), exprChecker);
   }
 
-  public SectTypeEnv(ZFactory zFactory)
+  public SectTypeEnv(ZFactory zFactory, ExprChecker exprChecker)
   {
     factory_ = new Factory(zFactory);
     typeInfo_ = new ArrayList<NameSectTypeTriple>();
@@ -83,6 +97,7 @@ public class SectTypeEnv
     visibleSections_ = new HashSet<String>();
     checkedSections_ = new HashSet<String>();
     parents_ = new HashMap<String, Set<String>>();
+    exprChecker_ = exprChecker;
   }
 
   /**
@@ -99,6 +114,15 @@ public class SectTypeEnv
   public void setSecondTime(boolean secondTime)
   {
     secondTime_ = secondTime;
+    if (secondTime_) {
+      expanded_ = new HashSet<DeclName>();
+      //dump();
+      long st = System.currentTimeMillis();
+      expandTypes();
+      long endt = System.currentTimeMillis();
+      //System.err.println("time = " + (endt - st));
+      //dump();
+    }
   }
 
   public boolean getSecondTime()
@@ -212,7 +236,6 @@ public class SectTypeEnv
   public boolean add(DeclName declName, Type type)
   {
     boolean result = true;
-
     for (NameSectTypeTriple triple : typeInfo_) {
       if (triple.getName().equals(declName)) {
         triple.setType(type);
@@ -258,7 +281,7 @@ public class SectTypeEnv
   public Type getType(RefName name)
   {
     DeclName declName = factory_.createDeclName(name);
-    Type result = factory_.createUnknownType(declName);
+    Type result = factory_.createUnknownType();
 
     //get the info for this name
     NameSectTypeTriple triple = getTriple(name);
@@ -280,9 +303,7 @@ public class SectTypeEnv
       Type baseType = getType(baseName);
 
       if (isSchema(baseType)) {
-        // CloningVisitor cloner = new CloningVisitor();
         Type clonedType = (Type) factory_.cloneTerm(baseType);
-        //Type clonedType = (Type) baseType.accept(cloner);
         PowerType powerType = (PowerType) unwrapType(clonedType);
         SchemaType schemaType = (SchemaType) powerType.getType();
 
@@ -290,7 +311,6 @@ public class SectTypeEnv
         List<NameTypePair> pairs =
           (List<NameTypePair>) schemaType.getSignature().getNameTypePair();
         for (NameTypePair pair : pairs) {
-          //DeclName primedName = (DeclName) pair.getName().accept(cloner);
           DeclName primedName = (DeclName) factory_.cloneTerm(pair.getName());
           primedName.getStroke().add(factory_.createNextStroke());
           NameTypePair newPair =
@@ -312,6 +332,7 @@ public class SectTypeEnv
         add(declName, result);
       }
     }
+
     return result;
   }
 
@@ -353,9 +374,7 @@ public class SectTypeEnv
   public void dump()
   {
     System.err.println("typeinfo:");
-    for (Iterator iter = typeInfo_.iterator(); iter.hasNext(); ) {
-      NameSectTypeTriple next = (NameSectTypeTriple) iter.next();
-
+    for (NameSectTypeTriple next : typeInfo_) {
       System.err.print("\t(" + next.getName());
       System.err.print(", (" + next.getSect());
       System.err.println(", (" + next.getType() + ")))");
@@ -367,9 +386,7 @@ public class SectTypeEnv
   private NameSectTypeTriple getTriple(Name name)
   {
     NameSectTypeTriple result = null;
-
-    for (Iterator iter = typeInfo_.iterator(); iter.hasNext(); ) {
-      NameSectTypeTriple next = (NameSectTypeTriple) iter.next();
+    for (NameSectTypeTriple next : typeInfo_) {
       //we don't use equals() in DeclName so that we can use this
       //lookup for RefName objects as well
       if (next.getName().getWord().equals(name.getWord()) &&
@@ -394,10 +411,77 @@ public class SectTypeEnv
     if (parents != null) {
       result.addAll(parents);
       //for each direct parent, get the transitive parents
-      for (Iterator iter = parents.iterator(); iter.hasNext(); ) {
-        String parent = (String) iter.next();
+      for (String parent : parents) {
         Set<String> transitiveParents = getTransitiveParents(parent);
         result.addAll(transitiveParents);
+      }
+    }
+    return result;
+  }
+
+  private void expandTypes()
+  {
+    for (NameSectTypeTriple next : typeInfo_) {
+      if (!contains(TOOLKITS, next.getSect())) {
+        if (!expanded_.contains(next.getName())) {
+          Type newType = (Type) updateType(next.getName(), next.getType());
+          next.setType(newType);
+        }
+      }
+    }
+  }
+
+  private Term updateType(DeclName declName, Term type)
+  {
+    Term result = factory_.createUnknownType();
+    if (type instanceof UnknownType) {
+      UnknownType uType = (UnknownType) type;
+      if (uType.getRefExpr() != null) {
+        RefName refName = uType.getRefExpr().getRefName();
+        DeclName name = factory_.createDeclName(refName.getWord(),
+                                                refName.getStroke(),
+                                                null);
+        if (!expanded_.contains(name)) {
+          NameSectTypeTriple triple = getTriple(refName);
+          Type newType = (Type) updateType(triple.getName(), triple.getType());
+          triple.setType(newType);
+        }
+        Type2 lookup = (Type2) uType.getRefExpr().accept(exprChecker_);
+        if (uType.getIsMem() && lookup instanceof PowerType) {
+          PowerType powerType = (PowerType) lookup;
+          result = powerType.getType();
+        }
+        else {
+          result = lookup;
+        }
+      }
+    }
+    else {
+      Object [] children = type.getChildren();
+      Object [] args = new Object [children.length];
+      for (int i = 0; i < children.length; i++) {
+        Object child = children[i];
+        if (child instanceof Term && child != type && child != null) {
+          args[i] = updateType(declName, (Term) child);
+        }
+        else {
+          args[i] = child;
+        }
+      }
+      result = type.create(args);
+    }
+    expanded_.add(declName);
+    return result;
+  }
+
+  protected boolean contains(Object [] array, Object obj)
+  {
+    assert obj != null;
+    boolean result = false;
+    for (int i = 0; i < array.length; i++) {
+      if (obj.equals(array[i])) {
+        result = true;
+        break;
       }
     }
     return result;

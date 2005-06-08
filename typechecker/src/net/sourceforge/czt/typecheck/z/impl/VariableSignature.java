@@ -118,9 +118,9 @@ public class VariableSignature
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof SignatureVisitor) {
-      SignatureVisitor visitor = (SignatureVisitor) v;
-      return visitor.visitSignature(this);
+    if (v instanceof VariableSignatureVisitor) {
+      VariableSignatureVisitor visitor = (VariableSignatureVisitor) v;
+      return visitor.visitVariableSignature(this);
     }
     return super.accept(v);
   }

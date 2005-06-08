@@ -41,18 +41,33 @@ public class CarrierSet
     SignatureVisitor,
     ProdTypeVisitor,
     VariableTypeVisitor,
+    VariableSignatureVisitor,
     UnknownTypeVisitor
 {
   protected ZFactory zFactory_;
 
+  /** Don't throw an exception when a variable type is encountered. */
+  protected boolean allowVariableTypes_;
+
   public CarrierSet()
   {
-    zFactory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+    this(new net.sourceforge.czt.z.impl.ZFactoryImpl(), false);
+  }
+
+  public CarrierSet(boolean allowVariableTypes)
+  {
+    this(new net.sourceforge.czt.z.impl.ZFactoryImpl(), allowVariableTypes);
   }
 
   public CarrierSet(ZFactory zFactory)
   {
+    this(zFactory, false);
+  }
+
+  public CarrierSet(ZFactory zFactory, boolean allowVariableTypes)
+  {
     zFactory_ = zFactory;
+    allowVariableTypes_ = allowVariableTypes;
   }
 
   public Object visitTerm(Term term)
@@ -135,15 +150,34 @@ public class CarrierSet
 
   public Object visitUnknownType(UnknownType unknownType)
   {
-    throw new UndeterminedTypeException();
+    RefName refName = zFactory_.createRefName("unknown", list(), null);
+    RefExpr result = zFactory_.createRefExpr(refName, list(), Boolean.FALSE);
+    return result;
   }
 
   public Object visitVariableType(VariableType vType)
   {
     if (vType.getValue() instanceof VariableType) {
-      throw new UndeterminedTypeException();
+      if (!allowVariableTypes_) {
+        throw new UndeterminedTypeException();
+      }
+      RefName refName =
+        zFactory_.createRefName(vType.getName().getWord(),
+                                vType.getName().getStroke(),
+                                null);
+      RefExpr result =
+        zFactory_.createRefExpr(refName, list(), Boolean.FALSE);
+      return result;
     }
     return vType.getValue().accept(this);
+  }
+
+  public Object visitVariableSignature(VariableSignature vSig)
+  {
+    if (vSig.getValue() instanceof VariableSignature) {
+      throw new UndeterminedTypeException();
+    }
+    return vSig.getValue().accept(this);
   }
 
   protected List list()
