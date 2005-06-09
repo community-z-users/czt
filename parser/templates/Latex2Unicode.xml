@@ -981,6 +981,7 @@ NAME =   {NOT_LB}*
           if (braceStack_.empty()) {
             reportError(ParseMessage.MSG_UNMATCHED_BRACES,
                         "}", source_, yyline, yycolumn);
+            return result(result);
           }
           BraceType brace = (BraceType) braceStack_.pop();
           assert ! addSpace_;
