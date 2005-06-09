@@ -32,6 +32,7 @@ import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.jaxb.JaxbValidator;
@@ -81,22 +82,22 @@ public class RewriteEngine
       OutputStream out = System.out;
       for (int i = 0; i < args.length; i++) {
         if ("-in".equals(args[i])) {
-          if (i < args.length) {
-            inputfile = args[++i];
+          if (++i < args.length) {
+            inputfile = args[i];
           } else {
             System.err.println(usage);
             return;
           }
         } else if ("-out".equals(args[i])) {
-          if (i < args.length) {
-            out = new FileOutputStream(args[++i]);
+          if (++i < args.length) {
+            out = new FileOutputStream(args[i]);
           } else {
             System.err.println(usage);
             return;
           }
         } else if ("-rule".equals(args[i])) {
-          if (i < args.length) {
-            rulefile = args[++i];
+          if (++i < args.length) {
+            rulefile = args[i];
           } else {
             System.err.println(usage);
             return;
