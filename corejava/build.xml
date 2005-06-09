@@ -23,7 +23,20 @@
   <property name="corejava.api.dir" location="doc/api"/>
   <property name="corejava.api.jaxb.dir" location="doc/jaxb-api"/>
   <property name="src.xsl" location="../gnast/src/xsl"/>
-
+  <property name="corejava.base.src.jar"
+    location="${corejava.jar.dir}/src-${corejava.base.jar.file}"/>
+  <property name="corejava.core.src.jar"
+    location="${corejava.jar.dir}/src-${corejava.core.jar.file}"/>
+  <property name="corejava.oz.src.jar"
+    location="${corejava.jar.dir}/src-${corejava.oz.jar.file}"/>
+  <property name="corejava.tcoz.src.jar"
+    location="${corejava.jar.dir}/src-${corejava.tcoz.jar.file}"/>
+  <property name="corejava.zpatt.src.jar"
+    location="${corejava.jar.dir}/src-${corejava.zpatt.jar.file}"/>
+  <property name="corejava.jaxb.src.jar"
+    location="${corejava.jar.dir}/src-${corejava.jaxb.jar.file}"/> 
+  <property name="corejava.circus.src.jar"
+    location="${corejava.jar.dir}/src-${corejava.circus.jar.file}"/>
   <uptodate property="ast.uptodate"
     targetfile="${corejava.build.src}/net/sourceforge/czt/z/util/Factory.java" >
     <srcfiles dir= "${czt.home}/zml" includes="*.xsd"/>
@@ -424,7 +437,10 @@
         <include name="net/sourceforge/**"/>
         <exclude name="**/jaxb/gen/**"/>
       </packageset>
-      <packageset dir="${corejava.build.src}" defaultexcludes="yes"/>
+      <packageset dir="${corejava.build.src}" defaultexcludes="yes">
+        <include name="net/sourceforge/**"/>
+        <exclude name="**/jaxb/gen/**"/>
+      </packageset>
       <tag name="czt.todo" description="To do:"/>
       <doctitle><![CDATA[<h1>The Annotated Syntax Tree (AST) for Z API</h1>]]></doctitle>
       <group title="Base Z Packages" packages="net.sourceforge.czt.base.*"/>
@@ -486,5 +502,113 @@
     <ant dir="examples/debug" target="clean"/>
     <ant dir="examples/substitutionVisitor" target="clean"/>
     <ant dir="examples/object-z" target="clean"/>
+  </target>
+
+  <!-- Source jar files -->
+
+  <target name="src-jar"
+    depends="src-base,src-core,src-oz,src-tcoz,src-circus,src-zpatt,src-jaxb"
+    description="create the source jar files">
+    <mkdir dir="${corejava.jar.dir}"/>
+  </target>
+  <target name="src-base" depends="compile-base"
+    description="generate the base jar file with source code" >
+    <mkdir dir="${corejava.jar.dir}"/>
+    <jar jarfile="${corejava.base.src.jar}">
+      <fileset dir="${corejava.src.dir}">
+        <include name="net/sourceforge/czt/util/**"/>
+        <include name="net/sourceforge/czt/base/**"/>
+        <exclude name="net/sourceforge/czt/base/jaxb/**"/>
+      </fileset>
+      <fileset dir="${corejava.build.src}">
+        <include name="net/sourceforge/czt/util/**"/>
+        <include name="net/sourceforge/czt/base/**"/>
+        <exclude name="net/sourceforge/czt/base/jaxb/**"/>
+      </fileset>
+    </jar>
+  </target>
+  <target name="src-core" depends="compile-core"
+    description="generate the Z jar file with source code" >
+    <mkdir dir="${corejava.jar.dir}"/>
+    <jar jarfile="${corejava.core.src.jar}">
+      <fileset dir="${corejava.build.src}">
+        <include name="net/sourceforge/czt/z/**"/>
+        <exclude name="net/sourceforge/czt/z/jaxb/**"/>
+      </fileset>    
+      <fileset dir="${corejava.src.dir}">       
+        <include name="net/sourceforge/czt/z/**"/>
+        <exclude name="net/sourceforge/czt/z/jaxb/**"/>
+      </fileset>
+    </jar>
+  </target>
+  <target name="src-oz" depends="compile-oz"
+    description="generate the Object-Z jar file with source code" >
+    <mkdir dir="${corejava.jar.dir}"/>
+    <jar jarfile="${corejava.oz.src.jar}">
+      <fileset dir="${corejava.build.dir}/src">
+        <include name="net/sourceforge/czt/oz/**"/>
+        <exclude name="net/sourceforge/czt/oz/jaxb/**"/>
+      </fileset>    
+      <fileset dir="${corejava.src.dir}">       
+        <include name="net/sourceforge/czt/oz/**"/>
+        <exclude name="net/sourceforge/czt/oz/jaxb/**"/>
+      </fileset>
+    </jar>
+  </target>
+  <target name="src-tcoz" depends="compile-tcoz"
+    description="generate the TCOZ jar file with source code" >
+    <mkdir dir="${corejava.jar.dir}"/>
+    <jar jarfile="${corejava.tcoz.src.jar}">
+      <fileset dir="${corejava.build.dir}/src">
+        <include name="net/sourceforge/czt/tcoz/**"/>
+        <exclude name="net/sourceforge/czt/tcoz/jaxb/**"/>
+      </fileset>    
+      <fileset dir="${corejava.src.dir}">       
+        <include name="net/sourceforge/czt/tcoz/**"/>
+        <exclude name="net/sourceforge/czt/tcoz/jaxb/**"/>
+      </fileset>
+    </jar>
+  </target>
+  <target name="src-zpatt" depends="compile-zpatt"
+    description="generate the TCOZ jar file with source code" >
+    <mkdir dir="${corejava.jar.dir}"/>
+    <jar jarfile="${corejava.zpatt.src.jar}">
+      <fileset dir="${corejava.build.dir}/src">
+        <include name="net/sourceforge/czt/zpatt/**"/>
+        <exclude name="net/sourceforge/czt/zpatt/jaxb/**"/>
+      </fileset>      
+      <fileset dir="${corejava.src.dir}">       
+        <include name="net/sourceforge/czt/zpatt/**"/>
+        <exclude name="net/sourceforge/czt/zpatt/jaxb/**"/>
+      </fileset>
+    </jar>
+  </target>
+  <target name="src-circus" depends="compile-circus"
+    description="generate the Circus jar file with source code" >
+    <mkdir dir="${corejava.jar.dir}"/>
+    <jar jarfile="${corejava.circus.src.jar}">
+      <fileset dir="${corejava.build.dir}/src">
+        <include name="net/sourceforge/czt/circus/**"/>
+        <exclude name="net/sourceforge/czt/circus/jaxb/**"/>
+      </fileset>      
+      <fileset dir="${corejava.src.dir}">
+        <include name="net/sourceforge/czt/circus/**"/>
+        <exclude name="net/sourceforge/czt/circus/jaxb/**"/>
+      </fileset>
+    </jar>
+  </target>
+  <target name="src-jaxb" depends="compile-jaxb"
+    description="generate the JAXB jar file with source code" >
+    <mkdir dir="${corejava.jar.dir}"/>
+    <jar jarfile="${corejava.jaxb.src.jar}">
+      <fileset dir="${corejava.src.dir}">       
+        <include name="net/sourceforge/czt/base/jaxb/**"/>
+        <include name="net/sourceforge/czt/z/jaxb/**"/>
+        <include name="net/sourceforge/czt/oz/jaxb/**"/>
+        <include name="net/sourceforge/czt/tcoz/jaxb/**"/>
+        <include name="net/sourceforge/czt/zpatt/jaxb/**"/>
+        <include name="net/sourceforge/czt/circus/jaxb/**"/>
+      </fileset>
+    </jar>
   </target>
 </project>
