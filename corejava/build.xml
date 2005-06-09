@@ -417,6 +417,7 @@
     <mkdir dir="${corejava.api.dir}"/>
     <javadoc
       destdir="${corejava.api.dir}"
+      maxmemory="128m"
       private="true"
       Overview="src/overview.html">
       <packageset dir="${corejava.src.dir}" defaultexcludes="yes">
