@@ -88,6 +88,9 @@ public class SimpleProver
       if (sequent instanceof PredSequent) {
         if (! prove((PredSequent) sequent)) return false;
       }
+      else {
+        return false;
+      }
     }
     return true;
   }
