@@ -148,7 +148,7 @@
   </xs:element>
 
   <!-- Channel Set Expressions -->
-  <xs:element name="ChannelSet" type="CIRCUS:ChannelOrNameSet" abstract="true">
+  <xs:element name="ChannelSet" type="CIRCUS:ChannelSet" abstract="true">
     <xs:annotation>
       <xs:documentation>
         <p>
@@ -162,7 +162,7 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="BasicChannelSet" type="CIRCUS:BasicChannelOrNameSet" substitutionGroup="CIRCUS:ChannelSet">
+  <xs:element name="BasicChannelSet" type="CIRCUS:BasicChannelSet" substitutionGroup="CIRCUS:ChannelSet">
     <xs:annotation>
       <xs:documentation>
         <p>
@@ -177,7 +177,7 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="RefChannelSet" type="CIRCUS:RefChannelOrNameSet" substitutionGroup="CIRCUS:ChannelSet">
+  <xs:element name="RefChannelSet" type="CIRCUS:RefChannelSet" substitutionGroup="CIRCUS:ChannelSet">
     <xs:annotation>
       <xs:documentation>
         <p>
@@ -234,7 +234,7 @@
     </xs:annotation>
   </xs:element>
   -->
-  <xs:element name="ApplChannelSet" type="CIRCUS:ApplChannelOrNameSet" substitutionGroup="CIRCUS:ChannelSet">
+  <xs:element name="ApplChannelSet" type="CIRCUS:ApplChannelSet" substitutionGroup="CIRCUS:ChannelSet">
     <xs:annotation>
       <xs:documentation>
         <p>
@@ -723,7 +723,7 @@
   </xs:element>
 
   <!-- Name Set Expressions -->
-  <xs:element name="NameSet" type="CIRCUS:ChannelOrNameSet" abstract="true">
+  <xs:element name="NameSet" type="CIRCUS:NameSet" abstract="true">
     <xs:annotation>
       <xs:documentation>        
         <p>
@@ -737,7 +737,7 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="BasicNameSet" type="CIRCUS:BasicChannelOrNameSet" substitutionGroup="CIRCUS:NameSet">
+  <xs:element name="BasicNameSet" type="CIRCUS:BasicNameSet" substitutionGroup="CIRCUS:NameSet">
     <xs:annotation>
       <xs:documentation>
         <p>
@@ -752,7 +752,7 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="RefNameSet" type="CIRCUS:RefChannelOrNameSet" substitutionGroup="CIRCUS:NameSet">
+  <xs:element name="RefNameSet" type="CIRCUS:RefNameSet" substitutionGroup="CIRCUS:NameSet">
     <xs:annotation>
       <xs:documentation>
         <p>
@@ -796,7 +796,7 @@
     </xs:annotation>
   </xs:element>
   -->
-  <xs:element name="ApplNameSet" type="CIRCUS:ApplChannelOrNameSet" substitutionGroup="CIRCUS:NameSet">
+  <xs:element name="ApplNameSet" type="CIRCUS:ApplNameSet" substitutionGroup="CIRCUS:NameSet">
     <xs:annotation>
       <xs:documentation>
         <p>
@@ -1409,24 +1409,24 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <!-- Channel or Name Set Expression complexTypes -->
-  <xs:complexType name="ChannelOrNameSet">
+  <!-- Channel Set Expression complexTypes -->
+  <xs:complexType name="ChannelSet">
     <xs:complexContent>
       <xs:extension base="Z:TermA"/>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="BasicChannelOrNameSet">
+  <xs:complexType name="BasicChannelSet">
     <xs:complexContent>
-      <xs:extension base="CIRCUS:ChannelOrNameSet">
+      <xs:extension base="CIRCUS:ChannelSet">
         <xs:sequence>
           <xs:element ref="Z:RefName" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="RefChannelOrNameSet">
+  <xs:complexType name="RefChannelSet">
     <xs:complexContent>
-      <xs:extension base="CIRCUS:ChannelOrNameSet">
+      <xs:extension base="CIRCUS:ChannelSet">
         <xs:sequence>
           <xs:element ref="Z:RefName"/>
         </xs:sequence>
@@ -1434,18 +1434,18 @@
     </xs:complexContent>
   </xs:complexType>
   <!--
-  <xs:complexType name="ChannelOrNameSet2">
+  <xs:complexType name="ChannelSet2">
     <xs:complexContent>
-      <xs:extension base="CIRCUS:ChannelOrNameSet">
+      <xs:extension base="CIRCUS:ChannelSet">
         <xs:sequence>
-          <xs:element ref="CIRCUS:ChannelOrNameSet">
+          <xs:element ref="CIRCUS:ChannelSet">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property name="LeftOperand"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
-          <xs:element ref="CIRCUS:ChannelOrNameSet">
+          <xs:element ref="CIRCUS:ChannelSet">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property name="RightOperand"/>
@@ -1457,9 +1457,9 @@
     </xs:complexContent>
   </xs:complexType>
   -->
-  <xs:complexType name="ApplChannelOrNameSet">
+  <xs:complexType name="ApplChannelSet">
     <xs:complexContent>
-      <xs:extension base="CIRCUS:ChannelOrNameSet">
+      <xs:extension base="CIRCUS:ChannelSet">
         <xs:sequence>
           <xs:element ref="Z:Expr"/>
         </xs:sequence>
@@ -1773,6 +1773,41 @@
     </xs:complexContent>
   </xs:complexType>
 
+
+<!-- Name Set Expression complexTypes -->
+  <xs:complexType name="NameSet">
+    <xs:complexContent>
+      <xs:extension base="Z:TermA"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="BasicNameSet">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:NameSet">
+        <xs:sequence>
+          <xs:element ref="Z:RefName" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="RefNameSet">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:NameSet">
+        <xs:sequence>
+          <xs:element ref="Z:RefName"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ApplNameSet">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:NameSet">
+        <xs:sequence>
+          <xs:element ref="Z:Expr"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
   <!-- Action complexType -->     
   
   <xs:complexType name="CircusAction">
