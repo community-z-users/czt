@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.2//EN" "http://apache.org/forrest/dtd/document-v12.dtd">
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.2//EN" "http://forrest.apache.org/dtd/document-v13.dtd">
 <document> 
   <header> 
     <title>CZT User Manual</title> 
@@ -13,8 +13,8 @@
         written in the Z specification language.
       </p>
       <p>
-        For historical reasons, there are two bundeles on the sourceforge
-        web-site.  The bundle "corejava" is depricated and contains
+        For historical reasons, there are two bundles on the sourceforge
+        web-site.  The bundle "corejava" is deprecated and contains
         only old releases of corejava.  The bundle "czt" is a collection
         of tools like parser and typechecker, and also contains "corejava".
       </p>
@@ -62,7 +62,7 @@
           you must download and install it to compile and run the software.
         </p>
       </section>
-      <section>
+      <section id="building">
         <title>Building the sources</title>
         <p>
           Download the CZT source release from
@@ -75,8 +75,20 @@
         </p>
         <p>
           Run
-          <code>ant</code>.  If this is not working report a bug at
-          <link href="site:development">Sourceforge</link>.
+          <code>ant</code>.
+          By default, ant will build the jar files and install them in the
+          <code>&lt;CZT_HOME&gt;/lib</code>
+          directory.  Optionally, you can pass an
+          argument to ant.  Call
+          <code>ant -projecthelp</code>
+          to get help information about which arguments are available.
+        </p>
+        <p>
+          If you have trouble compiling, please read the
+          <code>README.txt</code>
+          file within the sub-project you have trouble with.
+          If this does not help, report a bug or file a support request at our
+          <link href="site:development">sourceforge web-site</link>.
         </p>
       </section>
     </section>
@@ -97,23 +109,23 @@
         repository.  The same applies to the JAXB generated classes.
         This requires that, in addition to the software mentioned
         above, you will need to install
-        <ul>
-          <li>
-            <link href="site:velocity">Velocity 1.4</link>
-          </li>
-          <li>
-            <link href="site:xalan">XalanJ 2.5.0</link>
-          </li>
-        </ul>
+      </p>
+      <ul>
+        <li>
+          <link href="site:velocity">Velocity 1.4</link>
+        </li>
+        <li>
+          <link href="site:xalan">XalanJ 2.5.0</link>
+        </li>
+      </ul>
+      <p>
         and customise the file
         <code>czt.properties</code>
         appropriately to build CZT from source.
       </p>
       <p>
-        Run
-        <code>ant</code> in the top level directory.
-        If this is not working report a bug at
-        <link href="site:development">Sourceforge</link>.
+        Now you can compile the sources as described
+        <link href="#building">above</link>.
       </p>
     </section>
     <section>
