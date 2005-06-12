@@ -148,12 +148,12 @@ public class UnknownType
     if (refExpr_ != null) {
       result += "(";
       if (getIsMem()) {
-	result += "member(";
+        result += "member(";
       }
       result += refExpr_.getRefName() + ")";
       if (getIsMem()) {
-	result += ")";
-      }      
+        result += ")";
+      }
     }
     return result;
   }

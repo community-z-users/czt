@@ -23,6 +23,8 @@ import java.util.List;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
+import net.sourceforge.czt.typecheck.z.util.GenParameterAnn;
+
 /**
  * A factory for creating types that hide VariableTypes.
  */
@@ -53,21 +55,21 @@ public class Factory
     for (int i = 0; i < children.length; i++) {
       Object next = children[i];
       if (next != null && next instanceof Term) {
-	Term nextTerm = (Term) next;
-	args[i] = cloneTerm(nextTerm);
+        Term nextTerm = (Term) next;
+        args[i] = cloneTerm(nextTerm);
       }
       else {
-	args[i] = children[i];
+        args[i] = children[i];
       }
     }
     Term result = term.create(args);
     assert result.equals(term);
-    copyLocAnn(term, result);
+    copyAnns(term, result);
     return result;
   }
 
-  //copy the LocAnn from term1 to term2
-  public static void copyLocAnn(Term term1, Term term2)
+  //copy the LocAnn and TypeEnvAnn from term1 to term2
+  public static void copyAnns(Term term1, Term term2)
   {
     if (term1 instanceof TermA && term2 instanceof TermA) {
       TermA termA1 = (TermA) term1;
@@ -75,6 +77,10 @@ public class Factory
       LocAnn locAnn = (LocAnn) termA1.getAnn(LocAnn.class);
       if (locAnn != null) {
         termA2.getAnns().add(locAnn);
+      }
+      TypeAnn typeAnn = (TypeAnn) termA1.getAnn(TypeAnn.class);
+      if (typeAnn != null) {
+        termA2.getAnns().add(typeAnn);
       }
     }
   }
@@ -205,6 +211,11 @@ public class Factory
     SignatureAnn signatureAnn = zFactory_.createSignatureAnn(signature);
     SignatureAnn result = new SignatureAnnImpl(signatureAnn);
     return result;
+  }
+
+  public TypeEnvAnn createTypeEnvAnn(List pairs)
+  {
+    return zFactory_.createTypeEnvAnn(pairs);
   }
 
   public SectTypeEnvAnn createSectTypeEnvAnn(List nameSecTypeTriple)

@@ -364,6 +364,7 @@ abstract public class Checker
       ClassType classType = (ClassType) type;
       ClassSig cSig = classType.getClassSig();
 
+      //System.err.println("before = " + toString(type));
       if (!(cSig instanceof VariableClassSig)) {
         //instantiate the state
         Signature state = cSig.getState();
@@ -374,7 +375,7 @@ abstract public class Checker
         //instantiate the attributes
         List<NameTypePair> attrs = cSig.getAttribute();
         for (NameTypePair pair : attrs) {
-          Type2 pairType = unwrapType(pair.getType());
+          Type pairType = pair.getType();
           instantiate(pairType);
         }
 
@@ -415,12 +416,12 @@ abstract public class Checker
       }
 
       result = classType;
+      //System.err.println("after = " + toString(result));
     }
     //if not a class type, use the Z typechecker's instantiate method
     else {
       result = super.instantiate(type);
     }
-
     return result;
   }
 
@@ -564,8 +565,8 @@ abstract public class Checker
   {
     String result = new String();
     RefName className = ctype.getThisClass().getRefName();
-    result += "(CLASS " + className + ")\n";
-    /*
+    result += "(CLASS " + className + "\n";
+
     ClassSig csig = ctype.getClassSig();
     result += "\tATTR(" + className + ")\n";
     for (Object o : csig.getAttribute()) {
@@ -578,7 +579,6 @@ abstract public class Checker
       result += "\t\t" + pair.getName() + " : " + toString(pair.getType()) + "\n";
     }
     result += ")";
-    */
     return result;
   }
 }

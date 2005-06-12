@@ -74,6 +74,12 @@ public class TypeEnv
     parameters_.pop();
   }
 
+  public TypeEnvAnn getTypeEnvAnn()
+  {
+    List<NameTypePair> pairs = getNameTypePairs();
+    return factory_.createTypeEnvAnn(pairs);
+  }
+
   public void addParameters(List<DeclName> parameters)
   {
     parameters_.peek().addAll(parameters);
@@ -143,8 +149,35 @@ public class TypeEnv
     return result;
   }
 
+  protected List<NameTypePair> getNameTypePairs()
+  {
+    List<NameTypePair> result = new ArrayList<NameTypePair>();
+    for (List<NameTypePair> list : typeInfo_) {
+      for (NameTypePair pair : list) {
+        NameTypePair existing = findNameTypePair(pair.getName(), result);
+        if (existing == null) {
+          result.add(pair);
+        }
+      }
+    }
+    return result;
+  }
+
+  protected NameTypePair findNameTypePair(DeclName declName,
+                                          List<NameTypePair> pairs)
+  {
+    NameTypePair result = null;
+    for (NameTypePair pair : pairs) {
+      if (pair.getName().equals(declName)) {
+        result = pair;
+        break;
+      }
+    }
+    return result;
+  }
+
   //gets the pair with the corresponding name
-  private NameTypePair getPair(Name name)
+  protected NameTypePair getPair(Name name)
   {
     NameTypePair result = null;
 

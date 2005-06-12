@@ -65,7 +65,7 @@ public class PostChecker
           ErrorAnn errorAnn =
             errorAnn(thetaExpr,
                      ErrorMessage.UNDECLARED_IDENTIFIER_IN_EXPR, params);
-          addAnn(thetaExpr, errorAnn);
+          addErrorAnn(thetaExpr, errorAnn);
           return errorAnn;
         }
       }
@@ -90,10 +90,10 @@ public class PostChecker
       //if this ref expr was created for an ExprPred
       ExprPred exprPred = (ExprPred) refName.getAnn(ExprPred.class);
       if (exprPred == null) {
-        addAnn(refName, errorAnn);
+        addErrorAnn(refName, errorAnn);
       }
       else {
-        addAnn(exprPred, errorAnn);
+        addErrorAnn(exprPred, errorAnn);
         removeAnn(refName, exprPred);
         Object ann = (ParameterAnn) exprPred.getAnn(ParameterAnn.class);
         removeAnn(exprPred, ann);
@@ -114,7 +114,7 @@ public class PostChecker
           Object [] params = {refExpr};
           ErrorAnn errorAnn =
             errorAnn(refExpr, ErrorMessage.PARAMETERS_NOT_DETERMINED, params);
-          addAnn(refExpr, errorAnn);
+          addErrorAnn(refExpr, errorAnn);
           removeAnn(refExpr, pAnn);
           return errorAnn;
         }
@@ -133,7 +133,7 @@ public class PostChecker
       Object [] params = {refExpr};
       ErrorAnn errorAnn =
         errorAnn(refExpr, ErrorMessage.TYPE_NOT_DETERMINED, params);
-      addAnn(refExpr, errorAnn);
+      addErrorAnn(refExpr, errorAnn);
       return errorAnn;
     }
     */
@@ -155,7 +155,7 @@ public class PostChecker
         Object [] params = {setExpr};
         ErrorAnn errorAnn =
           errorAnn(setExpr, ErrorMessage.PARAMETERS_NOT_DETERMINED, params);
-        addAnn(setExpr, errorAnn);
+        addErrorAnn(setExpr, errorAnn);
         return errorAnn;
       }
     }

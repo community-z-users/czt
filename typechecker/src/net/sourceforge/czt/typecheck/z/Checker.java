@@ -296,9 +296,8 @@ abstract public class Checker
     errors().add(errorAnn);
   }
 
-  //add an error to the list of error messages, and as an annotation
-  //to the term
-  protected void error(TermA termA, ErrorAnn errorAnn)
+  //add an error as an annotation to the term
+  protected void addErrorAnn(TermA termA, ErrorAnn errorAnn)
   {
     for (Object ann : termA.getAnns()) {
       if (ann instanceof ErrorAnn) {
@@ -309,6 +308,12 @@ abstract public class Checker
       }
     }
     termA.getAnns().add(errorAnn);
+  }
+
+  //add an error to the list of error messages, and as an annotation to the term
+  protected void error(TermA termA, ErrorAnn errorAnn)
+  {
+    addErrorAnn(termA, errorAnn);
     error(errorAnn);
   }
 
@@ -765,12 +770,12 @@ abstract public class Checker
       if (genericType(type).getOptionalType() != null) {
         optionalType = genericType(type).getOptionalType();
       }
-      Type2 instantiated = instantiate(optionalType);
+      Type2 instantiated = exprChecker().instantiate(optionalType);
       genericType(type).setOptionalType(instantiated);
       result = type;
     }
     else {
-      result = instantiate((Type2) type);
+      result = exprChecker().instantiate((Type2) type);
     }
 
     return result;
@@ -820,7 +825,7 @@ abstract public class Checker
     }
     else if (type instanceof PowerType) {
       PowerType powerType = (PowerType) type;
-      Type2 replaced = instantiate(powerType.getType());
+      Type2 replaced = exprChecker().instantiate(powerType.getType());
       powerType.setType(replaced);
       result = powerType;
     }
@@ -830,7 +835,7 @@ abstract public class Checker
     else if (type instanceof SchemaType) {
       SchemaType schemaType = (SchemaType) type;
       Signature signature = schemaType.getSignature();
-      instantiate(signature);
+      exprChecker().instantiate(signature);
       result = schemaType;
     }
     else if (type instanceof ProdType) {
@@ -839,13 +844,28 @@ abstract public class Checker
       for (int i = 0; i < prodType.getType().size(); i++) {
         Type2 next = (Type2) prodType.getType().get(i);
 
-        Type2 replaced = instantiate(next);
+        Type2 replaced = exprChecker().instantiate(next);
         prodType.getType().set(i, replaced);
       }
 
       result = prodType;
     }
     else if (type instanceof UnknownType) {
+      UnknownType uType = (UnknownType) type;
+      if (uType.getRefExpr() != null) {
+        RefExpr refExpr = uType.getRefExpr();
+        List<Expr> exprs = refExpr.getExpr();
+        System.err.println("instantiate " + format(refExpr));
+        for (Expr expr : exprs) {
+          Type2 exprType = getTypeFromAnns(expr);
+          if (exprType != null) {
+            System.err.println("\t before = " + exprType);
+            exprType = exprChecker().instantiate(exprType);
+            addTypeAnn(expr, exprType);
+            System.err.println("\t after = " + exprType);
+          }
+        }
+      }
       result = type;
     }
     return result;
@@ -855,7 +875,7 @@ abstract public class Checker
   {
     List<NameTypePair> pairs = signature.getNameTypePair();
     for (NameTypePair pair : pairs) {
-      Type replaced = instantiate(pair.getType());
+      Type replaced = exprChecker().instantiate(pair.getType());
       pair.setType(replaced);
     }
   }
@@ -930,21 +950,27 @@ abstract public class Checker
         type = (Type) factory().cloneTerm(sectTypeEnvType);
       }
       else {
-	UnknownType uType = (UnknownType) sectTypeEnvType;
-	RefExpr refExpr = uType.getRefExpr();
-	if (refExpr != null &&  !name.equals(refExpr.getRefName())) {
-	  type = resolveUnknownType(uType);
-	}
+        UnknownType uType = (UnknownType) sectTypeEnvType;
+        RefExpr refExpr = uType.getRefExpr();
+        if (refExpr != null &&  !name.equals(refExpr.getRefName())) {
+          type = resolveUnknownType(uType);
+        }
       }
     }
 
     //if not in any of the environments, return a variable type with the
     //specified name
-    if (type instanceof UnknownType && 
-	unknownType(type).getRefExpr() == null) {
+    if (type instanceof UnknownType &&
+        unknownType(type).getRefExpr() == null) {
       //add an UndeclaredAnn
-      UndeclaredAnn ann = new UndeclaredAnn();
-      name.getAnns().add(ann);
+      //Type annType = getTypeFromAnns(name);
+      //if (annType instanceof UnknownType) {
+        UndeclaredAnn ann = new UndeclaredAnn();
+        name.getAnns().add(ann);
+        //}
+    // else {
+        // type = annType;
+        //}
     }
     else {
       //remove an UndeclaredAnn if there is one
@@ -955,30 +981,45 @@ abstract public class Checker
 
   protected Type2 resolveUnknownType(Type2 type)
   {
-    Type2 result = type;    
+    Type2 result = type;
     if (sectTypeEnv().getSecondTime() && type instanceof UnknownType) {
       UnknownType uType = (UnknownType) type;
-      if (uType.getRefExpr() != null) {
-	Type lookup = getType(uType.getRefExpr().getRefName());
-	typeEnv().enterScope();
-	if (lookup instanceof GenericType) {
-	  GenericType gType = (GenericType) lookup;
-	  List<DeclName> declNames = gType.getName();
-	  for (DeclName declName : declNames) {
-	    GenParamType paramType = factory().createGenParamType(declName);
-	    PowerType powerType = factory().createPowerType(paramType);
-	    typeEnv().add(declName, powerType);
-	  }
-	}
-	
-	Type2 refType = (Type2) uType.getRefExpr().accept(exprChecker());
-	if (uType.getIsMem() && refType instanceof PowerType) {
-	  result = powerType(refType).getType();
-	}
-	else if (!uType.getIsMem()) {
-	  result = refType;
-	}
-	typeEnv().exitScope();
+      RefExpr refExpr = uType.getRefExpr();
+      if (refExpr != null) {
+        unificationEnv().enterScope();
+        RefName refName = refExpr.getRefName();
+        Type refType = getType(refName);
+        if (refType instanceof GenericType) {
+          GenericType gType = (GenericType) refType;
+          GenericType newType =
+            factory().createGenericType(gType.getName(),
+                                        gType.getType(),
+                                        null);
+          sectTypeEnv().update(refName, newType);
+          List<DeclName> names = genericType(refType).getName();
+          List<Expr> exprs = refExpr.getExpr();
+          if (names.size() == exprs.size()) {
+            System.err.println("refexpr = " + format(refExpr));
+            for (int i = 0; i < names.size(); i++) {
+              Type2 exprType = getTypeFromAnns(exprs.get(i));
+              System.err.println("\tenvAdd " + names.get(i) + " : " + exprType);
+              unificationEnv().addGenName(names.get(i), exprType);
+            }
+          }
+          else {
+            refType = type;
+          }
+        }
+        else {
+          sectTypeEnv().update(refName, type);
+        }
+        if (uType.getIsMem() && unwrapType(refType) instanceof PowerType) {
+          result = powerType(unwrapType(refType)).getType();
+        }
+        else if (!uType.getIsMem()) {
+          result = unwrapType(refType);
+        }
+        unificationEnv().exitScope();
       }
     }
     return result;
@@ -1009,7 +1050,7 @@ abstract public class Checker
   }
 
   protected NameNamePair findNameNamePair(RefName refName,
-                                                List<NameNamePair> pairs)
+                                          List<NameNamePair> pairs)
   {
     NameNamePair result = null;
     for (NameNamePair pair : pairs) {

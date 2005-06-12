@@ -126,10 +126,6 @@ public class ExprChecker
 
     //if this is undeclared, create an unknown type with this RefExpr
     Object undecAnn = refName.getAnn(UndeclaredAnn.class);
-    if (undecAnn != null) {
-      assert type instanceof UnknownType;
-      unknownType(type).setRefExpr(refExpr);
-    }
 
     //get an existing parameter annotations
     ParameterAnn pAnn = (ParameterAnn) refExpr.getAnn(ParameterAnn.class);
@@ -195,8 +191,8 @@ public class ExprChecker
               //unification environment
               else {
                 //add the type to the environment
-                Type2 replacementType = vPowerType.getType();
-                unificationEnv().addGenName(declName, (Type2) replacementType);
+                Type2 substType = vPowerType.getType();
+                unificationEnv().addGenName(declName, (Type2) substType);
               }
             }
           }
@@ -211,6 +207,13 @@ public class ExprChecker
         }
       }
     }
+    else if (undecAnn != null) {
+      assert type instanceof UnknownType;
+      unknownType(type).setRefExpr(refExpr);
+      for (Expr expr : exprs) {
+        expr.accept(exprChecker());
+      }
+    }
     else {
       if (exprs.size() > 0) {
         Object [] params = {refExpr.getRefName(), 0};
@@ -220,20 +223,6 @@ public class ExprChecker
 
     //add the type annotation
     addTypeAnn(refExpr, type);
-
-    if (useBeforeDecl()) {
-      if (type instanceof GenericType) {
-	GenericType gType = (GenericType) type;
-	GenericType newType =
-	  factory().createGenericType(gType.getName(),
-				      gType.getType(),
-				      null);
-	sectTypeEnv().update(refName, newType);
-      }
-      else {
-	sectTypeEnv().update(refName, type);
-      }
-    }
 
     Type2 result = unwrapType(type);
     return result;
@@ -1227,6 +1216,9 @@ public class ExprChecker
         }
       }
     }
+
+    //try to resolve this type if it is unknown
+    type = resolveUnknownType(type);
 
     //add the annotation
     addTypeAnn(bindSelExpr, type);

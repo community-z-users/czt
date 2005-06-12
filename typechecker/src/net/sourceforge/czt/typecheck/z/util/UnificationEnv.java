@@ -76,11 +76,19 @@ public class UnificationEnv
   {
     boolean result = false;
 
-    NameTypePair nameTypePair =
-      factory_.createNameTypePair(name, type2);
-    peek().add(nameTypePair);
+    NameTypePair pair = factory_.createNameTypePair(name, type2);
+    peek().add(pair);
     result = true;
 
+    return result;
+  }
+
+  public List<NameTypePair> getPairs()
+  {
+    List<NameTypePair> result = new ArrayList<NameTypePair>();
+    for (List<NameTypePair> pairs : unificationInfo_) {
+      result.addAll(pairs);
+    }
     return result;
   }
 
