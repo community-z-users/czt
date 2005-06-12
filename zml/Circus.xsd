@@ -1290,7 +1290,7 @@
   </xs:element>      
  
   <!-- Circus Commands -->
-  <xs:element name="SpecStmtCommand" type="CIRCUS:SpecStmtCommand" substitutionGroup="CIRCUS:Command">
+  <xs:element name="SpecStmtCommand" type="CIRCUS:SpecStmtCommand" substitutionGroup="CIRCUS:CircusCommand">
     <xs:annotation>
       <xs:documentation>
         <p>
@@ -1308,14 +1308,14 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="AssignmentCommand" type="CIRCUS:AssignmentCommand" substitutionGroup="CIRCUS:Command">
+  <xs:element name="AssignmentCommand" type="CIRCUS:AssignmentCommand" substitutionGroup="CIRCUS:CircusCommand">
     <xs:annotation>
       <xs:documentation>
         Circus command declaring (possibly) multiple assignment.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="IfGuardedCommand" type="CIRCUS:IfGuardedCommand" substitutionGroup="CIRCUS:Command">
+  <xs:element name="IfGuardedCommand" type="CIRCUS:IfGuardedCommand" substitutionGroup="CIRCUS:CircusCommand">
     <xs:annotation>
       <xs:documentation>
         <p>
@@ -1327,7 +1327,7 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element> 
-  <xs:element name="VarDeclCommand" type="CIRCUS:VarDeclCommand" substitutionGroup="CIRCUS:Command">
+  <xs:element name="VarDeclCommand" type="CIRCUS:VarDeclCommand" substitutionGroup="CIRCUS:CircusCommand">
     <xs:annotation>
       <xs:documentation>
         <p>
@@ -2123,10 +2123,10 @@
   <!-- Parameterised Commands complextype -->
   <xs:complexType name="ParamCommand">
     <xs:complexContent>
-      <xs:extension base="CIRCUS:Command">
+      <xs:extension base="CIRCUS:CircusCommand">
         <xs:sequence>
           <xs:element ref="CIRCUS:QualifiedDecl" minOccurs="1" maxOccurs="unbounded"/>
-          <xs:element ref="CIRCUS:Command"/>
+          <xs:element ref="CIRCUS:CircusCommand"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2152,7 +2152,7 @@
   <!-- Circus Commands complextype -->
   <xs:complexType name="SpecStmtCommand">
     <xs:complexContent>
-      <xs:extension base="CIRCUS:Command">
+      <xs:extension base="CIRCUS:CircusCommand">
         <xs:sequence>
           <xs:element name="Frame" type="Z:RefName" minOccurs="1" maxOccurs="unbounded"/>
           <xs:element ref="Z:Pred">
@@ -2175,7 +2175,7 @@
   </xs:complexType>
   <xs:complexType name="AssignmentCommand">
     <xs:complexContent>
-      <xs:extension base="CIRCUS:Command">
+      <xs:extension base="CIRCUS:CircusCommand">
         <xs:sequence>
           <xs:element ref="CIRCUS:AssignmentPair" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
@@ -2184,7 +2184,7 @@
   </xs:complexType>
   <xs:complexType name="IfGuardedCommand">
     <xs:complexContent>
-      <xs:extension base="CIRCUS:Command">
+      <xs:extension base="CIRCUS:CircusCommand">
         <xs:sequence>
           <xs:element ref="CIRCUS:GuardedAction" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
@@ -2193,7 +2193,7 @@
   </xs:complexType>
   <xs:complexType name="VarDeclCommand">
     <xs:complexContent>
-      <xs:extension base="CIRCUS:Command">
+      <xs:extension base="CIRCUS:CircusCommand">
         <xs:sequence>          
           <xs:element ref="Z:VarDecl" minOccurs="1" maxOccurs="unbounded">
             <xs:annotation>
