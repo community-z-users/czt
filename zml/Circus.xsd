@@ -906,7 +906,7 @@
   </xs:element>
   
   <!-- Action :: Commands (base class) -->
-  <xs:element name="Command" type="CIRCUS:Command" abstract="true" substitutionGroup="CIRCUS:CircusAction">
+  <xs:element name="CircusCommand" type="CIRCUS:CircusCommand" abstract="true" substitutionGroup="CIRCUS:CircusAction">
     <xs:annotation>
       <xs:documentation>
         <p>
@@ -1271,7 +1271,7 @@
   </xs:element>       
   
   <!-- Parameterised Commands -->
-  <xs:element name="ParamCommand" type="CIRCUS:ParamCommand" abstract="true" substitutionGroup="CIRCUS:Command">
+  <xs:element name="ParamCommand" type="CIRCUS:ParamCommand" abstract="true" substitutionGroup="CIRCUS:CircusCommand">
     <xs:annotation>
       <xs:documentation>
         <p>
@@ -1862,7 +1862,7 @@
   </xs:complexType>  
   
   
-  <xs:complexType name="Command">
+  <xs:complexType name="CircusCommand">
     <xs:complexContent>
       <xs:extension base="CIRCUS:CircusAction"/>
     </xs:complexContent>
