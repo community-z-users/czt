@@ -57,7 +57,17 @@ public class UnknownType
 
   public List<Type2> getType()
   {
-    return pairs_;
+    List<Type2> result = pairs_;
+    for (int i = 0; i < result.size(); i++) {
+      Type2 type = (Type2) result.get(i);
+      if (type instanceof VariableType) {
+        VariableType vType = (VariableType) type;
+        if (vType.getValue() != vType) {
+          result.set(i, vType.getValue());
+        }
+      }
+    }
+    return result;
   }
 
   /**
