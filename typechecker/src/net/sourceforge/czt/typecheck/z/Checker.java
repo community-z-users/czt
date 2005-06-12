@@ -854,19 +854,14 @@ abstract public class Checker
       UnknownType uType = (UnknownType) type;
       if (uType.getRefExpr() != null) {
         RefExpr refExpr = uType.getRefExpr();
-        List<Expr> exprs = refExpr.getExpr();
-        System.err.println("instantiate " + format(refExpr));
-        for (Expr expr : exprs) {
-          Type2 exprType = getTypeFromAnns(expr);
-          if (exprType != null) {
-            System.err.println("\t before = " + exprType);
-            exprType = exprChecker().instantiate(exprType);
-            addTypeAnn(expr, exprType);
-            System.err.println("\t after = " + exprType);
-          }
+        List<Type2> types = uType.getType();
+        for (int i = 0; i < types.size(); i++) {
+          Type2 next = types.get(i);
+          Type2 replaced = exprChecker().instantiate(next);
+          uType.getType().set(i, replaced);
         }
       }
-      result = type;
+      result = uType;
     }
     return result;
   }
@@ -963,14 +958,8 @@ abstract public class Checker
     if (type instanceof UnknownType &&
         unknownType(type).getRefExpr() == null) {
       //add an UndeclaredAnn
-      //Type annType = getTypeFromAnns(name);
-      //if (annType instanceof UnknownType) {
-        UndeclaredAnn ann = new UndeclaredAnn();
-        name.getAnns().add(ann);
-        //}
-    // else {
-        // type = annType;
-        //}
+      UndeclaredAnn ann = new UndeclaredAnn();
+      name.getAnns().add(ann);
     }
     else {
       //remove an UndeclaredAnn if there is one
@@ -986,40 +975,31 @@ abstract public class Checker
       UnknownType uType = (UnknownType) type;
       RefExpr refExpr = uType.getRefExpr();
       if (refExpr != null) {
-        unificationEnv().enterScope();
         RefName refName = refExpr.getRefName();
         Type refType = getType(refName);
         if (refType instanceof GenericType) {
-          GenericType gType = (GenericType) refType;
-          GenericType newType =
-            factory().createGenericType(gType.getName(),
-                                        gType.getType(),
-                                        null);
-          sectTypeEnv().update(refName, newType);
           List<DeclName> names = genericType(refType).getName();
-          List<Expr> exprs = refExpr.getExpr();
-          if (names.size() == exprs.size()) {
-            System.err.println("refexpr = " + format(refExpr));
+          List<Type2> types = uType.getType();
+          if (names.size() == types.size()) {
+            unificationEnv().enterScope();
             for (int i = 0; i < names.size(); i++) {
-              Type2 exprType = getTypeFromAnns(exprs.get(i));
-              System.err.println("\tenvAdd " + names.get(i) + " : " + exprType);
-              unificationEnv().addGenName(names.get(i), exprType);
+              unificationEnv().addGenName(names.get(i), types.get(i));
             }
+            Type newType = exprChecker().instantiate(refType);
+            refType = newType;
+            unificationEnv().exitScope();
           }
           else {
             refType = type;
           }
         }
-        else {
-          sectTypeEnv().update(refName, type);
-        }
+
         if (uType.getIsMem() && unwrapType(refType) instanceof PowerType) {
           result = powerType(unwrapType(refType)).getType();
         }
         else if (!uType.getIsMem()) {
           result = unwrapType(refType);
         }
-        unificationEnv().exitScope();
       }
     }
     return result;
@@ -1158,5 +1138,49 @@ abstract public class Checker
     if (debug()) {
       System.err.println(message);
     }
+  }
+
+  public static String toString(Type type)
+  {
+    String result = new String();
+    if (unwrapType(type) instanceof PowerType &&
+        powerType(unwrapType(type)).getType() instanceof net.sourceforge.czt.oz.ast.ClassRefType) {
+      net.sourceforge.czt.oz.ast.ClassRefType ctype = (net.sourceforge.czt.oz.ast.ClassRefType) powerType(unwrapType(type)).getType();
+      result = "P " + classRefTypeToString(ctype);
+    }
+    else if (type instanceof net.sourceforge.czt.oz.ast.ClassRefType) {
+      net.sourceforge.czt.oz.ast.ClassRefType ctype = (net.sourceforge.czt.oz.ast.ClassRefType) type;
+      result = classRefTypeToString(ctype);
+    }
+    else {
+      result = type.toString();
+    }
+    return result;
+  }
+
+  public static String classRefTypeToString(net.sourceforge.czt.oz.ast.ClassRefType ctype)
+  {
+    String result = new String();
+    RefName className = ctype.getThisClass().getRefName();
+    result += "(CLASS " + className + "\n";
+
+    net.sourceforge.czt.oz.ast.ClassSig csig = ctype.getClassSig();
+    result += "\tATTR(" + className + ")\n";
+    for (Object o : csig.getAttribute()) {
+      NameTypePair pair = (NameTypePair) o;
+      result += "\t\t" + pair.getName() + " : " + pair.getType() + "\n";
+    }
+    result += "\tSTATE(" + className + ")\n";
+    for (Object o : csig.getState().getNameTypePair()) {
+      NameTypePair pair = (NameTypePair) o;
+      result += "\t\t" + pair.getName() + " : " + toString(pair.getType()) + "\n";
+    }
+    result += "\tOPS(" + className + ")\n";
+    for (Object o : csig.getOperation()) {
+      net.sourceforge.czt.oz.ast.NameSignaturePair p = (net.sourceforge.czt.oz.ast.NameSignaturePair) o;
+      result += "\t\t" + p.getName() + " : " + p.getSignature();
+    }
+    result += ")";
+    return result;
   }
 }

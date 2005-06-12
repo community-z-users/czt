@@ -209,9 +209,17 @@ public class ExprChecker
     }
     else if (undecAnn != null) {
       assert type instanceof UnknownType;
-      unknownType(type).setRefExpr(refExpr);
+      UnknownType uType = (UnknownType) type;
+      uType.setRefExpr(refExpr);
       for (Expr expr : exprs) {
-        expr.accept(exprChecker());
+        Type2 exprType = (Type2) expr.accept(exprChecker());
+        PowerType vPowerType = factory().createPowerType();
+        Type2 baseType = factory().createUnknownType();
+        UResult unified = unify(vPowerType, exprType);
+        if (unified != FAIL) {
+          baseType = vPowerType.getType();
+        }
+        uType.getType().add(baseType);
       }
     }
     else {

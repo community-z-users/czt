@@ -33,11 +33,40 @@ public class UnificationEnv
   extends net.sourceforge.czt.typecheck.z.util.UnificationEnv
 {
   //true if and only if strong unification is to be used
-  protected boolean strong_ = true;
+  protected boolean strong_;
+
+  public UnificationEnv(ZFactory zFactory, boolean strong)
+  {
+    super(zFactory);
+    strong_ = strong;
+  }
 
   public UnificationEnv(ZFactory zFactory)
   {
-    super(zFactory);
+    this(zFactory, false);
+  }
+
+  public void setStrong(boolean strong)
+  {
+    strong_ = strong;
+  }
+
+  public UResult strongUnify(Type2 typeA, Type2 typeB)
+  {
+    final boolean previous = strong_;
+    strong_ = true;
+    UResult result = this.unify(typeA, typeB);
+    strong_ = previous;
+    return result;
+  }
+
+  public UResult weakUnify(Type2 typeA, Type2 typeB)
+  {
+    final boolean previous = strong_;
+    strong_ = false;
+    UResult result = this.unify(typeA, typeB);
+    strong_ = previous;
+    return result;
   }
 
   public UResult unify(Type2 typeA, Type2 typeB)
@@ -50,7 +79,7 @@ public class UnificationEnv
       result = unifyVarClassType((VariableClassType) typeB, typeA);
     }
     else if (typeA instanceof ClassType && typeB instanceof ClassType) {
-      result = unifyClassType((ClassType) typeA, (ClassType) typeB);
+      result = strongUnifyClassType((ClassType) typeA, (ClassType) typeB);
     }
     else {
       result = super.unify(typeA, typeB);
@@ -83,6 +112,38 @@ public class UnificationEnv
 
   protected UResult unifyClassType(ClassType typeA, ClassType typeB)
   {
+    UResult result = FAIL;
+    if (strong_) {
+      result = strongUnifyClassType(typeA, typeB);
+    }
+    else {
+      result = weakUnifyClassType(typeA, typeB);
+    }
+    return result;
+  }
+
+  protected UResult weakUnifyClassType(ClassType typeA, ClassType typeB)
+  {
+    UResult result = FAIL;
+    List<ClassRef> classRefsA = typeA.getClassSig().getClasses();
+    List<ClassRef> classRefsB = typeB.getClassSig().getClasses();
+    for (ClassRef classRefA : classRefsA) {
+      ClassRef classRefB = findRef(classRefA.getRefName(), classRefsB);
+      if (classRefB != null) {
+        UResult unified = instantiations(classRefA, classRefB);
+        if (SUCC.equals(unified)) {
+          result = SUCC;
+        }
+        else if (PARTIAL.equals(unified) && !SUCC.equals(result)) {
+          result = PARTIAL;
+        }
+      }
+    }
+    return result;
+  }
+
+  protected UResult strongUnifyClassType(ClassType typeA, ClassType typeB)
+  {
     UResult result = SUCC;
     List<ClassRef> classRefsA = typeA.getClassSig().getClasses();
     List<ClassRef> classRefsB = typeB.getClassSig().getClasses();
@@ -91,20 +152,20 @@ public class UnificationEnv
     }
     else {
       for (ClassRef classRefA : classRefsA) {
-	ClassRef classRefB = findRef(classRefA.getRefName(), classRefsB);
-	if (classRefB == null) {
-	  result = FAIL;
-	  break;
-	}
+        ClassRef classRefB = findRef(classRefA.getRefName(), classRefsB);
+        if (classRefB == null) {
+          result = FAIL;
+          break;
+        }
 
-	UResult unified = instantiations(classRefA, classRefB);
-	if (unified == FAIL) {
-	  result = FAIL;
-	  break;
-	}
-	else if (PARTIAL.equals(unified)) {
-	  result = PARTIAL;
-	}
+        UResult unified = instantiations(classRefA, classRefB);
+        if (unified == FAIL) {
+          result = FAIL;
+          break;
+        }
+        else if (PARTIAL.equals(unified)) {
+          result = PARTIAL;
+        }
       }
     }
 

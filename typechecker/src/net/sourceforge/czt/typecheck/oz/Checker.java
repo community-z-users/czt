@@ -542,43 +542,4 @@ abstract public class Checker
   {
     return new net.sourceforge.czt.typecheck.oz.util.CarrierSet();
   }
-
-  public static String toString(Type type)
-  {
-    String result = new String();
-    if (unwrapType(type) instanceof PowerType &&
-        powerType(unwrapType(type)).getType() instanceof ClassRefType) {
-      ClassRefType ctype = (ClassRefType) powerType(unwrapType(type)).getType();
-      result = "P " + classRefTypeToString(ctype);
-    }
-    else if (type instanceof ClassRefType) {
-      ClassRefType ctype = (ClassRefType) type;
-      result = classRefTypeToString(ctype);
-    }
-    else {
-      result = type.toString();
-    }
-    return result;
-  }
-
-  public static String classRefTypeToString(ClassRefType ctype)
-  {
-    String result = new String();
-    RefName className = ctype.getThisClass().getRefName();
-    result += "(CLASS " + className + "\n";
-
-    ClassSig csig = ctype.getClassSig();
-    result += "\tATTR(" + className + ")\n";
-    for (Object o : csig.getAttribute()) {
-      NameTypePair pair = (NameTypePair) o;
-      result += "\t\t" + pair.getName() + " : " + pair.getType() + "\n";
-    }
-    result += "\tSTATE(" + className + ")\n";
-    for (Object o : csig.getState().getNameTypePair()) {
-      NameTypePair pair = (NameTypePair) o;
-      result += "\t\t" + pair.getName() + " : " + toString(pair.getType()) + "\n";
-    }
-    result += ")";
-    return result;
-  }
 }

@@ -90,11 +90,11 @@ public class OpExprChecker
     if (deltaList != null) {
       List<RefName> refNames = deltaList.getRefName();
       for (RefName delta : refNames) {
-	DeclName declName = factory().createDeclName(delta);
-	if (!primary().contains(declName)) {
-	  Object [] params = {delta};
-	  error(delta, ErrorMessage.NON_PRIMDECL_IN_DELTALIST, params);
-	}
+        DeclName declName = factory().createDeclName(delta);
+        if (!primary().contains(declName)) {
+          Object [] params = {delta};
+          error(delta, ErrorMessage.NON_PRIMDECL_IN_DELTALIST, params);
+        }
       }
     }
 
@@ -122,8 +122,6 @@ public class OpExprChecker
     if (expr != null) {
       exprType = (Type2) expr.accept(exprChecker());
     }
-    //get the type of the expression
-    //Type2 exprType = (Type2) expr.accept(exprChecker());
 
     VariableClassType vClassType = factory().createVariableClassType();
     vClassType.complete();

@@ -18,13 +18,18 @@
 */
 package net.sourceforge.czt.typecheck.z.impl;
 
+import java.util.List;
+
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.z.ast.RefExpr;
+import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.Type2Impl;
+import net.sourceforge.czt.base.impl.ListTermImpl;
 
 /**
- * <code>UnknownTypeImpl</code> is an implementation of
- * <code>UnknownType</code>.
+ * An UnknownType is used when the type of an expression cannot be
+ * determined. If the RefExpr in this type is non-null, then the type
+ * is undetermined because the name in the RefExpr is not yet
+ * declared.
  */
 public class UnknownType
   extends Type2Impl
@@ -32,19 +37,27 @@ public class UnknownType
   /** The undefined reference associated with this type. */
   protected RefExpr refExpr_;
 
+  /** The list of instantiations associate with this type. */
+  protected List<Type2> pairs_;
+
   /** True iff refExpr_ is the superset of this type. */
   protected boolean isMem_;
 
-  protected UnknownType()
-  {
-    refExpr_ = null;
-    isMem_ = false;
-  }
-
   protected UnknownType(RefExpr refExpr)
   {
-    this();
     refExpr_ = refExpr;
+    isMem_ = false;
+    pairs_ = new ListTermImpl(Type2.class);
+  }
+
+  protected UnknownType()
+  {
+    this(null);
+  }
+
+  public List<Type2> getType()
+  {
+    return pairs_;
   }
 
   /**
@@ -109,7 +122,7 @@ public class UnknownType
 
   public Object [] getChildren()
   {
-    Object [] children = { getRefExpr(), new Boolean(getIsMem()) };
+    Object [] children = { getRefExpr(), getType(), new Boolean(getIsMem()) };
     return children;
   }
 
@@ -128,9 +141,11 @@ public class UnknownType
     try {
       zedObject = new UnknownType();
       RefExpr refExpr = (RefExpr) args[0];
-      Boolean isMem = (Boolean) args[1];
+      List types = (List) args[1];
+      Boolean isMem = (Boolean) args[2];
       zedObject.setRefExpr(refExpr);
       zedObject.setIsMem(isMem);
+      zedObject.getType().addAll(types);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
