@@ -142,11 +142,8 @@ public class UnificationEnv
     UResult result = FAIL;
 
     //if either type is unknown, return PARTIAL
-    if (typeA instanceof UnknownType) {
-      result = unifyUnknownType(unknownType(typeA), typeB);
-    }
-    if (typeB instanceof UnknownType) {
-      result = unifyUnknownType(unknownType(typeB), typeA);
+    if (typeA instanceof UnknownType || typeB instanceof UnknownType) {
+      result = PARTIAL;
     }
     else if (isVariableType(typeA)) {
       result = unifyVariableType(variableType(typeA), typeB);
