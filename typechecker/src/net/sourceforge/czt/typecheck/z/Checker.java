@@ -409,6 +409,11 @@ abstract public class Checker
     return result;
   }
 
+  protected static ListTerm listTerm()
+  {
+    return new net.sourceforge.czt.base.impl.ListTermImpl();
+  }
+
   protected static <E> List<E> list()
   {
     return new java.util.ArrayList<E>();
@@ -858,7 +863,7 @@ abstract public class Checker
         for (int i = 0; i < types.size(); i++) {
           Type2 next = types.get(i);
           Type2 replaced = exprChecker().instantiate(next);
-          uType.getType().set(i, replaced);
+          types.set(i, replaced);
         }
       }
       result = uType;
@@ -972,6 +977,7 @@ abstract public class Checker
   {
     Type2 result = type;
     if (sectTypeEnv().getSecondTime() && type instanceof UnknownType) {
+      System.err.println("unknown: " + type);
       UnknownType uType = (UnknownType) type;
       RefExpr refExpr = uType.getRefExpr();
       if (refExpr != null) {
@@ -980,6 +986,13 @@ abstract public class Checker
         if (refType instanceof GenericType) {
           List<DeclName> names = genericType(refType).getName();
           List<Type2> types = uType.getType();
+
+          if (types.size() == 0) {
+            ParameterAnn pAnn =
+              (ParameterAnn) refExpr.getAnn(ParameterAnn.class);
+            //assert pAnn != null;
+          }
+
           if (names.size() == types.size()) {
             unificationEnv().enterScope();
             for (int i = 0; i < names.size(); i++) {

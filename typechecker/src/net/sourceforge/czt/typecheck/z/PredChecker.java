@@ -219,7 +219,7 @@ public class PredChecker
       if (!instanceOf(signature, VariableSignature.class)) {
         ParameterAnn pAnn = (ParameterAnn) exprPred.getAnn(ParameterAnn.class);
         if (pAnn == null) {
-          pAnn = new ParameterAnn(list());
+          pAnn = new ParameterAnn(listTerm());
         }
 
         List<NameTypePair> pairs = signature.getNameTypePair();

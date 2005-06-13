@@ -18,7 +18,7 @@
 */
 package net.sourceforge.czt.typecheck.z.util;
 
-import java.util.List;
+import net.sourceforge.czt.base.ast.ListTerm;
 
 /**
  * An annotation for recording a list of annotations associated with
@@ -27,14 +27,14 @@ import java.util.List;
 public class ParameterAnn
 {
   /** The parameters. */
-  protected List parameters_;
+  protected ListTerm parameters_;
 
-  public ParameterAnn(List anns)
+  public ParameterAnn(ListTerm anns)
   {
     parameters_ = anns;
   }
 
-  public List getParameters()
+  public ListTerm getParameters()
   {
     return parameters_;
   }

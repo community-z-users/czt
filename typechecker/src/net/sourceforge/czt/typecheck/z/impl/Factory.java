@@ -22,6 +22,7 @@ import java.util.List;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.typecheck.z.util.ParameterAnn;
 
 /**
  * A factory for creating types that hide VariableTypes.
@@ -76,9 +77,9 @@ public class Factory
       if (locAnn != null) {
         termA2.getAnns().add(locAnn);
       }
-      TypeAnn typeAnn = (TypeAnn) termA1.getAnn(TypeAnn.class);
-      if (typeAnn != null) {
-        termA2.getAnns().add(typeAnn);
+      ParameterAnn pAnn = (ParameterAnn) termA1.getAnn(ParameterAnn.class);
+      if (pAnn != null) {
+        termA2.getAnns().add(pAnn);
       }
     }
   }

@@ -137,7 +137,7 @@ public class ExprChecker
       GenericType genericType = (GenericType) type;
       //if the instantiation is implicit
       if (exprs.size() == 0) {
-        List<Type2> instantiations = list();
+        ListTerm instantiations = listTerm();
         unificationEnv().enterScope();
 
         //if this has not been visited previously, add new vtypes
