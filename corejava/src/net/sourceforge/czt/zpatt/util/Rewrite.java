@@ -80,8 +80,6 @@ public class Rewrite
     predSequent.setPred(pred);
     SimpleProver prover = new SimpleProver(rules_, factory);
     if (prover.prove(predSequent)) {
-      // TODO: Copy and remove joker before returning?
-      // This should also check whether there are unbound jokers left.
       return joker.getBinding().getExpr().accept(new RemoveJokerVisitor());
     }
     return newExpr;
