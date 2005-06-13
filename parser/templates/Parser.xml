@@ -559,9 +559,10 @@ action code
         return (OpTable) sectInfo_.get(new Key(section, OpTable.class));
       }
       catch (CommandException e) {
-        Object [] args = { section,
+        Object [] args = { "Operator table",
+                           section,
                            new LocInfo(file_, line, column) };
-        parser.report_error(ParseMessage.MSG_PARENT_NOT_FOUND, args);
+        parser.report_error(ParseMessage.MSG_OF_PARENT_NOT_FOUND, args);
         return null;
       }
     }
@@ -599,10 +600,19 @@ action code
     }
 
 <add:zpatt>
-    private JokerTable getJokerTable(String section)
+    private JokerTable getJokerTable(String section, int line, int column)
        throws CommandException
     {
-      return (JokerTable) sectInfo_.get(new Key(section, JokerTable.class));
+      try {
+        return (JokerTable) sectInfo_.get(new Key(section, JokerTable.class));
+      }
+      catch (CommandException e) {
+        Object [] args = { "Joker table",
+                           section,
+                           new LocInfo(file_, line, column) };
+        parser.report_error(ParseMessage.MSG_OF_PARENT_NOT_FOUND, args);
+        return null;
+      }
     }
 
     private void resetJokerTable(String section, List parents,
@@ -614,11 +624,11 @@ action code
         assert parents.size() == 0;
       }
       else {
-        JokerTable parentJoker = getJokerTable(PRELUDE);
+        JokerTable parentJoker = getJokerTable(PRELUDE, line, column);
         if (parentJoker != null) parentJokerTables.add(parentJoker);
         for (Iterator iter = parents.iterator(); iter.hasNext();) {
           final String parent = ((Parent) iter.next()).getWord();
-          parentJoker = getJokerTable(parent);
+          parentJoker = getJokerTable(parent, line, column);
           if (parentJoker != null) {
             parentJokerTables.add(parentJoker);
           }
