@@ -27,6 +27,14 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.visitor.*;
 
+/**
+ * <p>A simple implementation of the Prover interface.</p>
+ *
+ * <p>This prover tries to prove a PredSequent by searching for an
+ * applicable rule and, when one is found, tries to prove the new goals
+ * created with the application of the rule.  It uses depth-first
+ * search.</p>
+ */
 public class SimpleProver
   implements Prover
 {
@@ -79,7 +87,6 @@ public class SimpleProver
    * <code>false</code> otherwise.
    *
    * Only handles PredSequent so far.
-   * Other sequents are assumed to be true.
    */
   public boolean prove(List sequents)
   {
@@ -95,6 +102,10 @@ public class SimpleProver
     return true;
   }
 
+  /**
+   * Tries to apply a given Rule to a given PredSequent.
+   * The factory is used to create the Deduction object.
+   */
   public static boolean applyRule(Rule rule,
                                   PredSequent predSequent,
                                   Factory factory)
@@ -202,7 +213,7 @@ public class SimpleProver
 
   /**
    * A visitor that copies a term and uses the given factory to create
-   * new Joker.  Ccurrently, JokerExpr and JokerPred are supported.
+   * new Joker.  Currently, JokerExpr and JokerPred are supported.
    */
   public static class CopyVisitor
     implements TermVisitor,

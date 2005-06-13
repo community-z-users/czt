@@ -21,12 +21,22 @@ package net.sourceforge.czt.zpatt.util;
 
 import net.sourceforge.czt.zpatt.ast.PredSequent;
 
+/**
+ * <p>A prover can be used to find proofs.</p>
+ *
+ * <p>Different provers might use different strategies to find proofs
+ * (for example depth-first versus breadth-first search).</p>
+ *
+ * <p>This very first version does not support searching for
+ * alternative proofs, nor does it support undos (reseting the
+ * bindings after a proof has been found).  This needs updating!</p>
+ */
 public interface Prover
 {
   /**
-   * Proves a given sequent.
-   *
-   * @czt.todo return a proof here, or a set of bindings?
+   * Proves a given sequent.  Returns <code>true</code> if a proof
+   * has been found.  In this case, the Deduction element of the
+   * given PredSequent contains the proof.
    */
   boolean prove(PredSequent conclusion);
 }
