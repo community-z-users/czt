@@ -172,8 +172,9 @@ action code
       ZChar unmatched = decorword.check();
       if (unmatched != null) {
         final LocInfo locInfo = getLocation(line, column);
-        Object[] params = { unmatched, locInfo };
-        parser.report_error(ParseMessage.MSG_UNMATCHED_WORDGLUE, params);
+        final Object[] params = { unmatched };
+        parser.report_error(ParseMessage.MSG_UNMATCHED_WORDGLUE,
+                            params, locInfo);
       }
     }
 
@@ -202,8 +203,9 @@ action code
       final DeclName dn = factory_.createDeclName(name);
       if (dn.getStroke().size() != 0) {
         final LocInfo locInfo = getLocation(line, column);
-        Object[] params = { name, locInfo };
-  	parser.report_error(ParseMessage.MSG_STROKE_IN_OPNAME, params);
+        final Object[] params = { name };
+  	parser.report_error(ParseMessage.MSG_STROKE_IN_OPNAME,
+                            params, locInfo);
       }
       Operator result = factory_.createOperator(dn.getWord());
       return result;
@@ -212,8 +214,9 @@ action code
     private void misusedOpName(String name, int line, int column)
     {
       final LocInfo locInfo = getLocation(line, column);
-      Object [] params = {name, locInfo};
-      parser.report_error(ParseMessage.MSG_OPNAME_AS_DECLWORD, params);
+      final Object [] params = {name};
+      parser.report_error(ParseMessage.MSG_OPNAME_AS_DECLWORD,
+                          params, locInfo);
     }
 
     private LocInfo getLocation(int line, int column)
@@ -229,7 +232,7 @@ action code
     /**
      * Converts a list of String objects to a DeclName object.
      */
-    protected DeclName strListToDeclName(List list)
+    protected DeclName strListToDeclName(List list, int line, int column)
       throws ParseException
     {
       try {
@@ -237,8 +240,9 @@ action code
         return factory_.createDeclName(opName.getWord(), opName.getStroke());
       }
       catch (OperatorName.OperatorNameException e) {
-        final String message = "Syntax error: " + e.getMessage();
-        parser.report_fatal_error(message, null);
+        parser.report_error(ParseMessage.MSG_OPNAME_ERROR,
+                            new Object[0],
+                            getLocation(line, column));
         return null;
       }
     }
@@ -246,7 +250,7 @@ action code
     /**
      * Converts a list of String objects to a RefName object.
      */
-    protected RefName strListToRefName(List list)
+    protected RefName strListToRefName(List list, int line, int column)
       throws ParseException
     {
       try {
@@ -255,7 +259,9 @@ action code
       }
       catch (OperatorName.OperatorNameException e) {
         final String message = "Syntax error: " + e.getMessage();
-        parser.report_fatal_error(message, null);
+        parser.report_error(ParseMessage.MSG_OPNAME_ERROR,
+                            new Object[0],
+                            getLocation(line, column));
         return null;
       }
     }
@@ -283,7 +289,8 @@ action code
       }
       else {
         //I don't think that this is possible...?
-        parser.report_error(ParseMessage.MSG_PRED_EXPECTED, getLocation(t));
+        parser.report_error(ParseMessage.MSG_PRED_EXPECTED,
+                            new Object[0], getLocation(t));
       }
       return result;
     }
@@ -310,12 +317,12 @@ action code
 </add:oz>
 <add:z>
         parser.report_error(ParseMessage.MSG_EXPR_EXPECTED_FOUND_PRED,
-                            new Object [] {getLocation(t)});
+                            new Object [0], getLocation(t));
 </add:z>
       }
       else {
         parser.report_error(ParseMessage.MSG_EXPR_EXPECTED, 
-                            new Object [] {getLocation(t)});
+                            new Object [0], getLocation(t));
       }
       return result;
     }
@@ -336,12 +343,13 @@ action code
 
         if (re.getExpr().size() > 0) {
           parser.report_error(ParseMessage.MSG_REFNAME_NO_PARAMS_EXPECTED,
-                              getLocation(re));
+                              new Object [0], getLocation(re));
         }
         result = re.getRefName();
       }
       else {
-        parser.report_error(ParseMessage.MSG_REFNAME_EXPECTED, getLocation(t));
+        parser.report_error(ParseMessage.MSG_REFNAME_EXPECTED,
+                            new Object [0], getLocation(t));
       }
 
       return result;
@@ -360,7 +368,7 @@ action code
         result = factory_.createEvent(ope.getName(), ope.getExpr());
       }
       else {
-        parser.report_error(ParseMessage.MSG_SYNTAX_ERROR.toString(), opExpr);
+        parser.report_error(ParseMessage.MSG_SYNTAX_ERROR, opExpr);
       }
 
       return result;
@@ -386,7 +394,7 @@ action code
         e = factory_.createTupleExpr(exprList);
         addLocAnn(e, line, column);
       }
-      RefName rn = strListToRefName(name);
+      RefName rn = strListToRefName(name, line, column);
       MemPred result = factory_.createRelOpAppl(e, rn);
       addLocAnn(result.getRightExpr(), line, column);
       return result;
@@ -403,7 +411,7 @@ action code
                                          int line, int column)
       throws ParseException
     {
-      final RefName rn = strListToRefName(name);
+      final RefName rn = strListToRefName(name, line, column);
       Expr result = null;
 
       //get the first operator in the name list, i.e. the first
@@ -560,9 +568,9 @@ action code
       }
       catch (CommandException e) {
         Object [] args = { "Operator table",
-                           section,
-                           new LocInfo(file_, line, column) };
-        parser.report_error(ParseMessage.MSG_OF_PARENT_NOT_FOUND, args);
+                           section };
+        parser.report_error(ParseMessage.MSG_OF_PARENT_NOT_FOUND,
+                            args, new LocInfo(file_, line, column));
         return null;
       }
     }
@@ -590,11 +598,7 @@ action code
         opTable_ = new OpTable(section, parentOpTables);
       }
       catch (OpTable.OperatorException e) {
-        Symbol symbol = new Symbol(0, line, column);
-        final String message = "Parse error while merging the parent " +
-          "operator tables of section " + section +": " +
-          e.getMessage();
-        parser.report_fatal_error(message, symbol);
+        parser.report_fatal_error(ParseMessage.MSG_CANNOT_MERGE_OPTABLES);
      }
      opScanner_.setOperatorTable(opTable_);
     }
@@ -608,9 +612,9 @@ action code
       }
       catch (CommandException e) {
         Object [] args = { "Joker table",
-                           section,
-                           new LocInfo(file_, line, column) };
-        parser.report_error(ParseMessage.MSG_OF_PARENT_NOT_FOUND, args);
+                           section };
+        parser.report_error(ParseMessage.MSG_OF_PARENT_NOT_FOUND,
+                            args, new LocInfo(file_, line, column));
         return null;
       }
     }
@@ -638,11 +642,7 @@ action code
         jokerTable_ = new JokerTable(section, parentJokerTables);
       }
       catch (JokerTable.JokerException e) {
-        Symbol symbol = new Symbol(0, line, column);
-        final String message = "Parse error while merging the parent " +
-          "joker tables of section " + section +": " +
-          e.getMessage();
-        parser.report_fatal_error(message, symbol);
+        parser.report_fatal_error(ParseMessage.MSG_CANNOT_MERGE_JOKERTABLES);
      }
      jokerScanner_.setJokerTable(jokerTable_);
     }
@@ -786,10 +786,22 @@ parser code
     }
 
     /**
-     * The String is usually a ParseMessage key and the Object
-     * is usually a Symbol.
+     * The object is usually a Symbol.
+     *
+     * @throws IllegalArgumentException if the message is not a
+     *                                  ParseMessage key
      */
     public void report_error(String message, Object object)
+    {
+      ParseMessage msg =
+        (ParseMessage) Enum.valueOf(ParseMessage.class, message);
+      report_error(msg, object);
+    }
+
+    /**
+     * The object is usually a Symbol.
+     */
+    public void report_error(ParseMessage msg, Object object)
     {
       Object param = object != null ? object : action_obj.previous_;
       final LocInfo locInfo = getLocation(param);
@@ -802,31 +814,27 @@ parser code
           param = symbolMap_.get(symbol.sym);
         }
       }
-      try {
-        ParseMessage msg =
-          (ParseMessage) Enum.valueOf(ParseMessage.class, message);
-        Object[] params = { param, locInfo };
-        report_error(msg, params);
-      }
-      catch (IllegalArgumentException exception) {
-        ParseError error =
-          new ParseError(message, param, locInfo);
-        errorList_.add(error);
-        CztLogger.getLogger(<class/>.class).warning(error.toString());
-      }
+      report_error(msg, new Object[] { param }, locInfo);
     }
 
-    public void report_error(ParseMessage msg, Object object)
+    public void report_error(ParseMessage msg,
+                             Object object,
+                             LocInfo locInfo)
     {
-      Object [] params = { object };
-      report_error(msg, params);
+      report_error(msg, new Object[] { object }, locInfo);
     }
 
-    public void report_error(ParseMessage msg, Object[] params)
+    public void report_error(ParseMessage msg,
+                             Object[] params,
+                             LocInfo locInfo)
     {
-      errorList_.add(new ParseError(msg, params));
+      errorList_.add(new ParseError(msg, params, locInfo));
     }
 
+    /**
+     * @throws IllegalArgumentException if the message is not a
+     *                                  ParseMessage key
+     */
     public void report_fatal_error(String message, Object param)
       throws ParseException
     {
@@ -834,15 +842,29 @@ parser code
       done_parsing();
     }
 
+    public void report_fatal_error(ParseMessage msg)
+      throws ParseException
+    {
+      report_error(msg, new Object[0]);
+      done_parsing();
+    }
+
+    public void report_fatal_error(ParseMessage msg, Object object)
+      throws ParseException
+    {
+      report_error(msg, object);
+      done_parsing();
+    }
+
     public void syntax_error(Symbol token)
     {
-      report_error(ParseMessage.MSG_SYNTAX_ERROR.toString(), token);
+      report_error(ParseMessage.MSG_SYNTAX_ERROR, token);
     }
 
     public void unrecovered_syntax_error(Symbol token)
       throws ParseException
     {
-      report_fatal_error(ParseMessage.MSG_SYNTAX_ERROR.toString(), token);
+      report_fatal_error(ParseMessage.MSG_SYNTAX_ERROR, token);
     }
 
     protected LocInfo getLocation(Object info)
@@ -1564,7 +1586,9 @@ unboxedParagraphItem ::=
            }
            catch (OpTable.OperatorException e) {
              final Symbol token = new Symbol(Sym.ZED, otleft, otright);
-             parser.report_fatal_error(e.getMessage(), token);
+             parser.report_error(ParseMessage.MSG_CANNOT_ADD_OP,
+                                 new Object[0],
+                                 getLocation(otleft, otright));
            }
            RESULT = ot;
         :}
@@ -1842,10 +1866,9 @@ nofixTemplate ::=
         LPAREN DECORWORD:n optWordOperandList:ol RPAREN:rp
         {:
            if (ol.size() &lt; 1) {
-             final String message = "Syntax error " +
-               "(ARG or LISTARG token expected but found RPAREN)";
-             final Symbol token = new Symbol(Sym.RPAREN, rpleft, rpright);
-             parser.report_fatal_error(message, token);
+             parser.report_error(ParseMessage.MSG_UNEXPECTED_TOKEN,
+                                 new Object[] {"RPAREN"},
+                                 getLocation(rpleft, rpright));
            }
            ol.add(0, createOperator(n, nleft, nright));
            RESULT = ol;
@@ -2056,7 +2079,7 @@ declWordList ::=
         |
         declWordList:dwl COMMA opName:on
         {: 
-           dwl.add(strListToDeclName(on)); 
+           dwl.add(strListToDeclName(on, onleft, onright)); 
            RESULT = dwl;
         :} 
         |
@@ -2067,7 +2090,7 @@ declWordList ::=
         |
         opName:on
         {:
-           DeclName dn = strListToDeclName(on);
+           DeclName dn = strListToDeclName(on, onleft, onright);
            addLocAnn(dn, onleft, onright);
            RESULT = list(dn);
         :}
@@ -2167,7 +2190,7 @@ declName ::=
 </add:oz>
         opName:on
         {:
-           RESULT = strListToDeclName(on);
+           RESULT = strListToDeclName(on, onleft, onright);
            addLocAnn(RESULT, onleft, onright);
         :}
         ;
@@ -2228,7 +2251,7 @@ refName ::=
         |
         LPAREN opName:on RPAREN
         {:
-           DeclName declName = strListToDeclName(on);
+           DeclName declName = strListToDeclName(on, onleft, onright);
            RESULT = factory_.createRefName(declName.getWord(),
                                            declName.getStroke(),
                                            null);
@@ -2422,7 +2445,7 @@ prefixGenName ::=
         PRE:pre formalParameterName:fpn
         {:
            List name = list(pre, ARG_TOK);
-           RESULT = pair(strListToDeclName(name), list(fpn));
+           RESULT = pair(strListToDeclName(name, fpnleft, fpnright), list(fpn));
         :}
         |
         L:l optNameEsSsList:onesl formalParameterName:fpn1
@@ -2440,7 +2463,7 @@ prefixGenName ::=
            fps.add(fpn1);
            fps.add(fpn2);
 
-           RESULT = pair(strListToDeclName(name), fps); 
+           RESULT = pair(strListToDeclName(name, fpn2left, fpn2right), fps); 
         :}
         ;
 
@@ -2448,7 +2471,7 @@ postfixGenName ::=
         formalParameterName:fpn POST:p
         {:
            List name = list(ARG_TOK, p);
-           RESULT = pair(strListToDeclName(name), list(fpn));
+           RESULT = pair(strListToDeclName(name, pleft, pright), list(fpn));
         :}
         |
         formalParameterName:fpn1 EL:el optNameEsSsList:onesl 
@@ -2466,7 +2489,7 @@ postfixGenName ::=
            fps.addAll((List) onesl.getFirst());
            fps.add(fpn2);
 
-           RESULT = pair(strListToDeclName(name), fps);
+           RESULT = pair(strListToDeclName(name, eosleft, eosright), fps);
          :}
         ;
 
@@ -2481,7 +2504,7 @@ infixGenName ::=
            //construct the parameter list
            List fps = list(fpn1, fpn2);
 
-           RESULT = pair(strListToDeclName(name), fps);
+           RESULT = pair(strListToDeclName(name, fpn2left, fpn2right), fps);
         :}
         |
         formalParameterName:fpn1 EL:el optNameEsSsList:onesl 
@@ -2500,7 +2523,7 @@ infixGenName ::=
            fps.add(fpn2);
            fps.add(fpn3);
 
-           RESULT = pair(strListToDeclName(name), fps);
+           RESULT = pair(strListToDeclName(name, fpn3left, fpn3right), fps);
         :}
         ;
 
@@ -2517,7 +2540,7 @@ nofixGenName ::=
            List fps = (List) onesl.getFirst();
            fps.add(fpn);
 
-           RESULT = pair(strListToDeclName(name), fps);
+           RESULT = pair(strListToDeclName(name, eosleft, eosright), fps);
         :}
         ;
 
@@ -3584,8 +3607,9 @@ jokerPara ::=
              jokerTable_.add(RESULT);
            }
            catch (JokerTable.JokerException e) {
-             final Symbol token = new Symbol(Sym.JOKER, jleft, jright);
-             parser.report_error(e.getMessage(), token);
+             parser.report_error(ParseMessage.MSG_CANNOT_ADD_JOKER,
+                                 new Object[0],
+                                 getLocation(jleft, jright));
            }
         :}
         ;
@@ -3872,7 +3896,7 @@ class ::=
              if (next instanceof State) {
                if (s != null) {
                  ParseMessage message = ParseMessage.MSG_DUPLICATE_STATE;
-                 parser.report_error(message.toString(), next);
+                 parser.report_error(message, next);
                }
                s = (State) next;
                iter.remove();
@@ -3880,7 +3904,7 @@ class ::=
              else if (next instanceof InitialState) {
                if (is != null) {
                  ParseMessage message = ParseMessage.MSG_DUPLICATE_INIT;
-                 parser.report_error(message.toString(), next);
+                 parser.report_error(message, next);
                }
                is = (InitialState) next;
                iter.remove();

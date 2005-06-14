@@ -22,6 +22,9 @@ package net.sourceforge.czt.parser.util;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
+/**
+ * A parse error.
+ */
 public class ParseError
 {
   private static String RESOURCE_NAME =
@@ -33,51 +36,13 @@ public class ParseError
   private int column_;
   private String source_;
   private String message_;
-  private Object token_;
   private Object[] params_;
 
-  public ParseError(ParseMessage msg, Object[] params)
+  public ParseError(ParseMessage msg, Object[] params, LocInfo locInfo)
   {
     message_ = msg.toString();
     params_ = params;
-    final Object last = params[params.length - 1];
-    if (last instanceof LocInfo) {
-      LocInfo locInfo = (LocInfo) last;
-      setLocation(locInfo);
-    }
-  }
-
-  public ParseError(String message)
-  {
-    message_ = message;
-  }
-
-  public ParseError(String message, Object token)
-  {
-    this(message);
-    token_ = token;
-  }
-
-  public ParseError(String message, Object token, LocInfo locInfo)
-  {
-    this(message, token);
     setLocation(locInfo);
-  }
-
-  public ParseError(int line, int column, String source, String message)
-  {
-    this(message);
-    line_ = line;
-    column_ = column;
-    source_ = source;
-  }
-
-  public ParseError(int line, int column,
-                    String source, String message,
-                    Object token)
-  {
-    this(line, column, source, message);
-    token_ = token;
   }
 
   public int getLine()
@@ -120,23 +85,17 @@ public class ParseError
 
   public String getMessage()
   {
-    return message_;
+    String localized = RESOURCE_BUNDLE.getString(message_);
+    MessageFormat form = new MessageFormat(localized);
+    return form.format(params_);
   }
 
   public String toString()
   {
-    if (params_ != null) {
-      String localized = RESOURCE_BUNDLE.getString(message_);
-      MessageFormat form = new MessageFormat(localized);
-      return form.format(params_);
-    }
     StringBuffer result = new StringBuffer();
-    result.append("Parse error");
-    if (source_ != null) result.append(" in \"" + source_ + "\"");
+    if (source_ != null) result.append("\"" + source_ + "\"");
     if (line_ >= 0) result.append(" line " + line_);
     if (column_ >=0) result.append(" column " + column_ + ": ");
-    if (message_ != null) result.append(message_);
-    if (token_ != null) result.append(" " + token_);
-    return result.toString();
+    return result.toString() + getMessage();
   }
 }
