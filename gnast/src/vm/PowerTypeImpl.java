@@ -1,5 +1,5 @@
 
   public String toString()
   {
-    return "P (" + getType() + ")";
+    return "P " + getType();
   }
