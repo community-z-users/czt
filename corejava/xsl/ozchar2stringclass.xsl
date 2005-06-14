@@ -41,7 +41,6 @@ public interface OzString extends ZString
 <xsl:apply-templates select="*"/>
 
   String INITWORD = "Init";
-  String INHERITS = "inherits";
   String SELF = "self";
   String OBJECT = "Object";
   String ASSOPARALLEL = PARALLEL + OUTSTROKE;
