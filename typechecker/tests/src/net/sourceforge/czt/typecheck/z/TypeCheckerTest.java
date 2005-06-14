@@ -180,8 +180,8 @@ public class TypeCheckerTest
 
     if (errors.size() == 0) {
       fail("\nNo type error found" +
-           "\n\tFile: " + file +
-           "\n\tExpected: " + exception);
+	   "\n\tFile: " + file +
+	   "\n\tExpected: " + exception);
     }
     else {
       ErrorAnn errorAnn = errors.get(0);
@@ -206,9 +206,9 @@ public class TypeCheckerTest
 
   private void incorrectError(String file, String expected, String actual)
   {
-      System.err.println("\nIncorrect type error" +
-           "\n\tFile: " + file +
-           "\n\tError: " + expected +
-           "\n\tActual: " + actual);
+    fail("\nIncorrect type error" +
+	 "\n\tFile: " + file +
+	 "\n\tError: " + expected +
+	 "\n\tActual: " + actual);
   }
 }

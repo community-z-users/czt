@@ -1083,10 +1083,6 @@ public class ExprChecker
               errors().add(thetaExpr);
             }
           }
-          //otherwise, remove the annotation
-          else {
-            removeAnn(pair.getName(), UndeclaredAnn.class);
-          }
 
           //if the type of the name is generic, raise an error
           if (envType instanceof GenericType) {
