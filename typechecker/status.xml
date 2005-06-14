@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<status>
+
+  <developers>
+    <person name="Tim Miller" email="timmiller@sourceforge.net" id="Tim"/>
+    <!-- Add more people here -->
+  </developers>
+
+  <changes>
+    <!-- Add new releases here -->
+    <release version="0.4" date="unreleased">
+      <!-- Sample action:
+      <action dev="JB" type="fix" due-to="Joe Contributor"
+          due-to-email="joec@apache.org" fixes-bug="123">
+          Fixed a bug in the Foo class.
+        </action>
+      Some action types have associated images. By default, images are
+      defined for 'add', 'fix', 'remove', 'update' and 'hack'. If you add
+      src/site/resources/images/<foo>.jpg images, these will
+      automatically be used for entries of type <foo>. -->
+    </release>
+    <release version="0.3" date="March 17, 2005">
+      <action dev="Tim" type="add" context="admin">
+        Initial Release.
+      </action>
+    </release>
+  </changes>
+
+  <todo>
+    <actions priority="high">
+      <action context="docs" dev="open">
+        Improve the web site.
+      </action>
+    </actions>
+    <!-- Add todo items. @context is an arbitrary string. Eg:
+    <actions priority="high">
+      <action context="code" dev="SN">
+      </action>
+    </actions>
+    <actions priority="medium">
+      <action context="docs" dev="open">
+      </action>
+    </actions>
+    -->
+  </todo>
+
+</status>
