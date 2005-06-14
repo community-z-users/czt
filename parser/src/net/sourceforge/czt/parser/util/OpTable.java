@@ -218,8 +218,8 @@ public class OpTable
   {
     List oper = opPara.getOper();
     if (oper.size() < 2) {
-      throw new CztException("Error: operator template with less " +
-                             "than 2 arguments");
+      throw new OperatorException("Error: operator template with less " +
+                                  "than 2 arguments");
     }
     OpInfo info = new OpInfo(section_, opPara);
     String name = getOpNameWithoutStrokes(opPara.getOper());
@@ -485,6 +485,7 @@ public class OpTable
    * Converts a DeclName to its string representation.
    */
   private String getName(Object o)
+    throws OperatorException
   {
     String result = null;
 
@@ -494,8 +495,8 @@ public class OpTable
       result = op.getWord();
     }
     else {
-      throw new CztException("Attempt to add non-operator " +
-                             "into operator table");
+      throw new OperatorException("Attempt to add non-operator " +
+                                  "into operator table");
     }
     return result;
   }
