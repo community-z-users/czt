@@ -67,7 +67,10 @@ public class TypeChecker
   protected StringBuffer sectName_ = new StringBuffer("Specification");
 
   //the list of errors thrown by retrieving type info
-  protected List errors_;
+  protected List<ErrorAnn> errors_;
+
+  //the list of errors and postcheck Terms in the current paragraph
+  protected List<Object> paraErrors_;
 
   //allow variable use before declaration
   protected boolean useBeforeDecl_;
@@ -119,7 +122,8 @@ public class TypeChecker
     unificationEnv_ = new UnificationEnv(zFactory);
     markup_ = markup == null ? Markup.LATEX : markup;
     carrierSet_ = new CarrierSet();
-    errors_ = new java.util.ArrayList();
+    errors_ = new java.util.ArrayList<ErrorAnn>();
+    paraErrors_ = new java.util.ArrayList<Object>();
     useBeforeDecl_ = useBeforeDecl;
     specChecker_ = new SpecChecker(this);
     paraChecker_ = new ParaChecker(this);
@@ -134,18 +138,8 @@ public class TypeChecker
     return (Boolean) term.accept(specChecker_);
   }
 
-  public List errors()
+  public List<ErrorAnn> errors()
   {
     return errors_;
-  }
-
-  public TypeEnv typeEnv()
-  {
-    return this.typeEnv_;
-  }
-
-  public Checker exprChecker()
-  {
-    return this.exprChecker_;
   }
 }

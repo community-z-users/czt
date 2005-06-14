@@ -290,7 +290,7 @@ abstract public class Checker
   //add an error to the list of error annotation
   protected void error(ErrorAnn errorAnn)
   {
-    errors().add(errorAnn);
+    paraErrors().add(errorAnn);
   }
 
   //add an error as an annotation to the term
@@ -347,7 +347,7 @@ abstract public class Checker
       Object ann = iter.next();
       if (ann instanceof ErrorAnn) {
         iter.remove();
-        errors().remove(ann);
+        paraErrors().remove(ann);
       }
     }
   }
@@ -507,9 +507,15 @@ abstract public class Checker
   }
 
   //the list of errors thrown by retrieving type info
-  protected List errors()
+  protected List<ErrorAnn> errors()
   {
     return typeChecker_.errors_;
+  }
+
+  //the list of errors thrown by retrieving type info
+  protected List<Object> paraErrors()
+  {
+    return typeChecker_.paraErrors_;
   }
 
   protected boolean useBeforeDecl()
@@ -766,10 +772,10 @@ abstract public class Checker
       Type2 firstType = gType.getType();
       Type2 optionalType = gType.getOptionalType();
       if (optionalType == null) {
-	optionalType = exprChecker().instantiate(gType.getType());
+        optionalType = exprChecker().instantiate(gType.getType());
       }
       else {
-	optionalType = exprChecker().instantiate(optionalType);
+        optionalType = exprChecker().instantiate(optionalType);
       }
       result = factory().createGenericType(declNames, firstType, optionalType);
     }
@@ -811,10 +817,10 @@ abstract public class Checker
     else if (type instanceof VariableType) {
       VariableType vType = (VariableType) type;
       if (vType.getValue() != vType) {
-	result = exprChecker().instantiate(vType.getValue());
+        result = exprChecker().instantiate(vType.getValue());
       }
       else {
-	result = vType;
+        result = vType;
       }
     }
     else if (type instanceof PowerType) {
@@ -828,31 +834,31 @@ abstract public class Checker
     }
     else if (type instanceof SchemaType) {
       SchemaType schemaType = (SchemaType) type;
-      Signature signature = 
-	exprChecker().instantiate(schemaType.getSignature());
+      Signature signature =
+        exprChecker().instantiate(schemaType.getSignature());
       result = factory().createSchemaType(signature);
     }
     else if (type instanceof ProdType) {
       ProdType prodType = (ProdType) type;
       List<Type2> newTypes =
-	exprChecker().instantiateTypes(prodType.getType());
+        exprChecker().instantiateTypes(prodType.getType());
       result = factory().createProdType(newTypes);
     }
     else if (type instanceof UnknownType) {
       UnknownType uType = (UnknownType) type;
       RefExpr refExpr = uType.getRefExpr();
       if (refExpr != null) {
-	ParameterAnn pAnn = (ParameterAnn) refExpr.getAnn(ParameterAnn.class);
-	List<Type2> types = uType.getType();
-	if (pAnn != null && types.size() == 0) {
-	  types.addAll(pAnn.getParameters());
-	}
-	boolean isMem = uType.getIsMem();
-	List<Type2> newTypes = exprChecker().instantiateTypes(types);
-	result = factory().createUnknownType(refExpr, isMem, newTypes);
+        ParameterAnn pAnn = (ParameterAnn) refExpr.getAnn(ParameterAnn.class);
+        List<Type2> types = uType.getType();
+        if (pAnn != null && types.size() == 0) {
+          types.addAll(pAnn.getParameters());
+        }
+        boolean isMem = uType.getIsMem();
+        List<Type2> newTypes = exprChecker().instantiateTypes(types);
+        result = factory().createUnknownType(refExpr, isMem, newTypes);
       }
       else {
-	result = uType;
+        result = uType;
       }
 
     }
@@ -873,7 +879,7 @@ abstract public class Checker
     for (NameTypePair pair : pairs) {
       Type replaced = exprChecker().instantiate(pair.getType());
       NameTypePair newPair = factory().createNameTypePair(pair.getName(),
-							  replaced);
+                                                          replaced);
       newPairs.add(newPair);
     }
     return newPairs;
@@ -956,8 +962,8 @@ abstract public class Checker
     if (type instanceof UnknownType) {
       Type sectTypeEnvType = sectTypeEnv().getType(name);
       if (!instanceOf(sectTypeEnvType, UnknownType.class)) {
-	//type = (Type) factory().cloneTerm(sectTypeEnvType);
-	type = sectTypeEnvType;
+        //type = (Type) factory().cloneTerm(sectTypeEnvType);
+        type = sectTypeEnvType;
       }
       else {
         UnknownType uType = (UnknownType) sectTypeEnvType;

@@ -120,8 +120,8 @@ public class ExprChecker
     Type type = exprChecker().getType(refName);
 
     //add this reference for post checking
-    if (!containsDoubleEquals(errors(), refExpr)) {
-      errors().add(refExpr);
+    if (!containsDoubleEquals(paraErrors(), refExpr)) {
+      paraErrors().add(refExpr);
     }
 
     //if this is undeclared, create an unknown type with this RefExpr
@@ -141,63 +141,63 @@ public class ExprChecker
         unificationEnv().enterScope();
 
         //add new vtypes for the (missing) parameters
-	List<DeclName> declNames = genericType.getName();
-	for (DeclName declName : declNames) {
-	  //add a variable type corresponding to this name
-	  VariableType vType = factory().createVariableType();
-	  unificationEnv().addGenName(declName, vType);
-	  instantiations.add(vType);
-	}
+        List<DeclName> declNames = genericType.getName();
+        for (DeclName declName : declNames) {
+          //add a variable type corresponding to this name
+          VariableType vType = factory().createVariableType();
+          unificationEnv().addGenName(declName, vType);
+          instantiations.add(vType);
+        }
 
         //instantiate the type
-	type = (GenericType) exprChecker().instantiate(genericType);
+        type = (GenericType) exprChecker().instantiate(genericType);
 
-	if (pAnn != null) {
-	  removeAnn(refExpr, pAnn);
-	}
-	pAnn = new ParameterAnn(instantiations);
-	addAnn(refExpr, pAnn);
+        if (pAnn != null) {
+          removeAnn(refExpr, pAnn);
+        }
+        pAnn = new ParameterAnn(instantiations);
+        addAnn(refExpr, pAnn);
         unificationEnv().exitScope();
       }
       //if the instantiation is explicit
       else {
         List<DeclName> names = genericType.getName();
         if (names.size() == exprs.size()) {
-	  List<Type2> instantiations = list();
+          List<Type2> instantiations = list();
           unificationEnv().enterScope();
 
           //if this has not been visited previously, add the genName
           //and expr pairs into the environment
-	  for (int i = 0; i < names.size(); i++) {
-	    //get the next name and create a generic types
-	    DeclName declName = names.get(i);
-	    Expr expr = exprs.get(i);
-	    Type2 exprType = (Type2) expr.accept(exprChecker());
-	    PowerType vPowerType = factory().createPowerType();
-	    UResult unified = unify(vPowerType, exprType);
-	    
-	    //if the expr is not a set
-	    if (unified == FAIL) {
-	      Object [] params = {expr, exprType};
-	      error(refExpr, ErrorMessage.NON_SET_IN_INSTANTIATION, params);
-	    }
-	    //if the unification succeeds, add this gen name to the
-	    //unification environment
-	    else {
-	      //add the type to the environment
-	      Type2 substType = vPowerType.getType();
-	      unificationEnv().addGenName(declName, (Type2) substType);
-	      instantiations.add(substType);
-	    }
-	  }
+          for (int i = 0; i < names.size(); i++) {
+            //get the next name and create a generic types
+            DeclName declName = names.get(i);
+            Expr expr = exprs.get(i);
+            Type2 exprType = (Type2) expr.accept(exprChecker());
+            PowerType vPowerType = factory().createPowerType();
+            UResult unified = unify(vPowerType, exprType);
+
+            //if the expr is not a set
+            if (unified == FAIL) {
+              Object [] params = {expr, exprType};
+              error(refExpr, ErrorMessage.NON_SET_IN_INSTANTIATION, params);
+            }
+            //if the unification succeeds, add this gen name to the
+            //unification environment
+            else {
+              //add the type to the environment
+              Type2 substType = vPowerType.getType();
+              unificationEnv().addGenName(declName, (Type2) substType);
+              instantiations.add(substType);
+            }
+          }
 
           //instantiate the type
           type = (GenericType) exprChecker().instantiate(genericType);
 
-	  if (pAnn != null) {
-	    removeAnn(refExpr, pAnn);
-	  }
-	  pAnn = new ParameterAnn(instantiations);
+          if (pAnn != null) {
+            removeAnn(refExpr, pAnn);
+          }
+          pAnn = new ParameterAnn(instantiations);
           unificationEnv().exitScope();
         }
         else {
@@ -218,7 +218,7 @@ public class ExprChecker
         if (unified != FAIL) {
           baseType = vPowerType.getType();
         }
-	uType.getType().add(baseType);
+        uType.getType().add(baseType);
       }
     }
     else if (!(type instanceof GenericType)) {
@@ -333,8 +333,8 @@ public class ExprChecker
     //if the inner type is not resolved, add this expression to the
     //error list for future evalutation
     if (resolve(innerType) instanceof VariableType &&
-        !containsDoubleEquals(errors(), setExpr)) {
-      errors().add(setExpr);
+        !containsDoubleEquals(paraErrors(), setExpr)) {
+      paraErrors().add(setExpr);
     }
 
     //create the type of this expr
@@ -1079,8 +1079,8 @@ public class ExprChecker
           //in the signature
           if (undecAnn != null) {
             pair.getName().getAnns().add(undecAnn);
-            if (!containsDoubleEquals(errors(), thetaExpr)) {
-              errors().add(thetaExpr);
+            if (!containsDoubleEquals(paraErrors(), thetaExpr)) {
+              paraErrors().add(thetaExpr);
             }
           }
 

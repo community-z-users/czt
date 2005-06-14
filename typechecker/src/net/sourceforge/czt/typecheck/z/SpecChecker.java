@@ -112,6 +112,7 @@ public class SpecChecker
           error(pair.getName(), ErrorMessage.REDECLARED_GLOBAL_NAME, params);
         }
       }
+      postCheck();
     }
 
     if (useBeforeDecl() && !sectTypeEnv().getSecondTime()) {
@@ -120,23 +121,6 @@ public class SpecChecker
       sectTypeEnv().setSecondTime(true);
       zSect.accept(specChecker());
     }
-
-    //post-check any previously unresolved expressions
-    List errors = list();
-    for (Object next : errors()) {
-      if (next instanceof Expr) {
-        Expr expr = (Expr) next;
-        Object message = expr.accept(postChecker());
-        if (message != null) {
-          errors.add(message);
-        }
-      }
-      else {
-        errors.add(next);
-      }
-    }
-    errors().clear();
-    errors().addAll(errors);
 
     //annotate this section with the type info from this section
     //and its parents
@@ -192,5 +176,26 @@ public class SpecChecker
       result = Boolean.FALSE;
     }
     return result;
+  }
+
+  protected void postCheck()
+  {
+    //post-check any previously unresolved expressions
+    List<ErrorAnn> paraErrors = list();
+    for (Object next : paraErrors()) {
+      if (next instanceof Expr) {
+        Expr expr = (Expr) next;
+        ErrorAnn errorAnn = (ErrorAnn) expr.accept(postChecker());
+        if (errorAnn != null) {
+          paraErrors.add(errorAnn);
+        }
+      }
+      else if (next instanceof ErrorAnn) {
+        ErrorAnn errorAnn = (ErrorAnn) next;
+        paraErrors.add(errorAnn);
+      }
+    }
+    paraErrors().clear();
+    errors().addAll(paraErrors);
   }
 }
