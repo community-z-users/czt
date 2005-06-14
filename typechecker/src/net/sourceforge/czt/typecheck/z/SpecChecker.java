@@ -115,9 +115,6 @@ public class SpecChecker
     }
 
     if (useBeforeDecl() && !sectTypeEnv().getSecondTime()) {
-      for (RefExpr refExpr : refExprs()) {
-        removeAnn(refExpr, ParameterAnn.class);
-      }
       errors().clear();
       removeErrorAndTypeAnns(zSect);
       sectTypeEnv().setSecondTime(true);

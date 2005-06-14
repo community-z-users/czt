@@ -170,25 +170,6 @@ public class UnificationEnv
     return result;
   }
 
-  protected UResult unifyUnknownType(UnknownType uTypeA, Type2 type2)
-  {
-    if (type2 instanceof UnknownType) {
-      UnknownType uTypeB = unknownType(type2);
-      RefExpr refExprA = uTypeA.getRefExpr();
-      RefExpr refExprB = uTypeB.getRefExpr();
-      if (refExprA != null && refExprB != null &&
-          refExprA.getRefName().equals(refExprB.getRefName())) {
-        if (uTypeA.getType().size() == 0 && uTypeB.getType().size() > 0) {
-          uTypeA.getType().addAll(uTypeB.getType());
-        }
-        else if (uTypeA.getType().size() == 0 && uTypeB.getType().size() > 0) {
-          uTypeB.getType().addAll(uTypeA.getType());
-        }
-      }
-    }
-    return PARTIAL;
-  }
-
   protected UResult unifyVariableType(VariableType vType, Type2 type2)
   {
     UResult result = SUCC;

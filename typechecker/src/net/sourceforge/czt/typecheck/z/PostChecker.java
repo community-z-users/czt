@@ -143,7 +143,7 @@ public class PostChecker
   public Object visitSetExpr(SetExpr setExpr)
   {
     //get the type from the annotations
-    Type2 type = getTypeFromAnns(setExpr);
+    Type2 type = getType2FromAnns(setExpr);
 
     if (type instanceof PowerType) {
       PowerType powerType = (PowerType) type;

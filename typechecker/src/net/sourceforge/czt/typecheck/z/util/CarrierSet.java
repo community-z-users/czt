@@ -154,7 +154,9 @@ public class CarrierSet
       throw new UndeterminedTypeException();
     }
     RefName refName =
-      zFactory_.createRefName(unknownType.toString(), list(), null);
+      zFactory_.createRefName("unknown",
+			      //unknownType.toString(), 
+			      list(), null);
     RefExpr result = zFactory_.createRefExpr(refName, list(), Boolean.FALSE);
     return result;
   }
@@ -166,8 +168,10 @@ public class CarrierSet
         throw new UndeterminedTypeException();
       }
       RefName refName =
-        zFactory_.createRefName(vType.getName().getWord(),
-                                vType.getName().getStroke(),
+        zFactory_.createRefName("var",
+				//vType.getName().getWord(),
+                                //vType.getName().getStroke(),
+				new java.util.ArrayList(),
                                 null);
       RefExpr result =
         zFactory_.createRefExpr(refName, list(), Boolean.FALSE);

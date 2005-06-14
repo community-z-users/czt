@@ -23,6 +23,7 @@ import java.util.List;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.typecheck.z.util.ParameterAnn;
+import net.sourceforge.czt.typecheck.z.util.UndeclaredAnn;
 
 /**
  * A factory for creating types that hide VariableTypes.
@@ -77,9 +78,9 @@ public class Factory
       if (locAnn != null) {
         termA2.getAnns().add(locAnn);
       }
-      ParameterAnn pAnn = (ParameterAnn) termA1.getAnn(ParameterAnn.class);
-      if (pAnn != null) {
-        termA2.getAnns().add(pAnn);
+      UndeclaredAnn uAnn = (UndeclaredAnn) termA1.getAnn(UndeclaredAnn.class);
+      if (uAnn != null) {
+        termA2.getAnns().add(uAnn);
       }
     }
   }
@@ -191,6 +192,14 @@ public class Factory
   public UnknownType createUnknownType(RefExpr refExpr)
   {
     return new UnknownType(refExpr);
+  }
+
+
+  public UnknownType createUnknownType(RefExpr refExpr,
+				       boolean isMem,
+				       List<Type2> types)
+  {
+    return new UnknownType(refExpr, isMem, types);
   }
 
   public TypeAnn createTypeAnn()

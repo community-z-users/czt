@@ -38,16 +38,21 @@ public class UnknownType
   protected RefExpr refExpr_;
 
   /** The list of instantiations associate with this type. */
-  protected List<Type2> pairs_;
+  protected List<Type2> types_;
 
   /** True iff refExpr_ is the superset of this type. */
   protected boolean isMem_;
 
-  protected UnknownType(RefExpr refExpr)
+  protected UnknownType(RefExpr refExpr, boolean isMem, List<Type2> types)
   {
     refExpr_ = refExpr;
-    isMem_ = false;
-    pairs_ = new ListTermImpl(Type2.class);
+    isMem_ = isMem;
+    types_ = types;
+  }
+
+  protected UnknownType(RefExpr refExpr)
+  {
+    this(refExpr, false, new ListTermImpl(Type2.class));
   }
 
   protected UnknownType()
@@ -57,7 +62,7 @@ public class UnknownType
 
   public List<Type2> getType()
   {
-    List<Type2> result = pairs_;
+    List<Type2> result = types_;
     for (int i = 0; i < result.size(); i++) {
       Type2 type = (Type2) result.get(i);
       if (type instanceof VariableType) {
@@ -175,10 +180,17 @@ public class UnknownType
       if (getIsMem()) {
         result += "member(";
       }
-      result += refExpr_.getRefName() + ")";
+      result += refExpr_.getRefName();
       if (getIsMem()) {
         result += ")";
       }
+      for (int i = 0; i < types_.size(); i++) {
+	if (i != 0) {
+	  result += ", ";
+	}
+	result += types_.get(i).toString();
+      }
+      result += ")";
     }
     return result;
   }

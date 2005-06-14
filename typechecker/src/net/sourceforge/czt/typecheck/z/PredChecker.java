@@ -313,23 +313,23 @@ public class PredChecker
     //if this pred is an equality
     boolean mixfix = memPred.getMixfix().booleanValue();
     if (mixfix && rightExpr instanceof SetExpr) {
-      result.add(getTypeFromAnns(leftExpr));
-      result.add(getBaseType(getTypeFromAnns(rightExpr)));
+      result.add(getType2FromAnns(leftExpr));
+      result.add(getBaseType(getType2FromAnns(rightExpr)));
     }
     //if this is a membership
     else if (!mixfix) {
-      result.add(getTypeFromAnns(leftExpr));
-      result.add(getTypeFromAnns(rightExpr));
+      result.add(getType2FromAnns(leftExpr));
+      result.add(getType2FromAnns(rightExpr));
     }
     //if this is a relation
     else {
       if (leftExpr instanceof TupleExpr) {
         TupleExpr tupleExpr = (TupleExpr) leftExpr;
-        result.add(getTypeFromAnns((Expr) tupleExpr.getExpr().get(0)));
-        result.add(getTypeFromAnns((Expr) tupleExpr.getExpr().get(1)));
+        result.add(getType2FromAnns((Expr) tupleExpr.getExpr().get(0)));
+        result.add(getType2FromAnns((Expr) tupleExpr.getExpr().get(1)));
       }
       else {
-        result.add(getTypeFromAnns(leftExpr));
+        result.add(getType2FromAnns(leftExpr));
       }
     }
 

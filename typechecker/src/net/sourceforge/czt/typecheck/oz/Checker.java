@@ -151,6 +151,14 @@ abstract public class Checker
     return (ClassRefType) selfType;
   }
 
+  //get the class signature of "self"
+  protected ClassSig getSelfSig()
+  {
+    ClassType classType = getSelfType();
+    ClassSig result = classType.getClassSig();
+    return result;
+  }
+
   //take the intersection of 2 signatures
   protected Signature intersect(Signature sigA, Signature sigB)
   {
@@ -354,74 +362,83 @@ abstract public class Checker
                        ErrorMessage.REDECLARED_NAME_IN_RENAMEEXPR);
     return result;
   }
+  
 
   public Type2 instantiate(Type2 type)
   {
     Type2 result = factory().createUnknownType();
-
     //if this is a class type, instantiate it
     if (type instanceof ClassType) {
       ClassType classType = (ClassType) type;
       ClassSig cSig = classType.getClassSig();
 
-      //System.err.println("before = " + toString(type));
+      ClassSig newClassSig = null;
       if (!(cSig instanceof VariableClassSig)) {
         //instantiate the state
         Signature state = cSig.getState();
+	Signature newState = null;
         if (state != null) {
-          instantiate(state);
+          newState = instantiate(state);
         }
 
         //instantiate the attributes
         List<NameTypePair> attrs = cSig.getAttribute();
-        for (NameTypePair pair : attrs) {
-          Type pairType = pair.getType();
-          instantiate(pairType);
-        }
+	List<NameTypePair> newAttrs = exprChecker().instantiatePairs(attrs);
+
 
         //instantiate the operations
         List<NameSignaturePair> ops = cSig.getOperation();
-        for (NameSignaturePair pair : ops) {
-          Signature signature = pair.getSignature();
-          instantiate(signature);
+	List<NameSignaturePair> newOps = list();
+        for (NameSignaturePair pair : ops) {	  
+          Signature signature = instantiate(pair.getSignature());
+	  NameSignaturePair newPair =
+	    factory().createNameSignaturePair(pair.getName(), signature);
+	  newOps.add(newPair);
         }
 
         //instaniate the class references
         List<ClassRef> classRefs = cSig.getClasses();
+	List<ClassRef> newClassRefs = list();
         for (ClassRef classRef : classRefs) {
-          List<Type2> types = classRef.getType2();
-          for (int i = 0; i < types.size(); i++) {
-            Type2 replaced = instantiate(types.get(i));
-            types.set(i, replaced);
-          }
+	  List<Type2> types =
+	    exprChecker().instantiateTypes(classRef.getType2());
+	  ClassRef newClassRef =
+	    factory().createClassRef(classRef.getRefName(), types, list());
+	  newClassRefs.add(newClassRef);
         }
+	newClassSig =
+	  factory().createClassSig(newClassRefs, newState, newAttrs, newOps);
       }
-
-      ClassRef classRef = null;
+				 
       if (type instanceof ClassRefType) {
         ClassRefType classRefType = (ClassRefType) type;
-        classRef = classRefType.getThisClass();
+	ClassRef classRef = instantiate(classRefType.getThisClass());
+	result = factory().createClassRefType(newClassSig, classRef,
+					      classRefType.getSuperClass(),
+					      classRefType.getVisibilityList());
       }
       else if (type instanceof ClassPolyType) {
         ClassPolyType classPolyType = (ClassPolyType) type;
-        classRef = classPolyType.getRootClass();
+        ClassRef classRef = instantiate(classPolyType.getRootClass());
+	result = factory().createClassPolyType(newClassSig, classRef);
       }
-
-      if (classRef != null) {
-        List<Type2> types = classRef.getType2();
-        for (int i = 0; i < types.size(); i++) {
-          Type2 replaced = instantiate(types.get(i));
-          types.set(i, replaced);
-        }
+      else {
+	ClassUnionType classUnionType = (ClassUnionType) type;
+	result = factory().createClassUnionType(newClassSig);
       }
-
-      result = classType;
-      //System.err.println("after = " + toString(result));
     }
     //if not a class type, use the Z typechecker's instantiate method
     else {
       result = super.instantiate(type);
     }
+    return result;
+  }
+
+  public ClassRef instantiate(net.sourceforge.czt.oz.ast.ClassRef classRef)
+  {
+    List<Type2> types = exprChecker().instantiateTypes(classRef.getType2());
+    ClassRef result =
+      factory().createClassRef(classRef.getRefName(), types, list());   
     return result;
   }
 
@@ -435,7 +452,10 @@ abstract public class Checker
     if (className() != null &&
         className().getWord().equals(name.getWord()) &&
         className().getStroke().equals(name.getStroke())) {
-      type = (Type) factory().cloneTerm(type);
+      //type = addGenerics((Type2) type);
+      if (type instanceof GenericType && isPending(genericType(type))) {
+	type = (Type) factory().cloneTerm(type);
+      }
     }
 
     return type;
@@ -541,5 +561,50 @@ abstract public class Checker
   protected CarrierSet getCarrierSet()
   {
     return new net.sourceforge.czt.typecheck.oz.util.CarrierSet();
+  }
+
+  public String toString(Type type)
+  {
+    String result = new String();
+    if (unwrapType(type) instanceof PowerType &&
+        powerType(unwrapType(type)).getType() instanceof ClassRefType) {
+      net.sourceforge.czt.oz.ast.ClassRefType ctype =
+	(ClassRefType) powerType(unwrapType(type)).getType();
+      result = "P " + classRefTypeToString(ctype);
+    }
+    else if (type instanceof net.sourceforge.czt.oz.ast.ClassRefType) {
+      ClassRefType ctype = (ClassRefType) type;
+      result = classRefTypeToString(ctype);
+    }
+    else {
+      result = type.toString();
+    }
+    return result;
+  }
+
+  public String classRefTypeToString(ClassRefType ctype)
+  {
+    String result = new String();
+    RefName className = ctype.getThisClass().getRefName();
+    result += "(CLASS " + className + "\n";
+
+    ClassSig csig = ctype.getClassSig();
+    result += "\tATTR(" + className + ")\n";
+    for (Object o : csig.getAttribute()) {
+      NameTypePair pair = (NameTypePair) o;
+      result += "\t\t" + pair.getName() + " : " + pair.getType() + "\n";
+    }
+    result += "\tSTATE(" + className + ")\n";
+    for (Object o : csig.getState().getNameTypePair()) {
+      NameTypePair pair = (NameTypePair) o;
+      result += "\t\t" + pair.getName() + " : " + toString(pair.getType()) + "\n";
+    }
+    result += "\tOPS(" + className + ")\n";
+    for (Object o : csig.getOperation()) {
+      NameSignaturePair p = (net.sourceforge.czt.oz.ast.NameSignaturePair) o;
+      result += "\t\t" + p.getName() + " : " + p.getSignature();
+    }
+    result += ")";
+    return result;
   }
 }

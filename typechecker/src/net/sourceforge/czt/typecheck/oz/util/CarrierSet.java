@@ -86,13 +86,16 @@ public class CarrierSet
         result = ozFactory_.createClassUnionExpr();
         result.setLeftExpr(expr);
       }
+      else if (result.getRightExpr() == null) {
+	result.setRightExpr(expr);
+      }
       else {
-        result.setRightExpr(expr);
-        ClassUnionExpr next = ozFactory_.createClassUnionExpr();
-        next.setLeftExpr(result);
+        ClassUnionExpr next = ozFactory_.createClassUnionExpr(result, expr);
+	result = next;
       }
     }
-    return result.getLeftExpr();
+
+    return result;
   }
 
   public Object visitClassRef(ClassRef classRef)
