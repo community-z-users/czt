@@ -364,7 +364,7 @@ abstract public class Checker
   }
   
 
-  public Type2 instantiate(Type2 type)
+  protected Type2 instantiate(Type2 type)
   {
     Type2 result = factory().createUnknownType();
     //if this is a class type, instantiate it
@@ -383,8 +383,7 @@ abstract public class Checker
 
         //instantiate the attributes
         List<NameTypePair> attrs = cSig.getAttribute();
-	List<NameTypePair> newAttrs = exprChecker().instantiatePairs(attrs);
-
+	List<NameTypePair> newAttrs = instantiatePairs(attrs);
 
         //instantiate the operations
         List<NameSignaturePair> ops = cSig.getOperation();
@@ -400,8 +399,7 @@ abstract public class Checker
         List<ClassRef> classRefs = cSig.getClasses();
 	List<ClassRef> newClassRefs = list();
         for (ClassRef classRef : classRefs) {
-	  List<Type2> types =
-	    exprChecker().instantiateTypes(classRef.getType2());
+	  List<Type2> types = instantiateTypes(classRef.getType2());
 	  ClassRef newClassRef =
 	    factory().createClassRef(classRef.getRefName(), types, list());
 	  newClassRefs.add(newClassRef);
@@ -434,9 +432,9 @@ abstract public class Checker
     return result;
   }
 
-  public ClassRef instantiate(net.sourceforge.czt.oz.ast.ClassRef classRef)
+  protected ClassRef instantiate(net.sourceforge.czt.oz.ast.ClassRef classRef)
   {
-    List<Type2> types = exprChecker().instantiateTypes(classRef.getType2());
+    List<Type2> types = instantiateTypes(classRef.getType2());
     ClassRef result =
       factory().createClassRef(classRef.getRefName(), types, list());   
     return result;

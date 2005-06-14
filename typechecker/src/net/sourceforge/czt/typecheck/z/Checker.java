@@ -757,7 +757,7 @@ abstract public class Checker
     return result;
   }
 
-  public Type instantiate(Type type)
+  protected Type instantiate(Type type)
   {
     Type result = factory().createUnknownType();
     if (type instanceof GenericType) {
@@ -780,7 +780,7 @@ abstract public class Checker
     return result;
   }
 
-  public Type2 instantiate(Type2 type)
+  protected Type2 instantiate(Type2 type)
   {
     Type2 result = factory().createUnknownType();
 
@@ -859,7 +859,7 @@ abstract public class Checker
     return result;
   }
 
-  public Signature instantiate(Signature signature)
+  protected Signature instantiate(Signature signature)
   {
     List<NameTypePair> pairs = signature.getNameTypePair();
     List<NameTypePair> newPairs = exprChecker().instantiatePairs(pairs);
@@ -867,7 +867,7 @@ abstract public class Checker
     return result;
   }
 
-  public List<NameTypePair> instantiatePairs(List<NameTypePair> pairs)
+  protected List<NameTypePair> instantiatePairs(List<NameTypePair> pairs)
   {
     List<NameTypePair> newPairs = list();
     for (NameTypePair pair : pairs) {
@@ -879,7 +879,7 @@ abstract public class Checker
     return newPairs;
   }
 
-  public List<Type2> instantiateTypes(List<Type2> types)
+  protected List<Type2> instantiateTypes(List<Type2> types)
   {
     List<Type2> newTypes = list();
     for (Type2 type : types) {
