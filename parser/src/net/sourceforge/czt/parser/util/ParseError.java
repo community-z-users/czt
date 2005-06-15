@@ -25,25 +25,22 @@ import java.util.ResourceBundle;
 /**
  * A parse error.
  */
-public class ParseError
+public abstract class ParseError
 {
-  private static String RESOURCE_NAME =
-    "net.sourceforge.czt.parser.util.ParseResources";
-  private static ResourceBundle RESOURCE_BUNDLE =
-    ResourceBundle.getBundle(RESOURCE_NAME);
-
   private int line_;
   private int column_;
   private String source_;
   private String message_;
   private Object[] params_;
 
-  public ParseError(ParseMessage msg, Object[] params, LocInfo locInfo)
+  public ParseError(String message, Object[] params, LocInfo locInfo)
   {
-    message_ = msg.toString();
+    message_ = message;
     params_ = params;
     setLocation(locInfo);
   }
+
+  protected abstract String getResourceName();
 
   public int getLine()
   {
@@ -85,7 +82,8 @@ public class ParseError
 
   public String getMessage()
   {
-    String localized = RESOURCE_BUNDLE.getString(message_);
+    String localized =
+      ResourceBundle.getBundle(getResourceName()).getString(message_);
     MessageFormat form = new MessageFormat(localized);
     return form.format(params_);
   }

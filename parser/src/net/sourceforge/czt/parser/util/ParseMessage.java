@@ -30,7 +30,6 @@ public enum ParseMessage
   MSG_PRED_EXPECTED ("Predicate expected"),
   MSG_REFNAME_EXPECTED ("Reference name expected"),
   MSG_REFNAME_NO_PARAMS_EXPECTED ("Name with no instantiations expected"),
-  MSG_UNKNOWN_JOKER_TYPE ("Unknow joker type {0}"),
   MSG_UNKNOWN_LATEX_COMMAND ("Unknown latex command {0}"),
   MSG_UNMATCHED_BEGIN_END ("\\end'{'{0}'}' missing"),
   MSG_UNMATCHED_BRACES ("Unmatched braces {0}"),
@@ -45,9 +44,7 @@ public enum ParseMessage
   MSG_DUPLICATE_INIT ("Duplicate initial state declaration"),
   MSG_OPNAME_ERROR ("Cannot parse operator name"),
   MSG_CANNOT_MERGE_OPTABLES ("Cannot merge the parent operator tables"),
-  MSG_CANNOT_MERGE_JOKERTABLES ("Cannot merge the parent joker tables"),
-  MSG_CANNOT_ADD_OP ("Cannot add operator template"),
-  MSG_CANNOT_ADD_JOKER ("Cannot add joker");
+  MSG_CANNOT_ADD_OP ("Cannot add operator template");
 
   private final String message_;
   private final String explanation_;

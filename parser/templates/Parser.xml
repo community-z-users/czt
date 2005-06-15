@@ -359,7 +359,7 @@ action code
     /**
      * Converts an OpExpr to an Event
      */
-    protected Event event(OpExpr opExpr)
+    protected Event event(OpExpr opExpr, int line, int column)
     {
       Event result = null;
 
@@ -368,7 +368,8 @@ action code
         result = factory_.createEvent(ope.getName(), ope.getExpr());
       }
       else {
-        parser.report_error(ParseMessage.MSG_SYNTAX_ERROR, opExpr);
+        parser.report_error(ParseMessage.MSG_SYNTAX_ERROR,
+                            opExpr, getLocation(line, column));
       }
 
       return result;
@@ -598,7 +599,9 @@ action code
         opTable_ = new OpTable(section, parentOpTables);
       }
       catch (OpTable.OperatorException e) {
-        parser.report_fatal_error(ParseMessage.MSG_CANNOT_MERGE_OPTABLES);
+        parser.report_error(ParseMessage.MSG_CANNOT_MERGE_OPTABLES,
+                            new Object[0],
+                            getLocation(line, column));
      }
      opScanner_.setOperatorTable(opTable_);
     }
@@ -642,7 +645,9 @@ action code
         jokerTable_ = new JokerTable(section, parentJokerTables);
       }
       catch (JokerTable.JokerException e) {
-        parser.report_fatal_error(ParseMessage.MSG_CANNOT_MERGE_JOKERTABLES);
+        parser.report_error(ZpattParseMessage.MSG_CANNOT_MERGE_JOKERTABLES,
+                            new Object[0],
+                            getLocation(line, column));
      }
      jokerScanner_.setJokerTable(jokerTable_);
     }
@@ -786,54 +791,32 @@ parser code
     }
 
     /**
-     * The object is usually a Symbol.
-     *
-     * @throws IllegalArgumentException if the message is not a
-     *                                  ParseMessage key
+     * @throws ClassCastException if the object is not a ParseError
      */
     public void report_error(String message, Object object)
     {
-      ParseMessage msg =
-        (ParseMessage) Enum.valueOf(ParseMessage.class, message);
-      report_error(msg, object);
-    }
-
-    /**
-     * The object is usually a Symbol.
-     */
-    public void report_error(ParseMessage msg, Object object)
-    {
-      Object param = object != null ? object : action_obj.previous_;
-      final LocInfo locInfo = getLocation(param);
-      if (param instanceof Symbol) {
-        Symbol symbol = (Symbol) param;
-        if (symbol.value != null) {
-          param = symbol.value;
-        }
-        else {
-          param = symbolMap_.get(symbol.sym);
-        }
-      }
-      report_error(msg, new Object[] { param }, locInfo);
-    }
-
-    public void report_error(ParseMessage msg,
-                             Object object,
-                             LocInfo locInfo)
-    {
-      report_error(msg, new Object[] { object }, locInfo);
+      ParseError error = (ParseError) object;
+      errorList_.add(error);
     }
 
     public void report_error(ParseMessage msg,
                              Object[] params,
                              LocInfo locInfo)
     {
-      errorList_.add(new ParseError(msg, params, locInfo));
+      report_error(null, new ZParseError(msg, params, locInfo));
     }
 
+ <add:zpatt>
+    public void report_error(ZpattParseMessage msg,
+                             Object[] params,
+                             LocInfo locInfo)
+    {
+      report_error(null, new ZpattParseError(msg, params, locInfo));
+    }
+
+</add:zpatt>
     /**
-     * @throws IllegalArgumentException if the message is not a
-     *                                  ParseMessage key
+     * @throws ClassCastException if the object is not a ParseError
      */
     public void report_fatal_error(String message, Object param)
       throws ParseException
@@ -842,29 +825,35 @@ parser code
       done_parsing();
     }
 
-    public void report_fatal_error(ParseMessage msg)
-      throws ParseException
-    {
-      report_error(msg, new Object[0]);
-      done_parsing();
-    }
-
-    public void report_fatal_error(ParseMessage msg, Object object)
-      throws ParseException
-    {
-      report_error(msg, object);
-      done_parsing();
-    }
-
     public void syntax_error(Symbol token)
     {
-      report_error(ParseMessage.MSG_SYNTAX_ERROR, token);
+      report_error("Syntax error", createSyntaxError(token));
     }
 
     public void unrecovered_syntax_error(Symbol token)
       throws ParseException
     {
-      report_fatal_error(ParseMessage.MSG_SYNTAX_ERROR, token);
+      report_fatal_error("Syntax error", createSyntaxError(token));
+    }
+
+    protected ParseError createSyntaxError(Symbol token)
+    {
+      return new ZParseError(ParseMessage.MSG_SYNTAX_ERROR,
+                             new Object[] { toObject(token) },
+                             getLocation(token));
+    }
+
+    protected Object toObject(Symbol symbol)
+    {
+      if (symbol.value != null) {
+        return symbol.value;
+      }
+      return symbolMap_.get(symbol.sym);
+    }
+
+    protected LocInfo getLocation(Symbol token)
+    {
+      return new LocInfo(file_, token.left, token.right);
     }
 
     protected LocInfo getLocation(Object info)
@@ -872,9 +861,7 @@ parser code
       int line = -1;
       int column = -1;
       if (info instanceof Symbol) {
-        Symbol token = (Symbol) info;
-        line = token.left;
-        column = token.right;
+        return getLocation((Symbol) info);
       }
       else if (info instanceof LocAnn) {
         LocAnn locAnn = (LocAnn) info;
@@ -3606,7 +3593,7 @@ jokerPara ::=
              type = JokerType.fromString(dw.getName());
            }
            catch (IllegalArgumentException e) {
-             parser.report_error(ParseMessage.MSG_UNKNOWN_JOKER_TYPE,
+             parser.report_error(ZpattParseMessage.MSG_UNKNOWN_JOKER_TYPE,
                           new Object[] { dw },
                           getLocation(dwleft, dwright));
            }
@@ -3616,7 +3603,7 @@ jokerPara ::=
              jokerTable_.add(RESULT);
            }
            catch (JokerTable.JokerException e) {
-             parser.report_error(ParseMessage.MSG_CANNOT_ADD_JOKER,
+             parser.report_error(ZpattParseMessage.MSG_CANNOT_ADD_JOKER,
                                  new Object[0],
                                  getLocation(jleft, jright));
            }
@@ -3904,16 +3891,18 @@ class ::=
              Object next = iter.next();
              if (next instanceof State) {
                if (s != null) {
-                 ParseMessage message = ParseMessage.MSG_DUPLICATE_STATE;
-                 parser.report_error(message, next);
+                 parser.report_error(ParseMessage.MSG_DUPLICATE_STATE,
+                                     new Object[] { next },
+                                     getLocation(chleft, chright));
                }
                s = (State) next;
                iter.remove();
              }
              else if (next instanceof InitialState) {
                if (is != null) {
-                 ParseMessage message = ParseMessage.MSG_DUPLICATE_INIT;
-                 parser.report_error(message, next);
+                 parser.report_error(ParseMessage.MSG_DUPLICATE_INIT,
+                                     new Object[] { next },
+                                     getLocation(chleft, chright));
                }
                is = (InitialState) next;
                iter.remove();
@@ -4432,7 +4421,7 @@ opExpr1 ::=
         |
         opExpr1:et ATTIME expression:e NEXTPRO opExpr1:oe
         {:
-           RESULT = factory_.createAtProExpr(event(et), e, oe);
+           RESULT = factory_.createAtProExpr(event(et, etleft, etright), e, oe);
            addLocAnn(RESULT, etleft, etright);
         :}
 */
