@@ -20,38 +20,20 @@
 package net.sourceforge.czt.parser.util;
 
 import java.util.ListResourceBundle;
-import java.util.Properties;
-
-import net.sourceforge.czt.util.CztLogger;
 
 public class ParseResources
   extends ListResourceBundle
 {
-  private static final String MESSAGES =
-    "/net/sourceforge/czt/parser/util/ParseMessages_en.properties";
   private static final Object[][] contents_ = computeContents();
 
   private static Object[][] computeContents()
   {
-    final Properties msgProps = new Properties();
-    try {
-      msgProps.load(ParseResources.class.getResourceAsStream(MESSAGES));
-    }
-    catch (Exception exception) {
-      String message = "Cannot open properties file " + MESSAGES;
-      CztLogger.getLogger(ParseResources.class).warning(message);
-    }
-    final Object[] msgValues = ParseMessage.values();
-    Object[][] result = new Object[msgValues.length][2];
-    for (int i = 0; i < msgValues.length; i++) {
-      final String msg = msgValues[i].toString();
-      assert msg != null;
-      String msgValue = msgProps.getProperty(msg);
-      if (msgValue == null) {
-        msgValue = msg;
-      }
-      result[i][0] = msg;
-      result[i][1] = msgValue;
+    Object[][] result = new Object[ParseMessage.values().length][2];
+    int i = 0;
+    for (ParseMessage msg : ParseMessage.values()) {
+      result[i][0] = msg.toString();
+      result[i][1] = msg.getMessage();
+      i++;
     }
     return result;
   }
@@ -61,4 +43,3 @@ public class ParseResources
     return contents_;
   }
 }
-        

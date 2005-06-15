@@ -25,32 +25,51 @@ package net.sourceforge.czt.parser.util;
  */
 public enum ParseMessage
 {
-  MSG_EXPR_EXPECTED,
-  MSG_EXPR_EXPECTED_FOUND_PRED,
-  MSG_PRED_EXPECTED,
-  MSG_REFNAME_EXPECTED,
-  MSG_REFNAME_NO_PARAMS_EXPECTED,
-  MSG_UNKNOWN_LATEX_COMMAND,
-  MSG_UNMATCHED_BEGIN_END,
-  MSG_UNMATCHED_BRACES,
-  /**
-   * Used when a Z NAME does not have a following NW character for
-   * every SE character, or a following SW character for every NE
-   * character, or if these do not occur in nested pairs (see also Z
-   * Standard, first edition, 7.4.1).
-   */
-  MSG_UNMATCHED_WORDGLUE,
-  MSG_UNEXPECTED_TOKEN,
-  MSG_SYNTAX_ERROR,
-  MSG_STROKE_IN_OPNAME,
-  MSG_OPNAME_AS_DECLWORD,
-  MSG_PARENT_NOT_FOUND,
-  MSG_OF_PARENT_NOT_FOUND,
-  MSG_DUPLICATE_STATE,
-  MSG_DUPLICATE_INIT,
-  MSG_OPNAME_ERROR,
-  MSG_CANNOT_MERGE_OPTABLES,
-  MSG_CANNOT_MERGE_JOKERTABLES,
-  MSG_CANNOT_ADD_OP,
-  MSG_CANNOT_ADD_JOKER;
+  MSG_EXPR_EXPECTED ("Expression expected"),
+  MSG_EXPR_EXPECTED_FOUND_PRED ("Expression expected; found predicate {0}"),
+  MSG_PRED_EXPECTED ("Predicate expected"),
+  MSG_REFNAME_EXPECTED ("Reference name expected"),
+  MSG_REFNAME_NO_PARAMS_EXPECTED ("Name with no instantiations expected"),
+  MSG_UNKNOWN_LATEX_COMMAND ("Unknown latex command {0}"),
+  MSG_UNMATCHED_BEGIN_END ("\\end'{'{0}'}' missing"),
+  MSG_UNMATCHED_BRACES ("Unmatched braces {0}"),
+  MSG_UNMATCHED_WORDGLUE ("Unmatched wordglue {0}", "A NAME does not have a following NW character for every SE character, or a following SW character for every NE character, or these do not occur in nested pairs (see also Z Standard, first edition, 7.4.1)."),
+  MSG_UNEXPECTED_TOKEN ("Unexpected token {0}"),
+  MSG_SYNTAX_ERROR ("Syntax error at symbol {0}"),
+  MSG_STROKE_IN_OPNAME ("Syntax error in operator name {0}", "Names in operator templates cannot contain strokes"),
+  MSG_OPNAME_AS_DECLWORD ("{0} is declared as an operator, and cannot be used as a declaration name"),
+  MSG_PARENT_NOT_FOUND ("Parent section {0} could not be found"),
+  MSG_OF_PARENT_NOT_FOUND ("{0} of parent section {1} could not be found" ),
+  MSG_DUPLICATE_STATE ("Duplicate state declaration"),
+  MSG_DUPLICATE_INIT ("Duplicate initial state declaration"),
+  MSG_OPNAME_ERROR ("Cannot parse operator name"),
+  MSG_CANNOT_MERGE_OPTABLES ("Cannot merge the parent operator tables"),
+  MSG_CANNOT_MERGE_JOKERTABLES ("Cannot merge the parent joker tables"),
+  MSG_CANNOT_ADD_OP ("Cannot add operator template"),
+  MSG_CANNOT_ADD_JOKER ("Cannot add joker");
+
+  private final String message_;
+  private final String explanation_;
+
+  ParseMessage(String message)
+  {
+    message_ = message;
+    explanation_ = null;
+  }
+
+  ParseMessage(String message, String explanation)
+  {
+    message_ = message;
+    explanation_ = explanation;
+  }
+
+  String getMessage()
+  {
+    return message_;
+  }
+
+  String getExplanation()
+  {
+    return explanation_;
+  }
 }
