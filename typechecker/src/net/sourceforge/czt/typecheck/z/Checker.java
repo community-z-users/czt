@@ -46,8 +46,6 @@ abstract public class Checker
   //the information required for the typechecker classes.
   protected TypeChecker typeChecker_;
 
-  protected static boolean isPending_ = true;
-
   public Checker(TypeChecker typeChecker)
   {
     typeChecker_ = typeChecker;
@@ -490,6 +488,18 @@ abstract public class Checker
     return typeChecker_.pending_;
   }
 
+  //true if and only if the previous type lookup came from the pending
+  //environment
+  protected boolean isPending()
+  {
+    return typeChecker_.isPending_;
+  }
+
+  protected void setIsPending(boolean isPending)
+  {
+    typeChecker_.isPending_ = isPending;
+  }
+
   //the UnificationEnv for recording unified generic types
   protected UnificationEnv unificationEnv()
   {
@@ -610,11 +620,11 @@ abstract public class Checker
             if (termA != null) {
               params = new Object []
                 {second.getName(), termA, firstType, secondType};
-	      error(termA, errorMessage, params);
+              error(termA, errorMessage, params);
             }
             else {
               params = new Object [] {second.getName(), firstType, secondType};
-	      error(second.getName(), errorMessage, params);
+              error(second.getName(), errorMessage, params);
             }
           }
           //if the types do agree, we don't need the second declaration
@@ -803,7 +813,7 @@ abstract public class Checker
   }
 
   protected Type2 instantiate(Type2 type, Type rootType)
-  {    
+  {
     Type2 result = factory().createUnknownType();
     if (type instanceof GenParamType) {
       GenParamType genParamType = (GenParamType) type;
@@ -813,7 +823,8 @@ abstract public class Checker
       Type unificationEnvType = unificationEnv().getType(genName);
 
       //if this type's reference is in the parameters
-      if (containsDoubleEquals(typeEnv().getParameters(), genName) && isPending_) {
+      if (containsDoubleEquals(typeEnv().getParameters(), genName)
+          && isPending()) {
         result = type;
       }
       else if (unificationEnvType instanceof UnknownType &&
@@ -841,7 +852,7 @@ abstract public class Checker
     else if (type instanceof PowerType) {
       PowerType powerType = (PowerType) type;
       if (powerType.getType() == rootType) {
-	return powerType;
+        return powerType;
       }
       Type2 replaced = exprChecker().instantiate(powerType.getType(), rootType);
       result = factory().createPowerType(replaced);
@@ -891,18 +902,18 @@ abstract public class Checker
   }
 
   protected List<NameTypePair> instantiatePairs(List<NameTypePair> pairs,
-						Type rootType)
+                                                Type rootType)
   {
     List<NameTypePair> newPairs = list();
     for (NameTypePair pair : pairs) {
       if (pair.getType() == rootType) {
-	newPairs.add(pair);
+        newPairs.add(pair);
       }
       else {
-	Type replaced = exprChecker().instantiate(pair.getType());
-	NameTypePair newPair = factory().createNameTypePair(pair.getName(),
-							    replaced);
-	newPairs.add(newPair);
+        Type replaced = exprChecker().instantiate(pair.getType());
+        NameTypePair newPair = factory().createNameTypePair(pair.getName(),
+                                                            replaced);
+        newPairs.add(newPair);
       }
     }
     return newPairs;
@@ -913,22 +924,14 @@ abstract public class Checker
     List<Type2> newTypes = list();
     for (Type2 type : types) {
       if (type == rootType) {
-	newTypes.add(type);
+        newTypes.add(type);
       }
       else {
-	Type2 replaced = exprChecker().instantiate(type, rootType);
-	newTypes.add(replaced);
+        Type2 replaced = exprChecker().instantiate(type, rootType);
+        newTypes.add(replaced);
       }
     }
     return newTypes;
-  }
-
-  protected boolean isPending(GenericType gType)
-  {
-    List<DeclName> params = typeEnv().getParameters();
-    DeclName param = (DeclName) gType.getName().get(0);
-    //    return containsDoubleEquals(params, param);
-    return isPending_;
   }
 
   //if there are generics in the current type env, return a new
@@ -977,7 +980,8 @@ abstract public class Checker
   //gets the type of the expression represented by a name
   protected Type getType(RefName name)
   {
-    isPending_  = false;
+    setIsPending(false);
+
     //get the type from the TypeEnv
     Type type = typeEnv().getType(name);
 
@@ -986,9 +990,9 @@ abstract public class Checker
     if (type instanceof UnknownType) {
       type = pending().getType(name);
       if (!(type instanceof UnknownType) ||
-	  ((type instanceof UnknownType) &&
-	   unknownType(type).getRefName() != null) ){
-	isPending_ = true;
+          ((type instanceof UnknownType) &&
+           unknownType(type).getRefName() != null) ){
+        setIsPending(true);
       }
     }
 

@@ -133,7 +133,7 @@ public class ExprChecker
 
     //if it is a generic type, but has not been declared in the
     //current paragraph, we must instantiate the optional type
-    if (type instanceof GenericType && !isPending((GenericType) type)) {
+    if (type instanceof GenericType && !isPending()) {
       GenericType genericType = (GenericType) type;
       //if the instantiation is implicit
       if (exprs.size() == 0) {

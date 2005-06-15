@@ -141,8 +141,10 @@ public class ParaChecker
       //add the types in the state to the type env
       typeEnv().add(cSig.getState().getNameTypePair());
 
-      List<NameTypePair> pairs = (List) initialState.accept(paraChecker());
-      cSig.getState().getNameTypePair().addAll(pairs);
+      List<NameTypePair> decls = cSig.getState().getNameTypePair();
+      List<NameTypePair> newDecls = (List) initialState.accept(paraChecker());
+      decls.addAll(newDecls);
+      checkForDuplicates(decls, null, ErrorMessage.INCOMPATIBLE_OVERRIDING);
 
       //exit the scope
       typeEnv().exitScope();
@@ -221,7 +223,9 @@ public class ParaChecker
     //add these pairs to the type env
     typeEnv().add(pairs);
 
-    addStateVars(pairs);
+    //add the pairs to the signature
+    ClassSig selfSig = getSelfSig();
+    selfSig.getState().getNameTypePair().addAll(pairs);
 
     //typecheck the predicate
     Pred pred = state.getPred();
@@ -251,7 +255,13 @@ public class ParaChecker
 
     //visit the predicate
     Pred pred = initialState.getPred();
-    pred.accept(predChecker());
+    UResult solved = (UResult) pred.accept(predChecker());
+
+    //if the are unsolved unifications in this predicate,
+    //visit it again
+    if (solved == PARTIAL) {
+      pred.accept(predChecker());
+    }
 
     //the definition "Init : \bool" should be added to the state
     //signature. We return this declaration and it is added in visitClassPara
@@ -266,8 +276,8 @@ public class ParaChecker
   public Object visitOperation(Operation operation)
   {
     DeclName opName = operation.getName();
-    NameSignaturePair temporaryPair = 
-	factory().createNameSignaturePair(opName, factory().createSignature());
+    NameSignaturePair temporaryPair =
+        factory().createNameSignaturePair(opName, factory().createSignature());
     ClassSig cSig = getSelfSig();
     List<NameSignaturePair> opPairs = cSig.getOperation();
     boolean added = false;
@@ -276,8 +286,8 @@ public class ParaChecker
       //signature to allow recursive definitions with itself
       NameSignaturePair existing = findNameSigPair(opName, opPairs);
       if (existing == null) {
-	added = true;
-	opPairs.add(temporaryPair);
+        added = true;
+        opPairs.add(temporaryPair);
       }
     }
 

@@ -51,6 +51,10 @@ public class TypeChecker
   //the TypeEnv for pending global declarations
   protected TypeEnv pending_;
 
+  //true if and only if the previous type lookup came from the pending
+  //environment
+  protected boolean isPending_;
+
   //the UnificationEnv for recording unified generic types
   protected UnificationEnv unificationEnv_;
 
@@ -119,6 +123,7 @@ public class TypeChecker
     sectTypeEnv_ = new SectTypeEnv(zFactory);
     typeEnv_ = new TypeEnv(zFactory);
     pending_ = new TypeEnv(zFactory);
+    isPending_ = false;
     unificationEnv_ = new UnificationEnv(zFactory);
     markup_ = markup == null ? Markup.LATEX : markup;
     carrierSet_ = new CarrierSet();

@@ -376,7 +376,7 @@ abstract public class Checker
                        ErrorMessage.REDECLARED_NAME_IN_RENAMEEXPR);
     return result;
   }
-  
+
 
   protected Type2 instantiate(Type2 type, Type rootType)
   {
@@ -391,53 +391,53 @@ abstract public class Checker
 
         //instantiate the state
         Signature state = cSig.getState();
-	Signature newState = null;
+        Signature newState = null;
         if (state != null) {
           newState = instantiate(state, rootType);
         }
 
         //instantiate the attributes
         List<NameTypePair> attrs = cSig.getAttribute();
-	List<NameTypePair> newAttrs = instantiatePairs(attrs, rootType);
+        List<NameTypePair> newAttrs = instantiatePairs(attrs, rootType);
 
         //instantiate the operations
         List<NameSignaturePair> ops = cSig.getOperation();
-	List<NameSignaturePair> newOps = list();
-        for (NameSignaturePair pair : ops) {	  
+        List<NameSignaturePair> newOps = list();
+        for (NameSignaturePair pair : ops) {
           Signature signature = instantiate(pair.getSignature(), rootType);
-	  NameSignaturePair newPair =
-	    factory().createNameSignaturePair(pair.getName(), signature);
-	  newOps.add(newPair);
+          NameSignaturePair newPair =
+            factory().createNameSignaturePair(pair.getName(), signature);
+          newOps.add(newPair);
         }
 
         //instaniate the class references
         List<ClassRef> classRefs = cSig.getClasses();
-	List<ClassRef> newClassRefs = list();
+        List<ClassRef> newClassRefs = list();
         for (ClassRef classRef : classRefs) {
-	  List<Type2> types = instantiateTypes(classRef.getType2(), rootType);
-	  ClassRef newClassRef =
-	    factory().createClassRef(classRef.getRefName(), types, list());
-	  newClassRefs.add(newClassRef);
+          List<Type2> types = instantiateTypes(classRef.getType2(), rootType);
+          ClassRef newClassRef =
+            factory().createClassRef(classRef.getRefName(), types, list());
+          newClassRefs.add(newClassRef);
         }
-	newClassSig =
-	  factory().createClassSig(newClassRefs, newState, newAttrs, newOps);
+        newClassSig =
+          factory().createClassSig(newClassRefs, newState, newAttrs, newOps);
       }
-				 
+
       if (type instanceof ClassRefType) {
         ClassRefType classRefType = (ClassRefType) type;
-	ClassRef classRef = instantiate(classRefType.getThisClass(), rootType);
-	result = factory().createClassRefType(newClassSig, classRef,
-					      classRefType.getSuperClass(),
-					      classRefType.getVisibilityList());
+        ClassRef classRef = instantiate(classRefType.getThisClass(), rootType);
+        result = factory().createClassRefType(newClassSig, classRef,
+                                              classRefType.getSuperClass(),
+                                              classRefType.getVisibilityList());
       }
       else if (type instanceof ClassPolyType) {
         ClassPolyType classPolyType = (ClassPolyType) type;
         ClassRef classRef = instantiate(classPolyType.getRootClass(), rootType);
-	result = factory().createClassPolyType(newClassSig, classRef);
+        result = factory().createClassPolyType(newClassSig, classRef);
       }
       else {
-	ClassUnionType classUnionType = (ClassUnionType) type;
-	result = factory().createClassUnionType(newClassSig);
+        ClassUnionType classUnionType = (ClassUnionType) type;
+        result = factory().createClassUnionType(newClassSig);
       }
     }
     //if not a class type, use the Z typechecker's instantiate method
@@ -451,10 +451,11 @@ abstract public class Checker
   {
     List<Type2> types = instantiateTypes(classRef.getType2(), rootType);
     ClassRef result =
-      factory().createClassRef(classRef.getRefName(), types, list());   
+      factory().createClassRef(classRef.getRefName(), types, list());
     return result;
   }
 
+  /*
   protected Type getType(RefName name)
   {
     Type type = super.getType(name);
@@ -467,13 +468,13 @@ abstract public class Checker
         className().getStroke().equals(name.getStroke())) {
       //type = addGenerics((Type2) type);
       if (type instanceof GenericType && isPending(genericType(type))) {
-	//type = (Type) factory().cloneTerm(type);
+        //type = (Type) factory().cloneTerm(type);
       }
     }
 
     return type;
   }
-
+  */
   protected List<ClassRef> getClasses(Type2 type)
   {
     List<ClassRef> classes = list();
@@ -591,7 +592,7 @@ abstract public class Checker
     if (unwrapType(type) instanceof PowerType &&
         powerType(unwrapType(type)).getType() instanceof ClassRefType) {
       net.sourceforge.czt.oz.ast.ClassRefType ctype =
-	(ClassRefType) powerType(unwrapType(type)).getType();
+        (ClassRefType) powerType(unwrapType(type)).getType();
       result = "P " + classRefTypeToString(ctype);
     }
     else if (type instanceof net.sourceforge.czt.oz.ast.ClassRefType) {
