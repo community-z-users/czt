@@ -269,11 +269,20 @@
         <xs:sequence>
           <xs:element name="Name" type="xs:string"  minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
-        <xs:attribute name="Kind" type="xs:string"/>
+        <xs:attribute name="Kind" type="P:JokerType"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
+  <xs:simpleType name="JokerType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DeclList"/>
+      <xs:enumeration value="Expr"/>
+      <xs:enumeration value="Name"/>
+      <xs:enumeration value="Pred"/>
+      <xs:enumeration value="Type"/>
+    </xs:restriction>
+  </xs:simpleType>
 
   <xs:complexType name="Deduction">
     <xs:complexContent>
