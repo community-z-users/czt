@@ -714,14 +714,6 @@
       <param name="add" expression="{zpatt}"/>
     </xslt>
     <xslt
-      in="templates/JokerScanner.xml"
-      out="${build.src.zpatt.dir}/JokerScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
-      <param name="class" expression="JokerScanner"/>
-      <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
-      <param name="add" expression="{zpatt}"/>
-    </xslt>
-    <xslt
       in="templates/NewlineScanner.xml"
       out="${build.src.zpatt.dir}/NewlineScanner.java"
       style="${czt.home}/devtools/template2text.xsl">

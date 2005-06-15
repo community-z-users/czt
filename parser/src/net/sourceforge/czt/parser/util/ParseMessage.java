@@ -30,6 +30,7 @@ public enum ParseMessage
   MSG_PRED_EXPECTED ("Predicate expected"),
   MSG_REFNAME_EXPECTED ("Reference name expected"),
   MSG_REFNAME_NO_PARAMS_EXPECTED ("Name with no instantiations expected"),
+  MSG_UNKNOWN_JOKER_TYPE ("Unknow joker type {0}"),
   MSG_UNKNOWN_LATEX_COMMAND ("Unknown latex command {0}"),
   MSG_UNMATCHED_BEGIN_END ("\\end'{'{0}'}' missing"),
   MSG_UNMATCHED_BRACES ("Unmatched braces {0}"),

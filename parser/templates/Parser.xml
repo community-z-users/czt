@@ -3601,7 +3601,16 @@ optNL ::=
 jokerPara ::=
         JOKER:j DECORWORD:dw jokerList:jl END
         {:
-           RESULT = factory_.createJokers(jl, dw.getName());
+           JokerType type = JokerType.Expr;
+           try {
+             type = JokerType.fromString(dw.getName());
+           }
+           catch (IllegalArgumentException e) {
+             parser.report_error(ParseMessage.MSG_UNKNOWN_JOKER_TYPE,
+                          new Object[] { dw },
+                          getLocation(dwleft, dwright));
+           }
+           RESULT = factory_.createJokers(jl, type);
            addLocAnn(RESULT, jleft, jright);
            try {
              jokerTable_.add(RESULT);

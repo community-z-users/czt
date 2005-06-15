@@ -64,16 +64,16 @@ public class JokerTable
     return section_;
   }
 
-  public JokerTokenType getTokenType(String name)
+  public JokerType getTokenType(String name)
   {
-    return (JokerTokenType) jokers_.get(name);
+    return (JokerType) jokers_.get(name);
   }
 
   public void add(Jokers jokers)
     throws JokerException
   {
     LocAnn locAnn = (LocAnn) jokers.getAnn(LocAnn.class);
-    String kind = jokers.getKind();
+    JokerType kind = jokers.getKind();
     List<String> names = jokers.getName();
     for (String name : names) {
       final int line = locAnn.getLine();
@@ -89,7 +89,7 @@ public class JokerTable
    * throws JokerException if an association of the same name already
    * exists.
    */
-  private void addTokenType(String name, String type, String loc)
+  private void addTokenType(String name, JokerType type, String loc)
     throws JokerException
   {
     addTokenType(name, type, -1, -1, loc);
@@ -101,12 +101,12 @@ public class JokerTable
    * throws JokerException if an association of the same name already
    * exists.
    */
-  private void addTokenType(String name, String kind,
+  private void addTokenType(String name, JokerType kind,
                             int line, int col, String loc)
     throws JokerException
   {
-    final JokerTokenType existingType =
-      (JokerTokenType) jokers_.get(name);
+    final JokerType existingType =
+      (JokerType) jokers_.get(name);
     if (existingType != null) {
       String message = "Duplicate joker name " + name;
       if (line >= 0)  message += " at line " + line;
@@ -114,14 +114,7 @@ public class JokerTable
       message += " in " + loc;
       throw new JokerException(message);
     }
-    try {
-      JokerTokenType type = JokerTokenType.fromString(kind);
-      jokers_.put(name, type);
-    }
-    catch (IllegalArgumentException e) {
-      String message = kind + " is an invalid joker name";
-      throw new JokerException(message);
-    }
+    jokers_.put(name, kind);
   }
 
   /**
@@ -132,10 +125,10 @@ public class JokerTable
   private void addJokerTable(JokerTable parentTable)
     throws JokerException
   {
-    final Set<Map.Entry<String, JokerTokenType>> parentJokers =
+    final Set<Map.Entry<String, JokerType>> parentJokers =
       parentTable.jokers_.entrySet();
-    for (Map.Entry<String, JokerTokenType> entry : parentJokers) {
-      addTokenType(entry.getKey(), entry.getValue().toString(),
+    for (Map.Entry<String, JokerType> entry : parentJokers) {
+      addTokenType(entry.getKey(), entry.getValue(),
                    parentTable.getSection());
     }
   }

@@ -1,27 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-     Copyright (C) 2005 Tim Miller, Petra Malik
-     This file is part of the CZT project.
+/*
+  Copyright (C) 2005 Tim Miller, Petra Malik
+  This file is part of the czt project.
 
-     The CZT project contains free software;
-     you can redistribute it and/or modify
-     it under the terms of the GNU General Public License as published by
-     the Free Software Foundation; either version 2 of the License, or
-     (at your option) any later version.
+  The czt project contains free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
 
-     The CZT project is distributed in the hope that it will be useful,
-     but WITHOUT ANY WARRANTY; without even the implied warranty of
-     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
+  The czt project is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-     You should have received a copy of the GNU General Public License
-     along with CZT; if not, write to the Free Software
-     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
--->
+  You should have received a copy of the GNU General Public License
+  along with czt; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
 
-<parser xmlns:add="http://czt.sourceforge.net/templates/additional">
-
-package <package/>;
+package net.sourceforge.czt.parser.zpatt;
 
 import java.lang.reflect.*;
 
@@ -32,11 +28,12 @@ import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.DeclName;
 import net.sourceforge.czt.z.util.Factory;
+import net.sourceforge.czt.zpatt.ast.JokerType;
 
 /**
- * &lt;p&gt;This is lexer for jokers 
+ * This is lexer for jokers.
  */
-public class <class/>
+public class JokerScanner
   implements Scanner
 {
   private Scanner scanner_;
@@ -50,7 +47,7 @@ public class <class/>
    */
   private boolean lookup_ = false;
 
-  <class/>(Scanner scanner)
+  JokerScanner(Scanner scanner)
   {
     scanner_ = scanner;
     factory_ = new Factory();
@@ -74,7 +71,7 @@ public class <class/>
     if (result.sym == Sym.RULE) {
       lookup_ = true;
     }
-    else if (lookup_ == true &amp;&amp; result.sym == Sym.END) {
+    else if (lookup_ == true && result.sym == Sym.END) {
       lookup_ = false;
     }
     else {
@@ -85,7 +82,7 @@ public class <class/>
   }
 
   /**
-   * Lookup the value of this symbol
+   * Lookup the value of this symbol.
    */
   protected Symbol localLookup(Symbol symbol)
     throws Exception
@@ -97,11 +94,11 @@ public class <class/>
     if (symbol.sym == Sym.DECORWORD || symbol.sym == Sym.DECLWORD) {
       String name = ((Decorword) symbol.value).getName();
       assert table_ != null;
-      JokerTokenType jokertype = table_.getTokenType(name);
+      JokerType jokertype = table_.getTokenType(name);
       int type = -1;
       if (jokertype != null) {
         Field[] fields = Sym.class.getFields();
-        for (int i = 0; i &lt; fields.length; i++) {
+        for (int i = 0; i < fields.length; i++) {
           Field field = fields[i];
           try {
             if (Modifier.isStatic(field.getModifiers())) {
@@ -126,4 +123,3 @@ public class <class/>
     return result;
   }
 }
-</parser>
