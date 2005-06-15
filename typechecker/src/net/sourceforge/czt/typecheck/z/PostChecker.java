@@ -65,12 +65,11 @@ public class PostChecker
           ErrorAnn errorAnn =
             errorAnn(thetaExpr,
                      ErrorMessage.UNDECLARED_IDENTIFIER_IN_EXPR, params);
-          addErrorAnn(thetaExpr, errorAnn);
-          return errorAnn;
+          boolean added = addErrorAnn(thetaExpr, errorAnn);
+          return added ? errorAnn : null;
         }
       }
     }
-
     return null;
   }
 
@@ -89,16 +88,17 @@ public class PostChecker
 
       //if this ref expr was created for an ExprPred
       ExprPred exprPred = (ExprPred) refName.getAnn(ExprPred.class);
+      boolean added = false;
       if (exprPred == null) {
-        addErrorAnn(refName, errorAnn);
+        added = addErrorAnn(refName, errorAnn);
       }
       else {
-        addErrorAnn(exprPred, errorAnn);
+	added = addErrorAnn(exprPred, errorAnn);
         removeAnn(refName, exprPred);
         Object ann = (ParameterAnn) exprPred.getAnn(ParameterAnn.class);
         removeAnn(exprPred, ann);
       }
-      return errorAnn;
+      return added ? errorAnn : null;
     }
     //check that no types in the list are still unresolved
     else if (pAnn != null) {
@@ -114,9 +114,9 @@ public class PostChecker
           Object [] params = {refExpr};
           ErrorAnn errorAnn =
             errorAnn(refExpr, ErrorMessage.PARAMETERS_NOT_DETERMINED, params);
-          addErrorAnn(refExpr, errorAnn);
+          boolean added = addErrorAnn(refExpr, errorAnn);
           removeAnn(refExpr, pAnn);
-          return errorAnn;
+          return added ? errorAnn : null;
         }
       }
       refExpr.getExpr().addAll(exprs);
@@ -133,8 +133,8 @@ public class PostChecker
       Object [] params = {refExpr};
       ErrorAnn errorAnn =
         errorAnn(refExpr, ErrorMessage.TYPE_NOT_DETERMINED, params);
-      addErrorAnn(refExpr, errorAnn);
-      return errorAnn;
+      boolean added = addErrorAnn(refExpr, errorAnn);
+      return added ? errorAnn : null;
     }
     */
     return null;
@@ -155,8 +155,8 @@ public class PostChecker
         Object [] params = {setExpr};
         ErrorAnn errorAnn =
           errorAnn(setExpr, ErrorMessage.PARAMETERS_NOT_DETERMINED, params);
-        addErrorAnn(setExpr, errorAnn);
-        return errorAnn;
+        boolean added = addErrorAnn(setExpr, errorAnn);
+        return added ? errorAnn : null;
       }
     }
     return null;

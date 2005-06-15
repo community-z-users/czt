@@ -18,6 +18,7 @@
 */
 package net.sourceforge.czt.typecheck.z;
 
+import java.io.Writer;
 import java.io.StringWriter;
 import java.util.List;
 import java.util.Iterator;
@@ -293,25 +294,27 @@ abstract public class Checker
     paraErrors().add(errorAnn);
   }
 
-  //add an error as an annotation to the term
-  protected void addErrorAnn(TermA termA, ErrorAnn errorAnn)
+  //add an error as an annotation to the term. Return true if and only
+  //if this error is not already added to this term
+  protected boolean addErrorAnn(TermA termA, ErrorAnn errorAnn)
   {
     for (Object ann : termA.getAnns()) {
       if (ann instanceof ErrorAnn) {
         ErrorAnn existingAnn = (ErrorAnn) ann;
         if (errorAnn.getErrorMessage().equals(existingAnn.getErrorMessage())) {
-          return;
+          return false;
         }
       }
     }
     termA.getAnns().add(errorAnn);
+    return true;
   }
 
   //add an error to the list of error messages, and as an annotation to the term
   protected void error(TermA termA, ErrorAnn errorAnn)
   {
-    addErrorAnn(termA, errorAnn);
-    error(errorAnn);
+    boolean added = addErrorAnn(termA, errorAnn);
+    if (added) error(errorAnn);
   }
 
   protected void error(TermA termA, ErrorMessage error, Object [] params)
@@ -356,13 +359,14 @@ abstract public class Checker
   protected String format(Term term)
   {
     try {
-      Term newTerm = (Term) term.accept(getCarrierSet());
+      Term newTerm = (Term) term.accept(exprChecker().getCarrierSet());
       StringWriter writer = new StringWriter();
-      PrintUtils.print(newTerm, writer, sectInfo(), sectName(), markup());
+      print(newTerm, writer, sectInfo(), sectName(), markup());
       return writer.toString();
     }
     catch (Exception e) {
       String message = "Cannot be printed";
+      e.printStackTrace();
       return message;
     }
   }
@@ -370,6 +374,15 @@ abstract public class Checker
   protected CarrierSet getCarrierSet()
   {
     return new CarrierSet();
+  }
+
+  protected void print(Term term,
+                       Writer writer,
+                       SectionInfo sectInfo,
+                       String sectName,
+                       Markup markup)
+  {
+    PrintUtils.print(term, writer, sectInfo, sectName, markup());
   }
 
   //get the position of a TermA from its annotations
@@ -595,11 +608,12 @@ abstract public class Checker
             if (termA != null) {
               params = new Object []
                 {second.getName(), termA, firstType, secondType};
+	      error(termA, errorMessage, params);
             }
             else {
               params = new Object [] {second.getName(), firstType, secondType};
+	      error(second.getName(), errorMessage, params);
             }
-            error(second.getName(), errorMessage, params);
           }
           //if the types do agree, we don't need the second declaration
           else {

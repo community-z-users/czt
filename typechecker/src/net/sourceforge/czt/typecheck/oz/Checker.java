@@ -18,6 +18,7 @@
 */
 package net.sourceforge.czt.typecheck.oz;
 
+import java.io.Writer;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.*;
@@ -25,6 +26,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.oz.util.OzString;
+import net.sourceforge.czt.print.oz.PrintUtils;
 import net.sourceforge.czt.typecheck.z.util.*;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.oz.impl.*;
@@ -558,7 +560,16 @@ abstract public class Checker
 
   protected CarrierSet getCarrierSet()
   {
-    return new net.sourceforge.czt.typecheck.oz.util.CarrierSet();
+    return new net.sourceforge.czt.typecheck.oz.util.CarrierSet(true);
+  }
+
+  protected void print(Term term,
+                       Writer writer,
+                       SectionInfo sectInfo,
+                       String sectName,
+                       Markup markup)
+  {
+    PrintUtils.print(term, writer, sectInfo, sectName, markup());
   }
 
   public String toString(Type type)

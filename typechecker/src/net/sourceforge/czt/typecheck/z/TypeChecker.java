@@ -73,7 +73,7 @@ public class TypeChecker
   protected List<Object> paraErrors_;
 
   //allow variable use before declaration
-  protected boolean useBeforeDecl_;
+  protected boolean useBeforeDecl_ = false;
 
   //used for logging warning messages.
   protected Logger logger_ = CztLogger.getLogger(TypeChecker.class);
