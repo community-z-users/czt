@@ -76,8 +76,8 @@ public class ExprChecker
     PowerType vlPowerType = factory().createPowerType();
     PowerType vrPowerType = factory().createPowerType();
 
-    UResult lUnified = unify(vlPowerType, lType);
-    UResult rUnified = unify(vrPowerType, rType);
+    UResult lUnified = strongUnify(vlPowerType, lType);
+    UResult rUnified = strongUnify(vrPowerType, rType);
     //if the left expr is not a class description, raise an error
     if (!instanceOf(vlPowerType.getType(), ClassRefType.class) &&
         !instanceOf(vlPowerType.getType(), ClassUnionType.class) &&
@@ -183,7 +183,7 @@ public class ExprChecker
 
     //if the left expr is not a class description, raise an error
     PowerType vPowerType = factory().createPowerType();
-    UResult unified = unify(vPowerType, exprType);
+    UResult unified = strongUnify(vPowerType, exprType);
 
     //if the expr is not a class type, raise an error
     if (!instanceOf(vPowerType.getType(), ClassRefType.class) &&
@@ -251,7 +251,7 @@ public class ExprChecker
 
     //if the left expr is not a class description, raise an error
     PowerType vPowerType = factory().createPowerType();
-    UResult unified = unify(vPowerType, exprType);
+    UResult unified = strongUnify(vPowerType, exprType);
 
     //if the expr is not a class type, raise an error
     if (!instanceOf(vPowerType.getType(), ClassRefType.class) &&
@@ -355,7 +355,7 @@ public class ExprChecker
     Type2 exprType = (Type2) expr.accept(exprChecker());
 
     PowerType vPowerType = factory().createPowerType();
-    UResult unified = unify(vPowerType, exprType);
+    UResult unified = strongUnify(vPowerType, exprType);
 
     if (unified == FAIL) {
       Object [] params = {renameExpr, exprType};

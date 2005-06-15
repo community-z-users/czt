@@ -27,8 +27,8 @@ import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.oz.util.OzString;
 import net.sourceforge.czt.print.oz.PrintUtils;
-import net.sourceforge.czt.typecheck.z.util.*;
-import net.sourceforge.czt.typecheck.z.impl.UnknownType;
+import net.sourceforge.czt.typecheck.z.util.UResult;
+import net.sourceforge.czt.typecheck.oz.util.*;
 import net.sourceforge.czt.typecheck.oz.impl.*;
 
 /**
@@ -128,6 +128,18 @@ abstract public class Checker
                                      sectName(), nearestLocAnn(termA),
                                      markup());
     return errorAnn;
+  }
+
+  protected UResult strongUnify(Type2 typeA, Type2 typeB)
+  {
+    UnificationEnv unificationEnv = (UnificationEnv) unificationEnv();
+    return unificationEnv.strongUnify(typeA, typeB);
+  }
+
+  protected UResult weakUnify(Type2 typeA, Type2 typeB)
+  {
+    UnificationEnv unificationEnv = (UnificationEnv) unificationEnv();
+    return unificationEnv.weakUnify(typeA, typeB);
   }
 
   //check if a name is in a signature's visibility list
@@ -366,7 +378,7 @@ abstract public class Checker
   }
   
 
-  protected Type2 instantiate(Type2 type)
+  protected Type2 instantiate(Type2 type, Type rootType)
   {
     Type2 result = factory().createUnknownType();
     //if this is a class type, instantiate it
@@ -376,22 +388,23 @@ abstract public class Checker
 
       ClassSig newClassSig = null;
       if (!(cSig instanceof VariableClassSig)) {
+
         //instantiate the state
         Signature state = cSig.getState();
 	Signature newState = null;
         if (state != null) {
-          newState = instantiate(state);
+          newState = instantiate(state, rootType);
         }
 
         //instantiate the attributes
         List<NameTypePair> attrs = cSig.getAttribute();
-	List<NameTypePair> newAttrs = instantiatePairs(attrs);
+	List<NameTypePair> newAttrs = instantiatePairs(attrs, rootType);
 
         //instantiate the operations
         List<NameSignaturePair> ops = cSig.getOperation();
 	List<NameSignaturePair> newOps = list();
         for (NameSignaturePair pair : ops) {	  
-          Signature signature = instantiate(pair.getSignature());
+          Signature signature = instantiate(pair.getSignature(), rootType);
 	  NameSignaturePair newPair =
 	    factory().createNameSignaturePair(pair.getName(), signature);
 	  newOps.add(newPair);
@@ -401,7 +414,7 @@ abstract public class Checker
         List<ClassRef> classRefs = cSig.getClasses();
 	List<ClassRef> newClassRefs = list();
         for (ClassRef classRef : classRefs) {
-	  List<Type2> types = instantiateTypes(classRef.getType2());
+	  List<Type2> types = instantiateTypes(classRef.getType2(), rootType);
 	  ClassRef newClassRef =
 	    factory().createClassRef(classRef.getRefName(), types, list());
 	  newClassRefs.add(newClassRef);
@@ -412,14 +425,14 @@ abstract public class Checker
 				 
       if (type instanceof ClassRefType) {
         ClassRefType classRefType = (ClassRefType) type;
-	ClassRef classRef = instantiate(classRefType.getThisClass());
+	ClassRef classRef = instantiate(classRefType.getThisClass(), rootType);
 	result = factory().createClassRefType(newClassSig, classRef,
 					      classRefType.getSuperClass(),
 					      classRefType.getVisibilityList());
       }
       else if (type instanceof ClassPolyType) {
         ClassPolyType classPolyType = (ClassPolyType) type;
-        ClassRef classRef = instantiate(classPolyType.getRootClass());
+        ClassRef classRef = instantiate(classPolyType.getRootClass(), rootType);
 	result = factory().createClassPolyType(newClassSig, classRef);
       }
       else {
@@ -429,14 +442,14 @@ abstract public class Checker
     }
     //if not a class type, use the Z typechecker's instantiate method
     else {
-      result = super.instantiate(type);
+      result = super.instantiate(type, rootType);
     }
     return result;
   }
 
-  protected ClassRef instantiate(net.sourceforge.czt.oz.ast.ClassRef classRef)
+  protected ClassRef instantiate(ClassRef classRef, Type rootType)
   {
-    List<Type2> types = instantiateTypes(classRef.getType2());
+    List<Type2> types = instantiateTypes(classRef.getType2(), rootType);
     ClassRef result =
       factory().createClassRef(classRef.getRefName(), types, list());   
     return result;
@@ -454,7 +467,7 @@ abstract public class Checker
         className().getStroke().equals(name.getStroke())) {
       //type = addGenerics((Type2) type);
       if (type instanceof GenericType && isPending(genericType(type))) {
-	type = (Type) factory().cloneTerm(type);
+	//type = (Type) factory().cloneTerm(type);
       }
     }
 

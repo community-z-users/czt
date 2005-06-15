@@ -35,24 +35,24 @@ public class UnknownType
   extends Type2Impl
 {
   /** The undefined reference associated with this type. */
-  protected RefExpr refExpr_;
+  protected RefName refName_;
 
   /** The list of instantiations associate with this type. */
   protected List<Type2> types_;
 
-  /** True iff refExpr_ is the superset of this type. */
+  /** True iff refName_ is the superset of this type. */
   protected boolean isMem_;
 
-  protected UnknownType(RefExpr refExpr, boolean isMem, List<Type2> types)
+  protected UnknownType(RefName refName, boolean isMem, List<Type2> types)
   {
-    refExpr_ = refExpr;
+    refName_ = refName;
     isMem_ = isMem;
     types_ = types;
   }
 
-  protected UnknownType(RefExpr refExpr)
+  protected UnknownType(RefName refName)
   {
-    this(refExpr, false, new ListTermImpl(Type2.class));
+    this(refName, false, new ListTermImpl(Type2.class));
   }
 
   protected UnknownType()
@@ -78,17 +78,17 @@ public class UnknownType
   /**
    * Get the undefined reference associated with this type.
    */
-  public RefExpr getRefExpr()
+  public RefName getRefName()
   {
-    return refExpr_;
+    return refName_;
   }
 
   /**
    * Set the undefined reference associated with this type.
    */
-  public void setRefExpr(RefExpr refExpr)
+  public void setRefName(RefName refName)
   {
-    refExpr_ = refExpr;
+    refName_ = refName;
   }
 
   public void setIsMem(boolean isMem)
@@ -107,10 +107,10 @@ public class UnknownType
 
     if (obj instanceof UnknownType) {
       UnknownType unknownType = (UnknownType) obj;
-      if (refExpr_ == null && unknownType.getRefExpr() == null) {
+      if (refName_ == null && unknownType.getRefName() == null) {
         result = true;
       }
-      else if (refExpr_ != null && refExpr_.equals(unknownType.getRefExpr())) {
+      else if (refName_ != null && refName_.equals(unknownType.getRefName())) {
         result = true;
       }
 
@@ -128,8 +128,8 @@ public class UnknownType
 
     int hashCode = super.hashCode();
     hashCode += "UnknownType".hashCode();
-    if (refExpr_ != null) {
-      hashCode += constant * refExpr_.hashCode();
+    if (refName_ != null) {
+      hashCode += constant * refName_.hashCode();
     }
     return hashCode;
 
@@ -137,7 +137,7 @@ public class UnknownType
 
   public Object [] getChildren()
   {
-    Object [] children = { getRefExpr(), getType(), new Boolean(getIsMem()) };
+    Object [] children = { getRefName(), getType(), new Boolean(getIsMem()) };
     return children;
   }
 
@@ -155,10 +155,10 @@ public class UnknownType
     UnknownType zedObject = null;
     try {
       zedObject = new UnknownType();
-      RefExpr refExpr = (RefExpr) args[0];
+      RefName refName = (RefName) args[0];
       List types = (List) args[1];
       Boolean isMem = (Boolean) args[2];
-      zedObject.setRefExpr(refExpr);
+      zedObject.setRefName(refName);
       zedObject.setIsMem(isMem);
       zedObject.getType().addAll(types);
     }
@@ -175,12 +175,12 @@ public class UnknownType
   {
     String result = "unknown";
 
-    if (refExpr_ != null) {
+    if (refName_ != null) {
       result += "(";
       if (getIsMem()) {
         result += "member(";
       }
-      result += refExpr_.getRefName();
+      result += refName_;
       if (getIsMem()) {
         result += ")";
       }

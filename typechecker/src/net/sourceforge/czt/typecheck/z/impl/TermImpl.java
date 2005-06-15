@@ -57,6 +57,7 @@ public abstract class TermImpl
 
   public int hashCode()
   {
-    return term_.hashCode();
+    String s = "Term";
+    return s.hashCode();
   }
 }

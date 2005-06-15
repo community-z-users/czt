@@ -50,13 +50,21 @@ public class Factory
 
   public static Term cloneTerm(Term term)
   {
+    return cloneTerm(term, term);
+  }
+
+  public static Term cloneTerm(Term term, Term rootTerm)
+  {
     Object [] children = term.getChildren();
     Object [] args = new Object [children.length];
     for (int i = 0; i < children.length; i++) {
       Object next = children[i];
-      if (next != null && next instanceof Term) {
+      if (next == rootTerm) {
+	args[i] = next;
+      }
+      else if (next != null && next instanceof Term) {
         Term nextTerm = (Term) next;
-        args[i] = cloneTerm(nextTerm);
+        args[i] = cloneTerm(nextTerm, rootTerm);
       }
       else {
         args[i] = children[i];
@@ -189,17 +197,17 @@ public class Factory
     return new UnknownType();
   }
 
-  public UnknownType createUnknownType(RefExpr refExpr)
+  public UnknownType createUnknownType(RefName refName)
   {
-    return new UnknownType(refExpr);
+    return new UnknownType(refName);
   }
 
 
-  public UnknownType createUnknownType(RefExpr refExpr,
+  public UnknownType createUnknownType(RefName refName,
 				       boolean isMem,
 				       List<Type2> types)
   {
-    return new UnknownType(refExpr, isMem, types);
+    return new UnknownType(refName, isMem, types);
   }
 
   public TypeAnn createTypeAnn()

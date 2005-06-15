@@ -97,8 +97,9 @@ public class ParaChecker
 
     //add this class name and "self" to the typing environments
     DeclName self = factory().createDeclName(OzString.SELF, list(), null);
-    pending().add(className(), addGenerics(powerType));
-    typeEnv().add(self, addGenerics(classType));
+    //pending().add(className(), addGenerics(powerType));
+    //typeEnv().add(self, addGenerics(classType));
+    pending().add(self, addGenerics(classType));
 
     //visit each inherited class
     List<Expr> inheritedClass = classPara.getInheritedClass();
@@ -300,7 +301,7 @@ public class ParaChecker
     Type2 exprType = (Type2) expr.accept(exprChecker());
 
     PowerType vPowerType = factory().createPowerType();
-    UResult unified = unify(vPowerType, exprType);
+    UResult unified = strongUnify(vPowerType, exprType);
 
     //if the expr is not a class type, raise an error
     if (!instanceOf(vPowerType.getType(), ClassRefType.class) &&

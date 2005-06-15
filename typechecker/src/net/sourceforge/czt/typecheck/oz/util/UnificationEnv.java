@@ -43,7 +43,7 @@ public class UnificationEnv
 
   public UnificationEnv(ZFactory zFactory)
   {
-    this(zFactory, false);
+    this(zFactory, true);
   }
 
   public void setStrong(boolean strong)
@@ -79,10 +79,13 @@ public class UnificationEnv
       result = unifyVarClassType((VariableClassType) typeB, typeA);
     }
     else if (typeA instanceof ClassType && typeB instanceof ClassType) {
-      result = strongUnifyClassType((ClassType) typeA, (ClassType) typeB);
+      result = unifyClassType((ClassType) typeA, (ClassType) typeB);
     }
     else {
       result = super.unify(typeA, typeB);
+    }
+    if (result == FAIL) {
+      //System.err.println(typeA + " != " + typeB);
     }
     return result;
   }

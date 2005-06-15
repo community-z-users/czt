@@ -46,6 +46,8 @@ abstract public class Checker
   //the information required for the typechecker classes.
   protected TypeChecker typeChecker_;
 
+  protected static boolean isPending_ = true;
+
   public Checker(TypeChecker typeChecker)
   {
     typeChecker_ = typeChecker;
@@ -426,7 +428,7 @@ abstract public class Checker
 
   protected static <E> List<E> list()
   {
-    return new java.util.ArrayList<E>();
+    return new java.util.LinkedList<E>();
   }
 
   protected static <E> List<E> list(E e)
@@ -786,24 +788,23 @@ abstract public class Checker
       Type2 firstType = gType.getType();
       Type2 optionalType = gType.getOptionalType();
       if (optionalType == null) {
-        optionalType = exprChecker().instantiate(gType.getType());
+        optionalType = exprChecker().instantiate(gType.getType(), gType.getType());
       }
       else {
-        optionalType = exprChecker().instantiate(optionalType);
+        optionalType = exprChecker().instantiate(optionalType, optionalType);
       }
       result = factory().createGenericType(declNames, firstType, optionalType);
     }
     else {
-      result = exprChecker().instantiate((Type2) type);
+      Type2 type2 = (Type2) type;
+      result = exprChecker().instantiate(type2, type2);
     }
-
     return result;
   }
 
-  protected Type2 instantiate(Type2 type)
-  {
+  protected Type2 instantiate(Type2 type, Type rootType)
+  {    
     Type2 result = factory().createUnknownType();
-
     if (type instanceof GenParamType) {
       GenParamType genParamType = (GenParamType) type;
       DeclName genName = genParamType.getName();
@@ -812,11 +813,11 @@ abstract public class Checker
       Type unificationEnvType = unificationEnv().getType(genName);
 
       //if this type's reference is in the parameters
-      if (containsDoubleEquals(typeEnv().getParameters(), genName)) {
+      if (containsDoubleEquals(typeEnv().getParameters(), genName) && isPending_) {
         result = type;
       }
       else if (unificationEnvType instanceof UnknownType &&
-               unknownType(unificationEnvType).getRefExpr() == null) {
+               unknownType(unificationEnvType).getRefName() == null) {
         VariableType vType = factory().createVariableType();
         result = vType;
         unificationEnv().addGenName(genName, result);
@@ -831,7 +832,7 @@ abstract public class Checker
     else if (type instanceof VariableType) {
       VariableType vType = (VariableType) type;
       if (vType.getValue() != vType) {
-        result = exprChecker().instantiate(vType.getValue());
+        result = exprChecker().instantiate(vType.getValue(), rootType);
       }
       else {
         result = vType;
@@ -839,7 +840,10 @@ abstract public class Checker
     }
     else if (type instanceof PowerType) {
       PowerType powerType = (PowerType) type;
-      Type2 replaced = exprChecker().instantiate(powerType.getType());
+      if (powerType.getType() == rootType) {
+	return powerType;
+      }
+      Type2 replaced = exprChecker().instantiate(powerType.getType(), rootType);
       result = factory().createPowerType(replaced);
     }
     else if (type instanceof GivenType) {
@@ -849,62 +853,72 @@ abstract public class Checker
     else if (type instanceof SchemaType) {
       SchemaType schemaType = (SchemaType) type;
       Signature signature =
-        exprChecker().instantiate(schemaType.getSignature());
+        exprChecker().instantiate(schemaType.getSignature(), rootType);
       result = factory().createSchemaType(signature);
     }
     else if (type instanceof ProdType) {
       ProdType prodType = (ProdType) type;
       List<Type2> newTypes =
-        exprChecker().instantiateTypes(prodType.getType());
+        exprChecker().instantiateTypes(prodType.getType(), rootType);
       result = factory().createProdType(newTypes);
     }
     else if (type instanceof UnknownType) {
       UnknownType uType = (UnknownType) type;
-      RefExpr refExpr = uType.getRefExpr();
-      if (refExpr != null) {
-        ParameterAnn pAnn = (ParameterAnn) refExpr.getAnn(ParameterAnn.class);
+      RefName refName = uType.getRefName();
+      if (refName != null) {
+        ParameterAnn pAnn = (ParameterAnn) refName.getAnn(ParameterAnn.class);
         List<Type2> types = uType.getType();
         if (pAnn != null && types.size() == 0) {
           types.addAll(pAnn.getParameters());
         }
         boolean isMem = uType.getIsMem();
-        List<Type2> newTypes = exprChecker().instantiateTypes(types);
-        result = factory().createUnknownType(refExpr, isMem, newTypes);
+        List<Type2> newTypes = exprChecker().instantiateTypes(types, rootType);
+        result = factory().createUnknownType(refName, isMem, newTypes);
       }
       else {
         result = uType;
       }
-
     }
     return result;
   }
 
-  protected Signature instantiate(Signature signature)
+  protected Signature instantiate(Signature signature, Type rootType)
   {
     List<NameTypePair> pairs = signature.getNameTypePair();
-    List<NameTypePair> newPairs = exprChecker().instantiatePairs(pairs);
+    List<NameTypePair> newPairs = exprChecker().instantiatePairs(pairs, rootType);
     Signature result = factory().createSignature(newPairs);
     return result;
   }
 
-  protected List<NameTypePair> instantiatePairs(List<NameTypePair> pairs)
+  protected List<NameTypePair> instantiatePairs(List<NameTypePair> pairs,
+						Type rootType)
   {
     List<NameTypePair> newPairs = list();
     for (NameTypePair pair : pairs) {
-      Type replaced = exprChecker().instantiate(pair.getType());
-      NameTypePair newPair = factory().createNameTypePair(pair.getName(),
-                                                          replaced);
-      newPairs.add(newPair);
+      if (pair.getType() == rootType) {
+	newPairs.add(pair);
+      }
+      else {
+	Type replaced = exprChecker().instantiate(pair.getType());
+	NameTypePair newPair = factory().createNameTypePair(pair.getName(),
+							    replaced);
+	newPairs.add(newPair);
+      }
     }
     return newPairs;
   }
 
-  protected List<Type2> instantiateTypes(List<Type2> types)
+  protected List<Type2> instantiateTypes(List<Type2> types, Type rootType)
   {
     List<Type2> newTypes = list();
     for (Type2 type : types) {
-      Type2 replaced = exprChecker().instantiate(type);
-      newTypes.add(replaced);
+      if (type == rootType) {
+	newTypes.add(type);
+      }
+      else {
+	Type2 replaced = exprChecker().instantiate(type, rootType);
+	newTypes.add(replaced);
+      }
     }
     return newTypes;
   }
@@ -913,7 +927,8 @@ abstract public class Checker
   {
     List<DeclName> params = typeEnv().getParameters();
     DeclName param = (DeclName) gType.getName().get(0);
-    return containsDoubleEquals(params, param);
+    //    return containsDoubleEquals(params, param);
+    return isPending_;
   }
 
   //if there are generics in the current type env, return a new
@@ -962,6 +977,7 @@ abstract public class Checker
   //gets the type of the expression represented by a name
   protected Type getType(RefName name)
   {
+    isPending_  = false;
     //get the type from the TypeEnv
     Type type = typeEnv().getType(name);
 
@@ -969,6 +985,11 @@ abstract public class Checker
     //then ask the pending env
     if (type instanceof UnknownType) {
       type = pending().getType(name);
+      if (!(type instanceof UnknownType) ||
+	  ((type instanceof UnknownType) &&
+	   unknownType(type).getRefName() != null) ){
+	isPending_ = true;
+      }
     }
 
     //if the pending environment did not know of this expression,
@@ -976,13 +997,12 @@ abstract public class Checker
     if (type instanceof UnknownType) {
       Type sectTypeEnvType = sectTypeEnv().getType(name);
       if (!instanceOf(sectTypeEnvType, UnknownType.class)) {
-        //type = (Type) factory().cloneTerm(sectTypeEnvType);
         type = sectTypeEnvType;
       }
       else {
         UnknownType uType = (UnknownType) sectTypeEnvType;
-        RefExpr refExpr = uType.getRefExpr();
-        if (refExpr != null && !name.equals(refExpr.getRefName())) {
+        RefName refName = uType.getRefName();
+        if (refName != null && !name.equals(refName)) {
           type = resolveUnknownType(uType);
         }
       }
@@ -991,7 +1011,7 @@ abstract public class Checker
     //if not in any of the environments, return a variable type with the
     //specified name
     if (type instanceof UnknownType &&
-        unknownType(type).getRefExpr() == null) {
+        unknownType(type).getRefName() == null) {
       //add an UndeclaredAnn
       UndeclaredAnn ann = new UndeclaredAnn();
       name.getAnns().add(ann);
@@ -1000,6 +1020,7 @@ abstract public class Checker
       //remove an UndeclaredAnn if there is one
       removeAnn(name, UndeclaredAnn.class);
     }
+
     return type;
   }
 
@@ -1008,9 +1029,8 @@ abstract public class Checker
     Type2 result = type;
     if (sectTypeEnv().getSecondTime() && type instanceof UnknownType) {
       UnknownType uType = (UnknownType) type;
-      RefExpr refExpr = uType.getRefExpr();
-      if (refExpr != null) {
-        RefName refName = refExpr.getRefName();
+      RefName refName = uType.getRefName();
+      if (refName != null) {
         Type refType = getType(refName);
         if (refType instanceof GenericType) {
           List<DeclName> names = genericType(refType).getName();

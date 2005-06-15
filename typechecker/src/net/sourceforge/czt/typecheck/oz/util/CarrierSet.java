@@ -94,7 +94,8 @@ public class CarrierSet
 	result = next;
       }
     }
-
+    ParenAnn pAnn = ozFactory_.createParenAnn();
+    result.getAnns().add(pAnn);
     return result;
   }
 

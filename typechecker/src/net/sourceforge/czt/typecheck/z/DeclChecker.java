@@ -72,7 +72,7 @@ public class DeclChecker
       //then set IsMem to true
       if (useBeforeDecl() && exprType instanceof UnknownType){
         UnknownType uType = (UnknownType) exprType;
-        if (uType.getRefExpr() != null) {
+        if (uType.getRefName() != null) {
           uType.setIsMem(true);
         }
         baseType = uType;

@@ -76,7 +76,7 @@ public abstract class ClassTypeImpl
     int hashCode = super.hashCode();
     hashCode += "ClassTypeImpl".hashCode();
     if (getClassSig() != null) {
-      hashCode += constant * getClassSig().hashCode();
+      //hashCode += constant * getClassSig().hashCode();
     }
     return hashCode;
   }

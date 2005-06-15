@@ -123,16 +123,15 @@ public class OpExprChecker
       exprType = (Type2) expr.accept(exprChecker());
     }
 
-    VariableClassType vClassType = factory().createVariableClassType();
-    vClassType.complete();
-    UResult unified = unify(vClassType, exprType);
     //if the type is not a class type, raise an error
-    if (unified == FAIL) {
+    if (!instanceOf(exprType, ClassType.class) &&
+        !instanceOf(exprType, VariableType.class)) {
       Object [] params = {opPromExpr, exprType};
       error(opPromExpr, ErrorMessage.NON_CLASS_IN_OPPROMEXPR, params);
     }
-    else {
-      ClassSig cSig = vClassType.getClassSig();
+    else if (!instanceOf(exprType, VariableType.class)) {
+      ClassType classType = (ClassType) exprType;
+      ClassSig cSig = classType.getClassSig();
       if (!instanceOf(cSig, VariableClassSig.class)) {
         RefName refName = opPromExpr.getName();
         NameSignaturePair opDef = findOperation(refName, cSig);
@@ -146,7 +145,7 @@ public class OpExprChecker
         }
 
         //if there is an operation, but it is not visible, raise an error
-        if (opDef != null && !isVisible(refName, vClassType.getValue())) {
+        if (opDef != null && !isVisible(refName, classType)) {
           Object [] params = {refName, opPromExpr};
           error(opPromExpr, ErrorMessage.NON_VISIBLE_NAME_IN_OPPROMEXPR, params);
         }

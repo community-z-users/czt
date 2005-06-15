@@ -157,6 +157,7 @@ public class ExprChecker
         }
         pAnn = new ParameterAnn(instantiations);
         addAnn(refExpr, pAnn);
+        addAnn(refName, pAnn);
         unificationEnv().exitScope();
       }
       //if the instantiation is explicit
@@ -209,7 +210,7 @@ public class ExprChecker
     else if (undecAnn != null) {
       assert type instanceof UnknownType;
       UnknownType uType = (UnknownType) type;
-      uType.setRefExpr(refExpr);
+      uType.setRefName(refName);
       for (Expr expr : exprs) {
         Type2 exprType = (Type2) expr.accept(exprChecker());
         PowerType vPowerType = factory().createPowerType();
@@ -1030,7 +1031,7 @@ public class ExprChecker
         error(applExpr, ErrorMessage.TYPE_MISMATCH_IN_APPLEXPR, params);
       }
       else {
-        //if the domain and argument unify, then instantiate the range type
+        //if the domain and argument unify, then the type is the range type
         type = resolve(ranType);
       }
     }

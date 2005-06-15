@@ -298,40 +298,42 @@ public class SectTypeEnv
     if (result instanceof UnknownType &&
         (name.getWord().startsWith(ZString.DELTA) ||
          name.getWord().startsWith(ZString.XI))) {
-
       final int size = (ZString.DELTA).length();
       String baseWord = name.getWord().substring(size);
       RefName baseName =
         factory_.createRefName(baseWord, name.getStroke(), null);
       Type baseType = getType(baseName);
 
+      //if this is a schema, determine and add the delta/xi type
       if (isSchema(baseType)) {
-        Type clonedType = (Type) factory_.cloneTerm(baseType);
-        PowerType powerType = (PowerType) unwrapType(clonedType);
+        PowerType powerType = (PowerType) unwrapType(baseType);
         SchemaType schemaType = (SchemaType) powerType.getType();
-
-        List<NameTypePair> newPairs = new ArrayList<NameTypePair>();
-        List<NameTypePair> pairs =
-          (List<NameTypePair>) schemaType.getSignature().getNameTypePair();
+	Signature signature = schemaType.getSignature();
+	
+        List<NameTypePair> pairs = signature.getNameTypePair();
+        List<NameTypePair> newPairs = new ArrayList<NameTypePair>(pairs);
         for (NameTypePair pair : pairs) {
-          DeclName primedName = (DeclName) factory_.cloneTerm(pair.getName());
+          DeclName primedName = factory_.createDeclName(pair.getName());
           primedName.getStroke().add(factory_.createNextStroke());
           NameTypePair newPair =
             factory_.createNameTypePair(primedName, pair.getType());
           newPairs.add(newPair);
         }
-
-        pairs.addAll(newPairs);
+	//create the new type
+	Signature newSignature = factory_.createSignature(newPairs);
+	SchemaType newSchemaType = factory_.createSchemaType(newSignature);
+	PowerType newPowerType = factory_.createPowerType(newSchemaType);
 
         if (baseType instanceof GenericType) {
           GenericType gType = (GenericType) baseType;
           result =
-            factory_.createGenericType(gType.getName(), powerType, null);
+            factory_.createGenericType(gType.getName(), newPowerType, null);
         }
         else {
-          result = powerType;
+          result = newPowerType;
         }
 
+	//add this to the environment so it need not be determined again
         add(declName, result);
       }
     }
@@ -343,7 +345,6 @@ public class SectTypeEnv
   protected static Type2 unwrapType(Type type)
   {
     Type2 result = null;
-
     if (type instanceof GenericType) {
       GenericType genericType = (GenericType) type;
       result = genericType.getType();
@@ -351,23 +352,19 @@ public class SectTypeEnv
     else {
       result = (Type2) type;
     }
-
     return result;
   }
 
   protected boolean isSchema(Type type)
   {
     boolean result = false;
-
     Type2 type2 = unwrapType(type);
-
     if (type2 instanceof PowerType) {
       PowerType powerType = (PowerType) type2;
       if (powerType.getType() instanceof SchemaType) {
         result = true;
       }
     }
-
     return result;
   }
 
