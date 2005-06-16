@@ -142,8 +142,11 @@ public class UnificationEnv
     UResult result = FAIL;
 
     //if either type is unknown, return PARTIAL
-    if (typeA instanceof UnknownType || typeB instanceof UnknownType) {
-      result = PARTIAL;
+    if (isUnknownType(typeA)) {
+      result = unifyUnknownType(unknownType(typeA), typeB);
+    }
+    else if (isUnknownType(typeB)) {
+      result = unifyUnknownType(unknownType(typeB), typeA);
     }
     else if (isVariableType(typeA)) {
       result = unifyVariableType(variableType(typeA), typeB);
@@ -167,6 +170,27 @@ public class UnificationEnv
       result = unifyGenParamType(genParamType(typeA), genParamType(typeB));
     }
 
+    return result;
+  }
+
+  protected UResult unifyUnknownType(UnknownType uType, Type2 type2)
+  {
+    System.err.println("unifying " + type2 + " and " + uType);
+    RefName refName = uType.getRefName();
+    if (isVariableType(type2) && refName != null &&
+	uType.getIsMem() == true) {
+      unifyVariableType(variableType(type2), uType);
+    }
+    else if (isPowerType(type2) && uType.getRefName() != null &&
+	     uType.getIsMem() == false) {
+      //System.err.println("HERE2");
+      UnknownType subType = factory_.createUnknownType(refName, true);
+      subType.getType().addAll(uType.getType());
+      unify(powerType(type2).getType(), subType);
+
+    }
+    UResult result = PARTIAL;
+    System.err.println("type2 = " + type2);
     return result;
   }
 

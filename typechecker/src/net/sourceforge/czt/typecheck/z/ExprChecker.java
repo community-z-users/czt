@@ -233,6 +233,12 @@ public class ExprChecker
     addTypeAnn(refExpr, type);
 
     Type2 result = unwrapType(type);
+
+    if (refName.getWord().equals("Node")) {
+      System.err.println(refName + " : "+ result);
+    }
+
+
     return result;
   }
 

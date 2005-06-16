@@ -218,6 +218,9 @@ public class ParaChecker
     }
     for (SecondaryDecl decl : secondaryDecls) {
       pairs.addAll((List) decl.getDecl().accept(declChecker()));
+      for (NameTypePair pair : pairs) {
+	System.err.println("state var: "+ pair.getName() + " : " + pair.getType());
+      }
     }
 
     //add these pairs to the type env

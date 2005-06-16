@@ -202,6 +202,10 @@ public class Factory
     return new UnknownType(refName);
   }
 
+  public UnknownType createUnknownType(RefName refName, boolean isMem)
+  {
+    return new UnknownType(refName, isMem);
+  }
 
   public UnknownType createUnknownType(RefName refName,
 				       boolean isMem,

@@ -50,9 +50,14 @@ public class UnknownType
     types_ = types;
   }
 
+  protected UnknownType(RefName refName, boolean isMem)
+  {
+    this(refName, isMem, new ListTermImpl(Type2.class));
+  }
+
   protected UnknownType(RefName refName)
   {
-    this(refName, false, new ListTermImpl(Type2.class));
+    this(refName, false);
   }
 
   protected UnknownType()

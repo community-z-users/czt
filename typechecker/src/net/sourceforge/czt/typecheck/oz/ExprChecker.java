@@ -89,6 +89,7 @@ public class ExprChecker
     //if the right expr is not a class description, raise an error
     if (!instanceOf(vrPowerType.getType(), ClassRefType.class) &&
         !instanceOf(vrPowerType.getType(), ClassUnionType.class) &&
+        !instanceOf(vrPowerType.getType(), UnknownType.class) &&
         !instanceOf(vrPowerType.getType(), VariableType.class)) {
       Object [] params = {classUnionExpr, rType};
       error(classUnionExpr, ErrorMessage.NON_CLASS_IN_CLASSUNIONEXPR, params);
