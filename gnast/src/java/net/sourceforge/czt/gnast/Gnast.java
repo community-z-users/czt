@@ -250,19 +250,16 @@ public class Gnast implements GlobalProperties
     parseArguments(args);
     handleLogging();
 
-    Project project = null;
     try {
       if ("all".equals(projectName_)) {
         for (Iterator i = namespaces_.values().iterator(); i.hasNext();) {
           String projectName = (String) i.next();
           getLogger().info("Generate classes for " + projectName + " ...");
-          project = new Project(projectName, this);
-          project.generate();
+          getProject(projectName).generate();
         }
       }
       else {
-        project = new Project(projectName_, this);
-        project.generate();
+        getProject(projectName_).generate();
       }
     }
     catch (RuntimeException e) {
