@@ -66,6 +66,9 @@
     <java classname="net.sourceforge.czt.gnast.Gnast" fork="true">
       <arg line="-v"/>
       <classpath refid="classpath.run"/> 
+      <assertions>
+        <enable/>
+      </assertions>
     </java>
   </target>
 
@@ -75,6 +78,9 @@
     <java classname="net.sourceforge.czt.gnast.Gnast" fork="true">
       <arg line="-d ../corejava/build/src"/>
       <classpath refid="classpath.run"/> 
+      <assertions>
+        <enable/>
+      </assertions>
     </java>
   </target>
 
