@@ -42,7 +42,7 @@
 
   <target name="compile" depends="init"
         description="compile the source">
-    <javac srcdir="${src.java}" destdir="${build}" source="1.4"
+    <javac srcdir="${src.java}" destdir="${build}"
       debug="${debug}" debuglevel="${debuglevel}" optimize="${optimize}">
       <classpath refid="classpath.compile"/>
     </javac>
@@ -51,7 +51,7 @@
   <target name="api"
     description="build javadoc documentation">
     <mkdir dir="${api.destdir}"/>
-    <javadoc source="1.4"
+    <javadoc
       sourcepath="${src.java}"
       destdir="${api.destdir}"
       packagenames="*"
