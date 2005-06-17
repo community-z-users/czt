@@ -287,13 +287,8 @@ public class Gnast implements GlobalProperties
   {
     Project result = (Project) projects_.get(name);
     if (result == null) {
-      try {
-        result = new Project(name, this);
-        projects_.put(name, result);
-      }
-      catch (Exception e) {
-        getLogger().fine("Cannot create project " + name);
-      }
+      result = new Project(name, this);
+      projects_.put(name, result);
     }
     return result;
   }
