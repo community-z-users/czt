@@ -14,5 +14,17 @@
       }
       result += "]";
     }
+    List rename = getNameNamePair(); 	 
+    if (rename.size() > 0) { 	 
+      result += "["; 	 
+      for (Iterator iter = types.iterator(); iter.hasNext(); ) { 	 
+        NameNamePair pair = (NameNamePair) iter.next(); 	 
+        result += pair.getNewName() + "/" + pair.getOldName(); 	 
+        if (iter.hasNext()) { 	 
+          result += ", "; 	 
+        } 	 
+      } 	 
+      result += "]"; 	 
+    }
     return result;
   }
