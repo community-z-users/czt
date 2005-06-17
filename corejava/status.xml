@@ -17,6 +17,15 @@
            Fixed a bug in the Foo class.
          </action>
     -->
+    <release version="1.4.1" date="unreleased">
+      <action dev="Petra" type="apichange">
+        Change AST enum classes from typesafe enumerations to Java 1.5 enums.
+      </action>
+      <action dev="Petra" type="apichange">
+        Update classes in packages oz, tcoz, and zpatt
+        according to the changes in the corresponding XML Schema files.
+      </action>
+    </release>
     <release version="1.4.0" date="March 17, 2005">
       <action dev="Petra" type="add">
         Add AST classes and interfaces for Circus, another extension of Z.
@@ -30,7 +39,7 @@
       </action>
       <action dev="Petra" type="apichange">
         Update classes in packages oz, tcoz, and zpatt
-        according to the changes in the corresponding XML Schema file.
+        according to the changes in the corresponding XML Schema files.
       </action>
       <action dev="Petra" type="apichange">
         Change interface

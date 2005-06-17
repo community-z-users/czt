@@ -1,5 +1,5 @@
 #*
-Copyright (C) 2003, 2004 Petra Malik
+Copyright (C) 2003, 2004, 2005 Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -29,48 +29,23 @@ ANY MODIFICATIONS TO THIS FILE WILL BE LOST UPON REGENERATION.
 package ${project.AstPackage};
 
 /**
- * A typesafe enumeration.
+ * A(n) ${Name} enumeration.
  *
 #if($author) * @author ${author}
 #end
  */
-public final class ${Name}
+public enum ${Name}
 {
 #foreach($value in ${Values})
-  public static final ${Name} ${value} = new ${Name}("${value}");
+  ${value},
 #end
-  private final String name_;
+  ;
 
   /**
-   * Only this class can construct instances.
+   * @deprecated  As of corejava 1.5, replaced by {@link #valueOf(String)}.
    */
-  private ${Name}(String name)
+  public static ${Name} fromString(String value)
   {
-    name_ = name;
-  }
-
-  public String toString()
-  {
-    return name_;
-  }
-
-  public int hashCode()
-  {
-    return super.hashCode();
-  }
-
-  public boolean equals(java.lang.Object o)
-  {
-    return super.equals(o);
-  }
-
-  public static ${Name} fromString(java.lang.String value)
-  {
-#foreach($value in ${Values})
-    if (value.equals("${value}")) {
-      return ${value};
-    }
-#end
-    throw new IllegalArgumentException();
+    return valueOf(value);
   }
 }
