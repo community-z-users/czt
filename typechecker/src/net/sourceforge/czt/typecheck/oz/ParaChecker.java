@@ -95,10 +95,8 @@ public class ParaChecker
       factory().createClassRefType(cSig, thisClass, list(), null);
     PowerType powerType = factory().createPowerType(classType);
 
-    //add this class name and "self" to the typing environments
+    //add this class name and "self" to the pending typing environment
     DeclName self = factory().createDeclName(OzString.SELF, list(), null);
-    //pending().add(className(), addGenerics(powerType));
-    //typeEnv().add(self, addGenerics(classType));
     pending().add(self, addGenerics(classType));
 
     //visit each inherited class
@@ -218,9 +216,6 @@ public class ParaChecker
     }
     for (SecondaryDecl decl : secondaryDecls) {
       pairs.addAll((List) decl.getDecl().accept(declChecker()));
-      for (NameTypePair pair : pairs) {
-	System.err.println("state var: "+ pair.getName() + " : " + pair.getType());
-      }
     }
 
     //add these pairs to the type env

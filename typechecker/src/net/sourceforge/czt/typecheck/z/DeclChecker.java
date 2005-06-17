@@ -58,7 +58,9 @@ public class DeclChecker
 
     //expr should be a set expr
     PowerType vPowerType = factory().createPowerType();
+    String vPowerTypeBefore = vPowerType.toString();
     UResult unified = unify(vPowerType, exprType);
+    String vPowerTypeAfter = vPowerType.toString();
 
     //if the type is not a power type, raise an error
     if (unified == FAIL) {

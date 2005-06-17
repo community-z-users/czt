@@ -18,7 +18,12 @@
 */
 package net.sourceforge.czt.typecheck.oz;
 
+import java.util.Iterator;
+import java.util.List;
+
 import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.visitor.*;
 import net.sourceforge.czt.typecheck.z.util.*;
@@ -37,6 +42,11 @@ import net.sourceforge.czt.typecheck.z.*;
  */
 public class PredChecker
   extends Checker
+  implements ImpliesPredVisitor,
+	     MemPredVisitor,
+	     AndPredVisitor,
+	     OrPredVisitor,
+	     PredVisitor
 {
   //a Z pred checker
   protected net.sourceforge.czt.typecheck.z.PredChecker zPredChecker_;
@@ -51,5 +61,129 @@ public class PredChecker
   public Object visitTerm(Term term)
   {
     return term.accept(zPredChecker_);
+  }
+
+  public Object visitImpliesPred(ImpliesPred impliedPred)
+  {
+    typeEnv().enterScope();
+    UResult result = (UResult) impliedPred.accept(zPredChecker_);
+    typeEnv().exitScope();
+    return result;
+  }
+
+  public Object visitMemPred(MemPred memPred)
+  {
+    UResult result = (UResult) memPred.accept(zPredChecker_);
+
+    //if the left expr is a reference, and the right expr is a set of
+    //object identifies, then try to downcast
+    if (memPred.getLeftExpr() instanceof RefExpr &&
+	memPred.getMixfix().equals(Boolean.FALSE)) {
+      Type2 rightType = getType2FromAnns(memPred.getRightExpr());      
+      if (rightType instanceof PowerType &&
+	  powerType(rightType).getType() instanceof ClassType) {
+	RefExpr refExpr = (RefExpr) memPred.getLeftExpr();
+	Type2 leftType = getType2FromAnns(refExpr);
+	PowerType rPowerType = (PowerType) rightType;
+	ClassType classType = (ClassType) rPowerType.getType();
+
+	//if weak unification is successful, then push the name into
+	//the typing environment, and remove any type mismatch errors
+	//added for the Z typechecker.
+	UResult unified = weakUnify(leftType, classType);
+	if (unified != FAIL) {
+	  RefName refName = refExpr.getRefName();
+	  DeclName declName = factory().createDeclName(refName);
+	  typeEnv().add(declName, classType);
+
+	  //remove any type mismatch errors
+	  String message = 
+	    ErrorMessage.TYPE_MISMATCH_IN_MEM_PRED.toString();
+	  for (Iterator iter = memPred.getAnns().iterator(); iter.hasNext();) {
+	    Object next = iter.next();
+	    if (next instanceof ErrorAnn) {
+	      ErrorAnn errorAnn = (ErrorAnn) next;
+	      if (errorAnn.getErrorMessage().equals(message)) {
+		iter.remove();
+		removeObject(errorAnn, paraErrors());
+	      }
+	    }
+	  }
+	}
+      }
+    }
+    return result;
+  }
+
+  public Object visitAndPred(AndPred andPred)   
+  {
+    traverseForDowncasts(andPred);
+
+    //AndPreds are visited separately because we do not enter a new
+    //variable scope for them
+    UResult result = (UResult) andPred.accept(zPredChecker_);
+    return result;
+  }
+
+  public Object visitOrPred(OrPred orPred)
+  {
+    //enter a new variable scope to allow downcasts
+    typeEnv().enterScope();
+    //visit the left pred
+    Pred leftPred = orPred.getLeftPred();
+    UResult lSolved = (UResult) leftPred.accept(predChecker());
+    typeEnv().exitScope();
+
+    //enter a new variable scope to allow downcasts. The scope of the
+    //left predicate is different to that of the right
+    typeEnv().enterScope();
+    //visit the right pred
+    Pred rightPred = orPred.getRightPred();
+    UResult rSolved = (UResult) rightPred.accept(predChecker());
+    typeEnv().exitScope();
+
+    //if either the left or right are partially solved, then
+    //this predicate is also partially solved
+    UResult result = UResult.conj(lSolved, rSolved);
+
+    return result;
+  }
+
+  public Object visitPred(Pred pred)
+  {
+    //enter a new variable scope to allow downcasts
+    typeEnv().enterScope();
+    UResult result = (UResult) pred.accept(zPredChecker_);
+    typeEnv().exitScope();
+    return result;
+  }
+
+  //remove an object from a list
+  protected void removeObject(Object obj, List<Object> list)
+  {
+    for (Iterator iter = list.iterator(); iter.hasNext(); ) {
+      Object next = iter.next();
+      if (obj == next) {
+	iter.remove();
+      }
+    }
+  }
+
+  protected void traverseForDowncasts(Pred pred)
+  {
+    if (pred instanceof AndPred) {
+      AndPred andPred = (AndPred) pred;
+      Pred leftPred = andPred.getLeftPred();
+      Pred rightPred = andPred.getRightPred();
+      traverseForDowncasts(leftPred);
+      traverseForDowncasts(rightPred);
+    }
+    else if  (pred instanceof MemPred) {
+      MemPred memPred = (MemPred) pred;
+      boolean mixfix = memPred.getMixfix().booleanValue();
+      if (!mixfix) {
+	memPred.accept(predChecker());
+      }   
+    }
   }
 }

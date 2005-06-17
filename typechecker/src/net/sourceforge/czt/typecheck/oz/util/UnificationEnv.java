@@ -43,7 +43,7 @@ public class UnificationEnv
 
   public UnificationEnv(ZFactory zFactory)
   {
-    this(zFactory, true);
+    this(zFactory, false);
   }
 
   public void setStrong(boolean strong)
@@ -83,9 +83,6 @@ public class UnificationEnv
     }
     else {
       result = super.unify(typeA, typeB);
-    }
-    if (result == FAIL) {
-      //System.err.println(typeA + " != " + typeB);
     }
     return result;
   }
@@ -128,6 +125,8 @@ public class UnificationEnv
   protected UResult weakUnifyClassType(ClassType typeA, ClassType typeB)
   {
     UResult result = FAIL;
+    String one = typeA.toString();
+    String two = typeB.toString();
     List<ClassRef> classRefsA = typeA.getClassSig().getClasses();
     List<ClassRef> classRefsB = typeB.getClassSig().getClasses();
     for (ClassRef classRefA : classRefsA) {
@@ -142,6 +141,7 @@ public class UnificationEnv
         }
       }
     }
+
     return result;
   }
 
@@ -221,7 +221,8 @@ public class UnificationEnv
   {
     ClassRef result = null;
     for (ClassRef classRef : classRefs) {
-      if (refName.equals(classRef.getRefName())) {
+      if (refName.getWord().equals(classRef.getRefName().getWord()) &&
+	  refName.getStroke().equals(classRef.getRefName().getStroke())) {
         result = classRef;
       }
     }

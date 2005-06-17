@@ -271,7 +271,6 @@ public class ParaChecker
     Pred pred = schText.getPred();
     if (pred != null) {
       UResult solved = (UResult) pred.accept(predChecker());
-
       //if the are unsolved unifications in this predicate,
       //visit it again
       if (solved == PARTIAL) {

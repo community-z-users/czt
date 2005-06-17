@@ -175,22 +175,20 @@ public class UnificationEnv
 
   protected UResult unifyUnknownType(UnknownType uType, Type2 type2)
   {
-    System.err.println("unifying " + type2 + " and " + uType);
     RefName refName = uType.getRefName();
-    if (isVariableType(type2) && refName != null &&
-	uType.getIsMem() == true) {
+    if (isVariableType(type2) && refName != null) {
       unifyVariableType(variableType(type2), uType);
     }
-    else if (isPowerType(type2) && uType.getRefName() != null &&
+    else if (isPowerType(type2) && 
+	     isVariableType(powerType(type2).getType()) &&
+	     uType.getRefName() != null &&
 	     uType.getIsMem() == false) {
-      //System.err.println("HERE2");
       UnknownType subType = factory_.createUnknownType(refName, true);
       subType.getType().addAll(uType.getType());
       unify(powerType(type2).getType(), subType);
 
     }
     UResult result = PARTIAL;
-    System.err.println("type2 = " + type2);
     return result;
   }
 

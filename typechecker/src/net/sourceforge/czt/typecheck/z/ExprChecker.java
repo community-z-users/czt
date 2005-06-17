@@ -92,8 +92,7 @@ public class ExprChecker
     //get and visit the pred
     Pred pred = schText.getPred();
     if (pred != null) {
-      UResult solved = (UResult) pred.accept(predChecker());
-
+      UResult solved = (UResult) pred.accept(predChecker());      
       //if the are unsolved unifications in this predicate,
       //visit it again
       if (solved == PARTIAL) {
@@ -233,12 +232,6 @@ public class ExprChecker
     addTypeAnn(refExpr, type);
 
     Type2 result = unwrapType(type);
-
-    if (refName.getWord().equals("Node")) {
-      System.err.println(refName + " : "+ result);
-    }
-
-
     return result;
   }
 
@@ -252,7 +245,6 @@ public class ExprChecker
 
     PowerType vPowerType = factory().createPowerType();
     UResult unified = unify(vPowerType, innerType);
-
     //if the inner expr is not a set, raise an error
     if (unified == FAIL) {
       Object [] params = {powerExpr, innerType};

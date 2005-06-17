@@ -117,7 +117,7 @@ public class PredChecker
    */
   public Object visitAndPred(AndPred andPred)
   {
-    UResult result = SUCC;
+    //UResult result = SUCC;
 
     //visit the left and right preds
     Pred leftPred = andPred.getLeftPred();
@@ -125,24 +125,7 @@ public class PredChecker
 
     Pred rightPred = andPred.getRightPred();
     UResult rSolved = (UResult) rightPred.accept(predChecker());
-
-    //if this is a chain relation, unify the RHS of the left pred
-    //with the LHS of the right predicate
-    if (Op.Chain.equals(andPred.getOp())) {
-      Type2 rhsLeft = getRightType(leftPred);
-      Type2 lhsRight = getLeftType(rightPred);
-      UResult unified = unify(rhsLeft, lhsRight);
-
-      //if the lhs and rhs do not unify, raise an error
-      if (unified == FAIL) {
-        Object [] params = {andPred, rhsLeft, lhsRight};
-        error(andPred, ErrorMessage.TYPE_MISMATCH_IN_CHAIN_REL, params);
-        result = FAIL;
-      }
-      else if (unified == PARTIAL) {
-        result = PARTIAL;
-      }
-    }
+    UResult result = checkChainRelOp(andPred);
 
     //if either the left or right are partially solved, then
     //this predicate is also partially solved
@@ -271,86 +254,6 @@ public class PredChecker
         }
         addAnn(exprPred, pAnn);
       }
-    }
-
-    return result;
-  }
-
-  /////////////// helper methods ///////////////////////
-  protected Type2 getLeftType(Pred pred)
-  {
-    MemPred memPred = (MemPred) pred;
-    List<Type2> types = getLeftRightType(memPred);
-    Type2 result = types.get(0);
-    return result;
-  }
-
-  protected Type2 getRightType(Pred pred)
-  {
-    Type2 result = null;
-
-    if (pred instanceof MemPred) {
-      MemPred memPred = (MemPred) pred;
-      List<Type2> types = getLeftRightType(memPred);
-      result = types.get(1);
-    }
-    else if (pred instanceof AndPred) {
-      AndPred andPred = (AndPred) pred;
-      MemPred memPred = (MemPred) andPred.getRightPred();
-      result = getRightType(memPred);
-    }
-
-    return result;
-  }
-
-  protected List<Type2> getLeftRightType(MemPred memPred)
-  {
-    List<Type2> result = list();
-
-    Expr leftExpr = memPred.getLeftExpr();
-    Expr rightExpr = memPred.getRightExpr();
-
-    //if this pred is an equality
-    boolean mixfix = memPred.getMixfix().booleanValue();
-    if (mixfix && rightExpr instanceof SetExpr) {
-      result.add(getType2FromAnns(leftExpr));
-      result.add(getBaseType(getType2FromAnns(rightExpr)));
-    }
-    //if this is a membership
-    else if (!mixfix) {
-      result.add(getType2FromAnns(leftExpr));
-      result.add(getType2FromAnns(rightExpr));
-    }
-    //if this is a relation
-    else {
-      if (leftExpr instanceof TupleExpr) {
-        TupleExpr tupleExpr = (TupleExpr) leftExpr;
-        result.add(getType2FromAnns((Expr) tupleExpr.getExpr().get(0)));
-        result.add(getType2FromAnns((Expr) tupleExpr.getExpr().get(1)));
-      }
-      else {
-        result.add(getType2FromAnns(leftExpr));
-      }
-    }
-
-    return result;
-  }
-
-  /**
-   * Gets the base type of a power type, or returns that the type
-   * is unknown.
-   */
-  public Type2 getBaseType(Type2 type2)
-  {
-    Type2 result = factory().createUnknownType();
-
-    //if it's a PowerType, get the base type
-    if (type2 instanceof PowerType) {
-      PowerType powerType = (PowerType) type2;
-      result = powerType.getType();
-    }
-    else if (type2 instanceof UnknownType) {
-      result = type2;
     }
 
     return result;
