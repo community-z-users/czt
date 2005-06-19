@@ -787,6 +787,7 @@ parser code
         "Next token in " + file_ +
         " is (" + symbolMap_.get(result.sym) + ", " + result.value + ").";
       CztLogger.getLogger(<class/>.class).finer(logMessage);
+//System.err.println(logMessage);
       return result;
     }
 
@@ -1134,7 +1135,6 @@ non terminal List /* String */ jokerList;
 
 non terminal List /* Sequent */
     sequentLHS,
-    optAntecedents,
     antecedents;
 
 non terminal Sequent antecedent;
@@ -1148,13 +1148,11 @@ non terminal Sequent
     provisoSequent,
     predSequent;
 
-non terminal Expr
-    jokerRefExpr,
-    baseType;
+non terminal TermA jokerRef;
+
+non terminal Expr baseType;
 
 non terminal List /* VarDecl */ varDeclList;
-
-non terminal String anyJoker;
 </add:zpatt>
 
 <add:circus>
@@ -3006,6 +3004,12 @@ inner_term ::=
         :}
 <add:zpatt>
         |
+        jokerRef:jr
+        {:
+           RESULT = jr;
+           addLocAnn(RESULT, jrleft, jrright);
+        :}
+/*
         JOKERPRED:jp
         {:
            RESULT = factory_.createJokerPred(jp);
@@ -3030,6 +3034,7 @@ inner_term ::=
            RESULT = factory_.createRefExpr(rn, list(), Boolean.FALSE);
            addLocAnn(RESULT, jnleft, jnright);
         :}      
+*/
 </add:zpatt>
         ;
 
@@ -3611,10 +3616,17 @@ jokerPara ::=
         ;
 
 rulePara ::=
-        RULE:r DECORWORD:dw optAntecedents:oa conclusion:c END
+        RULE:r DECORWORD:dw antecedents:a RULELINE conclusion:c END
         {:
            List sequents = list(c);
-           sequents.addAll(oa);
+           sequents.addAll(a);
+           RESULT = factory_.createRule(sequents, dw.getName());
+           addLocAnn(RESULT, rleft, rright);
+        :}
+        |
+        RULE:r DECORWORD:dw conclusion:c END
+        {:
+           List sequents = list(c);
            RESULT = factory_.createRule(sequents, dw.getName());
            addLocAnn(RESULT, rleft, rright);
         :}
@@ -3631,16 +3643,6 @@ jokerList ::=
        {: RESULT = list(dw.getName()); :}
        ;
 
-optAntecedents ::=
-        antecedents:a RULELINE
-        {:
-           RESULT = a;
-        :}
-        |
-        //empty
-        {: RESULT = list(); :} %prec RULELINE
-        ;
-
 antecedents ::=
         antecedents:a NL sequent:s
         {:
@@ -3655,12 +3657,12 @@ antecedents ::=
         ;
 
 conclusion ::=
-        predicate:p
+        term:t
         {:
            //czt.todo: What is the context?
            SequentContext sc = factory_.createSequentContext();
-           RESULT = factory_.createPredSequent(sc, pred(p), null);
-           addLocAnn(RESULT, pleft, pright);
+           RESULT = factory_.createPredSequent(sc, pred(t), null);
+           addLocAnn(RESULT, tleft, tright);
         :}
         ;
 
@@ -3681,11 +3683,11 @@ provisoSequent ::=
         ;
 
 proviso ::=
-        jokerRefExpr:jre DEFEQUAL expression:e
+        expression:e1 DEFEQUAL expression:e2
         {:
            SequentContext sc = factory_.createSequentContext();
-           RESULT = factory_.createCalculateProviso(sc, jre, e);
-           addLocAnn(RESULT, jreleft, jreright);
+           RESULT = factory_.createCalculateProviso(sc, e1, e2);
+           addLocAnn(RESULT, e1left, e1right);
         :}
         |
         term:t COLON baseType:bt
@@ -3707,10 +3709,10 @@ proviso ::=
         ;
 
 lookupProviso ::=
-        INSTROKE:is jokerRefExpr:jre DEFEQUAL expression:e
+        INSTROKE:is jokerRef:jr DEFEQUAL expression:e
         {:
            SequentContext sc = factory_.createSequentContext();
-           RESULT = factory_.createLookupConstDeclProviso(sc, jre, e);
+           RESULT = factory_.createLookupConstDeclProviso(sc, expr(jr), e);
            addLocAnn(RESULT, isleft, isright);
         :}
         |
@@ -3843,30 +3845,29 @@ varDeclList ::=
         :}        
         ;
 
-jokerRefExpr ::=
-        anyJoker:aj
-        {:
-           RefName rn = factory_.createRefName(aj, list());
-           RESULT = factory_.createRefExpr(rn, list(), Boolean.FALSE);
-           addLocAnn(RESULT, ajleft, ajright);
-        :}
-        ;
-
-anyJoker ::=
+jokerRef ::=
         JOKEREXPR:je
-        {: RESULT = je; :}
+        {: RESULT = factory_.createJokerExpr(je); :}
         |
         JOKERPRED:jp
-        {: RESULT = jp; :}
+        {: RESULT = factory_.createJokerPred(jp); :}
         |
         JOKERNAME:jn
-        {: RESULT = jn; :}
+        {:
+           RefName rn = factory_.createRefName(jn, list(), null);
+           RESULT = factory_.createRefExpr(rn, list(), Boolean.FALSE);
+        :}
+/*
         |
         JOKERDECLLIST:jdl
         {: RESULT = jdl; :}
+*/
         |
         JOKERTYPE:jt
-        {: RESULT = jt; :}
+        {:
+           RefName rn = factory_.createRefName(jt, list(), null);
+           RESULT = factory_.createRefExpr(rn, list(), Boolean.FALSE);
+        :}
         ;
 
 </add:zpatt>

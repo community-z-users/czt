@@ -40,7 +40,7 @@ public class JokerTable
   /**
    * Records all jokers defined in this section.
    */
-  private Map/*<String, int>*/ jokers_ = new HashMap();
+  private Map<String, JokerType> jokers_ = new HashMap<String, JokerType>();
 
   /**
    * Constructs a joker table for a new section, checking for duplicates.
@@ -66,7 +66,8 @@ public class JokerTable
 
   public JokerType getTokenType(String name)
   {
-    return (JokerType) jokers_.get(name);
+    JokerType result = jokers_.get(name);
+    return result;
   }
 
   public void add(Jokers jokers)
