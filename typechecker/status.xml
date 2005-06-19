@@ -56,13 +56,17 @@
       </action>
     </actions>
     <actions priority="medium">
-      <action context="code" dev="open">
+      <action context="docs" dev="open">
         Specify the Object-Z type rules using the type-inference rule
         metalanguage defined in the Z standard.
       </action>
       <action context="code" dev="open">
         Look at ways to infer class types using attribute and
         operation selection expressions.
+      </action>
+      <action context="code" dev="open">
+        Modify unification algorithm to prevent PredExprs being used
+        as sets.
       </action>
     </actions>
     <!-- Add todo items. @context is an arbitrary string. Eg:

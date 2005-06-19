@@ -64,9 +64,7 @@ public class Factory
     return result;
   }
 
-  public ClassRef createClassRef(DeclName declName,
-                                 List type,
-                                 List pairs)
+  public ClassRef createClassRef(DeclName declName, List type, List pairs)
   {
     RefName refName = createRefName(declName);
     ClassRef result = createClassRef(refName, type, pairs);
@@ -173,4 +171,10 @@ public class Factory
     PowerType result = zFactory_.createPowerType(schemaType);
     return result;
   }
+
+  public ClassUnionExpr createClassUnionExpr()
+  {
+    return ozFactory_.createClassUnionExpr();
+  }
+
 }

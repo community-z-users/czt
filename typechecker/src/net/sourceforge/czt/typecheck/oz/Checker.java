@@ -28,6 +28,7 @@ import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.oz.util.OzString;
 import net.sourceforge.czt.print.oz.PrintUtils;
 import net.sourceforge.czt.typecheck.z.util.UResult;
+import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.oz.util.*;
 import net.sourceforge.czt.typecheck.oz.impl.*;
 
@@ -352,25 +353,25 @@ abstract public class Checker
     return newPairs;
   }
 
-  protected ClassSig createRenameClassSig(ClassSig classSig,
+  protected ClassSig createRenameClassSig(ClassSig cSig,
                                           RenameExpr renameExpr,
                                           String errorMessage)
   {
     List<NameNamePair> namePairs = renameExpr.getNameNamePair();
     checkForDuplicateRenames(namePairs, renameExpr,  errorMessage);
 
-    List<NameTypePair> attrs = classSig.getAttribute();
+    List<NameTypePair> attrs = cSig.getAttribute();
     Signature attrSig = factory().createSignature(attrs);
     Signature newAttrSig = rename(attrSig, namePairs);
     List<NameTypePair> newAttrs = newAttrSig.getNameTypePair();
 
-    Signature state = classSig.getState();
+    Signature state = cSig.getState();
     Signature newState = rename(state, namePairs);
 
-    List<NameSignaturePair> ops = classSig.getOperation();
+    List<NameSignaturePair> ops = cSig.getOperation();
     List<NameSignaturePair> newOps = renameOps(ops, namePairs);
 
-    ClassSig result = factory().createClassSig(classSig.getClasses(),
+    ClassSig result = factory().createClassSig(cSig.getClasses(),
                                                newState, newAttrs, newOps);
     checkForDuplicates(result, renameExpr,
                        ErrorMessage.REDECLARED_NAME_IN_RENAMEEXPR);
@@ -386,7 +387,7 @@ abstract public class Checker
       ClassType classType = (ClassType) type;
       ClassSig cSig = classType.getClassSig();
 
-      ClassSig newClassSig = null;
+      ClassSig newCSig = null;
       if (!(cSig instanceof VariableClassSig)) {
 
         //instantiate the state
@@ -419,25 +420,25 @@ abstract public class Checker
             factory().createClassRef(classRef.getRefName(), types, list());
           newClassRefs.add(newClassRef);
         }
-        newClassSig =
+        newCSig =
           factory().createClassSig(newClassRefs, newState, newAttrs, newOps);
       }
 
       if (type instanceof ClassRefType) {
         ClassRefType classRefType = (ClassRefType) type;
         ClassRef classRef = instantiate(classRefType.getThisClass(), rootType);
-        result = factory().createClassRefType(newClassSig, classRef,
+        result = factory().createClassRefType(newCSig, classRef,
                                               classRefType.getSuperClass(),
                                               classRefType.getVisibilityList());
       }
       else if (type instanceof ClassPolyType) {
         ClassPolyType classPolyType = (ClassPolyType) type;
         ClassRef classRef = instantiate(classPolyType.getRootClass(), rootType);
-        result = factory().createClassPolyType(newClassSig, classRef);
+        result = factory().createClassPolyType(newCSig, classRef);
       }
       else {
         ClassUnionType classUnionType = (ClassUnionType) type;
-        result = factory().createClassUnionType(newClassSig);
+        result = factory().createClassUnionType(newCSig);
       }
     }
     //if not a class type, use the Z typechecker's instantiate method
@@ -455,26 +456,6 @@ abstract public class Checker
     return result;
   }
 
-  /*
-  protected Type getType(RefName name)
-  {
-    Type type = super.getType(name);
-
-    //if the name we are looking up is this class name, then we clone
-    //the type because for a generic class, the parameters must be
-    //instantiated even when referenced from within itself
-    if (className() != null &&
-        className().getWord().equals(name.getWord()) &&
-        className().getStroke().equals(name.getStroke())) {
-      //type = addGenerics((Type2) type);
-      if (type instanceof GenericType && isPending(genericType(type))) {
-        //type = (Type) factory().cloneTerm(type);
-      }
-    }
-
-    return type;
-  }
-  */
   protected List<ClassRef> getClasses(Type2 type)
   {
     List<ClassRef> classes = list();
@@ -557,6 +538,195 @@ abstract public class Checker
         result = classRef;
       }
     }
+    return result;
+  }
+
+  protected Type2 resolveUnknownType(Type2 type)
+  {
+    Type2 result = type;
+    if (sectTypeEnv().getSecondTime() && type instanceof UnknownType) {
+      UnknownType uType = (UnknownType) type;
+      Type2 resolved = super.resolveUnknownType(uType);
+      result = renameClassType(resolved, uType.getPairs());
+    }
+    return result;
+  }
+
+  protected Type2 renameClassType(Type2 type, List<NameNamePair> pairs)
+  {
+    Type2 result = type;
+    if (type instanceof ClassType && pairs.size() > 0) {
+      ClassType classType = (ClassType) type;
+      ClassSig cSig = classType.getClassSig();
+      List<NameTypePair> attrs = cSig.getAttribute();
+      Signature attrSig = factory().createSignature(attrs);
+      Signature newAttrSig = rename(attrSig, pairs);
+      List<NameTypePair> newAttrs = newAttrSig.getNameTypePair();
+
+      Signature state = cSig.getState();
+      Signature newState = rename(state, pairs);
+
+      List<NameSignaturePair> ops = cSig.getOperation();
+      List<NameSignaturePair> newOps = renameOps(ops, pairs);
+
+      ClassSig newCSig = factory().createClassSig(cSig.getClasses(),
+                                                  newState, newAttrs, newOps);
+      result = (Type2) classType.create(result.getChildren());
+      ((ClassType) result).setClassSig(newCSig);
+    }
+    return result;
+  }
+
+  protected Type2 lookupClass(ClassRef classRef)
+  {
+    Type2 result = factory().createUnknownType();
+    Type refType = getType(classRef.getRefName());
+    if (refType instanceof GenericType) {
+      List<DeclName> names = genericType(refType).getName();
+      List<Type2> types = classRef.getType2();
+      if (names.size() == types.size()) {
+        unificationEnv().enterScope();
+        for (int i = 0; i < names.size(); i++) {
+          unificationEnv().addGenName(names.get(i), types.get(i));
+        }
+        Type newType = instantiate(refType);
+        refType = newType;
+        unificationEnv().exitScope();
+      }
+    }
+
+    if (unwrapType(refType) instanceof PowerType) {
+      PowerType powerType = (PowerType) unwrapType(refType);
+      result = renameClassType(powerType.getType(), classRef.getNameNamePair());
+    }
+    return result;
+  }
+
+  protected Type2 unionClasses(ClassUnionExpr classUnionExpr,
+                               Type2 lType, Type2 rType)
+  {
+    Type2 result = factory().createUnknownType();
+    if (lType instanceof ClassType && rType instanceof ClassType) {
+      ClassType lClassType = (ClassType) lType;
+      ClassType rClassType = (ClassType) rType;
+      ClassSig lcSig = lClassType.getClassSig();
+      ClassSig rcSig = rClassType.getClassSig();
+
+      List<ClassRef> classes = list();
+      Signature state = factory().createSignature();
+      List<NameTypePair> attrs = list();
+      List<NameSignaturePair> ops = list();
+
+      //check that the features are compatible, and find common elements
+      List<NameTypePair> lsPairs = lcSig.getState().getNameTypePair();
+      List<NameTypePair> rsPairs = rcSig.getState().getNameTypePair();
+      for (NameTypePair lPair : lsPairs) {
+        NameTypePair rPair = findNameTypePair(lPair.getName(), rsPairs);
+        if (rPair != null) {
+          state.getNameTypePair().add(lPair);
+          state.getNameTypePair().add(rPair);
+        }
+      }
+      //check compatibility
+      if (classUnionExpr != null) {
+        checkForDuplicates(state.getNameTypePair(), classUnionExpr,
+                           ErrorMessage.INCOMPATIBLE_FEATURE_IN_CLASSUNIONEXPR);
+      }
+
+      List<NameTypePair> laPairs = lcSig.getAttribute();
+      List<NameTypePair> raPairs = rcSig.getAttribute();
+      for (NameTypePair lPair : laPairs) {
+        NameTypePair rPair = findNameTypePair(lPair.getName(), raPairs);
+        if (rPair != null) {
+          attrs.add(lPair);
+          attrs.add(rPair);
+        }
+      }
+      //check compatibility
+      if (classUnionExpr != null) {
+        checkForDuplicates(attrs, classUnionExpr,
+                           ErrorMessage.INCOMPATIBLE_FEATURE_IN_CLASSUNIONEXPR);
+      }
+
+      List<NameSignaturePair> loPairs = lcSig.getOperation();
+      List<NameSignaturePair> roPairs = rcSig.getOperation();
+      for (NameSignaturePair lPair : loPairs) {
+        DeclName lName = lPair.getName();
+        NameSignaturePair rPair = findOperation(lName, rcSig);
+        if (rPair != null) {
+          Signature lSig = lPair.getSignature();
+          Signature rSig = rPair.getSignature();
+          UResult unified = unify(lSig, rSig);
+          if (unified == FAIL && classUnionExpr != null) {
+            Object [] params = {lName, classUnionExpr, lSig, rSig};
+            error(lName, ErrorMessage.INCOMPATIBLE_OP_IN_CLASSUNIONEXPR, params);
+          }
+          else {
+            ops.add(lPair);
+          }
+        }
+      }
+
+      //add the class references
+      classes.addAll(lcSig.getClasses());
+      classes.addAll(rcSig.getClasses());
+      ClassSig cSig = factory().createClassSig(classes, state, attrs, ops);
+      result = factory().createClassUnionType(cSig);
+    }
+    return result;
+  }
+
+  protected Type2 resolveClassType(Type2 type)
+  {
+    Type2 result = type;
+    if (type instanceof ClassUnionType && sectTypeEnv().getSecondTime()) {
+      ClassUnionType cuType = (ClassUnionType) type;
+      ClassSig cSig = cuType.getClassSig();
+      List<ClassRef> classes = cSig.getClasses();
+
+      assert classes.size() > 1;
+      Type2 firstType = lookupClass(classes.get(0));
+      Type2 secondType = lookupClass(classes.get(1));
+      Type2 unioned = unionClasses(null, firstType, secondType);
+      for (int i = 2; i < classes.size(); i++) {
+        Type2 nextType = lookupClass(classes.get(0));
+        unioned = unionClasses(null, unioned, nextType);
+      }
+      result = unioned;
+    }
+    else if (type instanceof ClassType && sectTypeEnv().getSecondTime()) {
+      ClassRef classRef = null;
+      if (type instanceof ClassRefType) {
+        ClassRefType classRefType = (ClassRefType) type;
+        classRef = classRefType.getThisClass();
+      }
+      else if (type instanceof ClassPolyType) {
+        ClassPolyType classPolyType = (ClassPolyType) type;
+        classRef = classPolyType.getRootClass();
+      }
+      result = lookupClass(classRef);
+    }
+    return result;
+  }
+
+  protected ClassRef rename(ClassRef classRef, RenameExpr renameExpr)
+  {
+    List<NameNamePair> cfPairs = classRef.getNameNamePair();
+    List<NameNamePair> rnPairs = renameExpr.getNameNamePair();
+    List<NameNamePair> newPairs = list();
+    for (NameNamePair rnPair :rnPairs) {
+      NameNamePair cfPair = findNameNamePair(rnPair.getNewName(), cfPairs);
+      if (cfPair == null) {
+        newPairs.add(rnPair);
+      }
+      else {
+        NameNamePair newPair =
+          factory().createNameNamePair(cfPair.getOldName(), rnPair.getNewName());
+      }
+    }
+    ClassRef result = factory().createClassRef(classRef.getRefName(),
+                                               classRef.getType2(),
+                                               newPairs);
     return result;
   }
 

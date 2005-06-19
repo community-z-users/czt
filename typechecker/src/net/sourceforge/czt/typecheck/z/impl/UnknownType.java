@@ -37,17 +37,31 @@ public class UnknownType
   /** The undefined reference associated with this type. */
   protected RefName refName_;
 
-  /** The list of instantiations associate with this type. */
+  /** The list of instantiations associated with this type. */
   protected List<Type2> types_;
+
+  /** The list of renames associated with this type. */
+  protected List<NameNamePair> pairs_;
 
   /** True iff refName_ is the superset of this type. */
   protected boolean isMem_;
 
-  protected UnknownType(RefName refName, boolean isMem, List<Type2> types)
+  protected UnknownType(RefName refName,
+                        boolean isMem,
+                        List<Type2> types,
+                        List<NameNamePair> pairs)
   {
     refName_ = refName;
     isMem_ = isMem;
     types_ = types;
+    pairs_ = pairs;
+  }
+
+  protected UnknownType(RefName refName,
+                        boolean isMem,
+                        List<Type2> types)
+  {
+    this(refName, isMem, types, new ListTermImpl(NameNamePair.class));
   }
 
   protected UnknownType(RefName refName, boolean isMem)
@@ -78,6 +92,11 @@ public class UnknownType
       }
     }
     return result;
+  }
+
+  public List<NameNamePair> getPairs()
+  {
+    return pairs_;
   }
 
   /**
@@ -189,11 +208,14 @@ public class UnknownType
       if (getIsMem()) {
         result += ")";
       }
-      for (int i = 0; i < types_.size(); i++) {
-	if (i != 0) {
-	  result += ", ";
-	}
-	result += types_.get(i).toString();
+      if (types_.size() > 0) {
+        result += "[";
+        result += types_.get(0).toString();
+        for (int i = 1; i < types_.size(); i++) {
+          result += ", ";
+          result += types_.get(i).toString();
+        }
+        result += "]";
       }
       result += ")";
     }

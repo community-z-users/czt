@@ -60,7 +60,7 @@ public class Factory
     for (int i = 0; i < children.length; i++) {
       Object next = children[i];
       if (next == rootTerm) {
-	args[i] = next;
+        args[i] = next;
       }
       else if (next != null && next instanceof Term) {
         Term nextTerm = (Term) next;
@@ -148,6 +148,12 @@ public class Factory
     return zFactory_.createGivenType(declName);
   }
 
+  public NameNamePair createNameNamePair(RefName refName, DeclName declName)
+  {
+    NameNamePair result = zFactory_.createNameNamePair(refName, declName);
+    return result;
+  }
+
   public NameTypePair createNameTypePair(DeclName declName, Type type)
   {
     NameTypePair pair =
@@ -208,10 +214,18 @@ public class Factory
   }
 
   public UnknownType createUnknownType(RefName refName,
-				       boolean isMem,
-				       List<Type2> types)
+                                       boolean isMem,
+                                       List<Type2> types)
   {
     return new UnknownType(refName, isMem, types);
+  }
+
+  public UnknownType createUnknownType(RefName refName,
+                                       boolean isMem,
+                                       List<Type2> types,
+                                       List<NameNamePair> pairs)
+  {
+    return new UnknownType(refName, isMem, types, pairs);
   }
 
   public TypeAnn createTypeAnn()
@@ -280,16 +294,6 @@ public class Factory
   public RefExpr createRefExpr(RefName refName, List expr, Boolean mixfix)
   {
     return zFactory_.createRefExpr(refName, expr, mixfix);
-  }
-
-  public MuExpr createMuExpr(SchText schText, Expr expr)
-  {
-    return zFactory_.createMuExpr(schText, expr);
-  }
-
-  public TupleExpr createTupleExpr(List expr)
-  {
-    return zFactory_.createTupleExpr(expr);
   }
 
   public InStroke createInStroke()

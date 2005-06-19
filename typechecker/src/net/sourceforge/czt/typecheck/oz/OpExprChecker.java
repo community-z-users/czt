@@ -60,7 +60,7 @@ public class OpExprChecker
 
   public Object visitOpExpr(OpExpr opExpr)
   {
-    return factory().createSignature();
+    return factory().createVariableSignature();
   }
 
   public Object visitAnonOpExpr(AnonOpExpr anonOpExpr)
@@ -112,7 +112,7 @@ public class OpExprChecker
 
   public Object visitOpPromotionExpr(OpPromotionExpr opPromExpr)
   {
-    Signature signature = factory().createSignature();
+    Signature signature = factory().createVariableSignature();
 
     Expr expr = opPromExpr.getExpr();
     Type2 exprType = getSelfType();
@@ -120,6 +120,7 @@ public class OpExprChecker
     //if the expression is not null, then we use the type of expr
     if (expr != null) {
       exprType = (Type2) expr.accept(exprChecker());
+      exprType = resolveClassType(exprType);
     }
 
     //if the type is not a class type, raise an error
@@ -172,7 +173,7 @@ public class OpExprChecker
     List<NameTypePair> newPairs = list(lSig.getNameTypePair());
     newPairs.addAll(rSig.getNameTypePair());
     checkForDuplicates(newPairs, opExpr2,
-		       ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
+                       ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
     Signature signature = factory().createSignature(newPairs);
 
     //add the signature annotation
@@ -192,7 +193,7 @@ public class OpExprChecker
     String errorMessage = ErrorMessage.TYPE_MISMATCH_IN_SEQOPEXPR.toString();
     Signature signature = createCompSig(lSig, rSig, seqOpExpr, errorMessage);
     checkForDuplicates(signature.getNameTypePair(), seqOpExpr,
-		       ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
+                       ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
 
     //add the signature annotation
     addSignatureAnn(seqOpExpr, signature);
@@ -214,7 +215,7 @@ public class OpExprChecker
     Signature sigB = createPipeSig(rSig, lSig, parallelOpExpr, errorMessage);
     Signature signature = intersect(sigA, sigB);
     checkForDuplicates(signature.getNameTypePair(), parallelOpExpr,
-		       ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
+                       ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
 
     //add the signature annotation
     addSignatureAnn(parallelOpExpr, signature);
@@ -234,11 +235,11 @@ public class OpExprChecker
       ErrorMessage.TYPE_MISMATCH_IN_ASSOPARALLELOPEXPR.toString();
     Signature sigA =
       createPloSig(lSig, rSig, assoParallelOpExpr, errorMessage);
-    Signature sigB = 
+    Signature sigB =
       createPloSig(rSig, lSig, assoParallelOpExpr, errorMessage);
     Signature signature = intersect(sigA, sigB);
     checkForDuplicates(signature.getNameTypePair(), assoParallelOpExpr,
-		       ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
+                       ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
 
     //add the signature annotation
     addSignatureAnn(assoParallelOpExpr, signature);
@@ -273,7 +274,7 @@ public class OpExprChecker
       ErrorMessage.DUPLICATE_NAME_IN_RENAMEOPEXPR.toString();
     List<NameNamePair> namePairs = renameOpExpr.getNameNamePair();
     Signature signature = createRenameSig(renameSig, namePairs,
-					  renameOpExpr, errorMessage);
+                                          renameOpExpr, errorMessage);
     checkForDuplicates(signature.getNameTypePair(), renameOpExpr);
 
     //add the signature annotation

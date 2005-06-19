@@ -1113,7 +1113,7 @@ abstract public class Checker
         UnknownType uType = (UnknownType) sectTypeEnvType;
         RefName refName = uType.getRefName();
         if (refName != null && !name.equals(refName)) {
-          type = resolveUnknownType(uType);
+          type = exprChecker().resolveUnknownType(uType);
         }
       }
     }
@@ -1166,10 +1166,19 @@ abstract public class Checker
           result = unwrapType(refType);
         }
       }
+
+      if (uType.getPairs().size() > 0 && result instanceof SchemaType) {
+        Signature signature = schemaType(result).getSignature();
+        List<NameNamePair> pairs = uType.getPairs();
+        Signature newSig = createRenameSig(signature, uType.getPairs(),
+                                           null, null);
+        result = factory().createSchemaType(newSig);
+      }
     }
     else if (sectTypeEnv().getSecondTime() && type instanceof PowerType &&
-	     powerType(type).getType() instanceof UnknownType) {      
-      Type2 resolved = resolveUnknownType(powerType(type).getType());
+             powerType(type).getType() instanceof UnknownType) {
+      Type2 resolved =
+        exprChecker().resolveUnknownType(powerType(type).getType());
       result = factory().createPowerType(resolved);
     }
     return result;

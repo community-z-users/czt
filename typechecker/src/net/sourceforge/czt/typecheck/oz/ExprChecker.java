@@ -107,66 +107,9 @@ public class ExprChecker
       //if both signatures are complete
       if (!instanceOf(lcSig, VariableClassSig.class) &&
           !instanceOf(rcSig, VariableClassSig.class)) {
-
-        List<ClassRef> classes = list();
-        Signature state = factory().createSignature();
-        List<NameTypePair> attrs = list();
-        List<NameSignaturePair> ops = list();
-
-        //check that the features are compatible, and find common elements
-        List<NameTypePair> lsPairs = lcSig.getState().getNameTypePair();
-        List<NameTypePair> rsPairs = rcSig.getState().getNameTypePair();
-        for (NameTypePair lPair : lsPairs) {
-          NameTypePair rPair = findNameTypePair(lPair.getName(), rsPairs);
-          if (rPair != null) {
-            state.getNameTypePair().add(lPair);
-            state.getNameTypePair().add(rPair);
-          }
-        }
-        //check compatibility
-        checkForDuplicates(state.getNameTypePair(), classUnionExpr,
-                           ErrorMessage.INCOMPATIBLE_FEATURE_IN_CLASSUNIONEXPR);
-
-        List<NameTypePair> laPairs = lcSig.getAttribute();
-        List<NameTypePair> raPairs = rcSig.getAttribute();
-        for (NameTypePair lPair : laPairs) {
-          NameTypePair rPair = findNameTypePair(lPair.getName(), raPairs);
-          if (rPair != null) {
-            attrs.add(lPair);
-            attrs.add(rPair);
-          }
-        }
-        //check compatibility
-        checkForDuplicates(attrs, classUnionExpr,
-                           ErrorMessage.INCOMPATIBLE_FEATURE_IN_CLASSUNIONEXPR);
-
-        List<NameSignaturePair> loPairs = lcSig.getOperation();
-        List<NameSignaturePair> roPairs = rcSig.getOperation();
-        for (NameSignaturePair lPair : loPairs) {
-          DeclName lName = lPair.getName();
-          NameSignaturePair rPair = findOperation(lName, rcSig);
-          if (rPair != null) {
-            Signature lSig = lPair.getSignature();
-            Signature rSig = rPair.getSignature();
-            UResult unified = unify(lSig, rSig);
-            if (unified == FAIL) {
-              Object [] params = {lName, classUnionExpr, lSig, rSig};
-              error(lName, ErrorMessage.INCOMPATIBLE_OP_IN_CLASSUNIONEXPR, params);
-            }
-            else {
-              ops.add(lPair);
-            }
-          }
-        }
-
-        //add the class references
-        classes.addAll(lcSig.getClasses());
-        classes.addAll(rcSig.getClasses());
-        cSig = factory().createClassSig(classes, state, attrs, ops);
+        Type2 unioned = unionClasses(classUnionExpr, lClassType, rClassType);
+        type = factory().createPowerType(unioned);
       }
-
-      ClassUnionType classUnionType = factory().createClassUnionType(cSig);
-      type = factory().createPowerType(classUnionType);
     }
 
     //add the type annotation
@@ -295,6 +238,21 @@ public class ExprChecker
     //get the type of the expression
     Expr expr = bindSelExpr.getExpr();
     Type2 exprType = (Type2) expr.accept(exprChecker());
+    exprType = resolveClassType(exprType);
+
+    if (exprType instanceof ClassType && sectTypeEnv().getSecondTime()) {
+      if (exprType instanceof ClassRefType) {
+        ClassRefType cType = (ClassRefType) exprType;
+        ClassSig acSig = cType.getClassSig();
+        List<NameTypePair> apairs = acSig.getAttribute();
+        //System.err.println("expr = " + format(expr));
+        LocAnn loc = (LocAnn) expr.getAnn(LocAnn.class);
+        //System.err.println("\t@" + loc.getLine());
+        for (NameTypePair pair : apairs) {
+          //System.err.println("\t" + pair.getName() + " : " + pair.getType());
+        }
+      }
+    }
 
     if (!instanceOf(exprType, VariableType.class)) {
       if (exprType instanceof SchemaType) {
@@ -369,12 +327,13 @@ public class ExprChecker
         if (!instanceOf(classSig, VariableClassSig.class)) {
           String errorMessage =
             ErrorMessage.DUPLICATE_NAME_IN_RENAMEEXPR.toString();
-          List<NameNamePair> namePairs = renameExpr.getNameNamePair();
           ClassSig renameClassSig =
             createRenameClassSig(classSig, renameExpr, errorMessage);
+          ClassRef renameThisClass =
+            rename(classRefType.getThisClass(), renameExpr);
           ClassRefType newRefType =
             factory().createClassRefType(renameClassSig,
-                                         classRefType.getThisClass(),
+                                         renameThisClass,
                                          classRefType.getSuperClass(),
                                          classRefType.getVisibilityList());
           type = factory().createPowerType(newRefType);

@@ -92,7 +92,7 @@ public class ExprChecker
     //get and visit the pred
     Pred pred = schText.getPred();
     if (pred != null) {
-      UResult solved = (UResult) pred.accept(predChecker());      
+      UResult solved = (UResult) pred.accept(predChecker());
       //if the are unsolved unifications in this predicate,
       //visit it again
       if (solved == PARTIAL) {
@@ -1169,7 +1169,8 @@ public class ExprChecker
       Signature signature = schemaType.getSignature();
       SchemaType newSchemaType = factory().createSchemaType();
       if (!instanceOf(signature, VariableSignature.class)) {
-        String errorMessage = ErrorMessage.DUPLICATE_NAME_IN_RENAMEEXPR.toString();
+        String errorMessage =
+          ErrorMessage.DUPLICATE_NAME_IN_RENAMEEXPR.toString();
         List<NameNamePair> namePairs = renameExpr.getNameNamePair();
         Signature newSig = createRenameSig(signature, namePairs,
                                            renameExpr, errorMessage);
