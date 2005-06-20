@@ -97,12 +97,13 @@ public class JokerScanner
       JokerType jokertype = table_.getTokenType(name);
       int type = -1;
       if (jokertype != null) {
+        String jokertypeString = "joker" + jokertype.toString();
         Field[] fields = Sym.class.getFields();
         for (int i = 0; i < fields.length; i++) {
           Field field = fields[i];
           try {
             if (Modifier.isStatic(field.getModifiers())) {
-              if (jokertype.toString().equals(field.getName())) {
+              if (jokertypeString.equalsIgnoreCase(field.getName())) {
                 type = ((Integer) field.get(null)).intValue();
               }
             }
