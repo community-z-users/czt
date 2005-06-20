@@ -143,7 +143,7 @@ action code
      */
     protected List list(Object o)
     {
-      List result = new ArrayList();
+      List result = list();
       result.add(o);
       return result;
     }
@@ -153,11 +153,22 @@ action code
      */
     protected List list(Object o1, Object o2)
     {
-      List result = new ArrayList();
+      List result = list();
       result.add(o1);
       result.add(o2);
       return result;
     }
+
+    /**
+     * Creates a list from another list
+     */
+    protected List list(List list)
+    {
+      List result = list();
+      result.addAll(list);
+      return result;
+    }
+
 
     /**
      * Creates a pair from two elements. 
@@ -1041,7 +1052,6 @@ non terminal List /*DeclName*/
     formalParameters,
     optFormalParameters;
 
-non terminal List /*Stroke*/ optStrokeList;
 non terminal Stroke stroke;
 
 non terminal Op
@@ -1263,6 +1273,9 @@ precedence right        MU;
 precedence right        LET;
 <add:oz>
 precedence left         ASSOPARALLEL;
+<add:tcoz>
+precedence left         NEXTPRO, ATTIME;
+</add:tcoz>
 precedence left         PARALLEL<add:tcoz>, INTERLEAVE, INTERRUPT,
 TIMEOUT, TIMEEND</add:tcoz>;
 precedence left         GCH <add:tcoz>, INTCHOICE </add:tcoz>;
@@ -2925,20 +2938,25 @@ inner_term ::=
         /* schema decoration */
         inner_term:it stroke:s
         {:
-           RESULT = factory_.createDecorExpr(expr(it), s);
+           //if the inner term is a theta expr, add the stroke to the
+           //theta expr instead, which has a tighter binding.
+           Object pAnn = it.getAnn(ParenAnn.class);
+           if (it instanceof ThetaExpr &amp;&amp; pAnn == null) {
+             ThetaExpr te = (ThetaExpr) it;
+             List sl = list(te.getStroke());
+             sl.add(s);
+             RESULT = factory_.createThetaExpr(te.getExpr(), sl);
+           }
+           else {
+             RESULT = factory_.createDecorExpr(expr(it), s);
+           }
            addLocAnn(RESULT, itleft, itright);
         :}
         |
         /* binding construction */
-        THETA:theta inner_term:it optStrokeList:sl
+        THETA:theta inner_term:it
         {:
-           while (it instanceof DecorExpr) {
-             DecorExpr de = (DecorExpr) it;
-             Stroke s = de.getStroke();
-             sl.add(0, s);
-             it = de.getExpr();
-           }
-           RESULT = factory_.createThetaExpr(expr(it), sl);
+           RESULT = factory_.createThetaExpr(expr(it), list());
            addLocAnn(RESULT, thetaleft, thetaright);
         :}
         |
@@ -3084,17 +3102,6 @@ letDefinition ::=
            RESULT = factory_.createConstDecl(n,e);
            addLocAnn(RESULT, defequalleft, defequalright);
         :}
-        ;
-
-optStrokeList ::=
-        optStrokeList:sl stroke:s
-        {:
-           sl.add(s);
-           RESULT = sl;
-        :}
-        |
-        //empty
-        {: RESULT = list(); :}
         ;
 
 stroke ::=
@@ -3737,7 +3744,6 @@ antecedent ::=
         expression:e COLON baseType:bt
         {:
            SequentContext sc = factory_.createSequentContext();
-           // czt.todo: should this be a type proviso? 
            RESULT = factory_.createTypeProviso(sc, e, bt);
            addLocAnn(RESULT, eleft, eright);
         :}
@@ -4314,7 +4320,7 @@ opExpr1 ::=
            oe.getAnns().add(factory_.createParenAnn());
            RESULT = oe;
         :}
-        <add:tcoz>
+<add:tcoz>
         |
         DPARA:dpara LPAREN topology:nt RPAREN
         {:
@@ -4383,27 +4389,26 @@ opExpr1 ::=
            addLocAnn(RESULT, waitleft, waitright);
         :}
         |
-        refName:rn expression:e NEXTPRO opExpr1:oe
+        opPromotionLhs:oplhs NEXTPRO opExpr1:oe
         {:
-           Event et = factory_.createEvent(rn, e);
+//           Event et = factory_.createEvent(rn, e);
            RESULT = factory_.createAtProExpr(et, null, oe);
-           addLocAnn(RESULT, rnleft, rnright);
-        :}
-/*
-        |
-        opExpr1:et ATTIME expression:e NEXTPRO opExpr1:oe
-        {:
-           RESULT = factory_.createAtProExpr(event(et, etleft, etright), e, oe);
            addLocAnn(RESULT, etleft, etright);
         :}
-*/
+        |
+        opPromotionLhs:oplhs ATTIME expression:e NEXTPRO opExpr1:oe
+        {:
+//           Event et = factory_.createEvent(rn, e);
+           RESULT = factory_.createAtProExpr(et, e, oe);
+           addLocAnn(RESULT, etleft, etright);
+        :}
         |
         MU:mu refName:rn SPOT opExpr1:oe
         {:
            RESULT = factory_.createRecProExpr(rn, oe);
            addLocAnn(RESULT, muleft, muright);
         :}
-        </add:tcoz>        
+</add:tcoz>        
         ;
 
 <add:tcoz>
