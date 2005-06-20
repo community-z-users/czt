@@ -787,7 +787,6 @@ parser code
         "Next token in " + file_ +
         " is (" + symbolMap_.get(result.sym) + ", " + result.value + ").";
       CztLogger.getLogger(<class/>.class).finer(logMessage);
-//System.err.println(logMessage);
       return result;
     }
 
@@ -4457,7 +4456,7 @@ connection ::=
         ;
                    
 eventList ::=
-        eventList: el COMMA event:e
+        eventList:el COMMA event:e
         {: 
            el.add(e);
            RESULT = el;
@@ -4473,12 +4472,14 @@ event ::=
            RESULT = factory_.createEvent(rn, e);
            addLocAnn(RESULT, rnleft, rnright);
         :}
+/*
         |
         refName:rn
         {:
            RESULT = factory_.createEvent(rn, null);
            addLocAnn(RESULT, rnleft, rnright);
         :}
+*/
         ;            
 </add:tcoz>
 
