@@ -3008,32 +3008,6 @@ inner_term ::=
            RESULT = jr;
            addLocAnn(RESULT, jrleft, jrright);
         :}
-/*
-        JOKERPRED:jp
-        {:
-           RESULT = factory_.createJokerPred(jp);
-           addLocAnn(RESULT, jpleft, jpright);
-        :}
-        |
-        JOKEREXPR:je
-        {:
-           RESULT = factory_.createJokerExpr(je);
-           addLocAnn(RESULT, jeleft, jeright);
-        :}
-        |
-        JOKERTYPE:jt
-        {: 
-           RESULT = factory_.createJokerExpr(jt);
-           addLocAnn(RESULT, jtleft, jtright);
-        :}
-        |
-        JOKERNAME:jn
-        {:
-           RefName rn = factory_.createRefName(jn);
-           RESULT = factory_.createRefExpr(rn, list(), Boolean.FALSE);
-           addLocAnn(RESULT, jnleft, jnright);
-        :}      
-*/
 </add:zpatt>
         ;
 
@@ -3708,10 +3682,10 @@ proviso ::=
         ;
 
 lookupProviso ::=
-        INSTROKE:is jokerRef:jr DEFEQUAL expression:e
+        INSTROKE:is expression:e1 DEFEQUAL expression:e2
         {:
            SequentContext sc = factory_.createSequentContext();
-           RESULT = factory_.createLookupConstDeclProviso(sc, expr(jr), e);
+           RESULT = factory_.createLookupConstDeclProviso(sc, expr(e1), expr(e2));
            addLocAnn(RESULT, isleft, isright);
         :}
         |
@@ -3759,16 +3733,14 @@ antecedent ::=
            RESULT = factory_.createPredSequent(sc, pred(t), null);
            addLocAnn(RESULT, tleft, tright);
         :}
-/*
         |
-        jokerExpr:je COLON baseType:bt
+        expression:e COLON baseType:bt
         {:
            SequentContext sc = factory_.createSequentContext();
            // czt.todo: should this be a type proviso? 
-           RESULT = factory_.createTypeProviso(sc, je, factory_.createGivenType());
-           addLocAnn(RESULT, jeleft, heright);
+           RESULT = factory_.createTypeProviso(sc, e, bt);
+           addLocAnn(RESULT, eleft, eright);
         :}
-*/
         ;
 
 baseType ::=
