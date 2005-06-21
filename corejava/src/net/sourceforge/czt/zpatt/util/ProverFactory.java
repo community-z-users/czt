@@ -33,6 +33,7 @@ public class ProverFactory
   extends ZpattFactoryImpl
 {
   private Map<String, ProverJokerExpr> jokerExprs_ = new HashMap();
+  private Map<String, ProverJokerName> jokerNames_ = new HashMap();
   private Map<String, ProverJokerPred> jokerPreds_ = new HashMap();
   private int count = 0;
 
@@ -55,6 +56,29 @@ public class ProverFactory
     if (result == null) {
       result = new ProverJokerExpr(name);
       jokerExprs_.put(name, result);
+    }
+    return result;
+  }
+
+  /**
+   * Creates a new JokerName having a name that has not
+   * been used before.
+   */
+  public JokerName createJokerName()
+  {
+    String name;
+    while ( jokerNames_.get(name = "J" + count) != null ) count++;
+    ProverJokerName result = new ProverJokerName(name);
+    jokerNames_.put(name, result);
+    return result;
+  }
+
+  public JokerName createJokerName(String name)
+  {
+    ProverJokerName result = jokerNames_.get(name);
+    if (result == null) {
+      result = new ProverJokerName(name);
+      jokerNames_.put(name, result);
     }
     return result;
   }
@@ -95,6 +119,23 @@ public class ProverFactory
     return joker.getBinding();
   }
 
+  public JokerNameBinding createJokerNameBinding()
+  {
+    String message =
+      "The JokerName for the new JokerNameBinding must be given";
+    throw new UnsupportedOperationException(message);
+  }
+
+  public JokerNameBinding createJokerNameBinding(JokerName jokerName,
+                                                 DeclName name)
+  {
+    ProverJokerName joker = jokerNames_.get(jokerName.getName());
+    if (joker == null) {
+      throw new IllegalArgumentException("Unknown joker " + jokerName);
+    }
+    return joker.getBinding();
+  }
+
   public JokerPredBinding createJokerPredBinding()
   {
     String message =
@@ -111,4 +152,14 @@ public class ProverFactory
     }
     return joker.getBinding();
   }
+
+  public LookupConstDeclProviso createLookupConstDeclProviso(SequentContext sequentContext, net.sourceforge.czt.z.ast.Expr leftExpr, net.sourceforge.czt.z.ast.Expr rightExpr)
+    {
+      LookupConstDeclProviso proviso =
+        new net.sourceforge.czt.zpatt.util.ProverLookupConstDeclProviso();
+      proviso.setSequentContext(sequentContext);
+      proviso.setLeftExpr(leftExpr);
+      proviso.setRightExpr(rightExpr);
+      return proviso;
+    }
 }
