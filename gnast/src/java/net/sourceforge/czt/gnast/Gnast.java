@@ -108,8 +108,6 @@ public class Gnast implements GlobalProperties
    * tried to obtain the project. If no entry for the given
    * name is found, a new project is created and added to this map.
    * </p>
-   *
-   * @czt.todo Is this still needed?
    */
   private Map projects_ = new HashMap();
 
