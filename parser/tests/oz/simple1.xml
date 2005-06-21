@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Spec Version="1.3" xmlns="http://czt.sourceforge.net/zml">
+<Spec Version="1.4" xmlns="http://czt.sourceforge.net/zml">
     <NarrSect>
         <Anns>
-            <LocAnn Col="1" Line="1" Loc="tests/oz/simple1.tex"/>
+            <LocAnn Col="1" Line="1" Loc="oz/simple1.tex"/>
         </Anns>
         <Content>\documentclass[11pt,a4paper]{article}
 \usepackage{oz}
@@ -19,70 +19,77 @@
         <ns1:ClassPara xmlns:ns1="http://czt.sourceforge.net/object-z">
             <ns1:Name>
                 <Anns>
-                    <LocAnn Col="15" Line="5" Loc="tests/oz/simple1.tex"/>
+                    <LocAnn Col="15" Line="5" Loc="oz/simple1.tex"/>
                 </Anns>
                 <Word>temp</Word>
             </ns1:Name>
-            <ns1:LocalDef>
-                <AxPara Box="AxBox">
-                    <SchText>
-                        <VarDecl>
+            <AxPara Box="AxBox">
+                <Anns>
+                    <LocAnn Col="3" Line="6" Loc="oz/simple1.tex"/>
+                </Anns>
+                <SchText>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="11" Line="7" Loc="oz/simple1.tex"/>
+                        </Anns>
+                        <DeclName>
                             <Anns>
-                                <LocAnn Col="11" Line="7" Loc="tests/oz/simple1.tex"/>
+                                <LocAnn Col="5" Line="7" Loc="oz/simple1.tex"/>
                             </Anns>
-                            <DeclName>
+                            <Word>perim</Word>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="13" Line="7" Loc="oz/simple1.tex"/>
+                            </Anns>
+                            <RefName>
                                 <Anns>
-                                    <LocAnn Col="5" Line="7" Loc="tests/oz/simple1.tex"/>
+                                    <LocAnn Col="13" Line="7" Loc="oz/simple1.tex"/>
                                 </Anns>
-                                <Word>perim</Word>
-                            </DeclName>
+                                <Word>number</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                    <MemPred Mixfix="true">
+                        <Anns>
+                            <LocAnn Col="11" Line="9" Loc="oz/simple1.tex"/>
+                        </Anns>
+                        <TupleExpr>
+                            <Anns>
+                                <LocAnn Col="5" Line="9" Loc="oz/simple1.tex"/>
+                            </Anns>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="13" Line="7" Loc="tests/oz/simple1.tex"/>
+                                    <LocAnn Col="5" Line="9" Loc="oz/simple1.tex"/>
                                 </Anns>
                                 <RefName>
                                     <Anns>
-                                        <LocAnn Col="13" Line="7" Loc="tests/oz/simple1.tex"/>
+                                        <LocAnn Col="5" Line="9" Loc="oz/simple1.tex"/>
                                     </Anns>
-                                    <Word>number</Word>
+                                    <Word>perim</Word>
                                 </RefName>
                             </RefExpr>
-                        </VarDecl>
-                        <MemPred Mixfix="true">
+                            <NumExpr Value="0">
+                                <Anns>
+                                    <LocAnn Col="13" Line="9" Loc="oz/simple1.tex"/>
+                                </Anns>
+                            </NumExpr>
+                        </TupleExpr>
+                        <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="11" Line="9" Loc="tests/oz/simple1.tex"/>
+                                <LocAnn Col="5" Line="9" Loc="oz/simple1.tex"/>
                             </Anns>
-                            <TupleExpr>
-                                <RefExpr Mixfix="false">
-                                    <Anns>
-                                        <LocAnn Col="5" Line="9" Loc="tests/oz/simple1.tex"/>
-                                    </Anns>
-                                    <RefName>
-                                        <Anns>
-                                            <LocAnn Col="5" Line="9" Loc="tests/oz/simple1.tex"/>
-                                        </Anns>
-                                        <Word>perim</Word>
-                                    </RefName>
-                                </RefExpr>
-                                <NumExpr Value="0">
-                                    <Anns>
-                                        <LocAnn Col="13" Line="9" Loc="tests/oz/simple1.tex"/>
-                                    </Anns>
-                                </NumExpr>
-                            </TupleExpr>
-                            <RefExpr Mixfix="false">
-                                <RefName>
-                                    <Word> _ &gt; _ </Word>
-                                </RefName>
-                            </RefExpr>
-                        </MemPred>
-                    </SchText>
-                </AxPara>
-            </ns1:LocalDef>
+                            <RefName>
+                                <Word> _ &gt; _ </Word>
+                            </RefName>
+                        </RefExpr>
+                    </MemPred>
+                </SchText>
+            </AxPara>
         </ns1:ClassPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="12" Line="11" Loc="tests/oz/simple1.tex"/>
+                <LocAnn Col="12" Line="11" Loc="oz/simple1.tex"/>
             </Anns>
             <Content>
 

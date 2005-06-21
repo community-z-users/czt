@@ -1,35 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Spec Version="1.3" xmlns="http://czt.sourceforge.net/zml">
+<Spec Version="1.4" xmlns="http://czt.sourceforge.net/zml">
     <NarrSect>
         <Anns>
-            <LocAnn Col="1" Line="1" Loc="shunting.tex"/>
+            <LocAnn Col="1" Line="1" Loc="../../zml/examples/oz/shunting.tex"/>
         </Anns>
-        <Content>\documentclass[11pt,a4paper]{article}
-\usepackage{oz}
-\usepackage{wizard}
+        <Content>\documentclass{article}
+\usepackage{ltcadiz}
 \begin{document}
 \noindent
 
 </Content>
     </NarrSect>
     <ZSect>
+        <Anns>
+            <LocAnn Col="3" Line="7" Loc="../../zml/examples/oz/shunting.tex"/>
+        </Anns>
         <Name>shunting</Name>
         <Parent>
             <Anns>
-                <LocAnn Col="30" Line="8" Loc="shunting.tex"/>
+                <LocAnn Col="30" Line="7" Loc="../../zml/examples/oz/shunting.tex"/>
             </Anns>
             <Word>oz_toolkit</Word>
         </Parent>
         <Parent>
             <Anns>
-                <LocAnn Col="43" Line="8" Loc="shunting.tex"/>
+                <LocAnn Col="43" Line="7" Loc="../../zml/examples/oz/shunting.tex"/>
             </Anns>
             <Word>standard_toolkit</Word>
         </Parent>
         <LatexMarkupPara/>
         <NarrPara>
             <Anns>
-                <LocAnn Col="15" Line="9" Loc="shunting.tex"/>
+                <LocAnn Col="15" Line="8" Loc="../../zml/examples/oz/shunting.tex"/>
             </Anns>
             <Content>
 
@@ -39,102 +41,136 @@ the positions not on the board. Hence define
 </Content>
         </NarrPara>
         <AxPara Box="OmitBox">
+            <Anns>
+                <LocAnn Col="3" Line="14" Loc="../../zml/examples/oz/shunting.tex"/>
+            </Anns>
             <SchText>
+                <Anns>
+                    <LocAnn Col="3" Line="14" Loc="../../zml/examples/oz/shunting.tex"/>
+                </Anns>
                 <ConstDecl>
+                    <Anns>
+                        <LocAnn Col="8" Line="14" Loc="../../zml/examples/oz/shunting.tex"/>
+                    </Anns>
                     <DeclName>
                         <Anns>
-                            <LocAnn Col="3" Line="15" Loc="shunting.tex"/>
+                            <LocAnn Col="3" Line="14" Loc="../../zml/examples/oz/shunting.tex"/>
                         </Anns>
                         <Word>Posn</Word>
                     </DeclName>
                     <ApplExpr Mixfix="true">
+                        <Anns>
+                            <LocAnn Col="44" Line="14" Loc="../../zml/examples/oz/shunting.tex"/>
+                        </Anns>
                         <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="42" Line="14" Loc="../../zml/examples/oz/shunting.tex"/>
+                            </Anns>
                             <RefName>
-                                <Word> _ .. _ </Word>
+                                <Word> _ ∪ _ </Word>
                             </RefName>
                         </RefExpr>
                         <TupleExpr>
+                            <Anns>
+                                <LocAnn Col="42" Line="14" Loc="../../zml/examples/oz/shunting.tex"/>
+                            </Anns>
                             <ApplExpr Mixfix="true">
                                 <Anns>
-                                    <LocAnn Col="25" Line="15" Loc="shunting.tex"/>
+                                    <LocAnn Col="25" Line="14" Loc="../../zml/examples/oz/shunting.tex"/>
                                 </Anns>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="22" Line="14" Loc="../../zml/examples/oz/shunting.tex"/>
+                                    </Anns>
                                     <RefName>
                                         <Word> _ ∪ _ </Word>
                                     </RefName>
                                 </RefExpr>
                                 <TupleExpr>
+                                    <Anns>
+                                        <LocAnn Col="22" Line="14" Loc="../../zml/examples/oz/shunting.tex"/>
+                                    </Anns>
                                     <SetExpr>
                                         <Anns>
-                                            <LocAnn Col="11" Line="15" Loc="shunting.tex"/>
+                                            <LocAnn Col="11" Line="14" Loc="../../zml/examples/oz/shunting.tex"/>
                                         </Anns>
                                         <NumExpr Value="3">
                                             <Anns>
-                                                <LocAnn Col="13" Line="15" Loc="shunting.tex"/>
+                                                <LocAnn Col="13" Line="14" Loc="../../zml/examples/oz/shunting.tex"/>
                                             </Anns>
                                         </NumExpr>
                                         <NumExpr Value="4">
                                             <Anns>
-                                                <LocAnn Col="15" Line="15" Loc="shunting.tex"/>
+                                                <LocAnn Col="15" Line="14" Loc="../../zml/examples/oz/shunting.tex"/>
                                             </Anns>
                                         </NumExpr>
                                         <NumExpr Value="10">
                                             <Anns>
-                                                <LocAnn Col="17" Line="15" Loc="shunting.tex"/>
+                                                <LocAnn Col="17" Line="14" Loc="../../zml/examples/oz/shunting.tex"/>
                                             </Anns>
                                         </NumExpr>
                                         <NumExpr Value="11">
                                             <Anns>
-                                                <LocAnn Col="20" Line="15" Loc="shunting.tex"/>
+                                                <LocAnn Col="20" Line="14" Loc="../../zml/examples/oz/shunting.tex"/>
                                             </Anns>
                                         </NumExpr>
                                     </SetExpr>
-                                    <NumExpr Value="15">
+                                    <ApplExpr Mixfix="true">
                                         <Anns>
-                                            <LocAnn Col="30" Line="15" Loc="shunting.tex"/>
+                                            <LocAnn Col="34" Line="14" Loc="../../zml/examples/oz/shunting.tex"/>
+                                            <ParenAnn/>
                                         </Anns>
-                                    </NumExpr>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="31" Line="14" Loc="../../zml/examples/oz/shunting.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Word> _ .. _ </Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <TupleExpr>
+                                            <Anns>
+                                                <LocAnn Col="31" Line="14" Loc="../../zml/examples/oz/shunting.tex"/>
+                                            </Anns>
+                                            <NumExpr Value="15">
+                                                <Anns>
+                                                    <LocAnn Col="31" Line="14" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                </Anns>
+                                            </NumExpr>
+                                            <NumExpr Value="28">
+                                                <Anns>
+                                                    <LocAnn Col="40" Line="14" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                </Anns>
+                                            </NumExpr>
+                                        </TupleExpr>
+                                    </ApplExpr>
                                 </TupleExpr>
                             </ApplExpr>
-                            <ApplExpr Mixfix="true">
-                                <RefExpr Mixfix="false">
-                                    <RefName>
-                                        <Word> _ ∪ _ </Word>
-                                    </RefName>
-                                </RefExpr>
-                                <TupleExpr>
-                                    <NumExpr Value="28">
-                                        <Anns>
-                                            <LocAnn Col="34" Line="15" Loc="shunting.tex"/>
-                                        </Anns>
-                                    </NumExpr>
-                                    <SetExpr>
-                                        <Anns>
-                                            <LocAnn Col="42" Line="15" Loc="shunting.tex"/>
-                                        </Anns>
-                                        <NumExpr Value="31">
-                                            <Anns>
-                                                <LocAnn Col="44" Line="15" Loc="shunting.tex"/>
-                                            </Anns>
-                                        </NumExpr>
-                                        <NumExpr Value="32">
-                                            <Anns>
-                                                <LocAnn Col="47" Line="15" Loc="shunting.tex"/>
-                                            </Anns>
-                                        </NumExpr>
-                                        <NumExpr Value="38">
-                                            <Anns>
-                                                <LocAnn Col="50" Line="15" Loc="shunting.tex"/>
-                                            </Anns>
-                                        </NumExpr>
-                                        <NumExpr Value="39">
-                                            <Anns>
-                                                <LocAnn Col="53" Line="15" Loc="shunting.tex"/>
-                                            </Anns>
-                                        </NumExpr>
-                                    </SetExpr>
-                                </TupleExpr>
-                            </ApplExpr>
+                            <SetExpr>
+                                <Anns>
+                                    <LocAnn Col="49" Line="14" Loc="../../zml/examples/oz/shunting.tex"/>
+                                </Anns>
+                                <NumExpr Value="31">
+                                    <Anns>
+                                        <LocAnn Col="51" Line="14" Loc="../../zml/examples/oz/shunting.tex"/>
+                                    </Anns>
+                                </NumExpr>
+                                <NumExpr Value="32">
+                                    <Anns>
+                                        <LocAnn Col="54" Line="14" Loc="../../zml/examples/oz/shunting.tex"/>
+                                    </Anns>
+                                </NumExpr>
+                                <NumExpr Value="38">
+                                    <Anns>
+                                        <LocAnn Col="57" Line="14" Loc="../../zml/examples/oz/shunting.tex"/>
+                                    </Anns>
+                                </NumExpr>
+                                <NumExpr Value="39">
+                                    <Anns>
+                                        <LocAnn Col="60" Line="14" Loc="../../zml/examples/oz/shunting.tex"/>
+                                    </Anns>
+                                </NumExpr>
+                            </SetExpr>
                         </TupleExpr>
                     </ApplExpr>
                 </ConstDecl>
@@ -142,7 +178,7 @@ the positions not on the board. Hence define
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Line="16" Loc="shunting.tex"/>
+                <LocAnn Col="10" Line="15" Loc="../../zml/examples/oz/shunting.tex"/>
             </Anns>
             <Content>
 
@@ -152,7 +188,7 @@ indicates the neighbours of cells.
         </NarrPara>
         <OptempPara Cat="Relation">
             <Anns>
-                <LocAnn Col="2" Line="21" Loc="shunting.tex"/>
+                <LocAnn Col="2" Line="20" Loc="../../zml/examples/oz/shunting.tex"/>
             </Anns>
             <Operand List="false"/>
             <Operator>
@@ -162,46 +198,52 @@ indicates the neighbours of cells.
         </OptempPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Line="22" Loc="shunting.tex"/>
+                <LocAnn Col="10" Line="21" Loc="../../zml/examples/oz/shunting.tex"/>
             </Anns>
             <Content>
 
 </Content>
         </NarrPara>
         <AxPara Box="AxBox">
+            <Anns>
+                <LocAnn Col="1" Line="23" Loc="../../zml/examples/oz/shunting.tex"/>
+            </Anns>
             <SchText>
                 <VarDecl>
                     <Anns>
-                        <LocAnn Col="20" Line="25" Loc="shunting.tex"/>
+                        <LocAnn Col="20" Line="24" Loc="../../zml/examples/oz/shunting.tex"/>
                     </Anns>
                     <DeclName>
+                        <Anns>
+                            <LocAnn Col="14" Line="24" Loc="../../zml/examples/oz/shunting.tex"/>
+                        </Anns>
                         <Word> _ next _ </Word>
                     </DeclName>
                     <RefExpr Mixfix="true">
                         <Anns>
-                            <LocAnn Col="27" Line="25" Loc="shunting.tex"/>
+                            <LocAnn Col="27" Line="24" Loc="../../zml/examples/oz/shunting.tex"/>
                         </Anns>
                         <RefName>
                             <Word> _ ↔ _ </Word>
                         </RefName>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="22" Line="25" Loc="shunting.tex"/>
+                                <LocAnn Col="22" Line="24" Loc="../../zml/examples/oz/shunting.tex"/>
                             </Anns>
                             <RefName>
                                 <Anns>
-                                    <LocAnn Col="22" Line="25" Loc="shunting.tex"/>
+                                    <LocAnn Col="22" Line="24" Loc="../../zml/examples/oz/shunting.tex"/>
                                 </Anns>
                                 <Word>Posn</Word>
                             </RefName>
                         </RefExpr>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="32" Line="25" Loc="shunting.tex"/>
+                                <LocAnn Col="32" Line="24" Loc="../../zml/examples/oz/shunting.tex"/>
                             </Anns>
                             <RefName>
                                 <Anns>
-                                    <LocAnn Col="32" Line="25" Loc="shunting.tex"/>
+                                    <LocAnn Col="32" Line="24" Loc="../../zml/examples/oz/shunting.tex"/>
                                 </Anns>
                                 <Word>Posn</Word>
                             </RefName>
@@ -210,32 +252,32 @@ indicates the neighbours of cells.
                 </VarDecl>
                 <ForallPred>
                     <Anns>
-                        <LocAnn Col="3" Line="27" Loc="shunting.tex"/>
+                        <LocAnn Col="3" Line="26" Loc="../../zml/examples/oz/shunting.tex"/>
                     </Anns>
                     <SchText>
                         <VarDecl>
                             <Anns>
-                                <LocAnn Col="14" Line="27" Loc="shunting.tex"/>
+                                <LocAnn Col="14" Line="26" Loc="../../zml/examples/oz/shunting.tex"/>
                             </Anns>
                             <DeclName>
                                 <Anns>
-                                    <LocAnn Col="11" Line="27" Loc="shunting.tex"/>
+                                    <LocAnn Col="11" Line="26" Loc="../../zml/examples/oz/shunting.tex"/>
                                 </Anns>
                                 <Word>m</Word>
                             </DeclName>
                             <DeclName>
                                 <Anns>
-                                    <LocAnn Col="13" Line="27" Loc="shunting.tex"/>
+                                    <LocAnn Col="13" Line="26" Loc="../../zml/examples/oz/shunting.tex"/>
                                 </Anns>
                                 <Word>n</Word>
                             </DeclName>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="16" Line="27" Loc="shunting.tex"/>
+                                    <LocAnn Col="16" Line="26" Loc="../../zml/examples/oz/shunting.tex"/>
                                 </Anns>
                                 <RefName>
                                     <Anns>
-                                        <LocAnn Col="16" Line="27" Loc="shunting.tex"/>
+                                        <LocAnn Col="16" Line="26" Loc="../../zml/examples/oz/shunting.tex"/>
                                     </Anns>
                                     <Word>Posn</Word>
                                 </RefName>
@@ -244,37 +286,43 @@ indicates the neighbours of cells.
                     </SchText>
                     <IffPred>
                         <Anns>
-                            <LocAnn Col="18" Line="28" Loc="shunting.tex"/>
+                            <LocAnn Col="18" Line="27" Loc="../../zml/examples/oz/shunting.tex"/>
                         </Anns>
                         <MemPred Mixfix="true">
                             <Anns>
-                                <LocAnn Col="11" Line="28" Loc="shunting.tex"/>
+                                <LocAnn Col="11" Line="27" Loc="../../zml/examples/oz/shunting.tex"/>
                             </Anns>
                             <TupleExpr>
+                                <Anns>
+                                    <LocAnn Col="9" Line="27" Loc="../../zml/examples/oz/shunting.tex"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="9" Line="28" Loc="shunting.tex"/>
+                                        <LocAnn Col="9" Line="27" Loc="../../zml/examples/oz/shunting.tex"/>
                                     </Anns>
                                     <RefName>
                                         <Anns>
-                                            <LocAnn Col="9" Line="28" Loc="shunting.tex"/>
+                                            <LocAnn Col="9" Line="27" Loc="../../zml/examples/oz/shunting.tex"/>
                                         </Anns>
                                         <Word>m</Word>
                                     </RefName>
                                 </RefExpr>
                                 <RefExpr Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="16" Line="28" Loc="shunting.tex"/>
+                                        <LocAnn Col="16" Line="27" Loc="../../zml/examples/oz/shunting.tex"/>
                                     </Anns>
                                     <RefName>
                                         <Anns>
-                                            <LocAnn Col="16" Line="28" Loc="shunting.tex"/>
+                                            <LocAnn Col="16" Line="27" Loc="../../zml/examples/oz/shunting.tex"/>
                                         </Anns>
                                         <Word>n</Word>
                                     </RefName>
                                 </RefExpr>
                             </TupleExpr>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="9" Line="27" Loc="../../zml/examples/oz/shunting.tex"/>
+                                </Anns>
                                 <RefName>
                                     <Word> _ next _ </Word>
                                 </RefName>
@@ -282,40 +330,46 @@ indicates the neighbours of cells.
                         </MemPred>
                         <OrPred>
                             <Anns>
-                                <LocAnn Col="41" Line="29" Loc="shunting.tex"/>
+                                <LocAnn Col="41" Line="28" Loc="../../zml/examples/oz/shunting.tex"/>
                             </Anns>
                             <MemPred Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="18" Line="29" Loc="shunting.tex"/>
+                                    <LocAnn Col="18" Line="28" Loc="../../zml/examples/oz/shunting.tex"/>
                                 </Anns>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="14" Line="29" Loc="shunting.tex"/>
+                                        <LocAnn Col="14" Line="28" Loc="../../zml/examples/oz/shunting.tex"/>
                                     </Anns>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="12" Line="28" Loc="../../zml/examples/oz/shunting.tex"/>
+                                        </Anns>
                                         <RefName>
                                             <Word> _ − _ </Word>
                                         </RefName>
                                     </RefExpr>
                                     <TupleExpr>
+                                        <Anns>
+                                            <LocAnn Col="12" Line="28" Loc="../../zml/examples/oz/shunting.tex"/>
+                                        </Anns>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="12" Line="29" Loc="shunting.tex"/>
+                                                <LocAnn Col="12" Line="28" Loc="../../zml/examples/oz/shunting.tex"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="12" Line="29" Loc="shunting.tex"/>
+                                                    <LocAnn Col="12" Line="28" Loc="../../zml/examples/oz/shunting.tex"/>
                                                 </Anns>
                                                 <Word>m</Word>
                                             </RefName>
                                         </RefExpr>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="16" Line="29" Loc="shunting.tex"/>
+                                                <LocAnn Col="16" Line="28" Loc="../../zml/examples/oz/shunting.tex"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="16" Line="29" Loc="shunting.tex"/>
+                                                    <LocAnn Col="16" Line="28" Loc="../../zml/examples/oz/shunting.tex"/>
                                                 </Anns>
                                                 <Word>n</Word>
                                             </RefName>
@@ -324,67 +378,76 @@ indicates the neighbours of cells.
                                 </ApplExpr>
                                 <SetExpr>
                                     <Anns>
-                                        <LocAnn Col="22" Line="29" Loc="shunting.tex"/>
+                                        <LocAnn Col="22" Line="28" Loc="../../zml/examples/oz/shunting.tex"/>
                                     </Anns>
                                     <ApplExpr Mixfix="true">
                                         <Anns>
-                                            <LocAnn Col="25" Line="29" Loc="shunting.tex"/>
+                                            <LocAnn Col="25" Line="28" Loc="../../zml/examples/oz/shunting.tex"/>
                                         </Anns>
                                         <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="25" Line="28" Loc="../../zml/examples/oz/shunting.tex"/>
+                                            </Anns>
                                             <RefName>
                                                 <Word>- _ </Word>
                                             </RefName>
                                         </RefExpr>
                                         <NumExpr Value="7">
                                             <Anns>
-                                                <LocAnn Col="33" Line="29" Loc="shunting.tex"/>
+                                                <LocAnn Col="33" Line="28" Loc="../../zml/examples/oz/shunting.tex"/>
                                             </Anns>
                                         </NumExpr>
                                     </ApplExpr>
                                     <NumExpr Value="7">
                                         <Anns>
-                                            <LocAnn Col="36" Line="29" Loc="shunting.tex"/>
+                                            <LocAnn Col="36" Line="28" Loc="../../zml/examples/oz/shunting.tex"/>
                                         </Anns>
                                     </NumExpr>
                                 </SetExpr>
                             </MemPred>
                             <AndPred Op="And">
                                 <Anns>
-                                    <LocAnn Col="43" Line="30" Loc="shunting.tex"/>
+                                    <LocAnn Col="43" Line="29" Loc="../../zml/examples/oz/shunting.tex"/>
                                     <ParenAnn/>
                                 </Anns>
                                 <MemPred Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="19" Line="30" Loc="shunting.tex"/>
+                                        <LocAnn Col="19" Line="29" Loc="../../zml/examples/oz/shunting.tex"/>
                                     </Anns>
                                     <ApplExpr Mixfix="true">
                                         <Anns>
-                                            <LocAnn Col="15" Line="30" Loc="shunting.tex"/>
+                                            <LocAnn Col="15" Line="29" Loc="../../zml/examples/oz/shunting.tex"/>
                                         </Anns>
                                         <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="13" Line="29" Loc="../../zml/examples/oz/shunting.tex"/>
+                                            </Anns>
                                             <RefName>
                                                 <Word> _ − _ </Word>
                                             </RefName>
                                         </RefExpr>
                                         <TupleExpr>
+                                            <Anns>
+                                                <LocAnn Col="13" Line="29" Loc="../../zml/examples/oz/shunting.tex"/>
+                                            </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="13" Line="30" Loc="shunting.tex"/>
+                                                    <LocAnn Col="13" Line="29" Loc="../../zml/examples/oz/shunting.tex"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="13" Line="30" Loc="shunting.tex"/>
+                                                        <LocAnn Col="13" Line="29" Loc="../../zml/examples/oz/shunting.tex"/>
                                                     </Anns>
                                                     <Word>m</Word>
                                                 </RefName>
                                             </RefExpr>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="17" Line="30" Loc="shunting.tex"/>
+                                                    <LocAnn Col="17" Line="29" Loc="../../zml/examples/oz/shunting.tex"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="17" Line="30" Loc="shunting.tex"/>
+                                                        <LocAnn Col="17" Line="29" Loc="../../zml/examples/oz/shunting.tex"/>
                                                     </Anns>
                                                     <Word>n</Word>
                                                 </RefName>
@@ -393,58 +456,67 @@ indicates the neighbours of cells.
                                     </ApplExpr>
                                     <SetExpr>
                                         <Anns>
-                                            <LocAnn Col="23" Line="30" Loc="shunting.tex"/>
+                                            <LocAnn Col="23" Line="29" Loc="../../zml/examples/oz/shunting.tex"/>
                                         </Anns>
                                         <ApplExpr Mixfix="true">
                                             <Anns>
-                                                <LocAnn Col="26" Line="30" Loc="shunting.tex"/>
+                                                <LocAnn Col="26" Line="29" Loc="../../zml/examples/oz/shunting.tex"/>
                                             </Anns>
                                             <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="26" Line="29" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                </Anns>
                                                 <RefName>
                                                     <Word>- _ </Word>
                                                 </RefName>
                                             </RefExpr>
                                             <NumExpr Value="1">
                                                 <Anns>
-                                                    <LocAnn Col="34" Line="30" Loc="shunting.tex"/>
+                                                    <LocAnn Col="34" Line="29" Loc="../../zml/examples/oz/shunting.tex"/>
                                                 </Anns>
                                             </NumExpr>
                                         </ApplExpr>
                                         <NumExpr Value="1">
                                             <Anns>
-                                                <LocAnn Col="38" Line="30" Loc="shunting.tex"/>
+                                                <LocAnn Col="38" Line="29" Loc="../../zml/examples/oz/shunting.tex"/>
                                             </Anns>
                                         </NumExpr>
                                     </SetExpr>
                                 </MemPred>
                                 <MemPred Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="58" Line="30" Loc="shunting.tex"/>
+                                        <LocAnn Col="58" Line="29" Loc="../../zml/examples/oz/shunting.tex"/>
                                     </Anns>
                                     <ApplExpr Mixfix="true">
                                         <Anns>
-                                            <LocAnn Col="51" Line="30" Loc="shunting.tex"/>
+                                            <LocAnn Col="51" Line="29" Loc="../../zml/examples/oz/shunting.tex"/>
                                         </Anns>
                                         <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="49" Line="29" Loc="../../zml/examples/oz/shunting.tex"/>
+                                            </Anns>
                                             <RefName>
                                                 <Word> _ div _ </Word>
                                             </RefName>
                                         </RefExpr>
                                         <TupleExpr>
+                                            <Anns>
+                                                <LocAnn Col="49" Line="29" Loc="../../zml/examples/oz/shunting.tex"/>
+                                            </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="49" Line="30" Loc="shunting.tex"/>
+                                                    <LocAnn Col="49" Line="29" Loc="../../zml/examples/oz/shunting.tex"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="49" Line="30" Loc="shunting.tex"/>
+                                                        <LocAnn Col="49" Line="29" Loc="../../zml/examples/oz/shunting.tex"/>
                                                     </Anns>
                                                     <Word>m</Word>
                                                 </RefName>
                                             </RefExpr>
                                             <NumExpr Value="7">
                                                 <Anns>
-                                                    <LocAnn Col="56" Line="30" Loc="shunting.tex"/>
+                                                    <LocAnn Col="56" Line="29" Loc="../../zml/examples/oz/shunting.tex"/>
                                                 </Anns>
                                             </NumExpr>
                                         </TupleExpr>
@@ -452,28 +524,34 @@ indicates the neighbours of cells.
                                     <SetExpr>
                                         <ApplExpr Mixfix="true">
                                             <Anns>
-                                                <LocAnn Col="62" Line="30" Loc="shunting.tex"/>
+                                                <LocAnn Col="62" Line="29" Loc="../../zml/examples/oz/shunting.tex"/>
                                             </Anns>
                                             <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="60" Line="29" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                </Anns>
                                                 <RefName>
                                                     <Word> _ div _ </Word>
                                                 </RefName>
                                             </RefExpr>
                                             <TupleExpr>
+                                                <Anns>
+                                                    <LocAnn Col="60" Line="29" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                </Anns>
                                                 <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="60" Line="30" Loc="shunting.tex"/>
+                                                        <LocAnn Col="60" Line="29" Loc="../../zml/examples/oz/shunting.tex"/>
                                                     </Anns>
                                                     <RefName>
                                                         <Anns>
-                                                            <LocAnn Col="60" Line="30" Loc="shunting.tex"/>
+                                                            <LocAnn Col="60" Line="29" Loc="../../zml/examples/oz/shunting.tex"/>
                                                         </Anns>
                                                         <Word>n</Word>
                                                     </RefName>
                                                 </RefExpr>
                                                 <NumExpr Value="7">
                                                     <Anns>
-                                                        <LocAnn Col="67" Line="30" Loc="shunting.tex"/>
+                                                        <LocAnn Col="67" Line="29" Loc="../../zml/examples/oz/shunting.tex"/>
                                                     </Anns>
                                                 </NumExpr>
                                             </TupleExpr>
@@ -488,7 +566,7 @@ indicates the neighbours of cells.
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="12" Line="31" Loc="shunting.tex"/>
+                <LocAnn Col="12" Line="30" Loc="../../zml/examples/oz/shunting.tex"/>
             </Anns>
             <Content>
 
@@ -500,58 +578,58 @@ $DIR$, which represents directions.
         </NarrPara>
         <FreePara>
             <Anns>
-                <LocAnn Col="31" Line="38" Loc="shunting.tex"/>
+                <LocAnn Col="31" Line="37" Loc="../../zml/examples/oz/shunting.tex"/>
             </Anns>
             <Freetype>
                 <Anns>
-                    <LocAnn Col="7" Line="38" Loc="shunting.tex"/>
+                    <LocAnn Col="7" Line="37" Loc="../../zml/examples/oz/shunting.tex"/>
                 </Anns>
                 <DeclName>
                     <Anns>
-                        <LocAnn Col="3" Line="38" Loc="shunting.tex"/>
+                        <LocAnn Col="3" Line="37" Loc="../../zml/examples/oz/shunting.tex"/>
                     </Anns>
                     <Word>DIR</Word>
                 </DeclName>
                 <Branch>
                     <Anns>
-                        <LocAnn Col="11" Line="38" Loc="shunting.tex"/>
+                        <LocAnn Col="11" Line="37" Loc="../../zml/examples/oz/shunting.tex"/>
                     </Anns>
                     <DeclName>
                         <Anns>
-                            <LocAnn Col="11" Line="38" Loc="shunting.tex"/>
+                            <LocAnn Col="11" Line="37" Loc="../../zml/examples/oz/shunting.tex"/>
                         </Anns>
                         <Word>LEFT</Word>
                     </DeclName>
                 </Branch>
                 <Branch>
                     <Anns>
-                        <LocAnn Col="18" Line="38" Loc="shunting.tex"/>
+                        <LocAnn Col="18" Line="37" Loc="../../zml/examples/oz/shunting.tex"/>
                     </Anns>
                     <DeclName>
                         <Anns>
-                            <LocAnn Col="18" Line="38" Loc="shunting.tex"/>
+                            <LocAnn Col="18" Line="37" Loc="../../zml/examples/oz/shunting.tex"/>
                         </Anns>
                         <Word>RIGHT</Word>
                     </DeclName>
                 </Branch>
                 <Branch>
                     <Anns>
-                        <LocAnn Col="26" Line="38" Loc="shunting.tex"/>
+                        <LocAnn Col="26" Line="37" Loc="../../zml/examples/oz/shunting.tex"/>
                     </Anns>
                     <DeclName>
                         <Anns>
-                            <LocAnn Col="26" Line="38" Loc="shunting.tex"/>
+                            <LocAnn Col="26" Line="37" Loc="../../zml/examples/oz/shunting.tex"/>
                         </Anns>
                         <Word>UP</Word>
                     </DeclName>
                 </Branch>
                 <Branch>
                     <Anns>
-                        <LocAnn Col="31" Line="38" Loc="shunting.tex"/>
+                        <LocAnn Col="31" Line="37" Loc="../../zml/examples/oz/shunting.tex"/>
                     </Anns>
                     <DeclName>
                         <Anns>
-                            <LocAnn Col="31" Line="38" Loc="shunting.tex"/>
+                            <LocAnn Col="31" Line="37" Loc="../../zml/examples/oz/shunting.tex"/>
                         </Anns>
                         <Word>DOWN</Word>
                     </DeclName>
@@ -560,7 +638,7 @@ $DIR$, which represents directions.
         </FreePara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Line="39" Loc="shunting.tex"/>
+                <LocAnn Col="10" Line="38" Loc="../../zml/examples/oz/shunting.tex"/>
             </Anns>
             <Content>
 
@@ -569,161 +647,336 @@ $DIR$, which represents directions.
         <ns1:ClassPara xmlns:ns1="http://czt.sourceforge.net/object-z">
             <ns1:Name>
                 <Anns>
-                    <LocAnn Col="15" Line="41" Loc="shunting.tex"/>
+                    <LocAnn Col="15" Line="40" Loc="../../zml/examples/oz/shunting.tex"/>
                 </Anns>
                 <Word>Circle</Word>
             </ns1:Name>
-            <ns1:State>
-                <VarDecl>
-                    <Anns>
-                        <LocAnn Col="7" Line="44" Loc="shunting.tex"/>
-                    </Anns>
-                    <DeclName>
-                        <Anns>
-                            <LocAnn Col="3" Line="44" Loc="shunting.tex"/>
-                        </Anns>
-                        <Word>posn</Word>
-                    </DeclName>
-                    <RefExpr Mixfix="false">
-                        <Anns>
-                            <LocAnn Col="9" Line="44" Loc="shunting.tex"/>
-                        </Anns>
-                        <RefName>
-                            <Anns>
-                                <LocAnn Col="9" Line="44" Loc="shunting.tex"/>
-                            </Anns>
-                            <Word>Posn</Word>
-                        </RefName>
-                    </RefExpr>
-                </VarDecl>
-            </ns1:State>
-            <ns1:Operation>
-                <ns1:Name>
-                    <Anns>
-                        <LocAnn Col="16" Line="46" Loc="shunting.tex"/>
-                    </Anns>
-                    <Word>move</Word>
-                </ns1:Name>
-                <ns1:OperationBox>
-                    <InclDecl>
-                        <ApplExpr Mixfix="false">
-                            <Anns>
-                                <LocAnn Col="14" Line="47" Loc="shunting.tex"/>
-                            </Anns>
-                            <RefExpr Mixfix="false">
-                                <Anns>
-                                    <LocAnn Col="3" Line="47" Loc="shunting.tex"/>
-                                </Anns>
-                                <RefName>
-                                    <Anns>
-                                        <LocAnn Col="3" Line="47" Loc="shunting.tex"/>
-                                    </Anns>
-                                    <Word>Δ</Word>
-                                </RefName>
-                            </RefExpr>
-                            <RefExpr Mixfix="false">
-                                <Anns>
-                                    <LocAnn Col="10" Line="47" Loc="shunting.tex"/>
-                                    <ParenAnn/>
-                                </Anns>
-                                <RefName>
-                                    <Anns>
-                                        <LocAnn Col="10" Line="47" Loc="shunting.tex"/>
-                                    </Anns>
-                                    <Word>posn</Word>
-                                </RefName>
-                            </RefExpr>
-                        </ApplExpr>
-                    </InclDecl>
+            <ns1:State Box="SchBox">
+                <Anns>
+                    <LocAnn Col="1" Line="42" Loc="../../zml/examples/oz/shunting.tex"/>
+                </Anns>
+                <ns1:PrimaryDecl>
                     <VarDecl>
                         <Anns>
-                            <LocAnn Col="6" Line="48" Loc="shunting.tex"/>
+                            <LocAnn Col="7" Line="43" Loc="../../zml/examples/oz/shunting.tex"/>
                         </Anns>
                         <DeclName>
                             <Anns>
-                                <LocAnn Col="3" Line="48" Loc="shunting.tex"/>
+                                <LocAnn Col="3" Line="43" Loc="../../zml/examples/oz/shunting.tex"/>
                             </Anns>
-                            <Word>d</Word>
-                            <InStroke/>
+                            <Word>posn</Word>
                         </DeclName>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="8" Line="48" Loc="shunting.tex"/>
+                                <LocAnn Col="9" Line="43" Loc="../../zml/examples/oz/shunting.tex"/>
                             </Anns>
                             <RefName>
                                 <Anns>
-                                    <LocAnn Col="8" Line="48" Loc="shunting.tex"/>
+                                    <LocAnn Col="9" Line="43" Loc="../../zml/examples/oz/shunting.tex"/>
                                 </Anns>
-                                <Word>DIR</Word>
+                                <Word>Posn</Word>
                             </RefName>
                         </RefExpr>
                     </VarDecl>
-                    <AndPred Op="NL">
-                        <Anns>
-                            <LocAnn Col="37" Line="53" Loc="shunting.tex"/>
-                        </Anns>
-                        <AndPred Op="NL">
+                </ns1:PrimaryDecl>
+            </ns1:State>
+            <ns1:Operation Box="SchBox">
+                <Anns>
+                    <LocAnn Col="1" Line="45" Loc="../../zml/examples/oz/shunting.tex"/>
+                </Anns>
+                <ns1:Name>
+                    <Anns>
+                        <LocAnn Col="12" Line="45" Loc="../../zml/examples/oz/shunting.tex"/>
+                    </Anns>
+                    <Word>move</Word>
+                </ns1:Name>
+                <ns1:AnonOpExpr>
+                    <ns1:OpText>
+                        <ns1:DeltaList>
                             <Anns>
-                                <LocAnn Col="40" Line="52" Loc="shunting.tex"/>
+                                <LocAnn Col="3" Line="46" Loc="../../zml/examples/oz/shunting.tex"/>
                             </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="10" Line="46" Loc="../../zml/examples/oz/shunting.tex"/>
+                                </Anns>
+                                <Word>posn</Word>
+                            </RefName>
+                        </ns1:DeltaList>
+                        <SchText>
+                            <VarDecl>
+                                <Anns>
+                                    <LocAnn Col="6" Line="47" Loc="../../zml/examples/oz/shunting.tex"/>
+                                </Anns>
+                                <DeclName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="47" Loc="../../zml/examples/oz/shunting.tex"/>
+                                    </Anns>
+                                    <Word>d</Word>
+                                    <InStroke/>
+                                </DeclName>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="8" Line="47" Loc="../../zml/examples/oz/shunting.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="8" Line="47" Loc="../../zml/examples/oz/shunting.tex"/>
+                                        </Anns>
+                                        <Word>DIR</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </VarDecl>
                             <AndPred Op="NL">
                                 <Anns>
-                                    <LocAnn Col="39" Line="51" Loc="shunting.tex"/>
+                                    <LocAnn Col="37" Line="52" Loc="../../zml/examples/oz/shunting.tex"/>
                                 </Anns>
                                 <AndPred Op="NL">
                                     <Anns>
-                                        <LocAnn Col="19" Line="50" Loc="shunting.tex"/>
+                                        <LocAnn Col="40" Line="51" Loc="../../zml/examples/oz/shunting.tex"/>
                                     </Anns>
-                                    <MemPred Mixfix="true">
+                                    <AndPred Op="NL">
                                         <Anns>
-                                            <LocAnn Col="8" Line="50" Loc="shunting.tex"/>
+                                            <LocAnn Col="39" Line="50" Loc="../../zml/examples/oz/shunting.tex"/>
                                         </Anns>
-                                        <TupleExpr>
-                                            <RefExpr Mixfix="false">
+                                        <AndPred Op="NL">
+                                            <Anns>
+                                                <LocAnn Col="19" Line="49" Loc="../../zml/examples/oz/shunting.tex"/>
+                                            </Anns>
+                                            <MemPred Mixfix="true">
                                                 <Anns>
-                                                    <LocAnn Col="3" Line="50" Loc="shunting.tex"/>
+                                                    <LocAnn Col="8" Line="49" Loc="../../zml/examples/oz/shunting.tex"/>
                                                 </Anns>
-                                                <RefName>
+                                                <TupleExpr>
                                                     <Anns>
-                                                        <LocAnn Col="3" Line="50" Loc="shunting.tex"/>
+                                                        <LocAnn Col="3" Line="49" Loc="../../zml/examples/oz/shunting.tex"/>
                                                     </Anns>
-                                                    <Word>posn</Word>
-                                                </RefName>
-                                            </RefExpr>
-                                            <RefExpr Mixfix="false">
+                                                    <RefExpr Mixfix="false">
+                                                        <Anns>
+                                                            <LocAnn Col="3" Line="49" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                        </Anns>
+                                                        <RefName>
+                                                            <Anns>
+                                                                <LocAnn Col="3" Line="49" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                            </Anns>
+                                                            <Word>posn</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <Anns>
+                                                            <LocAnn Col="13" Line="49" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                        </Anns>
+                                                        <RefName>
+                                                            <Anns>
+                                                                <LocAnn Col="13" Line="49" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                            </Anns>
+                                                            <Word>posn</Word>
+                                                            <NextStroke/>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                </TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="3" Line="49" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                    </Anns>
+                                                    <RefName>
+                                                        <Word> _ next _ </Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </MemPred>
+                                            <ImpliesPred>
                                                 <Anns>
-                                                    <LocAnn Col="13" Line="50" Loc="shunting.tex"/>
+                                                    <LocAnn Col="13" Line="50" Loc="../../zml/examples/oz/shunting.tex"/>
                                                 </Anns>
-                                                <RefName>
+                                                <MemPred Mixfix="true">
                                                     <Anns>
-                                                        <LocAnn Col="13" Line="50" Loc="shunting.tex"/>
+                                                        <LocAnn Col="6" Line="50" Loc="../../zml/examples/oz/shunting.tex"/>
                                                     </Anns>
-                                                    <Word>posn</Word>
-                                                    <NextStroke/>
-                                                </RefName>
-                                            </RefExpr>
-                                        </TupleExpr>
-                                        <RefExpr Mixfix="false">
-                                            <RefName>
-                                                <Word> _ next _ </Word>
-                                            </RefName>
-                                        </RefExpr>
-                                    </MemPred>
+                                                    <RefExpr Mixfix="false">
+                                                        <Anns>
+                                                            <LocAnn Col="3" Line="50" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                        </Anns>
+                                                        <RefName>
+                                                            <Anns>
+                                                                <LocAnn Col="3" Line="50" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                            </Anns>
+                                                            <Word>d</Word>
+                                                            <InStroke/>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                    <SetExpr>
+                                                        <RefExpr Mixfix="false">
+                                                            <Anns>
+                                                                <LocAnn Col="8" Line="50" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                            </Anns>
+                                                            <RefName>
+                                                                <Anns>
+                                                                    <LocAnn Col="8" Line="50" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                                </Anns>
+                                                                <Word>LEFT</Word>
+                                                            </RefName>
+                                                        </RefExpr>
+                                                    </SetExpr>
+                                                </MemPred>
+                                                <MemPred Mixfix="true">
+                                                    <Anns>
+                                                        <LocAnn Col="28" Line="50" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                    </Anns>
+                                                    <RefExpr Mixfix="false">
+                                                        <Anns>
+                                                            <LocAnn Col="22" Line="50" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                        </Anns>
+                                                        <RefName>
+                                                            <Anns>
+                                                                <LocAnn Col="22" Line="50" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                            </Anns>
+                                                            <Word>posn</Word>
+                                                            <NextStroke/>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                    <SetExpr>
+                                                        <ApplExpr Mixfix="true">
+                                                            <Anns>
+                                                                <LocAnn Col="35" Line="50" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                            </Anns>
+                                                            <RefExpr Mixfix="false">
+                                                                <Anns>
+                                                                    <LocAnn Col="30" Line="50" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                                </Anns>
+                                                                <RefName>
+                                                                    <Word> _ − _ </Word>
+                                                                </RefName>
+                                                            </RefExpr>
+                                                            <TupleExpr>
+                                                                <Anns>
+                                                                    <LocAnn Col="30" Line="50" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                                </Anns>
+                                                                <RefExpr Mixfix="false">
+                                                                    <Anns>
+                                                                        <LocAnn Col="30" Line="50" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                                    </Anns>
+                                                                    <RefName>
+                                                                        <Anns>
+                                                                            <LocAnn Col="30" Line="50" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                                        </Anns>
+                                                                        <Word>posn</Word>
+                                                                    </RefName>
+                                                                </RefExpr>
+                                                                <NumExpr Value="1">
+                                                                    <Anns>
+                                                                        <LocAnn Col="37" Line="50" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                                    </Anns>
+                                                                </NumExpr>
+                                                            </TupleExpr>
+                                                        </ApplExpr>
+                                                    </SetExpr>
+                                                </MemPred>
+                                            </ImpliesPred>
+                                        </AndPred>
+                                        <ImpliesPred>
+                                            <Anns>
+                                                <LocAnn Col="14" Line="51" Loc="../../zml/examples/oz/shunting.tex"/>
+                                            </Anns>
+                                            <MemPred Mixfix="true">
+                                                <Anns>
+                                                    <LocAnn Col="6" Line="51" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                </Anns>
+                                                <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="3" Line="51" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                    </Anns>
+                                                    <RefName>
+                                                        <Anns>
+                                                            <LocAnn Col="3" Line="51" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                        </Anns>
+                                                        <Word>d</Word>
+                                                        <InStroke/>
+                                                    </RefName>
+                                                </RefExpr>
+                                                <SetExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <Anns>
+                                                            <LocAnn Col="8" Line="51" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                        </Anns>
+                                                        <RefName>
+                                                            <Anns>
+                                                                <LocAnn Col="8" Line="51" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                            </Anns>
+                                                            <Word>RIGHT</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                </SetExpr>
+                                            </MemPred>
+                                            <MemPred Mixfix="true">
+                                                <Anns>
+                                                    <LocAnn Col="29" Line="51" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                </Anns>
+                                                <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="23" Line="51" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                    </Anns>
+                                                    <RefName>
+                                                        <Anns>
+                                                            <LocAnn Col="23" Line="51" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                        </Anns>
+                                                        <Word>posn</Word>
+                                                        <NextStroke/>
+                                                    </RefName>
+                                                </RefExpr>
+                                                <SetExpr>
+                                                    <ApplExpr Mixfix="true">
+                                                        <Anns>
+                                                            <LocAnn Col="36" Line="51" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                        </Anns>
+                                                        <RefExpr Mixfix="false">
+                                                            <Anns>
+                                                                <LocAnn Col="31" Line="51" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                            </Anns>
+                                                            <RefName>
+                                                                <Word> _ + _ </Word>
+                                                            </RefName>
+                                                        </RefExpr>
+                                                        <TupleExpr>
+                                                            <Anns>
+                                                                <LocAnn Col="31" Line="51" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                            </Anns>
+                                                            <RefExpr Mixfix="false">
+                                                                <Anns>
+                                                                    <LocAnn Col="31" Line="51" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                                </Anns>
+                                                                <RefName>
+                                                                    <Anns>
+                                                                        <LocAnn Col="31" Line="51" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                                    </Anns>
+                                                                    <Word>posn</Word>
+                                                                </RefName>
+                                                            </RefExpr>
+                                                            <NumExpr Value="1">
+                                                                <Anns>
+                                                                    <LocAnn Col="38" Line="51" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                                </Anns>
+                                                            </NumExpr>
+                                                        </TupleExpr>
+                                                    </ApplExpr>
+                                                </SetExpr>
+                                            </MemPred>
+                                        </ImpliesPred>
+                                    </AndPred>
                                     <ImpliesPred>
                                         <Anns>
-                                            <LocAnn Col="13" Line="51" Loc="shunting.tex"/>
+                                            <LocAnn Col="11" Line="52" Loc="../../zml/examples/oz/shunting.tex"/>
                                         </Anns>
                                         <MemPred Mixfix="true">
                                             <Anns>
-                                                <LocAnn Col="6" Line="51" Loc="shunting.tex"/>
+                                                <LocAnn Col="6" Line="52" Loc="../../zml/examples/oz/shunting.tex"/>
                                             </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="3" Line="51" Loc="shunting.tex"/>
+                                                    <LocAnn Col="3" Line="52" Loc="../../zml/examples/oz/shunting.tex"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="3" Line="51" Loc="shunting.tex"/>
+                                                        <LocAnn Col="3" Line="52" Loc="../../zml/examples/oz/shunting.tex"/>
                                                     </Anns>
                                                     <Word>d</Word>
                                                     <InStroke/>
@@ -732,28 +985,28 @@ $DIR$, which represents directions.
                                             <SetExpr>
                                                 <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="8" Line="51" Loc="shunting.tex"/>
+                                                        <LocAnn Col="8" Line="52" Loc="../../zml/examples/oz/shunting.tex"/>
                                                     </Anns>
                                                     <RefName>
                                                         <Anns>
-                                                            <LocAnn Col="8" Line="51" Loc="shunting.tex"/>
+                                                            <LocAnn Col="8" Line="52" Loc="../../zml/examples/oz/shunting.tex"/>
                                                         </Anns>
-                                                        <Word>LEFT</Word>
+                                                        <Word>UP</Word>
                                                     </RefName>
                                                 </RefExpr>
                                             </SetExpr>
                                         </MemPred>
                                         <MemPred Mixfix="true">
                                             <Anns>
-                                                <LocAnn Col="28" Line="51" Loc="shunting.tex"/>
+                                                <LocAnn Col="26" Line="52" Loc="../../zml/examples/oz/shunting.tex"/>
                                             </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="22" Line="51" Loc="shunting.tex"/>
+                                                    <LocAnn Col="20" Line="52" Loc="../../zml/examples/oz/shunting.tex"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="22" Line="51" Loc="shunting.tex"/>
+                                                        <LocAnn Col="20" Line="52" Loc="../../zml/examples/oz/shunting.tex"/>
                                                     </Anns>
                                                     <Word>posn</Word>
                                                     <NextStroke/>
@@ -762,28 +1015,34 @@ $DIR$, which represents directions.
                                             <SetExpr>
                                                 <ApplExpr Mixfix="true">
                                                     <Anns>
-                                                        <LocAnn Col="35" Line="51" Loc="shunting.tex"/>
+                                                        <LocAnn Col="33" Line="52" Loc="../../zml/examples/oz/shunting.tex"/>
                                                     </Anns>
                                                     <RefExpr Mixfix="false">
+                                                        <Anns>
+                                                            <LocAnn Col="28" Line="52" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                        </Anns>
                                                         <RefName>
                                                             <Word> _ − _ </Word>
                                                         </RefName>
                                                     </RefExpr>
                                                     <TupleExpr>
+                                                        <Anns>
+                                                            <LocAnn Col="28" Line="52" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                        </Anns>
                                                         <RefExpr Mixfix="false">
                                                             <Anns>
-                                                                <LocAnn Col="30" Line="51" Loc="shunting.tex"/>
+                                                                <LocAnn Col="28" Line="52" Loc="../../zml/examples/oz/shunting.tex"/>
                                                             </Anns>
                                                             <RefName>
                                                                 <Anns>
-                                                                    <LocAnn Col="30" Line="51" Loc="shunting.tex"/>
+                                                                    <LocAnn Col="28" Line="52" Loc="../../zml/examples/oz/shunting.tex"/>
                                                                 </Anns>
                                                                 <Word>posn</Word>
                                                             </RefName>
                                                         </RefExpr>
-                                                        <NumExpr Value="1">
+                                                        <NumExpr Value="7">
                                                             <Anns>
-                                                                <LocAnn Col="37" Line="51" Loc="shunting.tex"/>
+                                                                <LocAnn Col="35" Line="52" Loc="../../zml/examples/oz/shunting.tex"/>
                                                             </Anns>
                                                         </NumExpr>
                                                     </TupleExpr>
@@ -794,19 +1053,19 @@ $DIR$, which represents directions.
                                 </AndPred>
                                 <ImpliesPred>
                                     <Anns>
-                                        <LocAnn Col="14" Line="52" Loc="shunting.tex"/>
+                                        <LocAnn Col="13" Line="53" Loc="../../zml/examples/oz/shunting.tex"/>
                                     </Anns>
                                     <MemPred Mixfix="true">
                                         <Anns>
-                                            <LocAnn Col="6" Line="52" Loc="shunting.tex"/>
+                                            <LocAnn Col="6" Line="53" Loc="../../zml/examples/oz/shunting.tex"/>
                                         </Anns>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="3" Line="52" Loc="shunting.tex"/>
+                                                <LocAnn Col="3" Line="53" Loc="../../zml/examples/oz/shunting.tex"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="3" Line="52" Loc="shunting.tex"/>
+                                                    <LocAnn Col="3" Line="53" Loc="../../zml/examples/oz/shunting.tex"/>
                                                 </Anns>
                                                 <Word>d</Word>
                                                 <InStroke/>
@@ -815,58 +1074,63 @@ $DIR$, which represents directions.
                                         <SetExpr>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="8" Line="52" Loc="shunting.tex"/>
+                                                    <LocAnn Col="8" Line="53" Loc="../../zml/examples/oz/shunting.tex"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="8" Line="52" Loc="shunting.tex"/>
+                                                        <LocAnn Col="8" Line="53" Loc="../../zml/examples/oz/shunting.tex"/>
                                                     </Anns>
-                                                    <Word>RIGHT</Word>
+                                                    <Word>DOWN</Word>
                                                 </RefName>
                                             </RefExpr>
                                         </SetExpr>
                                     </MemPred>
                                     <MemPred Mixfix="true">
                                         <Anns>
-                                            <LocAnn Col="29" Line="52" Loc="shunting.tex"/>
+                                            <LocAnn Col="27" Line="53" Loc="../../zml/examples/oz/shunting.tex"/>
                                         </Anns>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="23" Line="52" Loc="shunting.tex"/>
+                                                <LocAnn Col="22" Line="53" Loc="../../zml/examples/oz/shunting.tex"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="23" Line="52" Loc="shunting.tex"/>
+                                                    <LocAnn Col="22" Line="53" Loc="../../zml/examples/oz/shunting.tex"/>
                                                 </Anns>
                                                 <Word>posn</Word>
-                                                <NextStroke/>
                                             </RefName>
                                         </RefExpr>
                                         <SetExpr>
                                             <ApplExpr Mixfix="true">
                                                 <Anns>
-                                                    <LocAnn Col="36" Line="52" Loc="shunting.tex"/>
+                                                    <LocAnn Col="34" Line="53" Loc="../../zml/examples/oz/shunting.tex"/>
                                                 </Anns>
                                                 <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="29" Line="53" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                    </Anns>
                                                     <RefName>
                                                         <Word> _ + _ </Word>
                                                     </RefName>
                                                 </RefExpr>
                                                 <TupleExpr>
+                                                    <Anns>
+                                                        <LocAnn Col="29" Line="53" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                    </Anns>
                                                     <RefExpr Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="31" Line="52" Loc="shunting.tex"/>
+                                                            <LocAnn Col="29" Line="53" Loc="../../zml/examples/oz/shunting.tex"/>
                                                         </Anns>
                                                         <RefName>
                                                             <Anns>
-                                                                <LocAnn Col="31" Line="52" Loc="shunting.tex"/>
+                                                                <LocAnn Col="29" Line="53" Loc="../../zml/examples/oz/shunting.tex"/>
                                                             </Anns>
                                                             <Word>posn</Word>
                                                         </RefName>
                                                     </RefExpr>
-                                                    <NumExpr Value="1">
+                                                    <NumExpr Value="7">
                                                         <Anns>
-                                                            <LocAnn Col="38" Line="52" Loc="shunting.tex"/>
+                                                            <LocAnn Col="36" Line="53" Loc="../../zml/examples/oz/shunting.tex"/>
                                                         </Anns>
                                                     </NumExpr>
                                                 </TupleExpr>
@@ -875,177 +1139,14 @@ $DIR$, which represents directions.
                                     </MemPred>
                                 </ImpliesPred>
                             </AndPred>
-                            <ImpliesPred>
-                                <Anns>
-                                    <LocAnn Col="11" Line="53" Loc="shunting.tex"/>
-                                </Anns>
-                                <MemPred Mixfix="true">
-                                    <Anns>
-                                        <LocAnn Col="6" Line="53" Loc="shunting.tex"/>
-                                    </Anns>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="3" Line="53" Loc="shunting.tex"/>
-                                        </Anns>
-                                        <RefName>
-                                            <Anns>
-                                                <LocAnn Col="3" Line="53" Loc="shunting.tex"/>
-                                            </Anns>
-                                            <Word>d</Word>
-                                            <InStroke/>
-                                        </RefName>
-                                    </RefExpr>
-                                    <SetExpr>
-                                        <RefExpr Mixfix="false">
-                                            <Anns>
-                                                <LocAnn Col="8" Line="53" Loc="shunting.tex"/>
-                                            </Anns>
-                                            <RefName>
-                                                <Anns>
-                                                    <LocAnn Col="8" Line="53" Loc="shunting.tex"/>
-                                                </Anns>
-                                                <Word>UP</Word>
-                                            </RefName>
-                                        </RefExpr>
-                                    </SetExpr>
-                                </MemPred>
-                                <MemPred Mixfix="true">
-                                    <Anns>
-                                        <LocAnn Col="26" Line="53" Loc="shunting.tex"/>
-                                    </Anns>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="20" Line="53" Loc="shunting.tex"/>
-                                        </Anns>
-                                        <RefName>
-                                            <Anns>
-                                                <LocAnn Col="20" Line="53" Loc="shunting.tex"/>
-                                            </Anns>
-                                            <Word>posn</Word>
-                                            <NextStroke/>
-                                        </RefName>
-                                    </RefExpr>
-                                    <SetExpr>
-                                        <ApplExpr Mixfix="true">
-                                            <Anns>
-                                                <LocAnn Col="33" Line="53" Loc="shunting.tex"/>
-                                            </Anns>
-                                            <RefExpr Mixfix="false">
-                                                <RefName>
-                                                    <Word> _ − _ </Word>
-                                                </RefName>
-                                            </RefExpr>
-                                            <TupleExpr>
-                                                <RefExpr Mixfix="false">
-                                                    <Anns>
-                                                        <LocAnn Col="28" Line="53" Loc="shunting.tex"/>
-                                                    </Anns>
-                                                    <RefName>
-                                                        <Anns>
-                                                            <LocAnn Col="28" Line="53" Loc="shunting.tex"/>
-                                                        </Anns>
-                                                        <Word>posn</Word>
-                                                    </RefName>
-                                                </RefExpr>
-                                                <NumExpr Value="7">
-                                                    <Anns>
-                                                        <LocAnn Col="35" Line="53" Loc="shunting.tex"/>
-                                                    </Anns>
-                                                </NumExpr>
-                                            </TupleExpr>
-                                        </ApplExpr>
-                                    </SetExpr>
-                                </MemPred>
-                            </ImpliesPred>
-                        </AndPred>
-                        <ImpliesPred>
-                            <Anns>
-                                <LocAnn Col="13" Line="54" Loc="shunting.tex"/>
-                            </Anns>
-                            <MemPred Mixfix="true">
-                                <Anns>
-                                    <LocAnn Col="6" Line="54" Loc="shunting.tex"/>
-                                </Anns>
-                                <RefExpr Mixfix="false">
-                                    <Anns>
-                                        <LocAnn Col="3" Line="54" Loc="shunting.tex"/>
-                                    </Anns>
-                                    <RefName>
-                                        <Anns>
-                                            <LocAnn Col="3" Line="54" Loc="shunting.tex"/>
-                                        </Anns>
-                                        <Word>d</Word>
-                                        <InStroke/>
-                                    </RefName>
-                                </RefExpr>
-                                <SetExpr>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="8" Line="54" Loc="shunting.tex"/>
-                                        </Anns>
-                                        <RefName>
-                                            <Anns>
-                                                <LocAnn Col="8" Line="54" Loc="shunting.tex"/>
-                                            </Anns>
-                                            <Word>DOWN</Word>
-                                        </RefName>
-                                    </RefExpr>
-                                </SetExpr>
-                            </MemPred>
-                            <MemPred Mixfix="true">
-                                <Anns>
-                                    <LocAnn Col="27" Line="54" Loc="shunting.tex"/>
-                                </Anns>
-                                <RefExpr Mixfix="false">
-                                    <Anns>
-                                        <LocAnn Col="22" Line="54" Loc="shunting.tex"/>
-                                    </Anns>
-                                    <RefName>
-                                        <Anns>
-                                            <LocAnn Col="22" Line="54" Loc="shunting.tex"/>
-                                        </Anns>
-                                        <Word>posn</Word>
-                                    </RefName>
-                                </RefExpr>
-                                <SetExpr>
-                                    <ApplExpr Mixfix="true">
-                                        <Anns>
-                                            <LocAnn Col="34" Line="54" Loc="shunting.tex"/>
-                                        </Anns>
-                                        <RefExpr Mixfix="false">
-                                            <RefName>
-                                                <Word> _ + _ </Word>
-                                            </RefName>
-                                        </RefExpr>
-                                        <TupleExpr>
-                                            <RefExpr Mixfix="false">
-                                                <Anns>
-                                                    <LocAnn Col="29" Line="54" Loc="shunting.tex"/>
-                                                </Anns>
-                                                <RefName>
-                                                    <Anns>
-                                                        <LocAnn Col="29" Line="54" Loc="shunting.tex"/>
-                                                    </Anns>
-                                                    <Word>posn</Word>
-                                                </RefName>
-                                            </RefExpr>
-                                            <NumExpr Value="7">
-                                                <Anns>
-                                                    <LocAnn Col="36" Line="54" Loc="shunting.tex"/>
-                                                </Anns>
-                                            </NumExpr>
-                                        </TupleExpr>
-                                    </ApplExpr>
-                                </SetExpr>
-                            </MemPred>
-                        </ImpliesPred>
-                    </AndPred>
-                </ns1:OperationBox>
+                        </SchText>
+                    </ns1:OpText>
+                </ns1:AnonOpExpr>
             </ns1:Operation>
         </ns1:ClassPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="12" Line="56" Loc="shunting.tex"/>
+                <LocAnn Col="12" Line="55" Loc="../../zml/examples/oz/shunting.tex"/>
             </Anns>
             <Content>
 
@@ -1058,54 +1159,62 @@ circle is moved.
         <ns2:ClassPara xmlns:ns2="http://czt.sourceforge.net/object-z">
             <ns2:Name>
                 <Anns>
-                    <LocAnn Col="15" Line="62" Loc="shunting.tex"/>
+                    <LocAnn Col="15" Line="61" Loc="../../zml/examples/oz/shunting.tex"/>
                 </Anns>
                 <Word>BlackCircle</Word>
             </ns2:Name>
-            <ns2:InheritedClass>
-                <ns2:Name>
-                    <Anns>
-                        <LocAnn Col="11" Line="64" Loc="shunting.tex"/>
-                    </Anns>
+            <RefExpr Mixfix="false">
+                <Anns>
+                    <LocAnn Col="1" Line="63" Loc="../../zml/examples/oz/shunting.tex"/>
+                </Anns>
+                <RefName>
                     <Word>Circle</Word>
-                </ns2:Name>
-            </ns2:InheritedClass>
-            <ns2:State>
-                <VarDecl>
-                    <Anns>
-                        <LocAnn Col="8" Line="67" Loc="shunting.tex"/>
-                    </Anns>
-                    <DeclName>
+                </RefName>
+            </RefExpr>
+            <ns2:State Box="SchBox">
+                <Anns>
+                    <LocAnn Col="1" Line="64" Loc="../../zml/examples/oz/shunting.tex"/>
+                </Anns>
+                <ns2:PrimaryDecl>
+                    <VarDecl>
                         <Anns>
-                            <LocAnn Col="3" Line="67" Loc="shunting.tex"/>
+                            <LocAnn Col="8" Line="65" Loc="../../zml/examples/oz/shunting.tex"/>
                         </Anns>
-                        <Word>count</Word>
-                    </DeclName>
-                    <RefExpr Mixfix="false">
-                        <Anns>
-                            <LocAnn Col="10" Line="67" Loc="shunting.tex"/>
-                        </Anns>
-                        <RefName>
+                        <DeclName>
                             <Anns>
-                                <LocAnn Col="10" Line="67" Loc="shunting.tex"/>
+                                <LocAnn Col="3" Line="65" Loc="../../zml/examples/oz/shunting.tex"/>
                             </Anns>
-                            <Word>ℕ</Word>
-                        </RefName>
-                    </RefExpr>
-                </VarDecl>
+                            <Word>count</Word>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="10" Line="65" Loc="../../zml/examples/oz/shunting.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="10" Line="65" Loc="../../zml/examples/oz/shunting.tex"/>
+                                </Anns>
+                                <Word>ℕ</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                </ns2:PrimaryDecl>
             </ns2:State>
-            <ns2:InitialState>
+            <ns2:InitialState Box="SchBox">
+                <Anns>
+                    <LocAnn Col="1" Line="67" Loc="../../zml/examples/oz/shunting.tex"/>
+                </Anns>
                 <MemPred Mixfix="true">
                     <Anns>
-                        <LocAnn Col="9" Line="71" Loc="shunting.tex"/>
+                        <LocAnn Col="9" Line="68" Loc="../../zml/examples/oz/shunting.tex"/>
                     </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
-                            <LocAnn Col="3" Line="71" Loc="shunting.tex"/>
+                            <LocAnn Col="3" Line="68" Loc="../../zml/examples/oz/shunting.tex"/>
                         </Anns>
                         <RefName>
                             <Anns>
-                                <LocAnn Col="3" Line="71" Loc="shunting.tex"/>
+                                <LocAnn Col="3" Line="68" Loc="../../zml/examples/oz/shunting.tex"/>
                             </Anns>
                             <Word>count</Word>
                         </RefName>
@@ -1113,103 +1222,97 @@ circle is moved.
                     <SetExpr>
                         <NumExpr Value="0">
                             <Anns>
-                                <LocAnn Col="11" Line="71" Loc="shunting.tex"/>
+                                <LocAnn Col="11" Line="68" Loc="../../zml/examples/oz/shunting.tex"/>
                             </Anns>
                         </NumExpr>
                     </SetExpr>
                 </MemPred>
             </ns2:InitialState>
-            <ns2:Operation>
+            <ns2:Operation Box="SchBox">
+                <Anns>
+                    <LocAnn Col="1" Line="70" Loc="../../zml/examples/oz/shunting.tex"/>
+                </Anns>
                 <ns2:Name>
                     <Anns>
-                        <LocAnn Col="16" Line="74" Loc="shunting.tex"/>
+                        <LocAnn Col="12" Line="70" Loc="../../zml/examples/oz/shunting.tex"/>
                     </Anns>
                     <Word>move</Word>
                 </ns2:Name>
-                <ns2:OperationBox>
-                    <InclDecl>
-                        <ApplExpr Mixfix="false">
+                <ns2:AnonOpExpr>
+                    <ns2:OpText>
+                        <ns2:DeltaList>
                             <Anns>
-                                <LocAnn Col="15" Line="75" Loc="shunting.tex"/>
-                            </Anns>
-                            <RefExpr Mixfix="false">
-                                <Anns>
-                                    <LocAnn Col="3" Line="75" Loc="shunting.tex"/>
-                                </Anns>
-                                <RefName>
-                                    <Anns>
-                                        <LocAnn Col="3" Line="75" Loc="shunting.tex"/>
-                                    </Anns>
-                                    <Word>Δ</Word>
-                                </RefName>
-                            </RefExpr>
-                            <RefExpr Mixfix="false">
-                                <Anns>
-                                    <LocAnn Col="10" Line="75" Loc="shunting.tex"/>
-                                    <ParenAnn/>
-                                </Anns>
-                                <RefName>
-                                    <Anns>
-                                        <LocAnn Col="10" Line="75" Loc="shunting.tex"/>
-                                    </Anns>
-                                    <Word>count</Word>
-                                </RefName>
-                            </RefExpr>
-                        </ApplExpr>
-                    </InclDecl>
-                    <MemPred Mixfix="true">
-                        <Anns>
-                            <LocAnn Col="10" Line="77" Loc="shunting.tex"/>
-                        </Anns>
-                        <RefExpr Mixfix="false">
-                            <Anns>
-                                <LocAnn Col="3" Line="77" Loc="shunting.tex"/>
+                                <LocAnn Col="3" Line="71" Loc="../../zml/examples/oz/shunting.tex"/>
                             </Anns>
                             <RefName>
                                 <Anns>
-                                    <LocAnn Col="3" Line="77" Loc="shunting.tex"/>
+                                    <LocAnn Col="10" Line="71" Loc="../../zml/examples/oz/shunting.tex"/>
                                 </Anns>
                                 <Word>count</Word>
-                                <NextStroke/>
                             </RefName>
-                        </RefExpr>
-                        <SetExpr>
-                            <ApplExpr Mixfix="true">
+                        </ns2:DeltaList>
+                        <SchText>
+                            <MemPred Mixfix="true">
                                 <Anns>
-                                    <LocAnn Col="18" Line="77" Loc="shunting.tex"/>
+                                    <LocAnn Col="10" Line="73" Loc="../../zml/examples/oz/shunting.tex"/>
                                 </Anns>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="3" Line="73" Loc="../../zml/examples/oz/shunting.tex"/>
+                                    </Anns>
                                     <RefName>
-                                        <Word> _ + _ </Word>
+                                        <Anns>
+                                            <LocAnn Col="3" Line="73" Loc="../../zml/examples/oz/shunting.tex"/>
+                                        </Anns>
+                                        <Word>count</Word>
+                                        <NextStroke/>
                                     </RefName>
                                 </RefExpr>
-                                <TupleExpr>
-                                    <RefExpr Mixfix="false">
+                                <SetExpr>
+                                    <ApplExpr Mixfix="true">
                                         <Anns>
-                                            <LocAnn Col="12" Line="77" Loc="shunting.tex"/>
+                                            <LocAnn Col="18" Line="73" Loc="../../zml/examples/oz/shunting.tex"/>
                                         </Anns>
-                                        <RefName>
+                                        <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="12" Line="77" Loc="shunting.tex"/>
+                                                <LocAnn Col="12" Line="73" Loc="../../zml/examples/oz/shunting.tex"/>
                                             </Anns>
-                                            <Word>count</Word>
-                                        </RefName>
-                                    </RefExpr>
-                                    <NumExpr Value="1">
-                                        <Anns>
-                                            <LocAnn Col="20" Line="77" Loc="shunting.tex"/>
-                                        </Anns>
-                                    </NumExpr>
-                                </TupleExpr>
-                            </ApplExpr>
-                        </SetExpr>
-                    </MemPred>
-                </ns2:OperationBox>
+                                            <RefName>
+                                                <Word> _ + _ </Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <TupleExpr>
+                                            <Anns>
+                                                <LocAnn Col="12" Line="73" Loc="../../zml/examples/oz/shunting.tex"/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="12" Line="73" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="12" Line="73" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                    </Anns>
+                                                    <Word>count</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <NumExpr Value="1">
+                                                <Anns>
+                                                    <LocAnn Col="20" Line="73" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                </Anns>
+                                            </NumExpr>
+                                        </TupleExpr>
+                                    </ApplExpr>
+                                </SetExpr>
+                            </MemPred>
+                        </SchText>
+                    </ns2:OpText>
+                </ns2:AnonOpExpr>
             </ns2:Operation>
         </ns2:ClassPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="12" Line="79" Loc="shunting.tex"/>
+                <LocAnn Col="12" Line="75" Loc="../../zml/examples/oz/shunting.tex"/>
             </Anns>
             <Content>
 
@@ -1221,84 +1324,94 @@ board.
         <ns3:ClassPara xmlns:ns3="http://czt.sourceforge.net/object-z">
             <ns3:Name>
                 <Anns>
-                    <LocAnn Col="15" Line="84" Loc="shunting.tex"/>
+                    <LocAnn Col="15" Line="80" Loc="../../zml/examples/oz/shunting.tex"/>
                 </Anns>
                 <Word>Shunting</Word>
             </ns3:Name>
-            <ns3:State>
-                <VarDecl>
-                    <Anns>
-                        <LocAnn Col="8" Line="87" Loc="shunting.tex"/>
-                    </Anns>
-                    <DeclName>
+            <ns3:State Box="SchBox">
+                <Anns>
+                    <LocAnn Col="1" Line="82" Loc="../../zml/examples/oz/shunting.tex"/>
+                </Anns>
+                <ns3:PrimaryDecl>
+                    <VarDecl>
                         <Anns>
-                            <LocAnn Col="3" Line="87" Loc="shunting.tex"/>
+                            <LocAnn Col="8" Line="83" Loc="../../zml/examples/oz/shunting.tex"/>
                         </Anns>
-                        <Word>black</Word>
-                    </DeclName>
-                    <RefExpr Mixfix="false">
-                        <Anns>
-                            <LocAnn Col="10" Line="87" Loc="shunting.tex"/>
-                        </Anns>
-                        <RefName>
+                        <DeclName>
                             <Anns>
-                                <LocAnn Col="10" Line="87" Loc="shunting.tex"/>
+                                <LocAnn Col="3" Line="83" Loc="../../zml/examples/oz/shunting.tex"/>
                             </Anns>
-                            <Word>BlackCircle</Word>
-                        </RefName>
-                    </RefExpr>
-                </VarDecl>
-                <VarDecl>
-                    <Anns>
-                        <LocAnn Col="8" Line="88" Loc="shunting.tex"/>
-                    </Anns>
-                    <DeclName>
-                        <Anns>
-                            <LocAnn Col="3" Line="88" Loc="shunting.tex"/>
-                        </Anns>
-                        <Word>white</Word>
-                    </DeclName>
-                    <PowerExpr>
-                        <Anns>
-                            <LocAnn Col="10" Line="88" Loc="shunting.tex"/>
-                        </Anns>
+                            <Word>black</Word>
+                        </DeclName>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="17" Line="88" Loc="shunting.tex"/>
+                                <LocAnn Col="10" Line="83" Loc="../../zml/examples/oz/shunting.tex"/>
                             </Anns>
                             <RefName>
                                 <Anns>
-                                    <LocAnn Col="17" Line="88" Loc="shunting.tex"/>
+                                    <LocAnn Col="10" Line="83" Loc="../../zml/examples/oz/shunting.tex"/>
                                 </Anns>
-                                <Word>Circle</Word>
+                                <Word>BlackCircle</Word>
                             </RefName>
                         </RefExpr>
-                    </PowerExpr>
-                </VarDecl>
+                    </VarDecl>
+                </ns3:PrimaryDecl>
+                <ns3:PrimaryDecl>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="8" Line="84" Loc="../../zml/examples/oz/shunting.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="84" Loc="../../zml/examples/oz/shunting.tex"/>
+                            </Anns>
+                            <Word>white</Word>
+                        </DeclName>
+                        <PowerExpr>
+                            <Anns>
+                                <LocAnn Col="10" Line="84" Loc="../../zml/examples/oz/shunting.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="17" Line="84" Loc="../../zml/examples/oz/shunting.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="17" Line="84" Loc="../../zml/examples/oz/shunting.tex"/>
+                                    </Anns>
+                                    <Word>Circle</Word>
+                                </RefName>
+                            </RefExpr>
+                        </PowerExpr>
+                    </VarDecl>
+                </ns3:PrimaryDecl>
                 <AndPred Op="NL">
                     <Anns>
-                        <LocAnn Col="15" Line="90" Loc="shunting.tex"/>
+                        <LocAnn Col="15" Line="86" Loc="../../zml/examples/oz/shunting.tex"/>
                     </Anns>
                     <MemPred Mixfix="true">
                         <Anns>
-                            <LocAnn Col="11" Line="90" Loc="shunting.tex"/>
+                            <LocAnn Col="11" Line="86" Loc="../../zml/examples/oz/shunting.tex"/>
                         </Anns>
                         <ApplExpr Mixfix="true">
                             <Anns>
-                                <LocAnn Col="3" Line="90" Loc="shunting.tex"/>
+                                <LocAnn Col="3" Line="86" Loc="../../zml/examples/oz/shunting.tex"/>
                             </Anns>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="86" Loc="../../zml/examples/oz/shunting.tex"/>
+                                </Anns>
                                 <RefName>
                                     <Word># _ </Word>
                                 </RefName>
                             </RefExpr>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="5" Line="90" Loc="shunting.tex"/>
+                                    <LocAnn Col="5" Line="86" Loc="../../zml/examples/oz/shunting.tex"/>
                                 </Anns>
                                 <RefName>
                                     <Anns>
-                                        <LocAnn Col="5" Line="90" Loc="shunting.tex"/>
+                                        <LocAnn Col="5" Line="86" Loc="../../zml/examples/oz/shunting.tex"/>
                                     </Anns>
                                     <Word>white</Word>
                                 </RefName>
@@ -1307,39 +1420,39 @@ board.
                         <SetExpr>
                             <NumExpr Value="4">
                                 <Anns>
-                                    <LocAnn Col="13" Line="90" Loc="shunting.tex"/>
+                                    <LocAnn Col="13" Line="86" Loc="../../zml/examples/oz/shunting.tex"/>
                                 </Anns>
                             </NumExpr>
                         </SetExpr>
                     </MemPred>
                     <ForallPred>
                         <Anns>
-                            <LocAnn Col="3" Line="91" Loc="shunting.tex"/>
+                            <LocAnn Col="3" Line="87" Loc="../../zml/examples/oz/shunting.tex"/>
                         </Anns>
                         <SchText>
                             <VarDecl>
                                 <Anns>
-                                    <LocAnn Col="14" Line="91" Loc="shunting.tex"/>
+                                    <LocAnn Col="14" Line="87" Loc="../../zml/examples/oz/shunting.tex"/>
                                 </Anns>
                                 <DeclName>
                                     <Anns>
-                                        <LocAnn Col="11" Line="91" Loc="shunting.tex"/>
+                                        <LocAnn Col="11" Line="87" Loc="../../zml/examples/oz/shunting.tex"/>
                                     </Anns>
                                     <Word>m</Word>
                                 </DeclName>
                                 <DeclName>
                                     <Anns>
-                                        <LocAnn Col="13" Line="91" Loc="shunting.tex"/>
+                                        <LocAnn Col="13" Line="87" Loc="../../zml/examples/oz/shunting.tex"/>
                                     </Anns>
                                     <Word>n</Word>
                                 </DeclName>
                                 <RefExpr Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="16" Line="91" Loc="shunting.tex"/>
+                                        <LocAnn Col="16" Line="87" Loc="../../zml/examples/oz/shunting.tex"/>
                                     </Anns>
                                     <RefName>
                                         <Anns>
-                                            <LocAnn Col="16" Line="91" Loc="shunting.tex"/>
+                                            <LocAnn Col="16" Line="87" Loc="../../zml/examples/oz/shunting.tex"/>
                                         </Anns>
                                         <Word>white</Word>
                                     </RefName>
@@ -1348,42 +1461,48 @@ board.
                         </SchText>
                         <AndPred Op="And">
                             <Anns>
-                                <LocAnn Col="46" Line="92" Loc="shunting.tex"/>
+                                <LocAnn Col="46" Line="88" Loc="../../zml/examples/oz/shunting.tex"/>
                             </Anns>
                             <IffPred>
                                 <Anns>
-                                    <LocAnn Col="21" Line="92" Loc="shunting.tex"/>
+                                    <LocAnn Col="21" Line="88" Loc="../../zml/examples/oz/shunting.tex"/>
                                     <ParenAnn/>
                                 </Anns>
                                 <MemPred Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="14" Line="92" Loc="shunting.tex"/>
+                                        <LocAnn Col="14" Line="88" Loc="../../zml/examples/oz/shunting.tex"/>
                                     </Anns>
                                     <TupleExpr>
+                                        <Anns>
+                                            <LocAnn Col="12" Line="88" Loc="../../zml/examples/oz/shunting.tex"/>
+                                        </Anns>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="12" Line="92" Loc="shunting.tex"/>
+                                                <LocAnn Col="12" Line="88" Loc="../../zml/examples/oz/shunting.tex"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="12" Line="92" Loc="shunting.tex"/>
+                                                    <LocAnn Col="12" Line="88" Loc="../../zml/examples/oz/shunting.tex"/>
                                                 </Anns>
                                                 <Word>m</Word>
                                             </RefName>
                                         </RefExpr>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="19" Line="92" Loc="shunting.tex"/>
+                                                <LocAnn Col="19" Line="88" Loc="../../zml/examples/oz/shunting.tex"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="19" Line="92" Loc="shunting.tex"/>
+                                                    <LocAnn Col="19" Line="88" Loc="../../zml/examples/oz/shunting.tex"/>
                                                 </Anns>
                                                 <Word>n</Word>
                                             </RefName>
                                         </RefExpr>
                                     </TupleExpr>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="12" Line="88" Loc="../../zml/examples/oz/shunting.tex"/>
+                                        </Anns>
                                         <RefName>
                                             <Word> _ ≠ _ </Word>
                                         </RefName>
@@ -1391,55 +1510,61 @@ board.
                                 </MemPred>
                                 <MemPred Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="33" Line="92" Loc="shunting.tex"/>
+                                        <LocAnn Col="33" Line="88" Loc="../../zml/examples/oz/shunting.tex"/>
                                     </Anns>
                                     <TupleExpr>
+                                        <Anns>
+                                            <LocAnn Col="28" Line="88" Loc="../../zml/examples/oz/shunting.tex"/>
+                                        </Anns>
                                         <BindSelExpr>
                                             <Anns>
-                                                <LocAnn Col="27" Line="92" Loc="shunting.tex"/>
+                                                <LocAnn Col="27" Line="88" Loc="../../zml/examples/oz/shunting.tex"/>
                                             </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="26" Line="92" Loc="shunting.tex"/>
+                                                    <LocAnn Col="26" Line="88" Loc="../../zml/examples/oz/shunting.tex"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="26" Line="92" Loc="shunting.tex"/>
+                                                        <LocAnn Col="26" Line="88" Loc="../../zml/examples/oz/shunting.tex"/>
                                                     </Anns>
                                                     <Word>m</Word>
                                                 </RefName>
                                             </RefExpr>
                                             <Name>
                                                 <Anns>
-                                                    <LocAnn Col="28" Line="92" Loc="shunting.tex"/>
+                                                    <LocAnn Col="28" Line="88" Loc="../../zml/examples/oz/shunting.tex"/>
                                                 </Anns>
                                                 <Word>posn</Word>
                                             </Name>
                                         </BindSelExpr>
                                         <BindSelExpr>
                                             <Anns>
-                                                <LocAnn Col="39" Line="92" Loc="shunting.tex"/>
+                                                <LocAnn Col="39" Line="88" Loc="../../zml/examples/oz/shunting.tex"/>
                                             </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="38" Line="92" Loc="shunting.tex"/>
+                                                    <LocAnn Col="38" Line="88" Loc="../../zml/examples/oz/shunting.tex"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="38" Line="92" Loc="shunting.tex"/>
+                                                        <LocAnn Col="38" Line="88" Loc="../../zml/examples/oz/shunting.tex"/>
                                                     </Anns>
                                                     <Word>n</Word>
                                                 </RefName>
                                             </RefExpr>
                                             <Name>
                                                 <Anns>
-                                                    <LocAnn Col="40" Line="92" Loc="shunting.tex"/>
+                                                    <LocAnn Col="40" Line="88" Loc="../../zml/examples/oz/shunting.tex"/>
                                                 </Anns>
                                                 <Word>posn</Word>
                                             </Name>
                                         </BindSelExpr>
                                     </TupleExpr>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="28" Line="88" Loc="../../zml/examples/oz/shunting.tex"/>
+                                        </Anns>
                                         <RefName>
                                             <Word> _ ≠ _ </Word>
                                         </RefName>
@@ -1448,55 +1573,61 @@ board.
                             </IffPred>
                             <MemPred Mixfix="true">
                                 <Anns>
-                                    <LocAnn Col="18" Line="93" Loc="shunting.tex"/>
+                                    <LocAnn Col="18" Line="89" Loc="../../zml/examples/oz/shunting.tex"/>
                                 </Anns>
                                 <TupleExpr>
+                                    <Anns>
+                                        <LocAnn Col="13" Line="89" Loc="../../zml/examples/oz/shunting.tex"/>
+                                    </Anns>
                                     <BindSelExpr>
                                         <Anns>
-                                            <LocAnn Col="12" Line="93" Loc="shunting.tex"/>
+                                            <LocAnn Col="12" Line="89" Loc="../../zml/examples/oz/shunting.tex"/>
                                         </Anns>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="11" Line="93" Loc="shunting.tex"/>
+                                                <LocAnn Col="11" Line="89" Loc="../../zml/examples/oz/shunting.tex"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="11" Line="93" Loc="shunting.tex"/>
+                                                    <LocAnn Col="11" Line="89" Loc="../../zml/examples/oz/shunting.tex"/>
                                                 </Anns>
                                                 <Word>m</Word>
                                             </RefName>
                                         </RefExpr>
                                         <Name>
                                             <Anns>
-                                                <LocAnn Col="13" Line="93" Loc="shunting.tex"/>
+                                                <LocAnn Col="13" Line="89" Loc="../../zml/examples/oz/shunting.tex"/>
                                             </Anns>
                                             <Word>posn</Word>
                                         </Name>
                                     </BindSelExpr>
                                     <BindSelExpr>
                                         <Anns>
-                                            <LocAnn Col="28" Line="93" Loc="shunting.tex"/>
+                                            <LocAnn Col="28" Line="89" Loc="../../zml/examples/oz/shunting.tex"/>
                                         </Anns>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="23" Line="93" Loc="shunting.tex"/>
+                                                <LocAnn Col="23" Line="89" Loc="../../zml/examples/oz/shunting.tex"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="23" Line="93" Loc="shunting.tex"/>
+                                                    <LocAnn Col="23" Line="89" Loc="../../zml/examples/oz/shunting.tex"/>
                                                 </Anns>
                                                 <Word>black</Word>
                                             </RefName>
                                         </RefExpr>
                                         <Name>
                                             <Anns>
-                                                <LocAnn Col="29" Line="93" Loc="shunting.tex"/>
+                                                <LocAnn Col="29" Line="89" Loc="../../zml/examples/oz/shunting.tex"/>
                                             </Anns>
                                             <Word>posn</Word>
                                         </Name>
                                     </BindSelExpr>
                                 </TupleExpr>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="13" Line="89" Loc="../../zml/examples/oz/shunting.tex"/>
+                                    </Anns>
                                     <RefName>
                                         <Word> _ ≠ _ </Word>
                                     </RefName>
@@ -1506,33 +1637,36 @@ board.
                     </ForallPred>
                 </AndPred>
             </ns3:State>
-            <ns3:InitialState>
+            <ns3:InitialState Box="SchBox">
+                <Anns>
+                    <LocAnn Col="1" Line="91" Loc="../../zml/examples/oz/shunting.tex"/>
+                </Anns>
                 <AndPred Op="NL">
                     <Anns>
-                        <LocAnn Col="19" Line="97" Loc="shunting.tex"/>
+                        <LocAnn Col="19" Line="92" Loc="../../zml/examples/oz/shunting.tex"/>
                     </Anns>
                     <MemPred Mixfix="true">
                         <Anns>
-                            <LocAnn Col="14" Line="97" Loc="shunting.tex"/>
+                            <LocAnn Col="14" Line="92" Loc="../../zml/examples/oz/shunting.tex"/>
                         </Anns>
                         <BindSelExpr>
                             <Anns>
-                                <LocAnn Col="8" Line="97" Loc="shunting.tex"/>
+                                <LocAnn Col="8" Line="92" Loc="../../zml/examples/oz/shunting.tex"/>
                             </Anns>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="3" Line="97" Loc="shunting.tex"/>
+                                    <LocAnn Col="3" Line="92" Loc="../../zml/examples/oz/shunting.tex"/>
                                 </Anns>
                                 <RefName>
                                     <Anns>
-                                        <LocAnn Col="3" Line="97" Loc="shunting.tex"/>
+                                        <LocAnn Col="3" Line="92" Loc="../../zml/examples/oz/shunting.tex"/>
                                     </Anns>
                                     <Word>black</Word>
                                 </RefName>
                             </RefExpr>
                             <Name>
                                 <Anns>
-                                    <LocAnn Col="9" Line="97" Loc="shunting.tex"/>
+                                    <LocAnn Col="9" Line="92" Loc="../../zml/examples/oz/shunting.tex"/>
                                 </Anns>
                                 <Word>posn</Word>
                             </Name>
@@ -1540,37 +1674,37 @@ board.
                         <SetExpr>
                             <NumExpr Value="22">
                                 <Anns>
-                                    <LocAnn Col="16" Line="97" Loc="shunting.tex"/>
+                                    <LocAnn Col="16" Line="92" Loc="../../zml/examples/oz/shunting.tex"/>
                                 </Anns>
                             </NumExpr>
                         </SetExpr>
                     </MemPred>
                     <MemPred Mixfix="true">
                         <Anns>
-                            <LocAnn Col="25" Line="98" Loc="shunting.tex"/>
+                            <LocAnn Col="25" Line="93" Loc="../../zml/examples/oz/shunting.tex"/>
                         </Anns>
                         <SetCompExpr>
                             <Anns>
-                                <LocAnn Col="3" Line="98" Loc="shunting.tex"/>
+                                <LocAnn Col="3" Line="93" Loc="../../zml/examples/oz/shunting.tex"/>
                             </Anns>
                             <SchText>
                                 <VarDecl>
                                     <Anns>
-                                        <LocAnn Col="6" Line="98" Loc="shunting.tex"/>
+                                        <LocAnn Col="6" Line="93" Loc="../../zml/examples/oz/shunting.tex"/>
                                     </Anns>
                                     <DeclName>
                                         <Anns>
-                                            <LocAnn Col="5" Line="98" Loc="shunting.tex"/>
+                                            <LocAnn Col="5" Line="93" Loc="../../zml/examples/oz/shunting.tex"/>
                                         </Anns>
                                         <Word>w</Word>
                                     </DeclName>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="8" Line="98" Loc="shunting.tex"/>
+                                            <LocAnn Col="8" Line="93" Loc="../../zml/examples/oz/shunting.tex"/>
                                         </Anns>
                                         <RefName>
                                             <Anns>
-                                                <LocAnn Col="8" Line="98" Loc="shunting.tex"/>
+                                                <LocAnn Col="8" Line="93" Loc="../../zml/examples/oz/shunting.tex"/>
                                             </Anns>
                                             <Word>white</Word>
                                         </RefName>
@@ -1579,22 +1713,22 @@ board.
                             </SchText>
                             <BindSelExpr>
                                 <Anns>
-                                    <LocAnn Col="17" Line="98" Loc="shunting.tex"/>
+                                    <LocAnn Col="17" Line="93" Loc="../../zml/examples/oz/shunting.tex"/>
                                 </Anns>
                                 <RefExpr Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="16" Line="98" Loc="shunting.tex"/>
+                                        <LocAnn Col="16" Line="93" Loc="../../zml/examples/oz/shunting.tex"/>
                                     </Anns>
                                     <RefName>
                                         <Anns>
-                                            <LocAnn Col="16" Line="98" Loc="shunting.tex"/>
+                                            <LocAnn Col="16" Line="93" Loc="../../zml/examples/oz/shunting.tex"/>
                                         </Anns>
                                         <Word>w</Word>
                                     </RefName>
                                 </RefExpr>
                                 <Name>
                                     <Anns>
-                                        <LocAnn Col="18" Line="98" Loc="shunting.tex"/>
+                                        <LocAnn Col="18" Line="93" Loc="../../zml/examples/oz/shunting.tex"/>
                                     </Anns>
                                     <Word>posn</Word>
                                 </Name>
@@ -1603,26 +1737,26 @@ board.
                         <SetExpr>
                             <SetExpr>
                                 <Anns>
-                                    <LocAnn Col="27" Line="98" Loc="shunting.tex"/>
+                                    <LocAnn Col="27" Line="93" Loc="../../zml/examples/oz/shunting.tex"/>
                                 </Anns>
                                 <NumExpr Value="18">
                                     <Anns>
-                                        <LocAnn Col="29" Line="98" Loc="shunting.tex"/>
+                                        <LocAnn Col="29" Line="93" Loc="../../zml/examples/oz/shunting.tex"/>
                                     </Anns>
                                 </NumExpr>
                                 <NumExpr Value="23">
                                     <Anns>
-                                        <LocAnn Col="32" Line="98" Loc="shunting.tex"/>
+                                        <LocAnn Col="32" Line="93" Loc="../../zml/examples/oz/shunting.tex"/>
                                     </Anns>
                                 </NumExpr>
                                 <NumExpr Value="27">
                                     <Anns>
-                                        <LocAnn Col="35" Line="98" Loc="shunting.tex"/>
+                                        <LocAnn Col="35" Line="93" Loc="../../zml/examples/oz/shunting.tex"/>
                                     </Anns>
                                 </NumExpr>
                                 <NumExpr Value="32">
                                     <Anns>
-                                        <LocAnn Col="38" Line="98" Loc="shunting.tex"/>
+                                        <LocAnn Col="38" Line="93" Loc="../../zml/examples/oz/shunting.tex"/>
                                     </Anns>
                                 </NumExpr>
                             </SetExpr>
@@ -1630,413 +1764,455 @@ board.
                     </MemPred>
                 </AndPred>
             </ns3:InitialState>
-            <ns3:Operation>
+            <ns3:Operation Box="SchBox">
+                <Anns>
+                    <LocAnn Col="1" Line="95" Loc="../../zml/examples/oz/shunting.tex"/>
+                </Anns>
                 <ns3:Name>
                     <Anns>
-                        <LocAnn Col="16" Line="101" Loc="shunting.tex"/>
+                        <LocAnn Col="12" Line="95" Loc="../../zml/examples/oz/shunting.tex"/>
                     </Anns>
                     <Word>end</Word>
                 </ns3:Name>
-                <ns3:OperationBox>
-                    <VarDecl>
-                        <Anns>
-                            <LocAnn Col="10" Line="102" Loc="shunting.tex"/>
-                        </Anns>
-                        <DeclName>
-                            <Anns>
-                                <LocAnn Col="3" Line="102" Loc="shunting.tex"/>
-                            </Anns>
-                            <Word>count</Word>
-                            <OutStroke/>
-                        </DeclName>
-                        <RefExpr Mixfix="false">
-                            <Anns>
-                                <LocAnn Col="12" Line="102" Loc="shunting.tex"/>
-                            </Anns>
-                            <RefName>
+                <ns3:AnonOpExpr>
+                    <ns3:OpText>
+                        <SchText>
+                            <VarDecl>
                                 <Anns>
-                                    <LocAnn Col="12" Line="102" Loc="shunting.tex"/>
+                                    <LocAnn Col="10" Line="96" Loc="../../zml/examples/oz/shunting.tex"/>
                                 </Anns>
-                                <Word>ℕ</Word>
-                            </RefName>
-                        </RefExpr>
-                    </VarDecl>
-                    <AndPred Op="NL">
-                        <Anns>
-                            <LocAnn Col="43" Line="104" Loc="shunting.tex"/>
-                        </Anns>
-                        <MemPred Mixfix="true">
-                            <Anns>
-                                <LocAnn Col="25" Line="104" Loc="shunting.tex"/>
-                            </Anns>
-                            <SetCompExpr>
-                                <Anns>
-                                    <LocAnn Col="3" Line="104" Loc="shunting.tex"/>
-                                </Anns>
-                                <SchText>
-                                    <VarDecl>
-                                        <Anns>
-                                            <LocAnn Col="6" Line="104" Loc="shunting.tex"/>
-                                        </Anns>
-                                        <DeclName>
-                                            <Anns>
-                                                <LocAnn Col="5" Line="104" Loc="shunting.tex"/>
-                                            </Anns>
-                                            <Word>w</Word>
-                                        </DeclName>
-                                        <RefExpr Mixfix="false">
-                                            <Anns>
-                                                <LocAnn Col="8" Line="104" Loc="shunting.tex"/>
-                                            </Anns>
-                                            <RefName>
-                                                <Anns>
-                                                    <LocAnn Col="8" Line="104" Loc="shunting.tex"/>
-                                                </Anns>
-                                                <Word>white</Word>
-                                            </RefName>
-                                        </RefExpr>
-                                    </VarDecl>
-                                </SchText>
-                                <BindSelExpr>
+                                <DeclName>
                                     <Anns>
-                                        <LocAnn Col="17" Line="104" Loc="shunting.tex"/>
-                                    </Anns>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="16" Line="104" Loc="shunting.tex"/>
-                                        </Anns>
-                                        <RefName>
-                                            <Anns>
-                                                <LocAnn Col="16" Line="104" Loc="shunting.tex"/>
-                                            </Anns>
-                                            <Word>w</Word>
-                                        </RefName>
-                                    </RefExpr>
-                                    <Name>
-                                        <Anns>
-                                            <LocAnn Col="18" Line="104" Loc="shunting.tex"/>
-                                        </Anns>
-                                        <Word>posn</Word>
-                                    </Name>
-                                </BindSelExpr>
-                            </SetCompExpr>
-                            <SetExpr>
-                                <SetExpr>
-                                    <Anns>
-                                        <LocAnn Col="27" Line="104" Loc="shunting.tex"/>
-                                    </Anns>
-                                    <NumExpr Value="17">
-                                        <Anns>
-                                            <LocAnn Col="29" Line="104" Loc="shunting.tex"/>
-                                        </Anns>
-                                    </NumExpr>
-                                    <NumExpr Value="18">
-                                        <Anns>
-                                            <LocAnn Col="32" Line="104" Loc="shunting.tex"/>
-                                        </Anns>
-                                    </NumExpr>
-                                    <NumExpr Value="24">
-                                        <Anns>
-                                            <LocAnn Col="35" Line="104" Loc="shunting.tex"/>
-                                        </Anns>
-                                    </NumExpr>
-                                    <NumExpr Value="25">
-                                        <Anns>
-                                            <LocAnn Col="38" Line="104" Loc="shunting.tex"/>
-                                        </Anns>
-                                    </NumExpr>
-                                </SetExpr>
-                            </SetExpr>
-                        </MemPred>
-                        <MemPred Mixfix="true">
-                            <Anns>
-                                <LocAnn Col="10" Line="105" Loc="shunting.tex"/>
-                            </Anns>
-                            <RefExpr Mixfix="false">
-                                <Anns>
-                                    <LocAnn Col="3" Line="105" Loc="shunting.tex"/>
-                                </Anns>
-                                <RefName>
-                                    <Anns>
-                                        <LocAnn Col="3" Line="105" Loc="shunting.tex"/>
+                                        <LocAnn Col="3" Line="96" Loc="../../zml/examples/oz/shunting.tex"/>
                                     </Anns>
                                     <Word>count</Word>
                                     <OutStroke/>
-                                </RefName>
-                            </RefExpr>
-                            <SetExpr>
-                                <BindSelExpr>
+                                </DeclName>
+                                <RefExpr Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="17" Line="105" Loc="shunting.tex"/>
+                                        <LocAnn Col="12" Line="96" Loc="../../zml/examples/oz/shunting.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="12" Line="96" Loc="../../zml/examples/oz/shunting.tex"/>
+                                        </Anns>
+                                        <Word>ℕ</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </VarDecl>
+                            <AndPred Op="NL">
+                                <Anns>
+                                    <LocAnn Col="43" Line="98" Loc="../../zml/examples/oz/shunting.tex"/>
+                                </Anns>
+                                <MemPred Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="25" Line="98" Loc="../../zml/examples/oz/shunting.tex"/>
+                                    </Anns>
+                                    <SetCompExpr>
+                                        <Anns>
+                                            <LocAnn Col="3" Line="98" Loc="../../zml/examples/oz/shunting.tex"/>
+                                        </Anns>
+                                        <SchText>
+                                            <VarDecl>
+                                                <Anns>
+                                                    <LocAnn Col="6" Line="98" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                </Anns>
+                                                <DeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="5" Line="98" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                    </Anns>
+                                                    <Word>w</Word>
+                                                </DeclName>
+                                                <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="8" Line="98" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                    </Anns>
+                                                    <RefName>
+                                                        <Anns>
+                                                            <LocAnn Col="8" Line="98" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                        </Anns>
+                                                        <Word>white</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </VarDecl>
+                                        </SchText>
+                                        <BindSelExpr>
+                                            <Anns>
+                                                <LocAnn Col="17" Line="98" Loc="../../zml/examples/oz/shunting.tex"/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="16" Line="98" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="16" Line="98" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                    </Anns>
+                                                    <Word>w</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <Name>
+                                                <Anns>
+                                                    <LocAnn Col="18" Line="98" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                </Anns>
+                                                <Word>posn</Word>
+                                            </Name>
+                                        </BindSelExpr>
+                                    </SetCompExpr>
+                                    <SetExpr>
+                                        <SetExpr>
+                                            <Anns>
+                                                <LocAnn Col="27" Line="98" Loc="../../zml/examples/oz/shunting.tex"/>
+                                            </Anns>
+                                            <NumExpr Value="17">
+                                                <Anns>
+                                                    <LocAnn Col="29" Line="98" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                </Anns>
+                                            </NumExpr>
+                                            <NumExpr Value="18">
+                                                <Anns>
+                                                    <LocAnn Col="32" Line="98" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                </Anns>
+                                            </NumExpr>
+                                            <NumExpr Value="24">
+                                                <Anns>
+                                                    <LocAnn Col="35" Line="98" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                </Anns>
+                                            </NumExpr>
+                                            <NumExpr Value="25">
+                                                <Anns>
+                                                    <LocAnn Col="38" Line="98" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                </Anns>
+                                            </NumExpr>
+                                        </SetExpr>
+                                    </SetExpr>
+                                </MemPred>
+                                <MemPred Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="10" Line="99" Loc="../../zml/examples/oz/shunting.tex"/>
                                     </Anns>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="12" Line="105" Loc="shunting.tex"/>
+                                            <LocAnn Col="3" Line="99" Loc="../../zml/examples/oz/shunting.tex"/>
                                         </Anns>
                                         <RefName>
                                             <Anns>
-                                                <LocAnn Col="12" Line="105" Loc="shunting.tex"/>
+                                                <LocAnn Col="3" Line="99" Loc="../../zml/examples/oz/shunting.tex"/>
                                             </Anns>
-                                            <Word>black</Word>
+                                            <Word>count</Word>
+                                            <OutStroke/>
                                         </RefName>
                                     </RefExpr>
-                                    <Name>
-                                        <Anns>
-                                            <LocAnn Col="18" Line="105" Loc="shunting.tex"/>
-                                        </Anns>
-                                        <Word>count</Word>
-                                    </Name>
-                                </BindSelExpr>
-                            </SetExpr>
-                        </MemPred>
-                    </AndPred>
-                </ns3:OperationBox>
+                                    <SetExpr>
+                                        <BindSelExpr>
+                                            <Anns>
+                                                <LocAnn Col="17" Line="99" Loc="../../zml/examples/oz/shunting.tex"/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="12" Line="99" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="12" Line="99" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                    </Anns>
+                                                    <Word>black</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <Name>
+                                                <Anns>
+                                                    <LocAnn Col="18" Line="99" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                </Anns>
+                                                <Word>count</Word>
+                                            </Name>
+                                        </BindSelExpr>
+                                    </SetExpr>
+                                </MemPred>
+                            </AndPred>
+                        </SchText>
+                    </ns3:OpText>
+                </ns3:AnonOpExpr>
             </ns3:Operation>
-            <ns3:Operation>
+            <ns3:Operation Box="OmitBox">
+                <Anns>
+                    <LocAnn Col="1" Line="101" Loc="../../zml/examples/oz/shunting.tex"/>
+                </Anns>
                 <ns3:Name>
                     <Anns>
-                        <LocAnn Col="1" Line="108" Loc="shunting.tex"/>
+                        <LocAnn Col="1" Line="101" Loc="../../zml/examples/oz/shunting.tex"/>
                     </Anns>
                     <Word>move</Word>
                 </ns3:Name>
                 <ns3:ConjOpExpr>
+                    <Anns>
+                        <LocAnn Col="18" Line="101" Loc="../../zml/examples/oz/shunting.tex"/>
+                    </Anns>
                     <ns3:OpPromotionExpr>
+                        <Anns>
+                            <LocAnn Col="12" Line="101" Loc="../../zml/examples/oz/shunting.tex"/>
+                        </Anns>
                         <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="12" Line="101" Loc="../../zml/examples/oz/shunting.tex"/>
+                            </Anns>
                             <RefName>
                                 <Anns>
-                                    <LocAnn Col="9" Line="108" Loc="shunting.tex"/>
+                                    <LocAnn Col="12" Line="101" Loc="../../zml/examples/oz/shunting.tex"/>
                                 </Anns>
                                 <Word>black</Word>
                             </RefName>
                         </RefExpr>
-                        <ns3:OpName>
+                        <ns3:Name>
                             <Anns>
-                                <LocAnn Col="15" Line="108" Loc="shunting.tex"/>
+                                <LocAnn Col="18" Line="101" Loc="../../zml/examples/oz/shunting.tex"/>
                             </Anns>
                             <Word>move</Word>
-                        </ns3:OpName>
+                        </ns3:Name>
                     </ns3:OpPromotionExpr>
                     <ns3:DistChoiceOpExpr>
                         <Anns>
+                            <LocAnn Col="16" Line="102" Loc="../../zml/examples/oz/shunting.tex"/>
                             <ParenAnn/>
                         </Anns>
-                        <ns3:MainOpExpr>
-                            <SchText>
-                                <VarDecl>
+                        <SchText>
+                            <VarDecl>
+                                <Anns>
+                                    <LocAnn Col="27" Line="102" Loc="../../zml/examples/oz/shunting.tex"/>
+                                </Anns>
+                                <DeclName>
                                     <Anns>
-                                        <LocAnn Col="27" Line="109" Loc="shunting.tex"/>
+                                        <LocAnn Col="22" Line="102" Loc="../../zml/examples/oz/shunting.tex"/>
                                     </Anns>
-                                    <DeclName>
+                                    <Word>u</Word>
+                                </DeclName>
+                                <DeclName>
+                                    <Anns>
+                                        <LocAnn Col="25" Line="102" Loc="../../zml/examples/oz/shunting.tex"/>
+                                    </Anns>
+                                    <Word>t</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="29" Line="102" Loc="../../zml/examples/oz/shunting.tex"/>
+                                    </Anns>
+                                    <RefName>
                                         <Anns>
-                                            <LocAnn Col="22" Line="109" Loc="shunting.tex"/>
+                                            <LocAnn Col="29" Line="102" Loc="../../zml/examples/oz/shunting.tex"/>
                                         </Anns>
-                                        <Word>u</Word>
-                                    </DeclName>
-                                    <DeclName>
-                                        <Anns>
-                                            <LocAnn Col="25" Line="109" Loc="shunting.tex"/>
-                                        </Anns>
-                                        <Word>t</Word>
-                                    </DeclName>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="29" Line="109" Loc="shunting.tex"/>
-                                        </Anns>
-                                        <RefName>
-                                            <Anns>
-                                                <LocAnn Col="29" Line="109" Loc="shunting.tex"/>
-                                            </Anns>
-                                            <Word>white</Word>
-                                        </RefName>
-                                    </RefExpr>
-                                </VarDecl>
+                                        <Word>white</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </VarDecl>
+                            <AndPred Op="And">
+                                <Anns>
+                                    <LocAnn Col="26" Line="103" Loc="../../zml/examples/oz/shunting.tex"/>
+                                </Anns>
                                 <AndPred Op="And">
                                     <Anns>
-                                        <LocAnn Col="26" Line="110" Loc="shunting.tex"/>
+                                        <LocAnn Col="58" Line="102" Loc="../../zml/examples/oz/shunting.tex"/>
                                     </Anns>
-                                    <AndPred Op="And">
-                                        <Anns>
-                                            <LocAnn Col="58" Line="109" Loc="shunting.tex"/>
-                                        </Anns>
-                                        <MemPred Mixfix="true">
-                                            <Anns>
-                                                <LocAnn Col="44" Line="109" Loc="shunting.tex"/>
-                                            </Anns>
-                                            <BindSelExpr>
-                                                <Anns>
-                                                    <LocAnn Col="38" Line="109" Loc="shunting.tex"/>
-                                                </Anns>
-                                                <RefExpr Mixfix="false">
-                                                    <Anns>
-                                                        <LocAnn Col="37" Line="109" Loc="shunting.tex"/>
-                                                    </Anns>
-                                                    <RefName>
-                                                        <Anns>
-                                                            <LocAnn Col="37" Line="109" Loc="shunting.tex"/>
-                                                        </Anns>
-                                                        <Word>t</Word>
-                                                    </RefName>
-                                                </RefExpr>
-                                                <Name>
-                                                    <Anns>
-                                                        <LocAnn Col="39" Line="109" Loc="shunting.tex"/>
-                                                    </Anns>
-                                                    <Word>posn</Word>
-                                                </Name>
-                                            </BindSelExpr>
-                                            <SetExpr>
-                                                <BindSelExpr>
-                                                    <Anns>
-                                                        <LocAnn Col="51" Line="109" Loc="shunting.tex"/>
-                                                    </Anns>
-                                                    <RefExpr Mixfix="false">
-                                                        <Anns>
-                                                            <LocAnn Col="46" Line="109" Loc="shunting.tex"/>
-                                                        </Anns>
-                                                        <RefName>
-                                                            <Anns>
-                                                                <LocAnn Col="46" Line="109" Loc="shunting.tex"/>
-                                                            </Anns>
-                                                            <Word>black</Word>
-                                                        </RefName>
-                                                    </RefExpr>
-                                                    <Name>
-                                                        <Anns>
-                                                            <LocAnn Col="52" Line="109" Loc="shunting.tex"/>
-                                                        </Anns>
-                                                        <Word>posn</Word>
-                                                        <NextStroke/>
-                                                    </Name>
-                                                </BindSelExpr>
-                                            </SetExpr>
-                                        </MemPred>
-                                        <MemPred Mixfix="true">
-                                            <Anns>
-                                                <LocAnn Col="19" Line="110" Loc="shunting.tex"/>
-                                            </Anns>
-                                            <TupleExpr>
-                                                <RefExpr Mixfix="false">
-                                                    <Anns>
-                                                        <LocAnn Col="17" Line="110" Loc="shunting.tex"/>
-                                                    </Anns>
-                                                    <RefName>
-                                                        <Anns>
-                                                            <LocAnn Col="17" Line="110" Loc="shunting.tex"/>
-                                                        </Anns>
-                                                        <Word>u</Word>
-                                                    </RefName>
-                                                </RefExpr>
-                                                <RefExpr Mixfix="false">
-                                                    <Anns>
-                                                        <LocAnn Col="24" Line="110" Loc="shunting.tex"/>
-                                                    </Anns>
-                                                    <RefName>
-                                                        <Anns>
-                                                            <LocAnn Col="24" Line="110" Loc="shunting.tex"/>
-                                                        </Anns>
-                                                        <Word>t</Word>
-                                                    </RefName>
-                                                </RefExpr>
-                                            </TupleExpr>
-                                            <RefExpr Mixfix="false">
-                                                <RefName>
-                                                    <Word> _ ≠ _ </Word>
-                                                </RefName>
-                                            </RefExpr>
-                                        </MemPred>
-                                    </AndPred>
                                     <MemPred Mixfix="true">
                                         <Anns>
-                                            <LocAnn Col="39" Line="110" Loc="shunting.tex"/>
+                                            <LocAnn Col="44" Line="102" Loc="../../zml/examples/oz/shunting.tex"/>
+                                        </Anns>
+                                        <BindSelExpr>
+                                            <Anns>
+                                                <LocAnn Col="38" Line="102" Loc="../../zml/examples/oz/shunting.tex"/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="37" Line="102" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="37" Line="102" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                    </Anns>
+                                                    <Word>t</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <Name>
+                                                <Anns>
+                                                    <LocAnn Col="39" Line="102" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                </Anns>
+                                                <Word>posn</Word>
+                                            </Name>
+                                        </BindSelExpr>
+                                        <SetExpr>
+                                            <BindSelExpr>
+                                                <Anns>
+                                                    <LocAnn Col="52" Line="102" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                </Anns>
+                                                <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="46" Line="102" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                    </Anns>
+                                                    <RefName>
+                                                        <Anns>
+                                                            <LocAnn Col="46" Line="102" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                        </Anns>
+                                                        <Word>black</Word>
+                                                        <NextStroke/>
+                                                    </RefName>
+                                                </RefExpr>
+                                                <Name>
+                                                    <Anns>
+                                                        <LocAnn Col="53" Line="102" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                    </Anns>
+                                                    <Word>posn</Word>
+                                                </Name>
+                                            </BindSelExpr>
+                                        </SetExpr>
+                                    </MemPred>
+                                    <MemPred Mixfix="true">
+                                        <Anns>
+                                            <LocAnn Col="19" Line="103" Loc="../../zml/examples/oz/shunting.tex"/>
                                         </Anns>
                                         <TupleExpr>
-                                            <BindSelExpr>
+                                            <Anns>
+                                                <LocAnn Col="17" Line="103" Loc="../../zml/examples/oz/shunting.tex"/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="33" Line="110" Loc="shunting.tex"/>
+                                                    <LocAnn Col="17" Line="103" Loc="../../zml/examples/oz/shunting.tex"/>
                                                 </Anns>
-                                                <RefExpr Mixfix="false">
+                                                <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="32" Line="110" Loc="shunting.tex"/>
+                                                        <LocAnn Col="17" Line="103" Loc="../../zml/examples/oz/shunting.tex"/>
                                                     </Anns>
-                                                    <RefName>
-                                                        <Anns>
-                                                            <LocAnn Col="32" Line="110" Loc="shunting.tex"/>
-                                                        </Anns>
-                                                        <Word>u</Word>
-                                                    </RefName>
-                                                </RefExpr>
-                                                <Name>
-                                                    <Anns>
-                                                        <LocAnn Col="34" Line="110" Loc="shunting.tex"/>
-                                                    </Anns>
-                                                    <Word>posn</Word>
-                                                </Name>
-                                            </BindSelExpr>
-                                            <BindSelExpr>
+                                                    <Word>u</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="45" Line="110" Loc="shunting.tex"/>
+                                                    <LocAnn Col="24" Line="103" Loc="../../zml/examples/oz/shunting.tex"/>
                                                 </Anns>
-                                                <RefExpr Mixfix="false">
+                                                <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="44" Line="110" Loc="shunting.tex"/>
+                                                        <LocAnn Col="24" Line="103" Loc="../../zml/examples/oz/shunting.tex"/>
                                                     </Anns>
-                                                    <RefName>
-                                                        <Anns>
-                                                            <LocAnn Col="44" Line="110" Loc="shunting.tex"/>
-                                                        </Anns>
-                                                        <Word>t</Word>
-                                                    </RefName>
-                                                </RefExpr>
-                                                <Name>
-                                                    <Anns>
-                                                        <LocAnn Col="46" Line="110" Loc="shunting.tex"/>
-                                                    </Anns>
-                                                    <Word>posn</Word>
-                                                </Name>
-                                            </BindSelExpr>
+                                                    <Word>t</Word>
+                                                </RefName>
+                                            </RefExpr>
                                         </TupleExpr>
                                         <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="17" Line="103" Loc="../../zml/examples/oz/shunting.tex"/>
+                                            </Anns>
                                             <RefName>
                                                 <Word> _ ≠ _ </Word>
                                             </RefName>
                                         </RefExpr>
                                     </MemPred>
                                 </AndPred>
-                            </SchText>
-                            <ns3:ExChoiceOpExpr>
-                                <ns3:OpPromotionExpr>
-                                    <RefExpr Mixfix="false">
-                                        <RefName>
+                                <MemPred Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="39" Line="103" Loc="../../zml/examples/oz/shunting.tex"/>
+                                    </Anns>
+                                    <TupleExpr>
+                                        <Anns>
+                                            <LocAnn Col="34" Line="103" Loc="../../zml/examples/oz/shunting.tex"/>
+                                        </Anns>
+                                        <BindSelExpr>
                                             <Anns>
-                                                <LocAnn Col="7" Line="111" Loc="shunting.tex"/>
+                                                <LocAnn Col="33" Line="103" Loc="../../zml/examples/oz/shunting.tex"/>
                                             </Anns>
-                                            <Word>t</Word>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="32" Line="103" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="32" Line="103" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                    </Anns>
+                                                    <Word>u</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <Name>
+                                                <Anns>
+                                                    <LocAnn Col="34" Line="103" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                </Anns>
+                                                <Word>posn</Word>
+                                            </Name>
+                                        </BindSelExpr>
+                                        <BindSelExpr>
+                                            <Anns>
+                                                <LocAnn Col="45" Line="103" Loc="../../zml/examples/oz/shunting.tex"/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="44" Line="103" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="44" Line="103" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                    </Anns>
+                                                    <Word>t</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <Name>
+                                                <Anns>
+                                                    <LocAnn Col="46" Line="103" Loc="../../zml/examples/oz/shunting.tex"/>
+                                                </Anns>
+                                                <Word>posn</Word>
+                                            </Name>
+                                        </BindSelExpr>
+                                    </TupleExpr>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="34" Line="103" Loc="../../zml/examples/oz/shunting.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Word> _ ≠ _ </Word>
                                         </RefName>
                                     </RefExpr>
-                                    <ns3:OpName>
+                                </MemPred>
+                            </AndPred>
+                        </SchText>
+                        <ns3:ExChoiceOpExpr>
+                            <Anns>
+                                <LocAnn Col="9" Line="104" Loc="../../zml/examples/oz/shunting.tex"/>
+                            </Anns>
+                            <ns3:OpPromotionExpr>
+                                <Anns>
+                                    <LocAnn Col="7" Line="104" Loc="../../zml/examples/oz/shunting.tex"/>
+                                </Anns>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="7" Line="104" Loc="../../zml/examples/oz/shunting.tex"/>
+                                    </Anns>
+                                    <RefName>
                                         <Anns>
-                                            <LocAnn Col="9" Line="111" Loc="shunting.tex"/>
+                                            <LocAnn Col="7" Line="104" Loc="../../zml/examples/oz/shunting.tex"/>
                                         </Anns>
-                                        <Word>move</Word>
-                                    </ns3:OpName>
-                                </ns3:OpPromotionExpr>
-                                <ns3:OpPromotionExpr>
-                                    <ns3:OpName>
-                                        <Anns>
-                                            <LocAnn Col="7" Line="113" Loc="shunting.tex"/>
-                                        </Anns>
-                                        <Word>end</Word>
-                                    </ns3:OpName>
-                                </ns3:OpPromotionExpr>
-                            </ns3:ExChoiceOpExpr>
-                        </ns3:MainOpExpr>
+                                        <Word>t</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <ns3:Name>
+                                    <Anns>
+                                        <LocAnn Col="9" Line="104" Loc="../../zml/examples/oz/shunting.tex"/>
+                                    </Anns>
+                                    <Word>move</Word>
+                                </ns3:Name>
+                            </ns3:OpPromotionExpr>
+                            <ns3:OpPromotionExpr>
+                                <Anns>
+                                    <LocAnn Col="7" Line="106" Loc="../../zml/examples/oz/shunting.tex"/>
+                                </Anns>
+                                <ns3:Name>
+                                    <Anns>
+                                        <LocAnn Col="7" Line="106" Loc="../../zml/examples/oz/shunting.tex"/>
+                                    </Anns>
+                                    <Word>end</Word>
+                                </ns3:Name>
+                            </ns3:OpPromotionExpr>
+                        </ns3:ExChoiceOpExpr>
                     </ns3:DistChoiceOpExpr>
                 </ns3:ConjOpExpr>
             </ns3:Operation>
         </ns3:ClassPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="12" Line="114" Loc="shunting.tex"/>
+                <LocAnn Col="12" Line="107" Loc="../../zml/examples/oz/shunting.tex"/>
             </Anns>
             <Content>
 
