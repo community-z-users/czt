@@ -9,6 +9,9 @@
     file="${basedir}/devtools/ant/build.xml"
     property="ant-task.present"/>
   <available
+    file="${basedir}/gnast/build.xml"
+    property="gnast.present"/>
+  <available
     file="${basedir}/corejava/build.xml"
     property="corejava.present"/>
   <available
@@ -356,10 +359,15 @@ set TYPECHECKER=${typechecker.win}
   </target>
 
   <target name="clean" description="clean up subprojects"
-    depends="clean-corejava, clean-java_cup, clean-ant-task, clean-gaffe, clean-gaffe-generator, clean-parser, clean-z2b, clean-typechecker, clean-zlive, clean-jedit">
+    depends="clean-gnast, clean-corejava, clean-java_cup, clean-ant-task, clean-gaffe, clean-gaffe-generator, clean-parser, clean-z2b, clean-typechecker, clean-zlive, clean-jedit">
     <delete dir="${jar.dir}"/>
     <delete file="${unix.settings.file}"/>
     <delete file="${windows.settings.file}"/>
+  </target>
+
+  <target name="clean-gnast" if="gnast.present"
+    description="clean up corejava">
+    <ant dir="gnast" target="clean"/>
   </target>
 
   <target name="clean-corejava" if="corejava.present"
