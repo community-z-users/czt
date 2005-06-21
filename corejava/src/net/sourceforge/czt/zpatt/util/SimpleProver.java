@@ -34,6 +34,8 @@ import net.sourceforge.czt.zpatt.visitor.*;
  * applicable rule and, when one is found, tries to prove the new goals
  * created with the application of the rule.  It uses depth-first
  * search.</p>
+ *
+ * @author Petra Malik
  */
 public class SimpleProver
   implements Prover
@@ -56,7 +58,7 @@ public class SimpleProver
   {
     for (Iterator<Rule> i = rules_.iterator(); i.hasNext(); ) {
       Rule rule = i.next();
-      Rule copiedRule = (Rule) copy(rule, factory_);
+      Rule copiedRule = (Rule) copy(rule, new Factory(new ProverFactory()));
       try {
         boolean success = applyRule(copiedRule, predSequent, factory_);
         if (success && prove(predSequent.getDeduction())) {
@@ -95,7 +97,15 @@ public class SimpleProver
       if (sequent instanceof PredSequent) {
         if (! prove((PredSequent) sequent)) return false;
       }
+      if (sequent instanceof ProverProviso) {
+        ProverProviso proviso = (ProverProviso) sequent;
+        proviso.check();
+        if (! ProverProviso.Status.PASS.equals(proviso.getStatus())) {
+          return false;
+        }
+      }
       else {
+        System.err.println("Unsupported sequent " + sequent.getClass());
         return false;
       }
     }
@@ -122,7 +132,7 @@ public class SimpleProver
         Set<Binding> bindings = new HashSet();
         List bindingList = new ArrayList();
         bindingList.addAll(bindings);
-        if (match(pred, predSequent.getPred(), bindings)) {
+        if (unify(pred, predSequent.getPred(), bindings)) {
           Deduction deduction =
             factory.createDeduction(bindingList, sequents, rule.getName());
           predSequent.setDeduction(deduction);
@@ -141,14 +151,14 @@ public class SimpleProver
   }
 
   /**
-   * Matches two terms (no occur check).
+   * Unifies two terms (no occur check).
    *
    * @param term1 the first term.
    * @param term2 the second term.
-   * @return <code>true</code> if both term match, 
+   * @return <code>true</code> if both term unify, 
    *         <code>false</code> otherwise.
    */
-  public static boolean match(Term term1, Term term2, Set<Binding> bindings)
+  public static boolean unify(Term term1, Term term2, Set<Binding> bindings)
   {
     if (term1 == term2) {
       return true;
@@ -175,7 +185,7 @@ public class SimpleProver
         if (args1[i] instanceof Term) {
           Term child1 = (Term) args1[i];
           Term child2 = (Term) args2[i];
-          if (! match(child1, child2, bindings)) {
+          if (! unify(child1, child2, bindings)) {
             return false;
           }
         }
@@ -194,7 +204,7 @@ public class SimpleProver
   {
     Term boundTo = joker.boundTo();
     if (boundTo != null) {
-      return match(boundTo, term, bindings);
+      return unify(boundTo, term, bindings);
     }
     try {
       bindings.add(joker.bind(term));
@@ -213,7 +223,7 @@ public class SimpleProver
 
   /**
    * A visitor that copies a term and uses the given factory to create
-   * new Joker.  Currently, JokerExpr and JokerPred are supported.
+   * new Joker.  Currently, JokerExpr, JokerName, and JokerPred are supported.
    */
   public static class CopyVisitor
     implements TermVisitor,
@@ -237,9 +247,24 @@ public class SimpleProver
       return factory_.createJokerExpr(joker.getName());
     }
 
+    public Object visitJokerName(JokerName joker)
+    {
+      return factory_.createJokerName(joker.getWord(),
+                                      joker.getStroke(),
+                                      joker.getId(),
+                                      joker.getName());
+    }
+
     public Object visitJokerPred(JokerPred joker)
     {
       return factory_.createJokerPred(joker.getName());
+    }
+
+    public Object visitLookupConstDeclProviso(LookupConstDeclProviso proviso)
+    {
+      return factory_.createLookupConstDeclProviso(proviso.getSequentContext(),
+                         (Expr) proviso.getLeftExpr().accept(this),
+                         (Expr) proviso.getRightExpr().accept(this));
     }
   }
 }
