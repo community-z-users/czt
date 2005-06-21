@@ -217,6 +217,17 @@ public class UnknownType
         }
         result += "]";
       }
+      if (pairs_.size() > 0) {
+        result += "[";
+        result += pairs_.get(0).getNewName().toString() + "/";
+        result += pairs_.get(0).getOldName().toString();
+        for (int i = 1; i < pairs_.size(); i++) {
+          result += ", ";
+          result += pairs_.get(i).getNewName().toString() + "/";
+          result += pairs_.get(i).getOldName().toString();
+        }
+        result += "]";
+      }
       result += ")";
     }
     return result;

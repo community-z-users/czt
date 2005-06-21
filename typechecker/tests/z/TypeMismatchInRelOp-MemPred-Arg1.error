@@ -1,5 +1,5 @@
 \begin{zsection}
-  \SECTION TypeMismatchInRelOp\_MemPred
+  \SECTION TypeMismatchInRelOp\_MemPred\_Arg1
 \end{zsection}
 
 \begin{zed}
@@ -7,7 +7,7 @@
 \end{zed}
 
 \begin{axdef}
-  \_ ~aRel~ \_ : \arithmos \cross \arithmos
+  \_ ~aRel~ \_ : \power (\arithmos \cross \arithmos)
 \end{axdef}
 
 \begin{axdef}

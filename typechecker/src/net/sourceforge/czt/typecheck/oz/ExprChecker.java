@@ -238,21 +238,6 @@ public class ExprChecker
     //get the type of the expression
     Expr expr = bindSelExpr.getExpr();
     Type2 exprType = (Type2) expr.accept(exprChecker());
-    exprType = resolveClassType(exprType);
-
-    if (exprType instanceof ClassType && sectTypeEnv().getSecondTime()) {
-      if (exprType instanceof ClassRefType) {
-        ClassRefType cType = (ClassRefType) exprType;
-        ClassSig acSig = cType.getClassSig();
-        List<NameTypePair> apairs = acSig.getAttribute();
-        //System.err.println("expr = " + format(expr));
-        LocAnn loc = (LocAnn) expr.getAnn(LocAnn.class);
-        //System.err.println("\t@" + loc.getLine());
-        for (NameTypePair pair : apairs) {
-          //System.err.println("\t" + pair.getName() + " : " + pair.getType());
-        }
-      }
-    }
 
     if (!instanceOf(exprType, VariableType.class)) {
       if (exprType instanceof SchemaType) {

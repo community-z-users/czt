@@ -758,6 +758,26 @@ abstract public class Checker
     }
   }
 
+  protected void renameUnknownTypes(Term term,
+                                    Term topTerm,
+                                    List<NameNamePair> pairs)
+  {
+    if (term instanceof UnknownType) {
+      UnknownType uType = (UnknownType) term;
+      uType.getPairs().addAll(pairs);
+    }
+    else {
+      Object [] children = term.getChildren();
+      for (int i = 0; i < children.length; i++) {
+        if (children[i] != null &
+            children[i] instanceof Term &&
+            children[i] != topTerm) {
+          renameUnknownTypes((Term) children[i], topTerm, pairs);
+        }
+      }
+    }
+  }
+
   //rename the declarations
   protected Signature rename(Signature signature,
                              List<NameNamePair> namePairs)
@@ -766,6 +786,8 @@ abstract public class Checker
     List<NameTypePair> pairs = signature.getNameTypePair();
     for (NameTypePair pair : pairs) {
       NameNamePair namePair = findNameNamePair(pair.getName(), namePairs);
+      //System.err.println("try renaming " + pair.getName());
+      renameUnknownTypes(pair.getType(), pair.getType(), namePairs);
       if (namePair != null) {
         DeclName newName = namePair.getNewName();
         NameTypePair newPair =
@@ -1299,6 +1321,11 @@ abstract public class Checker
         removeErrorAndTypeAnns((Term) next);
       }
     }
+  }
+
+  public String toString(Type type)
+  {
+    return type.toString();
   }
 
   //print debuging info
