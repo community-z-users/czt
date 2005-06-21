@@ -18,15 +18,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.typecheck.z;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.Iterator;
 import java.util.List;
-import java.io.*;
+import java.util.logging.Level;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
@@ -55,6 +56,9 @@ public class TypeCheckerTest
   //the section manager
   protected SectionManager manager_;
 
+  //allow use before declaration
+  protected boolean useBeforeDecl_ = false;
+  
   public static Test suite()
   {
     TestSuite suite = new TestSuite();
@@ -65,6 +69,7 @@ public class TypeCheckerTest
   protected void setUp()
   {
     manager_ = new SectionManager();
+    CztLogger.getLogger(manager_.getClass()).setLevel(Level.OFF);
   }
 
   protected void tearDown()
@@ -72,9 +77,16 @@ public class TypeCheckerTest
     //do nothing?
   }
 
-  public void testAll()
+  public void testZ()
   {
+    useBeforeDecl_ = false;
     testDirectory("/typechecker/tests/z/");
+  }
+
+  public void testZUseBeforeDecl()
+  {
+    useBeforeDecl_ = true;
+    testDirectory("/typechecker/tests/z/useBeforeDecl/");
   }
 
   //test all the files from a directory
@@ -120,12 +132,12 @@ public class TypeCheckerTest
   protected List typecheck(Term term, Markup markup)
     throws Exception
   {
-    return TypeCheckUtils.typecheck(term, manager_, markup);
+    return TypeCheckUtils.typecheck(term, manager_, markup, useBeforeDecl_);
   }
 
   protected void handleNormal(String file)
   {
-    List<ErrorAnn> errors = new java.util.ArrayList();
+    List<ErrorAnn> errors = new java.util.ArrayList<ErrorAnn>();
     try {
       Term term = parse(file);
       Markup markup = ParseUtils.getMarkup(file);

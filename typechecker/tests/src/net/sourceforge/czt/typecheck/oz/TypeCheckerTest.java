@@ -67,12 +67,18 @@ public class TypeCheckerTest
   protected List typecheck(Term term, Markup markup)
     throws Exception
   {
-    return TypeCheckUtils.typecheck(term, manager_, markup);
+    return TypeCheckUtils.typecheck(term, manager_, markup, useBeforeDecl_);
   }
 
-  public void testAll()
+  public void testOZ()
   {
+    useBeforeDecl_ = false;
     testDirectory("/typechecker/tests/oz/");
-    super.testAll();
+  }
+
+  public void testOZUseBeforeDecl()
+  {
+    useBeforeDecl_ = true;
+    testDirectory("/typechecker/tests/oz/useBeforeDecl/");
   }
 }
