@@ -27,10 +27,8 @@ import java.util.Map;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.Pred;
-import net.sourceforge.czt.z.visitor.ExprVisitor;
-import net.sourceforge.czt.z.visitor.PredVisitor;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.jaxb.*;
 import net.sourceforge.czt.zpatt.util.*;
@@ -48,6 +46,8 @@ import net.sourceforge.czt.zpatt.visitor.*;
  *     the new term or the other way round?</li>
  *   <li>What happens if two rules can be applied?</li>
  * </ul>
+ *
+ * @author Petra Malik
  */
 public class Rewrite
   implements TermVisitor,
@@ -55,9 +55,17 @@ public class Rewrite
 {
   private List<Rule> rules_;
 
+  private String section_;
+
   private Rewrite(List<Rule> rules)
   {
     rules_ = rules;
+  }
+
+  public Object visitZSect(ZSect zSect)
+  {
+    section_ = zSect.getName();
+    return VisitorUtils.visitTerm(this, term, true);
   }
 
   public Object visitTerm(Term term)
