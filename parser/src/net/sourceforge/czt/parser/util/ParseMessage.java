@@ -26,7 +26,7 @@ package net.sourceforge.czt.parser.util;
 public enum ParseMessage
 {
   MSG_EXPR_EXPECTED ("Expression expected"),
-  MSG_EXPR_EXPECTED_FOUND_PRED ("Expression expected; found predicate {0}"),
+  MSG_EXPR_EXPECTED_FOUND_PRED ("Expression expected; found predicate"),
   MSG_PRED_EXPECTED ("Predicate expected"),
   MSG_REFNAME_EXPECTED ("Reference name expected"),
   MSG_REFNAME_NO_PARAMS_EXPECTED ("Name with no instantiations expected"),

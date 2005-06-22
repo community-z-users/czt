@@ -379,8 +379,9 @@ action code
         result = factory_.createEvent(ope.getName(), ope.getExpr());
       }
       else {
+        Object [] params = {opExpr};
         parser.report_error(ParseMessage.MSG_SYNTAX_ERROR,
-                            opExpr, getLocation(line, column));
+                            params, getLocation(line, column));
       }
 
       return result;
@@ -4389,18 +4390,18 @@ opExpr1 ::=
            addLocAnn(RESULT, waitleft, waitright);
         :}
         |
-        opPromotionLhs:oplhs NEXTPRO opExpr1:oe
+        refName:rn expression:e NEXTPRO opExpr1:oe
         {:
-//           Event et = factory_.createEvent(rn, e);
+           Event et = factory_.createEvent(rn, e);
            RESULT = factory_.createAtProExpr(et, null, oe);
-           addLocAnn(RESULT, etleft, etright);
+           addLocAnn(RESULT, rnleft, rnright);
         :}
         |
-        opPromotionLhs:oplhs ATTIME expression:e NEXTPRO opExpr1:oe
+        refName:rn expression:e1 ATTIME expression:e2 NEXTPRO opExpr1:oe
         {:
-//           Event et = factory_.createEvent(rn, e);
-           RESULT = factory_.createAtProExpr(et, e, oe);
-           addLocAnn(RESULT, etleft, etright);
+           Event et = factory_.createEvent(rn, e1);
+           RESULT = factory_.createAtProExpr(et, e2, oe);
+           addLocAnn(RESULT, rnleft, rnright);
         :}
         |
         MU:mu refName:rn SPOT opExpr1:oe
