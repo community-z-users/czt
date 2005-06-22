@@ -12,6 +12,9 @@
       <action dev="Tim" type="add">
         Implemented implicit downcasting (e.g. a \in B => p)
       </action>
+      <action dev="Tim" type="add">
+        Improved the error messages reported for relation applications.
+      </action>
       <!-- Sample action:
       <action dev="JB" type="fix" due-to="Joe Contributor"
           due-to-email="joec@apache.org" fixes-bug="123">
@@ -53,6 +56,9 @@
       <action context="code" dev="Tim">
         Investigate further generic definitions inside classes, and their 
         reference/instantiation from without and outside the class.
+      </action>
+      <action context="code" dev="Tim">
+        There is still a problem with renaming in mutually recursive types.
       </action>
     </actions>
     <actions priority="medium">
