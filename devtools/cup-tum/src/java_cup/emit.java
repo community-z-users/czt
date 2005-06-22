@@ -317,6 +317,7 @@ public class emit {
     throws internal_error
     {
       production prod;
+      production nextProd;
 
       long start_time = System.currentTimeMillis();
 
@@ -364,30 +365,53 @@ public class emit {
       out.println();
 
       /* switch top */
-      out.println("      /* select the action based on the action number */");
-      out.println("      switch (" + pre("act_num") + ")");
-      out.println("        {");
+      //out.println("      /* select the action based on the action number */");
+      //out.println("      switch (" + pre("act_num") + ")");
+      //out.println("        {");
+
+      /** try the first production. */
+      Enumeration pNext = production.all();
+      if (pNext.hasMoreElements()) {
+	nextProd = (production) pNext.nextElement();
+        out.println("return case" + nextProd.index() + "(");
+	out.println("   " + pre("act_num,"));
+	out.println("   " + pre("parser,"));
+	out.println("   " + pre("stack,"));
+	out.println("   " + pre("top);"));
+      }
+      else {
+        throw new RuntimeException("No productions!");
+      }
+
+      /* end of method */
+      out.println("    }");
 
       /* emit action code for each production as a separate case */
       for (Enumeration p = production.all(); p.hasMoreElements(); )
 	{
 	  prod = (production)p.nextElement();
 
-	  /* case label */
-          out.println("          /*. . . . . . . . . . . . . . . . . . . .*/");
-          out.println("          case " + prod.index() + ": // " + 
-					  prod.to_simple_string());
+	  /* method name */
+          out.println("//" + prod.to_simple_string());
+          out.println("  java_cup.runtime.Symbol case" + prod.index() + "(");
+	  out.println("    int                        " + pre("act_num,"));
+	  out.println("    java_cup.runtime.lr_parser " + pre("parser,"));
+	  out.println("    java.util.Stack            " + pre("stack,"));
+	  out.println("    int                        " + pre("top)"));
+          out.println("  throws java.lang.Exception");
+	  out.println("  {");
 
-	  /* give them their own block to work in */
-	  out.println("            {");
 
 	  /* create the result symbol */
 	  /*make the variable RESULT which will point to the new Symbol (see below)
 	    and be changed by action code
 	    6/13/96 frankf */
-	  out.println("              " +  prod.lhs().the_symbol().stack_type() +
+          out.println("  java_cup.runtime.Symbol " + pre("result") + ";");
+	  out.println("    " +  prod.lhs().the_symbol().stack_type() +
 		      " RESULT = null;");
 
+          out.println("    if (" + pre("act_num") + " == " + prod.index() + ") {");
+          
 	  /* Add code to propagate RESULT assignments that occur in
 	   * action code embedded in a production (ie, non-rightmost
 	   * action code). 24-Mar-1998 CSA
@@ -446,10 +470,7 @@ public class emit {
 			prod.lhs().the_symbol().index() + "/*" +
 			prod.lhs().the_symbol().name() + "*/" + 
 			", RESULT);");
-	  }
-	  
-	  /* end of their block */
-	  out.println("            }");
+	  }	  
 
 	  /* if this was the start production, do action for accept */
 	  if (prod == start_prod)
@@ -458,22 +479,28 @@ public class emit {
 	      out.println("          " + pre("parser") + ".done_parsing();");
 	    }
 
+          out.println("    }");
+          out.println("    else {");
+          if (pNext.hasMoreElements()) {
+            nextProd = (production)pNext.nextElement();
+            out.println("      " + pre("result") + " = case" + nextProd.index() + "(");
+	    out.println("        " + pre("act_num,"));
+	    out.println("        " + pre("parser,"));
+	    out.println("        " + pre("stack,"));
+	    out.println("        " + pre("top);"));
+          }
+	  else {
+            out.println("      throw new Exception(");
+            out.println("         \"Invalid action number found in " +
+                                   "internal parse table\");");
+          }
+          out.println("    }");
+
 	  /* code to return lhs symbol */
 	  out.println("          return " + pre("result") + ";");
+          out.println("  }");
 	  out.println();
 	}
-
-      /* end of switch */
-      out.println("          /* . . . . . .*/");
-      out.println("          default:");
-      out.println("            throw new Exception(");
-      out.println("               \"Invalid action number found in " +
-				  "internal parse table\");");
-      out.println();
-      out.println("        }");
-
-      /* end of method */
-      out.println("    }");
 
       /* end of class */
       out.println("}");
