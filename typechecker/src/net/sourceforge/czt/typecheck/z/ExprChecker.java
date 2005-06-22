@@ -21,6 +21,8 @@ package net.sourceforge.czt.typecheck.z;
 import java.util.List;
 import java.util.Iterator;
 
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
+
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.base.ast.*;
@@ -119,7 +121,7 @@ public class ExprChecker
     Type type = exprChecker().getType(refName);
 
     //add this reference for post checking
-    if (!containsDoubleEquals(paraErrors(), refExpr)) {
+    if (!containsObject(paraErrors(), refExpr)) {
       paraErrors().add(refExpr);
     }
 
@@ -332,7 +334,7 @@ public class ExprChecker
     //if the inner type is not resolved, add this expression to the
     //error list for future evalutation
     if (resolve(innerType) instanceof VariableType &&
-        !containsDoubleEquals(paraErrors(), setExpr)) {
+        !containsObject(paraErrors(), setExpr)) {
       paraErrors().add(setExpr);
     }
 
@@ -1078,7 +1080,7 @@ public class ExprChecker
           //in the signature
           if (undecAnn != null) {
             pair.getName().getAnns().add(undecAnn);
-            if (!containsDoubleEquals(paraErrors(), thetaExpr)) {
+            if (!containsObject(paraErrors(), thetaExpr)) {
               paraErrors().add(thetaExpr);
             }
           }

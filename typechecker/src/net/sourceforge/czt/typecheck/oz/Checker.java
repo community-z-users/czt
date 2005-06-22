@@ -21,6 +21,8 @@ package net.sourceforge.czt.typecheck.oz;
 import java.io.Writer;
 import java.util.List;
 
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
+
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
@@ -51,18 +53,6 @@ abstract public class Checker
   protected Factory factory()
   {
     return typeChecker_.ozFactory_;
-  }
-
-  //non-safe typecast
-  protected static ClassType classType(Object o)
-  {
-    return (ClassType) o;
-  }
-
-  //non-safe typecast
-  protected static VariableClassSig variableClassSig(Object o)
-  {
-    return (VariableClassSig) o;
   }
 
   //the operation expr checker
@@ -141,18 +131,6 @@ abstract public class Checker
   {
     UnificationEnv unificationEnv = (UnificationEnv) unificationEnv();
     return unificationEnv.weakUnify(typeA, typeB);
-  }
-
-  //check if a name is in a signature's visibility list
-  protected boolean isVisible(RefName refName, Type2 type)
-  {
-    boolean result = true;
-    if (type instanceof ClassRefType) {
-      ClassRefType classRefType = (ClassRefType) type;
-      result = classRefType.getVisibilityList() == null ||
-        classRefType.getVisibilityList().getRefName().contains(refName);
-    }
-    return result;
   }
 
   //get the type of "self"
@@ -473,18 +451,6 @@ abstract public class Checker
     return classes;
   }
 
-  protected boolean isPowerClassRefType(Type2 type)
-  {
-    boolean result = false;
-    if (type instanceof PowerType) {
-      PowerType powerType = (PowerType) type;
-      if (powerType.getType() instanceof ClassRefType) {
-        result = true;
-      }
-    }
-    return result;
-  }
-
   //find an attribute in a class signature
   protected NameTypePair findAttribute(DeclName declName, ClassSig cSig)
   {
@@ -518,7 +484,6 @@ abstract public class Checker
                                               List<NameSignaturePair> pairs)
   {
     NameSignaturePair result = null;
-
     //find the pair that has this name
     for(NameSignaturePair pair : pairs) {
       if (declName.equals(pair.getName())) {
@@ -526,7 +491,6 @@ abstract public class Checker
         break;
       }
     }
-
     return result;
   }
 
@@ -727,18 +691,6 @@ abstract public class Checker
     ClassRef result = factory().createClassRef(classRef.getRefName(),
                                                classRef.getType2(),
                                                newPairs);
-    return result;
-  }
-
-  protected boolean contains(List<ClassRef> list, ClassRef classRef)
-  {
-    boolean result = false;
-    for (ClassRef element : list) {
-      if (classRef.getRefName().equals(element.getRefName())) {
-        result = true;
-        break;
-      }
-    }
     return result;
   }
 

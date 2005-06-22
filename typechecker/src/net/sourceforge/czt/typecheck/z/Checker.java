@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
+
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
@@ -39,10 +41,6 @@ import net.sourceforge.czt.typecheck.z.impl.*;
 abstract public class Checker
   implements TermVisitor
 {
-  protected static final UResult SUCC = UResult.SUCC;
-  protected static final UResult PARTIAL = UResult.PARTIAL;
-  protected static final UResult FAIL = UResult.FAIL;
-
   //the information required for the typechecker classes.
   protected TypeChecker typeChecker_;
 
@@ -62,155 +60,10 @@ abstract public class Checker
                            term.getClass().getName());
   }
 
-  /**
-   * If this is a generic type, get the type without the
-   * parameters. If not a generic type, return the type
-   */
-  protected static Type2 unwrapType(Type type)
-  {
-    Type2 result = null;
-
-    if (type instanceof GenericType) {
-      if (genericType(type).getOptionalType() != null) {
-        result = genericType(type).getOptionalType();
-      }
-      else {
-        result = genericType(type).getType();
-      }
-    }
-    else {
-      result = (Type2) type;
-    }
-
-    return result;
-  }
-
-  protected static boolean instanceOf(Object o, Class aClass)
-  {
-    return aClass.isInstance(o);
-  }
-
-  //non-safe typecast
-  protected static SchemaType schemaType(Object o)
-  {
-    return (SchemaType) o;
-  }
-
-  //non-safe typecast
-  protected static PowerType powerType(Object o)
-  {
-    return (PowerType) o;
-  }
-
-  //non-safe typecast
-  protected static GivenType givenType(Object o)
-  {
-    return (GivenType) o;
-  }
-
-  //non-safe typecast
-  protected static GenericType genericType(Object o)
-  {
-    return (GenericType) o;
-  }
-
-  //non-safe typecast
-  protected static GenParamType genParamType(Object o)
-  {
-    return (GenParamType) o;
-  }
-
-  //non-safe typecast
-  protected static ProdType prodType(Object o)
-  {
-    return (ProdType) o;
-  }
-
-  //non-safe typecast
-  protected static UnknownType unknownType(Object o)
-  {
-    return (UnknownType) o;
-  }
-
-  //non-safe typecast
-  protected static VariableType variableType(Object o)
-  {
-    return (VariableType) o;
-  }
-
-  //non-safe typecast
-  protected static VariableSignature variableSignature(Object o)
-  {
-    return (VariableSignature) o;
-  }
-
-  //if this is a variable type, returned the resolved type if there is
-  //one, otherwise, return the input
-  protected Type2 resolve(Type2 type)
-  {
-    Type2 result = type;
-    if (type instanceof VariableType) {
-      VariableType vType = (VariableType) type;
-      if (vType.getValue() != vType) {
-        result = vType.getValue();
-      }
-    }
-    return result;
-  }
-
-  //if this is a variable signature, return the resolved signature if there is
-  //one, otherwise, return the input
-  protected Signature resolve(Signature signature)
-  {
-    Signature result = signature;
-    if (signature instanceof VariableSignature) {
-      VariableSignature vSig = (VariableSignature) signature;
-      if (vSig.getValue() != vSig) {
-        result = vSig.getValue();
-      }
-    }
-    return result;
-  }
-
-  //adds an annotation to a TermA
-  protected void addAnn(TermA termA, Object ann)
-  {
-    if (ann != null) {
-      termA.getAnns().add(ann);
-    }
-  }
-
-  //removes a type annotation from a TermA
-  protected void removeAnn(TermA termA, Object ann)
-  {
-    if (ann != null) {
-      List anns = termA.getAnns();
-      for (Iterator iter = anns.iterator(); iter.hasNext(); ) {
-        Object next = iter.next();
-        if (next == ann) {
-          iter.remove();
-        }
-      }
-    }
-  }
-
-  //removes all type annotations of a particular class from a TermA
-  protected void removeAnn(TermA termA, Class aClass)
-  {
-    List anns = termA.getAnns();
-    for (Iterator iter = anns.iterator(); iter.hasNext(); ) {
-      Object ann = iter.next();
-      if (aClass.isInstance(ann)) {
-        iter.remove();
-      }
-    }
-  }
-
   //adds a type annotation created from a type to a TermA
   protected void addTypeAnn(TermA termA, Type type)
   {
     assert type != null;
-
     TypeAnn typeAnn = (TypeAnn) termA.getAnn(TypeAnn.class);
     if (typeAnn == null) {
       typeAnn = factory().createTypeAnn(type);
@@ -224,9 +77,9 @@ abstract public class Checker
   //adds a signature annotation create from a signature to a TermA
   protected void addSignatureAnn(TermA termA, Signature signature)
   {
+    assert signature != null;
     SignatureAnn signatureAnn =
       (SignatureAnn) termA.getAnn(SignatureAnn.class);
-
     if (signatureAnn == null) {
       signatureAnn = factory().createSignatureAnn(signature);
       termA.getAnns().add(signatureAnn);
@@ -239,12 +92,10 @@ abstract public class Checker
   protected TypeAnn getTypeAnn(TermA termA)
   {
     TypeAnn typeAnn = (TypeAnn) termA.getAnn(TypeAnn.class);
-
     if (typeAnn == null) {
       typeAnn = factory().createTypeAnn();
       addAnn(termA, typeAnn);
     }
-
     return typeAnn;
   }
 
@@ -264,28 +115,6 @@ abstract public class Checker
       result = typeAnn.getType();
     }
     return result;
-  }
-
-  //returns true if and only if 'list' contains a reference to 'o'
-  protected static boolean containsDoubleEquals(List list, Object o)
-  {
-    boolean result = false;
-
-    for (Iterator iter = list.iterator(); iter.hasNext(); ) {
-      Object next = iter.next();
-      if (next == o) {
-        result = true;
-        break;
-      }
-    }
-    return result;
-  }
-
-  //returns true if and only if the specified type contains a variable
-  //type
-  protected boolean containsVariableType(Type2 type2)
-  {
-    return UnificationEnv.containsVariable(type2);
   }
 
   //add an error to the list of error annotation
@@ -416,36 +245,6 @@ abstract public class Checker
         }
       }
     }
-    return result;
-  }
-
-  protected static ListTerm listTerm()
-  {
-    return new net.sourceforge.czt.base.impl.ListTermImpl();
-  }
-
-  protected static <E> List<E> list()
-  {
-    return new java.util.LinkedList<E>();
-  }
-
-  protected static <E> List<E> list(E e)
-  {
-    List result = list();
-    result.add(e);
-    return result;
-  }
-
-  protected static <E> List<E> list(E e1, E e2)
-  {
-    List result = list(e1);
-    result.add(e2);
-    return result;
-  }
-
-  protected static <E> List<E> list(List<E> list)
-  {
-    List<E> result = new java.util.ArrayList<E>(list);
     return result;
   }
 
@@ -951,7 +750,7 @@ abstract public class Checker
       Type unificationEnvType = unificationEnv().getType(genName);
 
       //if this type's reference is in the parameters
-      if (containsDoubleEquals(typeEnv().getParameters(), genName)
+      if (containsObject(typeEnv().getParameters(), genName)
           && isPending()) {
         result = type;
       }

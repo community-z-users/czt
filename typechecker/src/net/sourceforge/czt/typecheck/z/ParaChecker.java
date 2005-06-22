@@ -20,6 +20,8 @@ package net.sourceforge.czt.typecheck.z;
 
 import java.util.List;
 
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
+
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
@@ -58,8 +60,6 @@ public class ParaChecker
   //13.2.4.1
   public Object visitGivenPara(GivenPara givenPara)
   {
-    debug("visiting GivenPara");
-
     //the list of NameTypePairs for this paras signature
     List<NameTypePair> pairs = list();
 
@@ -85,8 +85,6 @@ public class ParaChecker
   //13.2.4.2 and 13.2.4.3
   public Object visitAxPara(AxPara axPara)
   {
-    debug("visiting AxPara");
-
     //we enter a new variable scope for the generic parameters
     typeEnv().enterScope();
 
@@ -246,8 +244,6 @@ public class ParaChecker
 
   public Object visitSchText(SchText schText)
   {
-    debug("visiting SchText");
-
     //the list of Names declared in this schema text
     List<NameTypePair> pairs = list();
 

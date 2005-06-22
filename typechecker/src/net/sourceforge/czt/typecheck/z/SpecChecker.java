@@ -20,6 +20,8 @@ package net.sourceforge.czt.typecheck.z;
 
 import java.util.List;
 
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
+
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
@@ -67,8 +69,7 @@ public class SpecChecker
 
   public Object visitZSect(ZSect zSect)
   {
-    debug("visiting ZSect " + zSect.getName());
-
+    //set the section name
     sectName(zSect.getName());
 
     //if this section has already been declared, raise an error

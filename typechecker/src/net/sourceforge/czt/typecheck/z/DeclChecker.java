@@ -20,6 +20,8 @@ package net.sourceforge.czt.typecheck.z;
 
 import java.util.List;
 
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
+
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
@@ -100,8 +102,6 @@ public class DeclChecker
     //get the DeclName
     DeclName declName = constDecl.getDeclName();
 
-    debug("visiting ConstDecl " + declName);
-
     //get and visit the expression
     Expr expr = constDecl.getExpr();
     Type2 exprType = (Type2) expr.accept(exprChecker());
@@ -115,8 +115,6 @@ public class DeclChecker
 
   public Object visitInclDecl(InclDecl inclDecl)
   {
-    debug("visiting InclDecl");
-
     //the list of name type pairs in this InclDecl
     List<NameTypePair> pairs = list();
 
