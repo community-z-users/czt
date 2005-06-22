@@ -18,6 +18,10 @@
 */
 package net.sourceforge.czt.typecheck.oz;
 
+import java.util.List;
+
+import static net.sourceforge.czt.typecheck.oz.util.GlobalDefs.*;
+
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
@@ -33,6 +37,7 @@ import net.sourceforge.czt.typecheck.oz.impl.*;
  */
 public class PostChecker
   extends Checker
+  implements BindSelExprVisitor
 {
   protected net.sourceforge.czt.typecheck.z.PostChecker zPostChecker;
 
@@ -46,5 +51,28 @@ public class PostChecker
   public Object visitTerm(Term term)
   {
     return term.accept(zPostChecker);
+  }
+
+  public Object visitBindSelExpr(BindSelExpr bindSelExpr)
+  {
+    ParameterAnn pAnn = (ParameterAnn) bindSelExpr.getAnn(ParameterAnn.class);
+    if (pAnn != null) {
+      List<Type2> gParams = pAnn.getParameters();
+      for (Type2 type : gParams) {
+        try {
+          type.accept(carrierSet());
+        }
+        catch (UndeterminedTypeException e) {
+          Object [] params = {bindSelExpr};
+          ErrorAnn errorAnn =
+            errorAnn(bindSelExpr, ErrorMessage.PARAMETERS_NOT_DETERMINED, params);
+          boolean added = addErrorAnn(bindSelExpr, errorAnn);
+          removeAnn(bindSelExpr, pAnn);
+          return added ? errorAnn : null;
+        }
+      }
+      removeAnn(bindSelExpr, pAnn);
+    }
+    return null;
   }
 }

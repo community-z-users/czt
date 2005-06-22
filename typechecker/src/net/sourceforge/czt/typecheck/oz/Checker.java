@@ -356,7 +356,6 @@ abstract public class Checker
     return result;
   }
 
-
   protected Type2 instantiate(Type2 type, Type rootType)
   {
     Type2 result = factory().createUnknownType();

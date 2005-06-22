@@ -833,7 +833,8 @@ abstract public class Checker
   {
     List<NameTypePair> newPairs = list();
     for (NameTypePair pair : pairs) {
-      if (pair.getType() == rootType) {
+      if (pair.getType() == rootType ||
+	  pair.getType() instanceof GenericType) {
         newPairs.add(pair);
       }
       else {

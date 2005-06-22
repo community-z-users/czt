@@ -88,9 +88,7 @@ public class TypeEnv
   public List<DeclName> getParameters()
   {
     List<DeclName> result = new ArrayList<DeclName>();
-    for (List<DeclName> declNames : parameters_) {
-      result.addAll(declNames);
-    }
+    result.addAll(parameters_.peek());
     return result;
   }
 

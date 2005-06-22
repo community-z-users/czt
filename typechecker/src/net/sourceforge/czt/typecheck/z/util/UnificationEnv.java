@@ -92,14 +92,14 @@ public class UnificationEnv
     return result;
   }
 
-  public Type2 getType(Name name)
+  public Type2 getType(DeclName declName)
   {
     Type2 result = factory_.createUnknownType();
 
     //look in the generic name unification list
     for (NameTypePair pair : peek()) {
-      if (pair.getName().getWord().equals(name.getWord()) &&
-          pair.getName().getStroke().equals(name.getStroke())) {
+      //use object ID to counter nested generic environments
+      if (declName == pair.getName()) {
         result = (Type2) pair.getType();
         break;
       }

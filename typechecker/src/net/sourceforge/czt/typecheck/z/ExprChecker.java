@@ -1038,7 +1038,6 @@ public class ExprChecker
 
     //add the type annotation
     addTypeAnn(applExpr, type);
-
     return type;
   }
 
