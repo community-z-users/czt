@@ -1,0 +1,82 @@
+<project name="rules" default="all">
+  <property name="czt.home" location=".."/>
+  <property file="${czt.home}/czt.properties"/>
+  <property name="rules.jar.dir" location="${czt.home}/${jar.dir}"/>
+  <property name="rules.jar.file" location="${rules.jar.dir}/rules.jar"/>
+  <property name="rules.src.dir" location="src/main/java"/>
+  <property name="rules.build.dir" location="build"/>
+  <property name="rules.api.dir" location="doc/api"/>
+
+  <path id="classpath">
+    <pathelement path="${jwsdp.classpath}"/>
+    <pathelement location="${typecheck.build.dir}"/>
+    <pathelement location="${czt.home}/${jar.dir}/${corejava.base.jar.file}"/>
+    <pathelement location="${czt.home}/${jar.dir}/${corejava.core.jar.file}"/>
+    <pathelement location="${czt.home}/${jar.dir}/${corejava.jaxb.jar.file}"/>
+    <pathelement location="${czt.home}/${jar.dir}/${corejava.zpatt.jar.file}"/>
+    <pathelement location="${czt.home}/${jar.dir}/${parser.jar.file}"/>
+    <pathelement location="${czt.home}/${jar.dir}/${java_cup.jar.file}"/>    
+    <pathelement location="${czt.home}/${jar.dir}/${typechecker.jar.file}"/>
+    <pathelement path="${java.class.path}"/>
+  </path>
+
+  <target name="init">
+    <tstamp/>
+    <mkdir dir="${rules.build.dir}"/>
+  </target>
+
+  <target name="all" depends="install, doc"
+    description="build the jar files and the documentation"/>
+
+  <target name="install" depends="compile"
+          description="build and install the jar files">
+    <mkdir dir="${rules.jar.dir}"/>
+    <jar jarfile="${rules.jar.file}">
+      <fileset dir="${rules.build.dir}"/>
+    </jar>
+  </target>
+
+  <target name="compile" depends="init"
+          description="compile the sources">
+    <javac
+      srcdir="${rules.src.dir}"
+      destdir="${rules.build.dir}"
+      debug="${debug}"
+      debuglevel="${debuglevel}"
+      optimize="${optimize}">
+      <classpath refid="classpath"/>
+      <compilerarg value="-Xlint"/>
+    </javac>
+  </target>
+
+  <target name="doc" depends="api"
+    description="build all the documentation"/>
+
+  <target name="api"
+          description="build the API documentation">
+    <mkdir dir="${rules.api.dir}"/>
+    <javadoc
+      destdir="${rules.api.dir}"
+      private="true">
+      <packageset dir="${rules.src.dir}"/>
+      <tag name="czt.todo" description="To do:"/>
+      <classpath refid="classpath"/>
+    </javadoc>
+  </target>
+
+  <target name="checkstyle" description="check java sources">
+    <taskdef resource="checkstyletask.properties"
+      classpath="${checkstyle.jar}"/>
+    <checkstyle config="${czt.home}/devtools/checkstyle.xml">
+      <fileset dir="${rules.src.dir}"/>
+      <formatter type="plain"/>
+    </checkstyle>
+  </target>
+
+  <target name="clean"
+          description="clean up">
+    <delete dir="${rules.build.dir}"/>
+    <delete dir="${rules.api.dir}"/>
+    <ant dir="tests" target="clean"/>
+  </target>
+</project>
