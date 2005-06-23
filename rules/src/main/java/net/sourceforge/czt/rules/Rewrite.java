@@ -19,11 +19,7 @@
 
 package net.sourceforge.czt.rules;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
@@ -52,13 +48,13 @@ import net.sourceforge.czt.zpatt.visitor.*;
  */
 public class Rewrite
   implements TermVisitor,
-	     ExprVisitor
+             ExprVisitor
 {
   private List<Rule> rules_;
 
   private String section_;
 
-  private Rewrite(List<Rule> rules)
+  public Rewrite(List<Rule> rules)
   {
     rules_ = rules;
   }

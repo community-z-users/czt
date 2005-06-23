@@ -157,7 +157,7 @@ public class SimpleProver
    *
    * @param term1 the first term.
    * @param term2 the second term.
-   * @return <code>true</code> if both term unify, 
+   * @return <code>true</code> if both term unify,
    *         <code>false</code> otherwise.
    */
   public static boolean unify(Term term1, Term term2, Set<Binding> bindings)
@@ -229,8 +229,8 @@ public class SimpleProver
    */
   public static class CopyVisitor
     implements TermVisitor,
-	       JokerPredVisitor,
-	       JokerExprVisitor
+               JokerPredVisitor,
+               JokerExprVisitor
   {
     private Factory factory_;
 

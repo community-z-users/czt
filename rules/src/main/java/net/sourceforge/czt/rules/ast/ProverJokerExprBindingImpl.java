@@ -24,7 +24,6 @@ import java.util.logging.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.impl.*;
-import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.zpatt.ast.*;

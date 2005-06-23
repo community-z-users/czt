@@ -40,7 +40,7 @@ public class ProverFactory
     new HashMap<String, ProverJokerName>();
   private Map<String, ProverJokerPred> jokerPreds_ =
     new HashMap<String, ProverJokerPred>();
-  private int count = 0;
+  private int count_ = 0;
 
   /**
    * Creates a new JokerExpr having a name that has not
@@ -48,8 +48,11 @@ public class ProverFactory
    */
   public JokerExpr createJokerExpr()
   {
-    String name;
-    while ( jokerExprs_.get(name = "J" + count) != null ) count++;
+    String name = "J" + count_;
+    while (jokerExprs_.get(name) != null) {
+      count_++;
+      name = "J" + count_;
+    }
     ProverJokerExpr result = new ProverJokerExpr(name);
     jokerExprs_.put(name, result);
     return result;
@@ -71,8 +74,11 @@ public class ProverFactory
    */
   public JokerName createJokerName()
   {
-    String name;
-    while ( jokerNames_.get(name = "J" + count) != null ) count++;
+    String name = "J" + count_;
+    while (jokerNames_.get(name) != null) {
+      count_++;
+      name = "J" + count_;
+    }
     ProverJokerName result = new ProverJokerName(name);
     jokerNames_.put(name, result);
     return result;
@@ -90,8 +96,11 @@ public class ProverFactory
 
   public JokerPred createJokerPred()
   {
-    String name;
-    while ( jokerPreds_.get(name = "J" + count) != null ) count++;
+    String name = "J" + count_;
+    while (jokerPreds_.get(name) != null) {
+      count_++;
+      name = "J" + count_;
+    }
     ProverJokerPred result = new ProverJokerPred(name);
     jokerPreds_.put(name, result);
     return result;
@@ -159,14 +168,14 @@ public class ProverFactory
   }
 
   public LookupConstDeclProviso
-    createLookupConstDeclProviso(SequentContext sequentContext,
-                                 Expr leftExpr,
-                                 Expr rightExpr)
-    {
-      LookupConstDeclProviso proviso = new ProverLookupConstDeclProviso();
-      proviso.setSequentContext(sequentContext);
-      proviso.setLeftExpr(leftExpr);
-      proviso.setRightExpr(rightExpr);
-      return proviso;
-    }
+  createLookupConstDeclProviso(SequentContext sequentContext,
+                               Expr leftExpr,
+                               Expr rightExpr)
+  {
+    LookupConstDeclProviso proviso = new ProverLookupConstDeclProviso();
+    proviso.setSequentContext(sequentContext);
+    proviso.setLeftExpr(leftExpr);
+    proviso.setRightExpr(rightExpr);
+    return proviso;
+  }
 }
