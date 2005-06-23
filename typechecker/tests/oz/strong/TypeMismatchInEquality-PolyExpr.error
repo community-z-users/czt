@@ -18,7 +18,7 @@
   \end{state}
 \end{class}
 
-Check that A != \poly A if A has subclasses (for strong	 typing only)
+Check that A != \poly A if A has subclasses (for strong	typing only)
 \begin{axdef}
   a : A\\
   pa : \poly A

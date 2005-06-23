@@ -292,29 +292,25 @@ public class OpExprChecker
 
     //get the signature of the left operation expression
     OpExpr lOpExpr = scopeEnrichOpExpr.getLeftOpExpr();
-    Signature signature = (Signature) lOpExpr.accept(opExprChecker());
+    Signature lSig = (Signature) lOpExpr.accept(opExprChecker());
 
     //add the types into the typing environment
-    typeEnv().add(signature.getNameTypePair());
+    typeEnv().add(lSig.getNameTypePair());
 
     //get and visit the right expr
     OpExpr rOpExpr = scopeEnrichOpExpr.getRightOpExpr();
     Signature rSig = (Signature) rOpExpr.accept(opExprChecker());
 
-    //check that the signatures of the two expressions are disjoint
-    List<NameTypePair> pairsA = signature.getNameTypePair();
-    List<NameTypePair> pairsB = rSig.getNameTypePair();
-    for (NameTypePair pairA : pairsA) {
-      NameTypePair pairB = findNameTypePair(pairA.getName(), rSig);
-      if (pairB != null) {
-        Object [] params = {pairA.getName(), scopeEnrichOpExpr};
-        error(scopeEnrichOpExpr,
-              ErrorMessage.DUPLICATE_NAME_IN_SCOPEENRICHOPEXPR, params);
-      }
-    }
+    List<NameTypePair> newPairs = list(lSig.getNameTypePair());
+    newPairs.addAll(rSig.getNameTypePair());
+    checkForDuplicates(newPairs, scopeEnrichOpExpr,
+                       ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
 
     //exit the variable scope
     typeEnv().exitScope();
+
+    //creat the signature of this operation
+    Signature signature = factory().createSignature(newPairs);
 
     //add the signature annotation
     addSignatureAnn(scopeEnrichOpExpr, signature);

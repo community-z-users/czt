@@ -1,5 +1,5 @@
 \begin{zsection}
-  \SECTION DuplicateNameInScopeEnrichOpExpr\_ScopeEnrichOpExpr \parents oz\_toolkit
+  \SECTION TypeMismatchInOpExpr2\_ScopeEnrichOpExpr \parents oz\_toolkit
 \end{zsection}
 
 \begin{class}{A}

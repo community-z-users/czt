@@ -76,19 +76,20 @@ public class TypeChecker
                      SectionInfo sectInfo,
                      Markup markup)
   {
-    this(zFactory, ozFactory, sectInfo, markup, false);
+    this(zFactory, ozFactory, sectInfo, markup, false, false);
   }
 
   public TypeChecker(ZFactory zFactory,
                      OzFactory ozFactory,
                      SectionInfo sectInfo,
                      Markup markup,
-                     boolean useBeforeDecl)
+                     boolean useBeforeDecl,
+		     boolean useStrongTyping)
   {
     super(zFactory, sectInfo, markup, useBeforeDecl);
     ozFactory_ = new Factory(zFactory, ozFactory);
     sectInfo_ = sectInfo;
-    unificationEnv_ = new UnificationEnv(zFactory);
+    unificationEnv_ = new UnificationEnv(zFactory, useStrongTyping);
     carrierSet_ = new CarrierSet();
     specChecker_ = new SpecChecker(this);
     paraChecker_ = new ParaChecker(this);

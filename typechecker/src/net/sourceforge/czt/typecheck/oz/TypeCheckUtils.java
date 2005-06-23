@@ -81,15 +81,42 @@ public class TypeCheckUtils
     return utils.lTypecheck(term, sectInfo, markup, useBeforeDecl);
   }
 
+  public static List typecheck(Term term,
+                               SectionInfo sectInfo,
+                               Markup markup,
+                               boolean useBeforeDecl,
+			       boolean useStrongTyping)
+  {
+    TypeCheckUtils utils = new TypeCheckUtils();
+    return utils.lTypecheck(term,
+			    sectInfo,
+			    markup,
+			    useBeforeDecl,
+			    useStrongTyping);
+  }
+
   protected List lTypecheck(Term term,
                             SectionInfo sectInfo,
                             Markup markup,
                             boolean useBeforeDecl)
   {
+    return lTypecheck(term, sectInfo, markup, useBeforeDecl, false);
+  }
+
+  protected List lTypecheck(Term term,
+                            SectionInfo sectInfo,
+                            Markup markup,
+                            boolean useBeforeDecl,
+			    boolean useStrongTyping)
+  {
     ZFactory zFactory = new ZFactoryImpl();
     OzFactory ozFactory = new OzFactoryImpl();
-    TypeChecker typeChecker =
-      new TypeChecker(zFactory, ozFactory, sectInfo, markup, useBeforeDecl);
+    TypeChecker typeChecker = new TypeChecker(zFactory,
+					      ozFactory,
+					      sectInfo,
+					      markup,
+					      useBeforeDecl,
+					      useStrongTyping);
     typeChecker.visitTerm(term);
     return typeChecker.errors();
   }
