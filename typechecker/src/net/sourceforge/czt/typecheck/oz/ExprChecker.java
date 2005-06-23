@@ -240,6 +240,7 @@ public class ExprChecker
     //get the type of the expression
     Expr expr = bindSelExpr.getExpr();
     Type2 exprType = (Type2) expr.accept(exprChecker());
+    exprType = resolveClassType(exprType);
 
     if (!instanceOf(exprType, VariableType.class)) {
       if (exprType instanceof SchemaType) {
