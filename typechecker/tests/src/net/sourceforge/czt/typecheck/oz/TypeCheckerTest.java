@@ -44,6 +44,9 @@ import net.sourceforge.czt.parser.oz.ParseUtils;
 public class TypeCheckerTest
   extends net.sourceforge.czt.typecheck.z.TypeCheckerTest
 {
+  //use strong typing
+  protected boolean useStrongTyping_ = false;
+
   public static Test suite()
   {
     TestSuite suite = new TestSuite();
@@ -67,18 +70,44 @@ public class TypeCheckerTest
   protected List typecheck(Term term, Markup markup)
     throws Exception
   {
-    return TypeCheckUtils.typecheck(term, manager_, markup, useBeforeDecl_);
+    return TypeCheckUtils.typecheck(term,
+				    manager_,
+				    markup,
+				    useBeforeDecl_,
+				    useStrongTyping_);
   }
 
-  public void testOZ()
+  public void testOZWeak()
   {
+    useStrongTyping_ = false;
     useBeforeDecl_ = false;
+    testDirectory("/typechecker/tests/oz/");
+  }
+
+  public void testOZStrong()
+  {
+    useStrongTyping_ = true;
     testDirectory("/typechecker/tests/oz/");
   }
 
   public void testOZUseBeforeDecl()
   {
+    useStrongTyping_ = false;
     useBeforeDecl_ = true;
     testDirectory("/typechecker/tests/oz/useBeforeDecl/");
+  }
+
+  public void testOZStrongOnly()
+  {
+    useStrongTyping_ = true;
+    useBeforeDecl_ = false;
+    testDirectory("/typechecker/tests/oz/strong/");
+  }
+
+  public void testOZWeakOnly()
+  {
+    useStrongTyping_ = false;
+    useBeforeDecl_ = false;
+    testDirectory("/typechecker/tests/oz/weak/");
   }
 }
