@@ -55,9 +55,10 @@ abstract public class Checker
    */
   public Object visitTerm(Term term)
   {
-    throw new CztException(this.getClass().getName() +
-                           " being asked to visit " +
-                           term.getClass().getName());
+    logger().warning(this.getClass().getName() +
+		     " being asked to visit " +
+		     term.getClass().getName());
+    return null;
   }
 
   //adds a type annotation created from a type to a TermA
