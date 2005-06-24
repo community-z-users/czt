@@ -77,6 +77,5 @@
           description="clean up">
     <delete dir="${rules.build.dir}"/>
     <delete dir="${rules.api.dir}"/>
-    <ant dir="tests" target="clean"/>
   </target>
 </project>
