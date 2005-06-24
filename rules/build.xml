@@ -6,6 +6,9 @@
   <property name="rules.src.dir" location="src/main/java"/>
   <property name="rules.build.dir" location="build"/>
   <property name="rules.api.dir" location="doc/api"/>
+  <property name="test.src.dir" location="src/test/java"/>
+  <property name="test.build.dir" location="${rules.build.dir}/test"/>
+  <property name="test.jar.file" location="${rules.build.dir}/tests.jar"/>
 
   <path id="classpath">
     <pathelement path="${jwsdp.classpath}"/>
@@ -23,6 +26,7 @@
   <target name="init">
     <tstamp/>
     <mkdir dir="${rules.build.dir}"/>
+    <mkdir dir="${test.build.dir}"/>
   </target>
 
   <target name="all" depends="install, doc"
@@ -47,6 +51,50 @@
       <classpath refid="classpath"/>
       <compilerarg value="-Xlint"/>
     </javac>
+  </target>
+
+  <target name="test" depends="run-tests">
+    <junitreport todir="${rules.build.dir}">
+      <fileset dir="${rules.build.dir}">
+        <include name="TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="${rules.build.dir}/report"/>
+    </junitreport>
+  </target>
+
+  <target name="compile-tests" depends="install">
+    <javac
+      srcdir="${test.src.dir}"
+      destdir="${test.build.dir}"
+      debug="${debug}"
+      debuglevel="${debuglevel}"
+      optimize="${optimize}">
+      <classpath>
+        <pathelement location="${rules.jar.file}"/>
+      </classpath>
+      <classpath refid="classpath"/>
+      <compilerarg value="-Xlint"/>
+    </javac>
+  </target>
+
+  <target name="install-tests" depends="compile-tests">
+    <mkdir dir="${rules.build.dir}"/>
+    <jar jarfile="${test.jar.file}">
+      <fileset dir="${test.build.dir}"/>
+      <fileset dir="${rules.src.dir}/test/resources"/>
+    </jar>
+  </target>
+
+  <target name="run-tests" depends="compile-tests">
+    <junit fork="yes" printsummary="on">
+      <formatter type="xml"/>
+      <test toDir="${rules.build.dir}"
+        name="net.sourceforge.czt.rules.SimpleProverTest"/>
+      <classpath>
+        <pathelement location="${test.build.dir}"/>
+      </classpath>
+      <classpath refid="classpath"/>
+    </junit>
   </target>
 
   <target name="doc" depends="api"
