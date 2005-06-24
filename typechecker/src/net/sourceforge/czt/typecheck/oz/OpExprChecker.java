@@ -83,8 +83,7 @@ public class OpExprChecker
     typeEnv().enterScope();
 
     //get the class signature for "self"
-    ClassType selfType = getSelfType();
-    ClassSig selfSig = selfType.getClassSig();
+    ClassSig selfSig = getSelfSig();
 
     //check that each name in the delta list is a primary variable
     DeltaList deltaList = opText.getDeltaList();
@@ -137,6 +136,13 @@ public class OpExprChecker
       if (!instanceOf(cSig, VariableClassSig.class)) {
         RefName refName = opPromExpr.getName();
         NameSignaturePair opDef = findOperation(refName, cSig);
+
+	//if the name is not found, look for it in the previous
+	//declaration of this class
+	if (opDef == null) {
+	  opDef = findNameSigPair(refName, previousOps());
+	}
+
         //if there is no operation with this name, raise an error
         if (opDef == null) {
           Object [] params = {opPromExpr};

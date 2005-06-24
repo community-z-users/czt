@@ -102,9 +102,10 @@ public class ParaChecker
     pending().add(self, addGenerics(classType));
 
     //visit each inherited class
-    List<Expr> inheritedClass = classPara.getInheritedClass();
+    List<Expr> inheritedClass = classPara.getInheritedClass();    
     for (Expr iClass : inheritedClass) {
       visitInheritedClass(iClass, classType);
+      
     }
 
     //visit the attributes
@@ -152,6 +153,9 @@ public class ParaChecker
 
     //the list of operation names declared by this paragraph
     List<DeclName> opNames = list();
+
+    //if this is a 2nd pass, add the previous definitions of the operations
+    addPreviousOps(cSig);
 
     //visit each operation
     List<Operation> operations = classPara.getOperation();

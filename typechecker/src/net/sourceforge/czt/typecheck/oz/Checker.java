@@ -73,7 +73,7 @@ abstract public class Checker
     typeChecker_.className_ = declName;
   }
 
-  //the last of primary state variables in the current class
+  //the lst of primary state variables in the current class
   protected List<DeclName> primary()
   {
     return typeChecker_.primary_;
@@ -83,6 +83,18 @@ abstract public class Checker
   protected void resetPrimary()
   {
     typeChecker_.primary_.clear();
+  }
+
+  //the list of operations declared during the previous pass of a class
+  protected List<NameSignaturePair> previousOps()
+  {
+    return typeChecker_.previousOps_;
+  }
+
+  //reset the list of previous operations in the current class to empty
+  protected void resetPreviousOps()
+  {
+    typeChecker_.previousOps_.clear();
   }
 
   //typecheck a file using an instance of this typechecker
@@ -139,9 +151,9 @@ abstract public class Checker
     RefName refName = factory().createRefName(OzString.SELF, list(), null);
     RefExpr refExpr = factory().createRefExpr(refName, list(), Boolean.FALSE);
     Type2 selfType = (Type2) refExpr.accept(exprChecker());
-
     assert selfType instanceof ClassRefType;
-    return (ClassRefType) selfType;
+    ClassRefType result = (ClassRefType) selfType;
+    return result;
   }
 
   //get the class signature of "self"
@@ -196,6 +208,24 @@ abstract public class Checker
           error(declName, ErrorMessage.INCOMPATIBLE_OVERRIDING, params);
         }
       }
+    }
+  }
+
+  //if this is the 2nd pass, lookup the name from the previous pass,
+  //and add all of the operation signatures to allow recursive
+  //operation definitions
+  protected void addPreviousOps(ClassSig cSig)
+  {
+    if (sectTypeEnv().getSecondTime()) {
+      resetPreviousOps();
+      RefName classRefName = factory().createRefName(className());
+      Type type = getType(classRefName);
+      assert unwrapType(type) instanceof PowerType;
+      PowerType powerType = (PowerType) unwrapType(type);
+      assert powerType.getType() instanceof ClassRefType;
+      ClassRefType classRefType = (ClassRefType) powerType.getType();
+      ClassSig prevCSig = classRefType.getClassSig();
+      previousOps().addAll(prevCSig.getOperation());
     }
   }
 
@@ -476,6 +506,14 @@ abstract public class Checker
   {
     DeclName declName = factory().createDeclName(refName);
     NameSignaturePair result = findOperation(declName, cSig);
+    return result;
+  }
+
+  protected NameSignaturePair findNameSigPair(RefName refName,
+                                              List<NameSignaturePair> pairs)
+  {
+    DeclName declName = factory().createDeclName(refName);
+    NameSignaturePair result = findNameSigPair(declName, pairs);
     return result;
   }
 

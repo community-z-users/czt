@@ -20,6 +20,8 @@ package net.sourceforge.czt.typecheck.oz;
 
 import java.util.List;
 
+import static net.sourceforge.czt.typecheck.oz.util.GlobalDefs.*;
+
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.session.*;
@@ -46,6 +48,9 @@ public class TypeChecker
 
   //the list of primary state variables in the current class
   protected List<DeclName> primary_;
+
+  //the list of operations declared during the previous pass of a class
+  protected List<NameSignaturePair> previousOps_;
 
   public TypeChecker(TypeChecker info)
   {
@@ -99,6 +104,7 @@ public class TypeChecker
     postChecker_ = new PostChecker(this);
     opExprChecker_ = new OpExprChecker(this);
     className_ = null;
-    primary_ = new java.util.ArrayList();
+    primary_ = list();
+    previousOps_ = list();
   }
 }

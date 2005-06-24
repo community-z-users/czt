@@ -20,6 +20,9 @@
         selection expressions that reference a generic definition in a
         class.
       </action>
+      <action dev="Tim" type="add">
+        Add recursive operation definitions within the same class paragraph.
+      </action>
       <!-- Sample action:
       <action dev="JB" type="fix" due-to="Joe Contributor"
           due-to-email="joec@apache.org" fixes-bug="123">
@@ -52,11 +55,6 @@
       <action context="code" dev="Tim">
         Finish type rules for PolyExpr (check that sublasses have the
         type-compatible features).
-      </action>
-      <action context="code" dev="Tim">
-        Currently, use before declaration does not work for operations
-        declared within the same class paragraph. Update the adding of
-        class types to the typing environment to overcome this.
       </action>
       <action context="code" dev="Tim">
         There is still a problem with renaming in mutually recursive types.
