@@ -3,7 +3,7 @@
   <property name="unix.settings.file" location="bin/settings.sh"/>
   <property name="windows.settings.file" location="bin/settings.bat"/>
   <available
-    file="${basedir}/devtools/java_cup/build.xml"
+    file="${basedir}/devtools/cup-tum/build.xml"
     property="java_cup.present"/>
   <available
     file="${basedir}/devtools/ant/build.xml"
@@ -89,13 +89,7 @@
 
   <target name="install-java_cup" if="java_cup.present"
     description="install java_cup">
-    <ant dir="devtools/java_cup" target="install"/>
-  </target>
-
-  <target name="install-ant-tasks" if="ant-task.present"
-    depends="install-java_cup"
-    description="install ant tasks">
-    <ant dir="devtools/ant" target="install"/>
+    <ant dir="devtools/cup-tum" target="install"/>
   </target>
 
   <target name="install-corejava" if="corejava.present"
@@ -104,7 +98,7 @@
   </target>
 
   <target name="install-parser" if="parser.present"
-    depends="install-ant-tasks, install-corejava"
+    depends="install-java_cup, install-corejava"
     description="install parser">
     <ant dir="parser" target="install"/>
   </target>
@@ -382,7 +376,7 @@ set TYPECHECKER=${typechecker.win}
 
   <target name="clean-java_cup" if="java_cup.present"
     description="clean up ant task">
-    <ant dir="devtools/java_cup" target="clean"/>
+    <ant dir="devtools/cup-tum" target="clean"/>
   </target>
 
   <target name="clean-gaffe" if="gaffe.present"
