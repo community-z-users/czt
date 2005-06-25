@@ -72,8 +72,8 @@ public class Main extends JPanel implements ActionListener
         AstValidator validator = new JaxbValidator();
         validator.validate(newSpec);
 
-        //net.sourceforge.czt.oz.jaxb.JaxbXmlWriter writer =
-        // new net.sourceforge.czt.oz.jaxb.JaxbXmlWriter();
+        net.sourceforge.czt.oz.jaxb.JaxbXmlWriter writer =
+          new net.sourceforge.czt.oz.jaxb.JaxbXmlWriter();
         //writer.write(newSpec, System.out);
 
         if (spec_ == null) {

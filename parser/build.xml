@@ -46,8 +46,9 @@
   </target>
 
   <target name="-set-javacup-task">
-    <taskdef classname="ant.JavaCupTask" name="java_cup"
-      classpath="${czt.home}/${jar.dir}/${java_cup.task.jar.file}"/>
+    <taskdef name="java_cup"
+      classname="net.sourceforge.czt.java_cup.anttask.CUPTask"
+      classpath="${czt.home}/${jar.dir}/${java_cup.jar.file}"/>
   </target>
 
   <target name="all" depends="install, doc"
@@ -82,11 +83,10 @@
 
   <target name="UnicodeToLatex" depends="Unicode2Latex-cup, -set-javacup-task">
     <java_cup
-      srcDir="${build.src.dir}/net/sourceforge/czt/print/z"
-      destDir="${build.src.dir}/net/sourceforge/czt/print/z"
-      inputFile="Unicode2Latex.cup"
-      parserFile="Unicode2Latex"
-      symbolFile="Sym"
+      srcfile="${build.src.dir}/net/sourceforge/czt/print/z/Unicode2Latex.cup"
+      destdir="${build.src.dir}"
+      parser="Unicode2Latex"
+      symbols="Sym"
       classpath="${czt.lib}/${java_cup.jar.file}">
     </java_cup>
   </target>
@@ -102,7 +102,7 @@
   </target>
 
   <target name="generate-src"
-    depends="generate-z-src, generate-zpatt-src, generate-circus-src, generate-oz-src, generate-print-src"/>
+    depends="generate-z-src, generate-zpatt-src, generate-circus-src, generate-oz-src, generate-tcoz-src, generate-print-src"/>
 
   <target name="generate-print-src"
     depends="print-scanner"/>
@@ -524,11 +524,10 @@
 
   <target name="z-parser" depends="z-parser-cup, -set-javacup-task">
     <java_cup
-      srcDir="${build.src.z.dir}/"
-      destDir="${build.src.z.dir}/"
-      inputFile="Parser.cup"
-      parserFile="Parser"
-      symbolFile="Sym"
+      srcfile="${build.src.z.dir}/Parser.cup"
+      destdir="${build.src.dir}/"
+      parser="Parser"
+      symbols="Sym"
       classpath="${czt.lib}/${java_cup.jar.file}">
     </java_cup>
   </target>
@@ -546,11 +545,10 @@
 
   <target name="zpatt-parser" depends="zpatt-parser-cup, -set-javacup-task">
     <java_cup
-      srcDir="${build.src.zpatt.dir}/"
-      destDir="${build.src.zpatt.dir}/"
-      inputFile="Parser.cup"
-      parserFile="Parser"
-      symbolFile="Sym"
+      srcfile="${build.src.zpatt.dir}/Parser.cup"
+      destdir="${build.src.dir}/"
+      parser="Parser"
+      symbols="Sym"
       classpath="${czt.lib}/${java_cup.jar.file}">
     </java_cup>
   </target>
@@ -568,11 +566,10 @@
 
   <target name="circus-parser" depends="circus-parser-cup, -set-javacup-task">
     <java_cup
-      srcDir="${build.src.circus.dir}/"
-      destDir="${build.src.circus.dir}/"
-      inputFile="Parser.cup"
-      parserFile="Parser"
-      symbolFile="Sym"
+      srcfile="${build.src.circus.dir}/Parser.cup"
+      destdir="${build.src.dir}/"
+      parser="Parser"
+      symbols="Sym"
       classpath="${czt.lib}/${java_cup.jar.file}">
     </java_cup>
   </target>
@@ -590,11 +587,10 @@
 
   <target name="oz-parser" depends="oz-parser-cup, -set-javacup-task">
     <java_cup
-      srcDir="${build.src.oz.dir}/"
-      destDir="${build.src.oz.dir}/"
-      inputFile="Parser.cup"
-      parserFile="Parser"
-      symbolFile="Sym"
+      srcfile="${build.src.oz.dir}/Parser.cup"
+      destdir="${build.src.dir}/"
+      parser="Parser"
+      symbols="Sym"
       classpath="${czt.lib}/${java_cup.jar.file}">
     </java_cup>
   </target>
@@ -613,11 +609,10 @@
   <!-- Modifications below for TCOZ -->
   <target name="tcoz-parser" depends="tcoz-parser-cup, -set-javacup-task">
       <java_cup
-        srcDir="${build.src.tcoz.dir}/"
-        destDir="${build.src.tcoz.dir}/"
-        inputFile="Parser.cup"
-        parserFile="Parser"
-        symbolFile="Sym"
+        srcfile="${build.src.tcoz.dir}/Parser.cup"
+        destdir="${build.src.dir}/"
+        parser="Parser"
+        symbols="Sym"
         classpath="${czt.lib}/${java_cup.jar.file}">
       </java_cup>
     </target>
