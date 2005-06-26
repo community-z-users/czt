@@ -9,8 +9,9 @@ toLatex(net.sourceforge.czt.base.ast.Term spec)
 }
 
 toLatex(net.sourceforge.czt.base.ast.Term spec,
-        net.sourceforge.czt.session.SectionManager manger)
+        net.sourceforge.czt.session.SectionManager manager)
 {
+  System.err.println(manager);
   out = new StringWriter();
   toLatex(spec, out, manager);
   out.close();
@@ -19,7 +20,7 @@ toLatex(net.sourceforge.czt.base.ast.Term spec,
 
 toLatex(net.sourceforge.czt.base.ast.Term spec,
         java.io.Writer writer,
-        net.sourceforge.czt.session.SectionManager manger)
+        net.sourceforge.czt.session.SectionManager manager)
 {
   net.sourceforge.czt.print.z.PrintUtils.printLatex(spec, writer, manager);
 }
