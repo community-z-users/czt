@@ -64,13 +64,19 @@ abstract public class Checker
   //the current class name
   protected DeclName className()
   {
-    return typeChecker_.className_;
+    return typeChecker_.classPara_.getName();
   }
 
-  //set the name of the current class
-  protected void setClassName(DeclName declName)
+  //the current class para
+  protected ClassPara classPara()
   {
-    typeChecker_.className_ = declName;
+    return typeChecker_.classPara_;
+  }
+
+  //set the current class paragraph
+  protected void setClassPara(ClassPara classPara)
+  {
+    typeChecker_.classPara_ = classPara;
   }
 
   //the lst of primary state variables in the current class
@@ -83,18 +89,6 @@ abstract public class Checker
   protected void resetPrimary()
   {
     typeChecker_.primary_.clear();
-  }
-
-  //the list of operations declared during the previous pass of a class
-  protected List<NameSignaturePair> previousOps()
-  {
-    return typeChecker_.previousOps_;
-  }
-
-  //reset the list of previous operations in the current class to empty
-  protected void resetPreviousOps()
-  {
-    typeChecker_.previousOps_.clear();
   }
 
   //typecheck a file using an instance of this typechecker
@@ -164,6 +158,20 @@ abstract public class Checker
     return result;
   }
 
+  //returns true if and only if the expressions is a reference to the
+  //variable "self"
+  protected boolean isSelfExpr(Expr expr)
+  {
+    boolean result = false;
+    if (expr instanceof RefExpr) {
+      RefExpr refExpr = (RefExpr) expr;
+      RefName refName = refExpr.getRefName();
+      result = refName.getWord().equals(OzString.SELF) &&
+        refName.getStroke().size() == 0;
+    }
+    return result;
+  }
+
   //take the intersection of 2 signatures
   protected Signature intersect(Signature sigA, Signature sigB)
   {
@@ -208,24 +216,6 @@ abstract public class Checker
           error(declName, ErrorMessage.INCOMPATIBLE_OVERRIDING, params);
         }
       }
-    }
-  }
-
-  //if this is the 2nd pass, lookup the name from the previous pass,
-  //and add all of the operation signatures to allow recursive
-  //operation definitions
-  protected void addPreviousOps(ClassSig cSig)
-  {
-    if (sectTypeEnv().getSecondTime()) {
-      resetPreviousOps();
-      RefName classRefName = factory().createRefName(className());
-      Type type = getType(classRefName);
-      assert unwrapType(type) instanceof PowerType;
-      PowerType powerType = (PowerType) unwrapType(type);
-      assert powerType.getType() instanceof ClassRefType;
-      ClassRefType classRefType = (ClassRefType) powerType.getType();
-      ClassSig prevCSig = classRefType.getClassSig();
-      previousOps().addAll(prevCSig.getOperation());
     }
   }
 

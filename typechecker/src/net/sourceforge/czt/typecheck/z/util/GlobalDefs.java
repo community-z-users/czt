@@ -59,7 +59,7 @@ public class GlobalDefs
    * @param e1 the first specified element
    * @param e2 the second specified element
    * @return a list containg only the specified elements.
-   */  
+   */
   public static <E> List<E> list(E e1, E e2)
   {
     List result = list(e1);
@@ -221,6 +221,16 @@ public class GlobalDefs
         break;
       }
     }
+    return result;
+  }
+
+  /**
+   * Test whether the base name and strokes of two names are equal.
+   */
+  public static boolean namesEqual(Name name1, Name name2)
+  {
+    boolean result = name1.getWord().equals(name2.getWord()) &&
+      name1.getStroke().equals(name2.getStroke());
     return result;
   }
 

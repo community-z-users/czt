@@ -52,17 +52,11 @@ public class OpExprChecker
     RenameOpExprVisitor,
     ScopeEnrichOpExprVisitor,
     DistOpExprVisitor,
-    OpTextVisitor,
-    OpExprVisitor
+    OpTextVisitor
 {
   public OpExprChecker(TypeChecker typeChecker)
   {
     super(typeChecker);
-  }
-
-  public Object visitOpExpr(OpExpr opExpr)
-  {
-    return factory().createVariableSignature();
   }
 
   public Object visitAnonOpExpr(AnonOpExpr anonOpExpr)
@@ -137,11 +131,17 @@ public class OpExprChecker
         RefName refName = opPromExpr.getName();
         NameSignaturePair opDef = findOperation(refName, cSig);
 
-	//if the name is not found, look for it in the previous
-	//declaration of this class
-	if (opDef == null) {
-	  opDef = findNameSigPair(refName, previousOps());
-	}
+        //if the name is not found, and use-before-decl is enabled,
+        //then search for this name in the class
+        if (opDef == null && sectTypeEnv().getSecondTime() &&
+            (expr == null || isSelfExpr(expr))) {
+          List<Operation> ops = classPara().getOperation();
+          for (Operation op : ops) {
+            if (namesEqual(op.getName(), refName)) {
+              opDef = (NameSignaturePair) op.accept(paraChecker());
+            }
+          }
+        }
 
         //if there is no operation with this name, raise an error
         if (opDef == null) {
@@ -150,6 +150,10 @@ public class OpExprChecker
         }
         else {
           signature = opDef.getSignature();
+          if (resolve(signature) instanceof VariableSignature) {
+            Object [] params = {opPromExpr};
+            error(opPromExpr, ErrorMessage.SIGNATURE_NOT_DETERMINED, params);
+          }
         }
 
         //if there is an operation, but it is not visible, raise an error

@@ -42,15 +42,12 @@ public class TypeChecker
   //operation expr typechecker
   protected Checker opExprChecker_;
 
-  //the name of the current class being typechecked - null if we are
-  //not typechecking a class paragraph
-  protected DeclName className_;
+  //the current class parargraph - null if we are not typechecking a
+  //class paragraph
+  protected ClassPara classPara_;
 
   //the list of primary state variables in the current class
   protected List<DeclName> primary_;
-
-  //the list of operations declared during the previous pass of a class
-  protected List<NameSignaturePair> previousOps_;
 
   public TypeChecker(TypeChecker info)
   {
@@ -89,7 +86,7 @@ public class TypeChecker
                      SectionInfo sectInfo,
                      Markup markup,
                      boolean useBeforeDecl,
-		     boolean useStrongTyping)
+                     boolean useStrongTyping)
   {
     super(zFactory, sectInfo, markup, useBeforeDecl);
     ozFactory_ = new Factory(zFactory, ozFactory);
@@ -103,8 +100,7 @@ public class TypeChecker
     predChecker_ = new PredChecker(this);
     postChecker_ = new PostChecker(this);
     opExprChecker_ = new OpExprChecker(this);
-    className_ = null;
+    classPara_ = null;
     primary_ = list();
-    previousOps_ = list();
   }
 }

@@ -74,8 +74,8 @@ public class ParaChecker
     //add the generic types to the type environment
     addGenParamTypes(classPara.getFormalParameters());
 
-    //set the class name
-    setClassName(classPara.getName());
+    //set the class para
+    setClassPara(classPara);
 
     //reset the primary variable list
     resetPrimary();
@@ -102,10 +102,10 @@ public class ParaChecker
     pending().add(self, addGenerics(classType));
 
     //visit each inherited class
-    List<Expr> inheritedClass = classPara.getInheritedClass();    
+    List<Expr> inheritedClass = classPara.getInheritedClass();
     for (Expr iClass : inheritedClass) {
       visitInheritedClass(iClass, classType);
-      
+
     }
 
     //visit the attributes
@@ -153,9 +153,6 @@ public class ParaChecker
 
     //the list of operation names declared by this paragraph
     List<DeclName> opNames = list();
-
-    //if this is a 2nd pass, add the previous definitions of the operations
-    addPreviousOps(cSig);
 
     //visit each operation
     List<Operation> operations = classPara.getOperation();
@@ -280,31 +277,44 @@ public class ParaChecker
   public Object visitOperation(Operation operation)
   {
     DeclName opName = operation.getName();
-    NameSignaturePair temporaryPair =
+    Signature signature = factory().createVariableSignature();
+
+    SignatureAnn signatureAnn =
+      (SignatureAnn) operation.getAnn(SignatureAnn.class);
+    //if this has already been visited, return the signature
+    if (signatureAnn != null) {
+      signature = signatureAnn.getSignature();
+    }
+    //otherwise, calculate the signature
+    else {
+      NameSignaturePair temporaryPair =
         factory().createNameSignaturePair(opName, factory().createSignature());
-    ClassSig cSig = getSelfSig();
-    List<NameSignaturePair> opPairs = cSig.getOperation();
-    boolean added = false;
-    if (useBeforeDecl()) {
-      //before visiting, add this operation temporarily with an empty
-      //signature to allow recursive definitions with itself
-      NameSignaturePair existing = findNameSigPair(opName, opPairs);
-      if (existing == null) {
-        added = true;
-        opPairs.add(temporaryPair);
+      ClassSig cSig = getSelfSig();
+      List<NameSignaturePair> opPairs = cSig.getOperation();
+      boolean added = false;
+      if (useBeforeDecl()) {
+        //before visiting, add this operation temporarily with an empty
+        //signature to allow recursive definitions with itself
+        NameSignaturePair existing = findNameSigPair(opName, opPairs);
+        if (existing == null) {
+          added = true;
+          opPairs.add(temporaryPair);
+        }
+      }
+
+      //visit the operation expression, and get the signature
+      OpExpr opExpr = operation.getOpExpr();
+      signature = (Signature) opExpr.accept(opExprChecker());
+
+      if (added) {
+        //remove the the temporary pair again
+        opPairs.remove(temporaryPair);
       }
     }
 
-    //visit the operation expression, and get the signature
-    OpExpr opExpr = operation.getOpExpr();
-    Signature signature = (Signature) opExpr.accept(opExprChecker());
+    //create the name/signature pair
     NameSignaturePair pair =
       factory().createNameSignaturePair(opName, signature);
-
-    if (added) {
-      //remove the the temporary pair again
-      opPairs.remove(temporaryPair);
-    }
 
     return pair;
   }

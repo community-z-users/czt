@@ -288,28 +288,28 @@ public class ExprChecker
     if (type instanceof Type2) {
       type = resolveUnknownType((Type2) type);
     }
-    else if (type instanceof GenericType) {      
+    else if (type instanceof GenericType) {
       GenericType gType = (GenericType) type;
       List<Type2> instantiations = list();
       ParameterAnn pAnn =
-	(ParameterAnn) bindSelExpr.getAnn(ParameterAnn.class);
+        (ParameterAnn) bindSelExpr.getAnn(ParameterAnn.class);
 
-      unificationEnv().enterScope();      
+      unificationEnv().enterScope();
 
       //add new vtypes for the (missing) parameters
       List<DeclName> declNames = gType.getName();
       for (DeclName declName : declNames) {
-	//add a variable type corresponding to this name
-	VariableType vType = factory().createVariableType();
-	unificationEnv().addGenName(declName, vType);
-	instantiations.add(vType);
+        //add a variable type corresponding to this name
+        VariableType vType = factory().createVariableType();
+        unificationEnv().addGenName(declName, vType);
+        instantiations.add(vType);
       }
-      
+
       //instantiate the type
       type = (GenericType) instantiate(gType);
-      
+
       if (pAnn != null) {
-	removeAnn(bindSelExpr, pAnn);
+        removeAnn(bindSelExpr, pAnn);
       }
       pAnn = new ParameterAnn(instantiations);
       addAnn(bindSelExpr, pAnn);
@@ -317,14 +317,13 @@ public class ExprChecker
 
       //add this for post-checking
       if (!containsObject(paraErrors(), bindSelExpr)) {
-	paraErrors().add(bindSelExpr);
+        paraErrors().add(bindSelExpr);
       }
     }
 
     //add the type annotation
     addTypeAnn(bindSelExpr, type);
     Type2 result = unwrapType(type);
-    //System.err.println("result = " + result);
     return result;
   }
 

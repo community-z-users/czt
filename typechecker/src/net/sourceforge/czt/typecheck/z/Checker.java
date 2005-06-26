@@ -56,8 +56,8 @@ abstract public class Checker
   public Object visitTerm(Term term)
   {
     logger().warning(this.getClass().getName() +
-		     " being asked to visit " +
-		     term.getClass().getName());
+                     " being asked to visit " +
+                     term.getClass().getName());
     return null;
   }
 
@@ -86,7 +86,14 @@ abstract public class Checker
       termA.getAnns().add(signatureAnn);
     }
     else {
-      signatureAnn.setSignature(signature);
+      Signature oldSignature = (Signature) signatureAnn.getSignature();
+      if (oldSignature instanceof VariableSignature &&
+          variableSignature(oldSignature).getValue() == oldSignature) {
+        variableSignature(oldSignature).setValue(signature);
+      }
+      else {
+        signatureAnn.setSignature(signature);
+      }
     }
   }
 
@@ -835,7 +842,7 @@ abstract public class Checker
     List<NameTypePair> newPairs = list();
     for (NameTypePair pair : pairs) {
       if (pair.getType() == rootType ||
-	  pair.getType() instanceof GenericType) {
+          pair.getType() instanceof GenericType) {
         newPairs.add(pair);
       }
       else {
@@ -1104,6 +1111,10 @@ abstract public class Checker
     if (term instanceof TermA) {
       TermA termA = (TermA) term;
       Object ann = termA.getAnn(TypeAnn.class);
+      if (ann != null) {
+        removeAnn(termA, ann);
+      }
+      ann = termA.getAnn(SignatureAnn.class);
       if (ann != null) {
         removeAnn(termA, ann);
       }
