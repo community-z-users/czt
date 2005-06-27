@@ -81,17 +81,18 @@
     <mkdir dir="${rules.build.dir}"/>
     <jar jarfile="${test.jar.file}">
       <fileset dir="${test.build.dir}"/>
-      <fileset dir="${rules.src.dir}/test/resources"/>
+      <fileset dir="src/test/resources"/>
     </jar>
   </target>
 
-  <target name="run-tests" depends="compile-tests">
+  <target name="run-tests" depends="install-tests">
     <junit fork="yes" printsummary="on">
       <formatter type="xml"/>
       <test toDir="${rules.build.dir}"
         name="net.sourceforge.czt.rules.SimpleProverTest"/>
       <classpath>
-        <pathelement location="${test.build.dir}"/>
+        <pathelement location="${rules.jar.file}"/>
+        <pathelement location="${test.jar.file}"/>
       </classpath>
       <classpath refid="classpath"/>
     </junit>
