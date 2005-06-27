@@ -113,7 +113,7 @@
   <xs:element name="JokerDeclList" type="P:JokerDeclList" substitutionGroup="Z:Decl"/>
   <xs:element name="JokerName"     type="P:JokerName"     substitutionGroup="Z:DeclName"/>
 
-  <xs:element name="Binding" type="P:Binding">
+  <xs:element name="Binding" type="P:Binding" abstract="true">
     <xs:annotation>
       <xs:documentation>
 	Base class for the various kinds of bindings within each joker.
