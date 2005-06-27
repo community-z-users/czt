@@ -85,7 +85,7 @@ public class Rewrite
     predSequent.setPred(pred);
     SimpleProver prover = new SimpleProver(rules_, factory);
     if (prover.prove(predSequent)) {
-      return joker.getBinding().getExpr().accept(new RemoveJokerVisitor());
+      return joker.boundTo().accept(new RemoveJokerVisitor());
     }
     return newExpr;
   }
