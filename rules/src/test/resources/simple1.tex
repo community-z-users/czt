@@ -1,0 +1,29 @@
+\begin{verbatim}
+%%Zinchar \proviso U+25B8
+%%Zinchar \derives U+2500
+\end{verbatim}
+
+\begin{zedjoker}{Pred} P1, P2\end{zedjoker} \\
+
+\begin{zedrule}{true_rule}
+  true
+\end{zedrule}
+
+\begin{zedrule}{and_rule}
+  P1 \\
+  P2 \\
+\derives
+  P1 \land P2  
+\end {zedrule}
+
+\begin{zed}
+  \vdash? true
+\end{zed}
+
+\begin{zed}
+  \vdash? true \land true
+\end{zed}
+
+\begin{zed}
+  \vdash? true \land true \land true
+\end{zed}
