@@ -393,7 +393,29 @@
         It represents the grammar rule <b>begin</b> <code>PParagraph*</code> <b>state</b> <code>Schema-Exp PParagraph*</code>
         <b>@</b> <code>Action</code> <b>end</b>.
         </p>
+        <p>
+				For the process state, the corresponding action (as a SchExprAction) or Z paragraph (as a Schema or HorizontalDef) 
+				must contain a <code>CircusStateAnn</code> annotation.
+        </p>
       </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="CircusStateAnn" type="CIRCUS:CircusStateAnn" substitutionGroup="Z:Ann">
+    <xs:annotation>
+        <xs:documentation>
+            Defines if a given paragraph is the process state. The parser must enforce such a paragrah is a schema.
+        </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:element name="OnTheFlyDefAnn" type="CIRCUS:OnTheFlyDefAnn" substitutionGroup="Z:Ann">
+    <xs:annotation>
+        <xs:documentation>
+            Defines an on-the-fly definition annotation used for both processes and actions.
+            It must be included into <code>ParamAction</code> and <code>ParamProcess</code> by 
+            the parser whenever an on-the-fly definition occurs.
+        </xs:documentation>
     </xs:annotation>
   </xs:element>
 
@@ -935,6 +957,9 @@
         possibilities and ensure that only well formed schema expressions are allowed.
         From the CZT these came through <code>SchExpr</code>, <code>SchExpr2</code>, <code>DecorExpr</code>,
         <code>NegExpr</code>, and <code>RenameExpr</code>. (TODO: Check this carefully).
+        </p>        
+        <p>
+        For the process state, this action or a the corresponding Z paragraph must contain a <code>CircusStateAnn</code>.
         </p>
       </xs:documentation>
     </xs:annotation>
@@ -1557,6 +1582,13 @@
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
+          <xs:element name="OnTheFlyActionPara" type="CIRCUS:ActionPara" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="OnTheFlyActionPara"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
           <xs:element name="CircusNameSetPara" type="CIRCUS:NameSetPara" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
               <xs:appinfo>
@@ -1575,6 +1607,19 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  
+  <xs:complexType name="CircusStateAnn">
+    <xs:complexContent>
+      <xs:extension base="Z:Ann"/>            
+    </xs:complexContent>
+  </xs:complexType>        
+
+  <xs:complexType name="OnTheFlyDefAnn">
+    <xs:complexContent>
+      <xs:extension base="Z:Ann"/>            
+    </xs:complexContent>
+  </xs:complexType>
+
   
   <!-- Process Definition :: Calls --> 
   
@@ -1880,7 +1925,6 @@
           -->          
           <xs:element ref="Z:Expr"/>
         </xs:sequence>
-        <xs:attribute name="IsState" type="xs:boolean" use="optional" default="false"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
