@@ -26,55 +26,58 @@ import java.util.*;
 import junit.framework.*;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.parser.util.ParseException;
+import net.sourceforge.czt.parser.zpatt.ParseUtils;
+import net.sourceforge.czt.print.z.PrintUtils;
+import net.sourceforge.czt.rules.ast.*;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.zpatt.ast.*;
+import net.sourceforge.czt.zpatt.util.Factory;
 import net.sourceforge.czt.zpatt.jaxb.JaxbXmlReader;
 
 public class SimpleProverTest
   extends TestCase
 {
-  public void testFindSimpleProve()
-  {
-    try {
-      JaxbXmlReader reader = new JaxbXmlReader();
-      URL url = getClass().getResource("/zpatt/rule.xml");
-      List rules = collectRules(reader.read(url.openStream()));
-      Factory factory = new Factory(new ProverFactory());
-      ProverJokerExpr joker1 = (ProverJokerExpr) factory.createJokerExpr();
-      ProverJokerExpr joker2 = (ProverJokerExpr) factory.createJokerExpr();
-      Pred pred = factory.createEquality(joker1, joker2);
-      PredSequent sequent = factory.createPredSequent();
-      sequent.setPred(pred);
-      SimpleProver prover = new SimpleProver(rules, factory);
-      assertTrue(prover.prove(sequent));
-    }
-    catch (IOException exception) {
-      fail("Should not throw exception " + exception);
-    }
-  }
+  Factory factory_ = new Factory(new ProverFactory());
+  SectionManager manager_ = new SectionManager();
 
-  public void testFailSimpleProve()
+  public void testSimple1()
   {
     try {
-      JaxbXmlReader reader = new JaxbXmlReader();
-      URL url = getClass().getResource("/zpatt/rule.xml");
-      List rules = collectRules(reader.read(url.openStream()));
-      Factory factory = new Factory(new ProverFactory());
-      ProverJokerExpr joker = (ProverJokerExpr) factory.createJokerExpr();
-      Pred pred = factory.createEquality(joker, joker);
-      PredSequent sequent = factory.createPredSequent();
-      sequent.setPred(pred);
-      SimpleProver prover = new SimpleProver(rules, factory);
-      assertFalse(prover.prove(sequent));
+      URL url = getClass().getResource("/simple1.tex");
+      assertFalse(url == null);
+      Term term = ParseUtils.parse(new UrlSource(url), new SectionManager());
+      List<Rule> rules = collectRules(term);
+      List<ConjPara> conjectures = collectConjectures(term);
+      for (Iterator<ConjPara> i = conjectures.iterator(); i.hasNext(); ) {
+        ConjPara conjPara = i.next();
+        PredSequent sequent = factory_.createPredSequent();
+        sequent.setPred(conjPara.getPred());
+        SimpleProver prover = new SimpleProver(rules, factory_);
+        if (! prover.prove(sequent)) {
+          StringWriter writer = new StringWriter();
+          PrintUtils.print(conjPara.getPred(),
+                           writer,
+                           manager_,
+                           "standard_toolkit",
+                           Markup.LATEX);
+          writer.close();
+          fail("Failed to prove " + writer.toString());
+        }
+      }
     }
-    catch (IOException exception) {
-      fail("Should not throw exception " + exception);
+    catch (ParseException e) {
+      fail("Should not throw exception " + e);
+    }
+    catch (IOException e) {
+      fail("Should not throw exception " + e);
     }
   }
 
   public static List<Rule> collectRules(Term term)
   {
-    List<Rule> result = new ArrayList();  
+    List<Rule> result = new ArrayList<Rule>();  
     if (term instanceof Spec) {
       for (Iterator i = ((Spec) term).getSect().iterator(); i.hasNext(); ) {
         Sect sect = (Sect) i.next();
@@ -84,6 +87,26 @@ public class SimpleProverTest
             Para para = (Para) j.next();
             if (para instanceof Rule) {
               result.add((Rule) para);
+            }
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  public static List<ConjPara> collectConjectures(Term term)
+  {
+    List<ConjPara> result = new ArrayList<ConjPara>();  
+    if (term instanceof Spec) {
+      for (Iterator i = ((Spec) term).getSect().iterator(); i.hasNext(); ) {
+        Sect sect = (Sect) i.next();
+        if (sect instanceof ZSect) {
+          for (Iterator j = ((ZSect) sect).getPara().iterator();
+               j.hasNext(); ) {
+            Para para = (Para) j.next();
+            if (para instanceof ConjPara) {
+              result.add((ConjPara) para);
             }
           }
         }
