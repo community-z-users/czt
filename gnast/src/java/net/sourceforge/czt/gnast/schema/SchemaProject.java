@@ -1,20 +1,20 @@
-/**
-Copyright (C) 2003, 2004 Petra Malik
-This file is part of the czt project.
+/*
+  Copyright (C) 2003, 2004, 2005 Petra Malik
+  This file is part of the czt project.
 
-The czt project contains free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+  The czt project contains free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
 
-The czt project is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+  The czt project is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with czt; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  You should have received a copy of the GNU General Public License
+  along with czt; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 
@@ -128,6 +128,11 @@ public class SchemaProject
    */
   private String targetNamespace_;
 
+  /**
+   *
+   */
+  private Map<String, List> props_ = new HashMap<String, List>();
+
   // ############################################################
   // ####################### CONSTRUCTORS #######################
   // ############################################################
@@ -179,7 +184,7 @@ public class SchemaProject
       }
 
       // collecting all Ast classes
-      nl = xPath_.selectNodeIterator(schemaNode, "xs:element | xs:group");
+      nl = xPath_.selectNodeIterator(schemaNode, "xs:element");
       while ((n = nl.nextNode()) != null) {
         SchemaClass c = new SchemaClass(n);
         map_.put(c.getName(), c);
@@ -657,9 +662,6 @@ public class SchemaProject
         removeNamespace(xPath_.getNodeValue(node, "@substitutionGroup"));
 
       properties_ = new ArrayList();
-      if (node.getNodeName().equals("xs:group")) {
-        properties_ = collectProperties(node);
-      }
 
       // parsing the type
       xsdType_ = xPath_.getNodeValue(node, "@type");
@@ -815,13 +817,17 @@ public class SchemaProject
      *
      * @czt.todo Should this method be static?
      */
-    private List collectProperties(Node node)
+    private List collectProperties(String name, Node node)
       throws XSDException
     {
       final String methodName = "collectProperties";
       LOGGER.entering(CLASS_NAME, methodName, node);
 
-      List list = new ArrayList();
+      List list = props_.get(name);
+      if (list != null) {
+        return list;
+      }
+      list = new ArrayList();
       String xpathexpr = ".//xs:element | .//xs:attribute";
       NodeIterator nl = null;
       try {
@@ -847,6 +853,7 @@ public class SchemaProject
           throw exception;
         }
       }
+      props_.put(name, list);
       LOGGER.exiting(CLASS_NAME, methodName, list);
       return list;
     }
@@ -891,7 +898,7 @@ public class SchemaProject
       if (typeName.equals("TermA")) {
         extends_ = "TermA";
       }
-      else if (!typeName.equals(extends_)) {
+      else if (! typeName.equals(extends_)) {
         Node startNode = getComplexTypeNode(typeName);
         if (startNode == null) {
           LOGGER.warning("Cannot find definition of complex type "
@@ -901,7 +908,7 @@ public class SchemaProject
           return erg;
         }
 
-        erg.addAll(collectProperties(startNode));
+        erg.addAll(collectProperties(typeName, startNode));
         Node n = xPath_.selectSingleNode(startNode,
               "./xs:complexContent/xs:extension/@base");
         if (n != null && n.getNodeValue() != null) {
