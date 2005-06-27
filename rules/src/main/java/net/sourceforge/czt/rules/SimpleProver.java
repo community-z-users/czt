@@ -99,7 +99,7 @@ public class SimpleProver
       if (sequent instanceof PredSequent) {
         if (! prove((PredSequent) sequent)) return false;
       }
-      if (sequent instanceof ProverProviso) {
+      else if (sequent instanceof ProverProviso) {
         ProverProviso proviso = (ProverProviso) sequent;
         proviso.check();
         if (! ProverProviso.Status.PASS.equals(proviso.getStatus())) {
