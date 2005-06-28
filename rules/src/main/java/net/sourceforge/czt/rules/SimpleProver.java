@@ -66,12 +66,28 @@ public class SimpleProver
         if (success && prove(predSequent.getDeduction())) {
           return true;
         }
+        else {
+          undo(predSequent);
+        }
       }
       catch (IllegalArgumentException e) {
         // PredSequent cannot be applied to this rule
       }
     }
     return false;
+  }
+
+  private void undo(PredSequent predSequent)
+  {
+    Deduction ded = predSequent.getDeduction();
+    if (ded != null) {
+      List bindings = ded.getBinding();
+      for (Iterator i = bindings.iterator(); i.hasNext(); ) {
+        Binding binding = (Binding) i.next();
+        binding.reset();
+      }
+      predSequent.setDeduction(null);
+    }
   }
 
   /**
