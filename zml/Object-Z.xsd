@@ -405,6 +405,7 @@
           <xs:element name="ThisClass" type="OZ:ClassRef"/>
           <xs:element name="SuperClass" type="OZ:ClassRef" minOccurs="0" maxOccurs="unbounded"/>
           <xs:element ref="OZ:VisibilityList" minOccurs="0"/>
+          <xs:element name="Primary" type="Z:DeclName" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
