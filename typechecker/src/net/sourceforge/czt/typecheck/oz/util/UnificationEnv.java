@@ -222,7 +222,7 @@ public class UnificationEnv
     ClassRef result = null;
     for (ClassRef classRef : classRefs) {
       if (refName.getWord().equals(classRef.getRefName().getWord()) &&
-	  refName.getStroke().equals(classRef.getRefName().getStroke())) {
+          refName.getStroke().equals(classRef.getRefName().getStroke())) {
         result = classRef;
       }
     }

@@ -23,6 +23,8 @@ import java.util.Stack;
 import java.util.List;
 import java.util.ArrayList;
 
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
+
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
@@ -96,6 +98,22 @@ public class TypeEnv
   {
     NameTypePair pair = factory_.createNameTypePair(declName, type);
     add(pair);
+  }
+
+
+  /**
+   * Add a name into the environment, overriding an existing name in
+   * the inner-most variable scope.
+   */
+  public void override(DeclName declName, Type type)
+  {
+    for (NameTypePair pair : typeInfo_.peek()) {
+      if (namesEqual(declName, pair.getName())) {
+        pair.setType(type);
+        return;
+      }
+    }
+    add(declName, type);
   }
 
   public void add(NameTypePair pair)

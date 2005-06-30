@@ -45,10 +45,10 @@ import net.sourceforge.czt.typecheck.z.*;
 public class PredChecker
   extends Checker
   implements ImpliesPredVisitor,
-	     MemPredVisitor,
-	     AndPredVisitor,
-	     OrPredVisitor,
-	     PredVisitor
+             MemPredVisitor,
+             AndPredVisitor,
+             OrPredVisitor,
+             PredVisitor
 {
   //a Z pred checker
   protected net.sourceforge.czt.typecheck.z.PredChecker zPredChecker_;
@@ -80,44 +80,44 @@ public class PredChecker
     //if the left expr is a reference, and the right expr is a set of
     //object identifies, then try to downcast
     if (memPred.getLeftExpr() instanceof RefExpr &&
-	memPred.getMixfix().equals(Boolean.FALSE)) {
-      Type2 rightType = getType2FromAnns(memPred.getRightExpr());      
+        memPred.getMixfix().equals(Boolean.FALSE)) {
+      Type2 rightType = getType2FromAnns(memPred.getRightExpr());
       if (rightType instanceof PowerType &&
-	  powerType(rightType).getType() instanceof ClassType) {
-	RefExpr refExpr = (RefExpr) memPred.getLeftExpr();
-	Type2 leftType = getType2FromAnns(refExpr);
-	PowerType rPowerType = (PowerType) rightType;
-	ClassType classType = (ClassType) rPowerType.getType();
+          powerType(rightType).getType() instanceof ClassType) {
+        RefExpr refExpr = (RefExpr) memPred.getLeftExpr();
+        Type2 leftType = getType2FromAnns(refExpr);
+        PowerType rPowerType = (PowerType) rightType;
+        ClassType classType = (ClassType) rPowerType.getType();
 
-	//if weak unification is successful, then push the name into
-	//the typing environment, and remove any type mismatch errors
-	//added for the Z typechecker.
-	UResult unified = weakUnify(leftType, classType);
-	if (unified != FAIL) {
-	  RefName refName = refExpr.getRefName();
-	  DeclName declName = factory().createDeclName(refName);
-	  typeEnv().add(declName, classType);
+        //if weak unification is successful, then push the name into
+        //the typing environment, and remove any type mismatch errors
+        //added for the Z typechecker.
+        UResult unified = weakUnify(leftType, classType);
+        if (unified != FAIL) {
+          RefName refName = refExpr.getRefName();
+          DeclName declName = factory().createDeclName(refName);
+          typeEnv().override(declName, classType);
 
-	  //remove any type mismatch errors
-	  String message = 
-	    ErrorMessage.TYPE_MISMATCH_IN_MEM_PRED.toString();
-	  for (Iterator iter = memPred.getAnns().iterator(); iter.hasNext();) {
-	    Object next = iter.next();
-	    if (next instanceof ErrorAnn) {
-	      ErrorAnn errorAnn = (ErrorAnn) next;
-	      if (errorAnn.getErrorMessage().equals(message)) {
-		iter.remove();
-		removeObject(errorAnn, paraErrors());
-	      }
-	    }
-	  }
-	}
+          //remove any type mismatch errors
+          String message =
+            ErrorMessage.TYPE_MISMATCH_IN_MEM_PRED.toString();
+          for (Iterator iter = memPred.getAnns().iterator(); iter.hasNext();) {
+            Object next = iter.next();
+            if (next instanceof ErrorAnn) {
+              ErrorAnn errorAnn = (ErrorAnn) next;
+              if (errorAnn.getErrorMessage().equals(message)) {
+                iter.remove();
+                removeObject(errorAnn, paraErrors());
+              }
+            }
+          }
+        }
       }
     }
     return result;
   }
 
-  public Object visitAndPred(AndPred andPred)   
+  public Object visitAndPred(AndPred andPred)
   {
     traverseForDowncasts(andPred);
 
@@ -166,7 +166,7 @@ public class PredChecker
     for (Iterator iter = list.iterator(); iter.hasNext(); ) {
       Object next = iter.next();
       if (obj == next) {
-	iter.remove();
+        iter.remove();
       }
     }
   }
@@ -184,8 +184,8 @@ public class PredChecker
       MemPred memPred = (MemPred) pred;
       boolean mixfix = memPred.getMixfix().booleanValue();
       if (!mixfix) {
-	memPred.accept(predChecker());
-      }   
+        memPred.accept(predChecker());
+      }
     }
   }
 }

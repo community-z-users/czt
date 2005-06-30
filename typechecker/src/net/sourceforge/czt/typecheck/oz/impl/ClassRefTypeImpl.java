@@ -56,6 +56,13 @@ public class ClassRefTypeImpl
     return result;
   }
 
+  public ListTerm getPrimary()
+  {
+    ClassRefType classRefType = (ClassRefType) term_;
+    ListTerm result = classRefType.getPrimary();
+    return result;
+  }
+
   public void setVisibilityList(VisibilityList visibilityList)
   {
     ClassRefType classRefType = (ClassRefType) term_;

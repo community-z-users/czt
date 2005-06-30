@@ -21,7 +21,7 @@ package net.sourceforge.czt.typecheck.oz;
 import java.io.Writer;
 import java.util.List;
 
-import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
+import static net.sourceforge.czt.typecheck.oz.util.GlobalDefs.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
@@ -294,6 +294,67 @@ abstract public class Checker
     }
   }
 
+  protected void checkVisibility(ClassRefType superClass,
+                                 ClassRefType subClass,
+                                 List<NameTypePair> superPairs,
+                                 List<NameTypePair> subPairs,
+                                 PolyExpr polyExpr)
+  {
+    for (NameTypePair superPair : superPairs) {
+      RefName superName = factory().createRefName(superPair.getName());
+      if (isVisible(superName, superClass)) {
+        NameTypePair subPair = findNameTypePair(superName, subPairs);
+        if (subPair == null || !isVisible(superName, subClass)) {
+          Object [] params = {subClass.getThisClass().getRefName(),
+                              superName,
+                              superClass.getThisClass().getRefName(),
+                              polyExpr};
+
+          error(polyExpr,
+                ErrorMessage.NON_VISIBLE_FEATURE_IN_POLYEXPR, params);
+        }
+      }
+    }
+  }
+
+  protected void checkOpVisibility(ClassRefType superClass,
+                                   ClassRefType subClass,
+                                   List<NameSignaturePair> superPairs,
+                                   List<NameSignaturePair> subPairs,
+                                   PolyExpr polyExpr)
+  {
+    for (NameSignaturePair superPair : superPairs) {
+      RefName superName = factory().createRefName(superPair.getName());
+      if (isVisible(superName, superClass)) {
+        NameSignaturePair subPair = findNameSigPair(superName, subPairs);
+        if (subPair == null || !isVisible(superName, subClass)) {
+          Object [] params = {subClass.getThisClass().getRefName(),
+                              superName,
+                              superClass.getThisClass().getRefName(),
+                              polyExpr};
+
+          error(polyExpr,
+                ErrorMessage.NON_VISIBLE_FEATURE_IN_POLYEXPR, params);
+        }
+        else if (subPair != null) {
+          Signature superSig = superPair.getSignature();
+          Signature subSig = subPair.getSignature();
+          UResult unified = unify(superSig, subSig);
+          if (unified == FAIL) {
+            Object [] params = {superName, polyExpr,
+                                subClass.getThisClass().getRefName(),
+                                superClass.getThisClass().getRefName(),
+                                superSig, subSig};
+
+            error(polyExpr,
+                  ErrorMessage.INCOMPATIBLE_OP_IN_POLYEXPR, params);
+          }
+        }
+
+      }
+    }
+  }
+
   protected Signature createPloSig(Signature lSig, Signature rSig,
                                    TermA termA, String errorMessage)
   {
@@ -426,7 +487,8 @@ abstract public class Checker
         ClassRef classRef = instantiate(classRefType.getThisClass(), rootType);
         result = factory().createClassRefType(newCSig, classRef,
                                               classRefType.getSuperClass(),
-                                              classRefType.getVisibilityList());
+                                              classRefType.getVisibilityList(),
+                                              classRefType.getPrimary());
       }
       else if (type instanceof ClassPolyType) {
         ClassPolyType classPolyType = (ClassPolyType) type;

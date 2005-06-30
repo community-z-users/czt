@@ -23,6 +23,19 @@
       <action dev="Tim" type="add">
         Add recursive operation definitions within the same class paragraph.
       </action>
+      <action dev="Tim" type="add">
+        Finish type rules for PolyExpr (check that sublasses have the
+        type-compatible features).
+      </action>
+      <action dev="Tim" type="bugfix">
+        Added a method "override" to TypeEnv that is used in downcasting 
+        objects, so that downcasting in a scope enrichment is visible to 
+        the right-hand-side of the scope enrichment.
+      </action>
+      <action dev="Tim" type="bugfix">
+        Primary variable names declared in a superclass can now be used 
+        in delta lists.
+      </action>
       <!-- Sample action:
       <action dev="JB" type="fix" due-to="Joe Contributor"
           due-to-email="joec@apache.org" fixes-bug="123">
@@ -49,12 +62,13 @@
         Finish implementing weak typing unification algorithm.
       </action>
       <action context="code" dev="Tim">
-        Write test class and commit test scripts for use before
-        declaration functionality.
+        Add attribte "PrimaryNames" to ClassSig so that subclasses
+        referencing an inherited variable in delta lists can check if
+        the variable is primary.
       </action>
       <action context="code" dev="Tim">
-        Finish type rules for PolyExpr (check that sublasses have the
-        type-compatible features).
+        Write test class and commit test scripts for use before
+        declaration functionality.
       </action>
       <action context="code" dev="Tim">
         There is still a problem with renaming in mutually recursive types.

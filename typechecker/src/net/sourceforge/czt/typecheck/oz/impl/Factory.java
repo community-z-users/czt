@@ -90,11 +90,12 @@ public class Factory
   public ClassRefType createClassRefType(ClassSig classSig,
                                          ClassRef thisClass,
                                          java.util.List superClass,
-                                         VisibilityList visibilityList)
+                                         VisibilityList visibilityList,
+                                         List primary)
   {
     ClassRefType classRefType =
       ozFactory_.createClassRefType(classSig, thisClass,
-                                    superClass, visibilityList);
+                                    superClass, visibilityList, primary);
     ClassRefType result = new ClassRefTypeImpl(classRefType);
     return result;
   }

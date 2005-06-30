@@ -94,7 +94,7 @@ public class ParaChecker
     }
     cSig.getClasses().add(thisClass);
     ClassRefType classType =
-      factory().createClassRefType(cSig, thisClass, list(), null);
+      factory().createClassRefType(cSig, thisClass, list(), null, list());
     PowerType powerType = factory().createPowerType(classType);
 
     //add this class name and "self" to the pending typing environment
@@ -105,7 +105,6 @@ public class ParaChecker
     List<Expr> inheritedClass = classPara.getInheritedClass();
     for (Expr iClass : inheritedClass) {
       visitInheritedClass(iClass, classType);
-
     }
 
     //visit the attributes
@@ -180,6 +179,9 @@ public class ParaChecker
     //add the visibility list to the signature now after the paragraph
     //has been completely visited
     classType.setVisibilityList(classPara.getVisibilityList());
+
+    //add the primary variables list to the class type
+    classType.getPrimary().addAll(primary());
 
     //create the signature of this paragraph
     NameTypePair cPair =
@@ -355,6 +357,11 @@ public class ParaChecker
         List<NameTypePair> statePairs = icSig.getState().getNameTypePair();
         cSig.getState().getNameTypePair().addAll(statePairs);
         typeEnv().add(statePairs);
+
+        //add the primary variable names to the subclass's signature
+        List<DeclName> primary = classRefType.getPrimary();
+        current.getPrimary().addAll(primary);
+        primary().addAll(primary);
 
         //add the operations to the subclass's signature and the op env
         cSig.getOperation().addAll(icSig.getOperation());

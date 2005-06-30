@@ -150,7 +150,6 @@ public class ExprChecker
           Type2 nextType = unwrapType(triple.getType());
           if (isPowerClassRefType(nextType)) {
             ClassRefType subClass = (ClassRefType) powerType(nextType).getType();
-
             if (contains(subClass.getSuperClass(), cRef)) {
               //the subclasses must have the same number of parameters as
               //the "top-level" class
@@ -163,6 +162,24 @@ public class ExprChecker
                 error(polyExpr,
                       ErrorMessage.PARAMETER_MISMATCH_IN_POLYEXPR, params);
               }
+
+              //all visible features must also be visible in the subclass
+              ClassSig subCSig = subClass.getClassSig();
+              List<NameTypePair> superAttrs = cSig.getAttribute();
+              List<NameTypePair> subAttrs = subCSig.getAttribute();
+              checkVisibility(classRefType, subClass, superAttrs,
+                              subAttrs, polyExpr);
+
+              List<NameTypePair> superState = cSig.getState().getNameTypePair();
+              List<NameTypePair> subState = subCSig.getState().getNameTypePair();
+              checkVisibility(classRefType, subClass, superState,
+                              subState, polyExpr);
+
+              List<NameSignaturePair> superOps = cSig.getOperation();
+              List<NameSignaturePair> subOps = subCSig.getOperation();
+              checkOpVisibility(classRefType, subClass, superOps,
+                                subOps, polyExpr);
+
               ClassRef subCRef = factory().createClassRef();
               subCRef.setRefName(subClass.getThisClass().getRefName());
               subCRef.getType2().addAll(cRef.getType2());
@@ -357,7 +374,8 @@ public class ExprChecker
             factory().createClassRefType(renameClassSig,
                                          renameThisClass,
                                          classRefType.getSuperClass(),
-                                         classRefType.getVisibilityList());
+                                         classRefType.getVisibilityList(),
+                                         classRefType.getPrimary());
           type = factory().createPowerType(newRefType);
         }
       }
