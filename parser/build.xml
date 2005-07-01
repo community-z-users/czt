@@ -927,7 +927,7 @@
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="SmartScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.tcoz"/>
-      <param name="add" expression="{z}"/>
+      <param name="add" expression="{z},{oz}"/>
     </xslt>
   </target>
     

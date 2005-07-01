@@ -366,28 +366,6 @@ action code
       return result;
     }
 
-<add:tcoz>
-    /**
-     * Converts an OpExpr to an Event
-     */
-    protected Event event(OpExpr opExpr, int line, int column)
-    {
-      Event result = null;
-
-      if (opExpr instanceof OpPromotionExpr) {
-        OpPromotionExpr ope = (OpPromotionExpr) opExpr;
-        result = factory_.createEvent(ope.getName(), ope.getExpr());
-      }
-      else {
-        Object [] params = {opExpr};
-        parser.report_error(ParseMessage.MSG_SYNTAX_ERROR,
-                            params, getLocation(line, column));
-      }
-
-      return result;
-    }
-</add:tcoz>
-
     /**
      * Creates a member predicate from a string list and an expression list.
      */
@@ -1244,9 +1222,11 @@ non terminal VarDecl channelDeclaration;
 
 non terminal Expr channel;
 
-non terminal List eventList;
+non terminal List eventSet;
  
-non terminal Event event;
+non terminal Event
+    event,
+    inOutEvent;
  
 non terminal List topology;
        
@@ -3054,7 +3034,7 @@ expressionList ::=
         {:      
            el.add(e);
            RESULT = el;
-        :} 
+        :}
         |
         expression:e
         {: RESULT = list(e); :}
@@ -4247,9 +4227,9 @@ opExpr1 ::=
         {: RESULT = factory_.createAnonOpExpr(ot); :}
         |
         /* operator promotion */
-        opPromotionLhs:oplhs DOT refName:rn
+        opPromotionLhs:oplhs DOT inner_term:it
         {:
-           RESULT = factory_.createOpPromotionExpr(oplhs, rn);
+           RESULT = factory_.createOpPromotionExpr(oplhs, refname(it));
            addLocAnn(RESULT, oplhsleft, oplhsright);
         :}
         |
@@ -4347,13 +4327,18 @@ opExpr1 ::=
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
-        opExpr1:lhs PARALLEL LSQUARE eventList:ets RSQUARE opExpr1:rhs
+/*
+ //ambiguity here with opExpr || [opText], where opText has inclDecl
+ //although this should be opExpr |[ eventSet |] opExpr
+ //Needs to be taken care of in the scanner - this could prove difficult
+        opExpr1:lhs PARALLEL LSQUARE eventSet:ets RSQUARE opExpr1:rhs
         {:
            EventSet es = factory_.createEventSet(ets);
            RESULT = factory_.createSynPllProExpr(lhs, rhs, es);
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
+*/
         opExpr1:lhs TIMEOUT LSQUARE expression:e RSQUARE opExpr1:rhs
         {:
            RESULT = factory_.createTimeoutStartProExpr(lhs, e, rhs);
@@ -4390,17 +4375,44 @@ opExpr1 ::=
            addLocAnn(RESULT, waitleft, waitright);
         :}
         |
-        refName:rn expression:e NEXTPRO opExpr1:oe
+        inOutEvent:et NEXTPRO opExpr1:oe
         {:
-           Event et = factory_.createEvent(rn, e);
+           RESULT = factory_.createAtProExpr(et, null, oe);
+           addLocAnn(RESULT, etleft, etright);
+        :}
+        |
+        opPromotionLhs:oplhs DOT inner_term:it NEXTPRO opExpr1:oe
+        {:
+           Event et = factory_.createEvent(refname(oplhs), expr(it));
+           RESULT = factory_.createAtProExpr(et, null, oe);
+           addLocAnn(RESULT, oplhsleft, oplhsright);
+        :}
+        |
+        refName:rn NEXTPRO opExpr1:oe
+        {:
+           Event et = factory_.createEvent(rn, null);
            RESULT = factory_.createAtProExpr(et, null, oe);
            addLocAnn(RESULT, rnleft, rnright);
         :}
         |
-        refName:rn expression:e1 ATTIME expression:e2 NEXTPRO opExpr1:oe
+        inOutEvent:et ATTIME expression:e NEXTPRO opExpr1:oe
         {:
-           Event et = factory_.createEvent(rn, e1);
-           RESULT = factory_.createAtProExpr(et, e2, oe);
+           RESULT = factory_.createAtProExpr(et, e, oe);
+           addLocAnn(RESULT, etleft, etright);
+        :}
+        |
+        opPromotionLhs:oplhs DOT inner_term:it 
+           ATTIME expression:e NEXTPRO opExpr1:oe
+        {:
+           Event et = factory_.createEvent(refname(oplhs), expr(it));
+           RESULT = factory_.createAtProExpr(et, e, oe);
+           addLocAnn(RESULT, oplhsleft, oplhsright);
+        :}
+        |
+        refName:rn ATTIME expression:e NEXTPRO opExpr1:oe
+        {:
+           Event et = factory_.createEvent(rn, null);
+           RESULT = factory_.createAtProExpr(et, e, oe);
            addLocAnn(RESULT, rnleft, rnright);
         :}
         |
@@ -4409,7 +4421,7 @@ opExpr1 ::=
            RESULT = factory_.createRecProExpr(rn, oe);
            addLocAnn(RESULT, muleft, muright);
         :}
-</add:tcoz>        
+</add:tcoz>
         ;
 
 <add:tcoz>
@@ -4433,8 +4445,8 @@ connection ::=
         :}
         ;
                    
-eventList ::=
-        eventList:el COMMA event:e
+eventSet ::=
+        eventSet:el COMMA event:e
         {: 
            el.add(e);
            RESULT = el;
@@ -4443,21 +4455,36 @@ eventList ::=
         event:e
         {: RESULT = list(e); :}
         ;
-                
+
 event ::=
-        refName:rn DOT expression:e
+        inOutEvent:ioet
+        {: RESULT = ioet; :}
+        |
+        refName:rn DOT inner_term:it
         {:
-           RESULT = factory_.createEvent(rn, e);
+           RESULT = factory_.createEvent(rn, expr(it));
            addLocAnn(RESULT, rnleft, rnright);
         :}
-/*
         |
         refName:rn
         {:
            RESULT = factory_.createEvent(rn, null);
            addLocAnn(RESULT, rnleft, rnright);
         :}
-*/
+        ;
+
+inOutEvent ::=
+        refName:rn INSTROKE inner_term:it
+        {:
+           RESULT = factory_.createEvent(rn, expr(it));
+           addLocAnn(RESULT, rnleft, rnright);
+        :}
+        |
+        refName:rn OUTSTROKE inner_term:it
+        {:
+           RESULT = factory_.createEvent(rn, expr(it));
+           addLocAnn(RESULT, rnleft, rnright);
+        :}
         ;            
 </add:tcoz>
 
@@ -4468,9 +4495,9 @@ opPromotionLhs ::=
            addLocAnn(RESULT, rnleft, rnright);
         :}
         |
-        opPromotionLhs:oplhs DOT refName:rn
+        opPromotionLhs:oplhs DOT inner_term:it
         {:
-           RESULT = factory_.createBindSelExpr(oplhs, rn);
+           RESULT = factory_.createBindSelExpr(oplhs, refname(it));
            addLocAnn(RESULT, oplhsleft, oplhsright);
         :}
         ;

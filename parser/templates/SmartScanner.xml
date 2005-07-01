@@ -123,7 +123,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
 </add:oz>
              result.sym == Sym.GENSCH) {
         inBoxName = true;
-    }
+    }   
     return result;
   }
 
