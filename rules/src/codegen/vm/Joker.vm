@@ -16,48 +16,55 @@
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+#set( $typebase = ${complex_type.BaseType.Name} )
+#set( $typename = ${complex_type.Name} )
+#set( $classname = "Prover${typename}" )
 
 package net.sourceforge.czt.rules.ast;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.rules.Joker;
-import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.${typebase};
 import net.sourceforge.czt.zpatt.ast.*;
-import net.sourceforge.czt.zpatt.impl.JokerExprImpl;
+import net.sourceforge.czt.zpatt.impl.${typename}Impl;
 
 /**
- * An implementation of the JokerExpr and Joker interface.
+ * An implementation of the ${typename} and Joker interface.
  *
  * @author Petra Malik
  */
-public class ProverJokerExpr
-  extends JokerExprImpl
+public class ${classname}
+  extends ${typename}Impl
   implements Joker
 {
-  private JokerExprBinding binding_;
+  private ${typename}Binding binding_;
 
-  protected ProverJokerExpr(String name)
+  protected ${classname}(String name)
   {
     super.setName(name);
-    binding_ = new ProverJokerExprBindingImpl(this);
+    binding_ = new ${classname}Binding(this);
   }
 
   public Term boundTo()
   {
-    return getBinding().getExpr();
+    return getBinding().get${typebase}();
   }
 
   public Binding bind(Term term)
   {
-    if (! (term instanceof Expr)) {
-      String message = "Cannot bind " + term + " to a a JokerExpr";
+    if (! (term instanceof ${typebase})) {
+      String message = "Cannot bind " + term + " to a ${typename}";
       throw new IllegalArgumentException(message);
     }
-    getBinding().setExpr((Expr) term);
+#if ( ${isList} )
+    getBinding().get${typebase}().add((${typebase}) term);
+#else
+    getBinding().set${typebase}((${typebase}) term);
+#end
     return getBinding();
   }
 
-  public JokerExprBinding getBinding()
+  public ${typename}Binding getBinding()
   {
     return binding_;
   }
