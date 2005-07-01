@@ -151,6 +151,7 @@
       destdir="${rules.api.dir}"
       private="true">
       <packageset dir="${rules.src.dir}"/>
+      <packageset dir="build/src"/>
       <tag name="czt.todo" description="To do:"/>
       <classpath refid="classpath"/>
     </javadoc>
