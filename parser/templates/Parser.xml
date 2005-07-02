@@ -1242,6 +1242,15 @@ precedence left         <add:tcoz>LPAREN,</add:tcoz> RPAREN;
 precedence left         NL, SEMICOLON;
 precedence nonassoc     DEFEQUAL;
 precedence left         ALL, EXI, EXIONE, SPOT;
+<add:oz>
+precedence left         ASSOPARALLEL;
+<add:tcoz>
+precedence left         NEXTPRO, ATTIME;
+</add:tcoz>
+precedence left         PARALLEL<add:tcoz>, INTERLEAVE, INTERRUPT,
+TIMEOUT, TIMEEND</add:tcoz>;
+precedence left         GCH <add:tcoz>, INTCHOICE </add:tcoz>;
+</add:oz>
 precedence left         IFF;
 precedence right        IMP;
 precedence left         OR;
@@ -1253,13 +1262,6 @@ precedence right        LAMBDA;
 precedence right        MU;
 precedence right        LET;
 <add:oz>
-precedence left         ASSOPARALLEL;
-<add:tcoz>
-precedence left         NEXTPRO, ATTIME;
-</add:tcoz>
-precedence left         PARALLEL<add:tcoz>, INTERLEAVE, INTERRUPT,
-TIMEOUT, TIMEEND</add:tcoz>;
-precedence left         GCH <add:tcoz>, INTCHOICE </add:tcoz>;
 precedence left         CLASSUNION;
 </add:oz>
 precedence right        ELSE;
