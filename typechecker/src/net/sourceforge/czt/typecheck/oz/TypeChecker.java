@@ -27,6 +27,7 @@ import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.oz.impl.OzFactoryImpl;
+import net.sourceforge.czt.typecheck.z.util.TypeEnv;
 import net.sourceforge.czt.typecheck.oz.util.*;
 import net.sourceforge.czt.typecheck.oz.impl.*;
 
@@ -41,6 +42,9 @@ public class TypeChecker
 
   //operation expr typechecker
   protected Checker opExprChecker_;
+
+  //use to store information used in downcasting
+  protected TypeEnv downcastEnv_;
 
   //the current class parargraph - null if we are not typechecking a
   //class paragraph
@@ -100,6 +104,7 @@ public class TypeChecker
     predChecker_ = new PredChecker(this);
     postChecker_ = new PostChecker(this);
     opExprChecker_ = new OpExprChecker(this);
+    downcastEnv_ = new TypeEnv();
     classPara_ = null;
     primary_ = list();
   }

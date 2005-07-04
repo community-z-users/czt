@@ -176,10 +176,25 @@ public class OpExprChecker
    */
   public Object visitOpExpr2(OpExpr2 opExpr2)
   {
+    //enter a new scope
+    typeEnv().enterScope();
+
+    if (opExpr2 instanceof ConjOpExpr) {
+      traverseForDowncasts(opExpr2);
+    }
+
     //get the signatures of the left and right operations
     OpExpr lOpExpr = opExpr2.getLeftOpExpr();
-    OpExpr rOpExpr = opExpr2.getRightOpExpr();
     Signature lSig = (Signature) lOpExpr.accept(opExprChecker());
+
+    //if this is a choice expr, exit and then enter a scope so that
+    //downcasts in the left and not visible in the right
+    if (opExpr2 instanceof ExChoiceOpExpr) {
+      typeEnv().exitScope();
+      typeEnv().enterScope();
+    }
+
+    OpExpr rOpExpr = opExpr2.getRightOpExpr();
     Signature rSig = (Signature) rOpExpr.accept(opExprChecker());
 
     List<NameTypePair> newPairs = list(lSig.getNameTypePair());
@@ -187,6 +202,9 @@ public class OpExprChecker
     checkForDuplicates(newPairs, opExpr2,
                        ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
     Signature signature = factory().createSignature(newPairs);
+
+    //exit the variable scope
+    typeEnv().exitScope();
 
     //add the signature annotation
     addSignatureAnn(opExpr2, signature);
@@ -196,6 +214,9 @@ public class OpExprChecker
 
   public Object visitSeqOpExpr(SeqOpExpr seqOpExpr)
   {
+    //enter a new scope
+    typeEnv().enterScope();
+
     //get the signatures of the left and right operations
     OpExpr lOpExpr = seqOpExpr.getLeftOpExpr();
     OpExpr rOpExpr = seqOpExpr.getRightOpExpr();
@@ -207,6 +228,9 @@ public class OpExprChecker
     checkForDuplicates(signature.getNameTypePair(), seqOpExpr,
                        ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
 
+    //exit the variable scope
+    typeEnv().exitScope();
+
     //add the signature annotation
     addSignatureAnn(seqOpExpr, signature);
 
@@ -215,6 +239,9 @@ public class OpExprChecker
 
   public Object visitParallelOpExpr(ParallelOpExpr parallelOpExpr)
   {
+    //enter a variable scope
+    typeEnv().enterScope();
+
     //get the signatures of the left and right operations
     OpExpr lOpExpr = parallelOpExpr.getLeftOpExpr();
     OpExpr rOpExpr = parallelOpExpr.getRightOpExpr();
@@ -229,6 +256,9 @@ public class OpExprChecker
     checkForDuplicates(signature.getNameTypePair(), parallelOpExpr,
                        ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
 
+    //exit the variable scope
+    typeEnv().exitScope();
+
     //add the signature annotation
     addSignatureAnn(parallelOpExpr, signature);
 
@@ -237,6 +267,9 @@ public class OpExprChecker
 
   public Object visitAssoParallelOpExpr(AssoParallelOpExpr assoParallelOpExpr)
   {
+    //enter a variable scope
+    typeEnv().enterScope();
+
     //get the signatures of the left and right operations
     OpExpr lOpExpr = assoParallelOpExpr.getLeftOpExpr();
     OpExpr rOpExpr = assoParallelOpExpr.getRightOpExpr();
@@ -252,6 +285,9 @@ public class OpExprChecker
     Signature signature = intersect(sigA, sigB);
     checkForDuplicates(signature.getNameTypePair(), assoParallelOpExpr,
                        ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
+
+    //exit the variable scope
+    typeEnv().exitScope();
 
     //add the signature annotation
     addSignatureAnn(assoParallelOpExpr, signature);

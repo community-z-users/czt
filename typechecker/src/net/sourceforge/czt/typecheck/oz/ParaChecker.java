@@ -256,6 +256,9 @@ public class ParaChecker
   {
     List<NameTypePair> pairs = list();
 
+    //enter a new scope
+    typeEnv().enterScope();
+
     //visit the predicate
     Pred pred = initialState.getPred();
     UResult solved = (UResult) pred.accept(predChecker());
@@ -273,6 +276,10 @@ public class ParaChecker
     Type2 boolType = factory().createBoolType();
     NameTypePair pair = factory().createNameTypePair(initName, boolType);
     pairs.add(pair);
+
+    //exit the scope
+    typeEnv().exitScope();
+
     return pairs;
   }
 
@@ -350,13 +357,12 @@ public class ParaChecker
         current.getSuperClass().add(thisClass);
 
         //add the attributes to the subclass's signature and the type env
-        cSig.getAttribute().addAll(icSig.getAttribute());
-        typeEnv().add(icSig.getAttribute());
+        inheritFeature(icSig.getAttribute(), cSig.getAttribute(), expr);
 
         //add the decls to the subclass's signature and the type env
-        List<NameTypePair> statePairs = icSig.getState().getNameTypePair();
-        cSig.getState().getNameTypePair().addAll(statePairs);
-        typeEnv().add(statePairs);
+        inheritFeature(icSig.getState().getNameTypePair(),
+                       cSig.getState().getNameTypePair(),
+                       expr);
 
         //add the primary variable names to the subclass's signature
         List<DeclName> primary = classRefType.getPrimary();
@@ -364,7 +370,7 @@ public class ParaChecker
         primary().addAll(primary);
 
         //add the operations to the subclass's signature and the op env
-        cSig.getOperation().addAll(icSig.getOperation());
+        inheritOps(icSig.getOperation(), cSig.getOperation(), expr);
       }
     }
 

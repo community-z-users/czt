@@ -131,14 +131,16 @@ public class PredChecker
   {
     //enter a new variable scope to allow downcasts
     typeEnv().enterScope();
+
     //visit the left pred
     Pred leftPred = orPred.getLeftPred();
     UResult lSolved = (UResult) leftPred.accept(predChecker());
-    typeEnv().exitScope();
 
     //enter a new variable scope to allow downcasts. The scope of the
     //left predicate is different to that of the right
+    typeEnv().exitScope();
     typeEnv().enterScope();
+
     //visit the right pred
     Pred rightPred = orPred.getRightPred();
     UResult rSolved = (UResult) rightPred.accept(predChecker());
@@ -167,24 +169,6 @@ public class PredChecker
       Object next = iter.next();
       if (obj == next) {
         iter.remove();
-      }
-    }
-  }
-
-  protected void traverseForDowncasts(Pred pred)
-  {
-    if (pred instanceof AndPred) {
-      AndPred andPred = (AndPred) pred;
-      Pred leftPred = andPred.getLeftPred();
-      Pred rightPred = andPred.getRightPred();
-      traverseForDowncasts(leftPred);
-      traverseForDowncasts(rightPred);
-    }
-    else if  (pred instanceof MemPred) {
-      MemPred memPred = (MemPred) pred;
-      boolean mixfix = memPred.getMixfix().booleanValue();
-      if (!mixfix) {
-        memPred.accept(predChecker());
       }
     }
   }

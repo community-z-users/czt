@@ -30,6 +30,7 @@ import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.oz.util.OzString;
 import net.sourceforge.czt.print.oz.PrintUtils;
 import net.sourceforge.czt.typecheck.z.util.UResult;
+import net.sourceforge.czt.typecheck.z.util.TypeEnv;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.oz.util.*;
 import net.sourceforge.czt.typecheck.oz.impl.*;
@@ -59,6 +60,12 @@ abstract public class Checker
   protected Checker opExprChecker()
   {
     return typeChecker_.opExprChecker_;
+  }
+
+  //typing environment used in downcasting
+  protected TypeEnv downcastEnv()
+  {
+    return typeChecker_.downcastEnv_;
   }
 
   //the current class name
@@ -137,6 +144,121 @@ abstract public class Checker
   {
     UnificationEnv unificationEnv = (UnificationEnv) unificationEnv();
     return unificationEnv.weakUnify(typeA, typeB);
+  }
+
+  protected Type getType(RefName name)
+  {
+    Type type = downcastEnv().getType(name);
+    if (type instanceof UnknownType ||
+        (type instanceof UnknownType &&
+         unknownType(type).getRefName() != null) ){
+      type = super.getType(name);
+    }
+    else {
+      System.err.println(name + " : " + type);
+    }
+    return type;
+  }
+
+  //go through a series of conjunctions to see if there is a downcast
+  //so that downcasts can be performed either before or after the
+  //predicate in which they are used.
+  protected void traverseForDowncasts(Pred pred)
+  {
+    if (pred instanceof AndPred) {
+      AndPred andPred = (AndPred) pred;
+      Pred leftPred = andPred.getLeftPred();
+      Pred rightPred = andPred.getRightPred();
+      traverseForDowncasts(leftPred);
+      traverseForDowncasts(rightPred);
+    }
+    else if  (pred instanceof MemPred) {
+      MemPred memPred = (MemPred) pred;
+      boolean mixfix = memPred.getMixfix().booleanValue();
+      if (!mixfix) {
+        memPred.accept(predChecker());
+      }
+    }
+  }
+
+  //go through a series of conj op exprs to see if there is a downcast
+  //so that downcasts can be performed either before or after the
+  //predicate in which they are used.
+  protected void traverseForDowncasts(OpExpr opExpr)
+  {
+    if (opExpr instanceof ConjOpExpr) {
+      ConjOpExpr conjOpExpr = (ConjOpExpr) opExpr;
+      OpExpr leftOpExpr = conjOpExpr.getLeftOpExpr();
+      OpExpr rightOpExpr = conjOpExpr.getRightOpExpr();
+      traverseForDowncasts(leftOpExpr);
+      traverseForDowncasts(rightOpExpr);
+    }
+    else if (opExpr instanceof AnonOpExpr) {
+      AnonOpExpr anonOpExpr = (AnonOpExpr) opExpr;
+      OpText opText = anonOpExpr.getOpText();
+      SchText schText = opText.getSchText();
+
+      //the list of Names declared in this schema text
+      List<NameTypePair> pairs = list();
+
+      //get and visit the list of declarations
+      List<Decl> decls = schText.getDecl();
+      for (Decl decl : decls) {
+        pairs.addAll((List<NameTypePair>) decl.accept(declChecker()));
+      }
+
+      downcastEnv().enterScope();
+      for (NameTypePair pair : pairs) {
+        downcastEnv().add(pair.getName(), pair.getType());
+      }
+      traverseForDowncasts(schText.getPred());
+      downcastEnv().exitScope();
+    }
+  }
+
+  protected void inheritFeature(List<NameTypePair> source,
+                                List<NameTypePair> target,
+                                Expr expr)
+  {
+    for (NameTypePair pair : source) {
+      DeclName sourceName = pair.getName();
+      NameTypePair existing = findNameTypePair(sourceName, target);
+      if (existing != null) {
+        Type2 sourceType = unwrapType(pair.getType());
+        Type2 existingType = unwrapType(existing.getType());
+        UResult unified = unify(sourceType, existingType);
+        if (unified == FAIL) {
+          Object [] params = {sourceName, sourceType, existingType};
+          error(expr, ErrorMessage.INCOMPATIBLE_INHERIT, params);
+        }
+      }
+      else {
+        typeEnv().add(pair);
+        target.add(pair);
+      }
+    }
+  }
+
+  protected void inheritOps(List<NameSignaturePair> source,
+                            List<NameSignaturePair> target,
+                            Expr expr)
+  {
+    for (NameSignaturePair pair : source) {
+      DeclName sourceName = pair.getName();
+      NameSignaturePair existing = findNameSigPair(sourceName, target);
+      if (existing != null) {
+        Signature sourceSignature = pair.getSignature();
+        Signature existingSignature = existing.getSignature();
+        UResult unified = unify(sourceSignature, existingSignature);
+        if (unified == FAIL) {
+          Object [] params = {sourceName, sourceSignature, existingSignature};
+          error(expr, ErrorMessage.INCOMPATIBLE_OP_INHERIT, params);
+        }
+      }
+      else {
+        target.add(pair);
+      }
+    }
   }
 
   //get the type of "self"

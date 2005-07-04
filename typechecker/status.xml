@@ -36,6 +36,9 @@
         Primary variable names declared in a superclass can now be used 
         in delta lists.
       </action>
+      <action dev="Tim" type="bugfix">
+        Add functionality to check clashing inherited features.
+      </action>
       <!-- Sample action:
       <action dev="JB" type="fix" due-to="Joe Contributor"
           due-to-email="joec@apache.org" fixes-bug="123">
@@ -60,11 +63,6 @@
       </action>
       <action context="code" dev="Tim">
         Finish implementing weak typing unification algorithm.
-      </action>
-      <action context="code" dev="Tim">
-        Add attribte "PrimaryNames" to ClassSig so that subclasses
-        referencing an inherited variable in delta lists can check if
-        the variable is primary.
       </action>
       <action context="code" dev="Tim">
         Write test class and commit test scripts for use before
