@@ -1553,9 +1553,9 @@ unboxedParagraphItem ::=
            addLocAnn(RESULT, ftlleft, ftlright);
         :}
         |
-        optFormalParameters:ofp CONJECTURE predicate:p
+        optFormalParameters:ofp CONJECTURE term:t
         {:
-           RESULT = factory_.createConjPara(ofp, p);
+           RESULT = factory_.createConjPara(ofp, pred(t));
            addLocAnn(RESULT, ofpleft, ofpright);
         :}
         |
