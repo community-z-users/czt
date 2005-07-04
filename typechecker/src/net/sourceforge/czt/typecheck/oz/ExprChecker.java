@@ -370,12 +370,14 @@ public class ExprChecker
             createRenameClassSig(classSig, renameExpr, errorMessage);
           ClassRef renameThisClass =
             rename(classRefType.getThisClass(), renameExpr);
+          List<DeclName> renamePrimary =
+            renamePrimary(classRefType.getPrimary(), renameExpr);
           ClassRefType newRefType =
             factory().createClassRefType(renameClassSig,
                                          renameThisClass,
                                          classRefType.getSuperClass(),
                                          classRefType.getVisibilityList(),
-                                         classRefType.getPrimary());
+                                         renamePrimary);
           type = factory().createPowerType(newRefType);
         }
       }

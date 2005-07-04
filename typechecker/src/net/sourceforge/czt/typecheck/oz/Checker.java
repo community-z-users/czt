@@ -154,9 +154,6 @@ abstract public class Checker
          unknownType(type).getRefName() != null) ){
       type = super.getType(name);
     }
-    else {
-      System.err.println(name + " : " + type);
-    }
     return type;
   }
 
@@ -532,6 +529,23 @@ abstract public class Checker
       }
     }
     return newPairs;
+  }
+
+  protected List<DeclName> renamePrimary(List<DeclName> primaryNames,
+                                         RenameExpr renameExpr)
+  {
+    List<DeclName> newPrimaryNames = list();
+    List<NameNamePair> pairs = renameExpr.getNameNamePair();
+    for (DeclName primaryName : primaryNames) {
+      NameNamePair pair = findNameNamePair(primaryName, pairs);
+      if (pair == null) {
+        newPrimaryNames.add(primaryName);
+      }
+      else {
+        newPrimaryNames.add(pair.getNewName());
+      }
+    }
+    return newPrimaryNames;
   }
 
   protected ClassSig createRenameClassSig(ClassSig cSig,

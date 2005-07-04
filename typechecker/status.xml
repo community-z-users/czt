@@ -39,6 +39,9 @@
       <action dev="Tim" type="bugfix">
         Add functionality to check clashing inherited features.
       </action>
+      <action dev="Tim" type="bugfix">
+        Rename primary variable names in rename exprs.
+      </action>
       <!-- Sample action:
       <action dev="JB" type="fix" due-to="Joe Contributor"
           due-to-email="joec@apache.org" fixes-bug="123">
