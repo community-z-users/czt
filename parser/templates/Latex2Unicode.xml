@@ -835,7 +835,7 @@ NAME =   {NOT_LB}*
           String result = addSpace();
           return result(result + ZString.END);
         }
-  "\\end" {IGNORE}* "{state}"
+  "\\end" {IGNORE}* ("{state}" | "{anonschema}")
         {
           end("state", yyline, yycolumn);
           String result = addSpace();
@@ -853,7 +853,7 @@ NAME =   {NOT_LB}*
           String result = addSpace();
           return result(result + ZString.END);
         }
-  "\\begin" {IGNORE}* "{state}"
+  "\\begin" {IGNORE}* ("{state}" | "{anonschema}")
         {
           String result = addSpace();
           begin("state");
@@ -864,6 +864,18 @@ NAME =   {NOT_LB}*
           String result = addSpace();
           begin("init");
           return result(result + ZString.SCH + ZString.SPACE + OzString.INITWORD + ZString.SPACE);
+        }
+    "\\begin" {IGNORE}* "{sidebyside}"
+        {
+          //do nothing
+        }
+  "\\end" {IGNORE}* "{sidebyside}"
+        {
+          //do nothing
+        }
+  "\\nextside"
+        {
+          //do nothing
         }
 </add:oz>
   "\\where"
