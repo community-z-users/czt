@@ -493,6 +493,9 @@ NAME =   {NOT_LB}*
 %state MARKUP
 %state COMMENT_STATE
 %state ERROR
+<add:oz>
+%state CLASSCOM
+</add:oz>
 
 %%
 /* ------------------------Lexical Rules Section---------------------- */
@@ -771,6 +774,13 @@ NAME =   {NOT_LB}*
         }
 </add:circus>
 <add:oz>
+  "\\begin" {IGNORE}* "{classcom}"
+        {
+          yybegin(CLASSCOM);
+          assert ! addSpace_;
+          begin("classcom");
+          //return result(OzString.CLASSCOM);
+        }
   "\\begin" {IGNORE}* "{axdef}"
         {
           yybegin(ZED);
@@ -1053,6 +1063,23 @@ NAME =   {NOT_LB}*
          // do nothing
        }
 }
+
+<add:oz>
+&lt;CLASSCOM&gt; {
+  "\\end" {IGNORE}* "{classcom}"
+       {
+         end("classcom", yyline, yycolumn);
+         yybegin(ZED);
+         //return result(OzString.ENDCLASSCOM);
+       }
+  
+  .|\n
+       {
+         // for now, do nothing
+         //return new Symbol(LatexSym.TEXT, yyline, yycolumn, yytext());
+       }
+}
+</add:oz>
 
 &lt;ERROR&gt; {
   .
