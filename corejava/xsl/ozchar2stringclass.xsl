@@ -44,6 +44,8 @@ public interface OzString extends ZString
   String SELF = "self";
   String OBJECT = "Object";
   String ASSOPARALLEL = PARALLEL + OUTSTROKE;
+  String CLASSCOM = "/*";
+  String ENDCLASSCOM = "*/";
 }
 <xsl:text>
 </xsl:text>
