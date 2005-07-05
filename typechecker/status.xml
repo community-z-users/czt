@@ -74,6 +74,10 @@
       <action context="code" dev="Tim">
         There is still a problem with renaming in mutually recursive types.
       </action>
+      <action context="code" dev="Tim">
+        Implement a check that names in the visibility list are features 
+        of the class.
+      </action>
     </actions>
     <actions priority="medium">
       <action context="docs" dev="open">

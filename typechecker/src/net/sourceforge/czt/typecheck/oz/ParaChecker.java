@@ -202,9 +202,6 @@ public class ParaChecker
   {
     List<NameTypePair> pairs = list();
 
-    //enter a new type env
-    typeEnv().enterScope();
-
     //get the decls
     List<PrimaryDecl> primaryDecls = state.getPrimaryDecl();
     List<SecondaryDecl> secondaryDecls = state.getSecondaryDecl();
@@ -239,9 +236,6 @@ public class ParaChecker
         pred.accept(predChecker());
       }
     }
-
-    //exit the type env
-    typeEnv().exitScope();
 
     //create the signature
     Signature signature = factory().createSignature(pairs);

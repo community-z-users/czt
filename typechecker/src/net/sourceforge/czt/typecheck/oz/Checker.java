@@ -573,13 +573,17 @@ abstract public class Checker
     return result;
   }
 
-  protected Type2 instantiate(Type2 type, Type rootType)
+  protected Type2 instantiate(Type2 type, List<Type2> preTypes)
   {
     Type2 result = factory().createUnknownType();
     //if this is a class type, instantiate it
     if (type instanceof ClassType) {
       ClassType classType = (ClassType) type;
       ClassSig cSig = classType.getClassSig();
+
+      if (!containsObject(preTypes, classType)) {
+        preTypes.add(classType);
+      }
 
       ClassSig newCSig = null;
       if (!(cSig instanceof VariableClassSig)) {
@@ -588,18 +592,18 @@ abstract public class Checker
         Signature state = cSig.getState();
         Signature newState = null;
         if (state != null) {
-          newState = instantiate(state, rootType);
+          newState = instantiate(state, preTypes);
         }
 
         //instantiate the attributes
         List<NameTypePair> attrs = cSig.getAttribute();
-        List<NameTypePair> newAttrs = instantiatePairs(attrs, rootType);
+        List<NameTypePair> newAttrs = instantiatePairs(attrs, preTypes);
 
         //instantiate the operations
         List<NameSignaturePair> ops = cSig.getOperation();
         List<NameSignaturePair> newOps = list();
         for (NameSignaturePair pair : ops) {
-          Signature signature = instantiate(pair.getSignature(), rootType);
+          Signature signature = instantiate(pair.getSignature(), preTypes);
           NameSignaturePair newPair =
             factory().createNameSignaturePair(pair.getName(), signature);
           newOps.add(newPair);
@@ -609,7 +613,7 @@ abstract public class Checker
         List<ClassRef> classRefs = cSig.getClasses();
         List<ClassRef> newClassRefs = list();
         for (ClassRef classRef : classRefs) {
-          List<Type2> types = instantiateTypes(classRef.getType2(), rootType);
+          List<Type2> types = instantiateTypes(classRef.getType2(), preTypes);
           ClassRef newClassRef =
             factory().createClassRef(classRef.getRefName(), types, list());
           newClassRefs.add(newClassRef);
@@ -620,7 +624,7 @@ abstract public class Checker
 
       if (type instanceof ClassRefType) {
         ClassRefType classRefType = (ClassRefType) type;
-        ClassRef classRef = instantiate(classRefType.getThisClass(), rootType);
+        ClassRef classRef = instantiate(classRefType.getThisClass(), preTypes);
         result = factory().createClassRefType(newCSig, classRef,
                                               classRefType.getSuperClass(),
                                               classRefType.getVisibilityList(),
@@ -628,7 +632,7 @@ abstract public class Checker
       }
       else if (type instanceof ClassPolyType) {
         ClassPolyType classPolyType = (ClassPolyType) type;
-        ClassRef classRef = instantiate(classPolyType.getRootClass(), rootType);
+        ClassRef classRef = instantiate(classPolyType.getRootClass(), preTypes);
         result = factory().createClassPolyType(newCSig, classRef);
       }
       else {
@@ -638,14 +642,14 @@ abstract public class Checker
     }
     //if not a class type, use the Z typechecker's instantiate method
     else {
-      result = super.instantiate(type, rootType);
+      result = super.instantiate(type, preTypes);
     }
     return result;
   }
 
-  protected ClassRef instantiate(ClassRef classRef, Type rootType)
+  protected ClassRef instantiate(ClassRef classRef, List<Type2> preTypes)
   {
-    List<Type2> types = instantiateTypes(classRef.getType2(), rootType);
+    List<Type2> types = instantiateTypes(classRef.getType2(), preTypes);
     ClassRef result =
       factory().createClassRef(classRef.getRefName(), types, list());
     return result;
