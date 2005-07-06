@@ -129,16 +129,20 @@ public abstract class AbstractParserTest
 
   public void testUtf8BirthdaybookTest()
   {
-    final String cztHome = System.getProperty("czt.home");
     compare(getExample("birthdaybook.utf8"),
             getExample("birthdaybook.xml"));
   }
 
   public void testUtf16BirthdaybookTest()
   {
-    final String cztHome = System.getProperty("czt.home");
     compare(getExample("birthdaybook.utf16"),
             getExample("birthdaybook.xml"));
+  }
+
+  public void testOptemp()
+  {
+    compare(getExample("optemp.tex"),
+            getExample("optemp.xml"));
   }
 
   public void testBuffer()

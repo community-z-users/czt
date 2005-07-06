@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="1.4" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_1_4.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://czt.sourceforge.net/zml">
+    <ZSect>
+        <Name>Specification</Name>
+        <Parent>
+            <Word>standard_toolkit</Word>
+        </Parent>
+        <LatexMarkupPara/>
+        <OptempPara Assoc="Left" Cat="Function" Prec="41">
+            <Anns>
+                <LocAnn Col="1" Line="2" Loc="optemp.tex"/>
+            </Anns>
+            <Operand List="false"/>
+            <Operator>
+                <Word>t</Word>
+            </Operator>
+            <Operand List="false"/>
+            <Operator>
+                <Word>e</Word>
+            </Operator>
+            <Operand List="true"/>
+            <Operator>
+                <Word>st</Word>
+            </Operator>
+            <Operand List="false"/>
+        </OptempPara>
+    </ZSect>
+</Spec>
+
