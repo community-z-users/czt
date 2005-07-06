@@ -21,5 +21,7 @@
 \end{class}
 
 \begin{class}{ABC}
-  A,B,C
+  A\\
+  B\\
+  C
 \end{class}
