@@ -3919,7 +3919,7 @@ inheritedList ::=
         ;
 
 inheritedClassList ::=
-        inheritedClassList:icl COMMA inheritedClass:ic
+        inheritedClassList:icl optNL inheritedClass:ic
         {:
            icl.add(ic);
            RESULT = icl;
