@@ -1593,8 +1593,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Type">
         <xs:sequence>
-          <xs:element name="Name" type="Z:DeclName"
-            minOccurs="1" maxOccurs="unbounded"/>
+          <xs:element name="Name" type="Z:DeclName" maxOccurs="unbounded"/>
           <xs:element ref="Z:Type2">
             <xs:annotation>
               <xs:appinfo>
