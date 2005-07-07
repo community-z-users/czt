@@ -123,7 +123,6 @@ public class SimpleProver
         }
       }
       else {
-        System.err.println("Unsupported sequent " + sequent.getClass());
         return false;
       }
     }
@@ -221,7 +220,7 @@ public class SimpleProver
                                      Set<Binding> bindings)
   {
     Term boundTo = joker.boundTo();
-    if (boundTo != null) {
+    if (boundTo != null && ! (boundTo instanceof List)) {
       return unify(boundTo, term, bindings);
     }
     try {
@@ -241,12 +240,17 @@ public class SimpleProver
 
   /**
    * A visitor that copies a term and uses the given factory to create
-   * new Joker.  Currently, JokerExpr, JokerName, and JokerPred are supported.
+   * new Joker.
+   *
+   * @czt.todo Generate this class.
    */
   public static class CopyVisitor
     implements TermVisitor,
+               JokerDeclListVisitor,
+               JokerExprVisitor,
+               JokerNameVisitor,
                JokerPredVisitor,
-               JokerExprVisitor
+               LookupConstDeclProvisoVisitor
   {
     private Factory factory_;
 
@@ -258,6 +262,11 @@ public class SimpleProver
     public Object visitTerm(Term term)
     {
       return VisitorUtils.visitTerm(this, term, false);
+    }
+
+    public Object visitJokerDeclList(JokerDeclList joker)
+    {
+      return factory_.createJokerDeclList(joker.getName());
     }
 
     public Object visitJokerExpr(JokerExpr joker)
