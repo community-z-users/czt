@@ -44,8 +44,18 @@ public class SimpleProverTest
 
   public void testSimple1()
   {
+    prove("/simple1.tex");
+  }
+
+  public void testSimple2()
+  {
+    prove("/simple2.tex");
+  }
+
+  private void prove(String resource)
+  {
     try {
-      URL url = getClass().getResource("/simple1.tex");
+      URL url = getClass().getResource(resource);
       assertFalse(url == null);
       Term term = ParseUtils.parse(new UrlSource(url), new SectionManager());
       List<Rule> rules = collectRules(term);

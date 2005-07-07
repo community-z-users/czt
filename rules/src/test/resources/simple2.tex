@@ -1,0 +1,18 @@
+\begin{verbatim}
+%%Zinchar \proviso U+25B8
+%%Zinchar \derives U+2500
+%%Zinword \unfoldsTo unfoldsTo
+\end{verbatim}
+\newcommand{\unfoldsTo}{\mathrel{\leadsto}}
+
+\begin{zedjoker}{DeclList} D, D1\end{zedjoker} \\
+\begin{zedjoker}{Pred} P1\end{zedjoker} \\
+\begin{zedjoker}{Name} v\end{zedjoker} \\
+
+\begin{zedrule}{normalise1}
+  [ D | P1 ]
+\end{zedrule}
+
+\begin{zed}
+  \vdash?~ [ x:\nat | true ]
+\end{zed}
