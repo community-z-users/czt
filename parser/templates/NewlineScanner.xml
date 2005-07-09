@@ -48,7 +48,7 @@ public class <class/>
     new int [] {Sym.LEFTASSOC, Sym.PARENTS,
                 Sym.RIGHTASSOC, Sym.ELSE, Sym.THEN, Sym.DEFFREE,
                 Sym.BAR, Sym.LDATA, Sym.ANDALSO,
-                Sym.CONJECTURE, Sym.LISTARG, Sym.AND, Sym.OR,
+                Sym.LISTARG, Sym.AND, Sym.OR,
                 Sym.IMP, Sym.IFF, Sym.CROSS, Sym.SLASH,
                 Sym.EQUALS, Sym.MEM, Sym.DEFEQUAL, Sym.COLON,
                 Sym.COMMA, Sym.DOT, Sym.SEMICOLON, Sym.SPOT,
@@ -88,7 +88,7 @@ public class <class/>
                 Sym.LSQUARE, Sym.ARG, Sym.NOT, Sym.ALL,
                 Sym.EXI, Sym.EXIONE, Sym.LPAREN, Sym.LBRACE,
                 Sym.LBIND, Sym.LAMBDA, Sym.MU, Sym.THETA,
-                Sym.PRE, Sym.PREP, Sym.L, Sym.LP,
+                Sym.PRE, Sym.PREP, Sym.L, Sym.LP, Sym.CONJECTURE, 
 <add:zpatt>
                 Sym.PROVISO,
 </add:zpatt>

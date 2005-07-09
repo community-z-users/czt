@@ -1553,9 +1553,9 @@ unboxedParagraphItem ::=
            addLocAnn(RESULT, ftlleft, ftlright);
         :}
         |
-        optFormalParameters:ofp CONJECTURE term:t
+        optFormalParameters:ofp CONJECTURE predicate:p
         {:
-           RESULT = factory_.createConjPara(ofp, pred(t));
+           RESULT = factory_.createConjPara(ofp, p);
            addLocAnn(RESULT, ofpleft, ofpright);
         :}
         |
@@ -2895,6 +2895,13 @@ inner_term ::=
         {:
            RESULT = factory_.createBindExpr(onepl);
            addLocAnn(RESULT, lbindleft, lbindright);
+        :}
+        |
+        /* empty schema construction */
+        LSQUARE:lsq RSQUARE
+        {:
+           RESULT = factory_.createSchExpr();
+           addLocAnn(RESULT, lsqleft, lsqright);
         :}
         |
         /* schema construction */
