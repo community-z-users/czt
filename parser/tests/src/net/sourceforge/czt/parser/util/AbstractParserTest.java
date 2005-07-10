@@ -157,6 +157,12 @@ public abstract class AbstractParserTest
             getExample("Sched.xml"));
   }
 
+  public void testConjectures()
+  {
+    compare(getTestExample("conjectures.tex"),
+            getTestExample("conjectures.xml"));
+  }
+
   public void testCase()
   {
     compare(getTestExample("case.tex"), getTestExample("case.xml"));
