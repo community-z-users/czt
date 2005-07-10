@@ -30,6 +30,9 @@
       <action dev="Petra" type="update">
         Improve error messages provided by the parser.
       </action>
+      <action dev="Tim" type="fix" fixes-bug="1234527">
+        Allow parsing of empty schema texts.
+      </action>
       <action dev="Petra" type="fix" fixes-bug="1200267">
         Fix the Unicode scanner to return stroke tokens instead of
         a DECORWORD token when, after separation of trailing subscript digits,
