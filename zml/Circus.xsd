@@ -987,7 +987,7 @@
         The <code>CallType</code> invariant is as follows:        
         <ul>
           <li>Normal = nonempty name and empty parameters. </li>
-          <li>Param  = nonempty parameters. Empty name for on-the-fly, nonempty name for previously declared paragraph. </li>
+          <li>Param  = nonempty parameters. Internal name for on-the-fly, user given name for previously declared paragraph. </li>
           <li>Index  = INVALID as actions do not have indexes.</li>
           <li>Gen    = INVALID as actions do not have generic types.</li>
         </ul>
