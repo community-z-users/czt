@@ -3846,7 +3846,7 @@ jokerRef ::=
 <add:oz>
 /// Object-Z constructs ///////////////////////////////////////////////
 class ::=
-        classHeader:ch optNL
+        classHeader:ch
             visibilityList:vl
             inheritedList:il
             innerParaList:ipl
@@ -3912,7 +3912,7 @@ visibilityList ::=
         //no list
         {: RESULT = null; :}
         |
-        ZPROJ LPAREN RPAREN optNL  //an empty list
+        ZPROJ LPAREN RPAREN optNL //an empty list
         {: RESULT = factory_.createVisibilityList(); :}
         |
         ZPROJ LPAREN refNameList:rnl RPAREN optNL

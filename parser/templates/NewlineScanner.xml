@@ -63,7 +63,7 @@ public class <class/>
 <add:oz>
                 Sym.CLASS, Sym.GENCLASS, Sym.STATE, Sym.INIT, Sym.OPSCH,
                 Sym.PARALLEL, Sym.ASSOPARALLEL, Sym.GCH, 
-                Sym.SDEF, Sym.CLASSUNION,
+                Sym.SDEF, Sym.CLASSUNION, 
 </add:oz>
 <add:tcoz>
                 Sym.NEXTPRO, Sym.INTCHOICE, Sym.INTERLEAVE,
@@ -93,10 +93,11 @@ public class <class/>
                 Sym.PROVISO,
 </add:zpatt>
 <add:oz>
-                Sym.DCNJ, Sym.DGCH, Sym.DSQC, Sym.OPNAME, Sym.POLY,
+                Sym.DCNJ, Sym.DGCH, Sym.DSQC, Sym.POLY, Sym.OPNAME,
+                Sym.DEFNAME,
 </add:oz>
 <add:tcoz>
-		Sym.DGCH, Sym.DIL, Sym.DIC, Sym.DPARA,
+                Sym.DIL, Sym.DIC, Sym.DPARA,
 </add:tcoz>
     };
 
