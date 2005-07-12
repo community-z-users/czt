@@ -90,6 +90,9 @@ action code
     /** The name of the mathematical toolkit. */
     public final static String TOOLKIT = "standard_toolkit";
 
+    /** The name of the Object-Z toolkit. */
+    public final static String OZ_TOOLKIT = "oz_toolkit";
+
     /** The symbols used to replace arguments for names in ApplExpr etc. */
     public final static String ARG_TOK = ZString.ARG_TOK;
     public final static String LISTARG_TOK = ZString.LISTARG_TOK;
@@ -575,11 +578,9 @@ action code
         assert parents.size() == 0;
       }
       else {
-        OpTable parentOp = getOperatorTable(PRELUDE, line, column);
-        if (parentOp != null) parentOpTables.add(parentOp);
         for (Iterator iter = parents.iterator(); iter.hasNext();) {
           final String parent = ((Parent) iter.next()).getWord();
-          parentOp = getOperatorTable(parent, line, column);
+          OpTable parentOp = getOperatorTable(parent, line, column);
           if (parentOp != null) {
             parentOpTables.add(parentOp);
           }
@@ -621,11 +622,9 @@ action code
         assert parents.size() == 0;
       }
       else {
-        JokerTable parentJoker = getJokerTable(PRELUDE, line, column);
-        if (parentJoker != null) parentJokerTables.add(parentJoker);
         for (Iterator iter = parents.iterator(); iter.hasNext();) {
           final String parent = ((Parent) iter.next()).getWord();
-          parentJoker = getJokerTable(parent, line, column);
+          JokerTable parentJoker = getJokerTable(parent, line, column);
           if (parentJoker != null) {
             parentJokerTables.add(parentJoker);
           }
@@ -1342,7 +1341,10 @@ emptySectionHeader ::=
            // Apply Syntactic Transformation Rule 12.2.1.1
            final String name = ANONYMOUS_SPEC_NAME;
            final Parent p = factory_.createParent(TOOLKIT);
-           final List parents = list(p);
+<add:oz>
+           final Parent poz = factory_.createParent(OZ_TOOLKIT);
+</add:oz>
+           final List parents = list(p<add:oz>, poz</add:oz>);
            resetOpTable(name, parents, eleft, eright);
 <add:zpatt>
            resetJokerTable(name, parents, eleft, eright);
@@ -1380,20 +1382,28 @@ section ::=
 
 sectionHeader ::=
         //ZED token at the start of sections is ignored by
-        //local_next_token to avoid a few problems
-        SECTION:s DECORWORD:dw parents:p END 
+        //the smart scanner to avoid a few problems
+        SECTION:s DECORWORD:dw parents:p END
         {:
            String name = dw.getName();
            checkName(dw, dwleft, dwright);
-           resetOpTable(name, p, pleft, pright);
-<add:zpatt>
-           resetJokerTable(name, p, pleft, pright);
-</add:zpatt>
+
            if (! name.equals(PRELUDE) &amp;&amp; p.isEmpty()) {
              Parent parent = factory_.createParent(PRELUDE);
              p.add(parent);
            }
-
+<add:oz>
+           final Parent ozParent = factory_.createParent(OZ_TOOLKIT);
+           if ((! name.equals(OZ_TOOLKIT)) &amp;&amp;
+               (! p.contains(ozParent)) &amp;&amp;
+               (! name.equals(PRELUDE))) {
+             p.add(ozParent);
+           }
+</add:oz>
+           resetOpTable(name, p, pleft, pright);
+<add:zpatt>
+           resetJokerTable(name, p, pleft, pright);
+</add:zpatt>
            RESULT = createZSect(name, p);
            addLocAnn(RESULT, sleft, sright);
         :}
@@ -1401,19 +1411,13 @@ sectionHeader ::=
 
 parents ::=
         //empty
-        {:
-           RESULT = list();
-        :}
+        {: RESULT = list(); :}
         |
         PARENTS
-        {:
-           RESULT = list();
-        :}
+        {: RESULT = list(); :}
         |
         PARENTS parentList:pl
-        {:
-           RESULT = pl;
-        :}
+        {: RESULT = pl; :}
         ;
 
 parentList ::=
@@ -4236,9 +4240,9 @@ opExpr1 ::=
         {: RESULT = factory_.createAnonOpExpr(ot); :}
         |
         /* operator promotion */
-        opPromotionLhs:oplhs DOT inner_term:it
+        opPromotionLhs:oplhs DOT refName:rn//inner_term:it
         {:
-           RESULT = factory_.createOpPromotionExpr(oplhs, refname(it));
+           RESULT = factory_.createOpPromotionExpr(oplhs, rn);
            addLocAnn(RESULT, oplhsleft, oplhsright);
         :}
         |
@@ -4389,6 +4393,7 @@ opExpr1 ::=
            RESULT = factory_.createAtProExpr(et, null, oe);
            addLocAnn(RESULT, etleft, etright);
         :}
+/*
         |
         opPromotionLhs:oplhs DOT inner_term:it NEXTPRO opExpr1:oe
         {:
@@ -4396,6 +4401,7 @@ opExpr1 ::=
            RESULT = factory_.createAtProExpr(et, null, oe);
            addLocAnn(RESULT, oplhsleft, oplhsright);
         :}
+*/
         |
         refName:rn NEXTPRO opExpr1:oe
         {:
@@ -4409,6 +4415,7 @@ opExpr1 ::=
            RESULT = factory_.createAtProExpr(et, e, oe);
            addLocAnn(RESULT, etleft, etright);
         :}
+/*
         |
         opPromotionLhs:oplhs DOT inner_term:it 
            ATTIME expression:e NEXTPRO opExpr1:oe
@@ -4417,6 +4424,7 @@ opExpr1 ::=
            RESULT = factory_.createAtProExpr(et, e, oe);
            addLocAnn(RESULT, oplhsleft, oplhsright);
         :}
+*/
         |
         refName:rn ATTIME expression:e NEXTPRO opExpr1:oe
         {:
@@ -4504,9 +4512,9 @@ opPromotionLhs ::=
            addLocAnn(RESULT, rnleft, rnright);
         :}
         |
-        opPromotionLhs:oplhs DOT inner_term:it
+        opPromotionLhs:oplhs DOT refName:rn//inner_term:it
         {:
-           RESULT = factory_.createBindSelExpr(oplhs, refname(it));
+           RESULT = factory_.createBindSelExpr(oplhs, rn);
            addLocAnn(RESULT, oplhsleft, oplhsright);
         :}
         ;
