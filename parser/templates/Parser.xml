@@ -3846,7 +3846,7 @@ jokerRef ::=
 <add:oz>
 /// Object-Z constructs ///////////////////////////////////////////////
 class ::=
-        classHeader:ch
+        classHeader:ch optNL
             visibilityList:vl
             inheritedList:il
             innerParaList:ipl
