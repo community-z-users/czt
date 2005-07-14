@@ -140,7 +140,7 @@
   sessions and tools written in different languages.
 
   Standard Z allows specifications to be exchanged using Unicode,
-  \LaTeX\ or e-mail markup.  However, implementing a parser for such
+  \LaTeX\ or email markup.  However, implementing a parser for such
   specifications is a non-trivial task that can take several months.
   ZML, in contrast, can be parsed immediately since virtually all
   programming languages provide XML reading and writing libraries.
@@ -373,7 +373,7 @@
 \subsection{Parsers and Scanners}
 
   CZT includes parsers for standard Z specifications given either in
-  Unicode or \LaTeX\ markup.  Support for e-mail markup is planned.  Java
+  Unicode or \LaTeX\ markup.  Support for email markup is planned.  Java
   Cup\footnote{See~\url{http://www.cs.princeton.edu/~appel/modern/java/CUP/}}
   is used to generate the CZT parsers from an LALR grammar, and
   JFlex\footnote{See~\url{http://jflex.de/}} is used to generate the
@@ -477,9 +477,9 @@ rules to the converter template file.
 An additional benefit of this approach is that it reduces the number
 of converters needed between languages. That is, CZT currently
 implements \LaTeX\ to Unicode and Unicode to \LaTeX\ converters. In
-the future, we plan to implement an e-mail to Unicode converter to
-allow parsing of specifications written in e-mail. Using this and the
-Unicode to \LaTeX\ converter, we could convert e-mail to \LaTeX. So,
+the future, we plan to implement an email to Unicode converter to
+allow parsing of specifications written in email. Using this and the
+Unicode to \LaTeX\ converter, we could convert email to \LaTeX. So,
 using an intermediate format reduces the number of converter tools
 that need to be implemented from $M*(M-1)$ to $2*(M-1)$, in which $M$
 is the number of markup languages supported.
@@ -690,7 +690,7 @@ object-oriented design of the CZT typechecker.  The information
 collected by this static checker is being used as an initial
 environment for the \Circus\ operational
 semantics~\cite{circus.mc:opsem}.  In the future, this static checker
-can also be used as the basis for a full \Circus\ typechecker --- the
+can also be used as the basis for a full \Circus\ typechecker;~the
 type-rules for \Circus\ are under development in~\cite{circus.other:typechecker}.
 An obvious advantage of reusing the base Z typechecker is that the \Circus\ typechecker
 will already enforce standard Z type-checking conformance.  Therefore, one can
@@ -700,7 +700,7 @@ this available skeleton for a \Circus\ typechecker.
 In conclusion, CZT supports extendibility in its typecheckers by:
 \begin{description}
  \item[Using Multiple Visitors]: A separate visitor is used for each
-  group of type-rules --- this provides a straightforward way to implement
+  group of type-rules;~this provides a straightforward way to implement
   type-rules for new constructs (by adding new visitors), or override
   existing type-rules (by subclassing existing visitors).
  \item[Sharing Common Code via Inheritance and Delegation:]
@@ -955,7 +955,7 @@ In conclusion, CZT supports extendibility in its typecheckers by:
 \section{Related Work}\label{sec:related-work}
 
   Integrated formal methods frameworks have been investigated in the
-  past. Anderson et al.\ \cite{uitp-anderson} discuss a framework for
+  past. Anderson \textit{et al.}\ \cite{uitp-anderson} discuss a framework for
   integrating different formal methods tools. However, their aim is to
   specify generic interfaces to support integration of formal methods
   tools. Three types of interfaces are used: between the engineer and
@@ -989,7 +989,7 @@ In conclusion, CZT supports extendibility in its typecheckers by:
   for the B specification language, and the Overture
   toolset\footnote{See \url{http://www.overturetool.org/}.} for VDM,
   but they focus on providing specific tool support for their
-  respective languages, whereas CZT aim to provide extensible
+  respective languages, whereas CZT aims to provide extensible
   components that can also be used by other tools.
 
   Projects such as Eclipse\footnote{See
@@ -1007,7 +1007,7 @@ In conclusion, CZT supports extendibility in its typecheckers by:
 
 \section{Conclusions and Future Work} \label{sec:conclusions}
 
-  In this paper, we presented a variety of reuse and extensibility
+  In this paper, we have presented a variety of reuse and extensibility
   mechanisms that makes the CZT framework an ideal starting point to
   develop new integrated formal methods tools for Z and its
   extensions.  We have shown how the XML schemas for Z, and for
@@ -1037,10 +1037,10 @@ In conclusion, CZT supports extendibility in its typecheckers by:
   Z parsing and typechecking is neither a novel idea, nor a
   unavailable resource.  Nevertheless, flexible and integrated
   open-source support for ISO standard Z heavily focused
-  on strong conformance and extensibility was not yet available.
+  on strong conformance and extensibility has not previously been available.
   The \textbf{philosophy CZT advocates is simple: provide an
   open-source framework with a set of tools for editing, parsing,
-  typechecking and animating formal specifications written in Z with
+  typechecking and animating formal specifications written in Z, with
   support for Z extensions}.  As new extensions are included and the
   framework matures, we expect it to become the common base for a
   growing number of strongly conforming tools for Z and its extensions.
