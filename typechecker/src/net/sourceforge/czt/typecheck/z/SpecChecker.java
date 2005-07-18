@@ -69,6 +69,8 @@ public class SpecChecker
 
   public Object visitZSect(ZSect zSect)
   {
+    final String prevSectName = sectName();
+
     //set the section name
     sectName(zSect.getName());
 
@@ -116,16 +118,38 @@ public class SpecChecker
       postCheck();
     }
 
+    if (useBeforeDecl() && sectTypeEnv().getSecondTime()) {
+      try {
+        SectTypeEnv sectTypeEnv =
+          (SectTypeEnv) sectInfo().get(new Key(sectName(), SectTypeEnv.class));
+        assert sectTypeEnv != null;
+        sectTypeEnv().overwriteTriples(sectTypeEnv.getTriple());
+      }
+      catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+    else {
+      sectInfo().put(new Key(sectName(), SectTypeEnv.class), sectTypeEnv(),
+                     new java.util.HashSet());
+    }
+
     if (useBeforeDecl() && !sectTypeEnv().getSecondTime()) {
       errors().clear();
       removeErrorAndTypeAnns(zSect);
       sectTypeEnv().setSecondTime(true);
       zSect.accept(specChecker());
     }
+    else {
+      sectTypeEnv().setSecondTime(false);
+    }
 
     //annotate this section with the type info from this section
     //and its parents
     addAnn(zSect, sectTypeEnv().getSectTypeEnvAnn());
+
+    sectName(prevSectName);
+    sectTypeEnv().setSection(sectName());
 
     //get the result and return it
     Boolean result = getResult();
@@ -145,8 +169,8 @@ public class SpecChecker
     }
     catch (CommandException e) {
     }
-    String section = sectTypeEnv().getSection();
 
+    String section = sectTypeEnv().getSection();
     if (termA != null) {
       //if there is no SectTypeEnvAnn, then we must typecheck this section
       SectTypeEnvAnn ann = (SectTypeEnvAnn) termA.getAnn(SectTypeEnvAnn.class);
@@ -177,26 +201,5 @@ public class SpecChecker
       result = Boolean.FALSE;
     }
     return result;
-  }
-
-  protected void postCheck()
-  {
-    //post-check any previously unresolved expressions
-    List<ErrorAnn> paraErrors = list();
-    for (Object next : paraErrors()) {
-      if (next instanceof Expr) {
-        Expr expr = (Expr) next;
-        ErrorAnn errorAnn = (ErrorAnn) expr.accept(postChecker());
-        if (errorAnn != null) {
-          paraErrors.add(errorAnn);
-        }
-      }
-      else if (next instanceof ErrorAnn) {
-        ErrorAnn errorAnn = (ErrorAnn) next;
-        paraErrors.add(errorAnn);
-      }
-    }
-    paraErrors().clear();
-    errors().addAll(paraErrors);
   }
 }

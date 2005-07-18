@@ -3,6 +3,7 @@
 \end{zsection}
 
 \begin{class}{A}  
+  l1 == 1\\
   \begin{state}
     n : \nat
   \end{state}\\
@@ -13,7 +14,9 @@
 
 \begin{class}{B}
   A\\
+  l1 == 2\\
   \begin{state}
+    n : \nat\\
     pn : \power \nat
   \end{state}\\
   \begin{op}{Op2}
@@ -62,6 +65,10 @@ their parent.
   A\\
   \begin{op}{Op1}
     y? : \power\nat
+  \where
+    %test that variables from the super definition 
+    %are implicitly declared
+    x? \in y?  
   \end{op}\\
   Test1a \sdef Op1 \hide (x?,y?)
 \end{class}
@@ -81,6 +88,8 @@ Test that the superclasses signature is not altered by the subclass
 \begin{class}{G}
   \begin{state}
     e : E
+  \where
+    e.self = e
   \end{state}\\
   Op1 \sdef e.Op1 \land [z? : \nat]
 \end{class}

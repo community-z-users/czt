@@ -1,0 +1,20 @@
+\begin{zsection}
+  \SECTION Init1 \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+ \begin{state}
+   s : \nat
+ \end{state}
+\end{class}
+
+Test the \Init is selectable even if it is not declared
+
+\begin{class}{B}
+  \begin{state}
+    a : A
+  \end{state}\\
+  \begin{init}
+    a.\Init
+  \end{init}
+\end{class}

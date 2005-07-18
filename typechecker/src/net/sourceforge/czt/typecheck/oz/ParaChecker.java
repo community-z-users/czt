@@ -112,23 +112,36 @@ public class ParaChecker
     List<Para> attrs = classPara.getLocalDef();
     for (Para para : attrs) {
       Signature signature = (Signature) para.accept(paraChecker());
-      List<NameTypePair> decls = list(cSig.getAttribute());
       List<NameTypePair> newDecls = signature.getNameTypePair();
-      decls.addAll(newDecls);
-      checkForDuplicates(decls, null, ErrorMessage.INCOMPATIBLE_OVERRIDING);
       typeEnv().add(newDecls);
       attrDecls.addAll(newDecls);
     }
+
+    //check that each attribute is unique within the class
+    for (int i = 0; i < attrDecls.size(); i++) {
+      NameTypePair first = attrDecls.get(i);
+      for (int j = i + 1; j < attrDecls.size(); j++) {
+        NameTypePair second = attrDecls.get(j);
+        if (first.getName().equals(second.getName())) {
+          DeclName secondName = second.getName();
+          Object [] params = {secondName, className()};
+          error(secondName, ErrorMessage.REDECLARED_NAME_IN_CLASSPARA, params);
+        }
+      }
+    }
+
     //add the declarations to the class signature
     cSig.getAttribute().addAll(attrDecls);
+
+    //check for incompatible overriding
+    checkForDuplicates(cSig.getAttribute(), null,
+                       ErrorMessage.INCOMPATIBLE_OVERRIDING);
 
     //visit the state
     State state = classPara.getState();
     if (state != null) {
       Signature signature = (Signature) state.accept(paraChecker());
-      List<NameTypePair> decls = list(cSig.getState().getNameTypePair());
-      List<NameTypePair> newDecls = signature.getNameTypePair();
-      decls.addAll(newDecls);
+      List<NameTypePair> decls = cSig.getState().getNameTypePair();
       checkForDuplicates(decls, null, ErrorMessage.INCOMPATIBLE_OVERRIDING);
     }
 
@@ -141,14 +154,20 @@ public class ParaChecker
       //add the types in the state to the type env
       typeEnv().add(cSig.getState().getNameTypePair());
 
-      List<NameTypePair> decls = cSig.getState().getNameTypePair();
-      List<NameTypePair> newDecls = (List) initialState.accept(paraChecker());
-      decls.addAll(newDecls);
-      checkForDuplicates(decls, null, ErrorMessage.INCOMPATIBLE_OVERRIDING);
+      //visit the initial state
+      initialState.accept(paraChecker());
 
       //exit the scope
       typeEnv().exitScope();
     }
+
+    //add the "Init" variable to the state (to use for dereferencing)
+    DeclName initName =
+      factory().createDeclName(OzString.INITWORD, list(), null);
+    Type2 boolType = factory().createBoolType();
+    NameTypePair initPair = factory().createNameTypePair(initName, boolType);
+    cSig.getState().getNameTypePair().add(initPair);
+    checkForDuplicates(cSig.getState().getNameTypePair(), null);
 
     //the list of operation names declared by this paragraph
     List<DeclName> opNames = list();
@@ -182,6 +201,11 @@ public class ParaChecker
 
     //add the primary variables list to the class type
     classType.getPrimary().addAll(primary());
+
+    //add the "self" variable to the state
+    NameTypePair selfPair =
+      factory().createNameTypePair(self, addGenerics(classType));
+    cSig.getState().getNameTypePair().add(selfPair);
 
     //create the signature of this paragraph
     NameTypePair cPair =
@@ -220,6 +244,9 @@ public class ParaChecker
       pairs.addAll((List) decl.getDecl().accept(declChecker()));
     }
 
+    //check the state for incompatible declarations
+    checkForDuplicates(pairs, null);
+
     //add these pairs to the type env
     typeEnv().add(pairs);
 
@@ -248,8 +275,6 @@ public class ParaChecker
 
   public Object visitInitialState(InitialState initialState)
   {
-    List<NameTypePair> pairs = list();
-
     //enter a new scope
     typeEnv().enterScope();
 
@@ -263,24 +288,25 @@ public class ParaChecker
       pred.accept(predChecker());
     }
 
-    //the definition "Init : \bool" should be added to the state
-    //signature. We return this declaration and it is added in visitClassPara
-    DeclName initName =
-      factory().createDeclName(OzString.INITWORD, list(), null);
-    Type2 boolType = factory().createBoolType();
-    NameTypePair pair = factory().createNameTypePair(initName, boolType);
-    pairs.add(pair);
-
-    //exit the scope
+    //exit the variable scope
     typeEnv().exitScope();
 
-    return pairs;
+    return null;
   }
 
   public Object visitOperation(Operation operation)
   {
     DeclName opName = operation.getName();
     Signature signature = factory().createVariableSignature();
+
+    //get the variables declared in the superclass's definition of
+    //this operation
+    ClassSig cSig = getSelfSig();
+    NameSignaturePair superPair = findNameSigPair(opName, cSig.getOperation());
+    if (superPair != null) {
+      List<NameTypePair> pairs = superPair.getSignature().getNameTypePair();
+      typeEnv().add(pairs);
+    }
 
     SignatureAnn signatureAnn =
       (SignatureAnn) operation.getAnn(SignatureAnn.class);
@@ -292,7 +318,6 @@ public class ParaChecker
     else {
       NameSignaturePair temporaryPair =
         factory().createNameSignaturePair(opName, factory().createSignature());
-      ClassSig cSig = getSelfSig();
       List<NameSignaturePair> opPairs = cSig.getOperation();
       boolean added = false;
       if (useBeforeDecl()) {
@@ -306,8 +331,10 @@ public class ParaChecker
       }
 
       //visit the operation expression, and get the signature
+      typeEnv().enterScope();
       OpExpr opExpr = operation.getOpExpr();
       signature = (Signature) opExpr.accept(opExprChecker());
+      typeEnv().exitScope();
 
       if (added) {
         //remove the the temporary pair again

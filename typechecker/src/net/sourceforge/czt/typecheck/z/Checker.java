@@ -398,6 +398,27 @@ abstract public class Checker
     return typeChecker_.postChecker_;
   }
 
+  protected void postCheck()
+  {
+    //post-check any previously unresolved expressions
+    List<ErrorAnn> paraErrors = list();
+    for (Object next : paraErrors()) {
+      if (next instanceof Expr) {
+        Expr expr = (Expr) next;
+        ErrorAnn errorAnn = (ErrorAnn) expr.accept(postChecker());
+        if (errorAnn != null) {
+          paraErrors.add(errorAnn);
+        }
+      }
+      else if (next instanceof ErrorAnn) {
+        ErrorAnn errorAnn = (ErrorAnn) next;
+        paraErrors.add(errorAnn);
+      }
+    }
+    paraErrors().clear();
+    errors().addAll(paraErrors);
+  }
+
   protected void checkForDuplicates(List<NameTypePair> pairs,
                                     TermA termA)
   {
@@ -434,10 +455,8 @@ abstract public class Checker
               error(second.getName(), errorMessage, params);
             }
           }
-          //if the types do agree, we don't need the second declaration
-          else {
-            pairs.remove(j--);
-          }
+          //we don't need the second declaration
+          pairs.remove(j--);
         }
       }
     }
@@ -593,7 +612,6 @@ abstract public class Checker
     List<NameTypePair> pairs = signature.getNameTypePair();
     for (NameTypePair pair : pairs) {
       NameNamePair namePair = findNameNamePair(pair.getName(), namePairs);
-      //System.err.println("try renaming " + pair.getName());
       renameUnknownTypes(pair.getType(), pair.getType(), namePairs);
       if (namePair != null) {
         DeclName newName = namePair.getNewName();

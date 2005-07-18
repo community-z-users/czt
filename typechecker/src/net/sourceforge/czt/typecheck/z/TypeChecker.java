@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.typecheck.z.util.*;
@@ -34,7 +35,11 @@ import net.sourceforge.czt.util.CztLogger;
  * The top-level class in the type checker classes.
  */
 public class TypeChecker
-  implements TermVisitor
+  implements TermVisitor,
+             ParaVisitor,
+             DeclVisitor,
+             ExprVisitor,
+             PredVisitor
 {
   //print debuging info
   protected static boolean debug_ = false;
@@ -138,9 +143,57 @@ public class TypeChecker
     postChecker_ = new PostChecker(this);
   }
 
+  public void setPreamble(String sectName, SectionInfo sectInfo)
+  {
+    if (sectName != null && sectInfo != null) {
+      sectName_.replace(0, sectName_.length(), sectName);
+      sectTypeEnv_.setSection(sectName_.toString());
+
+      SectTypeEnv sectTypeEnv = null;
+      try {
+        sectTypeEnv = (SectTypeEnv) sectInfo.get(new Key(sectName_.toString(),
+                                                         SectTypeEnv.class));
+      }
+      catch (CommandException e) {
+      }
+      if (sectTypeEnv != null) {
+        sectTypeEnv_ = sectTypeEnv;
+      }
+    }
+  }
+
   public Object visitTerm(Term term)
   {
-    return (Boolean) term.accept(specChecker_);
+    return term.accept(specChecker_);
+  }
+
+  public Object visitPara(Para para)
+  {
+    return para.accept(paraChecker_);
+  }
+
+  public Object visitDecl(Decl decl)
+  {
+    return decl.accept(declChecker_);
+  }
+
+  public Object visitExpr(Expr expr)
+  {
+    expr.accept(exprChecker_);
+    postChecker_.postCheck();
+    return null;
+  }
+
+  public Object visitPred(Pred pred)
+  {
+    UResult solved = (UResult) pred.accept(predChecker_);
+    //if the are unsolved unifications in this predicate,
+    //visit it again
+    if (solved == UResult.PARTIAL) {
+      pred.accept(predChecker_);
+    }
+    postChecker_.postCheck();
+    return null;
   }
 
   public List<ErrorAnn> errors()

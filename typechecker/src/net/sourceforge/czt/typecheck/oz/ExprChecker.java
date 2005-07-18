@@ -145,11 +145,12 @@ public class ExprChecker
         List<ClassRef> subClasses = list(cRef);
 
         //find any subclasses
-        List<NameSectTypeTriple> triples = sectTypeEnv().getNameSectTypeTriple();
+        List<NameSectTypeTriple> triples = sectTypeEnv().getTriple();
         for (NameSectTypeTriple triple : triples) {
           Type2 nextType = unwrapType(triple.getType());
           if (isPowerClassRefType(nextType)) {
-            ClassRefType subClass = (ClassRefType) powerType(nextType).getType();
+            ClassRefType subClass =
+              (ClassRefType) powerType(nextType).getType();
             if (contains(subClass.getSuperClass(), cRef)) {
               //the subclasses must have the same number of parameters as
               //the "top-level" class
@@ -217,12 +218,12 @@ public class ExprChecker
     UResult unified = strongUnify(vPowerType, exprType);
 
     //if the expr is not a class type, raise an error
-    if (!instanceOf(vPowerType.getType(), ClassRefType.class) &&
+    if (!instanceOf(vPowerType.getType(), ClassType.class) &&
         !instanceOf(vPowerType.getType(), VariableType.class)) {
       Object [] params = {containmentExpr, exprType};
-      error(containmentExpr, ErrorMessage.NON_REF_IN_CONTAINMENTEXPR, params);
+      error(containmentExpr, ErrorMessage.NON_CLASS_IN_CONTAINMENTEXPR, params);
     }
-    else if (vPowerType.getType() instanceof ClassRefType) {
+    else if (vPowerType.getType() instanceof ClassType) {
       type = exprType;
     }
 

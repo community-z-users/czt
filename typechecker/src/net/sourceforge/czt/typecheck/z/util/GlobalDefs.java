@@ -206,7 +206,7 @@ public class GlobalDefs
 
   /**
    * Test whether a list contains a reference to an object.
-   * @param list the list to search
+   * @param list the list to search.
    * @param o the reference to search for.
    * @return true if and only if the reference is in the list.
    */

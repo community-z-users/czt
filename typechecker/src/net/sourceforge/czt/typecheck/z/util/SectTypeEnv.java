@@ -94,6 +94,12 @@ public class SectTypeEnv
     parents_ = new HashMap<String, Set<String>>();
   }
 
+  public void overwriteTriples(List<NameSectTypeTriple> triples)
+  {
+    typeInfo_ = new ArrayList<NameSectTypeTriple>();
+    add(triples);
+  }
+
   /**
    * Set the current section.
    * @param section the section
@@ -182,7 +188,6 @@ public class SectTypeEnv
     visibleSections_.addAll(getTransitiveParents(parent));
   }
 
-
   /**
    * Add a <code>NameSectTypeTriple</code> to this environment.
    * @return true if and only if this name is not a duplicate
@@ -209,12 +214,19 @@ public class SectTypeEnv
     return result;
   }
 
+  public void add(List<NameSectTypeTriple> triples)
+  {
+    for (NameSectTypeTriple triple : triples) {
+      add(triple);
+    }
+  }
+
   /**
    * Add a <code>NameTypePair</code> to this environment.
    * @return true if and only if this name is not a duplicate
    */
   public boolean add(NameTypePair nameTypePair)
-  {
+ {
     return add(nameTypePair.getName(), nameTypePair.getType());
   }
 
@@ -250,8 +262,8 @@ public class SectTypeEnv
     }
     else {
       DeclName declName = factory_.createDeclName(refName.getWord(),
-						  refName.getStroke(),
-						  null);
+                                                  refName.getStroke(),
+                                                  null);
       NameSectTypeTriple insert =
         factory_.createNameSectTypeTriple(declName, section_, type);
       typeInfo_.add(insert);
@@ -260,7 +272,7 @@ public class SectTypeEnv
     return true;
   }
 
-  public List<NameSectTypeTriple> getNameSectTypeTriple()
+  public List<NameSectTypeTriple> getTriple()
   {
     List<NameSectTypeTriple> triples = new ArrayList<NameSectTypeTriple>();
     for (NameSectTypeTriple triple : typeInfo_) {
@@ -274,7 +286,7 @@ public class SectTypeEnv
 
   public SectTypeEnvAnn getSectTypeEnvAnn()
   {
-    List<NameSectTypeTriple> triples = getNameSectTypeTriple();
+    List<NameSectTypeTriple> triples = getTriple();
     return factory_.createSectTypeEnvAnn(triples);
   }
 
@@ -308,8 +320,8 @@ public class SectTypeEnv
       if (isSchema(baseType)) {
         PowerType powerType = (PowerType) unwrapType(baseType);
         SchemaType schemaType = (SchemaType) powerType.getType();
-	Signature signature = schemaType.getSignature();
-	
+        Signature signature = schemaType.getSignature();
+
         List<NameTypePair> pairs = signature.getNameTypePair();
         List<NameTypePair> newPairs = new ArrayList<NameTypePair>(pairs);
         for (NameTypePair pair : pairs) {
@@ -319,10 +331,10 @@ public class SectTypeEnv
             factory_.createNameTypePair(primedName, pair.getType());
           newPairs.add(newPair);
         }
-	//create the new type
-	Signature newSignature = factory_.createSignature(newPairs);
-	SchemaType newSchemaType = factory_.createSchemaType(newSignature);
-	PowerType newPowerType = factory_.createPowerType(newSchemaType);
+        //create the new type
+        Signature newSignature = factory_.createSignature(newPairs);
+        SchemaType newSchemaType = factory_.createSchemaType(newSignature);
+        PowerType newPowerType = factory_.createPowerType(newSchemaType);
 
         if (baseType instanceof GenericType) {
           GenericType gType = (GenericType) baseType;
@@ -333,7 +345,7 @@ public class SectTypeEnv
           result = newPowerType;
         }
 
-	//add this to the environment so it need not be determined again
+        //add this to the environment so it need not be determined again
         add(declName, result);
       }
     }

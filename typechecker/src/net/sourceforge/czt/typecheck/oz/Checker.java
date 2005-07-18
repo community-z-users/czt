@@ -213,25 +213,34 @@ abstract public class Checker
     }
   }
 
+  protected boolean isSelfName(DeclName declName)
+  {
+    final boolean result = declName.getWord().equals(OzString.SELF) &&
+      declName.getStroke().size() == 0;
+    return result;
+  }
+
   protected void inheritFeature(List<NameTypePair> source,
                                 List<NameTypePair> target,
                                 Expr expr)
   {
     for (NameTypePair pair : source) {
       DeclName sourceName = pair.getName();
-      NameTypePair existing = findNameTypePair(sourceName, target);
-      if (existing != null) {
-        Type2 sourceType = unwrapType(pair.getType());
-        Type2 existingType = unwrapType(existing.getType());
-        UResult unified = unify(sourceType, existingType);
-        if (unified == FAIL) {
-          Object [] params = {sourceName, sourceType, existingType};
-          error(expr, ErrorMessage.INCOMPATIBLE_INHERIT, params);
+      if (!isSelfName(sourceName)) {
+        NameTypePair existing = findNameTypePair(sourceName, target);
+        if (existing != null) {
+          Type2 sourceType = unwrapType(pair.getType());
+          Type2 existingType = unwrapType(existing.getType());
+          UResult unified = unify(sourceType, existingType);
+          if (unified == FAIL) {
+            Object [] params = {sourceName, sourceType, existingType};
+            error(expr, ErrorMessage.INCOMPATIBLE_INHERIT, params);
+          }
         }
-      }
-      else {
-        typeEnv().add(pair);
-        target.add(pair);
+        else {
+          typeEnv().add(pair);
+          target.add(pair);
+        }
       }
     }
   }
@@ -814,10 +823,12 @@ abstract public class Checker
       List<NameTypePair> lsPairs = lcSig.getState().getNameTypePair();
       List<NameTypePair> rsPairs = rcSig.getState().getNameTypePair();
       for (NameTypePair lPair : lsPairs) {
-        NameTypePair rPair = findNameTypePair(lPair.getName(), rsPairs);
-        if (rPair != null) {
-          state.getNameTypePair().add(lPair);
-          state.getNameTypePair().add(rPair);
+        if (!isSelfName(lPair.getName())) {
+          NameTypePair rPair = findNameTypePair(lPair.getName(), rsPairs);
+          if (rPair != null) {
+            state.getNameTypePair().add(lPair);
+            state.getNameTypePair().add(rPair);
+          }
         }
       }
       //check compatibility

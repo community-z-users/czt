@@ -367,8 +367,11 @@ public class ExprChecker
 
     //visit the SchText and add return the signature
     //from that as the signature for this expression
+    Signature signature = factory().createSignature();
     SchText schText = schExpr.getSchText();
-    Signature signature = (Signature) schText.accept(exprChecker());
+    if (schText != null) {
+      signature = (Signature) schText.accept(exprChecker());
+    }
 
     //exit the current scope
     typeEnv().exitScope();
