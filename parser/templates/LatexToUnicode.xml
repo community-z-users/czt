@@ -30,7 +30,6 @@ import java.util.Properties;
 import net.sourceforge.czt.java_cup.runtime.Scanner;
 import net.sourceforge.czt.java_cup.runtime.Symbol;
 
-import net.sourceforge.czt.parser.util.LatexMarkupParser;
 import net.sourceforge.czt.session.*;
 
 /**

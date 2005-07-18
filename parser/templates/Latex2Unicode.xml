@@ -51,7 +51,6 @@ import net.sourceforge.czt.zpatt.util.ZPattString;
 </add:zpatt>
 import net.sourceforge.czt.parser.util.LatexCommand;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
-import net.sourceforge.czt.parser.util.LatexMarkupParser;
 import net.sourceforge.czt.parser.util.LatexSym;
 import net.sourceforge.czt.parser.util.LocInfo;
 import net.sourceforge.czt.parser.util.ParsePropertiesKeys;

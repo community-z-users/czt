@@ -1,4 +1,5 @@
-/*
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   Copyright (C) 2004, 2005 Petra Malik
   This file is part of the CZT project: http://czt.sourceforge.net
 
@@ -15,9 +16,11 @@
   You should have received a copy of the GNU General Public License along
   with CZT; if not, write to the Free Software Foundation, Inc.,
   59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+-->
 
-package net.sourceforge.czt.parser.util;
+<scanner xmlns:add="http://czt.sourceforge.net/templates/additional">
+
+package <package/>;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +28,7 @@ import java.util.Map;
 import net.sourceforge.czt.java_cup.runtime.Scanner;
 import net.sourceforge.czt.java_cup.runtime.Symbol;
 
+import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.Directive;
@@ -41,7 +45,7 @@ import net.sourceforge.czt.z.util.ZChar;
  * markup function in the converter if each markup command is used
  * AFTER it is defined in a markup directive.
  */
-public class LatexMarkupParser
+public class <class/>
   implements Scanner
 {
   private static ZFactory factory_ = new ZFactoryImpl();
@@ -91,10 +95,10 @@ public class LatexMarkupParser
   /**
    * Creates a new latex markup parser that uses the scanner provided.
    * The section information should be able to provide information of type
-   * <code>net.sourceforge.czt.parser.util. LatexMarkupFunction.class</code>.
+   * &lt;code&gt; 
+   * net.sourceforge.czt.parser.util. LatexMarkupFunction.class&lt;/code&gt;.
    */
-  public LatexMarkupParser(LatexScanner scanner,
-                           SectionInfo sectInfo)
+  public <class/>(LatexScanner scanner, SectionInfo sectInfo)
   {
     scanner_ = scanner;
     sectInfo_ = sectInfo;
@@ -146,7 +150,7 @@ public class LatexMarkupParser
     throws Exception
   {
     Symbol token = scanner_.next_token();
-    boolean isStartOfAnonymousSpec = sectName_ == null &&
+    boolean isStartOfAnonymousSpec = sectName_ == null &amp;&amp;
         (token.sym == LatexSym.CHAR_MARKUP ||
          token.sym == LatexSym.WORD_MARKUP ||
          token.sym == LatexSym.INWORD_MARKUP ||
@@ -156,9 +160,12 @@ public class LatexMarkupParser
     if (isStartOfAnonymousSpec) {
       // we are parsing an anonymous specification
       sectName_ = "Specification";
-      parents_ = "standard_toolkit";
+      parents_ = "standard_toolkit<add:oz>, oz_toolkit</add:oz>";
       addMarkupFunction("prelude");
-      addMarkupFunction(parents_);
+<add:oz>
+      addMarkupFunction("oz_toolkit");
+</add:oz>
+      addMarkupFunction("standard_toolkit");
     }
     if (token.sym == LatexSym.EOF) {
       updateLatexMarkupFunction();
@@ -172,11 +179,17 @@ public class LatexMarkupParser
         if (! sectName_.equals("prelude")) {
           addMarkupFunction("prelude");
         }
+<add:oz>
+        if (! sectName_.equals("prelude") &amp;&amp;
+            ! sectName_.equals("oz_toolkit")) {
+          addMarkupFunction("oz_toolkit");
+        }
+</add:oz>
         if (parents_ != null) {
           String[] parents = parents_.split(",");
-          for (int i = 0; i < parents.length; i++) {
+          for (int i = 0; i &lt; parents.length; i++) {
             String parent = parents[i].trim();
-            if (parent != null && ! parent.equals("")) {
+            if (parent != null &amp;&amp; ! parent.equals("")) {
               addMarkupFunction(parent);
             }
           }
@@ -231,7 +244,7 @@ public class LatexMarkupParser
       parseWordMarkup(DirectiveType.POST, token.left);
     }
     check(symbol_, token);
-    if (token != null && token.value != null) {
+    if (token != null &amp;&amp; token.value != null) {
       symbol_ = token;
     }
     return token;
@@ -250,12 +263,12 @@ public class LatexMarkupParser
   {
     final String message = "WARNING: Possible missing hard space at line "
       + t2.left + " column " + t2.right + " in " + source_;
-    if (t1 != null && t2 != null) {
-      if (t1.sym == LatexSym.UNICODE && t2.sym == LatexSym.UNICODE) {
+    if (t1 != null &amp;&amp; t2 != null) {
+      if (t1.sym == LatexSym.UNICODE &amp;&amp; t2.sym == LatexSym.UNICODE) {
         String s1 = (String) t1.value;
         String s2 = (String) t2.value;
-        if (s1 != null && s1.length() > 0 &&
-            s2 != null && s2.length() > 0) {
+        if (s1 != null &amp;&amp; s1.length() > 0 &amp;&amp;
+            s2 != null &amp;&amp; s2.length() > 0) {
           final ZChar[] zchars1 = ZChar.toZChars(s1);
           final ZChar[] zchars2 = ZChar.toZChars(s2);
           ZChar c1 = zchars1[zchars1.length - 1];
@@ -267,7 +280,8 @@ public class LatexMarkupParser
           final boolean c1IsDeltaOrXi =
             ZChar.DELTA.equals(c1) || ZChar.XI.equals(c1);
           final boolean cond =
-            c1IsLetterOrDigit && c2IsLetterOrDigit && ! c1IsDeltaOrXi;
+            c1IsLetterOrDigit &amp;&amp; c2IsLetterOrDigit &amp;&amp; 
+              ! c1IsDeltaOrXi;
           if (cond) {
             System.err.println(message);
           }
@@ -304,7 +318,8 @@ public class LatexMarkupParser
   {
     String result = "";
     Symbol token = scanner_.next_token();
-    while (token.sym != LatexSym.END_MARKUP && token.sym != LatexSym.EOF) {
+    while (token.sym != LatexSym.END_MARKUP &amp;&amp;
+           token.sym != LatexSym.EOF) {
       result += token.value;
       token = scanner_.next_token();
     }
@@ -369,3 +384,4 @@ public class LatexMarkupParser
     void setMarkupFunction(LatexMarkupFunction markupFunction);
   }
 }
+</scanner>

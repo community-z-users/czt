@@ -126,31 +126,31 @@
     depends="z-parser, z-lparser, z-uparser, z-parserutils"/>
 
   <target name="generate-z-scanner"
-    depends="z-l2u, z-ltu, z-uscanner, z-lscanner, z-sscanner"/>
+    depends="z-l2u, z-lmarkup, z-ltu, z-uscanner, z-lscanner, z-sscanner"/>
 
   <target name="generate-zpatt-parser"
     depends="zpatt-parser, zpatt-lparser, zpatt-uparser, zpatt-parserutils"/>
 
   <target name="generate-zpatt-scanner"
-    depends="zpatt-l2u, zpatt-ltu, zpatt-uscanner, zpatt-lscanner, zpatt-sscanner"/>
+    depends="zpatt-l2u, zpatt-lmarkup, zpatt-ltu, zpatt-uscanner, zpatt-lscanner, zpatt-sscanner"/>
 
   <target name="generate-circus-parser"
     depends="circus-parser, circus-lparser, circus-uparser, circus-parserutils"/>
 
   <target name="generate-circus-scanner"
-    depends="circus-l2u, circus-ltu, circus-uscanner, circus-lscanner, circus-sscanner"/>
+    depends="circus-l2u, circus-lmarkup, circus-ltu, circus-uscanner, circus-lscanner, circus-sscanner"/>
 
   <target name="generate-oz-parser"
     depends="oz-parser, oz-lparser, oz-uparser, oz-parserutils"/>
 
   <target name="generate-oz-scanner"
-    depends="oz-l2u, oz-ltu, oz-uscanner, oz-lscanner, oz-sscanner"/>
+    depends="oz-l2u, oz-lmarkup, oz-ltu, oz-uscanner, oz-lscanner, oz-sscanner"/>
 
   <target name="generate-tcoz-parser"
     depends="tcoz-parser,tcoz-lparser, tcoz-uparser, tcoz-parserutils"/>
 
   <target name="generate-tcoz-scanner"
-    depends="tcoz-l2u, tcoz-ltu, tcoz-uscanner, tcoz-lscanner, tcoz-sscanner"/>
+    depends="tcoz-l2u, tcoz-lmarkup, tcoz-ltu, tcoz-uscanner, tcoz-lscanner, tcoz-sscanner"/>
   
   <target name="print-scanner">
     <xslt
@@ -299,6 +299,17 @@
       destdir="${build.src.dir}"/>
   </target>
 
+  <target name="z-lmarkup">
+    <xslt
+      in="templates/LatexMarkupParser.xml"
+      out="${build.src.dir}/net/sourceforge/czt/parser/z/LatexMarkupParser.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="LatexMarkupParser"/>
+      <param name="package" expression="net.sourceforge.czt.parser.z"/>
+      <param name="add" expression="{z}"/>
+    </xslt>
+  </target>
+
   <target name="z-ltu">
     <xslt
       in="templates/LatexToUnicode.xml"
@@ -333,6 +344,17 @@
     <jflex
       file="${build.src.dir}/net/sourceforge/czt/parser/zpatt/Latex2Unicode.jflex"
       destdir="${build.src.dir}"/>
+  </target>
+
+  <target name="zpatt-lmarkup">
+    <xslt
+      in="templates/LatexMarkupParser.xml"
+      out="${build.src.dir}/net/sourceforge/czt/parser/zpatt/LatexMarkupParser.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="LatexMarkupParser"/>
+      <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
+      <param name="add" expression="{zpatt}"/>
+    </xslt>
   </target>
 
   <target name="zpatt-ltu">
@@ -371,6 +393,17 @@
       destdir="${build.src.dir}"/>
   </target>
 
+  <target name="circus-lmarkup">
+    <xslt
+      in="templates/LatexMarkupParser.xml"
+      out="${build.src.dir}/net/sourceforge/czt/parser/circus/LatexMarkupParser.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="LatexMarkupParser"/>
+      <param name="package" expression="net.sourceforge.czt.parser.circus"/>
+      <param name="add" expression="{circus}"/>
+    </xslt>
+  </target>
+
   <target name="circus-ltu">
     <xslt
       in="templates/LatexToUnicode.xml"
@@ -405,6 +438,17 @@
     <jflex
       file="${build.src.dir}/net/sourceforge/czt/parser/oz/Latex2Unicode.jflex"
       destdir="${build.src.dir}"/>
+  </target>
+
+  <target name="oz-lmarkup">
+    <xslt
+      in="templates/LatexMarkupParser.xml"
+      out="${build.src.dir}/net/sourceforge/czt/parser/oz/LatexMarkupParser.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="LatexMarkupParser"/>
+      <param name="package" expression="net.sourceforge.czt.parser.oz"/>
+      <param name="add" expression="{oz}"/>
+    </xslt>
   </target>
 
   <target name="oz-ltu">
@@ -442,6 +486,17 @@
     <jflex
       file="${build.src.dir}/net/sourceforge/czt/parser/tcoz/Latex2Unicode.jflex"
       destdir="${build.src.dir}"/>
+  </target>
+
+  <target name="tcoz-lmarkup">
+    <xslt
+      in="templates/LatexMarkupParser.xml"
+      out="${build.src.dir}/net/sourceforge/czt/parser/tcoz/LatexMarkupParser.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="LatexMarkupParser"/>
+      <param name="package" expression="net.sourceforge.czt.parser.tcoz"/>
+      <param name="add" expression="{tcoz}"/>
+    </xslt>
   </target>
 
   <target name="tcoz-ltu">
