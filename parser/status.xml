@@ -20,6 +20,11 @@
          </action>
     -->
     <release version="0.4" date="unreleased">
+      <action dev="Tim" type="bugfix">
+        Create operation names from OPNAME symbols using
+        createDeclName(Decorword), so that the strokes are correctly
+        added.
+      </action>
       <action dev="Tim" type="add">
         Add parse support for Z pattern and rule language.
       </action>
