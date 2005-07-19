@@ -11,8 +11,9 @@ correctly.
 \end{zed}
 
 \begin{axdef}
-  schExpr == g
+  schExpr == g\\
+  x : \nat
 \where
   schExpr \hide (y)\\
-  schExpr = [x : \nat]
+  schExpr = [x : \nat]\\
 \end{axdef}
