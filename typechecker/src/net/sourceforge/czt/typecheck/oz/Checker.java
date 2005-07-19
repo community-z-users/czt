@@ -863,7 +863,8 @@ abstract public class Checker
           UResult unified = unify(lSig, rSig);
           if (unified == FAIL && classUnionExpr != null) {
             Object [] params = {lName, classUnionExpr, lSig, rSig};
-            error(lName, ErrorMessage.INCOMPATIBLE_OP_IN_CLASSUNIONEXPR, params);
+            error(classUnionExpr,
+                  ErrorMessage.INCOMPATIBLE_OP_IN_CLASSUNIONEXPR, params);
           }
           else {
             ops.add(lPair);

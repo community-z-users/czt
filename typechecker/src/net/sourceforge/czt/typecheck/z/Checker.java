@@ -203,7 +203,6 @@ abstract public class Checker
     }
     catch (Exception e) {
       String message = "Cannot be printed";
-      e.printStackTrace();
       return message;
     }
   }

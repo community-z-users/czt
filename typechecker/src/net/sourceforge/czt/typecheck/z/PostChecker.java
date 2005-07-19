@@ -95,7 +95,7 @@ public class PostChecker
         added = addErrorAnn(refName, errorAnn);
       }
       else {
-	added = addErrorAnn(exprPred, errorAnn);
+        added = addErrorAnn(exprPred, errorAnn);
         removeAnn(refName, exprPred);
         Object ann = (ParameterAnn) exprPred.getAnn(ParameterAnn.class);
         removeAnn(exprPred, ann);

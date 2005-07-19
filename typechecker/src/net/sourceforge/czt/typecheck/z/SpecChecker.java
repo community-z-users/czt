@@ -115,7 +115,12 @@ public class SpecChecker
           error(pair.getName(), ErrorMessage.REDECLARED_GLOBAL_NAME, params);
         }
       }
-      postCheck();
+      if (!useBeforeDecl()) {
+        postCheck();
+      }
+      if (sectTypeEnv().getSecondTime()) {
+        postCheck();
+      }
     }
 
     if (useBeforeDecl() && sectTypeEnv().getSecondTime()) {
@@ -138,10 +143,12 @@ public class SpecChecker
       errors().clear();
       removeErrorAndTypeAnns(zSect);
       sectTypeEnv().setSecondTime(true);
+      System.err.println("set true for " + zSect.getName());
       zSect.accept(specChecker());
     }
     else {
       sectTypeEnv().setSecondTime(false);
+      System.err.println("set false for " + zSect.getName());
     }
 
     //annotate this section with the type info from this section

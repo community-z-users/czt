@@ -68,6 +68,8 @@ public class ExprChecker
 
   public Object visitClassUnionExpr(ClassUnionExpr classUnionExpr)
   {
+    System.err.println("visiting " + format(classUnionExpr));
+
     Type2 type = factory().createUnknownType();
 
     Expr lExpr = (Expr) classUnionExpr.getLeftExpr();
