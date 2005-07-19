@@ -677,7 +677,7 @@ NAME =   {NOT_LB}*
           result += ZString.SPACE;
           return result(result);
         }
-  "\\\\" | "\\also" | "\\znewpage" <add:oz>| "\\classbreak" </add:oz>
+  "\\\\" | "\\also" | "\\znewpage"
         {
           String result = addSpace();
           return result(result + ZString.NLCHAR);

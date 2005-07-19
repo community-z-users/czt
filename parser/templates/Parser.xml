@@ -4171,7 +4171,7 @@ operation ::=
         |
         OPNAME:on SDEF opExpr:oe
         {:
-           DeclName dn = factory_.createDeclName(on.getName(), list(), null);
+           DeclName dn = factory_.createDeclName(on.getName());
            RESULT = factory_.createOperation(dn, oe, Box.OmitBox);
            addLocAnn(RESULT, onleft, onright);
            addLocAnn(dn, onleft, onright);
