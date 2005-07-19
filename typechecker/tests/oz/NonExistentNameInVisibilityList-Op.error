@@ -1,0 +1,9 @@
+\begin{zsection}
+  \SECTION NonExistentNameInVisibilityList\_Op
+\end{zsection}
+
+\begin{class}{A}
+  \project (a, s, Op1)\\
+  a == 1\\
+  [s : \nat]\\
+\end{class}

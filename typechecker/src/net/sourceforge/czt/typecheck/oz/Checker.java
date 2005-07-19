@@ -388,9 +388,12 @@ abstract public class Checker
     }
   }
 
-  //check for duplicates in a class paragraph
-  protected void checkForDuplicates(ClassSig cSig, TermA termA,
-                                    ErrorMessage errorMessage)
+  //check for duplicates in a class paragraph, and that names in the
+  //visibility list are names of features in the class
+  protected void checkClassSig(ClassSig cSig, 
+			       TermA termA,
+			       VisibilityList visibilityList,
+			       ErrorMessage errorMessage)
   {
     List<DeclName> decls = list(className());
 
@@ -420,8 +423,28 @@ abstract public class Checker
         }
       }
     }
+
+    //check the visibility list
+    if (visibilityList != null) {
+      List<RefName> visibleNames = visibilityList.getRefName();
+      for (RefName visibleName : visibleNames) {
+	boolean found = false;
+	for (DeclName featureName : decls) {
+	  if (namesEqual(visibleName, featureName) &&
+	      !namesEqual(visibleName, className())) {
+	    found = true;
+	    break;
+	  }
+	}
+	if (!found) {
+          Object [] params = {visibleName, className()};
+          error(visibleName, ErrorMessage.NON_EXISTENT_NAME_IN_VISIBILITYLIST, params);
+	}
+      }
+    }
   }
 
+  //check that each visible feature of a class is visible in a subclass
   protected void checkVisibility(ClassRefType superClass,
                                  ClassRefType subClass,
                                  List<NameTypePair> superPairs,
@@ -577,8 +600,8 @@ abstract public class Checker
 
     ClassSig result = factory().createClassSig(cSig.getClasses(),
                                                newState, newAttrs, newOps);
-    checkForDuplicates(result, renameExpr,
-                       ErrorMessage.REDECLARED_NAME_IN_RENAMEEXPR);
+    checkClassSig(result, renameExpr, null,
+		  ErrorMessage.REDECLARED_NAME_IN_RENAMEEXPR);
     return result;
   }
 

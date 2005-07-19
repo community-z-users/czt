@@ -60,6 +60,13 @@
         No "Init" definition in a class implies init = true. This
         allows "Init" to be selected even if not declared.
       </action>
+      <action dev="Tim" type="bugfix">
+        Prevent calls on recursive types in renameUnknownTypes.
+      </action>
+      <action dev="Tim" type="bugfix">
+        Implemented a check that names in the visibility list are features 
+        of the class.
+      </action>
       <!-- Sample action:
       <action dev="JB" type="fix" due-to="Joe Contributor"
           due-to-email="joec@apache.org" fixes-bug="123">
@@ -95,10 +102,6 @@
       </action>
       <action context="code" dev="Tim">
         There is still a problem with renaming in mutually recursive types.
-      </action>
-      <action context="code" dev="Tim">
-        Implement a check that names in the visibility list are features 
-        of the class.
       </action>
     </actions>
     <actions priority="medium">

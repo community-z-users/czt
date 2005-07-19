@@ -1,0 +1,11 @@
+\begin{zsection}
+  \SECTION NonExistentNameInVisibilityList\_Attr
+\end{zsection}
+
+\begin{class}{A}
+  \project (a, s, Op1)\\
+  \begin{state}
+   s : \nat
+  \end{state}\\
+  Op1 \sdef [x? : \nat]
+\end{class}

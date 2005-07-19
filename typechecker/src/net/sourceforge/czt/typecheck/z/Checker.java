@@ -584,9 +584,10 @@ abstract public class Checker
   }
 
   protected void renameUnknownTypes(Term term,
-                                    Term topTerm,
+                                    List preTerm,
                                     List<NameNamePair> pairs)
   {
+    preTerm.add(term);
     if (term instanceof UnknownType) {
       UnknownType uType = (UnknownType) term;
       uType.getPairs().addAll(pairs);
@@ -596,8 +597,8 @@ abstract public class Checker
       for (int i = 0; i < children.length; i++) {
         if (children[i] != null &
             children[i] instanceof Term &&
-            children[i] != topTerm) {
-          renameUnknownTypes((Term) children[i], topTerm, pairs);
+	    !containsObject(preTerm, children[i])) {
+          renameUnknownTypes((Term) children[i], preTerm, pairs);
         }
       }
     }
@@ -611,7 +612,7 @@ abstract public class Checker
     List<NameTypePair> pairs = signature.getNameTypePair();
     for (NameTypePair pair : pairs) {
       NameNamePair namePair = findNameNamePair(pair.getName(), namePairs);
-      renameUnknownTypes(pair.getType(), pair.getType(), namePairs);
+      renameUnknownTypes(pair.getType(), list(pair.getType()), namePairs);
       if (namePair != null) {
         DeclName newName = namePair.getNewName();
         NameTypePair newPair =
