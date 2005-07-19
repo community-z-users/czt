@@ -115,11 +115,10 @@ public class SpecChecker
           error(pair.getName(), ErrorMessage.REDECLARED_GLOBAL_NAME, params);
         }
       }
-      if (!useBeforeDecl()) {
-        postCheck();
-      }
-      if (sectTypeEnv().getSecondTime()) {
-        postCheck();
+
+      //only check on the final traversal of the tree
+      if (!useBeforeDecl() || sectTypeEnv().getSecondTime()) {
+	postCheck();
       }
     }
 
@@ -141,14 +140,13 @@ public class SpecChecker
 
     if (useBeforeDecl() && !sectTypeEnv().getSecondTime()) {
       errors().clear();
+      paraErrors().clear();
       removeErrorAndTypeAnns(zSect);
       sectTypeEnv().setSecondTime(true);
-      System.err.println("set true for " + zSect.getName());
       zSect.accept(specChecker());
     }
     else {
       sectTypeEnv().setSecondTime(false);
-      System.err.println("set false for " + zSect.getName());
     }
 
     //annotate this section with the type info from this section

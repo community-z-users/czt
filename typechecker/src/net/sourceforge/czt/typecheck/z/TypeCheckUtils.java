@@ -185,8 +185,8 @@ public class TypeCheckUtils
       }
     }
 
-    int result = 0;
     SectionManager manager = new SectionManager();
+    int result = 0;
     for (String file : files) {
       //parse the file
       Term term = null;
