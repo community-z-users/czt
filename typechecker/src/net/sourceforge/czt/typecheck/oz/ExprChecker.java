@@ -84,7 +84,7 @@ public class ExprChecker
     if (!instanceOf(vlPowerType.getType(), ClassRefType.class) &&
         !instanceOf(vlPowerType.getType(), ClassUnionType.class) &&
         !instanceOf(vlPowerType.getType(), VariableType.class)) {
-      Object [] params = {classUnionExpr, lType};
+      Object [] params = {lExpr, lType};
       error(classUnionExpr, ErrorMessage.NON_CLASS_IN_CLASSUNIONEXPR, params);
     }
 
@@ -93,7 +93,7 @@ public class ExprChecker
         !instanceOf(vrPowerType.getType(), ClassUnionType.class) &&
         !instanceOf(vrPowerType.getType(), UnknownType.class) &&
         !instanceOf(vrPowerType.getType(), VariableType.class)) {
-      Object [] params = {classUnionExpr, rType};
+      Object [] params = {rExpr,  rType};
       error(classUnionExpr, ErrorMessage.NON_CLASS_IN_CLASSUNIONEXPR, params);
     }
 
@@ -159,7 +159,7 @@ public class ExprChecker
               if (superSize != subSize) {
                 Object [] params = {cRef.getRefName(), superSize,
                                     subClass.getThisClass().getRefName(),
-                                    subSize};
+                                    subSize, polyExpr};
                 error(polyExpr,
                       ErrorMessage.PARAMETER_MISMATCH_IN_POLYEXPR, params);
               }

@@ -103,6 +103,15 @@
       <action context="code" dev="Tim">
         There is still a problem with renaming in mutually recursive types.
       </action>
+      <action context="code" dev="Tim">
+        Improve error message for incompatible operation inheritance
+        by specifying the inheritance expr
+      </action>
+      <action context="code" dev="Tim">
+        If the signature of an operation cannot be determined due to a
+        recursive defition, the signature should be empty instead of
+        raising an error.
+      </action>
     </actions>
     <actions priority="medium">
       <action context="docs" dev="open">

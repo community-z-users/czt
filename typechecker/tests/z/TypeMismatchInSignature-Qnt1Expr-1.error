@@ -6,9 +6,3 @@
   schExpr == [x : \nat]\\
   error == \forall x : \power \nat @ schExpr
 \end{zed}
-
-\begin{axdef}
-  x : \nat
-\where
-  error
-\end{axdef}

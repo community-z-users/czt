@@ -404,10 +404,10 @@ abstract public class Checker
     for (Object next : paraErrors()) {
       if (next instanceof Expr) {
         Expr expr = (Expr) next;
-        ErrorAnn errorAnn = (ErrorAnn) expr.accept(postChecker());
-        if (errorAnn != null) {
-          paraErrors.add(errorAnn);
-        }
+	ErrorAnn errorAnn = (ErrorAnn) expr.accept(postChecker());
+	if (errorAnn != null) {
+	  paraErrors.add(errorAnn);
+	}
       }
       else if (next instanceof ErrorAnn) {
         ErrorAnn errorAnn = (ErrorAnn) next;
@@ -488,8 +488,8 @@ abstract public class Checker
           Object [] params = {termA, sName, fType, rName, rType};
           error(termA, errorMessage, params);
         }
-        b3Pairs.remove(foundPair);
-        b4Pairs.remove(rPair);
+	removeObject(b3Pairs, foundPair);
+	removeObject(b4Pairs, rPair);
       }
     }
     b3Pairs.addAll(b4Pairs);
@@ -523,8 +523,8 @@ abstract public class Checker
             Object [] params = {termA, sName, fType, rName, rType};
             error(termA, errorMessage, params);
           }
-          b3Pairs.remove(foundPair);
-          b4Pairs.remove(rPair);
+	  removeObject(b3Pairs, foundPair);
+	  removeObject(b4Pairs, rPair);
         }
       }
     }

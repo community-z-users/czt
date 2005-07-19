@@ -233,7 +233,7 @@ abstract public class Checker
           Type2 existingType = unwrapType(existing.getType());
           UResult unified = unify(sourceType, existingType);
           if (unified == FAIL) {
-            Object [] params = {sourceName, sourceType, existingType};
+            Object [] params = {sourceName, expr, sourceType, existingType};
             error(expr, ErrorMessage.INCOMPATIBLE_INHERIT, params);
           }
         }
@@ -255,11 +255,9 @@ abstract public class Checker
       if (existing != null) {
         Signature sourceSignature = pair.getSignature();
         Signature existingSignature = existing.getSignature();
-        UResult unified = unify(sourceSignature, existingSignature);
-        if (unified == FAIL) {
-          Object [] params = {sourceName, sourceSignature, existingSignature};
-          error(expr, ErrorMessage.INCOMPATIBLE_OP_INHERIT, params);
-        }
+	List<NameTypePair> conjoinedPairs = list(sourceSignature.getNameTypePair());
+	conjoinedPairs.addAll(existingSignature.getNameTypePair());
+	checkForDuplicates(conjoinedPairs, sourceName, ErrorMessage.INCOMPATIBLE_OP_INHERIT);
       }
       else {
         target.add(pair);
@@ -354,6 +352,7 @@ abstract public class Checker
     NameSignaturePair existing = findOperation(opName, cSig);
     if (existing != null) {
       List<NameTypePair> pairs = list(op.getSignature().getNameTypePair());
+
       pairs.addAll(existing.getSignature().getNameTypePair());
       checkForDuplicates(pairs, opName, ErrorMessage.INCOMPATIBLE_OP_OVERRIDING);
       Signature newSig = factory().createSignature(pairs);

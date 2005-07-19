@@ -225,6 +225,21 @@ public class GlobalDefs
   }
 
   /**
+   * Remove all occurrences of a reference from a list.
+   * @param list the list to search.
+   * @param o the reference to be removed.
+   */
+  public static void removeObject(List list, Object o)
+  {
+    for (Iterator iter = list.iterator(); iter.hasNext(); ) {
+      Object next = iter.next();
+      if (next == o) {
+	iter.remove();
+      }
+    }
+  }
+
+  /**
    * Test whether the base name and strokes of two names are equal.
    */
   public static boolean namesEqual(Name name1, Name name2)
