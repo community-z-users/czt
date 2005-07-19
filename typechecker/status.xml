@@ -61,9 +61,9 @@
         allows "Init" to be selected even if not declared.
       </action>
       <action dev="Tim" type="bugfix">
-        Prevent calls on recursive types in renameUnknownTypes.
+        Prevent calls on recursive types in renameUnknownTypes()
       </action>
-      <action dev="Tim" type="bugfix">
+      <action dev="Tim" type="update">
         Implemented a check that names in the visibility list are features 
         of the class.
       </action>
