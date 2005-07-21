@@ -255,9 +255,9 @@ abstract public class Checker
       if (existing != null) {
         Signature sourceSignature = pair.getSignature();
         Signature existingSignature = existing.getSignature();
-	List<NameTypePair> conjoinedPairs = list(sourceSignature.getNameTypePair());
-	conjoinedPairs.addAll(existingSignature.getNameTypePair());
-	checkForDuplicates(conjoinedPairs, sourceName, ErrorMessage.INCOMPATIBLE_OP_INHERIT);
+        List<NameTypePair> conjoinedPairs = list(sourceSignature.getNameTypePair());
+        conjoinedPairs.addAll(existingSignature.getNameTypePair());
+        checkForDuplicates(conjoinedPairs, sourceName, ErrorMessage.INCOMPATIBLE_OP_INHERIT);
       }
       else {
         target.add(pair);
@@ -389,10 +389,10 @@ abstract public class Checker
 
   //check for duplicates in a class paragraph, and that names in the
   //visibility list are names of features in the class
-  protected void checkClassSig(ClassSig cSig, 
-			       TermA termA,
-			       VisibilityList visibilityList,
-			       ErrorMessage errorMessage)
+  protected void checkClassSig(ClassSig cSig,
+                               TermA termA,
+                               VisibilityList visibilityList,
+                               ErrorMessage errorMessage)
   {
     List<DeclName> decls = list(className());
 
@@ -427,18 +427,20 @@ abstract public class Checker
     if (visibilityList != null) {
       List<RefName> visibleNames = visibilityList.getRefName();
       for (RefName visibleName : visibleNames) {
-	boolean found = false;
-	for (DeclName featureName : decls) {
-	  if (namesEqual(visibleName, featureName) &&
-	      !namesEqual(visibleName, className())) {
-	    found = true;
-	    break;
-	  }
-	}
-	if (!found) {
+        boolean found = false;
+        for (DeclName featureName : decls) {
+          if (namesEqual(visibleName, featureName) &&
+              !namesEqual(visibleName, className())) {
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
           Object [] params = {visibleName, className()};
-          error(visibleName, ErrorMessage.NON_EXISTENT_NAME_IN_VISIBILITYLIST, params);
-	}
+          error(visibleName,
+                ErrorMessage.NON_EXISTENT_NAME_IN_VISIBILITYLIST,
+                params);
+        }
       }
     }
   }
@@ -600,7 +602,7 @@ abstract public class Checker
     ClassSig result = factory().createClassSig(cSig.getClasses(),
                                                newState, newAttrs, newOps);
     checkClassSig(result, renameExpr, null,
-		  ErrorMessage.REDECLARED_NAME_IN_RENAMEEXPR);
+                  ErrorMessage.REDECLARED_NAME_IN_RENAMEEXPR);
     return result;
   }
 

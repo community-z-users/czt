@@ -203,6 +203,7 @@ abstract public class Checker
     }
     catch (Exception e) {
       String message = "Cannot be printed";
+      e.printStackTrace();
       return message;
     }
   }
@@ -404,10 +405,10 @@ abstract public class Checker
     for (Object next : paraErrors()) {
       if (next instanceof Expr) {
         Expr expr = (Expr) next;
-	ErrorAnn errorAnn = (ErrorAnn) expr.accept(postChecker());
-	if (errorAnn != null) {
-	  paraErrors.add(errorAnn);
-	}
+        ErrorAnn errorAnn = (ErrorAnn) expr.accept(postChecker());
+        if (errorAnn != null) {
+          paraErrors.add(errorAnn);
+        }
       }
       else if (next instanceof ErrorAnn) {
         ErrorAnn errorAnn = (ErrorAnn) next;
@@ -488,8 +489,8 @@ abstract public class Checker
           Object [] params = {termA, sName, fType, rName, rType};
           error(termA, errorMessage, params);
         }
-	removeObject(b3Pairs, foundPair);
-	removeObject(b4Pairs, rPair);
+        removeObject(b3Pairs, foundPair);
+        removeObject(b4Pairs, rPair);
       }
     }
     b3Pairs.addAll(b4Pairs);
@@ -523,8 +524,8 @@ abstract public class Checker
             Object [] params = {termA, sName, fType, rName, rType};
             error(termA, errorMessage, params);
           }
-	  removeObject(b3Pairs, foundPair);
-	  removeObject(b4Pairs, rPair);
+          removeObject(b3Pairs, foundPair);
+          removeObject(b4Pairs, rPair);
         }
       }
     }
@@ -597,7 +598,7 @@ abstract public class Checker
       for (int i = 0; i < children.length; i++) {
         if (children[i] != null &
             children[i] instanceof Term &&
-	    !containsObject(preTerm, children[i])) {
+            !containsObject(preTerm, children[i])) {
           renameUnknownTypes((Term) children[i], preTerm, pairs);
         }
       }

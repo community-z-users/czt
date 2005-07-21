@@ -179,9 +179,10 @@ public class ErrorAnn
       }
       catch (Exception e) {
         String message = "Cannot be printed";
-	if (object instanceof Type) {
-	  message = object.toString();
-	}
+        e.printStackTrace();
+        if (object instanceof Type) {
+          message = object.toString();
+        }
         return message;
       }
     } else if (object != null) {

@@ -234,7 +234,7 @@ public class GlobalDefs
     for (Iterator iter = list.iterator(); iter.hasNext(); ) {
       Object next = iter.next();
       if (next == o) {
-	iter.remove();
+        iter.remove();
       }
     }
   }
