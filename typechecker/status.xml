@@ -76,6 +76,10 @@
         recursive defition, the signature should be empty instead of
         raising an error.
       </action>
+     <action context="code" dev="Tim">
+        Improved error message for incompatible Object-Z operation
+        inheritance by specifying the inheritance expression.
+      </action>
       <!-- Sample action:
       <action dev="JB" type="fix" due-to="Joe Contributor"
           due-to-email="joec@apache.org" fixes-bug="123">
@@ -111,10 +115,6 @@
       </action>
       <action context="code" dev="Tim">
         There is still a problem with renaming in mutually recursive types.
-      </action>
-      <action context="code" dev="Tim">
-        Improve error message for incompatible operation inheritance
-        by specifying the inheritance expr
       </action>
     </actions>
     <actions priority="medium">

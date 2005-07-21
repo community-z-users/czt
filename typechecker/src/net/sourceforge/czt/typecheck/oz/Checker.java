@@ -283,8 +283,11 @@ abstract public class Checker
         List<NameTypePair> conjoinedPairs =
 	  list(sourceSignature.getNameTypePair());
         conjoinedPairs.addAll(existingSignature.getNameTypePair());
-        checkForDuplicates(conjoinedPairs, sourceName,
-			   ErrorMessage.INCOMPATIBLE_OP_INHERIT);
+	List<TermA> params = list();
+	params.add(expr);
+	params.add(sourceName);
+        checkForDuplicates(conjoinedPairs, params,
+			   ErrorMessage.INCOMPATIBLE_OP_INHERIT.toString());
       }
       else {
         target.add(pair);

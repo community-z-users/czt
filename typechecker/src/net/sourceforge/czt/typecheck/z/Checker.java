@@ -432,6 +432,18 @@ abstract public class Checker
                                     TermA termA,
                                     String errorMessage)
   {
+    List termList = list();
+    if (termA != null) {
+      termList.add(termA);
+    }
+    checkForDuplicates(pairs, termList, errorMessage);
+  }
+  //check for type mismatches in a list of decls. Add an ErrorAnn to
+  //any name that is in error
+  protected void checkForDuplicates(List<NameTypePair> pairs,
+                                    List<TermA> termList,
+                                    String errorMessage)
+  {
     for (int i = 0; i < pairs.size(); i++) {
       NameTypePair first = pairs.get(i);
       for (int j = i + 1; j < pairs.size(); j++) {
@@ -443,15 +455,18 @@ abstract public class Checker
 
           //if the types don't agree, raise an error
           if (unified == FAIL) {
-            //termA is not printed in some error messages
-            Object [] params = null;
-            if (termA != null) {
-              params = new Object []
-                {second.getName(), termA, firstType, secondType};
-              error(termA, errorMessage, params);
+            //terms are not printed in some error messages
+            if (termList.size() > 0) {
+	      List<Object> params = list();
+	      params.add(second.getName());
+	      params.addAll(termList);
+	      params.add(firstType);
+	      params.add(secondType);
+              error(termList.get(0), errorMessage, params.toArray());
             }
             else {
-              params = new Object [] {second.getName(), firstType, secondType};
+              Object [] params =
+		new Object [] {second.getName(), firstType, secondType};
               error(second.getName(), errorMessage, params);
             }
           }
