@@ -48,6 +48,7 @@ public class PredChecker
              MemPredVisitor,
              AndPredVisitor,
              OrPredVisitor,
+	     IffPredVisitor,
              PredVisitor
 {
   //a Z pred checker
@@ -93,11 +94,11 @@ public class PredChecker
         //the typing environment, and remove any type mismatch errors
         //added for the Z typechecker.
         UResult unified = weakUnify(leftType, classType);
-        if (unified != FAIL) {
+        if (unified != FAIL && !(leftType instanceof UnknownType)) {
+	  //override, as long as the name is already in the environment
           RefName refName = refExpr.getRefName();
           DeclName declName = factory().createDeclName(refName);
           typeEnv().override(declName, classType);
-
           //remove any type mismatch errors
           String message =
             ErrorMessage.TYPE_MISMATCH_IN_MEM_PRED.toString();
@@ -150,6 +151,15 @@ public class PredChecker
     //this predicate is also partially solved
     UResult result = UResult.conj(lSolved, rSolved);
 
+    return result;
+  }
+
+  public Object visitIffPred(IffPred iffPred)
+  {    
+    typeEnv().enterScope();
+    traverseForDowncasts(iffPred);
+    UResult result = (UResult) iffPred.accept(zPredChecker_);
+    typeEnv().exitScope();
     return result;
   }
 

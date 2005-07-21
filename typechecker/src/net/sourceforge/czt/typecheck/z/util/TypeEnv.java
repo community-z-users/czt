@@ -107,12 +107,15 @@ public class TypeEnv
    */
   public void override(DeclName declName, Type type)
   {
+    //override if this is in the top scope
     for (NameTypePair pair : typeInfo_.peek()) {
       if (namesEqual(declName, pair.getName())) {
         pair.setType(type);
         return;
       }
     }
+
+    //otherwise, add it to the environment
     add(declName, type);
   }
 
@@ -196,7 +199,6 @@ public class TypeEnv
   protected NameTypePair getPair(Name name)
   {
     NameTypePair result = null;
-
     for (List<NameTypePair> list : typeInfo_) {
       for (NameTypePair pair : list) {
         if (pair.getName().getWord().equals(name.getWord()) &&
@@ -205,7 +207,6 @@ public class TypeEnv
         }
       }
     }
-
     return result;
   }
 }

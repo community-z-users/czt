@@ -168,10 +168,10 @@ abstract public class Checker
   //predicate in which they are used.
   protected void traverseForDowncasts(Pred pred)
   {
-    if (pred instanceof AndPred) {
-      AndPred andPred = (AndPred) pred;
-      Pred leftPred = andPred.getLeftPred();
-      Pred rightPred = andPred.getRightPred();
+    if (pred instanceof AndPred || pred instanceof IffPred) {
+      Pred2 pred2 = (Pred2) pred;
+      Pred leftPred = pred2.getLeftPred();
+      Pred rightPred = pred2.getRightPred();
       traverseForDowncasts(leftPred);
       traverseForDowncasts(rightPred);
     }
@@ -196,6 +196,11 @@ abstract public class Checker
       traverseForDowncasts(leftOpExpr);
       traverseForDowncasts(rightOpExpr);
     }
+    else if (opExpr instanceof ScopeEnrichOpExpr) {
+      ScopeEnrichOpExpr scopeEnrichOpExpr = (ScopeEnrichOpExpr) opExpr;
+      OpExpr leftOpExpr = scopeEnrichOpExpr.getLeftOpExpr();
+      traverseForDowncasts(leftOpExpr);
+    }
     else if (opExpr instanceof AnonOpExpr) {
       AnonOpExpr anonOpExpr = (AnonOpExpr) opExpr;
       OpText opText = anonOpExpr.getOpText();
@@ -214,7 +219,9 @@ abstract public class Checker
       for (NameTypePair pair : pairs) {
         downcastEnv().add(pair.getName(), pair.getType());
       }
-      traverseForDowncasts(schText.getPred());
+      if (schText.getPred() != null) {
+	traverseForDowncasts(schText.getPred());
+      }
       downcastEnv().exitScope();
     }
   }

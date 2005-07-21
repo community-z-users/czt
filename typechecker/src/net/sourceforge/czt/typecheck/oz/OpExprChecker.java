@@ -177,9 +177,7 @@ public class OpExprChecker
     //enter a new scope
     typeEnv().enterScope();
 
-    if (opExpr2 instanceof ConjOpExpr) {
-      traverseForDowncasts(opExpr2);
-    }
+    traverseForDowncasts(opExpr2);
 
     //get the signatures of the left and right operations
     OpExpr lOpExpr = opExpr2.getLeftOpExpr();
@@ -331,6 +329,8 @@ public class OpExprChecker
 
   public Object visitScopeEnrichOpExpr(ScopeEnrichOpExpr scopeEnrichOpExpr)
   {
+    traverseForDowncasts(scopeEnrichOpExpr);
+
     //enter a new variable scope
     typeEnv().enterScope();
 

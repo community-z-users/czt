@@ -146,6 +146,18 @@ public class TypeCheckUtils
     return "oztypecheck";
   }
 
+  protected List<String> toolkits()
+  {
+    List<String> toolkits = super.toolkits();
+    toolkits.add("oz_toolkit");
+    return toolkits;
+  }
+
+  protected boolean useBeforeDeclDefault()
+  {
+    return true;
+  }
+
   public static void main(String[] args)
     throws IOException
   {

@@ -24,6 +24,7 @@ import java.util.List;
 
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.ast.TermA;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.ast.ZFactory;
@@ -146,8 +147,41 @@ public class TypeCheckUtils
     System.err.println("usage: " + name() + " [-sdt] filename ...");
     System.err.println("flags: -s     syntax check only");
     System.err.println("       -d     allow use before declaration");
+    System.err.println("       -n     force declarations before use");
     System.err.println("       -t     print global type declarations");
-    System.exit(0);
+  }
+
+  protected boolean useBeforeDeclDefault()
+  {
+    return false;
+  }
+
+  protected List<String> toolkits()
+  {
+    List<String> toolkits = new java.util.ArrayList<String>();
+    toolkits.add("prelude");
+    toolkits.add("set_toolkit");
+    toolkits.add("relation_toolkit");
+    toolkits.add("function_toolkit");
+    toolkits.add("sequence_toolkit");
+    toolkits.add("number_toolkit");
+    toolkits.add("standard_toolkit");
+    return toolkits;
+  }
+
+  protected void printTypes(SectTypeEnvAnn sectTypeEnvAnn)
+  {
+    List<NameSectTypeTriple> triples = sectTypeEnvAnn.getNameSectTypeTriple();
+    String prevSect = "";
+    for (NameSectTypeTriple triple : triples) {
+      if (!toolkits().contains(triple.getSect())) {
+	if (!prevSect.equals(triple.getSect())) {
+	  System.out.println("section " + triple.getSect());
+	}
+	System.out.println("\t" + triple.getName() + " : " + triple.getType());
+	prevSect = triple.getSect();
+      }
+    }
   }
 
   protected void run(String [] args)
@@ -155,11 +189,12 @@ public class TypeCheckUtils
   {
     if (args.length == 0) {
       printUsage();
+      System.exit(0);
     }
 
     List<String> files = new java.util.ArrayList<String>();
     boolean syntaxOnly = false;
-    boolean useBeforeDecl = false;
+    boolean useBeforeDecl = useBeforeDeclDefault();
     boolean printTypes = false;
 
     for (int i = 0; i < args.length; i++) {
@@ -171,6 +206,9 @@ public class TypeCheckUtils
             break;
           case 'd':
             useBeforeDecl = true;
+            break;
+          case 'n':
+            useBeforeDecl = false;
             break;
           case 't':
             printTypes = true;
@@ -216,34 +254,18 @@ public class TypeCheckUtils
         }
 
         if (printTypes) {
-          System.err.println("Type printing not implemented yet. Sorry!");
+	  SectTypeEnvAnn sectTypeEnvAnn =
+	    (SectTypeEnvAnn) ((TermA) term).getAnn(SectTypeEnvAnn.class);
+	  if (sectTypeEnvAnn != null) {
+	    printTypes(sectTypeEnvAnn);
+	  }
+	  else {
+	    System.err.println("No type information available");
+	  }
         }
       }
     }
 
-    ZFactory zFactory = new ZFactoryImpl();
-    RefName numName1 = zFactory.createRefName("number_literal_0asdasd",
-                                              new java.util.ArrayList(),
-                                              null);
-    RefName numName2 = zFactory.createRefName("number_literal_1",
-                                             new java.util.ArrayList(),
-                                             null);
-    RefExpr num1 = zFactory.createRefExpr(numName1,
-                                          new java.util.ArrayList(),
-                                          Boolean.FALSE);
-    RefExpr num2 = zFactory.createRefExpr(numName2,
-                                          new java.util.ArrayList(),
-                                          Boolean.FALSE);
-    MemPred memPred= zFactory.createMemPred(num1, num2, Boolean.FALSE);
-
-
-    List errors = this.lTypecheck(memPred, manager, Markup.LATEX, false, "standard_toolkit");
-    for (Object next : errors) {
-      //System.out.println("Second error");
-      //System.out.println(next);
-      //System.out.println();
-      //result = -1;
-    }
     System.exit(result);
   }
 

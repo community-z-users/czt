@@ -424,8 +424,10 @@ public class SectTypeEnv
       result.addAll(parents);
       //for each direct parent, get the transitive parents
       for (String parent : parents) {
-        Set<String> transitiveParents = getTransitiveParents(parent);
-        result.addAll(transitiveParents);
+	if (!parent.equals(section)) {
+	  Set<String> transitiveParents = getTransitiveParents(parent);
+	  result.addAll(transitiveParents);
+	}
       }
     }
     return result;

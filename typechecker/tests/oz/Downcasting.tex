@@ -1,5 +1,5 @@
 \begin{zsection}
-  \SECTION Downcasting\_Strong \parents oz\_toolkit
+  \SECTION Downcasting\_Weak \parents oz\_toolkit
 \end{zsection}
 
 \begin{class}{A}
@@ -35,7 +35,7 @@
   e == 1
 \end{class}
 
-\begin{axdef}
+%\begin{axdef}
   a : \poly A\\
   b : B
 \where
@@ -51,10 +51,11 @@
 \where
   true \land
   (a.b = 1 \land a \in B \land a.b = 1 \lor\\
-   a.c = 1 \land a \in C \land a.c = 1)
+   a.c = 1 \land a \in C \land a.c = 1)\\
+%  a.b = 1 \iff a \in \poly B
 \end{schema}
 
-\begin{axdef}
+%\begin{axdef}
   x? : \nat\\
   pa : \poly A
 \where
@@ -63,6 +64,26 @@
   pa.b = 1
 \end{axdef}
 
-\begin{class}{Down}
- Op1 \sdef [x? : \nat] @ ([y? : \nat] @ [| x? = y?] )
+Test downcasting from withing anonymous operation expressions.
+
+%\begin{class}{Down}
+ \begin{state}
+   poly\_a : \poly A
+ \end{state}
+ Op1 \sdef [a : \poly A | poly\_a \in B] \land poly\_a.OpB\\
+ Op2 \sdef [o : \oid | o.b = 1 \land o \in B] @ o.OpB\\
+ Op3 \sdef [a : \poly A] @ ([ poly\_a \in B] @ poly\_a.OpB)\\
+ Op4 \sdef [a : \poly A] @ ([ poly\_a \in B] \land poly\_a.OpB)\\
+ Op5 \sdef [a : \poly A] @ ([ a \in B] @ a.OpB)\\
+ Op6 \sdef [a : \poly A] @ ([ a \in B] \land a.OpB)\\
+ Op7 \sdef [poly\_a : \poly A | poly\_a \in B] @ poly\_a.OpB\\
+ Op8 \sdef \dcnj n : \nat | poly\_a \in B @ poly\_a.OpB
 \end{class}
+
+
+
+\begin{axdef}
+  pb : \poly B
+\where
+  pb.d = 1 \iff pb \in D
+\end{axdef}

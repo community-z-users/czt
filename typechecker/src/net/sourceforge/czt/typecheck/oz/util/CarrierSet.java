@@ -20,6 +20,8 @@ package net.sourceforge.czt.typecheck.oz.util;
 
 import java.util.List;
 
+import static net.sourceforge.czt.typecheck.oz.util.GlobalDefs.*;
+
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.visitor.*;
@@ -78,30 +80,39 @@ public class CarrierSet
     ClassSig classSig = classUnionType.getClassSig();
     List<ClassRef> classRefs = classSig.getClasses();
 
-    assert classRefs.size() > 1;
-    ClassUnionExpr result = null;
-    for (ClassRef classRef : classRefs) {
-      Expr expr = (Expr) classRef.accept(this);
-      if (result == null) {
-        result = ozFactory_.createClassUnionExpr();
-        result.setLeftExpr(expr);
-      }
-      else if (result.getRightExpr() == null) {
-	result.setRightExpr(expr);
-      }
-      else {
-        ClassUnionExpr next = ozFactory_.createClassUnionExpr(result, expr);
-	result = next;
-      }
+    assert classRefs.size() != 1;
+    Expr result = null;
+    //if 0, then we have the set \oid
+    if (classRefs.size() == 0) {
+      RefName oidName = ozFactory_.createRefName(OzString.OID, list(), null);
+      result = ozFactory_.createRefExpr(oidName, list(), Boolean.FALSE);
     }
-    ParenAnn pAnn = ozFactory_.createParenAnn();
-    result.getAnns().add(pAnn);
+    else {
+      ClassUnionExpr classUnionExpr = null;
+      for (ClassRef classRef : classRefs) {
+	Expr expr = (Expr) classRef.accept(this);
+	if (classUnionExpr == null) {
+	  classUnionExpr = ozFactory_.createClassUnionExpr();
+	  classUnionExpr.setLeftExpr(expr);
+	}
+	else if (classUnionExpr.getRightExpr() == null) {
+	  classUnionExpr.setRightExpr(expr);
+	}
+	else {
+	  ClassUnionExpr next = ozFactory_.createClassUnionExpr(classUnionExpr, expr);
+	  classUnionExpr = next;
+	}
+      }
+      result = classUnionExpr;
+      ParenAnn pAnn = ozFactory_.createParenAnn();
+      result.getAnns().add(pAnn);
+    }
     return result;
   }
 
   public Object visitClassRef(ClassRef classRef)
   {
-    List<Expr> exprs = new java.util.ArrayList();
+    List<Expr> exprs = list();
     List<Type2> types = classRef.getType2();
     for (Type2 type : types) {
       Expr expr = (Expr) type.accept(this);

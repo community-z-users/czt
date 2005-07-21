@@ -129,16 +129,21 @@ public class UnificationEnv
     String two = typeB.toString();
     List<ClassRef> classRefsA = typeA.getClassSig().getClasses();
     List<ClassRef> classRefsB = typeB.getClassSig().getClasses();
-    for (ClassRef classRefA : classRefsA) {
-      ClassRef classRefB = findRef(classRefA.getRefName(), classRefsB);
-      if (classRefB != null) {
-        UResult unified = instantiations(classRefA, classRefB);
-        if (SUCC.equals(unified)) {
-          result = SUCC;
-        }
-        else if (PARTIAL.equals(unified) && !SUCC.equals(result)) {
-          result = PARTIAL;
-        }
+    if (classRefsA.size() == 0 || classRefsB.size() == 0) {
+      result = SUCC;
+    }
+    else {
+      for (ClassRef classRefA : classRefsA) {
+	ClassRef classRefB = findRef(classRefA.getRefName(), classRefsB);
+	if (classRefB != null) {
+	  UResult unified = instantiations(classRefA, classRefB);
+	  if (SUCC.equals(unified)) {
+	    result = SUCC;
+	  }
+	  else if (PARTIAL.equals(unified) && !SUCC.equals(result)) {
+	    result = PARTIAL;
+	  }
+	}
       }
     }
 

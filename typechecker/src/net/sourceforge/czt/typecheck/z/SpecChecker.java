@@ -48,11 +48,19 @@ public class SpecChecker
   public Object visitSpec(Spec spec)
   {
     List<Sect> sects = spec.getSect();
+    SectTypeEnvAnn specTypes = factory().createSectTypeEnvAnn(list());
+    List<NameSectTypeTriple> triples = specTypes.getNameSectTypeTriple();
     for (Sect sect : sects) {
-      sect.accept(specChecker());
+      List<NameSectTypeTriple> sectTypes = (List) sect.accept(specChecker());
+      for (NameSectTypeTriple triple : sectTypes) {
+	if (!triples.contains(triple)) {
+	  triples.add(triple);
+	}
+      }
     }
 
-    //sectTypeEnv().dump();
+    //add the annotation to the specification
+    addAnn(spec, specTypes);
 
     //get the result and return it
     Boolean result = getResult();
@@ -64,7 +72,7 @@ public class SpecChecker
    */
   public Object visitSect(Sect sect)
   {
-    return Boolean.TRUE;
+    return list();
   }
 
   public Object visitZSect(ZSect zSect)
@@ -151,16 +159,19 @@ public class SpecChecker
 
     //annotate this section with the type info from this section
     //and its parents
-    addAnn(zSect, sectTypeEnv().getSectTypeEnvAnn());
+    SectTypeEnvAnn sectTypeEnvAnn = sectTypeEnv().getSectTypeEnvAnn();
+    addAnn(zSect, sectTypeEnvAnn);
 
     sectName(prevSectName);
     sectTypeEnv().setSection(sectName());
 
     //get the result and return it
-    Boolean result = getResult();
-    if (result == Boolean.FALSE) {
+    Boolean typecheckResult = getResult();
+    if (typecheckResult == Boolean.FALSE) {
       removeTypeAnns(zSect);
     }
+
+    List<NameSectTypeTriple> result = sectTypeEnvAnn.getNameSectTypeTriple();
     return result;
   }
 

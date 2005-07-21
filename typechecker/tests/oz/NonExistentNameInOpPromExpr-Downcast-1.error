@@ -1,0 +1,22 @@
+\begin{zsection}
+  \SECTION NonExistentNameInOpPromExpr\_Downcast\_1
+\end{zsection}
+
+\begin{class}{A}
+ a == 1\\
+ OpA \sdef [x? : \power \nat]
+\end{class}
+
+\begin{class}{B}
+ A\\
+ b == 1\\
+ OpB \sdef [x? : \nat]
+\end{class}
+
+\begin{class}{Down}
+ \begin{state}
+   poly\_a : \poly A
+ \end{state}
+ Op1 \sdef [a : \poly A | poly\_a \in B] \gch poly\_a.OpB\\
+\end{class}
+
