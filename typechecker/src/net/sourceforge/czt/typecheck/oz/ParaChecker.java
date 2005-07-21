@@ -104,7 +104,7 @@ public class ParaChecker
     //visit each inherited class
     List<Expr> inheritedClass = classPara.getInheritedClass();
     for (Expr iClass : inheritedClass) {
-      visitInheritedClass(iClass, classType);
+      visitInheritedClass(iClass);
     }
 
     //visit the attributes
@@ -211,6 +211,9 @@ public class ParaChecker
     NameTypePair cPair =
       factory().createNameTypePair(className(), addGenerics(powerType));
     Signature signature = factory().createSignature(list(cPair));
+
+    //add this class to the list of class names
+    classNames().add(className());
 
     //exit the variable scopes
     pending().exitScope();
@@ -349,24 +352,24 @@ public class ParaChecker
     return pair;
   }
 
-  protected Object visitInheritedClass(Expr expr, ClassRefType current)
+  protected Object visitInheritedClass(Expr expr)
   {
     //visit the expr
     Type2 exprType = (Type2) expr.accept(exprChecker());
 
     PowerType vPowerType = factory().createPowerType();
-    UResult unified = strongUnify(vPowerType, exprType);
+    UResult unified = strongUnify(vPowerType, exprType);    
 
-    //if the expr is not a class type, raise an error
-    if (!instanceOf(vPowerType.getType(), ClassRefType.class) &&
-        !instanceOf(vPowerType.getType(), VariableType.class)) {
-      Object [] params = {expr, exprType};
+    //if the expr is not a class name reference, raise an error
+    if (!containsDeclName(classNames(), getDeclName(expr))) {
+      Object [] params = {expr};
       error(expr, ErrorMessage.NON_CLASS_INHERITED, params);
     }
     //otherwise, add this information to the current class signature
     else if (vPowerType.getType() instanceof ClassRefType) {
       ClassRefType classRefType = (ClassRefType) vPowerType.getType();
       ClassSig icSig = classRefType.getClassSig();
+      ClassRefType current = getSelfType();
       ClassSig cSig = current.getClassSig();
       if (!instanceOf(icSig, VariableClassSig.class)) {
         //add the superclasses of the inherited class to the subclass's

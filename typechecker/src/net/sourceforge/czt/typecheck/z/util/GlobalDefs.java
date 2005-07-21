@@ -225,6 +225,26 @@ public class GlobalDefs
   }
 
   /**
+   * Test whether a list contains a DeclName.
+   * @param list the list to search.
+   * @param declName the name to search for.
+   * @return true if and only if the name is in the list.
+   */
+  public static boolean containsDeclName(List<DeclName> list,
+					 DeclName declName)
+  {
+    boolean result = false;
+
+    for (Name next : list) {
+      if (namesEqual(next, declName)) {
+        result = true;
+        break;
+      }
+    }
+    return result;
+  }  
+
+  /**
    * Remove all occurrences of a reference from a list.
    * @param list the list to search.
    * @param o the reference to be removed.

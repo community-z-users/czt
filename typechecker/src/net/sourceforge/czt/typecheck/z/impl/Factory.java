@@ -257,6 +257,11 @@ public class Factory
     return zFactory_.createSectTypeEnvAnn(nameSecTypeTriple);
   }
 
+  public DeclName createDeclName(String word, List stroke)
+  {
+    return zFactory_.createDeclName(word, stroke, null);
+  }
+
   public DeclName createDeclName(String word, List stroke, String id)
   {
     return zFactory_.createDeclName(word, stroke, id);

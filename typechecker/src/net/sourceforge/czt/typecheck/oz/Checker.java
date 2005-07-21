@@ -68,6 +68,12 @@ abstract public class Checker
     return typeChecker_.downcastEnv_;
   }
 
+  //the list of class names in the specification
+  protected List<DeclName> classNames()
+  {
+    return typeChecker_.classNames_;
+  }
+
   //the current class name
   protected DeclName className()
   {
@@ -211,6 +217,25 @@ abstract public class Checker
       traverseForDowncasts(schText.getPred());
       downcastEnv().exitScope();
     }
+  }
+
+  protected DeclName getDeclName(Expr expr)
+  {
+    DeclName result = null;
+    if (expr instanceof RenameExpr) {      
+      RenameExpr renameExpr = (RenameExpr) expr;
+      result = getDeclName(renameExpr.getExpr());
+    }
+    else if (expr instanceof RefExpr) {
+      RefExpr refExpr = (RefExpr) expr;
+      RefName refName = refExpr.getRefName();
+      result = factory().createDeclName(refName.getWord(),
+					refName.getStroke());
+    }
+    else {
+      assert false;
+    }
+    return result;
   }
 
   protected boolean isSelfName(DeclName declName)

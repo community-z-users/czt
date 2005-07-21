@@ -67,6 +67,10 @@
         Implemented a check that names in the visibility list are features 
         of the class.
       </action>
+      <action dev="Tim" type="update">
+        Changed the typechecker so that only class names can be
+        inherited, not just arbitrary classes of type ClassRefType. 
+      </action>
       <!-- Sample action:
       <action dev="JB" type="fix" due-to="Joe Contributor"
           due-to-email="joec@apache.org" fixes-bug="123">
