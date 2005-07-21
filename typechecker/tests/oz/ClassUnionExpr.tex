@@ -81,3 +81,15 @@ features in D
   ABC == A \classuni B \classuni C\\
   ABCD == ABC \classuni D
 \end{zed}
+
+\begin{class}{E}
+  A\\
+\end{class}
+
+Test that polymorphic expressions are permitted in class union expressions.
+
+\begin{axdef}
+  polya\_b : \poly A \classuni B
+\where
+  polya\_b \in E
+\end{axdef}

@@ -81,16 +81,15 @@ public class ExprChecker
     UResult lUnified = strongUnify(vlPowerType, lType);
     UResult rUnified = strongUnify(vrPowerType, rType);
     //if the left expr is not a class description, raise an error
-    if (!instanceOf(vlPowerType.getType(), ClassRefType.class) &&
-        !instanceOf(vlPowerType.getType(), ClassUnionType.class) &&
+    if (!instanceOf(vlPowerType.getType(), ClassType.class) &&
+        !instanceOf(vrPowerType.getType(), UnknownType.class) &&
         !instanceOf(vlPowerType.getType(), VariableType.class)) {
       Object [] params = {lExpr, lType};
       error(classUnionExpr, ErrorMessage.NON_CLASS_IN_CLASSUNIONEXPR, params);
     }
 
     //if the right expr is not a class description, raise an error
-    if (!instanceOf(vrPowerType.getType(), ClassRefType.class) &&
-        !instanceOf(vrPowerType.getType(), ClassUnionType.class) &&
+    if (!instanceOf(vrPowerType.getType(), ClassType.class) &&
         !instanceOf(vrPowerType.getType(), UnknownType.class) &&
         !instanceOf(vrPowerType.getType(), VariableType.class)) {
       Object [] params = {rExpr,  rType};
