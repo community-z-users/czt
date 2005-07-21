@@ -47,6 +47,9 @@ Node == NullNode \classuni ValNode
 \where
 	subnodes = \{ self \}
 \end{state}
+\begin{init}
+  true
+\end{init}\\
 \end{class}
 
 \begin{class}{ValNode}
@@ -75,16 +78,18 @@ Node == NullNode \classuni ValNode
 \end{op}
 \end{class}
 
+
 \begin{class}{IntTree}
 \visibility (DIR,\Init,addChild,clear,setRoot,setValue,getValue,canMove,moveCurrent) \\
 DIR ::= PARENT | LEFT | RIGHT\classbreak
 \begin{axdef}
 	canMoveFunc: DIR \cross Node \cross Node \fun \bool
 \where
-	\forall d: DIR; root,curr: Node @ canMoveFunc (d,root,curr) = True \iff \\
-		\t2 d = PARENT \land root \neq curr \lor \\
+	\forall d: DIR; root,curr: Node @ canMoveFunc (d,root,curr) = true \iff \\
+                \t2 curr \in ValNode \land\\
+		\t2 (d = PARENT \land root \neq curr \lor \\
 		\t2 d = LEFT \land curr.left \notin NullNode \lor \\
-		\t2 d = RIGHT \land curr.right \notin NullNode
+		\t2 d = RIGHT \land curr.right \notin NullNode)
 \end{axdef}\classbreak
 \begin{state}
 	root, curr : Node
@@ -107,15 +112,15 @@ DIR ::= PARENT | LEFT | RIGHT\classbreak
 	\{ null1,null2 \} \cap root.subnodes = \emptyset \\
 	null1 \neq null2 \\
 	curr' = newnode \\
-	oldleft = curr.left \land oldright = curr.right \\
-	oldval = curr.val
+        curr \in ValNode \implies\\
+           oldleft = curr.left \land oldright = curr.right \land oldval = curr.val
 \end{op}\classbreak
-addChild \sdef addChildAux @ \\
-	\t2 newnode.setNode[null1/l?,null2/r?] \land \\
+addChild \sdef addChildAux @ ([curr \in ValNode] \land\\
+	\t2 (newnode.setNode[null1/l?,null2/r?]) \land \\
 	\t2 (([ d? : DIR | d? = LEFT ]
 		\land curr.setNode[oldval/v?,newnode/l?,oldright/r?]) \gch \\
 	\t2 ([ d? : DIR | d? = RIGHT ]
-		\land curr.setNode[oldval/v?,oldleft/l?,newnode/r?]))\\
+		\land curr.setNode[oldval/v?,oldleft/l?,newnode/r?])))\\
 \begin{op}{addChildNodeExc}
         d? : DIR\\
         v? : \num
@@ -134,19 +139,22 @@ addChild \sdef addChildAux @ \\
 \where
 	\{ null1,null2 \} \cap root.subnodes = \emptyset \\
 	null1 \neq null2 \\
-	oldval = curr.val
+	curr \in ValNode \land oldval = curr.val \lor\\
+        curr \in NullNode
 \end{op}\classbreak
-clear \sdef clearAux @ curr.setNode[oldval/v?,null1/l?,null2/r?] \\
+clear \sdef clearAux @ ([curr \in ValNode] @ curr.setNode[oldval/v?,null1/l?,null2/r?]) \\
 \begin{op}{setRoot}
         \Delta (curr)
 \where
 	curr' = root
 \end{op}\classbreak
-setValue \sdef [ v? : \num ; l, r : Node | l = curr.left \land r = curr.right ] @ curr.setNode[l/l?,r/r?] \classbreak
+setValue \sdef [ l, r : Node | curr \in ValNode \land l =
+  curr.left \land r = curr.right ] @ curr.setNode[l/l?,r/r?]
+\classbreak
 \begin{op}{getValue}
         v! : \num
 \where
-	v! = curr.val
+        curr \in ValNode \implies v! = curr.val
 \end{op}\classbreak
 \begin{op}{canMove}
 	d? : DIR \\
@@ -159,10 +167,10 @@ setValue \sdef [ v? : \num ; l, r : Node | l = curr.left \land r = curr.right ] 
         d? : DIR
 \where
 	d? = PARENT \implies
-		\exists n : root.subnodes | n.left = curr \lor n.right = curr
+		\exists n : root.subnodes | n \in ValNode \implies  n.left = curr \lor n.right = curr
 			@ curr' = n \\
-	d? = LEFT \implies curr' = curr.left \\
-	d? = RIGHT \implies curr' = curr.right
+	d? = LEFT \implies curr \in ValNode \land curr' = curr.left \\
+	d? = RIGHT \implies curr \in ValNode \land curr' = curr.right
 \end{op}\classbreak
 \begin{op}{moveCurrentNotNodeExc}
         d? : DIR
