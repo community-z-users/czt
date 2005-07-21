@@ -280,9 +280,11 @@ abstract public class Checker
       if (existing != null) {
         Signature sourceSignature = pair.getSignature();
         Signature existingSignature = existing.getSignature();
-        List<NameTypePair> conjoinedPairs = list(sourceSignature.getNameTypePair());
+        List<NameTypePair> conjoinedPairs =
+	  list(sourceSignature.getNameTypePair());
         conjoinedPairs.addAll(existingSignature.getNameTypePair());
-        checkForDuplicates(conjoinedPairs, sourceName, ErrorMessage.INCOMPATIBLE_OP_INHERIT);
+        checkForDuplicates(conjoinedPairs, sourceName,
+			   ErrorMessage.INCOMPATIBLE_OP_INHERIT);
       }
       else {
         target.add(pair);

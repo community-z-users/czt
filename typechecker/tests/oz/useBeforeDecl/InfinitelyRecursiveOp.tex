@@ -1,0 +1,26 @@
+\begin{zsection}
+  \SECTION InfinitelyRecursiveOp
+\end{zsection}
+
+\begin{class}{B}
+  \begin{state}
+    c : C
+  \end{state}
+  Op1 \sdef c.Op1\\
+  Op2 \sdef c.Op1 \land [x? : \nat]
+\end{class}
+
+\begin{class}{C}
+  \begin{state}
+   b : B
+  \end{state}
+  Op1 \sdef b.Op1\\  
+\end{class}
+
+\begin{class}{D}
+  \begin{state}
+    b : B\\
+    c : C
+  \end{state}\\
+  Op1 \sdef b.Op2 \hide (x?)
+\end{class}

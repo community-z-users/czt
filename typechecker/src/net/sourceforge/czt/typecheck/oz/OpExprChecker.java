@@ -107,7 +107,7 @@ public class OpExprChecker
 
   public Object visitOpPromotionExpr(OpPromotionExpr opPromExpr)
   {
-    Signature signature = factory().createVariableSignature();
+    Signature signature = factory().createSignature();
 
     Expr expr = opPromExpr.getExpr();
     Type2 exprType = getSelfType();
@@ -146,14 +146,12 @@ public class OpExprChecker
         //if there is no operation with this name, raise an error
         if (opDef == null) {
           Object [] params = {opPromExpr};
-          error(opPromExpr, ErrorMessage.NON_EXISTENT_NAME_IN_OPPROMEXPR, params);
+          error(opPromExpr,
+		ErrorMessage.NON_EXISTENT_NAME_IN_OPPROMEXPR,
+		params);
         }
         else {
           signature = opDef.getSignature();
-          if (resolve(signature) instanceof VariableSignature) {
-            Object [] params = {opPromExpr};
-            error(opPromExpr, ErrorMessage.SIGNATURE_NOT_DETERMINED, params);
-          }
         }
 
         //if there is an operation, but it is not visible, raise an error

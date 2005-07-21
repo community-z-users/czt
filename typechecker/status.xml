@@ -68,8 +68,13 @@
         of the class.
       </action>
       <action dev="Tim" type="update">
-        Changed the typechecker so that only class names can be
+        Changed the Object-Z typechecker so that only class names can be
         inherited, not just arbitrary classes of type ClassRefType. 
+      </action>
+      <action dev="Tim" type="update">
+        If the signature of an operation cannot be determined due to a
+        recursive defition, the signature should be empty instead of
+        raising an error.
       </action>
       <!-- Sample action:
       <action dev="JB" type="fix" due-to="Joe Contributor"
@@ -110,11 +115,6 @@
       <action context="code" dev="Tim">
         Improve error message for incompatible operation inheritance
         by specifying the inheritance expr
-      </action>
-      <action context="code" dev="Tim">
-        If the signature of an operation cannot be determined due to a
-        recursive defition, the signature should be empty instead of
-        raising an error.
       </action>
     </actions>
     <actions priority="medium">
