@@ -31,6 +31,7 @@ import net.sourceforge.czt.oz.util.OzString;
 import net.sourceforge.czt.print.oz.PrintUtils;
 import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.typecheck.z.util.TypeEnv;
+import net.sourceforge.czt.typecheck.z.util.UndeclaredAnn;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.oz.util.*;
 import net.sourceforge.czt.typecheck.oz.impl.*;
@@ -154,11 +155,14 @@ abstract public class Checker
 
   protected Type getType(RefName name)
   {
+    //first look up the name in the downcast environment
     Type type = downcastEnv().getType(name);
-    if (type instanceof UnknownType ||
-        (type instanceof UnknownType &&
-         unknownType(type).getRefName() != null) ){
+    if (type instanceof UnknownType) {
       type = super.getType(name);
+    }
+    else {
+      //if this is ok, remove the undeclared annotation
+      removeAnn(name, UndeclaredAnn.class);
     }
     return type;
   }
