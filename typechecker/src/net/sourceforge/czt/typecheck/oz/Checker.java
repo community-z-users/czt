@@ -168,7 +168,7 @@ abstract public class Checker
   //predicate in which they are used.
   protected void traverseForDowncasts(Pred pred)
   {
-    if (pred instanceof AndPred || pred instanceof IffPred) {
+    if (pred instanceof AndPred) {
       Pred2 pred2 = (Pred2) pred;
       Pred leftPred = pred2.getLeftPred();
       Pred rightPred = pred2.getRightPred();
@@ -215,6 +215,9 @@ abstract public class Checker
         pairs.addAll((List<NameTypePair>) decl.accept(declChecker()));
       }
 
+      //we use a different downcasting environment because we do not
+      //want to add the declarations into the typing environment, but
+      //we need to downcasts in the environment
       downcastEnv().enterScope();
       for (NameTypePair pair : pairs) {
         downcastEnv().add(pair.getName(), pair.getType());

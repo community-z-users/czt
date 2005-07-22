@@ -1,0 +1,26 @@
+\begin{zsection}
+  \SECTION NonExistentSelection\_Downcast\_4
+\end{zsection}
+
+\begin{class}{A}
+ a == 1\\
+\end{class}
+
+\begin{class}{B}
+ A\\
+ b == 1\\
+\end{class}
+
+\begin{class}{C}
+ A\\
+ c == 1
+\end{class}
+
+Test that downcasts in implies preds are localised.
+
+\begin{axdef}
+  a : \poly A
+\where
+  a \in B \implies a.b = 1\\
+  a.b = 1
+\end{axdef}

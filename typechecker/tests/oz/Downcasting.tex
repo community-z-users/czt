@@ -23,7 +23,6 @@
  f == 1
 \end{class}
 
-
 \begin{class}{C}
  A\\
  c == 1\\
@@ -35,7 +34,7 @@
   e == 1
 \end{class}
 
-%\begin{axdef}
+\begin{axdef}
   a : \poly A\\
   b : B
 \where
@@ -52,10 +51,10 @@
   true \land
   (a.b = 1 \land a \in B \land a.b = 1 \lor\\
    a.c = 1 \land a \in C \land a.c = 1)\\
-%  a.b = 1 \iff a \in \poly B
+  a.b = 1 \iff a \in \poly B\\
 \end{schema}
 
-%\begin{axdef}
+\begin{axdef}
   x? : \nat\\
   pa : \poly A
 \where
@@ -66,7 +65,7 @@
 
 Test downcasting from withing anonymous operation expressions.
 
-%\begin{class}{Down}
+\begin{class}{Down}
  \begin{state}
    poly\_a : \poly A
  \end{state}
@@ -79,11 +78,3 @@ Test downcasting from withing anonymous operation expressions.
  Op7 \sdef [poly\_a : \poly A | poly\_a \in B] @ poly\_a.OpB\\
  Op8 \sdef \dcnj n : \nat | poly\_a \in B @ poly\_a.OpB
 \end{class}
-
-
-
-\begin{axdef}
-  pb : \poly B
-\where
-  pb.d = 1 \iff pb \in D
-\end{axdef}

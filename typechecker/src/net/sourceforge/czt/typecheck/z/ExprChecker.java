@@ -208,6 +208,12 @@ public class ExprChecker
         }
       }
     }
+    else if (type instanceof GenericType && isPending()) {
+      if (exprs.size() > 0) {
+        Object [] params = {refExpr.getRefName()};
+        error(refExpr, ErrorMessage.PARAMETER_MISMATCH_IN_DEFPARA, params);
+      }
+    }
     else if (undecAnn != null) {
       assert type instanceof UnknownType;
       UnknownType uType = (UnknownType) type;
