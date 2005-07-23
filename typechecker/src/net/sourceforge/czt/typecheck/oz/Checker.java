@@ -259,6 +259,43 @@ abstract public class Checker
     return result;
   }
 
+  protected List<ClassRef> getSuperClasses(ClassRefType classRefType)
+  {
+    List<ClassRef> visited = list(classRefType.getThisClass());
+    return getSuperClasses(classRefType, visited);
+  }
+
+  protected List<ClassRef> getSuperClasses(ClassRefType classRefType,
+					   List<ClassRef> visited)
+  {
+    List<ClassRef> superClasses = list(classRefType.getSuperClass());
+    List<ClassRef> superSuperClasses = list();
+    for (ClassRef superClass : superClasses) {
+      Type2 type = unwrapType(getType(superClass.getRefName()));
+      if (type instanceof PowerType &&
+	  powerType(type).getType() instanceof ClassRefType) {
+	ClassRefType superClassType =
+	  (ClassRefType) powerType(type).getType();
+	
+	//add the super class itself
+	superSuperClasses.add(superClassType.getThisClass());
+	
+	//for each superclass, get its superclasses, and add
+	List<ClassRef> superClassRefs = superClassType.getSuperClass();
+	for (ClassRef next : superClassRefs) {
+	  if (!contains(visited, next)) {
+	    visited.add(next);
+	    List<ClassRef> nextSuperClasses = 
+	      getSuperClasses(superClassType, visited);
+	    superSuperClasses.addAll(nextSuperClasses);
+	  }
+	}
+      }
+    }
+    superClasses.addAll(superSuperClasses);
+    return superClasses;
+  }
+
   protected void inheritFeature(List<NameTypePair> source,
                                 List<NameTypePair> target,
                                 Expr expr)

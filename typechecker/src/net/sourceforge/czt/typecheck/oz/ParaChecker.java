@@ -360,26 +360,43 @@ public class ParaChecker
     PowerType vPowerType = factory().createPowerType();
     UResult unified = strongUnify(vPowerType, exprType);    
 
+    DeclName superName = getDeclName(expr);
+    ClassRefType current = getSelfType();
+
     //if the expr is not a class name reference, raise an error
-    if (!containsDeclName(classNames(), getDeclName(expr))) {
+    if (!containsDeclName(classNames(), superName) &&
+	(!useBeforeDecl() || sectTypeEnv().getSecondTime())) {
       Object [] params = {expr};
       error(expr, ErrorMessage.NON_CLASS_INHERITED, params);
     }
     //otherwise, add this information to the current class signature
     else if (vPowerType.getType() instanceof ClassRefType) {
       ClassRefType classRefType = (ClassRefType) vPowerType.getType();
-      ClassSig icSig = classRefType.getClassSig();
-      ClassRefType current = getSelfType();
+      ClassSig icSig = classRefType.getClassSig();      
       ClassSig cSig = current.getClassSig();
-      if (!instanceOf(icSig, VariableClassSig.class)) {
+
+      //check that there is no cyclic inheritance
+      List<ClassRef> currentSuperClasses = current.getSuperClass();
+      List<ClassRef> superClasses = getSuperClasses(classRefType);
+      for (ClassRef superClass : superClasses) {
+	RefName superClassName = superClass.getRefName();
+	if (namesEqual(className(), superClassName)) {
+	  Object [] params = {className()};
+	  error(expr, ErrorMessage.CYCLIC_INHERITANCE, params);
+	}
+
         //add the superclasses of the inherited class to the subclass's
         //superclass list
-        current.getSuperClass().addAll(classRefType.getSuperClass());
+	if (!contains(currentSuperClasses, superClass)) {
+	  currentSuperClasses.add(superClass);
+	}
+      }
 
-        //add the name of the superclass to current's superclass list
-        ClassRef thisClass = classRefType.getThisClass();
-        current.getSuperClass().add(thisClass);
-
+      //add the name of the superclass to current's superclass list
+      ClassRef thisClass = classRefType.getThisClass();
+      current.getSuperClass().add(thisClass);
+      
+      if (!instanceOf(icSig, VariableClassSig.class)) {
         //add the attributes to the subclass's signature and the type env
         inheritFeature(icSig.getAttribute(), cSig.getAttribute(), expr);
 
@@ -397,7 +414,6 @@ public class ParaChecker
         inheritOps(icSig.getOperation(), cSig.getOperation(), expr);
       }
     }
-
     return null;
   }
 
