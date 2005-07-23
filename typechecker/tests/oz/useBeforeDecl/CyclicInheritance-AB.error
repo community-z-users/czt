@@ -1,0 +1,11 @@
+\begin{zsection}
+  \SECTION CyclicInheritance\_AB
+\end{zsection}
+
+\begin{class}{B}
+  A
+\end{class}
+
+\begin{class}{A}
+  B
+\end{class}

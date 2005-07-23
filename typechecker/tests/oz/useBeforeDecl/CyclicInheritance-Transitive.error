@@ -1,0 +1,27 @@
+\begin{zsection}
+  \SECTION CyclicInheritance\_Transitive\_1
+\end{zsection}
+
+\begin{class}{F}
+  E
+\end{class}
+
+\begin{class}{E}
+  D
+\end{class}
+
+\begin{class}{D}
+  C
+\end{class}
+
+\begin{class}{C}
+  B
+\end{class}
+
+\begin{class}{B}
+  A
+\end{class}
+
+\begin{class}{A}
+  F
+\end{class}
