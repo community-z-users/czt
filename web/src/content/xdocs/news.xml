@@ -6,6 +6,12 @@
   </header>
   <body>
     <p>
+      April-2005: CZT tutorial and paper at the
+      <link href="ext:zb-2005">ZB2005 conference</link>
+      in Guildford, UK.
+    </p>
+
+    <p>
       17-Mar-2005: Third release (version 0.3) of CZT containing
       corejava 1.4.0 and parser 0.3 (Z/Object Z parser and printing tools),
       and first releases of the typechecker and jEdit plugin.
