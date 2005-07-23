@@ -19,12 +19,13 @@
 
 package net.sourceforge.czt.rules;
 
+import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.zpatt.ast.*;
 
 public interface ProverProviso
   extends Proviso
 {
-  void check();
+  void check(SectionManager manager, String section);
   Status getStatus();
 
   enum Status

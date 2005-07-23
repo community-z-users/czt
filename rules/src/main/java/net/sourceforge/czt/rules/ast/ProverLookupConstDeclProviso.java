@@ -20,6 +20,9 @@
 package net.sourceforge.czt.rules.ast;
 
 import net.sourceforge.czt.rules.*;
+import net.sourceforge.czt.parser.util.DefinitionTable;
+import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.impl.LookupConstDeclProvisoImpl;
 
@@ -32,13 +35,27 @@ public class ProverLookupConstDeclProviso
   extends LookupConstDeclProvisoImpl
   implements ProverProviso
 {
-  public void check()
+  private Status status_ = Status.UNCHECKED;
+
+  public void check(SectionManager manager, String section)
   {
+    try {
+      Key key = new Key(section, DefinitionTable.class);
+      DefinitionTable table = (DefinitionTable) manager.get(key);
+      if (table != null) {
+        RefExpr ref = (RefExpr) getLeftExpr();
+        DefinitionTable.Definition def =
+          table.lookup(ref.getRefName().getWord());
+        Expr expr = def.getExpr();
+      }
+    }
+    catch (CommandException e) {
+    }
     return;
   }
 
   public Status getStatus()
   {
-    return Status.UNCHECKED;
+    return status_;
   }
 }

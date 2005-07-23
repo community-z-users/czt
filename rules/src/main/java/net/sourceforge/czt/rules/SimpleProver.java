@@ -24,6 +24,7 @@ import java.util.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.rules.ast.*;
+import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.Factory;
@@ -44,11 +45,24 @@ public class SimpleProver
 {
   private List<Rule> rules_;
   private Factory factory_;
+  private SectionManager manager_;
+  private String section_;
 
   public SimpleProver(List<Rule> rules, Factory factory)
   {
     rules_ = rules;
     factory_ = factory;
+    manager_ = new SectionManager();
+    section_ = "standard_toolkit";
+  }
+
+  public SimpleProver(List<Rule> rules, Factory factory,
+                      SectionManager manager, String section)
+  {
+    rules_ = rules;
+    factory_ = factory;
+    manager_ = manager;
+    section_ = section;
   }
 
   /**
@@ -117,7 +131,7 @@ public class SimpleProver
       }
       else if (sequent instanceof ProverProviso) {
         ProverProviso proviso = (ProverProviso) sequent;
-        proviso.check();
+        proviso.check(manager_, section_);
         if (! ProverProviso.Status.PASS.equals(proviso.getStatus())) {
           return false;
         }
