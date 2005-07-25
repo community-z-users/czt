@@ -9,10 +9,18 @@
 \begin{zedjoker}{Pred} P1\end{zedjoker} \\
 \begin{zedjoker}{Name} v\end{zedjoker} \\
 
-\begin{zedrule}{normalise1}
-  [ D | P1 ]
+\begin{zedrule}{test}
+  [ x:\nat ; D | P1 ]
 \end{zedrule}
 
 \begin{zed}
   \vdash?~ [ x:\nat | true ]
+\end{zed}
+
+\begin{zed}
+  \vdash?~ [ x:\nat; y:\nat | true ]
+\end{zed}
+
+\begin{zed}
+  \vdash?~ [ x:\nat; y:\nat ; z:\nat | true ]
 \end{zed}

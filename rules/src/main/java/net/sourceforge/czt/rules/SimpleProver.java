@@ -85,7 +85,7 @@ public class SimpleProver
         }
       }
       catch (IllegalArgumentException e) {
-        // PredSequent cannot be applied to this rule
+        System.err.println("PredSequent cannot be applied to this rule.");
       }
     }
     return false;
@@ -156,27 +156,80 @@ public class SimpleProver
       throw new IllegalStateException(message);
     }
     List sequents = rule.getSequent();
-    try {
-      Sequent sequent = (Sequent) sequents.remove(0);
-      if (sequent instanceof PredSequent) {
-        Pred pred = ((PredSequent) sequent).getPred();
-        Set<Binding> bindings = new HashSet<Binding>();
-        List<Binding> bindingList = new ArrayList<Binding>();
-        bindingList.addAll(bindings);
-        if (unify(pred, predSequent.getPred(), bindings)) {
-          Deduction deduction =
-            factory.createDeduction(bindingList, sequents, rule.getName());
-          predSequent.setDeduction(deduction);
-          return true;
-        }
-      }
-      else {
-        String message = "Conclusion of a rule must be a PredSequent";
-        throw new IllegalArgumentException(message);
+    if (sequents.size() <= 0) {
+      throw new IllegalArgumentException("Rule without Sequent");
+    }
+    Sequent sequent = (Sequent) sequents.remove(0);
+    if (sequent instanceof PredSequent) {
+      Pred pred = ((PredSequent) sequent).getPred();
+      Set<Binding> bindings = new HashSet<Binding>();
+      List<Binding> bindingList = new ArrayList<Binding>();
+      bindingList.addAll(bindings);
+      if (unify(pred, predSequent.getPred(), bindings)) {
+        Deduction deduction =
+          factory.createDeduction(bindingList, sequents, rule.getName());
+        predSequent.setDeduction(deduction);
+        return true;
       }
     }
-    catch (IndexOutOfBoundsException exception) {
-      throw new IllegalArgumentException("Rule without Sequent");
+    else {
+      String message = "Conclusion of a rule must be a PredSequent";
+      throw new IllegalArgumentException(message);
+    }
+    return false;
+  }
+
+  public static boolean unify(Object o1, Object o2, Set<Binding> bindings)
+  {
+    if (o1 == null && o2 == null) {
+      return true;
+    }
+    if (o1 != null && o2 != null) {
+      if (o1 instanceof Term && o2 instanceof Term) {
+        return unify((Term) o1, (Term) o2, bindings);
+      }
+      return o1.equals(o2);
+    }
+    return false;
+  }
+
+  /**
+   * Assumes that all Jokers in lists are list joker.
+   */
+  public static boolean unify(List l1, List l2, Set<Binding> bindings)
+  {
+    if (l1.size() > l2.size()) {
+      return unify(l2, l1, bindings);
+    }
+    if (l1.size() == l2.size()) {
+      Iterator i1 = l1.iterator();
+      Iterator i2 = l2.iterator();
+      while(i1.hasNext()) {
+        if (! unify(i1.next(), i2.next(), bindings)) return false;
+      }
+      return true;
+    }
+    assert l1.size() < l2.size();
+    if (l1.isEmpty()) {
+      return l2.size() == 1 && l2.get(0) instanceof Joker;
+    }
+    if (l1.get(l1.size() - 1) instanceof Joker) {
+      Iterator i1 = l1.iterator();
+      Iterator i2 = l2.iterator();
+      Object o = null;
+      while(i2.hasNext()) {
+        if (i1.hasNext()) o = i1.next();
+        if (! unify(o, i2.next(), bindings)) return false;
+      }
+      return true;
+    }
+    if (l1.size() + 1 == l2.size() && l2.get(l1.size()) instanceof Joker) {
+      Iterator i1 = l1.iterator();
+      Iterator i2 = l2.iterator();
+      while(i1.hasNext()) {
+        if (! unify(i1.next(), i2.next(), bindings)) return false;
+      }
+      return true;
     }
     return false;
   }
@@ -203,28 +256,15 @@ public class SimpleProver
     if (term1.getClass() != term2.getClass()) {
       return false;
     }
+    if (term1 instanceof List && term2 instanceof List) {
+      return unify((List) term1, (List) term2, bindings);
+    }
     Object[] args1 = term1.getChildren();
     Object[] args2 = term2.getChildren();
+    assert args1.length == args2.length;
     for (int i = 0; i < args1.length; i++) {
-      if (args1[i] == null && args2[i] != null) {
+      if (! unify(args1[i], args2[i], bindings)) {
         return false;
-      }
-      if (args2[i] == null && args1[i] != null) {
-        return false;
-      }
-      if (args1[i] != null) {
-        if (args1[i] instanceof Term) {
-          Term child1 = (Term) args1[i];
-          Term child2 = (Term) args2[i];
-          if (! unify(child1, child2, bindings)) {
-            return false;
-          }
-        }
-        else {
-          if (! args1[i].equals(args2[i])) {
-            return false;
-          }
-        }
       }
     }
     return true;
