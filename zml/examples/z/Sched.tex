@@ -49,10 +49,14 @@ throughout the specification.
 $singleton$ is the set of all sets whose size is less than or equal to~$1$.
 This is included only to have a generic axiom definition.
 
+\begin{zed}
+  \relation (singleton~\_~)
+\end{zed}
+
 \begin{gendef}[X]
-  singleton : \power (\power X)
+  singleton~\_ : \power (\power X)
 \where
-  singleton = \{ ps : \power X | \# ps \leq 1 \}
+  \forall s : \power X @ singleton~s \iff \#s \leq 1
 \end{gendef}
 
 The basic type of this system is a word, which specifically, is an
@@ -100,7 +104,7 @@ operands, and optionally, a label.
   name : INST\_NAME \\
   params : \seq OPERAND
 \where
-  label \in singleton
+  singleton~label
 \end{schema}
 
 \begin{zsection}
@@ -635,7 +639,7 @@ value for the current process.
   \vdash? (\forall n : \nat_1 @ n > 0)
 \end{zed}
 \begin{zed}
-  [X] \vdash? \forall x : \power X @ \#x \leq 1 \iff x \in singleton
+  [X] \vdash? \forall x : \power X @ \#x \leq 1 \iff singleton~x
 \end{zed}
 
 \end{document}
