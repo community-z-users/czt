@@ -42,7 +42,7 @@ import net.sourceforge.czt.session.*;
 action code
 {:
   private Map sections_ = new HashMap();
-  protected Map unicode2latexMap_ = null;
+  private Map unicode2latexMap_ = null;
 
   /**
    * An iterator over markup directives to be printed.
@@ -118,8 +118,8 @@ action code
   private LatexCommand toLatex(String s, int line, int column)
     throws ParseException
   {
+    assert unicode2latexMap_ != null;
     try {
-      assert unicode2latexMap_ != null;
       return uniwordToLatex(s, unicode2latexMap_);
     }
     catch(ParseException e) {
@@ -158,7 +158,7 @@ action code
         return command;
       }
     }
-    String latex = "";
+    StringBuffer latex = new StringBuffer();
     boolean addLeftSpace = false;
     boolean addRightSpace = false;
     ZChar[] zchars = ZChar.toZChars(word);
@@ -180,18 +180,18 @@ action code
       if (command != null) {
         if ( (command.addLeftSpace() &amp;&amp; i &gt; 0) ||
              (command.addRightSpace() &amp;&amp; i + 1 &lt; zchars.length) ) {
-          latex += "{" + command.getName() + "}";
+          latex.append("{" + command.getName() + "}");
         }
         else {
-          latex += command.getName() + " ";
+          latex.append(command.getName() + " ");
         }
         addRightSpace = command.addRightSpace();
       }
       else if (zchar.isAsciiChar()) { // ASCII?
-        latex += zchar.toString();
+        latex.append(zchar.toString());
       }
       else if (ZChar.PRIME.equals(zchar)) {
-        latex += "'";
+        latex.append("'");
       }
       else {
         final int hexBase = 16;
@@ -203,7 +203,8 @@ action code
       }
       charcount = charcount + zchar.charCount();
     }
-    return new LatexCommand(latex, word, addLeftSpace, addRightSpace);
+    return new LatexCommand(latex.toString(), word,
+                            addLeftSpace, addRightSpace);
   }
 
   /**
@@ -227,7 +228,7 @@ action code
           parser.sectInfo_.get(new Key(parentName, LatexMarkupFunction.class));
       }
       catch (CommandException exception) {
-        // TODO: do something
+        System.err.println("Caught " + exception);
       }
       if (parentMarkup == null) {
         ZSect parentHeader = (ZSect) sections_.get(parentName);
@@ -253,7 +254,7 @@ action code
         parser.sectInfo_.get(new Key(sectName, LatexMarkupFunction.class));
     }
     catch (CommandException exception) {
-      // TODO: do something
+      System.err.println("Caught " + exception);
     }
     if (table != null) {
       LatexMarkupPara para =
@@ -265,21 +266,20 @@ action code
       addParentMarkups(zsect, table);
     }
     assert table != null;
-    unicode2latexMap_ = toUnicode2LatexMap(table);
-    addStandardMapping(unicode2latexMap_);
+    setupMarkupTable(table);
   }
 
-  protected Map toUnicode2LatexMap(LatexMarkupFunction table)
+  protected void setupMarkupTable(LatexMarkupFunction table)
   {
-    Map result = new HashMap();
+    unicode2latexMap_ = new HashMap();
     if (table != null) {
       for (Iterator iter = table.iterator(); iter.hasNext();) {
         LatexMarkupFunction.MarkupDirective directive =
           (LatexMarkupFunction.MarkupDirective) iter.next();
-        result.put(directive.getUnicode(), directive);
+        unicode2latexMap_.put(directive.getUnicode(), directive);
       }
     }
-    return result;
+    addStandardMapping(unicode2latexMap_);
   }
 
 :}
@@ -350,15 +350,9 @@ parser code {:
       action_obj.setupMarkupTable((ZSect) result.value);
     }
     else if (result.sym == Sym.TOKENSEQ) {
-      LatexMarkupFunction table = null;
-      try {
-        table = (LatexMarkupFunction)
-          sectInfo_.get(new Key(sectionName_, LatexMarkupFunction.class));
-      }
-      catch (CommandException exception) {
-        // TODO: do something
-      }
-      action_obj.unicode2latexMap_ = action_obj.toUnicode2LatexMap(table);
+      LatexMarkupFunction table = (LatexMarkupFunction)
+        sectInfo_.get(new Key(sectionName_, LatexMarkupFunction.class));
+      action_obj.setupMarkupTable(table);
     }
     return result;
   }
