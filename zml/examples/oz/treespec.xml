@@ -258,17 +258,19 @@ $d$, signaling $NotNodeExc$ if you cannot move in that direction.
                             </Anns>
                             <Word>right</Word>
                         </DeclName>
-                        <RefExpr Mixfix="false">
-                            <Anns>
-                                <LocAnn Col="16" Line="55" Loc="../zml/examples/oz/treespec.tex"/>
-                            </Anns>
-                            <RefName>
+                        <ns3:ContainmentExpr>
+                            <RefExpr Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="16" Line="55" Loc="../zml/examples/oz/treespec.tex"/>
                                 </Anns>
-                                <Word>Node</Word>
-                            </RefName>
-                        </RefExpr>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="16" Line="55" Loc="../zml/examples/oz/treespec.tex"/>
+                                    </Anns>
+                                    <Word>Node</Word>
+                                </RefName>
+                            </RefExpr>
+                        </ns3:ContainmentExpr>
                     </VarDecl>
                 </ns3:PrimaryDecl>
                 <ns3:SecondaryDecl>
