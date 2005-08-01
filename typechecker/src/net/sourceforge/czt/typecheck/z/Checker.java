@@ -403,9 +403,9 @@ abstract public class Checker
     //post-check any previously unresolved expressions
     List<ErrorAnn> paraErrors = list();
     for (Object next : paraErrors()) {
-      if (next instanceof Expr) {
-        Expr expr = (Expr) next;
-        ErrorAnn errorAnn = (ErrorAnn) expr.accept(postChecker());
+      if (next instanceof TermA) {
+	TermA termA = (TermA) next;
+        ErrorAnn errorAnn = (ErrorAnn) termA.accept(postChecker());
         if (errorAnn != null) {
           paraErrors.add(errorAnn);
         }

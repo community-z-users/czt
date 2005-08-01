@@ -210,15 +210,15 @@ public class PredChecker
   {
     //visit the expression
     Expr expr = exprPred.getExpr();
-    Type2 type = (Type2) expr.accept(exprChecker());
+    Type2 exprType = (Type2) expr.accept(exprChecker());
 
     //check that the expr is a schema expr
     SchemaType vSchemaType = factory().createSchemaType();
     PowerType vPowerType = factory().createPowerType(vSchemaType);
 
-    UResult result = unify(vPowerType, type);
+    UResult result = unify(vPowerType, exprType);
     if (result == FAIL) {
-      Object [] params = {exprPred, type};
+      Object [] params = {exprPred, exprType};
       error(exprPred, ErrorMessage.NON_SCHEXPR_IN_EXPR_PRED, params);
     }
     //check that the names referenced in this expression are declared
@@ -227,59 +227,38 @@ public class PredChecker
       SchemaType schemaType = (SchemaType) vPowerType.getType();
       Signature signature = schemaType.getSignature();
       if (!instanceOf(signature, VariableSignature.class)) {
-        ParameterAnn pAnn = (ParameterAnn) exprPred.getAnn(ParameterAnn.class);
-        if (pAnn == null) {
-          pAnn = new ParameterAnn(listTerm());
-        }
-
-        List<NameTypePair> pairs = signature.getNameTypePair();
+	List<NameTypePair> pairs = signature.getNameTypePair();
         for (int i = 0; i < pairs.size(); i++ ) {
           NameTypePair pair = pairs.get(i);
-          DeclName declName = pair.getName();
+          RefName refName = factory().createRefName(pair.getName());
 
-          //if we haven't created a list of anns previously, then
-          //create refexpr from the declName and add it to the list of
-          //anns
-          RefExpr refExpr = null;
-          List<RefExpr> gParams = pAnn.getParameters();
-          if (gParams.size() != pairs.size()) {
-            RefName refName = factory().createRefName(declName);
-            refExpr = factory().createRefExpr(refName, list(), Boolean.FALSE);
-            LocAnn locAnn = (LocAnn) exprPred.getAnn(LocAnn.class);
-            addAnn(refName, locAnn);
-            addAnn(refName, exprPred);
-            pAnn.getParameters().add(refExpr);
-          }
-          //if we have, find the refexpr corresponding to declname
-          else {
-            for (RefExpr next : gParams) {
-              RefName refName = next.getRefName();
-              if (declName.getWord().equals(refName.getWord()) &&
-                  declName.getStroke().equals(refName.getStroke())) {
-                refExpr = next;
-                break;
-              }
+	  //lookup the type of this name in the environment
+	  Type envType = getType(refName);
+
+          Object undecAnn = refName.getAnn(UndeclaredAnn.class);
+          //if the name is undeclared, copy the annotation to the name
+          //in the signature
+          if (undecAnn != null) {
+            pair.getName().getAnns().add(undecAnn);
+            if (!containsObject(paraErrors(), exprPred)) {
+              paraErrors().add(exprPred);
             }
           }
+	  else {
+	    removeAnn(pair.getName(), UndeclaredAnn.class);
+	  }
 
-          //visit the name as a reference expr
-          Type2 envType = (Type2) refExpr.accept(exprChecker());
-
-          //if the name is declared, check that it unifies with the
-          //existing declaration
-          Object undecAnn = refExpr.getRefName().getAnn(UndeclaredAnn.class);
-          if (undecAnn == null) {
-            Type2 typeA = unwrapType(envType);
-            Type2 typeB = unwrapType(pair.getType());
-            UResult unified = unify(typeA, typeB);
-            result = UResult.conj(result, unified);
-            if (unified == FAIL) {
-              Object [] params = {declName, typeA, typeB};
-              error(exprPred, ErrorMessage.TYPE_MISMATCH_IN_SIGNATURE, params);
-            }
-          }
-        }
-        addAnn(exprPred, pAnn);
+	  //if the type of the name in the current environment does
+	  //not unify with the type in the expr, raise an error
+	  Type2 typeA = unwrapType(envType);
+	  Type2 typeB = unwrapType(pair.getType());
+	  UResult unified = unify(typeA, typeB);
+	  result = UResult.conj(result, unified);
+	  if (unified == FAIL) {
+	    Object [] params = {refName, typeA, typeB};
+	    error(exprPred, ErrorMessage.TYPE_MISMATCH_IN_SIGNATURE, params);
+	  }
+	}
       }
     }
 

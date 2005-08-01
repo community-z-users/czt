@@ -40,6 +40,7 @@ import net.sourceforge.czt.typecheck.z.impl.*;
 public class PostChecker
   extends Checker
   implements ThetaExprVisitor,
+	     ExprPredVisitor,
              RefExprVisitor,
              SetExprVisitor
 {
@@ -66,13 +67,48 @@ public class PostChecker
           Object [] params = {decorName, thetaExpr};
           ErrorAnn errorAnn =
             errorAnn(thetaExpr,
-                     ErrorMessage.UNDECLARED_IDENTIFIER_IN_EXPR, params);
+                     ErrorMessage.UNDECLARED_IDENTIFIER_IN_EXPR,
+		     params);
           boolean added = addErrorAnn(thetaExpr, errorAnn);
           return added ? errorAnn : null;
         }
       }
     }
+    else {
+      assert false : type;
+    }
     return null;
+  }
+
+  public Object visitExprPred(ExprPred exprPred)
+  {
+    TypeAnn typeAnn = (TypeAnn) exprPred.getExpr().getAnn(TypeAnn.class);
+    Type type = typeAnn.getType();
+    if (type instanceof PowerType &&
+	powerType(type).getType() instanceof SchemaType) {
+      //check that each name in the signature is present in the
+      //environment
+      PowerType powerType = (PowerType) type;
+      Signature signature = schemaType(powerType.getType()).getSignature();
+      List<NameTypePair> pairs = signature.getNameTypePair();
+      for (NameTypePair pair : pairs) {
+        //if the name is not in the environment, raise an error
+        Object undecAnn = pair.getName().getAnn(UndeclaredAnn.class);
+        if (undecAnn != null) {
+          Object [] params = {pair.getName(), exprPred};
+          ErrorAnn errorAnn =
+            errorAnn(exprPred,
+                     ErrorMessage.UNDECLARED_IDENTIFIER_IN_EXPR,
+		     params);
+          boolean added = addErrorAnn(exprPred, errorAnn);
+          return added ? errorAnn : null;
+        }
+      }
+    }
+    else {
+      assert false : type;
+    }
+    return null;  
   }
 
   public Object visitRefExpr(RefExpr refExpr)
@@ -124,7 +160,6 @@ public class PostChecker
       refExpr.getExpr().addAll(exprs);
       removeAnn(refExpr, pAnn);
     }
-
     return null;
   }
 
@@ -146,6 +181,9 @@ public class PostChecker
         boolean added = addErrorAnn(setExpr, errorAnn);
         return added ? errorAnn : null;
       }
+    }
+    else {
+      assert false : type;
     }
     return null;
   }
