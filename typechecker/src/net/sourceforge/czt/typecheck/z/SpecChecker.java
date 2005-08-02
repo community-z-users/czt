@@ -131,19 +131,10 @@ public class SpecChecker
     }
 
     if (useBeforeDecl() && sectTypeEnv().getSecondTime()) {
-      try {
-        SectTypeEnv sectTypeEnv =
-          (SectTypeEnv) sectInfo().get(new Key(sectName(), SectTypeEnv.class));
-        assert sectTypeEnv != null;
-        sectTypeEnv().overwriteTriples(sectTypeEnv.getTriple());
-      }
-      catch (Exception e) {
-        e.printStackTrace();
-      }
+      specChecker().putSecondVisitSectInfo(zSect);
     }
     else {
-      sectInfo().put(new Key(sectName(), SectTypeEnv.class), sectTypeEnv(),
-                     new java.util.HashSet());
+      specChecker().putFirstVisitSectInfo(zSect);
     }
 
     if (useBeforeDecl() && !sectTypeEnv().getSecondTime()) {
@@ -177,13 +168,15 @@ public class SpecChecker
 
   public Object visitParent(Parent parent)
   {
-    sectTypeEnv().addParent(parent.getWord());
+    String parentName = parent.getWord();
+    sectTypeEnv().addParent(parentName);
 
     TermA termA = null;
     try {
-      termA = (TermA) sectInfo().get(new Key(parent.getWord(), ZSect.class));
+      termA = (TermA) sectInfo().get(new Key(parentName, ZSect.class));
     }
     catch (CommandException e) {
+      assert false;
     }
 
     String section = sectTypeEnv().getSection();

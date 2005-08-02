@@ -30,6 +30,8 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
 
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
+
 /**
  * Provides unification of types.
  */
@@ -109,7 +111,18 @@ public class UnificationEnv
 
   public static boolean containsVariable(Term term)
   {
+    return containsVariable(term, list(term));
+  }
+
+  protected static boolean containsVariable(Term term, 
+					    List<Term> preTypes)
+  {
     boolean result = false;
+
+    if (!containsObject(preTypes, term)) {
+      preTypes.add(term);
+    }
+
     if (term instanceof VariableType &&
         variableType(term).getValue() == term) {
       return true;
@@ -121,8 +134,9 @@ public class UnificationEnv
     else {
       Object [] children = term.getChildren();
       for (int i = 0; i < children.length; i++) {
-        if (children[i] instanceof Term) {
-          if (containsVariable((Term) children[i])) {
+        if (children[i] instanceof Term &&
+	    !containsObject(preTypes, (Term) children[i])) {
+          if (containsVariable((Term) children[i], preTypes)) {
             return true;
           }
         }
@@ -432,18 +446,6 @@ public class UnificationEnv
         break;
       }
     }
-    return result;
-  }
-
-  private List list()
-  {
-    return new ArrayList();
-  }
-
-  private List list(List list)
-  {
-    List result = list();
-    result.addAll(list);
     return result;
   }
 

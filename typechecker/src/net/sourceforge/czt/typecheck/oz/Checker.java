@@ -164,6 +164,7 @@ abstract public class Checker
       //if this is ok, remove the undeclared annotation
       removeAnn(name, UndeclaredAnn.class);
     }
+
     return type;
   }
 
@@ -1038,6 +1039,27 @@ abstract public class Checker
                                                classRef.getType2(),
                                                newPairs);
     return result;
+  }
+
+  protected void putFirstVisitSectInfo(ZSect zSect)
+  {
+    super.putFirstVisitSectInfo(zSect);
+
+    //add a class names annotation
+    ClassNamesAnn ann = new ClassNamesAnn(classNames());
+    zSect.getAnns().add(ann);
+  }
+
+  protected void putSecondVisitSectInfo(ZSect zSect)
+  {
+    super.putSecondVisitSectInfo(zSect);
+    ClassNamesAnn ann = (ClassNamesAnn) zSect.getAnn(ClassNamesAnn.class);
+    assert ann != null;
+    for (DeclName className : classNames()) {
+      if (!containsDeclName(ann.getClassNames(), className)) {
+	ann.getClassNames().add(className);
+      }
+    }
   }
 
   protected CarrierSet getCarrierSet()

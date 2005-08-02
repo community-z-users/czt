@@ -158,6 +158,16 @@ public class TypeCheckUtils
     return true;
   }
 
+  protected SectionManager getSectionManager()
+  {
+    SectionManager sectionManager = new SectionManager();
+    sectionManager.putCommand(Spec.class, ParseUtils.getCommand());
+    sectionManager.putCommand(ZSect.class, ParseUtils.getCommand());
+    sectionManager.putCommand(LatexMarkupFunction.class,
+			      ParseUtils.getCommand());
+    return sectionManager;
+  }
+
   public static void main(String[] args)
     throws IOException
   {

@@ -184,6 +184,11 @@ public class TypeCheckUtils
     }
   }
 
+  protected SectionManager getSectionManager()
+  {
+    return new SectionManager();
+  }
+
   protected void run(String [] args)
     throws IOException
   {
@@ -223,7 +228,7 @@ public class TypeCheckUtils
       }
     }
 
-    SectionManager manager = new SectionManager();
+    SectionManager manager = getSectionManager();
     int result = 0;
     for (String file : files) {
       //parse the file

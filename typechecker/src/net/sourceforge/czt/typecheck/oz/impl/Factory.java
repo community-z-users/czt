@@ -119,9 +119,8 @@ public class Factory
 
   public ClassUnionType createClassUnionType()
   {
-    ClassSig classSig = createVariableClassSig();
-    ClassUnionType classUnionType = createClassUnionType(classSig);
-    ClassUnionType result = new ClassUnionTypeImpl(classUnionType);
+    ClassSig classSig = createClassSig();
+    ClassUnionType result = createClassUnionType(classSig);
     return result;
   }
 

@@ -125,8 +125,14 @@ public class UnificationEnv
   protected UResult weakUnifyClassType(ClassType typeA, ClassType typeB)
   {
     UResult result = FAIL;
-    String one = typeA.toString();
-    String two = typeB.toString();
+    if (typeA.getClassSig() == null) {
+      System.err.println("null classsig");
+      System.exit(0);
+    }
+    else if (typeB.getClassSig() == null) {
+      System.err.println("null classsig");
+      System.exit(0);
+    }
     List<ClassRef> classRefsA = typeA.getClassSig().getClasses();
     List<ClassRef> classRefsB = typeB.getClassSig().getClasses();
     if (classRefsA.size() == 0 || classRefsB.size() == 0) {
