@@ -4239,13 +4239,24 @@ opExpr1 ::=
         LSQUARE opText:ot RSQUARE
         {: RESULT = factory_.createAnonOpExpr(ot); :}
         |
+<add:ozz>
         /* operator promotion */
-        opPromotionLhs:oplhs DOT refName:rn//inner_term:it
+        opPromotionLhs:oplhs DOT refName:rn
         {:
            RESULT = factory_.createOpPromotionExpr(oplhs, rn);
            addLocAnn(RESULT, oplhsleft, oplhsright);
         :}
         |
+</add:ozz>
+<add:tcoz>
+        /* operator promotion */
+        opPromotionLhs:oplhs DOT inner_term:it
+        {:
+           RESULT = factory_.createOpPromotionExpr(oplhs, refname(it));
+           addLocAnn(RESULT, oplhsleft, oplhsright);
+        :}
+        |
+</add:tcoz>
         /* operation promotion */
         refName:rn
         {:
@@ -4393,7 +4404,6 @@ opExpr1 ::=
            RESULT = factory_.createAtProExpr(et, null, oe);
            addLocAnn(RESULT, etleft, etright);
         :}
-/*
         |
         opPromotionLhs:oplhs DOT inner_term:it NEXTPRO opExpr1:oe
         {:
@@ -4401,7 +4411,6 @@ opExpr1 ::=
            RESULT = factory_.createAtProExpr(et, null, oe);
            addLocAnn(RESULT, oplhsleft, oplhsright);
         :}
-*/
         |
         refName:rn NEXTPRO opExpr1:oe
         {:
@@ -4415,7 +4424,6 @@ opExpr1 ::=
            RESULT = factory_.createAtProExpr(et, e, oe);
            addLocAnn(RESULT, etleft, etright);
         :}
-/*
         |
         opPromotionLhs:oplhs DOT inner_term:it 
            ATTIME expression:e NEXTPRO opExpr1:oe
@@ -4424,7 +4432,6 @@ opExpr1 ::=
            RESULT = factory_.createAtProExpr(et, e, oe);
            addLocAnn(RESULT, oplhsleft, oplhsright);
         :}
-*/
         |
         refName:rn ATTIME expression:e NEXTPRO opExpr1:oe
         {:
@@ -4511,12 +4518,22 @@ opPromotionLhs ::=
            RESULT = factory_.createRefExpr(rn, null, Boolean.FALSE);
            addLocAnn(RESULT, rnleft, rnright);
         :}
+<add:ozz>
         |
         opPromotionLhs:oplhs DOT refName:rn//inner_term:it
         {:
            RESULT = factory_.createBindSelExpr(oplhs, rn);
            addLocAnn(RESULT, oplhsleft, oplhsright);
         :}
+</add:ozz>
+<add:tcoz>
+        |
+        opPromotionLhs:oplhs DOT inner_term:it
+        {:
+           RESULT = factory_.createBindSelExpr(oplhs, refname(it));
+           addLocAnn(RESULT, oplhsleft, oplhsright);
+        :}
+</add:tcoz>
         ;
 
 deltaList ::=

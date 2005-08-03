@@ -307,6 +307,8 @@ public class SectionManager
   class SourceLocator
     implements Command
   {
+    final protected String [] suffix_ = {".tex", ".utf8", "utf16", ""};
+
     public boolean compute(String name,
                            SectionManager manager)
     {
@@ -315,10 +317,12 @@ public class SectionManager
         manager.put(new Key(name, Source.class), new UrlSource(url));
         return true;
       }
-      File file = new File(name);
-      if (file.exists()) {
-        manager.put(new Key(name, Source.class), new FileSource(file));
-        return true;
+      for (int i = 0; i < suffix_.length; i++) {
+	File file = new File(name + suffix_[i]);
+	if (file.exists()) {
+	  manager.put(new Key(name, Source.class), new FileSource(file));
+	  return true;
+	}
       }
       return false;
     }
