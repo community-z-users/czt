@@ -19,6 +19,9 @@
     -->
     <release version="1.4.1" date="unreleased">
       <action dev="Petra" type="apichange">
+        Change the AST visitors to use a generic return type.
+      </action>
+      <action dev="Petra" type="apichange">
         Change AST enum classes from typesafe enumerations to Java 1.5 enums.
       </action>
       <action dev="Petra" type="apichange">
