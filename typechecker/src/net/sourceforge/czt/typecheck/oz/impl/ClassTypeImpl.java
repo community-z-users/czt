@@ -84,10 +84,10 @@ public abstract class ClassTypeImpl
   /**
    * Accepts a visitor.
    */
-  public Object accept(net.sourceforge.czt.util.Visitor v)
+  public <R> R accept(net.sourceforge.czt.util.Visitor<R> v)
   {
     if (v instanceof ClassTypeVisitor) {
-      ClassTypeVisitor visitor = (ClassTypeVisitor) v;
+      ClassTypeVisitor<R> visitor = (ClassTypeVisitor<R>) v;
       return visitor.visitClassType(this);
     }
     return super.accept(v);

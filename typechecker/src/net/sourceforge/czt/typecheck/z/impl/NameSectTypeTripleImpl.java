@@ -87,10 +87,10 @@ public class NameSectTypeTripleImpl
   /**
    * Accepts a visitor.
    */
-  public Object accept(net.sourceforge.czt.util.Visitor v)
+  public <R> R accept(net.sourceforge.czt.util.Visitor<R> v)
   {
     if (v instanceof NameSectTypeTripleVisitor) {
-      NameSectTypeTripleVisitor visitor = (NameSectTypeTripleVisitor) v;
+      NameSectTypeTripleVisitor<R> visitor = (NameSectTypeTripleVisitor<R>) v;
       return visitor.visitNameSectTypeTriple(this);
     }
     return super.accept(v);

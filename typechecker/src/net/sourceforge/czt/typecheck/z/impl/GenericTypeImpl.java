@@ -88,10 +88,10 @@ public class GenericTypeImpl
   /**
    * Accepts a visitor.
    */
-  public Object accept(net.sourceforge.czt.util.Visitor v)
+  public <R> R accept(net.sourceforge.czt.util.Visitor<R> v)
   {
     if (v instanceof GenericTypeVisitor) {
-      GenericTypeVisitor visitor = (GenericTypeVisitor) v;
+      GenericTypeVisitor<R> visitor = (GenericTypeVisitor<R>) v;
       return visitor.visitGenericType(this);
     }
     return super.accept(v);

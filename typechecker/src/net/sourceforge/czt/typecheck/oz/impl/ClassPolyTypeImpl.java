@@ -59,10 +59,10 @@ public class ClassPolyTypeImpl
   /**
    * Accepts a visitor.
    */
-  public Object accept(net.sourceforge.czt.util.Visitor v)
+  public <R> R accept(net.sourceforge.czt.util.Visitor<R> v)
   {
     if (v instanceof ClassPolyTypeVisitor) {
-      ClassPolyTypeVisitor visitor = (ClassPolyTypeVisitor) v;
+      ClassPolyTypeVisitor<R> visitor = (ClassPolyTypeVisitor<R>) v;
       return visitor.visitClassPolyType(this);
     }
     return super.accept(v);

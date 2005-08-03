@@ -61,10 +61,10 @@ public class ProdTypeImpl
   /**
    * Accepts a visitor.
    */
-  public Object accept(net.sourceforge.czt.util.Visitor v)
+  public <R> R accept(net.sourceforge.czt.util.Visitor<R> v)
   {
     if (v instanceof ProdTypeVisitor) {
-      ProdTypeVisitor visitor = (ProdTypeVisitor) v;
+      ProdTypeVisitor<R> visitor = (ProdTypeVisitor<R>) v;
       return visitor.visitProdType(this);
     }
     return super.accept(v);

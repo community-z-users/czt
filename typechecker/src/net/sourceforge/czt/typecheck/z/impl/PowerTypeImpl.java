@@ -63,10 +63,10 @@ public class PowerTypeImpl
   /**
    * Accepts a visitor.
    */
-  public Object accept(net.sourceforge.czt.util.Visitor v)
+  public <R> R accept(net.sourceforge.czt.util.Visitor<R> v)
   {
     if (v instanceof PowerTypeVisitor) {
-      PowerTypeVisitor visitor = (PowerTypeVisitor) v;
+      PowerTypeVisitor<R> visitor = (PowerTypeVisitor<R>) v;
       return visitor.visitPowerType(this);
     }
     return super.accept(v);

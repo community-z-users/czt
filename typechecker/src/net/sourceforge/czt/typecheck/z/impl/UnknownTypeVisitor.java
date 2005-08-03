@@ -23,7 +23,7 @@ import net.sourceforge.czt.util.Visitor;
 /**
  * A visitor for UnknownType.
  */
-public interface UnknownTypeVisitor extends Visitor
+public interface UnknownTypeVisitor<R> extends Visitor<R>
 {
-  Object visitUnknownType(UnknownType unknownType);
+  R visitUnknownType(UnknownType unknownType);
 }

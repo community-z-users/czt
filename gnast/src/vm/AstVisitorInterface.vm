@@ -1,5 +1,5 @@
 #*
-Copyright 2003, 2004 Petra Malik
+Copyright 2003, 2004, 2005 Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -34,13 +34,13 @@ import ${class.Package}.${class.Name};
 /**
  * A(n) ${class.Name} visitor.
  */
-public interface ${class.Name}Visitor extends Visitor
+public interface ${class.Name}Visitor<R> extends Visitor<R>
 {
   /**
    * Visits a(n) ${class.Name}.
    * @param  term the ${class.Name} to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visit${class.Name}(${class.Name} term);
+  R visit${class.Name}(${class.Name} term);
 }
 

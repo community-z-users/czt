@@ -176,10 +176,10 @@ public class VariableType
     return hashCode;
   }
 
-  public Object accept(net.sourceforge.czt.util.Visitor v)
+  public <R> R accept(net.sourceforge.czt.util.Visitor<R> v)
   {
     if (v instanceof VariableTypeVisitor) {
-      VariableTypeVisitor visitor = (VariableTypeVisitor) v;
+      VariableTypeVisitor<R> visitor = (VariableTypeVisitor<R>) v;
       return visitor.visitVariableType(this);
     }
     return super.accept(v);

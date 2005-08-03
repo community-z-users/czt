@@ -83,10 +83,10 @@ public class ClassRefImpl
   /**
    * Accepts a visitor.
    */
-  public Object accept(net.sourceforge.czt.util.Visitor v)
+  public <R> R accept(net.sourceforge.czt.util.Visitor<R> v)
   {
     if (v instanceof ClassRefVisitor) {
-      ClassRefVisitor visitor = (ClassRefVisitor) v;
+      ClassRefVisitor<R> visitor = (ClassRefVisitor<R>) v;
       return visitor.visitClassRef(this);
     }
     return super.accept(v);

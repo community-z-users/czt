@@ -30,10 +30,10 @@ import net.sourceforge.czt.util.Visitor;
  */
 public abstract class TermImpl implements Term
 {
-  public Object accept(Visitor v)
+  public <R> R accept(Visitor<R> v)
   {
     if (v instanceof TermVisitor) {
-      TermVisitor visitor = (TermVisitor) v;
+      TermVisitor<R> visitor = (TermVisitor<R>) v;
       return visitor.visitTerm(this);
     }
     return null;

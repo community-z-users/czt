@@ -46,7 +46,7 @@ public interface Term
    *         visit-method call of the given visitor.
    * @see net.sourceforge.czt.base.visitor
    */
-  Object accept(Visitor visitor);
+  <R> R accept(Visitor<R> visitor);
 
   /**
    * <p>Returns an array of all the children of this term,

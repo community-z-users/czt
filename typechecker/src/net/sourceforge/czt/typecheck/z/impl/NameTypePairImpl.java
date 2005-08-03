@@ -75,10 +75,10 @@ public class NameTypePairImpl
   /**
    * Accepts a visitor.
    */
-  public Object accept(net.sourceforge.czt.util.Visitor v)
+  public <R> R accept(net.sourceforge.czt.util.Visitor<R> v)
   {
     if (v instanceof NameTypePairVisitor) {
-      NameTypePairVisitor visitor = (NameTypePairVisitor) v;
+      NameTypePairVisitor<R> visitor = (NameTypePairVisitor<R>) v;
       return visitor.visitNameTypePair(this);
     }
     return super.accept(v);

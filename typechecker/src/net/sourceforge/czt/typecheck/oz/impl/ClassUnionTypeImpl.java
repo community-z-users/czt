@@ -46,10 +46,10 @@ public class ClassUnionTypeImpl
   /**
    * Accepts a visitor.
    */
-  public Object accept(net.sourceforge.czt.util.Visitor v)
+  public <R> R accept(net.sourceforge.czt.util.Visitor<R> v)
   {
     if (v instanceof ClassUnionTypeVisitor) {
-      ClassUnionTypeVisitor visitor = (ClassUnionTypeVisitor) v;
+      ClassUnionTypeVisitor<R> visitor = (ClassUnionTypeVisitor<R>) v;
       return visitor.visitClassUnionType(this);
     }
     return super.accept(v);

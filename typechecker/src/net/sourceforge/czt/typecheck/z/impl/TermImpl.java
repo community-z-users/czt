@@ -41,10 +41,10 @@ public abstract class TermImpl
     return term_.equals(obj);
   }
 
-  public Object accept(net.sourceforge.czt.util.Visitor v)
+  public <R> R accept(net.sourceforge.czt.util.Visitor<R> v)
   {
     if (v instanceof TermVisitor) {
-      TermVisitor visitor = (TermVisitor) v;
+      TermVisitor<R> visitor = (TermVisitor<R>) v;
       return visitor.visitTerm(this);
     }
     return null;

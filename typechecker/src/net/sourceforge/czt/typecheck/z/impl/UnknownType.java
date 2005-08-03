@@ -165,10 +165,10 @@ public class UnknownType
     return children;
   }
 
-  public Object accept(net.sourceforge.czt.util.Visitor v)
+  public <R> R accept(net.sourceforge.czt.util.Visitor<R> v)
   {
     if (v instanceof UnknownTypeVisitor) {
-      UnknownTypeVisitor visitor = (UnknownTypeVisitor) v;
+      UnknownTypeVisitor<R> visitor = (UnknownTypeVisitor<R>) v;
       return visitor.visitUnknownType(this);
     }
     return super.accept(v);

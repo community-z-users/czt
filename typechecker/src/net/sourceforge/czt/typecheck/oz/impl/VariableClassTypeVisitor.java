@@ -23,7 +23,7 @@ import net.sourceforge.czt.util.Visitor;
 /**
  * A visitor for VariableType.
  */
-public interface VariableClassTypeVisitor extends Visitor
+public interface VariableClassTypeVisitor<R> extends Visitor<R>
 {
-  Object visitVariableClassType(VariableClassType variableClassType);
+  R visitVariableClassType(VariableClassType variableClassType);
 }

@@ -128,10 +128,10 @@ public#abstract($class) class ${class.ImplName}
   /**
    * Accepts a visitor.
    */
-  public Object accept(${baseVisitor} v)
+  public <R> R accept(${baseVisitor}<R> v)
   {
     if (v instanceof ${class.Name}Visitor) {
-      ${class.Name}Visitor visitor = (${class.Name}Visitor) v;
+      ${class.Name}Visitor<R> visitor = (${class.Name}Visitor<R>) v;
       return visitor.visit${class.Name}(this);
     }
     return super.accept(v);

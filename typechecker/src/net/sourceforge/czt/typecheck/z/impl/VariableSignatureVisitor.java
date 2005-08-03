@@ -23,7 +23,7 @@ import net.sourceforge.czt.util.Visitor;
 /**
  * A visitor for VariableSignature.
  */
-public interface VariableSignatureVisitor extends Visitor
+public interface VariableSignatureVisitor<R> extends Visitor<R>
 {
-  Object visitVariableSignature(VariableSignature variableSignature);
+  R visitVariableSignature(VariableSignature variableSignature);
 }
