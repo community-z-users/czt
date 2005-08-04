@@ -4500,12 +4500,14 @@ event ::=
 inOutEvent ::=
         refName:rn INSTROKE inner_term:it
         {:
+           rn.getStroke().add(factory_.createInStroke());
            RESULT = factory_.createEvent(rn, expr(it));
            addLocAnn(RESULT, rnleft, rnright);
         :}
         |
         refName:rn OUTSTROKE inner_term:it
         {:
+           rn.getStroke().add(factory_.createOutStroke());
            RESULT = factory_.createEvent(rn, expr(it));
            addLocAnn(RESULT, rnleft, rnright);
         :}
@@ -4520,7 +4522,7 @@ opPromotionLhs ::=
         :}
 <add:ozz>
         |
-        opPromotionLhs:oplhs DOT refName:rn//inner_term:it
+        opPromotionLhs:oplhs DOT refName:rn
         {:
            RESULT = factory_.createBindSelExpr(oplhs, rn);
            addLocAnn(RESULT, oplhsleft, oplhsright);
