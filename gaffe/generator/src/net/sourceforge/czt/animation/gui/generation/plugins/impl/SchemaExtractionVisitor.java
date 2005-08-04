@@ -114,7 +114,7 @@ final class SchemaExtractionVisitor implements SpecVisitor, ZSectVisitor, AxPara
       ConstDecl schema=(ConstDecl)it.next();
       DeclName declName=schema.getDeclName();
       SchExpr schExpr=(SchExpr)schema.getExpr();
-      System.err.println("Schema "+Name2String.toString(declName));      
+      System.err.println("Schema "+declName.toString());      
     };
   };
 };

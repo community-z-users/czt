@@ -138,8 +138,8 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
     GaffeEncoder encoder=new GaffeEncoder(os);
     encoder.setOwner(owner);
     encoder.writeStatement(new Statement(owner,"setHistory",new Object[] {
-      new BasicHistory(Name2String.toString(stateSchema.getDeclName()),
-		       Name2String.toString(initSchema.getDeclName()))
+      new BasicHistory(stateSchema.getDeclName().toString(),
+		       initSchema.getDeclName().toString())
 	}));
     encoder.writeStatement(new Statement(owner,"setInitScript",new Object[] {
       "function getScript(url) {"
@@ -181,7 +181,7 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
   };
   
   protected void createStateForm(XMLEncoder encoder) {
-    Form form=new Form(Name2String.toString(stateSchema.getDeclName()));
+    Form form=new Form(stateSchema.getDeclName().toString());
     form.setStartsVisible(true);
     form.setLayout(new BorderLayout());
     Vector/*<BeanWrapper>*/ wrappers=new Vector();
@@ -238,7 +238,7 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
     panel.setName("Operation Panel");
     for(Iterator it=operationSchemas.iterator();it.hasNext();) {
       ConstDecl/*<SchExpr>*/ operationSchema=(ConstDecl/*<SchExpr>*/)it.next();
-      String opSchemaName=Name2String.toString(operationSchema.getDeclName());
+      String opSchemaName=operationSchema.getDeclName().toString();
       JButton opButton=new JButton(opSchemaName);
       panel.add(opButton);
       Script opScript=new Script("Forms.lookup(\""+opSchemaName+" input\").setVisible(true);");
@@ -326,11 +326,11 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
     return panel;
   };
   protected void createInputForm(ConstDecl/*<SchExpr>*/ operationSchema, XMLEncoder encoder) {
-    Form form=new Form(Name2String.toString(operationSchema.getDeclName())+" input");
+    Form form=new Form(operationSchema.getDeclName().toString()+" input");
     form.setLayout(new BorderLayout());
     Vector/*<BeanWrapper>*/ wrappers=new Vector();
     Vector/*<BeanLink>*/ eventLinks=new Vector();
-    String schemaName=Name2String.toString(operationSchema.getDeclName());
+    String schemaName=operationSchema.getDeclName().toString();
     JPanel buttonPanel=createInputButtonPanel(schemaName, wrappers, eventLinks);
     JPanel variablePanel=createVariablePanel(stateSchema,
 					     variableExtractor.getInputVariables(operationSchema),true,
@@ -385,7 +385,7 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
     Map/*<DeclName, VarDecl>*/ variableMap=variableExtractor.getOutputVariables(operationSchema);
     if(variableMap.isEmpty()) return;
 
-    Form form=new Form(Name2String.toString(operationSchema.getDeclName())+" output");
+    Form form=new Form(operationSchema.getDeclName().toString()+" output");
     form.setLayout(new BorderLayout());
     Vector/*<BeanWrapper>*/ wrappers=new Vector();
     Vector/*<BeanLink>*/ eventLinks=new Vector();
@@ -451,7 +451,7 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
 
     for(Iterator it=variables.keySet().iterator();it.hasNext();) {
       DeclName name=(DeclName)it.next();
-      String nameString=Name2String.toString(name);
+      String nameString=name.toString();
       
       JLabel nameLabel=new JLabel(nameString);
       layout.setConstraints(nameLabel,nameConstraint);

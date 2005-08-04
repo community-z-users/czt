@@ -160,7 +160,7 @@ public final class CommandLineSchemaIdentifier implements SchemaIdentifier {
 
     for(Iterator it=schemas.iterator();it.hasNext();) {
       ConstDecl/*<SchExpr>*/ schema=(ConstDecl/*<SchExpr>*/)it.next();
-      String schemaName=Name2String.toString(schema.getDeclName());
+      String schemaName=schema.getDeclName().toString();
       if(schemaName.equals(initSchemaName)) initSchema=schema;
       if(schemaName.equals(stateSchemaName)) stateSchema=schema;
       if(operationSchemaNames.contains(schemaName)) {

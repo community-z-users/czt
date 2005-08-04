@@ -57,7 +57,7 @@ public final class VisitorSchemaExtractor implements SchemaExtractor {
     List vs=visitor.getSchemas(spec);
     System.out.println("Schemas:");
     for(Iterator it=vs.iterator();it.hasNext();)
-      System.out.println(Name2String.toString(((ConstDecl)it.next()).getDeclName()));
+      System.out.println(((ConstDecl)it.next()).getDeclName().toString());
     
     return vs;
   };    
