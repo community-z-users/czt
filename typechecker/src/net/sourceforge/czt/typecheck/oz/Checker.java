@@ -427,6 +427,10 @@ abstract public class Checker
     }
   }
 
+  public void addImplicitOps()
+  {
+  }
+
   protected void addOperation(NameSignaturePair op, ClassSig cSig)
   {
     List<NameSignaturePair> ops = cSig.getOperation();

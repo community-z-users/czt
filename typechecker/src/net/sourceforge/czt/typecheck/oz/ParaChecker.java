@@ -172,6 +172,9 @@ public class ParaChecker
     //the list of operation names declared by this paragraph
     List<DeclName> opNames = list();
 
+    //add implicit operations
+    opExprChecker().addImplicitOps();
+
     //visit each operation
     List<Operation> operations = classPara.getOperation();
     for (Operation operation : operations) {

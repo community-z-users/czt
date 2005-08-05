@@ -43,7 +43,8 @@ import net.sourceforge.czt.typecheck.z.impl.*;
  */
 public class ExprChecker
   extends Checker
-  implements SchTextVisitor,
+  implements ExprVisitor,
+	     SchTextVisitor,
              RefExprVisitor,
              PowerExprVisitor,
              ProdExprVisitor,
@@ -75,6 +76,12 @@ public class ExprChecker
   public ExprChecker(TypeChecker typeChecker)
   {
     super(typeChecker);
+  }
+
+  public Object visitExpr(Expr expr)
+  {
+    visitTerm(expr);
+    return factory().createVariableType();
   }
 
   public Object visitSchText(SchText schText)

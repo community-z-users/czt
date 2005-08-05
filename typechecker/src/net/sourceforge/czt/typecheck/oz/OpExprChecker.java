@@ -42,6 +42,7 @@ import net.sourceforge.czt.typecheck.z.*;
 public class OpExprChecker
   extends Checker
   implements
+    OpExprVisitor,
     AnonOpExprVisitor,
     OpPromotionExprVisitor,
     OpExpr2Visitor,
@@ -57,6 +58,12 @@ public class OpExprChecker
   public OpExprChecker(TypeChecker typeChecker)
   {
     super(typeChecker);
+  }
+
+  public Object visitOpExpr(OpExpr opExpr)
+  {
+    visitTerm(opExpr);
+    return factory().createSignature();
   }
 
   public Object visitAnonOpExpr(AnonOpExpr anonOpExpr)

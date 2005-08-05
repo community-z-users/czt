@@ -30,18 +30,20 @@ import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.oz.ast.OzFactory;
 import net.sourceforge.czt.oz.impl.OzFactoryImpl;
+import net.sourceforge.czt.tcoz.ast.TcozFactory;
+import net.sourceforge.czt.tcoz.impl.TcozFactoryImpl;
 import net.sourceforge.czt.parser.tcoz.*;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.typecheck.z.util.*;
 import net.sourceforge.czt.typecheck.oz.*;
 
 /**
- * Utilities for typechecking Object-Z specifications.
+ * Utilities for typechecking TCOZ specifications.
  *
  * @author Petra Malik, Tim Miller
  */
 public class TypeCheckUtils
-  extends net.sourceforge.czt.typecheck.z.TypeCheckUtils
+  extends net.sourceforge.czt.typecheck.oz.TypeCheckUtils
 {
   /**
    * Do not generate instances of this class.
@@ -112,8 +114,10 @@ public class TypeCheckUtils
   {
     ZFactory zFactory = new ZFactoryImpl();
     OzFactory ozFactory = new OzFactoryImpl();
+    TcozFactory tcozFactory = new TcozFactoryImpl();
     TypeChecker typeChecker = new TypeChecker(zFactory,
                                               ozFactory,
+					      tcozFactory,
                                               sectInfo,
                                               markup,
                                               useBeforeDecl,
