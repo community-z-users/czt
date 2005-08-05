@@ -39,6 +39,9 @@ public interface TcozString extends OzString
 {
 </xsl:text>
 <xsl:apply-templates select="*"/>
+
+  String MAIN = "Main";
+  String SKIP = "Skip";
 }
 <xsl:text>
 </xsl:text>
