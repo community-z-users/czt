@@ -19,6 +19,10 @@
     -->
     <release version="1.4.1" date="unreleased">
       <action dev="Petra" type="apichange">
+        Change the AST to use generic lists.  Remove now unused class
+        <code>net.sourceforge.czt.util.TypesafeList</code>.
+      </action>
+      <action dev="Petra" type="apichange">
         Change the AST visitors to use a generic return type.
       </action>
       <action dev="Petra" type="apichange">

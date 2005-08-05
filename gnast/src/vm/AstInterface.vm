@@ -1,5 +1,5 @@
 #*
-Copyright 2003, 2004 Petra Malik
+Copyright 2003, 2004, 2005 Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -57,7 +57,7 @@ public interface ${class.Name} #if($class.Extends)extends ${class.Extends}
    *
    * @return a list of ${prop.ListType.Name} elements.
    */
-  net.sourceforge.czt.base.ast.ListTerm ${prop.GetterName}();
+  net.sourceforge.czt.base.ast.ListTerm<${prop.ListType.FullName}> ${prop.GetterName}();
 #else
   /**
    * Returns the ${prop.Name} element.
