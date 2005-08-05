@@ -166,7 +166,8 @@ public class KeywordScanner
    result.put(TcozString.TIMEOUT, new Integer(Sym.TIMEOUT));
    result.put(TcozString.TIMEEND, new Integer(Sym.TIMEEND));
    result.put(TcozString.DPARA, new Integer(Sym.DPARA));
-   result.put(TcozString.NETTOPOLOGY, new Integer(Sym.NETTOPOLOGY));
+   result.put(TcozString.NETTOPLEFT, new Integer(Sym.NETTOPLEFT));
+   result.put(TcozString.NETTOPRIGHT, new Integer(Sym.NETTOPRIGHT));
    result.put("chan", new Integer(Sym.CHAN));
    result.put("sensor", new Integer(Sym.SENSOR));
    result.put("actuator", new Integer(Sym.ACTUATOR));

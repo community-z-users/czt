@@ -495,6 +495,9 @@ NAME =   {NOT_LB}*
 <add:oz>
 %state CLASSCOM
 </add:oz>
+<add:tcoz>
+%state NETTOPOLOGY
+</add:tcoz>
 
 %%
 /* ------------------------Lexical Rules Section---------------------- */
@@ -877,6 +880,12 @@ NAME =   {NOT_LB}*
           //do nothing
         }
 </add:oz>
+<add:tcoz>
+  "\\chrel"
+        {
+          yybegin(NETTOPOLOGY);
+        }
+</add:tcoz>
   "\\where"
         {
           String result = addSpace();
@@ -1068,7 +1077,6 @@ NAME =   {NOT_LB}*
        {
          yybegin(YYINITIAL);
        }
-  
   .
        {
          // do nothing
@@ -1082,8 +1090,7 @@ NAME =   {NOT_LB}*
          end("classcom", yyline, yycolumn);
          yybegin(ZED);
          //return result(OzString.ENDCLASSCOM);
-       }
-  
+       }  
   .|\n
        {
          // for now, do nothing
@@ -1091,6 +1098,43 @@ NAME =   {NOT_LB}*
        }
 }
 </add:oz>
+
+<add:tcoz>
+&lt;NETTOPOLOGY&gt; {
+  "{" 
+       {
+         return result(TcozString.NETTOPLEFT);
+       }
+  "}"
+       {
+         yybegin(ZED);
+         return result(TcozString.NETTOPRIGHT);
+       }
+  {PUNCTATION}
+        {
+          String result = addSpace();
+          if (getBooleanProperty(PROP_ADD_SPACE_BEFORE_PUNCTATION) &amp;&amp;
+              braceStack_.empty()) {
+            result += ZString.SPACE;
+          }
+          result += yytext();
+          if (braceStack_.empty()) addSpace_ = true;
+          return result(result);
+        }
+  ({LETTER} | [0-9])*
+        {
+          String result = addSpace();
+          result += yytext();
+          return result(result);
+        }
+  .
+        {
+          String result = addSpace();
+          result += yytext();
+          return result(result);
+        }
+}
+</add:tcoz>
 
 &lt;ERROR&gt; {
   .

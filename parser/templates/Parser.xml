@@ -908,7 +908,7 @@ terminal
 <add:tcoz>
         ATTIME, NEXTPRO, INTCHOICE, DIC, INTERLEAVE,
         DIL, WAITUNTIL, DEADLINE, WAIT, INTERRUPT, TIMEOUT, TIMEEND, 
-        DPARA, NETTOPOLOGY, CHAN, SENSOR, ACTUATOR, 
+        DPARA, NETTOPLEFT, NETTOPRIGHT, CHAN, SENSOR, ACTUATOR, 
 </add:tcoz>
         //identifiers starting with a '_' are used only to force precedence
         _APPLICATION, _RENAME;
@@ -1245,6 +1245,7 @@ precedence left         ALL, EXI, EXIONE, SPOT;
 precedence left         ASSOPARALLEL;
 <add:tcoz>
 precedence left         NEXTPRO, ATTIME;
+precedence left         NETTOPLEFT, NETTOPRIGHT;
 </add:tcoz>
 precedence left         PARALLEL<add:tcoz>, INTERLEAVE, INTERRUPT,
 TIMEOUT, TIMEEND</add:tcoz>;
@@ -4229,6 +4230,12 @@ opExpr ::=
            addLocAnn(RESULT, dilleft, dilright);
         :}
         |
+        PARALLEL:dpara LPAREN topology:nt RPAREN
+        {:
+           RESULT = factory_.createTopologyProExpr(nt);
+           addLocAnn(RESULT, dparaleft, dpararight);
+        :}
+        |
         </add:tcoz>
         opExpr1:oe1
         {: RESULT = oe1; :}
@@ -4279,42 +4286,42 @@ opExpr1 ::=
         :}
         |
         /* operation conjunction */
-        opExpr1:lhs AND opExpr1:rhs
+        opExpr1:lhs AND opExpr:rhs
         {:
            RESULT = factory_.createConjOpExpr(lhs, rhs);
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
         /* parallel conjuntion */
-        opExpr1:lhs PARALLEL opExpr1:rhs
+        opExpr1:lhs PARALLEL opExpr:rhs
         {:
            RESULT = factory_.createParallelOpExpr(lhs, rhs);
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
         /* associative parallel conjunction */
-        opExpr1:lhs ASSOPARALLEL opExpr1:rhs
+        opExpr1:lhs ASSOPARALLEL opExpr:rhs
         {:
            RESULT = factory_.createAssoParallelOpExpr(lhs, rhs);
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
         /* angelic choice */
-        opExpr1:lhs GCH opExpr1:rhs
+        opExpr1:lhs GCH opExpr:rhs
         {:
            RESULT = factory_.createExChoiceOpExpr(lhs, rhs);
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
         /* operation composition */
-        opExpr1:lhs ZCOMP opExpr1:rhs
+        opExpr1:lhs ZCOMP opExpr:rhs
         {:
            RESULT = factory_.createSeqOpExpr(lhs, rhs);
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
         /* scope enrichment */
-        opExpr1:lhs SPOT opExpr1:rhs
+        opExpr1:lhs SPOT opExpr:rhs
         {:
            RESULT = factory_.createScopeEnrichOpExpr(lhs, rhs);
            addLocAnn(RESULT, lhsleft, lhsright);
@@ -4327,25 +4334,13 @@ opExpr1 ::=
         :}
 <add:tcoz>
         |
-        DPARA:dpara LPAREN topology:nt RPAREN
-        {:
-           RESULT = factory_.createTopologyProExpr(nt);
-           addLocAnn(RESULT, dparaleft, dpararight);
-        :}
-        |
-        topology:nt
-        {:
-           RESULT = factory_.createTopologyProExpr(nt);
-           addLocAnn(RESULT, ntleft, ntright);
-        :}
-        |
-        opExpr1:lhs INTCHOICE opExpr1:rhs
+        opExpr1:lhs INTCHOICE opExpr:rhs
         {:
            RESULT = factory_.createInChoiceProExpr(lhs, rhs);
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
-        opExpr1:lhs INTERLEAVE opExpr1:rhs
+        opExpr1:lhs INTERLEAVE opExpr:rhs
         {:
            RESULT = factory_.createInterleaveProExpr(lhs, rhs);
            addLocAnn(RESULT, lhsleft, lhsright);
@@ -4450,7 +4445,7 @@ opExpr1 ::=
 
 <add:tcoz>
 topology ::=
-        topology:tp COMMA connection:cn
+        topology:tp SEMICOLON connection:cn
         {:
            tp.add(cn);
            RESULT = tp; 
@@ -4461,11 +4456,11 @@ topology ::=
         ;
                  
 connection ::=
-        /**** problem here ****/
-        NETTOPOLOGY:nt
+        refNameList:lrnl NETTOPLEFT refNameList:crnl
+           NETTOPRIGHT refNameList:rrnl
         {:
-           RESULT = factory_.createConnection();
-           addLocAnn(RESULT, ntleft, ntright);
+           RESULT = factory_.createConnection(lrnl, rrnl, crnl);
+           addLocAnn(RESULT, lrnlleft, lrnlright);
         :}
         ;
                    
