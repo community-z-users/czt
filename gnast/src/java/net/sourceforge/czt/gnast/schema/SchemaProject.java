@@ -1016,7 +1016,7 @@ public class SchemaProject
         String maxOccurs = xPath_.getNodeValue(node, "@maxOccurs");
         if ("unbounded".equals(maxOccurs)) {
           listType_ = type_;
-          type_ = "java.util.List";
+          type_ = "java.util.List<" + listType_ + ">";
         }
         return;
       }
@@ -1083,6 +1083,11 @@ public class SchemaProject
     public boolean isReference()
     {
       return isReference_;
+    }
+
+    public boolean isList()
+    {
+      return listType_ != null;
     }
   } // end class SchemaAttribute
 } // end class SchemaProject

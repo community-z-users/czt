@@ -1,5 +1,5 @@
 #*
-Copyright 2003 Petra Malik
+Copyright 2003, 2005 Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -100,7 +100,7 @@ public class ${class.Name}#if($ImportProject)
         content.add(o);
       }
     }
-#elseif(${prop.Type.FullName} == 'java.util.List')
+#elseif(${prop.isList()})
     List ${prop.VarName} = new Vector();
     for (Iterator iter = jaxbObject.${prop.GetterName}().iterator(); iter.hasNext();) {
       Object obj = iter.next();

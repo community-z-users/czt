@@ -1,5 +1,5 @@
 #*
-Copyright (C) 2003, 2004 Petra Malik
+Copyright (C) 2003, 2004, 2005 Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -252,7 +252,7 @@ public class $class.Name
           jaxbObject.setContent(anyType);
         }
       }
-#elseif($prop.Type.FullName == 'java.util.List')
+#elseif($prop.isList())
       {
         List list = zedObject.${prop.GetterName}();
         List newlist = jaxbObject.${prop.GetterName}();

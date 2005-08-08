@@ -46,7 +46,7 @@ public interface ${class.Name} #if($class.Extends)extends ${class.Extends}
 #foreach($prop in $class.Properties)
 
 #set($doc="${class.Name}.${prop.Name}")
-#if(${prop.Type.FullName} == 'java.util.List')
+#if(${prop.isList()})
   /**
    * <p>Returns the ${prop.Name} elements.</p>
 #if(${javadoc.get(${doc})})   * <p>${javadoc.get(${doc})}</p>
@@ -68,7 +68,7 @@ public interface ${class.Name} #if($class.Extends)extends ${class.Extends}
    */
   ${prop.Type.FullName} ${prop.GetterName}();
 #end
-#if(${prop.Type.FullName} != 'java.util.List')
+#if(! (${prop.isList()}))
 
   /**
    * Sets the ${prop.Name} element.

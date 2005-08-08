@@ -151,7 +151,7 @@ public#abstract($class) class ${class.ImplName}
 #end
       zedObject = new ${class.ImplName}();
 #foreach($prop in $class.AllProperties)
-#if(${prop.Type.FullName} == 'java.util.List')
+#if(${prop.isList()})
       if (${prop.VarName} != null) {
         zedObject.${prop.GetterName}().addAll(${prop.VarName});
       }
@@ -178,7 +178,7 @@ public#abstract($class) class ${class.ImplName}
 #end##end if not abstract
 #foreach($prop in $class.Properties)
 
-#if(${prop.Type.FullName} == 'java.util.List')
+#if(${prop.isList()})
 
   private net.sourceforge.czt.base.ast.ListTerm<${prop.ListType.FullName}> ${prop.MemVarName} =
     new net.sourceforge.czt.base.impl.ListTermImpl<${prop.ListType.FullName}>();
