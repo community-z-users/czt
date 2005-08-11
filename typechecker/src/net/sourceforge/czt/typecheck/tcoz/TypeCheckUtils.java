@@ -25,8 +25,7 @@ import java.util.List;
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.z.ast.ZFactory;
-import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.oz.ast.OzFactory;
 import net.sourceforge.czt.oz.impl.OzFactoryImpl;
@@ -148,6 +147,16 @@ public class TypeCheckUtils
   protected String name()
   {
     return "tcoztypecheck";
+  }
+
+  protected SectionManager getSectionManager()
+  {
+    SectionManager sectionManager = new SectionManager();
+    sectionManager.putCommand(Spec.class, ParseUtils.getCommand());
+    sectionManager.putCommand(ZSect.class, ParseUtils.getCommand());
+    sectionManager.putCommand(LatexMarkupFunction.class,
+			      ParseUtils.getCommand());
+    return sectionManager;
   }
 
   public static void main(String[] args)

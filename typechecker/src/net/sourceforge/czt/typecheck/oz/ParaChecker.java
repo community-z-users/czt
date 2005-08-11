@@ -307,8 +307,9 @@ public class ParaChecker
 
     //get the variables declared in the superclass's definition of
     //this operation
-    ClassSig cSig = getSelfSig();
-    NameSignaturePair superPair = findNameSigPair(opName, cSig.getOperation());
+    ClassSig selfSig = getSelfSig();
+    NameSignaturePair superPair =
+      findNameSigPair(opName, selfSig.getOperation());
     if (superPair != null) {
       List<NameTypePair> pairs = superPair.getSignature().getNameTypePair();
       typeEnv().add(pairs);
@@ -324,7 +325,7 @@ public class ParaChecker
     else {
       NameSignaturePair temporaryPair =
         factory().createNameSignaturePair(opName, factory().createSignature());
-      List<NameSignaturePair> opPairs = cSig.getOperation();
+      List<NameSignaturePair> opPairs = selfSig.getOperation();
       boolean added = false;
       if (useBeforeDecl()) {
         //before visiting, add this operation temporarily with an empty

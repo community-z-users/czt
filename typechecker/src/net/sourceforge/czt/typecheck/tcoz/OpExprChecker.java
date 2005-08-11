@@ -42,6 +42,8 @@ public class OpExprChecker
   extends Checker
   implements
     AtProExprVisitor,
+    RecProExprVisitor,
+    WaitUntilProExprVisitor,
     EventVisitor
 {
   //an Object-Z OpExpr checker
@@ -74,22 +76,55 @@ public class OpExprChecker
     return signature;
   }
 
-  public Object visitEvent(Event event)
+  public Object visitRecProExpr(RecProExpr recProExpr)
   {
-    RefName name = event.getName();
-    Type nameType = getType(name);
+    Signature signature = factory().createSignature();
 
-    if (nameType instanceof GenericType) {
-      System.err.println("channel is generic");
+    DeclName opName = factory().createDeclName(recProExpr.getOpName());
+    ClassSig selfSig = getSelfSig();
+    List<NameSignaturePair> opPairs = selfSig.getOperation();
+    NameSignaturePair existing = findNameSigPair(opName, opPairs);
+    if (existing != null) {
+      System.err.println("Name " + opName + " already an operation");
     }
     else {
-      Type2 chanType = factory().createChannelType();
-      UResult result = unify((Type2) nameType, chanType);
-      if (result == FAIL) {
-	System.err.println("Name " + name + " not a channel");
-      }
+      NameSignaturePair temporaryPair =
+	factory().createNameSignaturePair(opName, factory().createSignature());
+      opPairs.add(temporaryPair);
+      OpExpr opExpr = recProExpr.getOpExpr();
+      signature = (Signature) opExpr.accept(opExprChecker());
+      removeObject(opPairs, temporaryPair);
     }
+    return signature;
+  }
 
+  public Object visitWaitUntilProExpr(WaitUntilProExpr waitUntilProExpr)
+  {
+    OpExpr opExpr = waitUntilProExpr.getOpExpr();
+    Signature signature = (Signature) opExpr.accept(opExprChecker());
+
+    Expr expr = waitUntilProExpr.getWaitUntil();
+    Type2 exprType = (Type2) expr.accept(exprChecker());
+
+
+    return signature;
+  }
+
+  public Object visitEvent(Event event)
+  {
+    RefName channelName = event.getChannelName();
+    LocAnn locAnn = (LocAnn) channelName.getAnn(LocAnn.class);
+    RefName baseChannelName = factory().createRefName(channelName.getWord());
+    addAnn(baseChannelName, locAnn);
+    RefExpr channelRef = factory().createRefExpr(baseChannelName);
+    Type2 channelRefType = (Type2) channelRef.accept(exprChecker());
+
+    Type2 chanType = factory().createChannelType();
+    UResult result = unify(channelRefType, chanType);
+    if (result == FAIL) {
+      System.err.println("Name " + channelRef.getRefName() + " not a channel");
+    }
+    
     Expr expr = event.getExpr();
     if (expr != null) {
       expr.accept(exprChecker());

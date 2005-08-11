@@ -55,9 +55,11 @@ abstract public class Checker
    */
   public Object visitTerm(Term term)
   {
+    String position = position((TermA) term);
     logger().warning(this.getClass().getName() +
                      " being asked to visit " +
-                     term.getClass().getName());
+                     term.getClass().getName() +
+		     " at location " + position);
     return null;
   }
 

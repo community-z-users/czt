@@ -24,7 +24,6 @@ import static net.sourceforge.czt.typecheck.oz.util.GlobalDefs.*;
 
 import net.sourceforge.czt.base.ast.*;
 
-
 /**
  *
  */

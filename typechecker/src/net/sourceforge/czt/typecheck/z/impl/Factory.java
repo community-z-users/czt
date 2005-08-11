@@ -278,6 +278,11 @@ public class Factory
     return createDeclName(refName.getWord(), refName.getStroke(), null);
   }
 
+  public RefName createRefName(String word)
+  {
+    return createRefName(word, list(), null);
+  }
+
   public RefName createRefName(String word, List stroke, DeclName declName)
   {
     return zFactory_.createRefName(word, stroke, declName);
@@ -294,6 +299,11 @@ public class Factory
     return zFactory_.createRefName(declName.getWord(),
                                    declName.getStroke(),
                                    null);
+  }
+
+  public RefExpr createRefExpr(RefName refName)
+  {
+    return createRefExpr(refName, list(), Boolean.FALSE);
   }
 
   public RefExpr createRefExpr(RefName refName, List expr, Boolean mixfix)
@@ -319,5 +329,10 @@ public class Factory
   public NumStroke createNumStroke(Integer number)
   {
     return zFactory_.createNumStroke(number);
+  }
+
+  protected List list()
+  {
+    return new java.util.ArrayList();
   }
 }
