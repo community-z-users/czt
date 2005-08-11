@@ -20,7 +20,7 @@
 
 %%Zword \WaitUntil waituntil
 
-%%Zchar \time U-0001D54B
+%%Zchar \atime U-0001D54B
 
 %%Zword \chan chan
 %%Zword \actor actuator
@@ -35,9 +35,30 @@
 %%Zword \Parallel \pll
 
 \begin{axdef}
-  \time : \power \arithmos
+  \atime : \power \arithmos
 \end{axdef}
 
 \begin{axdef}
-  \delta : \time
+  \delta : \atime
 \end{axdef}
+
+Here, we specify a $Clock$ class, which provides active objects for
+keeping the time.
+
+\begin{class}{Clock}
+\project (time)\\
+\begin{state}
+  time : \atime
+\end{state}\\
+\begin{init}
+  time = 0
+\end{init}\\
+\begin{op}{Tick}
+  \Delta (time)
+\where
+  \delta < 1\\
+  time' = time + 1
+\end{op}\\
+\Main \sdef \mu C @ (Tick @ \WaitUntil~1) %\semi C
+\end{class}
+
