@@ -253,7 +253,7 @@
   Instead, we provide a customised Java interface for each Z
   construct, with appropriately named \emph{get} and \emph{set}
   methods for each subcomponent.  This makes programs more readable,
-  and provides much stronger type checking.  However, there are some
+  and provides much stronger typechecking.  However, there are some
   situations where the generic N-ary tree view is more convenient
   (for example, writing a deep copy procedure), so our Java interfaces
   also provide a low-level generic view of each node, via the following
@@ -385,9 +385,9 @@
   respectively.  To avoid duplicated code, XML templates that contain
   the different parser and scanner variants are used. From this, the
   different source files for each Z extension are generated using
-  XSLT\footnote{See~\url{http://www.w3.org/TR/xslt}}, a language
-  for transforming XML.  This maximises the commonality between the
-  parsers and minimises versioning and maintenance problems.
+  XSLT\footnote{See~\url{http://www.w3.org/TR/xslt}}, a language for
+  transforming XML documents.  This maximises the commonality between
+  the parsers and minimises versioning and maintenance problems.
 
   All parser and scanner variants are maintained in master XML files.
   Each master file contains several XML tags that are used for
@@ -540,9 +540,9 @@ back to the top-level \texttt{TypeChecker} object, which has links to
 all the checkers --- this allows one checker to call another via the
 \texttt{TypeChecker} object.
 
-For example, for type checking a schema text of an {\tt AxPara}, the
-{\tt ParaChecker} class, which typechecks Z paragraphs, needs to type
-check both the declarations and the predicate parts of the schema
+For example, for typechecking a schema text of an {\tt AxPara}, the
+{\tt ParaChecker} class, which typechecks Z paragraphs, needs to
+typecheck both the declarations and the predicate parts of the schema
 text.  Although visiting through the given AST is the general
 solution, the typechecking of the declarations part is delegated to
 the {\tt DeclChecker} class, whereas the typechecking of the predicate
@@ -590,7 +590,7 @@ The advantages of this typechecker design include:
   syntax nodes.  For example, post-checking for unresolved set and
   reference expressions, which may introduce an unresolved type, is
   implemented as a second kind of \texttt{ExprChecker}. This post-typechecking
-  pass ensures that all implicit parameters such as generic actuals
+  pass ensures that all implicit parameters such as generics actuals
   have been completely determined.  This would not be possible with a
   single monolithic visitor design, because one could not have two
   \texttt{visitRefExpr} methods in the same visitor.
@@ -625,15 +625,13 @@ handled by delegation to the original
 \texttt{z.\emph{XXXX}Checker} object.
 
 It is interesting to see how this delegation is achieved, given that
-Java does not support multiple inheritance.
-
-We rely on the general
+Java does not support multiple inheritance.  We rely on the general
 visiting protocol described in Section~\ref{java-ast-classes} and
 in~\cite{czt}.  For example, the \texttt{oz.ExprChecker} class catches
 all Object-Z-specific expressions.  It also implements an additional
-\texttt{visitExpr} method which ``catches'' all remaining \texttt{Expr} AST
-nodes and uses the visitor from \texttt{z.ExprChecker} to check those
-nodes.
+\texttt{visitExpr} method which ``catches'' all remaining
+\texttt{Expr} AST nodes and uses the visitor from
+\texttt{z.ExprChecker} to check those nodes.
 \begin{verbatim}
   private z.ExprChecker zExprChecker_;
   ...
@@ -693,7 +691,7 @@ semantics~\cite{circus.mc:opsem}.  In the future, this static checker
 can also be used as the basis for a full \Circus\ typechecker;~the
 type-rules for \Circus\ are under development in~\cite{circus.other:typechecker}.
 An obvious advantage of reusing the base Z typechecker is that the \Circus\ typechecker
-will already enforce standard Z type-checking conformance.  Therefore, one can
+will already enforce standard Z typechecking conformance.  Therefore, one can
 concentrate on the implementation of new type-rules for \Circus\ in
 this available skeleton for a \Circus\ typechecker.
 
