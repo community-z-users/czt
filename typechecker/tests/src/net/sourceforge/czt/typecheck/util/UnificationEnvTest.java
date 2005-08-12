@@ -59,8 +59,8 @@ public class UnificationEnvTest
 
   protected void setUp()
   {
-    ZFactory zFactory = new ZFactoryImpl();
-    unificationEnv_ = new UnificationEnv(zFactory);
+    Factory factory = new Factory();
+    unificationEnv_ = new UnificationEnv(factory);
     unificationEnv_.enterScope();
   }
 

@@ -49,12 +49,12 @@ public class UnificationEnv
 
   public UnificationEnv()
   {
-    this(new ZFactoryImpl());
+    this(new Factory());
   }
 
-  public UnificationEnv(ZFactory zFactory)
+  public UnificationEnv(Factory factory)
   {
-    factory_ = new Factory(zFactory);
+    factory_ = factory;
     unificationInfo_ = new Stack<List<NameTypePair>>();
   }
 

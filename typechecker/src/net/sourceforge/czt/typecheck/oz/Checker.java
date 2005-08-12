@@ -273,21 +273,38 @@ abstract public class Checker
 	  (ClassRefType) powerType(type).getType();
 	
 	//add the super class itself
-	superSuperClasses.add(superClassType.getThisClass());
+	if (!contains(superSuperClasses, superClassType.getThisClass())) {
+	  superSuperClasses.add(superClassType.getThisClass());
+	}
 	
 	//for each superclass, get its superclasses, and add
 	List<ClassRef> superClassRefs = superClassType.getSuperClass();
 	for (ClassRef next : superClassRefs) {
+	  //do not search if this has already been looked up
 	  if (!contains(visited, next)) {
 	    visited.add(next);
 	    List<ClassRef> nextSuperClasses = 
 	      getSuperClasses(superClassType, visited);
-	    superSuperClasses.addAll(nextSuperClasses);
+	    //add all transitive superclass if not already present
+	    for (ClassRef nextSuperClass : nextSuperClasses) {
+	      if (!contains(superSuperClasses, nextSuperClass)) {
+		superSuperClasses.add(nextSuperClass);
+	      }
+	    }
 	  }
 	}
       }
+      else {
+	assert false : "Type of " + superClass.getRefName() + " : " + type;
+      }
     }
-    superClasses.addAll(superSuperClasses);
+
+    //add the transitive superclasses to the superclass list
+    for (ClassRef superSuperClass : superSuperClasses) {
+      if (!contains(superClasses, superSuperClass)) {
+	superClasses.add(superSuperClass);
+      }
+    }    
     return superClasses;
   }
 
@@ -423,6 +440,7 @@ abstract public class Checker
 
   public void addImplicitOps()
   {
+    //do nothing for Object-Z
   }
 
   protected void addOperation(NameSignaturePair op, ClassSig cSig)
@@ -430,9 +448,10 @@ abstract public class Checker
     List<NameSignaturePair> ops = cSig.getOperation();
     DeclName opName = op.getName();
     NameSignaturePair existing = findOperation(opName, cSig);
+
+    //if there is already a pair, check it is compatible with the new definition
     if (existing != null) {
       List<NameTypePair> pairs = list(op.getSignature().getNameTypePair());
-
       pairs.addAll(existing.getSignature().getNameTypePair());
       checkForDuplicates(pairs, opName, ErrorMessage.INCOMPATIBLE_OP_OVERRIDING);
       Signature newSig = factory().createSignature(pairs);
@@ -503,7 +522,7 @@ abstract public class Checker
       }
     }
 
-    //check the visibility list
+    //check that all names in the visibility list are features of this class
     if (visibilityList != null) {
       List<RefName> visibleNames = visibilityList.getRefName();
       for (RefName visibleName : visibleNames) {
@@ -535,13 +554,14 @@ abstract public class Checker
     for (NameTypePair superPair : superPairs) {
       RefName superName = factory().createRefName(superPair.getName());
       if (isVisible(superName, superClass)) {
+	//if this feature is visible in the super class, it must be visible
+	//in the subclass as well
         NameTypePair subPair = findNameTypePair(superName, subPairs);
         if (subPair == null || !isVisible(superName, subClass)) {
           Object [] params = {subClass.getThisClass().getRefName(),
                               superName,
                               superClass.getThisClass().getRefName(),
                               polyExpr};
-
           error(polyExpr,
                 ErrorMessage.NON_VISIBLE_FEATURE_IN_POLYEXPR, params);
         }
@@ -559,6 +579,8 @@ abstract public class Checker
       RefName superName = factory().createRefName(superPair.getName());
       if (isVisible(superName, superClass)) {
         NameSignaturePair subPair = findNameSigPair(superName, subPairs);
+	//if this operation is visible in the super class, it must be
+	//visible in the subclass as well
         if (subPair == null || !isVisible(superName, subClass)) {
           Object [] params = {subClass.getThisClass().getRefName(),
                               superName,
@@ -568,6 +590,7 @@ abstract public class Checker
           error(polyExpr,
                 ErrorMessage.NON_VISIBLE_FEATURE_IN_POLYEXPR, params);
         }
+	//if it is visible, the signatures must be compatible
         else if (subPair != null) {
           Signature superSig = superPair.getSignature();
           Signature subSig = subPair.getSignature();
@@ -624,7 +647,7 @@ abstract public class Checker
     return result;
   }
 
-  //rename the declarations
+  //rename the operations is a list
   protected List<NameSignaturePair> renameOps(List<NameSignaturePair> ops,
                                               List<NameNamePair> namePairs)
   {
@@ -644,6 +667,7 @@ abstract public class Checker
     return newPairs;
   }
 
+  //rename the primary names in a class
   protected List<DeclName> renamePrimary(List<DeclName> primaryNames,
                                          RenameExpr renameExpr)
   {
@@ -661,6 +685,7 @@ abstract public class Checker
     return newPrimaryNames;
   }
 
+  //rename the features in a class signature
   protected ClassSig createRenameClassSig(ClassSig cSig,
                                           RenameExpr renameExpr,
                                           String errorMessage)
@@ -700,7 +725,6 @@ abstract public class Checker
 
       ClassSig newCSig = null;
       if (!(cSig instanceof VariableClassSig)) {
-
         //instantiate the state
         Signature state = cSig.getState();
         Signature newState = null;

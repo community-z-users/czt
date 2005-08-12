@@ -129,7 +129,7 @@ public class TypeChecker
     typeEnv_ = new TypeEnv(zFactory);
     pending_ = new TypeEnv(zFactory);
     isPending_ = false;
-    unificationEnv_ = new UnificationEnv(zFactory);
+    unificationEnv_ = new UnificationEnv(zFactory_);
     markup_ = markup == null ? Markup.LATEX : markup;
     carrierSet_ = new CarrierSet();
     errors_ = new java.util.ArrayList<ErrorAnn>();

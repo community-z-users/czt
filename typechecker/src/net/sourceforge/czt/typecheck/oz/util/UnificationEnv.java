@@ -22,7 +22,8 @@ import java.util.List;
 
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.typecheck.z.util.*;
-import net.sourceforge.czt.typecheck.z.impl.*;
+import net.sourceforge.czt.typecheck.z.impl.VariableType;
+import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.typecheck.oz.impl.*;
 
@@ -32,18 +33,23 @@ import net.sourceforge.czt.typecheck.oz.impl.*;
 public class UnificationEnv
   extends net.sourceforge.czt.typecheck.z.util.UnificationEnv
 {
+  /** A Factory. */
+  protected Factory factory_ = null;
+
   //true if and only if strong unification is to be used
   protected boolean strong_;
 
-  public UnificationEnv(ZFactory zFactory, boolean strong)
+  public UnificationEnv(Factory factory, boolean strong)
   {
-    super(zFactory);
+    super(factory);
+    factory_ = factory;
     strong_ = strong;
   }
 
-  public UnificationEnv(ZFactory zFactory)
+  public UnificationEnv(Factory factory)
   {
-    this(zFactory, false);
+    this(factory, false);
+    factory_ = factory;
   }
 
   public void setStrong(boolean strong)
@@ -73,9 +79,11 @@ public class UnificationEnv
   {
     UResult result = FAIL;
     if (typeA instanceof VariableClassType) {
+      System.err.println("VCLASSTYPE");
       result = unifyVarClassType((VariableClassType) typeA, typeB);
     }
     else if (typeB instanceof VariableClassType) {
+      System.err.println("VCLASSTYPE");
       result = unifyVarClassType((VariableClassType) typeB, typeA);
     }
     else if (typeA instanceof ClassType && typeB instanceof ClassType) {
@@ -87,27 +95,71 @@ public class UnificationEnv
     return result;
   }
 
+  protected UResult unifyVariableType(VariableType vType, Type2 type)
+  {
+    UResult result = FAIL;
+    /*
+    if (!strong_ && type instanceof ClassType) {
+      ClassType classType = (ClassType) type;
+      if (vType.getValue() != vType) {
+	result = unify(vType.getValue(), classType);
+      }
+      else {
+	VariableClassType vClassType = factory_.createVariableClassType();
+	vClassType.getTypes().add(classType);
+	vType.setValue(vClassType);
+      }
+    }
+    else {
+    */
+      result = super.unifyVariableType(vType, type);
+      //}
+    return result;
+  }
+
   protected UResult unifyVarClassType(VariableClassType vType, Type2 type)
   {
     UResult result = FAIL;
     if (type instanceof ClassType) {
       ClassType classType = (ClassType) type;
-      if (vType.getValue() != vType) {
-        assert vType.getTypes().size() > 0;
-        result = unify(vType.getValue(), classType);
+      if (strong_) {
+	result = strongUnifyVarClassType(vType, classType);
       }
       else {
-        if (vType.getTypes().size() == 0) {
-          vType.getTypes().add(classType);
-          vType.complete();
-          result = SUCC;
-        }
+	result = weakUnifyVarClassType(vType, classType);
       }
     }
     else if (type instanceof VariableType || type instanceof UnknownType) {
       result = super.unify(vType, type);
     }
     return result;
+  }
+
+  protected UResult strongUnifyVarClassType(VariableClassType vType, 
+					    ClassType classType)
+  {
+    UResult result = FAIL;
+    if (vType.getValue() != vType) {
+      assert vType.getTypes().size() == 1;
+      result = unify(vType.getValue(), classType);
+    }
+    else {
+      assert vType.getTypes().size() == 0;
+      assert !vType.getComplete();
+      vType.getTypes().add(classType);
+      vType.complete();
+      result = SUCC;
+    }
+    return result;
+  }
+
+  protected UResult weakUnifyVarClassType(VariableClassType vType,
+					  ClassType classType)
+  {
+    UResult result = FAIL;
+    assert vType.getTypes().size() > 0;
+    vType.getTypes().add(classType);
+    return result;  
   }
 
   protected UResult unifyClassType(ClassType typeA, ClassType typeB)
@@ -125,14 +177,6 @@ public class UnificationEnv
   protected UResult weakUnifyClassType(ClassType typeA, ClassType typeB)
   {
     UResult result = FAIL;
-    if (typeA.getClassSig() == null) {
-      System.err.println("null classsig");
-      System.exit(0);
-    }
-    else if (typeB.getClassSig() == null) {
-      System.err.println("null classsig");
-      System.exit(0);
-    }
     List<ClassRef> classRefsA = typeA.getClassSig().getClasses();
     List<ClassRef> classRefsB = typeB.getClassSig().getClasses();
     if (classRefsA.size() == 0 || classRefsB.size() == 0) {
@@ -171,7 +215,6 @@ public class UnificationEnv
           result = FAIL;
           break;
         }
-
         UResult unified = instantiations(classRefA, classRefB);
         if (unified == FAIL) {
           result = FAIL;

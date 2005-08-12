@@ -68,7 +68,7 @@ public class GlobalDefs
   {
     boolean result = false;
     for (ClassRef element : list) {
-      if (classRef.getRefName().equals(element.getRefName())) {
+      if (namesEqual(classRef.getRefName(), element.getRefName())) {
         result = true;
         break;
       }

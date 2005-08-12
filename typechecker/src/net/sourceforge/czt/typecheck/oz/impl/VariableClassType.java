@@ -108,6 +108,7 @@ public class VariableClassType
   public Type2 getValue()
   {
     Type2 result = super.getValue();
+    assert complete_;
     if (complete_ && types_.size() == 1) {
       value_ = types_.get(0);
       assert value_ != null;

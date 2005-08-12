@@ -85,7 +85,7 @@
       </action>
      <action dev="Tim" type="bugfix">
         Conjunction operations and scope enrichments operators both
-        allow downcasting with larger operation expressions.
+        allow downcasting within larger operation expressions.
       </action>
       <!-- Sample action:
       <action dev="JB" type="fix" due-to="Joe Contributor"
@@ -111,10 +111,6 @@
       </action>
       <action context="code" dev="Tim">
         Finish implementing weak typing unification algorithm.
-      </action>
-      <action context="code" dev="Tim">
-        Write test class and commit test scripts for use before
-        declaration functionality.
       </action>
       <action context="code" dev="Tim">
         Implement functionality to allow downcasting using selections as 
@@ -149,5 +145,4 @@
     </actions>
     -->
   </todo>
-
 </status>

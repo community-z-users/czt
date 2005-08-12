@@ -383,18 +383,20 @@ public class ParaChecker
 	error(expr, ErrorMessage.NON_CLASS_INHERITED, params);
       }
 
-      //check that there is no cyclic inheritance
+      //check that there is no cyclic inheritance, but only the use
+      //before declaration is enabled.
       List<ClassRef> currentSuperClasses = current.getSuperClass();
       List<ClassRef> superClasses = getSuperClasses(classRefType);
       for (ClassRef superClass : superClasses) {
 	RefName superClassName = superClass.getRefName();
+	//System.err.println("\t superclass = "+ superClassName);
 	if (namesEqual(className(), superClassName)) {
 	  Object [] params = {className()};
 	  error(expr, ErrorMessage.CYCLIC_INHERITANCE, params);
 	}
-
-        //add the superclasses of the inherited class to the subclass's
-        //superclass list
+	
+	//add the superclasses of the inherited class to the subclass's
+	//superclass list
 	if (!contains(currentSuperClasses, superClass)) {
 	  currentSuperClasses.add(superClass);
 	}
@@ -402,7 +404,9 @@ public class ParaChecker
 
       //add the name of the superclass to current's superclass list
       ClassRef thisClass = classRefType.getThisClass();
-      current.getSuperClass().add(thisClass);
+      if (!contains(currentSuperClasses, thisClass)) {
+	currentSuperClasses.add(thisClass);
+      }
       
       if (!instanceOf(icSig, VariableClassSig.class)) {
         //add the attributes to the subclass's signature and the type env

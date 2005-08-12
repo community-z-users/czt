@@ -87,8 +87,8 @@ public class TypeChecker
                      boolean useStrongTyping)
   {
     super(zFactory, ozFactory, sectInfo, markup, useBeforeDecl, useStrongTyping);
-    unificationEnv_ = new UnificationEnv(zFactory, useStrongTyping);
     tcozFactory_ = new Factory(zFactory, ozFactory, tcozFactory);
+    unificationEnv_ = new UnificationEnv(tcozFactory_, useStrongTyping);
     specChecker_ = new SpecChecker(this);
     paraChecker_ = new ParaChecker(this);
     declChecker_ = new DeclChecker(this);

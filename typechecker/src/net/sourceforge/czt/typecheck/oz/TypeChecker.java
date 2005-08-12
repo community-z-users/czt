@@ -95,7 +95,7 @@ public class TypeChecker
     super(zFactory, sectInfo, markup, useBeforeDecl);
     ozFactory_ = new Factory(zFactory, ozFactory);
     sectInfo_ = sectInfo;
-    unificationEnv_ = new UnificationEnv(zFactory, useStrongTyping);
+    unificationEnv_ = new UnificationEnv(ozFactory_, useStrongTyping);
     carrierSet_ = new CarrierSet();
     specChecker_ = new SpecChecker(this);
     paraChecker_ = new ParaChecker(this);

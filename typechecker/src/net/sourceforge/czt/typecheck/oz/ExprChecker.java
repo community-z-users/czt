@@ -103,7 +103,6 @@ public class ExprChecker
       ClassType rClassType = (ClassType) vrPowerType.getType();
       ClassSig lcSig = lClassType.getClassSig();
       ClassSig rcSig = rClassType.getClassSig();
-
       ClassSig cSig = factory().createVariableClassSig();
       //if both signatures are complete
       if (!instanceOf(lcSig, VariableClassSig.class) &&

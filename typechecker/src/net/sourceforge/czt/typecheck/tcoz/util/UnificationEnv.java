@@ -23,6 +23,7 @@ import java.util.List;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.tcoz.ast.*;
 import net.sourceforge.czt.typecheck.z.util.UResult;
+import net.sourceforge.czt.typecheck.tcoz.impl.*;
 
 /**
  * Provides unification of types.
@@ -30,14 +31,14 @@ import net.sourceforge.czt.typecheck.z.util.UResult;
 public class UnificationEnv
   extends net.sourceforge.czt.typecheck.oz.util.UnificationEnv
 {
-  public UnificationEnv(ZFactory zFactory, boolean strong)
+  public UnificationEnv(Factory factory, boolean strong)
   {
-    super(zFactory, strong);
+    super(factory, strong);
   }
 
-  public UnificationEnv(ZFactory zFactory)
+  public UnificationEnv(Factory factory)
   {
-    super(zFactory);
+    super(factory);
   }
 
   public void setStrong(boolean strong)
