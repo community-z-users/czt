@@ -3947,12 +3947,15 @@ inheritedClass ::=
            checkName(dw, dwleft, dwright);
            RefName rn = factory_.createRefName(dw.getName());
            RESULT = factory_.createRefExpr(rn, list(), Boolean.FALSE);
+           addLocAnn(rn, dwleft, dwright);
            addLocAnn(RESULT, dwleft, dwright);
         :}
         |
         inheritedClass:ic LSQUARE expressionList:el RSQUARE
         {:
-           RESULT = factory_.createRefExpr(refname(ic), el, Boolean.FALSE);
+           RefName rn = refname(ic);
+           RESULT = factory_.createRefExpr(rn, el, Boolean.FALSE);
+           addLocAnn(rn, icleft, icright);
            addLocAnn(RESULT, icleft, icright);
         :}
         |
