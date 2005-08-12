@@ -69,12 +69,6 @@ abstract public class Checker
     return typeChecker_.downcastEnv_;
   }
 
-  //the list of class names in the specification
-  protected List<DeclName> classNames()
-  {
-    return typeChecker_.classNames_;
-  }
-
   //the current class name
   protected DeclName className()
   {
@@ -1043,27 +1037,6 @@ abstract public class Checker
                                                classRef.getType2(),
                                                newPairs);
     return result;
-  }
-
-  protected void putFirstVisitSectInfo(ZSect zSect)
-  {
-    super.putFirstVisitSectInfo(zSect);
-
-    //add a class names annotation
-    ClassNamesAnn ann = new ClassNamesAnn(classNames());
-    zSect.getAnns().add(ann);
-  }
-
-  protected void putSecondVisitSectInfo(ZSect zSect)
-  {
-    super.putSecondVisitSectInfo(zSect);
-    ClassNamesAnn ann = (ClassNamesAnn) zSect.getAnn(ClassNamesAnn.class);
-    assert ann != null;
-    for (DeclName className : classNames()) {
-      if (!containsDeclName(ann.getClassNames(), className)) {
-	ann.getClassNames().add(className);
-      }
-    }
   }
 
   protected CarrierSet getCarrierSet()

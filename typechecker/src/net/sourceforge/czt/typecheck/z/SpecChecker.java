@@ -131,10 +131,19 @@ public class SpecChecker
     }
 
     if (useBeforeDecl() && sectTypeEnv().getSecondTime()) {
-      specChecker().putSecondVisitSectInfo(zSect);
+      sectInfo().put(new Key(sectName(), SectTypeEnv.class), sectTypeEnv(),
+		     new java.util.HashSet());
     }
     else {
-      specChecker().putFirstVisitSectInfo(zSect);
+      try {
+	SectTypeEnv sectTypeEnv =
+	  (SectTypeEnv) sectInfo().get(new Key(sectName(), SectTypeEnv.class));
+	assert sectTypeEnv != null;
+	sectTypeEnv().overwriteTriples(sectTypeEnv.getTriple());    
+      }
+      catch (Exception e) {
+	assert false : "No SectTypeEnv for " + sectName();
+      }
     }
 
     if (useBeforeDecl() && !sectTypeEnv().getSecondTime()) {

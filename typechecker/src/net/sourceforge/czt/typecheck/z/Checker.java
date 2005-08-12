@@ -1055,27 +1055,6 @@ abstract public class Checker
     return result;
   }
 
-  //put the relevant section information into the section manager that
-  //is needed for a second parse of the AST
-  protected void putFirstVisitSectInfo(ZSect zSect)
-  {
-    sectInfo().put(new Key(sectName(), SectTypeEnv.class), sectTypeEnv(),
-		   new java.util.HashSet());
-  }
-
-  protected void putSecondVisitSectInfo(ZSect zSect)
-  {
-    try {
-      SectTypeEnv sectTypeEnv =
-	(SectTypeEnv) sectInfo().get(new Key(sectName(), SectTypeEnv.class));
-      assert sectTypeEnv != null;
-      sectTypeEnv().overwriteTriples(sectTypeEnv.getTriple());    
-    }
-    catch (Exception e) {
-      assert false;
-    }
-  }
-
   //get a name/type pair corresponding with a particular name
   //return null if this name is not in the signature
   protected NameTypePair findNameTypePair(DeclName declName,

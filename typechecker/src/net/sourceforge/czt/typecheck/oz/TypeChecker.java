@@ -46,9 +46,6 @@ public class TypeChecker
   //use to store information used in downcasting
   protected TypeEnv downcastEnv_;
 
-  //the list of class names in the specification
-  protected List<DeclName> classNames_;
-
   //the current class parargraph - null if we are not typechecking a
   //class paragraph
   protected ClassPara classPara_;
@@ -108,7 +105,6 @@ public class TypeChecker
     postChecker_ = new PostChecker(this);
     opExprChecker_ = new OpExprChecker(this);
     downcastEnv_ = new TypeEnv();
-    classNames_ = list();
     classPara_ = null;
     primary_ = list();
   }

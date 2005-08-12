@@ -215,9 +215,6 @@ public class ParaChecker
       factory().createNameTypePair(className(), addGenerics(powerType));
     Signature signature = factory().createSignature(list(cPair));
 
-    //add this class to the list of class names
-    classNames().add(className());
-
     //exit the variable scopes
     pending().exitScope();
     typeEnv().exitScope();
@@ -364,20 +361,27 @@ public class ParaChecker
     PowerType vPowerType = factory().createPowerType();
     UResult unified = strongUnify(vPowerType, exprType);    
 
-    DeclName superName = getDeclName(expr);
-    ClassRefType current = getSelfType();
-
     //if the expr is not a class name reference, raise an error
-    if (!containsDeclName(classNames(), superName) &&
-	(!useBeforeDecl() || sectTypeEnv().getSecondTime())) {
+    if (!instanceOf(vPowerType.getType(), ClassRefType.class) &&
+	!instanceOf(vPowerType.getType(), VariableType.class)) {
       Object [] params = {expr};
       error(expr, ErrorMessage.NON_CLASS_INHERITED, params);
     }
     //otherwise, add this information to the current class signature
     else if (vPowerType.getType() instanceof ClassRefType) {
       ClassRefType classRefType = (ClassRefType) vPowerType.getType();
+      ClassRefType current = getSelfType();
       ClassSig icSig = classRefType.getClassSig();      
       ClassSig cSig = current.getClassSig();
+
+      //check whether the nane of the inherited class is actually a
+      //class paragraph.
+      ClassRef classRef = classRefType.getThisClass();
+      DeclName superName = getDeclName(expr);      
+      if (!namesEqual(superName, classRef.getRefName())) {
+	Object [] params = {expr};
+	error(expr, ErrorMessage.NON_CLASS_INHERITED, params);
+      }
 
       //check that there is no cyclic inheritance
       List<ClassRef> currentSuperClasses = current.getSuperClass();

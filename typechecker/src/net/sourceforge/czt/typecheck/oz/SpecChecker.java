@@ -30,13 +30,10 @@ import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.util.OzString;
 
-import net.sourceforge.czt.typecheck.oz.util.ClassNamesAnn;
-
 /**
  */
 public class SpecChecker
   extends Checker
-  implements ParentVisitor
 {
   //the name of the Object-Z toolkit
   public final static String OZ_TOOLKIT = "oz_toolkit";
@@ -62,33 +59,5 @@ public class SpecChecker
   public Object visitTerm(Term term)
   {
     return term.accept(zSpecChecker_);
-  }
-
-  public Object visitParent(Parent parent)
-  {
-    //first do the usual things that the Z typechecker does
-    Object result = parent.accept(zSpecChecker_);
-
-    String parentName = parent.getWord();
-    TermA termA = null;
-    try {
-      termA = (TermA) sectInfo().get(new Key(parentName, ZSect.class));
-    }
-    catch (CommandException e) {
-      assert false;
-    }
-
-    //if we find the sectino, get the class names annotation, and copy
-    //the names over
-    if (termA != null) {
-      ClassNamesAnn ann = (ClassNamesAnn) termA.getAnn(ClassNamesAnn.class);
-      if (ann != null) {
-	List<DeclName> classNames = ann.getClassNames();
-	for (DeclName className : classNames) {
-	  classNames().add(className);
-	}
-      }
-    }
-    return result;
   }
 }
