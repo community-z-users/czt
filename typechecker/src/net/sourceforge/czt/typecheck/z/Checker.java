@@ -1046,7 +1046,8 @@ abstract public class Checker
         result = factory().createSchemaType(newSig);
       }
     }
-    else if (sectTypeEnv().getSecondTime() && type instanceof PowerType &&
+    else if (sectTypeEnv().getSecondTime() &&
+	     type instanceof PowerType &&
              powerType(type).getType() instanceof UnknownType) {
       Type2 resolved =
         exprChecker().resolveUnknownType(powerType(type).getType());

@@ -131,10 +131,6 @@ public class SpecChecker
     }
 
     if (useBeforeDecl() && sectTypeEnv().getSecondTime()) {
-      sectInfo().put(new Key(sectName(), SectTypeEnv.class), sectTypeEnv(),
-		     new java.util.HashSet());
-    }
-    else {
       try {
 	SectTypeEnv sectTypeEnv =
 	  (SectTypeEnv) sectInfo().get(new Key(sectName(), SectTypeEnv.class));
@@ -144,6 +140,11 @@ public class SpecChecker
       catch (Exception e) {
 	assert false : "No SectTypeEnv for " + sectName();
       }
+
+    }
+    else {
+      sectInfo().put(new Key(sectName(), SectTypeEnv.class), sectTypeEnv(),
+		     new java.util.HashSet());
     }
 
     if (useBeforeDecl() && !sectTypeEnv().getSecondTime()) {
