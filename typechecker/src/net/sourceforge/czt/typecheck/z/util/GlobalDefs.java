@@ -20,7 +20,6 @@ package net.sourceforge.czt.typecheck.z.util;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.ArrayList;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
@@ -39,7 +38,7 @@ public class GlobalDefs
    */
   public static <E> List<E> list()
   {
-    return new ArrayList<E>();
+    return new java.util.ArrayList<E>();
   }
 
   /**
@@ -78,11 +77,6 @@ public class GlobalDefs
     return result;
   }
 
-  public static ListTerm listTerm()
-  {
-    return new net.sourceforge.czt.base.impl.ListTermImpl();
-  }
-
   /**
    * If this is a generic type, get the type without the
    * parameters. If not a generic type, return the type.
@@ -104,6 +98,26 @@ public class GlobalDefs
 
     return result;
   }
+
+  /**
+   * Find a pair with a specified name in a list of NameTypePair.
+   * @param declName the name to search for in the list.
+   * @param pairs the list of NameTypePair to search.
+   * @return the first pair with the corresponding name.
+   */
+  public static NameTypePair findNameTypePair(DeclName declName,
+					      List<NameTypePair> pairs)
+  {
+    NameTypePair result = null;
+    for (NameTypePair pair : pairs) {
+      if (namesEqual(pair.getName(), declName)) {
+        result = pair;
+        break;
+      }
+    }
+    return result;
+  }
+
 
   /**
    * Test is an object is an instance of a class

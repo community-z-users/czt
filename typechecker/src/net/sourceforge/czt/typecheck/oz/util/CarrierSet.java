@@ -85,8 +85,10 @@ public class CarrierSet
     Expr result = null;
     //if 0, then we have the set \oid
     if (classRefs.size() == 0) {
-      RefName oidName = ozFactory_.createRefName(OzString.OID, list(), null);
-      result = ozFactory_.createRefExpr(oidName, list(), Boolean.FALSE);
+      List<Stroke> strokes = list();
+      List<Expr> exprs = list();
+      RefName oidName = ozFactory_.createRefName(OzString.OID, strokes, null);
+      result = ozFactory_.createRefExpr(oidName, exprs, Boolean.FALSE);
     }
     else {
       ClassUnionExpr classUnionExpr = null;
@@ -131,24 +133,24 @@ public class CarrierSet
   public Object visitVariableClassType(VariableClassType vClassType)
   {
     Expr result = null;
-    if (vClassType.getTypes().size() == 0) {
+    if (vClassType.getCandidateType() == null) {
       if (!allowVariableTypes_) {
         throw new UndeterminedTypeException();
       }
+      List<Stroke> strokes = list();
       RefName refName =
         zFactory_.createRefName("varclass",
                                 //vClassType.getName().getWord(),
                                 //vClassType.getName().getStroke(),
-                                new java.util.ArrayList(),
+                                strokes,
                                 null);
-      result = zFactory_.createRefExpr(refName, list(), Boolean.FALSE);
-    }
-    else if (vClassType.getTypes().size() == 1) {
-      Type2 type = vClassType.getTypes().get(0);
-      result = (Expr) type.accept(this);
+      List<Expr> exprs = list();
+      result = zFactory_.createRefExpr(refName, exprs, Boolean.FALSE);
     }
     else {
-      result = zFactory_.createRefExpr();
+      Type2 type = vClassType.getCandidateType();
+      vClassType.setValue(type);
+      result = (Expr) type.accept(this);
     }
     return result;
   }

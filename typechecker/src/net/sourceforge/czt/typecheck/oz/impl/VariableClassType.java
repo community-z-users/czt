@@ -35,8 +35,8 @@ public class VariableClassType
   /** The class signature of this class type. */
   protected ClassSig classSig_ = null;
 
-  /** The possible types of this variable. */
-  protected List<ClassType> types_ = new java.util.ArrayList<ClassType>();
+  /** The candidate type of this variable. */
+  protected ClassType candidateType_ = null;
 
   /** If this type is completely determined. */
   protected boolean complete_ = false;
@@ -73,11 +73,20 @@ public class VariableClassType
   }
 
   /**
-   * @return The types of this variable.
+   * Set the candidate type of this variable.
+   * @param classType the candidiate type.
    */
-  public List<ClassType> getTypes()
+  public void setCandidateType(ClassType classType)
   {
-    return types_;
+    candidateType_ = classType;
+  }
+
+  /**
+   * @return The candidate type of this variable.
+   */
+  public ClassType getCandidateType()
+  {
+    return candidateType_;
   }
 
   public boolean isComplete()
@@ -101,7 +110,7 @@ public class VariableClassType
 
   public Object[] getChildren()
   {
-    Object[] result = { getName(), value_, getTypes(), isComplete()};
+    Object[] result = { getName(), value_, getCandidateType(), isComplete()};
     return result;
   }
 
@@ -110,12 +119,12 @@ public class VariableClassType
     VariableClassType zedObject = null;
     try {
       DeclName declName = (DeclName) args[0];
-      List<ClassType> types = (List<ClassType>) args[1];
+      ClassType type = (ClassType) args[1];
       Type2 value = (Type2) args[2];
       Boolean complete = (Boolean) args[3];
       zedObject = new VariableClassType(declName);
       zedObject.setValue(value);
-      zedObject.getTypes().addAll(types);
+      zedObject.setCandidateType(type);
       zedObject.setComplete(complete);
     }
     catch (IndexOutOfBoundsException e) {

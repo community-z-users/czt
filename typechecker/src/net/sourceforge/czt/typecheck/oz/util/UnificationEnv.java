@@ -18,6 +18,8 @@
 */
 package net.sourceforge.czt.typecheck.oz.util;
 
+import static net.sourceforge.czt.typecheck.oz.util.GlobalDefs.*;
+
 import java.util.List;
 
 import net.sourceforge.czt.z.ast.*;
@@ -103,9 +105,9 @@ public class UnificationEnv
       }
       else {
         VariableClassType vClassType = factory_.createVariableClassType();
-        vClassType.getTypes().add(classType);
-        vType.setValue(vClassType);
-        result = classType instanceof VariableClassType ? PARTIAL : SUCC;
+        vClassType.setCandidateType(classType);
+	vType.setValue(vClassType);
+	result = PARTIAL;
       }
     }
     else {
@@ -127,7 +129,7 @@ public class UnificationEnv
       }
     }
     else if (type instanceof VariableType || type instanceof UnknownType) {
-      result = super.unify(vType, type);
+      result = super.unify(type, vType);
     }
     return result;
   }
@@ -136,26 +138,38 @@ public class UnificationEnv
                                             ClassType classType)
   {
     UResult result = FAIL;
-    if (vType.getTypes().size() > 0) {
-      assert vType.getTypes().size() == 1;
+    if (vType.getValue() != vType) {
       assert vType.isComplete();
-      result = unify(vType.getTypes().get(0), classType);
+      result = unify(vType.getValue(), classType);
     }
     else {
-      assert vType.getTypes().size() == 0;
-      vType.getTypes().add(classType);
-      vType.setComplete(true);
-      result = SUCC;
+      if (contains(classType, vType)) {
+        result = FAIL;
+      }
+      else {
+	vType.setValue(classType);
+	vType.setComplete(true);
+	result = unify(vType.getValue(), classType);
+      }
     }
     return result;
   }
 
-  protected UResult weakUnifyVarClassType(VariableClassType vType,
+  protected UResult weakUnifyVarClassType(VariableClassType vClassType,
                                           ClassType classType)
   {
     UResult result = SUCC;
-    assert vType.getTypes().size() > 0;
-    vType.getTypes().add(classType);
+    if (vClassType.getCandidateType() == null) {
+      vClassType.setCandidateType(classType);
+    }
+    else {
+      ClassType candidateType = vClassType.getCandidateType();
+      ClassType newType = checkCompatibility(candidateType, classType);
+      if (newType != null) {
+	vClassType.setCandidateType(newType);
+      }
+      result = (newType == null) ? FAIL : SUCC;
+    }
     return result;
   }
 
@@ -278,5 +292,124 @@ public class UnificationEnv
       }
     }
     return result;
+  }
+
+  protected ClassType checkCompatibility(ClassType classTypeA,
+					 ClassType classTypeB)
+  {
+    ClassSig cSigA = classTypeA.getClassSig();
+    ClassSig cSigB = classTypeB.getClassSig();
+    List<NameTypePair> attrsA = cSigA.getAttribute();
+    List<NameTypePair> attrsB = cSigB.getAttribute();
+    List<NameTypePair> stateA = cSigA.getState().getNameTypePair();
+    List<NameTypePair> stateB = cSigB.getState().getNameTypePair();
+
+    //check compatibility of attributes and state variables
+    List<NameTypePair> attrs = checkCompatibility(attrsA, attrsB, stateB);
+    if (attrs == null) {
+      return null;
+    }
+    
+    //check compatibility of operations
+    List<NameTypePair> statePairs = checkCompatibility(stateA, stateB, attrsB);
+    if (statePairs == null) {
+      return null;
+    }
+
+    List<NameSignaturePair> opsA = cSigA.getOperation();
+    List<NameSignaturePair> opsB = cSigB.getOperation();
+    List<NameSignaturePair> ops = checkOpCompatibility(opsA, opsB);
+    if (ops == null) {
+      return null;
+    }
+
+    //add the class references
+    List<ClassRef> classes = list();
+    for (ClassRef classRef : cSigA.getClasses()) {
+      if (!contains(classes, classRef)) {
+	classes.add(classRef);
+      }
+    }
+    for (ClassRef classRef : cSigB.getClasses()) {
+      if (!contains(classes, classRef)) {
+	classes.add(classRef);
+      }
+    }    
+    Signature state = factory_.createSignature(statePairs);
+    ClassSig cSig = factory_.createClassSig(classes, state, attrs, ops);
+    ClassType result = null;
+    if (classes.size() == 1) {
+      result = classTypeA;
+    }
+    else {
+      result = factory_.createClassUnionType(cSig);
+    }
+    return result;
+  }
+
+  protected List<NameTypePair> 
+    checkCompatibility(List<NameTypePair> pairsA,
+		       List<NameTypePair> pairsB,
+		       List<NameTypePair> altPairs)
+  {
+    List<NameTypePair> result = list();
+    //check compatibility of attributes and state variables
+    for (NameTypePair first : pairsA) {
+      DeclName firstName = first.getName();
+      if (!isSelfName(firstName)) {
+	NameTypePair second = findNameTypePair(firstName, pairsB);
+	if (second != null) {
+	  Type2 firstType = unwrapType(first.getType());
+	  Type2 secondType = unwrapType(second.getType());
+	  UResult unified = unify(firstType, secondType);
+	  if (unified == FAIL) {
+	    return null;
+	  }
+	  else {
+	    result.add(first);
+	  }
+	}
+	//check that the attribute does not have a conflicting state variable
+	second = findNameTypePair(firstName, altPairs);
+	if (second != null) {
+	  Type2 firstType = unwrapType(first.getType());
+	  Type2 secondType = unwrapType(second.getType());
+	  UResult unified = unify(firstType, secondType);
+	  if (unified == FAIL) {
+	    return null;
+	  }
+	}
+      }
+    }
+    return result;
+  }
+
+  //check compatibility of operations
+  protected List<NameSignaturePair>
+    checkOpCompatibility(List<NameSignaturePair> pairsA,
+			 List<NameSignaturePair> pairsB)
+  {
+    List<NameSignaturePair> result = list();
+    for (NameSignaturePair first : pairsA) {
+      DeclName firstName = first.getName();
+      NameSignaturePair second = findNameSigPair(firstName, pairsB);
+      if (second != null) {
+	Signature lSig = first.getSignature();
+	Signature rSig = second.getSignature();
+	UResult unified = unify(lSig, rSig);
+	if (unified == FAIL) {
+	  return null;
+	}
+	else {
+	  result.add(first);
+	}
+      }
+    }
+    return result;
+  }
+
+  protected static boolean contains(List<ClassRef> list, ClassRef classRef)
+  {
+    return GlobalDefs.contains(list, classRef);
   }
 }

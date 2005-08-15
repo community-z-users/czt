@@ -97,8 +97,9 @@ public class CarrierSet
       zFactory_.createRefName(genParamType.getName().getWord(),
                               genParamType.getName().getStroke(),
                               null);
+    List<Expr> exprs = list();
     RefExpr result =
-      zFactory_.createRefExpr(refName, list(), Boolean.FALSE);
+      zFactory_.createRefExpr(refName, exprs, Boolean.FALSE);
     return result;
   }
 
@@ -108,8 +109,9 @@ public class CarrierSet
       zFactory_.createRefName(givenType.getName().getWord(),
                               givenType.getName().getStroke(),
                               null);
+    List<Expr> exprs = list();
     RefExpr result =
-      zFactory_.createRefExpr(refName, list(), Boolean.FALSE);
+      zFactory_.createRefExpr(refName, exprs, Boolean.FALSE);
     return result;
   }
 
@@ -155,11 +157,13 @@ public class CarrierSet
     if (!allowVariableTypes_) {
       throw new UndeterminedTypeException();
     }
+    List<Stroke> strokes = list();
     RefName refName =
       zFactory_.createRefName("unknown",
                               //unknownType.toString(),
-                              list(), null);
-    RefExpr result = zFactory_.createRefExpr(refName, list(), Boolean.FALSE);
+                              strokes, null);
+    List<Expr> exprs = list();
+    RefExpr result = zFactory_.createRefExpr(refName, exprs, Boolean.FALSE);
     return result;
   }
 
@@ -169,14 +173,16 @@ public class CarrierSet
       if (!allowVariableTypes_) {
         throw new UndeterminedTypeException();
       }
+      List<Stroke> strokes = list();
       RefName refName =
         zFactory_.createRefName("var",
                                 //vType.getName().getWord(),
                                 //vType.getName().getStroke(),
-                                new java.util.ArrayList(),
+                                strokes,
                                 null);
+      List<Expr> exprs = list();
       RefExpr result =
-        zFactory_.createRefExpr(refName, list(), Boolean.FALSE);
+        zFactory_.createRefExpr(refName, exprs, Boolean.FALSE);
       return result;
     }
     return vType.getValue().accept(this);
@@ -188,17 +194,5 @@ public class CarrierSet
       throw new UndeterminedTypeException();
     }
     return vSig.getValue().accept(this);
-  }
-
-  protected List list()
-  {
-    return new ArrayList();
-  }
-
-  protected List list(Object o)
-  {
-    List list = list();
-    list.add(o);
-    return list;
   }
 }

@@ -247,13 +247,6 @@ abstract public class Checker
     return result;
   }
 
-  protected boolean isSelfName(DeclName declName)
-  {
-    final boolean result = declName.getWord().equals(OzString.SELF) &&
-      declName.getStroke().size() == 0;
-    return result;
-  }
-
   protected List<ClassRef> getSuperClasses(ClassRefType classRefType)
   {
     List<ClassRef> visited = list(classRefType.getThisClass());
@@ -827,8 +820,15 @@ abstract public class Checker
   //find a NameSignaturePair in a class signature
   protected NameSignaturePair findOperation(DeclName declName, ClassSig cSig)
   {
-    NameSignaturePair result = findNameSigPair(declName, cSig.getOperation());
-    return result;
+    //problem with static import from GlobalDefs
+    return GlobalDefs.findOperation(declName, cSig);
+  }
+
+  protected NameSignaturePair findNameSigPair(DeclName declName,
+                                              List<NameSignaturePair> pairs)
+  {
+    //problem with static import from GlobalDefs
+    return GlobalDefs.findNameSigPair(declName, pairs);
   }
 
   protected NameSignaturePair findOperation(RefName refName, ClassSig cSig)
@@ -843,20 +843,6 @@ abstract public class Checker
   {
     DeclName declName = factory().createDeclName(refName);
     NameSignaturePair result = findNameSigPair(declName, pairs);
-    return result;
-  }
-
-  protected NameSignaturePair findNameSigPair(DeclName declName,
-                                              List<NameSignaturePair> pairs)
-  {
-    NameSignaturePair result = null;
-    //find the pair that has this name
-    for(NameSignaturePair pair : pairs) {
-      if (declName.equals(pair.getName())) {
-        result = pair;
-        break;
-      }
-    }
     return result;
   }
 
@@ -943,6 +929,7 @@ abstract public class Checker
       ClassSig rcSig = rClassType.getClassSig();
 
       List<ClassRef> classes = list();
+      List<NameTypePair> stateAndAttrs = list();
       Signature state = factory().createSignature();
       List<NameTypePair> attrs = list();
       List<NameSignaturePair> ops = list();
@@ -950,6 +937,10 @@ abstract public class Checker
       //check that the features are compatible, and find common elements
       List<NameTypePair> lsPairs = lcSig.getState().getNameTypePair();
       List<NameTypePair> rsPairs = rcSig.getState().getNameTypePair();
+      List<NameTypePair> laPairs = lcSig.getAttribute();
+      List<NameTypePair> raPairs = rcSig.getAttribute();
+
+      //gather pairs from the state
       for (NameTypePair lPair : lsPairs) {
         if (!isSelfName(lPair.getName())) {
           NameTypePair rPair = findNameTypePair(lPair.getName(), rsPairs);
@@ -957,29 +948,40 @@ abstract public class Checker
             state.getNameTypePair().add(lPair);
             state.getNameTypePair().add(rPair);
           }
+	  rPair = findNameTypePair(lPair.getName(), raPairs);
+	  if (rPair != null) {
+	    stateAndAttrs.add(lPair);
+	    stateAndAttrs.add(rPair);	    
+	  }
         }
       }
-      //check compatibility
-      if (classUnionExpr != null) {
-        checkForDuplicates(state.getNameTypePair(), classUnionExpr,
-                           ErrorMessage.INCOMPATIBLE_FEATURE_IN_CLASSUNIONEXPR);
-      }
 
-      List<NameTypePair> laPairs = lcSig.getAttribute();
-      List<NameTypePair> raPairs = rcSig.getAttribute();
+      //gather pairs from local defs
       for (NameTypePair lPair : laPairs) {
         NameTypePair rPair = findNameTypePair(lPair.getName(), raPairs);
         if (rPair != null) {
           attrs.add(lPair);
           attrs.add(rPair);
         }
+	rPair = findNameTypePair(lPair.getName(), rsPairs);
+	if (rPair != null) {
+	  stateAndAttrs.add(lPair);
+	  stateAndAttrs.add(rPair);	    
+	}
       }
+
       //check compatibility
       if (classUnionExpr != null) {
+        checkForDuplicates(state.getNameTypePair(), classUnionExpr,
+                           ErrorMessage.INCOMPATIBLE_FEATURE_IN_CLASSUNIONEXPR);
         checkForDuplicates(attrs, classUnionExpr,
+                           ErrorMessage.INCOMPATIBLE_FEATURE_IN_CLASSUNIONEXPR);
+	//state and local defs must also be compatible
+	checkForDuplicates(stateAndAttrs, classUnionExpr,
                            ErrorMessage.INCOMPATIBLE_FEATURE_IN_CLASSUNIONEXPR);
       }
 
+      //check compatibility of operations
       List<NameSignaturePair> loPairs = lcSig.getOperation();
       List<NameSignaturePair> roPairs = rcSig.getOperation();
       for (NameSignaturePair lPair : loPairs) {
@@ -1001,8 +1003,16 @@ abstract public class Checker
       }
 
       //add the class references
-      classes.addAll(lcSig.getClasses());
-      classes.addAll(rcSig.getClasses());
+      for (ClassRef classRef : lcSig.getClasses()) {
+	if (!contains(classes, classRef)) {
+	  classes.add(classRef);
+	}
+      }
+      for (ClassRef classRef : rcSig.getClasses()) {
+	if (!contains(classes, classRef)) {
+	  classes.add(classRef);
+	}
+      }
       ClassSig cSig = factory().createClassSig(classes, state, attrs, ops);
       result = factory().createClassUnionType(cSig);
     }

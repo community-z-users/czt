@@ -1140,14 +1140,8 @@ abstract public class Checker
   protected NameTypePair findNameTypePair(DeclName declName,
                                           List<NameTypePair> pairs)
   {
-    NameTypePair result = null;
-    for (NameTypePair pair : pairs) {
-      if (pair.getName().equals(declName)) {
-        result = pair;
-        break;
-      }
-    }
-    return result;
+    //problem with static import from GlobalDefs
+    return GlobalDefs.findNameTypePair(declName, pairs);
   }
 
   protected NameTypePair findNameTypePair(RefName refName,
