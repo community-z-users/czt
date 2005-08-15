@@ -269,7 +269,10 @@ action code
     {
       try {
         OperatorName opName = new OperatorName(list);
-        return factory_.createRefName(opName.getWord(), opName.getStroke());
+        RefName result =
+          factory_.createRefName(opName.getWord(), opName.getStroke());
+        addLocAnn(result, line, column);
+        return result;
       }
       catch (OperatorName.OperatorNameException e) {
         final String message = "Syntax error: " + e.getMessage();
