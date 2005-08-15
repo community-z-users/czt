@@ -125,14 +125,16 @@ public class OpExprChecker
       exprType = resolveClassType(exprType);
     }
 
+    VariableClassType vClassType = factory().createVariableClassType();
+    UResult unified = strongUnify(vClassType, exprType);
+
     //if the type is not a class type, raise an error
-    if (!instanceOf(exprType, ClassType.class) &&
-        !instanceOf(exprType, VariableType.class)) {
+    if (unified == FAIL) {
       Object [] params = {opPromExpr, exprType};
       error(opPromExpr, ErrorMessage.NON_CLASS_IN_OPPROMEXPR, params);
     }
-    else if (!instanceOf(exprType, VariableType.class)) {
-      ClassType classType = (ClassType) exprType;
+    else if (vClassType.getValue() instanceof ClassType) {
+      ClassType classType = (ClassType) vClassType.getValue();
       ClassSig cSig = classType.getClassSig();
       if (!instanceOf(cSig, VariableClassSig.class)) {
         RefName refName = opPromExpr.getName();
@@ -166,9 +168,6 @@ public class OpExprChecker
           Object [] params = {refName, opPromExpr};
           error(opPromExpr, ErrorMessage.NON_VISIBLE_NAME_IN_OPPROMEXPR, params);
         }
-      }
-      else {
-	System.err.println("VARIABLE!!! FUCK OFF!");
       }
     }
 

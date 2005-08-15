@@ -200,7 +200,6 @@ public class UnificationEnv
       UnknownType subType = factory_.createUnknownType(refName, true);
       subType.getType().addAll(uType.getType());
       unify(powerType(type2).getType(), subType);
-
     }
     UResult result = PARTIAL;
     return result;
@@ -209,7 +208,6 @@ public class UnificationEnv
   protected UResult unifyVariableType(VariableType vType, Type2 type2)
   {
     UResult result = SUCC;
-
     //if the types points to the same reference, do nothing, except
     //return PARTIAL if they are both variable types
     if (type2 instanceof VariableType &&

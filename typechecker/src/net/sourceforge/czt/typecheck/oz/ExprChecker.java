@@ -75,29 +75,28 @@ public class ExprChecker
     Type2 lType = (Type2) lExpr.accept(this);
     Type2 rType = (Type2) rExpr.accept(this);
 
-    PowerType vlPowerType = factory().createPowerType();
-    PowerType vrPowerType = factory().createPowerType();
+    ClassType vlClassType = factory().createVariableClassType();
+    PowerType vlPowerType = factory().createPowerType(vlClassType);
+    ClassType vrClassType = factory().createVariableClassType();
+    PowerType vrPowerType = factory().createPowerType(vrClassType);
 
     UResult lUnified = strongUnify(vlPowerType, lType);
     UResult rUnified = strongUnify(vrPowerType, rType);
     //if the left expr is not a class description, raise an error
-    if (!instanceOf(vlPowerType.getType(), ClassType.class) &&
-        !instanceOf(vrPowerType.getType(), UnknownType.class) &&
-        !instanceOf(vlPowerType.getType(), VariableType.class)) {
+    if (lUnified == FAIL) {
       Object [] params = {lExpr, lType};
       error(classUnionExpr, ErrorMessage.NON_CLASS_IN_CLASSUNIONEXPR, params);
     }
 
     //if the right expr is not a class description, raise an error
-    if (!instanceOf(vrPowerType.getType(), ClassType.class) &&
-        !instanceOf(vrPowerType.getType(), UnknownType.class) &&
-        !instanceOf(vrPowerType.getType(), VariableType.class)) {
+    if (rUnified == FAIL) {
       Object [] params = {rExpr,  rType};
       error(classUnionExpr, ErrorMessage.NON_CLASS_IN_CLASSUNIONEXPR, params);
     }
 
     //if we have class types, intersect the features of the two classes
-    if (vlPowerType.getType() instanceof ClassType &&
+    if (lUnified != FAIL && rUnified != FAIL &&
+	vlPowerType.getType() instanceof ClassType &&
         vrPowerType.getType() instanceof ClassType) {
       ClassType lClassType = (ClassType) vlPowerType.getType();
       ClassType rClassType = (ClassType) vrPowerType.getType();
@@ -212,12 +211,12 @@ public class ExprChecker
     Type2 exprType = (Type2) expr.accept(exprChecker());
 
     //if the left expr is not a class description, raise an error
-    PowerType vPowerType = factory().createPowerType();
+    ClassType vClassType = factory().createVariableClassType();
+    PowerType vPowerType = factory().createPowerType(vClassType);
     UResult unified = strongUnify(vPowerType, exprType);
 
     //if the expr is not a class type, raise an error
-    if (!instanceOf(vPowerType.getType(), ClassType.class) &&
-        !instanceOf(vPowerType.getType(), VariableType.class)) {
+    if (unified == FAIL) {
       Object [] params = {containmentExpr, exprType};
       error(containmentExpr, ErrorMessage.NON_CLASS_IN_CONTAINMENTEXPR, params);
     }

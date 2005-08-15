@@ -41,11 +41,14 @@ public class VariableClassType
   protected VariableClassType(Factory factory)
   {
     super(factory);
+    classSig_ = factory.createVariableClassSig();
   }
 
-  protected VariableClassType(DeclName declName)
+  protected VariableClassType(DeclName declName, ClassSig classSig)
   {
     super(declName);
+    assert classSig instanceof VariableClassSig;
+    classSig_ = classSig;
   }
 
   /**
@@ -88,7 +91,7 @@ public class VariableClassType
 
   public Object[] getChildren()
   {
-    Object[] result = { getName(), value_, getCandidateType()};
+    Object[] result = { getName(), value_, getCandidateType(), getClassSig()};
     return result;
   }
 
@@ -99,7 +102,8 @@ public class VariableClassType
       DeclName declName = (DeclName) args[0];
       ClassType type = (ClassType) args[1];
       Type2 value = (Type2) args[2];
-      zedObject = new VariableClassType(declName);
+      ClassSig classSig = (ClassSig) args[3];
+      zedObject = new VariableClassType(declName, classSig);
       zedObject.setValue(value);
       zedObject.setCandidateType(type);
     }

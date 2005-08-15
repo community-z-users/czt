@@ -10,12 +10,18 @@
   Op1 \sdef [x? : \nat]
 \end{class}
 
+\begin{zed}
+  g[X] == X
+\end{zed}
 
 \begin{class}{B}
   \begin{state}
-   a : A\copyright
+   a : A\copyright\\
+   b : g\copyright
   \where
-    a.l = a.m
+    a.l = a.m\\
+    b.l = b.m\\
+    b \in A\\
   \end{state}\\
   Op1 \sdef a.Op1
 \end{class}

@@ -139,11 +139,7 @@ public class CarrierSet
       }
       List<Stroke> strokes = list();
       RefName refName =
-        zFactory_.createRefName("varclass",
-                                //vClassType.getName().getWord(),
-                                //vClassType.getName().getStroke(),
-                                strokes,
-                                null);
+        zFactory_.createRefName("?CLASSTYPE?", strokes, null);
       List<Expr> exprs = list();
       result = zFactory_.createRefExpr(refName, exprs, Boolean.FALSE);
     }

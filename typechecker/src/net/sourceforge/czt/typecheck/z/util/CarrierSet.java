@@ -160,7 +160,6 @@ public class CarrierSet
     List<Stroke> strokes = list();
     RefName refName =
       zFactory_.createRefName("unknown",
-                              //unknownType.toString(),
                               strokes, null);
     List<Expr> exprs = list();
     RefExpr result = zFactory_.createRefExpr(refName, exprs, Boolean.FALSE);
@@ -175,11 +174,7 @@ public class CarrierSet
       }
       List<Stroke> strokes = list();
       RefName refName =
-        zFactory_.createRefName("var",
-                                //vType.getName().getWord(),
-                                //vType.getName().getStroke(),
-                                strokes,
-                                null);
+        zFactory_.createRefName("??", strokes, null);
       List<Expr> exprs = list();
       RefExpr result =
         zFactory_.createRefExpr(refName, exprs, Boolean.FALSE);

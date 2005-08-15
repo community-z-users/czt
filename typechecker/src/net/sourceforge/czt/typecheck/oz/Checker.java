@@ -935,6 +935,8 @@ abstract public class Checker
       List<NameSignaturePair> ops = list();
 
       //check that the features are compatible, and find common elements
+      assert lcSig != null;
+      assert rcSig != null;
       List<NameTypePair> lsPairs = lcSig.getState().getNameTypePair();
       List<NameTypePair> rsPairs = rcSig.getState().getNameTypePair();
       List<NameTypePair> laPairs = lcSig.getAttribute();
@@ -1037,6 +1039,12 @@ abstract public class Checker
       }
       result = unioned;
     }
+    else if (type instanceof VariableClassType) {
+      VariableClassType vClassType = (VariableClassType) type;
+      if (vClassType.getValue() != vClassType) {
+	result = resolveClassType(vClassType.getValue());
+      }
+    }   
     else if (type instanceof ClassType && sectTypeEnv().getSecondTime()) {
       ClassRef classRef = null;
       if (type instanceof ClassRefType) {

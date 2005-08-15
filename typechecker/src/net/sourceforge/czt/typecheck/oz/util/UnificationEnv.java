@@ -80,7 +80,13 @@ public class UnificationEnv
   public UResult unify(Type2 typeA, Type2 typeB)
   {
     UResult result = FAIL;
-    if (typeA instanceof VariableClassType) {
+    if (isUnknownType(typeA)) {
+      result = unifyUnknownType(unknownType(typeA), typeB);
+    }
+    else if (isUnknownType(typeB)) {
+      result = unifyUnknownType(unknownType(typeB), typeA);
+    }
+    else if (typeA instanceof VariableClassType) {
       result = unifyVarClassType((VariableClassType) typeA, typeB);
     }
     else if (typeB instanceof VariableClassType) {
@@ -117,7 +123,7 @@ public class UnificationEnv
   }
 
   protected UResult unifyVarClassType(VariableClassType vType, Type2 type)
-  {
+  {  
     UResult result = FAIL;
     if (type instanceof ClassType) {
       ClassType classType = (ClassType) type;
@@ -134,20 +140,26 @@ public class UnificationEnv
     return result;
   }
 
-  protected UResult strongUnifyVarClassType(VariableClassType vType,
+  protected UResult strongUnifyVarClassType(VariableClassType vClassType,
                                             ClassType classType)
   {
-    UResult result = FAIL;
-    if (vType.getValue() != vType) {
-      result = unify(vType.getValue(), classType);
+    UResult result = SUCC;
+    if (classType instanceof VariableClassType &&
+	((VariableClassType) classType).getValue() == vClassType.getValue()) {
+      VariableClassType vClassTypeB = (VariableClassType) classType;
+      if (vClassType.getValue() instanceof VariableClassType) {
+	result = PARTIAL;
+      }
     }
     else {
-      if (contains(classType, vType)) {
+      if (contains(classType, vClassType)) {
         result = FAIL;
       }
       else {
-	vType.setValue(classType);
-	result = unify(vType.getValue(), classType);
+	if (vClassType.getValue() == vClassType) {
+	  vClassType.setValue(classType);
+	}
+	result = unify(vClassType.getValue(), classType);
       }
     }
     return result;

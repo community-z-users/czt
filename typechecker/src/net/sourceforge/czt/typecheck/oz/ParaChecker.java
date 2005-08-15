@@ -389,7 +389,6 @@ public class ParaChecker
       List<ClassRef> superClasses = getSuperClasses(classRefType);
       for (ClassRef superClass : superClasses) {
 	RefName superClassName = superClass.getRefName();
-	//System.err.println("\t superclass = "+ superClassName);
 	if (namesEqual(className(), superClassName)) {
 	  Object [] params = {className()};
 	  error(expr, ErrorMessage.CYCLIC_INHERITANCE, params);
@@ -443,15 +442,6 @@ public class ParaChecker
       primed.getStroke().add(factory().createNextStroke());
       typeEnv().add(unprimed, pair.getType());
       typeEnv().add(primed, pair.getType());
-    }
-  }
-
-  protected void addStateVars(List<NameTypePair> pairs)
-  {
-    List<NameTypePair> already = getSelfType().getClassSig().getState().getNameTypePair();
-    for (NameTypePair pair : pairs) {
-
-      already.add(pair);
     }
   }
 }
