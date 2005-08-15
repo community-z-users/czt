@@ -51,49 +51,17 @@ public class DeclChecker
 
   public Object visitVarDecl(VarDecl varDecl)
   {
-    //the list of name type pairs in this VarDecl
-    List<NameTypePair> pairs = list();
-
     //get and visit the expression
     Expr expr = varDecl.getExpr();
     Type2 exprType = (Type2) expr.accept(exprChecker());
 
     //expr should be a set expr
     PowerType vPowerType = factory().createPowerType();
-    String vPowerTypeBefore = vPowerType.toString();
     UResult unified = unify(vPowerType, exprType);
-    String vPowerTypeAfter = vPowerType.toString();
 
-    //if the type is not a power type, raise an error
-    if (unified == FAIL) {
-      Object [] params = {expr, exprType};
-      error(expr, ErrorMessage.NON_SET_IN_DECL, params);
-    }
-    //otherwise, create the list of name/type pairs
-    else {
-      Type2 baseType = null;
-      //if use-before-decl is switched on and the expr is undeclared,
-      //then set IsMem to true
-      if (useBeforeDecl() && exprType instanceof UnknownType){
-        UnknownType uType = (UnknownType) exprType;
-        if (uType.getRefName() != null) {
-          uType.setIsMem(true);
-        }
-        baseType = uType;
-      }
-      //otherwise, the type of the variable is the base type of the expr
-      else {
-        baseType = vPowerType.getType();
-      }
-
-      //get the DeclNames
-      List<DeclName> declNames = varDecl.getDeclName();
-      for (DeclName declName : declNames) {
-        //add the name and its type to the list of NameTypePairs
-        NameTypePair pair = factory().createNameTypePair(declName, baseType);
-        pairs.add(pair);
-      }
-    }
+    //the list of name type pairs in this VarDecl
+    List<NameTypePair> pairs = checkVarDecl(varDecl, unified,
+                                            exprType, vPowerType);
     return pairs;
   }
 

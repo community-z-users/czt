@@ -44,7 +44,6 @@ public class VariableClassType
   protected VariableClassType(Factory factory)
   {
     super(factory);
-    classSig_ = factory.createVariableClassSig();
   }
 
   protected VariableClassType(DeclName declName)
@@ -60,23 +59,17 @@ public class VariableClassType
   public ClassSig getClassSig()
   {
     ClassSig result = classSig_;
-    Type2 type = getValue();
-    if (type instanceof ClassType && type != this) {
-      ClassType classType = (ClassType) type;
-      result = classType.getClassSig();
-    }
     return result;
   }
 
   /**
-   * Sets the ClassSig element.
-   *
-   * @param classSig   the ClassSig element.
+   * Do not use.
+   * @param classSig the ClassSig element.
    * @see #getClassSig
    */
   public void setClassSig(ClassSig classSig)
   {
-    throw new RuntimeException("Cannot set signature of VariableClassType");
+    assert false : "Cannot set signature of VariableClassType";
   }
 
   /**
@@ -87,39 +80,28 @@ public class VariableClassType
     return types_;
   }
 
-  /**
-   * Sets the possible types of the type.
-   */
-  public void setTypes(List<ClassType> types)
-  {
-    types_ = types;
-  }
-
-  public boolean getComplete()
+  public boolean isComplete()
   {
     return complete_;
   }
 
-  public void complete()
+  public void setComplete(boolean complete)
   {
-    complete_ = true;
+    complete_ = complete;
   }
 
   public Type2 getValue()
   {
-    Type2 result = super.getValue();
-    assert complete_;
-    if (complete_ && types_.size() == 1) {
-      value_ = types_.get(0);
-      assert value_ != null;
-      return value_;
+    Type2 result = this;
+    if (complete_) {
+      result = value_;
     }
     return result;
   }
 
   public Object[] getChildren()
   {
-    Object[] result = { getName(), value_, getTypes() };
+    Object[] result = { getName(), value_, getTypes(), isComplete()};
     return result;
   }
 
@@ -130,9 +112,11 @@ public class VariableClassType
       DeclName declName = (DeclName) args[0];
       List<ClassType> types = (List<ClassType>) args[1];
       Type2 value = (Type2) args[2];
+      Boolean complete = (Boolean) args[3];
       zedObject = new VariableClassType(declName);
       zedObject.setValue(value);
-      zedObject.setTypes(types);
+      zedObject.getTypes().addAll(types);
+      zedObject.setComplete(complete);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();

@@ -257,9 +257,14 @@ public class Factory
     return zFactory_.createSectTypeEnvAnn(nameSecTypeTriple);
   }
 
+  public DeclName createDeclName(String word)
+  {
+    return createDeclName(word, list());
+  }
+
   public DeclName createDeclName(String word, List stroke)
   {
-    return zFactory_.createDeclName(word, stroke, null);
+    return createDeclName(word, stroke, null);
   }
 
   public DeclName createDeclName(String word, List stroke, String id)
@@ -290,15 +295,13 @@ public class Factory
 
   public RefName createRefName(RefName refName)
   {
-    return zFactory_.createRefName(refName.getWord(), refName.getStroke(),
-                                   refName.getDecl());
+    return createRefName(refName.getWord(), refName.getStroke(),
+                         refName.getDecl());
   }
 
   public RefName createRefName(DeclName declName)
   {
-    return zFactory_.createRefName(declName.getWord(),
-                                   declName.getStroke(),
-                                   null);
+    return createRefName(declName.getWord(), declName.getStroke(), null);
   }
 
   public RefExpr createRefExpr(RefName refName)

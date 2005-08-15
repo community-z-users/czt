@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
+
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
@@ -155,23 +157,23 @@ public class CarrierSet
     }
     RefName refName =
       zFactory_.createRefName("unknown",
-			      //unknownType.toString(), 
-			      list(), null);
+                              //unknownType.toString(),
+                              list(), null);
     RefExpr result = zFactory_.createRefExpr(refName, list(), Boolean.FALSE);
     return result;
   }
 
   public Object visitVariableType(VariableType vType)
   {
-    if (vType.getValue() instanceof VariableType) {
+    if (vType.getValue() == vType) {
       if (!allowVariableTypes_) {
         throw new UndeterminedTypeException();
       }
       RefName refName =
         zFactory_.createRefName("var",
-				//vType.getName().getWord(),
+                                //vType.getName().getWord(),
                                 //vType.getName().getStroke(),
-				new java.util.ArrayList(),
+                                new java.util.ArrayList(),
                                 null);
       RefExpr result =
         zFactory_.createRefExpr(refName, list(), Boolean.FALSE);

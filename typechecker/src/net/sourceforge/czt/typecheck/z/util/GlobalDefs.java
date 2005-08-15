@@ -231,7 +231,7 @@ public class GlobalDefs
    * @return true if and only if the name is in the list.
    */
   public static boolean containsDeclName(List<DeclName> list,
-					 DeclName declName)
+                                         DeclName declName)
   {
     boolean result = false;
     for (DeclName next : list) {
@@ -241,7 +241,7 @@ public class GlobalDefs
       }
     }
     return result;
-  } 
+  }
 
   /**
    * Test whether a list contains a RefName.
@@ -250,7 +250,7 @@ public class GlobalDefs
    * @return true if and only if the name is in the list.
    */
   public static boolean containsRefName(List<RefName> list,
-					RefName refName)
+                                        RefName refName)
   {
     boolean result = false;
     for (RefName next : list) {
@@ -260,7 +260,7 @@ public class GlobalDefs
       }
     }
     return result;
-  } 
+  }
 
   /**
    * Remove all occurrences of a reference from a list.

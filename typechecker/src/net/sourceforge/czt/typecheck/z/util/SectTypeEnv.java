@@ -261,9 +261,7 @@ public class SectTypeEnv
       triple.setType(type);
     }
     else {
-      DeclName declName = factory_.createDeclName(refName.getWord(),
-                                                  refName.getStroke(),
-                                                  null);
+      DeclName declName = factory_.createDeclName(refName);
       NameSectTypeTriple insert =
         factory_.createNameSectTypeTriple(declName, section_, type);
       typeInfo_.add(insert);
@@ -424,10 +422,10 @@ public class SectTypeEnv
       result.addAll(parents);
       //for each direct parent, get the transitive parents
       for (String parent : parents) {
-	if (!parent.equals(section)) {
-	  Set<String> transitiveParents = getTransitiveParents(parent);
-	  result.addAll(transitiveParents);
-	}
+        if (!parent.equals(section)) {
+          Set<String> transitiveParents = getTransitiveParents(parent);
+          result.addAll(transitiveParents);
+        }
       }
     }
     return result;

@@ -26,7 +26,8 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.visitor.*;
 import net.sourceforge.czt.oz.util.OzString;
-import net.sourceforge.czt.typecheck.z.impl.*;
+import net.sourceforge.czt.typecheck.z.util.UndeterminedTypeException;
+import net.sourceforge.czt.typecheck.oz.impl.*;
 
 /**
  * Calculates the carrier set of Object-Z types.
@@ -37,8 +38,8 @@ public class CarrierSet
     ClassRefTypeVisitor,
     ClassUnionTypeVisitor,
     ClassPolyTypeVisitor,
-    ClassRefVisitor
-    //VariableClassTypeVisitor
+    ClassRefVisitor,
+    VariableClassTypeVisitor
 {
   protected OzFactory ozFactory_;
 
@@ -90,18 +91,19 @@ public class CarrierSet
     else {
       ClassUnionExpr classUnionExpr = null;
       for (ClassRef classRef : classRefs) {
-	Expr expr = (Expr) classRef.accept(this);
-	if (classUnionExpr == null) {
-	  classUnionExpr = ozFactory_.createClassUnionExpr();
-	  classUnionExpr.setLeftExpr(expr);
-	}
-	else if (classUnionExpr.getRightExpr() == null) {
-	  classUnionExpr.setRightExpr(expr);
-	}
-	else {
-	  ClassUnionExpr next = ozFactory_.createClassUnionExpr(classUnionExpr, expr);
-	  classUnionExpr = next;
-	}
+        Expr expr = (Expr) classRef.accept(this);
+        if (classUnionExpr == null) {
+          classUnionExpr = ozFactory_.createClassUnionExpr();
+          classUnionExpr.setLeftExpr(expr);
+        }
+        else if (classUnionExpr.getRightExpr() == null) {
+          classUnionExpr.setRightExpr(expr);
+        }
+        else {
+          ClassUnionExpr next =
+            ozFactory_.createClassUnionExpr(classUnionExpr, expr);
+          classUnionExpr = next;
+        }
       }
       result = classUnionExpr;
       ParenAnn pAnn = ozFactory_.createParenAnn();
@@ -122,6 +124,31 @@ public class CarrierSet
       zFactory_.createRefExpr(classRef.getRefName(), exprs, Boolean.FALSE);
     if (classRef.getNameNamePair().size() > 0) {
       result = zFactory_.createRenameExpr(result, classRef.getNameNamePair());
+    }
+    return result;
+  }
+
+  public Object visitVariableClassType(VariableClassType vClassType)
+  {
+    Expr result = null;
+    if (vClassType.getTypes().size() == 0) {
+      if (!allowVariableTypes_) {
+        throw new UndeterminedTypeException();
+      }
+      RefName refName =
+        zFactory_.createRefName("varclass",
+                                //vClassType.getName().getWord(),
+                                //vClassType.getName().getStroke(),
+                                new java.util.ArrayList(),
+                                null);
+      result = zFactory_.createRefExpr(refName, list(), Boolean.FALSE);
+    }
+    else if (vClassType.getTypes().size() == 1) {
+      Type2 type = vClassType.getTypes().get(0);
+      result = (Expr) type.accept(this);
+    }
+    else {
+      result = zFactory_.createRefExpr();
     }
     return result;
   }

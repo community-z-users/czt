@@ -59,7 +59,7 @@ abstract public class Checker
     logger().warning(this.getClass().getName() +
                      " being asked to visit " +
                      term.getClass().getName() +
-		     " at location " + position);
+                     " at location " + position);
     return null;
   }
 
@@ -406,7 +406,7 @@ abstract public class Checker
     List<ErrorAnn> paraErrors = list();
     for (Object next : paraErrors()) {
       if (next instanceof TermA) {
-	TermA termA = (TermA) next;
+        TermA termA = (TermA) next;
         ErrorAnn errorAnn = (ErrorAnn) termA.accept(postChecker());
         if (errorAnn != null) {
           paraErrors.add(errorAnn);
@@ -459,16 +459,16 @@ abstract public class Checker
           if (unified == FAIL) {
             //terms are not printed in some error messages
             if (termList.size() > 0) {
-	      List<Object> params = list();
-	      params.add(second.getName());
-	      params.addAll(termList);
-	      params.add(firstType);
-	      params.add(secondType);
+              List<Object> params = list();
+              params.add(second.getName());
+              params.addAll(termList);
+              params.add(firstType);
+              params.add(secondType);
               error(termList.get(0), errorMessage, params.toArray());
             }
             else {
               Object [] params =
-		new Object [] {second.getName(), firstType, secondType};
+                new Object [] {second.getName(), firstType, secondType};
               error(second.getName(), errorMessage, params);
             }
           }
@@ -477,6 +477,50 @@ abstract public class Checker
         }
       }
     }
+  }
+
+  //construct the declarations from a variable declaration if there
+  //are no typing errors, otherwise, raise the errors
+  protected List<NameTypePair> checkVarDecl(VarDecl varDecl,
+                                            UResult unified,
+                                            Type2 exprType,
+                                            PowerType vPowerType)
+  {
+    //the list of name type pairs in this VarDecl
+    List<NameTypePair> pairs = list();
+
+    //if the type is not a power type, raise an error
+    if (unified == FAIL) {
+      Expr expr = varDecl.getExpr();
+      Object [] params = {expr, exprType};
+      error(expr, ErrorMessage.NON_SET_IN_DECL, params);
+    }
+    //otherwise, create the list of name/type pairs
+    else {
+      Type2 baseType = null;
+      //if use-before-decl is switched on and the expr is undeclared,
+      //then set IsMem to true
+      if (useBeforeDecl() && exprType instanceof UnknownType){
+        UnknownType uType = (UnknownType) exprType;
+        if (uType.getRefName() != null) {
+          uType.setIsMem(true);
+        }
+        baseType = uType;
+      }
+      //otherwise, the type of the variable is the base type of the expr
+      else {
+        baseType = vPowerType.getType();
+      }
+
+      //get the DeclNames
+      List<DeclName> declNames = varDecl.getDeclName();
+      for (DeclName declName : declNames) {
+        //add the name and its type to the list of NameTypePairs
+        NameTypePair pair = factory().createNameTypePair(declName, baseType);
+        pairs.add(pair);
+      }
+    }
+    return pairs;
   }
 
   protected Signature createCompSig(Signature lSig, Signature rSig,
@@ -1047,7 +1091,7 @@ abstract public class Checker
       }
     }
     else if (sectTypeEnv().getSecondTime() &&
-	     type instanceof PowerType &&
+             type instanceof PowerType &&
              powerType(type).getType() instanceof UnknownType) {
       Type2 resolved =
         exprChecker().resolveUnknownType(powerType(type).getType());
