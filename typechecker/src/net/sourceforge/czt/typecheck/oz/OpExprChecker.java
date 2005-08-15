@@ -167,6 +167,9 @@ public class OpExprChecker
           error(opPromExpr, ErrorMessage.NON_VISIBLE_NAME_IN_OPPROMEXPR, params);
         }
       }
+      else {
+	System.err.println("VARIABLE!!! FUCK OFF!");
+      }
     }
 
     //add the signature annotation

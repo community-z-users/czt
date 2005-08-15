@@ -38,9 +38,6 @@ public class VariableClassType
   /** The candidate type of this variable. */
   protected ClassType candidateType_ = null;
 
-  /** If this type is completely determined. */
-  protected boolean complete_ = false;
-
   protected VariableClassType(Factory factory)
   {
     super(factory);
@@ -89,28 +86,9 @@ public class VariableClassType
     return candidateType_;
   }
 
-  public boolean isComplete()
-  {
-    return complete_;
-  }
-
-  public void setComplete(boolean complete)
-  {
-    complete_ = complete;
-  }
-
-  public Type2 getValue()
-  {
-    Type2 result = this;
-    if (complete_) {
-      result = value_;
-    }
-    return result;
-  }
-
   public Object[] getChildren()
   {
-    Object[] result = { getName(), value_, getCandidateType(), isComplete()};
+    Object[] result = { getName(), value_, getCandidateType()};
     return result;
   }
 
@@ -121,11 +99,9 @@ public class VariableClassType
       DeclName declName = (DeclName) args[0];
       ClassType type = (ClassType) args[1];
       Type2 value = (Type2) args[2];
-      Boolean complete = (Boolean) args[3];
       zedObject = new VariableClassType(declName);
       zedObject.setValue(value);
       zedObject.setCandidateType(type);
-      zedObject.setComplete(complete);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();

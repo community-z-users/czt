@@ -1,5 +1,5 @@
 \begin{zsection}
- \SECTION WeakUnification
+ \SECTION NonExistentNameInOpPromExpr\_Vtype
 \end{zsection}
 
 \begin{class}{A}
@@ -50,5 +50,5 @@
    s = b\lor
    s = c
  \end{state}\\
- Op1 \sdef s.Op1\\
+ Op1 \sdef s.OpNone\\
 \end{class}

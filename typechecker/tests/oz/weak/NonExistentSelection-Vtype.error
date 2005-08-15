@@ -1,5 +1,5 @@
 \begin{zsection}
- \SECTION WeakUnification
+ \SECTION NonExistentSelection\_Vtype
 \end{zsection}
 
 \begin{class}{A}
@@ -46,6 +46,7 @@
  \where
    s.a = 1\\
    s.m = 1\\
+   s.none = 1\\
    s = a\lor
    s = b\lor
    s = c

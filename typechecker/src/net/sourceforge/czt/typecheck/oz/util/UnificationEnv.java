@@ -139,7 +139,6 @@ public class UnificationEnv
   {
     UResult result = FAIL;
     if (vType.getValue() != vType) {
-      assert vType.isComplete();
       result = unify(vType.getValue(), classType);
     }
     else {
@@ -148,7 +147,6 @@ public class UnificationEnv
       }
       else {
 	vType.setValue(classType);
-	vType.setComplete(true);
 	result = unify(vType.getValue(), classType);
       }
     }
