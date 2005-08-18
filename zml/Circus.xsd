@@ -345,7 +345,7 @@
   </xs:element>
   <!-- DESIGN DECISION:
     Originally the substitution group for ProcessIdx was ProcessD, hence the two subtrees for iterated and
-    indexed iterated processes were siblings. However, yet RI is not a simple sintactic sugar due to the 
+    indexed iterated processes were siblings. However, yet RI is not a simple syntactic sugar due to the 
     special renaming that changes the channel types, one can see it as a replication followed by a kind of 
     renaming. Therefore, by deriving from ProcessIte instead of ProcessD, we give the user the chance to reuse
     visiting code for replication and then further add the necessary renaming functionality. If, on the other 
@@ -394,8 +394,8 @@
         <b>@</b> <code>Action</code> <b>end</b>.
         </p>
         <p>
-				For the process state, the corresponding action (as a SchExprAction) or Z paragraph (as a Schema or HorizontalDef) 
-				must contain a <code>CircusStateAnn</code> annotation.
+                For the process state, the corresponding action (as a SchExprAction) or Z paragraph (as a Schema or HorizontalDef) 
+                must contain a <code>CircusStateAnn</code> annotation.
         </p>
       </xs:documentation>
     </xs:annotation>
@@ -404,7 +404,7 @@
   <xs:element name="CircusStateAnn" type="CIRCUS:CircusStateAnn" substitutionGroup="Z:Ann">
     <xs:annotation>
         <xs:documentation>
-            Defines if a given paragraph is the process state. The parser must enforce such a paragrah is a schema.
+            Defines if a given paragraph is the process state. The parser must enforce such a paragraph is a schema.
         </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -432,11 +432,11 @@
     these are actual parameters, and command parameters.
     
     Another interesting issue is that in the production tree, one is allowed to use a Process for renaming 
-    (Process[N^+ := N^+]).  This allowed the definition of renaming on-the-fly (unamed) or via a call processes.                                                
+    (Process[N^+ := N^+]).  This allowed the definition of renaming on-the-fly (unnamed) or via a call processes.                                                
     Ex:  (c?x \then Skip)[c := b] or P = (c?x \then Skip), Q = P[c := b].
     On the second case via CallProcess it means that the CircusProcess descendent of ProcessDesc is being selected.
     In turn, the kind of CircusProcess is CallProcess and the list of renaming names are under RenameProcess.
-    This allows both indexed and parameterised processes to use renaming hence creating a undisired ambiguity.
+    This allows both indexed and parameterised processes to use renaming hence creating a undesired ambiguity.
     
     The second approach is to have individual classes for this on-the-fly declaration and call directly,
     together with a base case of call with simple name on it. See more details below at ActualParamProcess.     
@@ -465,6 +465,8 @@
           <li>Param  = nonempty parameters. Empty name for on-the-fly, nonempty name for previously declared paragraph. </li>
           <li>Index  = same as Param with the different token recognition.</li>
           <li>Gen    = nonempty name and nonempty parameters.</li>
+          <li>GenParam = nonempty name and nonempty parameters.</li>
+          <li>GenIndex = nonempty name and nonempty parameters.</li>
         </ul>
         </p>
       </xs:documentation>
@@ -573,7 +575,7 @@
       
       These constructs usually appear through refinement steps from tools rather than directly by the user.           
       As the treatment of each of these cases is very similar, having separate AST nodes would possibly mean 
-      repeated code (versioning and maintainence problems). 
+      repeated code (versioning and maintenance problems). 
       
       Instead, as the treatment of each of these cases is equivalent to a CallProcess with the appropriate call 
       type determining the meaning of the list of expressions, we assume that the Circus parser will interpret
@@ -990,6 +992,8 @@
           <li>Param  = nonempty parameters. Internal name for on-the-fly, user given name for previously declared paragraph. </li>
           <li>Index  = INVALID as actions do not have indexes.</li>
           <li>Gen    = INVALID as actions do not have generic types.</li>
+          <li>GenParam = nonempty name and nonempty parameters.</li>
+          <li>GenIndex = nonempty name and nonempty parameters.</li>
         </ul>
         </p>
       </xs:documentation>
@@ -1361,16 +1365,6 @@
         </p>
       </xs:documentation>
     </xs:annotation>
-  </xs:element>  
-
-  <!-- Miscellaneous Circus Elements-->
-  <xs:element name="AssignmentPair" type="CIRCUS:AssignmentPair">
-    <xs:annotation>
-      <xs:documentation>
-        A pair containing a reference to a variable name
-        and an expression for the assignment command.
-      </xs:documentation>
-    </xs:annotation>
   </xs:element>
 
   <!-- ***************************************************************** -->
@@ -1610,7 +1604,7 @@
   
   <xs:complexType name="CircusStateAnn">
     <xs:complexContent>
-      <xs:extension base="Z:Ann"/>            
+      <xs:extension base="Z:Ann"/>
     </xs:complexContent>
   </xs:complexType>        
 
@@ -1628,7 +1622,8 @@
       <xs:extension base="CIRCUS:CircusProcess">
         <xs:sequence>          
           <xs:element ref="Z:RefName"/>
-          <xs:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>                  
+          <xs:element name="Actuals" type="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="GenActuals" type="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="CallType" type="CIRCUS:CallType" use="optional" default="Normal"/>
       </xs:extension>
@@ -1640,6 +1635,8 @@
       <xs:enumeration value="Param"/>
       <xs:enumeration value="Index"/>
       <xs:enumeration value="Gen"/>
+      <xs:enumeration value="GenParam"/>
+      <xs:enumeration value="GenIndex"/>
     </xs:restriction>
   </xs:simpleType> 
   
@@ -2002,13 +1999,13 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:Action1">
         <xs:sequence>                   
-          <xs:element name="OldNames" type="Z:RefName" minOccurs="1" maxOccurs="unbounded"/>                      
+          <xs:element name="OldNames" type="Z:RefName" minOccurs="1" maxOccurs="unbounded"/>
           <xs:element name="NewNames" type="Z:RefName" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
-  </xs:complexType>    
-
+  </xs:complexType>
+  
   <!-- CSP Action complexType :: Unary :: Declaration :: Iterated -->
   <xs:complexType name="ParActionIte">
     <xs:complexContent>
@@ -2220,8 +2217,21 @@
   <xs:complexType name="AssignmentCommand">
     <xs:complexContent>
       <xs:extension base="CIRCUS:CircusCommand">
-        <xs:sequence>
-          <xs:element ref="CIRCUS:AssignmentPair" minOccurs="1" maxOccurs="unbounded"/>
+        <xs:sequence>                  
+          <xs:element ref="Z:RefName" minOccurs="1" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="LHS"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>      
+          <xs:element ref="Z:Expr" minOccurs="1" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="RHS"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>     
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2251,19 +2261,4 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  
-  <!-- Miscellaneous Circus Elements -->
-  <!-- Defined like NameExprPair; mixed=false instructs GnAST to extend it from Term and not TermA -->
-  <xs:complexType name="AssignmentPair" mixed="false">
-    <xs:sequence>
-      <xs:element name="LHS" type="Z:RefName"/>
-      <xs:element ref="Z:Expr">
-        <xs:annotation>
-          <xs:appinfo>
-            <jaxb:property name="RHS"/>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-    </xs:sequence>
-  </xs:complexType>           
 </xs:schema>
