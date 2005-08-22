@@ -76,7 +76,7 @@ import net.sourceforge.czt.session.SectionInfo;
 action code
 {:
     /** The ZML Version supported by this parser. */
-    public final static String ZML_VERSION = "1.4";
+    public final static String ZML_VERSION = Version.ZML_VERSION;
 
     /**
      * The name given to an anonymous specification when rule 12.2.2.1
