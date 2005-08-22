@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2003, 2004 Mark Utting
+  Copyright (C) 2003, 2004, 2005 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -28,6 +28,7 @@ import javax.xml.bind.Marshaller;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.AbstractXmlWriter;
+import net.sourceforge.czt.z.util.Version;
 
 /**
  * The Jaxb marshaller responsible for serializing XML data.
@@ -36,6 +37,7 @@ import net.sourceforge.czt.base.util.AbstractXmlWriter;
  */
 public class JaxbXmlWriter
   extends AbstractXmlWriter
+  implements Version
 {
   private Visitor visitor_;
   private String jaxbContextPath_;
@@ -50,10 +52,15 @@ public class JaxbXmlWriter
   {
     Marshaller result = null;
     try {
-      JAXBContext jc = JAXBContext.newInstance(jaxbContextPath_, this.getClass().getClassLoader());
+      JAXBContext jc =
+        JAXBContext.newInstance(jaxbContextPath_,
+                                this.getClass().getClassLoader());
       result = jc.createMarshaller();
       result.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
       result.setProperty(Marshaller.JAXB_ENCODING, getEncoding());
+      final String location =
+        "http://czt.sourceforge.net/zml " + Z_SCHEMA_LOCATION;
+      result.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, location);
     }
     catch (Exception e) {
       // TODO
