@@ -216,12 +216,16 @@ the \emph{Funct} rule):
 It is allowable to declare the same name several times, provided
 that all declarations of that name are for the same kind of joker.
 All metavariable names must be declared without decorations.  
+These names are used only within rules, so do not change the
+meaning of standard Z paragraphs.  Within a rule paragraph,
+these jokers are implicitly universally quantified, so their
+scope is the whole rule.
 
 Implementation Note: the parser will record these declarations,
 and use them to transform those names into the appropriate kind
 of metavariable during parsing.  If we want to typecheck rules
 (it is not clear to me yet if this will be possible!) the typechecker will
-presumably also have to assign a type variable to each of these names
+also have to assign a type variable to each of these names
 during typechecking.
 
 
@@ -619,11 +623,19 @@ for rewriting subtraction into addition of a negated number.
   e1 - e2 = e1 + (\negate e2)
 \end{zedrule}
 
-A typical well-formedness condition on rewrite rules like this
+A typical well-formedness condition on simple rewrite rules like this
 is that all jokers appearing in the right hand side must also
 appear in the left hand side and the conclusion of the rule
-must be an equality.  Such conditions will be checked by the
-Java methods that process and apply the rewrite rules.
+must be an equality.  For rules that contain antecedents, more 
+sophisticated well-formedness conditions could be designed. 
+Such conditions could be checked by the
+Java methods that process and apply the rewrite rules (via a mode
+analysis like that of Mercury), but at the moment we leave such
+well-formedness conditions to the designers of the rules.
+Instead, most rewrite/proof engines just check that there are no
+jokers remaining in the term after the rewriting/proving has been
+finished.
+
 
 
 \subsection{Schema Normalisation Rules}
@@ -741,7 +753,7 @@ To start with, we will define one rule for each decoration.
 
 \begin{zedrule}{SchemaDecor}
   E = [D|P] \\
-  \proviso E2 == [D|P]~'
+ \proviso E2 == [D|P]~'
 \derives
   E~' = E2
 \end{zedrule}
