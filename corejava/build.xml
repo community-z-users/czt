@@ -38,9 +38,13 @@
   <property name="corejava.circus.src.jar"
     location="${corejava.jar.dir}/src-${corejava.circus.jar.file}"/>
   <uptodate property="ast.uptodate"
-    targetfile="${corejava.build.src}/net/sourceforge/czt/z/util/Factory.java" >
+    targetfile="${corejava.build.src}/net/sourceforge/czt/z/util/Factory.java">
     <srcfiles dir= "${czt.home}/zml" includes="*.xsd"/>
   </uptodate>
+  <available
+    file="../gnast/build.xml"
+    property="gnast.present"/>
+
 
   <target name="all" depends="install, api"
     description="build the jar files and the API documentation"/>
@@ -67,15 +71,17 @@
   <target name="build-src"
     depends="zchar, zstring, gen"/>
 
-  <target name="gen"
+  <target name="gen" if="gnast.present"
     depends="gen-ast, gen-jaxb"/>
 
-  <target name="gen-ast" depends="init" unless="ast.uptodate" 
+  <target name="gen-ast" depends="init"
+    unless="ast.uptodate" if="gnast.present"
     description="Generate AST classes and interfaces">
     <ant dir="../gnast" target="generate"/>
   </target>
 
-  <target name="gen-jaxb" depends="pre, install-base"
+  <target name="gen-jaxb" if="gnast.present"
+    depends="pre, install-base"
     description="Generate Jaxb classes">
     <taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
       <classpath>
@@ -102,30 +108,31 @@
     </xjc>
   </target>
 
-  <target name="pre" depends="preZ, preZPatt, preOZ, preTCOZ, preCircus"
+  <target name="pre" if="gnast.present"
+    depends="preZ, preZPatt, preOZ, preTCOZ, preCircus"
     description="Preprocesses the Schemas (used by the JAXB generator)"/>
 
-  <target name="preZ" depends="init">
+  <target name="preZ" if="gnast.present" depends="init">
     <xslt in="../zml/Z.xsd" out="${corejava.build.xsd}/Z.xsd"
       style="${src.xsl}/annotateJaxbBindings.xsl"/>
   </target>
 
-  <target name="preZPatt" depends="init">
+  <target name="preZPatt" if="gnast.present" depends="init">
     <xslt in="../zml/ZPattern.xsd" out="${corejava.build.xsd}/ZPattern.xsd"
       style="${src.xsl}/annotateJaxbBindings.xsl"/>
   </target>
 
-  <target name="preCircus" depends="init">
+  <target name="preCircus" if="gnast.present" depends="init">
     <xslt in="../zml/Circus.xsd" out="${corejava.build.xsd}/Circus.xsd"
       style="${src.xsl}/annotateJaxbBindings.xsl"/>
   </target>
 
-  <target name="preOZ" depends="init">
+  <target name="preOZ" if="gnast.present" depends="init">
     <xslt in="../zml/Object-Z.xsd" out="${corejava.build.xsd}/Object-Z.xsd"
       style="${src.xsl}/annotateJaxbBindings.xsl"/>
   </target>
 
-  <target name="preTCOZ" depends="init">
+  <target name="preTCOZ" if="gnast.present" depends="init">
     <xslt in="../zml/TCOZ.xsd" out="${corejava.build.xsd}/TCOZ.xsd"
       style="${src.xsl}/annotateJaxbBindings.xsl"/>
   </target>
