@@ -75,7 +75,7 @@ import net.sourceforge.czt.parser.util.ScanException;
  *   In order to work properly, a map containing the latex mark-up function
  *   of the current section to be scanned is needed.  This map must be
  *   updated when a new section header is recognised.
- *   The {@link net.sourceforge.czt.parser.util.LatexMarkupParser} is
+ *   The {@link LatexMarkupParser} is
  *   responsible for this task, and should process the output of an instance
  *   of this class before it can be processed further.
  * &lt;/p&gt;
