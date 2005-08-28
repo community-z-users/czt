@@ -5,7 +5,7 @@
   <!-- The package name -->
   <property name="czt.package.name" value="czt"/>
   <!-- Version number as it is used in the file name -->
-  <property name="czt.version" value="0_3"/>
+  <property name="czt.version" value="0_4"/>
   <property
     name="release"
     value="${czt.package.name}_${czt.version}"/>
@@ -74,6 +74,11 @@
     <!-- Addition files -->
     <copy todir="${srcrelease.dir}">
       <fileset dir="source_release"/>
+    </copy>
+    <!-- generate corejava source files -->
+    <ant dir="../corejava" target="gen"/>
+    <copy todir="${srcrelease.dir}/corejava/src">
+      <fileset dir="../corejava/build/src"/>
     </copy>
    </target>
 
@@ -161,6 +166,7 @@
 
   <target name="clean">
     <delete dir="${src.release.name}"/>
+    <delete dir="${bin.release.name}"/>
     <delete>
       <fileset dir="." includes="${src.release.name}.*"/>
     </delete>
