@@ -68,9 +68,9 @@
     <!-- Copy license file -->
     <copy tofile="${srcrelease.dir}/LICENSE.txt"
       file="${czt.dir}/corejava/COPYING.txt"/>
-    <!-- Copy czt properties file -->
-    <copy todir="${srcrelease.dir}"
-      file="${czt.dir}/czt.properties"/>
+    <!-- Checkout czt properties file -->
+    <cvs cvsRoot=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/czt"
+      package="czt.properties" dest="${srcrelease.dir}"/>
     <!-- Addition files -->
     <copy todir="${srcrelease.dir}">
       <fileset dir="source_release"/>
@@ -86,17 +86,15 @@
     <tar destfile="${src.release.name}.tar">
       <tarfileset dir=".">
         <include name="${src.release.name}/**"/>
-        <exclude name="**/*.sh"/>
         <exclude name="${src.release.name}/bin/beanshell*"/>
-        <exclude name="${src.release.name}/bin/ozed*"/>
-        <exclude name="${src.release.name}/bin/unicode2latex*"/>
+        <exclude name="${src.release.name}/bin/oz*"/>
+        <exclude name="${src.release.name}/bin/uni*"/>
         <exclude name="${src.release.name}/bin/zed*"/>
       </tarfileset>
       <tarfileset dir="." mode="755">
-        <include name="${src.release.name}/**/*.sh"/>
         <include name="${src.release.name}/bin/beanshell*"/>
-        <include name="${src.release.name}/bin/ozed*"/>
-        <include name="${src.release.name}/bin/unicode2latex*"/>
+        <include name="${src.release.name}/bin/oz*"/>
+        <include name="${src.release.name}/bin/uni*"/>
         <include name="${src.release.name}/bin/zed*"/>
       </tarfileset>
     </tar>
