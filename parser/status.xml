@@ -20,7 +20,7 @@
          </action>
     -->
     <release version="0.4" date="unreleased">
-      <action dev="Tim" type="bugfix">
+      <action dev="Tim" type="fix">
         Create operation names from OPNAME symbols using
         createDeclName(Decorword), so that the strokes are correctly
         added.
