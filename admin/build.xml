@@ -110,10 +110,10 @@
 
   <!-- Binary Release -->
 
-  <target name="bin-release" depends="init, czt"
+  <target name="bin.czt" depends="init, czt"
     description="Build a binary release">
     <!--    <property name="binrelease.dir" value="czt-bin-${DSTAMP}"/> -->
-    <property name="binrelease.dir" value="czt_${czt.version}_bin"/>
+    <property name="binrelease.dir" value="${bin.release.name}"/>
     <property name="binrelease.build.dir" value="build"/>
     <mkdir dir="${binrelease.build.dir}"/>
     <mkdir dir="${binrelease.dir}"/>
@@ -147,6 +147,28 @@
     <copy file="${namespace.jar}" todir="${binrelease.dir}"/>
     <copy file="${xsdlib.jar}" todir="${binrelease.dir}"/>
     <copy file="${relaxngDatatype.jar}" todir="${binrelease.dir}"/>
+
+    <copy todir="${binrelease.dir}/bin">
+      <fileset dir="${czt.dir}/bin">
+        <exclude name="bsh"/>
+        <exclude name="z2b*"/>
+        <exclude name="zlive*"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="tar.bin.czt" depends="bin.czt">
+    <tar destfile="${bin.release.name}.tar">
+      <tarfileset dir=".">
+        <include name="${bin.release.name}/**"/>
+      </tarfileset>
+      <tarfileset dir="." mode="755">
+        <include name="${bin.release.name}/bin/beanshell*"/>
+        <include name="${bin.release.name}/bin/oz*"/>
+        <include name="${bin.release.name}/bin/uni*"/>
+        <include name="${bin.release.name}/bin/zed*"/>
+      </tarfileset>
+    </tar>
   </target>
 
   <target name="czt">
@@ -161,6 +183,10 @@
   <target name="src-release"
     depends="tgz.czt, bz2.czt"
     description="Build a source release"/>
+
+  <target name="bin-release"
+    depends="tar.bin.czt"
+    description="Build the bin release"/>
 
   <target name="clean">
     <delete dir="${src.release.name}"/>
