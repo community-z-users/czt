@@ -38,18 +38,18 @@ import net.sourceforge.czt.typecheck.z.impl.*;
  * and all names declared.
  */
 public class PostChecker
-  extends Checker
-  implements ThetaExprVisitor,
-	     ExprPredVisitor,
-             RefExprVisitor,
-             SetExprVisitor
+  extends Checker<ErrorAnn>
+  implements ThetaExprVisitor<ErrorAnn>,
+	     ExprPredVisitor<ErrorAnn>,
+             RefExprVisitor<ErrorAnn>,
+             SetExprVisitor<ErrorAnn>
 {
   public PostChecker(TypeChecker typeChecker)
   {
     super(typeChecker);
   }
 
-  public Object visitThetaExpr(ThetaExpr thetaExpr)
+  public ErrorAnn visitThetaExpr(ThetaExpr thetaExpr)
   {
     TypeAnn typeAnn = (TypeAnn) thetaExpr.getAnn(TypeAnn.class);
     Type type = typeAnn.getType();
@@ -80,7 +80,7 @@ public class PostChecker
     return null;
   }
 
-  public Object visitExprPred(ExprPred exprPred)
+  public ErrorAnn visitExprPred(ExprPred exprPred)
   {
     TypeAnn typeAnn = (TypeAnn) exprPred.getExpr().getAnn(TypeAnn.class);
     Type type = typeAnn.getType();
@@ -111,7 +111,7 @@ public class PostChecker
     return null;  
   }
 
-  public Object visitRefExpr(RefExpr refExpr)
+  public ErrorAnn visitRefExpr(RefExpr refExpr)
   {
     RefName refName = refExpr.getRefName();
     UndeclaredAnn uAnn = (UndeclaredAnn) refName.getAnn(UndeclaredAnn.class);
@@ -163,7 +163,7 @@ public class PostChecker
     return null;
   }
 
-  public Object visitSetExpr(SetExpr setExpr)
+  public ErrorAnn visitSetExpr(SetExpr setExpr)
   {
     //get the type from the annotations
     Type2 type = getType2FromAnns(setExpr);

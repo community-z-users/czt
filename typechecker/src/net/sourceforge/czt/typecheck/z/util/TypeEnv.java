@@ -21,7 +21,6 @@ package net.sourceforge.czt.typecheck.z.util;
 import java.io.*;
 import java.util.Stack;
 import java.util.List;
-import java.util.ArrayList;
 
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 
@@ -64,9 +63,9 @@ public class TypeEnv
 
   public void enterScope()
   {
-    List<NameTypePair> info = new ArrayList<NameTypePair>();
+    List<NameTypePair> info = list();
     typeInfo_.push(info);
-    List<DeclName> parameters = new ArrayList<DeclName>();
+    List<DeclName> parameters = list();
     parameters_.push(parameters);
   }
 
@@ -89,7 +88,7 @@ public class TypeEnv
 
   public List<DeclName> getParameters()
   {
-    List<DeclName> result = new ArrayList<DeclName>();
+    List<DeclName> result = list();
     result.addAll(parameters_.peek());
     return result;
   }
@@ -170,7 +169,7 @@ public class TypeEnv
 
   protected List<NameTypePair> getNameTypePairs()
   {
-    List<NameTypePair> result = new ArrayList<NameTypePair>();
+    List<NameTypePair> result = list();
     for (List<NameTypePair> list : typeInfo_) {
       for (NameTypePair pair : list) {
         NameTypePair existing = findNameTypePair(pair.getName(), result);

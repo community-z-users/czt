@@ -38,8 +38,8 @@ import net.sourceforge.czt.typecheck.z.impl.*;
 /**
  * A super class for the *Checker classes in the typechecker.
  */
-abstract public class Checker
-  implements TermVisitor
+abstract public class Checker<R>
+  implements TermVisitor<R>
 {
   //the information required for the typechecker classes.
   protected TypeChecker typeChecker_;
@@ -53,7 +53,7 @@ abstract public class Checker
    * Double check that this visitor is not being asked to visit a
    * non-Decl object.
    */
-  public Object visitTerm(Term term)
+  public R visitTerm(Term term)
   {
     String position = position((TermA) term);
     logger().warning(this.getClass().getName() +
@@ -370,32 +370,37 @@ abstract public class Checker
   }
 
   //the visitors used to typechecker a spec
-  protected Checker specChecker()
+  protected Checker<Object> specChecker()
   {
     return typeChecker_.specChecker_;
   }
 
-  protected Checker paraChecker()
+  protected Checker<Signature> paraChecker()
   {
     return typeChecker_.paraChecker_;
   }
 
-  protected Checker declChecker()
+  protected Checker<List<NameTypePair>> declChecker()
   {
     return typeChecker_.declChecker_;
   }
 
-  protected Checker exprChecker()
+  protected Checker<Type2> exprChecker()
   {
     return typeChecker_.exprChecker_;
   }
 
-  protected Checker predChecker()
+  protected Checker<UResult> predChecker()
   {
     return typeChecker_.predChecker_;
   }
 
-  protected Checker postChecker()
+  protected Checker<Signature> schTextChecker()
+  {
+    return typeChecker_.schTextChecker_;
+  }
+
+  protected Checker<? extends ErrorAnn> postChecker()
   {
     return typeChecker_.postChecker_;
   }
@@ -407,7 +412,7 @@ abstract public class Checker
     for (Object next : paraErrors()) {
       if (next instanceof TermA) {
         TermA termA = (TermA) next;
-        ErrorAnn errorAnn = (ErrorAnn) termA.accept(postChecker());
+        ErrorAnn errorAnn = termA.accept(postChecker());
         if (errorAnn != null) {
           paraErrors.add(errorAnn);
         }
@@ -840,8 +845,8 @@ abstract public class Checker
       Type unificationEnvType = unificationEnv().getType(genName);
 
       //if this type's reference is in the parameters
-      if (containsObject(typeEnv().getParameters(), genName)
-          && isPending()) {
+      if (isPending() &&
+	  containsObject(typeEnv().getParameters(), genName)) {
         result = type;
       }
       else if (unificationEnvType instanceof UnknownType &&
@@ -980,7 +985,6 @@ abstract public class Checker
     List<String> names = list();
     for (DeclName declName : declNames) {
       //declName.setId("" + id++);
-
       GenParamType genParamType = factory().createGenParamType(declName);
       PowerType powerType = factory().createPowerType(genParamType);
 

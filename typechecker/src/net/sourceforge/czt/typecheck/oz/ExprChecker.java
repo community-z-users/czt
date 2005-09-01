@@ -42,14 +42,14 @@ import net.sourceforge.czt.typecheck.z.*;
  * expression.
  */
 public class ExprChecker
-  extends Checker
+  extends Checker<Type2>
   implements
-    ClassUnionExprVisitor,
-    PolyExprVisitor,
-    ContainmentExprVisitor,
-    PredExprVisitor,
-    BindSelExprVisitor,
-    RenameExprVisitor
+    ClassUnionExprVisitor<Type2>,
+    PolyExprVisitor<Type2>,
+    ContainmentExprVisitor<Type2>,
+    PredExprVisitor<Type2>,
+    BindSelExprVisitor<Type2>,
+    RenameExprVisitor<Type2>
 {
   //a Z expr checker
   protected net.sourceforge.czt.typecheck.z.ExprChecker zExprChecker_;
@@ -61,19 +61,19 @@ public class ExprChecker
       new net.sourceforge.czt.typecheck.z.ExprChecker(typeChecker);
   }
 
-  public Object visitTerm(Term term)
+  public Type2 visitTerm(Term term)
   {
     return term.accept(zExprChecker_);
   }
 
-  public Object visitClassUnionExpr(ClassUnionExpr classUnionExpr)
+  public Type2 visitClassUnionExpr(ClassUnionExpr classUnionExpr)
   {
     Type2 type = factory().createUnknownType();
 
-    Expr lExpr = (Expr) classUnionExpr.getLeftExpr();
-    Expr rExpr = (Expr) classUnionExpr.getRightExpr();
-    Type2 lType = (Type2) lExpr.accept(this);
-    Type2 rType = (Type2) rExpr.accept(this);
+    Expr lExpr = classUnionExpr.getLeftExpr();
+    Expr rExpr = classUnionExpr.getRightExpr();
+    Type2 lType = lExpr.accept(this);
+    Type2 rType = rExpr.accept(this);
 
     ClassType vlClassType = factory().createVariableClassType();
     PowerType vlPowerType = factory().createPowerType(vlClassType);
@@ -117,12 +117,12 @@ public class ExprChecker
     return type;
   }
 
-  public Object visitPolyExpr(PolyExpr polyExpr)
+  public Type2 visitPolyExpr(PolyExpr polyExpr)
   {
     Type2 type = factory().createUnknownType();
 
     Expr expr = polyExpr.getExpr();
-    Type2 exprType = (Type2) expr.accept(exprChecker());
+    Type2 exprType = expr.accept(exprChecker());
 
     //if the left expr is not a class description, raise an error
     PowerType vPowerType = factory().createPowerType();
@@ -203,12 +203,12 @@ public class ExprChecker
     return type;
   }
 
-  public Object visitContainmentExpr(ContainmentExpr containmentExpr)
+  public Type2 visitContainmentExpr(ContainmentExpr containmentExpr)
   {
     Type2 type = factory().createUnknownType();
 
     Expr expr = containmentExpr.getExpr();
-    Type2 exprType = (Type2) expr.accept(exprChecker());
+    Type2 exprType = expr.accept(exprChecker());
 
     //if the left expr is not a class description, raise an error
     ClassType vClassType = factory().createVariableClassType();
@@ -229,13 +229,13 @@ public class ExprChecker
     return type;
   }
 
-  public Object visitPredExpr(PredExpr predExpr)
+  public Type2 visitPredExpr(PredExpr predExpr)
   {
     Type2 type = factory().createUnknownType();
 
     //visit the predicate
     Pred pred = predExpr.getPred();
-    UResult solved = (UResult) pred.accept(predChecker());
+    UResult solved = pred.accept(predChecker());
 
     if (solved == SUCC) {
       //create a boolean type (a power type containing an empty schema type)
@@ -248,18 +248,18 @@ public class ExprChecker
     return type;
   }
 
-  public Object visitBindSelExpr(BindSelExpr bindSelExpr)
+  public Type2 visitBindSelExpr(BindSelExpr bindSelExpr)
   {
     Type type = factory().createUnknownType();
 
     //get the type of the expression
     Expr expr = bindSelExpr.getExpr();
-    Type2 exprType = (Type2) expr.accept(exprChecker());
+    Type2 exprType = expr.accept(exprChecker());
     exprType = resolveClassType(exprType);
 
     if (!instanceOf(exprType, VariableType.class)) {
       if (exprType instanceof SchemaType) {
-        type = (Type2) zExprChecker_.visitBindSelExpr(bindSelExpr);
+        type = zExprChecker_.visitBindSelExpr(bindSelExpr);
       }
       else if (exprType instanceof ClassType) {
         ClassType classType = (ClassType) exprType;
@@ -342,13 +342,13 @@ public class ExprChecker
     return result;
   }
 
-  public Object visitRenameExpr(RenameExpr renameExpr)
+  public Type2 visitRenameExpr(RenameExpr renameExpr)
   {
     Type2 type = factory().createUnknownType();
 
     //get the type of the expression
     Expr expr = renameExpr.getExpr();
-    Type2 exprType = (Type2) expr.accept(exprChecker());
+    Type2 exprType = expr.accept(exprChecker());
 
     PowerType vPowerType = factory().createPowerType();
     UResult unified = strongUnify(vPowerType, exprType);
@@ -380,7 +380,7 @@ public class ExprChecker
         }
       }
       else if (vPowerType.getType() instanceof SchemaType) {
-        type = (Type2) zExprChecker_.visitRenameExpr(renameExpr);
+        type = zExprChecker_.visitRenameExpr(renameExpr);
       }
       else {
         Object [] params = {renameExpr, exprType};

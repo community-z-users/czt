@@ -38,13 +38,13 @@ import net.sourceforge.czt.typecheck.z.*;
  *
  */
 public class ParaChecker
-  extends Checker
+  extends Checker<Signature>
   implements
-    SchTextVisitor,
-    ClassParaVisitor,
-    StateVisitor,
-    InitialStateVisitor,
-    OperationVisitor
+    SchTextVisitor<Signature>,
+    ClassParaVisitor<Signature>,
+    StateVisitor<Signature>,
+    InitialStateVisitor<Signature>,
+    OperationVisitor<Signature>
 {
   protected net.sourceforge.czt.typecheck.z.ParaChecker zParaChecker_;
 
@@ -55,17 +55,17 @@ public class ParaChecker
       new net.sourceforge.czt.typecheck.z.ParaChecker(typeChecker);
   }
 
-  public Object visitTerm(Term term)
+  public Signature visitTerm(Term term)
   {
     return term.accept(zParaChecker_);
   }
 
-  public Object visitSchText(SchText schText)
+  public Signature visitSchText(SchText schText)
   {
     return schText.accept(zParaChecker_);
   }
 
-  public Object visitClassPara(ClassPara classPara)
+  public Signature visitClassPara(ClassPara classPara)
   {
     //enter new variable scopes
     pending().enterScope();
@@ -111,7 +111,7 @@ public class ParaChecker
     List<NameTypePair> attrDecls = list();
     List<Para> attrs = classPara.getLocalDef();
     for (Para para : attrs) {
-      Signature signature = (Signature) para.accept(paraChecker());
+      Signature signature = para.accept(paraChecker());
       List<NameTypePair> newDecls = signature.getNameTypePair();
       typeEnv().add(newDecls);
       attrDecls.addAll(newDecls);
@@ -140,7 +140,7 @@ public class ParaChecker
     //visit the state
     State state = classPara.getState();
     if (state != null) {
-      Signature signature = (Signature) state.accept(paraChecker());
+      Signature signature = state.accept(paraChecker());
       List<NameTypePair> decls = cSig.getState().getNameTypePair();
       checkForDuplicates(decls, null, ErrorMessage.INCOMPATIBLE_OVERRIDING);
     }
@@ -182,12 +182,11 @@ public class ParaChecker
       enterOpScope(cSig.getState());
 
       //visit the operation, and add its definition to the class info
-      NameSignaturePair pair =
-        (NameSignaturePair) operation.accept(paraChecker());
-      addOperation(pair, cSig);
+      Signature opSignature = operation.accept(paraChecker());
+      addOperation(operation.getName(), opSignature, cSig);
 
       //add the name of the operation
-      opNames.add(pair.getName());
+      opNames.add(operation.getName());
 
       //exit the scope
       typeEnv().exitScope();
@@ -225,7 +224,7 @@ public class ParaChecker
     return signature;
   }
 
-  public Object visitState(State state)
+  public Signature visitState(State state)
   {
     List<NameTypePair> pairs = list();
 
@@ -235,7 +234,7 @@ public class ParaChecker
 
     //get the types in the declarations
     for (PrimaryDecl decl : primaryDecls) {
-      List<NameTypePair> pPairs = (List) decl.getDecl().accept(declChecker());
+      List<NameTypePair> pPairs = decl.getDecl().accept(declChecker());
       pairs.addAll(pPairs);
       //add the names in the primary decls to the list of primary
       //names
@@ -244,7 +243,7 @@ public class ParaChecker
       }
     }
     for (SecondaryDecl decl : secondaryDecls) {
-      pairs.addAll((List) decl.getDecl().accept(declChecker()));
+      pairs.addAll(decl.getDecl().accept(declChecker()));
     }
 
     //check the state for incompatible declarations
@@ -260,7 +259,7 @@ public class ParaChecker
     //typecheck the predicate
     Pred pred = state.getPred();
     if (pred != null) {
-      UResult solved = (UResult) pred.accept(predChecker());
+      UResult solved = pred.accept(predChecker());
       //if there unsolved unifications, visit this again
       if (solved == PARTIAL) {
         pred.accept(predChecker());
@@ -276,14 +275,14 @@ public class ParaChecker
     return signature;
   }
 
-  public Object visitInitialState(InitialState initialState)
+  public Signature visitInitialState(InitialState initialState)
   {
     //enter a new scope
     typeEnv().enterScope();
 
     //visit the predicate
     Pred pred = initialState.getPred();
-    UResult solved = (UResult) pred.accept(predChecker());
+    UResult solved = pred.accept(predChecker());
 
     //if the are unsolved unifications in this predicate,
     //visit it again
@@ -297,7 +296,7 @@ public class ParaChecker
     return null;
   }
 
-  public Object visitOperation(Operation operation)
+  public Signature visitOperation(Operation operation)
   {
     DeclName opName = operation.getName();
     Signature signature = factory().createVariableSignature();
@@ -337,7 +336,7 @@ public class ParaChecker
       //visit the operation expression, and get the signature
       typeEnv().enterScope();
       OpExpr opExpr = operation.getOpExpr();
-      signature = (Signature) opExpr.accept(opExprChecker());
+      signature = opExpr.accept(opExprChecker());
       typeEnv().exitScope();
 
       if (added) {
@@ -346,17 +345,13 @@ public class ParaChecker
       }
     }
 
-    //create the name/signature pair
-    NameSignaturePair pair =
-      factory().createNameSignaturePair(opName, signature);
-
-    return pair;
+    return signature;
   }
 
-  protected Object visitInheritedClass(Expr expr)
+  protected void visitInheritedClass(Expr expr)
   {
     //visit the expr
-    Type2 exprType = (Type2) expr.accept(exprChecker());
+    Type2 exprType = expr.accept(exprChecker());
 
     PowerType vPowerType = factory().createPowerType();
     UResult unified = strongUnify(vPowerType, exprType);    
@@ -425,7 +420,6 @@ public class ParaChecker
         inheritOps(icSig.getOperation(), cSig.getOperation(), expr);
       }
     }
-    return null;
   }
 
   protected void enterOpScope(Signature signature)

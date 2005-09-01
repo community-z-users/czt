@@ -21,6 +21,8 @@ package net.sourceforge.czt.typecheck.z;
 import java.util.List;
 import java.util.logging.Logger;
 
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
+
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
@@ -89,11 +91,12 @@ public class TypeChecker
 
   //the visitors used to typechecker a spec
   protected Checker specChecker_ = null;
-  protected Checker paraChecker_ = null;
-  protected Checker declChecker_ = null;
+  protected Checker<Signature> paraChecker_ = null;
+  protected Checker<List<NameTypePair>> declChecker_ = null;
   protected Checker exprChecker_ = null;
-  protected Checker predChecker_ = null;
-  protected Checker postChecker_ = null;
+  protected Checker<UResult> predChecker_ = null;
+  protected Checker<Signature> schTextChecker_ = null;
+  protected Checker<ErrorAnn> postChecker_ = null;
 
   public TypeChecker(TypeChecker info)
   {
@@ -132,14 +135,15 @@ public class TypeChecker
     unificationEnv_ = new UnificationEnv(zFactory_);
     markup_ = markup == null ? Markup.LATEX : markup;
     carrierSet_ = new CarrierSet();
-    errors_ = new java.util.ArrayList<ErrorAnn>();
-    paraErrors_ = new java.util.ArrayList<Object>();
+    errors_ = list();
+    paraErrors_ = list();
     useBeforeDecl_ = useBeforeDecl;
     specChecker_ = new SpecChecker(this);
     paraChecker_ = new ParaChecker(this);
     declChecker_ = new DeclChecker(this);
     exprChecker_ = new ExprChecker(this);
     predChecker_ = new PredChecker(this);
+    schTextChecker_ = new SchTextChecker(this);
     postChecker_ = new PostChecker(this);
   }
 
@@ -167,12 +171,12 @@ public class TypeChecker
     return term.accept(specChecker_);
   }
 
-  public Object visitPara(Para para)
+  public Signature visitPara(Para para)
   {
     return para.accept(paraChecker_);
   }
 
-  public Object visitDecl(Decl decl)
+  public List<NameTypePair> visitDecl(Decl decl)
   {
     return decl.accept(declChecker_);
   }

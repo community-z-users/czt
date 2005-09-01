@@ -39,21 +39,21 @@ import net.sourceforge.czt.typecheck.z.impl.*;
  * objects indicating the variables and their types.
  */
 public class DeclChecker
-  extends Checker
-  implements VarDeclVisitor,
-             ConstDeclVisitor,
-             InclDeclVisitor
+  extends Checker<List<NameTypePair>>
+  implements VarDeclVisitor<List<NameTypePair>>,
+             ConstDeclVisitor<List<NameTypePair>>,
+             InclDeclVisitor<List<NameTypePair>>
 {
   public DeclChecker(TypeChecker typeChecker)
   {
     super(typeChecker);
   }
 
-  public Object visitVarDecl(VarDecl varDecl)
+  public List<NameTypePair> visitVarDecl(VarDecl varDecl)
   {
     //get and visit the expression
     Expr expr = varDecl.getExpr();
-    Type2 exprType = (Type2) expr.accept(exprChecker());
+    Type2 exprType = expr.accept(exprChecker());
 
     //expr should be a set expr
     PowerType vPowerType = factory().createPowerType();
@@ -65,14 +65,14 @@ public class DeclChecker
     return pairs;
   }
 
-  public Object visitConstDecl(ConstDecl constDecl)
+  public List<NameTypePair> visitConstDecl(ConstDecl constDecl)
   {
     //get the DeclName
     DeclName declName = constDecl.getDeclName();
 
     //get and visit the expression
     Expr expr = constDecl.getExpr();
-    Type2 exprType = (Type2) expr.accept(exprChecker());
+    Type2 exprType = expr.accept(exprChecker());
 
     //create the NameTypePair and the list of decls (only 1 element)
     NameTypePair pair = factory().createNameTypePair(declName, exprType);
@@ -81,14 +81,14 @@ public class DeclChecker
     return pairs;
   }
 
-  public Object visitInclDecl(InclDecl inclDecl)
+  public List<NameTypePair> visitInclDecl(InclDecl inclDecl)
   {
     //the list of name type pairs in this InclDecl
     List<NameTypePair> pairs = list();
 
     //get the expression
     Expr expr = inclDecl.getExpr();
-    Type2 exprType = (Type2) expr.accept(exprChecker());
+    Type2 exprType = expr.accept(exprChecker());
 
     //the included decl must be a schema expr
     SchemaType vSchemaType = factory().createSchemaType();

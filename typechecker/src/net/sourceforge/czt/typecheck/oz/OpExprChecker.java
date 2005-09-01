@@ -40,37 +40,37 @@ import net.sourceforge.czt.typecheck.z.*;
  * expression.
  */
 public class OpExprChecker
-  extends Checker
+  extends Checker<Signature>
   implements
-    OpExprVisitor,
-    AnonOpExprVisitor,
-    OpPromotionExprVisitor,
-    OpExpr2Visitor,
-    SeqOpExprVisitor,
-    ParallelOpExprVisitor,
-    AssoParallelOpExprVisitor,
-    HideOpExprVisitor,
-    RenameOpExprVisitor,
-    ScopeEnrichOpExprVisitor,
-    DistOpExprVisitor,
-    OpTextVisitor
+    OpExprVisitor<Signature>,
+    AnonOpExprVisitor<Signature>,
+    OpPromotionExprVisitor<Signature>,
+    OpExpr2Visitor<Signature>,
+    SeqOpExprVisitor<Signature>,
+    ParallelOpExprVisitor<Signature>,
+    AssoParallelOpExprVisitor<Signature>,
+    HideOpExprVisitor<Signature>,
+    RenameOpExprVisitor<Signature>,
+    ScopeEnrichOpExprVisitor<Signature>,
+    DistOpExprVisitor<Signature>,
+    OpTextVisitor<Signature>
 {
   public OpExprChecker(TypeChecker typeChecker)
   {
     super(typeChecker);
   }
 
-  public Object visitOpExpr(OpExpr opExpr)
+  public Signature visitOpExpr(OpExpr opExpr)
   {
     visitTerm(opExpr);
     return factory().createSignature();
   }
 
-  public Object visitAnonOpExpr(AnonOpExpr anonOpExpr)
+  public Signature visitAnonOpExpr(AnonOpExpr anonOpExpr)
   {
     //get the signature of the operation text
     OpText opText = anonOpExpr.getOpText();
-    Signature signature = (Signature) opText.accept(opExprChecker());
+    Signature signature = opText.accept(opExprChecker());
 
     //add the signature annotation
     addSignatureAnn(anonOpExpr, signature);
@@ -78,7 +78,7 @@ public class OpExprChecker
     return signature;
   }
 
-  public Object visitOpText(OpText opText)
+  public Signature visitOpText(OpText opText)
   {
     //enter a new variable scope
     typeEnv().enterScope();
@@ -101,7 +101,7 @@ public class OpExprChecker
 
     //visit the schema text and gets its signature
     SchText schText = opText.getSchText();
-    Signature signature = (Signature) schText.accept(exprChecker());
+    Signature signature = schText.accept(schTextChecker());
 
     //exit the variable scope
     typeEnv().exitScope();
@@ -112,7 +112,7 @@ public class OpExprChecker
     return signature;
   }
 
-  public Object visitOpPromotionExpr(OpPromotionExpr opPromExpr)
+  public Signature visitOpPromotionExpr(OpPromotionExpr opPromExpr)
   {
     Signature signature = factory().createSignature();
 
@@ -121,7 +121,7 @@ public class OpExprChecker
 
     //if the expression is not null, then we use the type of expr
     if (expr != null) {
-      exprType = (Type2) expr.accept(exprChecker());
+      exprType = expr.accept(exprChecker());
       exprType = resolveClassType(exprType);
     }
 
@@ -147,7 +147,8 @@ public class OpExprChecker
           List<Operation> ops = classPara().getOperation();
           for (Operation op : ops) {
             if (namesEqual(op.getName(), refName)) {
-              opDef = (NameSignaturePair) op.accept(paraChecker());
+              Signature opSignature = op.accept(paraChecker());
+	      opDef = factory().createNameSignaturePair(op.getName(), opSignature);
             }
           }
         }
@@ -181,7 +182,7 @@ public class OpExprChecker
    * Visits ConjOpExprs and ExChoiceOpExpr which have the same type
    * rules.
    */
-  public Object visitOpExpr2(OpExpr2 opExpr2)
+  public Signature visitOpExpr2(OpExpr2 opExpr2)
   {
     //enter a new scope
     typeEnv().enterScope();
@@ -190,7 +191,7 @@ public class OpExprChecker
 
     //get the signatures of the left and right operations
     OpExpr lOpExpr = opExpr2.getLeftOpExpr();
-    Signature lSig = (Signature) lOpExpr.accept(opExprChecker());
+    Signature lSig = lOpExpr.accept(opExprChecker());
 
     //if this is a choice expr, exit and then enter a scope so that
     //downcasts in the left and not visible in the right
@@ -200,7 +201,7 @@ public class OpExprChecker
     }
 
     OpExpr rOpExpr = opExpr2.getRightOpExpr();
-    Signature rSig = (Signature) rOpExpr.accept(opExprChecker());
+    Signature rSig = rOpExpr.accept(opExprChecker());
 
     List<NameTypePair> newPairs = list(lSig.getNameTypePair());
     newPairs.addAll(rSig.getNameTypePair());
@@ -217,7 +218,7 @@ public class OpExprChecker
     return signature;
   }
 
-  public Object visitSeqOpExpr(SeqOpExpr seqOpExpr)
+  public Signature visitSeqOpExpr(SeqOpExpr seqOpExpr)
   {
     //enter a new scope
     typeEnv().enterScope();
@@ -225,8 +226,8 @@ public class OpExprChecker
     //get the signatures of the left and right operations
     OpExpr lOpExpr = seqOpExpr.getLeftOpExpr();
     OpExpr rOpExpr = seqOpExpr.getRightOpExpr();
-    Signature lSig = (Signature) lOpExpr.accept(opExprChecker());
-    Signature rSig = (Signature) rOpExpr.accept(opExprChecker());
+    Signature lSig = lOpExpr.accept(opExprChecker());
+    Signature rSig = rOpExpr.accept(opExprChecker());
 
     String errorMessage = ErrorMessage.TYPE_MISMATCH_IN_SEQOPEXPR.toString();
     Signature signature = createCompSig(lSig, rSig, seqOpExpr, errorMessage);
@@ -242,7 +243,7 @@ public class OpExprChecker
     return signature;
   }
 
-  public Object visitParallelOpExpr(ParallelOpExpr parallelOpExpr)
+  public Signature visitParallelOpExpr(ParallelOpExpr parallelOpExpr)
   {
     //enter a variable scope
     typeEnv().enterScope();
@@ -250,8 +251,8 @@ public class OpExprChecker
     //get the signatures of the left and right operations
     OpExpr lOpExpr = parallelOpExpr.getLeftOpExpr();
     OpExpr rOpExpr = parallelOpExpr.getRightOpExpr();
-    Signature lSig = (Signature) lOpExpr.accept(opExprChecker());
-    Signature rSig = (Signature) rOpExpr.accept(opExprChecker());
+    Signature lSig = lOpExpr.accept(opExprChecker());
+    Signature rSig = rOpExpr.accept(opExprChecker());
 
     String errorMessage =
       ErrorMessage.TYPE_MISMATCH_IN_PARALLELOPEXPR.toString();
@@ -270,7 +271,7 @@ public class OpExprChecker
     return signature;
   }
 
-  public Object visitAssoParallelOpExpr(AssoParallelOpExpr assoParallelOpExpr)
+  public Signature visitAssoParallelOpExpr(AssoParallelOpExpr assoParallelOpExpr)
   {
     //enter a variable scope
     typeEnv().enterScope();
@@ -278,8 +279,8 @@ public class OpExprChecker
     //get the signatures of the left and right operations
     OpExpr lOpExpr = assoParallelOpExpr.getLeftOpExpr();
     OpExpr rOpExpr = assoParallelOpExpr.getRightOpExpr();
-    Signature lSig = (Signature) lOpExpr.accept(opExprChecker());
-    Signature rSig = (Signature) rOpExpr.accept(opExprChecker());
+    Signature lSig = lOpExpr.accept(opExprChecker());
+    Signature rSig = rOpExpr.accept(opExprChecker());
 
     String errorMessage =
       ErrorMessage.TYPE_MISMATCH_IN_ASSOPARALLELOPEXPR.toString();
@@ -300,11 +301,11 @@ public class OpExprChecker
     return signature;
   }
 
-  public Object visitHideOpExpr(HideOpExpr hideOpExpr)
+  public Signature visitHideOpExpr(HideOpExpr hideOpExpr)
   {
     //get the signature of the operation expr
     OpExpr opExpr = hideOpExpr.getOpExpr();
-    Signature hideSig = (Signature) opExpr.accept(opExprChecker());
+    Signature hideSig = opExpr.accept(opExprChecker());
 
     //hide the declarations
     Signature signature =
@@ -316,11 +317,11 @@ public class OpExprChecker
     return signature;
   }
 
-  public Object visitRenameOpExpr(RenameOpExpr renameOpExpr)
+  public Signature visitRenameOpExpr(RenameOpExpr renameOpExpr)
   {
     //get the signature of the operation expr
     OpExpr opExpr = renameOpExpr.getOpExpr();
-    Signature renameSig = (Signature) opExpr.accept(opExprChecker());
+    Signature renameSig = opExpr.accept(opExprChecker());
 
     //hide the declarations
     String errorMessage =
@@ -336,7 +337,7 @@ public class OpExprChecker
     return signature;
   }
 
-  public Object visitScopeEnrichOpExpr(ScopeEnrichOpExpr scopeEnrichOpExpr)
+  public Signature visitScopeEnrichOpExpr(ScopeEnrichOpExpr scopeEnrichOpExpr)
   {
     traverseForDowncasts(scopeEnrichOpExpr);
 
@@ -345,14 +346,14 @@ public class OpExprChecker
 
     //get the signature of the left operation expression
     OpExpr lOpExpr = scopeEnrichOpExpr.getLeftOpExpr();
-    Signature lSig = (Signature) lOpExpr.accept(opExprChecker());
+    Signature lSig = lOpExpr.accept(opExprChecker());
 
     //add the types into the typing environment
     typeEnv().add(lSig.getNameTypePair());
 
     //get and visit the right expr
     OpExpr rOpExpr = scopeEnrichOpExpr.getRightOpExpr();
-    Signature rSig = (Signature) rOpExpr.accept(opExprChecker());
+    Signature rSig = rOpExpr.accept(opExprChecker());
 
     List<NameTypePair> newPairs = list(lSig.getNameTypePair());
     newPairs.addAll(rSig.getNameTypePair());
@@ -371,7 +372,7 @@ public class OpExprChecker
     return signature;
   }
 
-  public Object visitDistOpExpr(DistOpExpr distOpExpr)
+  public Signature visitDistOpExpr(DistOpExpr distOpExpr)
   {
     //enter a new variable scope
     typeEnv().enterScope();
@@ -379,12 +380,12 @@ public class OpExprChecker
     //get the signature from the schema text. The ExprChecker will add
     //the declarations to the typing environment
     SchText schText = distOpExpr.getSchText();
-    Signature distSig = (Signature) schText.accept(exprChecker());
+    Signature distSig = schText.accept(schTextChecker());
 
     //get the signature of the operation expression
     //this is the signature of the entire distributed operation
     OpExpr opExpr = distOpExpr.getOpExpr();
-    Signature signature = (Signature) opExpr.accept(opExprChecker());
+    Signature signature = opExpr.accept(opExprChecker());
 
     //check that there are no common names between the distributed
     //operator declarations and the op expr declarations

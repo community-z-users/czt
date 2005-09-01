@@ -39,12 +39,12 @@ import net.sourceforge.czt.typecheck.tcoz.util.*;
  * expression.
  */
 public class OpExprChecker
-  extends Checker
+  extends Checker<Signature>
   implements
-    AtProExprVisitor,
-    RecProExprVisitor,
-    WaitUntilProExprVisitor,
-    EventVisitor
+    AtProExprVisitor<Signature>,
+    RecProExprVisitor<Signature>,
+    WaitUntilProExprVisitor<Signature>,
+    EventVisitor<Signature>
 {
   //an Object-Z OpExpr checker
   protected net.sourceforge.czt.typecheck.oz.OpExprChecker ozOpExprChecker_;
@@ -56,12 +56,12 @@ public class OpExprChecker
       new net.sourceforge.czt.typecheck.oz.OpExprChecker(typeChecker);
   }
 
-  public Object visitTerm(Term term)
+  public Signature visitTerm(Term term)
   {
     return term.accept(ozOpExprChecker_);
   }
 
-  public Object visitAtProExpr(AtProExpr atProExpr)
+  public Signature visitAtProExpr(AtProExpr atProExpr)
   {
     Event event = atProExpr.getEvent();
     event.accept(opExprChecker());
@@ -76,7 +76,7 @@ public class OpExprChecker
     return signature;
   }
 
-  public Object visitRecProExpr(RecProExpr recProExpr)
+  public Signature visitRecProExpr(RecProExpr recProExpr)
   {
     Signature signature = factory().createSignature();
 
@@ -98,7 +98,7 @@ public class OpExprChecker
     return signature;
   }
 
-  public Object visitWaitUntilProExpr(WaitUntilProExpr waitUntilProExpr)
+  public Signature visitWaitUntilProExpr(WaitUntilProExpr waitUntilProExpr)
   {
     OpExpr opExpr = waitUntilProExpr.getOpExpr();
     Signature signature = (Signature) opExpr.accept(opExprChecker());
@@ -110,7 +110,7 @@ public class OpExprChecker
     return signature;
   }
 
-  public Object visitEvent(Event event)
+  public Signature visitEvent(Event event)
   {
     RefName channelName = event.getChannelName();
     LocAnn locAnn = (LocAnn) channelName.getAnn(LocAnn.class);

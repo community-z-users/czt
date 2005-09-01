@@ -34,11 +34,11 @@ import net.sourceforge.czt.typecheck.z.impl.*;
 /**
  */
 public class SpecChecker
-  extends Checker
-  implements SpecVisitor,
-             ZSectVisitor,
-             ParentVisitor,
-             SectVisitor
+  extends Checker<Object>
+  implements SpecVisitor<Object>,
+             ZSectVisitor<Object>,
+             ParentVisitor<Object>,
+             SectVisitor<Object>
 {
   public SpecChecker(TypeChecker typeChecker)
   {
@@ -47,6 +47,7 @@ public class SpecChecker
 
   public Object visitSpec(Spec spec)
   {
+    //visit each section, and get the definition made in that section
     List<Sect> sects = spec.getSect();
     SectTypeEnvAnn specTypes = factory().createSectTypeEnvAnn(list());
     List<NameSectTypeTriple> triples = specTypes.getNameSectTypeTriple();
@@ -96,7 +97,6 @@ public class SpecChecker
     List<String> names = list();
     for (Parent parent : parents) {
       parent.accept(specChecker());
-
       if (names.contains(parent.getWord())) {
         Object [] params = {parent.getWord(), sectName()};
         error(parent, ErrorMessage.REDECLARED_PARENT, params);
@@ -114,7 +114,7 @@ public class SpecChecker
     List<Para> paras = zSect.getPara();
     for (Para para : paras) {
       //add the global definitions to the SectTypeEnv
-      Signature signature = (Signature) para.accept(paraChecker());
+      Signature signature = para.accept(paraChecker());
       List<NameTypePair> pairs = signature.getNameTypePair();
       for (NameTypePair pair : pairs) {
         //if the name already exists globally, raise an error
@@ -143,8 +143,7 @@ public class SpecChecker
 
     }
     else {
-      sectInfo().put(new Key(sectName(), SectTypeEnv.class), sectTypeEnv(),
-		     new java.util.HashSet());
+      sectInfo().put(new Key(sectName(), SectTypeEnv.class), sectTypeEnv(), set());
     }
 
     if (useBeforeDecl() && !sectTypeEnv().getSecondTime()) {
@@ -208,6 +207,8 @@ public class SpecChecker
     }
     return null;
   }
+
+
 
   /**
    * Return the result result of the typechecking process -- FALSE if

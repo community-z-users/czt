@@ -38,8 +38,8 @@ import net.sourceforge.czt.typecheck.oz.util.*;
  * expression.
  */
 public class ExprChecker
-  extends Checker
-  implements ChannelExprVisitor
+  extends Checker<Type2>
+  implements ChannelExprVisitor<Type2>
 {
   //an Object-Z Expr checker
   protected net.sourceforge.czt.typecheck.oz.ExprChecker ozExprChecker_;
@@ -51,12 +51,12 @@ public class ExprChecker
       new net.sourceforge.czt.typecheck.oz.ExprChecker(typeChecker);
   }
 
-  public Object visitTerm(Term term)
+  public Type2 visitTerm(Term term)
   {
     return term.accept(ozExprChecker_);
   }
 
-  public Object visitChannelExpr(ChannelExpr channelExpr)
+  public Type2 visitChannelExpr(ChannelExpr channelExpr)
   {
     ChannelType chanType = factory().createChannelType();
     Type2 result = factory().createPowerType(chanType);

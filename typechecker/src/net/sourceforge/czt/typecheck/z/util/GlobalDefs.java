@@ -20,6 +20,8 @@ package net.sourceforge.czt.typecheck.z.util;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.Map;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
@@ -78,6 +80,24 @@ public class GlobalDefs
   }
 
   /**
+   * Create an empty Set.
+   * @return the empty set
+   */
+  public static <E> Set<E> set()
+  {
+    return new java.util.HashSet<E>();
+  }
+
+  /**
+   * Create an empty Map.
+   * @return the empty map
+   */
+  public static <E,F> Map<E,F> map()
+  {
+    return new java.util.HashMap<E,F>();
+  }
+
+  /**
    * If this is a generic type, get the type without the
    * parameters. If not a generic type, return the type.
    * @param type the <code>Type</code> to unwrap
@@ -118,6 +138,19 @@ public class GlobalDefs
     return result;
   }
 
+  /**
+   * Find a pair with a specified name in a Signature.
+   * @param declName the name to search for in the list.
+   * @param signature the signature to search.
+   * @return the first pair with the corresponding name.
+   */
+  public static NameTypePair findNameTypePair(DeclName declName,
+					      Signature signature)
+  {
+    List<NameTypePair> pairs = signature.getNameTypePair();
+    NameTypePair result = findNameTypePair(declName, pairs);
+    return result;
+  }
 
   /**
    * Test is an object is an instance of a class

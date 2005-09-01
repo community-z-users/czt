@@ -36,8 +36,8 @@ import net.sourceforge.czt.typecheck.tcoz.impl.*;
 /**
  * A super class for the *Checker classes in the typechecker.
  */
-abstract public class Checker
-  extends net.sourceforge.czt.typecheck.oz.Checker
+abstract public class Checker<R>
+  extends net.sourceforge.czt.typecheck.oz.Checker<R>
 {
   //the information required for the typechecker classes.
   protected TypeChecker typeChecker_;
@@ -81,9 +81,7 @@ abstract public class Checker
   {
     Signature signature = factory().createSignature();
     DeclName skip = factory().createDeclName(TcozString.SKIP, list(), null);
-    NameSignaturePair pair =
-      factory().createNameSignaturePair(skip, signature);
-    addOperation(pair, getSelfSig());
+    addOperation(skip, signature, getSelfSig());
   }
 
   protected Type2 instantiate(Type2 type, List<Type2> preTypes)

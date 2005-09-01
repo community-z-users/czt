@@ -34,14 +34,14 @@ import net.sourceforge.czt.typecheck.z.impl.*;
  *
  */
 public class ParaChecker
-  extends Checker
-  implements GivenParaVisitor,
-             AxParaVisitor,
-             FreeParaVisitor,
-             FreetypeVisitor,
-             ConjParaVisitor,
-             SchTextVisitor,
-             ParaVisitor
+  extends Checker<Signature>
+  implements GivenParaVisitor<Signature>,
+             AxParaVisitor<Signature>,
+             FreeParaVisitor<Signature>,
+             FreetypeVisitor<Signature>,
+             ConjParaVisitor<Signature>,
+             SchTextVisitor<Signature>,
+             ParaVisitor<Signature>
 {
   public ParaChecker(TypeChecker typeChecker)
   {
@@ -51,14 +51,14 @@ public class ParaChecker
   /**
    * Any "left-over" paragraphs.
    */
-  public Object visitPara(Para para)
+  public Signature visitPara(Para para)
   {
     Signature signature = factory().createSignature();
     return signature;
   }
 
   //13.2.4.1
-  public Object visitGivenPara(GivenPara givenPara)
+  public Signature visitGivenPara(GivenPara givenPara)
   {
     //the list of NameTypePairs for this paras signature
     List<NameTypePair> pairs = list();
@@ -83,7 +83,7 @@ public class ParaChecker
   }
 
   //13.2.4.2 and 13.2.4.3
-  public Object visitAxPara(AxPara axPara)
+  public Signature visitAxPara(AxPara axPara)
   {
     //we enter a new variable scope for the generic parameters
     typeEnv().enterScope();
@@ -93,7 +93,7 @@ public class ParaChecker
 
     //get and visit the SchText
     SchText schText = axPara.getSchText();
-    Signature signature = (Signature) schText.accept(paraChecker());
+    Signature signature = schText.accept(paraChecker());
 
     //add the SchText signature as an annotation to this paragraph
     addSignatureAnn(axPara, signature);
@@ -104,7 +104,7 @@ public class ParaChecker
     return signature;
   }
 
-  public Object visitFreePara(FreePara freePara)
+  public Signature visitFreePara(FreePara freePara)
   {
     //the list of NameTypePairs for this paras signature
     List<NameTypePair> pairs = list();
@@ -124,7 +124,8 @@ public class ParaChecker
     //visit each Freetype again so that mutually recursive free types
     //can be supported
     for (Freetype freetype : freetypes) {
-      pairs.addAll((List<NameTypePair>) freetype.accept(paraChecker()));
+      Signature nextSignature = freetype.accept(paraChecker());
+      pairs.addAll(nextSignature.getNameTypePair());
     }
 
     //exit both scopes
@@ -139,7 +140,7 @@ public class ParaChecker
     return signature;
   }
 
-  public Object visitFreetype(Freetype freetype)
+  public Signature visitFreetype(Freetype freetype)
   {
     //the list of NameTypePairs for freetype's parent's signature
     List<NameTypePair> pairs = list();
@@ -170,7 +171,8 @@ public class ParaChecker
       }
     }
 
-    return pairs;
+    Signature signature = factory().createSignature(pairs);
+    return signature;
   }
 
   //"visit" a name type pair. We don't visit the branches with their a
@@ -187,7 +189,7 @@ public class ParaChecker
     //this branch PowerType of the cross product of 'givenType' and the
     //expr's type (C.4.10.13)
     if (expr != null) {
-      Type2 exprType = (Type2) expr.accept(exprChecker());
+      Type2 exprType = expr.accept(exprChecker());
 
       PowerType vPowerType = factory().createPowerType();
       UResult unified = unify(vPowerType, exprType);
@@ -214,7 +216,7 @@ public class ParaChecker
     return pair;
   }
 
-  public Object visitConjPara(ConjPara conjPara)
+  public Signature visitConjPara(ConjPara conjPara)
   {
     //enter a new variable scope
     typeEnv().enterScope();
@@ -224,7 +226,7 @@ public class ParaChecker
 
     //visit the predicate
     Pred pred = conjPara.getPred();
-    UResult solved = (UResult) pred.accept(predChecker());
+    UResult solved = pred.accept(predChecker());
 
     //if the are unsolved unifications in this predicate,
     //visit it again
@@ -242,7 +244,7 @@ public class ParaChecker
     return signature;
   }
 
-  public Object visitSchText(SchText schText)
+  public Signature visitSchText(SchText schText)
   {
     //the list of Names declared in this schema text
     List<NameTypePair> pairs = list();
@@ -250,8 +252,7 @@ public class ParaChecker
     //get and visit the list of declarations
     List<Decl> decls = schText.getDecl();
     for (Decl decl : decls) {
-      //pairs.addAll((List<NameTypePair>) decl.accept(declChecker()));
-      List<NameTypePair> dPairs = (List) decl.accept(declChecker());
+      List<NameTypePair> dPairs = decl.accept(declChecker());
       for (NameTypePair dPair : dPairs) {
         DeclName gName = dPair.getName();
         Type gType = addGenerics((Type2) dPair.getType());
@@ -266,7 +267,7 @@ public class ParaChecker
     //get and visit the pred
     Pred pred = schText.getPred();
     if (pred != null) {
-      UResult solved = (UResult) pred.accept(predChecker());
+      UResult solved = pred.accept(predChecker());
       //if the are unsolved unifications in this predicate,
       //visit it again
       if (solved == PARTIAL) {

@@ -33,9 +33,9 @@ import net.sourceforge.czt.typecheck.z.util.UResult;
  * objects indicating the variables and their types.
  */
 public class DeclChecker
-  extends Checker
-  implements DeclVisitor,
-             VarDeclVisitor
+  extends Checker<List<NameTypePair>>
+  implements DeclVisitor<List<NameTypePair>>,
+             VarDeclVisitor<List<NameTypePair>>
 {
   //a Z decl checker
   protected net.sourceforge.czt.typecheck.z.DeclChecker zDeclChecker_;
@@ -47,16 +47,16 @@ public class DeclChecker
       new net.sourceforge.czt.typecheck.z.DeclChecker(typeChecker);
   }
 
-  public Object visitDecl(Decl decl)
+  public List<NameTypePair> visitDecl(Decl decl)
   {
     return decl.accept(zDeclChecker_);
   }
 
-  public Object visitVarDecl(VarDecl varDecl)
+  public List<NameTypePair> visitVarDecl(VarDecl varDecl)
   {
     //get and visit the expression
     Expr expr = varDecl.getExpr();
-    Type2 exprType = (Type2) expr.accept(exprChecker());
+    Type2 exprType = expr.accept(exprChecker());
 
     //expr should be a set expr
     PowerType vPowerType = factory().createPowerType();

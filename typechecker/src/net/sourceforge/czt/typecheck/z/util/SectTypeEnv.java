@@ -20,12 +20,11 @@ package net.sourceforge.czt.typecheck.z.util;
 
 import java.io.*;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.Iterator;
+
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
@@ -86,17 +85,17 @@ public class SectTypeEnv
   public SectTypeEnv(ZFactory zFactory)
   {
     factory_ = new Factory(zFactory);
-    typeInfo_ = new ArrayList<NameSectTypeTriple>();
-    declarations_ = new ArrayList<DeclName>();
-    sectionDeclarations_ = new ArrayList<String>();
-    visibleSections_ = new HashSet<String>();
-    checkedSections_ = new HashSet<String>();
-    parents_ = new HashMap<String, Set<String>>();
+    typeInfo_ = list();
+    declarations_ = list();
+    sectionDeclarations_ = list();
+    visibleSections_ = set();
+    checkedSections_ = set();
+    parents_ = map();
   }
 
   public void overwriteTriples(List<NameSectTypeTriple> triples)
   {
-    typeInfo_ = new ArrayList<NameSectTypeTriple>();
+    typeInfo_ = list();
     add(triples);
   }
 
@@ -179,7 +178,7 @@ public class SectTypeEnv
 
     //add the parents to the list of the current section's parents
     if (parents == null) {
-      parents = new HashSet<String>();
+      parents = set();
     }
     parents.add(parent);
     parents_.put(section_, parents);
@@ -272,7 +271,7 @@ public class SectTypeEnv
 
   public List<NameSectTypeTriple> getTriple()
   {
-    List<NameSectTypeTriple> triples = new ArrayList<NameSectTypeTriple>();
+    List<NameSectTypeTriple> triples = list();
     for (NameSectTypeTriple triple : typeInfo_) {
       if (visibleSections_.contains(section_) ||
           triple.getSect().equals(PRELUDE)) {
@@ -321,7 +320,7 @@ public class SectTypeEnv
         Signature signature = schemaType.getSignature();
 
         List<NameTypePair> pairs = signature.getNameTypePair();
-        List<NameTypePair> newPairs = new ArrayList<NameTypePair>(pairs);
+        List<NameTypePair> newPairs = list(pairs);
         for (NameTypePair pair : pairs) {
           DeclName primedName = factory_.createDeclName(pair.getName());
           primedName.getStroke().add(factory_.createNextStroke());
@@ -413,7 +412,7 @@ public class SectTypeEnv
   //get the transitive parents of a section
   private Set<String> getTransitiveParents(String section)
   {
-    Set<String> result = new HashSet<String>();
+    Set<String> result = set();
 
     //get the set of direct parents
     Set<String> parents = parents_.get(section);

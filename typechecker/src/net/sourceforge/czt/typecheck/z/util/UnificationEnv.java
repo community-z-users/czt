@@ -208,25 +208,25 @@ public class UnificationEnv
   protected UResult unifyVariableType(VariableType vType, Type2 type2)
   {
     UResult result = SUCC;
-    //if the types points to the same reference, do nothing, except
-    //return PARTIAL if they are both variable types
-    if (type2 instanceof VariableType &&
-        ((VariableType) type2).getValue() == vType.getValue()) {
-      if (vType.getValue() instanceof VariableType) {
-        result = PARTIAL;
+    //if this variable is not ground
+    if (vType.getValue() == vType) {
+      //if we have the same variable, the result is PARTIAL
+      if (vType == type2) {
+	result = PARTIAL;
       }
-    }
-    else {
-      if (contains(type2, vType)) {
+      //if type2 contains this variable, then we have a cyclic type, so fail
+      else if (contains(type2, vType)) {
         result = FAIL;
       }
+      //finally, if everything is ok, assign type2 to the variable
       else {
-        //if the vType is not unified, then unify it with type2
-        if (vType.getValue() == vType) {
-          vType.setValue(type2);
-        }
-        result = unify(vType.getValue(), type2);
+	vType.setValue(type2);
+	result = unify(vType.getValue(), type2);
       }
+    }
+    //if the variable is already ground, then unify the ground value with type2
+    else {
+      result = unify(vType.getValue(), type2);
     }
     return result;
   }
@@ -291,7 +291,6 @@ public class UnificationEnv
   protected UResult unifySignature(Signature sigA, Signature sigB)
   {
     UResult result = SUCC;
-
     if (isVariableSignature(sigA)) {
       result = unifyVariableSignature((VariableSignature) sigA, sigB);
     }
@@ -305,8 +304,7 @@ public class UnificationEnv
         //iterate through every name/type pair, looking for each name in
         //the other signature
         for (NameTypePair pairA : listA) {
-          NameTypePair pairB = findInSignature(pairA.getName(), sigB);
-
+          NameTypePair pairB = findNameTypePair(pairA.getName(), sigB);
           //if the pair in not in the signature, then fail
           if (pairB == null) {
             result = FAIL;
@@ -327,7 +325,6 @@ public class UnificationEnv
         result = FAIL;
       }
     }
-
     return result;
   }
 
@@ -338,14 +335,21 @@ public class UnificationEnv
 
     //if this signature is not unified
     if (vSig.getValue() == vSig) {
-      if (vSig.getValue() != sigB) {
+      //if we have the same variable, the result is PARTIAL
+      if (vSig == sigB) {
+	result = PARTIAL;
+      }
+      //if sigB contains this variable, then we have a cyclic type, so fail
+      else if (contains(sigB, vSig)) {
+        result = FAIL;
+      }
+      else {
         vSig.setValue(sigB);
+	//the result must be PARTIAL if the signature contains
+	//a variable type or variable signature
+	result = containsVariable(sigB) ? PARTIAL : SUCC;
       }
-      //the result must be PARTIAL if the signature contains
-      //a variable type or variable signature
-      if (containsVariable(sigB)) {
-        result = PARTIAL;
-      }
+
     }
     //if the signature is unified, check that the unified value unifies
     //with sigB
@@ -356,48 +360,35 @@ public class UnificationEnv
     return result;
   }
 
-  protected boolean contains(Type2 type2, VariableType vType)
+  //return true if and only if term contains the object o
+  protected boolean contains(Term term, Object o)
   {
-    boolean result = false;
-
-    if (type2 instanceof VariableType &&
-        ((VariableType) type2).getValue() == vType.getValue()) {
-      result = true;
-    }
-    else if (type2 instanceof PowerType) {
-      PowerType powerType = (PowerType) type2;
-      result = contains(powerType.getType(), vType);
-    }
-    else if (type2 instanceof ProdType) {
-      ProdType prodType = (ProdType) type2;
-      List<Type2> types = prodType.getType();
-      for (Type2 next : types) {
-        if (contains(next, vType)) {
-          result = true;
-          break;
-        }
-      }
-    }
-    else if (type2 instanceof SchemaType) {
-      SchemaType schemaType = (SchemaType) type2;
-      Signature signature = schemaType.getSignature();
-      result = contains(signature, vType);
-    }
-
-    return result;
+    return contains(term, o, list(term));
   }
 
-  protected boolean contains(Signature signature, VariableType vType)
-  {
+  protected boolean contains(Term term, Object o, List<Term> preTerms)
+  {  
     boolean result = false;
-    List<NameTypePair> pairs = signature.getNameTypePair();
-    for (NameTypePair pair : pairs) {
-      if (contains(unwrapType(pair.getType()), vType)) {
-        result = true;
-        break;
+    //add this term to the list that has been checked
+    preTerms.add(term);
+
+    //if this term is the same as the object, then it contains the object
+    if (term == o) {
+      result = true;
+    }
+    //otherwise, search the children of this term
+    else {
+      Object [] children = term.getChildren();
+      for (int i = 0; i < children.length; i++) {
+	if (children[i] instanceof Term &&
+	    !containsObject(preTerms, children[i])) {
+	  if (contains((Term) children[i], o, preTerms)) {
+	    result = true;
+	    break;
+	  }
+	}
       }
     }
-
     return result;
   }
 
@@ -406,43 +397,6 @@ public class UnificationEnv
     List<NameTypePair> result = list();
     if (unificationInfo_.size() > 0) {
       result = unificationInfo_.peek();
-    }
-    return result;
-  }
-
-  //if this is a generic type, get the type without the parameters. If
-  //not a generic type, return the type
-  protected static Type2 unwrapType(Type type)
-  {
-    Type2 result = null;
-
-    if (type instanceof GenericType) {
-      if (genericType(type).getOptionalType() != null) {
-        result = genericType(type).getOptionalType();
-      }
-      else {
-        result = genericType(type).getType();
-      }
-    }
-    else {
-      result = (Type2) type;
-    }
-
-    return result;
-  }
-
-  //get a name/type pair corresponding with a particular name
-  //return null if this name is not in the signature
-  protected NameTypePair findInSignature(DeclName declName,
-                                         Signature signature)
-  {
-    NameTypePair result = null;
-    List<NameTypePair> pairs = signature.getNameTypePair();
-    for (NameTypePair pair : pairs) {
-      if (pair.getName().equals(declName)) {
-        result = pair;
-        break;
-      }
     }
     return result;
   }

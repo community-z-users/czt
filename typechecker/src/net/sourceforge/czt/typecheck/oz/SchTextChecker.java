@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2005 Tim Miller
+  Copyright (C) 2004 Tim Miller
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -16,32 +16,29 @@
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-package net.sourceforge.czt.typecheck.tcoz;
+package net.sourceforge.czt.typecheck.oz;
 
-import java.util.List;
-
-import static net.sourceforge.czt.typecheck.oz.util.GlobalDefs.*;
-
-import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.visitor.*;
 
 /**
  *
  */
-public class ParaChecker
+public class SchTextChecker
   extends Checker<Signature>
+  implements SchTextVisitor<Signature>
 {
-  protected net.sourceforge.czt.typecheck.oz.ParaChecker ozParaChecker_;
+  protected net.sourceforge.czt.typecheck.z.SchTextChecker zSchTextChecker_;
 
-  public ParaChecker(TypeChecker typeChecker)
+  public SchTextChecker(TypeChecker typeChecker)
   {
     super(typeChecker);
-    ozParaChecker_ =
-      new net.sourceforge.czt.typecheck.oz.ParaChecker(typeChecker);
+    zSchTextChecker_ =
+      new net.sourceforge.czt.typecheck.z.SchTextChecker(typeChecker);
   }
 
-  public Signature visitTerm(Term term)
+  public Signature visitSchText(SchText schText)
   {
-    return term.accept(ozParaChecker_);
+    return schText.accept(zSchTextChecker_);
   }
 }

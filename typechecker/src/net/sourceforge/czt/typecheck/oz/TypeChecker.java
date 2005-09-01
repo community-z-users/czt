@@ -41,7 +41,7 @@ public class TypeChecker
   protected Factory ozFactory_;
 
   //operation expr typechecker
-  protected Checker opExprChecker_;
+  protected Checker<Signature> opExprChecker_;
 
   //use to store information used in downcasting
   protected TypeEnv downcastEnv_;
@@ -102,6 +102,7 @@ public class TypeChecker
     declChecker_ = new DeclChecker(this);
     exprChecker_ = new ExprChecker(this);
     predChecker_ = new PredChecker(this);
+    schTextChecker_ = new SchTextChecker(this);
     postChecker_ = new PostChecker(this);
     opExprChecker_ = new OpExprChecker(this);
     downcastEnv_ = new TypeEnv();

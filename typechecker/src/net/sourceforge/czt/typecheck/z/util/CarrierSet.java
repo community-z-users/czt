@@ -172,7 +172,7 @@ public class CarrierSet
       if (!allowVariableTypes_) {
         throw new UndeterminedTypeException();
       }
-      List<Stroke> strokes = list();
+      List<Stroke> strokes = vType.getName().getStroke();
       RefName refName =
         zFactory_.createRefName("??", strokes, null);
       List<Expr> exprs = list();
@@ -186,7 +186,20 @@ public class CarrierSet
   public Object visitVariableSignature(VariableSignature vSig)
   {
     if (vSig.getValue() instanceof VariableSignature) {
-      throw new UndeterminedTypeException();
+      if (!allowVariableTypes_) {
+        throw new UndeterminedTypeException();
+      }
+      List<Stroke> strokes = vSig.getName().getStroke();//list();
+      RefName refName =
+        zFactory_.createRefName("??", strokes, null);
+      List<Expr> exprs = list();
+      RefExpr refExpr =
+        zFactory_.createRefExpr(refName, exprs, Boolean.FALSE);
+      InclDecl inclDecl = zFactory_.createInclDecl(refExpr);
+      List<Decl> decls = list();
+      decls.add(inclDecl);
+      SchText result = zFactory_.createSchText(decls, null);
+      return result;  
     }
     return vSig.getValue().accept(this);
   }

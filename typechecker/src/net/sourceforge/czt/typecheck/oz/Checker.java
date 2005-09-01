@@ -39,8 +39,8 @@ import net.sourceforge.czt.typecheck.oz.impl.*;
 /**
  * A super class for the *Checker classes in the typechecker.
  */
-abstract public class Checker
-  extends net.sourceforge.czt.typecheck.z.Checker
+abstract public class Checker<R>
+  extends net.sourceforge.czt.typecheck.z.Checker<R>
 {
   //the information required for the typechecker classes.
   protected TypeChecker typeChecker_;
@@ -58,7 +58,7 @@ abstract public class Checker
   }
 
   //the operation expr checker
-  protected Checker opExprChecker()
+  protected Checker<Signature> opExprChecker()
   {
     return typeChecker_.opExprChecker_;
   }
@@ -436,15 +436,14 @@ abstract public class Checker
     //do nothing for Object-Z
   }
 
-  protected void addOperation(NameSignaturePair op, ClassSig cSig)
+  protected void addOperation(DeclName opName, Signature signature, ClassSig cSig)
   {
     List<NameSignaturePair> ops = cSig.getOperation();
-    DeclName opName = op.getName();
     NameSignaturePair existing = findOperation(opName, cSig);
 
     //if there is already a pair, check it is compatible with the new definition
     if (existing != null) {
-      List<NameTypePair> pairs = list(op.getSignature().getNameTypePair());
+      List<NameTypePair> pairs = list(signature.getNameTypePair());
       pairs.addAll(existing.getSignature().getNameTypePair());
       checkForDuplicates(pairs, opName, ErrorMessage.INCOMPATIBLE_OP_OVERRIDING);
       Signature newSig = factory().createSignature(pairs);
@@ -453,6 +452,7 @@ abstract public class Checker
       cSig.getOperation().add(newPair);
     }
     else {
+      NameSignaturePair op = factory().createNameSignaturePair(opName, signature);
       cSig.getOperation().add(op);
     }
   }

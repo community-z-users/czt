@@ -43,13 +43,13 @@ import net.sourceforge.czt.typecheck.z.*;
  * not.
  */
 public class PredChecker
-  extends Checker
-  implements ImpliesPredVisitor,
-             MemPredVisitor,
-             AndPredVisitor,
-             OrPredVisitor,
-	     IffPredVisitor,
-             PredVisitor
+  extends Checker<UResult>
+  implements ImpliesPredVisitor<UResult>,
+             MemPredVisitor<UResult>,
+             AndPredVisitor<UResult>,
+             OrPredVisitor<UResult>,
+	     IffPredVisitor<UResult>,
+             PredVisitor<UResult>
 {
   //a Z pred checker
   protected net.sourceforge.czt.typecheck.z.PredChecker zPredChecker_;
@@ -61,22 +61,22 @@ public class PredChecker
       new net.sourceforge.czt.typecheck.z.PredChecker(typeChecker);
   }
 
-  public Object visitTerm(Term term)
+  public UResult visitTerm(Term term)
   {
     return term.accept(zPredChecker_);
   }
 
-  public Object visitImpliesPred(ImpliesPred impliedPred)
+  public UResult visitImpliesPred(ImpliesPred impliesPred)
   {
     typeEnv().enterScope();
-    UResult result = (UResult) impliedPred.accept(zPredChecker_);
+    UResult result = impliesPred.accept(zPredChecker_);
     typeEnv().exitScope();
     return result;
   }
 
-  public Object visitMemPred(MemPred memPred)
+  public UResult visitMemPred(MemPred memPred)
   {
-    UResult result = (UResult) memPred.accept(zPredChecker_);
+    UResult result = memPred.accept(zPredChecker_);
 
     //if the left expr is a reference, and the right expr is a set of
     //object identifies, then try to downcast
@@ -118,24 +118,24 @@ public class PredChecker
     return result;
   }
 
-  public Object visitAndPred(AndPred andPred)
+  public UResult visitAndPred(AndPred andPred)
   {
     traverseForDowncasts(andPred);
 
     //AndPreds are visited separately because we do not enter a new
     //variable scope for them
-    UResult result = (UResult) andPred.accept(zPredChecker_);
+    UResult result = andPred.accept(zPredChecker_);
     return result;
   }
 
-  public Object visitOrPred(OrPred orPred)
+  public UResult visitOrPred(OrPred orPred)
   {
     //enter a new variable scope to allow downcasts
     typeEnv().enterScope();
 
     //visit the left pred
     Pred leftPred = orPred.getLeftPred();
-    UResult lSolved = (UResult) leftPred.accept(predChecker());
+    UResult lSolved = leftPred.accept(predChecker());
 
     //enter a new variable scope to allow downcasts. The scope of the
     //left predicate is different to that of the right
@@ -144,7 +144,7 @@ public class PredChecker
 
     //visit the right pred
     Pred rightPred = orPred.getRightPred();
-    UResult rSolved = (UResult) rightPred.accept(predChecker());
+    UResult rSolved = rightPred.accept(predChecker());
     typeEnv().exitScope();
 
     //if either the left or right are partially solved, then
@@ -154,21 +154,21 @@ public class PredChecker
     return result;
   }
 
-  public Object visitIffPred(IffPred iffPred)
+  public UResult visitIffPred(IffPred iffPred)
   {    
     typeEnv().enterScope();
     traverseForDowncasts(iffPred.getLeftPred());
     traverseForDowncasts(iffPred.getRightPred());
-    UResult result = (UResult) iffPred.accept(zPredChecker_);
+    UResult result = iffPred.accept(zPredChecker_);
     typeEnv().exitScope();
     return result;
   }
 
-  public Object visitPred(Pred pred)
+  public UResult visitPred(Pred pred)
   {
     //enter a new variable scope to allow downcasts
     typeEnv().enterScope();
-    UResult result = (UResult) pred.accept(zPredChecker_);
+    UResult result = pred.accept(zPredChecker_);
     typeEnv().exitScope();
     return result;
   }

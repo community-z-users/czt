@@ -40,14 +40,14 @@ import net.sourceforge.czt.typecheck.z.impl.*;
  * not.
  */
 public class PredChecker
-  extends Checker
-  implements QntPredVisitor,
-             Pred2Visitor,
-             AndPredVisitor,
-             MemPredVisitor,
-             NegPredVisitor,
-             ExprPredVisitor,
-             PredVisitor
+  extends Checker<UResult>
+  implements QntPredVisitor<UResult>,
+             Pred2Visitor<UResult>,
+             AndPredVisitor<UResult>,
+             MemPredVisitor<UResult>,
+             NegPredVisitor<UResult>,
+             ExprPredVisitor<UResult>,
+             PredVisitor<UResult>
 {
   public PredChecker(TypeChecker typeChecker)
   {
@@ -57,7 +57,7 @@ public class PredChecker
   /**
    * Any "left over" predicates.
    */
-  public Object visitPred(Pred pred)
+  public UResult visitPred(Pred pred)
   {
     return SUCC;
   }
@@ -66,7 +66,7 @@ public class PredChecker
    * Exists1Pred, ExistsPred, and ForallPred instances are
    * visited as an instance of their super class QntPred.
    */
-  public Object visitQntPred(QntPred qntPred)
+  public UResult visitQntPred(QntPred qntPred)
   {
     UResult result = SUCC;
 
@@ -75,16 +75,16 @@ public class PredChecker
 
     //visit the SchText
     SchText schText = qntPred.getSchText();
-    schText.accept(exprChecker());
+    schText.accept(schTextChecker());
 
     //visit the Pred
     Pred pred = qntPred.getPred();
-    UResult unified = (UResult) pred.accept(predChecker());
+    UResult unified = pred.accept(predChecker());
 
     //if the are unsolved unifications in this predicate,
     //visit it again
     if (unified == PARTIAL) {
-      result = (UResult) pred.accept(predChecker());
+      result = pred.accept(predChecker());
     }
 
     //exit the variable scope
@@ -97,14 +97,14 @@ public class PredChecker
    * IffPred, ImpliesPred, and OrPred instances are
    * visited as an instance of their super class Pred2.
    */
-  public Object visitPred2(Pred2 pred2)
+  public UResult visitPred2(Pred2 pred2)
   {
     //visit the left and right preds
     Pred leftPred = pred2.getLeftPred();
-    UResult lSolved = (UResult) leftPred.accept(predChecker());
+    UResult lSolved = leftPred.accept(predChecker());
 
     Pred rightPred = pred2.getRightPred();
-    UResult rSolved = (UResult) rightPred.accept(predChecker());
+    UResult rSolved = rightPred.accept(predChecker());
 
     //if either the left or right are partially solved, then
     //this predicate is also partially solved
@@ -117,16 +117,16 @@ public class PredChecker
    * AndPred instances are visited separately from Pred2 instances
    * because they have extra requires if they are a chain relation.
    */
-  public Object visitAndPred(AndPred andPred)
+  public UResult visitAndPred(AndPred andPred)
   {
     //UResult result = SUCC;
 
     //visit the left and right preds
     Pred leftPred = andPred.getLeftPred();
-    UResult lSolved = (UResult) leftPred.accept(predChecker());
+    UResult lSolved = leftPred.accept(predChecker());
 
     Pred rightPred = andPred.getRightPred();
-    UResult rSolved = (UResult) rightPred.accept(predChecker());
+    UResult rSolved = rightPred.accept(predChecker());
     UResult result = checkChainRelOp(andPred);
 
     //if either the left or right are partially solved, then
@@ -137,14 +137,14 @@ public class PredChecker
     return result;
   }
 
-  public Object visitMemPred(MemPred memPred)
+  public UResult visitMemPred(MemPred memPred)
   {
     //visit the left and right expressions
     Expr leftExpr = memPred.getLeftExpr();
-    Type2 leftType = (Type2) leftExpr.accept(exprChecker());
+    Type2 leftType = leftExpr.accept(exprChecker());
 
     Expr rightExpr = memPred.getRightExpr();
-    Type2 rightType = (Type2) rightExpr.accept(exprChecker());
+    Type2 rightType = rightExpr.accept(exprChecker());
 
     //unify the left and right side of the membership predicate
     PowerType powerType = factory().createPowerType(leftType);
@@ -197,19 +197,19 @@ public class PredChecker
     return unified;
   }
 
-  public Object visitNegPred(NegPred negPred)
+  public UResult visitNegPred(NegPred negPred)
   {
     //visit the predicate
     Pred pred = negPred.getPred();
-    UResult result = (UResult) pred.accept(predChecker());
+    UResult result = pred.accept(predChecker());
     return result;
   }
 
-  public Object visitExprPred(ExprPred exprPred)
+  public UResult visitExprPred(ExprPred exprPred)
   {
     //visit the expression
     Expr expr = exprPred.getExpr();
-    Type2 exprType = (Type2) expr.accept(exprChecker());
+    Type2 exprType = expr.accept(exprChecker());
 
     //check that the expr is a schema expr
     SchemaType vSchemaType = factory().createSchemaType();

@@ -38,24 +38,24 @@ import net.sourceforge.czt.typecheck.oz.impl.*;
  * parameters have been determined.
  */
 public class PostChecker
-  extends Checker
-  implements BindSelExprVisitor
+  extends Checker<net.sourceforge.czt.typecheck.z.ErrorAnn>
+  implements BindSelExprVisitor<net.sourceforge.czt.typecheck.z.ErrorAnn>
 {
-  protected net.sourceforge.czt.typecheck.z.PostChecker zPostChecker;
+  protected net.sourceforge.czt.typecheck.z.PostChecker zPostChecker_;
 
   public PostChecker(TypeChecker typeChecker)
   {
     super(typeChecker);
-    zPostChecker =
+    zPostChecker_ =
       new net.sourceforge.czt.typecheck.z.PostChecker(typeChecker);
   }
 
-  public Object visitTerm(Term term)
+  public net.sourceforge.czt.typecheck.z.ErrorAnn visitTerm(Term term)
   {
-    return term.accept(zPostChecker);
+    return term.accept(zPostChecker_);
   }
 
-  public Object visitBindSelExpr(BindSelExpr bindSelExpr)
+  public ErrorAnn visitBindSelExpr(BindSelExpr bindSelExpr)
   {
     ParameterAnn pAnn = (ParameterAnn) bindSelExpr.getAnn(ParameterAnn.class);
     if (pAnn != null) {
