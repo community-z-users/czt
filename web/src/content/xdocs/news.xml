@@ -6,6 +6,12 @@
   </header>
   <body>
     <p>
+      2-Sep-2005: Forth release (version 0.4) of CZT containing
+      corejava 1.4.1, parser 0.4 (Z/Object Z parser and printing tools),
+      typechecker 0.4 (Z/Object Z type checker), and the jEdit plugin.
+    </p>
+
+    <p>
       April-2005: CZT tutorial and paper at the
       <link href="ext:zb-2005">ZB2005 conference</link>
       in Guildford, UK.
