@@ -38,6 +38,7 @@ See http://xml.apache.org/forrest/linking.html for more info
     <zml label="ZML" href="zml/index.html"/>
     <corejava label="Corejava" href="corejava/index.html"/>
     <parser label="Parser" href="parser/index.html"/>
+    <parser label="Typechecker" href="typechecker/index.html"/>
   </projects>
 
   <projects label="Documentation">
