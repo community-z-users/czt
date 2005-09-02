@@ -17,7 +17,7 @@
            Fixed a bug in the Foo class.
          </action>
     -->
-    <release version="1.4.1" date="unreleased">
+    <release version="1.4.1" date="September 2, 2005">
       <action dev="Petra" type="apichange">
         Change the AST to use generic lists.  Remove now unused class
         <code>net.sourceforge.czt.util.TypesafeList</code>.

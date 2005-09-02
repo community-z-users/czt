@@ -8,7 +8,7 @@
 
   <changes>
     <!-- Add new releases here -->
-    <release version="0.4" date="unreleased">
+    <release version="0.4" date="September 2, 2005">
       <action dev="Tim" type="add">
         Implemented implicit downcasting (e.g. a \in B => p)
       </action>

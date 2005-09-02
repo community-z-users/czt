@@ -19,7 +19,7 @@
            Fixed a bug in the Foo class.
          </action>
     -->
-    <release version="0.4" date="unreleased">
+    <release version="0.4" date="September 2, 2005">
       <action dev="Tim" type="fix">
         Create operation names from OPNAME symbols using
         createDeclName(Decorword), so that the strokes are correctly
