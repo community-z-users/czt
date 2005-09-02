@@ -74,6 +74,10 @@
           <code>czt.properties</code>.
         </p>
         <p>
+          Set the environment variable <code>ANT_OPTS</code> to
+          <code>-Xmx256m</code> to increase the Java heap size.
+        </p>
+        <p>
           Run
           <code>ant</code>.
           By default, ant will build the jar files and install them in the
