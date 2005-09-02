@@ -21,22 +21,21 @@ file and adjust the settings according your needs.
 
 See the README file in each directory for more details on each sub-project.
 
-See the CZT web site for general details about CZT:
+Documentation
+*************
 
-      http://czt.sourceforge.net
+  Documentation is available in the docs/ directory.
+  For information about building and installing CZT,
+  see docs/manual.html.
+
+  The online documentation is available at:
+  http://czt.sourceforge.net
 
 The Latest Version
 ******************
 
   Details of the latest version can be found on the CZT web site
   http://sourceforge.net/projects/czt/
-
-Documentation
-*************
-
-  Documentation is available in HTML and PDF format, in the docs/ directory.
-  For information about building and installing CZT, see docs/manual.html
-  or dogs/manual.pdf.
 
 Questions, Feedback, Bug Reports
 ********************************
