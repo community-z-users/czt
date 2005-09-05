@@ -364,7 +364,7 @@ abstract public class Checker<R>
   }
 
   //typecheck a file using an instance of this typechecker
-  protected List typecheck(TermA termA, SectionInfo sectInfo)
+  protected List<ErrorAnn> typecheck(TermA termA, SectionInfo sectInfo)
   {
     return TypeCheckUtils.typecheck(termA, sectInfo, markup());
   }
@@ -439,7 +439,7 @@ abstract public class Checker<R>
                                     TermA termA,
                                     String errorMessage)
   {
-    List termList = list();
+    List<TermA> termList = list();
     if (termA != null) {
       termList.add(termA);
     }
@@ -651,7 +651,7 @@ abstract public class Checker<R>
   }
 
   protected void renameUnknownTypes(Term term,
-                                    List preTerm,
+                                    List<Term> preTerm,
                                     List<NameNamePair> pairs)
   {
     preTerm.add(term);
@@ -679,7 +679,9 @@ abstract public class Checker<R>
     List<NameTypePair> pairs = signature.getNameTypePair();
     for (NameTypePair pair : pairs) {
       NameNamePair namePair = findNameNamePair(pair.getName(), namePairs);
-      renameUnknownTypes(pair.getType(), list(pair.getType()), namePairs);
+      List<Term> preTerms = list();
+      preTerms.add(pair.getType());
+      renameUnknownTypes(pair.getType(), preTerms, namePairs);
       if (namePair != null) {
         DeclName newName = namePair.getNewName();
         NameTypePair newPair =

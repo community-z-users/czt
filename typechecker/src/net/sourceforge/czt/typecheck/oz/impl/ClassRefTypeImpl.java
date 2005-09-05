@@ -19,6 +19,7 @@
 package net.sourceforge.czt.typecheck.oz.impl;
 
 import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.visitor.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
@@ -49,17 +50,17 @@ public class ClassRefTypeImpl
     return result;
   }
 
-  public ListTerm getSuperClass()
+  public ListTerm<ClassRef> getSuperClass()
   {
     ClassRefType classRefType = (ClassRefType) term_;
-    ListTerm result = classRefType.getSuperClass();
+    ListTerm<ClassRef> result = classRefType.getSuperClass();
     return result;
   }
 
-  public ListTerm getPrimary()
+  public ListTerm<DeclName> getPrimary()
   {
     ClassRefType classRefType = (ClassRefType) term_;
-    ListTerm result = classRefType.getPrimary();
+    ListTerm<DeclName> result = classRefType.getPrimary();
     return result;
   }
 
@@ -86,10 +87,10 @@ public class ClassRefTypeImpl
   /**
    * Accepts a visitor.
    */
-  public Object accept(net.sourceforge.czt.util.Visitor v)
+  public <R> R accept(net.sourceforge.czt.util.Visitor<R> v)
   {
     if (v instanceof ClassRefTypeVisitor) {
-      ClassRefTypeVisitor visitor = (ClassRefTypeVisitor) v;
+      ClassRefTypeVisitor<R> visitor = (ClassRefTypeVisitor<R>) v;
       return visitor.visitClassRefType(this);
     }
     return super.accept(v);

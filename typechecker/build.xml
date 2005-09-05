@@ -8,7 +8,7 @@
   <property name="typecheck.api.dir" location="doc/api"/>
 
   <path id="classpath">
-    <pathelement path="${jwsdp.classpath}"/>
+<!--    <pathelement path="${jwsdp.classpath}"/>-->
     <pathelement location="${typecheck.build.dir}"/>
     <pathelement location="${czt.home}/${jar.dir}/${corejava.base.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${corejava.core.jar.file}"/>
@@ -47,7 +47,7 @@
            destdir="${typecheck.build.dir}"
            debug="${debug}" debuglevel="${debuglevel}" optimize="${optimize}">
       <classpath refid="classpath"/>
-<!--      <compilerarg value="-Xlint"/> -->
+<!--      <compilerarg value="-Xlint"/>-->
     </javac>
   </target>
 
@@ -82,6 +82,14 @@
     <ant dir="tests" target="test-report"/>
 -->
   </target>
+
+  <target name="printclasspath">
+      <pathconvert targetos="unix" property="tmp.clspath"
+            refid="classpath">
+    </pathconvert>
+    <echo message="CLASSPATH = ${tmp.clspath}"/>
+  </target>
+
 
   <target name="checkstyle" description="check java sources">
     <taskdef resource="checkstyletask.properties"

@@ -55,7 +55,8 @@ abstract public class Checker<R>
   }
 
   //typecheck a file using an instance of this typechecker
-  protected List typecheck(TermA termA, SectionInfo sectInfo)
+  protected List<net.sourceforge.czt.typecheck.z.ErrorAnn>
+    typecheck(TermA termA, SectionInfo sectInfo)
   {
     return TypeCheckUtils.typecheck(termA, sectInfo, markup());
   }
@@ -80,7 +81,7 @@ abstract public class Checker<R>
   public void addImplicitOps()
   {
     Signature signature = factory().createSignature();
-    DeclName skip = factory().createDeclName(TcozString.SKIP, list(), null);
+    DeclName skip = factory().createDeclName(TcozString.SKIP);
     addOperation(skip, signature, getSelfSig());
   }
 

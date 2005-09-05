@@ -324,8 +324,7 @@ public class ExprChecker
   public Type2 visitNumExpr(NumExpr numExpr)
   {
     //the type of a NumExpr is the given type arithmos
-    DeclName declName =
-      factory().createDeclName(ZString.ARITHMOS, list(), null);
+    DeclName declName = factory().createDeclName(ZString.ARITHMOS);
     Type2 type = factory().createGivenType(declName);
 
     //add the type as an annotation
@@ -990,7 +989,8 @@ public class ExprChecker
 
     VariableType domType = factory().createVariableType();
     VariableType ranType = factory().createVariableType();
-    ProdType vProdType = factory().createProdType(list(domType, ranType));
+    List<Type2> types = GlobalDefs.<Type2>list(domType, ranType);
+    ProdType vProdType = factory().createProdType(types);
     PowerType vPowerType = factory().createPowerType(vProdType);
     UResult unified = unify(vPowerType, funcType);
 

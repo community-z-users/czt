@@ -24,7 +24,7 @@ import net.sourceforge.czt.base.visitor.*;
 /**
  */
 public class SpecChecker
-  extends Checker
+  extends Checker<Object>
 {
   //an Object-Z spec checker
   protected net.sourceforge.czt.typecheck.oz.SpecChecker ozSpecChecker_;

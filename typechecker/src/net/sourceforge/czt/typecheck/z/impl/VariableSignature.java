@@ -20,10 +20,10 @@ package net.sourceforge.czt.typecheck.z.impl;
 
 import java.util.List;
 
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
+
 import net.sourceforge.czt.z.visitor.SignatureVisitor;
-import net.sourceforge.czt.z.ast.DeclName;
-import net.sourceforge.czt.z.ast.Stroke;
-import net.sourceforge.czt.z.ast.Signature;
+import net.sourceforge.czt.z.ast.*;
 
 /**
  * An implementation for Signature that represents a signature variable.
@@ -49,7 +49,7 @@ public class VariableSignature
 
   protected VariableSignature(Factory factory)
   {
-    List<Stroke> strokes = new java.util.ArrayList();
+    List<Stroke> strokes = list();
     strokes.add(factory.createNumStroke(new Integer(serial_++)));
     declName_ = factory.createDeclName(BETA, strokes, null);
   }
@@ -108,9 +108,9 @@ public class VariableSignature
     return result;
   }
 
-  public net.sourceforge.czt.base.ast.ListTerm getNameTypePair()
+  public net.sourceforge.czt.base.ast.ListTerm<NameTypePair> getNameTypePair()
   {
-    return new net.sourceforge.czt.base.impl.ListTermImpl();
+    return new net.sourceforge.czt.base.impl.ListTermImpl<NameTypePair>();
   }
 
   /**
@@ -136,7 +136,7 @@ public class VariableSignature
       zedObject = new VariableSignature(declName);
       Signature value = (Signature) args[1];
       zedObject.setValue(value);
-      List pairs = (List) args[2];
+      List<NameTypePair> pairs = (List<NameTypePair>) args[2];
       zedObject.getNameTypePair().addAll(pairs);
     }
     catch (IndexOutOfBoundsException e) {

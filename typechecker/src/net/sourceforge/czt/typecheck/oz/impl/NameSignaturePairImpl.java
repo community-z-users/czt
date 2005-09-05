@@ -77,10 +77,10 @@ public class NameSignaturePairImpl
   /**
    * Accepts a visitor.
    */
-  public Object accept(net.sourceforge.czt.util.Visitor v)
+  public <R> R accept(net.sourceforge.czt.util.Visitor<R> v)
   {
     if (v instanceof NameSignaturePairVisitor) {
-      NameSignaturePairVisitor visitor = (NameSignaturePairVisitor) v;
+      NameSignaturePairVisitor<R> visitor = (NameSignaturePairVisitor<R>) v;
       return visitor.visitNameSignaturePair(this);
     }
     return super.accept(v);

@@ -61,12 +61,12 @@ public class UnknownType
                         boolean isMem,
                         List<Type2> types)
   {
-    this(refName, isMem, types, new ListTermImpl(NameNamePair.class));
+    this(refName, isMem, types, new ListTermImpl<NameNamePair>());
   }
 
   protected UnknownType(RefName refName, boolean isMem)
   {
-    this(refName, isMem, new ListTermImpl(Type2.class));
+    this(refName, isMem, new ListTermImpl<Type2>());
   }
 
   protected UnknownType(RefName refName)
@@ -180,7 +180,7 @@ public class UnknownType
     try {
       zedObject = new UnknownType();
       RefName refName = (RefName) args[0];
-      List types = (List) args[1];
+      List<Type2> types = (List<Type2>) args[1];
       Boolean isMem = (Boolean) args[2];
       zedObject.setRefName(refName);
       zedObject.setIsMem(isMem);

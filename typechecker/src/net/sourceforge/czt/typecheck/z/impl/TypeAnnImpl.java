@@ -63,10 +63,10 @@ public class TypeAnnImpl
   /**
    * Accepts a visitor.
    */
-  public Object accept(net.sourceforge.czt.util.Visitor v)
+  public <R> R accept(net.sourceforge.czt.util.Visitor<R> v)
   {
     if (v instanceof TypeAnnVisitor) {
-      TypeAnnVisitor visitor = (TypeAnnVisitor) v;
+      TypeAnnVisitor<R> visitor = (TypeAnnVisitor<R>) v;
       return visitor.visitTypeAnn(this);
     }
     return super.accept(v);

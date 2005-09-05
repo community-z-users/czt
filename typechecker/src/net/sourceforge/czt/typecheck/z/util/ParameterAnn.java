@@ -20,6 +20,8 @@ package net.sourceforge.czt.typecheck.z.util;
 
 import java.util.List;
 
+import net.sourceforge.czt.z.ast.Type2;
+
 /**
  * An annotation for recording a list of annotations associated with
  * an expression.
@@ -27,14 +29,14 @@ import java.util.List;
 public class ParameterAnn
 {
   /** The parameters. */
-  protected List parameters_;
+  protected List<Type2> parameters_;
 
-  public ParameterAnn(List anns)
+  public ParameterAnn(List<Type2> anns)
   {
     parameters_ = anns;
   }
 
-  public List getParameters()
+  public List<Type2> getParameters()
   {
     return parameters_;
   }

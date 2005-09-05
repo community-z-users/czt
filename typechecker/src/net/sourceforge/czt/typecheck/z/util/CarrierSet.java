@@ -35,16 +35,16 @@ import net.sourceforge.czt.typecheck.z.impl.*;
  */
 public class CarrierSet
   implements
-    TermVisitor,
-    PowerTypeVisitor,
-    GenParamTypeVisitor,
-    GivenTypeVisitor,
-    SchemaTypeVisitor,
-    SignatureVisitor,
-    ProdTypeVisitor,
-    VariableTypeVisitor,
-    VariableSignatureVisitor,
-    UnknownTypeVisitor
+    TermVisitor<Term>,
+    PowerTypeVisitor<Term>,
+    GenParamTypeVisitor<Term>,
+    GivenTypeVisitor<Term>,
+    SchemaTypeVisitor<Term>,
+    SignatureVisitor<Term>,
+    ProdTypeVisitor<Term>,
+    VariableTypeVisitor<Term>,
+    VariableSignatureVisitor<Term>,
+    UnknownTypeVisitor<Term>
 {
   protected ZFactory zFactory_;
 
@@ -72,12 +72,12 @@ public class CarrierSet
     allowVariableTypes_ = allowVariableTypes;
   }
 
-  public Object visitTerm(Term term)
+  public Term visitTerm(Term term)
   {
     return term;
   }
 
-  public Object visitPowerType(PowerType powerType)
+  public Term visitPowerType(PowerType powerType)
   {
     Type type = powerType.getType();
 
@@ -91,31 +91,29 @@ public class CarrierSet
     return result;
   }
 
-  public Object visitGenParamType(GenParamType genParamType)
+  public Term visitGenParamType(GenParamType genParamType)
   {
     RefName refName =
       zFactory_.createRefName(genParamType.getName().getWord(),
                               genParamType.getName().getStroke(),
                               null);
-    List<Expr> exprs = list();
     RefExpr result =
-      zFactory_.createRefExpr(refName, exprs, Boolean.FALSE);
+      zFactory_.createRefExpr(refName, GlobalDefs.<Expr>list(), Boolean.FALSE);
     return result;
   }
 
-  public Object visitGivenType(GivenType givenType)
+  public Term visitGivenType(GivenType givenType)
   {
     RefName refName =
       zFactory_.createRefName(givenType.getName().getWord(),
                               givenType.getName().getStroke(),
                               null);
-    List<Expr> exprs = list();
     RefExpr result =
-      zFactory_.createRefExpr(refName, exprs, Boolean.FALSE);
+      zFactory_.createRefExpr(refName, GlobalDefs.<Expr>list(), Boolean.FALSE);
     return result;
   }
 
-  public Object visitSchemaType(SchemaType schemaType)
+  public Term visitSchemaType(SchemaType schemaType)
   {
     Signature signature = schemaType.getSignature();
     SchText schText = (SchText) signature.accept(this);
@@ -123,7 +121,7 @@ public class CarrierSet
     return result;
   }
 
-  public Object visitSignature(Signature signature)
+  public Term visitSignature(Signature signature)
   {
     List<NameTypePair> pairs = signature.getNameTypePair();
     List<Decl> decls = list();
@@ -137,10 +135,10 @@ public class CarrierSet
     return schText;
   }
 
-  public Object visitProdType(ProdType prodType)
+  public Term visitProdType(ProdType prodType)
   {
-    List exprs = list();
-    List types = prodType.getType();
+    List<Expr> exprs = list();
+    List<Type2> types = prodType.getType();
     for (Iterator iter = types.iterator(); iter.hasNext(); ) {
       Type type = (Type) iter.next();
       Expr expr = (Expr) type.accept(this);
@@ -152,7 +150,7 @@ public class CarrierSet
   }
 
 
-  public Object visitUnknownType(UnknownType unknownType)
+  public Term visitUnknownType(UnknownType unknownType)
   {
     if (!allowVariableTypes_) {
       throw new UndeterminedTypeException();
@@ -161,12 +159,12 @@ public class CarrierSet
     RefName refName =
       zFactory_.createRefName("unknown",
                               strokes, null);
-    List<Expr> exprs = list();
-    RefExpr result = zFactory_.createRefExpr(refName, exprs, Boolean.FALSE);
+    RefExpr result =
+      zFactory_.createRefExpr(refName, GlobalDefs.<Expr>list(), Boolean.FALSE);
     return result;
   }
 
-  public Object visitVariableType(VariableType vType)
+  public Term visitVariableType(VariableType vType)
   {
     if (vType.getValue() == vType) {
       if (!allowVariableTypes_) {
@@ -175,30 +173,27 @@ public class CarrierSet
       List<Stroke> strokes = vType.getName().getStroke();
       RefName refName =
         zFactory_.createRefName("??", strokes, null);
-      List<Expr> exprs = list();
       RefExpr result =
-        zFactory_.createRefExpr(refName, exprs, Boolean.FALSE);
+        zFactory_.createRefExpr(refName, GlobalDefs.<Expr>list(), Boolean.FALSE);
       return result;
     }
     return vType.getValue().accept(this);
   }
 
-  public Object visitVariableSignature(VariableSignature vSig)
+  public Term visitVariableSignature(VariableSignature vSig)
   {
     if (vSig.getValue() instanceof VariableSignature) {
       if (!allowVariableTypes_) {
         throw new UndeterminedTypeException();
       }
-      List<Stroke> strokes = vSig.getName().getStroke();//list();
+      List<Stroke> strokes = vSig.getName().getStroke();
       RefName refName =
         zFactory_.createRefName("??", strokes, null);
-      List<Expr> exprs = list();
       RefExpr refExpr =
-        zFactory_.createRefExpr(refName, exprs, Boolean.FALSE);
+        zFactory_.createRefExpr(refName,GlobalDefs.<Expr>list() , Boolean.FALSE);
       InclDecl inclDecl = zFactory_.createInclDecl(refExpr);
-      List<Decl> decls = list();
-      decls.add(inclDecl);
-      SchText result = zFactory_.createSchText(decls, null);
+      SchText result =
+	zFactory_.createSchText(GlobalDefs.<Decl>list(inclDecl), null);
       return result;  
     }
     return vSig.getValue().accept(this);

@@ -49,10 +49,12 @@ public class SpecChecker
   {
     //visit each section, and get the definition made in that section
     List<Sect> sects = spec.getSect();
-    SectTypeEnvAnn specTypes = factory().createSectTypeEnvAnn(list());
+    SectTypeEnvAnn specTypes =
+      factory().createSectTypeEnvAnn(GlobalDefs.<NameSectTypeTriple>list());
     List<NameSectTypeTriple> triples = specTypes.getNameSectTypeTriple();
     for (Sect sect : sects) {
-      List<NameSectTypeTriple> sectTypes = (List) sect.accept(specChecker());
+      List<NameSectTypeTriple> sectTypes =
+	(List<NameSectTypeTriple>) sect.accept(specChecker());
       for (NameSectTypeTriple triple : sectTypes) {
 	if (!triples.contains(triple)) {
 	  triples.add(triple);
@@ -193,7 +195,7 @@ public class SpecChecker
       //if there is no SectTypeEnvAnn, then we must typecheck this section
       SectTypeEnvAnn ann = (SectTypeEnvAnn) termA.getAnn(SectTypeEnvAnn.class);
       if (ann == null) {
-        List errors = specChecker().typecheck(termA, sectInfo());
+        List<ErrorAnn> errors = specChecker().typecheck(termA, sectInfo());
         errors().addAll(errors);
         ann = (SectTypeEnvAnn) termA.getAnn(SectTypeEnvAnn.class);
       }

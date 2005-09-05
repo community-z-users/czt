@@ -50,17 +50,17 @@ public class ClassRefImpl
     return result;
   }
 
-  public ListTerm getNameNamePair()
+  public ListTerm<NameNamePair> getNameNamePair()
   {
     ClassRef classRef = (ClassRef) term_;
-    ListTerm result = classRef.getNameNamePair();
+    ListTerm<NameNamePair> result = classRef.getNameNamePair();
     return result;
   }
 
-  public ListTerm getType2()
+  public ListTerm<Type2> getType2()
   {
     ClassRef classRef = (ClassRef) term_;
-    ListTerm result = classRef.getType2();
+    ListTerm<Type2> result = classRef.getType2();
     for (int i = 0; i < result.size(); i++) {
       Type2 type = (Type2) result.get(i);
       if (type instanceof VariableType) {

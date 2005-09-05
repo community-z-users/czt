@@ -37,11 +37,11 @@ import net.sourceforge.czt.util.CztLogger;
  * The top-level class in the type checker classes.
  */
 public class TypeChecker
-  implements TermVisitor,
-             ParaVisitor,
-             DeclVisitor,
-             ExprVisitor,
-             PredVisitor
+  implements TermVisitor<Object>,
+             ParaVisitor<Object>,
+             DeclVisitor<Object>,
+             ExprVisitor<Object>,
+             PredVisitor<Object>
 {
   //print debuging info
   protected static boolean debug_ = false;
@@ -90,10 +90,10 @@ public class TypeChecker
   protected Logger logger_ = CztLogger.getLogger(TypeChecker.class);
 
   //the visitors used to typechecker a spec
-  protected Checker specChecker_ = null;
+  protected Checker<Object> specChecker_ = null;
   protected Checker<Signature> paraChecker_ = null;
   protected Checker<List<NameTypePair>> declChecker_ = null;
-  protected Checker exprChecker_ = null;
+  protected Checker<Type2> exprChecker_ = null;
   protected Checker<UResult> predChecker_ = null;
   protected Checker<Signature> schTextChecker_ = null;
   protected Checker<ErrorAnn> postChecker_ = null;

@@ -20,9 +20,8 @@ package net.sourceforge.czt.typecheck.oz.impl;
 
 import java.util.List;
 
-import net.sourceforge.czt.z.ast.DeclName;
-import net.sourceforge.czt.z.ast.Stroke;
-import net.sourceforge.czt.oz.ast.ClassSig;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.visitor.ClassSigVisitor;
 import net.sourceforge.czt.typecheck.z.impl.*;
 
@@ -52,7 +51,7 @@ public class VariableClassSig
 
   protected VariableClassSig(Factory factory)
   {
-    List<Stroke> strokes = new java.util.ArrayList();
+    List<Stroke> strokes = new java.util.ArrayList<Stroke>();
     strokes.add(factory.createNumStroke(new Integer(serial_++)));
     declName_ = factory.createDeclName(PSI, strokes, null);
   }
@@ -120,28 +119,30 @@ public class VariableClassSig
     return null;
   }
 
-  public net.sourceforge.czt.base.ast.ListTerm getAttribute()
+  public net.sourceforge.czt.base.ast.ListTerm<NameTypePair>
+    getAttribute()
   {
-    return new net.sourceforge.czt.base.impl.ListTermImpl();
+    return new net.sourceforge.czt.base.impl.ListTermImpl<NameTypePair>();
   }
 
-  public net.sourceforge.czt.base.ast.ListTerm getOperation()
+  public net.sourceforge.czt.base.ast.ListTerm<NameSignaturePair>
+    getOperation()
   {
-    return new net.sourceforge.czt.base.impl.ListTermImpl();
+    return new net.sourceforge.czt.base.impl.ListTermImpl<NameSignaturePair>();
   }
 
-  public net.sourceforge.czt.base.ast.ListTerm getClasses()
+  public net.sourceforge.czt.base.ast.ListTerm<ClassRef> getClasses()
   {
-    return new net.sourceforge.czt.base.impl.ListTermImpl();
+    return new net.sourceforge.czt.base.impl.ListTermImpl<ClassRef>();
   }
 
   /**
    * Accepts a visitor.
    */
-  public Object accept(net.sourceforge.czt.util.Visitor v)
+  public <R> R accept(net.sourceforge.czt.util.Visitor<R> v)
   {
     if (v instanceof ClassSigVisitor) {
-      ClassSigVisitor visitor = (ClassSigVisitor) v;
+      ClassSigVisitor<R> visitor = (ClassSigVisitor<R>) v;
       return visitor.visitClassSig(this);
     }
     return super.accept(v);

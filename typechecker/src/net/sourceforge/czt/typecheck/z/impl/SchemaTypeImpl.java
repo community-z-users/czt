@@ -63,10 +63,10 @@ public class SchemaTypeImpl
   /**
    * Accepts a visitor.
    */
-  public Object accept(net.sourceforge.czt.util.Visitor v)
+  public <R> R accept(net.sourceforge.czt.util.Visitor<R> v)
   {
     if (v instanceof SchemaTypeVisitor) {
-      SchemaTypeVisitor visitor = (SchemaTypeVisitor) v;
+      SchemaTypeVisitor<R> visitor = (SchemaTypeVisitor<R>) v;
       return visitor.visitSchemaType(this);
     }
     return super.accept(v);

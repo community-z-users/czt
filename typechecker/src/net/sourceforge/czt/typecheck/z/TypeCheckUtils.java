@@ -54,9 +54,9 @@ public class TypeCheckUtils
    * @param markup the <code>Markup</code> of the specification.
    * returns the list of ErrorAnns in the AST added by the typechecker.
    */
-  public static List typecheck(Term term,
-                               SectionInfo sectInfo,
-                               Markup markup)
+  public static List<ErrorAnn> typecheck(Term term,
+					 SectionInfo sectInfo,
+					 Markup markup)
   {
     return typecheck(term, sectInfo, markup, false);
   }
@@ -69,10 +69,10 @@ public class TypeCheckUtils
    * @param useBeforeDecl allow use of variables before declaration
    * returns the list of ErrorAnns in the AST added by the typechecker.
    */
-  public static List typecheck(Term term,
-                               SectionInfo sectInfo,
-                               Markup markup,
-                               boolean useBeforeDecl)
+  public static List<ErrorAnn> typecheck(Term term,
+					 SectionInfo sectInfo,
+					 Markup markup,
+					 boolean useBeforeDecl)
   {
     return typecheck(term, sectInfo, markup, useBeforeDecl, null);
   }
@@ -86,36 +86,36 @@ public class TypeCheckUtils
    * @param sectName the section within which this term should be evaluated
    * returns the list of ErrorAnns in the AST added by the typechecker.
    */
-  public static List typecheck(Term term,
-                               SectionInfo sectInfo,
-                               Markup markup,
-                               boolean useBeforeDecl,
-                               String sectName)
+  public static List<ErrorAnn> typecheck(Term term,
+					 SectionInfo sectInfo,
+					 Markup markup,
+					 boolean useBeforeDecl,
+					 String sectName)
   {
     TypeCheckUtils utils = new TypeCheckUtils();
     return utils.lTypecheck(term, sectInfo, markup, useBeforeDecl, sectName);
   }
 
-  protected List lTypecheck(Term term,
-                            SectionInfo sectInfo,
-                            Markup markup)
+  protected List<ErrorAnn> lTypecheck(Term term,
+				      SectionInfo sectInfo,
+				      Markup markup)
   {
     return lTypecheck(term, sectInfo, markup, false);
   }
 
-  protected List lTypecheck(Term term,
-                            SectionInfo sectInfo,
-                            Markup markup,
-                            boolean useBeforeDecl)
+  protected List<ErrorAnn> lTypecheck(Term term,
+				      SectionInfo sectInfo,
+				      Markup markup,
+				      boolean useBeforeDecl)
   {
     return lTypecheck(term, sectInfo, markup, useBeforeDecl, null);
   }
 
-  protected List lTypecheck(Term term,
-                            SectionInfo sectInfo,
-                            Markup markup,
-                            boolean useBeforeDecl,
-                            String sectName)
+  protected List<ErrorAnn> lTypecheck(Term term,
+				      SectionInfo sectInfo,
+				      Markup markup,
+				      boolean useBeforeDecl,
+				      String sectName)
   {
     ZFactory zFactory = new ZFactoryImpl();
     TypeChecker typeChecker =
@@ -249,7 +249,8 @@ public class TypeCheckUtils
 
       //if the parse succeeded, typecheck the term
       if (term != null && !syntaxOnly) {
-        List errors = this.lTypecheck(term, manager, markup, useBeforeDecl);
+        List<ErrorAnn> errors =
+	  this.lTypecheck(term, manager, markup, useBeforeDecl);
 
         //print any errors
         for (Object next : errors) {

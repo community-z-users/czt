@@ -36,9 +36,9 @@ public abstract class TermAImpl
     super(termA);
   }
 
-  public ListTerm getAnns()
+  public ListTerm<Object> getAnns()
   {
-    ListTerm result = new ListTermImpl();
+    ListTerm<Object> result = new ListTermImpl<Object>();
     if (term_ != null) {
       result = ((TermA) term_).getAnns();
     }

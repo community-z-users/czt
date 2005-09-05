@@ -24,6 +24,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
+import net.sourceforge.czt.typecheck.oz.util.GlobalDefs;
 
 /**
  * A factory for creating types that hide VariableTypes.
@@ -64,14 +65,26 @@ public class Factory
     return result;
   }
 
-  public ClassRef createClassRef(DeclName declName, List type, List pairs)
+  public ClassRef createClassRef(DeclName declName,
+				 List<Type2> type,
+				 List<NameNamePair> pairs)
   {
     RefName refName = createRefName(declName);
     ClassRef result = createClassRef(refName, type, pairs);
     return result;
   }
 
-  public ClassRef createClassRef(RefName refName, List type, List pairs)
+  public ClassRef createClassRef(DeclName declName)
+  {
+    ClassRef result = createClassRef(declName,
+				     GlobalDefs.<Type2>list(),
+				     GlobalDefs.<NameNamePair>list());
+    return result;
+  }
+
+  public ClassRef createClassRef(RefName refName,
+				 List<Type2> type,
+				 List<NameNamePair> pairs)
   {
     ClassRef classRef = ozFactory_.createClassRef(refName, type, pairs);
     ClassRef result = new ClassRefImpl(classRef);
@@ -89,9 +102,9 @@ public class Factory
 
   public ClassRefType createClassRefType(ClassSig classSig,
                                          ClassRef thisClass,
-                                         java.util.List superClass,
+                                         List<ClassRef> superClass,
                                          VisibilityList visibilityList,
-                                         List primary)
+                                         List<DeclName> primary)
   {
     ClassRefType classRefType =
       ozFactory_.createClassRefType(classSig, thisClass,
@@ -146,10 +159,10 @@ public class Factory
     return ozFactory_.createClassSig();
   }
 
-  public ClassSig createClassSig(List classes,
+  public ClassSig createClassSig(List<ClassRef> classes,
                                  Signature state,
-                                 List attribute,
-                                 List operation)
+                                 List<NameTypePair> attribute,
+                                 List<NameSignaturePair> operation)
   {
     return ozFactory_.createClassSig(classes, state,
                                      attribute, operation);

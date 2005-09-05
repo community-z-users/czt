@@ -100,7 +100,8 @@ abstract public class Checker<R>
   }
 
   //typecheck a file using an instance of this typechecker
-  protected List typecheck(TermA termA, SectionInfo sectInfo)
+  protected List<net.sourceforge.czt.typecheck.z.ErrorAnn>
+    typecheck(TermA termA, SectionInfo sectInfo)
   {
     return TypeCheckUtils.typecheck(termA, sectInfo, markup());
   }
@@ -354,8 +355,8 @@ abstract public class Checker<R>
   //get the type of "self"
   protected ClassRefType getSelfType()
   {
-    RefName refName = factory().createRefName(OzString.SELF, list(), null);
-    RefExpr refExpr = factory().createRefExpr(refName, list(), Boolean.FALSE);
+    RefName refName = factory().createRefName(OzString.SELF);
+    RefExpr refExpr = factory().createRefExpr(refName);
     Type2 selfType = (Type2) refExpr.accept(exprChecker());
     assert selfType instanceof ClassRefType;
     ClassRefType result = (ClassRefType) selfType;
@@ -744,8 +745,9 @@ abstract public class Checker<R>
         List<ClassRef> newClassRefs = list();
         for (ClassRef classRef : classRefs) {
           List<Type2> types = instantiateTypes(classRef.getType2(), preTypes);
+	  List<NameNamePair> pairs = list();
           ClassRef newClassRef =
-            factory().createClassRef(classRef.getRefName(), types, list());
+            factory().createClassRef(classRef.getRefName(), types, pairs);
           newClassRefs.add(newClassRef);
         }
         newCSig =
@@ -780,8 +782,9 @@ abstract public class Checker<R>
   protected ClassRef instantiate(ClassRef classRef, List<Type2> preTypes)
   {
     List<Type2> types = instantiateTypes(classRef.getType2(), preTypes);
+    List<NameNamePair> pairs = list();
     ClassRef result =
-      factory().createClassRef(classRef.getRefName(), types, list());
+      factory().createClassRef(classRef.getRefName(), types, pairs);
     return result;
   }
 

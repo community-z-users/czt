@@ -22,6 +22,7 @@ import java.util.List;
 
 import static net.sourceforge.czt.typecheck.oz.util.GlobalDefs.*;
 
+import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.visitor.*;
@@ -35,11 +36,11 @@ import net.sourceforge.czt.typecheck.oz.impl.*;
 public class CarrierSet
   extends net.sourceforge.czt.typecheck.z.util.CarrierSet
   implements
-    ClassRefTypeVisitor,
-    ClassUnionTypeVisitor,
-    ClassPolyTypeVisitor,
-    ClassRefVisitor,
-    VariableClassTypeVisitor
+    ClassRefTypeVisitor<Term>,
+    ClassUnionTypeVisitor<Term>,
+    ClassPolyTypeVisitor<Term>,
+    ClassRefVisitor<Term>,
+    VariableClassTypeVisitor<Term>
 {
   protected OzFactory ozFactory_;
 
@@ -61,14 +62,14 @@ public class CarrierSet
     ozFactory_ = ozFactory;
   }
 
-  public Object visitClassRefType(ClassRefType classRefType)
+  public Term visitClassRefType(ClassRefType classRefType)
   {
     ClassRef classRef = classRefType.getThisClass();
     Expr result = (Expr) classRef.accept(this);
     return result;
   }
 
-  public Object visitClassPolyType(ClassPolyType classPolyType)
+  public Term visitClassPolyType(ClassPolyType classPolyType)
   {
     ClassRef classRef = classPolyType.getRootClass();
     Expr expr = (Expr) classRef.accept(this);
@@ -76,7 +77,7 @@ public class CarrierSet
     return result;
   }
 
-  public Object visitClassUnionType(ClassUnionType classUnionType)
+  public Term visitClassUnionType(ClassUnionType classUnionType)
   {
     ClassSig classSig = classUnionType.getClassSig();
     List<ClassRef> classRefs = classSig.getClasses();
@@ -85,10 +86,12 @@ public class CarrierSet
     Expr result = null;
     //if 0, then we have the set \oid
     if (classRefs.size() == 0) {
-      List<Stroke> strokes = list();
-      List<Expr> exprs = list();
-      RefName oidName = ozFactory_.createRefName(OzString.OID, strokes, null);
-      result = ozFactory_.createRefExpr(oidName, exprs, Boolean.FALSE);
+      RefName oidName =	ozFactory_.createRefName(OzString.OID,
+						 GlobalDefs.<Stroke>list(),
+						 null);
+      result = ozFactory_.createRefExpr(oidName,
+					GlobalDefs.<Expr>list(),
+					Boolean.FALSE);
     }
     else {
       ClassUnionExpr classUnionExpr = null;
@@ -114,7 +117,7 @@ public class CarrierSet
     return result;
   }
 
-  public Object visitClassRef(ClassRef classRef)
+  public Term visitClassRef(ClassRef classRef)
   {
     List<Expr> exprs = list();
     List<Type2> types = classRef.getType2();
@@ -130,18 +133,19 @@ public class CarrierSet
     return result;
   }
 
-  public Object visitVariableClassType(VariableClassType vClassType)
+  public Term visitVariableClassType(VariableClassType vClassType)
   {
     Expr result = null;
     if (vClassType.getCandidateType() == null) {
       if (!allowVariableTypes_) {
         throw new UndeterminedTypeException();
       }
-      List<Stroke> strokes = list();
-      RefName refName =
-        zFactory_.createRefName("?CLASSTYPE?", strokes, null);
-      List<Expr> exprs = list();
-      result = zFactory_.createRefExpr(refName, exprs, Boolean.FALSE);
+      RefName refName = zFactory_.createRefName("?CLASSTYPE?",
+						GlobalDefs.<Stroke>list(),
+						null);
+      result = zFactory_.createRefExpr(refName,
+				       GlobalDefs.<Expr>list(),
+				       Boolean.FALSE);
     }
     else {
       Type2 type = vClassType.getCandidateType();

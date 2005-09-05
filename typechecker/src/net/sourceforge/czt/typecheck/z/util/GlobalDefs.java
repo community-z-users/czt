@@ -50,7 +50,7 @@ public class GlobalDefs
    */
   public static <E> List<E> list(E e)
   {
-    List result = list();
+    List<E> result = list();
     result.add(e);
     return result;
   }
@@ -63,7 +63,7 @@ public class GlobalDefs
    */
   public static <E> List<E> list(E e1, E e2)
   {
-    List result = list(e1);
+    List<E> result = list(e1);
     result.add(e2);
     return result;
   }

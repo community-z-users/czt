@@ -33,7 +33,7 @@ import net.sourceforge.czt.oz.util.OzString;
 /**
  */
 public class SpecChecker
-  extends Checker
+  extends Checker<Object>
 {
   //the name of the Object-Z toolkit
   public final static String OZ_TOOLKIT = "oz_toolkit";
@@ -48,7 +48,7 @@ public class SpecChecker
       new net.sourceforge.czt.typecheck.z.SpecChecker(typeChecker);
 
     //add the type for \oid
-    DeclName oidName = factory().createDeclName(OzString.OID, list());
+    DeclName oidName = factory().createDeclName(OzString.OID);
     ClassUnionType cuType = factory().createClassUnionType();
     PowerType oidType = factory().createPowerType(cuType);
     NameSectTypeTriple triple =

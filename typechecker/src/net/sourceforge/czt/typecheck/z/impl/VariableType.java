@@ -20,10 +20,10 @@ package net.sourceforge.czt.typecheck.z.impl;
 
 import java.util.List;
 
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
+
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.z.ast.Type2;
-import net.sourceforge.czt.z.ast.Stroke;
-import net.sourceforge.czt.z.ast.DeclName;
+import net.sourceforge.czt.z.ast.*;;
 
 /**
  * A VariableType.
@@ -49,7 +49,7 @@ public class VariableType
   protected VariableType(Factory factory)
   {
     super(null);
-    List<Stroke> strokes = new java.util.ArrayList();
+    List<Stroke> strokes = list();
     strokes.add(factory.createNumStroke(new Integer(serial_++)));
     declName_ = factory.createDeclName(ALPHA, strokes, null);
   }

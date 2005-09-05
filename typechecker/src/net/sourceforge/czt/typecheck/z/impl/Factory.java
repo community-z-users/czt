@@ -20,8 +20,11 @@ package net.sourceforge.czt.typecheck.z.impl;
 
 import java.util.List;
 
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
+
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.util.ParameterAnn;
 import net.sourceforge.czt.typecheck.z.util.UndeclaredAnn;
 
@@ -107,7 +110,7 @@ public class Factory
     return result;
   }
 
-  public ProdType createProdType(List type)
+  public ProdType createProdType(List<Type2> type)
   {
     ProdType prodType = zFactory_.createProdType(type);
     ProdType result = new ProdTypeImpl(prodType);
@@ -128,7 +131,7 @@ public class Factory
     return result;
   }
 
-  public GenericType createGenericType(List declName,
+  public GenericType createGenericType(List<DeclName> declName,
                                        Type2 type,
                                        Type2 optionalType)
   {
@@ -178,7 +181,7 @@ public class Factory
     return zFactory_.createSignature();
   }
 
-  public Signature createSignature(List pairs)
+  public Signature createSignature(List<NameTypePair> pairs)
   {
     return zFactory_.createSignature(pairs);
   }
@@ -247,27 +250,27 @@ public class Factory
     return result;
   }
 
-  public TypeEnvAnn createTypeEnvAnn(List pairs)
+  public TypeEnvAnn createTypeEnvAnn(List<NameTypePair> pairs)
   {
     return zFactory_.createTypeEnvAnn(pairs);
   }
 
-  public SectTypeEnvAnn createSectTypeEnvAnn(List nameSecTypeTriple)
+  public SectTypeEnvAnn createSectTypeEnvAnn(List<NameSectTypeTriple> triples)
   {
-    return zFactory_.createSectTypeEnvAnn(nameSecTypeTriple);
+    return zFactory_.createSectTypeEnvAnn(triples);
   }
 
   public DeclName createDeclName(String word)
   {
-    return createDeclName(word, list());
+    return createDeclName(word, GlobalDefs.<Stroke>list());
   }
 
-  public DeclName createDeclName(String word, List stroke)
+  public DeclName createDeclName(String word, List<Stroke> stroke)
   {
     return createDeclName(word, stroke, null);
   }
 
-  public DeclName createDeclName(String word, List stroke, String id)
+  public DeclName createDeclName(String word, List<Stroke> stroke, String id)
   {
     return zFactory_.createDeclName(word, stroke, id);
   }
@@ -285,10 +288,12 @@ public class Factory
 
   public RefName createRefName(String word)
   {
-    return createRefName(word, list(), null);
+    return createRefName(word, GlobalDefs.<Stroke>list(), null);
   }
 
-  public RefName createRefName(String word, List stroke, DeclName declName)
+  public RefName createRefName(String word,
+			       List<Stroke> stroke,
+			       DeclName declName)
   {
     return zFactory_.createRefName(word, stroke, declName);
   }
@@ -306,10 +311,12 @@ public class Factory
 
   public RefExpr createRefExpr(RefName refName)
   {
-    return createRefExpr(refName, list(), Boolean.FALSE);
+    return createRefExpr(refName, GlobalDefs.<Expr>list(), Boolean.FALSE);
   }
 
-  public RefExpr createRefExpr(RefName refName, List expr, Boolean mixfix)
+  public RefExpr createRefExpr(RefName refName,
+			       List<Expr> expr,
+			       Boolean mixfix)
   {
     return zFactory_.createRefExpr(refName, expr, mixfix);
   }
@@ -332,10 +339,5 @@ public class Factory
   public NumStroke createNumStroke(Integer number)
   {
     return zFactory_.createNumStroke(number);
-  }
-
-  protected List list()
-  {
-    return new java.util.ArrayList();
   }
 }

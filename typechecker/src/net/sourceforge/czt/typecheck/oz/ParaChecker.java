@@ -87,18 +87,20 @@ public class ParaChecker
     ClassSig cSig = factory().createClassSig();
     cSig.setState(factory().createSignature());
 
-    ClassRef thisClass = factory().createClassRef(className(), list(), list());
+    ClassRef thisClass = factory().createClassRef(className());
     for (DeclName declName : typeEnv().getParameters()) {
       Type2 gpType = factory().createGenParamType(declName);
       thisClass.getType2().add(gpType);
     }
     cSig.getClasses().add(thisClass);
     ClassRefType classType =
-      factory().createClassRefType(cSig, thisClass, list(), null, list());
+      factory().createClassRefType(cSig, thisClass,
+				   GlobalDefs.<ClassRef>list(), null, 
+				   GlobalDefs.<DeclName>list());
     PowerType powerType = factory().createPowerType(classType);
 
     //add this class name and "self" to the pending typing environment
-    DeclName self = factory().createDeclName(OzString.SELF, list(), null);
+    DeclName self = factory().createDeclName(OzString.SELF);
     pending().add(self, addGenerics(classType));
 
     //visit each inherited class
@@ -163,7 +165,7 @@ public class ParaChecker
 
     //add the "Init" variable to the state (to use for dereferencing)
     DeclName initName =
-      factory().createDeclName(OzString.INITWORD, list(), null);
+      factory().createDeclName(OzString.INITWORD);
     Type2 boolType = factory().createBoolType();
     NameTypePair initPair = factory().createNameTypePair(initName, boolType);
     cSig.getState().getNameTypePair().add(initPair);
