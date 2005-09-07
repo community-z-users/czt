@@ -1,59 +1,112 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Spec xmlns="http://czt.sourceforge.net/zml"
-      Version="1.4">
-  <ZSect>
-    <Name>Specification</Name>
-    <Parent>
-      <Word>standard_toolkit</Word>
-    </Parent>
-    <AxPara Box="SchBox">
-      <SchText>
-        <ConstDecl>
-          <DeclName>
-            <Word>Test</Word>
-          </DeclName>
-          <SchExpr>
+<Spec Version="2.0" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://czt.sourceforge.net/zml">
+    <ZSect>
+        <Name>Specification</Name>
+        <Parent>
+            <Word>standard_toolkit</Word>
+        </Parent>
+        <LatexMarkupPara/>
+        <AxPara Box="SchBox">
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/test.tex"/>
+            </Anns>
             <SchText>
-              <VarDecl>
-                <DeclName>
-                  <Word>known</Word>
-                </DeclName>
-                <PowerExpr>
-                  <RefExpr Mixfix="false">
-                    <RefName>
-                      <Word>NAME</Word>
-                    </RefName>
-                  </RefExpr>
-                </PowerExpr>
-              </VarDecl>
-              <VarDecl>
-                <DeclName>
-                  <Word>name</Word>
-                  <InStroke/>
-                </DeclName>
-                <RefExpr Mixfix="false">
-                  <RefName>
-                    <Word>NAME</Word>
-                  </RefName>
-                </RefExpr>
-              </VarDecl>
-              <MemPred Mixfix="false">
-                <RefExpr Mixfix="false">
-                  <RefName>
-                    <Word>name</Word>
-                    <InStroke/>
-                  </RefName>
-                </RefExpr>
-                <RefExpr Mixfix="false">
-                  <RefName>
-                    <Word>known</Word>
-                  </RefName>
-                </RefExpr>
-              </MemPred>
+                <ZDeclList>
+                    <ConstDecl>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="16" Line="1" Loc="tests/z/test.tex"/>
+                            </Anns>
+                            <Word>Test</Word>
+                        </DeclName>
+                        <SchExpr>
+                            <SchText>
+                                <ZDeclList>
+                                    <VarDecl>
+                                        <Anns>
+                                            <LocAnn Col="8" Line="2" Loc="tests/z/test.tex"/>
+                                        </Anns>
+                                        <DeclName>
+                                            <Anns>
+                                                <LocAnn Col="3" Line="2" Loc="tests/z/test.tex"/>
+                                            </Anns>
+                                            <Word>known</Word>
+                                        </DeclName>
+                                        <PowerExpr>
+                                            <Anns>
+                                                <LocAnn Col="10" Line="2" Loc="tests/z/test.tex"/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="17" Line="2" Loc="tests/z/test.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="17" Line="2" Loc="tests/z/test.tex"/>
+                                                    </Anns>
+                                                    <Word>NAME</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </PowerExpr>
+                                    </VarDecl>
+                                    <VarDecl>
+                                        <Anns>
+                                            <LocAnn Col="8" Line="3" Loc="tests/z/test.tex"/>
+                                        </Anns>
+                                        <DeclName>
+                                            <Anns>
+                                                <LocAnn Col="3" Line="3" Loc="tests/z/test.tex"/>
+                                            </Anns>
+                                            <Word>name</Word>
+                                            <InStroke/>
+                                        </DeclName>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="10" Line="3" Loc="tests/z/test.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="10" Line="3" Loc="tests/z/test.tex"/>
+                                                </Anns>
+                                                <Word>NAME</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </VarDecl>
+                                </ZDeclList>
+                                <MemPred Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="9" Line="5" Loc="tests/z/test.tex"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="3" Line="5" Loc="tests/z/test.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="3" Line="5" Loc="tests/z/test.tex"/>
+                                            </Anns>
+                                            <Word>name</Word>
+                                            <InStroke/>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="13" Line="5" Loc="tests/z/test.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="13" Line="5" Loc="tests/z/test.tex"/>
+                                            </Anns>
+                                            <Word>known</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </MemPred>
+                            </SchText>
+                        </SchExpr>
+                    </ConstDecl>
+                </ZDeclList>
             </SchText>
-          </SchExpr>
-        </ConstDecl>
-      </SchText>
-    </AxPara>
-  </ZSect>
+        </AxPara>
+    </ZSect>
 </Spec>
+

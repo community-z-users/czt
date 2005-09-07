@@ -32,6 +32,7 @@ import net.sourceforge.czt.z.ast.DeclName;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZSect;
 
 import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
@@ -86,7 +87,9 @@ final class SchemaExtractionVisitor implements SpecVisitor, ZSectVisitor, AxPara
    * Visitor method for finding the schemas in an <tt>AxPara</tt>.
    */
   public Object visitAxPara(AxPara zedObject) {//Only interested in AxParas
-    visitAllOf(zedObject.getSchText().getDecl(),ConstDecl.class); return null;
+    visitAllOf(((ZDeclList) zedObject.getSchText().getDeclList()).getDecl(),
+               ConstDecl.class);
+    return null;
   };//Containing ConstDecls
   /**
    * Visitor method for identifying if a <tt>ConstDecl</tt> is a schema.

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Spec Version="1.4" xmlns="http://czt.sourceforge.net/zml">
+<Spec Version="2.0" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://czt.sourceforge.net/zml">
     <NarrSect>
         <Anns>
-            <LocAnn Col="1" Loc="lib/function_toolkit.tex" Line="1"/>
+            <LocAnn Col="1" Line="1" Loc="lib/function_toolkit.tex"/>
         </Anns>
         <Content>\documentclass[draft,a4paper,10pt,wd]{isov2}
 \usepackage{ltcadiz}
@@ -14,12 +14,12 @@
     </NarrSect>
     <ZSect>
         <Anns>
-            <LocAnn Col="1" Loc="lib/function_toolkit.tex" Line="8"/>
+            <LocAnn Col="1" Line="8" Loc="lib/function_toolkit.tex"/>
         </Anns>
         <Name>function_toolkit</Name>
         <Parent>
             <Anns>
-                <LocAnn Col="37" Loc="lib/function_toolkit.tex" Line="8"/>
+                <LocAnn Col="37" Line="8" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Word>relation_toolkit</Word>
         </Parent>
@@ -97,7 +97,7 @@
         </LatexMarkupPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="15" Loc="lib/function_toolkit.tex" Line="9"/>
+                <LocAnn Col="15" Line="9" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Content>
 
@@ -105,9 +105,9 @@
 
 </Content>
         </NarrPara>
-        <OptempPara Assoc="Right" Prec="5" Cat="Generic">
+        <OptempPara Assoc="Right" Cat="Generic" Prec="5">
             <Anns>
-                <LocAnn Col="1" Loc="lib/function_toolkit.tex" Line="15"/>
+                <LocAnn Col="1" Line="15" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Operand List="false"/>
             <Operator>
@@ -117,7 +117,7 @@
         </OptempPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="lib/function_toolkit.tex" Line="16"/>
+                <LocAnn Col="10" Line="16" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Content>
 
@@ -125,7 +125,7 @@
         </NarrPara>
         <AxPara Box="OmitBox">
             <Anns>
-                <LocAnn Col="9" Loc="lib/function_toolkit.tex" Line="19"/>
+                <LocAnn Col="9" Line="19" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <DeclName>
                 <Word>X</Word>
@@ -134,124 +134,172 @@
                 <Word>Y</Word>
             </DeclName>
             <SchText>
-                <ConstDecl>
-                    <Anns>
-                        <LocAnn Col="11" Loc="lib/function_toolkit.tex" Line="19"/>
-                    </Anns>
-                    <DeclName>
-                        <Word> _ ⇸ _ </Word>
-                    </DeclName>
-                    <SetCompExpr>
+                <ZDeclList>
+                    <ConstDecl>
                         <Anns>
-                            <LocAnn Col="14" Loc="lib/function_toolkit.tex" Line="19"/>
+                            <LocAnn Col="11" Line="19" Loc="lib/function_toolkit.tex"/>
                         </Anns>
-                        <SchText>
-                            <VarDecl>
-                                <Anns>
-                                    <LocAnn Col="20" Loc="lib/function_toolkit.tex" Line="19"/>
-                                </Anns>
-                                <DeclName>
-                                    <Anns>
-                                        <LocAnn Col="18" Loc="lib/function_toolkit.tex" Line="19"/>
-                                    </Anns>
-                                    <Word>f</Word>
-                                </DeclName>
-                                <RefExpr Mixfix="true">
-                                    <Anns>
-                                        <LocAnn Col="24" Loc="lib/function_toolkit.tex" Line="19"/>
-                                    </Anns>
-                                    <RefName>
-                                        <Word> _ ↔ _ </Word>
-                                    </RefName>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="22" Loc="lib/function_toolkit.tex" Line="19"/>
-                                        </Anns>
-                                        <RefName>
-                                            <Anns>
-                                                <LocAnn Col="22" Loc="lib/function_toolkit.tex" Line="19"/>
-                                            </Anns>
-                                            <Word>X</Word>
-                                        </RefName>
-                                    </RefExpr>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="29" Loc="lib/function_toolkit.tex" Line="19"/>
-                                        </Anns>
-                                        <RefName>
-                                            <Anns>
-                                                <LocAnn Col="29" Loc="lib/function_toolkit.tex" Line="19"/>
-                                            </Anns>
-                                            <Word>Y</Word>
-                                        </RefName>
-                                    </RefExpr>
-                                </RefExpr>
-                            </VarDecl>
-                            <ForallPred>
-                                <Anns>
-                                    <LocAnn Col="33" Loc="lib/function_toolkit.tex" Line="19"/>
-                                </Anns>
-                                <SchText>
+                        <DeclName>
+                            <Word> _ ⇸ _ </Word>
+                        </DeclName>
+                        <SetCompExpr>
+                            <Anns>
+                                <LocAnn Col="14" Line="19" Loc="lib/function_toolkit.tex"/>
+                            </Anns>
+                            <SchText>
+                                <ZDeclList>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="47" Loc="lib/function_toolkit.tex" Line="19"/>
+                                            <LocAnn Col="20" Line="19" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
                                         <DeclName>
                                             <Anns>
-                                                <LocAnn Col="41" Loc="lib/function_toolkit.tex" Line="19"/>
+                                                <LocAnn Col="18" Line="19" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
-                                            <Word>p</Word>
+                                            <Word>f</Word>
                                         </DeclName>
-                                        <DeclName>
+                                        <RefExpr Mixfix="true">
                                             <Anns>
-                                                <LocAnn Col="45" Loc="lib/function_toolkit.tex" Line="19"/>
-                                            </Anns>
-                                            <Word>q</Word>
-                                        </DeclName>
-                                        <RefExpr Mixfix="false">
-                                            <Anns>
-                                                <LocAnn Col="49" Loc="lib/function_toolkit.tex" Line="19"/>
+                                                <LocAnn Col="24" Line="19" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="49" Loc="lib/function_toolkit.tex" Line="19"/>
+                                                    <LocAnn Col="22" Line="19" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
-                                                <Word>f</Word>
+                                                <Word> _ ↔ _ </Word>
                                             </RefName>
-                                        </RefExpr>
-                                    </VarDecl>
-                                    <MemPred Mixfix="true">
-                                        <Anns>
-                                            <LocAnn Col="57" Loc="lib/function_toolkit.tex" Line="19"/>
-                                        </Anns>
-                                        <TupleSelExpr Select="1">
-                                            <Anns>
-                                                <LocAnn Col="54" Loc="lib/function_toolkit.tex" Line="19"/>
-                                            </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="53" Loc="lib/function_toolkit.tex" Line="19"/>
+                                                    <LocAnn Col="22" Line="19" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="53" Loc="lib/function_toolkit.tex" Line="19"/>
+                                                        <LocAnn Col="22" Line="19" Loc="lib/function_toolkit.tex"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="29" Line="19" Loc="lib/function_toolkit.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="29" Line="19" Loc="lib/function_toolkit.tex"/>
+                                                    </Anns>
+                                                    <Word>Y</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </RefExpr>
+                                    </VarDecl>
+                                </ZDeclList>
+                                <ForallPred>
+                                    <Anns>
+                                        <LocAnn Col="33" Line="19" Loc="lib/function_toolkit.tex"/>
+                                    </Anns>
+                                    <SchText>
+                                        <ZDeclList>
+                                            <VarDecl>
+                                                <Anns>
+                                                    <LocAnn Col="47" Line="19" Loc="lib/function_toolkit.tex"/>
+                                                </Anns>
+                                                <DeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="41" Line="19" Loc="lib/function_toolkit.tex"/>
+                                                    </Anns>
+                                                    <Word>p</Word>
+                                                </DeclName>
+                                                <DeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="45" Line="19" Loc="lib/function_toolkit.tex"/>
+                                                    </Anns>
+                                                    <Word>q</Word>
+                                                </DeclName>
+                                                <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="49" Line="19" Loc="lib/function_toolkit.tex"/>
+                                                    </Anns>
+                                                    <RefName>
+                                                        <Anns>
+                                                            <LocAnn Col="49" Line="19" Loc="lib/function_toolkit.tex"/>
+                                                        </Anns>
+                                                        <Word>f</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </VarDecl>
+                                        </ZDeclList>
+                                        <MemPred Mixfix="true">
+                                            <Anns>
+                                                <LocAnn Col="57" Line="19" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <TupleSelExpr Select="1">
+                                                <Anns>
+                                                    <LocAnn Col="54" Line="19" Loc="lib/function_toolkit.tex"/>
+                                                </Anns>
+                                                <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="53" Line="19" Loc="lib/function_toolkit.tex"/>
+                                                    </Anns>
+                                                    <RefName>
+                                                        <Anns>
+                                                            <LocAnn Col="53" Line="19" Loc="lib/function_toolkit.tex"/>
+                                                        </Anns>
+                                                        <Word>p</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </TupleSelExpr>
+                                            <SetExpr>
+                                                <TupleSelExpr Select="1">
+                                                    <Anns>
+                                                        <LocAnn Col="60" Line="19" Loc="lib/function_toolkit.tex"/>
+                                                    </Anns>
+                                                    <RefExpr Mixfix="false">
+                                                        <Anns>
+                                                            <LocAnn Col="59" Line="19" Loc="lib/function_toolkit.tex"/>
+                                                        </Anns>
+                                                        <RefName>
+                                                            <Anns>
+                                                                <LocAnn Col="59" Line="19" Loc="lib/function_toolkit.tex"/>
+                                                            </Anns>
+                                                            <Word>q</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                </TupleSelExpr>
+                                            </SetExpr>
+                                        </MemPred>
+                                    </SchText>
+                                    <MemPred Mixfix="true">
+                                        <Anns>
+                                            <LocAnn Col="69" Line="19" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <TupleSelExpr Select="2">
+                                            <Anns>
+                                                <LocAnn Col="66" Line="19" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="65" Line="19" Loc="lib/function_toolkit.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="65" Line="19" Loc="lib/function_toolkit.tex"/>
                                                     </Anns>
                                                     <Word>p</Word>
                                                 </RefName>
                                             </RefExpr>
                                         </TupleSelExpr>
                                         <SetExpr>
-                                            <TupleSelExpr Select="1">
+                                            <TupleSelExpr Select="2">
                                                 <Anns>
-                                                    <LocAnn Col="60" Loc="lib/function_toolkit.tex" Line="19"/>
+                                                    <LocAnn Col="72" Line="19" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
                                                 <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="59" Loc="lib/function_toolkit.tex" Line="19"/>
+                                                        <LocAnn Col="71" Line="19" Loc="lib/function_toolkit.tex"/>
                                                     </Anns>
                                                     <RefName>
                                                         <Anns>
-                                                            <LocAnn Col="59" Loc="lib/function_toolkit.tex" Line="19"/>
+                                                            <LocAnn Col="71" Line="19" Loc="lib/function_toolkit.tex"/>
                                                         </Anns>
                                                         <Word>q</Word>
                                                     </RefName>
@@ -259,55 +307,16 @@
                                             </TupleSelExpr>
                                         </SetExpr>
                                     </MemPred>
-                                </SchText>
-                                <MemPred Mixfix="true">
-                                    <Anns>
-                                        <LocAnn Col="69" Loc="lib/function_toolkit.tex" Line="19"/>
-                                    </Anns>
-                                    <TupleSelExpr Select="2">
-                                        <Anns>
-                                            <LocAnn Col="66" Loc="lib/function_toolkit.tex" Line="19"/>
-                                        </Anns>
-                                        <RefExpr Mixfix="false">
-                                            <Anns>
-                                                <LocAnn Col="65" Loc="lib/function_toolkit.tex" Line="19"/>
-                                            </Anns>
-                                            <RefName>
-                                                <Anns>
-                                                    <LocAnn Col="65" Loc="lib/function_toolkit.tex" Line="19"/>
-                                                </Anns>
-                                                <Word>p</Word>
-                                            </RefName>
-                                        </RefExpr>
-                                    </TupleSelExpr>
-                                    <SetExpr>
-                                        <TupleSelExpr Select="2">
-                                            <Anns>
-                                                <LocAnn Col="72" Loc="lib/function_toolkit.tex" Line="19"/>
-                                            </Anns>
-                                            <RefExpr Mixfix="false">
-                                                <Anns>
-                                                    <LocAnn Col="71" Loc="lib/function_toolkit.tex" Line="19"/>
-                                                </Anns>
-                                                <RefName>
-                                                    <Anns>
-                                                        <LocAnn Col="71" Loc="lib/function_toolkit.tex" Line="19"/>
-                                                    </Anns>
-                                                    <Word>q</Word>
-                                                </RefName>
-                                            </RefExpr>
-                                        </TupleSelExpr>
-                                    </SetExpr>
-                                </MemPred>
-                            </ForallPred>
-                        </SchText>
-                    </SetCompExpr>
-                </ConstDecl>
+                                </ForallPred>
+                            </SchText>
+                        </SetCompExpr>
+                    </ConstDecl>
+                </ZDeclList>
             </SchText>
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="lib/function_toolkit.tex" Line="20"/>
+                <LocAnn Col="10" Line="20" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Content>
 
@@ -320,9 +329,9 @@ The terms ``function'' and ``partial function'' are synonymous.
 
 </Content>
         </NarrPara>
-        <OptempPara Assoc="Right" Prec="5" Cat="Generic">
+        <OptempPara Assoc="Right" Cat="Generic" Prec="5">
             <Anns>
-                <LocAnn Col="1" Loc="lib/function_toolkit.tex" Line="31"/>
+                <LocAnn Col="1" Line="31" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Operand List="false"/>
             <Operator>
@@ -332,7 +341,7 @@ The terms ``function'' and ``partial function'' are synonymous.
         </OptempPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="lib/function_toolkit.tex" Line="32"/>
+                <LocAnn Col="10" Line="32" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Content>
 
@@ -340,7 +349,7 @@ The terms ``function'' and ``partial function'' are synonymous.
         </NarrPara>
         <AxPara Box="OmitBox">
             <Anns>
-                <LocAnn Col="9" Loc="lib/function_toolkit.tex" Line="35"/>
+                <LocAnn Col="9" Line="35" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <DeclName>
                 <Word>X</Word>
@@ -349,185 +358,194 @@ The terms ``function'' and ``partial function'' are synonymous.
                 <Word>Y</Word>
             </DeclName>
             <SchText>
-                <ConstDecl>
-                    <Anns>
-                        <LocAnn Col="11" Loc="lib/function_toolkit.tex" Line="35"/>
-                    </Anns>
-                    <DeclName>
-                        <Word> _ ⤔ _ </Word>
-                    </DeclName>
-                    <SetCompExpr>
+                <ZDeclList>
+                    <ConstDecl>
                         <Anns>
-                            <LocAnn Col="14" Loc="lib/function_toolkit.tex" Line="35"/>
+                            <LocAnn Col="11" Line="35" Loc="lib/function_toolkit.tex"/>
                         </Anns>
-                        <SchText>
-                            <VarDecl>
-                                <Anns>
-                                    <LocAnn Col="20" Loc="lib/function_toolkit.tex" Line="35"/>
-                                </Anns>
-                                <DeclName>
-                                    <Anns>
-                                        <LocAnn Col="18" Loc="lib/function_toolkit.tex" Line="35"/>
-                                    </Anns>
-                                    <Word>f</Word>
-                                </DeclName>
-                                <RefExpr Mixfix="true">
-                                    <Anns>
-                                        <LocAnn Col="24" Loc="lib/function_toolkit.tex" Line="35"/>
-                                    </Anns>
-                                    <RefName>
-                                        <Word> _ ↔ _ </Word>
-                                    </RefName>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="22" Loc="lib/function_toolkit.tex" Line="35"/>
-                                        </Anns>
-                                        <RefName>
-                                            <Anns>
-                                                <LocAnn Col="22" Loc="lib/function_toolkit.tex" Line="35"/>
-                                            </Anns>
-                                            <Word>X</Word>
-                                        </RefName>
-                                    </RefExpr>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="29" Loc="lib/function_toolkit.tex" Line="35"/>
-                                        </Anns>
-                                        <RefName>
-                                            <Anns>
-                                                <LocAnn Col="29" Loc="lib/function_toolkit.tex" Line="35"/>
-                                            </Anns>
-                                            <Word>Y</Word>
-                                        </RefName>
-                                    </RefExpr>
-                                </RefExpr>
-                            </VarDecl>
-                            <ForallPred>
-                                <Anns>
-                                    <LocAnn Col="33" Loc="lib/function_toolkit.tex" Line="35"/>
-                                </Anns>
-                                <SchText>
+                        <DeclName>
+                            <Word> _ ⤔ _ </Word>
+                        </DeclName>
+                        <SetCompExpr>
+                            <Anns>
+                                <LocAnn Col="14" Line="35" Loc="lib/function_toolkit.tex"/>
+                            </Anns>
+                            <SchText>
+                                <ZDeclList>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="46" Loc="lib/function_toolkit.tex" Line="35"/>
+                                            <LocAnn Col="20" Line="35" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
                                         <DeclName>
                                             <Anns>
-                                                <LocAnn Col="41" Loc="lib/function_toolkit.tex" Line="35"/>
+                                                <LocAnn Col="18" Line="35" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
-                                            <Word>p</Word>
+                                            <Word>f</Word>
                                         </DeclName>
-                                        <DeclName>
+                                        <RefExpr Mixfix="true">
                                             <Anns>
-                                                <LocAnn Col="44" Loc="lib/function_toolkit.tex" Line="35"/>
-                                            </Anns>
-                                            <Word>q</Word>
-                                        </DeclName>
-                                        <RefExpr Mixfix="false">
-                                            <Anns>
-                                                <LocAnn Col="48" Loc="lib/function_toolkit.tex" Line="35"/>
+                                                <LocAnn Col="24" Line="35" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="48" Loc="lib/function_toolkit.tex" Line="35"/>
+                                                    <LocAnn Col="22" Line="35" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
-                                                <Word>f</Word>
+                                                <Word> _ ↔ _ </Word>
                                             </RefName>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="22" Line="35" Loc="lib/function_toolkit.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="22" Line="35" Loc="lib/function_toolkit.tex"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="29" Line="35" Loc="lib/function_toolkit.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="29" Line="35" Loc="lib/function_toolkit.tex"/>
+                                                    </Anns>
+                                                    <Word>Y</Word>
+                                                </RefName>
+                                            </RefExpr>
                                         </RefExpr>
                                     </VarDecl>
-                                </SchText>
-                                <IffPred>
+                                </ZDeclList>
+                                <ForallPred>
                                     <Anns>
-                                        <LocAnn Col="62" Loc="lib/function_toolkit.tex" Line="35"/>
+                                        <LocAnn Col="33" Line="35" Loc="lib/function_toolkit.tex"/>
                                     </Anns>
-                                    <MemPred Mixfix="true">
-                                        <Anns>
-                                            <LocAnn Col="56" Loc="lib/function_toolkit.tex" Line="35"/>
-                                        </Anns>
-                                        <TupleSelExpr Select="1">
-                                            <Anns>
-                                                <LocAnn Col="53" Loc="lib/function_toolkit.tex" Line="35"/>
-                                            </Anns>
-                                            <RefExpr Mixfix="false">
+                                    <SchText>
+                                        <ZDeclList>
+                                            <VarDecl>
                                                 <Anns>
-                                                    <LocAnn Col="52" Loc="lib/function_toolkit.tex" Line="35"/>
+                                                    <LocAnn Col="46" Line="35" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
-                                                <RefName>
+                                                <DeclName>
                                                     <Anns>
-                                                        <LocAnn Col="52" Loc="lib/function_toolkit.tex" Line="35"/>
+                                                        <LocAnn Col="41" Line="35" Loc="lib/function_toolkit.tex"/>
                                                     </Anns>
                                                     <Word>p</Word>
-                                                </RefName>
-                                            </RefExpr>
-                                        </TupleSelExpr>
-                                        <SetExpr>
+                                                </DeclName>
+                                                <DeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="44" Line="35" Loc="lib/function_toolkit.tex"/>
+                                                    </Anns>
+                                                    <Word>q</Word>
+                                                </DeclName>
+                                                <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="48" Line="35" Loc="lib/function_toolkit.tex"/>
+                                                    </Anns>
+                                                    <RefName>
+                                                        <Anns>
+                                                            <LocAnn Col="48" Line="35" Loc="lib/function_toolkit.tex"/>
+                                                        </Anns>
+                                                        <Word>f</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </VarDecl>
+                                        </ZDeclList>
+                                    </SchText>
+                                    <IffPred>
+                                        <Anns>
+                                            <LocAnn Col="62" Line="35" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <MemPred Mixfix="true">
+                                            <Anns>
+                                                <LocAnn Col="56" Line="35" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
                                             <TupleSelExpr Select="1">
                                                 <Anns>
-                                                    <LocAnn Col="59" Loc="lib/function_toolkit.tex" Line="35"/>
+                                                    <LocAnn Col="53" Line="35" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
                                                 <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="58" Loc="lib/function_toolkit.tex" Line="35"/>
+                                                        <LocAnn Col="52" Line="35" Loc="lib/function_toolkit.tex"/>
                                                     </Anns>
                                                     <RefName>
                                                         <Anns>
-                                                            <LocAnn Col="58" Loc="lib/function_toolkit.tex" Line="35"/>
+                                                            <LocAnn Col="52" Line="35" Loc="lib/function_toolkit.tex"/>
                                                         </Anns>
-                                                        <Word>q</Word>
+                                                        <Word>p</Word>
                                                     </RefName>
                                                 </RefExpr>
                                             </TupleSelExpr>
-                                        </SetExpr>
-                                    </MemPred>
-                                    <MemPred Mixfix="true">
-                                        <Anns>
-                                            <LocAnn Col="71" Loc="lib/function_toolkit.tex" Line="35"/>
-                                        </Anns>
-                                        <TupleSelExpr Select="2">
-                                            <Anns>
-                                                <LocAnn Col="68" Loc="lib/function_toolkit.tex" Line="35"/>
-                                            </Anns>
-                                            <RefExpr Mixfix="false">
-                                                <Anns>
-                                                    <LocAnn Col="67" Loc="lib/function_toolkit.tex" Line="35"/>
-                                                </Anns>
-                                                <RefName>
+                                            <SetExpr>
+                                                <TupleSelExpr Select="1">
                                                     <Anns>
-                                                        <LocAnn Col="67" Loc="lib/function_toolkit.tex" Line="35"/>
+                                                        <LocAnn Col="59" Line="35" Loc="lib/function_toolkit.tex"/>
                                                     </Anns>
-                                                    <Word>p</Word>
-                                                </RefName>
-                                            </RefExpr>
-                                        </TupleSelExpr>
-                                        <SetExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <Anns>
+                                                            <LocAnn Col="58" Line="35" Loc="lib/function_toolkit.tex"/>
+                                                        </Anns>
+                                                        <RefName>
+                                                            <Anns>
+                                                                <LocAnn Col="58" Line="35" Loc="lib/function_toolkit.tex"/>
+                                                            </Anns>
+                                                            <Word>q</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                </TupleSelExpr>
+                                            </SetExpr>
+                                        </MemPred>
+                                        <MemPred Mixfix="true">
+                                            <Anns>
+                                                <LocAnn Col="71" Line="35" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
                                             <TupleSelExpr Select="2">
                                                 <Anns>
-                                                    <LocAnn Col="74" Loc="lib/function_toolkit.tex" Line="35"/>
+                                                    <LocAnn Col="68" Line="35" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
                                                 <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="73" Loc="lib/function_toolkit.tex" Line="35"/>
+                                                        <LocAnn Col="67" Line="35" Loc="lib/function_toolkit.tex"/>
                                                     </Anns>
                                                     <RefName>
                                                         <Anns>
-                                                            <LocAnn Col="73" Loc="lib/function_toolkit.tex" Line="35"/>
+                                                            <LocAnn Col="67" Line="35" Loc="lib/function_toolkit.tex"/>
                                                         </Anns>
-                                                        <Word>q</Word>
+                                                        <Word>p</Word>
                                                     </RefName>
                                                 </RefExpr>
                                             </TupleSelExpr>
-                                        </SetExpr>
-                                    </MemPred>
-                                </IffPred>
-                            </ForallPred>
-                        </SchText>
-                    </SetCompExpr>
-                </ConstDecl>
+                                            <SetExpr>
+                                                <TupleSelExpr Select="2">
+                                                    <Anns>
+                                                        <LocAnn Col="74" Line="35" Loc="lib/function_toolkit.tex"/>
+                                                    </Anns>
+                                                    <RefExpr Mixfix="false">
+                                                        <Anns>
+                                                            <LocAnn Col="73" Line="35" Loc="lib/function_toolkit.tex"/>
+                                                        </Anns>
+                                                        <RefName>
+                                                            <Anns>
+                                                                <LocAnn Col="73" Line="35" Loc="lib/function_toolkit.tex"/>
+                                                            </Anns>
+                                                            <Word>q</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                </TupleSelExpr>
+                                            </SetExpr>
+                                        </MemPred>
+                                    </IffPred>
+                                </ForallPred>
+                            </SchText>
+                        </SetCompExpr>
+                    </ConstDecl>
+                </ZDeclList>
             </SchText>
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="lib/function_toolkit.tex" Line="36"/>
+                <LocAnn Col="10" Line="36" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Content>
 
@@ -541,9 +559,9 @@ The terms ``injection'' and ``partial injection'' are synonymous.
 
 </Content>
         </NarrPara>
-        <OptempPara Assoc="Right" Prec="5" Cat="Generic">
+        <OptempPara Assoc="Right" Cat="Generic" Prec="5">
             <Anns>
-                <LocAnn Col="1" Loc="lib/function_toolkit.tex" Line="48"/>
+                <LocAnn Col="1" Line="48" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Operand List="false"/>
             <Operator>
@@ -553,7 +571,7 @@ The terms ``injection'' and ``partial injection'' are synonymous.
         </OptempPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="lib/function_toolkit.tex" Line="49"/>
+                <LocAnn Col="10" Line="49" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Content>
 
@@ -561,7 +579,7 @@ The terms ``injection'' and ``partial injection'' are synonymous.
         </NarrPara>
         <AxPara Box="OmitBox">
             <Anns>
-                <LocAnn Col="8" Loc="lib/function_toolkit.tex" Line="52"/>
+                <LocAnn Col="8" Line="52" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <DeclName>
                 <Word>X</Word>
@@ -570,99 +588,110 @@ The terms ``injection'' and ``partial injection'' are synonymous.
                 <Word>Y</Word>
             </DeclName>
             <SchText>
-                <ConstDecl>
-                    <Anns>
-                        <LocAnn Col="10" Loc="lib/function_toolkit.tex" Line="52"/>
-                    </Anns>
-                    <DeclName>
-                        <Word> _ ↣ _ </Word>
-                    </DeclName>
-                    <ApplExpr Mixfix="true">
+                <ZDeclList>
+                    <ConstDecl>
                         <Anns>
-                            <LocAnn Col="27" Loc="lib/function_toolkit.tex" Line="52"/>
+                            <LocAnn Col="10" Line="52" Loc="lib/function_toolkit.tex"/>
                         </Anns>
-                        <RefExpr Mixfix="false">
+                        <DeclName>
+                            <Word> _ ↣ _ </Word>
+                        </DeclName>
+                        <ApplExpr Mixfix="true">
                             <Anns>
-                                <LocAnn Col="25" Loc="lib/function_toolkit.tex" Line="52"/>
+                                <LocAnn Col="27" Line="52" Loc="lib/function_toolkit.tex"/>
                             </Anns>
-                            <RefName>
-                                <Word> _ ∩ _ </Word>
-                            </RefName>
-                        </RefExpr>
-                        <TupleExpr>
-                            <Anns>
-                                <LocAnn Col="25" Loc="lib/function_toolkit.tex" Line="52"/>
-                            </Anns>
-                            <RefExpr Mixfix="true">
+                            <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="17" Loc="lib/function_toolkit.tex" Line="52"/>
-                                    <ParenAnn/>
+                                    <LocAnn Col="25" Line="52" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
                                 <RefName>
-                                    <Word> _ ⤔ _ </Word>
+                                    <Anns>
+                                        <LocAnn Col="25" Line="52" Loc="lib/function_toolkit.tex"/>
+                                    </Anns>
+                                    <Word> _ ∩ _ </Word>
                                 </RefName>
-                                <RefExpr Mixfix="false">
-                                    <Anns>
-                                        <LocAnn Col="15" Loc="lib/function_toolkit.tex" Line="52"/>
-                                    </Anns>
-                                    <RefName>
-                                        <Anns>
-                                            <LocAnn Col="15" Loc="lib/function_toolkit.tex" Line="52"/>
-                                        </Anns>
-                                        <Word>X</Word>
-                                    </RefName>
-                                </RefExpr>
-                                <RefExpr Mixfix="false">
-                                    <Anns>
-                                        <LocAnn Col="23" Loc="lib/function_toolkit.tex" Line="52"/>
-                                    </Anns>
-                                    <RefName>
-                                        <Anns>
-                                            <LocAnn Col="23" Loc="lib/function_toolkit.tex" Line="52"/>
-                                        </Anns>
-                                        <Word>Y</Word>
-                                    </RefName>
-                                </RefExpr>
                             </RefExpr>
-                            <RefExpr Mixfix="true">
+                            <TupleExpr>
                                 <Anns>
-                                    <LocAnn Col="36" Loc="lib/function_toolkit.tex" Line="52"/>
-                                    <ParenAnn/>
+                                    <LocAnn Col="25" Line="52" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
-                                <RefName>
-                                    <Word> _ → _ </Word>
-                                </RefName>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="34" Loc="lib/function_toolkit.tex" Line="52"/>
+                                        <LocAnn Col="17" Line="52" Loc="lib/function_toolkit.tex"/>
+                                        <ParenAnn/>
                                     </Anns>
                                     <RefName>
                                         <Anns>
-                                            <LocAnn Col="34" Loc="lib/function_toolkit.tex" Line="52"/>
+                                            <LocAnn Col="15" Line="52" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
-                                        <Word>X</Word>
+                                        <Word> _ ⤔ _ </Word>
                                     </RefName>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="15" Line="52" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="15" Line="52" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <Word>X</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="23" Line="52" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="23" Line="52" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <Word>Y</Word>
+                                        </RefName>
+                                    </RefExpr>
                                 </RefExpr>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="41" Loc="lib/function_toolkit.tex" Line="52"/>
+                                        <LocAnn Col="36" Line="52" Loc="lib/function_toolkit.tex"/>
+                                        <ParenAnn/>
                                     </Anns>
                                     <RefName>
                                         <Anns>
-                                            <LocAnn Col="41" Loc="lib/function_toolkit.tex" Line="52"/>
+                                            <LocAnn Col="34" Line="52" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
-                                        <Word>Y</Word>
+                                        <Word> _ → _ </Word>
                                     </RefName>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="34" Line="52" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="34" Line="52" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <Word>X</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="41" Line="52" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="41" Line="52" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <Word>Y</Word>
+                                        </RefName>
+                                    </RefExpr>
                                 </RefExpr>
-                            </RefExpr>
-                        </TupleExpr>
-                    </ApplExpr>
-                </ConstDecl>
+                            </TupleExpr>
+                        </ApplExpr>
+                    </ConstDecl>
+                </ZDeclList>
             </SchText>
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="lib/function_toolkit.tex" Line="53"/>
+                <LocAnn Col="10" Line="53" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Content>
 
@@ -674,9 +703,9 @@ that are also total functions from $X$ to $Y$.
 
 </Content>
         </NarrPara>
-        <OptempPara Assoc="Right" Prec="5" Cat="Generic">
+        <OptempPara Assoc="Right" Cat="Generic" Prec="5">
             <Anns>
-                <LocAnn Col="1" Loc="lib/function_toolkit.tex" Line="63"/>
+                <LocAnn Col="1" Line="63" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Operand List="false"/>
             <Operator>
@@ -686,7 +715,7 @@ that are also total functions from $X$ to $Y$.
         </OptempPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="lib/function_toolkit.tex" Line="64"/>
+                <LocAnn Col="10" Line="64" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Content>
 
@@ -694,7 +723,7 @@ that are also total functions from $X$ to $Y$.
         </NarrPara>
         <AxPara Box="OmitBox">
             <Anns>
-                <LocAnn Col="10" Loc="lib/function_toolkit.tex" Line="67"/>
+                <LocAnn Col="10" Line="67" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <DeclName>
                 <Word>X</Word>
@@ -703,112 +732,119 @@ that are also total functions from $X$ to $Y$.
                 <Word>Y</Word>
             </DeclName>
             <SchText>
-                <ConstDecl>
-                    <Anns>
-                        <LocAnn Col="12" Loc="lib/function_toolkit.tex" Line="67"/>
-                    </Anns>
-                    <DeclName>
-                        <Word> _ ⤀ _ </Word>
-                    </DeclName>
-                    <SetCompExpr>
+                <ZDeclList>
+                    <ConstDecl>
                         <Anns>
-                            <LocAnn Col="15" Loc="lib/function_toolkit.tex" Line="67"/>
+                            <LocAnn Col="12" Line="67" Loc="lib/function_toolkit.tex"/>
                         </Anns>
-                        <SchText>
-                            <VarDecl>
-                                <Anns>
-                                    <LocAnn Col="21" Loc="lib/function_toolkit.tex" Line="67"/>
-                                </Anns>
-                                <DeclName>
-                                    <Anns>
-                                        <LocAnn Col="19" Loc="lib/function_toolkit.tex" Line="67"/>
-                                    </Anns>
-                                    <Word>f</Word>
-                                </DeclName>
-                                <RefExpr Mixfix="true">
-                                    <Anns>
-                                        <LocAnn Col="25" Loc="lib/function_toolkit.tex" Line="67"/>
-                                    </Anns>
-                                    <RefName>
-                                        <Word> _ ⇸ _ </Word>
-                                    </RefName>
-                                    <RefExpr Mixfix="false">
+                        <DeclName>
+                            <Word> _ ⤀ _ </Word>
+                        </DeclName>
+                        <SetCompExpr>
+                            <Anns>
+                                <LocAnn Col="15" Line="67" Loc="lib/function_toolkit.tex"/>
+                            </Anns>
+                            <SchText>
+                                <ZDeclList>
+                                    <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="23" Loc="lib/function_toolkit.tex" Line="67"/>
+                                            <LocAnn Col="21" Line="67" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
-                                        <RefName>
+                                        <DeclName>
                                             <Anns>
-                                                <LocAnn Col="23" Loc="lib/function_toolkit.tex" Line="67"/>
-                                            </Anns>
-                                            <Word>X</Word>
-                                        </RefName>
-                                    </RefExpr>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="31" Loc="lib/function_toolkit.tex" Line="67"/>
-                                        </Anns>
-                                        <RefName>
-                                            <Anns>
-                                                <LocAnn Col="31" Loc="lib/function_toolkit.tex" Line="67"/>
-                                            </Anns>
-                                            <Word>Y</Word>
-                                        </RefName>
-                                    </RefExpr>
-                                </RefExpr>
-                            </VarDecl>
-                            <MemPred Mixfix="true">
-                                <Anns>
-                                    <LocAnn Col="42" Loc="lib/function_toolkit.tex" Line="67"/>
-                                </Anns>
-                                <ApplExpr Mixfix="false">
-                                    <Anns>
-                                        <LocAnn Col="40" Loc="lib/function_toolkit.tex" Line="67"/>
-                                    </Anns>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="35" Loc="lib/function_toolkit.tex" Line="67"/>
-                                        </Anns>
-                                        <RefName>
-                                            <Anns>
-                                                <LocAnn Col="35" Loc="lib/function_toolkit.tex" Line="67"/>
-                                            </Anns>
-                                            <Word>ran</Word>
-                                        </RefName>
-                                    </RefExpr>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="40" Loc="lib/function_toolkit.tex" Line="67"/>
-                                        </Anns>
-                                        <RefName>
-                                            <Anns>
-                                                <LocAnn Col="40" Loc="lib/function_toolkit.tex" Line="67"/>
+                                                <LocAnn Col="19" Line="67" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
                                             <Word>f</Word>
-                                        </RefName>
-                                    </RefExpr>
-                                </ApplExpr>
-                                <SetExpr>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="44" Loc="lib/function_toolkit.tex" Line="67"/>
-                                        </Anns>
-                                        <RefName>
+                                        </DeclName>
+                                        <RefExpr Mixfix="true">
                                             <Anns>
-                                                <LocAnn Col="44" Loc="lib/function_toolkit.tex" Line="67"/>
+                                                <LocAnn Col="25" Line="67" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
-                                            <Word>Y</Word>
-                                        </RefName>
-                                    </RefExpr>
-                                </SetExpr>
-                            </MemPred>
-                        </SchText>
-                    </SetCompExpr>
-                </ConstDecl>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="23" Line="67" Loc="lib/function_toolkit.tex"/>
+                                                </Anns>
+                                                <Word> _ ⇸ _ </Word>
+                                            </RefName>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="23" Line="67" Loc="lib/function_toolkit.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="23" Line="67" Loc="lib/function_toolkit.tex"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="31" Line="67" Loc="lib/function_toolkit.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="31" Line="67" Loc="lib/function_toolkit.tex"/>
+                                                    </Anns>
+                                                    <Word>Y</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </RefExpr>
+                                    </VarDecl>
+                                </ZDeclList>
+                                <MemPred Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="42" Line="67" Loc="lib/function_toolkit.tex"/>
+                                    </Anns>
+                                    <ApplExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="40" Line="67" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="35" Line="67" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="35" Line="67" Loc="lib/function_toolkit.tex"/>
+                                                </Anns>
+                                                <Word>ran</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="40" Line="67" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="40" Line="67" Loc="lib/function_toolkit.tex"/>
+                                                </Anns>
+                                                <Word>f</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </ApplExpr>
+                                    <SetExpr>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="44" Line="67" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="44" Line="67" Loc="lib/function_toolkit.tex"/>
+                                                </Anns>
+                                                <Word>Y</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </SetExpr>
+                                </MemPred>
+                            </SchText>
+                        </SetCompExpr>
+                    </ConstDecl>
+                </ZDeclList>
             </SchText>
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="lib/function_toolkit.tex" Line="68"/>
+                <LocAnn Col="10" Line="68" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Content>
 
@@ -821,9 +857,9 @@ The terms ``surjection'' and ``partial surjection'' are synonymous.
 
 </Content>
         </NarrPara>
-        <OptempPara Assoc="Right" Prec="5" Cat="Generic">
+        <OptempPara Assoc="Right" Cat="Generic" Prec="5">
             <Anns>
-                <LocAnn Col="1" Loc="lib/function_toolkit.tex" Line="79"/>
+                <LocAnn Col="1" Line="79" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Operand List="false"/>
             <Operator>
@@ -833,7 +869,7 @@ The terms ``surjection'' and ``partial surjection'' are synonymous.
         </OptempPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="lib/function_toolkit.tex" Line="80"/>
+                <LocAnn Col="10" Line="80" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Content>
 
@@ -841,7 +877,7 @@ The terms ``surjection'' and ``partial surjection'' are synonymous.
         </NarrPara>
         <AxPara Box="OmitBox">
             <Anns>
-                <LocAnn Col="9" Loc="lib/function_toolkit.tex" Line="83"/>
+                <LocAnn Col="9" Line="83" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <DeclName>
                 <Word>X</Word>
@@ -850,99 +886,110 @@ The terms ``surjection'' and ``partial surjection'' are synonymous.
                 <Word>Y</Word>
             </DeclName>
             <SchText>
-                <ConstDecl>
-                    <Anns>
-                        <LocAnn Col="11" Loc="lib/function_toolkit.tex" Line="83"/>
-                    </Anns>
-                    <DeclName>
-                        <Word> _ ↠ _ </Word>
-                    </DeclName>
-                    <ApplExpr Mixfix="true">
+                <ZDeclList>
+                    <ConstDecl>
                         <Anns>
-                            <LocAnn Col="28" Loc="lib/function_toolkit.tex" Line="83"/>
+                            <LocAnn Col="11" Line="83" Loc="lib/function_toolkit.tex"/>
                         </Anns>
-                        <RefExpr Mixfix="false">
+                        <DeclName>
+                            <Word> _ ↠ _ </Word>
+                        </DeclName>
+                        <ApplExpr Mixfix="true">
                             <Anns>
-                                <LocAnn Col="26" Loc="lib/function_toolkit.tex" Line="83"/>
+                                <LocAnn Col="28" Line="83" Loc="lib/function_toolkit.tex"/>
                             </Anns>
-                            <RefName>
-                                <Word> _ ∩ _ </Word>
-                            </RefName>
-                        </RefExpr>
-                        <TupleExpr>
-                            <Anns>
-                                <LocAnn Col="26" Loc="lib/function_toolkit.tex" Line="83"/>
-                            </Anns>
-                            <RefExpr Mixfix="true">
+                            <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="18" Loc="lib/function_toolkit.tex" Line="83"/>
-                                    <ParenAnn/>
+                                    <LocAnn Col="26" Line="83" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
                                 <RefName>
-                                    <Word> _ ⤀ _ </Word>
+                                    <Anns>
+                                        <LocAnn Col="26" Line="83" Loc="lib/function_toolkit.tex"/>
+                                    </Anns>
+                                    <Word> _ ∩ _ </Word>
                                 </RefName>
-                                <RefExpr Mixfix="false">
-                                    <Anns>
-                                        <LocAnn Col="16" Loc="lib/function_toolkit.tex" Line="83"/>
-                                    </Anns>
-                                    <RefName>
-                                        <Anns>
-                                            <LocAnn Col="16" Loc="lib/function_toolkit.tex" Line="83"/>
-                                        </Anns>
-                                        <Word>X</Word>
-                                    </RefName>
-                                </RefExpr>
-                                <RefExpr Mixfix="false">
-                                    <Anns>
-                                        <LocAnn Col="25" Loc="lib/function_toolkit.tex" Line="83"/>
-                                    </Anns>
-                                    <RefName>
-                                        <Anns>
-                                            <LocAnn Col="25" Loc="lib/function_toolkit.tex" Line="83"/>
-                                        </Anns>
-                                        <Word>Y</Word>
-                                    </RefName>
-                                </RefExpr>
                             </RefExpr>
-                            <RefExpr Mixfix="true">
+                            <TupleExpr>
                                 <Anns>
-                                    <LocAnn Col="37" Loc="lib/function_toolkit.tex" Line="83"/>
-                                    <ParenAnn/>
+                                    <LocAnn Col="26" Line="83" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
-                                <RefName>
-                                    <Word> _ → _ </Word>
-                                </RefName>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="35" Loc="lib/function_toolkit.tex" Line="83"/>
+                                        <LocAnn Col="18" Line="83" Loc="lib/function_toolkit.tex"/>
+                                        <ParenAnn/>
                                     </Anns>
                                     <RefName>
                                         <Anns>
-                                            <LocAnn Col="35" Loc="lib/function_toolkit.tex" Line="83"/>
+                                            <LocAnn Col="16" Line="83" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
-                                        <Word>X</Word>
+                                        <Word> _ ⤀ _ </Word>
                                     </RefName>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="16" Line="83" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="16" Line="83" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <Word>X</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="25" Line="83" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="25" Line="83" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <Word>Y</Word>
+                                        </RefName>
+                                    </RefExpr>
                                 </RefExpr>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="42" Loc="lib/function_toolkit.tex" Line="83"/>
+                                        <LocAnn Col="37" Line="83" Loc="lib/function_toolkit.tex"/>
+                                        <ParenAnn/>
                                     </Anns>
                                     <RefName>
                                         <Anns>
-                                            <LocAnn Col="42" Loc="lib/function_toolkit.tex" Line="83"/>
+                                            <LocAnn Col="35" Line="83" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
-                                        <Word>Y</Word>
+                                        <Word> _ → _ </Word>
                                     </RefName>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="35" Line="83" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="35" Line="83" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <Word>X</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="42" Line="83" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="42" Line="83" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <Word>Y</Word>
+                                        </RefName>
+                                    </RefExpr>
                                 </RefExpr>
-                            </RefExpr>
-                        </TupleExpr>
-                    </ApplExpr>
-                </ConstDecl>
+                            </TupleExpr>
+                        </ApplExpr>
+                    </ConstDecl>
+                </ZDeclList>
             </SchText>
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="lib/function_toolkit.tex" Line="84"/>
+                <LocAnn Col="10" Line="84" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Content>
 
@@ -954,9 +1001,9 @@ that are also total functions from $X$ to $Y$.
 
 </Content>
         </NarrPara>
-        <OptempPara Assoc="Right" Prec="5" Cat="Generic">
+        <OptempPara Assoc="Right" Cat="Generic" Prec="5">
             <Anns>
-                <LocAnn Col="1" Loc="lib/function_toolkit.tex" Line="94"/>
+                <LocAnn Col="1" Line="94" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Operand List="false"/>
             <Operator>
@@ -966,7 +1013,7 @@ that are also total functions from $X$ to $Y$.
         </OptempPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="lib/function_toolkit.tex" Line="95"/>
+                <LocAnn Col="10" Line="95" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Content>
 
@@ -974,7 +1021,7 @@ that are also total functions from $X$ to $Y$.
         </NarrPara>
         <AxPara Box="OmitBox">
             <Anns>
-                <LocAnn Col="8" Loc="lib/function_toolkit.tex" Line="98"/>
+                <LocAnn Col="8" Line="98" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <DeclName>
                 <Word>X</Word>
@@ -983,99 +1030,110 @@ that are also total functions from $X$ to $Y$.
                 <Word>Y</Word>
             </DeclName>
             <SchText>
-                <ConstDecl>
-                    <Anns>
-                        <LocAnn Col="10" Loc="lib/function_toolkit.tex" Line="98"/>
-                    </Anns>
-                    <DeclName>
-                        <Word> _ ⤖ _ </Word>
-                    </DeclName>
-                    <ApplExpr Mixfix="true">
+                <ZDeclList>
+                    <ConstDecl>
                         <Anns>
-                            <LocAnn Col="27" Loc="lib/function_toolkit.tex" Line="98"/>
+                            <LocAnn Col="10" Line="98" Loc="lib/function_toolkit.tex"/>
                         </Anns>
-                        <RefExpr Mixfix="false">
+                        <DeclName>
+                            <Word> _ ⤖ _ </Word>
+                        </DeclName>
+                        <ApplExpr Mixfix="true">
                             <Anns>
-                                <LocAnn Col="25" Loc="lib/function_toolkit.tex" Line="98"/>
+                                <LocAnn Col="27" Line="98" Loc="lib/function_toolkit.tex"/>
                             </Anns>
-                            <RefName>
-                                <Word> _ ∩ _ </Word>
-                            </RefName>
-                        </RefExpr>
-                        <TupleExpr>
-                            <Anns>
-                                <LocAnn Col="25" Loc="lib/function_toolkit.tex" Line="98"/>
-                            </Anns>
-                            <RefExpr Mixfix="true">
+                            <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="17" Loc="lib/function_toolkit.tex" Line="98"/>
-                                    <ParenAnn/>
+                                    <LocAnn Col="25" Line="98" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
                                 <RefName>
-                                    <Word> _ ↠ _ </Word>
+                                    <Anns>
+                                        <LocAnn Col="25" Line="98" Loc="lib/function_toolkit.tex"/>
+                                    </Anns>
+                                    <Word> _ ∩ _ </Word>
                                 </RefName>
-                                <RefExpr Mixfix="false">
-                                    <Anns>
-                                        <LocAnn Col="15" Loc="lib/function_toolkit.tex" Line="98"/>
-                                    </Anns>
-                                    <RefName>
-                                        <Anns>
-                                            <LocAnn Col="15" Loc="lib/function_toolkit.tex" Line="98"/>
-                                        </Anns>
-                                        <Word>X</Word>
-                                    </RefName>
-                                </RefExpr>
-                                <RefExpr Mixfix="false">
-                                    <Anns>
-                                        <LocAnn Col="23" Loc="lib/function_toolkit.tex" Line="98"/>
-                                    </Anns>
-                                    <RefName>
-                                        <Anns>
-                                            <LocAnn Col="23" Loc="lib/function_toolkit.tex" Line="98"/>
-                                        </Anns>
-                                        <Word>Y</Word>
-                                    </RefName>
-                                </RefExpr>
                             </RefExpr>
-                            <RefExpr Mixfix="true">
+                            <TupleExpr>
                                 <Anns>
-                                    <LocAnn Col="36" Loc="lib/function_toolkit.tex" Line="98"/>
-                                    <ParenAnn/>
+                                    <LocAnn Col="25" Line="98" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
-                                <RefName>
-                                    <Word> _ ↣ _ </Word>
-                                </RefName>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="34" Loc="lib/function_toolkit.tex" Line="98"/>
+                                        <LocAnn Col="17" Line="98" Loc="lib/function_toolkit.tex"/>
+                                        <ParenAnn/>
                                     </Anns>
                                     <RefName>
                                         <Anns>
-                                            <LocAnn Col="34" Loc="lib/function_toolkit.tex" Line="98"/>
+                                            <LocAnn Col="15" Line="98" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
-                                        <Word>X</Word>
+                                        <Word> _ ↠ _ </Word>
                                     </RefName>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="15" Line="98" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="15" Line="98" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <Word>X</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="23" Line="98" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="23" Line="98" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <Word>Y</Word>
+                                        </RefName>
+                                    </RefExpr>
                                 </RefExpr>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="41" Loc="lib/function_toolkit.tex" Line="98"/>
+                                        <LocAnn Col="36" Line="98" Loc="lib/function_toolkit.tex"/>
+                                        <ParenAnn/>
                                     </Anns>
                                     <RefName>
                                         <Anns>
-                                            <LocAnn Col="41" Loc="lib/function_toolkit.tex" Line="98"/>
+                                            <LocAnn Col="34" Line="98" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
-                                        <Word>Y</Word>
+                                        <Word> _ ↣ _ </Word>
                                     </RefName>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="34" Line="98" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="34" Line="98" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <Word>X</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="41" Line="98" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="41" Line="98" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <Word>Y</Word>
+                                        </RefName>
+                                    </RefExpr>
                                 </RefExpr>
-                            </RefExpr>
-                        </TupleExpr>
-                    </ApplExpr>
-                </ConstDecl>
+                            </TupleExpr>
+                        </ApplExpr>
+                    </ConstDecl>
+                </ZDeclList>
             </SchText>
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="lib/function_toolkit.tex" Line="99"/>
+                <LocAnn Col="10" Line="99" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Content>
 
@@ -1087,9 +1145,9 @@ that are also total injections from $X$ to $Y$.
 
 </Content>
         </NarrPara>
-        <OptempPara Assoc="Right" Prec="5" Cat="Generic">
+        <OptempPara Assoc="Right" Cat="Generic" Prec="5">
             <Anns>
-                <LocAnn Col="1" Loc="lib/function_toolkit.tex" Line="109"/>
+                <LocAnn Col="1" Line="109" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Operand List="false"/>
             <Operator>
@@ -1099,7 +1157,7 @@ that are also total injections from $X$ to $Y$.
         </OptempPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="lib/function_toolkit.tex" Line="110"/>
+                <LocAnn Col="10" Line="110" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Content>
 
@@ -1107,7 +1165,7 @@ that are also total injections from $X$ to $Y$.
         </NarrPara>
         <AxPara Box="OmitBox">
             <Anns>
-                <LocAnn Col="9" Loc="lib/function_toolkit.tex" Line="113"/>
+                <LocAnn Col="9" Line="113" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <DeclName>
                 <Word>X</Word>
@@ -1116,104 +1174,115 @@ that are also total injections from $X$ to $Y$.
                 <Word>Y</Word>
             </DeclName>
             <SchText>
-                <ConstDecl>
-                    <Anns>
-                        <LocAnn Col="11" Loc="lib/function_toolkit.tex" Line="113"/>
-                    </Anns>
-                    <DeclName>
-                        <Word> _ ⇻ _ </Word>
-                    </DeclName>
-                    <ApplExpr Mixfix="true">
+                <ZDeclList>
+                    <ConstDecl>
                         <Anns>
-                            <LocAnn Col="26" Loc="lib/function_toolkit.tex" Line="113"/>
+                            <LocAnn Col="11" Line="113" Loc="lib/function_toolkit.tex"/>
                         </Anns>
-                        <RefExpr Mixfix="false">
+                        <DeclName>
+                            <Word> _ ⇻ _ </Word>
+                        </DeclName>
+                        <ApplExpr Mixfix="true">
                             <Anns>
-                                <LocAnn Col="24" Loc="lib/function_toolkit.tex" Line="113"/>
+                                <LocAnn Col="26" Line="113" Loc="lib/function_toolkit.tex"/>
                             </Anns>
-                            <RefName>
-                                <Word> _ ∩ _ </Word>
-                            </RefName>
-                        </RefExpr>
-                        <TupleExpr>
-                            <Anns>
-                                <LocAnn Col="24" Loc="lib/function_toolkit.tex" Line="113"/>
-                            </Anns>
-                            <RefExpr Mixfix="true">
+                            <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="17" Loc="lib/function_toolkit.tex" Line="113"/>
-                                    <ParenAnn/>
+                                    <LocAnn Col="24" Line="113" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
                                 <RefName>
-                                    <Word> _ ⇸ _ </Word>
+                                    <Anns>
+                                        <LocAnn Col="24" Line="113" Loc="lib/function_toolkit.tex"/>
+                                    </Anns>
+                                    <Word> _ ∩ _ </Word>
                                 </RefName>
-                                <RefExpr Mixfix="false">
-                                    <Anns>
-                                        <LocAnn Col="15" Loc="lib/function_toolkit.tex" Line="113"/>
-                                    </Anns>
-                                    <RefName>
-                                        <Anns>
-                                            <LocAnn Col="15" Loc="lib/function_toolkit.tex" Line="113"/>
-                                        </Anns>
-                                        <Word>X</Word>
-                                    </RefName>
-                                </RefExpr>
-                                <RefExpr Mixfix="false">
-                                    <Anns>
-                                        <LocAnn Col="23" Loc="lib/function_toolkit.tex" Line="113"/>
-                                    </Anns>
-                                    <RefName>
-                                        <Anns>
-                                            <LocAnn Col="23" Loc="lib/function_toolkit.tex" Line="113"/>
-                                        </Anns>
-                                        <Word>Y</Word>
-                                    </RefName>
-                                </RefExpr>
                             </RefExpr>
-                            <RefExpr Mixfix="true">
+                            <TupleExpr>
                                 <Anns>
-                                    <LocAnn Col="31" Loc="lib/function_toolkit.tex" Line="113"/>
+                                    <LocAnn Col="24" Line="113" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
-                                <RefName>
-                                    <Word>𝔽 _ </Word>
-                                </RefName>
-                                <ProdExpr>
+                                <RefExpr Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="49" Loc="lib/function_toolkit.tex" Line="113"/>
+                                        <LocAnn Col="17" Line="113" Loc="lib/function_toolkit.tex"/>
                                         <ParenAnn/>
                                     </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="15" Line="113" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <Word> _ ⇸ _ </Word>
+                                    </RefName>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="40" Loc="lib/function_toolkit.tex" Line="113"/>
+                                            <LocAnn Col="15" Line="113" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
                                         <RefName>
                                             <Anns>
-                                                <LocAnn Col="40" Loc="lib/function_toolkit.tex" Line="113"/>
+                                                <LocAnn Col="15" Line="113" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
                                             <Word>X</Word>
                                         </RefName>
                                     </RefExpr>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="49" Loc="lib/function_toolkit.tex" Line="113"/>
+                                            <LocAnn Col="23" Line="113" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
                                         <RefName>
                                             <Anns>
-                                                <LocAnn Col="49" Loc="lib/function_toolkit.tex" Line="113"/>
+                                                <LocAnn Col="23" Line="113" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
                                             <Word>Y</Word>
                                         </RefName>
                                     </RefExpr>
-                                </ProdExpr>
-                            </RefExpr>
-                        </TupleExpr>
-                    </ApplExpr>
-                </ConstDecl>
+                                </RefExpr>
+                                <RefExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="31" Line="113" Loc="lib/function_toolkit.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="31" Line="113" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <Word>𝔽 _ </Word>
+                                    </RefName>
+                                    <ProdExpr>
+                                        <Anns>
+                                            <LocAnn Col="49" Line="113" Loc="lib/function_toolkit.tex"/>
+                                            <ParenAnn/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="40" Line="113" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="40" Line="113" Loc="lib/function_toolkit.tex"/>
+                                                </Anns>
+                                                <Word>X</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="49" Line="113" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="49" Line="113" Loc="lib/function_toolkit.tex"/>
+                                                </Anns>
+                                                <Word>Y</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </ProdExpr>
+                                </RefExpr>
+                            </TupleExpr>
+                        </ApplExpr>
+                    </ConstDecl>
+                </ZDeclList>
             </SchText>
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="lib/function_toolkit.tex" Line="114"/>
+                <LocAnn Col="10" Line="114" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Content>
 
@@ -1224,9 +1293,9 @@ that are also finite sets.
 
 </Content>
         </NarrPara>
-        <OptempPara Assoc="Right" Prec="5" Cat="Generic">
+        <OptempPara Assoc="Right" Cat="Generic" Prec="5">
             <Anns>
-                <LocAnn Col="1" Loc="lib/function_toolkit.tex" Line="123"/>
+                <LocAnn Col="1" Line="123" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Operand List="false"/>
             <Operator>
@@ -1236,7 +1305,7 @@ that are also finite sets.
         </OptempPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="lib/function_toolkit.tex" Line="124"/>
+                <LocAnn Col="10" Line="124" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Content>
 
@@ -1244,7 +1313,7 @@ that are also finite sets.
         </NarrPara>
         <AxPara Box="OmitBox">
             <Anns>
-                <LocAnn Col="9" Loc="lib/function_toolkit.tex" Line="127"/>
+                <LocAnn Col="9" Line="127" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <DeclName>
                 <Word>X</Word>
@@ -1253,99 +1322,110 @@ that are also finite sets.
                 <Word>Y</Word>
             </DeclName>
             <SchText>
-                <ConstDecl>
-                    <Anns>
-                        <LocAnn Col="11" Loc="lib/function_toolkit.tex" Line="127"/>
-                    </Anns>
-                    <DeclName>
-                        <Word> _ ⤕ _ </Word>
-                    </DeclName>
-                    <ApplExpr Mixfix="true">
+                <ZDeclList>
+                    <ConstDecl>
                         <Anns>
-                            <LocAnn Col="28" Loc="lib/function_toolkit.tex" Line="127"/>
+                            <LocAnn Col="11" Line="127" Loc="lib/function_toolkit.tex"/>
                         </Anns>
-                        <RefExpr Mixfix="false">
+                        <DeclName>
+                            <Word> _ ⤕ _ </Word>
+                        </DeclName>
+                        <ApplExpr Mixfix="true">
                             <Anns>
-                                <LocAnn Col="26" Loc="lib/function_toolkit.tex" Line="127"/>
+                                <LocAnn Col="28" Line="127" Loc="lib/function_toolkit.tex"/>
                             </Anns>
-                            <RefName>
-                                <Word> _ ∩ _ </Word>
-                            </RefName>
-                        </RefExpr>
-                        <TupleExpr>
-                            <Anns>
-                                <LocAnn Col="26" Loc="lib/function_toolkit.tex" Line="127"/>
-                            </Anns>
-                            <RefExpr Mixfix="true">
+                            <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="18" Loc="lib/function_toolkit.tex" Line="127"/>
-                                    <ParenAnn/>
+                                    <LocAnn Col="26" Line="127" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
                                 <RefName>
-                                    <Word> _ ⇻ _ </Word>
+                                    <Anns>
+                                        <LocAnn Col="26" Line="127" Loc="lib/function_toolkit.tex"/>
+                                    </Anns>
+                                    <Word> _ ∩ _ </Word>
                                 </RefName>
-                                <RefExpr Mixfix="false">
-                                    <Anns>
-                                        <LocAnn Col="16" Loc="lib/function_toolkit.tex" Line="127"/>
-                                    </Anns>
-                                    <RefName>
-                                        <Anns>
-                                            <LocAnn Col="16" Loc="lib/function_toolkit.tex" Line="127"/>
-                                        </Anns>
-                                        <Word>X</Word>
-                                    </RefName>
-                                </RefExpr>
-                                <RefExpr Mixfix="false">
-                                    <Anns>
-                                        <LocAnn Col="24" Loc="lib/function_toolkit.tex" Line="127"/>
-                                    </Anns>
-                                    <RefName>
-                                        <Anns>
-                                            <LocAnn Col="24" Loc="lib/function_toolkit.tex" Line="127"/>
-                                        </Anns>
-                                        <Word>Y</Word>
-                                    </RefName>
-                                </RefExpr>
                             </RefExpr>
-                            <RefExpr Mixfix="true">
+                            <TupleExpr>
                                 <Anns>
-                                    <LocAnn Col="37" Loc="lib/function_toolkit.tex" Line="127"/>
-                                    <ParenAnn/>
+                                    <LocAnn Col="26" Line="127" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
-                                <RefName>
-                                    <Word> _ ⤔ _ </Word>
-                                </RefName>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="35" Loc="lib/function_toolkit.tex" Line="127"/>
+                                        <LocAnn Col="18" Line="127" Loc="lib/function_toolkit.tex"/>
+                                        <ParenAnn/>
                                     </Anns>
                                     <RefName>
                                         <Anns>
-                                            <LocAnn Col="35" Loc="lib/function_toolkit.tex" Line="127"/>
+                                            <LocAnn Col="16" Line="127" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
-                                        <Word>X</Word>
+                                        <Word> _ ⇻ _ </Word>
                                     </RefName>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="16" Line="127" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="16" Line="127" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <Word>X</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="24" Line="127" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="24" Line="127" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <Word>Y</Word>
+                                        </RefName>
+                                    </RefExpr>
                                 </RefExpr>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="43" Loc="lib/function_toolkit.tex" Line="127"/>
+                                        <LocAnn Col="37" Line="127" Loc="lib/function_toolkit.tex"/>
+                                        <ParenAnn/>
                                     </Anns>
                                     <RefName>
                                         <Anns>
-                                            <LocAnn Col="43" Loc="lib/function_toolkit.tex" Line="127"/>
+                                            <LocAnn Col="35" Line="127" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
-                                        <Word>Y</Word>
+                                        <Word> _ ⤔ _ </Word>
                                     </RefName>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="35" Line="127" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="35" Line="127" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <Word>X</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="43" Line="127" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="43" Line="127" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <Word>Y</Word>
+                                        </RefName>
+                                    </RefExpr>
                                 </RefExpr>
-                            </RefExpr>
-                        </TupleExpr>
-                    </ApplExpr>
-                </ConstDecl>
+                            </TupleExpr>
+                        </ApplExpr>
+                    </ConstDecl>
+                </ZDeclList>
             </SchText>
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="lib/function_toolkit.tex" Line="128"/>
+                <LocAnn Col="10" Line="128" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Content>
 
@@ -1358,7 +1438,7 @@ that are also finite functions from $X$ to $Y$.
         </NarrPara>
         <OptempPara Cat="Relation">
             <Anns>
-                <LocAnn Col="1" Loc="lib/function_toolkit.tex" Line="137"/>
+                <LocAnn Col="1" Line="137" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Operator>
                 <Word>disjoint</Word>
@@ -1367,7 +1447,7 @@ that are also finite functions from $X$ to $Y$.
         </OptempPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="lib/function_toolkit.tex" Line="138"/>
+                <LocAnn Col="10" Line="138" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Content>
 
@@ -1375,214 +1455,241 @@ that are also finite functions from $X$ to $Y$.
         </NarrPara>
         <AxPara Box="AxBox">
             <Anns>
-                <LocAnn Col="1" Loc="lib/function_toolkit.tex" Line="140"/>
+                <LocAnn Col="1" Line="140" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <DeclName>
                 <Anns>
-                    <LocAnn Col="16" Loc="lib/function_toolkit.tex" Line="140"/>
+                    <LocAnn Col="16" Line="140" Loc="lib/function_toolkit.tex"/>
                 </Anns>
                 <Word>L</Word>
             </DeclName>
             <DeclName>
                 <Anns>
-                    <LocAnn Col="18" Loc="lib/function_toolkit.tex" Line="140"/>
+                    <LocAnn Col="18" Line="140" Loc="lib/function_toolkit.tex"/>
                 </Anns>
                 <Word>X</Word>
             </DeclName>
             <SchText>
-                <VarDecl>
-                    <Anns>
-                        <LocAnn Col="14" Loc="lib/function_toolkit.tex" Line="141"/>
-                    </Anns>
-                    <DeclName>
-                        <Word>disjoint _ </Word>
-                    </DeclName>
-                    <PowerExpr>
+                <ZDeclList>
+                    <VarDecl>
                         <Anns>
-                            <LocAnn Col="16" Loc="lib/function_toolkit.tex" Line="141"/>
+                            <LocAnn Col="14" Line="141" Loc="lib/function_toolkit.tex"/>
                         </Anns>
-                        <RefExpr Mixfix="true">
+                        <DeclName>
                             <Anns>
-                                <LocAnn Col="27" Loc="lib/function_toolkit.tex" Line="141"/>
-                                <ParenAnn/>
+                                <LocAnn Col="11" Line="141" Loc="lib/function_toolkit.tex"/>
                             </Anns>
-                            <RefName>
-                                <Word> _ ↔ _ </Word>
-                            </RefName>
-                            <RefExpr Mixfix="false">
-                                <Anns>
-                                    <LocAnn Col="25" Loc="lib/function_toolkit.tex" Line="141"/>
-                                </Anns>
-                                <RefName>
-                                    <Anns>
-                                        <LocAnn Col="25" Loc="lib/function_toolkit.tex" Line="141"/>
-                                    </Anns>
-                                    <Word>L</Word>
-                                </RefName>
-                            </RefExpr>
-                            <PowerExpr>
-                                <Anns>
-                                    <LocAnn Col="32" Loc="lib/function_toolkit.tex" Line="141"/>
-                                </Anns>
-                                <RefExpr Mixfix="false">
-                                    <Anns>
-                                        <LocAnn Col="39" Loc="lib/function_toolkit.tex" Line="141"/>
-                                    </Anns>
-                                    <RefName>
-                                        <Anns>
-                                            <LocAnn Col="39" Loc="lib/function_toolkit.tex" Line="141"/>
-                                        </Anns>
-                                        <Word>X</Word>
-                                    </RefName>
-                                </RefExpr>
-                            </PowerExpr>
-                        </RefExpr>
-                    </PowerExpr>
-                </VarDecl>
-                <ForallPred>
-                    <Anns>
-                        <LocAnn Col="1" Loc="lib/function_toolkit.tex" Line="143"/>
-                    </Anns>
-                    <SchText>
-                        <VarDecl>
+                            <Word>disjoint _ </Word>
+                        </DeclName>
+                        <PowerExpr>
                             <Anns>
-                                <LocAnn Col="11" Loc="lib/function_toolkit.tex" Line="143"/>
+                                <LocAnn Col="16" Line="141" Loc="lib/function_toolkit.tex"/>
                             </Anns>
-                            <DeclName>
-                                <Anns>
-                                    <LocAnn Col="9" Loc="lib/function_toolkit.tex" Line="143"/>
-                                </Anns>
-                                <Word>f</Word>
-                            </DeclName>
                             <RefExpr Mixfix="true">
                                 <Anns>
-                                    <LocAnn Col="15" Loc="lib/function_toolkit.tex" Line="143"/>
+                                    <LocAnn Col="27" Line="141" Loc="lib/function_toolkit.tex"/>
+                                    <ParenAnn/>
                                 </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Col="25" Line="141" Loc="lib/function_toolkit.tex"/>
+                                    </Anns>
                                     <Word> _ ↔ _ </Word>
                                 </RefName>
                                 <RefExpr Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="13" Loc="lib/function_toolkit.tex" Line="143"/>
+                                        <LocAnn Col="25" Line="141" Loc="lib/function_toolkit.tex"/>
                                     </Anns>
                                     <RefName>
                                         <Anns>
-                                            <LocAnn Col="13" Loc="lib/function_toolkit.tex" Line="143"/>
+                                            <LocAnn Col="25" Line="141" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
                                         <Word>L</Word>
                                     </RefName>
                                 </RefExpr>
                                 <PowerExpr>
                                     <Anns>
-                                        <LocAnn Col="20" Loc="lib/function_toolkit.tex" Line="143"/>
+                                        <LocAnn Col="32" Line="141" Loc="lib/function_toolkit.tex"/>
                                     </Anns>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="27" Loc="lib/function_toolkit.tex" Line="143"/>
+                                            <LocAnn Col="39" Line="141" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
                                         <RefName>
                                             <Anns>
-                                                <LocAnn Col="27" Loc="lib/function_toolkit.tex" Line="143"/>
+                                                <LocAnn Col="39" Line="141" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
                                             <Word>X</Word>
                                         </RefName>
                                     </RefExpr>
                                 </PowerExpr>
                             </RefExpr>
-                        </VarDecl>
+                        </PowerExpr>
+                    </VarDecl>
+                </ZDeclList>
+                <ForallPred>
+                    <Anns>
+                        <LocAnn Col="1" Line="143" Loc="lib/function_toolkit.tex"/>
+                    </Anns>
+                    <SchText>
+                        <ZDeclList>
+                            <VarDecl>
+                                <Anns>
+                                    <LocAnn Col="11" Line="143" Loc="lib/function_toolkit.tex"/>
+                                </Anns>
+                                <DeclName>
+                                    <Anns>
+                                        <LocAnn Col="9" Line="143" Loc="lib/function_toolkit.tex"/>
+                                    </Anns>
+                                    <Word>f</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="15" Line="143" Loc="lib/function_toolkit.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="13" Line="143" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <Word> _ ↔ _ </Word>
+                                    </RefName>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="13" Line="143" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="13" Line="143" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <Word>L</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <PowerExpr>
+                                        <Anns>
+                                            <LocAnn Col="20" Line="143" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="27" Line="143" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="27" Line="143" Loc="lib/function_toolkit.tex"/>
+                                                </Anns>
+                                                <Word>X</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </PowerExpr>
+                                </RefExpr>
+                            </VarDecl>
+                        </ZDeclList>
                     </SchText>
                     <IffPred>
                         <Anns>
-                            <LocAnn Col="13" Loc="lib/function_toolkit.tex" Line="144"/>
+                            <LocAnn Col="13" Line="144" Loc="lib/function_toolkit.tex"/>
                         </Anns>
                         <MemPred Mixfix="true">
                             <Anns>
-                                <LocAnn Col="1" Loc="lib/function_toolkit.tex" Line="144"/>
+                                <LocAnn Col="1" Line="144" Loc="lib/function_toolkit.tex"/>
                             </Anns>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="11" Loc="lib/function_toolkit.tex" Line="144"/>
+                                    <LocAnn Col="11" Line="144" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
                                 <RefName>
                                     <Anns>
-                                        <LocAnn Col="11" Loc="lib/function_toolkit.tex" Line="144"/>
+                                        <LocAnn Col="11" Line="144" Loc="lib/function_toolkit.tex"/>
                                     </Anns>
                                     <Word>f</Word>
                                 </RefName>
                             </RefExpr>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="1" Line="144" Loc="lib/function_toolkit.tex"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Col="1" Line="144" Loc="lib/function_toolkit.tex"/>
+                                    </Anns>
                                     <Word>disjoint _ </Word>
                                 </RefName>
                             </RefExpr>
                         </MemPred>
                         <ForallPred>
                             <Anns>
-                                <LocAnn Col="20" Loc="lib/function_toolkit.tex" Line="144"/>
+                                <LocAnn Col="20" Line="144" Loc="lib/function_toolkit.tex"/>
                                 <ParenAnn/>
                             </Anns>
                             <SchText>
-                                <VarDecl>
-                                    <Anns>
-                                        <LocAnn Col="34" Loc="lib/function_toolkit.tex" Line="144"/>
-                                    </Anns>
-                                    <DeclName>
+                                <ZDeclList>
+                                    <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="28" Loc="lib/function_toolkit.tex" Line="144"/>
+                                            <LocAnn Col="34" Line="144" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
-                                        <Word>p</Word>
-                                    </DeclName>
-                                    <DeclName>
-                                        <Anns>
-                                            <LocAnn Col="32" Loc="lib/function_toolkit.tex" Line="144"/>
-                                        </Anns>
-                                        <Word>q</Word>
-                                    </DeclName>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="36" Loc="lib/function_toolkit.tex" Line="144"/>
-                                        </Anns>
-                                        <RefName>
+                                        <DeclName>
                                             <Anns>
-                                                <LocAnn Col="36" Loc="lib/function_toolkit.tex" Line="144"/>
+                                                <LocAnn Col="28" Line="144" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
-                                            <Word>f</Word>
-                                        </RefName>
-                                    </RefExpr>
-                                </VarDecl>
-                                <MemPred Mixfix="true">
-                                    <Anns>
-                                        <LocAnn Col="42" Loc="lib/function_toolkit.tex" Line="144"/>
-                                    </Anns>
-                                    <TupleExpr>
-                                        <Anns>
-                                            <LocAnn Col="40" Loc="lib/function_toolkit.tex" Line="144"/>
-                                        </Anns>
+                                            <Word>p</Word>
+                                        </DeclName>
+                                        <DeclName>
+                                            <Anns>
+                                                <LocAnn Col="32" Line="144" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <Word>q</Word>
+                                        </DeclName>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="40" Loc="lib/function_toolkit.tex" Line="144"/>
+                                                <LocAnn Col="36" Line="144" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="40" Loc="lib/function_toolkit.tex" Line="144"/>
+                                                    <LocAnn Col="36" Line="144" Loc="lib/function_toolkit.tex"/>
+                                                </Anns>
+                                                <Word>f</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </VarDecl>
+                                </ZDeclList>
+                                <MemPred Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="42" Line="144" Loc="lib/function_toolkit.tex"/>
+                                    </Anns>
+                                    <TupleExpr>
+                                        <Anns>
+                                            <LocAnn Col="40" Line="144" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="40" Line="144" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="40" Line="144" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
                                                 <Word>p</Word>
                                             </RefName>
                                         </RefExpr>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="47" Loc="lib/function_toolkit.tex" Line="144"/>
+                                                <LocAnn Col="47" Line="144" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="47" Loc="lib/function_toolkit.tex" Line="144"/>
+                                                    <LocAnn Col="47" Line="144" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
                                                 <Word>q</Word>
                                             </RefName>
                                         </RefExpr>
                                     </TupleExpr>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="40" Line="144" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
                                         <RefName>
+                                            <Anns>
+                                                <LocAnn Col="40" Line="144" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
                                             <Word> _ ≠ _ </Word>
                                         </RefName>
                                     </RefExpr>
@@ -1590,35 +1697,38 @@ that are also finite functions from $X$ to $Y$.
                             </SchText>
                             <MemPred Mixfix="true">
                                 <Anns>
-                                    <LocAnn Col="64" Loc="lib/function_toolkit.tex" Line="144"/>
+                                    <LocAnn Col="64" Line="144" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="55" Loc="lib/function_toolkit.tex" Line="144"/>
+                                        <LocAnn Col="55" Line="144" Loc="lib/function_toolkit.tex"/>
                                     </Anns>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="53" Loc="lib/function_toolkit.tex" Line="144"/>
+                                            <LocAnn Col="53" Line="144" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
                                         <RefName>
+                                            <Anns>
+                                                <LocAnn Col="53" Line="144" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
                                             <Word> _ ∩ _ </Word>
                                         </RefName>
                                     </RefExpr>
                                     <TupleExpr>
                                         <Anns>
-                                            <LocAnn Col="53" Loc="lib/function_toolkit.tex" Line="144"/>
+                                            <LocAnn Col="53" Line="144" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
                                         <TupleSelExpr Select="2">
                                             <Anns>
-                                                <LocAnn Col="52" Loc="lib/function_toolkit.tex" Line="144"/>
+                                                <LocAnn Col="52" Line="144" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="51" Loc="lib/function_toolkit.tex" Line="144"/>
+                                                    <LocAnn Col="51" Line="144" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="51" Loc="lib/function_toolkit.tex" Line="144"/>
+                                                        <LocAnn Col="51" Line="144" Loc="lib/function_toolkit.tex"/>
                                                     </Anns>
                                                     <Word>p</Word>
                                                 </RefName>
@@ -1626,15 +1736,15 @@ that are also finite functions from $X$ to $Y$.
                                         </TupleSelExpr>
                                         <TupleSelExpr Select="2">
                                             <Anns>
-                                                <LocAnn Col="61" Loc="lib/function_toolkit.tex" Line="144"/>
+                                                <LocAnn Col="61" Line="144" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="60" Loc="lib/function_toolkit.tex" Line="144"/>
+                                                    <LocAnn Col="60" Line="144" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="60" Loc="lib/function_toolkit.tex" Line="144"/>
+                                                        <LocAnn Col="60" Line="144" Loc="lib/function_toolkit.tex"/>
                                                     </Anns>
                                                     <Word>q</Word>
                                                 </RefName>
@@ -1645,11 +1755,11 @@ that are also finite functions from $X$ to $Y$.
                                 <SetExpr>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="66" Loc="lib/function_toolkit.tex" Line="144"/>
+                                            <LocAnn Col="66" Line="144" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
                                         <RefName>
                                             <Anns>
-                                                <LocAnn Col="66" Loc="lib/function_toolkit.tex" Line="144"/>
+                                                <LocAnn Col="66" Line="144" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
                                             <Word>∅</Word>
                                         </RefName>
@@ -1663,7 +1773,7 @@ that are also finite functions from $X$ to $Y$.
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="13" Loc="lib/function_toolkit.tex" Line="145"/>
+                <LocAnn Col="13" Line="145" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Content>
 
@@ -1676,7 +1786,7 @@ distinct pair yields sets with no members in common.
         </NarrPara>
         <OptempPara Cat="Relation">
             <Anns>
-                <LocAnn Col="1" Loc="lib/function_toolkit.tex" Line="154"/>
+                <LocAnn Col="1" Line="154" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Operand List="false"/>
             <Operator>
@@ -1686,7 +1796,7 @@ distinct pair yields sets with no members in common.
         </OptempPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="lib/function_toolkit.tex" Line="155"/>
+                <LocAnn Col="10" Line="155" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Content>
 
@@ -1694,276 +1804,304 @@ distinct pair yields sets with no members in common.
         </NarrPara>
         <AxPara Box="AxBox">
             <Anns>
-                <LocAnn Col="1" Loc="lib/function_toolkit.tex" Line="157"/>
+                <LocAnn Col="1" Line="157" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <DeclName>
                 <Anns>
-                    <LocAnn Col="16" Loc="lib/function_toolkit.tex" Line="157"/>
+                    <LocAnn Col="16" Line="157" Loc="lib/function_toolkit.tex"/>
                 </Anns>
                 <Word>L</Word>
             </DeclName>
             <DeclName>
                 <Anns>
-                    <LocAnn Col="18" Loc="lib/function_toolkit.tex" Line="157"/>
+                    <LocAnn Col="18" Line="157" Loc="lib/function_toolkit.tex"/>
                 </Anns>
                 <Word>X</Word>
             </DeclName>
             <SchText>
-                <VarDecl>
-                    <Anns>
-                        <LocAnn Col="18" Loc="lib/function_toolkit.tex" Line="158"/>
-                    </Anns>
-                    <DeclName>
-                        <Word> _ partition _ </Word>
-                    </DeclName>
-                    <RefExpr Mixfix="true">
+                <ZDeclList>
+                    <VarDecl>
                         <Anns>
-                            <LocAnn Col="40" Loc="lib/function_toolkit.tex" Line="158"/>
+                            <LocAnn Col="18" Line="158" Loc="lib/function_toolkit.tex"/>
                         </Anns>
-                        <RefName>
-                            <Word> _ ↔ _ </Word>
-                        </RefName>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="15" Line="158" Loc="lib/function_toolkit.tex"/>
+                            </Anns>
+                            <Word> _ partition _ </Word>
+                        </DeclName>
                         <RefExpr Mixfix="true">
                             <Anns>
-                                <LocAnn Col="24" Loc="lib/function_toolkit.tex" Line="158"/>
-                                <ParenAnn/>
+                                <LocAnn Col="40" Line="158" Loc="lib/function_toolkit.tex"/>
                             </Anns>
                             <RefName>
+                                <Anns>
+                                    <LocAnn Col="38" Line="158" Loc="lib/function_toolkit.tex"/>
+                                </Anns>
                                 <Word> _ ↔ _ </Word>
                             </RefName>
-                            <RefExpr Mixfix="false">
-                                <Anns>
-                                    <LocAnn Col="22" Loc="lib/function_toolkit.tex" Line="158"/>
-                                </Anns>
-                                <RefName>
-                                    <Anns>
-                                        <LocAnn Col="22" Loc="lib/function_toolkit.tex" Line="158"/>
-                                    </Anns>
-                                    <Word>L</Word>
-                                </RefName>
-                            </RefExpr>
-                            <PowerExpr>
-                                <Anns>
-                                    <LocAnn Col="29" Loc="lib/function_toolkit.tex" Line="158"/>
-                                </Anns>
-                                <RefExpr Mixfix="false">
-                                    <Anns>
-                                        <LocAnn Col="36" Loc="lib/function_toolkit.tex" Line="158"/>
-                                    </Anns>
-                                    <RefName>
-                                        <Anns>
-                                            <LocAnn Col="36" Loc="lib/function_toolkit.tex" Line="158"/>
-                                        </Anns>
-                                        <Word>X</Word>
-                                    </RefName>
-                                </RefExpr>
-                            </PowerExpr>
-                        </RefExpr>
-                        <PowerExpr>
-                            <Anns>
-                                <LocAnn Col="45" Loc="lib/function_toolkit.tex" Line="158"/>
-                            </Anns>
-                            <RefExpr Mixfix="false">
-                                <Anns>
-                                    <LocAnn Col="52" Loc="lib/function_toolkit.tex" Line="158"/>
-                                </Anns>
-                                <RefName>
-                                    <Anns>
-                                        <LocAnn Col="52" Loc="lib/function_toolkit.tex" Line="158"/>
-                                    </Anns>
-                                    <Word>X</Word>
-                                </RefName>
-                            </RefExpr>
-                        </PowerExpr>
-                    </RefExpr>
-                </VarDecl>
-                <ForallPred>
-                    <Anns>
-                        <LocAnn Col="1" Loc="lib/function_toolkit.tex" Line="160"/>
-                    </Anns>
-                    <SchText>
-                        <VarDecl>
-                            <Anns>
-                                <LocAnn Col="11" Loc="lib/function_toolkit.tex" Line="160"/>
-                            </Anns>
-                            <DeclName>
-                                <Anns>
-                                    <LocAnn Col="9" Loc="lib/function_toolkit.tex" Line="160"/>
-                                </Anns>
-                                <Word>f</Word>
-                            </DeclName>
                             <RefExpr Mixfix="true">
                                 <Anns>
-                                    <LocAnn Col="15" Loc="lib/function_toolkit.tex" Line="160"/>
+                                    <LocAnn Col="24" Line="158" Loc="lib/function_toolkit.tex"/>
+                                    <ParenAnn/>
                                 </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Col="22" Line="158" Loc="lib/function_toolkit.tex"/>
+                                    </Anns>
                                     <Word> _ ↔ _ </Word>
                                 </RefName>
                                 <RefExpr Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="13" Loc="lib/function_toolkit.tex" Line="160"/>
+                                        <LocAnn Col="22" Line="158" Loc="lib/function_toolkit.tex"/>
                                     </Anns>
                                     <RefName>
                                         <Anns>
-                                            <LocAnn Col="13" Loc="lib/function_toolkit.tex" Line="160"/>
+                                            <LocAnn Col="22" Line="158" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
                                         <Word>L</Word>
                                     </RefName>
                                 </RefExpr>
                                 <PowerExpr>
                                     <Anns>
-                                        <LocAnn Col="20" Loc="lib/function_toolkit.tex" Line="160"/>
+                                        <LocAnn Col="29" Line="158" Loc="lib/function_toolkit.tex"/>
                                     </Anns>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="27" Loc="lib/function_toolkit.tex" Line="160"/>
+                                            <LocAnn Col="36" Line="158" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
                                         <RefName>
                                             <Anns>
-                                                <LocAnn Col="27" Loc="lib/function_toolkit.tex" Line="160"/>
+                                                <LocAnn Col="36" Line="158" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
                                             <Word>X</Word>
                                         </RefName>
                                     </RefExpr>
                                 </PowerExpr>
                             </RefExpr>
-                        </VarDecl>
-                        <VarDecl>
-                            <Anns>
-                                <LocAnn Col="33" Loc="lib/function_toolkit.tex" Line="160"/>
-                            </Anns>
-                            <DeclName>
-                                <Anns>
-                                    <LocAnn Col="31" Loc="lib/function_toolkit.tex" Line="160"/>
-                                </Anns>
-                                <Word>a</Word>
-                            </DeclName>
                             <PowerExpr>
                                 <Anns>
-                                    <LocAnn Col="35" Loc="lib/function_toolkit.tex" Line="160"/>
+                                    <LocAnn Col="45" Line="158" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
                                 <RefExpr Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="42" Loc="lib/function_toolkit.tex" Line="160"/>
+                                        <LocAnn Col="52" Line="158" Loc="lib/function_toolkit.tex"/>
                                     </Anns>
                                     <RefName>
                                         <Anns>
-                                            <LocAnn Col="42" Loc="lib/function_toolkit.tex" Line="160"/>
+                                            <LocAnn Col="52" Line="158" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
                                         <Word>X</Word>
                                     </RefName>
                                 </RefExpr>
                             </PowerExpr>
-                        </VarDecl>
-                    </SchText>
-                    <IffPred>
-                        <Anns>
-                            <LocAnn Col="16" Loc="lib/function_toolkit.tex" Line="161"/>
-                        </Anns>
-                        <MemPred Mixfix="true">
-                            <Anns>
-                                <LocAnn Col="3" Loc="lib/function_toolkit.tex" Line="161"/>
-                            </Anns>
-                            <TupleExpr>
+                        </RefExpr>
+                    </VarDecl>
+                </ZDeclList>
+                <ForallPred>
+                    <Anns>
+                        <LocAnn Col="1" Line="160" Loc="lib/function_toolkit.tex"/>
+                    </Anns>
+                    <SchText>
+                        <ZDeclList>
+                            <VarDecl>
                                 <Anns>
-                                    <LocAnn Col="1" Loc="lib/function_toolkit.tex" Line="161"/>
+                                    <LocAnn Col="11" Line="160" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <DeclName>
                                     <Anns>
-                                        <LocAnn Col="1" Loc="lib/function_toolkit.tex" Line="161"/>
+                                        <LocAnn Col="9" Line="160" Loc="lib/function_toolkit.tex"/>
+                                    </Anns>
+                                    <Word>f</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="15" Line="160" Loc="lib/function_toolkit.tex"/>
                                     </Anns>
                                     <RefName>
                                         <Anns>
-                                            <LocAnn Col="1" Loc="lib/function_toolkit.tex" Line="161"/>
+                                            <LocAnn Col="13" Line="160" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <Word> _ ↔ _ </Word>
+                                    </RefName>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="13" Line="160" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="13" Line="160" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <Word>L</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <PowerExpr>
+                                        <Anns>
+                                            <LocAnn Col="20" Line="160" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="27" Line="160" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="27" Line="160" Loc="lib/function_toolkit.tex"/>
+                                                </Anns>
+                                                <Word>X</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </PowerExpr>
+                                </RefExpr>
+                            </VarDecl>
+                            <VarDecl>
+                                <Anns>
+                                    <LocAnn Col="33" Line="160" Loc="lib/function_toolkit.tex"/>
+                                </Anns>
+                                <DeclName>
+                                    <Anns>
+                                        <LocAnn Col="31" Line="160" Loc="lib/function_toolkit.tex"/>
+                                    </Anns>
+                                    <Word>a</Word>
+                                </DeclName>
+                                <PowerExpr>
+                                    <Anns>
+                                        <LocAnn Col="35" Line="160" Loc="lib/function_toolkit.tex"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="42" Line="160" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="42" Line="160" Loc="lib/function_toolkit.tex"/>
+                                            </Anns>
+                                            <Word>X</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </PowerExpr>
+                            </VarDecl>
+                        </ZDeclList>
+                    </SchText>
+                    <IffPred>
+                        <Anns>
+                            <LocAnn Col="16" Line="161" Loc="lib/function_toolkit.tex"/>
+                        </Anns>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="3" Line="161" Loc="lib/function_toolkit.tex"/>
+                            </Anns>
+                            <TupleExpr>
+                                <Anns>
+                                    <LocAnn Col="1" Line="161" Loc="lib/function_toolkit.tex"/>
+                                </Anns>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="1" Line="161" Loc="lib/function_toolkit.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="1" Line="161" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
                                         <Word>f</Word>
                                     </RefName>
                                 </RefExpr>
                                 <RefExpr Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="14" Loc="lib/function_toolkit.tex" Line="161"/>
+                                        <LocAnn Col="14" Line="161" Loc="lib/function_toolkit.tex"/>
                                     </Anns>
                                     <RefName>
                                         <Anns>
-                                            <LocAnn Col="14" Loc="lib/function_toolkit.tex" Line="161"/>
+                                            <LocAnn Col="14" Line="161" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
                                         <Word>a</Word>
                                     </RefName>
                                 </RefExpr>
                             </TupleExpr>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="1" Line="161" Loc="lib/function_toolkit.tex"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Col="1" Line="161" Loc="lib/function_toolkit.tex"/>
+                                    </Anns>
                                     <Word> _ partition _ </Word>
                                 </RefName>
                             </RefExpr>
                         </MemPred>
                         <AndPred Op="And">
                             <Anns>
-                                <LocAnn Col="33" Loc="lib/function_toolkit.tex" Line="161"/>
+                                <LocAnn Col="33" Line="161" Loc="lib/function_toolkit.tex"/>
                             </Anns>
                             <MemPred Mixfix="true">
                                 <Anns>
-                                    <LocAnn Col="21" Loc="lib/function_toolkit.tex" Line="161"/>
+                                    <LocAnn Col="21" Line="161" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
                                 <RefExpr Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="31" Loc="lib/function_toolkit.tex" Line="161"/>
+                                        <LocAnn Col="31" Line="161" Loc="lib/function_toolkit.tex"/>
                                     </Anns>
                                     <RefName>
                                         <Anns>
-                                            <LocAnn Col="31" Loc="lib/function_toolkit.tex" Line="161"/>
+                                            <LocAnn Col="31" Line="161" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
                                         <Word>f</Word>
                                     </RefName>
                                 </RefExpr>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="21" Line="161" Loc="lib/function_toolkit.tex"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Col="21" Line="161" Loc="lib/function_toolkit.tex"/>
+                                        </Anns>
                                         <Word>disjoint _ </Word>
                                     </RefName>
                                 </RefExpr>
                             </MemPred>
                             <MemPred Mixfix="true">
                                 <Anns>
-                                    <LocAnn Col="58" Loc="lib/function_toolkit.tex" Line="161"/>
+                                    <LocAnn Col="58" Line="161" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
                                 <ApplExpr Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="56" Loc="lib/function_toolkit.tex" Line="161"/>
+                                        <LocAnn Col="56" Line="161" Loc="lib/function_toolkit.tex"/>
                                     </Anns>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="39" Loc="lib/function_toolkit.tex" Line="161"/>
+                                            <LocAnn Col="39" Line="161" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
                                         <RefName>
                                             <Anns>
-                                                <LocAnn Col="39" Loc="lib/function_toolkit.tex" Line="161"/>
+                                                <LocAnn Col="39" Line="161" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
                                             <Word>⋃</Word>
                                         </RefName>
                                     </RefExpr>
                                     <ApplExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="54" Loc="lib/function_toolkit.tex" Line="161"/>
+                                            <LocAnn Col="54" Line="161" Loc="lib/function_toolkit.tex"/>
                                             <ParenAnn/>
                                         </Anns>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="49" Loc="lib/function_toolkit.tex" Line="161"/>
+                                                <LocAnn Col="49" Line="161" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="49" Loc="lib/function_toolkit.tex" Line="161"/>
+                                                    <LocAnn Col="49" Line="161" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
                                                 <Word>ran</Word>
                                             </RefName>
                                         </RefExpr>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="54" Loc="lib/function_toolkit.tex" Line="161"/>
+                                                <LocAnn Col="54" Line="161" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="54" Loc="lib/function_toolkit.tex" Line="161"/>
+                                                    <LocAnn Col="54" Line="161" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
                                                 <Word>f</Word>
                                             </RefName>
@@ -1973,11 +2111,11 @@ distinct pair yields sets with no members in common.
                                 <SetExpr>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="60" Loc="lib/function_toolkit.tex" Line="161"/>
+                                            <LocAnn Col="60" Line="161" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
                                         <RefName>
                                             <Anns>
-                                                <LocAnn Col="60" Loc="lib/function_toolkit.tex" Line="161"/>
+                                                <LocAnn Col="60" Line="161" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
                                             <Word>a</Word>
                                         </RefName>
@@ -1991,7 +2129,7 @@ distinct pair yields sets with no members in common.
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="13" Loc="lib/function_toolkit.tex" Line="162"/>
+                <LocAnn Col="13" Line="162" Loc="lib/function_toolkit.tex"/>
             </Anns>
             <Content>
 

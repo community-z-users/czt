@@ -161,7 +161,7 @@
                                     Expr expr)
   {
     ConstDecl constDecl = createConstDecl(declName, expr);
-    SchText schText = createSchText(list(constDecl), null);
+    SchText schText = createSchText(createZDeclList(list(constDecl)), null);
     return createAxPara(formals, schText, Box.OmitBox);
   }
 
@@ -277,7 +277,7 @@
                              SchText schemaText)
   {
     ConstDecl constDecl = createConstDecl(declName, createSchExpr(schemaText));
-    SchText schText = createSchText(list(constDecl), null);
+    SchText schText = createSchText(createZDeclList(list(constDecl)), null);
     return createAxPara(formals, schText, Box.SchBox);
   }
 

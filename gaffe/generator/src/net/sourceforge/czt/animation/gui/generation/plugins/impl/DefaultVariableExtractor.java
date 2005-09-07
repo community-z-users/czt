@@ -36,6 +36,7 @@ import net.sourceforge.czt.z.ast.NumStroke;
 import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.Stroke;
 import net.sourceforge.czt.z.ast.VarDecl;
+import net.sourceforge.czt.z.ast.ZDeclList;
 
 /**
  * Plugin implementation for finding all of the relevant variables in a schema.
@@ -63,7 +64,8 @@ public final class DefaultVariableExtractor implements VariableExtractor {
    */
   private Map/*<DeclName, VarDecl>*/ getXVariables(ConstDecl/*<SchExpr>*/ schema, Class clazz) {
     Map results/*<DeclName, VarDecl>*/=new HashMap/*<DeclName, VarDecl>*/();
-    List declarations=((SchExpr)schema.getExpr()).getSchText().getDecl();
+    List declarations=
+      ((ZDeclList) ((SchExpr)schema.getExpr()).getSchText().getDeclList()).getDecl();
     for(Iterator it=declarations.iterator();it.hasNext();) {
       VarDecl declaration;
       try {

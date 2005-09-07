@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Spec Version="1.4" xmlns="http://czt.sourceforge.net/zml">
+<Spec Version="2.0" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://czt.sourceforge.net/zml">
     <ZSect>
         <Anns>
-            <LocAnn Loc="lib/standard_toolkit.tex" Line="2" Col="3"/>
+            <LocAnn Col="3" Line="2" Loc="lib/standard_toolkit.tex"/>
         </Anns>
         <Name>standard_toolkit</Name>
         <Parent>
             <Anns>
-                <LocAnn Loc="lib/standard_toolkit.tex" Line="2" Col="39"/>
+                <LocAnn Col="39" Line="2" Loc="lib/standard_toolkit.tex"/>
             </Anns>
             <Word>sequence_toolkit</Word>
         </Parent>
         <LatexMarkupPara/>
         <NarrPara>
             <Anns>
-                <LocAnn Loc="lib/standard_toolkit.tex" Line="3" Col="15"/>
+                <LocAnn Col="15" Line="3" Loc="lib/standard_toolkit.tex"/>
             </Anns>
             <Content>
 </Content>

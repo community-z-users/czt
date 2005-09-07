@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Spec Version="1.4" xmlns="http://czt.sourceforge.net/zml">
+<Spec Version="2.0" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://czt.sourceforge.net/zml">
     <ZSect>
         <Name>Specification</Name>
         <Parent>
@@ -11,67 +11,76 @@
                 <LocAnn Col="1" Line="1" Loc="tests/z/test9.tex"/>
             </Anns>
             <SchText>
-                <ConstDecl>
-                    <DeclName>
-                        <Anns>
-                            <LocAnn Col="16" Line="1" Loc="tests/z/test9.tex"/>
-                        </Anns>
-                        <Word>test</Word>
-                    </DeclName>
-                    <SchExpr>
-                        <SchText>
-                            <AndPred Op="Chain">
-                                <MemPred Mixfix="false">
+                <ZDeclList>
+                    <ConstDecl>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="16" Line="1" Loc="tests/z/test9.tex"/>
+                            </Anns>
+                            <Word>test</Word>
+                        </DeclName>
+                        <SchExpr>
+                            <SchText>
+                                <ZDeclList/>
+                                <AndPred Op="Chain">
                                     <Anns>
-                                        <LocAnn Col="5" Line="3" Loc="tests/z/test9.tex"/>
+                                        <LocAnn Col="14" Line="3" Loc="tests/z/test9.tex"/>
                                     </Anns>
-                                    <NumExpr Value="1">
+                                    <MemPred Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="3" Line="3" Loc="tests/z/test9.tex"/>
-                                        </Anns>
-                                    </NumExpr>
-                                    <SetExpr>
-                                        <Anns>
-                                            <LocAnn Col="9" Line="3" Loc="tests/z/test9.tex"/>
+                                            <LocAnn Col="5" Line="3" Loc="tests/z/test9.tex"/>
                                         </Anns>
                                         <NumExpr Value="1">
                                             <Anns>
-                                                <LocAnn Col="12" Line="3" Loc="tests/z/test9.tex"/>
+                                                <LocAnn Col="3" Line="3" Loc="tests/z/test9.tex"/>
                                             </Anns>
                                         </NumExpr>
-                                    </SetExpr>
-                                </MemPred>
-                                <MemPred Mixfix="false">
-                                    <SetExpr>
-                                        <Anns>
-                                            <LocAnn Col="9" Line="3" Loc="tests/z/test9.tex"/>
-                                        </Anns>
-                                        <NumExpr Value="1">
-                                            <Anns>
-                                                <LocAnn Col="12" Line="3" Loc="tests/z/test9.tex"/>
-                                            </Anns>
-                                        </NumExpr>
-                                    </SetExpr>
-                                    <PowerExpr>
-                                        <Anns>
-                                            <LocAnn Col="21" Line="3" Loc="tests/z/test9.tex"/>
-                                        </Anns>
                                         <SetExpr>
                                             <Anns>
-                                                <LocAnn Col="28" Line="3" Loc="tests/z/test9.tex"/>
+                                                <LocAnn Col="9" Line="3" Loc="tests/z/test9.tex"/>
                                             </Anns>
                                             <NumExpr Value="1">
                                                 <Anns>
-                                                    <LocAnn Col="30" Line="3" Loc="tests/z/test9.tex"/>
+                                                    <LocAnn Col="12" Line="3" Loc="tests/z/test9.tex"/>
                                                 </Anns>
                                             </NumExpr>
                                         </SetExpr>
-                                    </PowerExpr>
-                                </MemPred>
-                            </AndPred>
-                        </SchText>
-                    </SchExpr>
-                </ConstDecl>
+                                    </MemPred>
+                                    <MemPred Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="14" Line="3" Loc="tests/z/test9.tex"/>
+                                        </Anns>
+                                        <SetExpr>
+                                            <Anns>
+                                                <LocAnn Col="9" Line="3" Loc="tests/z/test9.tex"/>
+                                            </Anns>
+                                            <NumExpr Value="1">
+                                                <Anns>
+                                                    <LocAnn Col="12" Line="3" Loc="tests/z/test9.tex"/>
+                                                </Anns>
+                                            </NumExpr>
+                                        </SetExpr>
+                                        <PowerExpr>
+                                            <Anns>
+                                                <LocAnn Col="21" Line="3" Loc="tests/z/test9.tex"/>
+                                            </Anns>
+                                            <SetExpr>
+                                                <Anns>
+                                                    <LocAnn Col="28" Line="3" Loc="tests/z/test9.tex"/>
+                                                </Anns>
+                                                <NumExpr Value="1">
+                                                    <Anns>
+                                                        <LocAnn Col="30" Line="3" Loc="tests/z/test9.tex"/>
+                                                    </Anns>
+                                                </NumExpr>
+                                            </SetExpr>
+                                        </PowerExpr>
+                                    </MemPred>
+                                </AndPred>
+                            </SchText>
+                        </SchExpr>
+                    </ConstDecl>
+                </ZDeclList>
             </SchText>
         </AxPara>
         <NarrPara>

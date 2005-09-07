@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Spec Version="1.4" xmlns="http://czt.sourceforge.net/zml">
+<Spec Version="2.0" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://czt.sourceforge.net/zml">
     <NarrSect>
+        <Anns>
+            <LocAnn Col="1" Line="1" Loc="tests/z/animate_scope.tex"/>
+        </Anns>
         <Content>\documentclass{article}
 \usepackage{oz}
 \newcommand{\negate}{-}
@@ -25,20 +28,40 @@ the constant undefnum should have an undefined left-hand-side.
         </Parent>
         <LatexMarkupPara/>
         <AxPara Box="AxBox">
+            <Anns>
+                <LocAnn Col="1" Line="16" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <SchText>
-                <VarDecl>
-                    <DeclName>
-                        <Word>undefnum</Word>
-                    </DeclName>
-                    <RefExpr Mixfix="false">
-                        <RefName>
-                            <Word>ℤ</Word>
-                        </RefName>
-                    </RefExpr>
-                </VarDecl>
+                <ZDeclList>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="12" Line="17" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="17" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
+                            <Word>undefnum</Word>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="14" Line="17" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="14" Line="17" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <Word>ℤ</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                </ZDeclList>
             </SchText>
         </AxPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Col="12" Line="18" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <Content>
 
 \section{Testing scoping issues...}
@@ -46,39 +69,92 @@ the constant undefnum should have an undefined left-hand-side.
 </Content>
         </NarrPara>
         <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Col="57" Line="22" Loc="tests/z/animate_scope.tex"/>
+                </Anns>
                 <SetCompExpr>
+                    <Anns>
+                        <LocAnn Col="21" Line="22" Loc="tests/z/animate_scope.tex"/>
+                    </Anns>
                     <SchText>
-                        <VarDecl>
-                            <DeclName>
-                                <Word>x</Word>
-                            </DeclName>
-                            <RefExpr Mixfix="true">
-                                <RefName>
-                                    <Word>ℙ _ </Word>
-                                    <NumStroke Number="1"/>
-                                </RefName>
-                                <SetExpr>
-                                    <NumExpr Value="1"/>
-                                </SetExpr>
-                            </RefExpr>
-                        </VarDecl>
-                    </SchText>
-                    <SetCompExpr>
-                        <SchText>
+                        <ZDeclList>
                             <VarDecl>
+                                <Anns>
+                                    <LocAnn Col="24" Line="22" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <DeclName>
+                                    <Anns>
+                                        <LocAnn Col="23" Line="22" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <Word>x</Word>
                                 </DeclName>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="25" Line="22" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <RefName>
-                                        <Word>x</Word>
+                                        <Anns>
+                                            <LocAnn Col="25" Line="22" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <Word>ℙ _ </Word>
+                                        <NumStroke Number="1"/>
                                     </RefName>
+                                    <SetExpr>
+                                        <Anns>
+                                            <LocAnn Col="34" Line="22" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <NumExpr Value="1">
+                                            <Anns>
+                                                <LocAnn Col="36" Line="22" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                        </NumExpr>
+                                    </SetExpr>
                                 </RefExpr>
                             </VarDecl>
+                        </ZDeclList>
+                    </SchText>
+                    <SetCompExpr>
+                        <Anns>
+                            <LocAnn Col="42" Line="22" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
+                        <SchText>
+                            <ZDeclList>
+                                <VarDecl>
+                                    <Anns>
+                                        <LocAnn Col="45" Line="22" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <DeclName>
+                                        <Anns>
+                                            <LocAnn Col="44" Line="22" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                    </DeclName>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="46" Line="22" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="46" Line="22" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </VarDecl>
+                            </ZDeclList>
                         </SchText>
                         <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="50" Line="22" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
                             <RefName>
+                                <Anns>
+                                    <LocAnn Col="50" Line="22" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <Word>x</Word>
                             </RefName>
                         </RefExpr>
@@ -86,66 +162,154 @@ the constant undefnum should have an undefined left-hand-side.
                 </SetCompExpr>
                 <SetExpr>
                     <SetExpr>
+                        <Anns>
+                            <LocAnn Col="59" Line="22" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
                         <SetExpr>
-                            <NumExpr Value="1"/>
+                            <Anns>
+                                <LocAnn Col="62" Line="22" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
+                            <NumExpr Value="1">
+                                <Anns>
+                                    <LocAnn Col="64" Line="22" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                            </NumExpr>
                         </SetExpr>
                     </SetExpr>
                 </SetExpr>
             </MemPred>
         </ConjPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Col="80" Line="22" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <Content>
 </Content>
         </NarrPara>
         <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Col="65" Line="23" Loc="tests/z/animate_scope.tex"/>
+                </Anns>
                 <SetCompExpr>
+                    <Anns>
+                        <LocAnn Col="21" Line="23" Loc="tests/z/animate_scope.tex"/>
+                    </Anns>
                     <SchText>
-                        <VarDecl>
-                            <DeclName>
-                                <Word>x</Word>
-                            </DeclName>
-                            <RefExpr Mixfix="true">
-                                <RefName>
-                                    <Word>ℙ _ </Word>
-                                    <NumStroke Number="1"/>
-                                </RefName>
-                                <SetExpr>
-                                    <NumExpr Value="1"/>
-                                </SetExpr>
-                            </RefExpr>
-                        </VarDecl>
-                    </SchText>
-                    <SetCompExpr>
-                        <SchText>
+                        <ZDeclList>
                             <VarDecl>
+                                <Anns>
+                                    <LocAnn Col="24" Line="23" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <DeclName>
+                                    <Anns>
+                                        <LocAnn Col="23" Line="23" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <Word>x</Word>
                                 </DeclName>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="25" Line="23" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <RefName>
-                                        <Word>x</Word>
+                                        <Anns>
+                                            <LocAnn Col="25" Line="23" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <Word>ℙ _ </Word>
+                                        <NumStroke Number="1"/>
                                     </RefName>
+                                    <SetExpr>
+                                        <Anns>
+                                            <LocAnn Col="34" Line="23" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <NumExpr Value="1">
+                                            <Anns>
+                                                <LocAnn Col="36" Line="23" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                        </NumExpr>
+                                    </SetExpr>
                                 </RefExpr>
                             </VarDecl>
-                            <MemPred Mixfix="true">
-                                <TupleExpr>
+                        </ZDeclList>
+                    </SchText>
+                    <SetCompExpr>
+                        <Anns>
+                            <LocAnn Col="42" Line="23" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
+                        <SchText>
+                            <ZDeclList>
+                                <VarDecl>
+                                    <Anns>
+                                        <LocAnn Col="45" Line="23" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <DeclName>
+                                        <Anns>
+                                            <LocAnn Col="44" Line="23" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                    </DeclName>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="46" Line="23" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <RefName>
+                                            <Anns>
+                                                <LocAnn Col="46" Line="23" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
                                             <Word>x</Word>
                                         </RefName>
                                     </RefExpr>
-                                    <NumExpr Value="0"/>
+                                </VarDecl>
+                            </ZDeclList>
+                            <MemPred Mixfix="true">
+                                <Anns>
+                                    <LocAnn Col="52" Line="23" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <TupleExpr>
+                                    <Anns>
+                                        <LocAnn Col="50" Line="23" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="50" Line="23" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="50" Line="23" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <NumExpr Value="0">
+                                        <Anns>
+                                            <LocAnn Col="54" Line="23" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                    </NumExpr>
                                 </TupleExpr>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="50" Line="23" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Col="50" Line="23" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <Word> _ &gt; _ </Word>
                                     </RefName>
                                 </RefExpr>
                             </MemPred>
                         </SchText>
                         <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="58" Line="23" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
                             <RefName>
+                                <Anns>
+                                    <LocAnn Col="58" Line="23" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <Word>x</Word>
                             </RefName>
                         </RefExpr>
@@ -153,63 +317,141 @@ the constant undefnum should have an undefined left-hand-side.
                 </SetCompExpr>
                 <SetExpr>
                     <SetExpr>
+                        <Anns>
+                            <LocAnn Col="67" Line="23" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
                         <SetExpr>
-                            <NumExpr Value="1"/>
+                            <Anns>
+                                <LocAnn Col="70" Line="23" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
+                            <NumExpr Value="1">
+                                <Anns>
+                                    <LocAnn Col="72" Line="23" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                            </NumExpr>
                         </SetExpr>
                     </SetExpr>
                 </SetExpr>
             </MemPred>
         </ConjPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Col="88" Line="23" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <Content>
 
  These next ones should be identical
 </Content>
         </NarrPara>
         <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Col="61" Line="26" Loc="tests/z/animate_scope.tex"/>
+                </Anns>
                 <SetCompExpr>
+                    <Anns>
+                        <LocAnn Col="21" Line="26" Loc="tests/z/animate_scope.tex"/>
+                    </Anns>
                     <SchText>
-                        <VarDecl>
-                            <DeclName>
-                                <Word>x</Word>
-                            </DeclName>
-                            <RefExpr Mixfix="true">
-                                <RefName>
-                                    <Word>ℙ _ </Word>
-                                    <NumStroke Number="1"/>
-                                </RefName>
-                                <SetExpr>
-                                    <NumExpr Value="1"/>
-                                </SetExpr>
-                            </RefExpr>
-                        </VarDecl>
-                    </SchText>
-                    <SetCompExpr>
-                        <SchText>
+                        <ZDeclList>
                             <VarDecl>
+                                <Anns>
+                                    <LocAnn Col="24" Line="26" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <DeclName>
+                                    <Anns>
+                                        <LocAnn Col="23" Line="26" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <Word>x</Word>
                                 </DeclName>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="25" Line="26" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <RefName>
-                                        <Word>x</Word>
+                                        <Anns>
+                                            <LocAnn Col="25" Line="26" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <Word>ℙ _ </Word>
+                                        <NumStroke Number="1"/>
                                     </RefName>
+                                    <SetExpr>
+                                        <Anns>
+                                            <LocAnn Col="34" Line="26" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <NumExpr Value="1">
+                                            <Anns>
+                                                <LocAnn Col="36" Line="26" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                        </NumExpr>
+                                    </SetExpr>
                                 </RefExpr>
                             </VarDecl>
-                            <VarDecl>
-                                <DeclName>
-                                    <Word>y</Word>
-                                </DeclName>
-                                <RefExpr Mixfix="false">
-                                    <RefName>
+                        </ZDeclList>
+                    </SchText>
+                    <SetCompExpr>
+                        <Anns>
+                            <LocAnn Col="42" Line="26" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
+                        <SchText>
+                            <ZDeclList>
+                                <VarDecl>
+                                    <Anns>
+                                        <LocAnn Col="45" Line="26" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <DeclName>
+                                        <Anns>
+                                            <LocAnn Col="44" Line="26" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <Word>x</Word>
-                                    </RefName>
-                                </RefExpr>
-                            </VarDecl>
+                                    </DeclName>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="46" Line="26" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="46" Line="26" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </VarDecl>
+                                <VarDecl>
+                                    <Anns>
+                                        <LocAnn Col="49" Line="26" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <DeclName>
+                                        <Anns>
+                                            <LocAnn Col="48" Line="26" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <Word>y</Word>
+                                    </DeclName>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="50" Line="26" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="50" Line="26" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </VarDecl>
+                            </ZDeclList>
                         </SchText>
                         <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="54" Line="26" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
                             <RefName>
+                                <Anns>
+                                    <LocAnn Col="54" Line="26" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <Word>y</Word>
                             </RefName>
                         </RefExpr>
@@ -217,61 +459,139 @@ the constant undefnum should have an undefined left-hand-side.
                 </SetCompExpr>
                 <SetExpr>
                     <SetExpr>
+                        <Anns>
+                            <LocAnn Col="63" Line="26" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
                         <SetExpr>
-                            <NumExpr Value="1"/>
+                            <Anns>
+                                <LocAnn Col="66" Line="26" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
+                            <NumExpr Value="1">
+                                <Anns>
+                                    <LocAnn Col="68" Line="26" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                            </NumExpr>
                         </SetExpr>
                     </SetExpr>
                 </SetExpr>
             </MemPred>
         </ConjPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Col="84" Line="26" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <Content>
 </Content>
         </NarrPara>
         <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Col="61" Line="27" Loc="tests/z/animate_scope.tex"/>
+                </Anns>
                 <SetCompExpr>
+                    <Anns>
+                        <LocAnn Col="21" Line="27" Loc="tests/z/animate_scope.tex"/>
+                    </Anns>
                     <SchText>
-                        <VarDecl>
-                            <DeclName>
-                                <Word>x</Word>
-                            </DeclName>
-                            <RefExpr Mixfix="true">
-                                <RefName>
-                                    <Word>ℙ _ </Word>
-                                    <NumStroke Number="1"/>
-                                </RefName>
-                                <SetExpr>
-                                    <NumExpr Value="1"/>
-                                </SetExpr>
-                            </RefExpr>
-                        </VarDecl>
-                    </SchText>
-                    <SetCompExpr>
-                        <SchText>
+                        <ZDeclList>
                             <VarDecl>
+                                <Anns>
+                                    <LocAnn Col="24" Line="27" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <DeclName>
+                                    <Anns>
+                                        <LocAnn Col="23" Line="27" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <Word>x</Word>
                                 </DeclName>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="25" Line="27" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <RefName>
-                                        <Word>x</Word>
+                                        <Anns>
+                                            <LocAnn Col="25" Line="27" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <Word>ℙ _ </Word>
+                                        <NumStroke Number="1"/>
                                     </RefName>
+                                    <SetExpr>
+                                        <Anns>
+                                            <LocAnn Col="34" Line="27" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <NumExpr Value="1">
+                                            <Anns>
+                                                <LocAnn Col="36" Line="27" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                        </NumExpr>
+                                    </SetExpr>
                                 </RefExpr>
                             </VarDecl>
-                            <VarDecl>
-                                <DeclName>
-                                    <Word>y</Word>
-                                </DeclName>
-                                <RefExpr Mixfix="false">
-                                    <RefName>
+                        </ZDeclList>
+                    </SchText>
+                    <SetCompExpr>
+                        <Anns>
+                            <LocAnn Col="42" Line="27" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
+                        <SchText>
+                            <ZDeclList>
+                                <VarDecl>
+                                    <Anns>
+                                        <LocAnn Col="45" Line="27" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <DeclName>
+                                        <Anns>
+                                            <LocAnn Col="44" Line="27" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <Word>x</Word>
-                                    </RefName>
-                                </RefExpr>
-                            </VarDecl>
+                                    </DeclName>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="46" Line="27" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="46" Line="27" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </VarDecl>
+                                <VarDecl>
+                                    <Anns>
+                                        <LocAnn Col="49" Line="27" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <DeclName>
+                                        <Anns>
+                                            <LocAnn Col="48" Line="27" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <Word>y</Word>
+                                    </DeclName>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="50" Line="27" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="50" Line="27" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </VarDecl>
+                            </ZDeclList>
                         </SchText>
                         <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="54" Line="27" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
                             <RefName>
+                                <Anns>
+                                    <LocAnn Col="54" Line="27" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <Word>x</Word>
                             </RefName>
                         </RefExpr>
@@ -279,14 +599,27 @@ the constant undefnum should have an undefined left-hand-side.
                 </SetCompExpr>
                 <SetExpr>
                     <SetExpr>
+                        <Anns>
+                            <LocAnn Col="63" Line="27" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
                         <SetExpr>
-                            <NumExpr Value="1"/>
+                            <Anns>
+                                <LocAnn Col="66" Line="27" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
+                            <NumExpr Value="1">
+                                <Anns>
+                                    <LocAnn Col="68" Line="27" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                            </NumExpr>
                         </SetExpr>
                     </SetExpr>
                 </SetExpr>
             </MemPred>
         </ConjPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Col="84" Line="27" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <Content>
 
 </Content>
@@ -295,74 +628,150 @@ the constant undefnum should have an undefined left-hand-side.
             <MemPred Mixfix="true">
                 <SetCompExpr>
                     <SchText>
-                        <VarDecl>
-                            <DeclName>
-                                <Word>x</Word>
-                            </DeclName>
-                            <RefExpr Mixfix="true">
-                                <RefName>
-                                    <Word>ℙ _ </Word>
-                                    <NumStroke Number="1"/>
-                                </RefName>
-                                <SetExpr>
-                                    <NumExpr Value="1"/>
-                                </SetExpr>
-                            </RefExpr>
-                        </VarDecl>
+                        <ZDeclList>
+                            <VarDecl>
+                                <Anns>
+                                    <LocAnn Col="24" Line="29" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <DeclName>
+                                    <Anns>
+                                        <LocAnn Col="23" Line="29" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="25" Line="29" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="25" Line="29" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <Word>ℙ _ </Word>
+                                        <NumStroke Number="1"/>
+                                    </RefName>
+                                    <SetExpr>
+                                        <Anns>
+                                            <LocAnn Col="34" Line="29" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <NumExpr Value="1">
+                                            <Anns>
+                                                <LocAnn Col="36" Line="29" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                        </NumExpr>
+                                    </SetExpr>
+                                </RefExpr>
+                            </VarDecl>
+                        </ZDeclList>
                     </SchText>
                     <SetCompExpr>
                         <SchText>
-                            <VarDecl>
-                                <DeclName>
-                                    <Word>x</Word>
-                                </DeclName>
-                                <DeclName>
-                                    <Word>x</Word>
-                                    <NextStroke/>
-                                </DeclName>
-                                <RefExpr Mixfix="false">
-                                    <RefName>
+                            <ZDeclList>
+                                <VarDecl>
+                                    <Anns>
+                                        <LocAnn Col="48" Line="29" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <DeclName>
+                                        <Anns>
+                                            <LocAnn Col="44" Line="29" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <Word>x</Word>
-                                    </RefName>
-                                </RefExpr>
-                            </VarDecl>
+                                    </DeclName>
+                                    <DeclName>
+                                        <Anns>
+                                            <LocAnn Col="46" Line="29" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <NextStroke/>
+                                    </DeclName>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="49" Line="29" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="49" Line="29" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </VarDecl>
+                            </ZDeclList>
                         </SchText>
                         <ApplExpr Mixfix="true">
                             <RefExpr Mixfix="false">
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Col="55" Line="29" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <Word> _ + _ </Word>
                                 </RefName>
                             </RefExpr>
                             <TupleExpr>
                                 <ApplExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="54" Line="29" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="53" Line="29" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <RefName>
+                                            <Anns>
+                                                <LocAnn Col="53" Line="29" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
                                             <Word> _ * _ </Word>
                                         </RefName>
                                     </RefExpr>
                                     <TupleExpr>
+                                        <Anns>
+                                            <LocAnn Col="53" Line="29" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="53" Line="29" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
                                             <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="53" Line="29" Loc="tests/z/animate_scope.tex"/>
+                                                </Anns>
                                                 <Word>x</Word>
                                             </RefName>
                                         </RefExpr>
-                                        <NumExpr Value="2"/>
+                                        <NumExpr Value="2">
+                                            <Anns>
+                                                <LocAnn Col="55" Line="29" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                        </NumExpr>
                                     </TupleExpr>
                                 </ApplExpr>
                                 <ApplExpr Mixfix="true">
                                     <RefExpr Mixfix="false">
                                         <RefName>
+                                            <Anns>
+                                                <LocAnn Col="57" Line="29" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
                                             <Word> _ * _ </Word>
                                         </RefName>
                                     </RefExpr>
                                     <TupleExpr>
                                         <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="57" Line="29" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
                                             <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="57" Line="29" Loc="tests/z/animate_scope.tex"/>
+                                                </Anns>
                                                 <Word>x</Word>
                                                 <NextStroke/>
                                             </RefName>
                                         </RefExpr>
-                                        <NumExpr Value="3"/>
+                                        <NumExpr Value="3">
+                                            <Anns>
+                                                <LocAnn Col="60" Line="29" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                        </NumExpr>
                                     </TupleExpr>
                                 </ApplExpr>
                             </TupleExpr>
@@ -371,14 +780,27 @@ the constant undefnum should have an undefined left-hand-side.
                 </SetCompExpr>
                 <SetExpr>
                     <SetExpr>
+                        <Anns>
+                            <LocAnn Col="69" Line="29" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
                         <SetExpr>
-                            <NumExpr Value="5"/>
+                            <Anns>
+                                <LocAnn Col="72" Line="29" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
+                            <NumExpr Value="5">
+                                <Anns>
+                                    <LocAnn Col="74" Line="29" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                            </NumExpr>
                         </SetExpr>
                     </SetExpr>
                 </SetExpr>
             </MemPred>
         </ConjPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Col="90" Line="29" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <Content>
 
 
@@ -387,63 +809,136 @@ NOTE: these are now illegal in standard Z.
 </Content>
         </NarrPara>
         <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <MemPred Mixfix="true">
                 <Anns>
+                    <LocAnn Col="35" Line="34" Loc="tests/z/animate_scope.tex"/>
                     <ParenAnn/>
                 </Anns>
                 <LetExpr>
+                    <Anns>
+                        <LocAnn Col="22" Line="34" Loc="tests/z/animate_scope.tex"/>
+                    </Anns>
                     <SchText>
-                        <ConstDecl>
-                            <DeclName>
-                                <Word>x</Word>
-                            </DeclName>
-                            <NumExpr Value="1"/>
-                        </ConstDecl>
+                        <ZDeclList>
+                            <ConstDecl>
+                                <Anns>
+                                    <LocAnn Col="28" Line="34" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <DeclName>
+                                    <Anns>
+                                        <LocAnn Col="27" Line="34" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                </DeclName>
+                                <NumExpr Value="1">
+                                    <Anns>
+                                        <LocAnn Col="30" Line="34" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                </NumExpr>
+                            </ConstDecl>
+                        </ZDeclList>
                     </SchText>
                     <RefExpr Mixfix="false">
+                        <Anns>
+                            <LocAnn Col="34" Line="34" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
                         <RefName>
+                            <Anns>
+                                <LocAnn Col="34" Line="34" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
                             <Word>x</Word>
                         </RefName>
                     </RefExpr>
                 </LetExpr>
                 <SetExpr>
-                    <NumExpr Value="1"/>
+                    <NumExpr Value="1">
+                        <Anns>
+                            <LocAnn Col="36" Line="34" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
+                    </NumExpr>
                 </SetExpr>
             </MemPred>
         </ConjPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Col="48" Line="34" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <Content>
 </Content>
         </NarrPara>
         <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <MemPred Mixfix="true">
                 <Anns>
+                    <LocAnn Col="41" Line="35" Loc="tests/z/animate_scope.tex"/>
                     <ParenAnn/>
                 </Anns>
                 <LetExpr>
+                    <Anns>
+                        <LocAnn Col="22" Line="35" Loc="tests/z/animate_scope.tex"/>
+                    </Anns>
                     <SchText>
-                        <ConstDecl>
-                            <DeclName>
-                                <Word>x</Word>
-                            </DeclName>
-                            <NumExpr Value="1"/>
-                        </ConstDecl>
-                        <ConstDecl>
-                            <DeclName>
-                                <Word>y</Word>
-                            </DeclName>
-                            <NumExpr Value="1"/>
-                        </ConstDecl>
+                        <ZDeclList>
+                            <ConstDecl>
+                                <Anns>
+                                    <LocAnn Col="28" Line="35" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <DeclName>
+                                    <Anns>
+                                        <LocAnn Col="27" Line="35" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                </DeclName>
+                                <NumExpr Value="1">
+                                    <Anns>
+                                        <LocAnn Col="30" Line="35" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                </NumExpr>
+                            </ConstDecl>
+                            <ConstDecl>
+                                <Anns>
+                                    <LocAnn Col="34" Line="35" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <DeclName>
+                                    <Anns>
+                                        <LocAnn Col="33" Line="35" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <Word>y</Word>
+                                </DeclName>
+                                <NumExpr Value="1">
+                                    <Anns>
+                                        <LocAnn Col="36" Line="35" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                </NumExpr>
+                            </ConstDecl>
+                        </ZDeclList>
                     </SchText>
                     <RefExpr Mixfix="false">
+                        <Anns>
+                            <LocAnn Col="40" Line="35" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
                         <RefName>
+                            <Anns>
+                                <LocAnn Col="40" Line="35" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
                             <Word>x</Word>
                         </RefName>
                     </RefExpr>
                 </LetExpr>
                 <SetExpr>
                     <RefExpr Mixfix="false">
+                        <Anns>
+                            <LocAnn Col="42" Line="35" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
                         <RefName>
+                            <Anns>
+                                <LocAnn Col="42" Line="35" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
                             <Word>y</Word>
                         </RefName>
                     </RefExpr>
@@ -451,6 +946,9 @@ NOTE: these are now illegal in standard Z.
             </MemPred>
         </ConjPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Col="54" Line="35" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <Content>
 
  13 April 2002: This one gives sub precond error: vars {x} doesn't include y
@@ -459,73 +957,161 @@ NOTE: these are now illegal in standard Z.
 </Content>
         </NarrPara>
         <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <ExistsPred>
                 <Anns>
+                    <LocAnn Col="5" Line="41" Loc="tests/z/animate_scope.tex"/>
                     <ParenAnn/>
                 </Anns>
                 <SchText>
-                    <ConstDecl>
-                        <DeclName>
-                            <Word>x</Word>
-                        </DeclName>
-                        <NumExpr Value="1"/>
-                    </ConstDecl>
+                    <ZDeclList>
+                        <ConstDecl>
+                            <Anns>
+                                <LocAnn Col="14" Line="41" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
+                            <DeclName>
+                                <Anns>
+                                    <LocAnn Col="13" Line="41" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <Word>x</Word>
+                            </DeclName>
+                            <NumExpr Value="1">
+                                <Anns>
+                                    <LocAnn Col="16" Line="41" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                            </NumExpr>
+                        </ConstDecl>
+                    </ZDeclList>
                 </SchText>
                 <ExistsPred>
                     <Anns>
+                        <LocAnn Col="21" Line="41" Loc="tests/z/animate_scope.tex"/>
                         <ParenAnn/>
                     </Anns>
                     <SchText>
-                        <ConstDecl>
-                            <DeclName>
-                                <Word>x</Word>
-                            </DeclName>
-                            <ApplExpr Mixfix="true">
-                                <RefExpr Mixfix="false">
-                                    <RefName>
-                                        <Word> _ + _ </Word>
-                                    </RefName>
-                                </RefExpr>
-                                <TupleExpr>
+                        <ZDeclList>
+                            <ConstDecl>
+                                <Anns>
+                                    <LocAnn Col="30" Line="41" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <DeclName>
+                                    <Anns>
+                                        <LocAnn Col="29" Line="41" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                </DeclName>
+                                <ApplExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="33" Line="41" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="32" Line="41" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <RefName>
-                                            <Word>x</Word>
+                                            <Anns>
+                                                <LocAnn Col="32" Line="41" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                            <Word> _ + _ </Word>
                                         </RefName>
                                     </RefExpr>
-                                    <NumExpr Value="1"/>
-                                </TupleExpr>
-                            </ApplExpr>
-                        </ConstDecl>
-                        <ConstDecl>
-                            <DeclName>
-                                <Word>y</Word>
-                            </DeclName>
-                            <RefExpr Mixfix="false">
-                                <RefName>
-                                    <Word>x</Word>
-                                </RefName>
-                            </RefExpr>
-                        </ConstDecl>
+                                    <TupleExpr>
+                                        <Anns>
+                                            <LocAnn Col="32" Line="41" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="32" Line="41" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="32" Line="41" Loc="tests/z/animate_scope.tex"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <NumExpr Value="1">
+                                            <Anns>
+                                                <LocAnn Col="34" Line="41" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                        </NumExpr>
+                                    </TupleExpr>
+                                </ApplExpr>
+                            </ConstDecl>
+                            <ConstDecl>
+                                <Anns>
+                                    <LocAnn Col="38" Line="41" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <DeclName>
+                                    <Anns>
+                                        <LocAnn Col="37" Line="41" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <Word>y</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="40" Line="41" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="40" Line="41" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </ConstDecl>
+                        </ZDeclList>
                     </SchText>
                     <AndPred Op="And">
+                        <Anns>
+                            <LocAnn Col="48" Line="41" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
                         <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="45" Line="41" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="44" Line="41" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Col="44" Line="41" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <Word>x</Word>
                                 </RefName>
                             </RefExpr>
                             <SetExpr>
-                                <NumExpr Value="2"/>
+                                <NumExpr Value="2">
+                                    <Anns>
+                                        <LocAnn Col="46" Line="41" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                </NumExpr>
                             </SetExpr>
                         </MemPred>
                         <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="55" Line="41" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="54" Line="41" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Col="54" Line="41" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <Word>y</Word>
                                 </RefName>
                             </RefExpr>
                             <SetExpr>
-                                <NumExpr Value="1"/>
+                                <NumExpr Value="1">
+                                    <Anns>
+                                        <LocAnn Col="56" Line="41" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                </NumExpr>
                             </SetExpr>
                         </MemPred>
                     </AndPred>
@@ -533,73 +1119,162 @@ NOTE: these are now illegal in standard Z.
             </ExistsPred>
         </ConjPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Col="10" Line="42" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <Content>
 </Content>
         </NarrPara>
         <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <ExistsPred>
                 <Anns>
+                    <LocAnn Col="5" Line="44" Loc="tests/z/animate_scope.tex"/>
                     <ParenAnn/>
                 </Anns>
                 <SchText>
-                    <ConstDecl>
-                        <DeclName>
-                            <Word>x</Word>
-                        </DeclName>
-                        <NumExpr Value="1"/>
-                    </ConstDecl>
+                    <ZDeclList>
+                        <ConstDecl>
+                            <Anns>
+                                <LocAnn Col="14" Line="44" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
+                            <DeclName>
+                                <Anns>
+                                    <LocAnn Col="13" Line="44" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <Word>x</Word>
+                            </DeclName>
+                            <NumExpr Value="1">
+                                <Anns>
+                                    <LocAnn Col="16" Line="44" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                            </NumExpr>
+                        </ConstDecl>
+                    </ZDeclList>
                 </SchText>
                 <ExistsPred>
                     <Anns>
+                        <LocAnn Col="21" Line="44" Loc="tests/z/animate_scope.tex"/>
                         <ParenAnn/>
                     </Anns>
                     <SchText>
-                        <ConstDecl>
-                            <DeclName>
-                                <Word>x</Word>
-                            </DeclName>
-                            <NumExpr Value="2"/>
-                        </ConstDecl>
-                        <ConstDecl>
-                            <DeclName>
-                                <Word>y</Word>
-                            </DeclName>
-                            <ApplExpr Mixfix="true">
-                                <RefExpr Mixfix="false">
-                                    <RefName>
-                                        <Word> _ + _ </Word>
-                                    </RefName>
-                                </RefExpr>
-                                <TupleExpr>
+                        <ZDeclList>
+                            <ConstDecl>
+                                <Anns>
+                                    <LocAnn Col="30" Line="44" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <DeclName>
+                                    <Anns>
+                                        <LocAnn Col="29" Line="44" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                </DeclName>
+                                <NumExpr Value="2">
+                                    <Anns>
+                                        <LocAnn Col="32" Line="44" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                </NumExpr>
+                            </ConstDecl>
+                            <ConstDecl>
+                                <Anns>
+                                    <LocAnn Col="36" Line="44" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <DeclName>
+                                    <Anns>
+                                        <LocAnn Col="35" Line="44" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <Word>y</Word>
+                                </DeclName>
+                                <ApplExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="39" Line="44" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="38" Line="44" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <RefName>
-                                            <Word>x</Word>
+                                            <Anns>
+                                                <LocAnn Col="38" Line="44" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                            <Word> _ + _ </Word>
                                         </RefName>
                                     </RefExpr>
-                                    <NumExpr Value="3"/>
-                                </TupleExpr>
-                            </ApplExpr>
-                        </ConstDecl>
+                                    <TupleExpr>
+                                        <Anns>
+                                            <LocAnn Col="38" Line="44" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="38" Line="44" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="38" Line="44" Loc="tests/z/animate_scope.tex"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <NumExpr Value="3">
+                                            <Anns>
+                                                <LocAnn Col="40" Line="44" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                        </NumExpr>
+                                    </TupleExpr>
+                                </ApplExpr>
+                            </ConstDecl>
+                        </ZDeclList>
                     </SchText>
                     <AndPred Op="And">
+                        <Anns>
+                            <LocAnn Col="48" Line="44" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
                         <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="45" Line="44" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="44" Line="44" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Col="44" Line="44" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <Word>x</Word>
                                 </RefName>
                             </RefExpr>
                             <SetExpr>
-                                <NumExpr Value="2"/>
+                                <NumExpr Value="2">
+                                    <Anns>
+                                        <LocAnn Col="46" Line="44" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                </NumExpr>
                             </SetExpr>
                         </MemPred>
                         <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="55" Line="44" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="54" Line="44" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Col="54" Line="44" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <Word>y</Word>
                                 </RefName>
                             </RefExpr>
                             <SetExpr>
-                                <NumExpr Value="4"/>
+                                <NumExpr Value="4">
+                                    <Anns>
+                                        <LocAnn Col="56" Line="44" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                </NumExpr>
                             </SetExpr>
                         </MemPred>
                     </AndPred>
@@ -607,6 +1282,9 @@ NOTE: these are now illegal in standard Z.
             </ExistsPred>
         </ConjPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Col="10" Line="45" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <Content>
 
 \section{Testing expressions that contain \LET...}
@@ -614,68 +1292,153 @@ NOTE: these are now illegal in standard Z.
 </Content>
         </NarrPara>
         <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Col="37" Line="49" Loc="tests/z/animate_scope.tex"/>
+                </Anns>
                 <LetExpr>
                     <Anns>
+                        <LocAnn Col="22" Line="49" Loc="tests/z/animate_scope.tex"/>
                         <ParenAnn/>
                     </Anns>
                     <SchText>
-                        <ConstDecl>
-                            <DeclName>
-                                <Word>x</Word>
-                            </DeclName>
-                            <NumExpr Value="1"/>
-                        </ConstDecl>
+                        <ZDeclList>
+                            <ConstDecl>
+                                <Anns>
+                                    <LocAnn Col="28" Line="49" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <DeclName>
+                                    <Anns>
+                                        <LocAnn Col="27" Line="49" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                </DeclName>
+                                <NumExpr Value="1">
+                                    <Anns>
+                                        <LocAnn Col="30" Line="49" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                </NumExpr>
+                            </ConstDecl>
+                        </ZDeclList>
                     </SchText>
                     <RefExpr Mixfix="false">
+                        <Anns>
+                            <LocAnn Col="34" Line="49" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
                         <RefName>
+                            <Anns>
+                                <LocAnn Col="34" Line="49" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
                             <Word>x</Word>
                         </RefName>
                     </RefExpr>
                 </LetExpr>
                 <SetExpr>
-                    <NumExpr Value="1"/>
+                    <NumExpr Value="1">
+                        <Anns>
+                            <LocAnn Col="39" Line="49" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
+                    </NumExpr>
                 </SetExpr>
             </MemPred>
         </ConjPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Col="50" Line="49" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <Content>
 </Content>
         </NarrPara>
         <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Col="45" Line="50" Loc="tests/z/animate_scope.tex"/>
+                </Anns>
                 <LetExpr>
                     <Anns>
+                        <LocAnn Col="22" Line="50" Loc="tests/z/animate_scope.tex"/>
                         <ParenAnn/>
                     </Anns>
                     <SchText>
-                        <ConstDecl>
-                            <DeclName>
-                                <Word>x</Word>
-                            </DeclName>
-                            <NumExpr Value="1"/>
-                        </ConstDecl>
-                        <ConstDecl>
-                            <DeclName>
-                                <Word>y</Word>
-                            </DeclName>
-                            <NumExpr Value="1"/>
-                        </ConstDecl>
+                        <ZDeclList>
+                            <ConstDecl>
+                                <Anns>
+                                    <LocAnn Col="28" Line="50" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <DeclName>
+                                    <Anns>
+                                        <LocAnn Col="27" Line="50" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                </DeclName>
+                                <NumExpr Value="1">
+                                    <Anns>
+                                        <LocAnn Col="30" Line="50" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                </NumExpr>
+                            </ConstDecl>
+                            <ConstDecl>
+                                <Anns>
+                                    <LocAnn Col="34" Line="50" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <DeclName>
+                                    <Anns>
+                                        <LocAnn Col="33" Line="50" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <Word>y</Word>
+                                </DeclName>
+                                <NumExpr Value="1">
+                                    <Anns>
+                                        <LocAnn Col="36" Line="50" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                </NumExpr>
+                            </ConstDecl>
+                        </ZDeclList>
                     </SchText>
                     <ApplExpr Mixfix="true">
+                        <Anns>
+                            <LocAnn Col="41" Line="50" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
                         <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="40" Line="50" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
                             <RefName>
+                                <Anns>
+                                    <LocAnn Col="40" Line="50" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <Word> _ + _ </Word>
                             </RefName>
                         </RefExpr>
                         <TupleExpr>
+                            <Anns>
+                                <LocAnn Col="40" Line="50" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="40" Line="50" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Col="40" Line="50" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <Word>x</Word>
                                 </RefName>
                             </RefExpr>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="42" Line="50" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Col="42" Line="50" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <Word>y</Word>
                                 </RefName>
                             </RefExpr>
@@ -683,89 +1446,198 @@ NOTE: these are now illegal in standard Z.
                     </ApplExpr>
                 </LetExpr>
                 <SetExpr>
-                    <NumExpr Value="2"/>
+                    <NumExpr Value="2">
+                        <Anns>
+                            <LocAnn Col="47" Line="50" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
+                    </NumExpr>
                 </SetExpr>
             </MemPred>
         </ConjPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Col="58" Line="50" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <Content>
 
 </Content>
         </NarrPara>
         <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Col="63" Line="52" Loc="tests/z/animate_scope.tex"/>
+                </Anns>
                 <LetExpr>
                     <Anns>
+                        <LocAnn Col="22" Line="52" Loc="tests/z/animate_scope.tex"/>
                         <ParenAnn/>
                     </Anns>
                     <SchText>
-                        <ConstDecl>
-                            <DeclName>
-                                <Word>x</Word>
-                            </DeclName>
-                            <NumExpr Value="1"/>
-                        </ConstDecl>
+                        <ZDeclList>
+                            <ConstDecl>
+                                <Anns>
+                                    <LocAnn Col="28" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <DeclName>
+                                    <Anns>
+                                        <LocAnn Col="27" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                </DeclName>
+                                <NumExpr Value="1">
+                                    <Anns>
+                                        <LocAnn Col="30" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                </NumExpr>
+                            </ConstDecl>
+                        </ZDeclList>
                     </SchText>
                     <LetExpr>
                         <Anns>
+                            <LocAnn Col="35" Line="52" Loc="tests/z/animate_scope.tex"/>
                             <ParenAnn/>
                         </Anns>
                         <SchText>
-                            <ConstDecl>
-                                <DeclName>
-                                    <Word>x</Word>
-                                </DeclName>
-                                <ApplExpr Mixfix="true">
-                                    <RefExpr Mixfix="false">
-                                        <RefName>
-                                            <Word> _ + _ </Word>
-                                        </RefName>
-                                    </RefExpr>
-                                    <TupleExpr>
+                            <ZDeclList>
+                                <ConstDecl>
+                                    <Anns>
+                                        <LocAnn Col="41" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <DeclName>
+                                        <Anns>
+                                            <LocAnn Col="40" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                    </DeclName>
+                                    <ApplExpr Mixfix="true">
+                                        <Anns>
+                                            <LocAnn Col="44" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="43" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
                                             <RefName>
-                                                <Word>x</Word>
+                                                <Anns>
+                                                    <LocAnn Col="43" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                                </Anns>
+                                                <Word> _ + _ </Word>
                                             </RefName>
                                         </RefExpr>
-                                        <NumExpr Value="1"/>
-                                    </TupleExpr>
-                                </ApplExpr>
-                            </ConstDecl>
-                            <ConstDecl>
-                                <DeclName>
-                                    <Word>y</Word>
-                                </DeclName>
-                                <RefExpr Mixfix="false">
-                                    <RefName>
-                                        <Word>x</Word>
-                                    </RefName>
-                                </RefExpr>
-                            </ConstDecl>
+                                        <TupleExpr>
+                                            <Anns>
+                                                <LocAnn Col="43" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="43" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="43" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                                    </Anns>
+                                                    <Word>x</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <NumExpr Value="1">
+                                                <Anns>
+                                                    <LocAnn Col="45" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                                </Anns>
+                                            </NumExpr>
+                                        </TupleExpr>
+                                    </ApplExpr>
+                                </ConstDecl>
+                                <ConstDecl>
+                                    <Anns>
+                                        <LocAnn Col="49" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <DeclName>
+                                        <Anns>
+                                            <LocAnn Col="48" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <Word>y</Word>
+                                    </DeclName>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="51" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="51" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </ConstDecl>
+                            </ZDeclList>
                         </SchText>
                         <ApplExpr Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="58" Line="52" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="57" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Col="57" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <Word> _ + _ </Word>
                                 </RefName>
                             </RefExpr>
                             <TupleExpr>
+                                <Anns>
+                                    <LocAnn Col="57" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <ApplExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="56" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="55" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <RefName>
+                                            <Anns>
+                                                <LocAnn Col="55" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
                                             <Word> _ * _ </Word>
                                         </RefName>
                                     </RefExpr>
                                     <TupleExpr>
-                                        <NumExpr Value="7"/>
+                                        <Anns>
+                                            <LocAnn Col="55" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <NumExpr Value="7">
+                                            <Anns>
+                                                <LocAnn Col="55" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                        </NumExpr>
                                         <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="57" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
                                             <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="57" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                                </Anns>
                                                 <Word>x</Word>
                                             </RefName>
                                         </RefExpr>
                                     </TupleExpr>
                                 </ApplExpr>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="59" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Col="59" Line="52" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <Word>y</Word>
                                     </RefName>
                                 </RefExpr>
@@ -774,84 +1646,191 @@ NOTE: these are now illegal in standard Z.
                     </LetExpr>
                 </LetExpr>
                 <SetExpr>
-                    <NumExpr Value="15"/>
+                    <NumExpr Value="15">
+                        <Anns>
+                            <LocAnn Col="65" Line="52" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
+                    </NumExpr>
                 </SetExpr>
             </MemPred>
         </ConjPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Col="77" Line="52" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <Content>
 </Content>
         </NarrPara>
         <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Col="63" Line="53" Loc="tests/z/animate_scope.tex"/>
+                </Anns>
                 <LetExpr>
                     <Anns>
+                        <LocAnn Col="22" Line="53" Loc="tests/z/animate_scope.tex"/>
                         <ParenAnn/>
                     </Anns>
                     <SchText>
-                        <ConstDecl>
-                            <DeclName>
-                                <Word>x</Word>
-                            </DeclName>
-                            <NumExpr Value="1"/>
-                        </ConstDecl>
+                        <ZDeclList>
+                            <ConstDecl>
+                                <Anns>
+                                    <LocAnn Col="28" Line="53" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <DeclName>
+                                    <Anns>
+                                        <LocAnn Col="27" Line="53" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                </DeclName>
+                                <NumExpr Value="1">
+                                    <Anns>
+                                        <LocAnn Col="30" Line="53" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                </NumExpr>
+                            </ConstDecl>
+                        </ZDeclList>
                     </SchText>
                     <LetExpr>
                         <Anns>
+                            <LocAnn Col="35" Line="53" Loc="tests/z/animate_scope.tex"/>
                             <ParenAnn/>
                         </Anns>
                         <SchText>
-                            <ConstDecl>
-                                <DeclName>
-                                    <Word>x</Word>
-                                </DeclName>
-                                <NumExpr Value="2"/>
-                            </ConstDecl>
-                            <ConstDecl>
-                                <DeclName>
-                                    <Word>y</Word>
-                                </DeclName>
-                                <ApplExpr Mixfix="true">
-                                    <RefExpr Mixfix="false">
-                                        <RefName>
-                                            <Word> _ + _ </Word>
-                                        </RefName>
-                                    </RefExpr>
-                                    <TupleExpr>
+                            <ZDeclList>
+                                <ConstDecl>
+                                    <Anns>
+                                        <LocAnn Col="41" Line="53" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <DeclName>
+                                        <Anns>
+                                            <LocAnn Col="40" Line="53" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                    </DeclName>
+                                    <NumExpr Value="2">
+                                        <Anns>
+                                            <LocAnn Col="43" Line="53" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                    </NumExpr>
+                                </ConstDecl>
+                                <ConstDecl>
+                                    <Anns>
+                                        <LocAnn Col="47" Line="53" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <DeclName>
+                                        <Anns>
+                                            <LocAnn Col="46" Line="53" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <Word>y</Word>
+                                    </DeclName>
+                                    <ApplExpr Mixfix="true">
+                                        <Anns>
+                                            <LocAnn Col="50" Line="53" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="49" Line="53" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
                                             <RefName>
-                                                <Word>x</Word>
+                                                <Anns>
+                                                    <LocAnn Col="49" Line="53" Loc="tests/z/animate_scope.tex"/>
+                                                </Anns>
+                                                <Word> _ + _ </Word>
                                             </RefName>
                                         </RefExpr>
-                                        <NumExpr Value="3"/>
-                                    </TupleExpr>
-                                </ApplExpr>
-                            </ConstDecl>
+                                        <TupleExpr>
+                                            <Anns>
+                                                <LocAnn Col="49" Line="53" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="49" Line="53" Loc="tests/z/animate_scope.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="49" Line="53" Loc="tests/z/animate_scope.tex"/>
+                                                    </Anns>
+                                                    <Word>x</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <NumExpr Value="3">
+                                                <Anns>
+                                                    <LocAnn Col="51" Line="53" Loc="tests/z/animate_scope.tex"/>
+                                                </Anns>
+                                            </NumExpr>
+                                        </TupleExpr>
+                                    </ApplExpr>
+                                </ConstDecl>
+                            </ZDeclList>
                         </SchText>
                         <ApplExpr Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="58" Line="53" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="57" Line="53" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Col="57" Line="53" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <Word> _ + _ </Word>
                                 </RefName>
                             </RefExpr>
                             <TupleExpr>
+                                <Anns>
+                                    <LocAnn Col="57" Line="53" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <ApplExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="56" Line="53" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="55" Line="53" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <RefName>
+                                            <Anns>
+                                                <LocAnn Col="55" Line="53" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
                                             <Word> _ * _ </Word>
                                         </RefName>
                                     </RefExpr>
                                     <TupleExpr>
-                                        <NumExpr Value="7"/>
+                                        <Anns>
+                                            <LocAnn Col="55" Line="53" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <NumExpr Value="7">
+                                            <Anns>
+                                                <LocAnn Col="55" Line="53" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                        </NumExpr>
                                         <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="57" Line="53" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
                                             <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="57" Line="53" Loc="tests/z/animate_scope.tex"/>
+                                                </Anns>
                                                 <Word>x</Word>
                                             </RefName>
                                         </RefExpr>
                                     </TupleExpr>
                                 </ApplExpr>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="59" Line="53" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Col="59" Line="53" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <Word>y</Word>
                                     </RefName>
                                 </RefExpr>
@@ -860,11 +1839,18 @@ NOTE: these are now illegal in standard Z.
                     </LetExpr>
                 </LetExpr>
                 <SetExpr>
-                    <NumExpr Value="18"/>
+                    <NumExpr Value="18">
+                        <Anns>
+                            <LocAnn Col="65" Line="53" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
+                    </NumExpr>
                 </SetExpr>
             </MemPred>
         </ConjPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Col="77" Line="53" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <Content>
 
 
@@ -872,72 +1858,169 @@ NOTE: these are now illegal in standard Z.
 </Content>
         </NarrPara>
         <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <Exists1Pred>
                 <Anns>
+                    <LocAnn Col="28" Line="57" Loc="tests/z/animate_scope.tex"/>
                     <ParenAnn/>
                 </Anns>
                 <SchText>
-                    <VarDecl>
-                        <DeclName>
-                            <Word>n</Word>
-                        </DeclName>
-                        <ApplExpr Mixfix="true">
-                            <RefExpr Mixfix="false">
-                                <RefName>
-                                    <Word> _ .. _ </Word>
-                                </RefName>
-                            </RefExpr>
-                            <TupleExpr>
-                                <NumExpr Value="80"/>
-                                <NumExpr Value="90"/>
-                            </TupleExpr>
-                        </ApplExpr>
-                    </VarDecl>
-                </SchText>
-                <ExistsPred>
-                    <Anns>
-                        <ParenAnn/>
-                    </Anns>
-                    <SchText>
+                    <ZDeclList>
                         <VarDecl>
+                            <Anns>
+                                <LocAnn Col="39" Line="57" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
                             <DeclName>
-                                <Word>f</Word>
+                                <Anns>
+                                    <LocAnn Col="38" Line="57" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <Word>n</Word>
                             </DeclName>
                             <ApplExpr Mixfix="true">
+                                <Anns>
+                                    <LocAnn Col="43" Line="57" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="40" Line="57" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Col="40" Line="57" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <Word> _ .. _ </Word>
                                     </RefName>
                                 </RefExpr>
                                 <TupleExpr>
-                                    <ApplExpr Mixfix="true">
-                                        <RefExpr Mixfix="false">
-                                            <RefName>
-                                                <Word>- _ </Word>
-                                            </RefName>
-                                        </RefExpr>
-                                        <NumExpr Value="10"/>
-                                    </ApplExpr>
-                                    <NumExpr Value="10"/>
+                                    <Anns>
+                                        <LocAnn Col="40" Line="57" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <NumExpr Value="80">
+                                        <Anns>
+                                            <LocAnn Col="40" Line="57" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                    </NumExpr>
+                                    <NumExpr Value="90">
+                                        <Anns>
+                                            <LocAnn Col="49" Line="57" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                    </NumExpr>
                                 </TupleExpr>
                             </ApplExpr>
                         </VarDecl>
+                    </ZDeclList>
+                </SchText>
+                <ExistsPred>
+                    <Anns>
+                        <LocAnn Col="55" Line="57" Loc="tests/z/animate_scope.tex"/>
+                        <ParenAnn/>
+                    </Anns>
+                    <SchText>
+                        <ZDeclList>
+                            <VarDecl>
+                                <Anns>
+                                    <LocAnn Col="64" Line="57" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <DeclName>
+                                    <Anns>
+                                        <LocAnn Col="63" Line="57" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <Word>f</Word>
+                                </DeclName>
+                                <ApplExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="76" Line="57" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="73" Line="57" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="73" Line="57" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                            <Word> _ .. _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <TupleExpr>
+                                        <Anns>
+                                            <LocAnn Col="73" Line="57" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <ApplExpr Mixfix="true">
+                                            <Anns>
+                                                <LocAnn Col="65" Line="57" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="65" Line="57" Loc="tests/z/animate_scope.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="65" Line="57" Loc="tests/z/animate_scope.tex"/>
+                                                    </Anns>
+                                                    <Word>- _ </Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <NumExpr Value="10">
+                                                <Anns>
+                                                    <LocAnn Col="73" Line="57" Loc="tests/z/animate_scope.tex"/>
+                                                </Anns>
+                                            </NumExpr>
+                                        </ApplExpr>
+                                        <NumExpr Value="10">
+                                            <Anns>
+                                                <LocAnn Col="82" Line="57" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                        </NumExpr>
+                                    </TupleExpr>
+                                </ApplExpr>
+                            </VarDecl>
+                        </ZDeclList>
                     </SchText>
                     <MemPred Mixfix="true">
+                        <Anns>
+                            <LocAnn Col="90" Line="57" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
                         <ApplExpr Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="88" Line="57" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="87" Line="57" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Col="87" Line="57" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <Word> _ * _ </Word>
                                 </RefName>
                             </RefExpr>
                             <TupleExpr>
+                                <Anns>
+                                    <LocAnn Col="87" Line="57" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="87" Line="57" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Col="87" Line="57" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <Word>f</Word>
                                     </RefName>
                                 </RefExpr>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="89" Line="57" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Col="89" Line="57" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <Word>f</Word>
                                     </RefName>
                                 </RefExpr>
@@ -945,7 +2028,13 @@ NOTE: these are now illegal in standard Z.
                         </ApplExpr>
                         <SetExpr>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="91" Line="57" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Col="91" Line="57" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <Word>n</Word>
                                 </RefName>
                             </RefExpr>
@@ -955,77 +2044,180 @@ NOTE: these are now illegal in standard Z.
             </Exists1Pred>
         </ConjPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Col="104" Line="57" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <Content>
 </Content>
         </NarrPara>
         <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <NegPred>
+                <Anns>
+                    <LocAnn Col="21" Line="58" Loc="tests/z/animate_scope.tex"/>
+                </Anns>
                 <Exists1Pred>
                     <Anns>
+                        <LocAnn Col="28" Line="58" Loc="tests/z/animate_scope.tex"/>
                         <ParenAnn/>
                     </Anns>
                     <SchText>
-                        <VarDecl>
-                            <DeclName>
-                                <Word>n</Word>
-                            </DeclName>
-                            <ApplExpr Mixfix="true">
-                                <RefExpr Mixfix="false">
-                                    <RefName>
-                                        <Word> _ .. _ </Word>
-                                    </RefName>
-                                </RefExpr>
-                                <TupleExpr>
-                                    <NumExpr Value="80"/>
-                                    <NumExpr Value="90"/>
-                                </TupleExpr>
-                            </ApplExpr>
-                        </VarDecl>
-                    </SchText>
-                    <Exists1Pred>
-                        <Anns>
-                            <ParenAnn/>
-                        </Anns>
-                        <SchText>
+                        <ZDeclList>
                             <VarDecl>
+                                <Anns>
+                                    <LocAnn Col="39" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <DeclName>
-                                    <Word>f</Word>
+                                    <Anns>
+                                        <LocAnn Col="38" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <Word>n</Word>
                                 </DeclName>
                                 <ApplExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="43" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="40" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <RefName>
+                                            <Anns>
+                                                <LocAnn Col="40" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
                                             <Word> _ .. _ </Word>
                                         </RefName>
                                     </RefExpr>
                                     <TupleExpr>
-                                        <ApplExpr Mixfix="true">
-                                            <RefExpr Mixfix="false">
-                                                <RefName>
-                                                    <Word>- _ </Word>
-                                                </RefName>
-                                            </RefExpr>
-                                            <NumExpr Value="10"/>
-                                        </ApplExpr>
-                                        <NumExpr Value="10"/>
+                                        <Anns>
+                                            <LocAnn Col="40" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <NumExpr Value="80">
+                                            <Anns>
+                                                <LocAnn Col="40" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                        </NumExpr>
+                                        <NumExpr Value="90">
+                                            <Anns>
+                                                <LocAnn Col="49" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                        </NumExpr>
                                     </TupleExpr>
                                 </ApplExpr>
                             </VarDecl>
+                        </ZDeclList>
+                    </SchText>
+                    <Exists1Pred>
+                        <Anns>
+                            <LocAnn Col="55" Line="58" Loc="tests/z/animate_scope.tex"/>
+                            <ParenAnn/>
+                        </Anns>
+                        <SchText>
+                            <ZDeclList>
+                                <VarDecl>
+                                    <Anns>
+                                        <LocAnn Col="66" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <DeclName>
+                                        <Anns>
+                                            <LocAnn Col="65" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <Word>f</Word>
+                                    </DeclName>
+                                    <ApplExpr Mixfix="true">
+                                        <Anns>
+                                            <LocAnn Col="78" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="75" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="75" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                                </Anns>
+                                                <Word> _ .. _ </Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <TupleExpr>
+                                            <Anns>
+                                                <LocAnn Col="75" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                            <ApplExpr Mixfix="true">
+                                                <Anns>
+                                                    <LocAnn Col="67" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                                </Anns>
+                                                <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="67" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                                    </Anns>
+                                                    <RefName>
+                                                        <Anns>
+                                                            <LocAnn Col="67" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                                        </Anns>
+                                                        <Word>- _ </Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                                <NumExpr Value="10">
+                                                    <Anns>
+                                                        <LocAnn Col="75" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                                    </Anns>
+                                                </NumExpr>
+                                            </ApplExpr>
+                                            <NumExpr Value="10">
+                                                <Anns>
+                                                    <LocAnn Col="84" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                                </Anns>
+                                            </NumExpr>
+                                        </TupleExpr>
+                                    </ApplExpr>
+                                </VarDecl>
+                            </ZDeclList>
                         </SchText>
                         <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="92" Line="58" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
                             <ApplExpr Mixfix="true">
+                                <Anns>
+                                    <LocAnn Col="90" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="89" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Col="89" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <Word> _ * _ </Word>
                                     </RefName>
                                 </RefExpr>
                                 <TupleExpr>
+                                    <Anns>
+                                        <LocAnn Col="89" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="89" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <RefName>
+                                            <Anns>
+                                                <LocAnn Col="89" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
                                             <Word>f</Word>
                                         </RefName>
                                     </RefExpr>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="91" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <RefName>
+                                            <Anns>
+                                                <LocAnn Col="91" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
                                             <Word>f</Word>
                                         </RefName>
                                     </RefExpr>
@@ -1033,7 +2225,13 @@ NOTE: these are now illegal in standard Z.
                             </ApplExpr>
                             <SetExpr>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="93" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Col="93" Line="58" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <Word>n</Word>
                                     </RefName>
                                 </RefExpr>
@@ -1044,71 +2242,171 @@ NOTE: these are now illegal in standard Z.
             </NegPred>
         </ConjPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Col="106" Line="58" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <Content>
 </Content>
         </NarrPara>
         <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <NegPred>
+                <Anns>
+                    <LocAnn Col="21" Line="59" Loc="tests/z/animate_scope.tex"/>
+                </Anns>
                 <Exists1Pred>
                     <Anns>
+                        <LocAnn Col="28" Line="59" Loc="tests/z/animate_scope.tex"/>
                         <ParenAnn/>
                     </Anns>
                     <SchText>
-                        <VarDecl>
-                            <DeclName>
-                                <Word>n</Word>
-                            </DeclName>
-                            <ApplExpr Mixfix="true">
-                                <RefExpr Mixfix="false">
-                                    <RefName>
-                                        <Word> _ .. _ </Word>
-                                    </RefName>
-                                </RefExpr>
-                                <TupleExpr>
-                                    <NumExpr Value="80"/>
-                                    <NumExpr Value="90"/>
-                                </TupleExpr>
-                            </ApplExpr>
-                        </VarDecl>
-                        <VarDecl>
-                            <DeclName>
-                                <Word>f</Word>
-                            </DeclName>
-                            <ApplExpr Mixfix="true">
-                                <RefExpr Mixfix="false">
-                                    <RefName>
-                                        <Word> _ .. _ </Word>
-                                    </RefName>
-                                </RefExpr>
-                                <TupleExpr>
-                                    <ApplExpr Mixfix="true">
-                                        <RefExpr Mixfix="false">
-                                            <RefName>
-                                                <Word>- _ </Word>
-                                            </RefName>
-                                        </RefExpr>
-                                        <NumExpr Value="10"/>
-                                    </ApplExpr>
-                                    <NumExpr Value="10"/>
-                                </TupleExpr>
-                            </ApplExpr>
-                        </VarDecl>
+                        <ZDeclList>
+                            <VarDecl>
+                                <Anns>
+                                    <LocAnn Col="39" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <DeclName>
+                                    <Anns>
+                                        <LocAnn Col="38" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <Word>n</Word>
+                                </DeclName>
+                                <ApplExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="43" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="40" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="40" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                            <Word> _ .. _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <TupleExpr>
+                                        <Anns>
+                                            <LocAnn Col="40" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <NumExpr Value="80">
+                                            <Anns>
+                                                <LocAnn Col="40" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                        </NumExpr>
+                                        <NumExpr Value="90">
+                                            <Anns>
+                                                <LocAnn Col="49" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                        </NumExpr>
+                                    </TupleExpr>
+                                </ApplExpr>
+                            </VarDecl>
+                            <VarDecl>
+                                <Anns>
+                                    <LocAnn Col="54" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <DeclName>
+                                    <Anns>
+                                        <LocAnn Col="53" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <Word>f</Word>
+                                </DeclName>
+                                <ApplExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="66" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="63" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="63" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                            <Word> _ .. _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <TupleExpr>
+                                        <Anns>
+                                            <LocAnn Col="63" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <ApplExpr Mixfix="true">
+                                            <Anns>
+                                                <LocAnn Col="55" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="55" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="55" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                                    </Anns>
+                                                    <Word>- _ </Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <NumExpr Value="10">
+                                                <Anns>
+                                                    <LocAnn Col="63" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                                </Anns>
+                                            </NumExpr>
+                                        </ApplExpr>
+                                        <NumExpr Value="10">
+                                            <Anns>
+                                                <LocAnn Col="72" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                        </NumExpr>
+                                    </TupleExpr>
+                                </ApplExpr>
+                            </VarDecl>
+                        </ZDeclList>
                     </SchText>
                     <MemPred Mixfix="true">
+                        <Anns>
+                            <LocAnn Col="80" Line="59" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
                         <ApplExpr Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="78" Line="59" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="77" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Col="77" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <Word> _ * _ </Word>
                                 </RefName>
                             </RefExpr>
                             <TupleExpr>
+                                <Anns>
+                                    <LocAnn Col="77" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="77" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Col="77" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <Word>f</Word>
                                     </RefName>
                                 </RefExpr>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="79" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Col="79" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <Word>f</Word>
                                     </RefName>
                                 </RefExpr>
@@ -1116,7 +2414,13 @@ NOTE: these are now illegal in standard Z.
                         </ApplExpr>
                         <SetExpr>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="81" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Col="81" Line="59" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <Word>n</Word>
                                 </RefName>
                             </RefExpr>
@@ -1126,69 +2430,160 @@ NOTE: these are now illegal in standard Z.
             </NegPred>
         </ConjPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Col="93" Line="59" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <Content>
 </Content>
         </NarrPara>
         <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <Exists1Pred>
                 <Anns>
+                    <LocAnn Col="28" Line="60" Loc="tests/z/animate_scope.tex"/>
                     <ParenAnn/>
                 </Anns>
                 <SchText>
-                    <VarDecl>
-                        <DeclName>
-                            <Word>n</Word>
-                        </DeclName>
-                        <ApplExpr Mixfix="true">
-                            <RefExpr Mixfix="false">
-                                <RefName>
-                                    <Word> _ .. _ </Word>
-                                </RefName>
-                            </RefExpr>
-                            <TupleExpr>
-                                <NumExpr Value="80"/>
-                                <NumExpr Value="90"/>
-                            </TupleExpr>
-                        </ApplExpr>
-                    </VarDecl>
+                    <ZDeclList>
+                        <VarDecl>
+                            <Anns>
+                                <LocAnn Col="39" Line="60" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
+                            <DeclName>
+                                <Anns>
+                                    <LocAnn Col="38" Line="60" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <Word>n</Word>
+                            </DeclName>
+                            <ApplExpr Mixfix="true">
+                                <Anns>
+                                    <LocAnn Col="43" Line="60" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="40" Line="60" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="40" Line="60" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <Word> _ .. _ </Word>
+                                    </RefName>
+                                </RefExpr>
+                                <TupleExpr>
+                                    <Anns>
+                                        <LocAnn Col="40" Line="60" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <NumExpr Value="80">
+                                        <Anns>
+                                            <LocAnn Col="40" Line="60" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                    </NumExpr>
+                                    <NumExpr Value="90">
+                                        <Anns>
+                                            <LocAnn Col="49" Line="60" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                    </NumExpr>
+                                </TupleExpr>
+                            </ApplExpr>
+                        </VarDecl>
+                    </ZDeclList>
                 </SchText>
                 <ForallPred>
                     <Anns>
+                        <LocAnn Col="55" Line="60" Loc="tests/z/animate_scope.tex"/>
                         <ParenAnn/>
                     </Anns>
                     <SchText>
-                        <VarDecl>
-                            <DeclName>
-                                <Word>f</Word>
-                            </DeclName>
-                            <SetExpr>
-                                <ApplExpr Mixfix="true">
-                                    <RefExpr Mixfix="false">
-                                        <RefName>
-                                            <Word>- _ </Word>
-                                        </RefName>
-                                    </RefExpr>
-                                    <NumExpr Value="9"/>
-                                </ApplExpr>
-                                <NumExpr Value="9"/>
-                            </SetExpr>
-                        </VarDecl>
+                        <ZDeclList>
+                            <VarDecl>
+                                <Anns>
+                                    <LocAnn Col="64" Line="60" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <DeclName>
+                                    <Anns>
+                                        <LocAnn Col="63" Line="60" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <Word>f</Word>
+                                </DeclName>
+                                <SetExpr>
+                                    <Anns>
+                                        <LocAnn Col="65" Line="60" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <ApplExpr Mixfix="true">
+                                        <Anns>
+                                            <LocAnn Col="67" Line="60" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="67" Line="60" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="67" Line="60" Loc="tests/z/animate_scope.tex"/>
+                                                </Anns>
+                                                <Word>- _ </Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <NumExpr Value="9">
+                                            <Anns>
+                                                <LocAnn Col="75" Line="60" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                        </NumExpr>
+                                    </ApplExpr>
+                                    <NumExpr Value="9">
+                                        <Anns>
+                                            <LocAnn Col="77" Line="60" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                    </NumExpr>
+                                </SetExpr>
+                            </VarDecl>
+                        </ZDeclList>
                     </SchText>
                     <MemPred Mixfix="true">
+                        <Anns>
+                            <LocAnn Col="86" Line="60" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
                         <ApplExpr Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="84" Line="60" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="83" Line="60" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Col="83" Line="60" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <Word> _ * _ </Word>
                                 </RefName>
                             </RefExpr>
                             <TupleExpr>
+                                <Anns>
+                                    <LocAnn Col="83" Line="60" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="83" Line="60" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Col="83" Line="60" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <Word>f</Word>
                                     </RefName>
                                 </RefExpr>
                                 <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="85" Line="60" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Col="85" Line="60" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <Word>f</Word>
                                     </RefName>
                                 </RefExpr>
@@ -1196,7 +2591,13 @@ NOTE: these are now illegal in standard Z.
                         </ApplExpr>
                         <SetExpr>
                             <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="87" Line="60" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <RefName>
+                                    <Anns>
+                                        <LocAnn Col="87" Line="60" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
                                     <Word>n</Word>
                                 </RefName>
                             </RefExpr>
@@ -1206,6 +2607,9 @@ NOTE: these are now illegal in standard Z.
             </Exists1Pred>
         </ConjPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Col="100" Line="60" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <Content>
 
 
@@ -1213,155 +2617,338 @@ NOTE: these are now illegal in standard Z.
 </Content>
         </NarrPara>
         <AxPara Box="OmitBox">
+            <Anns>
+                <LocAnn Col="4" Line="65" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <SchText>
-                <ConstDecl>
-                    <DeclName>
-                        <Word>X</Word>
-                    </DeclName>
-                    <SetExpr>
-                        <NumExpr Value="42"/>
-                    </SetExpr>
-                </ConstDecl>
+                <Anns>
+                    <LocAnn Col="4" Line="65" Loc="tests/z/animate_scope.tex"/>
+                </Anns>
+                <ZDeclList>
+                    <ConstDecl>
+                        <Anns>
+                            <LocAnn Col="6" Line="65" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="4" Line="65" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
+                            <Word>X</Word>
+                        </DeclName>
+                        <SetExpr>
+                            <Anns>
+                                <LocAnn Col="9" Line="65" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
+                            <NumExpr Value="42">
+                                <Anns>
+                                    <LocAnn Col="12" Line="65" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                            </NumExpr>
+                        </SetExpr>
+                    </ConstDecl>
+                </ZDeclList>
             </SchText>
         </AxPara>
         <AxPara Box="OmitBox">
+            <Anns>
+                <LocAnn Col="4" Line="66" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <SchText>
-                <ConstDecl>
-                    <DeclName>
-                        <Word>S1</Word>
-                    </DeclName>
-                    <ExistsExpr>
-                        <SchText>
-                            <VarDecl>
-                                <DeclName>
-                                    <Word>X</Word>
-                                </DeclName>
-                                <PowerExpr>
-                                    <RefExpr Mixfix="false">
-                                        <RefName>
-                                            <Word>ℕ</Word>
-                                        </RefName>
-                                    </RefExpr>
-                                </PowerExpr>
-                            </VarDecl>
-                        </SchText>
-                        <AndExpr>
-                            <SchExpr>
-                                <SchText>
+                <Anns>
+                    <LocAnn Col="4" Line="66" Loc="tests/z/animate_scope.tex"/>
+                </Anns>
+                <ZDeclList>
+                    <ConstDecl>
+                        <Anns>
+                            <LocAnn Col="7" Line="66" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="4" Line="66" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
+                            <Word>S1</Word>
+                        </DeclName>
+                        <ExistsExpr>
+                            <Anns>
+                                <LocAnn Col="11" Line="66" Loc="tests/z/animate_scope.tex"/>
+                                <ParenAnn/>
+                            </Anns>
+                            <SchText>
+                                <ZDeclList>
                                     <VarDecl>
+                                        <Anns>
+                                            <LocAnn Col="20" Line="66" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
                                         <DeclName>
-                                            <Word>a</Word>
-                                        </DeclName>
-                                        <RefExpr Mixfix="false">
-                                            <RefName>
-                                                <Word>X</Word>
-                                            </RefName>
-                                        </RefExpr>
-                                    </VarDecl>
-                                </SchText>
-                            </SchExpr>
-                            <SchExpr>
-                                <SchText>
-                                    <VarDecl>
-                                        <DeclName>
+                                            <Anns>
+                                                <LocAnn Col="19" Line="66" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
                                             <Word>X</Word>
                                         </DeclName>
                                         <PowerExpr>
+                                            <Anns>
+                                                <LocAnn Col="21" Line="66" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
                                             <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="28" Line="66" Loc="tests/z/animate_scope.tex"/>
+                                                </Anns>
                                                 <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="28" Line="66" Loc="tests/z/animate_scope.tex"/>
+                                                    </Anns>
                                                     <Word>ℕ</Word>
                                                 </RefName>
                                             </RefExpr>
                                         </PowerExpr>
                                     </VarDecl>
-                                    <MemPred Mixfix="true">
-                                        <RefExpr Mixfix="false">
-                                            <RefName>
-                                                <Word>X</Word>
-                                            </RefName>
-                                        </RefExpr>
-                                        <SetExpr>
+                                </ZDeclList>
+                            </SchText>
+                            <AndExpr>
+                                <Anns>
+                                    <LocAnn Col="41" Line="66" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <SchExpr>
+                                    <Anns>
+                                        <LocAnn Col="35" Line="66" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <SchText>
+                                        <ZDeclList>
+                                            <VarDecl>
+                                                <Anns>
+                                                    <LocAnn Col="37" Line="66" Loc="tests/z/animate_scope.tex"/>
+                                                </Anns>
+                                                <DeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="36" Line="66" Loc="tests/z/animate_scope.tex"/>
+                                                    </Anns>
+                                                    <Word>a</Word>
+                                                </DeclName>
+                                                <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="38" Line="66" Loc="tests/z/animate_scope.tex"/>
+                                                    </Anns>
+                                                    <RefName>
+                                                        <Anns>
+                                                            <LocAnn Col="38" Line="66" Loc="tests/z/animate_scope.tex"/>
+                                                        </Anns>
+                                                        <Word>X</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </VarDecl>
+                                        </ZDeclList>
+                                    </SchText>
+                                </SchExpr>
+                                <SchExpr>
+                                    <Anns>
+                                        <LocAnn Col="47" Line="66" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <SchText>
+                                        <ZDeclList>
+                                            <VarDecl>
+                                                <Anns>
+                                                    <LocAnn Col="49" Line="66" Loc="tests/z/animate_scope.tex"/>
+                                                </Anns>
+                                                <DeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="48" Line="66" Loc="tests/z/animate_scope.tex"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
+                                                </DeclName>
+                                                <PowerExpr>
+                                                    <Anns>
+                                                        <LocAnn Col="50" Line="66" Loc="tests/z/animate_scope.tex"/>
+                                                    </Anns>
+                                                    <RefExpr Mixfix="false">
+                                                        <Anns>
+                                                            <LocAnn Col="57" Line="66" Loc="tests/z/animate_scope.tex"/>
+                                                        </Anns>
+                                                        <RefName>
+                                                            <Anns>
+                                                                <LocAnn Col="57" Line="66" Loc="tests/z/animate_scope.tex"/>
+                                                            </Anns>
+                                                            <Word>ℕ</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                </PowerExpr>
+                                            </VarDecl>
+                                        </ZDeclList>
+                                        <MemPred Mixfix="true">
+                                            <Anns>
+                                                <LocAnn Col="65" Line="66" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
                                             <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="64" Line="66" Loc="tests/z/animate_scope.tex"/>
+                                                </Anns>
                                                 <RefName>
-                                                    <Word>∅</Word>
+                                                    <Anns>
+                                                        <LocAnn Col="64" Line="66" Loc="tests/z/animate_scope.tex"/>
+                                                    </Anns>
+                                                    <Word>X</Word>
                                                 </RefName>
                                             </RefExpr>
-                                        </SetExpr>
-                                    </MemPred>
-                                </SchText>
-                            </SchExpr>
-                        </AndExpr>
-                    </ExistsExpr>
-                </ConstDecl>
+                                            <SetExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="66" Line="66" Loc="tests/z/animate_scope.tex"/>
+                                                    </Anns>
+                                                    <RefName>
+                                                        <Anns>
+                                                            <LocAnn Col="66" Line="66" Loc="tests/z/animate_scope.tex"/>
+                                                        </Anns>
+                                                        <Word>∅</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </SetExpr>
+                                        </MemPred>
+                                    </SchText>
+                                </SchExpr>
+                            </AndExpr>
+                        </ExistsExpr>
+                    </ConstDecl>
+                </ZDeclList>
             </SchText>
         </AxPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Col="10" Line="67" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <Content>
 
 TODO: is this true?
 </Content>
         </NarrPara>
         <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Col="31" Line="70" Loc="tests/z/animate_scope.tex"/>
+                </Anns>
                 <ApplExpr Mixfix="true">
+                    <Anns>
+                        <LocAnn Col="21" Line="70" Loc="tests/z/animate_scope.tex"/>
+                    </Anns>
                     <RefExpr Mixfix="false">
+                        <Anns>
+                            <LocAnn Col="21" Line="70" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
                         <RefName>
+                            <Anns>
+                                <LocAnn Col="21" Line="70" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
                             <Word># _ </Word>
                         </RefName>
                     </RefExpr>
                     <SetExpr>
+                        <Anns>
+                            <LocAnn Col="24" Line="70" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
                         <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="26" Line="70" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
                             <RefName>
+                                <Anns>
+                                    <LocAnn Col="26" Line="70" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
                                 <Word>S1</Word>
                             </RefName>
                         </RefExpr>
                     </SetExpr>
                 </ApplExpr>
                 <SetExpr>
-                    <NumExpr Value="1"/>
+                    <NumExpr Value="1">
+                        <Anns>
+                            <LocAnn Col="33" Line="70" Loc="tests/z/animate_scope.tex"/>
+                        </Anns>
+                    </NumExpr>
                 </SetExpr>
             </MemPred>
         </ConjPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Col="44" Line="70" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <Content>
 
  Moving predicates from types into predicate part.
 </Content>
         </NarrPara>
         <AxPara Box="SchBox">
+            <Anns>
+                <LocAnn Col="1" Line="73" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <SchText>
-                <ConstDecl>
-                    <DeclName>
-                        <Word>SX</Word>
-                    </DeclName>
-                    <SchExpr>
-                        <SchText>
-                            <VarDecl>
-                                <DeclName>
-                                    <Word>X</Word>
-                                </DeclName>
-                                <RefExpr Mixfix="false">
-                                    <RefName>
-                                        <Word>X</Word>
-                                    </RefName>
-                                </RefExpr>
-                            </VarDecl>
-                            <MemPred Mixfix="true">
-                                <RefExpr Mixfix="false">
-                                    <RefName>
-                                        <Word>X</Word>
-                                    </RefName>
-                                </RefExpr>
-                                <SetExpr>
-                                    <NumExpr Value="42"/>
-                                </SetExpr>
-                            </MemPred>
-                        </SchText>
-                    </SchExpr>
-                </ConstDecl>
+                <ZDeclList>
+                    <ConstDecl>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="16" Line="73" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
+                            <Word>SX</Word>
+                        </DeclName>
+                        <SchExpr>
+                            <SchText>
+                                <ZDeclList>
+                                    <VarDecl>
+                                        <Anns>
+                                            <LocAnn Col="7" Line="74" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <DeclName>
+                                            <Anns>
+                                                <LocAnn Col="5" Line="74" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                            <Word>X</Word>
+                                        </DeclName>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="9" Line="74" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="9" Line="74" Loc="tests/z/animate_scope.tex"/>
+                                                </Anns>
+                                                <Word>X</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </VarDecl>
+                                </ZDeclList>
+                                <MemPred Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="6" Line="76" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="5" Line="76" Loc="tests/z/animate_scope.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="5" Line="76" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                            <Word>X</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <SetExpr>
+                                        <NumExpr Value="42">
+                                            <Anns>
+                                                <LocAnn Col="7" Line="76" Loc="tests/z/animate_scope.tex"/>
+                                            </Anns>
+                                        </NumExpr>
+                                    </SetExpr>
+                                </MemPred>
+                            </SchText>
+                        </SchExpr>
+                    </ConstDecl>
+                </ZDeclList>
             </SchText>
         </AxPara>
         <NarrPara>
+            <Anns>
+                <LocAnn Col="13" Line="77" Loc="tests/z/animate_scope.tex"/>
+            </Anns>
             <Content>
 
 \end{document}

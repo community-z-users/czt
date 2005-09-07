@@ -173,7 +173,7 @@ public class ZPrintVisitor
     final boolean braces = bindExpr.getAnn(ParenAnn.class) != null;
     if (braces) print(Sym.LPAREN);
     print(Sym.LBIND);
-    printTermList(bindExpr.getNameExprPair());
+    printTermList(((ZDeclList) bindExpr.getDeclList()).getDecl());
     print(Sym.RBIND);
     if (braces) print(Sym.RPAREN);
     return null;
@@ -536,14 +536,6 @@ public class ZPrintVisitor
   public Object visitName(Name name)
   {
     print(Sym.DECORWORD, new Decorword(name.getWord(), name.getStroke()));
-    return null;
-  }
-
-  public Object visitNameExprPair(NameExprPair pair)
-  {
-    visit(pair.getName());
-    printKeyword(ZString.DEFEQUAL);
-    visit(pair.getExpr());
     return null;
   }
 
@@ -948,13 +940,19 @@ public class ZPrintVisitor
 
   public Object visitSchText(SchText schText)
   {
-    printTermList(schText.getDecl(), ZString.SEMICOLON);
+    visit(schText.getDeclList());
     if (schText.getPred() != null) {
       printKeyword(ZString.BAR);
       visit(schText.getPred());
     }
     return null;
   }
+
+  public Object visitZDeclList(ZDeclList zDeclList)
+  {
+    printTermList(zDeclList.getDecl(), ZString.SEMICOLON);
+    return null;
+  } 
 
   public Object visitSectTypeEnvAnn(SectTypeEnvAnn ann)
   {

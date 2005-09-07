@@ -402,7 +402,8 @@ public final class <class/>
         break;
       }
     }
-    ConstDecl cdecl = (ConstDecl) axPara.getSchText().getDecl().get(0);
+    ConstDecl cdecl =
+      (ConstDecl) ((ZDeclList) axPara.getSchText().getDeclList()).getDecl().get(0);
     return cdecl.getExpr();
   }
 

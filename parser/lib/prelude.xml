@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Spec Version="1.4" xmlns="http://czt.sourceforge.net/zml">
+<Spec Version="2.0" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://czt.sourceforge.net/zml">
     <NarrSect>
         <Anns>
-            <LocAnn Col="1" Loc="lib/prelude.tex" Line="1"/>
+            <LocAnn Col="1" Line="1" Loc="lib/prelude.tex"/>
         </Anns>
         <Content>\documentclass{article}
 \usepackage{ltcadiz}
@@ -25,7 +25,7 @@ The prelude is presented here using the mathematical lexis.
     </NarrSect>
     <ZSect>
         <Anns>
-            <LocAnn Col="1" Loc="lib/prelude.tex" Line="19"/>
+            <LocAnn Col="1" Line="19" Loc="lib/prelude.tex"/>
         </Anns>
         <Name>prelude</Name>
         <LatexMarkupPara>
@@ -529,7 +529,7 @@ The prelude is presented here using the mathematical lexis.
         </LatexMarkupPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="15" Loc="lib/prelude.tex" Line="20"/>
+                <LocAnn Col="15" Line="20" Loc="lib/prelude.tex"/>
             </Anns>
             <Content>
 
@@ -542,7 +542,7 @@ NOTE 1
         </NarrPara>
         <OptempPara Cat="Generic">
             <Anns>
-                <LocAnn Col="1" Loc="lib/prelude.tex" Line="103"/>
+                <LocAnn Col="1" Line="103" Loc="lib/prelude.tex"/>
             </Anns>
             <Operator>
                 <Word>ℙ</Word>
@@ -551,7 +551,7 @@ NOTE 1
         </OptempPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="lib/prelude.tex" Line="104"/>
+                <LocAnn Col="10" Line="104" Loc="lib/prelude.tex"/>
             </Anns>
             <Content>
 $\power$ has already been introduced in this International Standard
@@ -569,18 +569,18 @@ lies amongst those of user-defined operators.
         </NarrPara>
         <GivenPara>
             <Anns>
-                <LocAnn Col="1" Loc="lib/prelude.tex" Line="120"/>
+                <LocAnn Col="1" Line="120" Loc="lib/prelude.tex"/>
             </Anns>
             <DeclName>
                 <Anns>
-                    <LocAnn Col="2" Loc="lib/prelude.tex" Line="120"/>
+                    <LocAnn Col="2" Line="120" Loc="lib/prelude.tex"/>
                 </Anns>
                 <Word>𝔸</Word>
             </DeclName>
         </GivenPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="lib/prelude.tex" Line="121"/>
+                <LocAnn Col="10" Line="121" Loc="lib/prelude.tex"/>
             </Anns>
             <Content>
 
@@ -590,39 +590,44 @@ a supply of values for use in specifying number systems.
 </Content>
         </NarrPara>
         <AxPara Box="AxBox">
+            <Anns>
+                <LocAnn Col="1" Line="126" Loc="lib/prelude.tex"/>
+            </Anns>
             <SchText>
-                <VarDecl>
-                    <Anns>
-                        <LocAnn Col="6" Loc="lib/prelude.tex" Line="127"/>
-                    </Anns>
-                    <DeclName>
+                <ZDeclList>
+                    <VarDecl>
                         <Anns>
-                            <LocAnn Col="1" Loc="lib/prelude.tex" Line="127"/>
+                            <LocAnn Col="6" Line="127" Loc="lib/prelude.tex"/>
                         </Anns>
-                        <Word>ℕ</Word>
-                    </DeclName>
-                    <PowerExpr>
-                        <Anns>
-                            <LocAnn Col="8" Loc="lib/prelude.tex" Line="127"/>
-                        </Anns>
-                        <RefExpr Mixfix="false">
+                        <DeclName>
                             <Anns>
-                                <LocAnn Col="15" Loc="lib/prelude.tex" Line="127"/>
+                                <LocAnn Col="1" Line="127" Loc="lib/prelude.tex"/>
                             </Anns>
-                            <RefName>
+                            <Word>ℕ</Word>
+                        </DeclName>
+                        <PowerExpr>
+                            <Anns>
+                                <LocAnn Col="8" Line="127" Loc="lib/prelude.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="15" Loc="lib/prelude.tex" Line="127"/>
+                                    <LocAnn Col="15" Line="127" Loc="lib/prelude.tex"/>
                                 </Anns>
-                                <Word>𝔸</Word>
-                            </RefName>
-                        </RefExpr>
-                    </PowerExpr>
-                </VarDecl>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="15" Line="127" Loc="lib/prelude.tex"/>
+                                    </Anns>
+                                    <Word>𝔸</Word>
+                                </RefName>
+                            </RefExpr>
+                        </PowerExpr>
+                    </VarDecl>
+                </ZDeclList>
             </SchText>
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="12" Loc="lib/prelude.tex" Line="128"/>
+                <LocAnn Col="12" Line="128" Loc="lib/prelude.tex"/>
             </Anns>
             <Content>
 
@@ -632,56 +637,61 @@ The set of natural numbers, $\nat$, is a subset of $\arithmos$.
 </Content>
         </NarrPara>
         <AxPara Box="AxBox">
+            <Anns>
+                <LocAnn Col="1" Line="139" Loc="lib/prelude.tex"/>
+            </Anns>
             <SchText>
-                <VarDecl>
-                    <Anns>
-                        <LocAnn Col="22" Loc="lib/prelude.tex" Line="140"/>
-                    </Anns>
-                    <DeclName>
+                <ZDeclList>
+                    <VarDecl>
                         <Anns>
-                            <LocAnn Col="3" Loc="lib/prelude.tex" Line="140"/>
+                            <LocAnn Col="22" Line="140" Loc="lib/prelude.tex"/>
                         </Anns>
-                        <Word>number_literal_0</Word>
-                    </DeclName>
-                    <RefExpr Mixfix="false">
-                        <Anns>
-                            <LocAnn Col="24" Loc="lib/prelude.tex" Line="140"/>
-                        </Anns>
-                        <RefName>
+                        <DeclName>
                             <Anns>
-                                <LocAnn Col="24" Loc="lib/prelude.tex" Line="140"/>
+                                <LocAnn Col="3" Line="140" Loc="lib/prelude.tex"/>
                             </Anns>
-                            <Word>ℕ</Word>
-                        </RefName>
-                    </RefExpr>
-                </VarDecl>
-                <VarDecl>
-                    <Anns>
-                        <LocAnn Col="22" Loc="lib/prelude.tex" Line="141"/>
-                    </Anns>
-                    <DeclName>
-                        <Anns>
-                            <LocAnn Col="3" Loc="lib/prelude.tex" Line="141"/>
-                        </Anns>
-                        <Word>number_literal_1</Word>
-                    </DeclName>
-                    <RefExpr Mixfix="false">
-                        <Anns>
-                            <LocAnn Col="24" Loc="lib/prelude.tex" Line="141"/>
-                        </Anns>
-                        <RefName>
+                            <Word>number_literal_0</Word>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="24" Loc="lib/prelude.tex" Line="141"/>
+                                <LocAnn Col="24" Line="140" Loc="lib/prelude.tex"/>
                             </Anns>
-                            <Word>ℕ</Word>
-                        </RefName>
-                    </RefExpr>
-                </VarDecl>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="24" Line="140" Loc="lib/prelude.tex"/>
+                                </Anns>
+                                <Word>ℕ</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="22" Line="141" Loc="lib/prelude.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="141" Loc="lib/prelude.tex"/>
+                            </Anns>
+                            <Word>number_literal_1</Word>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="24" Line="141" Loc="lib/prelude.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="24" Line="141" Loc="lib/prelude.tex"/>
+                                </Anns>
+                                <Word>ℕ</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                </ZDeclList>
             </SchText>
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="12" Loc="lib/prelude.tex" Line="142"/>
+                <LocAnn Col="12" Line="142" Loc="lib/prelude.tex"/>
             </Anns>
             <Content>
 
@@ -690,9 +700,9 @@ to references to these declarations (see 12.2.6.9).
 
 </Content>
         </NarrPara>
-        <OptempPara Assoc="Left" Prec="30" Cat="Function">
+        <OptempPara Assoc="Left" Cat="Function" Prec="30">
             <Anns>
-                <LocAnn Col="1" Loc="lib/prelude.tex" Line="148"/>
+                <LocAnn Col="1" Line="148" Loc="lib/prelude.tex"/>
             </Anns>
             <Operand List="false"/>
             <Operator>
@@ -702,174 +712,186 @@ to references to these declarations (see 12.2.6.9).
         </OptempPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="lib/prelude.tex" Line="149"/>
+                <LocAnn Col="10" Line="149" Loc="lib/prelude.tex"/>
             </Anns>
             <Content>
 
 </Content>
         </NarrPara>
         <AxPara Box="AxBox">
+            <Anns>
+                <LocAnn Col="1" Line="151" Loc="lib/prelude.tex"/>
+            </Anns>
             <SchText>
-                <VarDecl>
-                    <Anns>
-                        <LocAnn Col="9" Loc="lib/prelude.tex" Line="152"/>
-                    </Anns>
-                    <DeclName>
-                        <Word> _ + _ </Word>
-                    </DeclName>
-                    <PowerExpr>
+                <ZDeclList>
+                    <VarDecl>
                         <Anns>
-                            <LocAnn Col="11" Loc="lib/prelude.tex" Line="152"/>
+                            <LocAnn Col="9" Line="152" Loc="lib/prelude.tex"/>
                         </Anns>
-                        <ProdExpr>
+                        <DeclName>
                             <Anns>
-                                <LocAnn Col="55" Loc="lib/prelude.tex" Line="152"/>
-                                <ParenAnn/>
+                                <LocAnn Col="6" Line="152" Loc="lib/prelude.tex"/>
+                            </Anns>
+                            <Word> _ + _ </Word>
+                        </DeclName>
+                        <PowerExpr>
+                            <Anns>
+                                <LocAnn Col="11" Line="152" Loc="lib/prelude.tex"/>
                             </Anns>
                             <ProdExpr>
                                 <Anns>
-                                    <LocAnn Col="37" Loc="lib/prelude.tex" Line="152"/>
+                                    <LocAnn Col="55" Line="152" Loc="lib/prelude.tex"/>
                                     <ParenAnn/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <ProdExpr>
                                     <Anns>
-                                        <LocAnn Col="20" Loc="lib/prelude.tex" Line="152"/>
+                                        <LocAnn Col="37" Line="152" Loc="lib/prelude.tex"/>
+                                        <ParenAnn/>
                                     </Anns>
-                                    <RefName>
+                                    <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="20" Loc="lib/prelude.tex" Line="152"/>
+                                            <LocAnn Col="20" Line="152" Loc="lib/prelude.tex"/>
                                         </Anns>
-                                        <Word>𝔸</Word>
-                                    </RefName>
-                                </RefExpr>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="20" Line="152" Loc="lib/prelude.tex"/>
+                                            </Anns>
+                                            <Word>𝔸</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="37" Line="152" Loc="lib/prelude.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="37" Line="152" Loc="lib/prelude.tex"/>
+                                            </Anns>
+                                            <Word>𝔸</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </ProdExpr>
                                 <RefExpr Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="37" Loc="lib/prelude.tex" Line="152"/>
+                                        <LocAnn Col="55" Line="152" Loc="lib/prelude.tex"/>
                                     </Anns>
                                     <RefName>
                                         <Anns>
-                                            <LocAnn Col="37" Loc="lib/prelude.tex" Line="152"/>
+                                            <LocAnn Col="55" Line="152" Loc="lib/prelude.tex"/>
                                         </Anns>
                                         <Word>𝔸</Word>
                                     </RefName>
                                 </RefExpr>
                             </ProdExpr>
-                            <RefExpr Mixfix="false">
-                                <Anns>
-                                    <LocAnn Col="55" Loc="lib/prelude.tex" Line="152"/>
-                                </Anns>
-                                <RefName>
-                                    <Anns>
-                                        <LocAnn Col="55" Loc="lib/prelude.tex" Line="152"/>
-                                    </Anns>
-                                    <Word>𝔸</Word>
-                                </RefName>
-                            </RefExpr>
-                        </ProdExpr>
-                    </PowerExpr>
-                </VarDecl>
+                        </PowerExpr>
+                    </VarDecl>
+                </ZDeclList>
                 <AndPred Op="NL">
                     <Anns>
-                        <LocAnn Col="28" Loc="lib/prelude.tex" Line="159"/>
+                        <LocAnn Col="28" Line="159" Loc="lib/prelude.tex"/>
                     </Anns>
                     <AndPred Op="NL">
                         <Anns>
-                            <LocAnn Col="79" Loc="lib/prelude.tex" Line="158"/>
+                            <LocAnn Col="79" Line="158" Loc="lib/prelude.tex"/>
                         </Anns>
                         <AndPred Op="NL">
                             <Anns>
-                                <LocAnn Col="34" Loc="lib/prelude.tex" Line="157"/>
+                                <LocAnn Col="34" Line="157" Loc="lib/prelude.tex"/>
                             </Anns>
                             <AndPred Op="NL">
                                 <Anns>
-                                    <LocAnn Col="43" Loc="lib/prelude.tex" Line="156"/>
+                                    <LocAnn Col="43" Line="156" Loc="lib/prelude.tex"/>
                                 </Anns>
                                 <AndPred Op="NL">
                                     <Anns>
-                                        <LocAnn Col="36" Loc="lib/prelude.tex" Line="155"/>
+                                        <LocAnn Col="36" Line="155" Loc="lib/prelude.tex"/>
                                     </Anns>
                                     <AndPred Op="NL">
                                         <Anns>
-                                            <LocAnn Col="61" Loc="lib/prelude.tex" Line="154"/>
+                                            <LocAnn Col="61" Line="154" Loc="lib/prelude.tex"/>
                                         </Anns>
                                         <ForallPred>
                                             <Anns>
-                                                <LocAnn Col="1" Loc="lib/prelude.tex" Line="154"/>
+                                                <LocAnn Col="1" Line="154" Loc="lib/prelude.tex"/>
                                             </Anns>
                                             <SchText>
-                                                <VarDecl>
-                                                    <Anns>
-                                                        <LocAnn Col="13" Loc="lib/prelude.tex" Line="154"/>
-                                                    </Anns>
-                                                    <DeclName>
-                                                        <Anns>
-                                                            <LocAnn Col="9" Loc="lib/prelude.tex" Line="154"/>
-                                                        </Anns>
-                                                        <Word>m</Word>
-                                                    </DeclName>
-                                                    <DeclName>
-                                                        <Anns>
-                                                            <LocAnn Col="12" Loc="lib/prelude.tex" Line="154"/>
-                                                        </Anns>
-                                                        <Word>n</Word>
-                                                    </DeclName>
-                                                    <RefExpr Mixfix="false">
-                                                        <Anns>
-                                                            <LocAnn Col="15" Loc="lib/prelude.tex" Line="154"/>
-                                                        </Anns>
-                                                        <RefName>
-                                                            <Anns>
-                                                                <LocAnn Col="15" Loc="lib/prelude.tex" Line="154"/>
-                                                            </Anns>
-                                                            <Word>ℕ</Word>
-                                                        </RefName>
-                                                    </RefExpr>
-                                                </VarDecl>
-                                            </SchText>
-                                            <Exists1Pred>
-                                                <Anns>
-                                                    <LocAnn Col="22" Loc="lib/prelude.tex" Line="154"/>
-                                                </Anns>
-                                                <SchText>
+                                                <ZDeclList>
                                                     <VarDecl>
                                                         <Anns>
-                                                            <LocAnn Col="33" Loc="lib/prelude.tex" Line="154"/>
+                                                            <LocAnn Col="13" Line="154" Loc="lib/prelude.tex"/>
                                                         </Anns>
                                                         <DeclName>
                                                             <Anns>
-                                                                <LocAnn Col="32" Loc="lib/prelude.tex" Line="154"/>
+                                                                <LocAnn Col="9" Line="154" Loc="lib/prelude.tex"/>
                                                             </Anns>
-                                                            <Word>p</Word>
+                                                            <Word>m</Word>
+                                                        </DeclName>
+                                                        <DeclName>
+                                                            <Anns>
+                                                                <LocAnn Col="12" Line="154" Loc="lib/prelude.tex"/>
+                                                            </Anns>
+                                                            <Word>n</Word>
                                                         </DeclName>
                                                         <RefExpr Mixfix="false">
                                                             <Anns>
-                                                                <LocAnn Col="45" Loc="lib/prelude.tex" Line="154"/>
+                                                                <LocAnn Col="15" Line="154" Loc="lib/prelude.tex"/>
                                                             </Anns>
                                                             <RefName>
                                                                 <Anns>
-                                                                    <ParenAnn/>
-                                                                    <LocAnn Col="42" Loc="lib/prelude.tex" Line="154"/>
+                                                                    <LocAnn Col="15" Line="154" Loc="lib/prelude.tex"/>
                                                                 </Anns>
-                                                                <Word> _ + _ </Word>
+                                                                <Word>ℕ</Word>
                                                             </RefName>
                                                         </RefExpr>
                                                     </VarDecl>
+                                                </ZDeclList>
+                                            </SchText>
+                                            <Exists1Pred>
+                                                <Anns>
+                                                    <LocAnn Col="22" Line="154" Loc="lib/prelude.tex"/>
+                                                </Anns>
+                                                <SchText>
+                                                    <ZDeclList>
+                                                        <VarDecl>
+                                                            <Anns>
+                                                                <LocAnn Col="33" Line="154" Loc="lib/prelude.tex"/>
+                                                            </Anns>
+                                                            <DeclName>
+                                                                <Anns>
+                                                                    <LocAnn Col="32" Line="154" Loc="lib/prelude.tex"/>
+                                                                </Anns>
+                                                                <Word>p</Word>
+                                                            </DeclName>
+                                                            <RefExpr Mixfix="false">
+                                                                <Anns>
+                                                                    <LocAnn Col="45" Line="154" Loc="lib/prelude.tex"/>
+                                                                </Anns>
+                                                                <RefName>
+                                                                    <Anns>
+                                                                        <ParenAnn/>
+                                                                        <LocAnn Col="42" Line="154" Loc="lib/prelude.tex"/>
+                                                                    </Anns>
+                                                                    <Word> _ + _ </Word>
+                                                                </RefName>
+                                                            </RefExpr>
+                                                        </VarDecl>
+                                                    </ZDeclList>
                                                 </SchText>
                                                 <MemPred Mixfix="true">
                                                     <Anns>
-                                                        <LocAnn Col="53" Loc="lib/prelude.tex" Line="154"/>
+                                                        <LocAnn Col="53" Line="154" Loc="lib/prelude.tex"/>
                                                     </Anns>
                                                     <TupleSelExpr Select="1">
                                                         <Anns>
-                                                            <LocAnn Col="50" Loc="lib/prelude.tex" Line="154"/>
+                                                            <LocAnn Col="50" Line="154" Loc="lib/prelude.tex"/>
                                                         </Anns>
                                                         <RefExpr Mixfix="false">
                                                             <Anns>
-                                                                <LocAnn Col="49" Loc="lib/prelude.tex" Line="154"/>
+                                                                <LocAnn Col="49" Line="154" Loc="lib/prelude.tex"/>
                                                             </Anns>
                                                             <RefName>
                                                                 <Anns>
-                                                                    <LocAnn Col="49" Loc="lib/prelude.tex" Line="154"/>
+                                                                    <LocAnn Col="49" Line="154" Loc="lib/prelude.tex"/>
                                                                 </Anns>
                                                                 <Word>p</Word>
                                                             </RefName>
@@ -878,26 +900,26 @@ to references to these declarations (see 12.2.6.9).
                                                     <SetExpr>
                                                         <TupleExpr>
                                                             <Anns>
-                                                                <LocAnn Col="55" Loc="lib/prelude.tex" Line="154"/>
+                                                                <LocAnn Col="55" Line="154" Loc="lib/prelude.tex"/>
                                                             </Anns>
                                                             <RefExpr Mixfix="false">
                                                                 <Anns>
-                                                                    <LocAnn Col="56" Loc="lib/prelude.tex" Line="154"/>
+                                                                    <LocAnn Col="56" Line="154" Loc="lib/prelude.tex"/>
                                                                 </Anns>
                                                                 <RefName>
                                                                     <Anns>
-                                                                        <LocAnn Col="56" Loc="lib/prelude.tex" Line="154"/>
+                                                                        <LocAnn Col="56" Line="154" Loc="lib/prelude.tex"/>
                                                                     </Anns>
                                                                     <Word>m</Word>
                                                                 </RefName>
                                                             </RefExpr>
                                                             <RefExpr Mixfix="false">
                                                                 <Anns>
-                                                                    <LocAnn Col="59" Loc="lib/prelude.tex" Line="154"/>
+                                                                    <LocAnn Col="59" Line="154" Loc="lib/prelude.tex"/>
                                                                 </Anns>
                                                                 <RefName>
                                                                     <Anns>
-                                                                        <LocAnn Col="59" Loc="lib/prelude.tex" Line="154"/>
+                                                                        <LocAnn Col="59" Line="154" Loc="lib/prelude.tex"/>
                                                                     </Anns>
                                                                     <Word>n</Word>
                                                                 </RefName>
@@ -909,76 +931,81 @@ to references to these declarations (see 12.2.6.9).
                                         </ForallPred>
                                         <ForallPred>
                                             <Anns>
-                                                <LocAnn Col="1" Loc="lib/prelude.tex" Line="155"/>
+                                                <LocAnn Col="1" Line="155" Loc="lib/prelude.tex"/>
                                             </Anns>
                                             <SchText>
-                                                <VarDecl>
-                                                    <Anns>
-                                                        <LocAnn Col="13" Loc="lib/prelude.tex" Line="155"/>
-                                                    </Anns>
-                                                    <DeclName>
+                                                <ZDeclList>
+                                                    <VarDecl>
                                                         <Anns>
-                                                            <LocAnn Col="9" Loc="lib/prelude.tex" Line="155"/>
+                                                            <LocAnn Col="13" Line="155" Loc="lib/prelude.tex"/>
                                                         </Anns>
-                                                        <Word>m</Word>
-                                                    </DeclName>
-                                                    <DeclName>
-                                                        <Anns>
-                                                            <LocAnn Col="12" Loc="lib/prelude.tex" Line="155"/>
-                                                        </Anns>
-                                                        <Word>n</Word>
-                                                    </DeclName>
-                                                    <RefExpr Mixfix="false">
-                                                        <Anns>
-                                                            <LocAnn Col="15" Loc="lib/prelude.tex" Line="155"/>
-                                                        </Anns>
-                                                        <RefName>
+                                                        <DeclName>
                                                             <Anns>
-                                                                <LocAnn Col="15" Loc="lib/prelude.tex" Line="155"/>
+                                                                <LocAnn Col="9" Line="155" Loc="lib/prelude.tex"/>
                                                             </Anns>
-                                                            <Word>ℕ</Word>
-                                                        </RefName>
-                                                    </RefExpr>
-                                                </VarDecl>
+                                                            <Word>m</Word>
+                                                        </DeclName>
+                                                        <DeclName>
+                                                            <Anns>
+                                                                <LocAnn Col="12" Line="155" Loc="lib/prelude.tex"/>
+                                                            </Anns>
+                                                            <Word>n</Word>
+                                                        </DeclName>
+                                                        <RefExpr Mixfix="false">
+                                                            <Anns>
+                                                                <LocAnn Col="15" Line="155" Loc="lib/prelude.tex"/>
+                                                            </Anns>
+                                                            <RefName>
+                                                                <Anns>
+                                                                    <LocAnn Col="15" Line="155" Loc="lib/prelude.tex"/>
+                                                                </Anns>
+                                                                <Word>ℕ</Word>
+                                                            </RefName>
+                                                        </RefExpr>
+                                                    </VarDecl>
+                                                </ZDeclList>
                                             </SchText>
                                             <MemPred Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="28" Loc="lib/prelude.tex" Line="155"/>
+                                                    <LocAnn Col="28" Line="155" Loc="lib/prelude.tex"/>
                                                 </Anns>
                                                 <ApplExpr Mixfix="true">
                                                     <Anns>
-                                                        <LocAnn Col="24" Loc="lib/prelude.tex" Line="155"/>
+                                                        <LocAnn Col="24" Line="155" Loc="lib/prelude.tex"/>
                                                     </Anns>
                                                     <RefExpr Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="22" Loc="lib/prelude.tex" Line="155"/>
+                                                            <LocAnn Col="22" Line="155" Loc="lib/prelude.tex"/>
                                                         </Anns>
                                                         <RefName>
+                                                            <Anns>
+                                                                <LocAnn Col="22" Line="155" Loc="lib/prelude.tex"/>
+                                                            </Anns>
                                                             <Word> _ + _ </Word>
                                                         </RefName>
                                                     </RefExpr>
                                                     <TupleExpr>
                                                         <Anns>
-                                                            <LocAnn Col="22" Loc="lib/prelude.tex" Line="155"/>
+                                                            <LocAnn Col="22" Line="155" Loc="lib/prelude.tex"/>
                                                         </Anns>
                                                         <RefExpr Mixfix="false">
                                                             <Anns>
-                                                                <LocAnn Col="22" Loc="lib/prelude.tex" Line="155"/>
+                                                                <LocAnn Col="22" Line="155" Loc="lib/prelude.tex"/>
                                                             </Anns>
                                                             <RefName>
                                                                 <Anns>
-                                                                    <LocAnn Col="22" Loc="lib/prelude.tex" Line="155"/>
+                                                                    <LocAnn Col="22" Line="155" Loc="lib/prelude.tex"/>
                                                                 </Anns>
                                                                 <Word>m</Word>
                                                             </RefName>
                                                         </RefExpr>
                                                         <RefExpr Mixfix="false">
                                                             <Anns>
-                                                                <LocAnn Col="26" Loc="lib/prelude.tex" Line="155"/>
+                                                                <LocAnn Col="26" Line="155" Loc="lib/prelude.tex"/>
                                                             </Anns>
                                                             <RefName>
                                                                 <Anns>
-                                                                    <LocAnn Col="26" Loc="lib/prelude.tex" Line="155"/>
+                                                                    <LocAnn Col="26" Line="155" Loc="lib/prelude.tex"/>
                                                                 </Anns>
                                                                 <Word>n</Word>
                                                             </RefName>
@@ -987,11 +1014,11 @@ to references to these declarations (see 12.2.6.9).
                                                 </ApplExpr>
                                                 <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="32" Loc="lib/prelude.tex" Line="155"/>
+                                                        <LocAnn Col="32" Line="155" Loc="lib/prelude.tex"/>
                                                     </Anns>
                                                     <RefName>
                                                         <Anns>
-                                                            <LocAnn Col="32" Loc="lib/prelude.tex" Line="155"/>
+                                                            <LocAnn Col="32" Line="155" Loc="lib/prelude.tex"/>
                                                         </Anns>
                                                         <Word>ℕ</Word>
                                                     </RefName>
@@ -1001,71 +1028,76 @@ to references to these declarations (see 12.2.6.9).
                                     </AndPred>
                                     <ForallPred>
                                         <Anns>
-                                            <LocAnn Col="1" Loc="lib/prelude.tex" Line="156"/>
+                                            <LocAnn Col="1" Line="156" Loc="lib/prelude.tex"/>
                                         </Anns>
                                         <SchText>
-                                            <VarDecl>
-                                                <Anns>
-                                                    <LocAnn Col="13" Loc="lib/prelude.tex" Line="156"/>
-                                                </Anns>
-                                                <DeclName>
+                                            <ZDeclList>
+                                                <VarDecl>
                                                     <Anns>
-                                                        <LocAnn Col="9" Loc="lib/prelude.tex" Line="156"/>
+                                                        <LocAnn Col="13" Line="156" Loc="lib/prelude.tex"/>
                                                     </Anns>
-                                                    <Word>m</Word>
-                                                </DeclName>
-                                                <DeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="12" Loc="lib/prelude.tex" Line="156"/>
-                                                    </Anns>
-                                                    <Word>n</Word>
-                                                </DeclName>
-                                                <RefExpr Mixfix="false">
-                                                    <Anns>
-                                                        <LocAnn Col="15" Loc="lib/prelude.tex" Line="156"/>
-                                                    </Anns>
-                                                    <RefName>
+                                                    <DeclName>
                                                         <Anns>
-                                                            <LocAnn Col="15" Loc="lib/prelude.tex" Line="156"/>
+                                                            <LocAnn Col="9" Line="156" Loc="lib/prelude.tex"/>
                                                         </Anns>
-                                                        <Word>ℕ</Word>
-                                                    </RefName>
-                                                </RefExpr>
-                                            </VarDecl>
+                                                        <Word>m</Word>
+                                                    </DeclName>
+                                                    <DeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="12" Line="156" Loc="lib/prelude.tex"/>
+                                                        </Anns>
+                                                        <Word>n</Word>
+                                                    </DeclName>
+                                                    <RefExpr Mixfix="false">
+                                                        <Anns>
+                                                            <LocAnn Col="15" Line="156" Loc="lib/prelude.tex"/>
+                                                        </Anns>
+                                                        <RefName>
+                                                            <Anns>
+                                                                <LocAnn Col="15" Line="156" Loc="lib/prelude.tex"/>
+                                                            </Anns>
+                                                            <Word>ℕ</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                </VarDecl>
+                                            </ZDeclList>
                                             <MemPred Mixfix="true">
                                                 <Anns>
-                                                    <LocAnn Col="28" Loc="lib/prelude.tex" Line="156"/>
+                                                    <LocAnn Col="28" Line="156" Loc="lib/prelude.tex"/>
                                                 </Anns>
                                                 <ApplExpr Mixfix="true">
                                                     <Anns>
-                                                        <LocAnn Col="24" Loc="lib/prelude.tex" Line="156"/>
+                                                        <LocAnn Col="24" Line="156" Loc="lib/prelude.tex"/>
                                                     </Anns>
                                                     <RefExpr Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="22" Loc="lib/prelude.tex" Line="156"/>
+                                                            <LocAnn Col="22" Line="156" Loc="lib/prelude.tex"/>
                                                         </Anns>
                                                         <RefName>
+                                                            <Anns>
+                                                                <LocAnn Col="22" Line="156" Loc="lib/prelude.tex"/>
+                                                            </Anns>
                                                             <Word> _ + _ </Word>
                                                         </RefName>
                                                     </RefExpr>
                                                     <TupleExpr>
                                                         <Anns>
-                                                            <LocAnn Col="22" Loc="lib/prelude.tex" Line="156"/>
+                                                            <LocAnn Col="22" Line="156" Loc="lib/prelude.tex"/>
                                                         </Anns>
                                                         <RefExpr Mixfix="false">
                                                             <Anns>
-                                                                <LocAnn Col="22" Loc="lib/prelude.tex" Line="156"/>
+                                                                <LocAnn Col="22" Line="156" Loc="lib/prelude.tex"/>
                                                             </Anns>
                                                             <RefName>
                                                                 <Anns>
-                                                                    <LocAnn Col="22" Loc="lib/prelude.tex" Line="156"/>
+                                                                    <LocAnn Col="22" Line="156" Loc="lib/prelude.tex"/>
                                                                 </Anns>
                                                                 <Word>m</Word>
                                                             </RefName>
                                                         </RefExpr>
                                                         <NumExpr Value="1">
                                                             <Anns>
-                                                                <LocAnn Col="26" Loc="lib/prelude.tex" Line="156"/>
+                                                                <LocAnn Col="26" Line="156" Loc="lib/prelude.tex"/>
                                                             </Anns>
                                                         </NumExpr>
                                                     </TupleExpr>
@@ -1073,34 +1105,37 @@ to references to these declarations (see 12.2.6.9).
                                                 <SetExpr>
                                                     <ApplExpr Mixfix="true">
                                                         <Anns>
-                                                            <LocAnn Col="32" Loc="lib/prelude.tex" Line="156"/>
+                                                            <LocAnn Col="32" Line="156" Loc="lib/prelude.tex"/>
                                                         </Anns>
                                                         <RefExpr Mixfix="false">
                                                             <Anns>
-                                                                <LocAnn Col="30" Loc="lib/prelude.tex" Line="156"/>
+                                                                <LocAnn Col="30" Line="156" Loc="lib/prelude.tex"/>
                                                             </Anns>
                                                             <RefName>
+                                                                <Anns>
+                                                                    <LocAnn Col="30" Line="156" Loc="lib/prelude.tex"/>
+                                                                </Anns>
                                                                 <Word> _ + _ </Word>
                                                             </RefName>
                                                         </RefExpr>
                                                         <TupleExpr>
                                                             <Anns>
-                                                                <LocAnn Col="30" Loc="lib/prelude.tex" Line="156"/>
+                                                                <LocAnn Col="30" Line="156" Loc="lib/prelude.tex"/>
                                                             </Anns>
                                                             <RefExpr Mixfix="false">
                                                                 <Anns>
-                                                                    <LocAnn Col="30" Loc="lib/prelude.tex" Line="156"/>
+                                                                    <LocAnn Col="30" Line="156" Loc="lib/prelude.tex"/>
                                                                 </Anns>
                                                                 <RefName>
                                                                     <Anns>
-                                                                        <LocAnn Col="30" Loc="lib/prelude.tex" Line="156"/>
+                                                                        <LocAnn Col="30" Line="156" Loc="lib/prelude.tex"/>
                                                                     </Anns>
                                                                     <Word>n</Word>
                                                                 </RefName>
                                                             </RefExpr>
                                                             <NumExpr Value="1">
                                                                 <Anns>
-                                                                    <LocAnn Col="34" Loc="lib/prelude.tex" Line="156"/>
+                                                                    <LocAnn Col="34" Line="156" Loc="lib/prelude.tex"/>
                                                                 </Anns>
                                                             </NumExpr>
                                                         </TupleExpr>
@@ -1110,15 +1145,15 @@ to references to these declarations (see 12.2.6.9).
                                         </SchText>
                                         <MemPred Mixfix="true">
                                             <Anns>
-                                                <LocAnn Col="40" Loc="lib/prelude.tex" Line="156"/>
+                                                <LocAnn Col="40" Line="156" Loc="lib/prelude.tex"/>
                                             </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="38" Loc="lib/prelude.tex" Line="156"/>
+                                                    <LocAnn Col="38" Line="156" Loc="lib/prelude.tex"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="38" Loc="lib/prelude.tex" Line="156"/>
+                                                        <LocAnn Col="38" Line="156" Loc="lib/prelude.tex"/>
                                                     </Anns>
                                                     <Word>m</Word>
                                                 </RefName>
@@ -1126,11 +1161,11 @@ to references to these declarations (see 12.2.6.9).
                                             <SetExpr>
                                                 <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="42" Loc="lib/prelude.tex" Line="156"/>
+                                                        <LocAnn Col="42" Line="156" Loc="lib/prelude.tex"/>
                                                     </Anns>
                                                     <RefName>
                                                         <Anns>
-                                                            <LocAnn Col="42" Loc="lib/prelude.tex" Line="156"/>
+                                                            <LocAnn Col="42" Line="156" Loc="lib/prelude.tex"/>
                                                         </Anns>
                                                         <Word>n</Word>
                                                     </RefName>
@@ -1141,70 +1176,75 @@ to references to these declarations (see 12.2.6.9).
                                 </AndPred>
                                 <ForallPred>
                                     <Anns>
-                                        <LocAnn Col="1" Loc="lib/prelude.tex" Line="157"/>
+                                        <LocAnn Col="1" Line="157" Loc="lib/prelude.tex"/>
                                     </Anns>
                                     <SchText>
-                                        <VarDecl>
-                                            <Anns>
-                                                <LocAnn Col="10" Loc="lib/prelude.tex" Line="157"/>
-                                            </Anns>
-                                            <DeclName>
+                                        <ZDeclList>
+                                            <VarDecl>
                                                 <Anns>
-                                                    <LocAnn Col="9" Loc="lib/prelude.tex" Line="157"/>
+                                                    <LocAnn Col="10" Line="157" Loc="lib/prelude.tex"/>
                                                 </Anns>
-                                                <Word>n</Word>
-                                            </DeclName>
-                                            <RefExpr Mixfix="false">
-                                                <Anns>
-                                                    <LocAnn Col="12" Loc="lib/prelude.tex" Line="157"/>
-                                                </Anns>
-                                                <RefName>
+                                                <DeclName>
                                                     <Anns>
-                                                        <LocAnn Col="12" Loc="lib/prelude.tex" Line="157"/>
+                                                        <LocAnn Col="9" Line="157" Loc="lib/prelude.tex"/>
                                                     </Anns>
-                                                    <Word>ℕ</Word>
-                                                </RefName>
-                                            </RefExpr>
-                                        </VarDecl>
+                                                    <Word>n</Word>
+                                                </DeclName>
+                                                <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="12" Line="157" Loc="lib/prelude.tex"/>
+                                                    </Anns>
+                                                    <RefName>
+                                                        <Anns>
+                                                            <LocAnn Col="12" Line="157" Loc="lib/prelude.tex"/>
+                                                        </Anns>
+                                                        <Word>ℕ</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </VarDecl>
+                                        </ZDeclList>
                                     </SchText>
                                     <NegPred>
                                         <Anns>
-                                            <LocAnn Col="19" Loc="lib/prelude.tex" Line="157"/>
+                                            <LocAnn Col="19" Line="157" Loc="lib/prelude.tex"/>
                                         </Anns>
                                         <MemPred Mixfix="true">
                                             <Anns>
-                                                <LocAnn Col="31" Loc="lib/prelude.tex" Line="157"/>
+                                                <LocAnn Col="31" Line="157" Loc="lib/prelude.tex"/>
                                             </Anns>
                                             <ApplExpr Mixfix="true">
                                                 <Anns>
-                                                    <LocAnn Col="27" Loc="lib/prelude.tex" Line="157"/>
+                                                    <LocAnn Col="27" Line="157" Loc="lib/prelude.tex"/>
                                                 </Anns>
                                                 <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="25" Loc="lib/prelude.tex" Line="157"/>
+                                                        <LocAnn Col="25" Line="157" Loc="lib/prelude.tex"/>
                                                     </Anns>
                                                     <RefName>
+                                                        <Anns>
+                                                            <LocAnn Col="25" Line="157" Loc="lib/prelude.tex"/>
+                                                        </Anns>
                                                         <Word> _ + _ </Word>
                                                     </RefName>
                                                 </RefExpr>
                                                 <TupleExpr>
                                                     <Anns>
-                                                        <LocAnn Col="25" Loc="lib/prelude.tex" Line="157"/>
+                                                        <LocAnn Col="25" Line="157" Loc="lib/prelude.tex"/>
                                                     </Anns>
                                                     <RefExpr Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="25" Loc="lib/prelude.tex" Line="157"/>
+                                                            <LocAnn Col="25" Line="157" Loc="lib/prelude.tex"/>
                                                         </Anns>
                                                         <RefName>
                                                             <Anns>
-                                                                <LocAnn Col="25" Loc="lib/prelude.tex" Line="157"/>
+                                                                <LocAnn Col="25" Line="157" Loc="lib/prelude.tex"/>
                                                             </Anns>
                                                             <Word>n</Word>
                                                         </RefName>
                                                     </RefExpr>
                                                     <NumExpr Value="1">
                                                         <Anns>
-                                                            <LocAnn Col="29" Loc="lib/prelude.tex" Line="157"/>
+                                                            <LocAnn Col="29" Line="157" Loc="lib/prelude.tex"/>
                                                         </Anns>
                                                     </NumExpr>
                                                 </TupleExpr>
@@ -1212,7 +1252,7 @@ to references to these declarations (see 12.2.6.9).
                                             <SetExpr>
                                                 <NumExpr Value="0">
                                                     <Anns>
-                                                        <LocAnn Col="33" Loc="lib/prelude.tex" Line="157"/>
+                                                        <LocAnn Col="33" Line="157" Loc="lib/prelude.tex"/>
                                                     </Anns>
                                                 </NumExpr>
                                             </SetExpr>
@@ -1222,56 +1262,58 @@ to references to these declarations (see 12.2.6.9).
                             </AndPred>
                             <ForallPred>
                                 <Anns>
-                                    <LocAnn Col="1" Loc="lib/prelude.tex" Line="158"/>
+                                    <LocAnn Col="1" Line="158" Loc="lib/prelude.tex"/>
                                 </Anns>
                                 <SchText>
-                                    <VarDecl>
-                                        <Anns>
-                                            <LocAnn Col="10" Loc="lib/prelude.tex" Line="158"/>
-                                        </Anns>
-                                        <DeclName>
+                                    <ZDeclList>
+                                        <VarDecl>
                                             <Anns>
-                                                <LocAnn Col="9" Loc="lib/prelude.tex" Line="158"/>
+                                                <LocAnn Col="10" Line="158" Loc="lib/prelude.tex"/>
                                             </Anns>
-                                            <Word>w</Word>
-                                        </DeclName>
-                                        <PowerExpr>
-                                            <Anns>
-                                                <LocAnn Col="12" Loc="lib/prelude.tex" Line="158"/>
-                                            </Anns>
-                                            <RefExpr Mixfix="false">
+                                            <DeclName>
                                                 <Anns>
-                                                    <LocAnn Col="19" Loc="lib/prelude.tex" Line="158"/>
+                                                    <LocAnn Col="9" Line="158" Loc="lib/prelude.tex"/>
                                                 </Anns>
-                                                <RefName>
+                                                <Word>w</Word>
+                                            </DeclName>
+                                            <PowerExpr>
+                                                <Anns>
+                                                    <LocAnn Col="12" Line="158" Loc="lib/prelude.tex"/>
+                                                </Anns>
+                                                <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="19" Loc="lib/prelude.tex" Line="158"/>
+                                                        <LocAnn Col="19" Line="158" Loc="lib/prelude.tex"/>
                                                     </Anns>
-                                                    <Word>ℕ</Word>
-                                                </RefName>
-                                            </RefExpr>
-                                        </PowerExpr>
-                                    </VarDecl>
+                                                    <RefName>
+                                                        <Anns>
+                                                            <LocAnn Col="19" Line="158" Loc="lib/prelude.tex"/>
+                                                        </Anns>
+                                                        <Word>ℕ</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </PowerExpr>
+                                        </VarDecl>
+                                    </ZDeclList>
                                     <AndPred Op="And">
                                         <Anns>
-                                            <LocAnn Col="34" Loc="lib/prelude.tex" Line="158"/>
+                                            <LocAnn Col="34" Line="158" Loc="lib/prelude.tex"/>
                                         </Anns>
                                         <MemPred Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="28" Loc="lib/prelude.tex" Line="158"/>
+                                                <LocAnn Col="28" Line="158" Loc="lib/prelude.tex"/>
                                             </Anns>
                                             <NumExpr Value="0">
                                                 <Anns>
-                                                    <LocAnn Col="26" Loc="lib/prelude.tex" Line="158"/>
+                                                    <LocAnn Col="26" Line="158" Loc="lib/prelude.tex"/>
                                                 </Anns>
                                             </NumExpr>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="32" Loc="lib/prelude.tex" Line="158"/>
+                                                    <LocAnn Col="32" Line="158" Loc="lib/prelude.tex"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="32" Loc="lib/prelude.tex" Line="158"/>
+                                                        <LocAnn Col="32" Line="158" Loc="lib/prelude.tex"/>
                                                     </Anns>
                                                     <Word>w</Word>
                                                 </RefName>
@@ -1279,78 +1321,83 @@ to references to these declarations (see 12.2.6.9).
                                         </MemPred>
                                         <ForallPred>
                                             <Anns>
-                                                <LocAnn Col="41" Loc="lib/prelude.tex" Line="158"/>
+                                                <LocAnn Col="41" Line="158" Loc="lib/prelude.tex"/>
                                                 <ParenAnn/>
                                             </Anns>
                                             <SchText>
-                                                <VarDecl>
-                                                    <Anns>
-                                                        <LocAnn Col="50" Loc="lib/prelude.tex" Line="158"/>
-                                                    </Anns>
-                                                    <DeclName>
+                                                <ZDeclList>
+                                                    <VarDecl>
                                                         <Anns>
-                                                            <LocAnn Col="49" Loc="lib/prelude.tex" Line="158"/>
+                                                            <LocAnn Col="50" Line="158" Loc="lib/prelude.tex"/>
                                                         </Anns>
-                                                        <Word>y</Word>
-                                                    </DeclName>
-                                                    <RefExpr Mixfix="false">
-                                                        <Anns>
-                                                            <LocAnn Col="52" Loc="lib/prelude.tex" Line="158"/>
-                                                        </Anns>
-                                                        <RefName>
+                                                        <DeclName>
                                                             <Anns>
-                                                                <LocAnn Col="52" Loc="lib/prelude.tex" Line="158"/>
+                                                                <LocAnn Col="49" Line="158" Loc="lib/prelude.tex"/>
                                                             </Anns>
-                                                            <Word>w</Word>
-                                                        </RefName>
-                                                    </RefExpr>
-                                                </VarDecl>
+                                                            <Word>y</Word>
+                                                        </DeclName>
+                                                        <RefExpr Mixfix="false">
+                                                            <Anns>
+                                                                <LocAnn Col="52" Line="158" Loc="lib/prelude.tex"/>
+                                                            </Anns>
+                                                            <RefName>
+                                                                <Anns>
+                                                                    <LocAnn Col="52" Line="158" Loc="lib/prelude.tex"/>
+                                                                </Anns>
+                                                                <Word>w</Word>
+                                                            </RefName>
+                                                        </RefExpr>
+                                                    </VarDecl>
+                                                </ZDeclList>
                                             </SchText>
                                             <MemPred Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="62" Loc="lib/prelude.tex" Line="158"/>
+                                                    <LocAnn Col="62" Line="158" Loc="lib/prelude.tex"/>
                                                 </Anns>
                                                 <ApplExpr Mixfix="true">
                                                     <Anns>
-                                                        <LocAnn Col="58" Loc="lib/prelude.tex" Line="158"/>
+                                                        <LocAnn Col="58" Line="158" Loc="lib/prelude.tex"/>
                                                     </Anns>
                                                     <RefExpr Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="56" Loc="lib/prelude.tex" Line="158"/>
+                                                            <LocAnn Col="56" Line="158" Loc="lib/prelude.tex"/>
                                                         </Anns>
                                                         <RefName>
+                                                            <Anns>
+                                                                <LocAnn Col="56" Line="158" Loc="lib/prelude.tex"/>
+                                                            </Anns>
                                                             <Word> _ + _ </Word>
                                                         </RefName>
                                                     </RefExpr>
                                                     <TupleExpr>
                                                         <Anns>
-                                                            <LocAnn Col="56" Loc="lib/prelude.tex" Line="158"/>
+                                                            <LocAnn Col="56" Line="158" Loc="lib/prelude.tex"/>
                                                         </Anns>
                                                         <RefExpr Mixfix="false">
                                                             <Anns>
-                                                                <LocAnn Col="56" Loc="lib/prelude.tex" Line="158"/>
+                                                                <LocAnn Col="56" Line="158" Loc="lib/prelude.tex"/>
                                                             </Anns>
                                                             <RefName>
                                                                 <Anns>
-                                                                    <LocAnn Col="56" Loc="lib/prelude.tex" Line="158"/>
+                                                                    <LocAnn Col="56" Line="158" Loc="lib/prelude.tex"/>
                                                                 </Anns>
                                                                 <Word>y</Word>
                                                             </RefName>
                                                         </RefExpr>
                                                         <NumExpr Value="1">
                                                             <Anns>
-                                                                <LocAnn Col="60" Loc="lib/prelude.tex" Line="158"/>
+                                                                <LocAnn Col="60" Line="158" Loc="lib/prelude.tex"/>
                                                             </Anns>
                                                         </NumExpr>
                                                     </TupleExpr>
                                                 </ApplExpr>
                                                 <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="66" Loc="lib/prelude.tex" Line="158"/>
+                                                        <LocAnn Col="66" Line="158" Loc="lib/prelude.tex"/>
                                                     </Anns>
                                                     <RefName>
                                                         <Anns>
-                                                            <LocAnn Col="66" Loc="lib/prelude.tex" Line="158"/>
+                                                            <LocAnn Col="66" Line="158" Loc="lib/prelude.tex"/>
                                                         </Anns>
                                                         <Word>w</Word>
                                                     </RefName>
@@ -1361,15 +1408,15 @@ to references to these declarations (see 12.2.6.9).
                                 </SchText>
                                 <MemPred Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="73" Loc="lib/prelude.tex" Line="158"/>
+                                        <LocAnn Col="73" Line="158" Loc="lib/prelude.tex"/>
                                     </Anns>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="71" Loc="lib/prelude.tex" Line="158"/>
+                                            <LocAnn Col="71" Line="158" Loc="lib/prelude.tex"/>
                                         </Anns>
                                         <RefName>
                                             <Anns>
-                                                <LocAnn Col="71" Loc="lib/prelude.tex" Line="158"/>
+                                                <LocAnn Col="71" Line="158" Loc="lib/prelude.tex"/>
                                             </Anns>
                                             <Word>w</Word>
                                         </RefName>
@@ -1377,11 +1424,11 @@ to references to these declarations (see 12.2.6.9).
                                     <SetExpr>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="75" Loc="lib/prelude.tex" Line="158"/>
+                                                <LocAnn Col="75" Line="158" Loc="lib/prelude.tex"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="75" Loc="lib/prelude.tex" Line="158"/>
+                                                    <LocAnn Col="75" Line="158" Loc="lib/prelude.tex"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
                                             </RefName>
@@ -1392,66 +1439,71 @@ to references to these declarations (see 12.2.6.9).
                         </AndPred>
                         <ForallPred>
                             <Anns>
-                                <LocAnn Col="1" Loc="lib/prelude.tex" Line="159"/>
+                                <LocAnn Col="1" Line="159" Loc="lib/prelude.tex"/>
                             </Anns>
                             <SchText>
-                                <VarDecl>
-                                    <Anns>
-                                        <LocAnn Col="10" Loc="lib/prelude.tex" Line="159"/>
-                                    </Anns>
-                                    <DeclName>
+                                <ZDeclList>
+                                    <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="9" Loc="lib/prelude.tex" Line="159"/>
+                                            <LocAnn Col="10" Line="159" Loc="lib/prelude.tex"/>
                                         </Anns>
-                                        <Word>m</Word>
-                                    </DeclName>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="12" Loc="lib/prelude.tex" Line="159"/>
-                                        </Anns>
-                                        <RefName>
+                                        <DeclName>
                                             <Anns>
-                                                <LocAnn Col="12" Loc="lib/prelude.tex" Line="159"/>
+                                                <LocAnn Col="9" Line="159" Loc="lib/prelude.tex"/>
                                             </Anns>
-                                            <Word>ℕ</Word>
-                                        </RefName>
-                                    </RefExpr>
-                                </VarDecl>
+                                            <Word>m</Word>
+                                        </DeclName>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="12" Line="159" Loc="lib/prelude.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="12" Line="159" Loc="lib/prelude.tex"/>
+                                                </Anns>
+                                                <Word>ℕ</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </VarDecl>
+                                </ZDeclList>
                             </SchText>
                             <MemPred Mixfix="true">
                                 <Anns>
-                                    <LocAnn Col="25" Loc="lib/prelude.tex" Line="159"/>
+                                    <LocAnn Col="25" Line="159" Loc="lib/prelude.tex"/>
                                 </Anns>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="21" Loc="lib/prelude.tex" Line="159"/>
+                                        <LocAnn Col="21" Line="159" Loc="lib/prelude.tex"/>
                                     </Anns>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="19" Loc="lib/prelude.tex" Line="159"/>
+                                            <LocAnn Col="19" Line="159" Loc="lib/prelude.tex"/>
                                         </Anns>
                                         <RefName>
+                                            <Anns>
+                                                <LocAnn Col="19" Line="159" Loc="lib/prelude.tex"/>
+                                            </Anns>
                                             <Word> _ + _ </Word>
                                         </RefName>
                                     </RefExpr>
                                     <TupleExpr>
                                         <Anns>
-                                            <LocAnn Col="19" Loc="lib/prelude.tex" Line="159"/>
+                                            <LocAnn Col="19" Line="159" Loc="lib/prelude.tex"/>
                                         </Anns>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="19" Loc="lib/prelude.tex" Line="159"/>
+                                                <LocAnn Col="19" Line="159" Loc="lib/prelude.tex"/>
                                             </Anns>
                                             <RefName>
                                                 <Anns>
-                                                    <LocAnn Col="19" Loc="lib/prelude.tex" Line="159"/>
+                                                    <LocAnn Col="19" Line="159" Loc="lib/prelude.tex"/>
                                                 </Anns>
                                                 <Word>m</Word>
                                             </RefName>
                                         </RefExpr>
                                         <NumExpr Value="0">
                                             <Anns>
-                                                <LocAnn Col="23" Loc="lib/prelude.tex" Line="159"/>
+                                                <LocAnn Col="23" Line="159" Loc="lib/prelude.tex"/>
                                             </Anns>
                                         </NumExpr>
                                     </TupleExpr>
@@ -1459,11 +1511,11 @@ to references to these declarations (see 12.2.6.9).
                                 <SetExpr>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="27" Loc="lib/prelude.tex" Line="159"/>
+                                            <LocAnn Col="27" Line="159" Loc="lib/prelude.tex"/>
                                         </Anns>
                                         <RefName>
                                             <Anns>
-                                                <LocAnn Col="27" Loc="lib/prelude.tex" Line="159"/>
+                                                <LocAnn Col="27" Line="159" Loc="lib/prelude.tex"/>
                                             </Anns>
                                             <Word>m</Word>
                                         </RefName>
@@ -1474,100 +1526,108 @@ to references to these declarations (see 12.2.6.9).
                     </AndPred>
                     <ForallPred>
                         <Anns>
-                            <LocAnn Col="1" Loc="lib/prelude.tex" Line="160"/>
+                            <LocAnn Col="1" Line="160" Loc="lib/prelude.tex"/>
                         </Anns>
                         <SchText>
-                            <VarDecl>
-                                <Anns>
-                                    <LocAnn Col="13" Loc="lib/prelude.tex" Line="160"/>
-                                </Anns>
-                                <DeclName>
+                            <ZDeclList>
+                                <VarDecl>
                                     <Anns>
-                                        <LocAnn Col="9" Loc="lib/prelude.tex" Line="160"/>
+                                        <LocAnn Col="13" Line="160" Loc="lib/prelude.tex"/>
                                     </Anns>
-                                    <Word>m</Word>
-                                </DeclName>
-                                <DeclName>
-                                    <Anns>
-                                        <LocAnn Col="12" Loc="lib/prelude.tex" Line="160"/>
-                                    </Anns>
-                                    <Word>n</Word>
-                                </DeclName>
-                                <RefExpr Mixfix="false">
-                                    <Anns>
-                                        <LocAnn Col="15" Loc="lib/prelude.tex" Line="160"/>
-                                    </Anns>
-                                    <RefName>
+                                    <DeclName>
                                         <Anns>
-                                            <LocAnn Col="15" Loc="lib/prelude.tex" Line="160"/>
+                                            <LocAnn Col="9" Line="160" Loc="lib/prelude.tex"/>
                                         </Anns>
-                                        <Word>ℕ</Word>
-                                    </RefName>
-                                </RefExpr>
-                            </VarDecl>
+                                        <Word>m</Word>
+                                    </DeclName>
+                                    <DeclName>
+                                        <Anns>
+                                            <LocAnn Col="12" Line="160" Loc="lib/prelude.tex"/>
+                                        </Anns>
+                                        <Word>n</Word>
+                                    </DeclName>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="15" Line="160" Loc="lib/prelude.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="15" Line="160" Loc="lib/prelude.tex"/>
+                                            </Anns>
+                                            <Word>ℕ</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </VarDecl>
+                            </ZDeclList>
                         </SchText>
                         <MemPred Mixfix="true">
                             <Anns>
-                                <LocAnn Col="34" Loc="lib/prelude.tex" Line="160"/>
+                                <LocAnn Col="34" Line="160" Loc="lib/prelude.tex"/>
                             </Anns>
                             <ApplExpr Mixfix="true">
                                 <Anns>
-                                    <LocAnn Col="24" Loc="lib/prelude.tex" Line="160"/>
+                                    <LocAnn Col="24" Line="160" Loc="lib/prelude.tex"/>
                                 </Anns>
                                 <RefExpr Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="22" Loc="lib/prelude.tex" Line="160"/>
+                                        <LocAnn Col="22" Line="160" Loc="lib/prelude.tex"/>
                                     </Anns>
                                     <RefName>
+                                        <Anns>
+                                            <LocAnn Col="22" Line="160" Loc="lib/prelude.tex"/>
+                                        </Anns>
                                         <Word> _ + _ </Word>
                                     </RefName>
                                 </RefExpr>
                                 <TupleExpr>
                                     <Anns>
-                                        <LocAnn Col="22" Loc="lib/prelude.tex" Line="160"/>
+                                        <LocAnn Col="22" Line="160" Loc="lib/prelude.tex"/>
                                     </Anns>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="22" Loc="lib/prelude.tex" Line="160"/>
+                                            <LocAnn Col="22" Line="160" Loc="lib/prelude.tex"/>
                                         </Anns>
                                         <RefName>
                                             <Anns>
-                                                <LocAnn Col="22" Loc="lib/prelude.tex" Line="160"/>
+                                                <LocAnn Col="22" Line="160" Loc="lib/prelude.tex"/>
                                             </Anns>
                                             <Word>m</Word>
                                         </RefName>
                                     </RefExpr>
                                     <ApplExpr Mixfix="true">
                                         <Anns>
-                                            <LocAnn Col="29" Loc="lib/prelude.tex" Line="160"/>
+                                            <LocAnn Col="29" Line="160" Loc="lib/prelude.tex"/>
                                             <ParenAnn/>
                                         </Anns>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="27" Loc="lib/prelude.tex" Line="160"/>
+                                                <LocAnn Col="27" Line="160" Loc="lib/prelude.tex"/>
                                             </Anns>
                                             <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="27" Line="160" Loc="lib/prelude.tex"/>
+                                                </Anns>
                                                 <Word> _ + _ </Word>
                                             </RefName>
                                         </RefExpr>
                                         <TupleExpr>
                                             <Anns>
-                                                <LocAnn Col="27" Loc="lib/prelude.tex" Line="160"/>
+                                                <LocAnn Col="27" Line="160" Loc="lib/prelude.tex"/>
                                             </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="27" Loc="lib/prelude.tex" Line="160"/>
+                                                    <LocAnn Col="27" Line="160" Loc="lib/prelude.tex"/>
                                                 </Anns>
                                                 <RefName>
                                                     <Anns>
-                                                        <LocAnn Col="27" Loc="lib/prelude.tex" Line="160"/>
+                                                        <LocAnn Col="27" Line="160" Loc="lib/prelude.tex"/>
                                                     </Anns>
                                                     <Word>n</Word>
                                                 </RefName>
                                             </RefExpr>
                                             <NumExpr Value="1">
                                                 <Anns>
-                                                    <LocAnn Col="31" Loc="lib/prelude.tex" Line="160"/>
+                                                    <LocAnn Col="31" Line="160" Loc="lib/prelude.tex"/>
                                                 </Anns>
                                             </NumExpr>
                                         </TupleExpr>
@@ -1577,55 +1637,61 @@ to references to these declarations (see 12.2.6.9).
                             <SetExpr>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="44" Loc="lib/prelude.tex" Line="160"/>
+                                        <LocAnn Col="44" Line="160" Loc="lib/prelude.tex"/>
                                     </Anns>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="42" Loc="lib/prelude.tex" Line="160"/>
+                                            <LocAnn Col="42" Line="160" Loc="lib/prelude.tex"/>
                                         </Anns>
                                         <RefName>
+                                            <Anns>
+                                                <LocAnn Col="42" Line="160" Loc="lib/prelude.tex"/>
+                                            </Anns>
                                             <Word> _ + _ </Word>
                                         </RefName>
                                     </RefExpr>
                                     <TupleExpr>
                                         <Anns>
-                                            <LocAnn Col="42" Loc="lib/prelude.tex" Line="160"/>
+                                            <LocAnn Col="42" Line="160" Loc="lib/prelude.tex"/>
                                         </Anns>
                                         <ApplExpr Mixfix="true">
                                             <Anns>
-                                                <LocAnn Col="39" Loc="lib/prelude.tex" Line="160"/>
+                                                <LocAnn Col="39" Line="160" Loc="lib/prelude.tex"/>
                                                 <ParenAnn/>
                                             </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="37" Loc="lib/prelude.tex" Line="160"/>
+                                                    <LocAnn Col="37" Line="160" Loc="lib/prelude.tex"/>
                                                 </Anns>
                                                 <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="37" Line="160" Loc="lib/prelude.tex"/>
+                                                    </Anns>
                                                     <Word> _ + _ </Word>
                                                 </RefName>
                                             </RefExpr>
                                             <TupleExpr>
                                                 <Anns>
-                                                    <LocAnn Col="37" Loc="lib/prelude.tex" Line="160"/>
+                                                    <LocAnn Col="37" Line="160" Loc="lib/prelude.tex"/>
                                                 </Anns>
                                                 <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="37" Loc="lib/prelude.tex" Line="160"/>
+                                                        <LocAnn Col="37" Line="160" Loc="lib/prelude.tex"/>
                                                     </Anns>
                                                     <RefName>
                                                         <Anns>
-                                                            <LocAnn Col="37" Loc="lib/prelude.tex" Line="160"/>
+                                                            <LocAnn Col="37" Line="160" Loc="lib/prelude.tex"/>
                                                         </Anns>
                                                         <Word>m</Word>
                                                     </RefName>
                                                 </RefExpr>
                                                 <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="41" Loc="lib/prelude.tex" Line="160"/>
+                                                        <LocAnn Col="41" Line="160" Loc="lib/prelude.tex"/>
                                                     </Anns>
                                                     <RefName>
                                                         <Anns>
-                                                            <LocAnn Col="41" Loc="lib/prelude.tex" Line="160"/>
+                                                            <LocAnn Col="41" Line="160" Loc="lib/prelude.tex"/>
                                                         </Anns>
                                                         <Word>n</Word>
                                                     </RefName>
@@ -1634,7 +1700,7 @@ to references to these declarations (see 12.2.6.9).
                                         </ApplExpr>
                                         <NumExpr Value="1">
                                             <Anns>
-                                                <LocAnn Col="46" Loc="lib/prelude.tex" Line="160"/>
+                                                <LocAnn Col="46" Line="160" Loc="lib/prelude.tex"/>
                                             </Anns>
                                         </NumExpr>
                                     </TupleExpr>
@@ -1647,7 +1713,7 @@ to references to these declarations (see 12.2.6.9).
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="12" Loc="lib/prelude.tex" Line="161"/>
+                <LocAnn Col="12" Line="161" Loc="lib/prelude.tex"/>
             </Anns>
             <Content>
 

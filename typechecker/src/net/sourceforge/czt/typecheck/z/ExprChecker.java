@@ -1214,9 +1214,10 @@ public class ExprChecker
     //the list for create the signature
     List<NameTypePair> pairs = list();
 
-    List<NameExprPair> nameExprPairs = bindExpr.getNameExprPair();
-    for (NameExprPair nameExprPair : nameExprPairs) {
-      DeclName declName = nameExprPair.getName();
+    DeclList declList = bindExpr.getDeclList();
+    for (Decl decl : ((ZDeclList) declList).getDecl()) {
+      ConstDecl constDecl = (ConstDecl) decl;
+      DeclName declName = constDecl.getDeclName();
       //if this name is duplicated, raise an error
       if (names.contains(declName)) {
         Object [] params = {declName};
@@ -1224,7 +1225,7 @@ public class ExprChecker
       }
       else {
         //get the type of the expression
-        Expr expr = nameExprPair.getExpr();
+        Expr expr = constDecl.getExpr();
         Type2 exprType = expr.accept(exprChecker());
 
         //add the name and type to the list

@@ -170,8 +170,9 @@ public class FlatPredList
    * @param stext 
    */
   public void addSchText(/*@non_null@*/SchText stext) {
-    for (Iterator i = stext.getDecl().iterator(); i.hasNext(); )
-      addDecl((Decl)i.next());
+    ZDeclList zdecl = (ZDeclList) stext.getDeclList();
+    for (Decl d : zdecl.getDecl())
+      addDecl(d);
     Pred p = stext.getPred();
     if (p != null)
       addPred(p);

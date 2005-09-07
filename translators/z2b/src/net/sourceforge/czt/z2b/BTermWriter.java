@@ -320,7 +320,7 @@ public class BTermWriter
    */
   //@ requires s != null;
   protected Pred splitSchText(SchText s) {
-    Iterator i = s.getDecl().iterator();
+    Iterator i = ((ZDeclList) s.getDeclList()).getDecl().iterator();
     Pred result = null;
     while (i.hasNext()) {
       Decl d = (Decl)i.next();

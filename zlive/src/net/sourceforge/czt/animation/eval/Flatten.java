@@ -66,7 +66,7 @@ public class Flatten
       ProdExprVisitor,
       TupleExprVisitor,
       BindExprVisitor,
-      NameExprPairVisitor
+      ZDeclListVisitor
 {
   private ZLive zlive_;
   
@@ -409,7 +409,7 @@ public class Flatten
   public Object visitSetCompExpr(SetCompExpr e) {
     RefName result = zlive_.createNewName();
     SchText text = e.getSchText();
-    List decls = text.getDecl();
+    List decls = ((ZDeclList) text.getDeclList()).getDecl();
     Pred pred = text.getPred();
     Expr expr = e.getExpr();
     if (expr == null) {
@@ -447,32 +447,36 @@ public class Flatten
   {
     return notYet(e);
     /*
-    List pairs = (List) e.getNameExprPair().accept(this);
+    ZDeclList decls = (ZDeclList) e.getDeclList().accept(this);
     RefName result = zlive_.createNewName();
-    flat_.add(new FlatBinding(pairs, result));
+    flat_.add(new FlatBinding(decls, result));
     return result;
     */
   }
 
-  /** Flattens the Expr part, then returns a (DeclName,RefName) pair.
-   *  Unlike most other visit methods in this class, this does not return
-   *  just a RefName.  Instead it returns new pair, which should be
-   *  handled by the callers of this method.  This is because NameExprPairs
-   *  are really part of the syntax of the parent AST node, rather than a
-   *  separate Z operator.
-   *  @param  pair A NameExprPair that needs to be flattened.
-   *  @return (DeclName,RefExpr) where DeclName is unchanged and RefExpr
-   *          contains the RefName that results from passing pair.getExpr()
-   *          to flattenExpr.
-   */
-  public Object visitNameExprPair(NameExprPair pair)
+  public Object visitZDeclList(ZDeclList declList)
   {
-    DeclName decl = pair.getName();
-    Expr expr = pair.getExpr();
+    List<Decl> declList2 = (List<Decl>) declList.getDecl().accept(this);
+    return zlive_.getFactory().createZDeclList(declList2);
+  }
+
+  /** Handles the ConstDecls that appear within BindExpr.
+   *  Unlike most other visit methods in this class, this does not return
+   *  just a RefName.  Instead it returns a new ConstDecl, which should be
+   *  handled by the callers of this method (BindExpr). This is because 
+   *  these ConstDecls are really part of the syntax of the BindExpr,
+   *  rather than a separate Z operator.
+   *  @param  constDecl A ConstDecl that needs to be flattened.
+   *  @return the same ConstDecl, but with the Expr part flattened.
+   */
+  public Object visitConstDecl(ConstDecl constDecl)
+  {
+    DeclName decl = constDecl.getDeclName();
+    Expr expr = constDecl.getExpr();
     RefName eresult = (RefName)expr.accept(this);  // recursive flatten
     // we have to wrap a RefExpr around eresult, so it has the right type.
     RefExpr refexpr = zlive_.getFactory().createRefExpr(eresult);
-    return zlive_.getFactory().createNameExprPair(decl,refexpr);
+    return zlive_.getFactory().createConstDecl(decl,refexpr);
   }
 
 /*
@@ -480,7 +484,6 @@ public class Flatten
   public Object visitNameNamePair(NameNamePair zedObject) {return zedObject; }
   public Object visitLetExpr(LetExpr zedObject) {return zedObject; }
   public Object visitSignature(Signature zedObject) {return zedObject; }
-  public Object visitConstDecl(ConstDecl zedObject) {return zedObject; }
   public Object visitProdType(ProdType zedObject) {return zedObject; }
   public Object visitDecl(Decl zedObject) {return zedObject; }
   public Object visitImpliesExpr(ImpliesExpr zedObject) {return zedObject; }

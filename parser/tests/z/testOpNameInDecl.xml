@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Spec Version="1.4" xmlns="http://czt.sourceforge.net/zml">
+<Spec Version="2.0" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://czt.sourceforge.net/zml">
     <ZSect>
         <Name>Specification</Name>
         <Parent>
@@ -8,7 +8,7 @@
         <LatexMarkupPara/>
         <OptempPara Cat="Generic">
             <Anns>
-                <LocAnn Col="1" Loc="tests/z/testOpNameInDecl.tex" Line="2"/>
+                <LocAnn Col="1" Line="2" Loc="tests/z/testOpNameInDecl.tex"/>
             </Anns>
             <Operator>
                 <Word>preOp</Word>
@@ -17,119 +17,138 @@
         </OptempPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="tests/z/testOpNameInDecl.tex" Line="3"/>
+                <LocAnn Col="10" Line="3" Loc="tests/z/testOpNameInDecl.tex"/>
             </Anns>
             <Content>
 
 </Content>
         </NarrPara>
         <AxPara Box="AxBox">
+            <Anns>
+                <LocAnn Col="1" Line="5" Loc="tests/z/testOpNameInDecl.tex"/>
+            </Anns>
             <SchText>
-                <VarDecl>
-                    <Anns>
-                        <LocAnn Col="16" Loc="tests/z/testOpNameInDecl.tex" Line="6"/>
-                    </Anns>
-                    <DeclName>
+                <ZDeclList>
+                    <VarDecl>
                         <Anns>
-                            <LocAnn Col="3" Loc="tests/z/testOpNameInDecl.tex" Line="6"/>
+                            <LocAnn Col="16" Line="6" Loc="tests/z/testOpNameInDecl.tex"/>
                         </Anns>
-                        <Word>x</Word>
-                    </DeclName>
-                    <DeclName>
-                        <Word>preOp _ </Word>
-                    </DeclName>
-                    <RefExpr Mixfix="true">
-                        <Anns>
-                            <LocAnn Col="23" Loc="tests/z/testOpNameInDecl.tex" Line="6"/>
-                        </Anns>
-                        <RefName>
-                            <Word> _ → _ </Word>
-                        </RefName>
-                        <RefExpr Mixfix="false">
+                        <DeclName>
                             <Anns>
-                                <LocAnn Col="18" Loc="tests/z/testOpNameInDecl.tex" Line="6"/>
+                                <LocAnn Col="3" Line="6" Loc="tests/z/testOpNameInDecl.tex"/>
+                            </Anns>
+                            <Word>x</Word>
+                        </DeclName>
+                        <DeclName>
+                            <Word>preOp _ </Word>
+                        </DeclName>
+                        <RefExpr Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="23" Line="6" Loc="tests/z/testOpNameInDecl.tex"/>
                             </Anns>
                             <RefName>
                                 <Anns>
-                                    <LocAnn Col="18" Loc="tests/z/testOpNameInDecl.tex" Line="6"/>
+                                    <LocAnn Col="18" Line="6" Loc="tests/z/testOpNameInDecl.tex"/>
                                 </Anns>
-                                <Word>ℕ</Word>
+                                <Word> _ → _ </Word>
                             </RefName>
-                        </RefExpr>
-                        <RefExpr Mixfix="false">
-                            <Anns>
-                                <LocAnn Col="28" Loc="tests/z/testOpNameInDecl.tex" Line="6"/>
-                            </Anns>
-                            <RefName>
+                            <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="28" Loc="tests/z/testOpNameInDecl.tex" Line="6"/>
+                                    <LocAnn Col="18" Line="6" Loc="tests/z/testOpNameInDecl.tex"/>
                                 </Anns>
-                                <Word>ℕ</Word>
-                            </RefName>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="18" Line="6" Loc="tests/z/testOpNameInDecl.tex"/>
+                                    </Anns>
+                                    <Word>ℕ</Word>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="28" Line="6" Loc="tests/z/testOpNameInDecl.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="28" Line="6" Loc="tests/z/testOpNameInDecl.tex"/>
+                                    </Anns>
+                                    <Word>ℕ</Word>
+                                </RefName>
+                            </RefExpr>
                         </RefExpr>
-                    </RefExpr>
-                </VarDecl>
+                    </VarDecl>
+                </ZDeclList>
             </SchText>
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="12" Loc="tests/z/testOpNameInDecl.tex" Line="7"/>
+                <LocAnn Col="12" Line="7" Loc="tests/z/testOpNameInDecl.tex"/>
             </Anns>
             <Content>
 
 </Content>
         </NarrPara>
         <AxPara Box="AxBox">
+            <Anns>
+                <LocAnn Col="1" Line="9" Loc="tests/z/testOpNameInDecl.tex"/>
+            </Anns>
             <SchText>
-                <VarDecl>
-                    <Anns>
-                        <LocAnn Col="18" Loc="tests/z/testOpNameInDecl.tex" Line="10"/>
-                    </Anns>
-                    <DeclName>
-                        <Word>preOp _ </Word>
-                    </DeclName>
-                    <DeclName>
+                <ZDeclList>
+                    <VarDecl>
                         <Anns>
-                            <LocAnn Col="16" Loc="tests/z/testOpNameInDecl.tex" Line="10"/>
+                            <LocAnn Col="18" Line="10" Loc="tests/z/testOpNameInDecl.tex"/>
                         </Anns>
-                        <Word>x</Word>
-                    </DeclName>
-                    <RefExpr Mixfix="true">
-                        <Anns>
-                            <LocAnn Col="25" Loc="tests/z/testOpNameInDecl.tex" Line="10"/>
-                        </Anns>
-                        <RefName>
-                            <Word> _ → _ </Word>
-                        </RefName>
-                        <RefExpr Mixfix="false">
+                        <DeclName>
                             <Anns>
-                                <LocAnn Col="20" Loc="tests/z/testOpNameInDecl.tex" Line="10"/>
+                                <LocAnn Col="10" Line="10" Loc="tests/z/testOpNameInDecl.tex"/>
+                            </Anns>
+                            <Word>preOp _ </Word>
+                        </DeclName>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="16" Line="10" Loc="tests/z/testOpNameInDecl.tex"/>
+                            </Anns>
+                            <Word>x</Word>
+                        </DeclName>
+                        <RefExpr Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="25" Line="10" Loc="tests/z/testOpNameInDecl.tex"/>
                             </Anns>
                             <RefName>
                                 <Anns>
-                                    <LocAnn Col="20" Loc="tests/z/testOpNameInDecl.tex" Line="10"/>
+                                    <LocAnn Col="20" Line="10" Loc="tests/z/testOpNameInDecl.tex"/>
                                 </Anns>
-                                <Word>ℕ</Word>
+                                <Word> _ → _ </Word>
                             </RefName>
-                        </RefExpr>
-                        <RefExpr Mixfix="false">
-                            <Anns>
-                                <LocAnn Col="30" Loc="tests/z/testOpNameInDecl.tex" Line="10"/>
-                            </Anns>
-                            <RefName>
+                            <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="30" Loc="tests/z/testOpNameInDecl.tex" Line="10"/>
+                                    <LocAnn Col="20" Line="10" Loc="tests/z/testOpNameInDecl.tex"/>
                                 </Anns>
-                                <Word>ℕ</Word>
-                            </RefName>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="20" Line="10" Loc="tests/z/testOpNameInDecl.tex"/>
+                                    </Anns>
+                                    <Word>ℕ</Word>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="30" Line="10" Loc="tests/z/testOpNameInDecl.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="30" Line="10" Loc="tests/z/testOpNameInDecl.tex"/>
+                                    </Anns>
+                                    <Word>ℕ</Word>
+                                </RefName>
+                            </RefExpr>
                         </RefExpr>
-                    </RefExpr>
-                </VarDecl>
+                    </VarDecl>
+                </ZDeclList>
             </SchText>
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="12" Loc="tests/z/testOpNameInDecl.tex" Line="11"/>
+                <LocAnn Col="12" Line="11" Loc="tests/z/testOpNameInDecl.tex"/>
             </Anns>
             <Content>
 </Content>

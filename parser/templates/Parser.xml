@@ -202,7 +202,12 @@ action code
 
     private SchText createSchText(List decl, Pred pred)
     {
-      return factory_.createSchText(decl, pred);
+      return factory_.createSchText(factory_.createZDeclList(decl), pred);
+    }
+
+    private SchText createSchText(DeclList declList, Pred pred)
+    {
+      return factory_.createSchText(declList, pred);
     }
 
     private Operator createOperator(Decorword decorword, int line, int column)
@@ -1058,9 +1063,9 @@ non terminal MemPred
 non terminal Expr
     expression;
 
-non terminal List /*NameExprPair*/
-    optNameExprPairList,
-    nameExprPairList;
+non terminal ZDeclList
+    constDeclList,
+    optConstDeclList;
 
 non terminal NameExprPair
     nameExprPair;
@@ -1647,7 +1652,7 @@ abbreviationDefinition ::=
         {:
            ConstDecl cd = factory_.createConstDecl(dn, e);
            addLocAnn(cd, equalleft, equalright);
-           SchText st = factory_.createSchText(list(cd), null);
+           SchText st = factory_.createSchText(factory_.createZDeclList(list(cd)), null);
            addLocAnn(st, dnleft, dnright);
            RESULT = factory_.createAxPara(null, st, Box.OmitBox);
            addLocAnn(RESULT, dnleft, dnright);
@@ -1659,7 +1664,8 @@ abbreviationDefinition ::=
         {:
            ConstDecl cd = factory_.createConstDecl(dn, e);
            addLocAnn(cd, equalleft, equalright);
-           SchText st = factory_.createSchText(list(cd), null);
+           SchText st =
+             factory_.createSchText(factory_.createZDeclList(list(cd)), null);
            addLocAnn(st, dnleft, dnright);
            RESULT = factory_.createAxPara(fp, st, Box.OmitBox);
            addLocAnn(RESULT, dnleft, dnright);
@@ -1671,7 +1677,8 @@ abbreviationDefinition ::=
            List fp = (List) gn.getSecond();
            ConstDecl cd = factory_.createConstDecl(dn, e);
            addLocAnn(cd, equalleft, equalright);
-           SchText st = factory_.createSchText(list(cd), null);
+           SchText st =
+             factory_.createSchText(factory_.createZDeclList(list(cd)), null);
            RESULT = factory_.createAxPara(fp, st, Box.OmitBox);
            addLocAnn(RESULT, gnleft, gnright);
         :}
@@ -1906,10 +1913,12 @@ channelPara ::=
 
 schemaText ::= 
         optDeclPart:odp BAR predicate:p
-        {: RESULT = factory_.createSchText(odp, p); :}
+        {: RESULT =
+             factory_.createSchText(factory_.createZDeclList(odp), p); :}
         |
         optDeclPart:odp
-        {: RESULT = factory_.createSchText(odp, null); :}
+        {: RESULT =
+             factory_.createSchText(factory_.createZDeclList(odp), null); :}
         ;
 
 optDeclPart ::=
@@ -1941,16 +1950,18 @@ declaration ::=
 
 schemaTextNoExpression ::=
         optDeclPart:dp BAR predicate:p
-        {: RESULT = factory_.createSchText(dp, p); :}
+        {: RESULT = factory_.createSchText(factory_.createZDeclList(dp), p); :}
         |
 	declPart:dp sep declaration:d
 	{:
            dp.add(d);
-           RESULT = factory_.createSchText(dp, null);
+           RESULT = factory_.createSchText(factory_.createZDeclList(dp), null);
 	:}
 	|
 	basicDeclaration:bd
-	{: RESULT = factory_.createSchText(list(bd), null); :}
+	{: RESULT =
+             factory_.createSchText(factory_.createZDeclList(list(bd)), null);
+        :}
         ;
 
 basicDeclaration ::=
@@ -2683,7 +2694,8 @@ term ::=
         /* substitution expression */
         LET:let letDefinitionList:ldl SPOT term:t 
         {: 
-           SchText st = factory_.createSchText(ldl, null);
+           SchText st =
+             factory_.createSchText(factory_.createZDeclList(ldl), null);
            RESULT = factory_.createLetExpr(st, expr(t));
            addLocAnn(RESULT, letleft, letright);
         :} %prec LET
@@ -2899,16 +2911,17 @@ inner_term ::=
         {: RESULT = nfa; :} %prec _APPLICATION
         |
         /* binding extension */
-        LBIND:lbind optNameExprPairList:onepl RBIND
+        LBIND:lbind optConstDeclList:cdl RBIND
         {:
-           RESULT = factory_.createBindExpr(onepl);
+           RESULT = factory_.createBindExpr(cdl);
            addLocAnn(RESULT, lbindleft, lbindright);
         :}
         |
         /* empty schema construction */
         LSQUARE:lsq RSQUARE
         {:
-           RESULT = factory_.createSchExpr(factory_.createSchText());
+           DeclList dl = factory_.createZDeclList();
+           RESULT = factory_.createSchExpr(factory_.createSchText(dl, null));
            addLocAnn(RESULT, lsqleft, lsqright);
         :}
         |
@@ -3058,30 +3071,24 @@ expressionList ::=
         ;
 
 
-optNameExprPairList ::=
+optConstDeclList ::=
         //empty
-        {: RESULT = list(); :}
+        {: RESULT = factory_.createZDeclList(); :}
         |
-        nameExprPairList:nepl
-        {: RESULT = nepl; :}
+        constDeclList:cdl
+        {: RESULT = cdl; :}
         ;
 
-nameExprPairList ::=
-        nameExprPairList:nepl COMMA nameExprPair:nep
+constDeclList ::=
+        constDeclList:cdl COMMA constDecl:cd
         {:      
-           nepl.add(nep);
-           RESULT = nepl;
-        :} 
+           cdl.getDecl().add(cd);
+           RESULT = cdl;
+        :}
         |
-        nameExprPair:nep
-        {: RESULT = list(nep); :}
+        constDecl:cd
+        {: RESULT = factory_.createZDeclList(list(cd)); :}
         ;       
-
-nameExprPair ::=
-        declName:dn DEFEQUAL expression:e
-        {: RESULT = factory_.createNameExprPair(dn, e); :}
-        ;
-
 
 letDefinitionList ::=
         letDefinitionList:ldl SEMICOLON letDefinition:ld
@@ -3774,7 +3781,8 @@ baseType ::=
         |
         LSQUARE:lsq varDeclList:vdl RSQUARE
         {:
-           SchText st = factory_.createSchText(vdl, null);
+           SchText st =
+             factory_.createSchText(factory_.createZDeclList(vdl), null);
            RESULT = factory_.createSchExpr(st);
            addLocAnn(RESULT, lsqleft, lsqright);
         :}
@@ -4187,22 +4195,22 @@ operation ::=
 
 opText ::=
         deltaList:dl sep:s declPart:dp BAR predicate:p
-        {: RESULT = factory_.createOpText(dl, createSchText(dp, p)); :}
+        {: RESULT = factory_.createOpText(dl, createSchText(factory_.createZDeclList(dp), p)); :}
         |
         deltaList:dl sep:s declPart:dp
-        {: RESULT = factory_.createOpText(dl, createSchText(dp, null)); :}
+        {: RESULT = factory_.createOpText(dl, createSchText(factory_.createZDeclList(dp), null)); :}
         |
         deltaList:dl BAR predicate:p  
-        {: RESULT = factory_.createOpText(dl, createSchText(null, p)); :}
+        {: RESULT = factory_.createOpText(dl, createSchText(list(), p)); :}
         |
         deltaList:dl
-        {: RESULT = factory_.createOpText(dl, createSchText(list(), null)); :}
+        {: RESULT = factory_.createOpText(dl, createSchText(factory_.createZDeclList(list()), null)); :}
         |
         optDeclPart:dp BAR predicate:p
-        {: RESULT = factory_.createOpText(null, createSchText(dp, p)); :}
+        {: RESULT = factory_.createOpText(null, createSchText(factory_.createZDeclList(dp), p)); :}
         |
         optDeclPart:dp
-        {: RESULT = factory_.createOpText(null, createSchText(dp, null)); :}
+        {: RESULT = factory_.createOpText(null, createSchText(factory_.createZDeclList(dp), null)); :}
         ;
 
 opExpr ::=

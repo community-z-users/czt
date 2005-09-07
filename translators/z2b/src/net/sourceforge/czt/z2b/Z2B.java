@@ -351,10 +351,16 @@ public class Z2B
     if (para.getDeclName().size() > 0)
       throw new BException("Generic definitions not handled yet.");
     SchText schText = para.getSchText();
-    schText.getDecl().accept(this);
+    schText.getDeclList().accept(this);
     Pred pred = schText.getPred();
     if (pred != null)
       addPred(pred, mach_.getProperties());
+    return null;
+  }
+
+  public Object visitZDeclList(ZDeclList zDeclList)
+  {
+    zDeclList.getDecl().accept(this);
     return null;
   }
 

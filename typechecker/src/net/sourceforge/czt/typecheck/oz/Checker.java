@@ -210,7 +210,7 @@ abstract public class Checker<R>
       List<NameTypePair> pairs = list();
 
       //get and visit the list of declarations
-      List<Decl> decls = schText.getDecl();
+      List<Decl> decls = ((ZDeclList) schText.getDeclList()).getDecl();
       for (Decl decl : decls) {
         pairs.addAll((List<NameTypePair>) decl.accept(declChecker()));
       }

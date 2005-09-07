@@ -13,17 +13,13 @@ import java.util.List;
 import java.util.logging.*;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.z.ast.BindExpr;
-import net.sourceforge.czt.z.ast.DeclName;
-import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.NameExprPair;
-import net.sourceforge.czt.z.ast.RefName;
+import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
 
 /**
  * Originally as FlatTuple(B,b) implements (Elements of Map<RefName,Expr> B) = b
  *
- * Until updates on the structure of FlatPred.args, we need (Elements of ArrayList<NameExprPair> B).
+ * Until updates on the structure of FlatPred.args, we need (Elements of ArrayList<ConstDecl> B).
  *
  * @author leo
  */
@@ -34,31 +30,37 @@ public class FlatBinding extends FlatPred {
 
     protected Factory factory_ = new Factory();
     
-    /** Creates a new instance of FlatBinding */
+    /** Creates a new instance of FlatBinding
+        @obsolete
     public FlatBinding(RefName bind, NameExprPair... bindings) {
         this(Arrays.asList(bindings), bind);
     }
+    */
     
-    public FlatBinding(List<NameExprPair> bindings, RefName bind)
+    public FlatBinding(ZDeclList bindings, RefName bind)
     {
         sLogger.entering("FlatBinding","FlatBinding");
         HashSet names = new HashSet();
-        for(NameExprPair nep : bindings) {
-	    sLogger.fine("name/expr = "+nep.getName()+"/"+nep.getExpr());
-            if (!names.add(nep.getName()))
-                throw new IllegalArgumentException("FlatBinding requires that given list of name-expr pairs has no duplicates");
+        for(Decl decl : bindings.getDecl()) {
+          ConstDecl constDecl = (ConstDecl) decl;
+          sLogger.fine("name/expr = "+constDecl.getDeclName()
+                       +"/"+constDecl.getExpr());
+          if (!names.add(constDecl.getDeclName()))
+            throw new IllegalArgumentException("FlatBinding requires that given list of name-expr pairs has no duplicates");
         }
-        args = new ArrayList(bindings);
+        args = new ArrayList(bindings.getDecl());
         args.add(bind);
         solutionsReturned = -1;
         sLogger.exiting("FlatBinding","FlatBinding");
     }
     
     //@ requires newargs.size() >= 1;
+    /** @obsolete
     public FlatBinding(List<NameExprPair> newargs) {
         this(newargs.subList(0,newargs.size()-1),(RefName)newargs.get(newargs.size()-1));
     }
-    
+    */
+
     // same as FlatTuple
     public Mode chooseMode(Envir env) {
         Mode m = modeFunction(env);
@@ -104,20 +106,20 @@ public class FlatBinding extends FlatPred {
             //The case where the bind itself is an input
             if(evalMode_.isInput(args.size()-1)) {
                 BindExpr bindExpr = (BindExpr)evalMode_.getEnvir().lookup(bindName);                
-                List bindingsList = bindExpr.getNameExprPair();
+                List bindingsList = ((ZDeclList) bindExpr.getDeclList()).getDecl();
                 //no. of elements in env.binding should be same as that passed as inputs
                 if(bindingsList.size() == args.size()-1) {
                     boolean flag = true;
                     for(int i=0;i<bindingsList.size();i++) {
                         //if a RefName is not in the env, then it is set seeing the value in env.bindings
-                        NameExprPair nep = (NameExprPair)args.get(i);                        
-                        RefName bindElemName = factory_.createRefName(nep.getName());
+                        ConstDecl constDecl = (ConstDecl)args.get(i);                        
+                        RefName bindElemName = factory_.createRefName(constDecl.getDeclName());
                         if(evalMode_.getEnvir().lookup(bindElemName) == null) {
-                            evalMode_.getEnvir().setValue(bindElemName, nep.getExpr());
+                            evalMode_.getEnvir().setValue(bindElemName, constDecl.getExpr());
                         }
                         //if a RefName is there in the env, it is checked to be equal to the corresponsing one in env.bindings
                         else {
-                            if(!(evalMode_.getEnvir().lookup(bindElemName).equals(nep.getExpr())))
+                            if(!(evalMode_.getEnvir().lookup(bindElemName).equals(constDecl.getExpr())))
                                 flag = false;
                         }
                     }
@@ -130,11 +132,12 @@ public class FlatBinding extends FlatPred {
                 result = true;
                 List exprList = new ArrayList(args.size()-1);
                 for(int i=0;i<args.size()-1;i++) {
-                    NameExprPair nep = (NameExprPair)args.get(i);                        
-                    RefName bindElemName = factory_.createRefName(nep.getName());
+                    ConstDecl constDecl = (ConstDecl)args.get(i);
+                    RefName bindElemName = factory_.createRefName(constDecl.getDeclName());
                     exprList.add(evalMode_.getEnvir().lookup(bindElemName));
                 }
-                Expr bindExpr = factory_.createBindExpr(exprList);
+                Expr bindExpr =
+                  factory_.createBindExpr(factory_.createZDeclList(exprList));
                 evalMode_.getEnvir().setValue(bindName, bindExpr);
             }
         }

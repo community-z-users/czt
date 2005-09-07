@@ -1,110 +1,252 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Spec Version="1.4" xmlns="http://czt.sourceforge.net/zml">
+<Spec Version="2.0" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://czt.sourceforge.net/zml">
+    <NarrSect>
+        <Anns>
+            <LocAnn Col="1" Line="2" Loc="tests/z/test4.tex"/>
+        </Anns>
+        <Content>\documentclass{llncs}
+\usepackage{pt}
+\usepackage{units}
+\usepackage{coz}
+\usepackage{epsf}
+\usepackage{lncsexample}
+\conttrue
+\def\kph{\km \mulnuit{\hour}{-1}}
+
+\begin{document}
+</Content>
+    </NarrSect>
     <ZSect>
         <Name>Specification</Name>
         <Parent>
             <Word>standard_toolkit</Word>
         </Parent>
+        <LatexMarkupPara/>
         <AxPara Box="OmitBox">
+            <Anns>
+                <LocAnn Col="1" Line="13" Loc="tests/z/test4.tex"/>
+            </Anns>
             <SchText>
-                <ConstDecl>
-                    <DeclName>
-                        <Word>A</Word>
-                    </DeclName>
-                    <ApplExpr Mixfix="true">
-                        <RefExpr Mixfix="false">
-                            <RefName>
-                                <Word>⟨ ,, ⟩</Word>
-                            </RefName>
-                        </RefExpr>
-                        <SetExpr>
-                            <TupleExpr>
-                                <NumExpr Value="1"/>
-                                <RefExpr Mixfix="false">
-                                    <RefName>
-                                        <Word>a</Word>
-                                    </RefName>
-                                </RefExpr>
-                            </TupleExpr>
-                            <TupleExpr>
-                                <NumExpr Value="2"/>
-                                <RefExpr Mixfix="false">
-                                    <RefName>
-                                        <Word>b</Word>
-                                    </RefName>
-                                </RefExpr>
-                            </TupleExpr>
-                            <TupleExpr>
-                                <NumExpr Value="3"/>
-                                <RefExpr Mixfix="false">
-                                    <RefName>
-                                        <Word>c</Word>
-                                    </RefName>
-                                </RefExpr>
-                            </TupleExpr>
-                            <TupleExpr>
-                                <NumExpr Value="4"/>
-                                <RefExpr Mixfix="false">
-                                    <RefName>
-                                        <Word>d</Word>
-                                    </RefName>
-                                </RefExpr>
-                            </TupleExpr>
-                        </SetExpr>
-                    </ApplExpr>
-                </ConstDecl>
-            </SchText>
-        </AxPara>
-        <AxPara Box="SchBox">
-            <SchText>
-                <ConstDecl>
-                    <DeclName>
-                        <Word>test</Word>
-                    </DeclName>
-                    <SchExpr>
-                        <SchText>
-                            <VarDecl>
-                                <DeclName>
-                                    <Word>E1</Word>
-                                </DeclName>
-                                <DeclName>
-                                    <Word>E2</Word>
-                                </DeclName>
-                                <RefExpr Mixfix="false">
-                                    <RefName>
-                                        <Word>predicates</Word>
-                                    </RefName>
-                                </RefExpr>
-                            </VarDecl>
-                            <AndPred Op="And">
-                                <ExprPred>
-                                    <AndExpr>
-                                        <RefExpr Mixfix="false">
-                                            <RefName>
-                                                <Word>E1</Word>
-                                            </RefName>
-                                        </RefExpr>
-                                        <RefExpr Mixfix="false">
-                                            <RefName>
-                                                <Word>E2</Word>
-                                            </RefName>
-                                        </RefExpr>
-                                    </AndExpr>
-                                </ExprPred>
-                                <MemPred Mixfix="false">
-                                    <NumExpr Value="3"/>
+                <Anns>
+                    <LocAnn Col="1" Line="13" Loc="tests/z/test4.tex"/>
+                </Anns>
+                <ZDeclList>
+                    <ConstDecl>
+                        <Anns>
+                            <LocAnn Col="3" Line="13" Loc="tests/z/test4.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="1" Line="13" Loc="tests/z/test4.tex"/>
+                            </Anns>
+                            <Word>A</Word>
+                        </DeclName>
+                        <ApplExpr Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="6" Line="13" Loc="tests/z/test4.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="6" Line="13" Loc="tests/z/test4.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="6" Line="13" Loc="tests/z/test4.tex"/>
+                                    </Anns>
+                                    <Word>⟨ ,, ⟩</Word>
+                                </RefName>
+                            </RefExpr>
+                            <SetExpr>
+                                <Anns>
+                                    <LocAnn Col="23" Line="13" Loc="tests/z/test4.tex"/>
+                                </Anns>
+                                <TupleExpr>
+                                    <NumExpr Value="1"/>
                                     <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="14" Line="13" Loc="tests/z/test4.tex"/>
+                                        </Anns>
                                         <RefName>
-                                            <Word>S</Word>
+                                            <Anns>
+                                                <LocAnn Col="14" Line="13" Loc="tests/z/test4.tex"/>
+                                            </Anns>
+                                            <Word>a</Word>
                                         </RefName>
                                     </RefExpr>
-                                </MemPred>
-                            </AndPred>
-                        </SchText>
-                    </SchExpr>
-                </ConstDecl>
+                                </TupleExpr>
+                                <TupleExpr>
+                                    <NumExpr Value="2"/>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="17" Line="13" Loc="tests/z/test4.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="17" Line="13" Loc="tests/z/test4.tex"/>
+                                            </Anns>
+                                            <Word>b</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </TupleExpr>
+                                <TupleExpr>
+                                    <NumExpr Value="3"/>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="20" Line="13" Loc="tests/z/test4.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="20" Line="13" Loc="tests/z/test4.tex"/>
+                                            </Anns>
+                                            <Word>c</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </TupleExpr>
+                                <TupleExpr>
+                                    <NumExpr Value="4"/>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="23" Line="13" Loc="tests/z/test4.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="23" Line="13" Loc="tests/z/test4.tex"/>
+                                            </Anns>
+                                            <Word>d</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </TupleExpr>
+                            </SetExpr>
+                        </ApplExpr>
+                    </ConstDecl>
+                </ZDeclList>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Anns>
+                <LocAnn Col="10" Line="14" Loc="tests/z/test4.tex"/>
+            </Anns>
+            <Content>
+</Content>
+        </NarrPara>
+        <AxPara Box="SchBox">
+            <Anns>
+                <LocAnn Col="1" Line="15" Loc="tests/z/test4.tex"/>
+            </Anns>
+            <SchText>
+                <ZDeclList>
+                    <ConstDecl>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="16" Line="15" Loc="tests/z/test4.tex"/>
+                            </Anns>
+                            <Word>test</Word>
+                        </DeclName>
+                        <SchExpr>
+                            <SchText>
+                                <ZDeclList>
+                                    <VarDecl>
+                                        <Anns>
+                                            <LocAnn Col="7" Line="16" Loc="tests/z/test4.tex"/>
+                                        </Anns>
+                                        <DeclName>
+                                            <Anns>
+                                                <LocAnn Col="1" Line="16" Loc="tests/z/test4.tex"/>
+                                            </Anns>
+                                            <Word>E1</Word>
+                                        </DeclName>
+                                        <DeclName>
+                                            <Anns>
+                                                <LocAnn Col="5" Line="16" Loc="tests/z/test4.tex"/>
+                                            </Anns>
+                                            <Word>E2</Word>
+                                        </DeclName>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="9" Line="16" Loc="tests/z/test4.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="9" Line="16" Loc="tests/z/test4.tex"/>
+                                                </Anns>
+                                                <Word>predicates</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </VarDecl>
+                                </ZDeclList>
+                                <AndPred Op="And">
+                                    <Anns>
+                                        <LocAnn Col="20" Line="17" Loc="tests/z/test4.tex"/>
+                                    </Anns>
+                                    <ExprPred>
+                                        <Anns>
+                                            <LocAnn Col="11" Line="17" Loc="tests/z/test4.tex"/>
+                                        </Anns>
+                                        <AndExpr>
+                                            <Anns>
+                                                <LocAnn Col="11" Line="17" Loc="tests/z/test4.tex"/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="8" Line="17" Loc="tests/z/test4.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="8" Line="17" Loc="tests/z/test4.tex"/>
+                                                    </Anns>
+                                                    <Word>E1</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="17" Line="17" Loc="tests/z/test4.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="17" Line="17" Loc="tests/z/test4.tex"/>
+                                                    </Anns>
+                                                    <Word>E2</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </AndExpr>
+                                    </ExprPred>
+                                    <MemPred Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="28" Line="17" Loc="tests/z/test4.tex"/>
+                                        </Anns>
+                                        <NumExpr Value="3">
+                                            <Anns>
+                                                <LocAnn Col="26" Line="17" Loc="tests/z/test4.tex"/>
+                                            </Anns>
+                                        </NumExpr>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="32" Line="17" Loc="tests/z/test4.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="32" Line="17" Loc="tests/z/test4.tex"/>
+                                                </Anns>
+                                                <Word>S</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </MemPred>
+                                </AndPred>
+                            </SchText>
+                        </SchExpr>
+                    </ConstDecl>
+                </ZDeclList>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Anns>
+                <LocAnn Col="13" Line="18" Loc="tests/z/test4.tex"/>
+            </Anns>
+            <Content>
+
+\end{document}
+</Content>
+        </NarrPara>
     </ZSect>
 </Spec>
 

@@ -264,7 +264,7 @@ public class AstToPrintTreeVisitor
         list.add(ZString.RSQUARE);
       }
       SchText schText = axPara.getSchText();
-      for (Iterator iter = schText.getDecl().iterator(); iter.hasNext();) {
+      for (Iterator iter = ((ZDeclList) schText.getDeclList()).getDecl().iterator(); iter.hasNext();) {
         list.add(visit(iter.next()));
         if (iter.hasNext()) list.add(ZString.NL);
       }
@@ -279,7 +279,8 @@ public class AstToPrintTreeVisitor
       List declNameList = axPara.getDeclName();
       if (declNameList.size() > 0) {
         final SchText schText = axPara.getSchText();
-        final List decls = axPara.getSchText().getDecl();
+        final List decls =
+          ((ZDeclList) axPara.getSchText().getDeclList()).getDecl();
         final ConstDecl constDecl = (ConstDecl) decls.get(0);
         final DeclName declName = constDecl.getDeclName();
         final OperatorName operatorName = declName.getOperatorName();
@@ -328,7 +329,8 @@ public class AstToPrintTreeVisitor
     else {
       list.add(ZString.SCH);
     }
-    List decls = axPara.getSchText().getDecl();
+    List decls =
+      ((ZDeclList) axPara.getSchText().getDeclList()).getDecl();
     ConstDecl cdecl = (ConstDecl) decls.get(0);
     String declName = cdecl.getDeclName().getWord();
     if (declName == null) throw new CztException();
@@ -343,7 +345,7 @@ public class AstToPrintTreeVisitor
     }
     SchExpr schExpr = (SchExpr) cdecl.getExpr();
     SchText schText = schExpr.getSchText();
-    for (Iterator iter = schText.getDecl().iterator(); iter.hasNext();) {
+    for (Iterator iter = ((ZDeclList) schText.getDeclList()).getDecl().iterator(); iter.hasNext();) {
       list.add(visit(iter.next()));
       if (iter.hasNext()) list.add(ZString.NL);
     }

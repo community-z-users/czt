@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Spec Version="1.4" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_1_4.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://czt.sourceforge.net/zml">
+<Spec Version="2.0" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://czt.sourceforge.net/zml">
     <NarrSect>
         <Anns>
-            <LocAnn Col="1" Line="1" Loc="parser/tests/z/conjectures.tex"/>
+            <LocAnn Col="1" Line="1" Loc="tests/z/conjectures.tex"/>
         </Anns>
         <Content>The following are one paragraph (a conjecture), with the predicate in
 the conjecture conjoined using a newline.
@@ -17,27 +17,27 @@ the conjecture conjoined using a newline.
         <LatexMarkupPara/>
         <ConjPara>
             <Anns>
-                <LocAnn Col="1" Line="1" Loc="parser/tests/z/conjectures.tex"/>
+                <LocAnn Col="1" Line="1" Loc="tests/z/conjectures.tex"/>
             </Anns>
             <AndPred Op="NL">
                 <Anns>
-                    <LocAnn Col="16" Line="5" Loc="parser/tests/z/conjectures.tex"/>
+                    <LocAnn Col="16" Line="5" Loc="tests/z/conjectures.tex"/>
                 </Anns>
                 <TruePred>
                     <Anns>
-                        <LocAnn Col="5" Line="11" Loc="parser/tests/z/conjectures.tex"/>
+                        <LocAnn Col="5" Line="11" Loc="tests/z/conjectures.tex"/>
                     </Anns>
                 </TruePred>
                 <TruePred>
                     <Anns>
-                        <LocAnn Col="5" Line="19" Loc="parser/tests/z/conjectures.tex"/>
+                        <LocAnn Col="5" Line="19" Loc="tests/z/conjectures.tex"/>
                     </Anns>
                 </TruePred>
             </AndPred>
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Line="6" Loc="parser/tests/z/conjectures.tex"/>
+                <LocAnn Col="10" Line="6" Loc="tests/z/conjectures.tex"/>
             </Anns>
             <Content>
 
@@ -45,54 +45,56 @@ the conjecture conjoined using a newline.
         </NarrPara>
         <ConjPara>
             <Anns>
-                <LocAnn Col="1" Line="1" Loc="parser/tests/z/conjectures.tex"/>
+                <LocAnn Col="1" Line="1" Loc="tests/z/conjectures.tex"/>
             </Anns>
             <AndPred Op="NL">
                 <Anns>
-                    <LocAnn Col="16" Line="9" Loc="parser/tests/z/conjectures.tex"/>
+                    <LocAnn Col="16" Line="9" Loc="tests/z/conjectures.tex"/>
                 </Anns>
                 <TruePred>
                     <Anns>
-                        <LocAnn Col="9" Line="11" Loc="parser/tests/z/conjectures.tex"/>
+                        <LocAnn Col="9" Line="11" Loc="tests/z/conjectures.tex"/>
                     </Anns>
                 </TruePred>
                 <ExprPred>
                     <Anns>
-                        <LocAnn Col="19" Line="9" Loc="parser/tests/z/conjectures.tex"/>
+                        <LocAnn Col="19" Line="9" Loc="tests/z/conjectures.tex"/>
                     </Anns>
                     <SchExpr>
                         <Anns>
-                            <LocAnn Col="19" Line="9" Loc="parser/tests/z/conjectures.tex"/>
+                            <LocAnn Col="19" Line="9" Loc="tests/z/conjectures.tex"/>
                         </Anns>
                         <SchText>
-                            <VarDecl>
-                                <Anns>
-                                    <LocAnn Col="25" Line="9" Loc="parser/tests/z/conjectures.tex"/>
-                                </Anns>
-                                <DeclName>
+                            <ZDeclList>
+                                <VarDecl>
                                     <Anns>
-                                        <LocAnn Col="20" Line="9" Loc="parser/tests/z/conjectures.tex"/>
+                                        <LocAnn Col="25" Line="9" Loc="tests/z/conjectures.tex"/>
                                     </Anns>
-                                    <Word>X</Word>
-                                </DeclName>
-                                <DeclName>
-                                    <Anns>
-                                        <LocAnn Col="23" Line="9" Loc="parser/tests/z/conjectures.tex"/>
-                                    </Anns>
-                                    <Word>Y</Word>
-                                </DeclName>
-                                <RefExpr Mixfix="false">
-                                    <Anns>
-                                        <LocAnn Col="27" Line="9" Loc="parser/tests/z/conjectures.tex"/>
-                                    </Anns>
-                                    <RefName>
+                                    <DeclName>
                                         <Anns>
-                                            <LocAnn Col="27" Line="9" Loc="parser/tests/z/conjectures.tex"/>
+                                            <LocAnn Col="20" Line="9" Loc="tests/z/conjectures.tex"/>
                                         </Anns>
-                                        <Word>ℕ</Word>
-                                    </RefName>
-                                </RefExpr>
-                            </VarDecl>
+                                        <Word>X</Word>
+                                    </DeclName>
+                                    <DeclName>
+                                        <Anns>
+                                            <LocAnn Col="23" Line="9" Loc="tests/z/conjectures.tex"/>
+                                        </Anns>
+                                        <Word>Y</Word>
+                                    </DeclName>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="27" Line="9" Loc="tests/z/conjectures.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="27" Line="9" Loc="tests/z/conjectures.tex"/>
+                                            </Anns>
+                                            <Word>ℕ</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </VarDecl>
+                            </ZDeclList>
                         </SchText>
                     </SchExpr>
                 </ExprPred>
@@ -100,7 +102,7 @@ the conjecture conjoined using a newline.
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Line="10" Loc="parser/tests/z/conjectures.tex"/>
+                <LocAnn Col="10" Line="10" Loc="tests/z/conjectures.tex"/>
             </Anns>
             <Content>
 
@@ -110,46 +112,50 @@ Bug report 1234527 (parsing of empty schema text):
         </NarrPara>
         <ConjPara>
             <Anns>
-                <LocAnn Col="1" Line="1" Loc="parser/tests/z/conjectures.tex"/>
+                <LocAnn Col="1" Line="1" Loc="tests/z/conjectures.tex"/>
             </Anns>
             <ForallPred>
                 <Anns>
-                    <LocAnn Col="11" Line="15" Loc="parser/tests/z/conjectures.tex"/>
+                    <LocAnn Col="11" Line="15" Loc="tests/z/conjectures.tex"/>
                 </Anns>
                 <SchText>
-                    <VarDecl>
-                        <Anns>
-                            <LocAnn Col="20" Line="15" Loc="parser/tests/z/conjectures.tex"/>
-                        </Anns>
-                        <DeclName>
+                    <ZDeclList>
+                        <VarDecl>
                             <Anns>
-                                <LocAnn Col="19" Line="15" Loc="parser/tests/z/conjectures.tex"/>
+                                <LocAnn Col="20" Line="15" Loc="tests/z/conjectures.tex"/>
                             </Anns>
-                            <Word>p</Word>
-                        </DeclName>
-                        <PowerExpr>
-                            <Anns>
-                                <LocAnn Col="22" Line="15" Loc="parser/tests/z/conjectures.tex"/>
-                            </Anns>
-                            <SchExpr>
+                            <DeclName>
                                 <Anns>
-                                    <LocAnn Col="29" Line="15" Loc="parser/tests/z/conjectures.tex"/>
+                                    <LocAnn Col="19" Line="15" Loc="tests/z/conjectures.tex"/>
                                 </Anns>
-                                <SchText/>
-                            </SchExpr>
-                        </PowerExpr>
-                    </VarDecl>
+                                <Word>p</Word>
+                            </DeclName>
+                            <PowerExpr>
+                                <Anns>
+                                    <LocAnn Col="22" Line="15" Loc="tests/z/conjectures.tex"/>
+                                </Anns>
+                                <SchExpr>
+                                    <Anns>
+                                        <LocAnn Col="29" Line="15" Loc="tests/z/conjectures.tex"/>
+                                    </Anns>
+                                    <SchText>
+                                        <ZDeclList/>
+                                    </SchText>
+                                </SchExpr>
+                            </PowerExpr>
+                        </VarDecl>
+                    </ZDeclList>
                 </SchText>
                 <TruePred>
                     <Anns>
-                        <LocAnn Col="15" Line="35" Loc="parser/tests/z/conjectures.tex"/>
+                        <LocAnn Col="15" Line="35" Loc="tests/z/conjectures.tex"/>
                     </Anns>
                 </TruePred>
             </ForallPred>
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Line="16" Loc="parser/tests/z/conjectures.tex"/>
+                <LocAnn Col="10" Line="16" Loc="tests/z/conjectures.tex"/>
             </Anns>
             <Content>
 </Content>

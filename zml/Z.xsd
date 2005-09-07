@@ -732,6 +732,18 @@ more detail.
     </xs:annotation>
   </xs:element>
 
+  <!-- The DeclList hierarchy. -->
+  <xs:element name="DeclList" type="Z:DeclList" abstract="true">
+    <xs:annotation>
+      <xs:documentation>An abstract declaration list.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="ZDeclList" type="Z:ZDeclList" substitutionGroup="Z:DeclList">
+    <xs:annotation>
+      <xs:documentation>A declaration list (12.2.7.2).</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
   <!-- Miscellaneous Z elements -->
   <xs:element name="Parent" type="Z:Parent">
     <xs:annotation>
@@ -760,11 +772,6 @@ more detail.
         but the class just contains a list of pairs
         consisting of a name and a type.
       </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  <xs:element name="NameExprPair" type="Z:NameExprPair">
-    <xs:annotation>
-      <xs:documentation>A pair of a name and an expression.</xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="NameNamePair" type="Z:NameNamePair">
@@ -1289,7 +1296,8 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Expr">
         <xs:sequence>
-          <xs:element ref="Z:NameExprPair" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:DeclList"/>
+          <!-- Restriction to ConstDecls not validated: code should check. -->
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1504,6 +1512,20 @@ more detail.
       <xs:enumeration value="Chain"/>
     </xs:restriction>
   </xs:simpleType>
+  <xs:complexType name="DeclList">
+    <xs:complexContent>
+      <xs:extension base="Z:TermA"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ZDeclList">
+    <xs:complexContent>
+      <xs:extension base="Z:DeclList">
+        <xs:sequence>
+          <xs:element ref="Z:Decl" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
   <xs:complexType name="Parent">
     <xs:complexContent>
       <xs:extension base="Z:TermA">
@@ -1537,7 +1559,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:TermA">
         <xs:sequence>
-          <xs:element ref="Z:Decl" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:DeclList"/>
           <xs:element ref="Z:Pred" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
@@ -1683,12 +1705,6 @@ more detail.
   <xs:complexType name="Signature" mixed="false">
     <xs:sequence>
       <xs:element ref="Z:NameTypePair" minOccurs="0" maxOccurs="unbounded"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="NameExprPair" mixed="false">
-    <xs:sequence>
-      <xs:element name="Name" type="Z:DeclName"/>
-      <xs:element ref="Z:Expr"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="Oper" mixed="false"/>
