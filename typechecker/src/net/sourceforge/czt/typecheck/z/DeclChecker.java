@@ -42,7 +42,8 @@ public class DeclChecker
   extends Checker<List<NameTypePair>>
   implements VarDeclVisitor<List<NameTypePair>>,
              ConstDeclVisitor<List<NameTypePair>>,
-             InclDeclVisitor<List<NameTypePair>>
+             InclDeclVisitor<List<NameTypePair>>,
+	     ZDeclListVisitor<List<NameTypePair>>
 {
   public DeclChecker(TypeChecker typeChecker)
   {
@@ -109,6 +110,19 @@ public class DeclChecker
         addAnn(pair.getName(), locAnn);
         pairs.add(pair);
       }
+    }
+
+    return pairs;
+  }
+
+  public List<NameTypePair> visitZDeclList(ZDeclList zDeclList)
+  {
+    List<NameTypePair> pairs = list();
+
+    //for each declaration in the list, get the declarations from that
+    for (Decl decl : zDeclList.getDecl()) {
+      List<NameTypePair> nextPairs = decl.accept(declChecker());
+      pairs.addAll(nextPairs);
     }
 
     return pairs;

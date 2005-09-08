@@ -131,8 +131,8 @@ public class CarrierSet
       VarDecl varDecl = zFactory_.createVarDecl(name, expr);
       decls.add(varDecl);
     }
-    SchText schText =
-      zFactory_.createSchText(zFactory_.createZDeclList(decls), null);
+    ZDeclList zDeclList = zFactory_.createZDeclList(decls);
+    SchText schText = zFactory_.createSchText(zDeclList, null);
     return schText;
   }
 
@@ -193,8 +193,9 @@ public class CarrierSet
       RefExpr refExpr =
         zFactory_.createRefExpr(refName,GlobalDefs.<Expr>list() , Boolean.FALSE);
       InclDecl inclDecl = zFactory_.createInclDecl(refExpr);
-      SchText result =
-	zFactory_.createSchText(zFactory_.createZDeclList(GlobalDefs.<Decl>list(inclDecl)), null);
+      ZDeclList zDeclList = 
+	zFactory_.createZDeclList(GlobalDefs.<Decl>list(inclDecl));
+      SchText result = zFactory_.createSchText(zDeclList, null);
       return result;  
     }
     return vSig.getValue().accept(this);

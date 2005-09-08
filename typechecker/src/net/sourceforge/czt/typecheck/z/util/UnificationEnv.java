@@ -252,6 +252,8 @@ public class UnificationEnv
     List<Type2> typesB = prodTypeB.getType();
 
     //if the size is not equal, fail
+    assert typesA.size() > 1;
+    assert typesB.size() > 1;
     if (typesA.size() == typesB.size()) {
       for (int i = 0; i < typesA.size(); i++) {
         UResult unified = unify(typesA.get(i), typesB.get(i));

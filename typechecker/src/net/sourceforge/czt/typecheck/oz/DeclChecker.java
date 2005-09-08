@@ -20,6 +20,8 @@ package net.sourceforge.czt.typecheck.oz;
 
 import java.util.List;
 
+import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.typecheck.z.util.UResult;
@@ -34,7 +36,7 @@ import net.sourceforge.czt.typecheck.z.util.UResult;
  */
 public class DeclChecker
   extends Checker<List<NameTypePair>>
-  implements DeclVisitor<List<NameTypePair>>,
+  implements TermVisitor<List<NameTypePair>>,
              VarDeclVisitor<List<NameTypePair>>
 {
   //a Z decl checker
@@ -47,9 +49,9 @@ public class DeclChecker
       new net.sourceforge.czt.typecheck.z.DeclChecker(typeChecker);
   }
 
-  public List<NameTypePair> visitDecl(Decl decl)
+  public List<NameTypePair> visitTerm(Term term)
   {
-    return decl.accept(zDeclChecker_);
+    return term.accept(zDeclChecker_);
   }
 
   public List<NameTypePair> visitVarDecl(VarDecl varDecl)

@@ -1215,9 +1215,9 @@ public class ExprChecker
     List<NameTypePair> pairs = list();
 
     DeclList declList = bindExpr.getDeclList();
-    for (Decl decl : ((ZDeclList) declList).getDecl()) {
-      ConstDecl constDecl = (ConstDecl) decl;
-      DeclName declName = constDecl.getDeclName();
+    List<NameTypePair> decls = declList.accept(declChecker());
+    for (NameTypePair decl : decls) {
+      DeclName declName = decl.getName();
       //if this name is duplicated, raise an error
       if (names.contains(declName)) {
         Object [] params = {declName};
@@ -1225,8 +1225,7 @@ public class ExprChecker
       }
       else {
         //get the type of the expression
-        Expr expr = constDecl.getExpr();
-        Type2 exprType = expr.accept(exprChecker());
+        Type2 exprType = (Type2) decl.getType();
 
         //add the name and type to the list
         NameTypePair nameTypePair =
