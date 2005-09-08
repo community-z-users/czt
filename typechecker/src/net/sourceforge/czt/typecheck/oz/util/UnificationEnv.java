@@ -104,38 +104,41 @@ public class UnificationEnv
   protected UResult unifyVariableType(VariableType vType, Type2 type)
   {
     UResult result = FAIL;
-    if (!strong_ && type instanceof ClassType) {
-      ClassType classType = (ClassType) type;
-      if (vType.getValue() != vType) {
-        result = unify(vType.getValue(), classType);
-      }
-      else {
-        VariableClassType vClassType = factory_.createVariableClassType();
-        vClassType.setCandidateType(classType);
+    //if this variable is not ground
+    if (vType.getValue() == vType) {
+      //if we are using weak typing, and the type is a class type,
+      //then create a variable class type with 'type' as its candidate
+      if (!strong_ && type instanceof ClassType) {
+	ClassType classType = (ClassType) type;
+	VariableClassType vClassType = factory_.createVariableClassType();
+	vClassType.setCandidateType(classType);
 	vType.setValue(vClassType);
 	result = PARTIAL;
       }
+      //if this is not a class type, or we are using strong typing, 
+      //continue as normal
+      else {
+	result = super.unifyVariableType(vType, type);
+      }
     }
+    //if the variable is already ground, then unify the ground value with type2
     else {
-      result = super.unifyVariableType(vType, type);
+      result = unify(vType.getValue(), type);
     }
     return result;
   }
 
-  protected UResult unifyVarClassType(VariableClassType vType, Type2 type)
+  protected UResult unifyVarClassType(VariableClassType vClassType, Type2 type)
   {  
     UResult result = FAIL;
     if (type instanceof ClassType) {
       ClassType classType = (ClassType) type;
-      if (strong_) {
-        result = strongUnifyVarClassType(vType, classType);
-      }
-      else {
-        result = weakUnifyVarClassType(vType, classType);
-      }
+      result = strong_ ?
+	strongUnifyVarClassType(vClassType, classType) :
+	weakUnifyVarClassType(vClassType, classType);
     }
     else if (type instanceof VariableType || type instanceof UnknownType) {
-      result = super.unify(type, vType);
+      result = super.unify(type, vClassType);
     }
     return result;
   }
@@ -143,55 +146,70 @@ public class UnificationEnv
   protected UResult strongUnifyVarClassType(VariableClassType vClassType,
                                             ClassType classType)
   {
-    UResult result = SUCC;
-    if (classType instanceof VariableClassType &&
-	((VariableClassType) classType).getValue() == vClassType.getValue()) {
-      VariableClassType vClassTypeB = (VariableClassType) classType;
-      if (vClassType.getValue() instanceof VariableClassType) {
-	result = PARTIAL;
-      }
-    }
-    else {
-      if (contains(classType, vClassType)) {
-        result = FAIL;
-      }
-      else {
-	if (vClassType.getValue() == vClassType) {
-	  vClassType.setValue(classType);
-	}
-	result = unify(vClassType.getValue(), classType);
-      }
-    }
+    //strong unification of a variable type is variable type unification
+    UResult result = super.unifyVariableType(vClassType, classType);
     return result;
   }
 
-  protected UResult weakUnifyVarClassType(VariableClassType vClassType,
+  protected UResult weakUnifyVarClassType(VariableClassType vClassTypeA,
                                           ClassType classType)
   {
-    UResult result = SUCC;
-    if (vClassType.getCandidateType() == null) {
-      vClassType.setCandidateType(classType);
-    }
-    else {
-      ClassType candidateType = vClassType.getCandidateType();
-      ClassType newType = checkCompatibility(candidateType, classType);
-      if (newType != null) {
-	vClassType.setCandidateType(newType);
+    UResult result = PARTIAL;
+
+    //if this variable is not ground
+    if (vClassTypeA.getValue() == vClassTypeA) {
+      ClassType candidateTypeA = vClassTypeA.getCandidateType();
+      //if we have the same variable, the result is PARTIAL
+      if (vClassTypeA == classType) {
+	result = PARTIAL;
       }
-      result = (newType == null) ? FAIL : SUCC;
+      //if a has no candidate type yet, the classType is its type
+      else if (candidateTypeA == null) {
+	vClassTypeA.setValue(classType);
+      }
+      //if classType is a variable class
+      else if (classType instanceof VariableClassType) {
+	VariableClassType vClassTypeB = (VariableClassType) classType;
+	ClassType candidateTypeB = vClassTypeB.getCandidateType();
+	
+	//if vClassTypeB does not have a candidate type
+	if (candidateTypeB == null) {
+	  result = weakUnifyVarClassType(vClassTypeB, vClassTypeA);
+	}
+	//if vClassTypeB does have a candidate type
+	else {
+	  //calculate the union and set this as the new candidate type for both
+	  ClassType newCandidateType = 
+	    checkCompatibility(candidateTypeA, candidateTypeB);
+	  if (newCandidateType != null) {
+	    vClassTypeA.setCandidateType(newCandidateType);
+	    vClassTypeB.setValue(vClassTypeA);
+	  }
+	  result = (newCandidateType == null) ? FAIL : PARTIAL;	  
+	}
+      }
+      //if classType is not a variable
+      else {
+	//calculate the union and set this as the candidate type
+	ClassType newCandidateType = checkCompatibility(candidateTypeA, classType);
+	if (newCandidateType != null) {
+	  vClassTypeA.setCandidateType(newCandidateType);
+	}
+	result = (newCandidateType == null) ? FAIL : PARTIAL;
+      }
+    }
+    //if this variable is already ground, the value with classType
+    else {
+      result = this.unify(vClassTypeA.getValue(), classType);
     }
     return result;
   }
 
   protected UResult unifyClassType(ClassType typeA, ClassType typeB)
   {
-    UResult result = FAIL;
-    if (strong_) {
-      result = strongUnifyClassType(typeA, typeB);
-    }
-    else {
-      result = weakUnifyClassType(typeA, typeB);
-    }
+    UResult result = strong_ ? 
+      strongUnifyClassType(typeA, typeB) :
+      weakUnifyClassType(typeA, typeB);
     return result;
   }
 
@@ -217,7 +235,6 @@ public class UnificationEnv
         }
       }
     }
-
     return result;
   }
 
@@ -246,20 +263,7 @@ public class UnificationEnv
         }
       }
     }
-
     return result;
-  }
-
-  protected void unifyClassSig(ClassSig sigA, ClassSig sigB)
-  {
-    if (sigA instanceof VariableClassSig) {
-      VariableClassSig vSig = (VariableClassSig) sigA;
-      vSig.setValue(sigB);
-    }
-    else if (sigB instanceof VariableClassSig) {
-      VariableClassSig vSig = (VariableClassSig) sigB;
-      vSig.setValue(sigA);
-    }
   }
 
   protected UResult instantiations(ClassRef classRefA, ClassRef classRefB)
@@ -267,6 +271,7 @@ public class UnificationEnv
     UResult result = SUCC;
     List<Type2> typesA = classRefA.getType2();
     List<Type2> typesB = classRefB.getType2();
+    assert typesA.size() == typesB.size();
     for (int i = 0; i < typesA.size(); i++) {
       UResult unified = unify(typesA.get(i), typesB.get(i));
       if (unified == FAIL) {

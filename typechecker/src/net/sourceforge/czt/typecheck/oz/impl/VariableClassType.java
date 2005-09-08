@@ -86,6 +86,10 @@ public class VariableClassType
    */
   public ClassType getCandidateType()
   {
+    if (candidateType_ instanceof VariableClassType) {
+      VariableClassType vClassType = (VariableClassType) candidateType_;
+      candidateType_ = vClassType.getCandidateType();
+    }
     return candidateType_;
   }
 

@@ -8,6 +8,12 @@
 
   <changes>
     <!-- Add new releases here -->
+    <release version="0.5" date="unreleased">
+      <action dev="Tim" type="fix">
+        Fixed a problem with class type unification to improve type
+        inferencing.
+      </action>
+    </release>
     <release version="0.4" date="September 2, 2005">
       <action dev="Tim" type="add">
         Implemented implicit downcasting (e.g. a \in B => p)
