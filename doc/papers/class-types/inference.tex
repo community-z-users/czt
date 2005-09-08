@@ -60,57 +60,125 @@ indicate that no major changes are made to Spivey's original
 algorithm.
 
 \begin{figure}[!t]
-\begin{tabular}{llll}
-  {\bf fun} & \multicolumn{3}{l}{$weakUnify(\tau_1 :Type, ~\tau_2:Type) : \bool =$}\\
-  & {\bf case} $(\tau_1,\tau_2)$ {\bf of} & $(GivenType~i, GivenType~j)$ &
-  $\dot i=j$\\
-      & & \ldots & \\
-      & &  $(ClassTypeVar~\varclasstype_1, ClassTypeVar~\varclasstype_2)$ & $\dot$\\
-      & &  \multicolumn{2}{l}{\quad\quad\quad\quad\quad\quad
-    $\varclasstype_2 := \varclasstype_1 \cup \varclasstype_2;
-       \varclasstype_1 := \varclasstype_2; true$}\\
-      & & $(TypeVar~\alpha, ClassType~\omega)$ & $\dot \varclasstype
-  := \{\omega\}; \alpha := \varclasstype; true$\\
-      & & $(ClassTypeVar~\varclasstype, ClassType~\omega)$ & $\dot
-  \varclasstype := \varclasstype \cup \{\omega\}$\\
-      & & $(ClassRefType~\omega_1, ClassRefType~\omega_2$) & $\dot$\\
-      & & \multicolumn{2}{l}{\quad\quad{\bf if}
-             $intersect(\{\tau_1.thisClass\}, \{\tau_2.thisClass)\})$}\\
-      & & \multicolumn{2}{l}{\quad\quad{\bf then} $weakUnifyClassRefSig(\omega_1, \omega_2)$}\\
-      & & \multicolumn{2}{l}{\quad\quad{\bf else} $false$}\\
-      & & $(ClassType~\omega_1, ClassType~\omega_2$) & $\dot weakUnifyClassSig(\omega_1, \omega_2) $\\
-      & & $(TypeVar~\alpha, \_)$ & \ldots\\
-      & & $(\_,\_)$ & $\dot false$
-\end{tabular}
-\vspace{2mm}\\
-\begin{tabular}{llll}
-  {\bf fun} & \multicolumn{3}{l}{$weakUnifyClassSig(\omega_1:ClassSignature,~\omega_2:ClassSignature) : \bool =$}\\
-%  {\bf let} & \multicolumn{3}{l}{{\bf val} $\omega_1 = resolve(\omega_1) \land \omega_2 = resolve(\omega_2)$ {\bf in}}\\
-  & {\bf case} $(\omega_1,\omega_2)$ {\bf of} & $(VarSig~\_, \_ )$ & $\dot true$\\
-      & & $(\_, VarSig~\_)$ & $\dot weakUnifyClassSig(\omega_2,\omega_1)$\\
-      & & $(\_,\_)$ & $\dot intersect(\omega_1.classRef, \omega_2.classRef)$
-\end{tabular}
-\vspace{2mm}\\
-\begin{tabular}{llll}
-  {\bf fun} &
-  \multicolumn{3}{l}{$weakUnifyClassRefSig(\omega_1:ClassSignature,~\omega_2:ClassSignature) : \bool =$}\\
-  & {\bf case} $(\omega_1,\omega_2)$ {\bf of} & $(VarSig \_, \_ )$
-  & $\dot \omega_1 := \omega_2; true$\\
-      & & $(\_, VarSig \_)$ & $\dot weakUnifyClassRefSig(\omega_2,\omega_1)$\\
-      & & $(\_, \_)$ & $\dot true$\\
-\end{tabular}
-\vspace{2mm}\\
-\begin{tabular}{ll}
-  {\bf fun} & $intersect(\psi_1:\power ClassRef, \psi_2:\power ClassRef) : \bool =$\\
-   & \quad\quad$\exists r_1 \in \psi_1; r_2 \in \psi_2 @$\\
-   & \quad\quad\quad\quad $r_1.refName = r_2.refName \land \#r_1.type = \#r_2.type \land$\\
-%   & \quad\quad\quad\quad $r_1.rename = r_2.rename \land$\\
-   & \quad\quad\quad\quad $\forall n \in \dom r_1.type @
-       weakUnify(r_1.type(n), r_2.type(n))$
-\end{tabular}
-\caption{Weak Unification of Object-Z Types}
+\begin{tabbing}
+$Unify(s : Type,~t : Type)$\\
+\nexti\TBEGIN\\
+\nexti\nexti\TIF $s = TypeVar~\alpha$ \TTHEN\\
+\nexti\nexti\nexti\TIF $\alpha$ occurs in $t$ \TTHEN $FAIL$\\
+\nexti\nexti\nexti\TELSE\TIF $t = ClassType \mathrel{\_}$~  \TTHEN\\
+\nexti\nexti\nexti\nexti $\alpha := ClassTypeVar~t$\\
+%\nexti\nexti\nexti\TELSE\TIF $t = TypeVar \_$~\TTHEN $PARTIAL$\\
+\nexti\nexti\nexti\TELSE\TIF $\alpha \neq t$ \TTHEN $\alpha := t$\\
+\nexti\nexti\TELSE\TIF $t = TypeVar~\alpha$ \TTHEN $Unify(\alpha, s)$\\
+\nexti\nexti\TELSE\TIF $s = GivenType~m \land t = GivenType~n$ \TTHEN\\
+\nexti\nexti\nexti\TIF $m \neq n$ \TTHEN $FAIL$\\
+\nexti\nexti\TELSE\TIF $s = PowerType~s_1 \land t = PowerType~t_1$ \TTHEN\\
+\nexti\nexti\nexti $Unify(s_1, t_1)$\\
+\nexti\nexti\TELSE\TIF $s = ProdType(s_1, \ldots, s_m) \land t = ProdType(t_1, \ldots, t_n)$ \TTHEN\\
+\nexti\nexti\nexti\TIF $m = n$ \TTHEN\\
+\nexti\nexti\nexti\nexti\TFOR $i \in 1 \upto n$ \TDO\\
+\nexti\nexti\nexti\nexti\nexti$Unify(s_i, t_i)$\\
+\nexti\nexti\nexti\nexti\TEND\\
+\nexti\nexti\nexti\TELSE $FAIL$\\
+\nexti\nexti\TELSE\TIF $s = SchemaType~p \land t = SchemaType~q$ \TTHEN\\
+\nexti\nexti\nexti $UnifySignature(p, q)$\\
+\nexti\nexti\TELSE\TIF $s = ClassTypeVar~s_1 \land t =
+ClassTypeVar~t_1$ \TTHEN\\
+\nexti\nexti\nexti \TIF $s_1 \approx_{\tau} t_1$ \TTHEN%\\
+ $s_1 := s_1 \cup_{\tau} t_1;~ t := s$\\
+\nexti\nexti\nexti \TELSE $FAIL$\\
+\nexti\nexti\TELSE\TIF $s = ClassTypeVar~s_1 \land t =
+ClassType\mathrel{\_}$~~\TTHEN\\
+\nexti\nexti\nexti\TIF $s_1 \approx_{\tau} t$ \TTHEN $s_1 := s_1 \cup_{\tau} t$\\
+\nexti\nexti\nexti\TELSE $FAIL$\\
+\nexti\nexti\TELSE\TIF $s = ClassType \{c_1, \ldots, c_m\} \land t =
+   ClassType\{d_1, \ldots, d_n\}$ \TTHEN\\
+\nexti\nexti\nexti{\bf boolean} $matched := false$\\
+\nexti\nexti\nexti\TFOR $i \in 1 \upto m$ \TDO\\\
+\nexti\nexti\nexti\nexti\TFOR $j \in 1 \upto n$ \TDO\\
+\nexti\nexti\nexti\nexti\nexti\TIF $c_i.name = d_j.name$ \TTHEN\\
+\nexti\nexti\nexti\nexti\nexti\nexti$matched := true$\\
+\nexti\nexti\nexti\nexti\nexti\nexti\TFOR $k \in 1 \upto \#c_i.type$ \TDO\\\
+\nexti\nexti\nexti\nexti\nexti\nexti\nexti $Unify(c_i.type(k), d_j.type(k))$\\
+\nexti\nexti\nexti\nexti\nexti\nexti\TEND\\
+\nexti\nexti\nexti\nexti\TEND\\
+\nexti\nexti\nexti\TEND\\
+\nexti\nexti\nexti\TIF $\lnot matched$ \TTHEN $FAIL$\\
+\nexti\nexti\TELSE $FAIL$\\
+\nexti\TEND
+\end{tabbing}
 \label{weakUnify}
 \end{figure}
+\begin{figure}
+\begin{tabbing}
+$UnifySignature(p : Signature,~ q : Signature)$\\
+\nexti\TBEGIN\\
+\nexti\nexti\TIF $p = SignatureVar~\beta$ \TTHEN\\
+\nexti\nexti\nexti\TIF $\beta$ occurs in $q$ \TTHEN $FAIL$\\
+\nexti\nexti\nexti\TELSE\TIF $\beta \neq q$ \TTHEN $\beta := q$\\
+\nexti\nexti\TELSE\TIF $q = SignatureVar~\beta$ \TTHEN $UnifySignature(\beta, p)$\\
+\nexti\nexti\TELSE\TIF $p = (u_1 : s_1, \ldots, u_m : s_m) \land q =
+(v_1 : t_1, \ldots, v_n : t_n)$ \TTHEN\\
+\nexti\nexti\nexti\TIF $m = n$ \TTHEN\\
+\nexti\nexti\nexti\nexti\TFOR $i \in 1 \upto n$ \TDO\\
+\nexti\nexti\nexti\nexti\nexti $Unify(s_i, t_i)$\\
+\nexti\nexti\nexti\nexti\TEND\\
+\nexti\nexti\nexti\TELSE $FAIL$\\
+\nexti\TEND
+\end{tabbing}
+\end{figure}
+
+%\begin{figure}[!t]
+%\begin{tabular}{llll}
+%  {\bf fun} & \multicolumn{3}{l}{$weakUnify(\tau_1 :Type,
+%  ~\tau_2:Type) : \bool =$}\\ & {\bf case} $(\tau_1,\tau_2)$ {\bf of}
+%  & $(GivenType~i, GivenType~j)$ & $\dot i=j$\\ & & \ldots & \\ & &
+%  $(ClassTypeVar~\varclasstype_1, ClassTypeVar~\varclasstype_2)$ &
+%  $\dot$\\ & & \multicolumn{2}{l}{\quad\quad\quad\quad\quad\quad
+%  $\varclasstype_2 := \varclasstype_1 \cup \varclasstype_2;
+%  \varclasstype_1 := \varclasstype_2; true$}\\ & & $(TypeVar~\alpha,
+%  ClassType~\omega)$ & $\dot \varclasstype := \{\omega\}; \alpha :=
+%  \varclasstype; true$\\ & & $(ClassTypeVar~\varclasstype,
+%  ClassType~\omega)$ & $\dot \varclasstype := \varclasstype \cup
+%  \{\omega\}$\\ & & $(ClassRefType~\omega_1, ClassRefType~\omega_2$) &
+%  $\dot$\\ & & \multicolumn{2}{l}{\quad\quad{\bf if}
+%  $intersect(\{\tau_1.thisClass\}, \{\tau_2.thisClass)\})$}\\ & &
+%  \multicolumn{2}{l}{\quad\quad{\bf then}
+%  $weakUnifyClassRefSig(\omega_1, \omega_2)$}\\ & &
+%  \multicolumn{2}{l}{\quad\quad{\bf else} $false$}\\ & &
+%  $(ClassType~\omega_1, ClassType~\omega_2$) & $\dot
+%  weakUnifyClassSig(\omega_1, \omega_2) $\\ & & $(TypeVar~\alpha, \_)$
+%  & \ldots\\ & & $(\_,\_)$ & $\dot false$
+%\end{tabular}
+%\vspace{2mm}\\
+%\begin{tabular}{llll}
+%  {\bf fun} & \multicolumn{3}{l}{$weakUnifyClassSig(\omega_1:ClassSignature,~\omega_2:ClassSignature) : \bool =$}\\
+%%  {\bf let} & \multicolumn{3}{l}{{\bf val} $\omega_1 = resolve(\omega_1) \land \omega_2 = resolve(\omega_2)$ {\bf in}}\\
+%  & {\bf case} $(\omega_1,\omega_2)$ {\bf of} & $(VarSig~\_, \_ )$ & $\dot true$\\
+%      & & $(\_, VarSig~\_)$ & $\dot weakUnifyClassSig(\omega_2,\omega_1)$\\
+%      & & $(\_,\_)$ & $\dot intersect(\omega_1.classRef, \omega_2.classRef)$
+%\end{tabular}
+%\vspace{2mm}\\
+%\begin{tabular}{llll}
+%  {\bf fun} &
+%  \multicolumn{3}{l}{$weakUnifyClassRefSig(\omega_1:ClassSignature,~\omega_2:ClassSignature) : \bool =$}\\
+%  & {\bf case} $(\omega_1,\omega_2)$ {\bf of} & $(VarSig \_, \_ )$
+%  & $\dot \omega_1 := \omega_2; true$\\
+%      & & $(\_, VarSig \_)$ & $\dot weakUnifyClassRefSig(\omega_2,\omega_1)$\\
+%      & & $(\_, \_)$ & $\dot true$\\
+%\end{tabular}
+%\vspace{2mm}\\
+%\begin{tabular}{ll}
+%  {\bf fun} & $intersect(\psi_1:\power ClassRef, \psi_2:\power ClassRef) : \bool =$\\
+%   & \quad\quad$\exists r_1 \in \psi_1; r_2 \in \psi_2 @$\\
+%   & \quad\quad\quad\quad $r_1.refName = r_2.refName \land \#r_1.type = \#r_2.type \land$\\
+%%   & \quad\quad\quad\quad $r_1.rename = r_2.rename \land$\\
+%   & \quad\quad\quad\quad $\forall n \in \dom r_1.type @
+%       weakUnify(r_1.type(n), r_2.type(n))$
+%\end{tabular}
+%\caption{Weak Unification of Object-Z Types}
+%\label{weakUnify}
+%\end{figure}
 
 There are several differences between the algorithm in
 Figure~\ref{weakUnify} and the original algorithm. Firstly, let's
