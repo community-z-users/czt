@@ -59,6 +59,7 @@ public class Flatten
       NameVisitor,
       NumExprVisitor,
       ApplExprVisitor,
+      TupleSelExprVisitor,
       RefExprVisitor,
       PowerExprVisitor,
       SetExprVisitor,
@@ -66,6 +67,7 @@ public class Flatten
       ProdExprVisitor,
       TupleExprVisitor,
       BindExprVisitor,
+      ConstDeclVisitor,
       ZDeclListVisitor
 {
   private ZLive zlive_;
@@ -396,6 +398,16 @@ public class Flatten
     return result;
   }
 
+  public Object visitTupleSelExpr(TupleSelExpr e)
+  {
+    RefName result = zlive_.createNewName();
+    flat_.add(new FlatTupleSel(
+            (RefName)((Expr) e.getExpr()).accept(this),
+            e.getSelect(),
+            result));
+    return result;
+  }
+
   public Object visitPowerExpr(PowerExpr e) { return notYet(e); }
   
   public Object visitSetExpr(SetExpr e) 
@@ -495,7 +507,6 @@ public class Flatten
   public Object visitVarDecl(VarDecl zedObject) {return zedObject; }
   public Object visitCompExpr(CompExpr zedObject) {return zedObject; }
   public Object visitCondExpr(CondExpr zedObject) {return zedObject; }
-  public Object visitTupleSelExpr(TupleSelExpr zedObject) {return zedObject; }
   public Object visitLambdaExpr(LambdaExpr zedObject) {return zedObject; }
   public Object visitIffExpr(IffExpr zedObject) {return zedObject; }
   public Object visitQntExpr(QntExpr zedObject) {return zedObject; }
