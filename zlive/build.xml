@@ -55,13 +55,14 @@
 
   <target name="run" depends="compile"
           description="run the ZLive Text UI">
-    <java
-      classname="net.sourceforge.czt.animation.eval.TextUI">
+    <java classname="net.sourceforge.czt.animation.eval.TextUI"
+          fork="true">
       <classpath refid="classpath"/>
+      <assertions> <enable/> </assertions>
     </java>
   </target>
-  
-  
+
+
   <target name="doc" depends="api"
     description="build all the documentation"/>
 
