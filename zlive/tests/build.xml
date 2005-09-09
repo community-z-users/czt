@@ -84,13 +84,15 @@
 
   <target name="compare" depends="install"
       description="Compare usertest output with previous UserTest-Results">
-    <java classname="net.sourceforge.czt.animation.eval.CompareUserTests">
+    <java classname="net.sourceforge.czt.animation.eval.CompareUserTests"
+          fork="true">
       <arg file="${latest.usertests}"/>
       <arg file="."/>
       <classpath>
         <path refid="classpath"/>
         <pathelement location="${test.jar.file}"/>
       </classpath>
+      <assertions> <enable/> </assertions>
     </java>
   </target>
 
