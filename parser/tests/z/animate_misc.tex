@@ -144,4 +144,22 @@ TODO: it would be nice to have some way of testing that a predicate is
       If we added such syntax, then we could check that:
       (\exists S@P) is undefined when P is never true, but sometimes undefined.
       (\forall S@P) is undefined when P is sometimes undefined.
+
+
+\section{Testing tuples}
+
+Equality and inequality of tuples
+\begin{zed} \vdash? (1,2,3) = (1,2,3) \end{zed}
+\begin{zed} \vdash? (1,2,3) \neq (0,2,3) \end{zed}
+\begin{zed} \vdash? (1,2,3) \neq (1,2,4) \end{zed}
+\begin{zed} \vdash? ((1,2),\{3,3,5\}) = ((1,2),\{3,5,5\}) \end{zed}
+
+Selection of fields within tuples
+\begin{zed} \vdash? (5,6,7).1 = 5 \end{zed}
+\begin{zed} \vdash? (5,6,7).2 = 6 \end{zed}
+\begin{zed} \vdash? (5,6,7).3 = 7 \end{zed}
+\begin{zed} \vdash? ((1,2),3,4).1 = (1,2) \end{zed}
+\begin{zed} \vdash? first ~ (5,6) = 5 \end{zed}
+\begin{zed} \vdash? second ~ (5,6) = 6 \end{zed}
+
 \end{document}

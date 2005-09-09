@@ -6740,7 +6740,646 @@ TODO: it would be nice to have some way of testing that a predicate is
       If we added such syntax, then we could check that:
       (\exists S@P) is undefined when P is never true, but sometimes undefined.
       (\forall S@P) is undefined when P is sometimes undefined.
-\end{document}</Content>
+
+
+\section{Testing tuples}
+
+Equality and inequality of tuples
+</Content>
+        </NarrPara>
+        <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_misc.tex"/>
+            </Anns>
+            <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Col="29" Line="152" Loc="tests/z/animate_misc.tex"/>
+                </Anns>
+                <TupleExpr>
+                    <Anns>
+                        <LocAnn Col="21" Line="152" Loc="tests/z/animate_misc.tex"/>
+                    </Anns>
+                    <NumExpr Value="1">
+                        <Anns>
+                            <LocAnn Col="22" Line="152" Loc="tests/z/animate_misc.tex"/>
+                        </Anns>
+                    </NumExpr>
+                    <NumExpr Value="2">
+                        <Anns>
+                            <LocAnn Col="24" Line="152" Loc="tests/z/animate_misc.tex"/>
+                        </Anns>
+                    </NumExpr>
+                    <NumExpr Value="3">
+                        <Anns>
+                            <LocAnn Col="26" Line="152" Loc="tests/z/animate_misc.tex"/>
+                        </Anns>
+                    </NumExpr>
+                </TupleExpr>
+                <SetExpr>
+                    <TupleExpr>
+                        <Anns>
+                            <LocAnn Col="31" Line="152" Loc="tests/z/animate_misc.tex"/>
+                        </Anns>
+                        <NumExpr Value="1">
+                            <Anns>
+                                <LocAnn Col="32" Line="152" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                        <NumExpr Value="2">
+                            <Anns>
+                                <LocAnn Col="34" Line="152" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                        <NumExpr Value="3">
+                            <Anns>
+                                <LocAnn Col="36" Line="152" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                    </TupleExpr>
+                </SetExpr>
+            </MemPred>
+        </ConjPara>
+        <NarrPara>
+            <Anns>
+                <LocAnn Col="48" Line="152" Loc="tests/z/animate_misc.tex"/>
+            </Anns>
+            <Content>
+</Content>
+        </NarrPara>
+        <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_misc.tex"/>
+            </Anns>
+            <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Col="29" Line="153" Loc="tests/z/animate_misc.tex"/>
+                </Anns>
+                <TupleExpr>
+                    <Anns>
+                        <LocAnn Col="27" Line="153" Loc="tests/z/animate_misc.tex"/>
+                    </Anns>
+                    <TupleExpr>
+                        <Anns>
+                            <LocAnn Col="21" Line="153" Loc="tests/z/animate_misc.tex"/>
+                        </Anns>
+                        <NumExpr Value="1">
+                            <Anns>
+                                <LocAnn Col="22" Line="153" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                        <NumExpr Value="2">
+                            <Anns>
+                                <LocAnn Col="24" Line="153" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                        <NumExpr Value="3">
+                            <Anns>
+                                <LocAnn Col="26" Line="153" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                    </TupleExpr>
+                    <TupleExpr>
+                        <Anns>
+                            <LocAnn Col="34" Line="153" Loc="tests/z/animate_misc.tex"/>
+                        </Anns>
+                        <NumExpr Value="0">
+                            <Anns>
+                                <LocAnn Col="35" Line="153" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                        <NumExpr Value="2">
+                            <Anns>
+                                <LocAnn Col="37" Line="153" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                        <NumExpr Value="3">
+                            <Anns>
+                                <LocAnn Col="39" Line="153" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                    </TupleExpr>
+                </TupleExpr>
+                <RefExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Col="27" Line="153" Loc="tests/z/animate_misc.tex"/>
+                    </Anns>
+                    <RefName>
+                        <Anns>
+                            <LocAnn Col="27" Line="153" Loc="tests/z/animate_misc.tex"/>
+                        </Anns>
+                        <Word> _ ≠ _ </Word>
+                    </RefName>
+                </RefExpr>
+            </MemPred>
+        </ConjPara>
+        <NarrPara>
+            <Anns>
+                <LocAnn Col="51" Line="153" Loc="tests/z/animate_misc.tex"/>
+            </Anns>
+            <Content>
+</Content>
+        </NarrPara>
+        <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_misc.tex"/>
+            </Anns>
+            <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Col="29" Line="154" Loc="tests/z/animate_misc.tex"/>
+                </Anns>
+                <TupleExpr>
+                    <Anns>
+                        <LocAnn Col="27" Line="154" Loc="tests/z/animate_misc.tex"/>
+                    </Anns>
+                    <TupleExpr>
+                        <Anns>
+                            <LocAnn Col="21" Line="154" Loc="tests/z/animate_misc.tex"/>
+                        </Anns>
+                        <NumExpr Value="1">
+                            <Anns>
+                                <LocAnn Col="22" Line="154" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                        <NumExpr Value="2">
+                            <Anns>
+                                <LocAnn Col="24" Line="154" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                        <NumExpr Value="3">
+                            <Anns>
+                                <LocAnn Col="26" Line="154" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                    </TupleExpr>
+                    <TupleExpr>
+                        <Anns>
+                            <LocAnn Col="34" Line="154" Loc="tests/z/animate_misc.tex"/>
+                        </Anns>
+                        <NumExpr Value="1">
+                            <Anns>
+                                <LocAnn Col="35" Line="154" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                        <NumExpr Value="2">
+                            <Anns>
+                                <LocAnn Col="37" Line="154" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                        <NumExpr Value="4">
+                            <Anns>
+                                <LocAnn Col="39" Line="154" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                    </TupleExpr>
+                </TupleExpr>
+                <RefExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Col="27" Line="154" Loc="tests/z/animate_misc.tex"/>
+                    </Anns>
+                    <RefName>
+                        <Anns>
+                            <LocAnn Col="27" Line="154" Loc="tests/z/animate_misc.tex"/>
+                        </Anns>
+                        <Word> _ ≠ _ </Word>
+                    </RefName>
+                </RefExpr>
+            </MemPred>
+        </ConjPara>
+        <NarrPara>
+            <Anns>
+                <LocAnn Col="51" Line="154" Loc="tests/z/animate_misc.tex"/>
+            </Anns>
+            <Content>
+</Content>
+        </NarrPara>
+        <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_misc.tex"/>
+            </Anns>
+            <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Col="39" Line="155" Loc="tests/z/animate_misc.tex"/>
+                </Anns>
+                <TupleExpr>
+                    <Anns>
+                        <LocAnn Col="21" Line="155" Loc="tests/z/animate_misc.tex"/>
+                    </Anns>
+                    <TupleExpr>
+                        <Anns>
+                            <LocAnn Col="22" Line="155" Loc="tests/z/animate_misc.tex"/>
+                        </Anns>
+                        <NumExpr Value="1">
+                            <Anns>
+                                <LocAnn Col="23" Line="155" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                        <NumExpr Value="2">
+                            <Anns>
+                                <LocAnn Col="25" Line="155" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                    </TupleExpr>
+                    <SetExpr>
+                        <Anns>
+                            <LocAnn Col="28" Line="155" Loc="tests/z/animate_misc.tex"/>
+                        </Anns>
+                        <NumExpr Value="3">
+                            <Anns>
+                                <LocAnn Col="30" Line="155" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                        <NumExpr Value="3">
+                            <Anns>
+                                <LocAnn Col="32" Line="155" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                        <NumExpr Value="5">
+                            <Anns>
+                                <LocAnn Col="34" Line="155" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                    </SetExpr>
+                </TupleExpr>
+                <SetExpr>
+                    <TupleExpr>
+                        <Anns>
+                            <LocAnn Col="41" Line="155" Loc="tests/z/animate_misc.tex"/>
+                        </Anns>
+                        <TupleExpr>
+                            <Anns>
+                                <LocAnn Col="42" Line="155" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                            <NumExpr Value="1">
+                                <Anns>
+                                    <LocAnn Col="43" Line="155" Loc="tests/z/animate_misc.tex"/>
+                                </Anns>
+                            </NumExpr>
+                            <NumExpr Value="2">
+                                <Anns>
+                                    <LocAnn Col="45" Line="155" Loc="tests/z/animate_misc.tex"/>
+                                </Anns>
+                            </NumExpr>
+                        </TupleExpr>
+                        <SetExpr>
+                            <Anns>
+                                <LocAnn Col="48" Line="155" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                            <NumExpr Value="3">
+                                <Anns>
+                                    <LocAnn Col="50" Line="155" Loc="tests/z/animate_misc.tex"/>
+                                </Anns>
+                            </NumExpr>
+                            <NumExpr Value="5">
+                                <Anns>
+                                    <LocAnn Col="52" Line="155" Loc="tests/z/animate_misc.tex"/>
+                                </Anns>
+                            </NumExpr>
+                            <NumExpr Value="5">
+                                <Anns>
+                                    <LocAnn Col="54" Line="155" Loc="tests/z/animate_misc.tex"/>
+                                </Anns>
+                            </NumExpr>
+                        </SetExpr>
+                    </TupleExpr>
+                </SetExpr>
+            </MemPred>
+        </ConjPara>
+        <NarrPara>
+            <Anns>
+                <LocAnn Col="68" Line="155" Loc="tests/z/animate_misc.tex"/>
+            </Anns>
+            <Content>
+
+Selection of fields within tuples
+</Content>
+        </NarrPara>
+        <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_misc.tex"/>
+            </Anns>
+            <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Col="31" Line="158" Loc="tests/z/animate_misc.tex"/>
+                </Anns>
+                <TupleSelExpr Select="1">
+                    <Anns>
+                        <LocAnn Col="28" Line="158" Loc="tests/z/animate_misc.tex"/>
+                    </Anns>
+                    <TupleExpr>
+                        <Anns>
+                            <LocAnn Col="21" Line="158" Loc="tests/z/animate_misc.tex"/>
+                        </Anns>
+                        <NumExpr Value="5">
+                            <Anns>
+                                <LocAnn Col="22" Line="158" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                        <NumExpr Value="6">
+                            <Anns>
+                                <LocAnn Col="24" Line="158" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                        <NumExpr Value="7">
+                            <Anns>
+                                <LocAnn Col="26" Line="158" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                    </TupleExpr>
+                </TupleSelExpr>
+                <SetExpr>
+                    <NumExpr Value="5">
+                        <Anns>
+                            <LocAnn Col="33" Line="158" Loc="tests/z/animate_misc.tex"/>
+                        </Anns>
+                    </NumExpr>
+                </SetExpr>
+            </MemPred>
+        </ConjPara>
+        <NarrPara>
+            <Anns>
+                <LocAnn Col="44" Line="158" Loc="tests/z/animate_misc.tex"/>
+            </Anns>
+            <Content>
+</Content>
+        </NarrPara>
+        <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_misc.tex"/>
+            </Anns>
+            <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Col="31" Line="159" Loc="tests/z/animate_misc.tex"/>
+                </Anns>
+                <TupleSelExpr Select="2">
+                    <Anns>
+                        <LocAnn Col="28" Line="159" Loc="tests/z/animate_misc.tex"/>
+                    </Anns>
+                    <TupleExpr>
+                        <Anns>
+                            <LocAnn Col="21" Line="159" Loc="tests/z/animate_misc.tex"/>
+                        </Anns>
+                        <NumExpr Value="5">
+                            <Anns>
+                                <LocAnn Col="22" Line="159" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                        <NumExpr Value="6">
+                            <Anns>
+                                <LocAnn Col="24" Line="159" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                        <NumExpr Value="7">
+                            <Anns>
+                                <LocAnn Col="26" Line="159" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                    </TupleExpr>
+                </TupleSelExpr>
+                <SetExpr>
+                    <NumExpr Value="6">
+                        <Anns>
+                            <LocAnn Col="33" Line="159" Loc="tests/z/animate_misc.tex"/>
+                        </Anns>
+                    </NumExpr>
+                </SetExpr>
+            </MemPred>
+        </ConjPara>
+        <NarrPara>
+            <Anns>
+                <LocAnn Col="44" Line="159" Loc="tests/z/animate_misc.tex"/>
+            </Anns>
+            <Content>
+</Content>
+        </NarrPara>
+        <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_misc.tex"/>
+            </Anns>
+            <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Col="31" Line="160" Loc="tests/z/animate_misc.tex"/>
+                </Anns>
+                <TupleSelExpr Select="3">
+                    <Anns>
+                        <LocAnn Col="28" Line="160" Loc="tests/z/animate_misc.tex"/>
+                    </Anns>
+                    <TupleExpr>
+                        <Anns>
+                            <LocAnn Col="21" Line="160" Loc="tests/z/animate_misc.tex"/>
+                        </Anns>
+                        <NumExpr Value="5">
+                            <Anns>
+                                <LocAnn Col="22" Line="160" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                        <NumExpr Value="6">
+                            <Anns>
+                                <LocAnn Col="24" Line="160" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                        <NumExpr Value="7">
+                            <Anns>
+                                <LocAnn Col="26" Line="160" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                    </TupleExpr>
+                </TupleSelExpr>
+                <SetExpr>
+                    <NumExpr Value="7">
+                        <Anns>
+                            <LocAnn Col="33" Line="160" Loc="tests/z/animate_misc.tex"/>
+                        </Anns>
+                    </NumExpr>
+                </SetExpr>
+            </MemPred>
+        </ConjPara>
+        <NarrPara>
+            <Anns>
+                <LocAnn Col="44" Line="160" Loc="tests/z/animate_misc.tex"/>
+            </Anns>
+            <Content>
+</Content>
+        </NarrPara>
+        <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_misc.tex"/>
+            </Anns>
+            <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Col="35" Line="161" Loc="tests/z/animate_misc.tex"/>
+                </Anns>
+                <TupleSelExpr Select="1">
+                    <Anns>
+                        <LocAnn Col="32" Line="161" Loc="tests/z/animate_misc.tex"/>
+                    </Anns>
+                    <TupleExpr>
+                        <Anns>
+                            <LocAnn Col="21" Line="161" Loc="tests/z/animate_misc.tex"/>
+                        </Anns>
+                        <TupleExpr>
+                            <Anns>
+                                <LocAnn Col="22" Line="161" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                            <NumExpr Value="1">
+                                <Anns>
+                                    <LocAnn Col="23" Line="161" Loc="tests/z/animate_misc.tex"/>
+                                </Anns>
+                            </NumExpr>
+                            <NumExpr Value="2">
+                                <Anns>
+                                    <LocAnn Col="25" Line="161" Loc="tests/z/animate_misc.tex"/>
+                                </Anns>
+                            </NumExpr>
+                        </TupleExpr>
+                        <NumExpr Value="3">
+                            <Anns>
+                                <LocAnn Col="28" Line="161" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                        <NumExpr Value="4">
+                            <Anns>
+                                <LocAnn Col="30" Line="161" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                    </TupleExpr>
+                </TupleSelExpr>
+                <SetExpr>
+                    <TupleExpr>
+                        <Anns>
+                            <LocAnn Col="37" Line="161" Loc="tests/z/animate_misc.tex"/>
+                        </Anns>
+                        <NumExpr Value="1">
+                            <Anns>
+                                <LocAnn Col="38" Line="161" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                        <NumExpr Value="2">
+                            <Anns>
+                                <LocAnn Col="40" Line="161" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                    </TupleExpr>
+                </SetExpr>
+            </MemPred>
+        </ConjPara>
+        <NarrPara>
+            <Anns>
+                <LocAnn Col="52" Line="161" Loc="tests/z/animate_misc.tex"/>
+            </Anns>
+            <Content>
+</Content>
+        </NarrPara>
+        <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_misc.tex"/>
+            </Anns>
+            <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Col="35" Line="162" Loc="tests/z/animate_misc.tex"/>
+                </Anns>
+                <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Col="33" Line="162" Loc="tests/z/animate_misc.tex"/>
+                    </Anns>
+                    <RefExpr Mixfix="false">
+                        <Anns>
+                            <LocAnn Col="21" Line="162" Loc="tests/z/animate_misc.tex"/>
+                        </Anns>
+                        <RefName>
+                            <Anns>
+                                <LocAnn Col="21" Line="162" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                            <Word>first</Word>
+                        </RefName>
+                    </RefExpr>
+                    <TupleExpr>
+                        <Anns>
+                            <LocAnn Col="29" Line="162" Loc="tests/z/animate_misc.tex"/>
+                        </Anns>
+                        <NumExpr Value="5">
+                            <Anns>
+                                <LocAnn Col="30" Line="162" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                        <NumExpr Value="6">
+                            <Anns>
+                                <LocAnn Col="32" Line="162" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                    </TupleExpr>
+                </ApplExpr>
+                <SetExpr>
+                    <NumExpr Value="5">
+                        <Anns>
+                            <LocAnn Col="37" Line="162" Loc="tests/z/animate_misc.tex"/>
+                        </Anns>
+                    </NumExpr>
+                </SetExpr>
+            </MemPred>
+        </ConjPara>
+        <NarrPara>
+            <Anns>
+                <LocAnn Col="48" Line="162" Loc="tests/z/animate_misc.tex"/>
+            </Anns>
+            <Content>
+</Content>
+        </NarrPara>
+        <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_misc.tex"/>
+            </Anns>
+            <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Col="36" Line="163" Loc="tests/z/animate_misc.tex"/>
+                </Anns>
+                <ApplExpr Mixfix="false">
+                    <Anns>
+                        <LocAnn Col="34" Line="163" Loc="tests/z/animate_misc.tex"/>
+                    </Anns>
+                    <RefExpr Mixfix="false">
+                        <Anns>
+                            <LocAnn Col="21" Line="163" Loc="tests/z/animate_misc.tex"/>
+                        </Anns>
+                        <RefName>
+                            <Anns>
+                                <LocAnn Col="21" Line="163" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                            <Word>second</Word>
+                        </RefName>
+                    </RefExpr>
+                    <TupleExpr>
+                        <Anns>
+                            <LocAnn Col="30" Line="163" Loc="tests/z/animate_misc.tex"/>
+                        </Anns>
+                        <NumExpr Value="5">
+                            <Anns>
+                                <LocAnn Col="31" Line="163" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                        <NumExpr Value="6">
+                            <Anns>
+                                <LocAnn Col="33" Line="163" Loc="tests/z/animate_misc.tex"/>
+                            </Anns>
+                        </NumExpr>
+                    </TupleExpr>
+                </ApplExpr>
+                <SetExpr>
+                    <NumExpr Value="6">
+                        <Anns>
+                            <LocAnn Col="38" Line="163" Loc="tests/z/animate_misc.tex"/>
+                        </Anns>
+                    </NumExpr>
+                </SetExpr>
+            </MemPred>
+        </ConjPara>
+        <NarrPara>
+            <Anns>
+                <LocAnn Col="49" Line="163" Loc="tests/z/animate_misc.tex"/>
+            </Anns>
+            <Content>
+
+\end{document}
+</Content>
         </NarrPara>
     </ZSect>
 </Spec>
