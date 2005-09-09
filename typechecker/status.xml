@@ -13,6 +13,11 @@
         Fixed a problem with class type unification to improve type
         inferencing.
       </action>
+      <action dev="Tim" type="bugfix">
+        Implement a check that generic classes with an empty signature
+        cannot be class unioned with two different sets of parameters,
+        e.g. G[\nat] \classunin G[\power\nat].
+      </action>
     </release>
     <release version="0.4" date="September 2, 2005">
       <action dev="Tim" type="add">

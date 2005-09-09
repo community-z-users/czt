@@ -937,6 +937,27 @@ abstract public class Checker<R>
       List<NameTypePair> attrs = list();
       List<NameSignaturePair> ops = list();
 
+      //check that if there are any intersecting class references,
+      //they are compatible
+      for (ClassRef lClassRef : lcSig.getClasses()) {
+	for (ClassRef rClassRef : rcSig.getClasses()) {
+	  if (namesEqual(lClassRef.getRefName(), rClassRef.getRefName())) {
+	    assert lClassRef.getType2().size() == rClassRef.getType2().size();
+	    for (int i = 0; i < lClassRef.getType2().size(); i++) {
+	      Type2 lrType = lClassRef.getType2().get(i);
+	      Type2 rrType = rClassRef.getType2().get(i);
+	      UResult unified = unify(lrType, rrType);
+	      if (unified == FAIL) {
+		Object [] params = {classUnionExpr};
+		error(classUnionExpr,
+		      ErrorMessage.INCOMPATIBLE_CLASSUNIONEXPR, params);
+		return result;
+	      }
+	    }
+	  }
+	}
+      }
+
       //check that the features are compatible, and find common elements
       assert lcSig != null;
       assert rcSig != null;
