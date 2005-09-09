@@ -74,6 +74,7 @@ public class SimpleProver
   {
     for (Iterator<Rule> i = rules_.iterator(); i.hasNext(); ) {
       Rule rule = i.next();
+      // Note: must use new ProverFactory here to generate fresh joker names.
       Rule copiedRule = (Rule) copy(rule, new Factory(new ProverFactory()));
       try {
         boolean success = applyRule(copiedRule, predSequent, factory_);
