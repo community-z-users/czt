@@ -64,6 +64,7 @@
   <target name="run" depends="install" 
     description="Generate Java classes into ${dest.dir} (gnast.properties says which ones and where it goes)">
     <java classname="net.sourceforge.czt.gnast.Gnast" fork="true">
+      <jvmarg value="-Xmx500m"/>
       <arg line="-v"/>
       <classpath refid="classpath.run"/> 
       <assertions>
@@ -76,6 +77,7 @@
     description="Generate AST classes into ../corejava/build/src">
     <echo message="NOTE: This may take some time (about 5 minutes on a 2GHz Pentium)."/>
     <java classname="net.sourceforge.czt.gnast.Gnast" fork="true">
+      <jvmarg value="-Xmx500m"/>
       <arg line="-d ../corejava/build/src"/>
       <classpath refid="classpath.run"/> 
       <assertions>

@@ -347,7 +347,7 @@
       <xs:extension base="OZ:OpExpr">
         <xs:sequence>
           <xs:element ref="OZ:OpExpr"/>
-          <xs:element ref="Z:NameNamePair" maxOccurs="unbounded"/>      
+          <xs:element ref="Z:NewOldPair" maxOccurs="unbounded"/>      
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -438,7 +438,7 @@
         <xs:sequence>
           <xs:element ref="Z:RefName"/>
           <xs:element ref="Z:Type2" minOccurs="0" maxOccurs="unbounded"/>
-          <xs:element ref="Z:NameNamePair" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:NewOldPair" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

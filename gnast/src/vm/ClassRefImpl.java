@@ -14,11 +14,11 @@
       }
       result += "]";
     }
-    List rename = getNameNamePair();
+    List rename = getNewOldPair();
     if (rename.size() > 0) {
       result += "[";
       for (Iterator iter = rename.iterator(); iter.hasNext(); ) {
-        NameNamePair pair = (NameNamePair) iter.next();
+        NewOldPair pair = (NewOldPair) iter.next();
         result += pair.getNewName() + "/" + pair.getOldName();
         if (iter.hasNext()) {
           result += ", ";

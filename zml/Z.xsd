@@ -40,11 +40,6 @@
         choiceContentProperty="true">
         <jaxb:javaType
           name="java.lang.Integer"
-          xmlType="xs:positiveInteger"
-          printMethod="net.sourceforge.czt.base.util.CztDatatypeConverter.printInteger"
-          parseMethod="net.sourceforge.czt.base.util.CztDatatypeConverter.parseInteger"/>
-        <jaxb:javaType
-          name="java.lang.Integer"
           xmlType="xs:nonNegativeInteger"
           printMethod="net.sourceforge.czt.base.util.CztDatatypeConverter.printInteger"
           parseMethod="net.sourceforge.czt.base.util.CztDatatypeConverter.parseInteger"/>
@@ -261,26 +256,47 @@ more detail.
     </xs:annotation>
   </xs:element>
 
-  <!-- the decoratable-names hierarchy -->
-  <xs:element name="Name" type="Z:Name" abstract="true">
+  <!-- the decoratable-declnames hierarchy -->
+  <xs:element name="DeclName" type="Z:DeclName" abstract="true">
+    <xs:annotation>
+      <xs:documentation>An abstract declaring name.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="ZDeclName" type="Z:ZDeclName" substitutionGroup="Z:DeclName">
+    <xs:annotation>
+      <xs:documentation>A Z declaring name.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <!-- the decoratable-refnames hierarchy -->
+  <xs:element name="RefName" type="Z:RefName" abstract="true">
     <xs:annotation>
       <xs:documentation>
-        An abstract Z name that can be decorated.
+        An abstract referencing name.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="DeclName" type="Z:DeclName" substitutionGroup="Z:Name">
-    <xs:annotation>
-      <xs:documentation>A declaring name.</xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  <xs:element name="RefName" type="Z:RefName" substitutionGroup="Z:Name">
+  <xs:element name="ZRefName" type="Z:ZRefName" substitutionGroup="Z:RefName">
     <xs:annotation>
       <xs:documentation>
-        A referencing name.
-        The Decl attribute of type IDREF points to the matching declaring name
-        (DeclName), which may not be the nearest enclosing one.
+        A Z referencing name.
+        The Decl attribute of type IDREF points to the matching declaration,
+        which may not be the nearest enclosing one.
       </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <!-- the numerals hierarchy -->
+  <xs:element name="Numeral" type="Z:Numeral" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        An abstract numeral.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="ZNumeral" type="Z:ZNumeral" substitutionGroup="Z:Numeral">
+    <xs:annotation>
+      <xs:documentation>A Z numeral.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
@@ -469,6 +485,7 @@ more detail.
     <xs:annotation>
       <xs:documentation>
         A tuple selection expression (C.6.26).
+	The schema does not check that the numeral is positive, but code should.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -615,6 +632,48 @@ more detail.
     </xs:annotation>
   </xs:element>
 
+  <!-- the ExpressionList hierarchy -->
+  <xs:element name="ExprList" type="Z:ExprList" abstract="true">
+    <xs:annotation>
+      <xs:documentation>An abstract expression list.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="ZExprList" type="Z:ZExprList" substitutionGroup="Z:ExprList">
+    <xs:annotation>
+      <xs:documentation>
+        An expression list (12.2.12).
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <!-- the RenameList hierarchy -->
+  <xs:element name="RenameList" type="Z:RenameList" abstract="true">
+    <xs:annotation>
+      <xs:documentation>An abstract rename list.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="ZRenameList" type="Z:ZRenameList" substitutionGroup="Z:RenameList">
+    <xs:annotation>
+      <xs:documentation>
+        A rename list.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <!-- the RefNameList hierarchy -->
+  <xs:element name="RefNameList" type="Z:RefNameList" abstract="true">
+    <xs:annotation>
+      <xs:documentation>An abstract name list.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="ZRefNameList" type="Z:ZRefNameList" substitutionGroup="Z:RefNameList">
+    <xs:annotation>
+      <xs:documentation>
+        A name list.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
   <!-- The Predicate hierarchy -->
   <xs:element name="Pred" type="Z:Pred" abstract="true">
     <xs:annotation>
@@ -646,29 +705,18 @@ more detail.
     <xs:annotation>
       <xs:documentation>
         A relation operator application (C.5.12).
-        <ul>
-        <li>Membership predicate.
-            In this case, Mixfix=false, the first (left) expression is the
-            element, and the second (right) expression is the set.
-            For example, "n \in S" has left="n" and right="S".</li>
-        <li>Equality.
-            In this case, Mixfix=true, the first (left) expression is the
-            left-hand side of the equality, and the second (right)
-            expression is a singleton set containing the right-hand side
-            of the equality.
-            For example: "n = m" has left="n" and right="{m}".</li>
-        <li>Other operator application.
-            In this case, Mixfix=true, the first (left) expression is
-            usually a tuple containing the corresponding number of arguments,
-            and the second (right) expression is the operator name.
-            However, for a unary operator, the left expression does not have
-            to be a tuple.  
-            For example, "n &lt; m" has left="(n,m)" and right=" _ &lt; _ ",
-            "disjoint s" has left="s" and right="disjoint _ ", and
-            if foo was declared as a unary postfix operator,
-            then "(2,3) foo" would have left= "(2,3)" and right=" _ foo".  
-            </li>
-        </ul>
+        The mixfix attribute is false iff the input has the form
+        Expr1 \in Expr2.
+        When mixfix=true, the second (right) Expr must be either a
+        relational operator and the first (left) Expr must be a tuple
+        containing the corresponding number of arguments (unless the
+        operator has one argument, then no tuple is required) or an
+        equality and the the second (right) Expr must be a set expression
+        containing exactly one expression.
+        For example, the input "m &lt; n" generates a MemPred element with
+        mixfix=true, left=(m,n) and right=" _ &lt; _ ", whereas 
+        "(m,n) \in (_ &lt; _)" has the same left and right expressions, 
+        but mixfix=false.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -732,10 +780,22 @@ more detail.
     </xs:annotation>
   </xs:element>
 
+  <!-- The SchText hierarchy. -->
+  <xs:element name="SchText" type="Z:SchText" abstract="true">
+    <xs:annotation>
+      <xs:documentation>An abstract schema text (C.7).</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="ZSchText" type="Z:ZSchText" substitutionGroup="Z:SchText">
+    <xs:annotation>
+      <xs:documentation>A schema text (C.7).</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
   <!-- The DeclList hierarchy. -->
   <xs:element name="DeclList" type="Z:DeclList" abstract="true">
     <xs:annotation>
-      <xs:documentation>An abstract declaration list.</xs:documentation>
+      <xs:documentation>An abstract declaration list (12.2.7.2).</xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="ZDeclList" type="Z:ZDeclList" substitutionGroup="Z:DeclList">
@@ -760,11 +820,6 @@ more detail.
       <xs:documentation>A branch of a free type (C.4.10).</xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="SchText" type="Z:SchText">
-    <xs:annotation>
-      <xs:documentation>A schema text (C.7).</xs:documentation>
-    </xs:annotation>
-  </xs:element>
   <xs:element name="Signature" type="Z:Signature">
     <xs:annotation>
       <xs:documentation>
@@ -774,7 +829,7 @@ more detail.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="NameNamePair" type="Z:NameNamePair">
+  <xs:element name="NewOldPair" type="Z:NewOldPair">
     <xs:annotation>
       <xs:documentation>A pair of two names.</xs:documentation>
     </xs:annotation>
@@ -1184,26 +1239,34 @@ more detail.
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="Name">
+  <xs:complexType name="DeclName">
     <xs:complexContent>
-      <xs:extension base="Z:TermA">
+      <xs:extension base="Z:TermA"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ZDeclName">
+    <xs:complexContent>
+      <xs:extension base="Z:DeclName">
         <xs:sequence>
           <xs:element name="Word" type="xs:string"/>
           <xs:element ref="Z:Stroke" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="DeclName">
-    <xs:complexContent>
-      <xs:extension base="Z:Name">
         <xs:attribute name="Id" type="xs:ID" use="optional"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="RefName">
     <xs:complexContent>
-      <xs:extension base="Z:Name">
+      <xs:extension base="Z:TermA"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ZRefName">
+    <xs:complexContent>
+      <xs:extension base="Z:RefName">
+        <xs:sequence>
+          <xs:element name="Word" type="xs:string"/>
+          <xs:element ref="Z:Stroke" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
         <xs:attribute name="Decl" type="xs:IDREF" use="optional"/>
       </xs:extension>
     </xs:complexContent>
@@ -1212,16 +1275,28 @@ more detail.
   <xs:complexType name="NumStroke">
     <xs:complexContent>
       <xs:extension base="Z:Stroke">
-        <xs:attribute name="Number" type="Z:Number" use="required"/>
+        <xs:attribute name="Digit" type="Z:Digit" use="required"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:simpleType name="Number">
+  <xs:simpleType name="Digit">
     <xs:restriction base="xs:nonNegativeInteger">
       <xs:minInclusive value="0"/>
       <xs:maxInclusive value="9"/>
     </xs:restriction>
   </xs:simpleType>
+  <xs:complexType name="Numeral">
+    <xs:complexContent>
+      <xs:extension base="Z:TermA"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ZNumeral">
+    <xs:complexContent>
+      <xs:extension base="Z:Numeral">
+        <xs:attribute name="Value" type="xs:nonNegativeInteger" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
   <xs:complexType name="Expr">
     <xs:complexContent>
       <xs:extension base="Z:TermA"/>
@@ -1267,7 +1342,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Expr">
         <xs:sequence>
-          <xs:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:ExprList"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1328,7 +1403,9 @@ more detail.
   <xs:complexType name="NumExpr">
     <xs:complexContent>
       <xs:extension base="Z:Expr">
-        <xs:attribute name="Value" type="xs:integer" use="required"/>
+        <xs:sequence>
+          <xs:element ref="Z:Numeral"/>
+        </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -1337,7 +1414,7 @@ more detail.
       <xs:extension base="Z:Expr">
         <xs:sequence>
           <xs:element ref="Z:RefName"/>
-          <xs:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:ExprList"/>
         </xs:sequence>
         <xs:attribute name="Mixfix" type="xs:boolean"
           use="optional" default="false"/>
@@ -1357,7 +1434,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Expr1">
         <xs:sequence>
-          <xs:element name="Name" type="Z:RefName"/>
+          <xs:element ref="Z:RefName"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1375,7 +1452,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Expr1">
         <xs:sequence>
-          <xs:element name="Name" type="Z:RefName" maxOccurs="unbounded"/>
+          <xs:element ref="Z:RefNameList"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1384,7 +1461,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Expr1">
         <xs:sequence>
-          <xs:element ref="Z:NameNamePair" maxOccurs="unbounded"/>
+          <xs:element ref="Z:RenameList"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1398,10 +1475,12 @@ more detail.
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="TupleSelExpr" >
+  <xs:complexType name="TupleSelExpr">
     <xs:complexContent>
       <xs:extension base="Z:Expr1">
-        <xs:attribute name="Select" type="xs:positiveInteger" use="required"/>
+        <xs:sequence>
+          <xs:element ref="Z:Numeral"/>
+        </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -1410,6 +1489,48 @@ more detail.
       <xs:extension base="Z:Expr2">
         <xs:attribute name="Mixfix" type="xs:boolean"
           use="optional" default="false"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ExprList">
+    <xs:complexContent>
+      <xs:extension base="Z:TermA"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ZExprList">
+    <xs:complexContent>
+      <xs:extension base="Z:ExprList">
+        <xs:sequence>
+          <xs:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="RenameList">
+    <xs:complexContent>
+      <xs:extension base="Z:TermA"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ZRenameList">
+    <xs:complexContent>
+      <xs:extension base="Z:RenameList">
+        <xs:sequence>
+          <xs:element ref="Z:NewOldPair" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="RefNameList">
+    <xs:complexContent>
+      <xs:extension base="Z:TermA"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ZRefNameList">
+    <xs:complexContent>
+      <xs:extension base="Z:RefNameList">
+        <xs:sequence>
+          <xs:element ref="Z:RefName" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -1500,18 +1621,33 @@ more detail.
   <xs:complexType name="AndPred">
     <xs:complexContent>
       <xs:extension base="Z:Pred2">
-        <xs:attribute name="Op" type="Z:Op" use="optional" default="And"/>
+        <xs:attribute name="And" type="Z:And" use="optional" default="Wedge"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:simpleType name="Op">
+  <xs:simpleType name="And">
     <xs:restriction base="xs:string">
-      <xs:enumeration value="And"/>
+      <xs:enumeration value="Wedge"/>
       <xs:enumeration value="NL"/>
       <xs:enumeration value="Semi"/>
       <xs:enumeration value="Chain"/>
     </xs:restriction>
   </xs:simpleType>
+  <xs:complexType name="SchText">
+    <xs:complexContent>
+      <xs:extension base="Z:TermA"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ZSchText">
+    <xs:complexContent>
+      <xs:extension base="Z:SchText">
+        <xs:sequence>
+          <xs:element ref="Z:DeclList"/>
+          <xs:element ref="Z:Pred" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
   <xs:complexType name="DeclList">
     <xs:complexContent>
       <xs:extension base="Z:TermA"/>
@@ -1551,16 +1687,6 @@ more detail.
         <xs:sequence>
           <xs:element ref="Z:DeclName"/>
           <xs:element ref="Z:Expr" minOccurs="0"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="SchText">
-    <xs:complexContent>
-      <xs:extension base="Z:TermA">
-        <xs:sequence>
-          <xs:element ref="Z:DeclList"/>
-          <xs:element ref="Z:Pred" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1626,7 +1752,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Type">
         <xs:sequence>
-          <xs:element name="Name" type="Z:DeclName" maxOccurs="unbounded"/>
+          <xs:element name="Name" type="Z:ZDeclName" maxOccurs="unbounded"/>
           <xs:element ref="Z:Type2">
             <xs:annotation>
               <xs:appinfo>
@@ -1649,7 +1775,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Type2">
         <xs:sequence>
-          <xs:element name="Name" type="Z:DeclName"/>
+          <xs:element name="Name" type="Z:ZDeclName"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1658,7 +1784,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Type2">
         <xs:sequence>
-          <xs:element name="Name" type="Z:DeclName"/>
+          <xs:element name="Name" type="Z:ZDeclName"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1726,21 +1852,33 @@ more detail.
   </xs:complexType>
   <xs:complexType name="NameTypePair" mixed="false">
     <xs:sequence>
-      <xs:element name="Name" type="Z:DeclName"/>
+      <xs:element ref="Z:DeclName"/>
       <xs:element ref="Z:Type"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="NameSectTypeTriple" mixed="false">
     <xs:sequence>
-      <xs:element name="Name" type="Z:DeclName"/>
+      <xs:element ref="Z:DeclName"/>
       <xs:element name="Sect" type="xs:string"/>
       <xs:element ref="Z:Type"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="NameNamePair" mixed="false">
+  <xs:complexType name="NewOldPair" mixed="false">
     <xs:sequence>
-      <xs:element name="OldName" type="Z:RefName"/>
-      <xs:element name="NewName" type="Z:DeclName"/>
+      <xs:element ref="Z:DeclName">
+        <xs:annotation>
+          <xs:appinfo>
+            <jaxb:property name="NewName"/>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element ref="Z:RefName">
+        <xs:annotation>
+          <xs:appinfo>
+            <jaxb:property name="OldName"/>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
     </xs:sequence>
   </xs:complexType>
 </xs:schema>

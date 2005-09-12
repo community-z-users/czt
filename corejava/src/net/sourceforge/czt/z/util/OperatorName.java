@@ -79,7 +79,12 @@ public class OperatorName
    * @throws OperatorNameException if the given name does not
    *         represent an operator name.
    */
-  public OperatorName(Name name)
+  public OperatorName(ZDeclName name)
+    throws OperatorNameException
+  {
+    this(name.getWord(), name.getStroke());
+  }
+  public OperatorName(ZRefName name)
     throws OperatorNameException
   {
     this(name.getWord(), name.getStroke());
@@ -117,7 +122,7 @@ public class OperatorName
         if (Boolean.TRUE.equals(expectArgument)) {
           throw new OperatorNameException(errorMessage);
         }
-        DeclName declName = factory_.createDeclName(opPart);
+        ZDeclName declName = factory_.createZDeclName(opPart);
         name.append(declName.getWord());
         checkStrokes(declName.getStroke());
         expectArgument = Boolean.TRUE;

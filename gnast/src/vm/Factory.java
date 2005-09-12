@@ -33,27 +33,27 @@
   }
 
   /**
-   * Creates a DeclName with the given word and strokes and
+   * Creates a ZDeclName with the given word and strokes and
    * id set to <code>null</code>.
    * This is a convenience method.
    */
-  public DeclName createDeclName(String word, java.util.List strokes)
+  public ZDeclName createZDeclName(String word, java.util.List strokes)
   {
-    return createDeclName(word, strokes, null);
+    return createZDeclName(word, strokes, null);
   }
 
   /**
-   * Creates a DeclName from a decorword, that is a string that
+   * Creates a ZDeclName from a decorword, that is a string that
    * may contain strokes at the end.
    * The strokes are extracted from the end and the resulting
    * name is returned.
    * This is a convenience method.
    */
-  public DeclName createDeclName(String decorword)
+  public ZDeclName createZDeclName(String decorword)
   {
     java.util.List strokes = new java.util.ArrayList();
     final String word = getWordAndStrokes(decorword, strokes);
-    return createDeclName(word, strokes, null);
+    return createZDeclName(word, strokes, null);
   }
 
   protected String getWordAndStrokes(String decorword, java.util.List strokes)
@@ -161,7 +161,7 @@
                                     Expr expr)
   {
     ConstDecl constDecl = createConstDecl(declName, expr);
-    SchText schText = createSchText(createZDeclList(list(constDecl)), null);
+    SchText schText = createZSchText(createZDeclList(list(constDecl)), null);
     return createAxPara(formals, schText, Box.OmitBox);
   }
 
@@ -181,7 +181,7 @@
    */
   public NumExpr createNumExpr(int value)
   {
-    return createNumExpr(java.math.BigInteger.valueOf(value));
+    return createNumExpr(createZNumeral(value));
   }
 
   /**
@@ -190,7 +190,7 @@
    */
   public ProdExpr createProdExpr(Expr left, Expr right)
   {
-    return createProdExpr(list(left, right));
+    return createProdExpr(createZExprList(list(left, right)));
   }
 
   /**
@@ -201,31 +201,36 @@
    */
   public RefExpr createRefExpr(RefName refName)
   {
-    return createRefExpr(refName, null, Boolean.FALSE);
+    return createRefExpr(refName, createZExprList(), Boolean.FALSE);
+  }
+
+  public RefExpr createRefExpr(RefName refName, java.util.List exprList, Boolean mixfix)
+  {
+    return createRefExpr(refName, createZExprList(exprList), mixfix);
   }
 
   /**
-   * Creates a RefName with the given word and strokes and
+   * Creates a ZRefName with the given word and strokes and
    * id set to <code>null</code>.
    * This is a convenience method.
    */
-  public RefName createRefName(String word, java.util.List strokes)
+  public ZRefName createZRefName(String word, java.util.List strokes)
   {
-    return createRefName(word, strokes, null);
+    return createZRefName(word, strokes, null);
   }
 
   /**
-   * Creates a RefName from a decorword, that is a string that
+   * Creates a ZRefName from a decorword, that is a string that
    * may contain strokes at the end.
    * The strokes are extracted from the end and the resulting
    * name is returned.
    * This is a convenience method.
    */
-  public RefName createRefName(String decorword)
+  public ZRefName createZRefName(String decorword)
   {
     java.util.List strokes = new java.util.ArrayList();
     final String word = getWordAndStrokes(decorword, strokes);
-    return createRefName(word, strokes, null);
+    return createZRefName(word, strokes, null);
   }
 
   /**
@@ -233,9 +238,9 @@
    * declaring name.
    * This is a convenience method.
    */
-  public RefName createRefName(DeclName declName)
+  public ZRefName createZRefName(ZDeclName declName)
   {
-    return createRefName(declName.getWord(), declName.getStroke(), declName);
+    return createZRefName(declName.getWord(), declName.getStroke(), declName);
   }
 
   /**
@@ -277,7 +282,7 @@
                              SchText schemaText)
   {
     ConstDecl constDecl = createConstDecl(declName, createSchExpr(schemaText));
-    SchText schText = createSchText(createZDeclList(list(constDecl)), null);
+    SchText schText = createZSchText(createZDeclList(list(constDecl)), null);
     return createAxPara(formals, schText, Box.SchBox);
   }
 
@@ -306,11 +311,16 @@
     return createSetExpr(tupleList);
   }
 
+  public SetExpr createSetExpr(java.util.List exprList)
+  {
+    return createSetExpr(createZExprList(exprList));
+  }
+
   /**
    * Creates a pair, that is a tuple expression with two elements.
    * This is a convenience method.
    */
   public TupleExpr createTupleExpr(Expr left, Expr right)
   {
-    return createTupleExpr(list(left, right));
+    return createTupleExpr(createZExprList(list(left, right)));
   }
