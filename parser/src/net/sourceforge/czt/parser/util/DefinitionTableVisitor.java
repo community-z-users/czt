@@ -88,8 +88,8 @@ public class DefinitionTableVisitor
   public Object visitAxPara(AxPara axPara)
   {
     List declNames = axPara.getDeclName();
-    SchText schText = axPara.getSchText();
-    List decls = ((ZDeclList) schText.getDeclList()).getDecl();
+    ZSchText schText = axPara.getZSchText();
+    List decls = schText.getDecl();
     for (Iterator iter = decls.iterator(); iter.hasNext(); ) {
       Decl decl = (Decl) iter.next();
       if (decl instanceof ConstDecl) {

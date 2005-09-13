@@ -130,7 +130,7 @@ public class ZPrintVisitor
   private String getBinOperatorName(RefExpr refExpr)
   {
     String result = null;
-    String word = refExpr.getRefName().getWord();
+    String word = refExpr.getZRefName().getWord();
     String[] split = word.split(" ");
     final int expectedLength = 4;
     final int third = 3;
@@ -185,7 +185,7 @@ public class ZPrintVisitor
     if (braces) print(Sym.LPAREN);
     visit(bindSelExpr.getExpr());
     printKeyword(ZString.DOT);
-    visit(bindSelExpr.getName());
+    visit(bindSelExpr.getRefName());
     if (braces) print(Sym.RPAREN);
     return null;
   }
@@ -248,11 +248,13 @@ public class ZPrintVisitor
     return null;
   }
 
-  public Object visitDeclName(DeclName declName)
+  public Object visitZDeclName(ZDeclName declName)
   {
     OperatorName op = declName.getOperatorName();
     if (op == null) {
-      return visitName(declName);
+      print(Sym.DECORWORD,
+            new Decorword(declName.getWord(), declName.getStroke()));
+      return null;
     }
     for (Iterator iter = op.iterator(); iter.hasNext();) {
       print(Sym.DECORWORD, new Decorword((String) iter.next()));
@@ -533,13 +535,7 @@ public class ZPrintVisitor
     return null;
   }
 
-  public Object visitName(Name name)
-  {
-    print(Sym.DECORWORD, new Decorword(name.getWord(), name.getStroke()));
-    return null;
-  }
-
-  public Object visitNameNamePair(NameNamePair pair)
+  public Object visitNewOldPair(NewOldPair pair)
   {
     visit(pair.getNewName());
     printKeyword(ZString.SLASH);
@@ -610,14 +606,20 @@ public class ZPrintVisitor
   {
     final boolean braces = numExpr.getAnn(ParenAnn.class) != null;
     if (braces) print(Sym.LPAREN);
-    print(Sym.NUMERAL, Integer.valueOf(numExpr.getValue().toString()));
+    visit(numExpr.getNumeral());
     if (braces) print(Sym.RPAREN);
+    return null;
+  }
+
+  public Object visitZNumeral(ZNumeral zNumeral)
+  {
+    print(Sym.NUMERAL, Integer.valueOf(zNumeral.getValue().toString()));
     return null;
   }
 
   public Object visitNumStroke(NumStroke numStroke)
   {
-    print(Sym.NUMSTROKE, numStroke.getNumber());
+    print(Sym.NUMSTROKE, numStroke.getDigit());
     return null;
   }
 
@@ -899,11 +901,31 @@ public class ZPrintVisitor
     return null;
   }
 
-  public Object visitRefName(RefName refName)
+  public Object visitZExprList(ZExprList zExprList)
+  {
+    printTermList(zExprList.getExpr());
+    return null;
+  }
+
+  public Object visitZRenameList(ZRenameList zRenameList)
+  {
+    printTermList(zRenameList.getNewOldPair());
+    return null;
+  }
+
+  public Object visitZRefNameList(ZRefNameList zRefNameList)
+  {
+    printTermList(zRefNameList.getRefName());
+    return null;
+  }
+
+  public Object visitZRefName(ZRefName refName)
   {
     OperatorName op = refName.getOperatorName();
     if (op == null) {
-      return visitName(refName);
+      print(Sym.DECORWORD,
+            new Decorword(refName.getWord(), refName.getStroke()));
+      return null;
     }
     print(Sym.LPAREN);
     for (Iterator iter = op.iterator(); iter.hasNext(); ) {
@@ -919,7 +941,7 @@ public class ZPrintVisitor
     if (braces) print(Sym.LPAREN);
     visit(renameExpr.getExpr());
     print(Sym.LSQUARE);
-    printTermList(renameExpr.getNameNamePair());
+    printTermList(renameExpr.getRenamings());
     print(Sym.RSQUARE);
     if (braces) print(Sym.RPAREN);
     return null;
@@ -938,7 +960,7 @@ public class ZPrintVisitor
     return null;
   }
 
-  public Object visitSchText(SchText schText)
+  public Object visitZSchText(ZSchText schText)
   {
     visit(schText.getDeclList());
     if (schText.getPred() != null) {
@@ -1021,7 +1043,7 @@ public class ZPrintVisitor
     if (braces) print(Sym.LPAREN);
     visit(tupleSelExpr.getExpr());
     printKeyword(ZString.DOT);
-    print(Sym.NUMERAL, tupleSelExpr.getSelect());
+    visit(tupleSelExpr.getNumeral());
     if (braces) print(Sym.RPAREN);
     return null;
   }
@@ -1110,10 +1132,10 @@ public class ZPrintVisitor
     RefExpr ref = (RefExpr) operator;
     OperatorName op = null;
     try {
-      op = new OperatorName(ref.getRefName());
+      op = new OperatorName(ref.getZRefName());
     }
     catch (OperatorName.OperatorNameException e) {
-      return "Unexpected operator " + ref.getRefName().getWord();
+      return "Unexpected operator " + ref.getZRefName().getWord();
     }
     assert op != null;
     return printOperator(op, arguments);

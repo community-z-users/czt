@@ -29,6 +29,7 @@ import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
+import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -51,7 +52,7 @@ public class PrecedenceHandlingVisitor
   protected OpTable table_;
 
   /** A ZFactory. */
-  protected ZFactory zFactory_ = new ZFactoryImpl();
+  protected Factory factory_ = new Factory(new ZFactoryImpl());
 
   /** The parents of the terms being analysed. */
   protected List parent_ = new ArrayList();
@@ -116,40 +117,40 @@ public class PrecedenceHandlingVisitor
       Expr newParent = null;
       if (wChild.getExpr() instanceof ApplExpr) {
         RefExpr refExpr =
-          zFactory_.createRefExpr(childName, new ArrayList(), Boolean.FALSE);
-        TupleExpr tupleExpr = zFactory_.createTupleExpr();
+          factory_.createRefExpr(childName, new ArrayList(), Boolean.FALSE);
+        TupleExpr tupleExpr = factory_.createTupleExpr();
         newParent =
-          zFactory_.createApplExpr(refExpr, tupleExpr, Boolean.TRUE);
+          factory_.createApplExpr(refExpr, tupleExpr, Boolean.TRUE);
       }
       else if (wChild.getExpr() instanceof ProdExpr) {
-        newParent = zFactory_.createProdExpr();
+        newParent = factory_.createProdExpr();
       }
       else {
         newParent =
-          zFactory_.createRefExpr(childName, new ArrayList(), Boolean.TRUE);
+          factory_.createRefExpr(childName, new ArrayList(), Boolean.TRUE);
       }
 
       if (hasParenAnn(wExpr.getExpr())) {
-        newParent.getAnns().add(zFactory_.createParenAnn());
+        newParent.getAnns().add(factory_.createParenAnn());
       }
 
       //create the new child
       RefName parentName = wExpr.getRefName();
       Expr newChild = null;
       if (wExpr.getExpr() instanceof ApplExpr) {
-        RefExpr refExpr = zFactory_.createRefExpr(parentName,
+        RefExpr refExpr = factory_.createRefExpr(parentName,
                                                   new ArrayList(),
                                                   Boolean.FALSE);
-        TupleExpr tupleExpr = zFactory_.createTupleExpr();
-        newChild = zFactory_.createApplExpr(refExpr,
+        TupleExpr tupleExpr = factory_.createTupleExpr();
+        newChild = factory_.createApplExpr(refExpr,
                                             tupleExpr,
                                             Boolean.TRUE);
       }
       else if (wExpr.getExpr() instanceof ProdExpr) {
-        newChild = zFactory_.createProdExpr();
+        newChild = factory_.createProdExpr();
       }
       else {
-        newChild = zFactory_.createRefExpr(parentName,
+        newChild = factory_.createRefExpr(parentName,
                                            new ArrayList(),
                                            Boolean.TRUE);
       }
@@ -290,7 +291,7 @@ public class PrecedenceHandlingVisitor
       result = PRODEXPR_PRECEDENCE;
     }
     else {
-      RefName refName = wrappedExpr.getRefName();
+      ZRefName refName = wrappedExpr.getRefName();
       String first = getFirstInfixName(refName);
       if (first != null) {
         result = table_.getPrec(first);
@@ -317,7 +318,7 @@ public class PrecedenceHandlingVisitor
     return assoc;
   }
 
-  private String getFirstInfixName(RefName refName)
+  private String getFirstInfixName(ZRefName refName)
   {
     String result = null;
     String name = refName.getWord();
@@ -357,7 +358,7 @@ public class PrecedenceHandlingVisitor
  */
 class WrappedExpr
 {
-  private ZFactory zFactory_ = new ZFactoryImpl();
+  private Factory factory_ = new Factory(new ZFactoryImpl());
 
   private ApplExpr applExpr_ = null;
   private RefExpr refExpr_ = null;
@@ -373,7 +374,7 @@ class WrappedExpr
       if (! (applExpr_.getRightExpr() instanceof TupleExpr)) {
         List list = new ArrayList();
         list.add(applExpr_.getRightExpr());
-        TupleExpr te = zFactory_.createTupleExpr(list);
+        TupleExpr te = factory_.createTupleExpr(list);
         applExpr_.setRightExpr(te);
       }
     }
@@ -442,18 +443,18 @@ class WrappedExpr
     return result;
   }
 
-  public RefName getRefName()
+  public ZRefName getRefName()
   {
-    RefName result = null;
+    ZRefName result = null;
 
     if (refExpr_ != null) {
-      result = refExpr_.getRefName();
+      result = refExpr_.getZRefName();
     }
     else if (prodExpr_ != null) {
       result = null;
     }
     else {
-      result = ((RefExpr) applExpr_.getLeftExpr()).getRefName();
+      result = ((RefExpr) applExpr_.getLeftExpr()).getZRefName();
     }
     return result;
   }

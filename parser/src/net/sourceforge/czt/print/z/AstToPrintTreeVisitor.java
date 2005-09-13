@@ -170,12 +170,12 @@ public class AstToPrintTreeVisitor
   {
     List list = new ArrayList();
     Precedence prec = new Precedence(60);
-    if (Op.And.equals(andPred.getOp())) {
+    if (And.Wedge.equals(andPred.getAnd())) {
       list.add(visit(andPred.getLeftPred()));
       list.add(ZString.AND);
       list.add(visit(andPred.getRightPred()));
     }
-    else if (Op.Chain.equals(andPred.getOp())) {
+    else if (And.Chain.equals(andPred.getAnd())) {
       PrintPredicate pred1 = (PrintPredicate) visit(andPred.getLeftPred());
       PrintPredicate pred2 = (PrintPredicate) visit(andPred.getRightPred());
       Object[] array1 = pred1.getChildren();
@@ -191,13 +191,13 @@ public class AstToPrintTreeVisitor
         list.add(array2[i]);
       }
     }
-    else if (Op.NL.equals(andPred.getOp())) {
+    else if (And.NL.equals(andPred.getAnd())) {
       prec = new Precedence(10);
       list.add(visit(andPred.getLeftPred()));
       list.add(ZString.NL);
       list.add(visit(andPred.getRightPred()));
     }
-    else if (Op.Semi.equals(andPred.getOp())) {
+    else if (And.Semi.equals(andPred.getAnd())) {
       prec = new Precedence(10);
       list.add(visit(andPred.getLeftPred()));
       list.add(ZString.SEMICOLON);

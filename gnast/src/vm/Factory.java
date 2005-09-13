@@ -324,3 +324,8 @@
   {
     return createTupleExpr(createZExprList(list(left, right)));
   }
+
+  public TupleExpr createTupleExpr(java.util.List exprList)
+  {
+    return createTupleExpr(createZExprList(list(exprList)));
+  }

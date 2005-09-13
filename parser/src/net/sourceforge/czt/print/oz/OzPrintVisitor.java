@@ -294,7 +294,7 @@ public class OzPrintVisitor
     printLPAREN(renameOpExpr);
     visit(renameOpExpr.getOpExpr());
     print(Sym.LSQUARE);
-    printTermList(renameOpExpr.getNameNamePair());
+    printTermList(renameOpExpr.getNewOldPair());
     print(Sym.RSQUARE);
     printRPAREN(renameOpExpr);
     return null;

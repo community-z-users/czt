@@ -63,7 +63,7 @@ public class Decorword
       else if (stroke instanceof NumStroke) {
         NumStroke numStroke = (NumStroke) stroke;
         buffer.append(ZChar.SE);
-        buffer.append(numStroke.getNumber());
+        buffer.append(numStroke.getDigit());
         buffer.append(ZChar.NW);
       }
       else {
