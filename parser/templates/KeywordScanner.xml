@@ -191,7 +191,7 @@ public class KeywordScanner
     }
     else if (stroke instanceof NumStroke) {
       NumStroke numStroke = (NumStroke) stroke;
-      return new Symbol(Sym.NUMSTROKE, left, right, numStroke.getNumber());
+      return new Symbol(Sym.NUMSTROKE, left, right, numStroke.getDigit());
     }
     else {
       throw new CztException("Unexpected stroke");

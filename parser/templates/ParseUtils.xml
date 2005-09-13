@@ -345,7 +345,7 @@ public final class <class/>
       }
     }
     assert axPara != null;
-    return axPara.getSchText().getPred();
+    return axPara.getZSchText().getPred();
   }
 
   /** Parse a Source string/file as a Z Expression.
@@ -402,8 +402,7 @@ public final class <class/>
         break;
       }
     }
-    ConstDecl cdecl =
-      (ConstDecl) ((ZDeclList) axPara.getSchText().getDeclList()).getDecl().get(0);
+    ConstDecl cdecl = (ConstDecl) axPara.getZSchText().getDecl().get(0);
     return cdecl.getExpr();
   }
 

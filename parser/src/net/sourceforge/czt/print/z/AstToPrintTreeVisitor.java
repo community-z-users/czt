@@ -226,7 +226,7 @@ public class AstToPrintTreeVisitor
       applExpr.getMixfix().booleanValue();
     if (isFunctionApplication) {
       RefExpr refExpr = (RefExpr) applExpr.getLeftExpr();
-      OperatorName opName = refExpr.getRefName().getOperatorName();
+      OperatorName opName = refExpr.getZRefName().getOperatorName();
       Expr args = (Expr) applExpr.getRightExpr().accept(this);
       List argList = new ArrayList();
       if (opName.isUnary()) {
@@ -263,8 +263,8 @@ public class AstToPrintTreeVisitor
         }
         list.add(ZString.RSQUARE);
       }
-      SchText schText = axPara.getSchText();
-      for (Iterator iter = ((ZDeclList) schText.getDeclList()).getDecl().iterator(); iter.hasNext();) {
+      ZSchText schText = axPara.getZSchText();
+      for (Iterator iter = schText.getDecl().iterator(); iter.hasNext();) {
         list.add(visit(iter.next()));
         if (iter.hasNext()) list.add(ZString.NL);
       }
@@ -279,10 +279,9 @@ public class AstToPrintTreeVisitor
       List declNameList = axPara.getDeclName();
       if (declNameList.size() > 0) {
         final SchText schText = axPara.getSchText();
-        final List decls =
-          ((ZDeclList) axPara.getSchText().getDeclList()).getDecl();
+        final List decls = axPara.getZSchText().getDecl();
         final ConstDecl constDecl = (ConstDecl) decls.get(0);
-        final DeclName declName = constDecl.getDeclName();
+        final ZDeclName declName = constDecl.getZDeclName();
         final OperatorName operatorName = declName.getOperatorName();
         final OpTable.OpInfo opInfo = operatorName == null ? null :
           opTable_.lookup(operatorName);
@@ -329,10 +328,9 @@ public class AstToPrintTreeVisitor
     else {
       list.add(ZString.SCH);
     }
-    List decls =
-      ((ZDeclList) axPara.getSchText().getDeclList()).getDecl();
+    List decls = axPara.getZSchText().getDecl();
     ConstDecl cdecl = (ConstDecl) decls.get(0);
-    String declName = cdecl.getDeclName().getWord();
+    String declName = cdecl.getZDeclName().getWord();
     if (declName == null) throw new CztException();
     list.add(visit(declName));
     if (isGeneric(axPara)) {
@@ -344,8 +342,8 @@ public class AstToPrintTreeVisitor
       list.add(ZString.RSQUARE);
     }
     SchExpr schExpr = (SchExpr) cdecl.getExpr();
-    SchText schText = schExpr.getSchText();
-    for (Iterator iter = ((ZDeclList) schText.getDeclList()).getDecl().iterator(); iter.hasNext();) {
+    ZSchText schText = schExpr.getZSchText();
+    for (Iterator iter = schText.getDecl().iterator(); iter.hasNext();) {
       list.add(visit(iter.next()));
       if (iter.hasNext()) list.add(ZString.NL);
     }
@@ -395,7 +393,7 @@ public class AstToPrintTreeVisitor
       try {
         Expr operand = memPred.getLeftExpr();
         RefExpr operator = (RefExpr) memPred.getRightExpr();
-        OperatorName op = new OperatorName(operator.getRefName());
+        OperatorName op = new OperatorName(operator.getZRefName());
         return new PrintPredicate(printOperator(op, operand),
                                   precedence,
                                   null);
@@ -426,7 +424,7 @@ public class AstToPrintTreeVisitor
     final boolean isGenericOperatorApplication =
       refExpr.getMixfix().booleanValue();
     if (isGenericOperatorApplication) {
-      final OperatorName opName = refExpr.getRefName().getOperatorName();
+      final OperatorName opName = refExpr.getZRefName().getOperatorName();
       final ListTerm argList = (ListTerm) refExpr.getExpr().accept(this);
       return createOperatorApplication(opName, argList);
     }
