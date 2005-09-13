@@ -504,7 +504,7 @@ action code
 
       MemPred mp = factory_.createMemPred(lExpr, rExpr, mixfix);
       addLocAnn(mp, line, column);
-      result = factory_.createAndPred(chain, mp, Op.Chain);
+      result = factory_.createAndPred(chain, mp, And.Chain);
 
       previousChain_ = -1;
       return result;
@@ -526,7 +526,7 @@ action code
       MemPred mp = localCreateMemPred(opName, list(lExpr, rExpr),
                                       line, column);
       addLocAnn(mp, line, column);
-      result = factory_.createAndPred(chain, mp, Op.Chain);
+      result = factory_.createAndPred(chain, mp, And.Chain);
 
       previousChain_ = -1;
       return result;
@@ -2021,10 +2021,10 @@ constDecl ::=
 
 sep ::=
         SEMICOLON
-        {: RESULT = Op.Semi; :}
+        {: RESULT = And.Semi; :}
         |
         NL
-        {: RESULT = Op.NL; :}
+        {: RESULT = And.NL; :}
         ;
 
 /// word, declName, and refName lists ////////////////////////////////////
@@ -2743,7 +2743,7 @@ term ::=
             RESULT = factory_.createAndExpr(expr(lhs), expr(rhs));
           }
           else {
-            RESULT = factory_.createAndPred(pred(lhs), pred(rhs), Op.And);
+            RESULT = factory_.createAndPred(pred(lhs), pred(rhs), And.Wedge);
           }
           addLocAnn(RESULT, andleft, andright);
         :}
