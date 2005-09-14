@@ -25,56 +25,57 @@
             <Anns>
                 <LocAnn Col="1" Line="10" Loc="tests/z/success4.tex"/>
             </Anns>
-            <SchText>
+            <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
-                        <DeclName>
+                        <ZDeclName>
                             <Anns>
                                 <LocAnn Col="16" Line="10" Loc="tests/z/success4.tex"/>
                             </Anns>
                             <Word>Gimel</Word>
-                        </DeclName>
+                        </ZDeclName>
                         <SchExpr>
-                            <SchText>
+                            <ZSchText>
                                 <ZDeclList>
                                     <VarDecl>
                                         <Anns>
                                             <LocAnn Col="6" Line="11" Loc="tests/z/success4.tex"/>
                                         </Anns>
-                                        <DeclName>
+                                        <ZDeclName>
                                             <Anns>
                                                 <LocAnn Col="1" Line="11" Loc="tests/z/success4.tex"/>
                                             </Anns>
                                             <Word>y</Word>
-                                        </DeclName>
-                                        <DeclName>
+                                        </ZDeclName>
+                                        <ZDeclName>
                                             <Anns>
                                                 <LocAnn Col="4" Line="11" Loc="tests/z/success4.tex"/>
                                             </Anns>
                                             <Word>z</Word>
-                                        </DeclName>
+                                        </ZDeclName>
                                         <RefExpr Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="8" Line="11" Loc="tests/z/success4.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
                                                     <LocAnn Col="8" Line="11" Loc="tests/z/success4.tex"/>
                                                 </Anns>
                                                 <Word>ℤ</Word>
-                                            </RefName>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                     </VarDecl>
                                     <VarDecl>
                                         <Anns>
                                             <LocAnn Col="3" Line="12" Loc="tests/z/success4.tex"/>
                                         </Anns>
-                                        <DeclName>
+                                        <ZDeclName>
                                             <Anns>
                                                 <LocAnn Col="1" Line="12" Loc="tests/z/success4.tex"/>
                                             </Anns>
                                             <Word>z</Word>
-                                        </DeclName>
+                                        </ZDeclName>
                                         <ApplExpr Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="7" Line="12" Loc="tests/z/success4.tex"/>
@@ -83,36 +84,41 @@
                                                 <Anns>
                                                     <LocAnn Col="5" Line="12" Loc="tests/z/success4.tex"/>
                                                 </Anns>
-                                                <RefName>
+                                                <ZRefName>
                                                     <Anns>
                                                         <LocAnn Col="5" Line="12" Loc="tests/z/success4.tex"/>
                                                     </Anns>
                                                     <Word> _ .. _ </Word>
-                                                </RefName>
+                                                </ZRefName>
+                                                <ZExprList/>
                                             </RefExpr>
                                             <TupleExpr>
                                                 <Anns>
                                                     <LocAnn Col="5" Line="12" Loc="tests/z/success4.tex"/>
                                                 </Anns>
-                                                <NumExpr Value="1">
-                                                    <Anns>
-                                                        <LocAnn Col="5" Line="12" Loc="tests/z/success4.tex"/>
-                                                    </Anns>
-                                                </NumExpr>
-                                                <NumExpr Value="10">
-                                                    <Anns>
-                                                        <LocAnn Col="13" Line="12" Loc="tests/z/success4.tex"/>
-                                                    </Anns>
-                                                </NumExpr>
+                                                <ZExprList>
+                                                    <NumExpr>
+                                                        <Anns>
+                                                            <LocAnn Col="5" Line="12" Loc="tests/z/success4.tex"/>
+                                                        </Anns>
+                                                        <ZNumeral Value="1"/>
+                                                    </NumExpr>
+                                                    <NumExpr>
+                                                        <Anns>
+                                                            <LocAnn Col="13" Line="12" Loc="tests/z/success4.tex"/>
+                                                        </Anns>
+                                                        <ZNumeral Value="10"/>
+                                                    </NumExpr>
+                                                </ZExprList>
                                             </TupleExpr>
                                         </ApplExpr>
                                     </VarDecl>
                                 </ZDeclList>
-                                <AndPred Op="NL">
+                                <AndPred And="NL">
                                     <Anns>
                                         <LocAnn Col="18" Line="14" Loc="tests/z/success4.tex"/>
                                     </Anns>
-                                    <AndPred Op="Chain">
+                                    <AndPred And="Chain">
                                         <Anns>
                                             <LocAnn Col="8" Line="14" Loc="tests/z/success4.tex"/>
                                         </Anns>
@@ -124,33 +130,38 @@
                                                 <Anns>
                                                     <LocAnn Col="1" Line="14" Loc="tests/z/success4.tex"/>
                                                 </Anns>
-                                                <NumExpr Value="1">
-                                                    <Anns>
-                                                        <LocAnn Col="1" Line="14" Loc="tests/z/success4.tex"/>
-                                                    </Anns>
-                                                </NumExpr>
-                                                <RefExpr Mixfix="false">
-                                                    <Anns>
-                                                        <LocAnn Col="8" Line="14" Loc="tests/z/success4.tex"/>
-                                                    </Anns>
-                                                    <RefName>
+                                                <ZExprList>
+                                                    <NumExpr>
+                                                        <Anns>
+                                                            <LocAnn Col="1" Line="14" Loc="tests/z/success4.tex"/>
+                                                        </Anns>
+                                                        <ZNumeral Value="1"/>
+                                                    </NumExpr>
+                                                    <RefExpr Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="8" Line="14" Loc="tests/z/success4.tex"/>
                                                         </Anns>
-                                                        <Word>z</Word>
-                                                    </RefName>
-                                                </RefExpr>
+                                                        <ZRefName>
+                                                            <Anns>
+                                                                <LocAnn Col="8" Line="14" Loc="tests/z/success4.tex"/>
+                                                            </Anns>
+                                                            <Word>z</Word>
+                                                        </ZRefName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                </ZExprList>
                                             </TupleExpr>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="1" Line="14" Loc="tests/z/success4.tex"/>
                                                 </Anns>
-                                                <RefName>
+                                                <ZRefName>
                                                     <Anns>
                                                         <LocAnn Col="1" Line="14" Loc="tests/z/success4.tex"/>
                                                     </Anns>
                                                     <Word> _ ≤ _ </Word>
-                                                </RefName>
+                                                </ZRefName>
+                                                <ZExprList/>
                                             </RefExpr>
                                         </MemPred>
                                         <MemPred Mixfix="true">
@@ -161,33 +172,38 @@
                                                 <Anns>
                                                     <LocAnn Col="8" Line="14" Loc="tests/z/success4.tex"/>
                                                 </Anns>
-                                                <RefExpr Mixfix="false">
-                                                    <Anns>
-                                                        <LocAnn Col="8" Line="14" Loc="tests/z/success4.tex"/>
-                                                    </Anns>
-                                                    <RefName>
+                                                <ZExprList>
+                                                    <RefExpr Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="8" Line="14" Loc="tests/z/success4.tex"/>
                                                         </Anns>
-                                                        <Word>z</Word>
-                                                    </RefName>
-                                                </RefExpr>
-                                                <NumExpr Value="10">
-                                                    <Anns>
-                                                        <LocAnn Col="15" Line="14" Loc="tests/z/success4.tex"/>
-                                                    </Anns>
-                                                </NumExpr>
+                                                        <ZRefName>
+                                                            <Anns>
+                                                                <LocAnn Col="8" Line="14" Loc="tests/z/success4.tex"/>
+                                                            </Anns>
+                                                            <Word>z</Word>
+                                                        </ZRefName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                    <NumExpr>
+                                                        <Anns>
+                                                            <LocAnn Col="15" Line="14" Loc="tests/z/success4.tex"/>
+                                                        </Anns>
+                                                        <ZNumeral Value="10"/>
+                                                    </NumExpr>
+                                                </ZExprList>
                                             </TupleExpr>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="8" Line="14" Loc="tests/z/success4.tex"/>
                                                 </Anns>
-                                                <RefName>
+                                                <ZRefName>
                                                     <Anns>
                                                         <LocAnn Col="8" Line="14" Loc="tests/z/success4.tex"/>
                                                     </Anns>
                                                     <Word> _ ≤ _ </Word>
-                                                </RefName>
+                                                </ZRefName>
+                                                <ZExprList/>
                                             </RefExpr>
                                         </MemPred>
                                     </AndPred>
@@ -199,65 +215,73 @@
                                             <Anns>
                                                 <LocAnn Col="1" Line="15" Loc="tests/z/success4.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
                                                     <LocAnn Col="1" Line="15" Loc="tests/z/success4.tex"/>
                                                 </Anns>
                                                 <Word>y</Word>
-                                            </RefName>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                         <SetExpr>
-                                            <ApplExpr Mixfix="true">
-                                                <Anns>
-                                                    <LocAnn Col="7" Line="15" Loc="tests/z/success4.tex"/>
-                                                </Anns>
-                                                <RefExpr Mixfix="false">
+                                            <ZExprList>
+                                                <ApplExpr Mixfix="true">
                                                     <Anns>
-                                                        <LocAnn Col="5" Line="15" Loc="tests/z/success4.tex"/>
-                                                    </Anns>
-                                                    <RefName>
-                                                        <Anns>
-                                                            <LocAnn Col="5" Line="15" Loc="tests/z/success4.tex"/>
-                                                        </Anns>
-                                                        <Word> _ * _ </Word>
-                                                    </RefName>
-                                                </RefExpr>
-                                                <TupleExpr>
-                                                    <Anns>
-                                                        <LocAnn Col="5" Line="15" Loc="tests/z/success4.tex"/>
+                                                        <LocAnn Col="7" Line="15" Loc="tests/z/success4.tex"/>
                                                     </Anns>
                                                     <RefExpr Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="5" Line="15" Loc="tests/z/success4.tex"/>
                                                         </Anns>
-                                                        <RefName>
+                                                        <ZRefName>
                                                             <Anns>
                                                                 <LocAnn Col="5" Line="15" Loc="tests/z/success4.tex"/>
                                                             </Anns>
-                                                            <Word>z</Word>
-                                                        </RefName>
+                                                            <Word> _ * _ </Word>
+                                                        </ZRefName>
+                                                        <ZExprList/>
                                                     </RefExpr>
-                                                    <RefExpr Mixfix="false">
+                                                    <TupleExpr>
                                                         <Anns>
-                                                            <LocAnn Col="9" Line="15" Loc="tests/z/success4.tex"/>
+                                                            <LocAnn Col="5" Line="15" Loc="tests/z/success4.tex"/>
                                                         </Anns>
-                                                        <RefName>
-                                                            <Anns>
-                                                                <LocAnn Col="9" Line="15" Loc="tests/z/success4.tex"/>
-                                                            </Anns>
-                                                            <Word>z</Word>
-                                                        </RefName>
-                                                    </RefExpr>
-                                                </TupleExpr>
-                                            </ApplExpr>
+                                                        <ZExprList>
+                                                            <RefExpr Mixfix="false">
+                                                                <Anns>
+                                                                    <LocAnn Col="5" Line="15" Loc="tests/z/success4.tex"/>
+                                                                </Anns>
+                                                                <ZRefName>
+                                                                    <Anns>
+                                                                        <LocAnn Col="5" Line="15" Loc="tests/z/success4.tex"/>
+                                                                    </Anns>
+                                                                    <Word>z</Word>
+                                                                </ZRefName>
+                                                                <ZExprList/>
+                                                            </RefExpr>
+                                                            <RefExpr Mixfix="false">
+                                                                <Anns>
+                                                                    <LocAnn Col="9" Line="15" Loc="tests/z/success4.tex"/>
+                                                                </Anns>
+                                                                <ZRefName>
+                                                                    <Anns>
+                                                                        <LocAnn Col="9" Line="15" Loc="tests/z/success4.tex"/>
+                                                                    </Anns>
+                                                                    <Word>z</Word>
+                                                                </ZRefName>
+                                                                <ZExprList/>
+                                                            </RefExpr>
+                                                        </ZExprList>
+                                                    </TupleExpr>
+                                                </ApplExpr>
+                                            </ZExprList>
                                         </SetExpr>
                                     </MemPred>
                                 </AndPred>
-                            </SchText>
+                            </ZSchText>
                         </SchExpr>
                     </ConstDecl>
                 </ZDeclList>
-            </SchText>
+            </ZSchText>
         </AxPara>
         <NarrPara>
             <Anns>
@@ -270,44 +294,45 @@
             <Anns>
                 <LocAnn Col="1" Line="17" Loc="tests/z/success4.tex"/>
             </Anns>
-            <SchText>
+            <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
-                        <DeclName>
+                        <ZDeclName>
                             <Anns>
                                 <LocAnn Col="16" Line="17" Loc="tests/z/success4.tex"/>
                             </Anns>
                             <Word>Aleph</Word>
-                        </DeclName>
+                        </ZDeclName>
                         <SchExpr>
-                            <SchText>
+                            <ZSchText>
                                 <ZDeclList>
                                     <VarDecl>
                                         <Anns>
                                             <LocAnn Col="6" Line="18" Loc="tests/z/success4.tex"/>
                                         </Anns>
-                                        <DeclName>
+                                        <ZDeclName>
                                             <Anns>
                                                 <LocAnn Col="1" Line="18" Loc="tests/z/success4.tex"/>
                                             </Anns>
                                             <Word>x</Word>
-                                        </DeclName>
-                                        <DeclName>
+                                        </ZDeclName>
+                                        <ZDeclName>
                                             <Anns>
                                                 <LocAnn Col="4" Line="18" Loc="tests/z/success4.tex"/>
                                             </Anns>
                                             <Word>y</Word>
-                                        </DeclName>
+                                        </ZDeclName>
                                         <RefExpr Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="8" Line="18" Loc="tests/z/success4.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
                                                     <LocAnn Col="8" Line="18" Loc="tests/z/success4.tex"/>
                                                 </Anns>
                                                 <Word>ℤ</Word>
-                                            </RefName>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                     </VarDecl>
                                 </ZDeclList>
@@ -319,46 +344,51 @@
                                         <Anns>
                                             <LocAnn Col="1" Line="20" Loc="tests/z/success4.tex"/>
                                         </Anns>
-                                        <RefExpr Mixfix="false">
-                                            <Anns>
-                                                <LocAnn Col="1" Line="20" Loc="tests/z/success4.tex"/>
-                                            </Anns>
-                                            <RefName>
+                                        <ZExprList>
+                                            <RefExpr Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="1" Line="20" Loc="tests/z/success4.tex"/>
                                                 </Anns>
-                                                <Word>x</Word>
-                                            </RefName>
-                                        </RefExpr>
-                                        <RefExpr Mixfix="false">
-                                            <Anns>
-                                                <LocAnn Col="5" Line="20" Loc="tests/z/success4.tex"/>
-                                            </Anns>
-                                            <RefName>
+                                                <ZRefName>
+                                                    <Anns>
+                                                        <LocAnn Col="1" Line="20" Loc="tests/z/success4.tex"/>
+                                                    </Anns>
+                                                    <Word>x</Word>
+                                                </ZRefName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="5" Line="20" Loc="tests/z/success4.tex"/>
                                                 </Anns>
-                                                <Word>y</Word>
-                                            </RefName>
-                                        </RefExpr>
+                                                <ZRefName>
+                                                    <Anns>
+                                                        <LocAnn Col="5" Line="20" Loc="tests/z/success4.tex"/>
+                                                    </Anns>
+                                                    <Word>y</Word>
+                                                </ZRefName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </ZExprList>
                                     </TupleExpr>
                                     <RefExpr Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="1" Line="20" Loc="tests/z/success4.tex"/>
                                         </Anns>
-                                        <RefName>
+                                        <ZRefName>
                                             <Anns>
                                                 <LocAnn Col="1" Line="20" Loc="tests/z/success4.tex"/>
                                             </Anns>
                                             <Word> _ &lt; _ </Word>
-                                        </RefName>
+                                        </ZRefName>
+                                        <ZExprList/>
                                     </RefExpr>
                                 </MemPred>
-                            </SchText>
+                            </ZSchText>
                         </SchExpr>
                     </ConstDecl>
                 </ZDeclList>
-            </SchText>
+            </ZSchText>
         </AxPara>
         <NarrPara>
             <Anns>
@@ -371,28 +401,29 @@
             <Anns>
                 <LocAnn Col="1" Line="22" Loc="tests/z/success4.tex"/>
             </Anns>
-            <SchText>
+            <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="7" Line="23" Loc="tests/z/success4.tex"/>
                         </Anns>
-                        <DeclName>
+                        <ZDeclName>
                             <Anns>
                                 <LocAnn Col="1" Line="23" Loc="tests/z/success4.tex"/>
                             </Anns>
                             <Word>limit</Word>
-                        </DeclName>
+                        </ZDeclName>
                         <RefExpr Mixfix="false">
                             <Anns>
                                 <LocAnn Col="9" Line="23" Loc="tests/z/success4.tex"/>
                             </Anns>
-                            <RefName>
+                            <ZRefName>
                                 <Anns>
                                     <LocAnn Col="9" Line="23" Loc="tests/z/success4.tex"/>
                                 </Anns>
                                 <Word>ℕ</Word>
-                            </RefName>
+                            </ZRefName>
+                            <ZExprList/>
                         </RefExpr>
                     </VarDecl>
                 </ZDeclList>
@@ -404,36 +435,41 @@
                         <Anns>
                             <LocAnn Col="1" Line="25" Loc="tests/z/success4.tex"/>
                         </Anns>
-                        <RefExpr Mixfix="false">
-                            <Anns>
-                                <LocAnn Col="1" Line="25" Loc="tests/z/success4.tex"/>
-                            </Anns>
-                            <RefName>
+                        <ZExprList>
+                            <RefExpr Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="1" Line="25" Loc="tests/z/success4.tex"/>
                                 </Anns>
-                                <Word>limit</Word>
-                            </RefName>
-                        </RefExpr>
-                        <NumExpr Value="65535">
-                            <Anns>
-                                <LocAnn Col="12" Line="25" Loc="tests/z/success4.tex"/>
-                            </Anns>
-                        </NumExpr>
+                                <ZRefName>
+                                    <Anns>
+                                        <LocAnn Col="1" Line="25" Loc="tests/z/success4.tex"/>
+                                    </Anns>
+                                    <Word>limit</Word>
+                                </ZRefName>
+                                <ZExprList/>
+                            </RefExpr>
+                            <NumExpr>
+                                <Anns>
+                                    <LocAnn Col="12" Line="25" Loc="tests/z/success4.tex"/>
+                                </Anns>
+                                <ZNumeral Value="65535"/>
+                            </NumExpr>
+                        </ZExprList>
                     </TupleExpr>
                     <RefExpr Mixfix="false">
                         <Anns>
                             <LocAnn Col="1" Line="25" Loc="tests/z/success4.tex"/>
                         </Anns>
-                        <RefName>
+                        <ZRefName>
                             <Anns>
                                 <LocAnn Col="1" Line="25" Loc="tests/z/success4.tex"/>
                             </Anns>
                             <Word> _ ≤ _ </Word>
-                        </RefName>
+                        </ZRefName>
+                        <ZExprList/>
                     </RefExpr>
                 </MemPred>
-            </SchText>
+            </ZSchText>
         </AxPara>
         <NarrPara>
             <Anns>
@@ -447,38 +483,39 @@
             <Anns>
                 <LocAnn Col="1" Line="28" Loc="tests/z/success4.tex"/>
             </Anns>
-            <SchText>
+            <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
-                        <DeclName>
+                        <ZDeclName>
                             <Anns>
                                 <LocAnn Col="16" Line="28" Loc="tests/z/success4.tex"/>
                             </Anns>
                             <Word>Counter</Word>
-                        </DeclName>
+                        </ZDeclName>
                         <SchExpr>
-                            <SchText>
+                            <ZSchText>
                                 <ZDeclList>
                                     <VarDecl>
                                         <Anns>
                                             <LocAnn Col="7" Line="29" Loc="tests/z/success4.tex"/>
                                         </Anns>
-                                        <DeclName>
+                                        <ZDeclName>
                                             <Anns>
                                                 <LocAnn Col="1" Line="29" Loc="tests/z/success4.tex"/>
                                             </Anns>
                                             <Word>value</Word>
-                                        </DeclName>
+                                        </ZDeclName>
                                         <RefExpr Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="9" Line="29" Loc="tests/z/success4.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
                                                     <LocAnn Col="9" Line="29" Loc="tests/z/success4.tex"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
-                                            </RefName>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                     </VarDecl>
                                 </ZDeclList>
@@ -490,46 +527,51 @@
                                         <Anns>
                                             <LocAnn Col="1" Line="31" Loc="tests/z/success4.tex"/>
                                         </Anns>
-                                        <RefExpr Mixfix="false">
-                                            <Anns>
-                                                <LocAnn Col="1" Line="31" Loc="tests/z/success4.tex"/>
-                                            </Anns>
-                                            <RefName>
+                                        <ZExprList>
+                                            <RefExpr Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="1" Line="31" Loc="tests/z/success4.tex"/>
                                                 </Anns>
-                                                <Word>value</Word>
-                                            </RefName>
-                                        </RefExpr>
-                                        <RefExpr Mixfix="false">
-                                            <Anns>
-                                                <LocAnn Col="12" Line="31" Loc="tests/z/success4.tex"/>
-                                            </Anns>
-                                            <RefName>
+                                                <ZRefName>
+                                                    <Anns>
+                                                        <LocAnn Col="1" Line="31" Loc="tests/z/success4.tex"/>
+                                                    </Anns>
+                                                    <Word>value</Word>
+                                                </ZRefName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="12" Line="31" Loc="tests/z/success4.tex"/>
                                                 </Anns>
-                                                <Word>limit</Word>
-                                            </RefName>
-                                        </RefExpr>
+                                                <ZRefName>
+                                                    <Anns>
+                                                        <LocAnn Col="12" Line="31" Loc="tests/z/success4.tex"/>
+                                                    </Anns>
+                                                    <Word>limit</Word>
+                                                </ZRefName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </ZExprList>
                                     </TupleExpr>
                                     <RefExpr Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="1" Line="31" Loc="tests/z/success4.tex"/>
                                         </Anns>
-                                        <RefName>
+                                        <ZRefName>
                                             <Anns>
                                                 <LocAnn Col="1" Line="31" Loc="tests/z/success4.tex"/>
                                             </Anns>
                                             <Word> _ ≤ _ </Word>
-                                        </RefName>
+                                        </ZRefName>
+                                        <ZExprList/>
                                     </RefExpr>
                                 </MemPred>
-                            </SchText>
+                            </ZSchText>
                         </SchExpr>
                     </ConstDecl>
                 </ZDeclList>
-            </SchText>
+            </ZSchText>
         </AxPara>
         <NarrPara>
             <Anns>

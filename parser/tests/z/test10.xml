@@ -22,7 +22,7 @@ Test schemas and axdefs with empty declaration parts.
             <Anns>
                 <LocAnn Col="3" Line="8" Loc="tests/z/test10.tex"/>
             </Anns>
-            <SchText>
+            <ZSchText>
                 <Anns>
                     <LocAnn Col="3" Line="8" Loc="tests/z/test10.tex"/>
                 </Anns>
@@ -31,28 +31,28 @@ Test schemas and axdefs with empty declaration parts.
                         <Anns>
                             <LocAnn Col="8" Line="8" Loc="tests/z/test10.tex"/>
                         </Anns>
-                        <DeclName>
+                        <ZDeclName>
                             <Anns>
                                 <LocAnn Col="3" Line="8" Loc="tests/z/test10.tex"/>
                             </Anns>
                             <Word>TRUE</Word>
-                        </DeclName>
+                        </ZDeclName>
                         <SchExpr>
                             <Anns>
                                 <LocAnn Col="11" Line="8" Loc="tests/z/test10.tex"/>
                             </Anns>
-                            <SchText>
+                            <ZSchText>
                                 <ZDeclList/>
                                 <TruePred>
                                     <Anns>
                                         <LocAnn Col="8" Line="13" Loc="tests/z/test10.tex"/>
                                     </Anns>
                                 </TruePred>
-                            </SchText>
+                            </ZSchText>
                         </SchExpr>
                     </ConstDecl>
                 </ZDeclList>
-            </SchText>
+            </ZSchText>
         </AxPara>
         <NarrPara>
             <Anns>
@@ -66,7 +66,7 @@ Test schemas and axdefs with empty declaration parts.
             <Anns>
                 <LocAnn Col="3" Line="12" Loc="tests/z/test10.tex"/>
             </Anns>
-            <SchText>
+            <ZSchText>
                 <Anns>
                     <LocAnn Col="3" Line="12" Loc="tests/z/test10.tex"/>
                 </Anns>
@@ -75,28 +75,28 @@ Test schemas and axdefs with empty declaration parts.
                         <Anns>
                             <LocAnn Col="9" Line="12" Loc="tests/z/test10.tex"/>
                         </Anns>
-                        <DeclName>
+                        <ZDeclName>
                             <Anns>
                                 <LocAnn Col="3" Line="12" Loc="tests/z/test10.tex"/>
                             </Anns>
                             <Word>FALSE</Word>
-                        </DeclName>
+                        </ZDeclName>
                         <SchExpr>
                             <Anns>
                                 <LocAnn Col="12" Line="12" Loc="tests/z/test10.tex"/>
                             </Anns>
-                            <SchText>
+                            <ZSchText>
                                 <ZDeclList/>
                                 <FalsePred>
                                     <Anns>
                                         <LocAnn Col="14" Line="12" Loc="tests/z/test10.tex"/>
                                     </Anns>
                                 </FalsePred>
-                            </SchText>
+                            </ZSchText>
                         </SchExpr>
                     </ConstDecl>
                 </ZDeclList>
-            </SchText>
+            </ZSchText>
         </AxPara>
         <NarrPara>
             <Anns>
@@ -111,35 +111,36 @@ Test axdef with no declarations.
             <Anns>
                 <LocAnn Col="1" Line="16" Loc="tests/z/test10.tex"/>
             </Anns>
-            <SchText>
+            <ZSchText>
                 <ZDeclList/>
                 <ExistsPred>
                     <Anns>
                         <LocAnn Col="5" Line="18" Loc="tests/z/test10.tex"/>
                         <ParenAnn/>
                     </Anns>
-                    <SchText>
+                    <ZSchText>
                         <ZDeclList>
                             <VarDecl>
                                 <Anns>
                                     <LocAnn Col="14" Line="18" Loc="tests/z/test10.tex"/>
                                 </Anns>
-                                <DeclName>
+                                <ZDeclName>
                                     <Anns>
                                         <LocAnn Col="13" Line="18" Loc="tests/z/test10.tex"/>
                                     </Anns>
                                     <Word>x</Word>
-                                </DeclName>
+                                </ZDeclName>
                                 <RefExpr Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="15" Line="18" Loc="tests/z/test10.tex"/>
                                     </Anns>
-                                    <RefName>
+                                    <ZRefName>
                                         <Anns>
                                             <LocAnn Col="15" Line="18" Loc="tests/z/test10.tex"/>
                                         </Anns>
                                         <Word>ℕ</Word>
-                                    </RefName>
+                                    </ZRefName>
+                                    <ZExprList/>
                                 </RefExpr>
                             </VarDecl>
                         </ZDeclList>
@@ -151,36 +152,41 @@ Test axdef with no declarations.
                                 <Anns>
                                     <LocAnn Col="22" Line="18" Loc="tests/z/test10.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
-                                    <Anns>
-                                        <LocAnn Col="22" Line="18" Loc="tests/z/test10.tex"/>
-                                    </Anns>
-                                    <RefName>
+                                <ZExprList>
+                                    <RefExpr Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="22" Line="18" Loc="tests/z/test10.tex"/>
                                         </Anns>
-                                        <Word>x</Word>
-                                    </RefName>
-                                </RefExpr>
-                                <NumExpr Value="10">
-                                    <Anns>
-                                        <LocAnn Col="26" Line="18" Loc="tests/z/test10.tex"/>
-                                    </Anns>
-                                </NumExpr>
+                                        <ZRefName>
+                                            <Anns>
+                                                <LocAnn Col="22" Line="18" Loc="tests/z/test10.tex"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                        </ZRefName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                    <NumExpr>
+                                        <Anns>
+                                            <LocAnn Col="26" Line="18" Loc="tests/z/test10.tex"/>
+                                        </Anns>
+                                        <ZNumeral Value="10"/>
+                                    </NumExpr>
+                                </ZExprList>
                             </TupleExpr>
                             <RefExpr Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="22" Line="18" Loc="tests/z/test10.tex"/>
                                 </Anns>
-                                <RefName>
+                                <ZRefName>
                                     <Anns>
                                         <LocAnn Col="22" Line="18" Loc="tests/z/test10.tex"/>
                                     </Anns>
                                     <Word> _ &lt; _ </Word>
-                                </RefName>
+                                </ZRefName>
+                                <ZExprList/>
                             </RefExpr>
                         </MemPred>
-                    </SchText>
+                    </ZSchText>
                     <MemPred Mixfix="true">
                         <Anns>
                             <LocAnn Col="35" Line="18" Loc="tests/z/test10.tex"/>
@@ -193,57 +199,65 @@ Test axdef with no declarations.
                                 <Anns>
                                     <LocAnn Col="31" Line="18" Loc="tests/z/test10.tex"/>
                                 </Anns>
-                                <RefName>
+                                <ZRefName>
                                     <Anns>
                                         <LocAnn Col="31" Line="18" Loc="tests/z/test10.tex"/>
                                     </Anns>
                                     <Word> _ * _ </Word>
-                                </RefName>
+                                </ZRefName>
+                                <ZExprList/>
                             </RefExpr>
                             <TupleExpr>
                                 <Anns>
                                     <LocAnn Col="31" Line="18" Loc="tests/z/test10.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
-                                    <Anns>
-                                        <LocAnn Col="31" Line="18" Loc="tests/z/test10.tex"/>
-                                    </Anns>
-                                    <RefName>
+                                <ZExprList>
+                                    <RefExpr Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="31" Line="18" Loc="tests/z/test10.tex"/>
                                         </Anns>
-                                        <Word>x</Word>
-                                    </RefName>
-                                </RefExpr>
-                                <RefExpr Mixfix="false">
-                                    <Anns>
-                                        <LocAnn Col="33" Line="18" Loc="tests/z/test10.tex"/>
-                                    </Anns>
-                                    <RefName>
+                                        <ZRefName>
+                                            <Anns>
+                                                <LocAnn Col="31" Line="18" Loc="tests/z/test10.tex"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                        </ZRefName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="33" Line="18" Loc="tests/z/test10.tex"/>
                                         </Anns>
-                                        <Word>x</Word>
-                                    </RefName>
-                                </RefExpr>
+                                        <ZRefName>
+                                            <Anns>
+                                                <LocAnn Col="33" Line="18" Loc="tests/z/test10.tex"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                        </ZRefName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                </ZExprList>
                             </TupleExpr>
                         </ApplExpr>
                         <SetExpr>
-                            <RefExpr Mixfix="false">
-                                <Anns>
-                                    <LocAnn Col="37" Line="18" Loc="tests/z/test10.tex"/>
-                                </Anns>
-                                <RefName>
+                            <ZExprList>
+                                <RefExpr Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="37" Line="18" Loc="tests/z/test10.tex"/>
                                     </Anns>
-                                    <Word>x</Word>
-                                </RefName>
-                            </RefExpr>
+                                    <ZRefName>
+                                        <Anns>
+                                            <LocAnn Col="37" Line="18" Loc="tests/z/test10.tex"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                    </ZRefName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </ZExprList>
                         </SetExpr>
                     </MemPred>
                 </ExistsPred>
-            </SchText>
+            </ZSchText>
         </AxPara>
         <NarrPara>
             <Anns>
@@ -258,9 +272,9 @@ Test empty axdef
             <Anns>
                 <LocAnn Col="1" Line="22" Loc="tests/z/test10.tex"/>
             </Anns>
-            <SchText>
+            <ZSchText>
                 <ZDeclList/>
-            </SchText>
+            </ZSchText>
         </AxPara>
         <NarrPara>
             <Anns>

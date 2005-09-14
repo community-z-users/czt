@@ -10,28 +10,28 @@
             <Anns>
                 <LocAnn Col="1" Line="1" Loc="tests/z/test.tex"/>
             </Anns>
-            <SchText>
+            <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
-                        <DeclName>
+                        <ZDeclName>
                             <Anns>
                                 <LocAnn Col="16" Line="1" Loc="tests/z/test.tex"/>
                             </Anns>
                             <Word>Test</Word>
-                        </DeclName>
+                        </ZDeclName>
                         <SchExpr>
-                            <SchText>
+                            <ZSchText>
                                 <ZDeclList>
                                     <VarDecl>
                                         <Anns>
                                             <LocAnn Col="8" Line="2" Loc="tests/z/test.tex"/>
                                         </Anns>
-                                        <DeclName>
+                                        <ZDeclName>
                                             <Anns>
                                                 <LocAnn Col="3" Line="2" Loc="tests/z/test.tex"/>
                                             </Anns>
                                             <Word>known</Word>
-                                        </DeclName>
+                                        </ZDeclName>
                                         <PowerExpr>
                                             <Anns>
                                                 <LocAnn Col="10" Line="2" Loc="tests/z/test.tex"/>
@@ -40,12 +40,13 @@
                                                 <Anns>
                                                     <LocAnn Col="17" Line="2" Loc="tests/z/test.tex"/>
                                                 </Anns>
-                                                <RefName>
+                                                <ZRefName>
                                                     <Anns>
                                                         <LocAnn Col="17" Line="2" Loc="tests/z/test.tex"/>
                                                     </Anns>
                                                     <Word>NAME</Word>
-                                                </RefName>
+                                                </ZRefName>
+                                                <ZExprList/>
                                             </RefExpr>
                                         </PowerExpr>
                                     </VarDecl>
@@ -53,23 +54,24 @@
                                         <Anns>
                                             <LocAnn Col="8" Line="3" Loc="tests/z/test.tex"/>
                                         </Anns>
-                                        <DeclName>
+                                        <ZDeclName>
                                             <Anns>
                                                 <LocAnn Col="3" Line="3" Loc="tests/z/test.tex"/>
                                             </Anns>
                                             <Word>name</Word>
                                             <InStroke/>
-                                        </DeclName>
+                                        </ZDeclName>
                                         <RefExpr Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="10" Line="3" Loc="tests/z/test.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
                                                     <LocAnn Col="10" Line="3" Loc="tests/z/test.tex"/>
                                                 </Anns>
                                                 <Word>NAME</Word>
-                                            </RefName>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                     </VarDecl>
                                 </ZDeclList>
@@ -81,31 +83,33 @@
                                         <Anns>
                                             <LocAnn Col="3" Line="5" Loc="tests/z/test.tex"/>
                                         </Anns>
-                                        <RefName>
+                                        <ZRefName>
                                             <Anns>
                                                 <LocAnn Col="3" Line="5" Loc="tests/z/test.tex"/>
                                             </Anns>
                                             <Word>name</Word>
                                             <InStroke/>
-                                        </RefName>
+                                        </ZRefName>
+                                        <ZExprList/>
                                     </RefExpr>
                                     <RefExpr Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="13" Line="5" Loc="tests/z/test.tex"/>
                                         </Anns>
-                                        <RefName>
+                                        <ZRefName>
                                             <Anns>
                                                 <LocAnn Col="13" Line="5" Loc="tests/z/test.tex"/>
                                             </Anns>
                                             <Word>known</Word>
-                                        </RefName>
+                                        </ZRefName>
+                                        <ZExprList/>
                                     </RefExpr>
                                 </MemPred>
-                            </SchText>
+                            </ZSchText>
                         </SchExpr>
                     </ConstDecl>
                 </ZDeclList>
-            </SchText>
+            </ZSchText>
         </AxPara>
     </ZSect>
 </Spec>

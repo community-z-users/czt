@@ -571,12 +571,12 @@ lies amongst those of user-defined operators.
             <Anns>
                 <LocAnn Col="1" Line="120" Loc="lib/prelude.tex"/>
             </Anns>
-            <DeclName>
+            <ZDeclName>
                 <Anns>
                     <LocAnn Col="2" Line="120" Loc="lib/prelude.tex"/>
                 </Anns>
                 <Word>𝔸</Word>
-            </DeclName>
+            </ZDeclName>
         </GivenPara>
         <NarrPara>
             <Anns>
@@ -593,18 +593,18 @@ a supply of values for use in specifying number systems.
             <Anns>
                 <LocAnn Col="1" Line="126" Loc="lib/prelude.tex"/>
             </Anns>
-            <SchText>
+            <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="6" Line="127" Loc="lib/prelude.tex"/>
                         </Anns>
-                        <DeclName>
+                        <ZDeclName>
                             <Anns>
                                 <LocAnn Col="1" Line="127" Loc="lib/prelude.tex"/>
                             </Anns>
                             <Word>ℕ</Word>
-                        </DeclName>
+                        </ZDeclName>
                         <PowerExpr>
                             <Anns>
                                 <LocAnn Col="8" Line="127" Loc="lib/prelude.tex"/>
@@ -613,17 +613,18 @@ a supply of values for use in specifying number systems.
                                 <Anns>
                                     <LocAnn Col="15" Line="127" Loc="lib/prelude.tex"/>
                                 </Anns>
-                                <RefName>
+                                <ZRefName>
                                     <Anns>
                                         <LocAnn Col="15" Line="127" Loc="lib/prelude.tex"/>
                                     </Anns>
                                     <Word>𝔸</Word>
-                                </RefName>
+                                </ZRefName>
+                                <ZExprList/>
                             </RefExpr>
                         </PowerExpr>
                     </VarDecl>
                 </ZDeclList>
-            </SchText>
+            </ZSchText>
         </AxPara>
         <NarrPara>
             <Anns>
@@ -640,54 +641,56 @@ The set of natural numbers, $\nat$, is a subset of $\arithmos$.
             <Anns>
                 <LocAnn Col="1" Line="139" Loc="lib/prelude.tex"/>
             </Anns>
-            <SchText>
+            <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="22" Line="140" Loc="lib/prelude.tex"/>
                         </Anns>
-                        <DeclName>
+                        <ZDeclName>
                             <Anns>
                                 <LocAnn Col="3" Line="140" Loc="lib/prelude.tex"/>
                             </Anns>
                             <Word>number_literal_0</Word>
-                        </DeclName>
+                        </ZDeclName>
                         <RefExpr Mixfix="false">
                             <Anns>
                                 <LocAnn Col="24" Line="140" Loc="lib/prelude.tex"/>
                             </Anns>
-                            <RefName>
+                            <ZRefName>
                                 <Anns>
                                     <LocAnn Col="24" Line="140" Loc="lib/prelude.tex"/>
                                 </Anns>
                                 <Word>ℕ</Word>
-                            </RefName>
+                            </ZRefName>
+                            <ZExprList/>
                         </RefExpr>
                     </VarDecl>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="22" Line="141" Loc="lib/prelude.tex"/>
                         </Anns>
-                        <DeclName>
+                        <ZDeclName>
                             <Anns>
                                 <LocAnn Col="3" Line="141" Loc="lib/prelude.tex"/>
                             </Anns>
                             <Word>number_literal_1</Word>
-                        </DeclName>
+                        </ZDeclName>
                         <RefExpr Mixfix="false">
                             <Anns>
                                 <LocAnn Col="24" Line="141" Loc="lib/prelude.tex"/>
                             </Anns>
-                            <RefName>
+                            <ZRefName>
                                 <Anns>
                                     <LocAnn Col="24" Line="141" Loc="lib/prelude.tex"/>
                                 </Anns>
                                 <Word>ℕ</Word>
-                            </RefName>
+                            </ZRefName>
+                            <ZExprList/>
                         </RefExpr>
                     </VarDecl>
                 </ZDeclList>
-            </SchText>
+            </ZSchText>
         </AxPara>
         <NarrPara>
             <Anns>
@@ -722,18 +725,18 @@ to references to these declarations (see 12.2.6.9).
             <Anns>
                 <LocAnn Col="1" Line="151" Loc="lib/prelude.tex"/>
             </Anns>
-            <SchText>
+            <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="9" Line="152" Loc="lib/prelude.tex"/>
                         </Anns>
-                        <DeclName>
+                        <ZDeclName>
                             <Anns>
                                 <LocAnn Col="6" Line="152" Loc="lib/prelude.tex"/>
                             </Anns>
                             <Word> _ + _ </Word>
-                        </DeclName>
+                        </ZDeclName>
                         <PowerExpr>
                             <Anns>
                                 <LocAnn Col="11" Line="152" Loc="lib/prelude.tex"/>
@@ -743,70 +746,77 @@ to references to these declarations (see 12.2.6.9).
                                     <LocAnn Col="55" Line="152" Loc="lib/prelude.tex"/>
                                     <ParenAnn/>
                                 </Anns>
-                                <ProdExpr>
-                                    <Anns>
-                                        <LocAnn Col="37" Line="152" Loc="lib/prelude.tex"/>
-                                        <ParenAnn/>
-                                    </Anns>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="20" Line="152" Loc="lib/prelude.tex"/>
-                                        </Anns>
-                                        <RefName>
-                                            <Anns>
-                                                <LocAnn Col="20" Line="152" Loc="lib/prelude.tex"/>
-                                            </Anns>
-                                            <Word>𝔸</Word>
-                                        </RefName>
-                                    </RefExpr>
-                                    <RefExpr Mixfix="false">
+                                <ZExprList>
+                                    <ProdExpr>
                                         <Anns>
                                             <LocAnn Col="37" Line="152" Loc="lib/prelude.tex"/>
+                                            <ParenAnn/>
                                         </Anns>
-                                        <RefName>
-                                            <Anns>
-                                                <LocAnn Col="37" Line="152" Loc="lib/prelude.tex"/>
-                                            </Anns>
-                                            <Word>𝔸</Word>
-                                        </RefName>
-                                    </RefExpr>
-                                </ProdExpr>
-                                <RefExpr Mixfix="false">
-                                    <Anns>
-                                        <LocAnn Col="55" Line="152" Loc="lib/prelude.tex"/>
-                                    </Anns>
-                                    <RefName>
+                                        <ZExprList>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="20" Line="152" Loc="lib/prelude.tex"/>
+                                                </Anns>
+                                                <ZRefName>
+                                                    <Anns>
+                                                        <LocAnn Col="20" Line="152" Loc="lib/prelude.tex"/>
+                                                    </Anns>
+                                                    <Word>𝔸</Word>
+                                                </ZRefName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="37" Line="152" Loc="lib/prelude.tex"/>
+                                                </Anns>
+                                                <ZRefName>
+                                                    <Anns>
+                                                        <LocAnn Col="37" Line="152" Loc="lib/prelude.tex"/>
+                                                    </Anns>
+                                                    <Word>𝔸</Word>
+                                                </ZRefName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </ZExprList>
+                                    </ProdExpr>
+                                    <RefExpr Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="55" Line="152" Loc="lib/prelude.tex"/>
                                         </Anns>
-                                        <Word>𝔸</Word>
-                                    </RefName>
-                                </RefExpr>
+                                        <ZRefName>
+                                            <Anns>
+                                                <LocAnn Col="55" Line="152" Loc="lib/prelude.tex"/>
+                                            </Anns>
+                                            <Word>𝔸</Word>
+                                        </ZRefName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                </ZExprList>
                             </ProdExpr>
                         </PowerExpr>
                     </VarDecl>
                 </ZDeclList>
-                <AndPred Op="NL">
+                <AndPred And="NL">
                     <Anns>
                         <LocAnn Col="28" Line="159" Loc="lib/prelude.tex"/>
                     </Anns>
-                    <AndPred Op="NL">
+                    <AndPred And="NL">
                         <Anns>
                             <LocAnn Col="79" Line="158" Loc="lib/prelude.tex"/>
                         </Anns>
-                        <AndPred Op="NL">
+                        <AndPred And="NL">
                             <Anns>
                                 <LocAnn Col="34" Line="157" Loc="lib/prelude.tex"/>
                             </Anns>
-                            <AndPred Op="NL">
+                            <AndPred And="NL">
                                 <Anns>
                                     <LocAnn Col="43" Line="156" Loc="lib/prelude.tex"/>
                                 </Anns>
-                                <AndPred Op="NL">
+                                <AndPred And="NL">
                                     <Anns>
                                         <LocAnn Col="36" Line="155" Loc="lib/prelude.tex"/>
                                     </Anns>
-                                    <AndPred Op="NL">
+                                    <AndPred And="NL">
                                         <Anns>
                                             <LocAnn Col="61" Line="154" Loc="lib/prelude.tex"/>
                                         </Anns>
@@ -814,74 +824,76 @@ to references to these declarations (see 12.2.6.9).
                                             <Anns>
                                                 <LocAnn Col="1" Line="154" Loc="lib/prelude.tex"/>
                                             </Anns>
-                                            <SchText>
+                                            <ZSchText>
                                                 <ZDeclList>
                                                     <VarDecl>
                                                         <Anns>
                                                             <LocAnn Col="13" Line="154" Loc="lib/prelude.tex"/>
                                                         </Anns>
-                                                        <DeclName>
+                                                        <ZDeclName>
                                                             <Anns>
                                                                 <LocAnn Col="9" Line="154" Loc="lib/prelude.tex"/>
                                                             </Anns>
                                                             <Word>m</Word>
-                                                        </DeclName>
-                                                        <DeclName>
+                                                        </ZDeclName>
+                                                        <ZDeclName>
                                                             <Anns>
                                                                 <LocAnn Col="12" Line="154" Loc="lib/prelude.tex"/>
                                                             </Anns>
                                                             <Word>n</Word>
-                                                        </DeclName>
+                                                        </ZDeclName>
                                                         <RefExpr Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="15" Line="154" Loc="lib/prelude.tex"/>
                                                             </Anns>
-                                                            <RefName>
+                                                            <ZRefName>
                                                                 <Anns>
                                                                     <LocAnn Col="15" Line="154" Loc="lib/prelude.tex"/>
                                                                 </Anns>
                                                                 <Word>ℕ</Word>
-                                                            </RefName>
+                                                            </ZRefName>
+                                                            <ZExprList/>
                                                         </RefExpr>
                                                     </VarDecl>
                                                 </ZDeclList>
-                                            </SchText>
+                                            </ZSchText>
                                             <Exists1Pred>
                                                 <Anns>
                                                     <LocAnn Col="22" Line="154" Loc="lib/prelude.tex"/>
                                                 </Anns>
-                                                <SchText>
+                                                <ZSchText>
                                                     <ZDeclList>
                                                         <VarDecl>
                                                             <Anns>
                                                                 <LocAnn Col="33" Line="154" Loc="lib/prelude.tex"/>
                                                             </Anns>
-                                                            <DeclName>
+                                                            <ZDeclName>
                                                                 <Anns>
                                                                     <LocAnn Col="32" Line="154" Loc="lib/prelude.tex"/>
                                                                 </Anns>
                                                                 <Word>p</Word>
-                                                            </DeclName>
+                                                            </ZDeclName>
                                                             <RefExpr Mixfix="false">
                                                                 <Anns>
                                                                     <LocAnn Col="45" Line="154" Loc="lib/prelude.tex"/>
                                                                 </Anns>
-                                                                <RefName>
+                                                                <ZRefName>
                                                                     <Anns>
                                                                         <ParenAnn/>
                                                                         <LocAnn Col="42" Line="154" Loc="lib/prelude.tex"/>
                                                                     </Anns>
                                                                     <Word> _ + _ </Word>
-                                                                </RefName>
+                                                                </ZRefName>
+                                                                <ZExprList/>
                                                             </RefExpr>
                                                         </VarDecl>
                                                     </ZDeclList>
-                                                </SchText>
+                                                </ZSchText>
                                                 <MemPred Mixfix="true">
                                                     <Anns>
                                                         <LocAnn Col="53" Line="154" Loc="lib/prelude.tex"/>
                                                     </Anns>
-                                                    <TupleSelExpr Select="1">
+                                                    <TupleSelExpr>
                                                         <Anns>
                                                             <LocAnn Col="50" Line="154" Loc="lib/prelude.tex"/>
                                                         </Anns>
@@ -889,42 +901,50 @@ to references to these declarations (see 12.2.6.9).
                                                             <Anns>
                                                                 <LocAnn Col="49" Line="154" Loc="lib/prelude.tex"/>
                                                             </Anns>
-                                                            <RefName>
+                                                            <ZRefName>
                                                                 <Anns>
                                                                     <LocAnn Col="49" Line="154" Loc="lib/prelude.tex"/>
                                                                 </Anns>
                                                                 <Word>p</Word>
-                                                            </RefName>
+                                                            </ZRefName>
+                                                            <ZExprList/>
                                                         </RefExpr>
+                                                        <ZNumeral Value="1"/>
                                                     </TupleSelExpr>
                                                     <SetExpr>
-                                                        <TupleExpr>
-                                                            <Anns>
-                                                                <LocAnn Col="55" Line="154" Loc="lib/prelude.tex"/>
-                                                            </Anns>
-                                                            <RefExpr Mixfix="false">
+                                                        <ZExprList>
+                                                            <TupleExpr>
                                                                 <Anns>
-                                                                    <LocAnn Col="56" Line="154" Loc="lib/prelude.tex"/>
+                                                                    <LocAnn Col="55" Line="154" Loc="lib/prelude.tex"/>
                                                                 </Anns>
-                                                                <RefName>
-                                                                    <Anns>
-                                                                        <LocAnn Col="56" Line="154" Loc="lib/prelude.tex"/>
-                                                                    </Anns>
-                                                                    <Word>m</Word>
-                                                                </RefName>
-                                                            </RefExpr>
-                                                            <RefExpr Mixfix="false">
-                                                                <Anns>
-                                                                    <LocAnn Col="59" Line="154" Loc="lib/prelude.tex"/>
-                                                                </Anns>
-                                                                <RefName>
-                                                                    <Anns>
-                                                                        <LocAnn Col="59" Line="154" Loc="lib/prelude.tex"/>
-                                                                    </Anns>
-                                                                    <Word>n</Word>
-                                                                </RefName>
-                                                            </RefExpr>
-                                                        </TupleExpr>
+                                                                <ZExprList>
+                                                                    <RefExpr Mixfix="false">
+                                                                        <Anns>
+                                                                            <LocAnn Col="56" Line="154" Loc="lib/prelude.tex"/>
+                                                                        </Anns>
+                                                                        <ZRefName>
+                                                                            <Anns>
+                                                                                <LocAnn Col="56" Line="154" Loc="lib/prelude.tex"/>
+                                                                            </Anns>
+                                                                            <Word>m</Word>
+                                                                        </ZRefName>
+                                                                        <ZExprList/>
+                                                                    </RefExpr>
+                                                                    <RefExpr Mixfix="false">
+                                                                        <Anns>
+                                                                            <LocAnn Col="59" Line="154" Loc="lib/prelude.tex"/>
+                                                                        </Anns>
+                                                                        <ZRefName>
+                                                                            <Anns>
+                                                                                <LocAnn Col="59" Line="154" Loc="lib/prelude.tex"/>
+                                                                            </Anns>
+                                                                            <Word>n</Word>
+                                                                        </ZRefName>
+                                                                        <ZExprList/>
+                                                                    </RefExpr>
+                                                                </ZExprList>
+                                                            </TupleExpr>
+                                                        </ZExprList>
                                                     </SetExpr>
                                                 </MemPred>
                                             </Exists1Pred>
@@ -933,38 +953,39 @@ to references to these declarations (see 12.2.6.9).
                                             <Anns>
                                                 <LocAnn Col="1" Line="155" Loc="lib/prelude.tex"/>
                                             </Anns>
-                                            <SchText>
+                                            <ZSchText>
                                                 <ZDeclList>
                                                     <VarDecl>
                                                         <Anns>
                                                             <LocAnn Col="13" Line="155" Loc="lib/prelude.tex"/>
                                                         </Anns>
-                                                        <DeclName>
+                                                        <ZDeclName>
                                                             <Anns>
                                                                 <LocAnn Col="9" Line="155" Loc="lib/prelude.tex"/>
                                                             </Anns>
                                                             <Word>m</Word>
-                                                        </DeclName>
-                                                        <DeclName>
+                                                        </ZDeclName>
+                                                        <ZDeclName>
                                                             <Anns>
                                                                 <LocAnn Col="12" Line="155" Loc="lib/prelude.tex"/>
                                                             </Anns>
                                                             <Word>n</Word>
-                                                        </DeclName>
+                                                        </ZDeclName>
                                                         <RefExpr Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="15" Line="155" Loc="lib/prelude.tex"/>
                                                             </Anns>
-                                                            <RefName>
+                                                            <ZRefName>
                                                                 <Anns>
                                                                     <LocAnn Col="15" Line="155" Loc="lib/prelude.tex"/>
                                                                 </Anns>
                                                                 <Word>ℕ</Word>
-                                                            </RefName>
+                                                            </ZRefName>
+                                                            <ZExprList/>
                                                         </RefExpr>
                                                     </VarDecl>
                                                 </ZDeclList>
-                                            </SchText>
+                                            </ZSchText>
                                             <MemPred Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="28" Line="155" Loc="lib/prelude.tex"/>
@@ -977,51 +998,57 @@ to references to these declarations (see 12.2.6.9).
                                                         <Anns>
                                                             <LocAnn Col="22" Line="155" Loc="lib/prelude.tex"/>
                                                         </Anns>
-                                                        <RefName>
+                                                        <ZRefName>
                                                             <Anns>
                                                                 <LocAnn Col="22" Line="155" Loc="lib/prelude.tex"/>
                                                             </Anns>
                                                             <Word> _ + _ </Word>
-                                                        </RefName>
+                                                        </ZRefName>
+                                                        <ZExprList/>
                                                     </RefExpr>
                                                     <TupleExpr>
                                                         <Anns>
                                                             <LocAnn Col="22" Line="155" Loc="lib/prelude.tex"/>
                                                         </Anns>
-                                                        <RefExpr Mixfix="false">
-                                                            <Anns>
-                                                                <LocAnn Col="22" Line="155" Loc="lib/prelude.tex"/>
-                                                            </Anns>
-                                                            <RefName>
+                                                        <ZExprList>
+                                                            <RefExpr Mixfix="false">
                                                                 <Anns>
                                                                     <LocAnn Col="22" Line="155" Loc="lib/prelude.tex"/>
                                                                 </Anns>
-                                                                <Word>m</Word>
-                                                            </RefName>
-                                                        </RefExpr>
-                                                        <RefExpr Mixfix="false">
-                                                            <Anns>
-                                                                <LocAnn Col="26" Line="155" Loc="lib/prelude.tex"/>
-                                                            </Anns>
-                                                            <RefName>
+                                                                <ZRefName>
+                                                                    <Anns>
+                                                                        <LocAnn Col="22" Line="155" Loc="lib/prelude.tex"/>
+                                                                    </Anns>
+                                                                    <Word>m</Word>
+                                                                </ZRefName>
+                                                                <ZExprList/>
+                                                            </RefExpr>
+                                                            <RefExpr Mixfix="false">
                                                                 <Anns>
                                                                     <LocAnn Col="26" Line="155" Loc="lib/prelude.tex"/>
                                                                 </Anns>
-                                                                <Word>n</Word>
-                                                            </RefName>
-                                                        </RefExpr>
+                                                                <ZRefName>
+                                                                    <Anns>
+                                                                        <LocAnn Col="26" Line="155" Loc="lib/prelude.tex"/>
+                                                                    </Anns>
+                                                                    <Word>n</Word>
+                                                                </ZRefName>
+                                                                <ZExprList/>
+                                                            </RefExpr>
+                                                        </ZExprList>
                                                     </TupleExpr>
                                                 </ApplExpr>
                                                 <RefExpr Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="32" Line="155" Loc="lib/prelude.tex"/>
                                                     </Anns>
-                                                    <RefName>
+                                                    <ZRefName>
                                                         <Anns>
                                                             <LocAnn Col="32" Line="155" Loc="lib/prelude.tex"/>
                                                         </Anns>
                                                         <Word>ℕ</Word>
-                                                    </RefName>
+                                                    </ZRefName>
+                                                    <ZExprList/>
                                                 </RefExpr>
                                             </MemPred>
                                         </ForallPred>
@@ -1030,34 +1057,35 @@ to references to these declarations (see 12.2.6.9).
                                         <Anns>
                                             <LocAnn Col="1" Line="156" Loc="lib/prelude.tex"/>
                                         </Anns>
-                                        <SchText>
+                                        <ZSchText>
                                             <ZDeclList>
                                                 <VarDecl>
                                                     <Anns>
                                                         <LocAnn Col="13" Line="156" Loc="lib/prelude.tex"/>
                                                     </Anns>
-                                                    <DeclName>
+                                                    <ZDeclName>
                                                         <Anns>
                                                             <LocAnn Col="9" Line="156" Loc="lib/prelude.tex"/>
                                                         </Anns>
                                                         <Word>m</Word>
-                                                    </DeclName>
-                                                    <DeclName>
+                                                    </ZDeclName>
+                                                    <ZDeclName>
                                                         <Anns>
                                                             <LocAnn Col="12" Line="156" Loc="lib/prelude.tex"/>
                                                         </Anns>
                                                         <Word>n</Word>
-                                                    </DeclName>
+                                                    </ZDeclName>
                                                     <RefExpr Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="15" Line="156" Loc="lib/prelude.tex"/>
                                                         </Anns>
-                                                        <RefName>
+                                                        <ZRefName>
                                                             <Anns>
                                                                 <LocAnn Col="15" Line="156" Loc="lib/prelude.tex"/>
                                                             </Anns>
                                                             <Word>ℕ</Word>
-                                                        </RefName>
+                                                        </ZRefName>
+                                                        <ZExprList/>
                                                     </RefExpr>
                                                 </VarDecl>
                                             </ZDeclList>
@@ -1073,76 +1101,88 @@ to references to these declarations (see 12.2.6.9).
                                                         <Anns>
                                                             <LocAnn Col="22" Line="156" Loc="lib/prelude.tex"/>
                                                         </Anns>
-                                                        <RefName>
+                                                        <ZRefName>
                                                             <Anns>
                                                                 <LocAnn Col="22" Line="156" Loc="lib/prelude.tex"/>
                                                             </Anns>
                                                             <Word> _ + _ </Word>
-                                                        </RefName>
+                                                        </ZRefName>
+                                                        <ZExprList/>
                                                     </RefExpr>
                                                     <TupleExpr>
                                                         <Anns>
                                                             <LocAnn Col="22" Line="156" Loc="lib/prelude.tex"/>
                                                         </Anns>
-                                                        <RefExpr Mixfix="false">
-                                                            <Anns>
-                                                                <LocAnn Col="22" Line="156" Loc="lib/prelude.tex"/>
-                                                            </Anns>
-                                                            <RefName>
+                                                        <ZExprList>
+                                                            <RefExpr Mixfix="false">
                                                                 <Anns>
                                                                     <LocAnn Col="22" Line="156" Loc="lib/prelude.tex"/>
                                                                 </Anns>
-                                                                <Word>m</Word>
-                                                            </RefName>
-                                                        </RefExpr>
-                                                        <NumExpr Value="1">
-                                                            <Anns>
-                                                                <LocAnn Col="26" Line="156" Loc="lib/prelude.tex"/>
-                                                            </Anns>
-                                                        </NumExpr>
+                                                                <ZRefName>
+                                                                    <Anns>
+                                                                        <LocAnn Col="22" Line="156" Loc="lib/prelude.tex"/>
+                                                                    </Anns>
+                                                                    <Word>m</Word>
+                                                                </ZRefName>
+                                                                <ZExprList/>
+                                                            </RefExpr>
+                                                            <NumExpr>
+                                                                <Anns>
+                                                                    <LocAnn Col="26" Line="156" Loc="lib/prelude.tex"/>
+                                                                </Anns>
+                                                                <ZNumeral Value="1"/>
+                                                            </NumExpr>
+                                                        </ZExprList>
                                                     </TupleExpr>
                                                 </ApplExpr>
                                                 <SetExpr>
-                                                    <ApplExpr Mixfix="true">
-                                                        <Anns>
-                                                            <LocAnn Col="32" Line="156" Loc="lib/prelude.tex"/>
-                                                        </Anns>
-                                                        <RefExpr Mixfix="false">
+                                                    <ZExprList>
+                                                        <ApplExpr Mixfix="true">
                                                             <Anns>
-                                                                <LocAnn Col="30" Line="156" Loc="lib/prelude.tex"/>
-                                                            </Anns>
-                                                            <RefName>
-                                                                <Anns>
-                                                                    <LocAnn Col="30" Line="156" Loc="lib/prelude.tex"/>
-                                                                </Anns>
-                                                                <Word> _ + _ </Word>
-                                                            </RefName>
-                                                        </RefExpr>
-                                                        <TupleExpr>
-                                                            <Anns>
-                                                                <LocAnn Col="30" Line="156" Loc="lib/prelude.tex"/>
+                                                                <LocAnn Col="32" Line="156" Loc="lib/prelude.tex"/>
                                                             </Anns>
                                                             <RefExpr Mixfix="false">
                                                                 <Anns>
                                                                     <LocAnn Col="30" Line="156" Loc="lib/prelude.tex"/>
                                                                 </Anns>
-                                                                <RefName>
+                                                                <ZRefName>
                                                                     <Anns>
                                                                         <LocAnn Col="30" Line="156" Loc="lib/prelude.tex"/>
                                                                     </Anns>
-                                                                    <Word>n</Word>
-                                                                </RefName>
+                                                                    <Word> _ + _ </Word>
+                                                                </ZRefName>
+                                                                <ZExprList/>
                                                             </RefExpr>
-                                                            <NumExpr Value="1">
+                                                            <TupleExpr>
                                                                 <Anns>
-                                                                    <LocAnn Col="34" Line="156" Loc="lib/prelude.tex"/>
+                                                                    <LocAnn Col="30" Line="156" Loc="lib/prelude.tex"/>
                                                                 </Anns>
-                                                            </NumExpr>
-                                                        </TupleExpr>
-                                                    </ApplExpr>
+                                                                <ZExprList>
+                                                                    <RefExpr Mixfix="false">
+                                                                        <Anns>
+                                                                            <LocAnn Col="30" Line="156" Loc="lib/prelude.tex"/>
+                                                                        </Anns>
+                                                                        <ZRefName>
+                                                                            <Anns>
+                                                                                <LocAnn Col="30" Line="156" Loc="lib/prelude.tex"/>
+                                                                            </Anns>
+                                                                            <Word>n</Word>
+                                                                        </ZRefName>
+                                                                        <ZExprList/>
+                                                                    </RefExpr>
+                                                                    <NumExpr>
+                                                                        <Anns>
+                                                                            <LocAnn Col="34" Line="156" Loc="lib/prelude.tex"/>
+                                                                        </Anns>
+                                                                        <ZNumeral Value="1"/>
+                                                                    </NumExpr>
+                                                                </ZExprList>
+                                                            </TupleExpr>
+                                                        </ApplExpr>
+                                                    </ZExprList>
                                                 </SetExpr>
                                             </MemPred>
-                                        </SchText>
+                                        </ZSchText>
                                         <MemPred Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="40" Line="156" Loc="lib/prelude.tex"/>
@@ -1151,25 +1191,29 @@ to references to these declarations (see 12.2.6.9).
                                                 <Anns>
                                                     <LocAnn Col="38" Line="156" Loc="lib/prelude.tex"/>
                                                 </Anns>
-                                                <RefName>
+                                                <ZRefName>
                                                     <Anns>
                                                         <LocAnn Col="38" Line="156" Loc="lib/prelude.tex"/>
                                                     </Anns>
                                                     <Word>m</Word>
-                                                </RefName>
+                                                </ZRefName>
+                                                <ZExprList/>
                                             </RefExpr>
                                             <SetExpr>
-                                                <RefExpr Mixfix="false">
-                                                    <Anns>
-                                                        <LocAnn Col="42" Line="156" Loc="lib/prelude.tex"/>
-                                                    </Anns>
-                                                    <RefName>
+                                                <ZExprList>
+                                                    <RefExpr Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="42" Line="156" Loc="lib/prelude.tex"/>
                                                         </Anns>
-                                                        <Word>n</Word>
-                                                    </RefName>
-                                                </RefExpr>
+                                                        <ZRefName>
+                                                            <Anns>
+                                                                <LocAnn Col="42" Line="156" Loc="lib/prelude.tex"/>
+                                                            </Anns>
+                                                            <Word>n</Word>
+                                                        </ZRefName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                </ZExprList>
                                             </SetExpr>
                                         </MemPred>
                                     </ForallPred>
@@ -1178,32 +1222,33 @@ to references to these declarations (see 12.2.6.9).
                                     <Anns>
                                         <LocAnn Col="1" Line="157" Loc="lib/prelude.tex"/>
                                     </Anns>
-                                    <SchText>
+                                    <ZSchText>
                                         <ZDeclList>
                                             <VarDecl>
                                                 <Anns>
                                                     <LocAnn Col="10" Line="157" Loc="lib/prelude.tex"/>
                                                 </Anns>
-                                                <DeclName>
+                                                <ZDeclName>
                                                     <Anns>
                                                         <LocAnn Col="9" Line="157" Loc="lib/prelude.tex"/>
                                                     </Anns>
                                                     <Word>n</Word>
-                                                </DeclName>
+                                                </ZDeclName>
                                                 <RefExpr Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="12" Line="157" Loc="lib/prelude.tex"/>
                                                     </Anns>
-                                                    <RefName>
+                                                    <ZRefName>
                                                         <Anns>
                                                             <LocAnn Col="12" Line="157" Loc="lib/prelude.tex"/>
                                                         </Anns>
                                                         <Word>ℕ</Word>
-                                                    </RefName>
+                                                    </ZRefName>
+                                                    <ZExprList/>
                                                 </RefExpr>
                                             </VarDecl>
                                         </ZDeclList>
-                                    </SchText>
+                                    </ZSchText>
                                     <NegPred>
                                         <Anns>
                                             <LocAnn Col="19" Line="157" Loc="lib/prelude.tex"/>
@@ -1220,41 +1265,49 @@ to references to these declarations (see 12.2.6.9).
                                                     <Anns>
                                                         <LocAnn Col="25" Line="157" Loc="lib/prelude.tex"/>
                                                     </Anns>
-                                                    <RefName>
+                                                    <ZRefName>
                                                         <Anns>
                                                             <LocAnn Col="25" Line="157" Loc="lib/prelude.tex"/>
                                                         </Anns>
                                                         <Word> _ + _ </Word>
-                                                    </RefName>
+                                                    </ZRefName>
+                                                    <ZExprList/>
                                                 </RefExpr>
                                                 <TupleExpr>
                                                     <Anns>
                                                         <LocAnn Col="25" Line="157" Loc="lib/prelude.tex"/>
                                                     </Anns>
-                                                    <RefExpr Mixfix="false">
-                                                        <Anns>
-                                                            <LocAnn Col="25" Line="157" Loc="lib/prelude.tex"/>
-                                                        </Anns>
-                                                        <RefName>
+                                                    <ZExprList>
+                                                        <RefExpr Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="25" Line="157" Loc="lib/prelude.tex"/>
                                                             </Anns>
-                                                            <Word>n</Word>
-                                                        </RefName>
-                                                    </RefExpr>
-                                                    <NumExpr Value="1">
-                                                        <Anns>
-                                                            <LocAnn Col="29" Line="157" Loc="lib/prelude.tex"/>
-                                                        </Anns>
-                                                    </NumExpr>
+                                                            <ZRefName>
+                                                                <Anns>
+                                                                    <LocAnn Col="25" Line="157" Loc="lib/prelude.tex"/>
+                                                                </Anns>
+                                                                <Word>n</Word>
+                                                            </ZRefName>
+                                                            <ZExprList/>
+                                                        </RefExpr>
+                                                        <NumExpr>
+                                                            <Anns>
+                                                                <LocAnn Col="29" Line="157" Loc="lib/prelude.tex"/>
+                                                            </Anns>
+                                                            <ZNumeral Value="1"/>
+                                                        </NumExpr>
+                                                    </ZExprList>
                                                 </TupleExpr>
                                             </ApplExpr>
                                             <SetExpr>
-                                                <NumExpr Value="0">
-                                                    <Anns>
-                                                        <LocAnn Col="33" Line="157" Loc="lib/prelude.tex"/>
-                                                    </Anns>
-                                                </NumExpr>
+                                                <ZExprList>
+                                                    <NumExpr>
+                                                        <Anns>
+                                                            <LocAnn Col="33" Line="157" Loc="lib/prelude.tex"/>
+                                                        </Anns>
+                                                        <ZNumeral Value="0"/>
+                                                    </NumExpr>
+                                                </ZExprList>
                                             </SetExpr>
                                         </MemPred>
                                     </NegPred>
@@ -1264,18 +1317,18 @@ to references to these declarations (see 12.2.6.9).
                                 <Anns>
                                     <LocAnn Col="1" Line="158" Loc="lib/prelude.tex"/>
                                 </Anns>
-                                <SchText>
+                                <ZSchText>
                                     <ZDeclList>
                                         <VarDecl>
                                             <Anns>
                                                 <LocAnn Col="10" Line="158" Loc="lib/prelude.tex"/>
                                             </Anns>
-                                            <DeclName>
+                                            <ZDeclName>
                                                 <Anns>
                                                     <LocAnn Col="9" Line="158" Loc="lib/prelude.tex"/>
                                                 </Anns>
                                                 <Word>w</Word>
-                                            </DeclName>
+                                            </ZDeclName>
                                             <PowerExpr>
                                                 <Anns>
                                                     <LocAnn Col="12" Line="158" Loc="lib/prelude.tex"/>
@@ -1284,17 +1337,18 @@ to references to these declarations (see 12.2.6.9).
                                                     <Anns>
                                                         <LocAnn Col="19" Line="158" Loc="lib/prelude.tex"/>
                                                     </Anns>
-                                                    <RefName>
+                                                    <ZRefName>
                                                         <Anns>
                                                             <LocAnn Col="19" Line="158" Loc="lib/prelude.tex"/>
                                                         </Anns>
                                                         <Word>ℕ</Word>
-                                                    </RefName>
+                                                    </ZRefName>
+                                                    <ZExprList/>
                                                 </RefExpr>
                                             </PowerExpr>
                                         </VarDecl>
                                     </ZDeclList>
-                                    <AndPred Op="And">
+                                    <AndPred And="Wedge">
                                         <Anns>
                                             <LocAnn Col="34" Line="158" Loc="lib/prelude.tex"/>
                                         </Anns>
@@ -1302,21 +1356,23 @@ to references to these declarations (see 12.2.6.9).
                                             <Anns>
                                                 <LocAnn Col="28" Line="158" Loc="lib/prelude.tex"/>
                                             </Anns>
-                                            <NumExpr Value="0">
+                                            <NumExpr>
                                                 <Anns>
                                                     <LocAnn Col="26" Line="158" Loc="lib/prelude.tex"/>
                                                 </Anns>
+                                                <ZNumeral Value="0"/>
                                             </NumExpr>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="32" Line="158" Loc="lib/prelude.tex"/>
                                                 </Anns>
-                                                <RefName>
+                                                <ZRefName>
                                                     <Anns>
                                                         <LocAnn Col="32" Line="158" Loc="lib/prelude.tex"/>
                                                     </Anns>
                                                     <Word>w</Word>
-                                                </RefName>
+                                                </ZRefName>
+                                                <ZExprList/>
                                             </RefExpr>
                                         </MemPred>
                                         <ForallPred>
@@ -1324,32 +1380,33 @@ to references to these declarations (see 12.2.6.9).
                                                 <LocAnn Col="41" Line="158" Loc="lib/prelude.tex"/>
                                                 <ParenAnn/>
                                             </Anns>
-                                            <SchText>
+                                            <ZSchText>
                                                 <ZDeclList>
                                                     <VarDecl>
                                                         <Anns>
                                                             <LocAnn Col="50" Line="158" Loc="lib/prelude.tex"/>
                                                         </Anns>
-                                                        <DeclName>
+                                                        <ZDeclName>
                                                             <Anns>
                                                                 <LocAnn Col="49" Line="158" Loc="lib/prelude.tex"/>
                                                             </Anns>
                                                             <Word>y</Word>
-                                                        </DeclName>
+                                                        </ZDeclName>
                                                         <RefExpr Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="52" Line="158" Loc="lib/prelude.tex"/>
                                                             </Anns>
-                                                            <RefName>
+                                                            <ZRefName>
                                                                 <Anns>
                                                                     <LocAnn Col="52" Line="158" Loc="lib/prelude.tex"/>
                                                                 </Anns>
                                                                 <Word>w</Word>
-                                                            </RefName>
+                                                            </ZRefName>
+                                                            <ZExprList/>
                                                         </RefExpr>
                                                     </VarDecl>
                                                 </ZDeclList>
-                                            </SchText>
+                                            </ZSchText>
                                             <MemPred Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="62" Line="158" Loc="lib/prelude.tex"/>
@@ -1362,50 +1419,56 @@ to references to these declarations (see 12.2.6.9).
                                                         <Anns>
                                                             <LocAnn Col="56" Line="158" Loc="lib/prelude.tex"/>
                                                         </Anns>
-                                                        <RefName>
+                                                        <ZRefName>
                                                             <Anns>
                                                                 <LocAnn Col="56" Line="158" Loc="lib/prelude.tex"/>
                                                             </Anns>
                                                             <Word> _ + _ </Word>
-                                                        </RefName>
+                                                        </ZRefName>
+                                                        <ZExprList/>
                                                     </RefExpr>
                                                     <TupleExpr>
                                                         <Anns>
                                                             <LocAnn Col="56" Line="158" Loc="lib/prelude.tex"/>
                                                         </Anns>
-                                                        <RefExpr Mixfix="false">
-                                                            <Anns>
-                                                                <LocAnn Col="56" Line="158" Loc="lib/prelude.tex"/>
-                                                            </Anns>
-                                                            <RefName>
+                                                        <ZExprList>
+                                                            <RefExpr Mixfix="false">
                                                                 <Anns>
                                                                     <LocAnn Col="56" Line="158" Loc="lib/prelude.tex"/>
                                                                 </Anns>
-                                                                <Word>y</Word>
-                                                            </RefName>
-                                                        </RefExpr>
-                                                        <NumExpr Value="1">
-                                                            <Anns>
-                                                                <LocAnn Col="60" Line="158" Loc="lib/prelude.tex"/>
-                                                            </Anns>
-                                                        </NumExpr>
+                                                                <ZRefName>
+                                                                    <Anns>
+                                                                        <LocAnn Col="56" Line="158" Loc="lib/prelude.tex"/>
+                                                                    </Anns>
+                                                                    <Word>y</Word>
+                                                                </ZRefName>
+                                                                <ZExprList/>
+                                                            </RefExpr>
+                                                            <NumExpr>
+                                                                <Anns>
+                                                                    <LocAnn Col="60" Line="158" Loc="lib/prelude.tex"/>
+                                                                </Anns>
+                                                                <ZNumeral Value="1"/>
+                                                            </NumExpr>
+                                                        </ZExprList>
                                                     </TupleExpr>
                                                 </ApplExpr>
                                                 <RefExpr Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="66" Line="158" Loc="lib/prelude.tex"/>
                                                     </Anns>
-                                                    <RefName>
+                                                    <ZRefName>
                                                         <Anns>
                                                             <LocAnn Col="66" Line="158" Loc="lib/prelude.tex"/>
                                                         </Anns>
                                                         <Word>w</Word>
-                                                    </RefName>
+                                                    </ZRefName>
+                                                    <ZExprList/>
                                                 </RefExpr>
                                             </MemPred>
                                         </ForallPred>
                                     </AndPred>
-                                </SchText>
+                                </ZSchText>
                                 <MemPred Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="73" Line="158" Loc="lib/prelude.tex"/>
@@ -1414,25 +1477,29 @@ to references to these declarations (see 12.2.6.9).
                                         <Anns>
                                             <LocAnn Col="71" Line="158" Loc="lib/prelude.tex"/>
                                         </Anns>
-                                        <RefName>
+                                        <ZRefName>
                                             <Anns>
                                                 <LocAnn Col="71" Line="158" Loc="lib/prelude.tex"/>
                                             </Anns>
                                             <Word>w</Word>
-                                        </RefName>
+                                        </ZRefName>
+                                        <ZExprList/>
                                     </RefExpr>
                                     <SetExpr>
-                                        <RefExpr Mixfix="false">
-                                            <Anns>
-                                                <LocAnn Col="75" Line="158" Loc="lib/prelude.tex"/>
-                                            </Anns>
-                                            <RefName>
+                                        <ZExprList>
+                                            <RefExpr Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="75" Line="158" Loc="lib/prelude.tex"/>
                                                 </Anns>
-                                                <Word>ℕ</Word>
-                                            </RefName>
-                                        </RefExpr>
+                                                <ZRefName>
+                                                    <Anns>
+                                                        <LocAnn Col="75" Line="158" Loc="lib/prelude.tex"/>
+                                                    </Anns>
+                                                    <Word>ℕ</Word>
+                                                </ZRefName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </ZExprList>
                                     </SetExpr>
                                 </MemPred>
                             </ForallPred>
@@ -1441,32 +1508,33 @@ to references to these declarations (see 12.2.6.9).
                             <Anns>
                                 <LocAnn Col="1" Line="159" Loc="lib/prelude.tex"/>
                             </Anns>
-                            <SchText>
+                            <ZSchText>
                                 <ZDeclList>
                                     <VarDecl>
                                         <Anns>
                                             <LocAnn Col="10" Line="159" Loc="lib/prelude.tex"/>
                                         </Anns>
-                                        <DeclName>
+                                        <ZDeclName>
                                             <Anns>
                                                 <LocAnn Col="9" Line="159" Loc="lib/prelude.tex"/>
                                             </Anns>
                                             <Word>m</Word>
-                                        </DeclName>
+                                        </ZDeclName>
                                         <RefExpr Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="12" Line="159" Loc="lib/prelude.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
                                                     <LocAnn Col="12" Line="159" Loc="lib/prelude.tex"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
-                                            </RefName>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                     </VarDecl>
                                 </ZDeclList>
-                            </SchText>
+                            </ZSchText>
                             <MemPred Mixfix="true">
                                 <Anns>
                                     <LocAnn Col="25" Line="159" Loc="lib/prelude.tex"/>
@@ -1479,47 +1547,55 @@ to references to these declarations (see 12.2.6.9).
                                         <Anns>
                                             <LocAnn Col="19" Line="159" Loc="lib/prelude.tex"/>
                                         </Anns>
-                                        <RefName>
+                                        <ZRefName>
                                             <Anns>
                                                 <LocAnn Col="19" Line="159" Loc="lib/prelude.tex"/>
                                             </Anns>
                                             <Word> _ + _ </Word>
-                                        </RefName>
+                                        </ZRefName>
+                                        <ZExprList/>
                                     </RefExpr>
                                     <TupleExpr>
                                         <Anns>
                                             <LocAnn Col="19" Line="159" Loc="lib/prelude.tex"/>
                                         </Anns>
-                                        <RefExpr Mixfix="false">
-                                            <Anns>
-                                                <LocAnn Col="19" Line="159" Loc="lib/prelude.tex"/>
-                                            </Anns>
-                                            <RefName>
+                                        <ZExprList>
+                                            <RefExpr Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="19" Line="159" Loc="lib/prelude.tex"/>
                                                 </Anns>
-                                                <Word>m</Word>
-                                            </RefName>
-                                        </RefExpr>
-                                        <NumExpr Value="0">
-                                            <Anns>
-                                                <LocAnn Col="23" Line="159" Loc="lib/prelude.tex"/>
-                                            </Anns>
-                                        </NumExpr>
+                                                <ZRefName>
+                                                    <Anns>
+                                                        <LocAnn Col="19" Line="159" Loc="lib/prelude.tex"/>
+                                                    </Anns>
+                                                    <Word>m</Word>
+                                                </ZRefName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                            <NumExpr>
+                                                <Anns>
+                                                    <LocAnn Col="23" Line="159" Loc="lib/prelude.tex"/>
+                                                </Anns>
+                                                <ZNumeral Value="0"/>
+                                            </NumExpr>
+                                        </ZExprList>
                                     </TupleExpr>
                                 </ApplExpr>
                                 <SetExpr>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="27" Line="159" Loc="lib/prelude.tex"/>
-                                        </Anns>
-                                        <RefName>
+                                    <ZExprList>
+                                        <RefExpr Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="27" Line="159" Loc="lib/prelude.tex"/>
                                             </Anns>
-                                            <Word>m</Word>
-                                        </RefName>
-                                    </RefExpr>
+                                            <ZRefName>
+                                                <Anns>
+                                                    <LocAnn Col="27" Line="159" Loc="lib/prelude.tex"/>
+                                                </Anns>
+                                                <Word>m</Word>
+                                            </ZRefName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </ZExprList>
                                 </SetExpr>
                             </MemPred>
                         </ForallPred>
@@ -1528,38 +1604,39 @@ to references to these declarations (see 12.2.6.9).
                         <Anns>
                             <LocAnn Col="1" Line="160" Loc="lib/prelude.tex"/>
                         </Anns>
-                        <SchText>
+                        <ZSchText>
                             <ZDeclList>
                                 <VarDecl>
                                     <Anns>
                                         <LocAnn Col="13" Line="160" Loc="lib/prelude.tex"/>
                                     </Anns>
-                                    <DeclName>
+                                    <ZDeclName>
                                         <Anns>
                                             <LocAnn Col="9" Line="160" Loc="lib/prelude.tex"/>
                                         </Anns>
                                         <Word>m</Word>
-                                    </DeclName>
-                                    <DeclName>
+                                    </ZDeclName>
+                                    <ZDeclName>
                                         <Anns>
                                             <LocAnn Col="12" Line="160" Loc="lib/prelude.tex"/>
                                         </Anns>
                                         <Word>n</Word>
-                                    </DeclName>
+                                    </ZDeclName>
                                     <RefExpr Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="15" Line="160" Loc="lib/prelude.tex"/>
                                         </Anns>
-                                        <RefName>
+                                        <ZRefName>
                                             <Anns>
                                                 <LocAnn Col="15" Line="160" Loc="lib/prelude.tex"/>
                                             </Anns>
                                             <Word>ℕ</Word>
-                                        </RefName>
+                                        </ZRefName>
+                                        <ZExprList/>
                                     </RefExpr>
                                 </VarDecl>
                             </ZDeclList>
-                        </SchText>
+                        </ZSchText>
                         <MemPred Mixfix="true">
                             <Anns>
                                 <LocAnn Col="34" Line="160" Loc="lib/prelude.tex"/>
@@ -1572,144 +1649,164 @@ to references to these declarations (see 12.2.6.9).
                                     <Anns>
                                         <LocAnn Col="22" Line="160" Loc="lib/prelude.tex"/>
                                     </Anns>
-                                    <RefName>
+                                    <ZRefName>
                                         <Anns>
                                             <LocAnn Col="22" Line="160" Loc="lib/prelude.tex"/>
                                         </Anns>
                                         <Word> _ + _ </Word>
-                                    </RefName>
+                                    </ZRefName>
+                                    <ZExprList/>
                                 </RefExpr>
                                 <TupleExpr>
                                     <Anns>
                                         <LocAnn Col="22" Line="160" Loc="lib/prelude.tex"/>
                                     </Anns>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="22" Line="160" Loc="lib/prelude.tex"/>
-                                        </Anns>
-                                        <RefName>
+                                    <ZExprList>
+                                        <RefExpr Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="22" Line="160" Loc="lib/prelude.tex"/>
                                             </Anns>
-                                            <Word>m</Word>
-                                        </RefName>
-                                    </RefExpr>
-                                    <ApplExpr Mixfix="true">
-                                        <Anns>
-                                            <LocAnn Col="29" Line="160" Loc="lib/prelude.tex"/>
-                                            <ParenAnn/>
-                                        </Anns>
-                                        <RefExpr Mixfix="false">
-                                            <Anns>
-                                                <LocAnn Col="27" Line="160" Loc="lib/prelude.tex"/>
-                                            </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="27" Line="160" Loc="lib/prelude.tex"/>
+                                                    <LocAnn Col="22" Line="160" Loc="lib/prelude.tex"/>
                                                 </Anns>
-                                                <Word> _ + _ </Word>
-                                            </RefName>
+                                                <Word>m</Word>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
-                                        <TupleExpr>
-                                            <Anns>
-                                                <LocAnn Col="27" Line="160" Loc="lib/prelude.tex"/>
-                                            </Anns>
-                                            <RefExpr Mixfix="false">
-                                                <Anns>
-                                                    <LocAnn Col="27" Line="160" Loc="lib/prelude.tex"/>
-                                                </Anns>
-                                                <RefName>
-                                                    <Anns>
-                                                        <LocAnn Col="27" Line="160" Loc="lib/prelude.tex"/>
-                                                    </Anns>
-                                                    <Word>n</Word>
-                                                </RefName>
-                                            </RefExpr>
-                                            <NumExpr Value="1">
-                                                <Anns>
-                                                    <LocAnn Col="31" Line="160" Loc="lib/prelude.tex"/>
-                                                </Anns>
-                                            </NumExpr>
-                                        </TupleExpr>
-                                    </ApplExpr>
-                                </TupleExpr>
-                            </ApplExpr>
-                            <SetExpr>
-                                <ApplExpr Mixfix="true">
-                                    <Anns>
-                                        <LocAnn Col="44" Line="160" Loc="lib/prelude.tex"/>
-                                    </Anns>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="42" Line="160" Loc="lib/prelude.tex"/>
-                                        </Anns>
-                                        <RefName>
-                                            <Anns>
-                                                <LocAnn Col="42" Line="160" Loc="lib/prelude.tex"/>
-                                            </Anns>
-                                            <Word> _ + _ </Word>
-                                        </RefName>
-                                    </RefExpr>
-                                    <TupleExpr>
-                                        <Anns>
-                                            <LocAnn Col="42" Line="160" Loc="lib/prelude.tex"/>
-                                        </Anns>
                                         <ApplExpr Mixfix="true">
                                             <Anns>
-                                                <LocAnn Col="39" Line="160" Loc="lib/prelude.tex"/>
+                                                <LocAnn Col="29" Line="160" Loc="lib/prelude.tex"/>
                                                 <ParenAnn/>
                                             </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="37" Line="160" Loc="lib/prelude.tex"/>
+                                                    <LocAnn Col="27" Line="160" Loc="lib/prelude.tex"/>
                                                 </Anns>
-                                                <RefName>
+                                                <ZRefName>
                                                     <Anns>
-                                                        <LocAnn Col="37" Line="160" Loc="lib/prelude.tex"/>
+                                                        <LocAnn Col="27" Line="160" Loc="lib/prelude.tex"/>
                                                     </Anns>
                                                     <Word> _ + _ </Word>
-                                                </RefName>
+                                                </ZRefName>
+                                                <ZExprList/>
                                             </RefExpr>
                                             <TupleExpr>
                                                 <Anns>
-                                                    <LocAnn Col="37" Line="160" Loc="lib/prelude.tex"/>
+                                                    <LocAnn Col="27" Line="160" Loc="lib/prelude.tex"/>
                                                 </Anns>
-                                                <RefExpr Mixfix="false">
+                                                <ZExprList>
+                                                    <RefExpr Mixfix="false">
+                                                        <Anns>
+                                                            <LocAnn Col="27" Line="160" Loc="lib/prelude.tex"/>
+                                                        </Anns>
+                                                        <ZRefName>
+                                                            <Anns>
+                                                                <LocAnn Col="27" Line="160" Loc="lib/prelude.tex"/>
+                                                            </Anns>
+                                                            <Word>n</Word>
+                                                        </ZRefName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                    <NumExpr>
+                                                        <Anns>
+                                                            <LocAnn Col="31" Line="160" Loc="lib/prelude.tex"/>
+                                                        </Anns>
+                                                        <ZNumeral Value="1"/>
+                                                    </NumExpr>
+                                                </ZExprList>
+                                            </TupleExpr>
+                                        </ApplExpr>
+                                    </ZExprList>
+                                </TupleExpr>
+                            </ApplExpr>
+                            <SetExpr>
+                                <ZExprList>
+                                    <ApplExpr Mixfix="true">
+                                        <Anns>
+                                            <LocAnn Col="44" Line="160" Loc="lib/prelude.tex"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="42" Line="160" Loc="lib/prelude.tex"/>
+                                            </Anns>
+                                            <ZRefName>
+                                                <Anns>
+                                                    <LocAnn Col="42" Line="160" Loc="lib/prelude.tex"/>
+                                                </Anns>
+                                                <Word> _ + _ </Word>
+                                            </ZRefName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <TupleExpr>
+                                            <Anns>
+                                                <LocAnn Col="42" Line="160" Loc="lib/prelude.tex"/>
+                                            </Anns>
+                                            <ZExprList>
+                                                <ApplExpr Mixfix="true">
                                                     <Anns>
-                                                        <LocAnn Col="37" Line="160" Loc="lib/prelude.tex"/>
+                                                        <LocAnn Col="39" Line="160" Loc="lib/prelude.tex"/>
+                                                        <ParenAnn/>
                                                     </Anns>
-                                                    <RefName>
+                                                    <RefExpr Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="37" Line="160" Loc="lib/prelude.tex"/>
                                                         </Anns>
-                                                        <Word>m</Word>
-                                                    </RefName>
-                                                </RefExpr>
-                                                <RefExpr Mixfix="false">
-                                                    <Anns>
-                                                        <LocAnn Col="41" Line="160" Loc="lib/prelude.tex"/>
-                                                    </Anns>
-                                                    <RefName>
+                                                        <ZRefName>
+                                                            <Anns>
+                                                                <LocAnn Col="37" Line="160" Loc="lib/prelude.tex"/>
+                                                            </Anns>
+                                                            <Word> _ + _ </Word>
+                                                        </ZRefName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                    <TupleExpr>
                                                         <Anns>
-                                                            <LocAnn Col="41" Line="160" Loc="lib/prelude.tex"/>
+                                                            <LocAnn Col="37" Line="160" Loc="lib/prelude.tex"/>
                                                         </Anns>
-                                                        <Word>n</Word>
-                                                    </RefName>
-                                                </RefExpr>
-                                            </TupleExpr>
-                                        </ApplExpr>
-                                        <NumExpr Value="1">
-                                            <Anns>
-                                                <LocAnn Col="46" Line="160" Loc="lib/prelude.tex"/>
-                                            </Anns>
-                                        </NumExpr>
-                                    </TupleExpr>
-                                </ApplExpr>
+                                                        <ZExprList>
+                                                            <RefExpr Mixfix="false">
+                                                                <Anns>
+                                                                    <LocAnn Col="37" Line="160" Loc="lib/prelude.tex"/>
+                                                                </Anns>
+                                                                <ZRefName>
+                                                                    <Anns>
+                                                                        <LocAnn Col="37" Line="160" Loc="lib/prelude.tex"/>
+                                                                    </Anns>
+                                                                    <Word>m</Word>
+                                                                </ZRefName>
+                                                                <ZExprList/>
+                                                            </RefExpr>
+                                                            <RefExpr Mixfix="false">
+                                                                <Anns>
+                                                                    <LocAnn Col="41" Line="160" Loc="lib/prelude.tex"/>
+                                                                </Anns>
+                                                                <ZRefName>
+                                                                    <Anns>
+                                                                        <LocAnn Col="41" Line="160" Loc="lib/prelude.tex"/>
+                                                                    </Anns>
+                                                                    <Word>n</Word>
+                                                                </ZRefName>
+                                                                <ZExprList/>
+                                                            </RefExpr>
+                                                        </ZExprList>
+                                                    </TupleExpr>
+                                                </ApplExpr>
+                                                <NumExpr>
+                                                    <Anns>
+                                                        <LocAnn Col="46" Line="160" Loc="lib/prelude.tex"/>
+                                                    </Anns>
+                                                    <ZNumeral Value="1"/>
+                                                </NumExpr>
+                                            </ZExprList>
+                                        </TupleExpr>
+                                    </ApplExpr>
+                                </ZExprList>
                             </SetExpr>
                         </MemPred>
                     </ForallPred>
                 </AndPred>
-            </SchText>
+            </ZSchText>
         </AxPara>
         <NarrPara>
             <Anns>

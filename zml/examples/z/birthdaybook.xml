@@ -2,7 +2,7 @@
 <Spec Version="2.0" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://czt.sourceforge.net/zml">
     <NarrSect>
         <Anns>
-            <LocAnn Col="1" Line="1" Loc="../zml/examples/z/birthdaybook.tex"/>
+            <LocAnn Col="1" Line="1" Loc="birthdaybook.tex"/>
         </Anns>
         <Content>\documentclass{article}
 \usepackage{oz}   
@@ -21,24 +21,24 @@ by adding an extra operation, $RemindOne$, that is non-deterministic.
         <LatexMarkupPara/>
         <GivenPara>
             <Anns>
-                <LocAnn Col="4" Line="10" Loc="../zml/examples/z/birthdaybook.tex"/>
+                <LocAnn Col="4" Line="10" Loc="birthdaybook.tex"/>
             </Anns>
-            <DeclName>
+            <ZDeclName>
                 <Anns>
-                    <LocAnn Col="5" Line="10" Loc="../zml/examples/z/birthdaybook.tex"/>
+                    <LocAnn Col="5" Line="10" Loc="birthdaybook.tex"/>
                 </Anns>
                 <Word>NAME</Word>
-            </DeclName>
-            <DeclName>
+            </ZDeclName>
+            <ZDeclName>
                 <Anns>
-                    <LocAnn Col="13" Line="10" Loc="../zml/examples/z/birthdaybook.tex"/>
+                    <LocAnn Col="13" Line="10" Loc="birthdaybook.tex"/>
                 </Anns>
                 <Word>DATE</Word>
-            </DeclName>
+            </ZDeclName>
         </GivenPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Line="11" Loc="../zml/examples/z/birthdaybook.tex"/>
+                <LocAnn Col="10" Line="11" Loc="birthdaybook.tex"/>
             </Anns>
             <Content>
 
@@ -49,146 +49,156 @@ the birthday book system.
         </NarrPara>
         <AxPara Box="SchBox">
             <Anns>
-                <LocAnn Col="1" Line="16" Loc="../zml/examples/z/birthdaybook.tex"/>
+                <LocAnn Col="1" Line="16" Loc="birthdaybook.tex"/>
             </Anns>
-            <SchText>
+            <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
-                        <DeclName>
+                        <ZDeclName>
                             <Anns>
-                                <LocAnn Col="16" Line="16" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                <LocAnn Col="16" Line="16" Loc="birthdaybook.tex"/>
                             </Anns>
                             <Word>BirthdayBook</Word>
-                        </DeclName>
+                        </ZDeclName>
                         <SchExpr>
-                            <SchText>
+                            <ZSchText>
                                 <ZDeclList>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="10" Line="17" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="10" Line="17" Loc="birthdaybook.tex"/>
                                         </Anns>
-                                        <DeclName>
+                                        <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="5" Line="17" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="17" Loc="birthdaybook.tex"/>
                                             </Anns>
                                             <Word>known</Word>
-                                        </DeclName>
+                                        </ZDeclName>
                                         <PowerExpr>
                                             <Anns>
-                                                <LocAnn Col="12" Line="17" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="12" Line="17" Loc="birthdaybook.tex"/>
                                             </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="19" Line="17" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="19" Line="17" Loc="birthdaybook.tex"/>
                                                 </Anns>
-                                                <RefName>
+                                                <ZRefName>
                                                     <Anns>
-                                                        <LocAnn Col="19" Line="17" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                        <LocAnn Col="19" Line="17" Loc="birthdaybook.tex"/>
                                                     </Anns>
                                                     <Word>NAME</Word>
-                                                </RefName>
+                                                </ZRefName>
+                                                <ZExprList/>
                                             </RefExpr>
                                         </PowerExpr>
                                     </VarDecl>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="13" Line="18" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="13" Line="18" Loc="birthdaybook.tex"/>
                                         </Anns>
-                                        <DeclName>
+                                        <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="5" Line="18" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="18" Loc="birthdaybook.tex"/>
                                             </Anns>
                                             <Word>birthday</Word>
-                                        </DeclName>
+                                        </ZDeclName>
                                         <RefExpr Mixfix="true">
                                             <Anns>
-                                                <LocAnn Col="20" Line="18" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="20" Line="18" Loc="birthdaybook.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="15" Line="18" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="15" Line="18" Loc="birthdaybook.tex"/>
                                                 </Anns>
                                                 <Word> _ ⇸ _ </Word>
-                                            </RefName>
-                                            <RefExpr Mixfix="false">
-                                                <Anns>
-                                                    <LocAnn Col="15" Line="18" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                </Anns>
-                                                <RefName>
+                                            </ZRefName>
+                                            <ZExprList>
+                                                <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="15" Line="18" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                        <LocAnn Col="15" Line="18" Loc="birthdaybook.tex"/>
                                                     </Anns>
-                                                    <Word>NAME</Word>
-                                                </RefName>
-                                            </RefExpr>
-                                            <RefExpr Mixfix="false">
-                                                <Anns>
-                                                    <LocAnn Col="26" Line="18" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                </Anns>
-                                                <RefName>
+                                                    <ZRefName>
+                                                        <Anns>
+                                                            <LocAnn Col="15" Line="18" Loc="birthdaybook.tex"/>
+                                                        </Anns>
+                                                        <Word>NAME</Word>
+                                                    </ZRefName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                                <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="26" Line="18" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                        <LocAnn Col="26" Line="18" Loc="birthdaybook.tex"/>
                                                     </Anns>
-                                                    <Word>DATE</Word>
-                                                </RefName>
-                                            </RefExpr>
+                                                    <ZRefName>
+                                                        <Anns>
+                                                            <LocAnn Col="26" Line="18" Loc="birthdaybook.tex"/>
+                                                        </Anns>
+                                                        <Word>DATE</Word>
+                                                    </ZRefName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                            </ZExprList>
                                         </RefExpr>
                                     </VarDecl>
                                 </ZDeclList>
                                 <MemPred Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="10" Line="20" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                        <LocAnn Col="10" Line="20" Loc="birthdaybook.tex"/>
                                     </Anns>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="5" Line="20" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="5" Line="20" Loc="birthdaybook.tex"/>
                                         </Anns>
-                                        <RefName>
+                                        <ZRefName>
                                             <Anns>
-                                                <LocAnn Col="5" Line="20" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="20" Loc="birthdaybook.tex"/>
                                             </Anns>
                                             <Word>known</Word>
-                                        </RefName>
+                                        </ZRefName>
+                                        <ZExprList/>
                                     </RefExpr>
                                     <SetExpr>
-                                        <ApplExpr Mixfix="false">
-                                            <Anns>
-                                                <LocAnn Col="16" Line="20" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                            </Anns>
-                                            <RefExpr Mixfix="false">
+                                        <ZExprList>
+                                            <ApplExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="11" Line="20" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="16" Line="20" Loc="birthdaybook.tex"/>
                                                 </Anns>
-                                                <RefName>
+                                                <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="11" Line="20" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                        <LocAnn Col="11" Line="20" Loc="birthdaybook.tex"/>
                                                     </Anns>
-                                                    <Word>dom</Word>
-                                                </RefName>
-                                            </RefExpr>
-                                            <RefExpr Mixfix="false">
-                                                <Anns>
-                                                    <LocAnn Col="16" Line="20" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                </Anns>
-                                                <RefName>
+                                                    <ZRefName>
+                                                        <Anns>
+                                                            <LocAnn Col="11" Line="20" Loc="birthdaybook.tex"/>
+                                                        </Anns>
+                                                        <Word>dom</Word>
+                                                    </ZRefName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                                <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="16" Line="20" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                        <LocAnn Col="16" Line="20" Loc="birthdaybook.tex"/>
                                                     </Anns>
-                                                    <Word>birthday</Word>
-                                                </RefName>
-                                            </RefExpr>
-                                        </ApplExpr>
+                                                    <ZRefName>
+                                                        <Anns>
+                                                            <LocAnn Col="16" Line="20" Loc="birthdaybook.tex"/>
+                                                        </Anns>
+                                                        <Word>birthday</Word>
+                                                    </ZRefName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                            </ApplExpr>
+                                        </ZExprList>
                                     </SetExpr>
                                 </MemPred>
-                            </SchText>
+                            </ZSchText>
                         </SchExpr>
                     </ConstDecl>
                 </ZDeclList>
-            </SchText>
+            </ZSchText>
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="13" Line="21" Loc="../zml/examples/z/birthdaybook.tex"/>
+                <LocAnn Col="13" Line="21" Loc="birthdaybook.tex"/>
             </Anns>
             <Content>
 
@@ -201,35 +211,36 @@ is empty.
         </NarrPara>
         <AxPara Box="SchBox">
             <Anns>
-                <LocAnn Col="1" Line="28" Loc="../zml/examples/z/birthdaybook.tex"/>
+                <LocAnn Col="1" Line="28" Loc="birthdaybook.tex"/>
             </Anns>
-            <SchText>
+            <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
-                        <DeclName>
+                        <ZDeclName>
                             <Anns>
-                                <LocAnn Col="16" Line="28" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                <LocAnn Col="16" Line="28" Loc="birthdaybook.tex"/>
                             </Anns>
                             <Word>InitBirthdayBook</Word>
-                        </DeclName>
+                        </ZDeclName>
                         <SchExpr>
-                            <SchText>
+                            <ZSchText>
                                 <ZDeclList>
                                     <InclDecl>
                                         <DecorExpr>
                                             <Anns>
-                                                <LocAnn Col="5" Line="29" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="29" Loc="birthdaybook.tex"/>
                                             </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="5" Line="29" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="5" Line="29" Loc="birthdaybook.tex"/>
                                                 </Anns>
-                                                <RefName>
+                                                <ZRefName>
                                                     <Anns>
-                                                        <LocAnn Col="5" Line="29" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                        <LocAnn Col="5" Line="29" Loc="birthdaybook.tex"/>
                                                     </Anns>
                                                     <Word>BirthdayBook</Word>
-                                                </RefName>
+                                                </ZRefName>
+                                                <ZExprList/>
                                             </RefExpr>
                                             <NextStroke/>
                                         </DecorExpr>
@@ -237,37 +248,41 @@ is empty.
                                 </ZDeclList>
                                 <MemPred Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="12" Line="31" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                        <LocAnn Col="12" Line="31" Loc="birthdaybook.tex"/>
                                     </Anns>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="5" Line="31" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="5" Line="31" Loc="birthdaybook.tex"/>
                                         </Anns>
-                                        <RefName>
+                                        <ZRefName>
                                             <Anns>
-                                                <LocAnn Col="5" Line="31" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="31" Loc="birthdaybook.tex"/>
                                             </Anns>
                                             <Word>known</Word>
                                             <NextStroke/>
-                                        </RefName>
+                                        </ZRefName>
+                                        <ZExprList/>
                                     </RefExpr>
                                     <SetExpr>
-                                        <SetExpr>
-                                            <Anns>
-                                                <LocAnn Col="14" Line="31" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                            </Anns>
-                                        </SetExpr>
+                                        <ZExprList>
+                                            <SetExpr>
+                                                <Anns>
+                                                    <LocAnn Col="14" Line="31" Loc="birthdaybook.tex"/>
+                                                </Anns>
+                                                <ZExprList/>
+                                            </SetExpr>
+                                        </ZExprList>
                                     </SetExpr>
                                 </MemPred>
-                            </SchText>
+                            </ZSchText>
                         </SchExpr>
                     </ConstDecl>
                 </ZDeclList>
-            </SchText>
+            </ZSchText>
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="13" Line="32" Loc="../zml/examples/z/birthdaybook.tex"/>
+                <LocAnn Col="13" Line="32" Loc="birthdaybook.tex"/>
             </Anns>
             <Content>
 
@@ -278,410 +293,261 @@ behaviour of the system.
         </NarrPara>
         <AxPara Box="SchBox">
             <Anns>
-                <LocAnn Col="1" Line="37" Loc="../zml/examples/z/birthdaybook.tex"/>
+                <LocAnn Col="1" Line="37" Loc="birthdaybook.tex"/>
             </Anns>
-            <SchText>
+            <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
-                        <DeclName>
+                        <ZDeclName>
                             <Anns>
-                                <LocAnn Col="16" Line="37" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                <LocAnn Col="16" Line="37" Loc="birthdaybook.tex"/>
                             </Anns>
                             <Word>AddBirthday</Word>
-                        </DeclName>
+                        </ZDeclName>
                         <SchExpr>
-                            <SchText>
+                            <ZSchText>
                                 <ZDeclList>
                                     <InclDecl>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="5" Line="38" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="38" Loc="birthdaybook.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="5" Line="38" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="5" Line="38" Loc="birthdaybook.tex"/>
                                                 </Anns>
                                                 <Word>ΔBirthdayBook</Word>
-                                            </RefName>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                     </InclDecl>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="10" Line="39" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="10" Line="39" Loc="birthdaybook.tex"/>
                                         </Anns>
-                                        <DeclName>
+                                        <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="5" Line="39" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="39" Loc="birthdaybook.tex"/>
                                             </Anns>
                                             <Word>name</Word>
                                             <InStroke/>
-                                        </DeclName>
+                                        </ZDeclName>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="12" Line="39" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="12" Line="39" Loc="birthdaybook.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="12" Line="39" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="12" Line="39" Loc="birthdaybook.tex"/>
                                                 </Anns>
                                                 <Word>NAME</Word>
-                                            </RefName>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                     </VarDecl>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="10" Line="40" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="10" Line="40" Loc="birthdaybook.tex"/>
                                         </Anns>
-                                        <DeclName>
+                                        <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="5" Line="40" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="40" Loc="birthdaybook.tex"/>
                                             </Anns>
                                             <Word>date</Word>
                                             <InStroke/>
-                                        </DeclName>
+                                        </ZDeclName>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="12" Line="40" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="12" Line="40" Loc="birthdaybook.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="12" Line="40" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="12" Line="40" Loc="birthdaybook.tex"/>
                                                 </Anns>
                                                 <Word>DATE</Word>
-                                            </RefName>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                     </VarDecl>
                                 </ZDeclList>
-                                <AndPred Op="NL">
+                                <AndPred And="NL">
                                     <Anns>
-                                        <LocAnn Col="1" Line="43" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                        <LocAnn Col="1" Line="43" Loc="birthdaybook.tex"/>
                                     </Anns>
                                     <MemPred Mixfix="true">
                                         <Anns>
-                                            <LocAnn Col="11" Line="42" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="11" Line="42" Loc="birthdaybook.tex"/>
                                         </Anns>
                                         <TupleExpr>
                                             <Anns>
-                                                <LocAnn Col="5" Line="42" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="42" Loc="birthdaybook.tex"/>
                                             </Anns>
-                                            <RefExpr Mixfix="false">
-                                                <Anns>
-                                                    <LocAnn Col="5" Line="42" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                </Anns>
-                                                <RefName>
-                                                    <Anns>
-                                                        <LocAnn Col="5" Line="42" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                    </Anns>
-                                                    <Word>name</Word>
-                                                    <InStroke/>
-                                                </RefName>
-                                            </RefExpr>
-                                            <RefExpr Mixfix="false">
-                                                <Anns>
-                                                    <LocAnn Col="18" Line="42" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                </Anns>
-                                                <RefName>
-                                                    <Anns>
-                                                        <LocAnn Col="18" Line="42" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                    </Anns>
-                                                    <Word>known</Word>
-                                                </RefName>
-                                            </RefExpr>
-                                        </TupleExpr>
-                                        <RefExpr Mixfix="false">
-                                            <Anns>
-                                                <LocAnn Col="5" Line="42" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                            </Anns>
-                                            <RefName>
-                                                <Anns>
-                                                    <LocAnn Col="5" Line="42" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                </Anns>
-                                                <Word> _ ∉ _ </Word>
-                                            </RefName>
-                                        </RefExpr>
-                                    </MemPred>
-                                    <MemPred Mixfix="true">
-                                        <Anns>
-                                            <LocAnn Col="15" Line="44" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                        </Anns>
-                                        <RefExpr Mixfix="false">
-                                            <Anns>
-                                                <LocAnn Col="5" Line="44" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                            </Anns>
-                                            <RefName>
-                                                <Anns>
-                                                    <LocAnn Col="5" Line="44" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                </Anns>
-                                                <Word>birthday</Word>
-                                                <NextStroke/>
-                                            </RefName>
-                                        </RefExpr>
-                                        <SetExpr>
-                                            <ApplExpr Mixfix="true">
-                                                <Anns>
-                                                    <LocAnn Col="26" Line="44" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                </Anns>
+                                            <ZExprList>
                                                 <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="17" Line="44" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                        <LocAnn Col="5" Line="42" Loc="birthdaybook.tex"/>
                                                     </Anns>
-                                                    <RefName>
+                                                    <ZRefName>
                                                         <Anns>
-                                                            <LocAnn Col="17" Line="44" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                        </Anns>
-                                                        <Word> _ ∪ _ </Word>
-                                                    </RefName>
-                                                </RefExpr>
-                                                <TupleExpr>
-                                                    <Anns>
-                                                        <LocAnn Col="17" Line="44" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                    </Anns>
-                                                    <RefExpr Mixfix="false">
-                                                        <Anns>
-                                                            <LocAnn Col="17" Line="44" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                        </Anns>
-                                                        <RefName>
-                                                            <Anns>
-                                                                <LocAnn Col="17" Line="44" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                            </Anns>
-                                                            <Word>birthday</Word>
-                                                        </RefName>
-                                                    </RefExpr>
-                                                    <SetExpr>
-                                                        <Anns>
-                                                            <LocAnn Col="31" Line="44" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                        </Anns>
-                                                        <ApplExpr Mixfix="true">
-                                                            <Anns>
-                                                                <LocAnn Col="39" Line="44" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                            </Anns>
-                                                            <RefExpr Mixfix="false">
-                                                                <Anns>
-                                                                    <LocAnn Col="33" Line="44" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                                </Anns>
-                                                                <RefName>
-                                                                    <Anns>
-                                                                        <LocAnn Col="33" Line="44" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                                    </Anns>
-                                                                    <Word> _ ↦ _ </Word>
-                                                                </RefName>
-                                                            </RefExpr>
-                                                            <TupleExpr>
-                                                                <Anns>
-                                                                    <LocAnn Col="33" Line="44" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                                </Anns>
-                                                                <RefExpr Mixfix="false">
-                                                                    <Anns>
-                                                                        <LocAnn Col="33" Line="44" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                                    </Anns>
-                                                                    <RefName>
-                                                                        <Anns>
-                                                                            <LocAnn Col="33" Line="44" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                                        </Anns>
-                                                                        <Word>name</Word>
-                                                                        <InStroke/>
-                                                                    </RefName>
-                                                                </RefExpr>
-                                                                <RefExpr Mixfix="false">
-                                                                    <Anns>
-                                                                        <LocAnn Col="47" Line="44" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                                    </Anns>
-                                                                    <RefName>
-                                                                        <Anns>
-                                                                            <LocAnn Col="47" Line="44" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                                        </Anns>
-                                                                        <Word>date</Word>
-                                                                        <InStroke/>
-                                                                    </RefName>
-                                                                </RefExpr>
-                                                            </TupleExpr>
-                                                        </ApplExpr>
-                                                    </SetExpr>
-                                                </TupleExpr>
-                                            </ApplExpr>
-                                        </SetExpr>
-                                    </MemPred>
-                                </AndPred>
-                            </SchText>
-                        </SchExpr>
-                    </ConstDecl>
-                </ZDeclList>
-            </SchText>
-        </AxPara>
-        <NarrPara>
-            <Anns>
-                <LocAnn Col="13" Line="45" Loc="../zml/examples/z/birthdaybook.tex"/>
-            </Anns>
-            <Content>
-
-</Content>
-        </NarrPara>
-        <AxPara Box="SchBox">
-            <Anns>
-                <LocAnn Col="1" Line="47" Loc="../zml/examples/z/birthdaybook.tex"/>
-            </Anns>
-            <SchText>
-                <ZDeclList>
-                    <ConstDecl>
-                        <DeclName>
-                            <Anns>
-                                <LocAnn Col="16" Line="47" Loc="../zml/examples/z/birthdaybook.tex"/>
-                            </Anns>
-                            <Word>FindBirthday</Word>
-                        </DeclName>
-                        <SchExpr>
-                            <SchText>
-                                <ZDeclList>
-                                    <InclDecl>
-                                        <RefExpr Mixfix="false">
-                                            <Anns>
-                                                <LocAnn Col="5" Line="48" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                            </Anns>
-                                            <RefName>
-                                                <Anns>
-                                                    <LocAnn Col="5" Line="48" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                </Anns>
-                                                <Word>ΞBirthdayBook</Word>
-                                            </RefName>
-                                        </RefExpr>
-                                    </InclDecl>
-                                    <VarDecl>
-                                        <Anns>
-                                            <LocAnn Col="10" Line="49" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                        </Anns>
-                                        <DeclName>
-                                            <Anns>
-                                                <LocAnn Col="5" Line="49" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                            </Anns>
-                                            <Word>name</Word>
-                                            <InStroke/>
-                                        </DeclName>
-                                        <RefExpr Mixfix="false">
-                                            <Anns>
-                                                <LocAnn Col="12" Line="49" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                            </Anns>
-                                            <RefName>
-                                                <Anns>
-                                                    <LocAnn Col="12" Line="49" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                </Anns>
-                                                <Word>NAME</Word>
-                                            </RefName>
-                                        </RefExpr>
-                                    </VarDecl>
-                                    <VarDecl>
-                                        <Anns>
-                                            <LocAnn Col="10" Line="50" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                        </Anns>
-                                        <DeclName>
-                                            <Anns>
-                                                <LocAnn Col="5" Line="50" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                            </Anns>
-                                            <Word>date</Word>
-                                            <OutStroke/>
-                                        </DeclName>
-                                        <RefExpr Mixfix="false">
-                                            <Anns>
-                                                <LocAnn Col="12" Line="50" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                            </Anns>
-                                            <RefName>
-                                                <Anns>
-                                                    <LocAnn Col="12" Line="50" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                </Anns>
-                                                <Word>DATE</Word>
-                                            </RefName>
-                                        </RefExpr>
-                                    </VarDecl>
-                                </ZDeclList>
-                                <AndPred Op="NL">
-                                    <Anns>
-                                        <LocAnn Col="1" Line="53" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                    </Anns>
-                                    <MemPred Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="11" Line="52" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                        </Anns>
-                                        <RefExpr Mixfix="false">
-                                            <Anns>
-                                                <LocAnn Col="5" Line="52" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                            </Anns>
-                                            <RefName>
-                                                <Anns>
-                                                    <LocAnn Col="5" Line="52" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                </Anns>
-                                                <Word>name</Word>
-                                                <InStroke/>
-                                            </RefName>
-                                        </RefExpr>
-                                        <RefExpr Mixfix="false">
-                                            <Anns>
-                                                <LocAnn Col="15" Line="52" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                            </Anns>
-                                            <RefName>
-                                                <Anns>
-                                                    <LocAnn Col="15" Line="52" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                </Anns>
-                                                <Word>known</Word>
-                                            </RefName>
-                                        </RefExpr>
-                                    </MemPred>
-                                    <MemPred Mixfix="true">
-                                        <Anns>
-                                            <LocAnn Col="11" Line="54" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                        </Anns>
-                                        <RefExpr Mixfix="false">
-                                            <Anns>
-                                                <LocAnn Col="5" Line="54" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                            </Anns>
-                                            <RefName>
-                                                <Anns>
-                                                    <LocAnn Col="5" Line="54" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                </Anns>
-                                                <Word>date</Word>
-                                                <OutStroke/>
-                                            </RefName>
-                                        </RefExpr>
-                                        <SetExpr>
-                                            <ApplExpr Mixfix="false">
-                                                <Anns>
-                                                    <LocAnn Col="27" Line="54" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                </Anns>
-                                                <RefExpr Mixfix="false">
-                                                    <Anns>
-                                                        <LocAnn Col="13" Line="54" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                    </Anns>
-                                                    <RefName>
-                                                        <Anns>
-                                                            <LocAnn Col="13" Line="54" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                        </Anns>
-                                                        <Word>birthday</Word>
-                                                    </RefName>
-                                                </RefExpr>
-                                                <RefExpr Mixfix="false">
-                                                    <Anns>
-                                                        <LocAnn Col="22" Line="54" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                        <ParenAnn/>
-                                                    </Anns>
-                                                    <RefName>
-                                                        <Anns>
-                                                            <LocAnn Col="22" Line="54" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                            <LocAnn Col="5" Line="42" Loc="birthdaybook.tex"/>
                                                         </Anns>
                                                         <Word>name</Word>
                                                         <InStroke/>
-                                                    </RefName>
+                                                    </ZRefName>
+                                                    <ZExprList/>
                                                 </RefExpr>
-                                            </ApplExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="18" Line="42" Loc="birthdaybook.tex"/>
+                                                    </Anns>
+                                                    <ZRefName>
+                                                        <Anns>
+                                                            <LocAnn Col="18" Line="42" Loc="birthdaybook.tex"/>
+                                                        </Anns>
+                                                        <Word>known</Word>
+                                                    </ZRefName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                            </ZExprList>
+                                        </TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="5" Line="42" Loc="birthdaybook.tex"/>
+                                            </Anns>
+                                            <ZRefName>
+                                                <Anns>
+                                                    <LocAnn Col="5" Line="42" Loc="birthdaybook.tex"/>
+                                                </Anns>
+                                                <Word> _ ∉ _ </Word>
+                                            </ZRefName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </MemPred>
+                                    <MemPred Mixfix="true">
+                                        <Anns>
+                                            <LocAnn Col="15" Line="44" Loc="birthdaybook.tex"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="5" Line="44" Loc="birthdaybook.tex"/>
+                                            </Anns>
+                                            <ZRefName>
+                                                <Anns>
+                                                    <LocAnn Col="5" Line="44" Loc="birthdaybook.tex"/>
+                                                </Anns>
+                                                <Word>birthday</Word>
+                                                <NextStroke/>
+                                            </ZRefName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <SetExpr>
+                                            <ZExprList>
+                                                <ApplExpr Mixfix="true">
+                                                    <Anns>
+                                                        <LocAnn Col="26" Line="44" Loc="birthdaybook.tex"/>
+                                                    </Anns>
+                                                    <RefExpr Mixfix="false">
+                                                        <Anns>
+                                                            <LocAnn Col="17" Line="44" Loc="birthdaybook.tex"/>
+                                                        </Anns>
+                                                        <ZRefName>
+                                                            <Anns>
+                                                                <LocAnn Col="17" Line="44" Loc="birthdaybook.tex"/>
+                                                            </Anns>
+                                                            <Word> _ ∪ _ </Word>
+                                                        </ZRefName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                    <TupleExpr>
+                                                        <Anns>
+                                                            <LocAnn Col="17" Line="44" Loc="birthdaybook.tex"/>
+                                                        </Anns>
+                                                        <ZExprList>
+                                                            <RefExpr Mixfix="false">
+                                                                <Anns>
+                                                                    <LocAnn Col="17" Line="44" Loc="birthdaybook.tex"/>
+                                                                </Anns>
+                                                                <ZRefName>
+                                                                    <Anns>
+                                                                        <LocAnn Col="17" Line="44" Loc="birthdaybook.tex"/>
+                                                                    </Anns>
+                                                                    <Word>birthday</Word>
+                                                                </ZRefName>
+                                                                <ZExprList/>
+                                                            </RefExpr>
+                                                            <SetExpr>
+                                                                <Anns>
+                                                                    <LocAnn Col="31" Line="44" Loc="birthdaybook.tex"/>
+                                                                </Anns>
+                                                                <ZExprList>
+                                                                    <ApplExpr Mixfix="true">
+                                                                        <Anns>
+                                                                            <LocAnn Col="39" Line="44" Loc="birthdaybook.tex"/>
+                                                                        </Anns>
+                                                                        <RefExpr Mixfix="false">
+                                                                            <Anns>
+                                                                                <LocAnn Col="33" Line="44" Loc="birthdaybook.tex"/>
+                                                                            </Anns>
+                                                                            <ZRefName>
+                                                                                <Anns>
+                                                                                    <LocAnn Col="33" Line="44" Loc="birthdaybook.tex"/>
+                                                                                </Anns>
+                                                                                <Word> _ ↦ _ </Word>
+                                                                            </ZRefName>
+                                                                            <ZExprList/>
+                                                                        </RefExpr>
+                                                                        <TupleExpr>
+                                                                            <Anns>
+                                                                                <LocAnn Col="33" Line="44" Loc="birthdaybook.tex"/>
+                                                                            </Anns>
+                                                                            <ZExprList>
+                                                                                <RefExpr Mixfix="false">
+                                                                                    <Anns>
+                                                                                        <LocAnn Col="33" Line="44" Loc="birthdaybook.tex"/>
+                                                                                    </Anns>
+                                                                                    <ZRefName>
+                                                                                        <Anns>
+                                                                                            <LocAnn Col="33" Line="44" Loc="birthdaybook.tex"/>
+                                                                                        </Anns>
+                                                                                        <Word>name</Word>
+                                                                                        <InStroke/>
+                                                                                    </ZRefName>
+                                                                                    <ZExprList/>
+                                                                                </RefExpr>
+                                                                                <RefExpr Mixfix="false">
+                                                                                    <Anns>
+                                                                                        <LocAnn Col="47" Line="44" Loc="birthdaybook.tex"/>
+                                                                                    </Anns>
+                                                                                    <ZRefName>
+                                                                                        <Anns>
+                                                                                            <LocAnn Col="47" Line="44" Loc="birthdaybook.tex"/>
+                                                                                        </Anns>
+                                                                                        <Word>date</Word>
+                                                                                        <InStroke/>
+                                                                                    </ZRefName>
+                                                                                    <ZExprList/>
+                                                                                </RefExpr>
+                                                                            </ZExprList>
+                                                                        </TupleExpr>
+                                                                    </ApplExpr>
+                                                                </ZExprList>
+                                                            </SetExpr>
+                                                        </ZExprList>
+                                                    </TupleExpr>
+                                                </ApplExpr>
+                                            </ZExprList>
                                         </SetExpr>
                                     </MemPred>
                                 </AndPred>
-                            </SchText>
+                            </ZSchText>
                         </SchExpr>
                     </ConstDecl>
                 </ZDeclList>
-            </SchText>
+            </ZSchText>
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="13" Line="55" Loc="../zml/examples/z/birthdaybook.tex"/>
+                <LocAnn Col="13" Line="45" Loc="birthdaybook.tex"/>
             </Anns>
             <Content>
 
@@ -689,191 +555,384 @@ behaviour of the system.
         </NarrPara>
         <AxPara Box="SchBox">
             <Anns>
-                <LocAnn Col="1" Line="57" Loc="../zml/examples/z/birthdaybook.tex"/>
+                <LocAnn Col="1" Line="47" Loc="birthdaybook.tex"/>
             </Anns>
-            <SchText>
+            <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
-                        <DeclName>
+                        <ZDeclName>
                             <Anns>
-                                <LocAnn Col="16" Line="57" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                <LocAnn Col="16" Line="47" Loc="birthdaybook.tex"/>
                             </Anns>
-                            <Word>Remind</Word>
-                        </DeclName>
+                            <Word>FindBirthday</Word>
+                        </ZDeclName>
                         <SchExpr>
-                            <SchText>
+                            <ZSchText>
                                 <ZDeclList>
                                     <InclDecl>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="5" Line="58" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="48" Loc="birthdaybook.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="5" Line="58" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="5" Line="48" Loc="birthdaybook.tex"/>
                                                 </Anns>
                                                 <Word>ΞBirthdayBook</Word>
-                                            </RefName>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                     </InclDecl>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="11" Line="59" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="10" Line="49" Loc="birthdaybook.tex"/>
                                         </Anns>
-                                        <DeclName>
+                                        <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="5" Line="59" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="49" Loc="birthdaybook.tex"/>
                                             </Anns>
-                                            <Word>today</Word>
+                                            <Word>name</Word>
                                             <InStroke/>
-                                        </DeclName>
+                                        </ZDeclName>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="13" Line="59" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="12" Line="49" Loc="birthdaybook.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="13" Line="59" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="12" Line="49" Loc="birthdaybook.tex"/>
                                                 </Anns>
-                                                <Word>DATE</Word>
-                                            </RefName>
+                                                <Word>NAME</Word>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                     </VarDecl>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="11" Line="60" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="10" Line="50" Loc="birthdaybook.tex"/>
                                         </Anns>
-                                        <DeclName>
+                                        <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="5" Line="60" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="50" Loc="birthdaybook.tex"/>
+                                            </Anns>
+                                            <Word>date</Word>
+                                            <OutStroke/>
+                                        </ZDeclName>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="12" Line="50" Loc="birthdaybook.tex"/>
+                                            </Anns>
+                                            <ZRefName>
+                                                <Anns>
+                                                    <LocAnn Col="12" Line="50" Loc="birthdaybook.tex"/>
+                                                </Anns>
+                                                <Word>DATE</Word>
+                                            </ZRefName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </VarDecl>
+                                </ZDeclList>
+                                <AndPred And="NL">
+                                    <Anns>
+                                        <LocAnn Col="1" Line="53" Loc="birthdaybook.tex"/>
+                                    </Anns>
+                                    <MemPred Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="11" Line="52" Loc="birthdaybook.tex"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="5" Line="52" Loc="birthdaybook.tex"/>
+                                            </Anns>
+                                            <ZRefName>
+                                                <Anns>
+                                                    <LocAnn Col="5" Line="52" Loc="birthdaybook.tex"/>
+                                                </Anns>
+                                                <Word>name</Word>
+                                                <InStroke/>
+                                            </ZRefName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="15" Line="52" Loc="birthdaybook.tex"/>
+                                            </Anns>
+                                            <ZRefName>
+                                                <Anns>
+                                                    <LocAnn Col="15" Line="52" Loc="birthdaybook.tex"/>
+                                                </Anns>
+                                                <Word>known</Word>
+                                            </ZRefName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </MemPred>
+                                    <MemPred Mixfix="true">
+                                        <Anns>
+                                            <LocAnn Col="11" Line="54" Loc="birthdaybook.tex"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="5" Line="54" Loc="birthdaybook.tex"/>
+                                            </Anns>
+                                            <ZRefName>
+                                                <Anns>
+                                                    <LocAnn Col="5" Line="54" Loc="birthdaybook.tex"/>
+                                                </Anns>
+                                                <Word>date</Word>
+                                                <OutStroke/>
+                                            </ZRefName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <SetExpr>
+                                            <ZExprList>
+                                                <ApplExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="27" Line="54" Loc="birthdaybook.tex"/>
+                                                    </Anns>
+                                                    <RefExpr Mixfix="false">
+                                                        <Anns>
+                                                            <LocAnn Col="13" Line="54" Loc="birthdaybook.tex"/>
+                                                        </Anns>
+                                                        <ZRefName>
+                                                            <Anns>
+                                                                <LocAnn Col="13" Line="54" Loc="birthdaybook.tex"/>
+                                                            </Anns>
+                                                            <Word>birthday</Word>
+                                                        </ZRefName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <Anns>
+                                                            <LocAnn Col="22" Line="54" Loc="birthdaybook.tex"/>
+                                                            <ParenAnn/>
+                                                        </Anns>
+                                                        <ZRefName>
+                                                            <Anns>
+                                                                <LocAnn Col="22" Line="54" Loc="birthdaybook.tex"/>
+                                                            </Anns>
+                                                            <Word>name</Word>
+                                                            <InStroke/>
+                                                        </ZRefName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                </ApplExpr>
+                                            </ZExprList>
+                                        </SetExpr>
+                                    </MemPred>
+                                </AndPred>
+                            </ZSchText>
+                        </SchExpr>
+                    </ConstDecl>
+                </ZDeclList>
+            </ZSchText>
+        </AxPara>
+        <NarrPara>
+            <Anns>
+                <LocAnn Col="13" Line="55" Loc="birthdaybook.tex"/>
+            </Anns>
+            <Content>
+
+</Content>
+        </NarrPara>
+        <AxPara Box="SchBox">
+            <Anns>
+                <LocAnn Col="1" Line="57" Loc="birthdaybook.tex"/>
+            </Anns>
+            <ZSchText>
+                <ZDeclList>
+                    <ConstDecl>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="16" Line="57" Loc="birthdaybook.tex"/>
+                            </Anns>
+                            <Word>Remind</Word>
+                        </ZDeclName>
+                        <SchExpr>
+                            <ZSchText>
+                                <ZDeclList>
+                                    <InclDecl>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="5" Line="58" Loc="birthdaybook.tex"/>
+                                            </Anns>
+                                            <ZRefName>
+                                                <Anns>
+                                                    <LocAnn Col="5" Line="58" Loc="birthdaybook.tex"/>
+                                                </Anns>
+                                                <Word>ΞBirthdayBook</Word>
+                                            </ZRefName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </InclDecl>
+                                    <VarDecl>
+                                        <Anns>
+                                            <LocAnn Col="11" Line="59" Loc="birthdaybook.tex"/>
+                                        </Anns>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="5" Line="59" Loc="birthdaybook.tex"/>
+                                            </Anns>
+                                            <Word>today</Word>
+                                            <InStroke/>
+                                        </ZDeclName>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="13" Line="59" Loc="birthdaybook.tex"/>
+                                            </Anns>
+                                            <ZRefName>
+                                                <Anns>
+                                                    <LocAnn Col="13" Line="59" Loc="birthdaybook.tex"/>
+                                                </Anns>
+                                                <Word>DATE</Word>
+                                            </ZRefName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </VarDecl>
+                                    <VarDecl>
+                                        <Anns>
+                                            <LocAnn Col="11" Line="60" Loc="birthdaybook.tex"/>
+                                        </Anns>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="5" Line="60" Loc="birthdaybook.tex"/>
                                             </Anns>
                                             <Word>cards</Word>
                                             <OutStroke/>
-                                        </DeclName>
+                                        </ZDeclName>
                                         <PowerExpr>
                                             <Anns>
-                                                <LocAnn Col="13" Line="60" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="13" Line="60" Loc="birthdaybook.tex"/>
                                             </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="20" Line="60" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="20" Line="60" Loc="birthdaybook.tex"/>
                                                 </Anns>
-                                                <RefName>
+                                                <ZRefName>
                                                     <Anns>
-                                                        <LocAnn Col="20" Line="60" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                        <LocAnn Col="20" Line="60" Loc="birthdaybook.tex"/>
                                                     </Anns>
                                                     <Word>NAME</Word>
-                                                </RefName>
+                                                </ZRefName>
+                                                <ZExprList/>
                                             </RefExpr>
                                         </PowerExpr>
                                     </VarDecl>
                                 </ZDeclList>
                                 <MemPred Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="12" Line="62" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                        <LocAnn Col="12" Line="62" Loc="birthdaybook.tex"/>
                                     </Anns>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="5" Line="62" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="5" Line="62" Loc="birthdaybook.tex"/>
                                         </Anns>
-                                        <RefName>
+                                        <ZRefName>
                                             <Anns>
-                                                <LocAnn Col="5" Line="62" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="62" Loc="birthdaybook.tex"/>
                                             </Anns>
                                             <Word>cards</Word>
                                             <OutStroke/>
-                                        </RefName>
+                                        </ZRefName>
+                                        <ZExprList/>
                                     </RefExpr>
                                     <SetExpr>
-                                        <SetCompExpr>
-                                            <Anns>
-                                                <LocAnn Col="14" Line="62" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                            </Anns>
-                                            <SchText>
-                                                <ZDeclList>
-                                                    <VarDecl>
-                                                        <Anns>
-                                                            <LocAnn Col="18" Line="62" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                        </Anns>
-                                                        <DeclName>
+                                        <ZExprList>
+                                            <SetCompExpr>
+                                                <Anns>
+                                                    <LocAnn Col="14" Line="62" Loc="birthdaybook.tex"/>
+                                                </Anns>
+                                                <ZSchText>
+                                                    <ZDeclList>
+                                                        <VarDecl>
                                                             <Anns>
-                                                                <LocAnn Col="17" Line="62" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                                <LocAnn Col="18" Line="62" Loc="birthdaybook.tex"/>
                                                             </Anns>
-                                                            <Word>n</Word>
-                                                        </DeclName>
-                                                        <RefExpr Mixfix="false">
-                                                            <Anns>
-                                                                <LocAnn Col="20" Line="62" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                            </Anns>
-                                                            <RefName>
+                                                            <ZDeclName>
                                                                 <Anns>
-                                                                    <LocAnn Col="20" Line="62" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                                </Anns>
-                                                                <Word>known</Word>
-                                                            </RefName>
-                                                        </RefExpr>
-                                                    </VarDecl>
-                                                </ZDeclList>
-                                                <MemPred Mixfix="true">
-                                                    <Anns>
-                                                        <LocAnn Col="40" Line="62" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                    </Anns>
-                                                    <ApplExpr Mixfix="false">
-                                                        <Anns>
-                                                            <LocAnn Col="38" Line="62" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                        </Anns>
-                                                        <RefExpr Mixfix="false">
-                                                            <Anns>
-                                                                <LocAnn Col="28" Line="62" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                            </Anns>
-                                                            <RefName>
-                                                                <Anns>
-                                                                    <LocAnn Col="28" Line="62" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                                </Anns>
-                                                                <Word>birthday</Word>
-                                                            </RefName>
-                                                        </RefExpr>
-                                                        <RefExpr Mixfix="false">
-                                                            <Anns>
-                                                                <LocAnn Col="37" Line="62" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                                <ParenAnn/>
-                                                            </Anns>
-                                                            <RefName>
-                                                                <Anns>
-                                                                    <LocAnn Col="37" Line="62" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                                    <LocAnn Col="17" Line="62" Loc="birthdaybook.tex"/>
                                                                 </Anns>
                                                                 <Word>n</Word>
-                                                            </RefName>
-                                                        </RefExpr>
-                                                    </ApplExpr>
-                                                    <SetExpr>
-                                                        <RefExpr Mixfix="false">
-                                                            <Anns>
-                                                                <LocAnn Col="42" Line="62" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                            </Anns>
-                                                            <RefName>
+                                                            </ZDeclName>
+                                                            <RefExpr Mixfix="false">
                                                                 <Anns>
-                                                                    <LocAnn Col="42" Line="62" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                                    <LocAnn Col="20" Line="62" Loc="birthdaybook.tex"/>
                                                                 </Anns>
-                                                                <Word>today</Word>
-                                                                <InStroke/>
-                                                            </RefName>
-                                                        </RefExpr>
-                                                    </SetExpr>
-                                                </MemPred>
-                                            </SchText>
-                                        </SetCompExpr>
+                                                                <ZRefName>
+                                                                    <Anns>
+                                                                        <LocAnn Col="20" Line="62" Loc="birthdaybook.tex"/>
+                                                                    </Anns>
+                                                                    <Word>known</Word>
+                                                                </ZRefName>
+                                                                <ZExprList/>
+                                                            </RefExpr>
+                                                        </VarDecl>
+                                                    </ZDeclList>
+                                                    <MemPred Mixfix="true">
+                                                        <Anns>
+                                                            <LocAnn Col="40" Line="62" Loc="birthdaybook.tex"/>
+                                                        </Anns>
+                                                        <ApplExpr Mixfix="false">
+                                                            <Anns>
+                                                                <LocAnn Col="38" Line="62" Loc="birthdaybook.tex"/>
+                                                            </Anns>
+                                                            <RefExpr Mixfix="false">
+                                                                <Anns>
+                                                                    <LocAnn Col="28" Line="62" Loc="birthdaybook.tex"/>
+                                                                </Anns>
+                                                                <ZRefName>
+                                                                    <Anns>
+                                                                        <LocAnn Col="28" Line="62" Loc="birthdaybook.tex"/>
+                                                                    </Anns>
+                                                                    <Word>birthday</Word>
+                                                                </ZRefName>
+                                                                <ZExprList/>
+                                                            </RefExpr>
+                                                            <RefExpr Mixfix="false">
+                                                                <Anns>
+                                                                    <LocAnn Col="37" Line="62" Loc="birthdaybook.tex"/>
+                                                                    <ParenAnn/>
+                                                                </Anns>
+                                                                <ZRefName>
+                                                                    <Anns>
+                                                                        <LocAnn Col="37" Line="62" Loc="birthdaybook.tex"/>
+                                                                    </Anns>
+                                                                    <Word>n</Word>
+                                                                </ZRefName>
+                                                                <ZExprList/>
+                                                            </RefExpr>
+                                                        </ApplExpr>
+                                                        <SetExpr>
+                                                            <ZExprList>
+                                                                <RefExpr Mixfix="false">
+                                                                    <Anns>
+                                                                        <LocAnn Col="42" Line="62" Loc="birthdaybook.tex"/>
+                                                                    </Anns>
+                                                                    <ZRefName>
+                                                                        <Anns>
+                                                                            <LocAnn Col="42" Line="62" Loc="birthdaybook.tex"/>
+                                                                        </Anns>
+                                                                        <Word>today</Word>
+                                                                        <InStroke/>
+                                                                    </ZRefName>
+                                                                    <ZExprList/>
+                                                                </RefExpr>
+                                                            </ZExprList>
+                                                        </SetExpr>
+                                                    </MemPred>
+                                                </ZSchText>
+                                            </SetCompExpr>
+                                        </ZExprList>
                                     </SetExpr>
                                 </MemPred>
-                            </SchText>
+                            </ZSchText>
                         </SchExpr>
                     </ConstDecl>
                 </ZDeclList>
-            </SchText>
+            </ZSchText>
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="13" Line="63" Loc="../zml/examples/z/birthdaybook.tex"/>
+                <LocAnn Col="13" Line="63" Loc="birthdaybook.tex"/>
             </Anns>
             <Content>
 
@@ -885,169 +944,179 @@ day.
         </NarrPara>
         <AxPara Box="SchBox">
             <Anns>
-                <LocAnn Col="1" Line="69" Loc="../zml/examples/z/birthdaybook.tex"/>
+                <LocAnn Col="1" Line="69" Loc="birthdaybook.tex"/>
             </Anns>
-            <SchText>
+            <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
-                        <DeclName>
+                        <ZDeclName>
                             <Anns>
-                                <LocAnn Col="16" Line="69" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                <LocAnn Col="16" Line="69" Loc="birthdaybook.tex"/>
                             </Anns>
                             <Word>RemindOne</Word>
-                        </DeclName>
+                        </ZDeclName>
                         <SchExpr>
-                            <SchText>
+                            <ZSchText>
                                 <ZDeclList>
                                     <InclDecl>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="5" Line="70" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="70" Loc="birthdaybook.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="5" Line="70" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="5" Line="70" Loc="birthdaybook.tex"/>
                                                 </Anns>
                                                 <Word>ΞBirthdayBook</Word>
-                                            </RefName>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                     </InclDecl>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="11" Line="71" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="11" Line="71" Loc="birthdaybook.tex"/>
                                         </Anns>
-                                        <DeclName>
+                                        <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="5" Line="71" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="71" Loc="birthdaybook.tex"/>
                                             </Anns>
                                             <Word>today</Word>
                                             <InStroke/>
-                                        </DeclName>
+                                        </ZDeclName>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="13" Line="71" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="13" Line="71" Loc="birthdaybook.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="13" Line="71" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="13" Line="71" Loc="birthdaybook.tex"/>
                                                 </Anns>
                                                 <Word>DATE</Word>
-                                            </RefName>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                     </VarDecl>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="10" Line="72" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="10" Line="72" Loc="birthdaybook.tex"/>
                                         </Anns>
-                                        <DeclName>
+                                        <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="5" Line="72" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="72" Loc="birthdaybook.tex"/>
                                             </Anns>
                                             <Word>card</Word>
                                             <OutStroke/>
-                                        </DeclName>
+                                        </ZDeclName>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="12" Line="72" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="12" Line="72" Loc="birthdaybook.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="12" Line="72" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="12" Line="72" Loc="birthdaybook.tex"/>
                                                 </Anns>
                                                 <Word>NAME</Word>
-                                            </RefName>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                     </VarDecl>
                                 </ZDeclList>
-                                <AndPred Op="NL">
+                                <AndPred And="NL">
                                     <Anns>
-                                        <LocAnn Col="21" Line="74" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                        <LocAnn Col="21" Line="74" Loc="birthdaybook.tex"/>
                                     </Anns>
                                     <MemPred Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="11" Line="74" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="11" Line="74" Loc="birthdaybook.tex"/>
                                         </Anns>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="5" Line="74" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="74" Loc="birthdaybook.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="5" Line="74" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="5" Line="74" Loc="birthdaybook.tex"/>
                                                 </Anns>
                                                 <Word>card</Word>
                                                 <OutStroke/>
-                                            </RefName>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="15" Line="74" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="15" Line="74" Loc="birthdaybook.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="15" Line="74" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="15" Line="74" Loc="birthdaybook.tex"/>
                                                 </Anns>
                                                 <Word>known</Word>
-                                            </RefName>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                     </MemPred>
                                     <MemPred Mixfix="true">
                                         <Anns>
-                                            <LocAnn Col="22" Line="75" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="22" Line="75" Loc="birthdaybook.tex"/>
                                         </Anns>
                                         <ApplExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="16" Line="75" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="16" Line="75" Loc="birthdaybook.tex"/>
                                             </Anns>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="5" Line="75" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="5" Line="75" Loc="birthdaybook.tex"/>
                                                 </Anns>
-                                                <RefName>
+                                                <ZRefName>
                                                     <Anns>
-                                                        <LocAnn Col="5" Line="75" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                        <LocAnn Col="5" Line="75" Loc="birthdaybook.tex"/>
                                                     </Anns>
                                                     <Word>birthday</Word>
-                                                </RefName>
+                                                </ZRefName>
+                                                <ZExprList/>
                                             </RefExpr>
                                             <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="16" Line="75" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="16" Line="75" Loc="birthdaybook.tex"/>
                                                 </Anns>
-                                                <RefName>
+                                                <ZRefName>
                                                     <Anns>
-                                                        <LocAnn Col="16" Line="75" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                        <LocAnn Col="16" Line="75" Loc="birthdaybook.tex"/>
                                                     </Anns>
                                                     <Word>card</Word>
                                                     <OutStroke/>
-                                                </RefName>
+                                                </ZRefName>
+                                                <ZExprList/>
                                             </RefExpr>
                                         </ApplExpr>
                                         <SetExpr>
-                                            <RefExpr Mixfix="false">
-                                                <Anns>
-                                                    <LocAnn Col="24" Line="75" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                </Anns>
-                                                <RefName>
+                                            <ZExprList>
+                                                <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="24" Line="75" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                        <LocAnn Col="24" Line="75" Loc="birthdaybook.tex"/>
                                                     </Anns>
-                                                    <Word>today</Word>
-                                                    <InStroke/>
-                                                </RefName>
-                                            </RefExpr>
+                                                    <ZRefName>
+                                                        <Anns>
+                                                            <LocAnn Col="24" Line="75" Loc="birthdaybook.tex"/>
+                                                        </Anns>
+                                                        <Word>today</Word>
+                                                        <InStroke/>
+                                                    </ZRefName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                            </ZExprList>
                                         </SetExpr>
                                     </MemPred>
                                 </AndPred>
-                            </SchText>
+                            </ZSchText>
                         </SchExpr>
                     </ConstDecl>
                 </ZDeclList>
-            </SchText>
+            </ZSchText>
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="13" Line="76" Loc="../zml/examples/z/birthdaybook.tex"/>
+                <LocAnn Col="13" Line="76" Loc="birthdaybook.tex"/>
             </Anns>
             <Content>
 
@@ -1058,56 +1127,56 @@ Now we strengthen the specification by adding error handling.
         </NarrPara>
         <FreePara>
             <Anns>
-                <LocAnn Col="38" Line="82" Loc="../zml/examples/z/birthdaybook.tex"/>
+                <LocAnn Col="38" Line="82" Loc="birthdaybook.tex"/>
             </Anns>
             <Freetype>
                 <Anns>
-                    <LocAnn Col="12" Line="82" Loc="../zml/examples/z/birthdaybook.tex"/>
+                    <LocAnn Col="12" Line="82" Loc="birthdaybook.tex"/>
                 </Anns>
-                <DeclName>
+                <ZDeclName>
                     <Anns>
-                        <LocAnn Col="5" Line="82" Loc="../zml/examples/z/birthdaybook.tex"/>
+                        <LocAnn Col="5" Line="82" Loc="birthdaybook.tex"/>
                     </Anns>
                     <Word>REPORT</Word>
-                </DeclName>
+                </ZDeclName>
                 <Branch>
                     <Anns>
-                        <LocAnn Col="16" Line="82" Loc="../zml/examples/z/birthdaybook.tex"/>
+                        <LocAnn Col="16" Line="82" Loc="birthdaybook.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
-                            <LocAnn Col="16" Line="82" Loc="../zml/examples/z/birthdaybook.tex"/>
+                            <LocAnn Col="16" Line="82" Loc="birthdaybook.tex"/>
                         </Anns>
                         <Word>ok</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
-                        <LocAnn Col="21" Line="82" Loc="../zml/examples/z/birthdaybook.tex"/>
+                        <LocAnn Col="21" Line="82" Loc="birthdaybook.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
-                            <LocAnn Col="21" Line="82" Loc="../zml/examples/z/birthdaybook.tex"/>
+                            <LocAnn Col="21" Line="82" Loc="birthdaybook.tex"/>
                         </Anns>
                         <Word>already_known</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
-                        <LocAnn Col="38" Line="82" Loc="../zml/examples/z/birthdaybook.tex"/>
+                        <LocAnn Col="38" Line="82" Loc="birthdaybook.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
-                            <LocAnn Col="38" Line="82" Loc="../zml/examples/z/birthdaybook.tex"/>
+                            <LocAnn Col="38" Line="82" Loc="birthdaybook.tex"/>
                         </Anns>
                         <Word>not_known</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
             </Freetype>
         </FreePara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Line="83" Loc="../zml/examples/z/birthdaybook.tex"/>
+                <LocAnn Col="10" Line="83" Loc="birthdaybook.tex"/>
             </Anns>
             <Content>
 
@@ -1118,83 +1187,88 @@ and error cases.
         </NarrPara>
         <AxPara Box="SchBox">
             <Anns>
-                <LocAnn Col="1" Line="88" Loc="../zml/examples/z/birthdaybook.tex"/>
+                <LocAnn Col="1" Line="88" Loc="birthdaybook.tex"/>
             </Anns>
-            <SchText>
+            <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
-                        <DeclName>
+                        <ZDeclName>
                             <Anns>
-                                <LocAnn Col="16" Line="88" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                <LocAnn Col="16" Line="88" Loc="birthdaybook.tex"/>
                             </Anns>
                             <Word>Success</Word>
-                        </DeclName>
+                        </ZDeclName>
                         <SchExpr>
-                            <SchText>
+                            <ZSchText>
                                 <ZDeclList>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="12" Line="89" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="12" Line="89" Loc="birthdaybook.tex"/>
                                         </Anns>
-                                        <DeclName>
+                                        <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="5" Line="89" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="89" Loc="birthdaybook.tex"/>
                                             </Anns>
                                             <Word>result</Word>
                                             <OutStroke/>
-                                        </DeclName>
+                                        </ZDeclName>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="14" Line="89" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="14" Line="89" Loc="birthdaybook.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="14" Line="89" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="14" Line="89" Loc="birthdaybook.tex"/>
                                                 </Anns>
                                                 <Word>REPORT</Word>
-                                            </RefName>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                     </VarDecl>
                                 </ZDeclList>
                                 <MemPred Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="13" Line="91" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                        <LocAnn Col="13" Line="91" Loc="birthdaybook.tex"/>
                                     </Anns>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="5" Line="91" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="5" Line="91" Loc="birthdaybook.tex"/>
                                         </Anns>
-                                        <RefName>
+                                        <ZRefName>
                                             <Anns>
-                                                <LocAnn Col="5" Line="91" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="91" Loc="birthdaybook.tex"/>
                                             </Anns>
                                             <Word>result</Word>
                                             <OutStroke/>
-                                        </RefName>
+                                        </ZRefName>
+                                        <ZExprList/>
                                     </RefExpr>
                                     <SetExpr>
-                                        <RefExpr Mixfix="false">
-                                            <Anns>
-                                                <LocAnn Col="15" Line="91" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                            </Anns>
-                                            <RefName>
+                                        <ZExprList>
+                                            <RefExpr Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="15" Line="91" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="15" Line="91" Loc="birthdaybook.tex"/>
                                                 </Anns>
-                                                <Word>ok</Word>
-                                            </RefName>
-                                        </RefExpr>
+                                                <ZRefName>
+                                                    <Anns>
+                                                        <LocAnn Col="15" Line="91" Loc="birthdaybook.tex"/>
+                                                    </Anns>
+                                                    <Word>ok</Word>
+                                                </ZRefName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </ZExprList>
                                     </SetExpr>
                                 </MemPred>
-                            </SchText>
+                            </ZSchText>
                         </SchExpr>
                     </ConstDecl>
                 </ZDeclList>
-            </SchText>
+            </ZSchText>
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="13" Line="92" Loc="../zml/examples/z/birthdaybook.tex"/>
+                <LocAnn Col="13" Line="92" Loc="birthdaybook.tex"/>
             </Anns>
             <Content>
 
@@ -1202,152 +1276,161 @@ and error cases.
         </NarrPara>
         <AxPara Box="SchBox">
             <Anns>
-                <LocAnn Col="1" Line="94" Loc="../zml/examples/z/birthdaybook.tex"/>
+                <LocAnn Col="1" Line="94" Loc="birthdaybook.tex"/>
             </Anns>
-            <SchText>
+            <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
-                        <DeclName>
+                        <ZDeclName>
                             <Anns>
-                                <LocAnn Col="16" Line="94" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                <LocAnn Col="16" Line="94" Loc="birthdaybook.tex"/>
                             </Anns>
                             <Word>AlreadyKnown</Word>
-                        </DeclName>
+                        </ZDeclName>
                         <SchExpr>
-                            <SchText>
+                            <ZSchText>
                                 <ZDeclList>
                                     <InclDecl>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="5" Line="95" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="95" Loc="birthdaybook.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="5" Line="95" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="5" Line="95" Loc="birthdaybook.tex"/>
                                                 </Anns>
                                                 <Word>ΞBirthdayBook</Word>
-                                            </RefName>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                     </InclDecl>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="10" Line="96" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="10" Line="96" Loc="birthdaybook.tex"/>
                                         </Anns>
-                                        <DeclName>
+                                        <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="5" Line="96" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="96" Loc="birthdaybook.tex"/>
                                             </Anns>
                                             <Word>name</Word>
                                             <InStroke/>
-                                        </DeclName>
+                                        </ZDeclName>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="12" Line="96" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="12" Line="96" Loc="birthdaybook.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="12" Line="96" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="12" Line="96" Loc="birthdaybook.tex"/>
                                                 </Anns>
                                                 <Word>NAME</Word>
-                                            </RefName>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                     </VarDecl>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="12" Line="97" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="12" Line="97" Loc="birthdaybook.tex"/>
                                         </Anns>
-                                        <DeclName>
+                                        <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="5" Line="97" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="97" Loc="birthdaybook.tex"/>
                                             </Anns>
                                             <Word>result</Word>
                                             <OutStroke/>
-                                        </DeclName>
+                                        </ZDeclName>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="14" Line="97" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="14" Line="97" Loc="birthdaybook.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="14" Line="97" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="14" Line="97" Loc="birthdaybook.tex"/>
                                                 </Anns>
                                                 <Word>REPORT</Word>
-                                            </RefName>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                     </VarDecl>
                                 </ZDeclList>
-                                <AndPred Op="NL">
+                                <AndPred And="NL">
                                     <Anns>
-                                        <LocAnn Col="21" Line="99" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                        <LocAnn Col="21" Line="99" Loc="birthdaybook.tex"/>
                                     </Anns>
                                     <MemPred Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="11" Line="99" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="11" Line="99" Loc="birthdaybook.tex"/>
                                         </Anns>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="5" Line="99" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="99" Loc="birthdaybook.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="5" Line="99" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="5" Line="99" Loc="birthdaybook.tex"/>
                                                 </Anns>
                                                 <Word>name</Word>
                                                 <InStroke/>
-                                            </RefName>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="15" Line="99" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="15" Line="99" Loc="birthdaybook.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="15" Line="99" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="15" Line="99" Loc="birthdaybook.tex"/>
                                                 </Anns>
                                                 <Word>known</Word>
-                                            </RefName>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                     </MemPred>
                                     <MemPred Mixfix="true">
                                         <Anns>
-                                            <LocAnn Col="13" Line="100" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="13" Line="100" Loc="birthdaybook.tex"/>
                                         </Anns>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="5" Line="100" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="100" Loc="birthdaybook.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="5" Line="100" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="5" Line="100" Loc="birthdaybook.tex"/>
                                                 </Anns>
                                                 <Word>result</Word>
                                                 <OutStroke/>
-                                            </RefName>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                         <SetExpr>
-                                            <RefExpr Mixfix="false">
-                                                <Anns>
-                                                    <LocAnn Col="15" Line="100" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                </Anns>
-                                                <RefName>
+                                            <ZExprList>
+                                                <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="15" Line="100" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                        <LocAnn Col="15" Line="100" Loc="birthdaybook.tex"/>
                                                     </Anns>
-                                                    <Word>already_known</Word>
-                                                </RefName>
-                                            </RefExpr>
+                                                    <ZRefName>
+                                                        <Anns>
+                                                            <LocAnn Col="15" Line="100" Loc="birthdaybook.tex"/>
+                                                        </Anns>
+                                                        <Word>already_known</Word>
+                                                    </ZRefName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                            </ZExprList>
                                         </SetExpr>
                                     </MemPred>
                                 </AndPred>
-                            </SchText>
+                            </ZSchText>
                         </SchExpr>
                     </ConstDecl>
                 </ZDeclList>
-            </SchText>
+            </ZSchText>
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="13" Line="101" Loc="../zml/examples/z/birthdaybook.tex"/>
+                <LocAnn Col="13" Line="101" Loc="birthdaybook.tex"/>
             </Anns>
             <Content>
 
@@ -1356,168 +1439,180 @@ and error cases.
         </NarrPara>
         <AxPara Box="SchBox">
             <Anns>
-                <LocAnn Col="1" Line="104" Loc="../zml/examples/z/birthdaybook.tex"/>
+                <LocAnn Col="1" Line="104" Loc="birthdaybook.tex"/>
             </Anns>
-            <SchText>
+            <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
-                        <DeclName>
+                        <ZDeclName>
                             <Anns>
-                                <LocAnn Col="16" Line="104" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                <LocAnn Col="16" Line="104" Loc="birthdaybook.tex"/>
                             </Anns>
                             <Word>NotKnown</Word>
-                        </DeclName>
+                        </ZDeclName>
                         <SchExpr>
-                            <SchText>
+                            <ZSchText>
                                 <ZDeclList>
                                     <InclDecl>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="5" Line="105" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="105" Loc="birthdaybook.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="5" Line="105" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="5" Line="105" Loc="birthdaybook.tex"/>
                                                 </Anns>
                                                 <Word>ΞBirthdayBook</Word>
-                                            </RefName>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                     </InclDecl>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="10" Line="106" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="10" Line="106" Loc="birthdaybook.tex"/>
                                         </Anns>
-                                        <DeclName>
+                                        <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="5" Line="106" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="106" Loc="birthdaybook.tex"/>
                                             </Anns>
                                             <Word>name</Word>
                                             <InStroke/>
-                                        </DeclName>
+                                        </ZDeclName>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="12" Line="106" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="12" Line="106" Loc="birthdaybook.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="12" Line="106" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="12" Line="106" Loc="birthdaybook.tex"/>
                                                 </Anns>
                                                 <Word>NAME</Word>
-                                            </RefName>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                     </VarDecl>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="12" Line="107" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="12" Line="107" Loc="birthdaybook.tex"/>
                                         </Anns>
-                                        <DeclName>
+                                        <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="5" Line="107" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="107" Loc="birthdaybook.tex"/>
                                             </Anns>
                                             <Word>result</Word>
                                             <OutStroke/>
-                                        </DeclName>
+                                        </ZDeclName>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="14" Line="107" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="14" Line="107" Loc="birthdaybook.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="14" Line="107" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="14" Line="107" Loc="birthdaybook.tex"/>
                                                 </Anns>
                                                 <Word>REPORT</Word>
-                                            </RefName>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                     </VarDecl>
                                 </ZDeclList>
-                                <AndPred Op="NL">
+                                <AndPred And="NL">
                                     <Anns>
-                                        <LocAnn Col="24" Line="109" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                        <LocAnn Col="24" Line="109" Loc="birthdaybook.tex"/>
                                     </Anns>
                                     <MemPred Mixfix="true">
                                         <Anns>
-                                            <LocAnn Col="11" Line="109" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="11" Line="109" Loc="birthdaybook.tex"/>
                                         </Anns>
                                         <TupleExpr>
                                             <Anns>
-                                                <LocAnn Col="5" Line="109" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="109" Loc="birthdaybook.tex"/>
                                             </Anns>
-                                            <RefExpr Mixfix="false">
-                                                <Anns>
-                                                    <LocAnn Col="5" Line="109" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                </Anns>
-                                                <RefName>
+                                            <ZExprList>
+                                                <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="5" Line="109" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                        <LocAnn Col="5" Line="109" Loc="birthdaybook.tex"/>
                                                     </Anns>
-                                                    <Word>name</Word>
-                                                    <InStroke/>
-                                                </RefName>
-                                            </RefExpr>
-                                            <RefExpr Mixfix="false">
-                                                <Anns>
-                                                    <LocAnn Col="18" Line="109" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                </Anns>
-                                                <RefName>
+                                                    <ZRefName>
+                                                        <Anns>
+                                                            <LocAnn Col="5" Line="109" Loc="birthdaybook.tex"/>
+                                                        </Anns>
+                                                        <Word>name</Word>
+                                                        <InStroke/>
+                                                    </ZRefName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                                <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="18" Line="109" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                        <LocAnn Col="18" Line="109" Loc="birthdaybook.tex"/>
                                                     </Anns>
-                                                    <Word>known</Word>
-                                                </RefName>
-                                            </RefExpr>
+                                                    <ZRefName>
+                                                        <Anns>
+                                                            <LocAnn Col="18" Line="109" Loc="birthdaybook.tex"/>
+                                                        </Anns>
+                                                        <Word>known</Word>
+                                                    </ZRefName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                            </ZExprList>
                                         </TupleExpr>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="5" Line="109" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="109" Loc="birthdaybook.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="5" Line="109" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="5" Line="109" Loc="birthdaybook.tex"/>
                                                 </Anns>
                                                 <Word> _ ∉ _ </Word>
-                                            </RefName>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                     </MemPred>
                                     <MemPred Mixfix="true">
                                         <Anns>
-                                            <LocAnn Col="13" Line="110" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="13" Line="110" Loc="birthdaybook.tex"/>
                                         </Anns>
                                         <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="5" Line="110" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                <LocAnn Col="5" Line="110" Loc="birthdaybook.tex"/>
                                             </Anns>
-                                            <RefName>
+                                            <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="5" Line="110" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                    <LocAnn Col="5" Line="110" Loc="birthdaybook.tex"/>
                                                 </Anns>
                                                 <Word>result</Word>
                                                 <OutStroke/>
-                                            </RefName>
+                                            </ZRefName>
+                                            <ZExprList/>
                                         </RefExpr>
                                         <SetExpr>
-                                            <RefExpr Mixfix="false">
-                                                <Anns>
-                                                    <LocAnn Col="15" Line="110" Loc="../zml/examples/z/birthdaybook.tex"/>
-                                                </Anns>
-                                                <RefName>
+                                            <ZExprList>
+                                                <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="15" Line="110" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                                        <LocAnn Col="15" Line="110" Loc="birthdaybook.tex"/>
                                                     </Anns>
-                                                    <Word>not_known</Word>
-                                                </RefName>
-                                            </RefExpr>
+                                                    <ZRefName>
+                                                        <Anns>
+                                                            <LocAnn Col="15" Line="110" Loc="birthdaybook.tex"/>
+                                                        </Anns>
+                                                        <Word>not_known</Word>
+                                                    </ZRefName>
+                                                    <ZExprList/>
+                                                </RefExpr>
+                                            </ZExprList>
                                         </SetExpr>
                                     </MemPred>
                                 </AndPred>
-                            </SchText>
+                            </ZSchText>
                         </SchExpr>
                     </ConstDecl>
                 </ZDeclList>
-            </SchText>
+            </ZSchText>
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="13" Line="111" Loc="../zml/examples/z/birthdaybook.tex"/>
+                <LocAnn Col="13" Line="111" Loc="birthdaybook.tex"/>
             </Anns>
             <Content>
 
@@ -1529,191 +1624,199 @@ For illustration purposes, we leave the $RemindOne$ operation non-robust.
         </NarrPara>
         <AxPara Box="OmitBox">
             <Anns>
-                <LocAnn Col="5" Line="118" Loc="../zml/examples/z/birthdaybook.tex"/>
+                <LocAnn Col="5" Line="118" Loc="birthdaybook.tex"/>
             </Anns>
-            <SchText>
+            <ZSchText>
                 <Anns>
-                    <LocAnn Col="5" Line="118" Loc="../zml/examples/z/birthdaybook.tex"/>
+                    <LocAnn Col="5" Line="118" Loc="birthdaybook.tex"/>
                 </Anns>
                 <ZDeclList>
                     <ConstDecl>
                         <Anns>
-                            <LocAnn Col="18" Line="118" Loc="../zml/examples/z/birthdaybook.tex"/>
+                            <LocAnn Col="18" Line="118" Loc="birthdaybook.tex"/>
                         </Anns>
-                        <DeclName>
+                        <ZDeclName>
                             <Anns>
-                                <LocAnn Col="5" Line="118" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                <LocAnn Col="5" Line="118" Loc="birthdaybook.tex"/>
                             </Anns>
                             <Word>RAddBirthday</Word>
-                        </DeclName>
+                        </ZDeclName>
                         <OrExpr>
                             <Anns>
-                                <LocAnn Col="49" Line="118" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                <LocAnn Col="49" Line="118" Loc="birthdaybook.tex"/>
                             </Anns>
                             <AndExpr>
                                 <Anns>
-                                    <LocAnn Col="34" Line="118" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                    <LocAnn Col="34" Line="118" Loc="birthdaybook.tex"/>
                                     <ParenAnn/>
                                 </Anns>
                                 <RefExpr Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="22" Line="118" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                        <LocAnn Col="22" Line="118" Loc="birthdaybook.tex"/>
                                     </Anns>
-                                    <RefName>
+                                    <ZRefName>
                                         <Anns>
-                                            <LocAnn Col="22" Line="118" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="22" Line="118" Loc="birthdaybook.tex"/>
                                         </Anns>
                                         <Word>AddBirthday</Word>
-                                    </RefName>
+                                    </ZRefName>
+                                    <ZExprList/>
                                 </RefExpr>
                                 <RefExpr Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="40" Line="118" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                        <LocAnn Col="40" Line="118" Loc="birthdaybook.tex"/>
                                     </Anns>
-                                    <RefName>
+                                    <ZRefName>
                                         <Anns>
-                                            <LocAnn Col="40" Line="118" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="40" Line="118" Loc="birthdaybook.tex"/>
                                         </Anns>
                                         <Word>Success</Word>
-                                    </RefName>
+                                    </ZRefName>
+                                    <ZExprList/>
                                 </RefExpr>
                             </AndExpr>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="54" Line="118" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                    <LocAnn Col="54" Line="118" Loc="birthdaybook.tex"/>
                                 </Anns>
-                                <RefName>
+                                <ZRefName>
                                     <Anns>
-                                        <LocAnn Col="54" Line="118" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                        <LocAnn Col="54" Line="118" Loc="birthdaybook.tex"/>
                                     </Anns>
                                     <Word>AlreadyKnown</Word>
-                                </RefName>
+                                </ZRefName>
+                                <ZExprList/>
                             </RefExpr>
                         </OrExpr>
                     </ConstDecl>
                 </ZDeclList>
-            </SchText>
+            </ZSchText>
         </AxPara>
         <AxPara Box="OmitBox">
             <Anns>
-                <LocAnn Col="5" Line="119" Loc="../zml/examples/z/birthdaybook.tex"/>
+                <LocAnn Col="5" Line="119" Loc="birthdaybook.tex"/>
             </Anns>
-            <SchText>
+            <ZSchText>
                 <Anns>
-                    <LocAnn Col="5" Line="119" Loc="../zml/examples/z/birthdaybook.tex"/>
+                    <LocAnn Col="5" Line="119" Loc="birthdaybook.tex"/>
                 </Anns>
                 <ZDeclList>
                     <ConstDecl>
                         <Anns>
-                            <LocAnn Col="19" Line="119" Loc="../zml/examples/z/birthdaybook.tex"/>
+                            <LocAnn Col="19" Line="119" Loc="birthdaybook.tex"/>
                         </Anns>
-                        <DeclName>
+                        <ZDeclName>
                             <Anns>
-                                <LocAnn Col="5" Line="119" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                <LocAnn Col="5" Line="119" Loc="birthdaybook.tex"/>
                             </Anns>
                             <Word>RFindBirthday</Word>
-                        </DeclName>
+                        </ZDeclName>
                         <OrExpr>
                             <Anns>
-                                <LocAnn Col="51" Line="119" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                <LocAnn Col="51" Line="119" Loc="birthdaybook.tex"/>
                             </Anns>
                             <AndExpr>
                                 <Anns>
-                                    <LocAnn Col="36" Line="119" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                    <LocAnn Col="36" Line="119" Loc="birthdaybook.tex"/>
                                     <ParenAnn/>
                                 </Anns>
                                 <RefExpr Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="23" Line="119" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                        <LocAnn Col="23" Line="119" Loc="birthdaybook.tex"/>
                                     </Anns>
-                                    <RefName>
+                                    <ZRefName>
                                         <Anns>
-                                            <LocAnn Col="23" Line="119" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="23" Line="119" Loc="birthdaybook.tex"/>
                                         </Anns>
                                         <Word>FindBirthday</Word>
-                                    </RefName>
+                                    </ZRefName>
+                                    <ZExprList/>
                                 </RefExpr>
                                 <RefExpr Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="42" Line="119" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                        <LocAnn Col="42" Line="119" Loc="birthdaybook.tex"/>
                                     </Anns>
-                                    <RefName>
+                                    <ZRefName>
                                         <Anns>
-                                            <LocAnn Col="42" Line="119" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                            <LocAnn Col="42" Line="119" Loc="birthdaybook.tex"/>
                                         </Anns>
                                         <Word>Success</Word>
-                                    </RefName>
+                                    </ZRefName>
+                                    <ZExprList/>
                                 </RefExpr>
                             </AndExpr>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="56" Line="119" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                    <LocAnn Col="56" Line="119" Loc="birthdaybook.tex"/>
                                 </Anns>
-                                <RefName>
+                                <ZRefName>
                                     <Anns>
-                                        <LocAnn Col="56" Line="119" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                        <LocAnn Col="56" Line="119" Loc="birthdaybook.tex"/>
                                     </Anns>
                                     <Word>NotKnown</Word>
-                                </RefName>
+                                </ZRefName>
+                                <ZExprList/>
                             </RefExpr>
                         </OrExpr>
                     </ConstDecl>
                 </ZDeclList>
-            </SchText>
+            </ZSchText>
         </AxPara>
         <AxPara Box="OmitBox">
             <Anns>
-                <LocAnn Col="5" Line="120" Loc="../zml/examples/z/birthdaybook.tex"/>
+                <LocAnn Col="5" Line="120" Loc="birthdaybook.tex"/>
             </Anns>
-            <SchText>
+            <ZSchText>
                 <Anns>
-                    <LocAnn Col="5" Line="120" Loc="../zml/examples/z/birthdaybook.tex"/>
+                    <LocAnn Col="5" Line="120" Loc="birthdaybook.tex"/>
                 </Anns>
                 <ZDeclList>
                     <ConstDecl>
                         <Anns>
-                            <LocAnn Col="13" Line="120" Loc="../zml/examples/z/birthdaybook.tex"/>
+                            <LocAnn Col="13" Line="120" Loc="birthdaybook.tex"/>
                         </Anns>
-                        <DeclName>
+                        <ZDeclName>
                             <Anns>
-                                <LocAnn Col="5" Line="120" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                <LocAnn Col="5" Line="120" Loc="birthdaybook.tex"/>
                             </Anns>
                             <Word>RRemind</Word>
-                        </DeclName>
+                        </ZDeclName>
                         <AndExpr>
                             <Anns>
-                                <LocAnn Col="23" Line="120" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                <LocAnn Col="23" Line="120" Loc="birthdaybook.tex"/>
                             </Anns>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="16" Line="120" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                    <LocAnn Col="16" Line="120" Loc="birthdaybook.tex"/>
                                 </Anns>
-                                <RefName>
+                                <ZRefName>
                                     <Anns>
-                                        <LocAnn Col="16" Line="120" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                        <LocAnn Col="16" Line="120" Loc="birthdaybook.tex"/>
                                     </Anns>
                                     <Word>Remind</Word>
-                                </RefName>
+                                </ZRefName>
+                                <ZExprList/>
                             </RefExpr>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="29" Line="120" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                    <LocAnn Col="29" Line="120" Loc="birthdaybook.tex"/>
                                 </Anns>
-                                <RefName>
+                                <ZRefName>
                                     <Anns>
-                                        <LocAnn Col="29" Line="120" Loc="../zml/examples/z/birthdaybook.tex"/>
+                                        <LocAnn Col="29" Line="120" Loc="birthdaybook.tex"/>
                                     </Anns>
                                     <Word>Success</Word>
-                                </RefName>
+                                </ZRefName>
+                                <ZExprList/>
                             </RefExpr>
                         </AndExpr>
                     </ConstDecl>
                 </ZDeclList>
-            </SchText>
+            </ZSchText>
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Line="121" Loc="../zml/examples/z/birthdaybook.tex"/>
+                <LocAnn Col="10" Line="121" Loc="birthdaybook.tex"/>
             </Anns>
             <Content>
 

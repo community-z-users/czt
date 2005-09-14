@@ -31,32 +31,33 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="1" Line="16" Loc="tests/z/animate_freetypes.tex"/>
             </Anns>
-            <SchText>
+            <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="12" Line="17" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
-                        <DeclName>
+                        <ZDeclName>
                             <Anns>
                                 <LocAnn Col="3" Line="17" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
                             <Word>undefnum</Word>
-                        </DeclName>
+                        </ZDeclName>
                         <RefExpr Mixfix="false">
                             <Anns>
                                 <LocAnn Col="14" Line="17" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
-                            <RefName>
+                            <ZRefName>
                                 <Anns>
                                     <LocAnn Col="14" Line="17" Loc="tests/z/animate_freetypes.tex"/>
                                 </Anns>
                                 <Word>ℤ</Word>
-                            </RefName>
+                            </ZRefName>
+                            <ZExprList/>
                         </RefExpr>
                     </VarDecl>
                 </ZDeclList>
-            </SchText>
+            </ZSchText>
         </AxPara>
         <NarrPara>
             <Anns>
@@ -76,33 +77,33 @@ Testing free types...
                 <Anns>
                     <LocAnn Col="3" Line="23" Loc="tests/z/animate_freetypes.tex"/>
                 </Anns>
-                <DeclName>
+                <ZDeclName>
                     <Anns>
                         <LocAnn Col="1" Line="23" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
                     <Word>T</Word>
-                </DeclName>
+                </ZDeclName>
                 <Branch>
                     <Anns>
                         <LocAnn Col="7" Line="23" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="7" Line="23" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>Happy</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="15" Line="23" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="15" Line="23" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>Sad</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
             </Freetype>
         </FreePara>
@@ -122,65 +123,67 @@ Testing free types...
                 <Anns>
                     <LocAnn Col="3" Line="27" Loc="tests/z/animate_freetypes.tex"/>
                 </Anns>
-                <DeclName>
+                <ZDeclName>
                     <Anns>
                         <LocAnn Col="1" Line="27" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
                     <Word>U</Word>
-                </DeclName>
+                </ZDeclName>
                 <Branch>
                     <Anns>
                         <LocAnn Col="7" Line="27" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="7" Line="27" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>Unknown</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="17" Line="27" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="17" Line="27" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>Known</Word>
-                    </DeclName>
+                    </ZDeclName>
                     <RefExpr Mixfix="false">
                         <Anns>
                             <LocAnn Col="29" Line="27" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
-                        <RefName>
+                        <ZRefName>
                             <Anns>
                                 <LocAnn Col="29" Line="27" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
                             <Word>T</Word>
-                        </RefName>
+                        </ZRefName>
+                        <ZExprList/>
                     </RefExpr>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="39" Line="27" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="39" Line="27" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>Soon</Word>
-                    </DeclName>
+                    </ZDeclName>
                     <RefExpr Mixfix="false">
                         <Anns>
                             <LocAnn Col="50" Line="27" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
-                        <RefName>
+                        <ZRefName>
                             <Anns>
                                 <LocAnn Col="50" Line="27" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
                             <Word>U</Word>
-                        </RefName>
+                        </ZRefName>
+                        <ZExprList/>
                     </RefExpr>
                 </Branch>
             </Freetype>
@@ -201,54 +204,55 @@ Testing free types...
                 <Anns>
                     <LocAnn Col="3" Line="31" Loc="tests/z/animate_freetypes.tex"/>
                 </Anns>
-                <DeclName>
+                <ZDeclName>
                     <Anns>
                         <LocAnn Col="1" Line="31" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
                     <Word>V</Word>
-                </DeclName>
+                </ZDeclName>
                 <Branch>
                     <Anns>
                         <LocAnn Col="7" Line="31" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="7" Line="31" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>Red</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="13" Line="31" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="13" Line="31" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>Blue</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="20" Line="31" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="20" Line="31" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>Feeling</Word>
-                    </DeclName>
+                    </ZDeclName>
                     <RefExpr Mixfix="false">
                         <Anns>
                             <LocAnn Col="34" Line="31" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
-                        <RefName>
+                        <ZRefName>
                             <Anns>
                                 <LocAnn Col="34" Line="31" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
                             <Word>T</Word>
-                        </RefName>
+                        </ZRefName>
+                        <ZExprList/>
                     </RefExpr>
                 </Branch>
             </Freetype>
@@ -265,7 +269,7 @@ Testing free types...
             <Anns>
                 <LocAnn Col="1" Line="35" Loc="tests/z/animate_freetypes.tex"/>
             </Anns>
-            <SchText>
+            <ZSchText>
                 <Anns>
                     <LocAnn Col="1" Line="35" Loc="tests/z/animate_freetypes.tex"/>
                 </Anns>
@@ -274,40 +278,46 @@ Testing free types...
                         <Anns>
                             <LocAnn Col="5" Line="35" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
-                        <DeclName>
+                        <ZDeclName>
                             <Anns>
                                 <LocAnn Col="1" Line="35" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
                             <Word>N14</Word>
-                        </DeclName>
+                        </ZDeclName>
                         <SetExpr>
                             <Anns>
                                 <LocAnn Col="8" Line="35" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
-                            <NumExpr Value="1">
-                                <Anns>
-                                    <LocAnn Col="10" Line="35" Loc="tests/z/animate_freetypes.tex"/>
-                                </Anns>
-                            </NumExpr>
-                            <NumExpr Value="2">
-                                <Anns>
-                                    <LocAnn Col="12" Line="35" Loc="tests/z/animate_freetypes.tex"/>
-                                </Anns>
-                            </NumExpr>
-                            <NumExpr Value="3">
-                                <Anns>
-                                    <LocAnn Col="14" Line="35" Loc="tests/z/animate_freetypes.tex"/>
-                                </Anns>
-                            </NumExpr>
-                            <NumExpr Value="4">
-                                <Anns>
-                                    <LocAnn Col="16" Line="35" Loc="tests/z/animate_freetypes.tex"/>
-                                </Anns>
-                            </NumExpr>
+                            <ZExprList>
+                                <NumExpr>
+                                    <Anns>
+                                        <LocAnn Col="10" Line="35" Loc="tests/z/animate_freetypes.tex"/>
+                                    </Anns>
+                                    <ZNumeral Value="1"/>
+                                </NumExpr>
+                                <NumExpr>
+                                    <Anns>
+                                        <LocAnn Col="12" Line="35" Loc="tests/z/animate_freetypes.tex"/>
+                                    </Anns>
+                                    <ZNumeral Value="2"/>
+                                </NumExpr>
+                                <NumExpr>
+                                    <Anns>
+                                        <LocAnn Col="14" Line="35" Loc="tests/z/animate_freetypes.tex"/>
+                                    </Anns>
+                                    <ZNumeral Value="3"/>
+                                </NumExpr>
+                                <NumExpr>
+                                    <Anns>
+                                        <LocAnn Col="16" Line="35" Loc="tests/z/animate_freetypes.tex"/>
+                                    </Anns>
+                                    <ZNumeral Value="4"/>
+                                </NumExpr>
+                            </ZExprList>
                         </SetExpr>
                     </ConstDecl>
                 </ZDeclList>
-            </SchText>
+            </ZSchText>
         </AxPara>
         <NarrPara>
             <Anns>
@@ -321,7 +331,7 @@ Testing free types...
             <Anns>
                 <LocAnn Col="1" Line="39" Loc="tests/z/animate_freetypes.tex"/>
             </Anns>
-            <SchText>
+            <ZSchText>
                 <Anns>
                     <LocAnn Col="1" Line="39" Loc="tests/z/animate_freetypes.tex"/>
                 </Anns>
@@ -330,40 +340,46 @@ Testing free types...
                         <Anns>
                             <LocAnn Col="5" Line="39" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
-                        <DeclName>
+                        <ZDeclName>
                             <Anns>
                                 <LocAnn Col="1" Line="39" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
                             <Word>N58</Word>
-                        </DeclName>
+                        </ZDeclName>
                         <SetExpr>
                             <Anns>
                                 <LocAnn Col="8" Line="39" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
-                            <NumExpr Value="5">
-                                <Anns>
-                                    <LocAnn Col="10" Line="39" Loc="tests/z/animate_freetypes.tex"/>
-                                </Anns>
-                            </NumExpr>
-                            <NumExpr Value="6">
-                                <Anns>
-                                    <LocAnn Col="12" Line="39" Loc="tests/z/animate_freetypes.tex"/>
-                                </Anns>
-                            </NumExpr>
-                            <NumExpr Value="7">
-                                <Anns>
-                                    <LocAnn Col="14" Line="39" Loc="tests/z/animate_freetypes.tex"/>
-                                </Anns>
-                            </NumExpr>
-                            <NumExpr Value="8">
-                                <Anns>
-                                    <LocAnn Col="16" Line="39" Loc="tests/z/animate_freetypes.tex"/>
-                                </Anns>
-                            </NumExpr>
+                            <ZExprList>
+                                <NumExpr>
+                                    <Anns>
+                                        <LocAnn Col="10" Line="39" Loc="tests/z/animate_freetypes.tex"/>
+                                    </Anns>
+                                    <ZNumeral Value="5"/>
+                                </NumExpr>
+                                <NumExpr>
+                                    <Anns>
+                                        <LocAnn Col="12" Line="39" Loc="tests/z/animate_freetypes.tex"/>
+                                    </Anns>
+                                    <ZNumeral Value="6"/>
+                                </NumExpr>
+                                <NumExpr>
+                                    <Anns>
+                                        <LocAnn Col="14" Line="39" Loc="tests/z/animate_freetypes.tex"/>
+                                    </Anns>
+                                    <ZNumeral Value="7"/>
+                                </NumExpr>
+                                <NumExpr>
+                                    <Anns>
+                                        <LocAnn Col="16" Line="39" Loc="tests/z/animate_freetypes.tex"/>
+                                    </Anns>
+                                    <ZNumeral Value="8"/>
+                                </NumExpr>
+                            </ZExprList>
                         </SetExpr>
                     </ConstDecl>
                 </ZDeclList>
-            </SchText>
+            </ZSchText>
         </AxPara>
         <NarrPara>
             <Anns>
@@ -381,297 +397,297 @@ Testing free types...
                 <Anns>
                     <LocAnn Col="8" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                 </Anns>
-                <DeclName>
+                <ZDeclName>
                     <Anns>
                         <LocAnn Col="1" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
                     <Word>LETTER</Word>
-                </DeclName>
+                </ZDeclName>
                 <Branch>
                     <Anns>
                         <LocAnn Col="12" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="12" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>a</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="14" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="14" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>b</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="16" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="16" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>c</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="18" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="18" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>d</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="20" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="20" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>e</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="22" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="22" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>f</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="24" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="24" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>g</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="26" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="26" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>h</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="28" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="28" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>i</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="30" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="30" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>j</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="32" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="32" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>k</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="34" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="34" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>l</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="36" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="36" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>m</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="38" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="38" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>n</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="40" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="40" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>o</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="42" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="42" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>p</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="44" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="44" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>q</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="46" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="46" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>r</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="48" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="48" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>s</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="50" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="50" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>t</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="52" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="52" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>u</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="54" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="54" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>v</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="56" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="56" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>w</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="58" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="58" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>x</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="60" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="60" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>y</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
                         <LocAnn Col="62" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <DeclName>
+                    <ZDeclName>
                         <Anns>
                             <LocAnn Col="62" Line="43" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>z</Word>
-                    </DeclName>
+                    </ZDeclName>
                 </Branch>
             </Freetype>
         </FreePara>
@@ -696,23 +712,25 @@ Testing membership of free types
                     <Anns>
                         <LocAnn Col="22" Line="47" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <RefName>
+                    <ZRefName>
                         <Anns>
                             <LocAnn Col="22" Line="47" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>Happy</Word>
-                    </RefName>
+                    </ZRefName>
+                    <ZExprList/>
                 </RefExpr>
                 <RefExpr Mixfix="false">
                     <Anns>
                         <LocAnn Col="32" Line="47" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <RefName>
+                    <ZRefName>
                         <Anns>
                             <LocAnn Col="32" Line="47" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>T</Word>
-                    </RefName>
+                    </ZRefName>
+                    <ZExprList/>
                 </RefExpr>
             </MemPred>
         </ConjPara>
@@ -735,23 +753,25 @@ Testing membership of free types
                     <Anns>
                         <LocAnn Col="22" Line="48" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <RefName>
+                    <ZRefName>
                         <Anns>
                             <LocAnn Col="22" Line="48" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>Sad</Word>
-                    </RefName>
+                    </ZRefName>
+                    <ZExprList/>
                 </RefExpr>
                 <RefExpr Mixfix="false">
                     <Anns>
                         <LocAnn Col="30" Line="48" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <RefName>
+                    <ZRefName>
                         <Anns>
                             <LocAnn Col="30" Line="48" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>T</Word>
-                    </RefName>
+                    </ZRefName>
+                    <ZExprList/>
                 </RefExpr>
             </MemPred>
         </ConjPara>
@@ -774,23 +794,25 @@ Testing membership of free types
                     <Anns>
                         <LocAnn Col="22" Line="49" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <RefName>
+                    <ZRefName>
                         <Anns>
                             <LocAnn Col="22" Line="49" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>Unknown</Word>
-                    </RefName>
+                    </ZRefName>
+                    <ZExprList/>
                 </RefExpr>
                 <RefExpr Mixfix="false">
                     <Anns>
                         <LocAnn Col="34" Line="49" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <RefName>
+                    <ZRefName>
                         <Anns>
                             <LocAnn Col="34" Line="49" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>U</Word>
-                    </RefName>
+                    </ZRefName>
+                    <ZExprList/>
                 </RefExpr>
             </MemPred>
         </ConjPara>
@@ -817,35 +839,38 @@ Testing membership of free types
                         <Anns>
                             <LocAnn Col="22" Line="50" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
-                        <RefName>
+                        <ZRefName>
                             <Anns>
                                 <LocAnn Col="22" Line="50" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
                             <Word>Known</Word>
-                        </RefName>
+                        </ZRefName>
+                        <ZExprList/>
                     </RefExpr>
                     <RefExpr Mixfix="false">
                         <Anns>
                             <LocAnn Col="28" Line="50" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
-                        <RefName>
+                        <ZRefName>
                             <Anns>
                                 <LocAnn Col="28" Line="50" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
                             <Word>Happy</Word>
-                        </RefName>
+                        </ZRefName>
+                        <ZExprList/>
                     </RefExpr>
                 </ApplExpr>
                 <RefExpr Mixfix="false">
                     <Anns>
                         <LocAnn Col="38" Line="50" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <RefName>
+                    <ZRefName>
                         <Anns>
                             <LocAnn Col="38" Line="50" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>U</Word>
-                    </RefName>
+                    </ZRefName>
+                    <ZExprList/>
                 </RefExpr>
             </MemPred>
         </ConjPara>
@@ -872,35 +897,38 @@ Testing membership of free types
                         <Anns>
                             <LocAnn Col="22" Line="51" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
-                        <RefName>
+                        <ZRefName>
                             <Anns>
                                 <LocAnn Col="22" Line="51" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
                             <Word>Known</Word>
-                        </RefName>
+                        </ZRefName>
+                        <ZExprList/>
                     </RefExpr>
                     <RefExpr Mixfix="false">
                         <Anns>
                             <LocAnn Col="28" Line="51" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
-                        <RefName>
+                        <ZRefName>
                             <Anns>
                                 <LocAnn Col="28" Line="51" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
                             <Word>Sad</Word>
-                        </RefName>
+                        </ZRefName>
+                        <ZExprList/>
                     </RefExpr>
                 </ApplExpr>
                 <RefExpr Mixfix="false">
                     <Anns>
                         <LocAnn Col="36" Line="51" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <RefName>
+                    <ZRefName>
                         <Anns>
                             <LocAnn Col="36" Line="51" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>U</Word>
-                    </RefName>
+                    </ZRefName>
+                    <ZExprList/>
                 </RefExpr>
             </MemPred>
         </ConjPara>
@@ -927,35 +955,38 @@ Testing membership of free types
                         <Anns>
                             <LocAnn Col="22" Line="52" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
-                        <RefName>
+                        <ZRefName>
                             <Anns>
                                 <LocAnn Col="22" Line="52" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
                             <Word>Soon</Word>
-                        </RefName>
+                        </ZRefName>
+                        <ZExprList/>
                     </RefExpr>
                     <RefExpr Mixfix="false">
                         <Anns>
                             <LocAnn Col="27" Line="52" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
-                        <RefName>
+                        <ZRefName>
                             <Anns>
                                 <LocAnn Col="27" Line="52" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
                             <Word>Unknown</Word>
-                        </RefName>
+                        </ZRefName>
+                        <ZExprList/>
                     </RefExpr>
                 </ApplExpr>
                 <RefExpr Mixfix="false">
                     <Anns>
                         <LocAnn Col="39" Line="52" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <RefName>
+                    <ZRefName>
                         <Anns>
                             <LocAnn Col="39" Line="52" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>U</Word>
-                    </RefName>
+                    </ZRefName>
+                    <ZExprList/>
                 </RefExpr>
             </MemPred>
         </ConjPara>
@@ -982,12 +1013,13 @@ Testing membership of free types
                         <Anns>
                             <LocAnn Col="22" Line="53" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
-                        <RefName>
+                        <ZRefName>
                             <Anns>
                                 <LocAnn Col="22" Line="53" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
                             <Word>Soon</Word>
-                        </RefName>
+                        </ZRefName>
+                        <ZExprList/>
                     </RefExpr>
                     <ApplExpr Mixfix="false">
                         <Anns>
@@ -998,23 +1030,25 @@ Testing membership of free types
                             <Anns>
                                 <LocAnn Col="28" Line="53" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
-                            <RefName>
+                            <ZRefName>
                                 <Anns>
                                     <LocAnn Col="28" Line="53" Loc="tests/z/animate_freetypes.tex"/>
                                 </Anns>
                                 <Word>Known</Word>
-                            </RefName>
+                            </ZRefName>
+                            <ZExprList/>
                         </RefExpr>
                         <RefExpr Mixfix="false">
                             <Anns>
                                 <LocAnn Col="34" Line="53" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
-                            <RefName>
+                            <ZRefName>
                                 <Anns>
                                     <LocAnn Col="34" Line="53" Loc="tests/z/animate_freetypes.tex"/>
                                 </Anns>
                                 <Word>Happy</Word>
-                            </RefName>
+                            </ZRefName>
+                            <ZExprList/>
                         </RefExpr>
                     </ApplExpr>
                 </ApplExpr>
@@ -1022,12 +1056,13 @@ Testing membership of free types
                     <Anns>
                         <LocAnn Col="45" Line="53" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <RefName>
+                    <ZRefName>
                         <Anns>
                             <LocAnn Col="45" Line="53" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>U</Word>
-                    </RefName>
+                    </ZRefName>
+                    <ZExprList/>
                 </RefExpr>
             </MemPred>
         </ConjPara>
@@ -1054,12 +1089,13 @@ Testing membership of free types
                         <Anns>
                             <LocAnn Col="22" Line="54" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
-                        <RefName>
+                        <ZRefName>
                             <Anns>
                                 <LocAnn Col="22" Line="54" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
                             <Word>Soon</Word>
-                        </RefName>
+                        </ZRefName>
+                        <ZExprList/>
                     </RefExpr>
                     <ApplExpr Mixfix="false">
                         <Anns>
@@ -1070,23 +1106,25 @@ Testing membership of free types
                             <Anns>
                                 <LocAnn Col="28" Line="54" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
-                            <RefName>
+                            <ZRefName>
                                 <Anns>
                                     <LocAnn Col="28" Line="54" Loc="tests/z/animate_freetypes.tex"/>
                                 </Anns>
                                 <Word>Known</Word>
-                            </RefName>
+                            </ZRefName>
+                            <ZExprList/>
                         </RefExpr>
                         <RefExpr Mixfix="false">
                             <Anns>
                                 <LocAnn Col="34" Line="54" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
-                            <RefName>
+                            <ZRefName>
                                 <Anns>
                                     <LocAnn Col="34" Line="54" Loc="tests/z/animate_freetypes.tex"/>
                                 </Anns>
                                 <Word>Sad</Word>
-                            </RefName>
+                            </ZRefName>
+                            <ZExprList/>
                         </RefExpr>
                     </ApplExpr>
                 </ApplExpr>
@@ -1094,12 +1132,13 @@ Testing membership of free types
                     <Anns>
                         <LocAnn Col="43" Line="54" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <RefName>
+                    <ZRefName>
                         <Anns>
                             <LocAnn Col="43" Line="54" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>U</Word>
-                    </RefName>
+                    </ZRefName>
+                    <ZExprList/>
                 </RefExpr>
             </MemPred>
         </ConjPara>
@@ -1126,12 +1165,13 @@ Testing membership of free types
                         <Anns>
                             <LocAnn Col="22" Line="55" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
-                        <RefName>
+                        <ZRefName>
                             <Anns>
                                 <LocAnn Col="22" Line="55" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
                             <Word>Soon</Word>
-                        </RefName>
+                        </ZRefName>
+                        <ZExprList/>
                     </RefExpr>
                     <ApplExpr Mixfix="false">
                         <Anns>
@@ -1142,12 +1182,13 @@ Testing membership of free types
                             <Anns>
                                 <LocAnn Col="28" Line="55" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
-                            <RefName>
+                            <ZRefName>
                                 <Anns>
                                     <LocAnn Col="28" Line="55" Loc="tests/z/animate_freetypes.tex"/>
                                 </Anns>
                                 <Word>Soon</Word>
-                            </RefName>
+                            </ZRefName>
+                            <ZExprList/>
                         </RefExpr>
                         <ApplExpr Mixfix="false">
                             <Anns>
@@ -1158,23 +1199,25 @@ Testing membership of free types
                                 <Anns>
                                     <LocAnn Col="34" Line="55" Loc="tests/z/animate_freetypes.tex"/>
                                 </Anns>
-                                <RefName>
+                                <ZRefName>
                                     <Anns>
                                         <LocAnn Col="34" Line="55" Loc="tests/z/animate_freetypes.tex"/>
                                     </Anns>
                                     <Word>Known</Word>
-                                </RefName>
+                                </ZRefName>
+                                <ZExprList/>
                             </RefExpr>
                             <RefExpr Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="40" Line="55" Loc="tests/z/animate_freetypes.tex"/>
                                 </Anns>
-                                <RefName>
+                                <ZRefName>
                                     <Anns>
                                         <LocAnn Col="40" Line="55" Loc="tests/z/animate_freetypes.tex"/>
                                     </Anns>
                                     <Word>Happy</Word>
-                                </RefName>
+                                </ZRefName>
+                                <ZExprList/>
                             </RefExpr>
                         </ApplExpr>
                     </ApplExpr>
@@ -1183,12 +1226,13 @@ Testing membership of free types
                     <Anns>
                         <LocAnn Col="52" Line="55" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <RefName>
+                    <ZRefName>
                         <Anns>
                             <LocAnn Col="52" Line="55" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>U</Word>
-                    </RefName>
+                    </ZRefName>
+                    <ZExprList/>
                 </RefExpr>
             </MemPred>
         </ConjPara>
@@ -1211,39 +1255,44 @@ Testing membership of free types
                     <Anns>
                         <LocAnn Col="22" Line="56" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
-                        <Anns>
-                            <LocAnn Col="22" Line="56" Loc="tests/z/animate_freetypes.tex"/>
-                        </Anns>
-                        <RefName>
+                    <ZExprList>
+                        <RefExpr Mixfix="false">
                             <Anns>
                                 <LocAnn Col="22" Line="56" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
-                            <Word>Known</Word>
-                        </RefName>
-                    </RefExpr>
-                    <RefExpr Mixfix="false">
-                        <Anns>
-                            <LocAnn Col="35" Line="56" Loc="tests/z/animate_freetypes.tex"/>
-                        </Anns>
-                        <RefName>
+                            <ZRefName>
+                                <Anns>
+                                    <LocAnn Col="22" Line="56" Loc="tests/z/animate_freetypes.tex"/>
+                                </Anns>
+                                <Word>Known</Word>
+                            </ZRefName>
+                            <ZExprList/>
+                        </RefExpr>
+                        <RefExpr Mixfix="false">
                             <Anns>
                                 <LocAnn Col="35" Line="56" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
-                            <Word>N14</Word>
-                        </RefName>
-                    </RefExpr>
+                            <ZRefName>
+                                <Anns>
+                                    <LocAnn Col="35" Line="56" Loc="tests/z/animate_freetypes.tex"/>
+                                </Anns>
+                                <Word>N14</Word>
+                            </ZRefName>
+                            <ZExprList/>
+                        </RefExpr>
+                    </ZExprList>
                 </TupleExpr>
                 <RefExpr Mixfix="false">
                     <Anns>
                         <LocAnn Col="22" Line="56" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <RefName>
+                    <ZRefName>
                         <Anns>
                             <LocAnn Col="22" Line="56" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word> _ ∉ _ </Word>
-                    </RefName>
+                    </ZRefName>
+                    <ZExprList/>
                 </RefExpr>
             </MemPred>
         </ConjPara>
@@ -1268,41 +1317,48 @@ Testing equality of free types
                     <Anns>
                         <LocAnn Col="22" Line="59" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <RefName>
+                    <ZRefName>
                         <Anns>
                             <LocAnn Col="22" Line="59" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word>T</Word>
-                    </RefName>
+                    </ZRefName>
+                    <ZExprList/>
                 </RefExpr>
                 <SetExpr>
-                    <SetExpr>
-                        <Anns>
-                            <LocAnn Col="26" Line="59" Loc="tests/z/animate_freetypes.tex"/>
-                        </Anns>
-                        <RefExpr Mixfix="false">
+                    <ZExprList>
+                        <SetExpr>
                             <Anns>
-                                <LocAnn Col="28" Line="59" Loc="tests/z/animate_freetypes.tex"/>
+                                <LocAnn Col="26" Line="59" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
-                            <RefName>
-                                <Anns>
-                                    <LocAnn Col="28" Line="59" Loc="tests/z/animate_freetypes.tex"/>
-                                </Anns>
-                                <Word>Happy</Word>
-                            </RefName>
-                        </RefExpr>
-                        <RefExpr Mixfix="false">
-                            <Anns>
-                                <LocAnn Col="35" Line="59" Loc="tests/z/animate_freetypes.tex"/>
-                            </Anns>
-                            <RefName>
-                                <Anns>
-                                    <LocAnn Col="35" Line="59" Loc="tests/z/animate_freetypes.tex"/>
-                                </Anns>
-                                <Word>Sad</Word>
-                            </RefName>
-                        </RefExpr>
-                    </SetExpr>
+                            <ZExprList>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="28" Line="59" Loc="tests/z/animate_freetypes.tex"/>
+                                    </Anns>
+                                    <ZRefName>
+                                        <Anns>
+                                            <LocAnn Col="28" Line="59" Loc="tests/z/animate_freetypes.tex"/>
+                                        </Anns>
+                                        <Word>Happy</Word>
+                                    </ZRefName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="35" Line="59" Loc="tests/z/animate_freetypes.tex"/>
+                                    </Anns>
+                                    <ZRefName>
+                                        <Anns>
+                                            <LocAnn Col="35" Line="59" Loc="tests/z/animate_freetypes.tex"/>
+                                        </Anns>
+                                        <Word>Sad</Word>
+                                    </ZRefName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </ZExprList>
+                        </SetExpr>
+                    </ZExprList>
                 </SetExpr>
             </MemPred>
         </ConjPara>
@@ -1325,44 +1381,51 @@ Testing equality of free types
                     <Anns>
                         <LocAnn Col="22" Line="60" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
-                        <Anns>
-                            <LocAnn Col="22" Line="60" Loc="tests/z/animate_freetypes.tex"/>
-                        </Anns>
-                        <RefName>
+                    <ZExprList>
+                        <RefExpr Mixfix="false">
                             <Anns>
                                 <LocAnn Col="22" Line="60" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
-                            <Word>T</Word>
-                        </RefName>
-                    </RefExpr>
-                    <SetExpr>
-                        <Anns>
-                            <LocAnn Col="29" Line="60" Loc="tests/z/animate_freetypes.tex"/>
-                        </Anns>
-                        <RefExpr Mixfix="false">
-                            <Anns>
-                                <LocAnn Col="31" Line="60" Loc="tests/z/animate_freetypes.tex"/>
-                            </Anns>
-                            <RefName>
+                            <ZRefName>
                                 <Anns>
-                                    <LocAnn Col="31" Line="60" Loc="tests/z/animate_freetypes.tex"/>
+                                    <LocAnn Col="22" Line="60" Loc="tests/z/animate_freetypes.tex"/>
                                 </Anns>
-                                <Word>Happy</Word>
-                            </RefName>
+                                <Word>T</Word>
+                            </ZRefName>
+                            <ZExprList/>
                         </RefExpr>
-                    </SetExpr>
+                        <SetExpr>
+                            <Anns>
+                                <LocAnn Col="29" Line="60" Loc="tests/z/animate_freetypes.tex"/>
+                            </Anns>
+                            <ZExprList>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="31" Line="60" Loc="tests/z/animate_freetypes.tex"/>
+                                    </Anns>
+                                    <ZRefName>
+                                        <Anns>
+                                            <LocAnn Col="31" Line="60" Loc="tests/z/animate_freetypes.tex"/>
+                                        </Anns>
+                                        <Word>Happy</Word>
+                                    </ZRefName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </ZExprList>
+                        </SetExpr>
+                    </ZExprList>
                 </TupleExpr>
                 <RefExpr Mixfix="false">
                     <Anns>
                         <LocAnn Col="22" Line="60" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <RefName>
+                    <ZRefName>
                         <Anns>
                             <LocAnn Col="22" Line="60" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word> _ ≠ _ </Word>
-                    </RefName>
+                    </ZRefName>
+                    <ZExprList/>
                 </RefExpr>
             </MemPred>
         </ConjPara>
@@ -1385,33 +1448,38 @@ Testing equality of free types
                     <Anns>
                         <LocAnn Col="22" Line="61" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
-                        <Anns>
-                            <LocAnn Col="22" Line="61" Loc="tests/z/animate_freetypes.tex"/>
-                        </Anns>
-                        <RefName>
+                    <ZExprList>
+                        <RefExpr Mixfix="false">
                             <Anns>
                                 <LocAnn Col="22" Line="61" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
-                            <Word>T</Word>
-                        </RefName>
-                    </RefExpr>
-                    <SetExpr>
-                        <Anns>
-                            <LocAnn Col="29" Line="61" Loc="tests/z/animate_freetypes.tex"/>
-                        </Anns>
-                    </SetExpr>
+                            <ZRefName>
+                                <Anns>
+                                    <LocAnn Col="22" Line="61" Loc="tests/z/animate_freetypes.tex"/>
+                                </Anns>
+                                <Word>T</Word>
+                            </ZRefName>
+                            <ZExprList/>
+                        </RefExpr>
+                        <SetExpr>
+                            <Anns>
+                                <LocAnn Col="29" Line="61" Loc="tests/z/animate_freetypes.tex"/>
+                            </Anns>
+                            <ZExprList/>
+                        </SetExpr>
+                    </ZExprList>
                 </TupleExpr>
                 <RefExpr Mixfix="false">
                     <Anns>
                         <LocAnn Col="22" Line="61" Loc="tests/z/animate_freetypes.tex"/>
                     </Anns>
-                    <RefName>
+                    <ZRefName>
                         <Anns>
                             <LocAnn Col="22" Line="61" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
                         <Word> _ ≠ _ </Word>
-                    </RefName>
+                    </ZRefName>
+                    <ZExprList/>
                 </RefExpr>
             </MemPred>
         </ConjPara>
@@ -1441,36 +1509,43 @@ Testing cardinality of free types
                         <Anns>
                             <LocAnn Col="22" Line="65" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
-                        <RefName>
+                        <ZRefName>
                             <Anns>
                                 <LocAnn Col="22" Line="65" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
                             <Word># _ </Word>
-                        </RefName>
+                        </ZRefName>
+                        <ZExprList/>
                     </RefExpr>
                     <SetExpr>
                         <Anns>
                             <LocAnn Col="25" Line="65" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
-                        <RefExpr Mixfix="false">
-                            <Anns>
-                                <LocAnn Col="27" Line="65" Loc="tests/z/animate_freetypes.tex"/>
-                            </Anns>
-                            <RefName>
+                        <ZExprList>
+                            <RefExpr Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="27" Line="65" Loc="tests/z/animate_freetypes.tex"/>
                                 </Anns>
-                                <Word>a</Word>
-                            </RefName>
-                        </RefExpr>
+                                <ZRefName>
+                                    <Anns>
+                                        <LocAnn Col="27" Line="65" Loc="tests/z/animate_freetypes.tex"/>
+                                    </Anns>
+                                    <Word>a</Word>
+                                </ZRefName>
+                                <ZExprList/>
+                            </RefExpr>
+                        </ZExprList>
                     </SetExpr>
                 </ApplExpr>
                 <SetExpr>
-                    <NumExpr Value="1">
-                        <Anns>
-                            <LocAnn Col="33" Line="65" Loc="tests/z/animate_freetypes.tex"/>
-                        </Anns>
-                    </NumExpr>
+                    <ZExprList>
+                        <NumExpr>
+                            <Anns>
+                                <LocAnn Col="33" Line="65" Loc="tests/z/animate_freetypes.tex"/>
+                            </Anns>
+                            <ZNumeral Value="1"/>
+                        </NumExpr>
+                    </ZExprList>
                 </SetExpr>
             </MemPred>
         </ConjPara>
@@ -1497,31 +1572,36 @@ Testing cardinality of free types
                         <Anns>
                             <LocAnn Col="22" Line="66" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
-                        <RefName>
+                        <ZRefName>
                             <Anns>
                                 <LocAnn Col="22" Line="66" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
                             <Word># _ </Word>
-                        </RefName>
+                        </ZRefName>
+                        <ZExprList/>
                     </RefExpr>
                     <RefExpr Mixfix="false">
                         <Anns>
                             <LocAnn Col="25" Line="66" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
-                        <RefName>
+                        <ZRefName>
                             <Anns>
                                 <LocAnn Col="25" Line="66" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
                             <Word>LETTER</Word>
-                        </RefName>
+                        </ZRefName>
+                        <ZExprList/>
                     </RefExpr>
                 </ApplExpr>
                 <SetExpr>
-                    <NumExpr Value="26">
-                        <Anns>
-                            <LocAnn Col="34" Line="66" Loc="tests/z/animate_freetypes.tex"/>
-                        </Anns>
-                    </NumExpr>
+                    <ZExprList>
+                        <NumExpr>
+                            <Anns>
+                                <LocAnn Col="34" Line="66" Loc="tests/z/animate_freetypes.tex"/>
+                            </Anns>
+                            <ZNumeral Value="26"/>
+                        </NumExpr>
+                    </ZExprList>
                 </SetExpr>
             </MemPred>
         </ConjPara>
@@ -1548,31 +1628,36 @@ Testing cardinality of free types
                         <Anns>
                             <LocAnn Col="22" Line="67" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
-                        <RefName>
+                        <ZRefName>
                             <Anns>
                                 <LocAnn Col="22" Line="67" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
                             <Word># _ </Word>
-                        </RefName>
+                        </ZRefName>
+                        <ZExprList/>
                     </RefExpr>
                     <RefExpr Mixfix="false">
                         <Anns>
                             <LocAnn Col="25" Line="67" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
-                        <RefName>
+                        <ZRefName>
                             <Anns>
                                 <LocAnn Col="25" Line="67" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
                             <Word>T</Word>
-                        </RefName>
+                        </ZRefName>
+                        <ZExprList/>
                     </RefExpr>
                 </ApplExpr>
                 <SetExpr>
-                    <NumExpr Value="2">
-                        <Anns>
-                            <LocAnn Col="29" Line="67" Loc="tests/z/animate_freetypes.tex"/>
-                        </Anns>
-                    </NumExpr>
+                    <ZExprList>
+                        <NumExpr>
+                            <Anns>
+                                <LocAnn Col="29" Line="67" Loc="tests/z/animate_freetypes.tex"/>
+                            </Anns>
+                            <ZNumeral Value="2"/>
+                        </NumExpr>
+                    </ZExprList>
                 </SetExpr>
             </MemPred>
         </ConjPara>
@@ -1600,31 +1685,36 @@ Testing cardinality of free types
                         <Anns>
                             <LocAnn Col="22" Line="69" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
-                        <RefName>
+                        <ZRefName>
                             <Anns>
                                 <LocAnn Col="22" Line="69" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
                             <Word># _ </Word>
-                        </RefName>
+                        </ZRefName>
+                        <ZExprList/>
                     </RefExpr>
                     <RefExpr Mixfix="false">
                         <Anns>
                             <LocAnn Col="25" Line="69" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
-                        <RefName>
+                        <ZRefName>
                             <Anns>
                                 <LocAnn Col="25" Line="69" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
                             <Word>V</Word>
-                        </RefName>
+                        </ZRefName>
+                        <ZExprList/>
                     </RefExpr>
                 </ApplExpr>
                 <SetExpr>
-                    <NumExpr Value="4">
-                        <Anns>
-                            <LocAnn Col="29" Line="69" Loc="tests/z/animate_freetypes.tex"/>
-                        </Anns>
-                    </NumExpr>
+                    <ZExprList>
+                        <NumExpr>
+                            <Anns>
+                                <LocAnn Col="29" Line="69" Loc="tests/z/animate_freetypes.tex"/>
+                            </Anns>
+                            <ZNumeral Value="4"/>
+                        </NumExpr>
+                    </ZExprList>
                 </SetExpr>
             </MemPred>
         </ConjPara>
@@ -1651,12 +1741,13 @@ Testing cardinality of free types
                         <Anns>
                             <LocAnn Col="22" Line="70" Loc="tests/z/animate_freetypes.tex"/>
                         </Anns>
-                        <RefName>
+                        <ZRefName>
                             <Anns>
                                 <LocAnn Col="22" Line="70" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
                             <Word># _ </Word>
-                        </RefName>
+                        </ZRefName>
+                        <ZExprList/>
                     </RefExpr>
                     <PowerExpr>
                         <Anns>
@@ -1667,21 +1758,25 @@ Testing cardinality of free types
                             <Anns>
                                 <LocAnn Col="33" Line="70" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
-                            <RefName>
+                            <ZRefName>
                                 <Anns>
                                     <LocAnn Col="33" Line="70" Loc="tests/z/animate_freetypes.tex"/>
                                 </Anns>
                                 <Word>V</Word>
-                            </RefName>
+                            </ZRefName>
+                            <ZExprList/>
                         </RefExpr>
                     </PowerExpr>
                 </ApplExpr>
                 <SetExpr>
-                    <NumExpr Value="16">
-                        <Anns>
-                            <LocAnn Col="38" Line="70" Loc="tests/z/animate_freetypes.tex"/>
-                        </Anns>
-                    </NumExpr>
+                    <ZExprList>
+                        <NumExpr>
+                            <Anns>
+                                <LocAnn Col="38" Line="70" Loc="tests/z/animate_freetypes.tex"/>
+                            </Anns>
+                            <ZNumeral Value="16"/>
+                        </NumExpr>
+                    </ZExprList>
                 </SetExpr>
             </MemPred>
         </ConjPara>

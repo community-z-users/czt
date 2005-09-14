@@ -19,7 +19,7 @@ the conjecture conjoined using a newline.
             <Anns>
                 <LocAnn Col="1" Line="1" Loc="tests/z/conjectures.tex"/>
             </Anns>
-            <AndPred Op="NL">
+            <AndPred And="NL">
                 <Anns>
                     <LocAnn Col="16" Line="5" Loc="tests/z/conjectures.tex"/>
                 </Anns>
@@ -47,7 +47,7 @@ the conjecture conjoined using a newline.
             <Anns>
                 <LocAnn Col="1" Line="1" Loc="tests/z/conjectures.tex"/>
             </Anns>
-            <AndPred Op="NL">
+            <AndPred And="NL">
                 <Anns>
                     <LocAnn Col="16" Line="9" Loc="tests/z/conjectures.tex"/>
                 </Anns>
@@ -64,38 +64,39 @@ the conjecture conjoined using a newline.
                         <Anns>
                             <LocAnn Col="19" Line="9" Loc="tests/z/conjectures.tex"/>
                         </Anns>
-                        <SchText>
+                        <ZSchText>
                             <ZDeclList>
                                 <VarDecl>
                                     <Anns>
                                         <LocAnn Col="25" Line="9" Loc="tests/z/conjectures.tex"/>
                                     </Anns>
-                                    <DeclName>
+                                    <ZDeclName>
                                         <Anns>
                                             <LocAnn Col="20" Line="9" Loc="tests/z/conjectures.tex"/>
                                         </Anns>
                                         <Word>X</Word>
-                                    </DeclName>
-                                    <DeclName>
+                                    </ZDeclName>
+                                    <ZDeclName>
                                         <Anns>
                                             <LocAnn Col="23" Line="9" Loc="tests/z/conjectures.tex"/>
                                         </Anns>
                                         <Word>Y</Word>
-                                    </DeclName>
+                                    </ZDeclName>
                                     <RefExpr Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="27" Line="9" Loc="tests/z/conjectures.tex"/>
                                         </Anns>
-                                        <RefName>
+                                        <ZRefName>
                                             <Anns>
                                                 <LocAnn Col="27" Line="9" Loc="tests/z/conjectures.tex"/>
                                             </Anns>
                                             <Word>ℕ</Word>
-                                        </RefName>
+                                        </ZRefName>
+                                        <ZExprList/>
                                     </RefExpr>
                                 </VarDecl>
                             </ZDeclList>
-                        </SchText>
+                        </ZSchText>
                     </SchExpr>
                 </ExprPred>
             </AndPred>
@@ -118,18 +119,18 @@ Bug report 1234527 (parsing of empty schema text):
                 <Anns>
                     <LocAnn Col="11" Line="15" Loc="tests/z/conjectures.tex"/>
                 </Anns>
-                <SchText>
+                <ZSchText>
                     <ZDeclList>
                         <VarDecl>
                             <Anns>
                                 <LocAnn Col="20" Line="15" Loc="tests/z/conjectures.tex"/>
                             </Anns>
-                            <DeclName>
+                            <ZDeclName>
                                 <Anns>
                                     <LocAnn Col="19" Line="15" Loc="tests/z/conjectures.tex"/>
                                 </Anns>
                                 <Word>p</Word>
-                            </DeclName>
+                            </ZDeclName>
                             <PowerExpr>
                                 <Anns>
                                     <LocAnn Col="22" Line="15" Loc="tests/z/conjectures.tex"/>
@@ -138,14 +139,14 @@ Bug report 1234527 (parsing of empty schema text):
                                     <Anns>
                                         <LocAnn Col="29" Line="15" Loc="tests/z/conjectures.tex"/>
                                     </Anns>
-                                    <SchText>
+                                    <ZSchText>
                                         <ZDeclList/>
-                                    </SchText>
+                                    </ZSchText>
                                 </SchExpr>
                             </PowerExpr>
                         </VarDecl>
                     </ZDeclList>
-                </SchText>
+                </ZSchText>
                 <TruePred>
                     <Anns>
                         <LocAnn Col="15" Line="35" Loc="tests/z/conjectures.tex"/>
