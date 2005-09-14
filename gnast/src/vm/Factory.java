@@ -3,9 +3,9 @@
    * Creates a list of size one with the given object as element.
    * This is a convenience method.
    */
-  public java.util.List list(Object o)
+  public <E> java.util.List<E> list(E o)
   {
-    java.util.List result = new java.util.ArrayList();
+    java.util.List<E> result = new java.util.ArrayList<E>();
     result.add(o);
     return result;
   }
@@ -14,9 +14,9 @@
    * Creates a list with the two objects as elements.
    * This is a convenience method.
    */
-  public java.util.List list(Object first, Object second)
+  public <E> java.util.List<E> list(E first, E second)
   {
-    java.util.List result = new java.util.ArrayList();
+    java.util.List<E> result = new java.util.ArrayList<E>();
     result.add(first);
     result.add(second);
     return result;
@@ -37,7 +37,7 @@
    * id set to <code>null</code>.
    * This is a convenience method.
    */
-  public ZDeclName createZDeclName(String word, java.util.List strokes)
+  public ZDeclName createZDeclName(String word, java.util.List<Stroke> strokes)
   {
     return createZDeclName(word, strokes, null);
   }
@@ -51,12 +51,13 @@
    */
   public ZDeclName createZDeclName(String decorword)
   {
-    java.util.List strokes = new java.util.ArrayList();
+    java.util.List<Stroke> strokes = new java.util.ArrayList<Stroke>();
     final String word = getWordAndStrokes(decorword, strokes);
     return createZDeclName(word, strokes, null);
   }
 
-  protected String getWordAndStrokes(String decorword, java.util.List strokes)
+  protected String getWordAndStrokes(String decorword,
+                                     java.util.List<Stroke> strokes)
   {
     net.sourceforge.czt.z.util.ZChar[] zchars =
       net.sourceforge.czt.z.util.ZChar.toZChars(decorword);
@@ -117,7 +118,7 @@
    * with mixfix set to <code>false</code>.
    * This is a convenience method.
    */
-  public RefExpr createGenInst(RefName refName, java.util.List exprs)
+  public RefExpr createGenInst(RefName refName, java.util.List<Expr> exprs)
   {
     return createRefExpr(refName, exprs, Boolean.FALSE);
   }
@@ -127,7 +128,7 @@
    * with mixfix set to <code>true</code>.
    * This is a convenience method.
    */
-  public RefExpr createGenOpApp(RefName refName, java.util.List exprs)
+  public RefExpr createGenOpApp(RefName refName, java.util.List<Expr> exprs)
   {
     return createRefExpr(refName, exprs, Boolean.TRUE);
   }
@@ -157,11 +158,11 @@
    * @param expr an expression.
    */
   public AxPara createHorizontalDef(DeclName declName,
-                                    java.util.List formals,
+                                    java.util.List<DeclName> formals,
                                     Expr expr)
   {
-    ConstDecl constDecl = createConstDecl(declName, expr);
-    SchText schText = createZSchText(createZDeclList(list(constDecl)), null);
+    Decl decl = createConstDecl(declName, expr);
+    SchText schText = createZSchText(createZDeclList(list(decl)), null);
     return createAxPara(formals, schText, Box.OmitBox);
   }
 
@@ -204,7 +205,9 @@
     return createRefExpr(refName, createZExprList(), Boolean.FALSE);
   }
 
-  public RefExpr createRefExpr(RefName refName, java.util.List exprList, Boolean mixfix)
+  public RefExpr createRefExpr(RefName refName,
+                               java.util.List<Expr> exprList,
+                               Boolean mixfix)
   {
     return createRefExpr(refName, createZExprList(exprList), mixfix);
   }
@@ -214,7 +217,7 @@
    * id set to <code>null</code>.
    * This is a convenience method.
    */
-  public ZRefName createZRefName(String word, java.util.List strokes)
+  public ZRefName createZRefName(String word, java.util.List<Stroke> strokes)
   {
     return createZRefName(word, strokes, null);
   }
@@ -228,7 +231,7 @@
    */
   public ZRefName createZRefName(String decorword)
   {
-    java.util.List strokes = new java.util.ArrayList();
+    java.util.List<Stroke> strokes = new java.util.ArrayList<Stroke>();
     final String word = getWordAndStrokes(decorword, strokes);
     return createZRefName(word, strokes, null);
   }
@@ -278,11 +281,11 @@
    * @param schemaText the schema text.
    */
   public AxPara createSchema(DeclName declName,
-                             java.util.List formals,
+                             java.util.List<DeclName> formals,
                              SchText schemaText)
   {
-    ConstDecl constDecl = createConstDecl(declName, createSchExpr(schemaText));
-    SchText schText = createZSchText(createZDeclList(list(constDecl)), null);
+    Decl decl = createConstDecl(declName, createSchExpr(schemaText));
+    SchText schText = createZSchText(createZDeclList(list(decl)), null);
     return createAxPara(formals, schText, Box.SchBox);
   }
 
@@ -301,17 +304,19 @@
    *
    * @param exprList a list of expressions (Expr).
    */
-  public SetExpr createSequence(java.util.List exprList)
+  public SetExpr createSequence(java.util.List<Expr> exprList)
   {
-    java.util.List tupleList = new java.util.ArrayList(exprList.size());
+    java.util.List<Expr> tupleList =
+      new java.util.ArrayList<Expr>(exprList.size());
     int count = 1;
-    for (java.util.Iterator i = exprList.iterator(); i.hasNext(); count++) {
-      tupleList.add(createTupleExpr(createNumExpr(count), (Expr) i.next()));
+    for (java.util.Iterator<Expr> i = exprList.iterator();
+         i.hasNext(); count++) {
+      tupleList.add(createTupleExpr(createNumExpr(count), i.next()));
     }
     return createSetExpr(tupleList);
   }
 
-  public SetExpr createSetExpr(java.util.List exprList)
+  public SetExpr createSetExpr(java.util.List<Expr> exprList)
   {
     return createSetExpr(createZExprList(exprList));
   }
@@ -325,7 +330,7 @@
     return createTupleExpr(createZExprList(list(left, right)));
   }
 
-  public TupleExpr createTupleExpr(java.util.List exprList)
+  public TupleExpr createTupleExpr(java.util.List<Expr> exprList)
   {
-    return createTupleExpr(createZExprList(list(exprList)));
+    return createTupleExpr(createZExprList(exprList));
   }
