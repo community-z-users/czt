@@ -10,7 +10,5 @@
     if (declName instanceof ZDeclName) {
       return (ZDeclName) declName;
     }
-    String message =
-      "ZDeclName expected but found " + declName.getClass().toString();
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }

@@ -10,7 +10,5 @@
     if (renameList instanceof ZRenameList) {
       return ((ZRenameList) renameList).getNewOldPair();
     }
-    String message =
-      "ZRenameList expected but found " + renameList.getClass().toString();
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }

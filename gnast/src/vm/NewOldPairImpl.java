@@ -10,9 +10,7 @@
     if (declName instanceof ZDeclName) {
       return (ZDeclName) declName;
     }
-    String message =
-      "ZDeclName expected but found " + declName.getClass().toString();
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }
 
   /**
@@ -26,7 +24,5 @@
     if (refName instanceof ZRefName) {
       return (ZRefName) refName;
     }
-    String message =
-      "ZRefName expected but found " + refName.getClass().toString();
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }

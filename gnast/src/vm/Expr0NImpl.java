@@ -10,7 +10,5 @@
     if (exprList instanceof ZExprList) {
       return ((ZExprList) exprList).getExpr();
     }
-    String message =
-      "ZExprList expected but found " + exprList.getClass().toString();
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }

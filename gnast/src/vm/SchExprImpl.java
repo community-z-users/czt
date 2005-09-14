@@ -10,7 +10,5 @@
     if (schText instanceof ZSchText) {
       return (ZSchText) schText;
     }
-    String message =
-      "ZSchText expected but found " + schText.getClass().toString();
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }

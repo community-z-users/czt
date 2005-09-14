@@ -10,7 +10,5 @@
     if (refNameList instanceof ZRefNameList) {
       return ((ZRefNameList) refNameList).getRefName();
     }
-    String message =
-      "ZRefNameList expected but found " + refNameList.getClass().toString();
-    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }
