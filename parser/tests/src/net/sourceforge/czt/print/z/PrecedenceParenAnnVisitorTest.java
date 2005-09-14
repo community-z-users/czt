@@ -48,9 +48,9 @@ public class PrecedenceParenAnnVisitorTest
       PrecedenceParenAnnVisitor visitor =
         new PrecedenceParenAnnVisitor();
       setOperatorTable(visitor);
-      RefName n = factory_.createRefName("n");
-      RefName neg = factory_.createRefName(" - _ ");
-      RefName iter = factory_.createRefName("iter");
+      ZRefName n = factory_.createZRefName("n");
+      ZRefName neg = factory_.createZRefName(" - _ ");
+      ZRefName iter = factory_.createZRefName("iter");
       ApplExpr funApp =
         factory_.createFunOpAppl(neg, factory_.createRefExpr(n));
       AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(manager_);
@@ -74,10 +74,10 @@ public class PrecedenceParenAnnVisitorTest
     try {
       final OpTable standardToolkitOpTable =
         (OpTable) manager_.get(new Key("standard_toolkit", OpTable.class));
-      RefExpr a = factory_.createRefExpr(factory_.createRefName("a"));
-      RefExpr b = factory_.createRefExpr(factory_.createRefName("b"));
-      RefExpr c = factory_.createRefExpr(factory_.createRefName("c"));
-      RefName plus = factory_.createRefName(" _ + _ ");
+      RefExpr a = factory_.createRefExpr(factory_.createZRefName("a"));
+      RefExpr b = factory_.createRefExpr(factory_.createZRefName("b"));
+      RefExpr c = factory_.createRefExpr(factory_.createZRefName("c"));
+      RefName plus = factory_.createZRefName(" _ + _ ");
       Expr plus1 =
         factory_.createFunOpAppl(plus, factory_.createTupleExpr(b, c));
       Expr plus2 =
