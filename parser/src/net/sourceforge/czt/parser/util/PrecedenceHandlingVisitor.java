@@ -432,11 +432,14 @@ class WrappedExpr
       result = prodExpr_;
     }
     else {
-      if (applExpr_.getRightExpr() instanceof TupleExpr &&
-          ((TupleExpr) applExpr_.getRightExpr()).getExpr().size() == 1) {
-        Expr newRightExpr =
-          (Expr) ((TupleExpr) applExpr_.getRightExpr()).getExpr().get(0);
-        applExpr_.setRightExpr(newRightExpr);
+      final Expr rightExpr = applExpr_.getRightExpr();
+      if (rightExpr instanceof TupleExpr) {
+        final TupleExpr tupleExpr = (TupleExpr) rightExpr;
+        final List<Expr> exprs = tupleExpr.getExpr();
+        if (exprs.size() == 1) {
+          final Expr newRightExpr = exprs.get(0);
+          applExpr_.setRightExpr(newRightExpr);
+        }
       }
       result = applExpr_;
     }
