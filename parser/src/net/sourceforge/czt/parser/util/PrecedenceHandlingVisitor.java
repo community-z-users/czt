@@ -118,12 +118,13 @@ public class PrecedenceHandlingVisitor
       if (wChild.getExpr() instanceof ApplExpr) {
         RefExpr refExpr =
           factory_.createRefExpr(childName, new ArrayList(), Boolean.FALSE);
-        TupleExpr tupleExpr = factory_.createTupleExpr();
+        TupleExpr tupleExpr =
+          factory_.createTupleExpr(factory_.createZExprList());
         newParent =
           factory_.createApplExpr(refExpr, tupleExpr, Boolean.TRUE);
       }
       else if (wChild.getExpr() instanceof ProdExpr) {
-        newParent = factory_.createProdExpr();
+        newParent = factory_.createProdExpr(factory_.createZExprList());
       }
       else {
         newParent =
@@ -141,13 +142,14 @@ public class PrecedenceHandlingVisitor
         RefExpr refExpr = factory_.createRefExpr(parentName,
                                                   new ArrayList(),
                                                   Boolean.FALSE);
-        TupleExpr tupleExpr = factory_.createTupleExpr();
+        TupleExpr tupleExpr =
+          factory_.createTupleExpr(factory_.createZExprList());
         newChild = factory_.createApplExpr(refExpr,
                                             tupleExpr,
                                             Boolean.TRUE);
       }
       else if (wExpr.getExpr() instanceof ProdExpr) {
-        newChild = factory_.createProdExpr();
+        newChild = factory_.createProdExpr(factory_.createZExprList());
       }
       else {
         newChild = factory_.createRefExpr(parentName,
