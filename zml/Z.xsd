@@ -1515,7 +1515,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:RenameList">
         <xs:sequence>
-          <xs:element ref="Z:NewOldPair" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:NewOldPair" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1529,7 +1529,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:RefNameList">
         <xs:sequence>
-          <xs:element ref="Z:RefName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:RefName" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
