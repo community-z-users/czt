@@ -32,6 +32,11 @@
     return createApplExpr(createRefExpr(refName), expr, Boolean.FALSE);
   }
 
+  public BindExpr createBindExpr(java.util.List<Decl> list)
+  {
+    return createBindExpr(createZDeclList(list));
+  }
+
   /**
    * Creates a ZDeclName with the given word and strokes and
    * id set to <code>null</code>.
@@ -133,6 +138,11 @@
     return createRefExpr(refName, exprs, Boolean.TRUE);
   }
 
+  public HideExpr createHideExpr(Expr expr, java.util.List<RefName> list)
+  {
+    return createHideExpr(expr, createZRefNameList(list));
+  }
+
   /**
    * Creates a horizontal definition, that is an axiomatic definition
    * containing a constant declaration of the name to the given
@@ -192,6 +202,11 @@
   public ProdExpr createProdExpr(Expr left, Expr right)
   {
     return createProdExpr(createZExprList(list(left, right)));
+  }
+
+  public ProdExpr createProdExpr(java.util.List<Expr> list)
+  {
+    return createProdExpr(createZExprList(list));
   }
 
   /**
@@ -333,4 +348,9 @@
   public TupleExpr createTupleExpr(java.util.List<Expr> exprList)
   {
     return createTupleExpr(createZExprList(exprList));
+  }
+
+  public ZSchText createZSchText(java.util.List<Decl> declList, Pred pred)
+  {
+    return createZSchText(createZDeclList(declList), pred);
   }
