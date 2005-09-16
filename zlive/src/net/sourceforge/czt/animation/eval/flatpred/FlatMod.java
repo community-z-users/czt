@@ -35,7 +35,7 @@ public class FlatMod extends FlatPred
 {
   private Factory factory_ = new Factory();
 
-  public FlatMod(RefName a, RefName b, RefName c)
+  public FlatMod(ZRefName a, ZRefName b, ZRefName c)
   {
     args = new ArrayList(3);
     args.add(a);
@@ -84,13 +84,13 @@ public class FlatMod extends FlatPred
     if(solutionsReturned == 0) {
       solutionsReturned++;
       if (evalMode_.isInput(0) && evalMode_.isInput(1) && evalMode_.isInput(2)) {
-        Expr a = evalMode_.getEnvir().lookup((RefName)args.get(0));
-        Expr b = evalMode_.getEnvir().lookup((RefName)args.get(1));
-        Expr c = evalMode_.getEnvir().lookup((RefName)args.get(2));
+        Expr a = evalMode_.getEnvir().lookup(args.get(0));
+        Expr b = evalMode_.getEnvir().lookup(args.get(1));
+        Expr c = evalMode_.getEnvir().lookup(args.get(2));
         BigInteger x = ((NumExpr)a).getValue();
         BigInteger y = ((NumExpr)b).getValue();
         if(y.equals(BigInteger.ZERO)) {
-	  throw new UndefException((RefName)args.get(0) + " mod 0");
+	  throw new UndefException(args.get(0) + " mod 0");
         }
         else {
           BigInteger z = ((NumExpr)c).getValue();
@@ -99,17 +99,17 @@ public class FlatMod extends FlatPred
         }
       }
       else if (evalMode_.isInput(0) && evalMode_.isInput(1)) {
-        Expr a = evalMode_.getEnvir().lookup((RefName)args.get(0));
-        Expr b = evalMode_.getEnvir().lookup((RefName)args.get(1));
+        Expr a = evalMode_.getEnvir().lookup(args.get(0));
+        Expr b = evalMode_.getEnvir().lookup(args.get(1));
         BigInteger x = ((NumExpr)a).getValue();
         BigInteger y = ((NumExpr)b).getValue();
         if(y.equals(BigInteger.ZERO)) {
-	  throw new UndefException((RefName)args.get(0) + " mod 0");
+	  throw new UndefException(args.get(0) + " mod 0");
         }
         else {
           BigInteger z = specialMod(x,y);
           Expr c = factory_.createNumExpr(z);
-          evalMode_.getEnvir().setValue((RefName)args.get(2),c);
+          evalMode_.getEnvir().setValue(args.get(2),c);
           result = true;
         }
       }

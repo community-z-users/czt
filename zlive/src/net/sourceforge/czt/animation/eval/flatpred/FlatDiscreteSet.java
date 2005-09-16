@@ -41,34 +41,28 @@ extends FlatPred
 implements EvalSet
 {
   protected Factory factory_ = new Factory();
-  protected Set vars_ = new HashSet();
+  protected Set<ZRefName> vars_ = new HashSet<ZRefName>();
 
   /** Contains the enumerated members of the set. */
-  protected Set iterateSet_;
+  protected Set<Expr> iterateSet_;
 
-  public FlatDiscreteSet(List elements, RefName set)
+  public FlatDiscreteSet(List<ZRefName> elements, ZRefName set)
   {
     Object itNext;
-    args = new ArrayList(elements);
-    // Create a map to remove duplicate RefNames
-    Map map = new HashMap();
-    for(int i=0;i<elements.size();i++)
-      map.put(elements.get(i),elements.get(i));
-    Iterator it = map.values().iterator();
-    while(it.hasNext()) {
-      itNext = it.next();
-      vars_.add(itNext);
-    }
+    args = new ArrayList<ZRefName>(elements);
+    // remove duplicate ZRefNames
+    Set<ZRefName> noDups = new HashSet<ZRefName>(elements);
+    vars_.addAll(noDups);
     args.add(set);
     solutionsReturned = -1;
     iterateSet_ = null;
   }
 
   //@ requires newargs.size() >= 1;
-  public FlatDiscreteSet(List newargs)
+  public FlatDiscreteSet(List<ZRefName> newargs)
   {
     this(newargs.subList(0,newargs.size()-1),
-    (RefName)newargs.get(newargs.size()-1));
+        newargs.get(newargs.size()-1));
   }
 
   /** Chooses the mode in which the predicate can be evaluated.*/
@@ -77,7 +71,7 @@ implements EvalSet
     Mode m = modeFunction(env);
     // bind (set |-> this), so that size estimates work better.
     if (m != null)
-      m.getEnvir().setValue((RefName)args.get(args.size()-1), this);
+      m.getEnvir().setValue(args.get(args.size()-1), this);
     return m;
   }
 
@@ -108,12 +102,12 @@ implements EvalSet
   *
   * @return an Iterator object.
   */
-  public Iterator members() {
+  public Iterator<Expr> members() {
     if(iterateSet_ == null) {
-      iterateSet_ = new HashSet();
+      iterateSet_ = new HashSet<Expr>();
       Envir env = evalMode_.getEnvir();
-      for (Iterator i = vars_.iterator(); i.hasNext();) {
-        Expr value = (Expr)env.lookup((RefName)i.next());
+      for (ZRefName var : vars_) {
+        Expr value = (Expr)env.lookup(var);
         iterateSet_.add(value);
       }
     }
@@ -128,7 +122,7 @@ implements EvalSet
     for (int i=0;i<args.size()-1;i++)
       assert evalMode_.isInput(i);
     boolean result = false;
-    RefName set = (RefName)args.get(args.size()-1);
+    ZRefName set = args.get(args.size()-1);
     iterateSet_ = null;
     if(solutionsReturned==0)
     {
@@ -154,9 +148,9 @@ implements EvalSet
     assert (e != null);
     assert (evalMode_ != null);
     boolean result = false;
-    Iterator i = vars_.iterator();
+    Iterator<ZRefName> i = vars_.iterator();
     while( ! result && i.hasNext()) {
-      Expr value = evalMode_.getEnvir().lookup((RefName)i.next());
+      Expr value = evalMode_.getEnvir().lookup(i.next());
       if(e.equals(value))
         result = true;
     }

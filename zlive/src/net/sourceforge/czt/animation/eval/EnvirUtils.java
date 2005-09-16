@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.RefName;
+import net.sourceforge.czt.z.ast.ZRefName;
 
 /**
  *
@@ -40,7 +40,7 @@ public class EnvirUtils {
         for(ListIterator li = n.listIterator(n.size()),
                          lj = e.listIterator(e.size());
                 li.hasPrevious() && lj.hasPrevious(); ) {
-            RefName name = (RefName)li.previous();
+            ZRefName name = (ZRefName)li.previous();
             Expr expr = (Expr)lj.previous();
             result = result.add(name, expr);
         }

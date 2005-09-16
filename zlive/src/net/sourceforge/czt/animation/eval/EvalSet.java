@@ -21,6 +21,7 @@ package net.sourceforge.czt.animation.eval;
 
 import java.util.*;
 import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.ZRefName;
 
 /**
  * @author Mark Utting
@@ -32,7 +33,7 @@ public interface EvalSet extends Expr {
   /** A list of all the free variables that this set depends upon.
    * @return The free variables.
    */
-  public Set/*<RefName>*/ freeVars();
+  public Set<ZRefName> freeVars();
 
   /** Get the default environment that this set is using.
    *  The default environment can be set via FlatPred.setMode.
@@ -55,7 +56,7 @@ public interface EvalSet extends Expr {
    *
    * @return an Iterator object.
    */
-  public Iterator members();
+  public Iterator<Expr> members();
 
   /** Tests for membership of the set.
    * @param e  The fully evaluated expression.

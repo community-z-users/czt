@@ -45,7 +45,7 @@ public class FlatRangeSet
   protected BigInteger lower_;
   protected BigInteger upper_;
 
-  public FlatRangeSet(RefName lowerBound, RefName upperBound, RefName set)
+  public FlatRangeSet(ZRefName lowerBound, ZRefName upperBound, ZRefName set)
   {
     args = new ArrayList();
 	args.add(lowerBound);
@@ -69,12 +69,12 @@ public class FlatRangeSet
     Mode m = modeFunction(env);
     // bind (set |-> this), so that size estimates work better.
     if (m != null)
-      m.getEnvir().setValue((RefName)args.get(args.size()-1), this);
+      m.getEnvir().setValue(args.get(args.size()-1), this);
     return m;
   }
 
   /** Looks in the envir (if any) for any upper/lower bounds. */
-  private BigInteger getBound(Envir env, RefName bound)
+  private BigInteger getBound(Envir env, ZRefName bound)
   {
     BigInteger result = null;
     Expr e = null;
@@ -102,8 +102,8 @@ public class FlatRangeSet
 */
 
   public double estSize(Envir env) {
-    lower_ = getBound(env, (RefName)args.get(0));
-    upper_ = getBound(env, (RefName)args.get(1));
+    lower_ = getBound(env, args.get(0));
+    upper_ = getBound(env, args.get(1));
     if (lower_ == null || upper_ == null)
       return DEFAULT_SIZE;
     if(upper_.compareTo(lower_)<0)
@@ -164,8 +164,8 @@ public class FlatRangeSet
   {
     assert(evalMode_ != null);
     Envir env = evalMode_.getEnvir();
-    lower_ = getBound(env, (RefName)args.get(0));
-    upper_ = getBound(env, (RefName)args.get(1));
+    lower_ = getBound(env, args.get(0));
+    upper_ = getBound(env, args.get(1));
     return (new setIterator());
   }
 
@@ -178,9 +178,9 @@ public class FlatRangeSet
     assert evalMode_.isInput(1);
     Envir env = evalMode_.getEnvir();
     boolean result = false;
-    lower_ = getBound(env, (RefName)args.get(0));
-    upper_ = getBound(env, (RefName)args.get(1));
-    RefName set = (RefName)args.get(2);
+    lower_ = getBound(env, args.get(0));
+    upper_ = getBound(env, args.get(1));
+    ZRefName set = args.get(2);
     if(solutionsReturned==0)
     {
       solutionsReturned++;
@@ -208,8 +208,8 @@ public class FlatRangeSet
     if ( !(e instanceof NumExpr))
       throw new EvalException("Type error: members of FlatRangeSet must be numbers: " + e);
     BigInteger i = ((NumExpr)e).getValue();
-    lower_ = getBound(env, (RefName)args.get(0));
-    upper_ = getBound(env, (RefName)args.get(1));
+    lower_ = getBound(env, args.get(0));
+    upper_ = getBound(env, args.get(1));
     return ((lower_.compareTo(i) <= 0) && (upper_.compareTo(i) >= 0));
   }
 

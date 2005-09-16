@@ -36,9 +36,9 @@ public class FlatPlus extends FlatPred
 {
   private Factory factory_ = new Factory();
 
-  public FlatPlus(RefName a, RefName b, RefName c)
+  public FlatPlus(ZRefName a, ZRefName b, ZRefName c)
   {
-    args = new ArrayList(3);
+    args = new ArrayList<ZRefName>(3);
     args.add(a);
     args.add(b);
     args.add(c);
@@ -69,9 +69,9 @@ public class FlatPlus extends FlatPred
     if (solutionsReturned == 0) {
       solutionsReturned++;
       if (evalMode_.isInput(0) && evalMode_.isInput(1) && evalMode_.isInput(2)) {
-        Expr arg0 = evalMode_.getEnvir().lookup((RefName)args.get(0));
-        Expr arg1 = evalMode_.getEnvir().lookup((RefName)args.get(1));
-        Expr arg2 = evalMode_.getEnvir().lookup((RefName)args.get(2));
+        Expr arg0 = evalMode_.getEnvir().lookup(args.get(0));
+        Expr arg1 = evalMode_.getEnvir().lookup(args.get(1));
+        Expr arg2 = evalMode_.getEnvir().lookup(args.get(2));
         BigInteger arg0Value = ((NumExpr)arg0).getValue();
         BigInteger arg1Value = ((NumExpr)arg1).getValue();
         BigInteger arg2Value = ((NumExpr)arg2).getValue();
@@ -79,33 +79,33 @@ public class FlatPlus extends FlatPred
           result = true;
       }
       else if (evalMode_.isInput(1) && evalMode_.isInput(2)) {
-        Expr arg1 = evalMode_.getEnvir().lookup((RefName)args.get(1));
-        Expr arg2 = evalMode_.getEnvir().lookup((RefName)args.get(2));
+        Expr arg1 = evalMode_.getEnvir().lookup(args.get(1));
+        Expr arg2 = evalMode_.getEnvir().lookup(args.get(2));
         BigInteger arg1Value = ((NumExpr)arg1).getValue();
         BigInteger arg2Value = ((NumExpr)arg2).getValue();
         BigInteger arg0Value = arg2Value.subtract(arg1Value);
         Expr arg0 = factory_.createNumExpr(arg0Value);
-        evalMode_.getEnvir().setValue((RefName)args.get(0),arg0);
+        evalMode_.getEnvir().setValue(args.get(0),arg0);
         result = true;
       }
        else if (evalMode_.isInput(0) && evalMode_.isInput(1)) {
-        Expr arg0 = evalMode_.getEnvir().lookup((RefName)args.get(0));
-        Expr arg1 = evalMode_.getEnvir().lookup((RefName)args.get(1));
+        Expr arg0 = evalMode_.getEnvir().lookup(args.get(0));
+        Expr arg1 = evalMode_.getEnvir().lookup(args.get(1));
         BigInteger arg0Value = ((NumExpr)arg0).getValue();
         BigInteger arg1Value = ((NumExpr)arg1).getValue();
         BigInteger arg2Value = arg0Value.add(arg1Value);
         Expr arg2 = factory_.createNumExpr(arg2Value);
-        evalMode_.getEnvir().setValue((RefName)args.get(2),arg2);
+        evalMode_.getEnvir().setValue(args.get(2),arg2);
         result = true;
       }
      else if (evalMode_.isInput(0) && evalMode_.isInput(2)) {
-        Expr arg0 = evalMode_.getEnvir().lookup((RefName)args.get(0));
-        Expr arg2 = evalMode_.getEnvir().lookup((RefName)args.get(2));
+        Expr arg0 = evalMode_.getEnvir().lookup(args.get(0));
+        Expr arg2 = evalMode_.getEnvir().lookup(args.get(2));
         BigInteger arg0Value = ((NumExpr)arg0).getValue();
         BigInteger arg2Value = ((NumExpr)arg2).getValue();
         BigInteger arg1Value = arg2Value.subtract(arg0Value);
         Expr arg1 = factory_.createNumExpr(arg1Value);
-        evalMode_.getEnvir().setValue((RefName)args.get(1),arg1);
+        evalMode_.getEnvir().setValue(args.get(1),arg1);
         result = true;
       }
     }

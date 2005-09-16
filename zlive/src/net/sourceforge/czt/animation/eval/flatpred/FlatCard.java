@@ -42,7 +42,7 @@ extends FlatPred
   protected Factory factory_ = new Factory();
   //protected ArrayList vars_ = new ArrayList();
   
-  public FlatCard(RefName set, RefName size)
+  public FlatCard(ZRefName set, ZRefName size)
   {
     args = new ArrayList(2);
     args.add(set);
@@ -72,7 +72,7 @@ extends FlatPred
     assert solutionsReturned >= 0;
     assert evalMode_.isInput(0);
     boolean result = false;
-    RefName setName = (RefName)args.get(0);
+    ZRefName setName = args.get(0);
     if(solutionsReturned==0)
     {
       solutionsReturned++;
@@ -84,15 +84,15 @@ extends FlatPred
         it.next();
         i = i.add(BigInteger.ONE);
       }
-      Expr size = factory_.createNumExpr(i);
+      Expr size = factory_.createNumExpr(i.intValue()); // TODO: allow BigInteger here
       if (evalMode_.isInput(1)) {
-        Expr thisSize = evalMode_.getEnvir().lookup((RefName)args.get(1));
+        Expr thisSize = evalMode_.getEnvir().lookup(args.get(1));
         if(thisSize.equals(size))
           result = true;
       }
       else {
         // assign this object (an EvalSet) to the output variable.
-        evalMode_.getEnvir().setValue((RefName)args.get(1),size);
+        evalMode_.getEnvir().setValue(args.get(1),size);
         result = true;
       }
     }

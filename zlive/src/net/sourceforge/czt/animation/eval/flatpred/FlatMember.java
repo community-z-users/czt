@@ -51,7 +51,7 @@ public class FlatMember extends FlatPred {
    * @param set      Must evaluate to an EvalSet object.
    * @param element  The member of the set.
    */
-  public FlatMember(RefName set, RefName element)
+  public FlatMember(ZRefName set, ZRefName element)
   {
     args = new ArrayList(2);
     args.add(set);
@@ -75,8 +75,8 @@ public class FlatMember extends FlatPred {
   public Mode chooseMode(Envir env)
   {
     // the set must be defined in env.
-    RefName setName = (RefName)args.get(0);
-    RefName elemName = (RefName)args.get(1);
+    ZRefName setName = args.get(0);
+    ZRefName elemName = args.get(1);
     Mode m = null;
     if (env.isDefined(setName)) {
       ArrayList inputs = new ArrayList(2);
@@ -106,7 +106,7 @@ public class FlatMember extends FlatPred {
   {
     super.startEvaluation();
     assert solutionsReturned == 0;
-    set_ = (EvalSet)evalMode_.getEnvir().lookup((RefName)args.get(0));
+    set_ = (EvalSet)evalMode_.getEnvir().lookup(args.get(0));
     assert(set_ != null);
   }
   
@@ -115,7 +115,7 @@ public class FlatMember extends FlatPred {
     assert solutionsReturned >= 0;
     assert set_ != null;
     boolean result = false;
-    RefName element = (RefName) args.get(1);
+    ZRefName element = args.get(1);
     if (evalMode_.isInput(1)) {
       // do a membership test
       current_ = null;

@@ -58,9 +58,9 @@ public class FlatModTest
   private BigInteger g = new BigInteger("-2");
   private BigInteger h = new BigInteger("4");
   private BigInteger zero = new BigInteger("0");
-  private RefName x = factory_.createRefName("x",emptyList,null);
-  private RefName y = factory_.createRefName("y",emptyList,null);
-  private RefName z = factory_.createRefName("z",emptyList,null);
+  private ZRefName x = factory_.createZRefName("x",emptyList,null);
+  private ZRefName y = factory_.createZRefName("y",emptyList,null);
+  private ZRefName z = factory_.createZRefName("z",emptyList,null);
   private Expr i10 = factory_.createNumExpr(a);
   private Expr in3 = factory_.createNumExpr(b);
   private Expr in6 = factory_.createNumExpr(c);

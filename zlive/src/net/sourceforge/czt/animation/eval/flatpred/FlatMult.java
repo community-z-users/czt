@@ -34,7 +34,7 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
 public class FlatMult extends FlatPred
 {
   private Factory factory_ = new Factory();
-  public FlatMult(RefName a, RefName b, RefName c)
+  public FlatMult(ZRefName a, ZRefName b, ZRefName c)
   {
     args = new ArrayList(3);
     args.add(a);
@@ -68,9 +68,9 @@ public class FlatMult extends FlatPred
     if(solutionsReturned == 0) {
       solutionsReturned++;
       if (evalMode_.isInput(0) && evalMode_.isInput(1) && evalMode_.isInput(2)) {
-        Expr a = evalMode_.getEnvir().lookup((RefName)args.get(0));
-        Expr b = evalMode_.getEnvir().lookup((RefName)args.get(1));
-        Expr c = evalMode_.getEnvir().lookup((RefName)args.get(2));
+        Expr a = evalMode_.getEnvir().lookup(args.get(0));
+        Expr b = evalMode_.getEnvir().lookup(args.get(1));
+        Expr c = evalMode_.getEnvir().lookup(args.get(2));
         BigInteger x = ((NumExpr)a).getValue();
         BigInteger y = ((NumExpr)b).getValue();
         BigInteger z = ((NumExpr)c).getValue();
@@ -78,18 +78,18 @@ public class FlatMult extends FlatPred
           result = true;
       }
       else if (evalMode_.isInput(0) && evalMode_.isInput(1)) {
-        Expr a = evalMode_.getEnvir().lookup((RefName)args.get(0));
-        Expr b = evalMode_.getEnvir().lookup((RefName)args.get(1));
+        Expr a = evalMode_.getEnvir().lookup(args.get(0));
+        Expr b = evalMode_.getEnvir().lookup(args.get(1));
         BigInteger x = ((NumExpr)a).getValue();
         BigInteger y = ((NumExpr)b).getValue();
         BigInteger z = x.multiply(y);
         Expr c = factory_.createNumExpr(z);
-        evalMode_.getEnvir().setValue((RefName)args.get(2),c);
+        evalMode_.getEnvir().setValue(args.get(2),c);
         result = true;
       }
       else if (evalMode_.isInput(1) && evalMode_.isInput(2)) {
-        Expr b = evalMode_.getEnvir().lookup((RefName)args.get(1));
-        Expr c = evalMode_.getEnvir().lookup((RefName)args.get(2));
+        Expr b = evalMode_.getEnvir().lookup(args.get(1));
+        Expr c = evalMode_.getEnvir().lookup(args.get(2));
         BigInteger y = ((NumExpr)b).getValue();
         if(y.equals(BigInteger.ZERO)) {
           throw new EvalException("Cannot solve multiplication by 0: " + (RefName)args.get(1));
@@ -98,22 +98,22 @@ public class FlatMult extends FlatPred
           BigInteger z = ((NumExpr)c).getValue();
           BigInteger x = z.divide(y);
           Expr a = factory_.createNumExpr(x);
-          evalMode_.getEnvir().setValue((RefName)args.get(0),a);
+          evalMode_.getEnvir().setValue(args.get(0),a);
           result = true;
         }
       }
       else if (evalMode_.isInput(0) && evalMode_.isInput(2)) {
-        Expr a = evalMode_.getEnvir().lookup((RefName)args.get(0));
-        Expr c = evalMode_.getEnvir().lookup((RefName)args.get(2));
+        Expr a = evalMode_.getEnvir().lookup(args.get(0));
+        Expr c = evalMode_.getEnvir().lookup(args.get(2));
         BigInteger x = ((NumExpr)a).getValue();
         if(x.equals(BigInteger.ZERO)) {
-          throw new EvalException("Cannot solve multiplication by 0: " + (RefName)args.get(0));
+          throw new EvalException("Cannot solve multiplication by 0: " + args.get(0));
         }
         else {
           BigInteger z = ((NumExpr)c).getValue();
           BigInteger y = z.divide(x);
           Expr b = factory_.createNumExpr(y);
-          evalMode_.getEnvir().setValue((RefName)args.get(1),b);
+          evalMode_.getEnvir().setValue(args.get(1),b);
           result = true;
         }
       }

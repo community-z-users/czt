@@ -36,7 +36,7 @@ public class FlatLessThanEquals extends FlatPred
   protected BigInteger next;
   private Factory factory_ = new Factory();
 
-  public FlatLessThanEquals(RefName a, RefName b)
+  public FlatLessThanEquals(ZRefName a, ZRefName b)
   {
     args = new ArrayList(2);
     args.add(a);
@@ -77,8 +77,8 @@ public class FlatLessThanEquals extends FlatPred
     solutionsReturned++;
     if (evalMode_.isInput(0) && evalMode_.isInput(1)) {
       if (solutionsReturned == 1) {
-        Expr a = evalMode_.getEnvir().lookup((RefName) args.get(0));
-        Expr b = evalMode_.getEnvir().lookup((RefName) args.get(1));
+        Expr a = evalMode_.getEnvir().lookup(args.get(0));
+        Expr b = evalMode_.getEnvir().lookup(args.get(1));
         BigInteger x = ((NumExpr) a).getValue();
         BigInteger y = ((NumExpr) b).getValue();
         if (x.compareTo(y) <= 0)
@@ -87,7 +87,7 @@ public class FlatLessThanEquals extends FlatPred
     }
     else if (evalMode_.isInput(0)) {
       if (next == null) {
-        Expr a = evalMode_.getEnvir().lookup((RefName) args.get(0));
+        Expr a = evalMode_.getEnvir().lookup(args.get(0));
         BigInteger x = ((NumExpr) a).getValue();
         next = x;
       }
@@ -95,12 +95,12 @@ public class FlatLessThanEquals extends FlatPred
         next = next.add(BigInteger.ONE);
       BigInteger y = next;
       Expr b = factory_.createNumExpr(y);
-      evalMode_.getEnvir().setValue((RefName) args.get(1), b);
+      evalMode_.getEnvir().setValue(args.get(1), b);
       result = true;
     }
     else if (evalMode_.isInput(1)) {
       if (next == null) {
-        Expr b = evalMode_.getEnvir().lookup((RefName) args.get(1));
+        Expr b = evalMode_.getEnvir().lookup(args.get(1));
         BigInteger y = ((NumExpr) b).getValue();
         next = y;
       }
@@ -108,7 +108,7 @@ public class FlatLessThanEquals extends FlatPred
         next = next.subtract(BigInteger.ONE);
       BigInteger x = next;
       Expr a = factory_.createNumExpr(x);
-      evalMode_.getEnvir().setValue((RefName) args.get(0), a);
+      evalMode_.getEnvir().setValue(args.get(0), a);
       result = true;
     }
     return result;

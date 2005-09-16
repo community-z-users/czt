@@ -45,7 +45,7 @@ public class Mode
   /** Constructor for Mode objects. */
   //@ requires solns > 0.0;
   public Mode(/*@non_null@*/Envir postEnv,
-               /*@non_null@*/ArrayList/*<Boolean>*/inputs,
+               /*@non_null@*/ArrayList<Boolean> inputs,
                double solns) {
     postEnvir_ = postEnv;
     solutions_ = solns;
@@ -57,7 +57,7 @@ public class Mode
       then the i'th variable managed by this FlatPred is an input,
       otherwise it is an output.
   */
-  protected /*@spec_public non_null@*/ ArrayList/*<Boolean>*/ inputs_;
+  protected /*@spec_public non_null@*/ ArrayList<Boolean> inputs_;
 
   /** The number of arguments managed by this Mode and FlatPred */
   public /*@pure@*/ int getNumArgs()
@@ -105,7 +105,7 @@ public class Mode
   public String toString()
   {
     StringBuffer io = new StringBuffer();
-    for (Object/*Boolean*/ input : inputs_) {
+    for (Boolean input : inputs_) {
       if ( ((Boolean)input).booleanValue() )
 	io.append("i");
       else

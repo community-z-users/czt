@@ -22,9 +22,9 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.Logger;
 
+import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.session.CommandException;
@@ -65,19 +65,19 @@ public class FlatPredList
   = Logger.getLogger("net.sourceforge.czt.animation.eval");
   
   /** This stores the list of FlatPreds used in the current evaluation. */
-  protected List/*<FlatPred>*/ predlist_ = new ArrayList();
+  protected List<FlatPred> predlist_ = new ArrayList<FlatPred>();
   
   /** Records the bound variables in this list
    *  (Ignoring the tmp vars produced by Flatten).
    *  In fact, it contains BOTH the DeclName and RefName form of each bound var.
    *  It is set up as Declarations are added.
    */
-  protected /*@non_null@*/ Set/*<DeclName>*/ boundVars_ = new HashSet();
+  protected /*@non_null@*/ Set<ZDeclName> boundVars_ = new HashSet();
 
   /** Records the free variables used in this list.
    *  This is calculated and cached by the freeVars() method.
    */
-  protected Set/*<RefName>*/ freeVars_;
+  protected Set<ZRefName> freeVars_;
   
   /** The ZLive animator that owns/uses this FlatPred list. */
   private /*@non_null@*/ ZLive zlive_;
@@ -117,31 +117,29 @@ public class FlatPredList
    *  This should be used as a read-only iterator.
    * @return the iterator
    */
-  public /*@non_null@*/ Iterator iterator()
+  public /*@non_null@*/ Iterator<FlatPred> iterator()
   { return predlist_.iterator(); }
 
   /** Returns the bound variables of this FlatPredList,
    *  ignoring any temporary variables.
    *  It contains BOTH the DeclName and RefName forms of each bound variable.
    */
-  public /*@non_null@*/ Set boundVars()
+  public /*@non_null@*/ Set<ZDeclName> boundVars()
   { return boundVars_; }
 
   /** Returns the free variables of all the FlatPreds. */
-  public /*@non_null@*/ Set freeVars() {
+  public /*@non_null@*/ Set<ZRefName> freeVars() {
     if (freeVars_ == null) {
-      freeVars_ = new HashSet();
-      for (Iterator i = predlist_.iterator(); i.hasNext(); ) {
-	FlatPred flat = (FlatPred)i.next();
-	for (Iterator v = flat.freeVars().iterator(); v.hasNext(); ) {
-	  RefName var = (RefName)v.next();
+      freeVars_ = new HashSet<ZRefName>();
+      for (FlatPred flat : predlist_) {
+	for (ZRefName var : flat.freeVars()) {
 	  if ( ! zlive_.isNewName(var)) {
-	    DeclName dvar = var.getDecl();
+	    ZDeclName dvar = (ZDeclName) var.getDecl(); //TODO: check cast
 	    if (dvar == null)
-	      // TODO: this should never happen, because all RefNames
+	      // TODO: this should never happen, because all ZRefNames
 	      // should be linked to a DeclName after typechecking.
-	      // For now, we create the corresponding DeclName
-	      dvar = factory_.createDeclName(var.getWord(),
+	      // For now, we create the corresponding ZDeclName
+	      dvar = factory_.createZDeclName(var.getWord(),
 					    var.getStroke(),
 					    null);
 	    if ( ! boundVars_.contains(dvar))
@@ -169,9 +167,8 @@ public class FlatPredList
    *
    * @param stext 
    */
-  public void addSchText(/*@non_null@*/SchText stext) {
-    ZDeclList zdecl = (ZDeclList) stext.getDeclList();
-    for (Decl d : zdecl.getDecl())
+  public void addSchText(/*@non_null@*/ZSchText stext) {
+    for (Decl d : stext.getDecl())
       addDecl(d);
     Pred p = stext.getPred();
     if (p != null)
@@ -190,23 +187,20 @@ public class FlatPredList
       if (decl instanceof VarDecl) {
         VarDecl vdecl = (VarDecl) decl;
         Expr type = vdecl.getExpr();
-        RefName typeName = flatten_.flattenExpr(type, predlist_);
-        Iterator i = vdecl.getDeclName().iterator();
-        while (i.hasNext()) {
-          DeclName var = (DeclName) i.next();
-          boundVars_.add(var);
-          RefName varref = factory_.createRefName(var);
-          boundVars_.add(varref);
+        ZRefName typeName = flatten_.flattenExpr(type, predlist_);
+        for (DeclName name : vdecl.getDeclName()) {
+          ZDeclName dvar = (ZDeclName) name;
+          boundVars_.add(dvar);
+          ZRefName varref = factory_.createZRefName(dvar);
           predlist_.add(new FlatMember(typeName, varref));
         }
       }
       else if (decl instanceof ConstDecl) {
         ConstDecl cdecl = (ConstDecl) decl;
-        DeclName var = cdecl.getDeclName();
-        boundVars_.add(var);
+        ZDeclName dvar = cdecl.getZDeclName();
+        boundVars_.add(dvar);
         Expr expr = cdecl.getExpr();
-        RefName varref = factory_.createRefName(var);
-        boundVars_.add(varref);
+        ZRefName varref = factory_.createZRefName(dvar);
         flatten_.flattenPred(factory_.createMemPred(varref, expr), predlist_);
       }
       else {
@@ -243,7 +237,7 @@ public class FlatPredList
    * @param expr  The Expr to flatten and add.
    * @return      The result name.
    */
-  public RefName addExpr(/*@non_null@*/Expr expr) {
+  public ZRefName addExpr(/*@non_null@*/Expr expr) {
     try {
       return flatten_.flattenExpr(expr,predlist_);
     }

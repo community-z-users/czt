@@ -47,19 +47,19 @@ public class FlatSetComp
 
   /** This FlatPredList is used to check membership of ONE given value.
       Its first entry is resultNNN=value, where resultNNN is a fresh
-      RefName (see resultName) and value is initially unknown, but will
+      ZRefName (see resultName) and value is initially unknown, but will
       be set within isMember before this FlatPredList is evaluated.
   */
   protected FlatPredList predsOne_;
 
-  /** The fresh RefName which will be bound to a member of the set. */
-  protected RefName resultName_;
+  /** The fresh ZRefName which will be bound to a member of the set. */
+  protected ZRefName resultName_;
 
   /** The set of free variables of this set. */
-  protected Set freevars_;
+  protected Set<ZRefName> freevars_;
   
   /** The set of member values in the resulting set. */
-  protected Set knownMembers_;
+  protected Set<Expr> knownMembers_;
   
   /** FlatSetComp(D,P,E,S) implements {D|P@E} = S.
    * 
@@ -69,10 +69,10 @@ public class FlatSetComp
    * @param set     The variable that the whole set will be equated to.
    */
   public FlatSetComp(/*@non_null@*/ZLive zlive, 
-		       /*@non_null@*/List/*<Decl>*/ decls, 
+		       /*@non_null@*/List<Decl> decls, 
 		       Pred pred, 
 		       /*@non_null@*/Expr result,
-		       /*@non_null@*/RefName set)
+		       /*@non_null@*/ZRefName set)
   {
     predsAll_ = new FlatPredList(zlive);
     predsOne_ = new FlatPredList(zlive);
@@ -95,7 +95,7 @@ public class FlatSetComp
 
     // Calculate free vars of preds_.
     freevars_ = predsAll_.freeVars();
-    args = new ArrayList(freevars_);
+    args = new ArrayList<ZRefName>(freevars_);
     args.add(set);
     solutionsReturned = -1;
     knownMembers_ = null;
@@ -110,7 +110,7 @@ public class FlatSetComp
     Mode m = modeFunction(env);
     // bind (set |-> this), so that size estimates work better.
     if (m != null)
-      m.getEnvir().setValue((RefName)args.get(args.size()-1), this);
+      m.getEnvir().setValue(args.get(args.size()-1), this);
     return m;
   }
   
@@ -137,7 +137,7 @@ public class FlatSetComp
   /** A list of all the free variables that this set depends upon.
   * @return The free variables.
   */
-  public Set/*<RefName>*/ freeVars()
+  public Set<ZRefName> freeVars()
   {
     return freevars_;
   }
@@ -173,7 +173,7 @@ public class FlatSetComp
     assert solutionsReturned >= 0;
     boolean result = false;
     knownMembers_ = null; // force members to be recalculated
-    RefName set = (RefName)args.get(args.size()-1);
+    ZRefName set = args.get(args.size()-1);
     if(solutionsReturned==0)
     {
       solutionsReturned++;

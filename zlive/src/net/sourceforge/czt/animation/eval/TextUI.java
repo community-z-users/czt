@@ -22,7 +22,6 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.*;
 
-import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.session.*;
@@ -106,10 +105,13 @@ public class TextUI {
         System.out.println("Expr="+expr);
         Expr result = animator.evalExpr(expr);
 	// TODO: add a proper AST printing method to Unicode or LaTeX.
-	if (result instanceof NumExpr)
-	    System.out.println(((NumExpr)result).getValue());
+	if (result instanceof NumExpr) {
+	  NumExpr num = (NumExpr) result;
+          ZNumeral znum = (ZNumeral) num.getNumeral();
+          System.out.println(znum.getValue());
+        }
 	else
-	    System.out.println("Result="+result);
+	  System.out.println("Result="+result);
       }
       else {
         System.out.println("Invalid command.  Try 'help'?");

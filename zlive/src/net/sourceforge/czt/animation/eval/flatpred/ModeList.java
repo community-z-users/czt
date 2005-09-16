@@ -39,7 +39,7 @@ public class ModeList extends Mode
    */
   //@ requires solns > 0.0;
   public ModeList(/*@non_null@*/Envir postEnvir,
-		  /*@non_null@*/ArrayList/*<Boolean>*/inputs,
+		  /*@non_null@*/ArrayList<Boolean>inputs,
 		  double solns,
 		  /*@non_null@*/List<Mode> subModes)
   {

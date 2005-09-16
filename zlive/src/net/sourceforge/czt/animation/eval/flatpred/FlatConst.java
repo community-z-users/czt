@@ -36,25 +36,14 @@ public class FlatConst extends FlatPred
   protected Expr constant;
   private Factory factory_ = new Factory();
   
-  public FlatConst(RefName a, Expr b)
+  public FlatConst(ZRefName a, Expr b)
   {
-    args = new ArrayList(1);
+    args = new ArrayList<ZRefName>(1);
     args.add(a);
     constant = b;
     solutionsReturned = -1;
   }
 
-  //@ requires newargs.size() == 2;
-  public FlatConst(ArrayList newargs)
-  {
-    if (newargs == null || newargs.size() != 2)
-      throw new IllegalArgumentException("FlatConst requires 2 args");
-    args = new ArrayList(1);
-    args.add(newargs.get(0));
-    constant = (Expr)newargs.get(1);
-    solutionsReturned = -1;
-  }
-  
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
@@ -62,8 +51,8 @@ public class FlatConst extends FlatPred
     // set the value of the constant now to improve later analysis
     // (note that when m!=null => args.get(0) is defined,
     //   but a null value means that its value is unknown)
-    if (m != null && m.getEnvir().lookup((RefName)args.get(0)) == null)
-      m.getEnvir().setValue((RefName)args.get(0), constant);
+    if (m != null && m.getEnvir().lookup(args.get(0)) == null)
+      m.getEnvir().setValue(args.get(0), constant);
     return m;
   }
 
@@ -77,12 +66,12 @@ public class FlatConst extends FlatPred
     {
       solutionsReturned++;
       if (evalMode_.isInput(0)) {
-        Expr a = evalMode_.getEnvir().lookup((RefName)args.get(0));
+        Expr a = evalMode_.getEnvir().lookup(args.get(0));
         if(a.equals(constant))
           result = true;
       }
       else {
-        evalMode_.getEnvir().setValue((RefName)args.get(0),constant);
+        evalMode_.getEnvir().setValue(args.get(0),constant);
         result = true;
       }
     }
@@ -93,9 +82,12 @@ public class FlatConst extends FlatPred
     String val = "???";
     if (constant != null)
       val = constant.toString();
-    if (constant instanceof NumExpr)
-      val = ((NumExpr)constant).getValue().toString();
-    return ("FlatConst(" + ((RefName)args.get(0)).toString() + "," + val + ")");
+    if (constant instanceof NumExpr) {
+      NumExpr numExpr = (NumExpr) constant;
+      ZNumeral num = (ZNumeral) numExpr.getNumeral(); // TODO check this cast
+      val = num.getValue().toString();
+    }
+    return ("FlatConst(" + (args.get(0)).toString() + "," + val + ")");
   }
 
 
@@ -112,7 +104,7 @@ public class FlatConst extends FlatPred
 
   public /*@non_null@*/ Term create(/*@non_null@*/ Object[] newargs)
   {
-    return new FlatConst((RefName)newargs[0], (Expr)newargs[1]);
+    return new FlatConst((ZRefName)newargs[0], (Expr)newargs[1]);
   }
  
   public Object accept(Visitor visitor)

@@ -37,7 +37,7 @@ public class FlatTupleSel extends FlatPred
   private Factory factory_ = new Factory();
   private Integer selection;
 
-  public FlatTupleSel(RefName tuple, Integer i, RefName result)
+  public FlatTupleSel(ZRefName tuple, Integer i, ZRefName result)
   {
     if (i <= 0)
       throw new CztException("Illegal tuple selection index: " + i);
@@ -64,7 +64,7 @@ public class FlatTupleSel extends FlatPred
     if(solutionsReturned == 0) {
       solutionsReturned++;
       if (evalMode_.isInput(0)) {
-        Expr expr = evalMode_.getEnvir().lookup((RefName)args.get(0));
+        Expr expr = evalMode_.getEnvir().lookup(args.get(0));
 	if ( ! (expr instanceof TupleExpr))
 	  throw new EvalException("Tuple selection cannot handle non-tuple: " + expr);
 	TupleExpr tuple = (TupleExpr) expr;
@@ -75,12 +75,12 @@ public class FlatTupleSel extends FlatPred
 
 	if (evalMode_.isInput(1)) {
 	  // Now check selected against the output
-	  Expr output = evalMode_.getEnvir().lookup((RefName)args.get(1));
+	  Expr output = evalMode_.getEnvir().lookup(args.get(1));
 	  result = output.equals(selected);
 	}
 	else {
 	  // Now assign selected to the result
-          evalMode_.getEnvir().setValue((RefName)args.get(1), selected);
+          evalMode_.getEnvir().setValue(args.get(1), selected);
           result = true;
         }
       }

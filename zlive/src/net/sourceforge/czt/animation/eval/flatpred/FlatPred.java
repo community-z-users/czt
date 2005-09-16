@@ -67,7 +67,7 @@ public abstract class FlatPred extends PredImpl
   /** The list of arguments to this FlatPred.
       If the FlatPred corresponds to a function, the output is args[last].
    */
-  protected /*@non_null@*/ ArrayList/*<RefName>*/ args;
+  protected /*@non_null@*/ ArrayList<ZRefName> args;
 
   /** The number of solutions that have been returned by nextEvaluation().
       This is -1 before startEvaluation() is called and 0 immediately
@@ -90,8 +90,8 @@ public abstract class FlatPred extends PredImpl
   }
 
   /** Returns the free variables that appear in the predicate. */
-  public Set/*<RefName>*/ freeVars() {
-    return new HashSet(args);
+  public Set<ZRefName> freeVars() {
+    return new HashSet<ZRefName>(args);
   }
 
   /** Choose the mode that this predicate could use in this environment.
@@ -110,12 +110,12 @@ public abstract class FlatPred extends PredImpl
     @return        The number of inputs.
     */
   protected int setInputs(/*@non_null@*/Envir env,
-			  /*@non_null@*/ArrayList/*<Boolean>*/ inputs)
+			  /*@non_null@*/ArrayList<Boolean> inputs)
   {
     int count = 0;
     inputs.clear();
     for (int i=0; i<args.size(); i++) {
-      if (env.isDefined((RefName)args.get(i))) {
+      if (env.isDefined(args.get(i))) {
         count++;
         inputs.add(Boolean.TRUE);
       } else {
@@ -132,7 +132,7 @@ public abstract class FlatPred extends PredImpl
    */
   protected Mode modeAllDefined(/*@non_null@*/Envir env)
   {
-    ArrayList inputs = new ArrayList(args.size());
+    ArrayList<Boolean> inputs = new ArrayList<Boolean>(args.size());
     int varsDefined = setInputs(env, inputs);
     double solutions = 0.0;
     if (varsDefined == args.size())
@@ -151,7 +151,7 @@ public abstract class FlatPred extends PredImpl
    */
   protected Mode modeFunction(/*@non_null@*/Envir env)
   {
-    ArrayList inputs = new ArrayList(args.size());
+    ArrayList<Boolean> inputs = new ArrayList<Boolean>(args.size());
     int varsDefined = setInputs(env, inputs);
     double solutions = 0.0;
     if (varsDefined == args.size())
@@ -159,7 +159,7 @@ public abstract class FlatPred extends PredImpl
     else if (varsDefined == args.size() - 1 
                   && ! ((Boolean)inputs.get(inputs.size()-1)).booleanValue()) {
       solutions = 1.0;
-      env = env.add((RefName)args.get(args.size()-1), null);
+      env = env.add(args.get(args.size()-1), null);
     }
     Mode m = null;
     if (solutions > 0.0)
@@ -174,7 +174,7 @@ public abstract class FlatPred extends PredImpl
    */
   protected Mode modeOneOutput(/*@non_null@*/Envir env)
   {
-    ArrayList inputs = new ArrayList(args.size());
+    ArrayList<Boolean> inputs = new ArrayList<Boolean>(args.size());
     int varsDefined = setInputs(env, inputs);
     double solutions = 0.0;
     if (varsDefined == args.size())
@@ -184,7 +184,7 @@ public abstract class FlatPred extends PredImpl
       for (int i = 0; i < inputs.size(); i++) {
         Boolean in = (Boolean)inputs.get(i);
         if ( ! in.booleanValue())
-          env = env.add((RefName)args.get(i), null);
+          env = env.add(args.get(i), null);
       }
     }
     Mode m = null;
@@ -226,8 +226,8 @@ public abstract class FlatPred extends PredImpl
     int dotPos = fullName.lastIndexOf('.') + 1; // -1 becomes 0.
     result.append(fullName.substring(dotPos));
     result.append("(");
-    for (Iterator i = args.iterator(); i.hasNext(); ) {
-      RefName name = (RefName)i.next();
+    for (Iterator<ZRefName> i = args.iterator(); i.hasNext(); ) {
+      ZRefName name = i.next();
       result.append(name.toString());
       if (i.hasNext())
         result.append(",");
@@ -270,35 +270,17 @@ public abstract class FlatPred extends PredImpl
   public /*@non_null@*/ Term create(/*@non_null@*/ Object[] newargs)
   {
     try {
-      ArrayList args = new ArrayList(newargs.length);
+      ArrayList<ZRefName> args = new ArrayList<ZRefName>(newargs.length);
       for (int i = 0; i < newargs.length; i++)
-        args.set(i, (RefName)newargs[i]);
+        args.set(i, (ZRefName)newargs[i]);
       Class[] paramTypes = {args.getClass()};
       Constructor cons = this.getClass().getConstructor(paramTypes);
       Object[] params = {args};
       return (Term)cons.newInstance(params);
     }
     catch (Exception e) {
-      throw new IllegalArgumentException ("Bad arguments to create: " + e);
+      throw new IllegalArgumentException ("Bad arguments to create",e);
     }
-    /*catch (IndexOutOfBoundsException e) {
-      throw new IllegalArgumentException("Illegal number of args in create: " + e);
-    }
-    catch (ClassCastException e) {
-      throw new IllegalArgumentException("Wrong type of args in create: " + e);
-    }
-    catch (NoSuchMethodException e) {
-      throw new RuntimeException("No such constructor exists " + e);
-    }
-    catch (InstantiationException e) {
-      throw new RuntimeException("Instantiation Exception Caught " + e);
-    }
-    catch (IllegalAccessException e) {
-      throw new RuntimeException("Illegal Access Exception Caught " + e);
-    }
-    catch (InvocationTargetException e) {
-      throw new RuntimeException("Invocation Target Exception Caught " + e);
-    }*/
   }
   
   /** Equality of an EvalSet with another EvalSet or Set. */

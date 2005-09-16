@@ -58,12 +58,12 @@ public class FlatRangeSetTest
   protected BigInteger big12 = new BigInteger("12");
   protected BigInteger big13 = new BigInteger("13");
   // names for integer variables
-  protected RefName i = factory_.createRefName("i",emptyList,null);
-  protected RefName j = factory_.createRefName("j",emptyList,null);
-  protected RefName k = factory_.createRefName("k",emptyList,null);
+  protected ZRefName i = factory_.createZRefName("i",emptyList,null);
+  protected ZRefName j = factory_.createZRefName("j",emptyList,null);
+  protected ZRefName k = factory_.createZRefName("k",emptyList,null);
   // names for set variables
-  protected RefName s = factory_.createRefName("s",emptyList,null);
-  protected RefName t = factory_.createRefName("t",emptyList,null);
+  protected ZRefName s = factory_.createZRefName("s",emptyList,null);
+  protected ZRefName t = factory_.createZRefName("t",emptyList,null);
   // integer constant expressions
   protected Expr i9 = factory_.createNumExpr(big9);
   protected Expr i10 = factory_.createNumExpr(big10);

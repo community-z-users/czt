@@ -62,10 +62,10 @@ public class FlatMemberTest
   private BigInteger i = new BigInteger("14");
   private BigInteger j = new BigInteger("15");
   private BigInteger k = new BigInteger("16");
-  private RefName x = factory_.createRefName("x",emptyList,null);
-  private RefName y = factory_.createRefName("y",emptyList,null);
-  private RefName z = factory_.createRefName("z",emptyList,null);
-  private RefName w = factory_.createRefName("w",emptyList,null);
+  private ZRefName x = factory_.createZRefName("x",emptyList,null);
+  private ZRefName y = factory_.createZRefName("y",emptyList,null);
+  private ZRefName z = factory_.createZRefName("z",emptyList,null);
+  private ZRefName w = factory_.createZRefName("w",emptyList,null);
   private Expr i10 = factory_.createNumExpr(a);
   private Expr i20 = factory_.createNumExpr(b);
   private Expr i30 = factory_.createNumExpr(c);

@@ -54,18 +54,18 @@ public class FlatTupleTest
   private BigInteger big12 = new BigInteger("12");
   private BigInteger big13 = new BigInteger("13");
   private BigInteger big14 = new BigInteger("14");
-  private RefName w = factory_.createRefName("w",emptyList,null);
-  private RefName z = factory_.createRefName("z",emptyList,null);
-  private RefName l = factory_.createRefName("l",emptyList,null);
-  private RefName m = factory_.createRefName("m",emptyList,null);
-  private RefName n = factory_.createRefName("n",emptyList,null);
-  private RefName o = factory_.createRefName("o",emptyList,null);
-  private RefName p = factory_.createRefName("p",emptyList,null);
-  private RefName a = factory_.createRefName("a",emptyList,null);
-  private RefName b = factory_.createRefName("b",emptyList,null);
-  private RefName c = factory_.createRefName("c",emptyList,null);
-  private RefName d = factory_.createRefName("d",emptyList,null);
-  private RefName e = factory_.createRefName("e",emptyList,null);
+  private ZRefName w = factory_.createZRefName("w",emptyList,null);
+  private ZRefName z = factory_.createZRefName("z",emptyList,null);
+  private ZRefName l = factory_.createZRefName("l",emptyList,null);
+  private ZRefName m = factory_.createZRefName("m",emptyList,null);
+  private ZRefName n = factory_.createZRefName("n",emptyList,null);
+  private ZRefName o = factory_.createZRefName("o",emptyList,null);
+  private ZRefName p = factory_.createZRefName("p",emptyList,null);
+  private ZRefName a = factory_.createZRefName("a",emptyList,null);
+  private ZRefName b = factory_.createZRefName("b",emptyList,null);
+  private ZRefName c = factory_.createZRefName("c",emptyList,null);
+  private ZRefName d = factory_.createZRefName("d",emptyList,null);
+  private ZRefName e = factory_.createZRefName("e",emptyList,null);
   private Expr i10 = factory_.createNumExpr(big10);
   private Expr i11 = factory_.createNumExpr(big11);
   private Expr i12 = factory_.createNumExpr(big12);
@@ -193,7 +193,7 @@ public class FlatTupleTest
     Assert.assertTrue(tempMode.getEnvir().lookup(w) instanceof TupleExpr);
     //Adding z to the Envir with its value as the temporary tuple created above
     Envir envABCDEZ = envABCDE.add(z,tempMode.getEnvir().lookup(w));
-    //Adding the RefName m to the envir, which is compliant with its corresponding value in the tuple
+    //Adding the ZRefName m to the envir, which is compliant with its corresponding value in the tuple
     Envir envABCDEZM = envABCDEZ.add(m,i11);
     mode = pred.chooseMode(envABCDEZM);
     Assert.assertTrue(mode != null);
@@ -221,7 +221,7 @@ public class FlatTupleTest
     Assert.assertEquals("result value", i14, mode.getEnvir().lookup(p));
     Assert.assertFalse(pred.nextEvaluation());
     
-    //Adding the RefName m to the envir, which is NOT compliant with its corresponding value in the tuple
+    //Adding the ZRefName m to the envir, which is NOT compliant with its corresponding value in the tuple
     Envir envABCDEZMN = envABCDEZM.add(n,i13);
     mode = null;
     mode = pred.chooseMode(envABCDEZMN);

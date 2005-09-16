@@ -53,9 +53,9 @@ public class FlatMultTest
   private BigInteger b = new BigInteger("20");
   private BigInteger c = new BigInteger("200");
   private BigInteger zero = new BigInteger("0");
-  private RefName x = factory_.createRefName("x",emptyList,null);
-  private RefName y = factory_.createRefName("y",emptyList,null);
-  private RefName z = factory_.createRefName("z",emptyList,null);
+  private ZRefName x = factory_.createZRefName("x",emptyList,null);
+  private ZRefName y = factory_.createZRefName("y",emptyList,null);
+  private ZRefName z = factory_.createZRefName("z",emptyList,null);
   private Expr i10 = factory_.createNumExpr(a);
   private Expr i20 = factory_.createNumExpr(b);
   private Expr i200 = factory_.createNumExpr(c);

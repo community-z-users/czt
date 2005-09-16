@@ -35,7 +35,7 @@ public class FlatEquals extends FlatPred
 {
   private Factory factory_ = new Factory();
   
-  public FlatEquals(RefName a, RefName b)
+  public FlatEquals(ZRefName a, ZRefName b)
   {
     args = new ArrayList(2);
     args.add(a);
@@ -68,19 +68,19 @@ public class FlatEquals extends FlatPred
     {
       solutionsReturned++;
       if (evalMode_.isInput(0) && evalMode_.isInput(1)) {
-        Expr a = evalMode_.getEnvir().lookup((RefName)args.get(0));
-        Expr b = evalMode_.getEnvir().lookup((RefName)args.get(1));
+        Expr a = evalMode_.getEnvir().lookup(args.get(0));
+        Expr b = evalMode_.getEnvir().lookup(args.get(1));
         if(a.equals(b))
           result = true;
       }
       else if (evalMode_.isInput(0)) {
-        Expr a = evalMode_.getEnvir().lookup((RefName)args.get(0));
-        evalMode_.getEnvir().setValue((RefName)args.get(1),a);
+        Expr a = evalMode_.getEnvir().lookup(args.get(0));
+        evalMode_.getEnvir().setValue(args.get(1),a);
         result = true;
       }
       else if (evalMode_.isInput(1)) {
-        Expr b = evalMode_.getEnvir().lookup((RefName)args.get(1));
-        evalMode_.getEnvir().setValue((RefName)args.get(0),b);
+        Expr b = evalMode_.getEnvir().lookup(args.get(1));
+        evalMode_.getEnvir().setValue(args.get(0),b);
         result = true;
       }
     }

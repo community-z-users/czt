@@ -51,8 +51,8 @@ public class FlatEqualsTest
   private Envir empty = new Envir();
   private BigInteger a = new BigInteger("10");
   private BigInteger b = new BigInteger("20");
-  private RefName x = factory_.createRefName("x",emptyList,null);
-  private RefName y = factory_.createRefName("y",emptyList,null);
+  private ZRefName x = factory_.createZRefName("x",emptyList,null);
+  private ZRefName y = factory_.createZRefName("y",emptyList,null);
   private Expr i10 = factory_.createNumExpr(a);
   private Expr i20 = factory_.createNumExpr(b);
   private FlatPred pred = new FlatEquals(x,y);

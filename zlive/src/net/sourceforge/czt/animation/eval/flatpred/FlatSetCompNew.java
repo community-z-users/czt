@@ -18,10 +18,11 @@ import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.DeclName;
+import net.sourceforge.czt.z.ast.ZDeclName;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.RefExpr;
-import net.sourceforge.czt.z.ast.RefName;
+import net.sourceforge.czt.z.ast.ZRefName;
 import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.util.Factory;
 
@@ -41,10 +42,10 @@ public class FlatSetCompNew extends FlatSetComp {
     
     /** Creates a new instance of FlatSetCompNew */
     public FlatSetCompNew(/*@non_null@*/ZLive zlive,
-            /*@non_null@*/List/*<Decl>*/ decls,
+            /*@non_null@*/List<Decl> decls,
             Pred pred,
             /*@non_null@*/Expr result,
-            /*@non_null@*/RefName set) {
+            /*@non_null@*/ZRefName set) {
         super(zlive, decls, pred, result, set);
         flatten_ = zlive.getFlatten();
         factory_ = zlive.getFactory();
@@ -71,24 +72,23 @@ public class FlatSetCompNew extends FlatSetComp {
         if (decl instanceof VarDecl) {
             VarDecl vdecl = (VarDecl) decl;
             Expr type = vdecl.getExpr();
-            // Or lets just assume simple (RefName) types at the moment?
-            //RefName typeName = flatten_.flattenExpr(type, predsDecls_.predlist_);
+            // Or lets just assume simple (ZRefName) types at the moment?
+            //ZRefName typeName = flatten_.flattenExpr(type, predsDecls_.predlist_);
             //declsEnv_ = declsEnv_.add(typeName, null);
             //RefExpr typeExpr = factory_.createRefExpr(typeName);
             //declsEnv_ = declsEnv_.add(typeName, typeExpr);
-            Iterator i = vdecl.getDeclName().iterator();
-            while (i.hasNext()) {
-                DeclName var = (DeclName) i.next();
-                RefName varref = factory_.createRefName(var);
+            for (DeclName d : vdecl.getDeclName()) {
+                ZDeclName dvar = (ZDeclName) d;
+                ZRefName varref = factory_.createZRefName(dvar);
                 //unflattened expresion type?
                 declsEnv_ = declsEnv_.add(varref, type);
             }
         } //        else if (decl instanceof ConstDecl) {
         //            ConstDecl cdecl = (ConstDecl) decl;
-        //            DeclName var = cdecl.getDeclName();
+        //            ZDeclName var = cdecl.getDeclName();
         //            boundVars_.add(var);
         //            Expr expr = cdecl.getExpr();
-        //            RefName varref = factory_.createRefName(var);
+        //            ZRefName varref = factory_.createZRefName(var);
         //            boundVars_.add(varref);
         //            flatten_.flattenPred(factory_.createMemPred(varref, expr), predlist_);
         //        }
@@ -102,8 +102,7 @@ public class FlatSetCompNew extends FlatSetComp {
     
     private Envir freeVarsEnvir() {
         Envir env = new Envir();
-        for(Object o : freeVars()) {
-            RefName free = (RefName)o;
+        for(ZRefName free : freeVars()) {
             env = env.add(free, null);
         }
         return env;
@@ -118,7 +117,7 @@ public class FlatSetCompNew extends FlatSetComp {
             int varsDefined = setInputs(env, inputs);
             for(int i=0;i<inputs.size();i++) {
                 if (((Boolean)inputs.get(i)).booleanValue() == false)
-                    env = env.add((RefName)args.get(i),null);
+                    env = env.add(args.get(i),null);
             }
             bodyMode_ = null; // reset bodyMode
             Envir D = EnvirUtils.copy(declsEnv_);
@@ -138,7 +137,7 @@ public class FlatSetCompNew extends FlatSetComp {
         }
         // bind (set |-> this), so that size estimates work better.
         if (m != null)
-            m.getEnvir().setValue((RefName)args.get(args.size()-1), this);
+            m.getEnvir().setValue(args.get(args.size()-1), this);
         return m;
     }
 }

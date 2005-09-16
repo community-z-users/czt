@@ -63,7 +63,7 @@ public class ZLive
   private static final List empty = new ArrayList();
 
   /** Generates a fresh temporary name. */
-  public RefName createNewName()
+  public ZRefName createNewName()
   {
     if (newNameNum == 554) {
       Exception e = new Exception("infinite loop");
@@ -71,11 +71,11 @@ public class ZLive
       e.printStackTrace(new PrintWriter(w));
       sLogger.fine("Stack dump: "+w.toString());
     }
-    return factory_.createRefName("tmp"+(newNameNum++), empty, null);
+    return factory_.createZRefName("tmp"+(newNameNum++), empty, null);
   }
 
   /** Recognises the RefNames produced by createNewName. */
-  public /*@pure@*/ boolean isNewName(/*@non_null@*/ RefName name) {
+  public /*@pure@*/ boolean isNewName(/*@non_null@*/ ZRefName name) {
     String word = name.getWord();
     return word.matches("tmp[0-9]+");
   }
@@ -223,7 +223,7 @@ public class ZLive
       throw new CztException("Must choose a section!");
     }
     predlist_ = new FlatPredList(this);
-    RefName resultName = predlist_.addExpr(expr);
+    ZRefName resultName = predlist_.addExpr(expr);
     Envir env0 = new Envir();
     Mode m = predlist_.chooseMode(env0);
     if (m == null)

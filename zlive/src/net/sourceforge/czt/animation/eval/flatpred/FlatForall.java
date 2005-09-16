@@ -38,7 +38,7 @@ public class FlatForall extends FlatPred
 
   protected FlatPredList schText_;
   protected FlatPredList body_;
-  private Set/*<RefName>*/ freeVars_;
+  private Set<ZRefName> freeVars_;
   
   /** The mode returned by schText_ */
   protected Mode schMode_ = null;
@@ -57,14 +57,17 @@ public class FlatForall extends FlatPred
     sLogger.fine("schText freevars = "+schText_.freeVars());
     sLogger.fine("schText boundvars = "+schText_.boundVars());
     sLogger.fine("body freevars = "+body_.freeVars());
-    Set/*<RefName>*/ bound = sch.boundVars();
-    for (Object/*RefName*/ v : body_.freeVars()) {
+    Set<ZDeclName> bound = sch.boundVars();
+    for (ZRefName v : body_.freeVars()) {
+      // TODO: implement special free/boundVar sets which can compare
+      //       ZRefName against ZDeclName.
+      // or (hack) ZDeclName dname = factory_.createZDeclName(v);
       if ( ! bound.contains(v))
         freeVars_.add(v);
     }
     sLogger.fine("freevars = "+freeVars_);
-    freeVars_ = new HashSet();  // TODO: remove this when above name comparison works properly
-    args = new ArrayList(freeVars_);
+    freeVars_ = new HashSet<ZRefName>();  // TODO: remove this when above name comparison works properly
+    args = new ArrayList<ZRefName>(freeVars_);
     solutionsReturned = -1;
     sLogger.exiting("FlatForall","FlatForall");
   }

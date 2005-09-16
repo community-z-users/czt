@@ -40,7 +40,7 @@ public class FlatTuple extends FlatPred
 {
   protected Factory factory_ = new Factory();
   
-  public FlatTuple(List elements, RefName tuple)
+  public FlatTuple(List elements, ZRefName tuple)
   {
     args = new ArrayList(elements);
     args.add(tuple);
@@ -48,9 +48,9 @@ public class FlatTuple extends FlatPred
   }
   
   //@ requires newargs.size() >= 1;
-  public FlatTuple(List newargs)
+  public FlatTuple(List<ZRefName> newargs)
   {
-    this(newargs.subList(0,newargs.size()-1),(RefName)newargs.get(newargs.size()-1));
+    this(newargs.subList(0,newargs.size()-1),newargs.get(newargs.size()-1));
   }
   
   /** Chooses the mode in which the predicate can be evaluated.*/
@@ -67,7 +67,7 @@ public class FlatTuple extends FlatPred
           solutions = 0.5;
         for(int i=0;i<args.size()-1;i++) {
           if (((Boolean)inputs.get(i)).booleanValue() == false)
-            env = env.add((RefName)args.get(i),null);
+            env = env.add(args.get(i),null);
         }
         m = new Mode(env, inputs, solutions);
       }
@@ -86,8 +86,8 @@ public class FlatTuple extends FlatPred
         assert (evalMode_.isInput(i));
     }
     boolean result = false;
-    //tupleName contains the RefName which refers to the tuple Expression in the env
-    RefName tupleName = (RefName)args.get(args.size()-1);
+    //tupleName contains the ZRefName which refers to the tuple Expression in the env
+    ZRefName tupleName = args.get(args.size()-1);
     if(solutionsReturned==0) {
       solutionsReturned++;
       //The case where the tuple itself is an input
@@ -98,7 +98,7 @@ public class FlatTuple extends FlatPred
         if(memberList.size() == args.size()-1) {
           boolean flag = true;
           for(int i=0;i<memberList.size();i++) {
-	    RefName elem = (RefName)args.get(i);
+	    ZRefName elem = args.get(i);
 	    Object value = evalMode_.getEnvir().lookup(elem);
             //if value of elem is unknown (null), we do envir(elem) := value from tuple
             if(value == null) {
@@ -120,7 +120,7 @@ public class FlatTuple extends FlatPred
         result = true;
         List exprList = new ArrayList(args.size()-1);
         for(int i=0;i<args.size()-1;i++)
-          exprList.add(evalMode_.getEnvir().lookup((RefName)args.get(i)));
+          exprList.add(evalMode_.getEnvir().lookup(args.get(i)));
         Expr tupleExpr = factory_.createTupleExpr(exprList);
         evalMode_.getEnvir().setValue(tupleName,tupleExpr);
       }

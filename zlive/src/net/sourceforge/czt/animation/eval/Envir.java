@@ -22,7 +22,8 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.animation.eval.*;
 
-/** An Environment is conceptually a mapping from variable names to values.
+/** An Environment is conceptually a mapping from variable names
+    (ZRefName) to values (Expr).
     However, it can also contain additional information about each
     name, such as type information.  This data structure is designed
     to allow environments to be extended in a non-destructive way.
@@ -35,7 +36,7 @@ public class Envir
 {
   protected Envir nextEnv;
   // An empty environment always has name==null && term==null;
-  protected RefName name_;
+  protected ZRefName name_;
   protected Expr expr_;
 
   /** Create an empty Envir */
@@ -47,7 +48,7 @@ public class Envir
      @return The value may be null.
   */
   //@ requires isDefined(want);
-  public/*@pure@*/Expr lookup(/*@non_null@*/RefName want) {
+  public/*@pure@*/Expr lookup(/*@non_null@*/ZRefName want) {
     Envir env = this;
     while (env != null) {
       if (sameName(want, env.name_))
@@ -57,8 +58,9 @@ public class Envir
     throw new EvalException("Missing name in envir: " + want);
   }
 
-  protected boolean sameName(/*@non_null@*/RefName a, RefName b) {
-    // TODO make this equals test more elegant.  Must avoid differences just because of the decl_ field.
+  protected boolean sameName(/*@non_null@*/ZRefName a, ZRefName b) {
+    // TODO make this equals test more elegant.  
+    // Must avoid differences just because of the decl_ field.
     return b != null 
         && a.getWord().equals(b.getWord())
         && a.getStroke().equals(b.getStroke());
@@ -67,7 +69,7 @@ public class Envir
   /** See if a name is defined in the Environment. 
    @return true if the name exists, false if it does not exist.
    */
-  public/*@pure@*/boolean isDefined(/*@non_null@*/RefName want) {
+  public/*@pure@*/boolean isDefined(/*@non_null@*/ZRefName want) {
     Envir env = this;
     while (env != null) {
       if (sameName(want, env.name_))
@@ -84,7 +86,7 @@ public class Envir
      @param newvalue The new value for name.
   */
  //@ requires isDefined(name); 
-  public void setValue(/*@non_null@*/RefName name,
+  public void setValue(/*@non_null@*/ZRefName name,
       				   /*@non_null@*/Expr newvalue) {
     Envir env = this;
     while (env != null) {
@@ -103,7 +105,7 @@ public class Envir
       @param  value The value to which name will be bound.  Can be null.
       @return The new extended environment
   */
-  public Envir add(/*@non_null@*/ RefName name, Expr value)
+  public Envir add(/*@non_null@*/ZRefName name, Expr value)
   {
     Envir result = new Envir();
     result.nextEnv = this;

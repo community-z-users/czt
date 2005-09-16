@@ -59,8 +59,8 @@ public class FlatLessThanEqualsTest
   private BigInteger h = new BigInteger("26");
   private BigInteger i = new BigInteger("27");
   private BigInteger j = new BigInteger("5");
-  private RefName x = factory_.createRefName("x",emptyList,null);
-  private RefName y = factory_.createRefName("y",emptyList,null);
+  private ZRefName x = factory_.createZRefName("x",emptyList,null);
+  private ZRefName y = factory_.createZRefName("y",emptyList,null);
   private Expr i5 = factory_.createNumExpr(j);
   private Expr i10 = factory_.createNumExpr(a);
   private Expr i20 = factory_.createNumExpr(b);

@@ -16,6 +16,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+// TODO: change pred methods to be type void.
 package net.sourceforge.czt.animation.eval;
 
 import java.util.*;
@@ -24,6 +25,7 @@ import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.ast.*;
@@ -44,48 +46,54 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
  */
 public class Flatten
     implements
-      TermVisitor,
-      AndPredVisitor,
-      OrPredVisitor,
-      ImpliesPredVisitor,
-      IffPredVisitor,
-      NegPredVisitor,
-      MemPredVisitor,
-      FalsePredVisitor,
-      TruePredVisitor,
-      ExistsPredVisitor,
-      ForallPredVisitor,
+      TermVisitor<ZRefName>,
+      AndPredVisitor<ZRefName>,
+      OrPredVisitor<ZRefName>,
+      ImpliesPredVisitor<ZRefName>,
+      IffPredVisitor<ZRefName>,
+      NegPredVisitor<ZRefName>,
+      MemPredVisitor<ZRefName>,
+      FalsePredVisitor<ZRefName>,
+      TruePredVisitor<ZRefName>,
+      ExistsPredVisitor<ZRefName>,
+      ForallPredVisitor<ZRefName>,
 
-      NameVisitor,
-      NumExprVisitor,
-      ApplExprVisitor,
-      TupleSelExprVisitor,
-      RefExprVisitor,
-      PowerExprVisitor,
-      SetExprVisitor,
-      SetCompExprVisitor,
-      ProdExprVisitor,
-      TupleExprVisitor,
-      BindExprVisitor,
-      ConstDeclVisitor,
-      ZDeclListVisitor
+      NumExprVisitor<ZRefName>,
+      ApplExprVisitor<ZRefName>,
+      TupleSelExprVisitor<ZRefName>,
+      RefExprVisitor<ZRefName>,
+      PowerExprVisitor<ZRefName>,
+      SetExprVisitor<ZRefName>,
+      SetCompExprVisitor<ZRefName>,
+      ProdExprVisitor<ZRefName>,
+      TupleExprVisitor<ZRefName>,
+      BindExprVisitor<ZRefName>
 {
+  /** A reference to the main animator object, so that we can 
+      access all kinds of settings, tables and section manager etc.
+  */
   private ZLive zlive_;
   
+  /** A reference to the table of all visible definitions */
   private DefinitionTable table_;
 
-  private List flat_;
+  /** This list contains the result of flattening the expr/pred */
+  private List<FlatPred> flat_;
 
+  /** The set of builtin binary relations handled by ZLive */
+  static final Set<String> knownRelations = new HashSet();
+  
   private static final Logger sLogger
   = Logger.getLogger("net.sourceforge.czt.animation.eval");
-  
+
+
   /** Throws a 'not yet implemented' exception. */
-  protected Term notYet(Term t) {
+  protected ZRefName notYet(Term t) {
     return notYet(t,"");
   }
 
   /** Throws a 'not yet implemented' exception. */
-  protected Term notYet(Term t, String msg) {
+  protected ZRefName notYet(Term t, String msg) {
     throw new RuntimeException("Flatten does not yet handle: " + t
 			       + "   ("+msg+")");
   }
@@ -122,32 +130,32 @@ public class Flatten
    *  @return The name of the variable that will contain the result,
    *          after evaluation.
    */
-  public RefName flattenExpr(Expr toFlatten, List destination)
+  public ZRefName flattenExpr(Expr toFlatten, List destination)
     throws CommandException
   {
     flat_ = destination;
     String currSect = zlive_.getCurrentSection();
     Key key = new Key(currSect, DefinitionTable.class);
     table_ = (DefinitionTable) zlive_.getSectionManager().get(key);
-    return (RefName)toFlatten.accept(this);
+    return toFlatten.accept(this);
   }  
  
-  /** An auxiliary method for flattening a list of Decl in a Map. */
-  protected List/*<DeclName>*/ declNames(List decls) {
-    List result = new ArrayList();
-    for (Iterator i = decls.iterator(); i.hasNext();) {
-      Decl decl = (Decl) i.next();
+  /** An auxiliary method for getting all the names in a list of Decl. */
+  protected List<ZDeclName> declNames(List<Decl> decls) {
+    List<ZDeclName> result = new ArrayList<ZDeclName>();
+    for (Decl decl : decls) {
       if (decl instanceof VarDecl) {
         VarDecl vdecl = (VarDecl) decl;
-        Iterator id = vdecl.getDeclName().iterator();
-        while (id.hasNext()) {
-          DeclName name = (DeclName)id.next();
-          result.add(name);
+        for (DeclName name : vdecl.getDeclName()) {
+	  if (name instanceof ZDeclName)
+            result.add((ZDeclName)name);
+	  else
+	    throw new UnsupportedAstClassException("illegal DeclName " + name);
         }
       }
       else if (decl instanceof ConstDecl) {
         ConstDecl cdecl = (ConstDecl) decl;
-        DeclName name = cdecl.getDeclName();
+        ZDeclName name = cdecl.getZDeclName();
         result.add(name);
       }
       else {
@@ -157,13 +165,11 @@ public class Flatten
     return result;
   }
 
-  static final Set knownRelations = new HashSet();
-  
   /** Extracts the names of known binary relations. */
   protected String binaryRelation(Expr e) {
     if ( ! (e instanceof RefExpr))
       return null;
-    RefName ref = ((RefExpr)e).getRefName();
+    ZRefName ref = ((RefExpr)e).getZRefName();
     if (ref.getStroke().size() > 0)
       return null;
     String rel = ref.getWord();
@@ -175,65 +181,62 @@ public class Flatten
   
   /** An auxiliary method for visiting a list of Expr.
    *  @param  elements a list of Expr.
-   *  @return an ArrayList of RefNames (same size as elements).
+   *  @return an ArrayList of ZRefNames (same size as elements).
    */ 
-  protected ArrayList/*<RefName>*/ flattenExprList(
-	   /*@non_null@*/List/*<Expr>*/ elements)
+  protected ArrayList<ZRefName> flattenExprList(
+	   /*@non_null@*/List<Expr> elements)
   {
-    ArrayList refnames = new ArrayList();
-    for (Iterator i = elements.iterator(); i.hasNext(); ) {
-      Expr elem = (Expr)i.next();
+    ArrayList<ZRefName> refnames = new ArrayList<ZRefName>();
+    for (Expr elem : elements)
       refnames.add(elem.accept(this));
-    }
     return refnames;
   }
 
   /** We throw an error if we reach a kind of term that we do not handle. */
-  public Object visitTerm(Term term) {
+  public ZRefName visitTerm(Term term) {
     if (term instanceof List)
-      return VisitorUtils.visitTerm(this,term,true);
+      return (ZRefName) VisitorUtils.visitTerm(this,term,true);
     else
       return notYet(term);
   }
 
   /** Adds both conjuncts to the flatten list. */
-  public Object visitAndPred(AndPred p) {
+  public ZRefName visitAndPred(AndPred p) {
     ((Pred)p.getLeftPred()).accept(this);
     ((Pred)p.getRightPred()).accept(this);
     return null;
   }
 
   /////////////// TODO: implement these, or unfold them //////////////////
-  public Object visitOrPred(OrPred p) { return notYet(p); }
-  public Object visitImpliesPred(ImpliesPred p) { return notYet(p); }
-  public Object visitIffPred(IffPred p) { return notYet(p); }
-  public Object visitNegPred(NegPred p) {
+  public ZRefName visitOrPred(OrPred p) { return notYet(p); }
+  public ZRefName visitImpliesPred(ImpliesPred p) { return notYet(p); }
+  public ZRefName visitIffPred(IffPred p) { return notYet(p); }
+  public ZRefName visitNegPred(NegPred p) {
     FlatPredList inner = new FlatPredList(zlive_);
     inner.addPred(p.getPred());
     flat_.add(new FlatNot(inner));
     return null;
   }
 
-  public Object visitMemPred(MemPred p) {
+  public ZRefName visitMemPred(MemPred p) {
     sLogger.entering("Flatten","visitMemPred");
     Factory factory = zlive_.getFactory();
     Expr lhs = p.getLeftExpr();
     Expr rhs = p.getRightExpr();
+    String rel = null;
     if (rhs instanceof SetExpr
 	&& ((SetExpr)rhs).getExpr().size() == 1) {
       // We have an equality
       rhs = (Expr)((SetExpr)rhs).getExpr().get(0);
-      flat_.add(new FlatEquals((RefName)lhs.accept(this),
-			       (RefName)rhs.accept(this)));
+      flat_.add(new FlatEquals(lhs.accept(this), rhs.accept(this)));
       return null;
     }
-    else if (binaryRelation(rhs) != null
+    else if ((rel=binaryRelation(rhs)) != null
 	     && lhs instanceof TupleExpr
 	     && ((TupleExpr)lhs).getExpr().size() == 2) {
-      String rel = binaryRelation(rhs);
-      List tuple = ((TupleExpr)lhs).getExpr();
-      RefName left = (RefName)((Expr)tuple.get(0)).accept(this);
-      RefName right = (RefName)((Expr)tuple.get(1)).accept(this);
+      List<Expr> tuple = ((TupleExpr)lhs).getExpr();
+      ZRefName left = tuple.get(0).accept(this);
+      ZRefName right = tuple.get(1).accept(this);
       if (rel.equals(ZString.ARG_TOK+ZString.LESS+ZString.ARG_TOK))
         flat_.add(new FlatLessThan(left,right));
       else if (rel.equals(ZString.ARG_TOK+ZString.LEQ+ZString.ARG_TOK))
@@ -260,36 +263,36 @@ public class Flatten
         throw new EvalException("ERROR: unknown binary relation "+rel);
       }
     else {
-	  flat_.add(new FlatMember((RefName)rhs.accept(this), 
-				 (RefName)lhs.accept(this)));
+	  flat_.add(new FlatMember(rhs.accept(this), 
+				   lhs.accept(this)));
     }
     sLogger.exiting("Flatten","visitMemPred");
     return null;
   }
 
 
-  public Object visitFalsePred(FalsePred p) {
+  public ZRefName visitFalsePred(FalsePred p) {
    flat_.add(new FlatFalse());
    return null;
   }
 
-  public Object visitTruePred(TruePred p) {
+  public ZRefName visitTruePred(TruePred p) {
     // Ignore it.
     return null;
   }
 
-  public Object visitExistsPred(ExistsPred p) {
+  public ZRefName visitExistsPred(ExistsPred p) {
     FlatPredList sch = new FlatPredList(zlive_);
-    sch.addSchText(p.getSchText());
+    sch.addSchText(p.getZSchText());
     FlatPredList body = new FlatPredList(zlive_);
     body.addPred(p.getPred());
     flat_.add(new FlatExists(sch, body));
     return null;
   }
 
-  public Object visitForallPred(ForallPred p) {
+  public ZRefName visitForallPred(ForallPred p) {
     FlatPredList sch = new FlatPredList(zlive_);
-    sch.addSchText(p.getSchText());
+    sch.addSchText(p.getZSchText());
     FlatPredList body = new FlatPredList(zlive_);
     body.addPred(p.getPred());
     flat_.add(new FlatForall(sch, body));
@@ -297,93 +300,93 @@ public class Flatten
   }
 
   /** Name objects are returned unchanged. */
-  public Object visitName(Name e)
+  public ZRefName visitZRefName(ZRefName e)
   { return e; }
 
   /** Simple RefExpr objects are returned unchanged. */
-  public Object visitRefExpr(RefExpr e) {
+  public ZRefName visitRefExpr(RefExpr e) {
     if (e.getExpr().size() != 0)
-	return notYet(e, "generic");
-    // Try to unfold this name via a definition.
+      return notYet(e, "generic");
+    // Try to unfold this name via a (non-generic) definition.
     DefinitionTable.Definition def = table_.lookup(e.getRefName().toString());
     if (def != null && def.getDeclNames().size() == e.getExpr().size()) {
       Expr newExpr = def.getExpr();
       return newExpr.accept(this);      
     }
-    return e.getRefName();
+    return e.getZRefName();
   }
 
   /** NumExpr objects are converted into tmp = Num. */
-  public Object visitNumExpr(NumExpr e)
+  public ZRefName visitNumExpr(NumExpr e)
   {     
-    RefName result = zlive_.createNewName();
+    ZRefName result = zlive_.createNewName();
     flat_.add(new FlatConst(result,e));
     return result;
   }
 
   /** Each ApplExpr is flattened into a different kind of FlatPred. */
-  public Object visitApplExpr(ApplExpr e) {
+  public ZRefName visitApplExpr(ApplExpr e) {
     Expr func = (Expr) e.getLeftExpr();
     Expr arg = (Expr) e.getRightExpr();
-    List argList = null;
-    RefName result = zlive_.createNewName();
+    List<Expr> argList = null;
+    ZRefName result = zlive_.createNewName();
 
     if (arg instanceof TupleExpr)
       argList = ((TupleExpr) arg).getExpr();
 
     if (func instanceof RefExpr
-        && ((RefExpr) func).getRefName().getStroke().size() == 0) {
-      String funcname = ((RefExpr) func).getRefName().getWord();
+        && ((RefExpr) func).getZRefName().getStroke().size() == 0) {
+      String funcname = ((RefExpr) func).getZRefName().getWord();
       if (funcname.equals(ZString.ARG_TOK + ZString.PLUS + ZString.ARG_TOK)) 
         flat_.add(new FlatPlus(
-            (RefName)((Expr)argList.get(0)).accept(this),
-            (RefName)((Expr)argList.get(1)).accept(this), 
+            argList.get(0).accept(this),
+            argList.get(1).accept(this), 
             result));
       else if (funcname.equals(ZString.ARG_TOK + ZString.MINUS + ZString.ARG_TOK)) 
         /* a-b=c <=> a=b+c (we could do this via a rewrite rule) */
         flat_.add(new FlatPlus(
-            (RefName)((Expr)argList.get(1)).accept(this),
+            argList.get(1).accept(this),
 	    result,
-	    (RefName)((Expr)argList.get(0)).accept(this)));
+	    argList.get(0).accept(this)));
       else if (funcname.equals(ZString.ARG_TOK + ZString.MULT + ZString.ARG_TOK))
         flat_.add(new FlatMult(
-            (RefName)((Expr)argList.get(0)).accept(this),
-            (RefName)((Expr)argList.get(1)).accept(this), 
+            argList.get(0).accept(this),
+            argList.get(1).accept(this), 
             result));
       else if (funcname.equals(ZString.ARG_TOK + "div" + ZString.ARG_TOK))
         flat_.add(new FlatDiv(
-            (RefName)((Expr)argList.get(0)).accept(this),
-            (RefName)((Expr)argList.get(1)).accept(this), 
+            argList.get(0).accept(this),
+            argList.get(1).accept(this), 
             result));
       else if (funcname.equals(ZString.ARG_TOK + "mod" + ZString.ARG_TOK))
         flat_.add(new FlatMod(
-            (RefName)((Expr)argList.get(0)).accept(this),
-            (RefName)((Expr)argList.get(1)).accept(this), 
+            argList.get(0).accept(this),
+            argList.get(1).accept(this), 
             result));
       else if (funcname.equals(ZString.ARG_TOK + ".." + ZString.ARG_TOK))
         flat_.add(new FlatRangeSet(
-            (RefName)((Expr)argList.get(0)).accept(this),
-            (RefName)((Expr)argList.get(1)).accept(this), 
+            argList.get(0).accept(this),
+            argList.get(1).accept(this), 
             result));
       else if (funcname.equals("#" + ZString.ARG_TOK)) {
-        RefName argVar = (RefName) arg.accept(this);
+        ZRefName argVar = arg.accept(this);
         flat_.add(new FlatCard(argVar, result));
       }
       else if (funcname.equals(ZString.NEG + ZString.ARG_TOK)) {
-        RefName argVar = (RefName) arg.accept(this);
+        ZRefName argVar = arg.accept(this);
         flat_.add(new FlatNegate(argVar, result));
       }
       else if (funcname.equals("succ" + ZString.ARG_TOK)) {
         /* succ _ = _ + 1; _ + 1 = result using FlatPlus */        
-        RefName argVar = (RefName) arg.accept(this);
+        ZRefName argVar = arg.accept(this);
         Expr num1 = zlive_.getFactory().createNumExpr(1);
-        RefName refForNum1 = (RefName)num1.accept(this);
+        ZRefName refForNum1 = num1.accept(this);
         flat_.add(new FlatPlus(argVar, refForNum1, result));        
       } 
       else if (funcname.equals(ZString.ARG_TOK + ZString.CUP + ZString.ARG_TOK)) {
           flat_.add(new FlatUnion(
-            (RefName)((Expr)argList.get(0)).accept(this),
-            (RefName)((Expr)argList.get(1)).accept(this), 
+            argList.get(0).accept(this),
+            argList.get(1).accept(this), 
             result));
       }
       // else if (...)   TODO: add more cases...
@@ -398,45 +401,48 @@ public class Flatten
     return result;
   }
 
-  public Object visitTupleSelExpr(TupleSelExpr e)
+  public ZRefName visitTupleSelExpr(TupleSelExpr e)
   {
-    RefName result = zlive_.createNewName();
+    ZRefName result = zlive_.createNewName();
     flat_.add(new FlatTupleSel(
-            (RefName)((Expr) e.getExpr()).accept(this),
-            e.getSelect(),
+            e.getExpr().accept(this),
+            ((ZNumeral) e.getNumeral()).getValue(),
             result));
     return result;
   }
 
-  public Object visitPowerExpr(PowerExpr e) { return notYet(e); }
+  public ZRefName visitPowerExpr(PowerExpr e) {
+    return notYet(e);
+  }
   
-  public Object visitSetExpr(SetExpr e) 
+  public ZRefName visitSetExpr(SetExpr e) 
   {
-    ArrayList refnames = flattenExprList(e.getExpr());
-    RefName result = zlive_.createNewName();
+    ArrayList<ZRefName> refnames = flattenExprList(e.getExpr());
+    ZRefName result = zlive_.createNewName();
     flat_.add(new FlatDiscreteSet(refnames, result));
     return result;
   }
   
-  public Object visitSetCompExpr(SetCompExpr e) {
-    RefName result = zlive_.createNewName();
-    SchText text = e.getSchText();
-    List decls = ((ZDeclList) text.getDeclList()).getDecl();
+  public ZRefName visitSetCompExpr(SetCompExpr e) {
+    ZRefName result = zlive_.createNewName();
+    ZSchText text = e.getZSchText();
+    List<Decl> decls = text.getDecl();
     Pred pred = text.getPred();
     Expr expr = e.getExpr();
     if (expr == null) {
-      List names = declNames(decls);
+      // fill in the characteristic tuple
+      List<ZDeclName> names = declNames(decls);
       if (names.size() == 0)
         throw new EvalException("empty set comprehension!");
       else if (names.size() == 1) {
-        RefName refName = zlive_.getFactory().createRefName((DeclName)names.get(0));
+        ZRefName refName = zlive_.getFactory().createZRefName(names.get(0));
         expr = zlive_.getFactory().createRefExpr(refName);
       }
       else {
-        // Make a tuple!
-        List/*<RefExpr>*/ refExprs = new ArrayList();
-        for (Iterator i = names.iterator(); i.hasNext(); ) {
-          RefName tmpName = zlive_.getFactory().createRefName((DeclName)i.next());
+        // Make a real tuple!
+        List<Expr> refExprs = new ArrayList<Expr>();
+        for (ZDeclName name : names) {
+          ZRefName tmpName = zlive_.getFactory().createZRefName(name);
           refExprs.add(zlive_.getFactory().createRefExpr(tmpName));
         }
         expr = zlive_.getFactory().createTupleExpr(refExprs);
@@ -447,96 +453,87 @@ public class Flatten
     return result;
   }
 
-  public Object visitProdExpr(ProdExpr e) { return notYet(e); }
-  public Object visitTupleExpr(TupleExpr e) {
-    ArrayList refnames = flattenExprList(e.getExpr());
-    RefName result = zlive_.createNewName();
+  public ZRefName visitProdExpr(ProdExpr e) {
+    return notYet(e);
+  }
+
+  public ZRefName visitTupleExpr(TupleExpr e) {
+    ArrayList<ZRefName> refnames = flattenExprList(e.getExpr());
+    ZRefName result = zlive_.createNewName();
     flat_.add(new FlatTuple(refnames, result));
     return result;
   }
 
-  public Object visitBindExpr(BindExpr e)
+  public ZRefName visitBindExpr(BindExpr e)
   {
-    return notYet(e);
-    /*
-    ZDeclList decls = (ZDeclList) e.getDeclList().accept(this);
-    RefName result = zlive_.createNewName();
-    flat_.add(new FlatBinding(decls, result));
+    List<ZDeclName> names = new ArrayList<ZDeclName>();
+    List<ZRefName>  exprs = new ArrayList<ZRefName>();
+    for (Decl decl : e.getDecl()) {
+      ConstDecl constDecl = (ConstDecl) decl;
+      names.add(constDecl.getZDeclName());
+      exprs.add(constDecl.getExpr().accept(this)); // recursive flatten
+    }
+    ZRefName result = zlive_.createNewName();
+    flat_.add(new FlatBinding(names, exprs, result));
     return result;
-    */
   }
 
-  public Object visitZDeclList(ZDeclList declList)
+  /*
+  public ZDeclList visitZDeclList(ZDeclList declList)
   {
+    // TODO: clean up the types here.  Can we avoid the casts?
     List<Decl> declList2 = (List<Decl>) declList.getDecl().accept(this);
     return zlive_.getFactory().createZDeclList(declList2);
   }
-
-  /** Handles the ConstDecls that appear within BindExpr.
-   *  Unlike most other visit methods in this class, this does not return
-   *  just a RefName.  Instead it returns a new ConstDecl, which should be
-   *  handled by the callers of this method (BindExpr). This is because 
-   *  these ConstDecls are really part of the syntax of the BindExpr,
-   *  rather than a separate Z operator.
-   *  @param  constDecl A ConstDecl that needs to be flattened.
-   *  @return the same ConstDecl, but with the Expr part flattened.
-   */
-  public Object visitConstDecl(ConstDecl constDecl)
-  {
-    DeclName decl = constDecl.getDeclName();
-    Expr expr = constDecl.getExpr();
-    RefName eresult = (RefName)expr.accept(this);  // recursive flatten
-    // we have to wrap a RefExpr around eresult, so it has the right type.
-    RefExpr refexpr = zlive_.getFactory().createRefExpr(eresult);
-    return zlive_.getFactory().createConstDecl(decl,refexpr);
-  }
+  */
 
 /*
-  public Object visitFreetype(Freetype zedObject) { return zedObject; }
-  public Object visitNameNamePair(NameNamePair zedObject) {return zedObject; }
-  public Object visitLetExpr(LetExpr zedObject) {return zedObject; }
-  public Object visitSignature(Signature zedObject) {return zedObject; }
-  public Object visitProdType(ProdType zedObject) {return zedObject; }
-  public Object visitDecl(Decl zedObject) {return zedObject; }
-  public Object visitImpliesExpr(ImpliesExpr zedObject) {return zedObject; }
-  public Object visitMuExpr(MuExpr zedObject) {return zedObject; }
-  public Object visitSchExpr2(SchExpr2 zedObject) {return zedObject; }
-  public Object visitExistsExpr(ExistsExpr zedObject) {return zedObject; }
-  public Object visitExists1Expr(Exists1Expr zedObject) {return zedObject; }
-  public Object visitForallExpr(ForallExpr zedObject) {return zedObject; }
-  public Object visitVarDecl(VarDecl zedObject) {return zedObject; }
-  public Object visitCompExpr(CompExpr zedObject) {return zedObject; }
-  public Object visitCondExpr(CondExpr zedObject) {return zedObject; }
-  public Object visitLambdaExpr(LambdaExpr zedObject) {return zedObject; }
-  public Object visitIffExpr(IffExpr zedObject) {return zedObject; }
-  public Object visitQntExpr(QntExpr zedObject) {return zedObject; }
-  public Object visitNameTypePair(NameTypePair zedObject) {return zedObject; }
-  public Object visitSchText(SchText zedObject) {return zedObject; }
-  public Object visitQnt1Expr(Qnt1Expr zedObject) {return zedObject; }
-  public Object visitOperand(Operand zedObject) {return zedObject; }
-  public Object visitProjExpr(ProjExpr zedObject) {return zedObject; }
-  public Object visitBranch(Branch zedObject) {return zedObject; }
-  public Object visitGenType(GenType zedObject) {return zedObject; }
-  public Object visitPreExpr(PreExpr zedObject) {return zedObject; }
-  public Object visitExprPred(ExprPred zedObject) {return zedObject; }
-  public Object visitGivenType(GivenType zedObject) {return zedObject; }
-  public Object visitInclDecl(InclDecl zedObject) {return zedObject; }
-  public Object visitPred(Pred zedObject) {return zedObject; }
-  public Object visitSchemaType(SchemaType zedObject) {return zedObject; }
-  public Object visitBindSelExpr(BindSelExpr zedObject) {return zedObject; }
-  public Object visitDeclName(DeclName zedObject) {return zedObject; }
-  public Object visitOrExpr(OrExpr zedObject) {return zedObject; }
-  public Object visitSpec(Spec zedObject) {return zedObject; }
-  public Object visitHideExpr(HideExpr zedObject) {return zedObject; }
-  public Object visitPowerType(PowerType zedObject) {return zedObject; }
-  public Object visitAndExpr(AndExpr zedObject) {return zedObject; }
-  public Object visitRenameExpr(RenameExpr zedObject) {return zedObject; }
-  public Object visitThetaExpr(ThetaExpr zedObject) {return zedObject; }
-  public Object visitPipeExpr(PipeExpr zedObject) {return zedObject; }
-  public Object visitNegExpr(NegExpr zedObject) {return zedObject; }
-  public Object visitDecorExpr(DecorExpr zedObject) {return zedObject; }
-  public Object visitExists1Pred(Exists1Pred zedObject) {return zedObject; }
-  public Object visitSchExpr(SchExpr zedObject) {return zedObject; }
+  public ZRefName visitFreetype(Freetype zedObject) { return zedObject; }
+  public ZRefName visitNameNamePair(NameNamePair zedObject) {return zedObject; }
+  public ZRefName visitLetExpr(LetExpr zedObject) {return zedObject; }
+  public ZRefName visitSignature(Signature zedObject) {return zedObject; }
+  public ZRefName visitProdType(ProdType zedObject) {return zedObject; }
+  public ZRefName visitDecl(Decl zedObject) {return zedObject; }
+  public ZRefName visitConstDecl(ConstDecl zedObject) {return zedObject; }
+  public ZRefName visitImpliesExpr(ImpliesExpr zedObject) {return zedObject; }
+  public ZRefName visitMuExpr(MuExpr zedObject) {return zedObject; }
+  public ZRefName visitSchExpr2(SchExpr2 zedObject) {return zedObject; }
+  public ZRefName visitExistsExpr(ExistsExpr zedObject) {return zedObject; }
+  public ZRefName visitExists1Expr(Exists1Expr zedObject) {return zedObject; }
+  public ZRefName visitForallExpr(ForallExpr zedObject) {return zedObject; }
+  public ZRefName visitVarDecl(VarDecl zedObject) {return zedObject; }
+  public ZRefName visitCompExpr(CompExpr zedObject) {return zedObject; }
+  public ZRefName visitCondExpr(CondExpr zedObject) {return zedObject; }
+  public ZRefName visitLambdaExpr(LambdaExpr zedObject) {return zedObject; }
+  public ZRefName visitIffExpr(IffExpr zedObject) {return zedObject; }
+  public ZRefName visitQntExpr(QntExpr zedObject) {return zedObject; }
+  public ZRefName visitNameTypePair(NameTypePair zedObject) {return zedObject; }
+  public ZRefName visitSchText(SchText zedObject) {return zedObject; }
+  public ZRefName visitQnt1Expr(Qnt1Expr zedObject) {return zedObject; }
+  public ZRefName visitOperand(Operand zedObject) {return zedObject; }
+  public ZRefName visitProjExpr(ProjExpr zedObject) {return zedObject; }
+  public ZRefName visitBranch(Branch zedObject) {return zedObject; }
+  public ZRefName visitGenType(GenType zedObject) {return zedObject; }
+  public ZRefName visitPreExpr(PreExpr zedObject) {return zedObject; }
+  public ZRefName visitExprPred(ExprPred zedObject) {return zedObject; }
+  public ZRefName visitGivenType(GivenType zedObject) {return zedObject; }
+  public ZRefName visitInclDecl(InclDecl zedObject) {return zedObject; }
+  public ZRefName visitPred(Pred zedObject) {return zedObject; }
+  public ZRefName visitSchemaType(SchemaType zedObject) {return zedObject; }
+  public ZRefName visitBindSelExpr(BindSelExpr zedObject) {return zedObject; }
+  public ZRefName visitDeclName(DeclName zedObject) {return zedObject; }
+  public ZRefName visitOrExpr(OrExpr zedObject) {return zedObject; }
+  public ZRefName visitSpec(Spec zedObject) {return zedObject; }
+  public ZRefName visitHideExpr(HideExpr zedObject) {return zedObject; }
+  public ZRefName visitPowerType(PowerType zedObject) {return zedObject; }
+  public ZRefName visitAndExpr(AndExpr zedObject) {return zedObject; }
+  public ZRefName visitRenameExpr(RenameExpr zedObject) {return zedObject; }
+  public ZRefName visitThetaExpr(ThetaExpr zedObject) {return zedObject; }
+  public ZRefName visitPipeExpr(PipeExpr zedObject) {return zedObject; }
+  public ZRefName visitNegExpr(NegExpr zedObject) {return zedObject; }
+  public ZRefName visitDecorExpr(DecorExpr zedObject) {return zedObject; }
+  public ZRefName visitExists1Pred(Exists1Pred zedObject) {return zedObject; }
+  public ZRefName visitSchExpr(SchExpr zedObject) {return zedObject; }
 */
 }
 
