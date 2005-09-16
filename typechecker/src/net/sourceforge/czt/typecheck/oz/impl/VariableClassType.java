@@ -44,9 +44,9 @@ public class VariableClassType
     classSig_ = factory.createVariableClassSig();
   }
 
-  protected VariableClassType(DeclName declName, ClassSig classSig)
+  protected VariableClassType(ZDeclName zDeclName, ClassSig classSig)
   {
-    super(declName);
+    super(zDeclName);
     assert classSig instanceof VariableClassSig;
     classSig_ = classSig;
   }
@@ -103,11 +103,11 @@ public class VariableClassType
   {
     VariableClassType zedObject = null;
     try {
-      DeclName declName = (DeclName) args[0];
+      ZDeclName zDeclName = (ZDeclName) args[0];
       ClassType type = (ClassType) args[1];
       Type2 value = (Type2) args[2];
       ClassSig classSig = (ClassSig) args[3];
-      zedObject = new VariableClassType(declName, classSig);
+      zedObject = new VariableClassType(zDeclName, classSig);
       zedObject.setValue(value);
       zedObject.setCandidateType(type);
     }

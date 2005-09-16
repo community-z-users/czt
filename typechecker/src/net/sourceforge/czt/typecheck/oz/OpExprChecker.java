@@ -89,12 +89,13 @@ public class OpExprChecker
     //check that each name in the delta list is a primary variable
     DeltaList deltaList = opText.getDeltaList();
     if (deltaList != null) {
-      List<RefName> refNames = deltaList.getRefName();
-      for (RefName delta : refNames) {
-        DeclName declName = factory().createDeclName(delta);
-        if (!primary().contains(declName)) {
-          Object [] params = {delta};
-          error(delta, ErrorMessage.NON_PRIMDECL_IN_DELTALIST, params);
+      List<RefName> deltaNames = deltaList.getRefName();
+      for (RefName deltaName : deltaNames) {
+	ZRefName zDeltaName = assertZRefName(deltaName);
+        ZDeclName deltaDeclName = factory().createZDeclName(zDeltaName);
+        if (!primary().contains(zDeltaName)) {
+          Object [] params = {zDeltaName};
+          error(deltaName, ErrorMessage.NON_PRIMDECL_IN_DELTALIST, params);
         }
       }
     }
@@ -137,8 +138,9 @@ public class OpExprChecker
       ClassType classType = (ClassType) vClassType.getValue();
       ClassSig cSig = classType.getClassSig();
       if (!instanceOf(cSig, VariableClassSig.class)) {
-        RefName refName = opPromExpr.getName();
-        NameSignaturePair opDef = findOperation(refName, cSig);
+        RefName promName = opPromExpr.getRefName();
+	ZRefName zPromName = assertZRefName(promName);
+        NameSignaturePair opDef = findOperation(zPromName, cSig);
 
         //if the name is not found, and use-before-decl is enabled,
         //then search for this name in the class
@@ -146,9 +148,11 @@ public class OpExprChecker
             (expr == null || isSelfExpr(expr))) {
           List<Operation> ops = classPara().getOperation();
           for (Operation op : ops) {
-            if (namesEqual(op.getName(), refName)) {
+	    ZDeclName opName = op.getZDeclName();
+            if (namesEqual(opName, zPromName)) {
               Signature opSignature = op.accept(paraChecker());
-	      opDef = factory().createNameSignaturePair(op.getName(), opSignature);
+	      opDef =
+		factory().createNameSignaturePair(opName, opSignature);
             }
           }
         }
@@ -165,8 +169,8 @@ public class OpExprChecker
         }
 
         //if there is an operation, but it is not visible, raise an error
-        if (opDef != null && !isVisible(refName, classType)) {
-          Object [] params = {refName, opPromExpr};
+        if (opDef != null && !isVisible(zPromName, classType)) {
+          Object [] params = {zPromName, opPromExpr};
           error(opPromExpr, ErrorMessage.NON_VISIBLE_NAME_IN_OPPROMEXPR, params);
         }
       }
@@ -326,8 +330,8 @@ public class OpExprChecker
     //hide the declarations
     String errorMessage =
       ErrorMessage.DUPLICATE_NAME_IN_RENAMEOPEXPR.toString();
-    List<NameNamePair> namePairs = renameOpExpr.getNameNamePair();
-    Signature signature = createRenameSig(renameSig, namePairs,
+    List<NewOldPair> renamePairs = renameOpExpr.getRenamings();
+    Signature signature = createRenameSig(renameSig, renamePairs,
                                           renameOpExpr, errorMessage);
     checkForDuplicates(signature.getNameTypePair(), renameOpExpr);
 
@@ -391,7 +395,7 @@ public class OpExprChecker
     //operator declarations and the op expr declarations
     List<NameTypePair> distPairs = distSig.getNameTypePair();
     for (NameTypePair distPair : distPairs) {
-      DeclName distName = distPair.getName();
+      ZDeclName distName = distPair.getZDeclName();
       NameTypePair opExprPair = findNameTypePair(distName, signature);
       if (opExprPair != null) {
         Object [] params = {distName, distOpExpr};
@@ -404,13 +408,13 @@ public class OpExprChecker
     //simplifies things somewhat
     if (distOpExpr instanceof DistSeqOpExpr) {
       for (NameTypePair distPair : distPairs) {
-        DeclName distName = distPair.getName();
+        ZDeclName distName = distPair.getZDeclName();
         List<Stroke> strokes = list(distName.getStroke());
         int size = strokes.size();
         if (size > 0 && strokes.get(size - 1) instanceof OutStroke) {
           strokes.remove(size - 1);
-          DeclName baseName = factory().createDeclName(distName.getWord(),
-                                                       strokes, null);
+          ZDeclName baseName = factory().createZDeclName(distName.getWord(),
+							 strokes, null);
           NameTypePair opExprPair = findNameTypePair(baseName, signature);
           if (opExprPair != null) {
             Object [] params = {distName, baseName, distOpExpr};

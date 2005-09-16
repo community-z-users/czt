@@ -36,16 +36,22 @@ public class NameSignaturePairImpl
     super(nameSignaturePair);
   }
 
-  public void setName(DeclName declName)
+  public void setDeclName(DeclName declName)
   {
     NameSignaturePair nameSignaturePair = (NameSignaturePair) term_;
-    nameSignaturePair.setName(declName);
+    nameSignaturePair.setDeclName(declName);
   }
 
-  public DeclName getName()
+  public DeclName getDeclName()
   {
     NameSignaturePair nameSignaturePair = (NameSignaturePair) term_;
-    return nameSignaturePair.getName();
+    return nameSignaturePair.getDeclName();
+  }
+
+  public ZDeclName getZDeclName()
+  {
+    NameSignaturePair nameSignaturePair = (NameSignaturePair) term_;
+    return nameSignaturePair.getZDeclName();
   }
 
   public void setSignature(Signature signature)
@@ -90,7 +96,7 @@ public class NameSignaturePairImpl
   {
     if (obj instanceof NameSignaturePair) {
       NameSignaturePair pair = (NameSignaturePair) obj;
-      if (!getName().equals(pair.getName()) ||
+      if (!getDeclName().equals(pair.getDeclName()) ||
           !getSignature().equals(pair.getSignature())) {
         return false;
       }
@@ -105,8 +111,8 @@ public class NameSignaturePairImpl
 
     int hashCode = super.hashCode();
     hashCode += "NameSignaturePairImpl".hashCode();
-    if (getName() != null) {
-      hashCode += constant * getName().hashCode();
+    if (getDeclName() != null) {
+      hashCode += constant * getDeclName().hashCode();
     }
     if (getSignature() != null) {
       hashCode += constant * getSignature().hashCode();

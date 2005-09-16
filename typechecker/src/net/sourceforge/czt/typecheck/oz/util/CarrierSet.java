@@ -86,11 +86,12 @@ public class CarrierSet
     Expr result = null;
     //if 0, then we have the set \oid
     if (classRefs.size() == 0) {
-      RefName oidName =	ozFactory_.createRefName(OzString.OID,
-						 GlobalDefs.<Stroke>list(),
-						 null);
+      ZRefName oidName = ozFactory_.createZRefName(OzString.OID,
+						   GlobalDefs.<Stroke>list(),
+						   null);
+      ZExprList zExprList = ozFactory_.createZExprList();
       result = ozFactory_.createRefExpr(oidName,
-					GlobalDefs.<Expr>list(),
+					zExprList,
 					Boolean.FALSE);
     }
     else {
@@ -120,15 +121,18 @@ public class CarrierSet
   public Term visitClassRef(ClassRef classRef)
   {
     List<Expr> exprs = list();
-    List<Type2> types = classRef.getType2();
+    List<Type2> types = classRef.getType();
     for (Type2 type : types) {
       Expr expr = (Expr) type.accept(this);
       exprs.add(expr);
     }
+    ZExprList zExprList = ozFactory_.createZExprList();
     Expr result =
-      zFactory_.createRefExpr(classRef.getRefName(), exprs, Boolean.FALSE);
-    if (classRef.getNameNamePair().size() > 0) {
-      result = zFactory_.createRenameExpr(result, classRef.getNameNamePair());
+      zFactory_.createRefExpr(classRef.getRefName(), zExprList, Boolean.FALSE);
+    if (classRef.getNewOldPair().size() > 0) {
+      ZRenameList zRenameList =
+	zFactory_.createZRenameList(classRef.getNewOldPair());
+      result = zFactory_.createRenameExpr(result, zRenameList);
     }
     return result;
   }
@@ -140,12 +144,11 @@ public class CarrierSet
       if (!allowVariableTypes_) {
         throw new UndeterminedTypeException();
       }
-      RefName refName = zFactory_.createRefName("?CLASSTYPE?",
-						GlobalDefs.<Stroke>list(),
-						null);
-      result = zFactory_.createRefExpr(refName,
-				       GlobalDefs.<Expr>list(),
-				       Boolean.FALSE);
+      ZRefName zRefName = zFactory_.createZRefName("?CLASSTYPE?",
+						   GlobalDefs.<Stroke>list(),
+						   null);
+      ZExprList zExprList = zFactory_.createZExprList();
+      result = zFactory_.createRefExpr(zRefName, zExprList, Boolean.FALSE);
     }
     else {
       Type2 type = vClassType.getCandidateType();

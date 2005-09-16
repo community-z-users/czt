@@ -223,7 +223,7 @@ public class UnificationEnv
     }
     else {
       for (ClassRef classRefA : classRefsA) {
-        ClassRef classRefB = findRef(classRefA.getRefName(), classRefsB);
+        ClassRef classRefB = findRef(classRefA.getZRefName(), classRefsB);
         if (classRefB != null) {
           UResult unified = instantiations(classRefA, classRefB);
           if (SUCC.equals(unified)) {
@@ -248,7 +248,7 @@ public class UnificationEnv
     }
     else {
       for (ClassRef classRefA : classRefsA) {
-        ClassRef classRefB = findRef(classRefA.getRefName(), classRefsB);
+        ClassRef classRefB = findRef(classRefA.getZRefName(), classRefsB);
         if (classRefB == null) {
           result = FAIL;
           break;
@@ -269,8 +269,8 @@ public class UnificationEnv
   protected UResult instantiations(ClassRef classRefA, ClassRef classRefB)
   {
     UResult result = SUCC;
-    List<Type2> typesA = classRefA.getType2();
-    List<Type2> typesB = classRefB.getType2();
+    List<Type2> typesA = classRefA.getType();
+    List<Type2> typesB = classRefB.getType();
     assert typesA.size() == typesB.size();
     for (int i = 0; i < typesA.size(); i++) {
       UResult unified = unify(typesA.get(i), typesB.get(i));
@@ -284,11 +284,11 @@ public class UnificationEnv
     return result;
   }
 
-  protected NameNamePair findPair(RefName oldName, ClassRef classRef)
+  protected NewOldPair findPair(ZRefName oldName, ClassRef classRef)
   {
-    NameNamePair result = null;
-    List<NameNamePair> pairs = classRef.getNameNamePair();
-    for (NameNamePair pair : pairs) {
+    NewOldPair result = null;
+    List<NewOldPair> pairs = classRef.getNewOldPair();
+    for (NewOldPair pair : pairs) {
       if (oldName.equals(pair.getOldName())) {
         result = pair;
         break;
@@ -297,12 +297,11 @@ public class UnificationEnv
     return result;
   }
 
-  protected ClassRef findRef(RefName refName, List<ClassRef> classRefs)
+  protected ClassRef findRef(ZRefName zRefName, List<ClassRef> classRefs)
   {
     ClassRef result = null;
     for (ClassRef classRef : classRefs) {
-      if (refName.getWord().equals(classRef.getRefName().getWord()) &&
-          refName.getStroke().equals(classRef.getRefName().getStroke())) {
+      if (namesEqual(zRefName, classRef.getZRefName())) {
         result = classRef;
       }
     }
@@ -370,7 +369,7 @@ public class UnificationEnv
     List<NameTypePair> result = list();
     //check compatibility of attributes and state variables
     for (NameTypePair first : pairsA) {
-      DeclName firstName = first.getName();
+      ZDeclName firstName = first.getZDeclName();
       if (!isSelfName(firstName)) {
 	NameTypePair second = findNameTypePair(firstName, pairsB);
 	if (second != null) {
@@ -406,7 +405,7 @@ public class UnificationEnv
   {
     List<NameSignaturePair> result = list();
     for (NameSignaturePair first : pairsA) {
-      DeclName firstName = first.getName();
+      ZDeclName firstName = first.getZDeclName();
       NameSignaturePair second = findNameSigPair(firstName, pairsB);
       if (second != null) {
 	Signature lSig = first.getSignature();

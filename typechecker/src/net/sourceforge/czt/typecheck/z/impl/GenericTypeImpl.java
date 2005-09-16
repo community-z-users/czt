@@ -34,7 +34,7 @@ public class GenericTypeImpl
     super(genericType);
   }
 
-  public net.sourceforge.czt.base.ast.ListTerm<DeclName> getName()
+  public net.sourceforge.czt.base.ast.ListTerm<ZDeclName> getName()
   {
     GenericType genericType = (GenericType) term_;
     return genericType.getName();

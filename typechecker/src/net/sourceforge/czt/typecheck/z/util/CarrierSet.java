@@ -93,23 +93,25 @@ public class CarrierSet
 
   public Term visitGenParamType(GenParamType genParamType)
   {
-    RefName refName =
-      zFactory_.createRefName(genParamType.getName().getWord(),
-                              genParamType.getName().getStroke(),
-                              null);
+    ZRefName zRefName =
+      zFactory_.createZRefName(genParamType.getName().getWord(),
+			       genParamType.getName().getStroke(),
+			       null);
+    ZExprList zExprList = zFactory_.createZExprList();
     RefExpr result =
-      zFactory_.createRefExpr(refName, GlobalDefs.<Expr>list(), Boolean.FALSE);
+      zFactory_.createRefExpr(zRefName, zExprList, Boolean.FALSE);
     return result;
   }
 
   public Term visitGivenType(GivenType givenType)
   {
-    RefName refName =
-      zFactory_.createRefName(givenType.getName().getWord(),
+    ZRefName zRefName =
+      zFactory_.createZRefName(givenType.getName().getWord(),
                               givenType.getName().getStroke(),
-                              null);
+			       null);
+    ZExprList zExprList = zFactory_.createZExprList();
     RefExpr result =
-      zFactory_.createRefExpr(refName, GlobalDefs.<Expr>list(), Boolean.FALSE);
+      zFactory_.createRefExpr(zRefName, zExprList, Boolean.FALSE);
     return result;
   }
 
@@ -127,13 +129,13 @@ public class CarrierSet
     List<Decl> decls = list();
     for (NameTypePair pair : pairs) {
       Expr expr = (Expr) pair.getType().accept(this);
-      List<DeclName> name = list(pair.getName());
+      List<DeclName> name = list(pair.getDeclName());
       VarDecl varDecl = zFactory_.createVarDecl(name, expr);
       decls.add(varDecl);
     }
     ZDeclList zDeclList = zFactory_.createZDeclList(decls);
-    SchText schText = zFactory_.createSchText(zDeclList, null);
-    return schText;
+    ZSchText zSchText = zFactory_.createZSchText(zDeclList, null);
+    return zSchText;
   }
 
   public Term visitProdType(ProdType prodType)
@@ -145,8 +147,8 @@ public class CarrierSet
       Expr expr = (Expr) type.accept(this);
       exprs.add(expr);
     }
-
-    ProdExpr result = zFactory_.createProdExpr(exprs);
+    ZExprList zExprList = zFactory_.createZExprList(exprs);
+    ProdExpr result = zFactory_.createProdExpr(zExprList);
     return result;
   }
 
@@ -157,11 +159,11 @@ public class CarrierSet
       throw new UndeterminedTypeException();
     }
     List<Stroke> strokes = list();
-    RefName refName =
-      zFactory_.createRefName("unknown",
-                              strokes, null);
+    ZRefName zRefName =
+      zFactory_.createZRefName("unknown", strokes, null);
+    ZExprList zExprList = zFactory_.createZExprList();
     RefExpr result =
-      zFactory_.createRefExpr(refName, GlobalDefs.<Expr>list(), Boolean.FALSE);
+      zFactory_.createRefExpr(zRefName, zExprList, Boolean.FALSE);
     return result;
   }
 
@@ -172,10 +174,10 @@ public class CarrierSet
         throw new UndeterminedTypeException();
       }
       List<Stroke> strokes = vType.getName().getStroke();
-      RefName refName =
-        zFactory_.createRefName("??", strokes, null);
+      ZRefName zRefName = zFactory_.createZRefName("??", strokes, null);
+      ZExprList zExprList = zFactory_.createZExprList();
       RefExpr result =
-        zFactory_.createRefExpr(refName, GlobalDefs.<Expr>list(), Boolean.FALSE);
+        zFactory_.createRefExpr(zRefName, zExprList, Boolean.FALSE);
       return result;
     }
     return vType.getValue().accept(this);
@@ -188,14 +190,15 @@ public class CarrierSet
         throw new UndeterminedTypeException();
       }
       List<Stroke> strokes = vSig.getName().getStroke();
-      RefName refName =
-        zFactory_.createRefName("??", strokes, null);
+      ZRefName zRefName =
+        zFactory_.createZRefName("??", strokes, null);
+      ZExprList zExprList = zFactory_.createZExprList();
       RefExpr refExpr =
-        zFactory_.createRefExpr(refName,GlobalDefs.<Expr>list() , Boolean.FALSE);
+        zFactory_.createRefExpr(zRefName, zExprList, Boolean.FALSE);
       InclDecl inclDecl = zFactory_.createInclDecl(refExpr);
       ZDeclList zDeclList = 
 	zFactory_.createZDeclList(GlobalDefs.<Decl>list(inclDecl));
-      SchText result = zFactory_.createSchText(zDeclList, null);
+      ZSchText result = zFactory_.createZSchText(zDeclList, null);
       return result;  
     }
     return vSig.getValue().accept(this);

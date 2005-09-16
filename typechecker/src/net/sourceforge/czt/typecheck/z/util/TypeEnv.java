@@ -47,7 +47,7 @@ public class TypeEnv
    * The list of current generic parameters. Used for tracking the
    * order of generic parameters for type unification.
    */
-  protected Stack<List<DeclName>> parameters_;
+  protected Stack<List<ZDeclName>> parameters_;
 
   public TypeEnv()
   {
@@ -58,14 +58,14 @@ public class TypeEnv
   {
     factory_ = new Factory(zFactory);
     typeInfo_ = new Stack<List<NameTypePair>>();
-    parameters_ = new Stack<List<DeclName>>();
+    parameters_ = new Stack<List<ZDeclName>>();
   }
 
   public void enterScope()
   {
     List<NameTypePair> info = list();
     typeInfo_.push(info);
-    List<DeclName> parameters = list();
+    List<ZDeclName> parameters = list();
     parameters_.push(parameters);
   }
 
@@ -81,21 +81,24 @@ public class TypeEnv
     return factory_.createTypeEnvAnn(pairs);
   }
 
-  public void addParameters(List<DeclName> parameters)
+  public void addParameters(List<DeclName> paramNames)
   {
-    parameters_.peek().addAll(parameters);
+    for (DeclName paramName : paramNames) {
+      ZDeclName zParamName = assertZDeclName(paramName);
+      parameters_.peek().add(zParamName);
+    }
   }
 
-  public List<DeclName> getParameters()
+  public List<ZDeclName> getParameters()
   {
-    List<DeclName> result = list();
+    List<ZDeclName> result = list();
     result.addAll(parameters_.peek());
     return result;
   }
 
-  public void add(DeclName declName, Type type)
+  public void add(ZDeclName zDeclName, Type type)
   {
-    NameTypePair pair = factory_.createNameTypePair(declName, type);
+    NameTypePair pair = factory_.createNameTypePair(zDeclName, type);
     add(pair);
   }
 
@@ -104,18 +107,18 @@ public class TypeEnv
    * Add a name into the environment, overriding an existing name in
    * the inner-most variable scope.
    */
-  public void override(DeclName declName, Type type)
+  public void override(ZDeclName zDeclName, Type type)
   {
     //override if this is in the top scope
     for (NameTypePair pair : typeInfo_.peek()) {
-      if (namesEqual(declName, pair.getName())) {
+      if (namesEqual(zDeclName, pair.getZDeclName())) {
         pair.setType(type);
         return;
       }
     }
 
     //otherwise, add it to the environment
-    add(declName, type);
+    add(zDeclName, type);
   }
 
   public void add(NameTypePair pair)
@@ -133,15 +136,15 @@ public class TypeEnv
     }
   }
 
-  public Type getType(RefName name)
+  public Type getType(ZRefName zRefName)
   {
     Type result = factory_.createUnknownType();
 
     //get the info for this name
-    NameTypePair pair = getPair(name);
+    NameTypePair pair = getPair(zRefName);
     if (pair != null) {
       result = pair.getType();
-      name.setDecl(pair.getName());
+      zRefName.setDecl(pair.getDeclName());
     }
 
     return result;
@@ -172,7 +175,7 @@ public class TypeEnv
     List<NameTypePair> result = list();
     for (List<NameTypePair> list : typeInfo_) {
       for (NameTypePair pair : list) {
-        NameTypePair existing = findNameTypePair(pair.getName(), result);
+        NameTypePair existing = findNameTypePair(pair.getZDeclName(), result);
         if (existing == null) {
           result.add(pair);
         }
@@ -181,12 +184,12 @@ public class TypeEnv
     return result;
   }
 
-  protected NameTypePair findNameTypePair(DeclName declName,
+  protected NameTypePair findNameTypePair(ZDeclName zDeclName,
                                           List<NameTypePair> pairs)
   {
     NameTypePair result = null;
     for (NameTypePair pair : pairs) {
-      if (pair.getName().equals(declName)) {
+      if (namesEqual(pair.getZDeclName(), zDeclName)) {
         result = pair;
         break;
       }
@@ -195,13 +198,12 @@ public class TypeEnv
   }
 
   //gets the pair with the corresponding name
-  protected NameTypePair getPair(Name name)
+  protected NameTypePair getPair(ZRefName zRefName)
   {
     NameTypePair result = null;
     for (List<NameTypePair> list : typeInfo_) {
       for (NameTypePair pair : list) {
-        if (pair.getName().getWord().equals(name.getWord()) &&
-            pair.getName().getStroke().equals(name.getStroke())) {
+        if (namesEqual(pair.getZDeclName(), zRefName)) {
           result = pair;
         }
       }

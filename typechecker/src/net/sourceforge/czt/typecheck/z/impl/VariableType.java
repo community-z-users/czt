@@ -41,7 +41,7 @@ public class VariableType
   protected static int serial_ = 0;
 
   /** The name of this variable. */
-  protected DeclName declName_ = null;
+  protected ZDeclName zDeclName_ = null;
 
   /** The value of this variable. */
   protected Type2 value_ = null;
@@ -51,13 +51,13 @@ public class VariableType
     super(null);
     List<Stroke> strokes = list();
     strokes.add(factory.createNumStroke(new Integer(serial_++)));
-    declName_ = factory.createDeclName(ALPHA, strokes, null);
+    zDeclName_ = factory.createZDeclName(ALPHA, strokes, null);
   }
 
-  protected VariableType(DeclName declName)
+  protected VariableType(ZDeclName zDeclName)
   {
     super(null);
-    declName_ = declName;
+    zDeclName_ = zDeclName;
   }
 
   /**
@@ -96,17 +96,17 @@ public class VariableType
   /**
    * Get the variable name associated with this type.
    */
-  public DeclName getName()
+  public ZDeclName getName()
   {
-    return declName_;
+    return zDeclName_;
   }
 
   /**
    * Set the variable name associated with this type.
    */
-  public void setName(DeclName declName)
+  public void setName(ZDeclName zDeclName)
   {
-    declName_ = declName;
+    zDeclName_ = zDeclName;
   }
 
   public Object[] getChildren()
@@ -119,9 +119,9 @@ public class VariableType
   {
     VariableType zedObject = null;
     try {
-      DeclName declName = (DeclName) args[0];
+      ZDeclName zDeclName = (ZDeclName) args[0];
       Type2 value = (Type2) args[1];
-      zedObject = new VariableType(declName);
+      zedObject = new VariableType(zDeclName);
       zedObject.setValue(value);
     }
     catch (IndexOutOfBoundsException e) {
@@ -140,11 +140,11 @@ public class VariableType
     if (value_ != null) {
       result += value_.toString();
     }
-    else if (declName_.getWord().indexOf(ALPHA) >= 0) {
-      result += declName_.toString();
+    else if (zDeclName_.getWord().indexOf(ALPHA) >= 0) {
+      result += zDeclName_.toString();
     }
     else {
-      result += "VTYPE(" + declName_.toString() + ")";
+      result += "VTYPE(" + zDeclName_.toString() + ")";
     }
 
     return result;
@@ -156,7 +156,7 @@ public class VariableType
 
     if (o instanceof VariableType) {
       VariableType variableType = (VariableType) o;
-      if (declName_.equals(variableType.getName())) {
+      if (zDeclName_.equals(variableType.getName())) {
         result = true;
       }
     }
@@ -170,8 +170,8 @@ public class VariableType
 
     int hashCode = 0;
     hashCode += "VariableType".hashCode();
-    if (declName_ != null) {
-      hashCode += constant * declName_.hashCode();
+    if (zDeclName_ != null) {
+      hashCode += constant * zDeclName_.hashCode();
     }
     return hashCode;
   }

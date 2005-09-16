@@ -65,26 +65,26 @@ public class Factory
     return result;
   }
 
-  public ClassRef createClassRef(DeclName declName,
+  public ClassRef createClassRef(ZDeclName zDeclName,
 				 List<Type2> type,
-				 List<NameNamePair> pairs)
+				 List<NewOldPair> pairs)
   {
-    RefName refName = createRefName(declName);
+    RefName refName = createZRefName(zDeclName);
     ClassRef result = createClassRef(refName, type, pairs);
     return result;
   }
 
-  public ClassRef createClassRef(DeclName declName)
+  public ClassRef createClassRef(ZDeclName zDeclName)
   {
-    ClassRef result = createClassRef(declName,
+    ClassRef result = createClassRef(zDeclName,
 				     GlobalDefs.<Type2>list(),
-				     GlobalDefs.<NameNamePair>list());
+				     GlobalDefs.<NewOldPair>list());
     return result;
   }
 
   public ClassRef createClassRef(RefName refName,
 				 List<Type2> type,
-				 List<NameNamePair> pairs)
+				 List<NewOldPair> pairs)
   {
     ClassRef classRef = ozFactory_.createClassRef(refName, type, pairs);
     ClassRef result = new ClassRefImpl(classRef);

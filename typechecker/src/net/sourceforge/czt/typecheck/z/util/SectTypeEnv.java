@@ -57,7 +57,7 @@ public class SectTypeEnv
   protected List<NameSectTypeTriple> typeInfo_;
 
   /** The list of variables declared so far. */
-  protected List<DeclName> declarations_;
+  protected List<ZDeclName> declarations_;
 
   /** The list of sections declared so far. */
   protected List<String> sectionDeclarations_;
@@ -196,7 +196,7 @@ public class SectTypeEnv
     boolean result = true;
 
     //if not already declared, add this declaration to the environment
-    NameSectTypeTriple existing = getTriple(triple.getName());
+    NameSectTypeTriple existing = getTriple(triple.getZDeclName());
     if (existing == null) {
       typeInfo_.add(triple);
       result = true;
@@ -206,8 +206,8 @@ public class SectTypeEnv
     }
 
     if (secondTime_) {
-      result = !declarations_.contains(triple.getName());
-      declarations_.add(triple.getName());
+      result = !declarations_.contains(triple.getZDeclName());
+      declarations_.add(triple.getZDeclName());
     }
 
     return result;
@@ -226,14 +226,14 @@ public class SectTypeEnv
    */
   public boolean add(NameTypePair nameTypePair)
  {
-    return add(nameTypePair.getName(), nameTypePair.getType());
+    return add(nameTypePair.getZDeclName(), nameTypePair.getType());
   }
 
-  public boolean add(DeclName declName, Type type)
+  public boolean add(ZDeclName zDeclName, Type type)
   {
     boolean result = true;
     for (NameSectTypeTriple triple : typeInfo_) {
-      if (triple.getName().equals(declName)) {
+      if (namesEqual(triple.getZDeclName(), zDeclName)) {
         triple.setType(type);
         result = false;
       }
@@ -241,31 +241,30 @@ public class SectTypeEnv
 
     if (result) {
       NameSectTypeTriple insert =
-        factory_.createNameSectTypeTriple(declName, section_, type);
+        factory_.createNameSectTypeTriple(zDeclName, section_, type);
       typeInfo_.add(insert);
     }
 
     if (secondTime_) {
-      result = !declarations_.contains(declName);
-      declarations_.add(declName);
+      result = !declarations_.contains(zDeclName);
+      declarations_.add(zDeclName);
     }
 
     return result;
   }
 
-  public boolean update(RefName refName, Type type)
+  public boolean update(ZRefName zRefName, Type type)
   {
-    NameSectTypeTriple triple = getTriple(refName);
+    NameSectTypeTriple triple = getTriple(zRefName);
     if (triple != null) {
       triple.setType(type);
     }
     else {
-      DeclName declName = factory_.createDeclName(refName);
+      ZDeclName zDeclName = factory_.createZDeclName(zRefName);
       NameSectTypeTriple insert =
-        factory_.createNameSectTypeTriple(declName, section_, type);
+        factory_.createNameSectTypeTriple(zDeclName, section_, type);
       typeInfo_.add(insert);
     }
-
     return true;
   }
 
@@ -290,27 +289,27 @@ public class SectTypeEnv
   /**
    * Return the type of the variable.
    */
-  public Type getType(RefName name)
+  public Type getType(ZRefName zRefName)
   {
-    DeclName declName = factory_.createDeclName(name);
+    ZDeclName zDeclName = factory_.createZDeclName(zRefName);
     Type result = factory_.createUnknownType();
 
     //get the info for this name
-    NameSectTypeTriple triple = getTriple(name);
+    NameSectTypeTriple triple = getTriple(zRefName);
     if (triple != null && visibleSections_.contains(triple.getSect())) {
       result = triple.getType();
-      name.setDecl(triple.getName());
+      zRefName.setDecl(triple.getZDeclName());
     }
 
     //if the type is unknown and the name starts with delta or xi, try
     //looking up the base name
     if (result instanceof UnknownType &&
-        (name.getWord().startsWith(ZString.DELTA) ||
-         name.getWord().startsWith(ZString.XI))) {
+        (zRefName.getWord().startsWith(ZString.DELTA) ||
+         zRefName.getWord().startsWith(ZString.XI))) {
       final int size = (ZString.DELTA).length();
-      String baseWord = name.getWord().substring(size);
-      RefName baseName =
-        factory_.createRefName(baseWord, name.getStroke(), null);
+      String baseWord = zRefName.getWord().substring(size);
+      ZRefName baseName =
+        factory_.createZRefName(baseWord, zRefName.getStroke(), null);
       Type baseType = getType(baseName);
 
       //if this is a schema, determine and add the delta/xi type
@@ -322,7 +321,7 @@ public class SectTypeEnv
         List<NameTypePair> pairs = signature.getNameTypePair();
         List<NameTypePair> newPairs = list(pairs);
         for (NameTypePair pair : pairs) {
-          DeclName primedName = factory_.createDeclName(pair.getName());
+          ZDeclName primedName = factory_.createZDeclName(pair.getZDeclName());
           primedName.getStroke().add(factory_.createNextStroke());
           NameTypePair newPair =
             factory_.createNameTypePair(primedName, pair.getType());
@@ -343,24 +342,10 @@ public class SectTypeEnv
         }
 
         //add this to the environment so it need not be determined again
-        add(declName, result);
+        add(zDeclName, result);
       }
     }
 
-    return result;
-  }
-
-  //not a generic type, return the type
-  protected static Type2 unwrapType(Type type)
-  {
-    Type2 result = null;
-    if (type instanceof GenericType) {
-      GenericType genericType = (GenericType) type;
-      result = genericType.getType();
-    }
-    else {
-      result = (Type2) type;
-    }
     return result;
   }
 
@@ -384,22 +369,27 @@ public class SectTypeEnv
   {
     System.err.println("typeinfo:");
     for (NameSectTypeTriple next : typeInfo_) {
-      System.err.print("\t(" + next.getName());
+      System.err.print("\t(" + next.getZDeclName());
       System.err.print(", (" + next.getSect());
       System.err.println(", (" + next.getType() + ")))");
     }
   }
 
+  private NameSectTypeTriple getTriple(ZRefName zRefName)
+  {
+    ZDeclName zDeclName = factory_.createZDeclName(zRefName);
+    return getTriple(zDeclName);
+  }
+
   //get a triple whose name matches a specified name and it
   //defined in a currently visible scope.
-  private NameSectTypeTriple getTriple(Name name)
+  private NameSectTypeTriple getTriple(ZDeclName zDeclName) 
   {
     NameSectTypeTriple result = null;
     for (NameSectTypeTriple next : typeInfo_) {
       //we don't use equals() in DeclName so that we can use this
       //lookup for RefName objects as well
-      if (next.getName().getWord().equals(name.getWord()) &&
-          next.getName().getStroke().equals(name.getStroke()) &&
+      if (namesEqual(next.getZDeclName(), zDeclName) &&
           (visibleSections_.contains(section_) ||
            next.getSect().equals(PRELUDE))) {
         result = next;

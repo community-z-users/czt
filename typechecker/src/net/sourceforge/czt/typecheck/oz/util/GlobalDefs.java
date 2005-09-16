@@ -69,7 +69,7 @@ public class GlobalDefs
   {
     boolean result = false;
     for (ClassRef element : list) {
-      if (namesEqual(classRef.getRefName(), element.getRefName())) {
+      if (namesEqual(classRef.getZRefName(), element.getZRefName())) {
         result = true;
         break;
       }
@@ -77,13 +77,13 @@ public class GlobalDefs
     return result;
   }
 
-  public static NameSignaturePair findNameSigPair(DeclName declName,
+  public static NameSignaturePair findNameSigPair(ZDeclName zDeclName,
 						  List<NameSignaturePair> pairs)
   {
     NameSignaturePair result = null;
     //find the pair that has this name
     for(NameSignaturePair pair : pairs) {
-      if (declName.equals(pair.getName())) {
+      if (namesEqual(zDeclName, pair.getZDeclName())) {
         result = pair;
         break;
       }
@@ -92,16 +92,16 @@ public class GlobalDefs
   }
 
   //find a NameSignaturePair in a class signature
-  public static NameSignaturePair findOperation(DeclName declName, ClassSig cSig)
+  public static NameSignaturePair findOperation(ZDeclName zDeclName, ClassSig cSig)
   {
-    NameSignaturePair result = findNameSigPair(declName, cSig.getOperation());
+    NameSignaturePair result = findNameSigPair(zDeclName, cSig.getOperation());
     return result;
   }
 
-  public static boolean isSelfName(DeclName declName)
+  public static boolean isSelfName(ZDeclName zDeclName)
   {
-    final boolean result = declName.getWord().equals(OzString.SELF) &&
-      declName.getStroke().size() == 0;
+    boolean result = zDeclName.getWord().equals(OzString.SELF) &&
+      zDeclName.getStroke().size() == 0;
     return result;
   }
 }

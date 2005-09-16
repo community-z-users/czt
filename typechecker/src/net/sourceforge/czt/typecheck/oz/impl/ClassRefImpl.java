@@ -50,17 +50,24 @@ public class ClassRefImpl
     return result;
   }
 
-  public ListTerm<NameNamePair> getNameNamePair()
+  public ZRefName getZRefName()
   {
     ClassRef classRef = (ClassRef) term_;
-    ListTerm<NameNamePair> result = classRef.getNameNamePair();
+    ZRefName result = classRef.getZRefName();
     return result;
   }
 
-  public ListTerm<Type2> getType2()
+  public ListTerm<NewOldPair> getNewOldPair()
   {
     ClassRef classRef = (ClassRef) term_;
-    ListTerm<Type2> result = classRef.getType2();
+    ListTerm<NewOldPair> result = classRef.getNewOldPair();
+    return result;
+  }
+
+  public ListTerm<Type2> getType()
+  {
+    ClassRef classRef = (ClassRef) term_;
+    ListTerm<Type2> result = classRef.getType();
     for (int i = 0; i < result.size(); i++) {
       Type2 type = (Type2) result.get(i);
       if (type instanceof VariableType) {
@@ -115,17 +122,17 @@ public class ClassRefImpl
           }
         }
 
-        if (getType2().size() == classRef.getType2().size()) {
-          for (int i = 0; i < getType2().size(); i++) {
-            Type2 typeA = (Type2) getType2().get(i);
-            Type2 typeB = (Type2) classRef.getType2().get(i);
+        if (getType().size() == classRef.getType().size()) {
+          for (int i = 0; i < getType().size(); i++) {
+            Type2 typeA = (Type2) getType().get(i);
+            Type2 typeB = (Type2) classRef.getType().get(i);
             if (!typeA.equals(typeB)) {
               return false;
             }
           }
         }
-        if (getNameNamePair() != null) {
-          if (!getNameNamePair().equals(classRef.getNameNamePair())) {
+        if (getNewOldPair() != null) {
+          if (!getNewOldPair().equals(classRef.getNewOldPair())) {
             return false;
           }
         }
@@ -142,8 +149,8 @@ public class ClassRefImpl
 
     int hashCode = super.hashCode();
     hashCode += "ClassRefImpl".hashCode();
-    if (getType2() != null) {
-      hashCode += constant * getType2().hashCode();
+    if (getType() != null) {
+      hashCode += constant * getType().hashCode();
     }
     return hashCode;
   }

@@ -81,7 +81,7 @@ abstract public class Checker<R>
   public void addImplicitOps()
   {
     Signature signature = factory().createSignature();
-    DeclName skip = factory().createDeclName(TcozString.SKIP);
+    ZDeclName skip = factory().createZDeclName(TcozString.SKIP);
     addOperation(skip, signature, getSelfSig());
   }
 

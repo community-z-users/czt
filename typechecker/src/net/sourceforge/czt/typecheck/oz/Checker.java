@@ -70,9 +70,9 @@ abstract public class Checker<R>
   }
 
   //the current class name
-  protected DeclName className()
+  protected ZDeclName className()
   {
-    return typeChecker_.classPara_.getName();
+    return typeChecker_.classPara_.getClassName();
   }
 
   //the current class para
@@ -88,7 +88,7 @@ abstract public class Checker<R>
   }
 
   //the lst of primary state variables in the current class
-  protected List<DeclName> primary()
+  protected List<ZDeclName> primary()
   {
     return typeChecker_.primary_;
   }
@@ -148,18 +148,17 @@ abstract public class Checker<R>
     return unificationEnv.weakUnify(typeA, typeB);
   }
 
-  protected Type getType(RefName name)
+  protected Type getType(ZRefName zRefName)
   {
     //first look up the name in the downcast environment
-    Type type = downcastEnv().getType(name);
+    Type type = downcastEnv().getType(zRefName);
     if (type instanceof UnknownType) {
-      type = super.getType(name);
+      type = super.getType(zRefName);
     }
     else {
       //if this is ok, remove the undeclared annotation
-      removeAnn(name, UndeclaredAnn.class);
+      removeAnn(zRefName, UndeclaredAnn.class);
     }
-
     return type;
   }
 
@@ -204,43 +203,40 @@ abstract public class Checker<R>
     else if (opExpr instanceof AnonOpExpr) {
       AnonOpExpr anonOpExpr = (AnonOpExpr) opExpr;
       OpText opText = anonOpExpr.getOpText();
-      SchText schText = opText.getSchText();
+      ZSchText zSchText = opText.getZSchText();
 
       //the list of Names declared in this schema text
       List<NameTypePair> pairs = list();
 
       //get and visit the list of declarations
-      List<Decl> decls = ((ZDeclList) schText.getDeclList()).getDecl();
-      for (Decl decl : decls) {
-        pairs.addAll((List<NameTypePair>) decl.accept(declChecker()));
-      }
+      DeclList declList = zSchText.getDeclList();
+      pairs.addAll(declList.accept(declChecker()));
 
       //we use a different downcasting environment because we do not
       //want to add the declarations into the typing environment, but
       //we need to downcasts in the environment
       downcastEnv().enterScope();
       for (NameTypePair pair : pairs) {
-        downcastEnv().add(pair.getName(), pair.getType());
+        downcastEnv().add(pair.getZDeclName(), pair.getType());
       }
-      if (schText.getPred() != null) {
-	traverseForDowncasts(schText.getPred());
+      if (zSchText.getPred() != null) {
+	traverseForDowncasts(zSchText.getPred());
       }
       downcastEnv().exitScope();
     }
   }
 
-  protected DeclName getDeclName(Expr expr)
+  protected ZDeclName getZDeclName(Expr expr)
   {
-    DeclName result = null;
+    ZDeclName result = null;
     if (expr instanceof RenameExpr) {      
       RenameExpr renameExpr = (RenameExpr) expr;
-      result = getDeclName(renameExpr.getExpr());
+      result = getZDeclName(renameExpr.getExpr());
     }
     else if (expr instanceof RefExpr) {
       RefExpr refExpr = (RefExpr) expr;
-      RefName refName = refExpr.getRefName();
-      result = factory().createDeclName(refName.getWord(),
-					refName.getStroke());
+      ZRefName zRefName = refExpr.getZRefName();
+      result = factory().createZDeclName(zRefName);
     }
     else {
       assert false;
@@ -260,7 +256,7 @@ abstract public class Checker<R>
     List<ClassRef> superClasses = list(classRefType.getSuperClass());
     List<ClassRef> superSuperClasses = list();
     for (ClassRef superClass : superClasses) {
-      Type2 type = unwrapType(getType(superClass.getRefName()));
+      Type2 type = unwrapType(getType(superClass.getZRefName()));
       if (type instanceof PowerType &&
 	  powerType(type).getType() instanceof ClassRefType) {
 	ClassRefType superClassType =
@@ -307,7 +303,7 @@ abstract public class Checker<R>
                                 Expr expr)
   {
     for (NameTypePair pair : source) {
-      DeclName sourceName = pair.getName();
+      ZDeclName sourceName = pair.getZDeclName();
       if (!isSelfName(sourceName)) {
         NameTypePair existing = findNameTypePair(sourceName, target);
         if (existing != null) {
@@ -332,7 +328,7 @@ abstract public class Checker<R>
                             Expr expr)
   {
     for (NameSignaturePair pair : source) {
-      DeclName sourceName = pair.getName();
+      ZDeclName sourceName = pair.getZDeclName();
       NameSignaturePair existing = findNameSigPair(sourceName, target);
       if (existing != null) {
         Signature sourceSignature = pair.getSignature();
@@ -355,8 +351,8 @@ abstract public class Checker<R>
   //get the type of "self"
   protected ClassRefType getSelfType()
   {
-    RefName refName = factory().createRefName(OzString.SELF);
-    RefExpr refExpr = factory().createRefExpr(refName);
+    ZRefName zRefName = factory().createZRefName(OzString.SELF);
+    RefExpr refExpr = factory().createRefExpr(zRefName);
     Type2 selfType = (Type2) refExpr.accept(exprChecker());
     assert selfType instanceof ClassRefType;
     ClassRefType result = (ClassRefType) selfType;
@@ -378,9 +374,9 @@ abstract public class Checker<R>
     boolean result = false;
     if (expr instanceof RefExpr) {
       RefExpr refExpr = (RefExpr) expr;
-      RefName refName = refExpr.getRefName();
-      result = refName.getWord().equals(OzString.SELF) &&
-        refName.getStroke().size() == 0;
+      ZRefName zRefName = refExpr.getZRefName();
+      result = zRefName.getWord().equals(OzString.SELF) &&
+        zRefName.getStroke().size() == 0;
     }
     return result;
   }
@@ -392,7 +388,7 @@ abstract public class Checker<R>
     List<NameTypePair> pairsA = sigA.getNameTypePair();
     List<NameTypePair> pairsB = sigB.getNameTypePair();
     for (NameTypePair pairA : pairsA) {
-      NameTypePair pairB = findNameTypePair(pairA.getName(), sigB);
+      NameTypePair pairB = findNameTypePair(pairA.getZDeclName(), sigB);
       if (pairB != null) {
         signature.getNameTypePair().add(pairA);
         signature.getNameTypePair().add(pairB);
@@ -417,16 +413,16 @@ abstract public class Checker<R>
     //merge the operations
     List<NameSignaturePair> newPairs = newSig.getOperation();
     for (NameSignaturePair newPair : newPairs) {
-      DeclName declName = newPair.getName();
-      NameSignaturePair oldPair = findNameSigPair(declName, oldSig.getOperation());
+      ZDeclName zDeclName = newPair.getZDeclName();
+      NameSignaturePair oldPair = findNameSigPair(zDeclName, oldSig.getOperation());
       if (oldPair == null) {
         newSig.getOperation().add(newPair);
       }
       else {
         UResult unified = unify(oldPair.getSignature(), newPair.getSignature());
         if (unified == FAIL) {
-          Object [] params = {declName, termA};
-          error(declName, ErrorMessage.INCOMPATIBLE_OVERRIDING, params);
+          Object [] params = {zDeclName, termA};
+          error(zDeclName, ErrorMessage.INCOMPATIBLE_OVERRIDING, params);
         }
       }
     }
@@ -437,7 +433,7 @@ abstract public class Checker<R>
     //do nothing for Object-Z
   }
 
-  protected void addOperation(DeclName opName, Signature signature, ClassSig cSig)
+  protected void addOperation(ZDeclName opName, Signature signature, ClassSig cSig)
   {
     List<NameSignaturePair> ops = cSig.getOperation();
     NameSignaturePair existing = findOperation(opName, cSig);
@@ -466,12 +462,12 @@ abstract public class Checker<R>
   }
 
   //check for duplicate names a class paragraph
-  protected void checkForDuplicates(List<DeclName> declNames)
+  protected void checkForDuplicates(List<ZDeclName> zDeclNames)
   {
-    for (int i = 0; i < declNames.size(); i++) {
-      DeclName first = declNames.get(i);
-      for (int j = i + 1; j < declNames.size(); j++) {
-        DeclName second = declNames.get(j);
+    for (int i = 0; i < zDeclNames.size(); i++) {
+      ZDeclName first = zDeclNames.get(i);
+      for (int j = i + 1; j < zDeclNames.size(); j++) {
+        ZDeclName second = zDeclNames.get(j);
         if (first.equals(second)) {
           Object [] params = {second, className()};
           error(second, ErrorMessage.REDECLARED_NAME_IN_CLASSPARA, params);
@@ -487,28 +483,28 @@ abstract public class Checker<R>
                                VisibilityList visibilityList,
                                ErrorMessage errorMessage)
   {
-    List<DeclName> decls = list(className());
+    List<ZDeclName> declNames = list(className());
 
     //collect the names
     List<NameTypePair> attrDecls = cSig.getAttribute();
     for (NameTypePair pair : attrDecls) {
-      decls.add(pair.getName());
+      declNames.add(pair.getZDeclName());
     }
     Signature stateSig = cSig.getState();
     List<NameTypePair> stateDecls = stateSig.getNameTypePair();
     for (NameTypePair pair : stateDecls) {
-      decls.add(pair.getName());
+      declNames.add(pair.getZDeclName());
     }
     List<NameSignaturePair> opDecls = cSig.getOperation();
     for (NameSignaturePair pair : opDecls) {
-      decls.add(pair.getName());
+      declNames.add(pair.getZDeclName());
     }
 
     //check for duplicate names
-    for (int i = 0; i < decls.size(); i++) {
-      DeclName first = decls.get(i);
-      for (int j = i + 1; j < decls.size(); j++) {
-        DeclName second = decls.get(j);
+    for (int i = 0; i < declNames.size(); i++) {
+      ZDeclName first = declNames.get(i);
+      for (int j = i + 1; j < declNames.size(); j++) {
+        ZDeclName second = declNames.get(j);
         if (first.equals(second)) {
           Object [] params = {first, termA};
           error(first, errorMessage, params);
@@ -520,17 +516,18 @@ abstract public class Checker<R>
     if (visibilityList != null) {
       List<RefName> visibleNames = visibilityList.getRefName();
       for (RefName visibleName : visibleNames) {
+	ZRefName zVisibleName = assertZRefName(visibleName);
         boolean found = false;
-        for (DeclName featureName : decls) {
-          if (namesEqual(visibleName, featureName) &&
-              !namesEqual(visibleName, className())) {
+        for (ZDeclName featureName : declNames) {
+          if (namesEqual(featureName, zVisibleName) &&
+              !namesEqual(className(), zVisibleName)) {
             found = true;
             break;
           }
         }
         if (!found) {
-          Object [] params = {visibleName, className()};
-          error(visibleName,
+          Object [] params = {zVisibleName, className()};
+          error(zVisibleName,
                 ErrorMessage.NON_EXISTENT_NAME_IN_VISIBILITYLIST,
                 params);
         }
@@ -546,7 +543,7 @@ abstract public class Checker<R>
                                  PolyExpr polyExpr)
   {
     for (NameTypePair superPair : superPairs) {
-      RefName superName = factory().createRefName(superPair.getName());
+      ZRefName superName = factory().createZRefName(superPair.getZDeclName());
       if (isVisible(superName, superClass)) {
 	//if this feature is visible in the super class, it must be visible
 	//in the subclass as well
@@ -570,7 +567,7 @@ abstract public class Checker<R>
                                    PolyExpr polyExpr)
   {
     for (NameSignaturePair superPair : superPairs) {
-      RefName superName = factory().createRefName(superPair.getName());
+      ZRefName superName = factory().createZRefName(superPair.getZDeclName());
       if (isVisible(superName, superClass)) {
         NameSignaturePair subPair = findNameSigPair(superName, subPairs);
 	//if this operation is visible in the super class, it must be
@@ -614,14 +611,13 @@ abstract public class Checker<R>
     List<NameTypePair> rPairs = rSig.getNameTypePair();
 
     for (NameTypePair rPair : rPairs) {
-      DeclName rName = (DeclName) rPair.getName();
+      ZDeclName rName = rPair.getZDeclName();
       List<Stroke> strokes = list(rName.getStroke());
       int size = strokes.size();
       if (size > 0 && strokes.get(size - 1) instanceof InStroke) {
         OutStroke out = factory().createOutStroke();
         strokes.set(size - 1, out);
-        DeclName sName = factory().createDeclName(rName.getWord(),
-                                                  strokes, null);
+        ZDeclName sName = factory().createZDeclName(rName.getWord(), strokes);
         NameTypePair foundPair = findNameTypePair(sName, lSig);
         if (foundPair != null) {
           Type2 fType = unwrapType(foundPair.getType());
@@ -643,13 +639,13 @@ abstract public class Checker<R>
 
   //rename the operations is a list
   protected List<NameSignaturePair> renameOps(List<NameSignaturePair> ops,
-                                              List<NameNamePair> namePairs)
+                                              List<NewOldPair> renamePairs)
   {
     List<NameSignaturePair> newPairs = list();
     for (NameSignaturePair pair : ops) {
-      NameNamePair namePair = findNameNamePair(pair.getName(), namePairs);
-      if (namePair != null) {
-        DeclName newName = namePair.getNewName();
+      NewOldPair renamePair = findNewOldPair(pair.getZDeclName(), renamePairs);
+      if (renamePair != null) {
+        ZDeclName newName = renamePair.getZDeclName();
         NameSignaturePair newPair =
           factory().createNameSignaturePair(newName, pair.getSignature());
         newPairs.add(newPair);
@@ -663,17 +659,17 @@ abstract public class Checker<R>
 
   //rename the primary names in a class
   protected List<DeclName> renamePrimary(List<DeclName> primaryNames,
-                                         RenameExpr renameExpr)
+					 List<NewOldPair> renamePairs)
   {
     List<DeclName> newPrimaryNames = list();
-    List<NameNamePair> pairs = renameExpr.getNameNamePair();
     for (DeclName primaryName : primaryNames) {
-      NameNamePair pair = findNameNamePair(primaryName, pairs);
-      if (pair == null) {
-        newPrimaryNames.add(primaryName);
+      ZDeclName zPrimaryName = assertZDeclName(primaryName);
+      NewOldPair renamePair = findNewOldPair(zPrimaryName, renamePairs);
+      if (renamePair == null) {
+        newPrimaryNames.add(zPrimaryName);
       }
       else {
-        newPrimaryNames.add(pair.getNewName());
+        newPrimaryNames.add(renamePair.getZDeclName());
       }
     }
     return newPrimaryNames;
@@ -684,19 +680,19 @@ abstract public class Checker<R>
                                           RenameExpr renameExpr,
                                           String errorMessage)
   {
-    List<NameNamePair> namePairs = renameExpr.getNameNamePair();
-    checkForDuplicateRenames(namePairs, renameExpr,  errorMessage);
+    List<NewOldPair> renamePairs = renameExpr.getRenamings();
+    checkForDuplicateRenames(renamePairs, renameExpr,  errorMessage);
 
     List<NameTypePair> attrs = cSig.getAttribute();
     Signature attrSig = factory().createSignature(attrs);
-    Signature newAttrSig = rename(attrSig, namePairs);
+    Signature newAttrSig = rename(attrSig, renamePairs);
     List<NameTypePair> newAttrs = newAttrSig.getNameTypePair();
 
     Signature state = cSig.getState();
-    Signature newState = rename(state, namePairs);
+    Signature newState = rename(state, renamePairs);
 
     List<NameSignaturePair> ops = cSig.getOperation();
-    List<NameSignaturePair> newOps = renameOps(ops, namePairs);
+    List<NameSignaturePair> newOps = renameOps(ops, renamePairs);
 
     ClassSig result = factory().createClassSig(cSig.getClasses(),
                                                newState, newAttrs, newOps);
@@ -736,7 +732,7 @@ abstract public class Checker<R>
         for (NameSignaturePair pair : ops) {
           Signature signature = instantiate(pair.getSignature(), preTypes);
           NameSignaturePair newPair =
-            factory().createNameSignaturePair(pair.getName(), signature);
+            factory().createNameSignaturePair(pair.getZDeclName(), signature);
           newOps.add(newPair);
         }
 
@@ -744,8 +740,8 @@ abstract public class Checker<R>
         List<ClassRef> classRefs = cSig.getClasses();
         List<ClassRef> newClassRefs = list();
         for (ClassRef classRef : classRefs) {
-          List<Type2> types = instantiateTypes(classRef.getType2(), preTypes);
-	  List<NameNamePair> pairs = list();
+          List<Type2> types = instantiateTypes(classRef.getType(), preTypes);
+	  List<NewOldPair> pairs = list();
           ClassRef newClassRef =
             factory().createClassRef(classRef.getRefName(), types, pairs);
           newClassRefs.add(newClassRef);
@@ -781,8 +777,8 @@ abstract public class Checker<R>
 
   protected ClassRef instantiate(ClassRef classRef, List<Type2> preTypes)
   {
-    List<Type2> types = instantiateTypes(classRef.getType2(), preTypes);
-    List<NameNamePair> pairs = list();
+    List<Type2> types = instantiateTypes(classRef.getType(), preTypes);
+    List<NewOldPair> pairs = list();
     ClassRef result =
       factory().createClassRef(classRef.getRefName(), types, pairs);
     return result;
@@ -806,54 +802,54 @@ abstract public class Checker<R>
   }
 
   //find an attribute in a class signature
-  protected NameTypePair findAttribute(DeclName declName, ClassSig cSig)
+  protected NameTypePair findAttribute(ZDeclName zDeclName, ClassSig cSig)
   {
-    NameTypePair result = findNameTypePair(declName, cSig.getAttribute());
+    NameTypePair result = findNameTypePair(zDeclName, cSig.getAttribute());
     return result;
   }
 
   //find a state variable in a class signature
-  protected NameTypePair findStateDecl(DeclName declName, ClassSig cSig)
+  protected NameTypePair findStateDecl(ZDeclName zDeclName, ClassSig cSig)
   {
     List<NameTypePair> decls = cSig.getState().getNameTypePair();
-    NameTypePair result = findNameTypePair(declName, decls);
+    NameTypePair result = findNameTypePair(zDeclName, decls);
     return result;
   }
 
   //find a NameSignaturePair in a class signature
-  protected NameSignaturePair findOperation(DeclName declName, ClassSig cSig)
+  protected NameSignaturePair findOperation(ZDeclName zDeclName, ClassSig cSig)
   {
     //problem with static import from GlobalDefs
-    return GlobalDefs.findOperation(declName, cSig);
+    return GlobalDefs.findOperation(zDeclName, cSig);
   }
 
-  protected NameSignaturePair findNameSigPair(DeclName declName,
+  protected NameSignaturePair findNameSigPair(ZDeclName zDeclName,
                                               List<NameSignaturePair> pairs)
   {
     //problem with static import from GlobalDefs
-    return GlobalDefs.findNameSigPair(declName, pairs);
+    return GlobalDefs.findNameSigPair(zDeclName, pairs);
   }
 
-  protected NameSignaturePair findOperation(RefName refName, ClassSig cSig)
+  protected NameSignaturePair findOperation(ZRefName zRefName, ClassSig cSig)
   {
-    DeclName declName = factory().createDeclName(refName);
-    NameSignaturePair result = findOperation(declName, cSig);
+    ZDeclName zDeclName = factory().createZDeclName(zRefName);
+    NameSignaturePair result = findOperation(zDeclName, cSig);
     return result;
   }
 
-  protected NameSignaturePair findNameSigPair(RefName refName,
+  protected NameSignaturePair findNameSigPair(ZRefName zRefName,
                                               List<NameSignaturePair> pairs)
   {
-    DeclName declName = factory().createDeclName(refName);
-    NameSignaturePair result = findNameSigPair(declName, pairs);
+    ZDeclName zDeclName = factory().createZDeclName(zRefName);
+    NameSignaturePair result = findNameSigPair(zDeclName, pairs);
     return result;
   }
 
-  protected ClassRef findRef(RefName refName, List<ClassRef> classRefs)
+  protected ClassRef findRef(ZRefName zRefName, List<ClassRef> classRefs)
   {
     ClassRef result = null;
     for (ClassRef classRef : classRefs) {
-      if (refName.equals(classRef.getRefName())) {
+      if (namesEqual(zRefName, classRef.getZRefName())) {
         result = classRef;
       }
     }
@@ -871,7 +867,7 @@ abstract public class Checker<R>
     return result;
   }
 
-  protected Type2 renameClassType(Type2 type, List<NameNamePair> pairs)
+  protected Type2 renameClassType(Type2 type, List<NewOldPair> pairs)
   {
     Type2 result = type;
     if (type instanceof ClassType && pairs.size() > 0) {
@@ -899,10 +895,10 @@ abstract public class Checker<R>
   protected Type2 lookupClass(ClassRef classRef)
   {
     Type2 result = factory().createUnknownType();
-    Type refType = getType(classRef.getRefName());
+    Type refType = getType(classRef.getZRefName());
     if (refType instanceof GenericType) {
-      List<DeclName> names = genericType(refType).getName();
-      List<Type2> types = classRef.getType2();
+      List<ZDeclName> names = genericType(refType).getName();
+      List<Type2> types = classRef.getType();
       if (names.size() == types.size()) {
         unificationEnv().enterScope();
         for (int i = 0; i < names.size(); i++) {
@@ -916,7 +912,7 @@ abstract public class Checker<R>
 
     if (unwrapType(refType) instanceof PowerType) {
       PowerType powerType = (PowerType) unwrapType(refType);
-      result = renameClassType(powerType.getType(), classRef.getNameNamePair());
+      result = renameClassType(powerType.getType(), classRef.getNewOldPair());
     }
     return result;
   }
@@ -941,11 +937,11 @@ abstract public class Checker<R>
       //they are compatible
       for (ClassRef lClassRef : lcSig.getClasses()) {
 	for (ClassRef rClassRef : rcSig.getClasses()) {
-	  if (namesEqual(lClassRef.getRefName(), rClassRef.getRefName())) {
-	    assert lClassRef.getType2().size() == rClassRef.getType2().size();
-	    for (int i = 0; i < lClassRef.getType2().size(); i++) {
-	      Type2 lrType = lClassRef.getType2().get(i);
-	      Type2 rrType = rClassRef.getType2().get(i);
+	  if (namesEqual(lClassRef.getZRefName(), rClassRef.getZRefName())) {
+	    assert lClassRef.getType().size() == rClassRef.getType().size();
+	    for (int i = 0; i < lClassRef.getType().size(); i++) {
+	      Type2 lrType = lClassRef.getType().get(i);
+	      Type2 rrType = rClassRef.getType().get(i);
 	      UResult unified = unify(lrType, rrType);
 	      if (unified == FAIL) {
 		Object [] params = {classUnionExpr};
@@ -968,13 +964,13 @@ abstract public class Checker<R>
 
       //gather pairs from the state
       for (NameTypePair lPair : lsPairs) {
-        if (!isSelfName(lPair.getName())) {
-          NameTypePair rPair = findNameTypePair(lPair.getName(), rsPairs);
+        if (!isSelfName(lPair.getZDeclName())) {
+          NameTypePair rPair = findNameTypePair(lPair.getZDeclName(), rsPairs);
           if (rPair != null) {
             state.getNameTypePair().add(lPair);
             state.getNameTypePair().add(rPair);
           }
-	  rPair = findNameTypePair(lPair.getName(), raPairs);
+	  rPair = findNameTypePair(lPair.getZDeclName(), raPairs);
 	  if (rPair != null) {
 	    stateAndAttrs.add(lPair);
 	    stateAndAttrs.add(rPair);	    
@@ -984,12 +980,12 @@ abstract public class Checker<R>
 
       //gather pairs from local defs
       for (NameTypePair lPair : laPairs) {
-        NameTypePair rPair = findNameTypePair(lPair.getName(), raPairs);
+        NameTypePair rPair = findNameTypePair(lPair.getZDeclName(), raPairs);
         if (rPair != null) {
           attrs.add(lPair);
           attrs.add(rPair);
         }
-	rPair = findNameTypePair(lPair.getName(), rsPairs);
+	rPair = findNameTypePair(lPair.getZDeclName(), rsPairs);
 	if (rPair != null) {
 	  stateAndAttrs.add(lPair);
 	  stateAndAttrs.add(rPair);	    
@@ -1011,7 +1007,7 @@ abstract public class Checker<R>
       List<NameSignaturePair> loPairs = lcSig.getOperation();
       List<NameSignaturePair> roPairs = rcSig.getOperation();
       for (NameSignaturePair lPair : loPairs) {
-        DeclName lName = lPair.getName();
+        ZDeclName lName = lPair.getZDeclName();
         NameSignaturePair rPair = findOperation(lName, rcSig);
         if (rPair != null) {
           Signature lSig = lPair.getSignature();
@@ -1086,21 +1082,21 @@ abstract public class Checker<R>
 
   protected ClassRef rename(ClassRef classRef, RenameExpr renameExpr)
   {
-    List<NameNamePair> cfPairs = classRef.getNameNamePair();
-    List<NameNamePair> rnPairs = renameExpr.getNameNamePair();
-    List<NameNamePair> newPairs = list();
-    for (NameNamePair rnPair :rnPairs) {
-      NameNamePair cfPair = findNameNamePair(rnPair.getNewName(), cfPairs);
+    List<NewOldPair> cfPairs = classRef.getNewOldPair();
+    List<NewOldPair> rnPairs = renameExpr.getRenamings();
+    List<NewOldPair> newPairs = list();
+    for (NewOldPair rnPair :rnPairs) {
+      NewOldPair cfPair = findNewOldPair(rnPair.getZDeclName(), cfPairs);
       if (cfPair == null) {
         newPairs.add(rnPair);
       }
       else {
-        NameNamePair newPair =
-          factory().createNameNamePair(cfPair.getOldName(), rnPair.getNewName());
+        NewOldPair newPair =
+          factory().createNewOldPair(rnPair.getNewName(), cfPair.getOldName());
       }
     }
     ClassRef result = factory().createClassRef(classRef.getRefName(),
-                                               classRef.getType2(),
+                                               classRef.getType(),
                                                newPairs);
     return result;
   }
@@ -1141,24 +1137,24 @@ abstract public class Checker<R>
   public String classRefTypeToString(ClassRefType ctype)
   {
     String result = new String();
-    RefName className = ctype.getThisClass().getRefName();
+    ZRefName className = ctype.getThisClass().getZRefName();
     result += "(CLASS " + className + "\n";
 
     ClassSig csig = ctype.getClassSig();
     result += "\tATTR(" + className + ")\n";
     for (Object o : csig.getAttribute()) {
       NameTypePair pair = (NameTypePair) o;
-      result += "\t\t" + pair.getName() + " : " + pair.getType() + "\n";
+      result += "\t\t" + pair.getZDeclName() + " : " + pair.getType() + "\n";
     }
     result += "\tSTATE(" + className + ")\n";
     for (Object o : csig.getState().getNameTypePair()) {
       NameTypePair pair = (NameTypePair) o;
-      result += "\t\t" + pair.getName() + " : " + toString(pair.getType()) + "\n";
+      result += "\t\t" + pair.getZDeclName() + " : " + toString(pair.getType()) + "\n";
     }
     result += "\tOPS(" + className + ")\n";
     for (Object o : csig.getOperation()) {
       NameSignaturePair p = (net.sourceforge.czt.oz.ast.NameSignaturePair) o;
-      result += "\t\t" + p.getName() + " : " + p.getSignature();
+      result += "\t\t" + p.getZDeclName() + " : " + p.getSignature();
     }
     result += ")";
     return result;

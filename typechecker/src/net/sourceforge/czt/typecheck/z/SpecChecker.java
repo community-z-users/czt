@@ -120,9 +120,10 @@ public class SpecChecker
       List<NameTypePair> pairs = signature.getNameTypePair();
       for (NameTypePair pair : pairs) {
         //if the name already exists globally, raise an error
-        if (!sectTypeEnv().add(pair.getName(), pair.getType())) {
-          Object [] params = {pair.getName()};
-          error(pair.getName(), ErrorMessage.REDECLARED_GLOBAL_NAME, params);
+	ZDeclName zDeclName = pair.getZDeclName();
+        if (!sectTypeEnv().add(zDeclName, pair.getType())) {
+          Object [] params = {zDeclName};
+          error(zDeclName, ErrorMessage.REDECLARED_GLOBAL_NAME, params);
         }
       }
 

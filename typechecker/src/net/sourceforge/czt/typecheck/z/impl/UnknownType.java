@@ -35,43 +35,43 @@ public class UnknownType
   extends Type2Impl
 {
   /** The undefined reference associated with this type. */
-  protected RefName refName_;
+  protected ZRefName zRefName_;
 
   /** The list of instantiations associated with this type. */
   protected List<Type2> types_;
 
   /** The list of renames associated with this type. */
-  protected List<NameNamePair> pairs_;
+  protected List<NewOldPair> pairs_;
 
-  /** True iff refName_ is the superset of this type. */
+  /** True iff zRefName_ is the superset of this type. */
   protected boolean isMem_;
 
-  protected UnknownType(RefName refName,
+  protected UnknownType(ZRefName zRefName,
                         boolean isMem,
                         List<Type2> types,
-                        List<NameNamePair> pairs)
+                        List<NewOldPair> pairs)
   {
-    refName_ = refName;
+    zRefName_ = zRefName;
     isMem_ = isMem;
     types_ = types;
     pairs_ = pairs;
   }
 
-  protected UnknownType(RefName refName,
+  protected UnknownType(ZRefName zRefName,
                         boolean isMem,
                         List<Type2> types)
   {
-    this(refName, isMem, types, new ListTermImpl<NameNamePair>());
+    this(zRefName, isMem, types, new ListTermImpl<NewOldPair>());
   }
 
-  protected UnknownType(RefName refName, boolean isMem)
+  protected UnknownType(ZRefName zRefName, boolean isMem)
   {
-    this(refName, isMem, new ListTermImpl<Type2>());
+    this(zRefName, isMem, new ListTermImpl<Type2>());
   }
 
-  protected UnknownType(RefName refName)
+  protected UnknownType(ZRefName zRefName)
   {
-    this(refName, false);
+    this(zRefName, false);
   }
 
   protected UnknownType()
@@ -94,7 +94,7 @@ public class UnknownType
     return result;
   }
 
-  public List<NameNamePair> getPairs()
+  public List<NewOldPair> getPairs()
   {
     return pairs_;
   }
@@ -102,17 +102,17 @@ public class UnknownType
   /**
    * Get the undefined reference associated with this type.
    */
-  public RefName getRefName()
+  public ZRefName getZRefName()
   {
-    return refName_;
+    return zRefName_;
   }
 
   /**
    * Set the undefined reference associated with this type.
    */
-  public void setRefName(RefName refName)
+  public void setZRefName(ZRefName zRefName)
   {
-    refName_ = refName;
+    zRefName_ = zRefName;
   }
 
   public void setIsMem(boolean isMem)
@@ -131,10 +131,10 @@ public class UnknownType
 
     if (obj instanceof UnknownType) {
       UnknownType unknownType = (UnknownType) obj;
-      if (refName_ == null && unknownType.getRefName() == null) {
+      if (zRefName_ == null && unknownType.getZRefName() == null) {
         result = true;
       }
-      else if (refName_ != null && refName_.equals(unknownType.getRefName())) {
+      else if (zRefName_ != null && zRefName_.equals(unknownType.getZRefName())) {
         result = true;
       }
 
@@ -152,8 +152,8 @@ public class UnknownType
 
     int hashCode = super.hashCode();
     hashCode += "UnknownType".hashCode();
-    if (refName_ != null) {
-      hashCode += constant * refName_.hashCode();
+    if (zRefName_ != null) {
+      hashCode += constant * zRefName_.hashCode();
     }
     return hashCode;
 
@@ -161,7 +161,7 @@ public class UnknownType
 
   public Object [] getChildren()
   {
-    Object [] children = { getRefName(), getType(), new Boolean(getIsMem()) };
+    Object [] children = { getZRefName(), getType(), new Boolean(getIsMem()) };
     return children;
   }
 
@@ -179,10 +179,10 @@ public class UnknownType
     UnknownType zedObject = null;
     try {
       zedObject = new UnknownType();
-      RefName refName = (RefName) args[0];
+      ZRefName zRefName = (ZRefName) args[0];
       List<Type2> types = (List<Type2>) args[1];
       Boolean isMem = (Boolean) args[2];
-      zedObject.setRefName(refName);
+      zedObject.setZRefName(zRefName);
       zedObject.setIsMem(isMem);
       zedObject.getType().addAll(types);
     }
@@ -199,12 +199,12 @@ public class UnknownType
   {
     String result = "unknown";
 
-    if (refName_ != null) {
+    if (zRefName_ != null) {
       result += "(";
       if (getIsMem()) {
         result += "member(";
       }
-      result += refName_;
+      result += zRefName_;
       if (getIsMem()) {
         result += ")";
       }

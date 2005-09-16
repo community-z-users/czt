@@ -178,7 +178,8 @@ public class TypeCheckUtils
 	if (!prevSect.equals(triple.getSect())) {
 	  System.out.println("section " + triple.getSect());
 	}
-	System.out.println("\t" + triple.getName() + " : " + triple.getType());
+	System.out.println("\t" + triple.getZDeclName() +
+			   " : " + triple.getType());
 	prevSect = triple.getSect();
       }
     }

@@ -44,7 +44,7 @@ public class VariableClassSig
   protected static int serial_ = 0;
 
   /** The name of this variable. */
-  protected DeclName declName_ = null;
+  protected ZDeclName zDeclName_ = null;
 
   /** The unified value of this signature. */
   protected ClassSig value_ = null;
@@ -53,12 +53,12 @@ public class VariableClassSig
   {
     List<Stroke> strokes = new java.util.ArrayList<Stroke>();
     strokes.add(factory.createNumStroke(new Integer(serial_++)));
-    declName_ = factory.createDeclName(PSI, strokes, null);
+    zDeclName_ = factory.createZDeclName(PSI, strokes, null);
   }
 
-  protected VariableClassSig(DeclName declName)
+  protected VariableClassSig(ZDeclName zDeclName)
   {
-    declName_ = declName;
+    zDeclName_ = zDeclName;
   }
 
   /**
@@ -91,17 +91,17 @@ public class VariableClassSig
   /**
    * Get the variable name associated with this type.
    */
-  public DeclName getName()
+  public ZDeclName getName()
   {
-    return declName_;
+    return zDeclName_;
   }
 
   /**
    * Set the variable name associated with this type.
    */
-  public void setName(DeclName declName)
+  public void setName(ZDeclName zDeclName)
   {
-    declName_ = declName;
+    zDeclName_ = zDeclName;
   }
 
   public Object[] getChildren()
@@ -164,11 +164,11 @@ public class VariableClassSig
     if (value_ != null) {
       result += value_.toString();
     }
-    else if (declName_.getWord().indexOf(PSI) >= 0) {
-      result += declName_.toString();
+    else if (zDeclName_.getWord().indexOf(PSI) >= 0) {
+      result += zDeclName_.toString();
     }
     else {
-      result += "VCSIG(" + declName_.toString() + ")";
+      result += "VCSIG(" + zDeclName_.toString() + ")";
     }
 
     return result;
@@ -181,7 +181,7 @@ public class VariableClassSig
     if (o instanceof VariableClassSig) {
       VariableClassSig variableClassSig =
         (VariableClassSig) o;
-      if (declName_.equals(variableClassSig.getName())) {
+      if (zDeclName_.equals(variableClassSig.getName())) {
         result = true;
       }
     }
@@ -195,8 +195,8 @@ public class VariableClassSig
 
     int hashCode = super.hashCode();
     hashCode += "VariableClassSig".hashCode();
-    if (declName_ != null) {
-      hashCode += constant * declName_.hashCode();
+    if (zDeclName_ != null) {
+      hashCode += constant * zDeclName_.hashCode();
     }
     return hashCode;
   }

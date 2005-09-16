@@ -40,7 +40,7 @@ public class ParaChecker
              FreeParaVisitor<Signature>,
              FreetypeVisitor<Signature>,
              ConjParaVisitor<Signature>,
-             SchTextVisitor<Signature>,
+             ZSchTextVisitor<Signature>,
              ParaVisitor<Signature>
 {
   public ParaChecker(TypeChecker typeChecker)
@@ -63,15 +63,16 @@ public class ParaChecker
     //the list of NameTypePairs for this paras signature
     List<NameTypePair> pairs = list();
 
-    //get each DeclName
-    List<DeclName> declNames = givenPara.getDeclName();
-    for (DeclName declName : declNames) {
+    //get each ZDeclName
+    List<DeclName> givenNames = givenPara.getDeclName();
+    for (DeclName givenName : givenNames) {
       //create the type
-      GivenType givenType = factory().createGivenType(declName);
+      ZDeclName zGivenName = assertZDeclName(givenName);
+      GivenType givenType = factory().createGivenType(zGivenName);
       PowerType powerType = factory().createPowerType(givenType);
 
       //add the NameTypePair to the list for the signature
-      NameTypePair pair = factory().createNameTypePair(declName, powerType);
+      NameTypePair pair = factory().createNameTypePair(zGivenName, powerType);
       pairs.add(pair);
     }
 
@@ -145,22 +146,22 @@ public class ParaChecker
     //the list of NameTypePairs for freetype's parent's signature
     List<NameTypePair> pairs = list();
 
-    //the type of the Freetype's DeclName is a powerset of the
+    //the type of the Freetype's ZDeclName is a powerset of the
     //given type of itself
-    DeclName declName = freetype.getDeclName();
-    GivenType givenType = factory().createGivenType(declName);
+    ZDeclName freeTypeName = freetype.getZDeclName();
+    GivenType givenType = factory().createGivenType(freeTypeName);
     PowerType powerType = factory().createPowerType(givenType);
 
     //add this to the SectTypeEnv
     NameTypePair pair =
-      factory().createNameTypePair(declName, powerType);
+      factory().createNameTypePair(freeTypeName, powerType);
     pairs.add(pair);
 
     //add the name to the pending environment
     pending().add(pair);
 
     //we don't visit the branches with their a "proper" visit method
-    //because we need to pass the type of the DeclName
+    //because we need to pass the type of the ZDeclName
     List<Branch> branches = freetype.getBranch();
     for (Branch branch : branches) {
       pair = localVisitBranch(branch, givenType);
@@ -182,7 +183,7 @@ public class ParaChecker
   protected NameTypePair localVisitBranch(Branch branch, GivenType givenType)
   {
     NameTypePair pair = null;
-    DeclName declName = branch.getDeclName();
+    ZDeclName branchName = branch.getZDeclName();
 
     Expr expr = branch.getExpr();
     //if there is an expression, then get its type and make the type of
@@ -190,7 +191,6 @@ public class ParaChecker
     //expr's type (C.4.10.13)
     if (expr != null) {
       Type2 exprType = expr.accept(exprChecker());
-
       PowerType vPowerType = factory().createPowerType();
       UResult unified = unify(vPowerType, exprType);
 
@@ -205,12 +205,12 @@ public class ParaChecker
           factory().createProdType(list(vPowerType.getType(), givenType));
         PowerType powerType =
           factory().createPowerType(prodType);
-        pair = factory().createNameTypePair(declName, powerType);
+        pair = factory().createNameTypePair(branchName, powerType);
       }
     }
     //if not expression, and a simple type
     else {
-      pair = factory().createNameTypePair(declName, givenType);
+      pair = factory().createNameTypePair(branchName, givenType);
     }
 
     return pair;
@@ -244,28 +244,26 @@ public class ParaChecker
     return signature;
   }
 
-  public Signature visitSchText(SchText schText)
+  public Signature visitZSchText(ZSchText zSchText)
   {
     //the list of Names declared in this schema text
-    List<NameTypePair> pairs = list();
+    List<NameTypePair> gPairs = list();
 
     //get and visit the list of declarations
-    List<Decl> decls = schText.getDecl();
-    for (Decl decl : decls) {
-      List<NameTypePair> dPairs = decl.accept(declChecker());
-      for (NameTypePair dPair : dPairs) {
-        DeclName gName = dPair.getName();
-        Type gType = addGenerics((Type2) dPair.getType());
-        NameTypePair gPair = factory().createNameTypePair(gName, gType);
-        pairs.add(gPair);
-      }
+    DeclList declList = zSchText.getDeclList();
+    List<NameTypePair> pairs = declList.accept(declChecker());
+    for (NameTypePair pair : pairs) {
+      ZDeclName gName = pair.getZDeclName();
+      Type gType = addGenerics((Type2) pair.getType());
+      NameTypePair gPair = factory().createNameTypePair(gName, gType);
+      gPairs.add(gPair);
     }
 
     pending().enterScope();
-    pending().add(pairs);
+    pending().add(gPairs);
 
     //get and visit the pred
-    Pred pred = schText.getPred();
+    Pred pred = zSchText.getPred();
     if (pred != null) {
       UResult solved = pred.accept(predChecker());
       //if the are unsolved unifications in this predicate,
@@ -276,16 +274,16 @@ public class ParaChecker
     }
 
     //check that the types of duplicate names agree
-    checkForDuplicates(pairs, null);
+    checkForDuplicates(gPairs, null);
 
     //exit the pending scope
     pending().exitScope();
 
     //the signature for this schema text
-    Signature signature = factory().createSignature(pairs);
+    Signature signature = factory().createSignature(gPairs);
 
     //add this as a type annotation
-    addSignatureAnn(schText, signature);
+    addSignatureAnn(zSchText, signature);
 
     return signature;
   }

@@ -151,8 +151,8 @@ public class ExprChecker
             if (contains(subClass.getSuperClass(), cRef)) {
               //the subclasses must have the same number of parameters as
               //the "top-level" class
-              final int superSize = cRef.getType2().size();
-              final int subSize = subClass.getThisClass().getType2().size();
+              final int superSize = cRef.getType().size();
+              final int subSize = subClass.getThisClass().getType().size();
               if (superSize != subSize) {
                 Object [] params = {cRef.getRefName(), superSize,
                                     subClass.getThisClass().getRefName(),
@@ -180,8 +180,8 @@ public class ExprChecker
 
               ClassRef subCRef = factory().createClassRef();
               subCRef.setRefName(subClass.getThisClass().getRefName());
-              subCRef.getType2().addAll(cRef.getType2());
-              subCRef.getNameNamePair().addAll(cRef.getNameNamePair());
+              subCRef.getType().addAll(cRef.getType());
+              subCRef.getNewOldPair().addAll(cRef.getNewOldPair());
               if (!contains(subClasses, subCRef)) {
                 subClasses.add(subCRef);
               }
@@ -264,7 +264,7 @@ public class ExprChecker
       else if (exprType instanceof ClassType) {
         ClassType classType = (ClassType) exprType;
         ClassSig classSig = classType.getClassSig();
-        RefName selectName = bindSelExpr.getName();
+        ZRefName selectName = bindSelExpr.getZRefName();
         if (!instanceOf(classSig, VariableClassSig.class)) {
           //try to find the name in the state signature
           Signature signature = classSig.getState();
@@ -312,11 +312,11 @@ public class ExprChecker
       unificationEnv().enterScope();
 
       //add new vtypes for the (missing) parameters
-      List<DeclName> declNames = gType.getName();
-      for (DeclName declName : declNames) {
+      List<ZDeclName> paramNames = gType.getName();
+      for (ZDeclName paramName : paramNames) {
         //add a variable type corresponding to this name
         VariableType vType = factory().createVariableType();
-        unificationEnv().addGenName(declName, vType);
+        unificationEnv().addGenName(paramName, vType);
         instantiations.add(vType);
       }
 
@@ -369,7 +369,7 @@ public class ExprChecker
           ClassRef renameThisClass =
             rename(classRefType.getThisClass(), renameExpr);
           List<DeclName> renamePrimary =
-            renamePrimary(classRefType.getPrimary(), renameExpr);
+            renamePrimary(classRefType.getPrimary(), renameExpr.getRenamings());
           ClassRefType newRefType =
             factory().createClassRefType(renameClassSig,
                                          renameThisClass,

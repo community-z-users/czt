@@ -70,19 +70,12 @@ public class UnificationEnv
   }
 
   /**
-   * Add a gen name and type to this unificiation
-   * environment. Return true iff this name is not in the environment,
-   * or its type unifies with the existing type.
+   * Add a gen name and type to this unificiation  environment. 
    */
-  public boolean addGenName(DeclName name, Type2 type2)
+  public void addGenName(ZDeclName zDeclName, Type2 type2)
   {
-    boolean result = false;
-
-    NameTypePair pair = factory_.createNameTypePair(name, type2);
+    NameTypePair pair = factory_.createNameTypePair(zDeclName, type2);
     peek().add(pair);
-    result = true;
-
-    return result;
   }
 
   public List<NameTypePair> getPairs()
@@ -94,14 +87,14 @@ public class UnificationEnv
     return result;
   }
 
-  public Type2 getType(DeclName declName)
+  public Type2 getType(ZDeclName zDeclName)
   {
     Type2 result = factory_.createUnknownType();
 
     //look in the generic name unification list
     for (NameTypePair pair : peek()) {
       //use object ID to counter nested generic environments
-      if (declName == pair.getName()) {
+      if (zDeclName == pair.getZDeclName()) {
         result = (Type2) pair.getType();
         break;
       }
@@ -189,15 +182,15 @@ public class UnificationEnv
 
   protected UResult unifyUnknownType(UnknownType uType, Type2 type2)
   {
-    RefName refName = uType.getRefName();
-    if (isVariableType(type2) && refName != null) {
+    ZRefName uTypeName = uType.getZRefName();
+    if (isVariableType(type2) && uTypeName != null) {
       unifyVariableType(variableType(type2), uType);
     }
     else if (isPowerType(type2) && 
 	     isVariableType(powerType(type2).getType()) &&
-	     uType.getRefName() != null &&
+	     uTypeName != null &&
 	     uType.getIsMem() == false) {
-      UnknownType subType = factory_.createUnknownType(refName, true);
+      UnknownType subType = factory_.createUnknownType(uTypeName, true);
       subType.getType().addAll(uType.getType());
       unify(powerType(type2).getType(), subType);
     }
@@ -306,7 +299,7 @@ public class UnificationEnv
         //iterate through every name/type pair, looking for each name in
         //the other signature
         for (NameTypePair pairA : listA) {
-          NameTypePair pairB = findNameTypePair(pairA.getName(), sigB);
+          NameTypePair pairB = findNameTypePair(pairA.getZDeclName(), sigB);
           //if the pair in not in the signature, then fail
           if (pairB == null) {
             result = FAIL;

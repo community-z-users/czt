@@ -26,7 +26,7 @@ import net.sourceforge.czt.z.visitor.*;
  */
 public class SchTextChecker
   extends Checker<Signature>
-  implements SchTextVisitor<Signature>
+  implements ZSchTextVisitor<Signature>
 {
   protected net.sourceforge.czt.typecheck.z.SchTextChecker zSchTextChecker_;
 
@@ -37,8 +37,8 @@ public class SchTextChecker
       new net.sourceforge.czt.typecheck.z.SchTextChecker(typeChecker);
   }
 
-  public Signature visitSchText(SchText schText)
+  public Signature visitZSchText(ZSchText zSchText)
   {
-    return schText.accept(zSchTextChecker_);
+    return zSchText.accept(zSchTextChecker_);
   }
 }

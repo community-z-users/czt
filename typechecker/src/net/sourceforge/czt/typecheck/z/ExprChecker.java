@@ -85,8 +85,8 @@ public class ExprChecker
   public Type2 visitRefExpr(RefExpr refExpr)
   {
     //get the type of this name
-    RefName refName = refExpr.getRefName();
-    Type type = exprChecker().getType(refName);
+    ZRefName zRefName = refExpr.getZRefName();
+    Type type = exprChecker().getType(zRefName);
 
     //add this reference for post checking
     if (!containsObject(paraErrors(), refExpr)) {
@@ -94,7 +94,7 @@ public class ExprChecker
     }
 
     //if this is undeclared, create an unknown type with this RefExpr
-    Object undecAnn = refName.getAnn(UndeclaredAnn.class);
+    Object undecAnn = zRefName.getAnn(UndeclaredAnn.class);
 
     //get an existing parameter annotations
     ParameterAnn pAnn = (ParameterAnn) refExpr.getAnn(ParameterAnn.class);
@@ -110,11 +110,11 @@ public class ExprChecker
         unificationEnv().enterScope();
 
         //add new vtypes for the (missing) parameters
-        List<DeclName> declNames = genericType.getName();
-        for (DeclName declName : declNames) {
+        List<ZDeclName> genNames = genericType.getName();
+        for (ZDeclName genName : genNames) {
           //add a variable type corresponding to this name
           VariableType vType = factory().createVariableType();
-          unificationEnv().addGenName(declName, vType);
+          unificationEnv().addGenName(genName, vType);
           instantiations.add(vType);
         }
 
@@ -126,21 +126,21 @@ public class ExprChecker
         }
         pAnn = new ParameterAnn(instantiations);
         addAnn(refExpr, pAnn);
-        addAnn(refName, pAnn);
+        addAnn(zRefName, pAnn);
         unificationEnv().exitScope();
       }
       //if the instantiation is explicit
       else {
-        List<DeclName> names = genericType.getName();
-        if (names.size() == exprs.size()) {
+        List<ZDeclName> genNames = genericType.getName();
+        if (genNames.size() == exprs.size()) {
           List<Type2> instantiations = list();
           unificationEnv().enterScope();
 
           //if this has not been visited previously, add the genName
           //and expr pairs into the environment
-          for (int i = 0; i < names.size(); i++) {
+          for (int i = 0; i < genNames.size(); i++) {
             //get the next name and create a generic types
-            DeclName declName = names.get(i);
+            ZDeclName genName = genNames.get(i);
             Expr expr = exprs.get(i);
             Type2 exprType = expr.accept(exprChecker());
             PowerType vPowerType = factory().createPowerType();
@@ -156,7 +156,7 @@ public class ExprChecker
             else {
               //add the type to the environment
               Type2 substType = vPowerType.getType();
-              unificationEnv().addGenName(declName, substType);
+              unificationEnv().addGenName(genName, substType);
               instantiations.add(substType);
             }
           }
@@ -171,21 +171,21 @@ public class ExprChecker
           unificationEnv().exitScope();
         }
         else {
-          Object [] params = {refExpr.getRefName(), names.size()};
+          Object [] params = {refExpr.getZRefName(), genNames.size()};
           error(refExpr, ErrorMessage.PARAMETER_MISMATCH, params);
         }
       }
     }
     else if (type instanceof GenericType && isPending()) {
       if (exprs.size() > 0) {
-        Object [] params = {refExpr.getRefName()};
+        Object [] params = {refExpr.getZRefName()};
         error(refExpr, ErrorMessage.PARAMETER_MISMATCH_IN_DEFPARA, params);
       }
     }
     else if (undecAnn != null) {
       assert type instanceof UnknownType;
       UnknownType uType = (UnknownType) type;
-      uType.setRefName(refName);
+      uType.setZRefName(zRefName);
       for (Expr expr : exprs) {
         Type2 exprType = expr.accept(exprChecker());
         PowerType vPowerType = factory().createPowerType();
@@ -199,7 +199,7 @@ public class ExprChecker
     }
     else if (!(type instanceof GenericType)) {
       if (exprs.size() > 0) {
-        Object [] params = {refExpr.getRefName(), 0};
+        Object [] params = {refExpr.getZRefName(), 0};
         error(refExpr, ErrorMessage.PARAMETER_MISMATCH, params);
       }
     }
@@ -324,8 +324,8 @@ public class ExprChecker
   public Type2 visitNumExpr(NumExpr numExpr)
   {
     //the type of a NumExpr is the given type arithmos
-    DeclName declName = factory().createDeclName(ZString.ARITHMOS);
-    Type2 type = factory().createGivenType(declName);
+    ZDeclName arithmos = factory().createZDeclName(ZString.ARITHMOS);
+    Type2 type = factory().createGivenType(arithmos);
 
     //add the type as an annotation
     addTypeAnn(numExpr, type);
@@ -449,7 +449,8 @@ public class ExprChecker
       ProdType prodType = (ProdType) resolved;
 
       //if the select value is invalid, raise an error
-      int select = tupleSelExpr.getSelect().intValue();
+      Numeral numeral = tupleSelExpr.getNumeral();
+      int select = assertZNumeral(numeral).getValue();
       if (select > prodType.getType().size() || select < 1) {
         Object [] params = {tupleSelExpr, prodType.getType().size()};
         error(tupleSelExpr, ErrorMessage.INDEX_ERROR_IN_TUPLESELEXPR, params);
@@ -949,7 +950,7 @@ public class ExprChecker
         List<NameTypePair> newPairs = list();
         for (NameTypePair oldPair : oldPairs) {
           //the strokes of this name
-          List<Stroke> strokes = oldPair.getName().getStroke();
+          List<Stroke> strokes = oldPair.getZDeclName().getStroke();
 
           //if the last stroke is not a prime or shriek, then add
           //to the new signature
@@ -1046,7 +1047,7 @@ public class ExprChecker
         List<NameTypePair> pairs = signature.getNameTypePair();
         for (NameTypePair pair : pairs) {
           //add the strokes to the name
-          RefName name = factory().createRefName(pair.getName());
+          ZRefName name = factory().createZRefName(pair.getZDeclName());
           name.getStroke().addAll(thetaExpr.getStroke());
 
           //lookup the name in the environment
@@ -1055,7 +1056,7 @@ public class ExprChecker
           //if the name is undeclared, copy the annotation to the name
           //in the signature
           if (undecAnn != null) {
-            pair.getName().getAnns().add(undecAnn);
+            pair.getZDeclName().getAnns().add(undecAnn);
             if (!containsObject(paraErrors(), thetaExpr)) {
               paraErrors().add(thetaExpr);
             }
@@ -1149,8 +1150,8 @@ public class ExprChecker
       if (!instanceOf(signature, VariableSignature.class)) {
         String errorMessage =
           ErrorMessage.DUPLICATE_NAME_IN_RENAMEEXPR.toString();
-        List<NameNamePair> namePairs = renameExpr.getNameNamePair();
-        Signature newSig = createRenameSig(signature, namePairs,
+	List<NewOldPair> renamePairs = renameExpr.getRenamings();
+        Signature newSig = createRenameSig(signature, renamePairs,
                                            renameExpr, errorMessage);
         checkForDuplicates(newSig.getNameTypePair(), renameExpr);
         newSchemaType.setSignature(newSig);
@@ -1182,7 +1183,7 @@ public class ExprChecker
     }
     //if expr is a binding, then get the type of the name
     else {
-      RefName selectName = bindSelExpr.getName();
+      ZRefName selectName = bindSelExpr.getZRefName();
       Signature signature = vSchemaType.getSignature();
       if (!instanceOf(signature, VariableSignature.class)) {
         //if the select name is not in the signature, raise an error
@@ -1209,7 +1210,7 @@ public class ExprChecker
   public Type2 visitBindExpr(BindExpr bindExpr)
   {
     //a list for checking duplicate names
-    List<DeclName> names = list();
+    List<ZDeclName> names = list();
 
     //the list for create the signature
     List<NameTypePair> pairs = list();
@@ -1217,21 +1218,20 @@ public class ExprChecker
     DeclList declList = bindExpr.getDeclList();
     List<NameTypePair> decls = declList.accept(declChecker());
     for (NameTypePair decl : decls) {
-      DeclName declName = decl.getName();
+      ZDeclName zDeclName = decl.getZDeclName();
       //if this name is duplicated, raise an error
-      if (names.contains(declName)) {
-        Object [] params = {declName};
+      if (names.contains(zDeclName)) {
+        Object [] params = {zDeclName};
         error(bindExpr, ErrorMessage.DUPLICATE_IN_BINDEXPR, params);
       }
       else {
         //get the type of the expression
         Type2 exprType = (Type2) decl.getType();
-
         //add the name and type to the list
         NameTypePair nameTypePair =
-          factory().createNameTypePair(declName, exprType);
+          factory().createNameTypePair(zDeclName, exprType);
         pairs.add(nameTypePair);
-        names.add(declName);
+        names.add(zDeclName);
       }
     }
 
@@ -1254,11 +1254,10 @@ public class ExprChecker
     //add the stroke to each name
     List<NameTypePair> pairs = schemaType.getSignature().getNameTypePair();
     for (NameTypePair oldPair : pairs) {
-      DeclName oldName = oldPair.getName();
+      ZDeclName oldName = oldPair.getZDeclName();
       List<Stroke> strokes = list(oldName.getStroke());
       strokes.addAll(stroke);
-      DeclName newName =
-        factory().createDeclName(oldName.getWord(), strokes, null);
+      ZDeclName newName = factory().createZDeclName(oldName.getWord(), strokes);
       NameTypePair newPair =
         factory().createNameTypePair(newName, oldPair.getType());
       nameTypePairs.add(newPair);
@@ -1277,7 +1276,7 @@ public class ExprChecker
     List<NameTypePair> pairs = list();
     List<NameTypePair> lPairs = lSig.getNameTypePair();
     for (NameTypePair lPair : lPairs) {
-      NameTypePair rPair = findNameTypePair(lPair.getName(), rSig);
+      NameTypePair rPair = findNameTypePair(lPair.getZDeclName(), rSig);
       if (rPair == null) {
         pairs.add(lPair);
       }
@@ -1288,21 +1287,18 @@ public class ExprChecker
 
   //subtract the NameTypePairs from the signature if the name occurs
   //in the list
-  protected Signature schemaHide(Signature lSig, List<RefName> names)
+  protected Signature schemaHide(Signature lSig, List<ZRefName> names)
   {
     //the list of NameTypePairs for this signature
     List<NameTypePair> pairs = list();
     List<NameTypePair> oldPairs = lSig.getNameTypePair();
     for (NameTypePair pair : oldPairs) {
-      //create a RefName with which to search the list of names
-      RefName refName =
-        factory().createRefName(pair.getName().getWord(),
-                                pair.getName().getStroke(),
-                                null);
+      //create a ZRefName with which to search the list of names
+      ZRefName zRefName = factory().createZRefName(pair.getZDeclName());
 
       //only add the pair to the new signature if the name is not
       //being hidden
-      if (!names.contains(refName)) {
+      if (!names.contains(zRefName)) {
         pairs.add(pair);
       }
     }

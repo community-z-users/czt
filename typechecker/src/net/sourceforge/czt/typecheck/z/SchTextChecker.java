@@ -31,29 +31,26 @@ import net.sourceforge.czt.typecheck.z.util.*;
  */
 public class SchTextChecker
   extends Checker<Signature>
-  implements SchTextVisitor<Signature>
+  implements ZSchTextVisitor<Signature>
 {
   public SchTextChecker(TypeChecker typeChecker)
   {
     super(typeChecker);
   }
 
-  public Signature visitSchText(SchText schText)
+  public Signature visitZSchText(ZSchText zSchText)
   {
-    //the list of Names declared in this schema text
-    List<NameTypePair> pairs = list();
-
     //get and visit the list of declarations
-    List<Decl> decls = schText.getDecl();
-    for (Decl decl : decls) {
-      pairs.addAll(decl.accept(declChecker()));
-    }
+    DeclList declList = zSchText.getDeclList();
+
+    //get the list of Names declared in this schema text
+    List<NameTypePair> pairs = declList.accept(declChecker());
 
     //add the pairs to the type environment
     typeEnv().add(pairs);
 
     //get and visit the pred
-    Pred pred = schText.getPred();
+    Pred pred = zSchText.getPred();
     if (pred != null) {
       UResult solved = (UResult) pred.accept(predChecker());
       //if the are unsolved unifications in this predicate,
@@ -70,7 +67,7 @@ public class SchTextChecker
     Signature signature = factory().createSignature(pairs);
 
     //add this as a type annotation
-    addSignatureAnn(schText, signature);
+    addSignatureAnn(zSchText, signature);
 
     return signature;
   }
