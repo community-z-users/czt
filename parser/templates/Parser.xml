@@ -176,10 +176,29 @@ action code
     /**
      * Creates a pair from two elements. 
      */
-    protected Pair pair(Object o1, Object o2)
+    protected &lt; X, Y &gt; Pair &lt; X, Y &gt; pair(X x, Y y)
     {
-      return new Pair(o1, o2);
+      return new Pair(x, y);
     }
+
+<add:oz>
+    /**
+     * Create a pair of PrimaryDecl and SecondaryDecl from 2 DeclLists
+     */
+    protected Pair &lt; PrimaryDecl, SecondaryDecl &gt; 
+      statePair(DeclList pDeclList, DeclList sDeclList)
+    {
+      if (pDeclList == null) {
+        pDeclList = factory_.createZDeclList();
+      }
+      if (sDeclList == null) {
+        sDeclList = factory_.createZDeclList();
+      }
+      PrimaryDecl primaryDecl = factory_.createPrimaryDecl(pDeclList);
+      SecondaryDecl secondaryDecl = factory_.createSecondaryDecl(sDeclList);
+      return pair(primaryDecl, secondaryDecl);
+    }
+</add:oz>
 
     private void checkName(Decorword decorword, int line, int column)
     {
@@ -1001,7 +1020,7 @@ non terminal SchText
     schemaTextNoExpression,
     schemaText;
 
-non terminal List /*ConstDecl*/ letDefinitionList;
+non terminal ZDeclList letDefinitionList;
 
 non terminal List /*Branch*/ branchList;
 non terminal Branch branch;
@@ -1018,13 +1037,13 @@ non terminal DeclName
 non terminal List /*RefName*/ refNameList;
 non terminal ZRefName refName;
 
-non terminal List /*NewOldPair*/
-    renameList;
+non terminal ZRenameList renameList;
 non terminal NewOldPair rename;
     
-non terminal List /*Decl*/ 
+non terminal ZDeclList
     optDeclPart,
     declPart;
+
 non terminal VarDecl
     varDecl;
 non terminal ConstDecl
@@ -1066,9 +1085,6 @@ non terminal Expr
 non terminal ZDeclList
     constDeclList,
     optConstDeclList;
-
-non terminal NameExprPair
-    nameExprPair;
 
 non terminal List /*Expr*/
     prodExpressionList,
@@ -1147,7 +1163,7 @@ non terminal TermA jokerRef;
 
 non terminal Expr baseType;
 
-non terminal List /* VarDecl */ varDeclList;
+non terminal ZDeclList varDeclList;
 </add:zpatt>
 
 <add:circus>
@@ -1179,13 +1195,13 @@ non terminal Pair /* DeclName, List DeclName */
 non terminal State
     state;
 
-non terminal Pair
+non terminal Pair &lt; PrimaryDecl, SecondaryDecl &gt;
     stateDeclNoExpression,
     stateDecl;
 
-non terminal List /* Decl */
-    optPrimaryDeclPart,
+non terminal ZDeclList
     primaryDeclPart,
+    optPrimaryDeclPart,
     secondaryDeclPart;
 
 non terminal InitialState
@@ -1210,8 +1226,10 @@ non terminal OpExpr
     opExpr,
     opExpr1;
 
-non terminal List /*Expr*/ 
-    inheritedList,
+non terminal ExprList
+    inheritedList;
+
+non terminal List /* Expr */
     inheritedClassList;
 
 non terminal OpText
@@ -1652,8 +1670,7 @@ abbreviationDefinition ::=
         {:
            ConstDecl cd = factory_.createConstDecl(dn, e);
            addLocAnn(cd, equalleft, equalright);
-           ZSchText st =
-             factory_.createZSchText(factory_.createZDeclList(list(cd)), null);
+           ZSchText st = createZSchText(list(cd), null);
            addLocAnn(st, dnleft, dnright);
            RESULT = factory_.createAxPara(null, st, Box.OmitBox);
            addLocAnn(RESULT, dnleft, dnright);
@@ -1665,8 +1682,7 @@ abbreviationDefinition ::=
         {:
            ConstDecl cd = factory_.createConstDecl(dn, e);
            addLocAnn(cd, equalleft, equalright);
-           ZSchText st =
-             factory_.createZSchText(factory_.createZDeclList(list(cd)), null);
+           ZSchText st = factory_.createZSchText(list(cd), null);
            addLocAnn(st, dnleft, dnright);
            RESULT = factory_.createAxPara(fp, st, Box.OmitBox);
            addLocAnn(RESULT, dnleft, dnright);
@@ -1678,8 +1694,7 @@ abbreviationDefinition ::=
            List fp = (List) gn.getSecond();
            ConstDecl cd = factory_.createConstDecl(dn, e);
            addLocAnn(cd, equalleft, equalright);
-           ZSchText st =
-             factory_.createZSchText(factory_.createZDeclList(list(cd)), null);
+           ZSchText st = factory_.createZSchText(list(cd), null);
            RESULT = factory_.createAxPara(fp, st, Box.OmitBox);
            addLocAnn(RESULT, gnleft, gnright);
         :}
@@ -1697,7 +1712,6 @@ freeTypeList ::=
         {: RESULT = list(ftd); :}
         ;
 
-
 freeTypeDefinition ::=
         name:n DEFFREE:deffree branchList:bl
         {:
@@ -1705,7 +1719,6 @@ freeTypeDefinition ::=
            addLocAnn(RESULT, deffreeleft, deffreeright);
         :}
         ;
-
 
 branchList ::=
         branchList:bl BAR branch:b
@@ -1914,17 +1927,15 @@ channelPara ::=
 
 schemaText ::= 
         optDeclPart:odp BAR predicate:p
-        {: RESULT =
-             factory_.createZSchText(factory_.createZDeclList(odp), p); :}
+        {: RESULT = factory_.createZSchText(odp, p); :}
         |
         optDeclPart:odp
-        {: RESULT =
-             factory_.createZSchText(factory_.createZDeclList(odp), null); :}
+        {: RESULT = factory_.createZSchText(odp, null); :}
         ;
 
 optDeclPart ::=
         //empty
-        {: RESULT = list(); :}
+        {: RESULT = factory_.createZDeclList(); :}
         |
         declPart:dp
         {: RESULT = dp; :}
@@ -1932,11 +1943,11 @@ optDeclPart ::=
 
 declPart ::=
         declaration:d
-        {: RESULT = list(d); :}
+        {: RESULT = factory_.createZDeclList(list(d)); :}
         |
         declPart:dp sep:s declaration:d
         {:
-           dp.add(d);
+           dp.getDecl().add(d);
            RESULT = dp;
         :}
         ;
@@ -1952,18 +1963,18 @@ declaration ::=
 schemaTextNoExpression ::=
         optDeclPart:dp BAR predicate:p
         {: RESULT =
-             factory_.createZSchText(factory_.createZDeclList(dp), p); :}
+             factory_.createZSchText(dp, p); :}
         |
 	declPart:dp sep declaration:d
 	{:
-           dp.add(d);
-           RESULT =
-             factory_.createZSchText(factory_.createZDeclList(dp), null);
+           dp.getDecl().add(d);
+           RESULT = factory_.createZSchText(dp, null);
 	:}
 	|
 	basicDeclaration:bd
-	{: RESULT =
-             factory_.createZSchText(factory_.createZDeclList(list(bd)), null);
+	{: 
+           ZDeclList zdl = factory_.createZDeclList(list(bd));
+           RESULT = factory_.createZSchText(zdl, null);
         :}
         ;
 
@@ -2697,8 +2708,7 @@ term ::=
         /* substitution expression */
         LET:let letDefinitionList:ldl SPOT term:t 
         {: 
-           ZSchText st =
-             factory_.createZSchText(factory_.createZDeclList(ldl), null);
+           ZSchText st = factory_.createZSchText(ldl, null);
            RESULT = factory_.createLetExpr(st, expr(t));
            addLocAnn(RESULT, letleft, letright);
         :} %prec LET
@@ -2998,8 +3008,7 @@ inner_term ::=
         /* schema renaming */
         inner_term:it LSQUARE renameList:rnl RSQUARE
         {:
-           ZRenameList renameList = factory_.createZRenameList(rnl);
-           RESULT = factory_.createRenameExpr(expr(it), renameList);
+           RESULT = factory_.createRenameExpr(expr(it), rnl);
            addLocAnn(RESULT, itleft, itright);
         :} %prec _RENAME
         |
@@ -3101,12 +3110,12 @@ constDeclList ::=
 letDefinitionList ::=
         letDefinitionList:ldl SEMICOLON letDefinition:ld
         {:
-           ldl.add(ld);
+           ldl.getDecl().add(ld);
            RESULT = ldl;
         :}
         |
         letDefinition:ld
-        {: RESULT = list(ld); :}
+        {: RESULT = factory_.createZDeclList(list(ld)); :}
         ;       
 
 letDefinition ::=
@@ -3132,14 +3141,14 @@ stroke ::=
         ;
 
 renameList ::= 
-        renameList:rl COMMA rename:rn
+        renameList:rnl COMMA rename:rn
         {:
-           rl.add(rn);
-           RESULT = rl;
+           rnl.getNewOldPair().add(rn);
+           RESULT = rnl;
         :}
         |
         rename:rn  
-        {: RESULT = list(rn); :}
+        {: RESULT = factory_.createZRenameList(list(rn)); :}
         ;    
 
 rename ::=
@@ -3790,8 +3799,7 @@ baseType ::=
         |
         LSQUARE:lsq varDeclList:vdl RSQUARE
         {:
-           ZSchText st =
-             factory_.createZSchText(factory_.createZDeclList(vdl), null);
+           ZSchText st = factory_.createZSchText(vdl, null);
            RESULT = factory_.createSchExpr(st);
            addLocAnn(RESULT, lsqleft, lsqright);
         :}
@@ -3813,27 +3821,27 @@ varDeclList ::=
         varDeclList:vdl SEMICOLON declName:dn COLON baseType:bt
         {:
            VarDecl vd = factory_.createVarDecl(list(dn), bt);
-           vdl.add(vd);
+           vdl.getDecl().add(vd);
            RESULT = vdl;
         :}
         |
         varDeclList:vdl SEMICOLON JOKERDECLLIST:jdl
         {:
            JokerDeclList decl = factory_.createJokerDeclList(jdl);
-           vdl.add(decl);
+           vdl.getDecl().add(decl);
            RESULT = vdl;
         :}
         |
         declName:dn COLON baseType:bt
         {:
            VarDecl vd = factory_.createVarDecl(list(dn), bt);
-           RESULT = list(vd);
+           RESULT = factory_.createZDeclList(list(vd));
         :}
         |
         JOKERDECLLIST:jdl
         {:
            JokerDeclList decl = factory_.createJokerDeclList(jdl);
-           RESULT = list(decl);
+           RESULT = factory_.createZDeclList(list(decl));
         :}        
         ;
 
@@ -3943,11 +3951,11 @@ visibilityList ::=
 inheritedList ::=
         //empty
         {:
-           RESULT = list();
+           RESULT = factory_.createZExprList();
         :}
         |
         inheritedClassList:icl optNL
-        {: RESULT = icl; :}
+        {: RESULT = factory_.createZExprList(icl); :}
         ;
 
 inheritedClassList ::=
@@ -3979,10 +3987,9 @@ inheritedClass ::=
            addLocAnn(RESULT, icleft, icright);
         :}
         |
-        inheritedClass:ic LSQUARE renameList:rl RSQUARE
+        inheritedClass:ic LSQUARE renameList:rnl RSQUARE
         {:
-           ZRenameList renameList = factory_.createZRenameList(rl);
-           RESULT = factory_.createRenameExpr(ic, renameList);
+           RESULT = factory_.createRenameExpr(ic, rnl);
            addLocAnn(RESULT, icleft, icright);
         :} %prec _RENAME
         ;
@@ -4027,33 +4034,33 @@ innerPara ::=
 state ::=
         STATE:s stateDecl:sd BAR predicate:p END
         {:
-           List dp = (List) sd.getFirst();
-           List sa = (List) sd.getSecond();
-           RESULT = factory_.createState(dp, sa, p, Box.SchBox);
+           PrimaryDecl pd = sd.getFirst();
+           SecondaryDecl scd = sd.getSecond();
+           RESULT = factory_.createState(pd, scd, p, Box.SchBox);
            addLocAnn(RESULT, sleft, sright);
         :}
         |
         STATE:s stateDecl:sd END
         {:
-           List dp = (List) sd.getFirst();
-           List sa = (List) sd.getSecond();
-           RESULT = factory_.createState(dp, sa, null, Box.SchBox);
+           PrimaryDecl pd = sd.getFirst();
+           SecondaryDecl scd = sd.getSecond();
+           RESULT = factory_.createState(pd, scd, null, Box.SchBox);
            addLocAnn(RESULT, sleft, sright);
         :}
         |
         LSQUARE:lsq stateDecl:sd BAR predicate:p RSQUARE
         {:
-           List dp = (List) sd.getFirst();
-           List sa = (List) sd.getSecond();
-           RESULT = factory_.createState(dp, sa, p, Box.OmitBox);
+           PrimaryDecl pd = sd.getFirst();
+           SecondaryDecl scd = sd.getSecond();
+           RESULT = factory_.createState(pd, scd, p, Box.OmitBox);
            addLocAnn(RESULT, lsqleft, lsqright);
         :}
         |
         LSQUARE:lsq stateDeclNoExpression:sdne RSQUARE
         {:
-           List dp = (List) sdne.getFirst();
-           List sa = (List) sdne.getSecond();
-           RESULT = factory_.createState(dp, sa, null, Box.OmitBox);
+           PrimaryDecl pd = sdne.getFirst();
+           SecondaryDecl scd = sdne.getSecond();
+           RESULT = factory_.createState(pd, scd, null, Box.OmitBox);
            addLocAnn(RESULT, lsqleft, lsqright);
         :}
         ;
@@ -4061,38 +4068,38 @@ state ::=
 //return a pair containing the primary and secondary decls
 stateDecl ::=
         optPrimaryDeclPart:opdp
-        {: RESULT = pair(opdp, null); :}
+        {: RESULT = statePair(opdp, null); :}
         |
         secondaryDeclPart:sdp
-        {: RESULT = pair(list(), sdp); :}
+        {: RESULT = statePair(null, sdp); :}
         |
         primaryDeclPart:pdp sep secondaryDeclPart:sdp
-        {: RESULT = pair(pdp, sdp); :}
+        {: RESULT = statePair(pdp, sdp); :}
         ;
 
 stateDeclNoExpression ::=
         //empty
-        {: RESULT = pair(list(), list()); :}
+        {: RESULT = statePair(null, null); :} 
         |
         secondaryDeclPart:sdp
-        {: RESULT = pair(list(), sdp); :}
+        {: RESULT = statePair(null, sdp); :}
         |
         primaryDeclPart:pdp sep declaration:d
-        {: RESULT = pair(pdp, list()); :}
+        {: RESULT = statePair(pdp, null); :}
         |
         basicDeclaration:bd
         {:
-           PrimaryDecl pd = factory_.createPrimaryDecl(bd);
-           RESULT = pair(list(pd), list());
+           ZDeclList zdl = factory_.createZDeclList(list(bd));
+           RESULT = statePair(zdl, null);
         :}
         |        
         primaryDeclPart:pdp sep secondaryDeclPart:sdp
-        {: RESULT = pair(pdp, sdp); :}
+        {: RESULT = statePair(pdp, sdp); :}
         ;
 
 optPrimaryDeclPart ::=
         //empty
-        {: RESULT = list(); :}
+        {: RESULT = factory_.createZDeclList(); :}
         |
         primaryDeclPart:pdp
         {: RESULT = pdp; :}
@@ -4101,30 +4108,28 @@ optPrimaryDeclPart ::=
 primaryDeclPart ::=
         declaration:d
         {:
-           PrimaryDecl pd = factory_.createPrimaryDecl(d);
-           RESULT = list(pd);
+           RESULT = factory_.createZDeclList(list(d));
+           addLocAnn(RESULT, dleft, dright);
         :}
 <add:tcoz>
         |
         channelDeclaration:cd
         {:
-           PrimaryDecl pd = factory_.createPrimaryDecl(cd);
-           RESULT = list(pd);
+           RESULT = factory_.createZDeclList(list(cd));
+           addLocAnn(RESULT, cdleft, cdright);
         :}
 </add:tcoz>
         |
         primaryDeclPart:pdp sep declaration:d
         {:
-           PrimaryDecl pd = factory_.createPrimaryDecl(d);
-           pdp.add(pd);
+           pdp.getDecl().add(d);
            RESULT = pdp;
         :}
 <add:tcoz>
         |
         primaryDeclPart:pdp sep channelDeclaration:cd
         {:
-           PrimaryDecl pd = factory_.createPrimaryDecl(cd);
-           pdp.add(pd);
+           pdp.getDecl().add(cd);
            RESULT = pdp;
         :}
 </add:tcoz>
@@ -4162,14 +4167,7 @@ channel ::=
 
 secondaryDeclPart ::=
         DELTA sep declPart:dp
-        {:
-           RESULT = list();
-           List &lt; Decl &gt; decls = dp;
-           for (Decl d : decls) {
-             SecondaryDecl sd = factory_.createSecondaryDecl(d);
-             RESULT.add(sd);
-           }
-        :}
+        {: RESULT = dp; :}
         ;
 
 initialState ::=
@@ -4205,22 +4203,22 @@ operation ::=
 
 opText ::=
         deltaList:dl sep:s declPart:dp BAR predicate:p
-        {: RESULT = factory_.createOpText(dl, createZSchText(factory_.createZDeclList(dp), p)); :}
+        {: RESULT = factory_.createOpText(dl, createZSchText(dp, p)); :}
         |
         deltaList:dl sep:s declPart:dp
-        {: RESULT = factory_.createOpText(dl, createZSchText(factory_.createZDeclList(dp), null)); :}
+        {: RESULT = factory_.createOpText(dl, createZSchText(dp, null)); :}
         |
         deltaList:dl BAR predicate:p  
         {: RESULT = factory_.createOpText(dl, createZSchText(list(), p)); :}
         |
         deltaList:dl
-        {: RESULT = factory_.createOpText(dl, createZSchText(factory_.createZDeclList(list()), null)); :}
+        {: RESULT = factory_.createOpText(dl, createZSchText(list(), null)); :}
         |
         optDeclPart:dp BAR predicate:p
-        {: RESULT = factory_.createOpText(null, createZSchText(factory_.createZDeclList(dp), p)); :}
+        {: RESULT = factory_.createOpText(null, createZSchText(dp, p)); :}
         |
         optDeclPart:dp
-        {: RESULT = factory_.createOpText(null, createZSchText(factory_.createZDeclList(dp), null)); :}
+        {: RESULT = factory_.createOpText(null, createZSchText(dp, null)); :}
         ;
 
 opExpr ::=
@@ -4305,7 +4303,8 @@ opExpr1 ::=
         /* variable hiding */
         opExpr1:oe1 ZHIDE LPAREN refNameList:rnl RPAREN
         {:
-           RESULT = factory_.createHideOpExpr(oe1, rnl);
+           ZRefNameList zrnl = factory_.createZRefNameList(rnl);
+           RESULT = factory_.createHideOpExpr(oe1, zrnl);
            addLocAnn(RESULT, oe1left, oe1right);
         :}
         |

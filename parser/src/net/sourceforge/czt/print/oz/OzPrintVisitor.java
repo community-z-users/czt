@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2005 Petra Malik
+  Copyright (C) 2004, 2005 Petra Malik, Tim Miller
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -33,7 +33,7 @@ import net.sourceforge.czt.print.z.*;
 /**
  * An Object-Z visitor used for printing.
  *
- * @author Petra Malik
+ * @author Petra Malik, Tim Miller
  */
 public class OzPrintVisitor
   extends ZPrintVisitor
@@ -94,13 +94,13 @@ public class OzPrintVisitor
 
   public Object visitPrimaryDecl(PrimaryDecl primaryDecl)
   {
-    visit(primaryDecl.getDecl());
+    visit(primaryDecl.getDeclList());
     return null;
   }
 
   public Object visitSecondaryDecl(SecondaryDecl secondaryDecl)
   {
-    visit(secondaryDecl.getDecl());
+    visit(secondaryDecl.getDeclList());
     return null;
   }
 
@@ -169,7 +169,7 @@ public class OzPrintVisitor
       visit(opPromotionExpr.getExpr());
       printKeyword(ZString.DOT);
     }
-    visit(opPromotionExpr.getName());
+    visit(opPromotionExpr.getRefName());
     printRPAREN(opPromotionExpr);
     return null;
   }
@@ -283,7 +283,7 @@ public class OzPrintVisitor
     visit(hideOpExpr.getOpExpr());
     printKeyword(ZString.ZHIDE);
     print(Sym.LPAREN);
-    printTermList(hideOpExpr.getName());
+    visit(hideOpExpr.getRefNameList());
     print(Sym.RPAREN);
     printRPAREN(hideOpExpr);
     return null;
@@ -294,7 +294,7 @@ public class OzPrintVisitor
     printLPAREN(renameOpExpr);
     visit(renameOpExpr.getOpExpr());
     print(Sym.LSQUARE);
-    printTermList(renameOpExpr.getNewOldPair());
+    visit(renameOpExpr.getRenameList());
     print(Sym.RSQUARE);
     printRPAREN(renameOpExpr);
     return null;
