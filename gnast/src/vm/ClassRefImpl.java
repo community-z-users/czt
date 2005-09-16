@@ -1,24 +1,37 @@
+  /**
+   * This is a convenience method.
+   * It returns the ZRefName if RefName is an instance of
+   * ZRefName and throws an UnsupportedAstClassException otherwise.
+   */
+  public ZRefName getZRefName()
+  {
+    RefName refName = getRefName();
+    if (refName instanceof ZRefName) {
+      return (ZRefName) refName;
+    }
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+  }
 
   public String toString()
   {
     String result = getRefName().toString();
-    List types = getType2();
+    List<Type2> types = getType();
     if (types.size() > 0) {
       result += "[";
-      for (Iterator iter = types.iterator(); iter.hasNext(); ) {
-        Type2 type2 = (Type2) iter.next();
-        result += type2.toString();
+      for (Iterator<Type2> iter = types.iterator(); iter.hasNext(); ) {
+        Type2 type = iter.next();
+        result += type.toString();
         if (iter.hasNext()) {
           result += ", ";
         }
       }
       result += "]";
     }
-    List rename = getNewOldPair();
+    List<NewOldPair> rename = getNewOldPair();
     if (rename.size() > 0) {
       result += "[";
-      for (Iterator iter = rename.iterator(); iter.hasNext(); ) {
-        NewOldPair pair = (NewOldPair) iter.next();
+      for (Iterator<NewOldPair> iter = rename.iterator(); iter.hasNext(); ) {
+        NewOldPair pair = iter.next();
         result += pair.getNewName() + "/" + pair.getOldName();
         if (iter.hasNext()) {
           result += ", ";
