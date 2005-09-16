@@ -210,10 +210,10 @@
     <xs:complexContent>
       <xs:extension base="Z:Para">
         <xs:sequence>
-          <xs:element name="Name" type="Z:DeclName"/>
+          <xs:element ref="Z:DeclName"/>
           <xs:element name="FormalParameters" type="Z:DeclName" minOccurs="0" maxOccurs="unbounded"/>
           <xs:element ref="OZ:VisibilityList" minOccurs="0"/>
-          <xs:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="Z:ExprList" minOccurs="0">
             <xs:annotation>
               <xs:appinfo>
                <jaxb:property name="InheritedClass"/>
@@ -247,8 +247,8 @@
     <xs:complexContent>
       <xs:extension base="Z:TermA">
         <xs:sequence>
-          <xs:element ref="OZ:PrimaryDecl" minOccurs="0" maxOccurs="unbounded"/>
-          <xs:element ref="OZ:SecondaryDecl" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="OZ:PrimaryDecl" minOccurs="0"/>
+          <xs:element ref="OZ:SecondaryDecl" minOccurs="0"/>
           <xs:element ref="Z:Pred" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="Box" type="Z:Box" use="optional" default="SchBox"/>
@@ -259,7 +259,7 @@
     <xs:complexContent>
       <xs:extension base="Z:TermA">
         <xs:sequence>
-          <xs:element ref="Z:Decl"/>
+          <xs:element ref="Z:DeclList"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -268,7 +268,7 @@
     <xs:complexContent>
       <xs:extension base="Z:TermA">
         <xs:sequence>
-          <xs:element ref="Z:Decl"/>
+          <xs:element ref="Z:DeclList"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -287,7 +287,7 @@
     <xs:complexContent>
       <xs:extension base="Z:TermA">
         <xs:sequence>
-          <xs:element name="Name" type="Z:DeclName"/>
+          <xs:element name="OpName" type="Z:DeclName"/>
           <xs:element ref="OZ:OpExpr"/>
         </xs:sequence>
         <xs:attribute name="Box" type="Z:Box" use="optional" default="SchBox"/>
@@ -337,7 +337,7 @@
       <xs:extension base="OZ:OpExpr">
         <xs:sequence>
           <xs:element ref="Z:Expr" minOccurs="0"/>
-          <xs:element name="Name" type="Z:RefName"/>
+          <xs:element ref="Z:RefName"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -347,7 +347,7 @@
       <xs:extension base="OZ:OpExpr">
         <xs:sequence>
           <xs:element ref="OZ:OpExpr"/>
-          <xs:element ref="Z:NewOldPair" maxOccurs="unbounded"/>      
+          <xs:element ref="Z:RenameList"/>      
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -357,7 +357,7 @@
       <xs:extension base="OZ:OpExpr">
         <xs:sequence>
           <xs:element ref="OZ:OpExpr"/>
-          <xs:element name="Name" type="Z:RefName" maxOccurs="unbounded"/>
+          <xs:element ref="Z:RefNameList"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -437,7 +437,13 @@
       <xs:extension base="Z:TermA">
         <xs:sequence>
           <xs:element ref="Z:RefName"/>
-          <xs:element ref="Z:Type2" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:Type2" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Type"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
           <xs:element ref="Z:NewOldPair" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
@@ -445,7 +451,7 @@
   </xs:complexType>
   <xs:complexType name="NameSignaturePair" mixed="false">
     <xs:sequence>
-      <xs:element name="Name" type="Z:DeclName" minOccurs="0"/>
+      <xs:element ref="Z:DeclName" minOccurs="0"/>
       <xs:element ref="Z:Signature"/>
     </xs:sequence>
   </xs:complexType>
