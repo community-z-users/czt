@@ -28,7 +28,7 @@ import net.sourceforge.czt.animation.gui.generation.Option;
 import net.sourceforge.czt.animation.gui.generation.plugins.VariableExtractor;
 
 import net.sourceforge.czt.z.ast.ConstDecl;
-import net.sourceforge.czt.z.ast.DeclName;
+import net.sourceforge.czt.z.ast.ZDeclName;
 import net.sourceforge.czt.z.ast.InStroke;
 import net.sourceforge.czt.z.ast.NextStroke;
 import net.sourceforge.czt.z.ast.OutStroke;
@@ -36,7 +36,6 @@ import net.sourceforge.czt.z.ast.NumStroke;
 import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.Stroke;
 import net.sourceforge.czt.z.ast.VarDecl;
-import net.sourceforge.czt.z.ast.ZDeclList;
 
 /**
  * Plugin implementation for finding all of the relevant variables in a schema.
@@ -64,8 +63,7 @@ public final class DefaultVariableExtractor implements VariableExtractor {
    */
   private Map/*<DeclName, VarDecl>*/ getXVariables(ConstDecl/*<SchExpr>*/ schema, Class clazz) {
     Map results/*<DeclName, VarDecl>*/=new HashMap/*<DeclName, VarDecl>*/();
-    List declarations=
-      ((ZDeclList) ((SchExpr)schema.getExpr()).getSchText().getDeclList()).getDecl();
+    List declarations= ((SchExpr)schema.getExpr()).getZSchText().getDecl();
     for(Iterator it=declarations.iterator();it.hasNext();) {
       VarDecl declaration;
       try {
@@ -74,7 +72,7 @@ public final class DefaultVariableExtractor implements VariableExtractor {
 	continue;
       }
       for(Iterator itn=declaration.getDeclName().iterator();itn.hasNext();) {
-	DeclName name=(DeclName)itn.next();
+	ZDeclName name=(ZDeclName)itn.next();
 	List decors = name.getStroke();
 	if(decors.size()==0) {
 	  if (clazz == null)
