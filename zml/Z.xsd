@@ -280,8 +280,8 @@ more detail.
     <xs:annotation>
       <xs:documentation>
         A Z referencing name.
-        The Decl attribute of type IDREF points to the matching declaration,
-        which may not be the nearest enclosing one.
+        The Decl attribute of type IDREF points to the matching declaring name
+        (DeclName), which may not be the nearest enclosing one.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -705,18 +705,29 @@ more detail.
     <xs:annotation>
       <xs:documentation>
         A relation operator application (C.5.12).
-        The mixfix attribute is false iff the input has the form
-        Expr1 \in Expr2.
-        When mixfix=true, the second (right) Expr must be either a
-        relational operator and the first (left) Expr must be a tuple
-        containing the corresponding number of arguments (unless the
-        operator has one argument, then no tuple is required) or an
-        equality and the the second (right) Expr must be a set expression
-        containing exactly one expression.
-        For example, the input "m &lt; n" generates a MemPred element with
-        mixfix=true, left=(m,n) and right=" _ &lt; _ ", whereas 
-        "(m,n) \in (_ &lt; _)" has the same left and right expressions, 
-        but mixfix=false.
+        <ul>
+        <li>Membership predicate.
+            In this case, Mixfix=false, the first (left) expression is the
+            element, and the second (right) expression is the set.
+            For example, "n \in S" has left="n" and right="S".</li>
+        <li>Equality.
+            In this case, Mixfix=true, the first (left) expression is the
+            left-hand side of the equality, and the second (right)
+            expression is a singleton set containing the right-hand side
+            of the equality.
+            For example: "n = m" has left="n" and right="{m}".</li>
+        <li>Other operator application.
+            In this case, Mixfix=true, the first (left) expression is
+            usually a tuple containing the corresponding number of arguments,
+            and the second (right) expression is the operator name.
+            However, for a unary operator, the left expression does not have
+            to be a tuple.  
+            For example, "n &lt; m" has left="(n,m)" and right=" _ &lt; _ ",
+            "disjoint s" has left="s" and right="disjoint _ ", and
+            if foo was declared as a unary postfix operator,
+            then "(2,3) foo" would have left= "(2,3)" and right=" _ foo".  
+            </li>
+        </ul>
       </xs:documentation>
     </xs:annotation>
   </xs:element>
