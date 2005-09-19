@@ -195,6 +195,11 @@
     return createNumExpr(createZNumeral(value));
   }
 
+  public ZNumeral createZNumeral(int value)
+  {
+    return createZNumeral(value);
+  }
+
   /**
    * Creates a binary product expression.
    * This is a convenience method.
