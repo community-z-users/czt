@@ -195,6 +195,15 @@
     return createNumExpr(createZNumeral(value));
   }
 
+  /**
+   * Creates a number expression with the given value.
+   * This is a convenience method.
+   */
+  public NumExpr createNumExpr(java.math.BigInteger bigInt)
+  {
+    return createNumExpr(bigInt.intValue());
+  }
+
   public ZNumeral createZNumeral(int value)
   {
     return createZNumeral(value);
