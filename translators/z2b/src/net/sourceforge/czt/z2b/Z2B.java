@@ -148,8 +148,8 @@ public class Z2B
 
     // TODO: extend this extractor to handle x==E vars.
     //       Idea: return a map from DeclName to Expr (type)
-    Pred invar = ((SchExpr) stateSchema.getExpr()).getSchText().getPred();
-    Pred initpred = ((SchExpr) initSchema.getExpr()).getSchText().getPred();
+    Pred invar = ((SchExpr) stateSchema.getExpr()).getZSchText().getPred();
+    Pred initpred = ((SchExpr) initSchema.getExpr()).getZSchText().getPred();
 
     mach_ = new BMachine(sect.getName(), url.toString());
 
@@ -181,7 +181,7 @@ public class Z2B
   //@ requires schema.getExpr instanceof SchExpr;
   protected BOperation operation(ConstDecl schema)
   {
-    String opName = schema.getDeclName().getWord();  // TODO: decorations?
+    String opName = schema.getZDeclName().getWord();  // TODO: decorations?
     BOperation op = new BOperation(opName, mach_);
     Map inputs = varExtract_.getInputVariables(schema);
     Map outputs = varExtract_.getOutputVariables(schema);
@@ -191,7 +191,7 @@ public class Z2B
     Map primed = varExtract_.getPrimedVariables(schema);
     declareVars(primed, new ArrayList(), op.getPost());
     // TODO: split the predicate parts into pre and post
-    Pred post = ((SchExpr) schema.getExpr()).getSchText().getPred();
+    Pred post = ((SchExpr) schema.getExpr()).getZSchText().getPred();
     List prePreds = new ArrayList();
     List postPreds = new ArrayList();
     splitPrePost(post, prePreds, postPreds);
@@ -205,9 +205,9 @@ public class Z2B
   {
     Iterator i = decl.getDeclName().iterator();
     while (i.hasNext()) {
-      DeclName declName = (DeclName) i.next();
+      ZDeclName declName = (ZDeclName) i.next();
       names.add(declName.toString());
-      RefName refName = getFactory().createRefName(declName);
+      ZRefName refName = getFactory().createZRefName(declName);
       preds.add(getFactory().createMemPred(refName, decl.getExpr()));
     }
   }
@@ -220,10 +220,10 @@ public class Z2B
   {
     Iterator i = vars.keySet().iterator();
     while (i.hasNext()) {
-      DeclName declName = (DeclName) i.next();
+      ZDeclName declName = (ZDeclName) i.next();
       VarDecl decl = (VarDecl) vars.get(declName);
       names.add(declName.toString());
-      RefName refName = getFactory().createRefName(declName);
+      ZRefName refName = getFactory().createZRefName(declName);
       preds.add(getFactory().createMemPred(refName, decl.getExpr()));
     }
   }
@@ -350,7 +350,7 @@ public class Z2B
   {
     if (para.getDeclName().size() > 0)
       throw new BException("Generic definitions not handled yet.");
-    SchText schText = para.getSchText();
+    ZSchText schText = para.getZSchText();
     schText.getDeclList().accept(this);
     Pred pred = schText.getPred();
     if (pred != null)

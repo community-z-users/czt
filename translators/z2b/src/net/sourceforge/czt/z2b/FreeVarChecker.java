@@ -42,7 +42,8 @@ import net.sourceforge.czt.z2b.*;
  */
 public class FreeVarChecker
   implements TermVisitor,
-	     NameVisitor
+             ZDeclNameVisitor,
+	     ZRefNameVisitor
 {
   protected boolean foundPrime;
   protected boolean foundOutput;
@@ -80,11 +81,10 @@ public class FreeVarChecker
     return VisitorUtils.visitTerm(this, term, true);
   }
 
-  public Object visitName(Name e)
+  public void visitName(List<Stroke> strokes)
   {
-    List strokes = e.getStroke();
     if (strokes.size() > 0) {
-      Stroke str = (Stroke)strokes.get(strokes.size()-1);
+      Stroke str = strokes.get(strokes.size()-1);
       if (str instanceof OutStroke)
 	foundOutput = true;
       else if (str instanceof NextStroke)
@@ -92,6 +92,17 @@ public class FreeVarChecker
       else if (str instanceof InStroke)
 	foundInput = true;
     }
-    return e;
+  }
+
+  public Object visitZDeclName(ZDeclName zDeclName)
+  {
+    visitName(zDeclName.getStroke());
+    return zDeclName;
+  }
+
+  public Object visitZRefName(ZRefName zRefName)
+  {
+    visitName(zRefName.getStroke());
+    return zRefName;
   }
 }

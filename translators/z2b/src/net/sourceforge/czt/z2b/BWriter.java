@@ -280,7 +280,14 @@ public class BWriter extends PrintWriter
   /** Print one Z name into the current section.
    *  @param name 
    */
-  public void printName(Name name) {
+  public void printName(ZDeclName name) {
+    print(bName(name));
+  }
+
+  /** Print one Z name into the current section.
+   *  @param name 
+   */
+  public void printName(ZRefName name) {
     print(bName(name));
   }
 
@@ -301,7 +308,13 @@ public class BWriter extends PrintWriter
 
   /** Convert a Z Name into a legal B name.
    */
-  static public String bName(Name name) {
+  static public String bName(ZRefName name) {
+    return bName(name.toString());
+  }
+
+  /** Convert a Z Name into a legal B name.
+   */
+  static public String bName(ZDeclName name) {
     return bName(name.toString());
   }
 

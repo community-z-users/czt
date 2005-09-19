@@ -50,7 +50,8 @@ public class BTermWriter
              ExistsPredVisitor,
              ForallPredVisitor,
 
-	     NameVisitor,
+	     ZDeclNameVisitor,
+	     ZRefNameVisitor,
 	     NumExprVisitor,
 	     ApplExprVisitor,
              RefExprVisitor,
@@ -251,7 +252,7 @@ public class BTermWriter
     out.startSection("ANY");
     // print the temporary names (like printNames, but for RefNames)
     for (Iterator i = frame.values().iterator(); i.hasNext(); ) {
-      RefName name = (RefName)i.next();
+      ZRefName name = (ZRefName)i.next();
       out.printName(name);
       if (i.hasNext())
         out.print(",");
@@ -262,7 +263,7 @@ public class BTermWriter
     for (Iterator i = frame.entrySet().iterator(); i.hasNext(); ) {
       Map.Entry entry = (Map.Entry)i.next();
       String name = (String)entry.getKey();
-      RefName tempname = (RefName)entry.getValue();
+      ZRefName tempname = (ZRefName)entry.getValue();
       // output the assignment name := tempname
       out.beginPrec(BTermWriter.ASSIGN_PREC);
       out.printName(name);
@@ -319,17 +320,17 @@ public class BTermWriter
    *  and returns the associated type conditions as one predicate.
    */
   //@ requires s != null;
-  protected Pred splitSchText(SchText s) {
-    Iterator i = ((ZDeclList) s.getDeclList()).getDecl().iterator();
+  protected Pred splitSchText(ZSchText s) {
+    Iterator<Decl> i = s.getDecl().iterator();
     Pred result = null;
     while (i.hasNext()) {
-      Decl d = (Decl)i.next();
+      Decl d = i.next();
       if (d instanceof VarDecl) {
 	VarDecl vdecl = (VarDecl) d;
 	Iterator vars = vdecl.getDeclName().iterator();
 	while (vars.hasNext()) {
-	  DeclName declName = (DeclName) vars.next();
-          RefName refName = getFactory().createRefName(declName);
+	  ZDeclName declName = (ZDeclName) vars.next();
+          ZRefName refName = getFactory().createZRefName(declName);
 	  Pred ntype = getFactory().createMemPred(refName, vdecl.getExpr());
 	  if (result == null) {
 	    result = ntype;
@@ -341,7 +342,7 @@ public class BTermWriter
 	}
       } else if (d instanceof ConstDecl) {
 	ConstDecl cdecl = (ConstDecl)d;
-	DeclName n = cdecl.getDeclName();
+	ZDeclName n = cdecl.getZDeclName();
 	Pred ntype = Create.eqPred(n, cdecl.getExpr());
 	if (result == null) {
 	  result = ntype;
@@ -457,7 +458,7 @@ public class BTermWriter
       // Try to map the relation to a B operator.
       if (p.getRightExpr() instanceof RefExpr) {
         RefExpr func = (RefExpr)p.getRightExpr();
-        RefName name = func.getRefName();
+        ZRefName name = func.getZRefName();
         if (name.getStroke().size() == 0) {
 	  // NOTE: we ignore any type arguments here., assuming
 	  // that they were added by the typechecking.
@@ -503,7 +504,7 @@ public class BTermWriter
   public Object visitExistsPred(ExistsPred p) {
     out.beginPrec(out.TIGHTEST);
     out.print("#(");
-    SchText stext = (SchText)p.getSchText();
+    ZSchText stext = p.getZSchText();
     Pred types = splitSchText(stext);  // this prints the names
     Pred typesconds = Create.andPred(types, stext.getPred());
     out.print(").");
@@ -515,7 +516,7 @@ public class BTermWriter
   public Object visitForallPred(ForallPred p) {
     out.beginPrec(out.TIGHTEST);
     out.print("!(");
-    SchText stext = (SchText)p.getSchText();
+    ZSchText stext = p.getZSchText();
     Pred types = splitSchText(stext);  // this prints the names
     Pred typesconds = Create.andPred(types, stext.getPred());
     out.print(").");
@@ -528,25 +529,41 @@ public class BTermWriter
   //=========================================================
   // Expressions
   //=========================================================
-  public Object visitName(Name e) {
-    String zName = e.toString();
-    sLogger.fine("BTermWriter.visitName(" + e + ") sees " + zName);
-    // Now check for various B constants
-    if (zName.equals(ZString.EMPTYSET))
+
+  public Object visitZDeclName(ZDeclName zDeclName) {
+    String name = zDeclName.toString();
+    sLogger.fine("BTermWriter.visitName(" + zDeclName + ") sees " + name);
+    if (name.equals(ZString.EMPTYSET))
       out.print("{}");
-    else if (zName.equals(ZString.NAT))
+    else if (name.equals(ZString.NAT))
       out.print("NAT");
-    else if (zName.equals(ZString.NAT + ZString.SE + "1" + ZString.NW))
+    else if (name.equals(ZString.NAT + ZString.SE + "1" + ZString.NW))
       out.print("NAT1");
-    else if (zName.equals(ZString.NUM))
+    else if (name.equals(ZString.NUM))
       out.print("INT");
     else
-      out.printName(e);
-    return e;
+      out.printName(zDeclName);
+    return zDeclName;
+  }
+
+  public Object visitZRefName(ZRefName zRefName) {
+    String name = zRefName.toString();
+    sLogger.fine("BTermWriter.visitName(" + zRefName + ") sees " + name);
+    if (name.equals(ZString.EMPTYSET))
+      out.print("{}");
+    else if (name.equals(ZString.NAT))
+      out.print("NAT");
+    else if (name.equals(ZString.NAT + ZString.SE + "1" + ZString.NW))
+      out.print("NAT1");
+    else if (name.equals(ZString.NUM))
+      out.print("INT");
+    else
+      out.printName(zRefName);
+    return zRefName;
   }
 
   public Object visitNumExpr(NumExpr e) {
-    out.print(e.getValue().toString());
+    out.print(e.getNumeral().toString());
     return e;
   }
 
@@ -555,7 +572,7 @@ public class BTermWriter
     BOperator op = null;
     if (e.getLeftExpr() instanceof RefExpr) {
       RefExpr func = (RefExpr)e.getLeftExpr();
-      RefName name = func.getRefName();
+      ZRefName name = func.getZRefName();
       if (name.getStroke().size() == 0) {
 	String zop = name.getWord();
 	op = bOp(zop);
@@ -594,7 +611,7 @@ public class BTermWriter
 
   public Object visitRefExpr(RefExpr e) {
     BOperator op = null;
-    RefName name = e.getRefName();
+    ZRefName name = e.getZRefName();
     if (name.getStroke().size() == 0) 
       op = bOp(name.getWord());
     sLogger.fine("RefExpr(" + name.getWord() + "...) --> B " + op);
