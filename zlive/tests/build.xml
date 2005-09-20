@@ -30,7 +30,7 @@
 
   <target name="compile" depends="init" description="compile the tests">
     <javac srcdir="src" destdir="${test.build.dir}" debug="on"
-      source="1.4">
+      source="1.5">
       <classpath refid="classpath"/>
     </javac>
   </target>
