@@ -192,7 +192,7 @@
    */
   public NumExpr createNumExpr(int value)
   {
-    return createNumExpr(createZNumeral(value));
+    return factory_.createNumExpr(createZNumeral(value));
   }
 
   /**
@@ -206,7 +206,7 @@
 
   public ZNumeral createZNumeral(int value)
   {
-    return createZNumeral(value);
+    return factory_.createZNumeral(value);
   }
 
   /**
