@@ -68,13 +68,13 @@ public class FlatSetCompTest
     } catch (Exception e) {
       fail("Error parsing set expr: " + e);
     }
-    SchText text = setComp.getSchText();
+    ZSchText text = setComp.getZSchText();
     set = new FlatSetComp(zlive,
 			  text.getDecl(),
 			  text.getPred(),
 			  setComp.getExpr(),
 			  s);
-    text = emptySetComp.getSchText();
+    text = emptySetComp.getZSchText();
     emptySet = new FlatSetComp(zlive,
 			       text.getDecl(),
 			       text.getPred(),

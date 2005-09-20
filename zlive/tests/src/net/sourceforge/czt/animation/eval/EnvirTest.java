@@ -26,6 +26,8 @@ import junit.framework.*;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.impl.ZFactoryImpl;
+import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
@@ -41,7 +43,7 @@ import net.sourceforge.czt.animation.eval.*;
 public class EnvirTest
   extends TestCase
 {
-  private ZFactory factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+  private Factory factory_ = new Factory(new ZFactoryImpl());
 
   private List emptyList = new ArrayList();
   private Envir empty = new Envir();

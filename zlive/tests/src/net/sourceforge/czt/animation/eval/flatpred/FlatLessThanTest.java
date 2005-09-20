@@ -28,6 +28,8 @@ import junit.framework.*;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.impl.ZFactoryImpl;
+import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
@@ -44,7 +46,7 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
 public class FlatLessThanTest
   extends TestCase
 {
-  private ZFactory factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+  private Factory factory_ = new Factory(new ZFactoryImpl());
 
   private final double ACCURACY = 0.01;
   private List emptyList = new ArrayList();
