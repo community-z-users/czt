@@ -33,6 +33,7 @@ import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.util.ParseException;
 import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.animation.eval.flatpred.*;
@@ -44,18 +45,8 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
  * @author Mark Utting
  */
 public class FlatConstTest
-  extends TestCase
+  extends ZTestCase
 {
-  private Factory factory_ = new Factory(new ZFactoryImpl());
-
-  private final double ACCURACY = 0.01;
-  private List emptyList = new ArrayList();
-  private Envir empty = new Envir();
-  private BigInteger a = new BigInteger("10");
-  private BigInteger b = new BigInteger("20");
-  private ZRefName x = factory_.createZRefName("x",emptyList,null);
-  private Expr i10 = factory_.createNumExpr(a);
-  private Expr i20 = factory_.createNumExpr(b);
   private FlatPred pred = new FlatConst(x,i10);
 
   public void testEmpty()

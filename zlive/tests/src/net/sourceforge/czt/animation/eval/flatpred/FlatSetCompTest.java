@@ -81,7 +81,7 @@ public class FlatSetCompTest
 			       emptySetComp.getExpr(),
 			       s);
   }
-  
+
   public void testFreeVars()
   {
     Set vars = set.freeVars();

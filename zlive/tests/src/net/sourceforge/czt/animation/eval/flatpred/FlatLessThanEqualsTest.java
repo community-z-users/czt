@@ -33,6 +33,7 @@ import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.util.ParseException;
 import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.animation.eval.flatpred.*;
@@ -44,35 +45,8 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
  * @author Mark Utting
  */
 public class FlatLessThanEqualsTest
-  extends TestCase
+  extends ZTestCase
 {
-  private Factory factory_ = new Factory(new ZFactoryImpl());
-
-  private final double ACCURACY = 0.01;
-  private List emptyList = new ArrayList();
-  private Envir empty = new Envir();
-  private BigInteger a = new BigInteger("10");
-  private BigInteger b = new BigInteger("20");
-  private BigInteger c = new BigInteger("21");
-  private BigInteger d = new BigInteger("22");
-  private BigInteger e = new BigInteger("23");
-  private BigInteger f = new BigInteger("24");
-  private BigInteger g = new BigInteger("25");
-  private BigInteger h = new BigInteger("26");
-  private BigInteger i = new BigInteger("27");
-  private BigInteger j = new BigInteger("5");
-  private ZRefName x = factory_.createZRefName("x",emptyList,null);
-  private ZRefName y = factory_.createZRefName("y",emptyList,null);
-  private Expr i5 = factory_.createNumExpr(j);
-  private Expr i10 = factory_.createNumExpr(a);
-  private Expr i20 = factory_.createNumExpr(b);
-  private Expr i21 = factory_.createNumExpr(c);
-  private Expr i22 = factory_.createNumExpr(d);
-  private Expr i23 = factory_.createNumExpr(e);
-  private Expr i24 = factory_.createNumExpr(f);
-  private Expr i25 = factory_.createNumExpr(g);
-  private Expr i26 = factory_.createNumExpr(h);
-  private Expr i27 = factory_.createNumExpr(i);
   private FlatPred pred = new FlatLessThanEquals(x,y);
 
   public void testEmpty()

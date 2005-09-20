@@ -44,40 +44,27 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
  * @author Mark Utting
  */
 public class FlatTupleTest
-  extends TestCase
+  extends ZTestCase
 {
-  private Factory factory_ = new Factory(new ZFactoryImpl());
+  private ZRefName w = factory_.createZRefName("w");
+  
+  private ZRefName l = factory_.createZRefName("l");
+  private ZRefName m = factory_.createZRefName("m");
+  private ZRefName n = factory_.createZRefName("n");
+  private ZRefName o = factory_.createZRefName("o");
+  private ZRefName p = factory_.createZRefName("p");
+  
+  private ZRefName a = factory_.createZRefName("a");
+  private ZRefName b = factory_.createZRefName("b");
+  private ZRefName c = factory_.createZRefName("c");
+  private ZRefName d = factory_.createZRefName("d");
+  private ZRefName e = factory_.createZRefName("e");
 
-  private final double ACCURACY = 0.01;
-  private List emptyList = new ArrayList();
-  private Envir empty = new Envir();
-  private BigInteger big10 = new BigInteger("10");
-  private BigInteger big11 = new BigInteger("11");
-  private BigInteger big12 = new BigInteger("12");
-  private BigInteger big13 = new BigInteger("13");
-  private BigInteger big14 = new BigInteger("14");
-  private ZRefName w = factory_.createZRefName("w",emptyList,null);
-  private ZRefName z = factory_.createZRefName("z",emptyList,null);
-  private ZRefName l = factory_.createZRefName("l",emptyList,null);
-  private ZRefName m = factory_.createZRefName("m",emptyList,null);
-  private ZRefName n = factory_.createZRefName("n",emptyList,null);
-  private ZRefName o = factory_.createZRefName("o",emptyList,null);
-  private ZRefName p = factory_.createZRefName("p",emptyList,null);
-  private ZRefName a = factory_.createZRefName("a",emptyList,null);
-  private ZRefName b = factory_.createZRefName("b",emptyList,null);
-  private ZRefName c = factory_.createZRefName("c",emptyList,null);
-  private ZRefName d = factory_.createZRefName("d",emptyList,null);
-  private ZRefName e = factory_.createZRefName("e",emptyList,null);
-  private Expr i10 = factory_.createNumExpr(big10);
-  private Expr i11 = factory_.createNumExpr(big11);
-  private Expr i12 = factory_.createNumExpr(big12);
-  private Expr i13 = factory_.createNumExpr(big13);
-  private Expr i14 = factory_.createNumExpr(big14);
-  private ArrayList tupleList = new ArrayList();
   private FlatPred pred;
 
   public FlatTupleTest()
   {
+    ArrayList<ZRefName> tupleList = new ArrayList<ZRefName>();
     tupleList.add(l);
     tupleList.add(m);
     tupleList.add(n);

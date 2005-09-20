@@ -38,44 +38,16 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
 
 
 /**
- * A (JUnit) test class for testing the Animator
- * TODO split this into separate tests for each kind of EvalSet.
+ * A (JUnit) test class for testing the FlatMember class.
  *
  * @author Mark Utting
  */
 public class FlatMemberTest
-  extends TestCase
+  extends ZTestCase
 {
-  private Factory factory_ = new Factory();
-
-  private final double ACCURACY = 0.01;
-  private List emptyList = new ArrayList();
-  private Envir empty = new Envir();
-  private BigInteger a = new BigInteger("10");
-  private BigInteger b = new BigInteger("20");
-  private BigInteger c = new BigInteger("30");
-  private BigInteger d = new BigInteger("40");
-  private BigInteger e = new BigInteger("5");
-  private BigInteger f = new BigInteger("11");
-  private BigInteger g = new BigInteger("12");
-  private BigInteger h = new BigInteger("13");
-  private BigInteger i = new BigInteger("14");
-  private BigInteger j = new BigInteger("15");
-  private BigInteger k = new BigInteger("16");
-  private ZRefName x = factory_.createZRefName("x",emptyList,null);
-  private ZRefName y = factory_.createZRefName("y",emptyList,null);
-  private ZRefName z = factory_.createZRefName("z",emptyList,null);
-  private ZRefName w = factory_.createZRefName("w",emptyList,null);
-  private Expr i10 = factory_.createNumExpr(a);
-  private Expr i20 = factory_.createNumExpr(b);
-  private Expr i30 = factory_.createNumExpr(c);
-  private Expr i40 = factory_.createNumExpr(d);
-  private Expr i5 = factory_.createNumExpr(e);
-  private Expr i11 = factory_.createNumExpr(f);
-  private Expr i12 = factory_.createNumExpr(g);
-  private Expr i13 = factory_.createNumExpr(h);
-  private Expr i14 = factory_.createNumExpr(i);
-  private Expr i15 = factory_.createNumExpr(j);
+  private NumExpr i40 = factory_.createNumExpr(40);
+  private ZRefName w = factory_.createZRefName("w");
+  
   private FlatRangeSet set = new FlatRangeSet(x,y,z);
   private FlatMember mem = new FlatMember(z,w);  // w \in z
 

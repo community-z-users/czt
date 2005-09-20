@@ -42,40 +42,19 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
  * @author Mark Utting
  */
 public class FlatCardTest
-  extends TestCase
+  extends ZTestCase
 {
-  private Factory factory_ = new Factory();
+  private ZRefName l = factory_.createZRefName("l");
+  private ZRefName m = factory_.createZRefName("m");
+  private ZRefName n = factory_.createZRefName("n");
+  private ZRefName o = factory_.createZRefName("o");
+  private ZRefName p = factory_.createZRefName("p");
+  private ZRefName q = factory_.createZRefName("q");
+  
+  private ZRefName s = factory_.createZRefName("s");
+  
+  private ZRefName w = factory_.createZRefName("w");
 
-  private final double ACCURACY = 0.01;
-  private List emptyList = new ArrayList();
-  private Envir empty = new Envir();
-  private BigInteger a = new BigInteger("10");
-  private BigInteger b = new BigInteger("5");
-  private BigInteger f = new BigInteger("11");
-  private BigInteger g = new BigInteger("12");
-  private BigInteger h = new BigInteger("13");
-  private BigInteger i = new BigInteger("14");
-  private BigInteger j = new BigInteger("15");
-  private BigInteger k = new BigInteger("6");
-  private ZRefName x = factory_.createZRefName("x",emptyList,null);
-  private ZRefName y = factory_.createZRefName("y",emptyList,null);
-  private ZRefName z = factory_.createZRefName("z",emptyList,null);
-  private ZRefName w = factory_.createZRefName("w",emptyList,null);
-  private ZRefName s = factory_.createZRefName("s",emptyList,null);
-  private ZRefName l = factory_.createZRefName("l",emptyList,null);
-  private ZRefName m = factory_.createZRefName("m",emptyList,null);
-  private ZRefName n = factory_.createZRefName("n",emptyList,null);
-  private ZRefName o = factory_.createZRefName("o",emptyList,null);
-  private ZRefName p = factory_.createZRefName("p",emptyList,null);
-  private ZRefName q = factory_.createZRefName("q",emptyList,null);
-  private Expr i10 = factory_.createNumExpr(a);
-  private Expr i11 = factory_.createNumExpr(f);
-  private Expr i12 = factory_.createNumExpr(g);
-  private Expr i13 = factory_.createNumExpr(h);
-  private Expr i14 = factory_.createNumExpr(i);
-  private Expr i15 = factory_.createNumExpr(j);
-  private Expr i6 = factory_.createNumExpr(k);
-  private Expr i5 = factory_.createNumExpr(b);
   protected FlatPred pred = new FlatCard(z,s);
   
   public void testEmpty()
@@ -123,7 +102,7 @@ public class FlatCardTest
     envLMNOPQ = envLMNOPQ.add(o,i13);
     envLMNOPQ = envLMNOPQ.add(p,i14);
     envLMNOPQ = envLMNOPQ.add(q,i15);
-    ArrayList tempArgsList = new ArrayList();
+    ArrayList<ZRefName> tempArgsList = new ArrayList<ZRefName>();
     tempArgsList.add(l);
     tempArgsList.add(m);
     tempArgsList.add(n);
@@ -192,7 +171,7 @@ public class FlatCardTest
     envLMNOPQ = envLMNOPQ.add(o,i13);
     envLMNOPQ = envLMNOPQ.add(p,i14);
     envLMNOPQ = envLMNOPQ.add(q,i15);
-    ArrayList tempArgsList = new ArrayList();
+    ArrayList<ZRefName> tempArgsList = new ArrayList<ZRefName>();
     tempArgsList.add(l);
     tempArgsList.add(m);
     tempArgsList.add(n);

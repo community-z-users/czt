@@ -33,6 +33,7 @@ import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.util.ParseException;
 import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.animation.eval.flatpred.*;
@@ -44,39 +45,8 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
  * @author Mark Utting
  */
 public class FlatDivTest
-  extends TestCase
+  extends ZTestCase
 {
-  private Factory factory_ = new Factory(new ZFactoryImpl());
-
-  private final double ACCURACY = 0.01;
-  private List emptyList = new ArrayList();
-  private Envir empty = new Envir();
-  private BigInteger a = new BigInteger("10");
-  private BigInteger b = new BigInteger("-3");
-  private BigInteger c = new BigInteger("-6");
-  private BigInteger d = new BigInteger("-5");
-  private BigInteger e = new BigInteger("3");
-  private BigInteger f = new BigInteger("-1");
-  private BigInteger g = new BigInteger("-2");
-  private BigInteger h = new BigInteger("4");
-  private BigInteger j = new BigInteger("2");
-  private BigInteger k = new BigInteger("-4");
-  private BigInteger zero = new BigInteger("0");
-  private ZRefName x = factory_.createZRefName("x",emptyList,null);
-  private ZRefName y = factory_.createZRefName("y",emptyList,null);
-  private ZRefName z = factory_.createZRefName("z",emptyList,null);
-  private Expr i10 = factory_.createNumExpr(a);
-  private Expr in3 = factory_.createNumExpr(b);
-  private Expr in6 = factory_.createNumExpr(c);
-  private Expr in5 = factory_.createNumExpr(d);
-  private Expr i3 = factory_.createNumExpr(e);
-  private Expr i1 = factory_.createNumExpr(BigInteger.ONE);
-  private Expr in1 = factory_.createNumExpr(f);
-  private Expr in2 = factory_.createNumExpr(g);
-  private Expr in4 = factory_.createNumExpr(k);
-  private Expr i4 = factory_.createNumExpr(h);
-  private Expr i2 = factory_.createNumExpr(j);
-  private Expr i0 = factory_.createNumExpr(BigInteger.ZERO);
   private FlatPred pred = new FlatDiv(x,y,z);
 
   public void testEmpty()

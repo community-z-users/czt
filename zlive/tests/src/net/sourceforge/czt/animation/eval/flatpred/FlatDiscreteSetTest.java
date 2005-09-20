@@ -38,8 +38,7 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
 
 
 /**
- * A (JUnit) test class for testing the Animator
- * TODO split this into separate tests for each kind of EvalSet.
+ * A (JUnit) test class for testing FlatDiscreteSet.
  *
  * @author Mark Utting
  */

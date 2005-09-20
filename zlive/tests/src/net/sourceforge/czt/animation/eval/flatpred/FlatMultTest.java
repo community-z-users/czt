@@ -44,24 +44,10 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
  * @author Mark Utting
  */
 public class FlatMultTest
-  extends TestCase
+  extends ZTestCase
 {
-  private Factory factory_ = new Factory(new ZFactoryImpl());
-
-  private final double ACCURACY = 0.01;
-  private List emptyList = new ArrayList();
-  private Envir empty = new Envir();
-  private BigInteger a = new BigInteger("10");
-  private BigInteger b = new BigInteger("20");
-  private BigInteger c = new BigInteger("200");
-  private BigInteger zero = new BigInteger("0");
-  private ZRefName x = factory_.createZRefName("x",emptyList,null);
-  private ZRefName y = factory_.createZRefName("y",emptyList,null);
-  private ZRefName z = factory_.createZRefName("z",emptyList,null);
-  private Expr i10 = factory_.createNumExpr(a);
-  private Expr i20 = factory_.createNumExpr(b);
-  private Expr i200 = factory_.createNumExpr(c);
-  private Expr i0 = factory_.createNumExpr(zero);
+  private Expr i200 = factory_.createNumExpr(200);
+  
   private FlatPred pred = new FlatMult(x,y,z);
 
   public void testEmpty()

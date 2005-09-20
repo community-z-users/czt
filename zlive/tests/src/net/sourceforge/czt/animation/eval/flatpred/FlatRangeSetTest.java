@@ -45,31 +45,15 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
  * @author Mark Utting
  */
 public class FlatRangeSetTest
-  extends TestCase
+  extends ZTestCase
 {
-  protected Factory factory_ = new Factory();
-
-  protected final double ACCURACY = 0.01;
-  protected List emptyList = new ArrayList();
-  
-  protected BigInteger big9 = new BigInteger("9");
-  protected BigInteger big10 = new BigInteger("10");
-  protected BigInteger big11 = new BigInteger("11");
-  protected BigInteger big12 = new BigInteger("12");
-  protected BigInteger big13 = new BigInteger("13");
   // names for integer variables
-  protected ZRefName i = factory_.createZRefName("i",emptyList,null);
-  protected ZRefName j = factory_.createZRefName("j",emptyList,null);
-  protected ZRefName k = factory_.createZRefName("k",emptyList,null);
+  protected ZRefName i = factory_.createZRefName("i");
+  protected ZRefName j = factory_.createZRefName("j");
+  protected ZRefName k = factory_.createZRefName("k");
   // names for set variables
-  protected ZRefName s = factory_.createZRefName("s",emptyList,null);
-  protected ZRefName t = factory_.createZRefName("t",emptyList,null);
-  // integer constant expressions
-  protected Expr i9 = factory_.createNumExpr(big9);
-  protected Expr i10 = factory_.createNumExpr(big10);
-  protected Expr i11 = factory_.createNumExpr(big11);
-  protected Expr i12 = factory_.createNumExpr(big12);
-  protected Expr i13 = factory_.createNumExpr(big13);
+  protected ZRefName s = factory_.createZRefName("s");
+  protected ZRefName t = factory_.createZRefName("t");
 
   // several environments used during testing.
   protected Envir envEmpty = new Envir();
