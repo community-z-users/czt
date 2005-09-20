@@ -44,7 +44,10 @@ package ${class.ImplPackage};
 import java.util.*;
 import java.util.logging.*;
 
+import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.base.visitor.*;
+import net.sourceforge.czt.util.Visitor;
 #foreach($p in $projects)
 import ${p.AstPackage}.*;
 import ${p.ImplPackage}.*;
@@ -61,6 +64,156 @@ import ${project.VisitorPackage}.${class.Name}Visitor;
 #if($author) * @author ${author}
 #end
  */
+#if(${class.isList()})
+#set($type = ${class.getAllProperties().get(0).getListType()})
+
+public class ${class.ImplName}
+  extends java.util.AbstractList<${type}>
+  implements ${class.Name}, ListTerm<${type}>
+{
+  /**
+   * The list containing the data.
+   */
+  /*@ non_null @*/
+  private List<${type}> list_ = new ArrayList<${type}>();
+
+  /**
+   * A list of annotations.
+   */
+  private ListTerm<Object> anns_ = new ListTermImpl<Object>();
+
+  /**
+   * Constructs an empty list term that accepts all Objects.
+   */
+  public ${class.ImplName}()
+  {
+    super();
+  }
+
+  /**
+   * Returns a list of annotiations.
+   */
+  public ListTerm<Object> getAnns()
+  {
+    return anns_;
+  }
+
+
+  public ListTerm<${type}> ${class.getAllProperties().get(0).GetterName}()
+  {
+    return this;
+  }
+
+  public Object getAnn(Class aClass)
+  {
+    for (Iterator iter = anns_.iterator(); iter.hasNext(); ) {
+      Object annotation = iter.next();
+      if (aClass.isInstance(annotation)) {
+        return annotation;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Inserts the specified element at the specified position in this list.
+   * Shifts the element currently at that position (if any) and any
+   * subsequent elements to the right (adds one to their indices).
+   *
+   * @param index the index at which the specified element is to be inserted.
+   * @param element the element to be inserted.
+   * @throws IndexOutOfBoundsException if the index is out of range
+   *         <code>(index < 0 || index > size())</code>.
+   */
+  public void add(int index, ${type} element)
+  {
+    list_.add(index, element);
+  }
+
+  /**
+   * Returns the element at the specified position in this list.
+   *
+   * @param index the index of the elment to be returned.
+   * @return the element at the specified position in this list.
+   * @throws IndexOutOfBoundsException if the index is out of range
+   *         <code>(index < 0 || index >= size())</code>.
+   */
+  public ${type} get(int index)
+  {
+    return list_.get(index);
+  }
+
+  /**
+   * Removes the element at the specified position in this list.
+   * Shifts any subsequent elements to the left
+   * (subtracts one from their indices).
+   * Returns the element that was removed from the list.
+   *
+   * @param index the index of the element to be removed.
+   * @return the element previously at the specified position.
+   * @throws IndexOutOfBoundsException if the index is out of range
+   *         <code>(index < 0 || index >= size())</code>.
+   */
+  public ${type} remove(int index)
+  {
+    return list_.remove(index);
+  }
+
+  /**
+   * Replaces the elment at the specifed position
+   * in this list with the specified element.
+   *
+   * @param index the position of the element to replace.
+   * @param element the new element to be stored at the specified position.
+   * @return the element previously at the specified position.
+   * @throws ArrayIndexOutOfBoundsException if <code>index</code>
+   *         is out of range <code>(index < 0 || index >= size())</code>.
+   */
+  public ${type} set(int index, ${type} element)
+  {
+    return list_.set(index, element);
+  }
+
+  /**
+   * Returns the number of components in this list.
+   */
+  public int size()
+  {
+    return list_.size();
+  }
+
+  public <R> R accept(Visitor<R> v)
+  {
+    if (v instanceof ${class.Name}Visitor) {
+      ${class.Name}Visitor<R> visitor = (${class.Name}Visitor<R>) v;
+      return visitor.visit${class.Name}(this);
+    }
+    if (v instanceof TermAVisitor) {
+      TermAVisitor<R> visitor = (TermAVisitor<R>) v;
+      return visitor.visitTermA(this);
+    }
+    if (v instanceof TermVisitor) {
+      TermVisitor<R> visitor = (TermVisitor<R>) v;
+      return visitor.visitTerm(this);
+    }
+    return null;
+  }
+
+  public Object[] getChildren()
+  {
+    return list_.toArray();
+  }
+
+  public Term create(Object[] args)
+  {
+    ${class.ImplName} result = new ${class.ImplName}();
+    for (int i = 0; i < args.length; i++) {
+      result.add((${type}) args[i]);
+    }
+    return result;
+  }
+}
+#else
 public#abstract($class) class ${class.ImplName}
 #if($class.Extends)  extends ${class.ImplExtends} #end
   implements ${class.Name}
@@ -180,10 +333,10 @@ public#abstract($class) class ${class.ImplName}
 
 #if(${prop.isList()})
 
-  private net.sourceforge.czt.base.ast.ListTerm<${prop.ListType.FullName}> ${prop.MemVarName} =
-    new net.sourceforge.czt.base.impl.ListTermImpl<${prop.ListType.FullName}>();
+  private ListTerm<${prop.ListType.FullName}> ${prop.MemVarName} =
+    new ListTermImpl<${prop.ListType.FullName}>();
 
-  public net.sourceforge.czt.base.ast.ListTerm<${prop.ListType.FullName}> ${prop.GetterName}()
+  public ListTerm<${prop.ListType.FullName}> ${prop.GetterName}()
   {
     return ${prop.MemVarName};
   }
@@ -205,3 +358,4 @@ public#abstract($class) class ${class.ImplName}
 #include(${class.AdditionalImplCodeFilename})
 #end
 }
+#end

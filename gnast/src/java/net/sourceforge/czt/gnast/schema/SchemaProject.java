@@ -919,6 +919,15 @@ public class SchemaProject
       LOGGER.exiting(CLASS_NAME, methodName, erg);
       return erg;
     }
+
+    public boolean isList()
+    {
+      if (getName().endsWith("List")) {
+        List props = getAllProperties();
+        return props.size() == 1 && ((SchemaProperty) props.get(0)).isList();
+      }
+      return false;
+    }
   } // end SchemaClass
 
 
