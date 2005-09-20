@@ -293,7 +293,7 @@ public class GlobalDefs
   /**
    * Test whether a list contains a ZRefame.
    * @param list the list to search.
-   * @param zDefName the ZRefName to search for.
+   * @param zRefName the ZRefName to search for.
    * @return true if and only if the name is in the list.
    */
   public static boolean containsRefName(List<ZRefName> list,
