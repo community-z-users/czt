@@ -36,12 +36,12 @@ public abstract class TermAImpl extends TermImpl implements TermA
   /**
    * A list of annotations.
    */
-  private ListTerm anns_ = new ListTermImpl(Object.class);
+  private ListTerm<Object> anns_ = new ListTermImpl<Object>();
 
   /**
    * Returns a list of annotiations.
    */
-  public ListTerm getAnns()
+  public ListTerm<Object> getAnns()
   {
     return anns_;
   }
