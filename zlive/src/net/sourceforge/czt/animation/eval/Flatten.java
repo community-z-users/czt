@@ -67,7 +67,8 @@ public class Flatten
       SetCompExprVisitor<ZRefName>,
       ProdExprVisitor<ZRefName>,
       TupleExprVisitor<ZRefName>,
-      BindExprVisitor<ZRefName>
+      BindExprVisitor<ZRefName>,
+      ZRefNameVisitor<ZRefName>
 {
   /** A reference to the main animator object, so that we can 
       access all kinds of settings, tables and section manager etc.
