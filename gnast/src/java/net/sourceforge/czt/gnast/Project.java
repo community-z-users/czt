@@ -154,7 +154,7 @@ public class Project
       return;
     }
 
-    Map map = new HashMap();
+    Map<String,Object> map = new HashMap<String,Object>();
     map.put("Name", name);
     map.put("Package", packageName);
     if (addCodeFile.exists()) {
@@ -361,12 +361,12 @@ public class Project
    *
    * @czt.todo Is this method needed at all?
    */
-  public List getImportedProjects()
+  public List<Project> getImportedProjects()
   {
     String methodName = "getImportedProjects";
     logEntering(methodName);
 
-    List result = new Vector();
+    List<Project> result = new Vector<Project>();
     String importedProject = project_.getImportProject();
     if (importedProject != null) {
       Project project = global_.getProject(importedProject);

@@ -109,7 +109,7 @@ public class Gnast implements GlobalProperties
    * name is found, a new project is created and added to this map.
    * </p>
    */
-  private Map projects_ = new HashMap();
+  private Map<String,Project> projects_ = new HashMap<String,Project>();
 
   /**
    * The verbosity used for logging to stdout.

@@ -93,14 +93,14 @@ public class SchemaProject
    * A mapping from class names to SchemaClass objects.
    * This map does only contain classes from this project.
    */
-  private Map map_ = new HashMap();
+  private Map<String,SchemaClass> map_ = new HashMap<String,SchemaClass>();
 
   /**
    * A mapping from enumeration names
    * to a list of all values of that enumeration.
    * This map does only contain enumerations from this project.
    */
-  private Map enum_ = new HashMap();
+  private Map<String,List<String>> enum_ = new HashMap<String,List<String>>();
 
   /**
    * The project imported from the XML Schema.
@@ -131,7 +131,8 @@ public class SchemaProject
   /**
    *
    */
-  private Map<String, List> props_ = new HashMap<String, List>();
+  private Map<String, List<Object>> props_ =
+    new HashMap<String, List<Object>>();
 
   // ############################################################
   // ####################### CONSTRUCTORS #######################
@@ -171,7 +172,7 @@ public class SchemaProject
                     "xs:simpleType[xs:restriction/@base = 'xs:string']");
       while ((n = nl.nextNode()) != null) {
         String enumName = xPath_.getNodeValue(n, "@name");
-        List enumValues = new ArrayList();
+        List<String> enumValues = new ArrayList<String>();
         if (enumName == null) xPath_.getNodeValue(n.getParentNode(), "@name");
         // TODO error message if enumName == null
         NodeIterator valueIter =
@@ -401,7 +402,7 @@ public class SchemaProject
 
     String[] blubb = className.split("\\.");
     String name = blubb[blubb.length - 1];
-    JAstObject result = (JAstObject) map_.get(name);
+    JAstObject result = map_.get(name);
     if (result == null) {
       String projectName = objectProjectProps_.getProperty(name);
       if (projectName != null) {
@@ -416,7 +417,7 @@ public class SchemaProject
   /**
    * <p>Returns a mapping from class names to SchemaClass objects.</p>
    */
-  public Map getAstClasses()
+  public Map<String,SchemaClass> getAstClasses()
   {
     return map_;
   }
@@ -425,7 +426,7 @@ public class SchemaProject
    * Returns a Map of all enumerations found in the given
    * XML schema file.
    */
-  public Map getEnumerations()
+  public Map<String,List<String>> getEnumerations()
   {
     return enum_;
   }
@@ -621,7 +622,7 @@ public class SchemaProject
     /**
      * Properties for this Schema class.
      */
-    private List properties_ = null;
+    private List<Object> properties_ = null;
 
     /**
      *
@@ -661,7 +662,7 @@ public class SchemaProject
       extends_ =
         removeNamespace(xPath_.getNodeValue(node, "@substitutionGroup"));
 
-      properties_ = new ArrayList();
+      properties_ = new ArrayList<Object>();
 
       // parsing the type
       xsdType_ = xPath_.getNodeValue(node, "@type");
@@ -741,7 +742,7 @@ public class SchemaProject
       String parent = getExtends();
       if (parent != null) {
         if (parent.equals(name)) return true;
-        JAstObject c = (JAstObject) map_.get(parent);
+        JAstObject c = map_.get(parent);
         if (c != null) {
           result = c.isInstanceOf(name);
         }
@@ -758,21 +759,21 @@ public class SchemaProject
       return result;
     }
 
-    public List getProperties()
+    public List<Object> getProperties()
     {
       String methodName = "getProperties";
       LOGGER.entering(CLASS_NAME, methodName, name_);
-      List erg = new Vector();
+      List<Object> erg = new Vector<Object>();
       erg.addAll(properties_);
       LOGGER.exiting(CLASS_NAME, methodName, erg);
       return erg;
     }
 
-    public List getInheritedProperties()
+    public List<Object> getInheritedProperties()
     {
       String methodName = "getInheritedProperties";
       LOGGER.entering(CLASS_NAME, methodName, name_);
-      List erg = null;
+      List<Object> erg = null;
       String ext = getExtends();
       if (ext != null) {
         JAstObject c = getAstClass(ext);
@@ -780,7 +781,7 @@ public class SchemaProject
           erg = c.getAllProperties();
         }
         else if (ext.equals("Term") || ext.equals("TermA")) {
-          erg = new ArrayList();
+          erg = new ArrayList<Object>();
         }
       }
       LOGGER.exiting(CLASS_NAME, methodName, erg);
@@ -817,17 +818,17 @@ public class SchemaProject
      *
      * @czt.todo Should this method be static?
      */
-    private List collectProperties(String name, Node node)
+    private List<Object> collectProperties(String name, Node node)
       throws XSDException
     {
       final String methodName = "collectProperties";
       LOGGER.entering(CLASS_NAME, methodName, node);
 
-      List list = props_.get(name);
+      List<Object> list = props_.get(name);
       if (list != null) {
         return list;
       }
-      list = new ArrayList();
+      list = new ArrayList<Object>();
       String xpathexpr = ".//xs:element | .//xs:attribute";
       NodeIterator nl = null;
       try {
@@ -881,7 +882,7 @@ public class SchemaProject
      *           unintuitive.  Think of a better way to handle
      *           this.
      */
-    private List collectAllProperties(String typeName)
+    private List<Object> collectAllProperties(String typeName)
       throws XSDException
     {
       String methodName = "collectAllProperties";
@@ -893,7 +894,7 @@ public class SchemaProject
         throw e;
       }
 
-      List erg = new Vector();
+      List<Object> erg = new Vector<Object>();
 
       if (typeName.equals("TermA")) {
         extends_ = "TermA";
@@ -923,7 +924,7 @@ public class SchemaProject
     public boolean isList()
     {
       if (getName().endsWith("List")) {
-        List props = getAllProperties();
+        List<Object> props = getAllProperties();
         return props.size() == 1 && ((SchemaProperty) props.get(0)).isList();
       }
       return false;

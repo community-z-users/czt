@@ -113,7 +113,7 @@ public abstract class JAstObjectImpl implements JAstObject
    *
    * @return <code>null</code>.
    */
-  public List getProperties()
+  public List<Object> getProperties()
   {
     return null;
   }
@@ -126,14 +126,14 @@ public abstract class JAstObjectImpl implements JAstObject
              or {@link #getInheritedProperties}
    *         returns <code>null</code>.
    */
-  public List getAllProperties()
+  public List<Object> getAllProperties()
   {
     String methodName = "getAllProperties";
     LOGGER.entering(CLASS_NAME, methodName);
 
-    List result = new ArrayList();
-    List props = getProperties();
-    List inhProps = getInheritedProperties();
+    List<Object> result = new ArrayList<Object>();
+    List<Object> props = getProperties();
+    List<Object> inhProps = getInheritedProperties();
     if (props == null || inhProps == null)
       return null;
 
@@ -149,7 +149,7 @@ public abstract class JAstObjectImpl implements JAstObject
    *
    * @return <code>null</code>.
    */
-  public List getInheritedProperties()
+  public List<Object> getInheritedProperties()
   {
     return null;
   }

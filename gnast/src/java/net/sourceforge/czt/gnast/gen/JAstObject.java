@@ -98,7 +98,7 @@ public interface JAstObject extends JObject
    * @return a list of properties (objects of type
    *         {ref GnastProperty}).
    */
-  List getProperties();
+  List<Object> getProperties();
 
   /**
    * Returns a list of all properties for this Gnast class.
@@ -107,7 +107,7 @@ public interface JAstObject extends JObject
    * @return a list of all properties (objects of type
    *         {ref GnastProperty}).
    */
-  List getAllProperties();
+  List<Object> getAllProperties();
 
   /**
    * Returns a list of inherited properties for this Gnast class.
@@ -115,7 +115,7 @@ public interface JAstObject extends JObject
    * @return a list of all inherited properties (objects of type
    *         {ref GnastProperty}).
    */
-  List getInheritedProperties();
+  List<Object> getInheritedProperties();
 
   String getJavadoc();
 
