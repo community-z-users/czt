@@ -426,6 +426,7 @@ public class AstToPrintTreeVisitor
     if (isGenericOperatorApplication) {
       final OperatorName opName = refExpr.getZRefName().getOperatorName();
       final ListTerm argList = (ListTerm) refExpr.getExpr().accept(this);
+      // TODO: preserve ParenAnn annotations?
       return createOperatorApplication(opName, argList);
     }
     return VisitorUtils.visitTerm(this, refExpr, true);
