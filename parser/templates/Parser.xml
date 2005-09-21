@@ -117,9 +117,6 @@ action code
      */
     protected Symbol previous_;
 
-    /** A list of parsed sections. */
-    protected List parsedSections_ = list();
-
     /** The type of the previous chain relation e.g. MEM, EQUALS, IP */
     protected int previousChain_ = -1;
 
@@ -136,42 +133,41 @@ action code
     /**
      * Create an empty list.
      */
-    protected List list()
+    protected &lt; E &gt; List &lt; E &gt; list()
     {
-      return new ArrayList();
+      return new ArrayList &lt; E &gt; ();
     }
 
     /**
      * Create a list containing one element.
      */
-    protected List list(Object o)
+    protected &lt; E &gt; List &lt; E &gt; list(E elem)
     {
-      List result = list();
-      result.add(o);
+      List &lt; E &gt; result = list();
+      result.add(elem);
       return result;
     }
 
     /**
      * Creates a list containing two elements.
      */
-    protected List list(Object o1, Object o2)
+    protected &lt; E &gt; List &lt; E &gt; list(E elem1, E elem2)
     {
-      List result = list();
-      result.add(o1);
-      result.add(o2);
+      List &lt; E &gt; result = list();
+      result.add(elem1);
+      result.add(elem2);
       return result;
     }
 
     /**
      * Creates a list from another list
      */
-    protected List list(List list)
+    protected &lt; E &gt; List &lt; E &gt; list(List &lt; E &gt; list)
     {
-      List result = list();
+      List &lt; E &gt; result = list();
       result.addAll(list);
       return result;
     }
-
 
     /**
      * Creates a pair from two elements. 
@@ -211,7 +207,7 @@ action code
       }
     }
 
-    private Spec createSpec(List sectList)
+    private Spec createSpec(List &lt; ? extends Sect &gt; sectList)
     {
       Spec result = factory_.createSpec();
       result.setVersion(ZML_VERSION);
@@ -1623,7 +1619,7 @@ basicTypeDefinition ::=
 schema ::=
         SCH:sch name:n schemaText:st END
         {:
-           RESULT = factory_.createSchema(n, list(), st);
+           RESULT = factory_.createSchema(n, null, st);
            addLocAnn(RESULT, schleft, schright);
         :}
         |
@@ -2799,7 +2795,7 @@ term ::=
         /* schema hiding */
         term:t ZHIDE:hide LPAREN JOKERNAMELIST:jnl RPAREN
         {:
-           ZRefName rn = factory_.createZRefName(jnl, list());
+           ZRefName rn = factory_.createZRefName(jnl, null);
            List rnl = list(rn);
            ZRefNameList zRefNameList = factory_.createZRefNameList(rnl);
            RESULT = factory_.createHideExpr(expr(t), zRefNameList);
@@ -2970,7 +2966,7 @@ inner_term ::=
            Object pAnn = it.getAnn(ParenAnn.class);
            if (it instanceof ThetaExpr &amp;&amp; pAnn == null) {
              ThetaExpr te = (ThetaExpr) it;
-             List sl = list(te.getStroke());
+             List &lt; Stroke &gt; sl = list(te.getStroke());
              sl.add(s);
              RESULT = factory_.createThetaExpr(te.getExpr(), sl);
            }
@@ -2983,7 +2979,7 @@ inner_term ::=
         /* binding construction */
         THETA:theta inner_term:it
         {:
-           RESULT = factory_.createThetaExpr(expr(it), list());
+           RESULT = factory_.createThetaExpr(expr(it), null);
            addLocAnn(RESULT, thetaleft, thetaright);
         :}
         |
@@ -3188,7 +3184,7 @@ prefixRel ::=
            opName.add(ARG_TOK);
            opName.add(erep);
 
-           List expList = list();
+           List &lt; Expr &gt; expList = list();
            addExpSepExp(expList, es);
            expList.add(expr(t1));
            expList.add(expr(t2));
@@ -3203,7 +3199,7 @@ prefixRel ::=
            opName.add(LISTARG_TOK);
            opName.add(srep);
 
-           List expList = list();
+           List &lt; Expr &gt; expList = list();
            addExpSepExp(expList, es);
            Expr seq = factory_.createSequence(oel);
            addLocAnn(seq, oelleft, oelright);
@@ -3854,8 +3850,8 @@ jokerRef ::=
         |
         JOKERNAME:jn
         {:
-           ZRefName rn = factory_.createZRefName(jn, list(), null);
-           RESULT = factory_.createRefExpr(rn, list(), Boolean.FALSE);
+           ZRefName rn = factory_.createZRefName(jn, null);
+           RESULT = factory_.createRefExpr(rn);
         :}
 /*
         |
@@ -3865,8 +3861,8 @@ jokerRef ::=
         |
         JOKERTYPE:jt
         {:
-           ZRefName rn = factory_.createZRefName(jt, list(), null);
-           RESULT = factory_.createRefExpr(rn, list(), Boolean.FALSE);
+           ZRefName rn = factory_.createZRefName(jt, null);
+           RESULT = factory_.createRefExpr(rn);
         :}
         ;
 
@@ -3974,7 +3970,7 @@ inheritedClass ::=
         {:
            checkName(dw, dwleft, dwright);
            ZRefName rn = factory_.createZRefName(dw.getName());
-           RESULT = factory_.createRefExpr(rn, list(), Boolean.FALSE);
+           RESULT = factory_.createRefExpr(rn);
            addLocAnn(rn, dwleft, dwright);
            addLocAnn(RESULT, dwleft, dwright);
         :}
@@ -4535,7 +4531,7 @@ inOutEvent ::=
 opPromotionLhs ::=
         refName:rn
         {:
-           RESULT = factory_.createRefExpr(rn, list(), Boolean.FALSE);
+           RESULT = factory_.createRefExpr(rn);
            addLocAnn(RESULT, rnleft, rnright);
         :}
 <add:ozz>
@@ -4565,7 +4561,8 @@ deltaList ::=
         |
         DELTA:d LPAREN RPAREN
         {:
-           RESULT = factory_.createDeltaList(list());
+           List &lt; RefName &gt; refNameList = list();
+           RESULT = factory_.createDeltaList(refNameList);
            addLocAnn(RESULT, dleft, dright);
         :}
         ;
