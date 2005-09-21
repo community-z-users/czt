@@ -32,7 +32,7 @@
     return createApplExpr(createRefExpr(refName), expr, Boolean.FALSE);
   }
 
-  public BindExpr createBindExpr(java.util.List<Decl> list)
+  public BindExpr createBindExpr(java.util.List<? extends Decl> list)
   {
     return createBindExpr(createZDeclList(list));
   }
@@ -42,7 +42,8 @@
    * id set to <code>null</code>.
    * This is a convenience method.
    */
-  public ZDeclName createZDeclName(String word, java.util.List<Stroke> strokes)
+  public ZDeclName createZDeclName(String word,
+                                   java.util.List<? extends Stroke> strokes)
   {
     return createZDeclName(word, strokes, null);
   }
@@ -123,7 +124,8 @@
    * with mixfix set to <code>false</code>.
    * This is a convenience method.
    */
-  public RefExpr createGenInst(RefName refName, java.util.List<Expr> exprs)
+  public RefExpr createGenInst(RefName refName,
+                               java.util.List<? extends Expr> exprs)
   {
     return createRefExpr(refName, exprs, Boolean.FALSE);
   }
@@ -133,12 +135,14 @@
    * with mixfix set to <code>true</code>.
    * This is a convenience method.
    */
-  public RefExpr createGenOpApp(RefName refName, java.util.List<Expr> exprs)
+  public RefExpr createGenOpApp(RefName refName,
+                                java.util.List<? extends Expr> exprs)
   {
     return createRefExpr(refName, exprs, Boolean.TRUE);
   }
 
-  public HideExpr createHideExpr(Expr expr, java.util.List<RefName> list)
+  public HideExpr createHideExpr(Expr expr,
+                                 java.util.List<? extends RefName> list)
   {
     return createHideExpr(expr, createZRefNameList(list));
   }
@@ -168,7 +172,7 @@
    * @param expr an expression.
    */
   public AxPara createHorizontalDef(DeclName declName,
-                                    java.util.List<DeclName> formals,
+                                    java.util.List<? extends DeclName> formals,
                                     Expr expr)
   {
     Decl decl = createConstDecl(declName, expr);
@@ -218,7 +222,7 @@
     return createProdExpr(createZExprList(list(left, right)));
   }
 
-  public ProdExpr createProdExpr(java.util.List<Expr> list)
+  public ProdExpr createProdExpr(java.util.List<? extends Expr> list)
   {
     return createProdExpr(createZExprList(list));
   }
@@ -235,7 +239,7 @@
   }
 
   public RefExpr createRefExpr(RefName refName,
-                               java.util.List<Expr> exprList,
+                               java.util.List<? extends Expr> exprList,
                                Boolean mixfix)
   {
     return createRefExpr(refName, createZExprList(exprList), mixfix);
@@ -246,7 +250,8 @@
    * id set to <code>null</code>.
    * This is a convenience method.
    */
-  public ZRefName createZRefName(String word, java.util.List<Stroke> strokes)
+  public ZRefName createZRefName(String word,
+                                 java.util.List<? extends Stroke> strokes)
   {
     return createZRefName(word, strokes, null);
   }
@@ -310,7 +315,7 @@
    * @param schemaText the schema text.
    */
   public AxPara createSchema(DeclName declName,
-                             java.util.List<DeclName> formals,
+                             java.util.List<? extends DeclName> formals,
                              SchText schemaText)
   {
     Decl decl = createConstDecl(declName, createSchExpr(schemaText));
@@ -333,19 +338,19 @@
    *
    * @param exprList a list of expressions (Expr).
    */
-  public SetExpr createSequence(java.util.List<Expr> exprList)
+  public SetExpr createSequence(java.util.List<? extends Expr> exprList)
   {
     java.util.List<Expr> tupleList =
       new java.util.ArrayList<Expr>(exprList.size());
     int count = 1;
-    for (java.util.Iterator<Expr> i = exprList.iterator();
+    for (java.util.Iterator<? extends Expr> i = exprList.iterator();
          i.hasNext(); count++) {
       tupleList.add(createTupleExpr(createNumExpr(count), i.next()));
     }
     return createSetExpr(tupleList);
   }
 
-  public SetExpr createSetExpr(java.util.List<Expr> exprList)
+  public SetExpr createSetExpr(java.util.List<? extends Expr> exprList)
   {
     return createSetExpr(createZExprList(exprList));
   }
@@ -359,12 +364,13 @@
     return createTupleExpr(createZExprList(list(left, right)));
   }
 
-  public TupleExpr createTupleExpr(java.util.List<Expr> exprList)
+  public TupleExpr createTupleExpr(java.util.List<? extends Expr> exprList)
   {
     return createTupleExpr(createZExprList(exprList));
   }
 
-  public ZSchText createZSchText(java.util.List<Decl> declList, Pred pred)
+  public ZSchText createZSchText(java.util.List<? extends Decl> declList,
+                                 Pred pred)
   {
     return createZSchText(createZDeclList(declList), pred);
   }

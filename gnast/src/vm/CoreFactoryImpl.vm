@@ -68,7 +68,7 @@ public class ${class.Name}
   }
 
 #if($c.AllProperties.size() > 0)
-  ${head}(#typeVarList(${c.AllProperties}))
+  ${head}(#factoryTypeVarList(${c.AllProperties}))
   {
     ${c.Name} zedObject = create${c.Name}();
 #foreach($prop in ${c.AllProperties})

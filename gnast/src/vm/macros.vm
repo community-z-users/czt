@@ -27,6 +27,21 @@
 #if($velocityCount == 1)${var.Type.FullName} ${var.VarName}#else, ${var.Type.FullName} ${var.VarName}$#end#end#end
 
 ## ******************************
+## factoryTypeVarList
+## -----------
+## Takes a list of Gnast properties as argument and
+## returns a string of variable types and variable names
+## seperated by comma.
+## This is used to build an argument list for the create methods
+## in the factory class.
+## ******************************
+#macro(factoryTypeVarList $varList)
+#foreach($var in $varList)
+#if($velocityCount != 1),#end
+#if($var.isList())java.util.List<? extends ${var.getListType()}>
+#else ${var.Type.FullName} #end ${var.VarName}#end#end
+
+## ******************************
 ## varList
 ## -------
 ## Takes a list of Gnast variable as argument and
