@@ -18,7 +18,7 @@
 */
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.util.ArrayList;
+import java.util.BitSet;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.animation.eval.flatpred.*;
@@ -45,7 +45,7 @@ public class Mode
   /** Constructor for Mode objects. */
   //@ requires solns > 0.0;
   public Mode(/*@non_null@*/Envir postEnv,
-               /*@non_null@*/ArrayList<Boolean> inputs,
+               /*@non_null@*/BitSet inputs,
                double solns) {
     postEnvir_ = postEnv;
     solutions_ = solns;
@@ -57,17 +57,13 @@ public class Mode
       then the i'th variable managed by this FlatPred is an input,
       otherwise it is an output.
   */
-  protected /*@spec_public non_null@*/ ArrayList<Boolean> inputs_;
-
-  /** The number of arguments managed by this Mode and FlatPred */
-  public /*@pure@*/ int getNumArgs()
-  { return inputs_.size(); }
+  protected /*@spec_public non_null@*/ BitSet inputs_;
 
   /** Is the i'th argument an input. */
   //@ requires 0 <= argnum;
   //@ requires argnum < getNumArgs();
   public /*@pure@*/ boolean isInput(int argnum)
-  { return ((Boolean)inputs_.get(argnum)).booleanValue(); }
+  { return inputs_.get(argnum); }
 
   /** The expected number of solutions. */
   protected /*@spec_public@*/ double solutions_;
@@ -104,6 +100,7 @@ public class Mode
 
   public String toString()
   {
+    /*
     StringBuffer io = new StringBuffer();
     for (Boolean input : inputs_) {
       if ( ((Boolean)input).booleanValue() )
@@ -111,7 +108,8 @@ public class Mode
       else
 	io.append("O");
     }
-    return "Mode{" + io.toString() + " " + solutions_
+    */
+    return "Mode{" + inputs_.toString() + " " + solutions_
 	 + " envir=" + postEnvir_.toString() + "}";
   }
 }

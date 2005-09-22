@@ -59,7 +59,6 @@ public class FlatNegateTest
     Envir envXY = envX.add(y,in10);
     Mode m = pred.chooseMode(envXY);
     Assert.assertTrue(m != null);
-    Assert.assertEquals(2, m.getNumArgs());
     Assert.assertEquals(true, m.isInput(0));
     Assert.assertEquals(true, m.isInput(1));
     Assert.assertEquals(0.5, m.getSolutions(), ACCURACY);
@@ -80,7 +79,6 @@ public class FlatNegateTest
     Envir envX = empty.add(x,i10);
     Mode m = pred.chooseMode(envX);
     Assert.assertTrue(m != null);
-    Assert.assertEquals(2, m.getNumArgs());
     Assert.assertEquals(true, m.isInput(0));
     Assert.assertEquals(false, m.isInput(1));
     Assert.assertTrue(m.getEnvir().isDefined(y));
@@ -97,7 +95,6 @@ public class FlatNegateTest
     Envir envY = empty.add(y,in10);
     Mode m = pred.chooseMode(envY);
     Assert.assertTrue(m != null);
-    Assert.assertEquals(2, m.getNumArgs());
     Assert.assertEquals(false, m.isInput(0));
     Assert.assertEquals(true, m.isInput(1));
     Assert.assertTrue(m.getEnvir().isDefined(x));

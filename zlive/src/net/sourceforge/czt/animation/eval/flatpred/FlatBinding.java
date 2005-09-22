@@ -7,6 +7,7 @@
 package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -61,15 +62,14 @@ public class FlatBinding extends FlatPred {
   public Mode chooseMode(Envir env) {
     Mode m = modeFunction(env);
     if (m == null) {
-      ArrayList<Boolean> inputs = new ArrayList<Boolean>(args.size());
-      int varsDefined = setInputs(env, inputs);
+      BitSet inputs = getInputs(env);
       double solutions = 0.0;
-      if ((inputs.get(inputs.size()-1)).booleanValue()) {
+      if (inputs.get(args.size()-1)) {
 	solutions = 1.0;
-	if (varsDefined > 1)
+	if (inputs.cardinality() > 1)
 	  solutions = 0.5;
 	for(int i=0;i<args.size()-1;i++) {
-	  if ((inputs.get(i)).booleanValue() == false)
+	  if ( ! inputs.get(i))
 	    env = env.add(args.get(i),null);
 	}
 	m = new Mode(env, inputs, solutions);

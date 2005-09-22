@@ -6,7 +6,7 @@
 
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.czt.animation.eval.Envir;
@@ -113,10 +113,9 @@ public class FlatSetCompNew extends FlatSetComp {
         if (m == null) {
             
             // Create the Env I = freeVars() + env
-            ArrayList inputs = new ArrayList(args.size());
-            int varsDefined = setInputs(env, inputs);
-            for(int i=0;i<inputs.size();i++) {
-                if (((Boolean)inputs.get(i)).booleanValue() == false)
+            BitSet inputs = getInputs(env);
+            for(int i=0;i<args.size();i++) {
+                if ( ! (inputs.get(i)) == false)
                     env = env.add(args.get(i),null);
             }
             bodyMode_ = null; // reset bodyMode

@@ -59,7 +59,6 @@ public class FlatConstTest
     Envir envX = empty.add(x,i10);
     Mode m = pred.chooseMode(envX);
     Assert.assertTrue(m != null);
-    Assert.assertEquals(1, m.getNumArgs());
     Assert.assertEquals(true, m.isInput(0));
     Assert.assertEquals(0.5, m.getSolutions(), ACCURACY);
     pred.setMode(m);
@@ -78,7 +77,6 @@ public class FlatConstTest
   {
     Mode m = pred.chooseMode(empty);
     Assert.assertTrue(m != null);
-    Assert.assertEquals(1, m.getNumArgs());
     Assert.assertEquals(false, m.isInput(0));
     Assert.assertTrue(m.getEnvir().isDefined(x));
     Assert.assertEquals(1.0, m.getSolutions(), ACCURACY);

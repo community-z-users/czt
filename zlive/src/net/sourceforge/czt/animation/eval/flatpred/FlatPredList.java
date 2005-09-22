@@ -90,7 +90,7 @@ public class FlatPredList
   /** A Writer interface to System.out. */
   protected Writer writer = new BufferedWriter(new OutputStreamWriter(System.out));
 
-  private final static ArrayList empty_ = new ArrayList();
+  private final static BitSet empty_ = new BitSet();
   
   private ModeList evalMode_;
 

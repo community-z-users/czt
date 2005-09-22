@@ -82,7 +82,6 @@ public class FlatCardTest
     Envir envXYZ = envXY.add(z,(EvalSet)(((FlatPred)tempRangeSet).getMode().getEnvir().lookup(w)));
     Mode mode = pred.chooseMode(envXYZ);
     Assert.assertTrue(mode != null);
-    Assert.assertEquals(2, mode.getNumArgs());
     Assert.assertEquals(true, mode.isInput(0));
     Assert.assertEquals(false, mode.isInput(1));
     Assert.assertTrue(mode.getEnvir().isDefined(s));
@@ -118,7 +117,6 @@ public class FlatCardTest
     Envir envLMNOPQZ = envLMNOPQ.add(z,(EvalSet)(((FlatPred)tempDiscreteSet).getMode().getEnvir().lookup(w)));
     Mode mode = pred.chooseMode(envLMNOPQZ);
     Assert.assertTrue(mode != null);
-    Assert.assertEquals(2, mode.getNumArgs());
     Assert.assertEquals(true, mode.isInput(0));
     Assert.assertEquals(false, mode.isInput(1));
     Assert.assertTrue(mode.getEnvir().isDefined(s));
@@ -151,7 +149,6 @@ public class FlatCardTest
     Envir envXYZS = envXYZ.add(s,i6);
     Mode mode = pred.chooseMode(envXYZS);
     Assert.assertTrue(mode != null);
-    Assert.assertEquals(2, mode.getNumArgs());
     Assert.assertEquals(true, mode.isInput(0));
     Assert.assertEquals(true, mode.isInput(1));
     Assert.assertTrue(mode.getEnvir().isDefined(s));
@@ -188,7 +185,6 @@ public class FlatCardTest
     Envir envLMNOPQZS = envLMNOPQZ.add(s,i6);
     Mode mode = pred.chooseMode(envLMNOPQZS);
     Assert.assertTrue(mode != null);
-    Assert.assertEquals(2, mode.getNumArgs());
     Assert.assertEquals(true, mode.isInput(0));
     Assert.assertEquals(true, mode.isInput(1));
     Assert.assertTrue(mode.getEnvir().isDefined(s));

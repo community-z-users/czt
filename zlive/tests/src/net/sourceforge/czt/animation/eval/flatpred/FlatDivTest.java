@@ -79,7 +79,6 @@ public class FlatDivTest
     Envir envXYZ = envXY.add(z,in4);
     Mode m = pred.chooseMode(envXYZ);
     Assert.assertTrue(m != null);
-    Assert.assertEquals(3, m.getNumArgs());
     Assert.assertEquals(true, m.isInput(0));
     Assert.assertEquals(true, m.isInput(1));
     Assert.assertEquals(true, m.isInput(2));
@@ -105,7 +104,6 @@ public class FlatDivTest
     Envir envXY = envX.add(y,in5);
     Mode m = pred.chooseMode(envXY);
     Assert.assertTrue(m != null);
-    Assert.assertEquals(3, m.getNumArgs());
     Assert.assertEquals(true, m.isInput(0));
     Assert.assertEquals(true, m.isInput(1));
     Assert.assertEquals(false, m.isInput(2));

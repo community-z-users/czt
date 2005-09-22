@@ -93,7 +93,6 @@ public class FlatTupleTest
     mode = pred.chooseMode(envLMNOP);
     Assert.assertTrue(mode != null);
     Assert.assertTrue(mode.getEnvir().isDefined(z));
-    Assert.assertEquals(6, mode.getNumArgs());
     Assert.assertEquals(true, mode.isInput(0));
     Assert.assertEquals(true, mode.isInput(1));
     Assert.assertEquals(true, mode.isInput(2));
@@ -144,7 +143,6 @@ public class FlatTupleTest
     Assert.assertTrue(mode.getEnvir().isDefined(o));
     Assert.assertTrue(mode.getEnvir().isDefined(p));
     Assert.assertTrue(mode.getEnvir().isDefined(z));
-    Assert.assertEquals(6, mode.getNumArgs());
     Assert.assertEquals(false, mode.isInput(0));
     Assert.assertEquals(false, mode.isInput(1));
     Assert.assertEquals(false, mode.isInput(2));
@@ -192,7 +190,6 @@ public class FlatTupleTest
     Assert.assertTrue(mode.getEnvir().isDefined(o));
     Assert.assertTrue(mode.getEnvir().isDefined(p));
     Assert.assertTrue(mode.getEnvir().isDefined(z));
-    Assert.assertEquals(6, mode.getNumArgs());
     Assert.assertEquals(false, mode.isInput(0));
     Assert.assertEquals(true, mode.isInput(1));
     Assert.assertEquals(false, mode.isInput(2));
@@ -221,7 +218,6 @@ public class FlatTupleTest
     Assert.assertTrue(mode.getEnvir().isDefined(o));
     Assert.assertTrue(mode.getEnvir().isDefined(p));
     Assert.assertTrue(mode.getEnvir().isDefined(z));
-    Assert.assertEquals(6, mode.getNumArgs());
     Assert.assertEquals(false, mode.isInput(0));
     Assert.assertEquals(true, mode.isInput(1));
     Assert.assertEquals(true, mode.isInput(2));

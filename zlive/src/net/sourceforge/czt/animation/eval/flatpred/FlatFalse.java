@@ -20,6 +20,7 @@ package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.math.*;
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.*;
@@ -35,13 +36,13 @@ public class FlatFalse extends FlatPred
 {
   public FlatFalse()
   { 
-    args = new ArrayList();
+    args = new ArrayList<ZRefName>();
   }
   
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
-    ArrayList inputs = new ArrayList();
+    BitSet inputs = new BitSet();
     return new Mode(env,inputs,0.0);
   }
 

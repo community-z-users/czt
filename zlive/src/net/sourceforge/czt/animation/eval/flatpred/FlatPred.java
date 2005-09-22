@@ -106,23 +106,17 @@ public abstract class FlatPred extends PredImpl
 
   /** Look up the environment to see which args are inputs. 
     @param env     The environment to lookup
-    @param inputs  An arraylist of Boolean, with same size as args.
     @return        The number of inputs.
     */
-  protected int setInputs(/*@non_null@*/Envir env,
-			  /*@non_null@*/ArrayList<Boolean> inputs)
+  protected BitSet getInputs(/*@non_null@*/Envir env)
   {
-    int count = 0;
-    inputs.clear();
+    BitSet inputs = new BitSet();
     for (int i=0; i<args.size(); i++) {
       if (env.isDefined(args.get(i))) {
-        count++;
-        inputs.add(Boolean.TRUE);
-      } else {
-        inputs.add(Boolean.FALSE);
+        inputs.set(i);
       }
     }
-    return count;
+    return inputs;
   }
   
   
@@ -132,10 +126,9 @@ public abstract class FlatPred extends PredImpl
    */
   protected Mode modeAllDefined(/*@non_null@*/Envir env)
   {
-    ArrayList<Boolean> inputs = new ArrayList<Boolean>(args.size());
-    int varsDefined = setInputs(env, inputs);
+    BitSet inputs = getInputs(env);
     double solutions = 0.0;
-    if (varsDefined == args.size())
+    if (inputs.cardinality() == args.size())
       solutions = 0.5;
     Mode m = null;
     if (solutions > 0.0)
@@ -151,13 +144,12 @@ public abstract class FlatPred extends PredImpl
    */
   protected Mode modeFunction(/*@non_null@*/Envir env)
   {
-    ArrayList<Boolean> inputs = new ArrayList<Boolean>(args.size());
-    int varsDefined = setInputs(env, inputs);
+    BitSet inputs = getInputs(env);
     double solutions = 0.0;
-    if (varsDefined == args.size())
+    if (inputs.cardinality() == args.size())
       solutions = 0.5;
-    else if (varsDefined == args.size() - 1 
-                  && ! ((Boolean)inputs.get(inputs.size()-1)).booleanValue()) {
+    else if (inputs.cardinality() == args.size() - 1 
+        && ! inputs.get(args.size()-1)) {
       solutions = 1.0;
       env = env.add(args.get(args.size()-1), null);
     }
@@ -174,16 +166,15 @@ public abstract class FlatPred extends PredImpl
    */
   protected Mode modeOneOutput(/*@non_null@*/Envir env)
   {
-    ArrayList<Boolean> inputs = new ArrayList<Boolean>(args.size());
-    int varsDefined = setInputs(env, inputs);
+    BitSet inputs = getInputs(env);
     double solutions = 0.0;
-    if (varsDefined == args.size())
+    if (inputs.cardinality() == args.size())
       solutions = 0.5;
-    else if (varsDefined == args.size() - 1) {
+    else if (inputs.cardinality() == args.size() - 1) {
       solutions = 1.0;
-      for (int i = 0; i < inputs.size(); i++) {
-        Boolean in = (Boolean)inputs.get(i);
-        if ( ! in.booleanValue())
+      // add the output variable into the environment
+      for (int i = 0; i < args.size(); i++) {
+        if ( ! inputs.get(i))
           env = env.add(args.get(i), null);
       }
     }

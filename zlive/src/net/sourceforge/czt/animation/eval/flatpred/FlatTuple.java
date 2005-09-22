@@ -40,9 +40,9 @@ public class FlatTuple extends FlatPred
 {
   protected Factory factory_ = new Factory();
   
-  public FlatTuple(List elements, ZRefName tuple)
+  public FlatTuple(List<ZRefName> elements, ZRefName tuple)
   {
-    args = new ArrayList(elements);
+    args = new ArrayList<ZRefName>(elements);
     args.add(tuple);
     solutionsReturned = -1;
   }
@@ -58,15 +58,14 @@ public class FlatTuple extends FlatPred
   {
     Mode m = modeFunction(env);
     if (m == null) {
-      ArrayList inputs = new ArrayList(args.size());
-      int varsDefined = setInputs(env, inputs);
+      BitSet inputs = getInputs(env);
       double solutions = 0.0;
-      if (((Boolean)inputs.get(inputs.size()-1)).booleanValue()) {
+      if (inputs.get(args.size()-1)) {
         solutions = 1.0;
-        if (varsDefined > 1)
+        if (inputs.cardinality() > 1)
           solutions = 0.5;
         for(int i=0;i<args.size()-1;i++) {
-          if (((Boolean)inputs.get(i)).booleanValue() == false)
+          if ( ! inputs.get(i))
             env = env.add(args.get(i),null);
         }
         m = new Mode(env, inputs, solutions);
@@ -118,7 +117,7 @@ public class FlatTuple extends FlatPred
       //In case the tuple is not defined in the env, a new tuple is formed and added to the env
       else {
         result = true;
-        List exprList = new ArrayList(args.size()-1);
+        List<Expr> exprList = new ArrayList<Expr>(args.size()-1);
         for(int i=0;i<args.size()-1;i++)
           exprList.add(evalMode_.getEnvir().lookup(args.get(i)));
         Expr tupleExpr = factory_.createTupleExpr(exprList);

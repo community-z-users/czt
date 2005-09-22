@@ -60,7 +60,6 @@ public class FlatLessThanEqualsTest
     Envir envXY = envX.add(y,i20);
     Mode m = pred.chooseMode(envXY);
     Assert.assertTrue(m != null);
-    Assert.assertEquals(2, m.getNumArgs());
     Assert.assertEquals(true, m.isInput(0));
     Assert.assertEquals(true, m.isInput(1));
     Assert.assertEquals(0.5, m.getSolutions(), ACCURACY);
@@ -87,7 +86,6 @@ public class FlatLessThanEqualsTest
     Envir envX = empty.add(x,i20);
     Mode m = pred.chooseMode(envX);
     Assert.assertTrue(m != null);
-    Assert.assertEquals(2, m.getNumArgs());
     Assert.assertEquals(true, m.isInput(0));
     Assert.assertEquals(false, m.isInput(1));
     Assert.assertTrue(m.getEnvir().isDefined(y));
@@ -115,7 +113,6 @@ public class FlatLessThanEqualsTest
     Envir envY = empty.add(y,i27);
     Mode m = pred.chooseMode(envY);
     Assert.assertTrue(m != null);
-    Assert.assertEquals(2, m.getNumArgs());
     Assert.assertEquals(false, m.isInput(0));
     Assert.assertEquals(true, m.isInput(1));
     Assert.assertTrue(m.getEnvir().isDefined(x));

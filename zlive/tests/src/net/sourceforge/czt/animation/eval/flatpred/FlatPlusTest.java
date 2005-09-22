@@ -78,7 +78,6 @@ public class FlatPlusTest
     Envir envXYZ = envXY.add(z,i30);
     Mode m = pred.chooseMode(envXYZ);
     Assert.assertTrue(m != null);
-    Assert.assertEquals(3, m.getNumArgs());
     Assert.assertEquals(true, m.isInput(0));
     Assert.assertEquals(true, m.isInput(1));
     Assert.assertEquals(true, m.isInput(2));
@@ -101,7 +100,6 @@ public class FlatPlusTest
     Envir envXY = envX.add(y,i20);
     Mode m = pred.chooseMode(envXY);
     Assert.assertTrue(m != null);
-    Assert.assertEquals(3, m.getNumArgs());
     Assert.assertEquals(true, m.isInput(0));
     Assert.assertEquals(true, m.isInput(1));
     Assert.assertEquals(false, m.isInput(2));
@@ -120,7 +118,6 @@ public class FlatPlusTest
     Envir envXZ = envX.add(z,i30);
     Mode m = pred.chooseMode(envXZ);
     Assert.assertTrue(m != null);
-    Assert.assertEquals(3, m.getNumArgs());
     Assert.assertEquals(true, m.isInput(0));
     Assert.assertEquals(false, m.isInput(1));
     Assert.assertEquals(true, m.isInput(2));
@@ -139,7 +136,6 @@ public class FlatPlusTest
     Envir envYZ = envY.add(z,i30);
     Mode m = pred.chooseMode(envYZ);
     Assert.assertTrue(m != null);
-    Assert.assertEquals(3, m.getNumArgs());
     Assert.assertEquals(false, m.isInput(0));
     Assert.assertEquals(true, m.isInput(1));
     Assert.assertEquals(true, m.isInput(2));
