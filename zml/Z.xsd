@@ -118,12 +118,6 @@ more detail.
               class="JaxbToAst"
               template="JaxbToAst.vm"/>
           </gnast:package>
-          <gnast:package id="dom" name="dom">
-            <gnast:generate
-              id="AstToDom"
-              class="AstToDom"
-              template="AstToDom.vm"/>
-          </gnast:package>
         </gnast:package>
       </gnast:schemaBindings>
     </xs:appinfo>
