@@ -133,17 +133,17 @@ action code
     /**
      * Create an empty list.
      */
-    protected &lt; E &gt; List &lt; E &gt; list()
+    protected &lt;E&gt; List&lt;E&gt; list()
     {
-      return new ArrayList &lt; E &gt; ();
+      return new ArrayList&lt;E&gt;();
     }
 
     /**
      * Create a list containing one element.
      */
-    protected &lt; E &gt; List &lt; E &gt; list(E elem)
+    protected &lt;E&gt; List&lt;E&gt; list(E elem)
     {
-      List &lt; E &gt; result = list();
+      List&lt;E&gt; result = list();
       result.add(elem);
       return result;
     }
@@ -151,9 +151,9 @@ action code
     /**
      * Creates a list containing two elements.
      */
-    protected &lt; E &gt; List &lt; E &gt; list(E elem1, E elem2)
+    protected &lt;E&gt; List&lt;E&gt; list(E elem1, E elem2)
     {
-      List &lt; E &gt; result = list();
+      List&lt;E&gt; result = list();
       result.add(elem1);
       result.add(elem2);
       return result;
@@ -162,9 +162,9 @@ action code
     /**
      * Creates a list from another list
      */
-    protected &lt; E &gt; List &lt; E &gt; list(List &lt; E &gt; list)
+    protected &lt;E&gt; List&lt;E&gt; list(List&lt;E&gt; list)
     {
-      List &lt; E &gt; result = list();
+      List&lt;E&gt; result = list();
       result.addAll(list);
       return result;
     }
@@ -172,7 +172,7 @@ action code
     /**
      * Creates a pair from two elements. 
      */
-    protected &lt; X, Y &gt; Pair &lt; X, Y &gt; pair(X x, Y y)
+    protected &lt;X,Y&gt; Pair&lt;X,Y&gt; pair(X x, Y y)
     {
       return new Pair(x, y);
     }
@@ -181,7 +181,7 @@ action code
     /**
      * Create a pair of PrimaryDecl and SecondaryDecl from 2 DeclLists
      */
-    protected Pair &lt; PrimaryDecl, SecondaryDecl &gt; 
+    protected Pair&lt;PrimaryDecl,SecondaryDecl&gt; 
       statePair(DeclList pDeclList, DeclList sDeclList)
     {
       if (pDeclList == null) {
@@ -193,6 +193,12 @@ action code
       PrimaryDecl primaryDecl = factory_.createPrimaryDecl(pDeclList);
       SecondaryDecl secondaryDecl = factory_.createSecondaryDecl(sDeclList);
       return pair(primaryDecl, secondaryDecl);
+    }
+
+    protected OpText createOpText(DeltaList del, DeclList dec, Pred p)
+    {
+      if (dec == null) dec = factory_.createZDeclList();
+      return factory_.createOpText(del, factory_.createZSchText(dec, p));
     }
 </add:oz>
 
@@ -207,7 +213,7 @@ action code
       }
     }
 
-    private Spec createSpec(List &lt; ? extends Sect &gt; sectList)
+    private Spec createSpec(List&lt;? extends Sect&gt; sectList)
     {
       Spec result = factory_.createSpec();
       result.setVersion(ZML_VERSION);
@@ -215,14 +221,10 @@ action code
       return result;
     }
 
-    private ZSchText createZSchText(List decl, Pred pred)
+    private ZSchText createZSchText(List&lt;? extends Decl&gt; decl,
+                                    Pred pred)
     {
       return factory_.createZSchText(factory_.createZDeclList(decl), pred);
-    }
-
-    private ZSchText createZSchText(DeclList declList, Pred pred)
-    {
-      return factory_.createZSchText(declList, pred);
     }
 
     private Operator createOperator(Decorword decorword, int line, int column)
@@ -266,7 +268,9 @@ action code
     /**
      * Converts a list of String objects to a DeclName object.
      */
-    protected ZDeclName strListToZDeclName(List list, int line, int column)
+    protected ZDeclName strListToZDeclName(List&lt;String&gt; list,
+                                           int line,
+                                           int column)
       throws ParseException
     {
       try {
@@ -284,7 +288,9 @@ action code
     /**
      * Converts a list of String objects to a RefName object.
      */
-    protected RefName strListToRefName(List list, int line, int column)
+    protected RefName strListToRefName(List&lt;String&gt; list,
+                                       int line,
+                                       int column)
       throws ParseException
     {
       try {
@@ -395,22 +401,13 @@ action code
     /**
      * Creates a member predicate from a string list and an expression list.
      */
-    protected MemPred localCreateMemPred(List name, List exprList,
-                                         int line, int column)
+    protected MemPred localCreateMemPred(List&lt;String&gt; name,
+                                         List&lt;? extends Expr&gt; exprs,
+                                         int line,
+                                         int column)
       throws ParseException
     {
-      //if there is more than one expr in the list, the
-      //right-hand-side is a tuple
-      Expr e = null;
-      if (exprList.size() == 1) {
-        e = expr((TermA) exprList.get(0));
-        LocAnn locAnn = (LocAnn) e.getAnn(LocAnn.class);
-        if (locAnn == null) addLocAnn(e, line, column);
-      }
-      else {
-        e = factory_.createTupleExpr(exprList);
-        addLocAnn(e, line, column);
-      }
+      Expr e = createTupleExpr(exprs, line, column);
       RefName rn = strListToRefName(name, line, column);
       MemPred result = factory_.createRelOpAppl(e, rn);
       addLocAnn(result.getRightExpr(), line, column);
@@ -424,8 +421,10 @@ action code
      * The line,column pair are the position of the start of
      * the whole mixfix expression.
      */
-    protected Expr localCreateMixfixExpr(List name, List exprList,
-                                         int line, int column)
+    protected Expr localCreateMixfixExpr(List&lt;String&gt; name,
+                                         List&lt;? extends Expr&gt; exprs,
+                                         int line,
+                                         int column)
       throws ParseException
     {
       final RefName rn = strListToRefName(name, line, column);
@@ -434,9 +433,9 @@ action code
       //get the first operator in the name list, i.e. the first
       //item that is not an ARG_TOK or LISTARG_TOK.
       String firstOperator = null;
-      for (Iterator iter = name.iterator(); iter.hasNext(); ) {
-        String next = (String) iter.next();
-        if (!next.equals(ARG_TOK) &amp;&amp; !next.equals(LISTARG_TOK)) {
+      for (Iterator&lt;String&gt; iter = name.iterator(); iter.hasNext(); ) {
+        String next = iter.next();
+        if (! next.equals(ARG_TOK) &amp;&amp; ! next.equals(LISTARG_TOK)) {
           firstOperator = next;
           break;
         }
@@ -444,26 +443,33 @@ action code
 
       if (opTable_.lookup(name) != null &amp;&amp;
           Cat.Function.equals(opTable_.lookup(name).getCat())) {
-        //if exprList contains only 1 element, do not create a TupleExpr
-        Expr e = null;
-        if (exprList.size() == 1) {
-          e = (Expr) exprList.get(0);
-          LocAnn locAnn = (LocAnn) e.getAnn(LocAnn.class);
-          if (locAnn == null)
-	    addLocAnn(e, line, column);
-        }
-        else {
-          e = factory_.createTupleExpr(exprList);
-          addLocAnn(e, line, column);
-        }
+        Expr e = createTupleExpr(exprs, line, column);
         result = factory_.createFunOpAppl(rn, e);
         addLocAnn(((ApplExpr) result).getLeftExpr(), line, column);
       }
       else {
-        result = factory_.createRefExpr(rn, exprList, Boolean.TRUE);
+        result = factory_.createRefExpr(rn, exprs, Boolean.TRUE);
         // Done by callers: addLocAnn(result, line, column);
       }
 
+      return result;
+    }
+
+    /**
+     * If the list contains just one expression, location annotation
+     * is added and the expression is returned.  If there is more than
+     * one expression in the list, a tuple expression is created,
+     * location annotation is added, and the tuple expression is
+     * returned.
+     */
+    private Expr createTupleExpr(List&lt;? extends Expr&gt; exprs,
+                                 int line,
+                                 int column)
+    {
+      Expr result = exprs.size() == 1 ?
+        exprs.get(0) : factory_.createTupleExpr(exprs);
+      LocAnn locAnn = (LocAnn) result.getAnn(LocAnn.class);
+      if (locAnn == null) addLocAnn(result, line, column);
       return result;
     }
 
@@ -531,7 +537,7 @@ action code
     {
       Pred result = null;
 
-      List opName = list(ARG_TOK);
+      List&lt;String&gt; opName = list(ARG_TOK);
       opName.add(ip);
       opName.add(ARG_TOK);
 
@@ -552,7 +558,7 @@ action code
      * This list will represent the name of the operator to which
      * the expressions were applied.
      */
-    protected void addExpSepName(List opName, List es)
+    protected void addExpSepName(List&lt;String&gt; opName, List es)
     {
       for (int i = 0; i &lt; es.size(); i += 2) {
 
@@ -965,14 +971,14 @@ non terminal ZSect
     empty,
     sectionHeader;
 
-non terminal List /*ZSect*/
+non terminal List&lt;Sect&gt;
     sectionList;
 
-non terminal List /*Parent*/
+non terminal List&lt;Parent&gt;
     parentList,
     parents;
 
-non terminal List /*Para*/
+non terminal List&lt;Para&gt;
     paragraphList,
     unboxedParagraphList,
     unboxedParagraphItemList;
@@ -991,10 +997,10 @@ non terminal AxPara
 non terminal ConstDecl
     letDefinition;
 
-non terminal List /*Freetype*/ freeTypeList;
+non terminal List&lt;Freetype&gt; freeTypeList;
 non terminal Freetype freeTypeDefinition;
 
-non terminal List /*String*/
+non terminal List&lt;String&gt;
     narrWordList;
 
 non terminal OptempPara operatorTemplate;
@@ -1018,10 +1024,10 @@ non terminal SchText
 
 non terminal ZDeclList letDefinitionList;
 
-non terminal List /*Branch*/ branchList;
+non terminal List&lt;Branch&gt; branchList;
 non terminal Branch branch;
 
-non terminal List /*DeclName*/ 
+non terminal List&lt;DeclName&gt;
     nameList,
     declWordList;
 
@@ -1030,7 +1036,7 @@ non terminal DeclName
     declName,
     formalParameterName;
 
-non terminal List /*RefName*/ refNameList;
+non terminal List&lt;RefName&gt; refNameList;
 non terminal ZRefName refName;
 
 non terminal ZRenameList renameList;
@@ -1049,7 +1055,7 @@ non terminal Decl
     declaration;
 
 non terminal GivenPara basicTypeDefinition;
-non terminal List /*DeclName*/
+non terminal List&lt;DeclName&gt;
     formalParameters,
     optFormalParameters;
 
@@ -1082,26 +1088,26 @@ non terminal ZDeclList
     constDeclList,
     optConstDeclList;
 
-non terminal List /*Expr*/
+non terminal List&lt;Expr&gt;
     prodExpressionList,
     optExpressionList,
     expressionList;
 
-non terminal List /*String*/ 
+non terminal List&lt;String&gt;
     opName,
     prefixName,
     postfixName,
     infixName,
     nofixName;
 
-non terminal Pair /*String, List DeclName*/
+non terminal Pair&lt;DeclName,List&lt;DeclName&gt;&gt;
     genName,
     prefixGenName,
     postfixGenName,
     infixGenName,
     nofixGenName;
 
-non terminal List /*String*/
+non terminal List&lt;String&gt;
     optVargEsSsList;
 
 non terminal Pair /* List DeclName, List DeclName */
@@ -1114,10 +1120,10 @@ non terminal Expr
     infixApp,
     nofixApp;
 
-non terminal List /*Object*/
+non terminal List&lt;Object&gt;
     expSep;
 
-non terminal List /*String*/
+non terminal List&lt;String&gt;
     argErepOrSrep,
     argEreOrSre,
     argErOrSr,
@@ -1138,9 +1144,9 @@ non terminal And
 non terminal Jokers jokerPara;
 non terminal Rule rulePara;
 
-non terminal List /* String */ jokerList;
+non terminal List&lt;String&gt; jokerList;
 
-non terminal List /* Sequent */
+non terminal List&lt;Sequent&gt;
     sequentLHS,
     antecedents;
 
@@ -1163,7 +1169,7 @@ non terminal ZDeclList varDeclList;
 </add:zpatt>
 
 <add:circus>
-non terminal List /*Para*/
+non terminal List&lt;Para&gt;
     circusParaItemList;
 
 /// Circus constructs ///////////////////////////////////////////////
@@ -1185,13 +1191,13 @@ non terminal Expr
 non terminal ClassPara
     class;
 
-non terminal Pair /* DeclName, List DeclName */
+non terminal Pair&lt;DeclName,List&lt;DeclName&gt;&gt;
     classHeader;
 
 non terminal State
     state;
 
-non terminal Pair &lt; PrimaryDecl, SecondaryDecl &gt;
+non terminal Pair&lt;PrimaryDecl,SecondaryDecl&gt;
     stateDeclNoExpression,
     stateDecl;
 
@@ -1206,7 +1212,7 @@ non terminal InitialState
 non terminal TermA
     innerPara;
 
-non terminal List /*TermA*/
+non terminal List /* TODO: use generics here! TermA */
     innerParaList;
 
 non terminal DeltaList
@@ -1225,7 +1231,7 @@ non terminal OpExpr
 non terminal ExprList
     inheritedList;
 
-non terminal List /* Expr */
+non terminal List&lt;Expr&gt;
     inheritedClassList;
 
 non terminal OpText
@@ -1234,7 +1240,7 @@ non terminal OpText
 non terminal Operation
     operation;
 
-non terminal List /*Operation*/
+non terminal List&lt;Operation&gt;
     operationList;
 
 </add:oz>
@@ -1243,13 +1249,13 @@ non terminal VarDecl channelDeclaration;
 
 non terminal Expr channel;
 
-non terminal List eventSet;
+non terminal List&lt;Event&gt; eventSet;
  
 non terminal Event
     event,
     inOutEvent;
  
-non terminal List topology;
+non terminal List&lt;Connection&gt; topology;
        
 non terminal Connection connection;
 
@@ -1367,7 +1373,7 @@ emptySectionHeader ::=
 <add:oz>
            final Parent poz = factory_.createParent(OZ_TOOLKIT);
 </add:oz>
-           final List parents = list(p<add:oz>, poz</add:oz>);
+           final List&lt;Parent&gt; parents = list(p<add:oz>, poz</add:oz>);
            resetOpTable(name, parents, eleft, eright);
 <add:zpatt>
            resetJokerTable(name, parents, eleft, eright);
@@ -1390,8 +1396,7 @@ sectionList ::=
         :}
         |
         section:s
-        {:
-           RESULT = list(s); :}
+        {: RESULT = list((Sect) s); :}
         ;
 
 section ::=
@@ -1548,7 +1553,7 @@ unboxedParagraphItemList ::=
         |
         unboxedParagraphItem:ui
         {:
-           RESULT = (ui == null) ? list() : list(ui);
+           RESULT = list(ui);
         :}
         ;
 
@@ -1562,7 +1567,7 @@ circusParaItemList ::=
         |
         circusParaItem:ci
         {:
-           RESULT = (ci == null) ? list() : list(ci);
+           RESULT = list(ci);
         :}
         ;
 </add:circus>
@@ -1686,8 +1691,8 @@ abbreviationDefinition ::=
         |
         genName:gn DEFEQUAL:equal expression:e
         {:
-           DeclName dn = (DeclName) gn.getFirst();
-           List fp = (List) gn.getSecond();
+           DeclName dn = gn.getFirst();
+           List&lt;DeclName&gt; fp = gn.getSecond();
            ConstDecl cd = factory_.createConstDecl(dn, e);
            addLocAnn(cd, equalleft, equalright);
            ZSchText st = factory_.createZSchText(list(cd), null);
@@ -2453,52 +2458,58 @@ genName ::=
 prefixGenName ::=
         PRE:pre formalParameterName:fpn
         {:
-           List name = list(pre, ARG_TOK);
-           RESULT = pair(strListToZDeclName(name, fpnleft, fpnright), list(fpn));
+           List&lt;String&gt; name = list(pre, ARG_TOK);
+           List&lt;DeclName&gt; decls = list(fpn);
+           DeclName declName = strListToZDeclName(name, fpnleft, fpnright);
+           RESULT = pair(declName, decls);
         :}
         |
         L:l optNameEsSsList:onesl formalParameterName:fpn1
              ereOrSre:eos formalParameterName:fpn2
         {:
            //construct the name
-           List name = list(l);
+           List&lt;String&gt; name = list(l);
            name.addAll((List) onesl.getSecond());
            name.add(ARG_TOK);
            name.add(eos);
            name.add(ARG_TOK);
 
            //construct the parameter list
-           List fps = (List) onesl.getFirst();
+           List&lt;DeclName&gt; fps = (List&lt;DeclName&gt;) onesl.getFirst();
            fps.add(fpn1);
            fps.add(fpn2);
 
-           RESULT = pair(strListToZDeclName(name, fpn2left, fpn2right), fps); 
+           DeclName declName = strListToZDeclName(name, fpn2left, fpn2right);
+           RESULT = pair(declName, fps); 
         :}
         ;
 
 postfixGenName ::=
         formalParameterName:fpn POST:p
         {:
-           List name = list(ARG_TOK, p);
-           RESULT = pair(strListToZDeclName(name, pleft, pright), list(fpn));
+           List&lt;String&gt; name = list(ARG_TOK, p);
+           List&lt;DeclName&gt; decls = list(fpn);
+           DeclName declName = strListToZDeclName(name, pleft, pright);
+           RESULT = pair(declName, decls);
         :}
         |
         formalParameterName:fpn1 EL:el optNameEsSsList:onesl 
            formalParameterName:fpn2 erOrSr:eos
         {:
            //construct the name
-           List name = list(ARG_TOK);
+           List&lt;String&gt; name = list(ARG_TOK);
            name.add(el);
            name.addAll((List) onesl.getSecond());
            name.add(ARG_TOK);
            name.add(eos);
 
            //construct the parameter list
-           List fps = list(fpn1);
+           List&lt;DeclName&gt; fps = list(fpn1);
            fps.addAll((List) onesl.getFirst());
            fps.add(fpn2);
 
-           RESULT = pair(strListToZDeclName(name, eosleft, eosright), fps);
+           DeclName declName = strListToZDeclName(name, eosleft, eosright);
+           RESULT = pair(declName, fps);
          :}
         ;
 
@@ -2506,33 +2517,35 @@ infixGenName ::=
         formalParameterName:fpn1 I:i formalParameterName:fpn2
         {:
            //construct the name
-           List name = list(ARG_TOK);
+           List&lt;String&gt; name = list(ARG_TOK);
            name.add(i);
            name.add(ARG_TOK);
 
            //construct the parameter list
-           List fps = list(fpn1, fpn2);
+           List&lt;DeclName&gt; fps = list(fpn1, fpn2);
 
-           RESULT = pair(strListToZDeclName(name, fpn2left, fpn2right), fps);
+           DeclName declName = strListToZDeclName(name, fpn2left, fpn2right);
+           RESULT = pair(declName, fps);
         :}
         |
         formalParameterName:fpn1 EL:el optNameEsSsList:onesl 
            formalParameterName:fpn2 ereOrSre:eos formalParameterName:fpn3
         {:
            //construct the name
-           List name = list(ARG_TOK);
+           List&lt;String&gt; name = list(ARG_TOK);
            name.add(el);
            name.addAll((List) onesl.getSecond());
            name.add(ARG_TOK);
            name.add(eos);
            name.add(ARG_TOK);
            //construct the parameter list
-           List fps = list(fpn1);
+           List&lt;DeclName&gt; fps = list(fpn1);
            fps.addAll((List) onesl.getFirst());
            fps.add(fpn2);
            fps.add(fpn3);
 
-           RESULT = pair(strListToZDeclName(name, fpn3left, fpn3right), fps);
+           DeclName declName = strListToZDeclName(name, fpn3left, fpn3right);
+           RESULT = pair(declName, fps);
         :}
         ;
 
@@ -2540,16 +2553,17 @@ nofixGenName ::=
         L:l optNameEsSsList:onesl formalParameterName:fpn erOrSr:eos
         {:
            //construct the name
-           List name = list(l);
+           List&lt;String&gt; name = list(l);
            name.addAll((List) onesl.getSecond());
            name.add(ARG_TOK);
            name.add(eos);
 
            //construct the parameter list
-           List fps = (List) onesl.getFirst();
+           List&lt;DeclName&gt; fps = (List) onesl.getFirst();
            fps.add(fpn);
 
-           RESULT = pair(strListToZDeclName(name, eosleft, eosright), fps);
+           DeclName declName = strListToZDeclName(name, eosleft, eosright);
+           RESULT = pair(declName, fps);
         :}
         ;
 
@@ -2796,7 +2810,7 @@ term ::=
         term:t ZHIDE:hide LPAREN JOKERNAMELIST:jnl RPAREN
         {:
            ZRefName rn = factory_.createZRefName(jnl, null);
-           List rnl = list(rn);
+           List&lt;RefName&gt; rnl = list((RefName) rn);
            ZRefNameList zRefNameList = factory_.createZRefNameList(rnl);
            RESULT = factory_.createHideExpr(expr(t), zRefNameList);
            addLocAnn(RESULT, hideleft, hideright);
@@ -2966,7 +2980,7 @@ inner_term ::=
            Object pAnn = it.getAnn(ParenAnn.class);
            if (it instanceof ThetaExpr &amp;&amp; pAnn == null) {
              ThetaExpr te = (ThetaExpr) it;
-             List &lt; Stroke &gt; sl = list(te.getStroke());
+             List&lt;Stroke&gt; sl = list(te.getStroke());
              sl.add(s);
              RESULT = factory_.createThetaExpr(te.getExpr(), sl);
            }
@@ -3055,11 +3069,11 @@ inner_term ::=
 
 prodExpressionList ::=
         term:t1 CROSS term:t2
-        {: RESULT = list(t1, t2); :}
+        {: RESULT = list(expr(t1), expr(t2)); :}
         |
         prodExpressionList:pel CROSS term:t
         {:
-           pel.add(t);
+           pel.add(expr(t));
            RESULT = pel;
         :}
         ;
@@ -3171,7 +3185,7 @@ relation ::=
 prefixRel ::=
         PREP:p term:t
         {:
-           List opName = list(p);
+           List&lt;String&gt; opName = list(p);
            opName.add(ARG_TOK);
            RESULT = localCreateMemPred(opName, list(expr(t)), pleft, pright);
            addLocAnn(RESULT, pleft, pright);
@@ -3179,12 +3193,12 @@ prefixRel ::=
         |
         LP:lp expSep:es term:t1 EREP:erep term:t2
         {: 
-           List opName = list(lp);
+           List&lt;String&gt; opName = list(lp);
            addExpSepName(opName, es);
            opName.add(ARG_TOK);
            opName.add(erep);
 
-           List &lt; Expr &gt; expList = list();
+           List&lt;Expr&gt; expList = list();
            addExpSepExp(expList, es);
            expList.add(expr(t1));
            expList.add(expr(t2));
@@ -3194,12 +3208,12 @@ prefixRel ::=
         |
         LP:lp expSep:es optExpressionList:oel SREP:srep term:t
         {:
-           List opName = list(lp);
+           List&lt;String&gt; opName = list(lp);
            addExpSepName(opName, es);
            opName.add(LISTARG_TOK);
            opName.add(srep);
 
-           List &lt; Expr &gt; expList = list();
+           List&lt;Expr&gt; expList = list();
            addExpSepExp(expList, es);
            Expr seq = factory_.createSequence(oel);
            addLocAnn(seq, oelleft, oelright);
@@ -3219,13 +3233,13 @@ postfixRel ::=
         |
         term:t1 ELP:elp expSep:es term:t2 ERP:erp
         {:
-           List opName = list(ARG_TOK);
+           List&lt;String&gt; opName = list(ARG_TOK);
            opName.add(elp);
            addExpSepName(opName, es);
            opName.add(ARG_TOK);
            opName.add(erp);
 
-           List expList = list(expr(t1));
+           List&lt;Expr&gt; expList = list(expr(t1));
            addExpSepExp(expList, es);
            expList.add(expr(t2));
            RESULT = localCreateMemPred(opName, expList, t1left, t1right);
@@ -3234,13 +3248,13 @@ postfixRel ::=
         |
         term:t ELP:elp expSep:es optExpressionList:oel SRP:srp
         {:
-           List opName = list(ARG_TOK);
+           List&lt;String&gt; opName = list(ARG_TOK);
            opName.add(elp);
            addExpSepName(opName, es);
            opName.add(LISTARG_TOK);
            opName.add(srp);
 
-           List expList = list(expr(t));
+           List&lt;Expr&gt; expList = list(expr(t));
            addExpSepExp(expList, es);
            Expr seq = factory_.createSequence(oel);
            addLocAnn(seq, oelleft, oelright);
@@ -3257,14 +3271,14 @@ infixRel ::=
         |
         term:t1 ELP:elp expSep:es term:t2 EREP:erep term:t3
         {:
-           List opName = list(ARG_TOK);
+           List&lt;String&gt; opName = list(ARG_TOK);
            opName.add(elp);
            addExpSepName(opName, es);
            opName.add(ARG_TOK);
            opName.add(erep);
            opName.add(ARG_TOK);
 
-           List expList = list(expr(t1));
+           List&lt;Expr&gt; expList = list(expr(t1));
            addExpSepExp(expList, es);
            expList.add(expr(t2));
            expList.add(expr(t3));
@@ -3274,14 +3288,14 @@ infixRel ::=
         |
         term:t1 ELP:elp expSep:es optExpressionList:oel SREP:erep term:t2
         {:
-           List opName = list(ARG_TOK);
+           List&lt;String&gt; opName = list(ARG_TOK);
            opName.add(elp);
            addExpSepName(opName, es);
            opName.add(LISTARG_TOK);
            opName.add(erep);
            opName.add(ARG_TOK);
 
-           List expList = list(expr(t1));
+           List&lt;Expr&gt; expList = list(expr(t1));
            addExpSepExp(expList, es);
            Expr seq = factory_.createSequence(oel);
            addLocAnn(seq, oelleft, oelright);
@@ -3311,7 +3325,7 @@ infixChainRel ::=
         term:lhs IP:ip term:rhs
         {:
            previousChain_ = Sym.IP;
-           List opName = list(ARG_TOK);
+           List&lt;String&gt; opName = list(ARG_TOK);
            opName.add(ip);
            opName.add(ARG_TOK);
            RESULT = localCreateMemPred(opName, list(expr(lhs), expr(rhs)),
@@ -3350,12 +3364,12 @@ infixChainRel ::=
 nofixRel ::=
         LP:lp expSep:es term:t ERP:erp
         {:
-           List opName = list(ARG_TOK);
+           List&lt;String&gt; opName = list(ARG_TOK);
            addExpSepName(opName, es);
            opName.add(ARG_TOK);
            opName.add(erp);
 
-           List expList = list();
+           List&lt;Expr&gt; expList = list();
            addExpSepExp(expList, es);
            expList.add(expr(t));
            RESULT = localCreateMemPred(opName, expList, lpleft, lpright);
@@ -3364,12 +3378,12 @@ nofixRel ::=
         |
         LP:lp expSep:es optExpressionList:oel SRP:srp
         {:
-           List opName = list(ARG_TOK);
+           List&lt;String&gt; opName = list(ARG_TOK);
            addExpSepName(opName, es);
            opName.add(LISTARG_TOK);
            opName.add(srp);
 
-           List expList = list();
+           List&lt;Expr&gt; expList = list();
            addExpSepExp(expList, es);
            Expr seq = factory_.createSequence(oel);
            addLocAnn(seq, oelleft, oelright);
@@ -3404,13 +3418,13 @@ prefixApp ::=
         |
         L:l expSep:es term:t1 ERE:ere term:t2
         {:
-           List opName = list(l);
+           List&lt;String&gt; opName = list(l);
            addExpSepName(opName, es);
            opName.add(ARG_TOK);
            opName.add(ere);
            opName.add(ARG_TOK);
 
-           List expList = list();
+           List&lt;Expr&gt; expList = list();
            addExpSepExp(expList, es);
            expList.add(expr(t1));
            expList.add(expr(t2));
@@ -3420,13 +3434,13 @@ prefixApp ::=
         |
         L:l expSep:es optExpressionList:oel SRE:sre term:t
         {:
-           List opName = list(l);
+           List&lt;String&gt; opName = list(l);
            addExpSepName(opName, es);
            opName.add(LISTARG_TOK);
            opName.add(sre);
            opName.add(ARG_TOK);
 
-           List expList = list();
+           List&lt;Expr&gt; expList = list();
            addExpSepExp(expList, es);
            Expr seq = factory_.createSequence(oel);
            addLocAnn(seq, oelleft, oelright);
@@ -3448,13 +3462,13 @@ postfixApp ::=
         |
         term:t1 EL:el expSep:es term:t2 ER:er
         {:
-           List opName = list(ARG_TOK);
+           List&lt;String&gt; opName = list(ARG_TOK);
            opName.add(el);
            addExpSepName(opName, es);
            opName.add(ARG_TOK);
            opName.add(er);
 
-           List expList = list(expr(t1));
+           List&lt;Expr&gt; expList = list(expr(t1));
            addExpSepExp(expList, es);
            expList.add(expr(t2));
            RESULT = localCreateMixfixExpr(opName, expList, t1left, t1right);
@@ -3463,13 +3477,13 @@ postfixApp ::=
         |
         term:t EL:el expSep:es optExpressionList:oel SR:sr
         {:
-           List opName = list(ARG_TOK);
+           List&lt;String&gt; opName = list(ARG_TOK);
            opName.add(el);
            addExpSepName(opName, es);
            opName.add(LISTARG_TOK);
            opName.add(sr);
 
-           List expList = list(expr(t));
+           List&lt;Expr&gt; expList = list(expr(t));
            addExpSepExp(expList, es);
            Expr seq = factory_.createSequence(oel);
            addLocAnn(seq, oelleft, oelright);
@@ -3483,24 +3497,24 @@ postfixApp ::=
 infixApp ::=
         term:lhs I:i term:rhs
         {: 
-           List opName = list(ARG_TOK);
+           List&lt;String&gt; opName = list(ARG_TOK);
            opName.add(i);
            opName.add(ARG_TOK);
-           RESULT = localCreateMixfixExpr(opName, list(lhs, rhs),
+           RESULT = localCreateMixfixExpr(opName, list(expr(lhs), expr(rhs)),
                                           lhsleft, lhsright);
            addLocAnn(RESULT, ileft, iright);
         :}
         |
         term:t1 EL:el expSep:es term:t2 ERE:ere term:t3
         {:
-           List opName = list(ARG_TOK);
+           List&lt;String&gt; opName = list(ARG_TOK);
            opName.add(el);
            addExpSepName(opName, es);
            opName.add(ARG_TOK);
            opName.add(ere);
            opName.add(ARG_TOK);
 
-           List expList = list(expr(t1));
+           List&lt;Expr&gt; expList = list(expr(t1));
            addExpSepExp(expList, es);
            expList.add(expr(t2));
            expList.add(expr(t3));
@@ -3510,14 +3524,14 @@ infixApp ::=
         |
         term:t1 EL:el expSep:es optExpressionList:oel SRE:sre term:t2
         {:
-           List opName = list(ARG_TOK);
+           List&lt;String&gt; opName = list(ARG_TOK);
            opName.add(el);
            addExpSepName(opName, es);
            opName.add(LISTARG_TOK);
            opName.add(sre);
            opName.add(ARG_TOK);
 
-           List expList = list(expr(t1));
+           List&lt;Expr&gt; expList = list(expr(t1));
            addExpSepExp(expList, es);
            Expr seq = factory_.createSequence(oel);
            addLocAnn(seq, oelleft, oelright);
@@ -3532,12 +3546,12 @@ infixApp ::=
 nofixApp ::=
         L:l expSep:es term:t ER:er
         {:
-           List opName = list(l);
+           List&lt;String&gt; opName = list(l);
            addExpSepName(opName, es);
            opName.add(ARG_TOK);
            opName.add(er);
 
-           List expList = list();
+           List&lt;Expr&gt; expList = list();
            addExpSepExp(expList, es);
            expList.add(expr(t));
            RESULT = localCreateMixfixExpr(opName, expList, lleft, lright);
@@ -3546,12 +3560,12 @@ nofixApp ::=
         |
         L:l expSep:es optExpressionList:oel SR:sr
         {:
-           List opName = list(l);
+           List&lt;String&gt; opName = list(l);
            addExpSepName(opName, es);
            opName.add(LISTARG_TOK);
            opName.add(sr);
 
-           List expList = list();
+           List&lt;Expr&gt; expList = list();
            addExpSepExp(expList, es);
            Expr seq = factory_.createSequence(oel);
            addLocAnn(seq, oelleft, oelright);
@@ -3616,7 +3630,7 @@ jokerPara ::=
 rulePara ::=
         RULE:r DECORWORD:dw antecedents:a RULELINE conclusion:c END
         {:
-           List sequents = list(c);
+           List&lt;Sequent&gt; sequents = list((Sequent) c);
            sequents.addAll(a);
            RESULT = factory_.createRule(sequents, dw.getName());
            addLocAnn(RESULT, rleft, rright);
@@ -3624,7 +3638,7 @@ rulePara ::=
         |
         RULE:r DECORWORD:dw conclusion:c END
         {:
-           List sequents = list(c);
+           List&lt;Sequent&gt; sequents = list((Sequent) c);
            RESULT = factory_.createRule(sequents, dw.getName());
            addLocAnn(RESULT, rleft, rright);
         :}
@@ -3905,8 +3919,8 @@ class ::=
                iter.remove();
              }
            }
-           DeclName dn = (DeclName) ch.getFirst();
-           List ofp = (List) ch.getSecond();
+           DeclName dn = ch.getFirst();
+           List&lt;DeclName&gt; ofp = ch.getSecond();
            RESULT = factory_.createClassPara(dn, ofp, vl, il, ipl, s, is, ol);
            addLocAnn(RESULT, chleft, chright);
         :}
@@ -3914,7 +3928,10 @@ class ::=
 
 classHeader ::=
         CLASS name:n
-        {: RESULT = pair(n, list()); :}
+        {:
+           List&lt;DeclName&gt; decls = list();
+           RESULT = pair(n, decls);
+        :}
         |
         GENCLASS name:n formalParameters:fp
         {: RESULT = pair(n, fp); :}
@@ -4199,22 +4216,22 @@ operation ::=
 
 opText ::=
         deltaList:dl sep:s declPart:dp BAR predicate:p
-        {: RESULT = factory_.createOpText(dl, createZSchText(dp, p)); :}
+        {: RESULT = createOpText(dl, dp, p); :}
         |
         deltaList:dl sep:s declPart:dp
-        {: RESULT = factory_.createOpText(dl, createZSchText(dp, null)); :}
+        {: RESULT = createOpText(dl, dp, null); :}
         |
-        deltaList:dl BAR predicate:p  
-        {: RESULT = factory_.createOpText(dl, createZSchText(list(), p)); :}
+        deltaList:dl BAR predicate:p
+        {: RESULT = createOpText(dl, null, p); :}
         |
         deltaList:dl
-        {: RESULT = factory_.createOpText(dl, createZSchText(list(), null)); :}
+        {: RESULT = createOpText(dl, null, null); :}
         |
         optDeclPart:dp BAR predicate:p
-        {: RESULT = factory_.createOpText(null, createZSchText(dp, p)); :}
+        {: RESULT = createOpText(null, dp, p); :}
         |
         optDeclPart:dp
-        {: RESULT = factory_.createOpText(null, createZSchText(dp, null)); :}
+        {: RESULT = createOpText(null, dp, null); :}
         ;
 
 opExpr ::=
@@ -4561,7 +4578,7 @@ deltaList ::=
         |
         DELTA:d LPAREN RPAREN
         {:
-           List &lt; RefName &gt; refNameList = list();
+           List&lt;RefName&gt; refNameList = list();
            RESULT = factory_.createDeltaList(refNameList);
            addLocAnn(RESULT, dleft, dright);
         :}
