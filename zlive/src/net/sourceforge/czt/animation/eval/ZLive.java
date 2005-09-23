@@ -60,8 +60,6 @@ public class ZLive
 
   private static long newNameNum = 0;
 
-  private static final List empty = new ArrayList();
-
   /** Generates a fresh temporary name. */
   public ZRefName createNewName()
   {
@@ -71,7 +69,7 @@ public class ZLive
       e.printStackTrace(new PrintWriter(w));
       sLogger.fine("Stack dump: "+w.toString());
     }
-    return factory_.createZRefName("tmp"+(newNameNum++), empty, null);
+    return factory_.createZRefName("tmp"+(newNameNum++));
   }
 
   /** Recognises the RefNames produced by createNewName. */
