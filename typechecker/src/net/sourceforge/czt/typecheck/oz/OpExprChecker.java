@@ -93,7 +93,7 @@ public class OpExprChecker
       for (RefName deltaName : deltaNames) {
 	ZRefName zDeltaName = assertZRefName(deltaName);
         ZDeclName deltaDeclName = factory().createZDeclName(zDeltaName);
-        if (!primary().contains(zDeltaName)) {
+        if (!containsZDeclName(primary(), deltaDeclName)) {
           Object [] params = {zDeltaName};
           error(deltaName, ErrorMessage.NON_PRIMDECL_IN_DELTALIST, params);
         }

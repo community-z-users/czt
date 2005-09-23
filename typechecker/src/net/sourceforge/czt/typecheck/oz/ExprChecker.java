@@ -257,7 +257,8 @@ public class ExprChecker
     Type2 exprType = expr.accept(exprChecker());
     exprType = resolveClassType(exprType);
 
-    if (!instanceOf(exprType, VariableType.class)) {
+    if (instanceOf(exprType, VariableClassType.class) ||
+	!instanceOf(exprType, VariableType.class)) {
       if (exprType instanceof SchemaType) {
         type = zExprChecker_.visitBindSelExpr(bindSelExpr);
       }

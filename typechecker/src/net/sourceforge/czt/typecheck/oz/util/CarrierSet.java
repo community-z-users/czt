@@ -140,15 +140,20 @@ public class CarrierSet
   public Term visitVariableClassType(VariableClassType vClassType)
   {
     Expr result = null;
-    if (vClassType.getCandidateType() == null) {
+    if (vClassType.getValue() == null &&
+	vClassType.getCandidateType() == null) {
       if (!allowVariableTypes_) {
         throw new UndeterminedTypeException();
       }
-      ZRefName zRefName = zFactory_.createZRefName("?CLASSTYPE?",
+      ZRefName zRefName = zFactory_.createZRefName("?class?",
 						   GlobalDefs.<Stroke>list(),
 						   null);
       ZExprList zExprList = zFactory_.createZExprList();
       result = zFactory_.createRefExpr(zRefName, zExprList, Boolean.FALSE);
+    }
+    else if (vClassType.getCandidateType() == null) {
+      Type2 type = vClassType.getValue();
+      result = (Expr) type.accept(this);
     }
     else {
       Type2 type = vClassType.getCandidateType();

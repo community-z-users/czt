@@ -1049,20 +1049,26 @@ abstract public class Checker<R>
       ClassSig cSig = cuType.getClassSig();
       List<ClassRef> classes = cSig.getClasses();
 
-      assert classes.size() > 1;
-      Type2 firstType = lookupClass(classes.get(0));
-      Type2 secondType = lookupClass(classes.get(1));
-      Type2 unioned = unionClasses(null, firstType, secondType);
-      for (int i = 2; i < classes.size(); i++) {
-        Type2 nextType = lookupClass(classes.get(0));
-        unioned = unionClasses(null, unioned, nextType);
+      //if this is the set \oid
+      if (classes.size() != 0) {
+	assert classes.size() > 1;
+	Type2 firstType = lookupClass(classes.get(0));
+	Type2 secondType = lookupClass(classes.get(1));
+	Type2 unioned = unionClasses(null, firstType, secondType);
+	for (int i = 2; i < classes.size(); i++) {
+	  Type2 nextType = lookupClass(classes.get(0));
+	  unioned = unionClasses(null, unioned, nextType);
+	}
+	result = unioned;
       }
-      result = unioned;
     }
     else if (type instanceof VariableClassType) {
       VariableClassType vClassType = (VariableClassType) type;
       if (vClassType.getValue() != vClassType) {
 	result = resolveClassType(vClassType.getValue());
+      }
+      else if (vClassType.getCandidateType() != null) {
+	result = resolveClassType(vClassType.getCandidateType());
       }
     }   
     else if (type instanceof ClassType && sectTypeEnv().getSecondTime()) {
@@ -1076,6 +1082,9 @@ abstract public class Checker<R>
         classRef = classPolyType.getRootClass();
       }
       result = lookupClass(classRef);
+    }
+    else if (type instanceof UnknownType) {
+      result = resolveUnknownType(type);
     }
     return result;
   }

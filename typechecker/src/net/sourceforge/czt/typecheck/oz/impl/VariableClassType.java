@@ -47,7 +47,6 @@ public class VariableClassType
   protected VariableClassType(ZDeclName zDeclName, ClassSig classSig)
   {
     super(zDeclName);
-    assert classSig instanceof VariableClassSig;
     classSig_ = classSig;
   }
 
@@ -59,6 +58,13 @@ public class VariableClassType
   public ClassSig getClassSig()
   {
     ClassSig result = classSig_;
+    if (value_ instanceof ClassType && value_ != this) {
+      ClassType classType = (ClassType) value_;
+      result = classType.getClassSig();
+    }
+    else if (candidateType_ != null) {
+      result = candidateType_.getClassSig();
+    }
     return result;
   }
 

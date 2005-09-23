@@ -101,6 +101,19 @@ public class UnificationEnv
     return result;
   }
 
+  protected UResult unifyUnknownType(UnknownType uType, Type2 type2)
+  {
+    UResult result = PARTIAL;
+    if (type2 instanceof VariableClassType ||
+	type2 instanceof PowerType && powerType(type2) instanceof VariableClassType) {
+      result = PARTIAL;
+    }
+    else {
+      result = super.unifyUnknownType(uType, type2);
+    }
+    return result;
+  }
+
   protected UResult unifyVariableType(VariableType vType, Type2 type)
   {
     UResult result = FAIL;
@@ -165,7 +178,12 @@ public class UnificationEnv
       }
       //if a has no candidate type yet, the classType is its type
       else if (candidateTypeA == null) {
-	vClassTypeA.setValue(classType);
+	if (classType instanceof VariableClassType) {
+	  vClassTypeA.setValue(classType);
+	}
+	else {
+	  vClassTypeA.setCandidateType(classType);
+	}
       }
       //if classType is a variable class
       else if (classType instanceof VariableClassType) {

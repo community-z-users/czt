@@ -20,6 +20,8 @@ package net.sourceforge.czt.typecheck.oz.impl;
 
 import java.util.List;
 
+import static net.sourceforge.czt.typecheck.oz.util.GlobalDefs.*;
+
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
@@ -179,9 +181,21 @@ public class Factory
 
   public PowerType createBoolType()
   {
-    Signature signature = zFactory_.createSignature();
-    SchemaType schemaType = zFactory_.createSchemaType(signature);
-    PowerType result = zFactory_.createPowerType(schemaType);
+    Signature signature = createSignature();
+    SchemaType schemaType = createSchemaType(signature);
+    PowerType result = createPowerType(schemaType);
+    return result;
+  }
+
+  public PowerType createOIDType()
+  {
+    List<ClassRef> classes = list();
+    Signature state = createSignature();
+    List<NameTypePair> attrs = list();
+    List<NameSignaturePair> ops = list();    
+    ClassSig classSig = createClassSig(classes, state, attrs, ops);
+    ClassUnionType cuType = createClassUnionType(classSig);
+    PowerType result = createPowerType(cuType);
     return result;
   }
 
@@ -189,5 +203,4 @@ public class Factory
   {
     return ozFactory_.createClassUnionExpr();
   }
-
 }

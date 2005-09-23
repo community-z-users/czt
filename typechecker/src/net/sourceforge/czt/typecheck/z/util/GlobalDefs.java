@@ -277,7 +277,7 @@ public class GlobalDefs
    * @param zDeclName the ZDeclName to search for.
    * @return true if and only if the name is in the list.
    */
-  public static boolean containsDeclName(List<ZDeclName> list,
+  public static boolean containsZDeclName(List<ZDeclName> list,
                                          ZDeclName zDeclName)
   {
     boolean result = false;

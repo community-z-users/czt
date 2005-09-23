@@ -49,8 +49,7 @@ public class SpecChecker
 
     //add the type for \oid
     ZDeclName oidName = factory().createZDeclName(OzString.OID);
-    ClassUnionType cuType = factory().createClassUnionType();
-    PowerType oidType = factory().createPowerType(cuType);
+    PowerType oidType = factory().createOIDType();
     NameSectTypeTriple triple =
       factory().createNameSectTypeTriple(oidName, OZ_TOOLKIT, oidType);
     sectTypeEnv().add(triple);
