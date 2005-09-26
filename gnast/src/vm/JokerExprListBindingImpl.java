@@ -1,5 +1,5 @@
 
   public void reset()
   {
-    getExpr().clear();
+    setExprList(null);
   }

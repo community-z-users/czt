@@ -1,5 +1,5 @@
 
   public void reset()
   {
-    getDecl().clear();
+    setDeclList(null);
   }
