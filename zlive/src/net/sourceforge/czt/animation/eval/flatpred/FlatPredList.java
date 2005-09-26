@@ -63,7 +63,10 @@ public class FlatPredList
 {
   private static final Logger LOG
   = Logger.getLogger("net.sourceforge.czt.animation.eval");
-  
+
+  /** Maximum number of bounds-inference passes done over the list. */
+  protected static final int inferPasses_ = 5;
+
   /** This stores the list of FlatPreds used in the current evaluation. */
   protected List<FlatPred> predlist_ = new ArrayList<FlatPred>();
   
@@ -244,6 +247,32 @@ public class FlatPredList
     catch (CommandException exception) {
       throw new EvalException(exception);
     }
+  }
+
+  /** Infer bounds for any integer variables.
+   *  See FlatPred.inferBounds(Bounds bnds);
+   *  <p>
+   *  This does upto inferPasses_ passes over all the predicates
+   *  in the list (it stops if a fixed point is found earlier).
+   *  </p>
+   *  @param bnds  The database of lower and upper bounds for integer variables.
+   *  @return      true iff the bnds database has been changed at all.
+   */
+  public boolean inferBounds(Bounds bnds)
+  {
+    // bnds has changed during this method
+    boolean anyChange = false;
+    // bnds has changed during most recent pass of predlist_
+    boolean recentChange = true;
+    for (int i = 0; recentChange && i < inferPasses_; i++) {
+      recentChange = false;
+      for (FlatPred pred : predlist_) {
+        if (pred.inferBounds(bnds))
+          recentChange = true;
+      }
+      anyChange |= recentChange;
+    }
+    return anyChange;
   }
 
   /** Optimises the list and chooses a mode.

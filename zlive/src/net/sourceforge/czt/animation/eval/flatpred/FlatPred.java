@@ -94,6 +94,25 @@ public abstract class FlatPred extends PredImpl
     return new HashSet<ZRefName>(args);
   }
 
+  /** Infer bounds for any integer variables.
+   *  This analyzes the possible range of values of each integer
+   *  variable used by this FlatPred, and reduces the range of values
+   *  if possible.  This is a kind of static analysis commonly used
+   *  in constraint solvers (bounds consistency).
+   *  For example, if y already has the range 10..20,
+   *  then the FlatPred x &lt; y would set the maximum value of x to 19.
+   *  
+   *  @param bnds  The database of lower and upper bounds for integer variables.
+   *  @return      true iff the bnds database has been changed.
+   *  <p>
+   *  The default implementation infers nothing and returns false.
+   *  </p>
+   */
+  public boolean inferBounds(Bounds bnds)
+  {
+    return false;
+  }
+  
   /** Choose the mode that this predicate could use in this environment.
       The result is null if no evaluation is possible.
       Otherwise, the resulting Mode object contains an updated

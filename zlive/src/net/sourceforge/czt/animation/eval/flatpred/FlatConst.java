@@ -33,15 +33,27 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
 /** FlatPlus implements the var = const predicate. */
 public class FlatConst extends FlatPred
 {
-  protected Expr constant;
+  protected Expr constant_;
   private Factory factory_ = new Factory();
   
   public FlatConst(ZRefName a, Expr b)
   {
     args = new ArrayList<ZRefName>(1);
     args.add(a);
-    constant = b;
+    constant_ = b;
     solutionsReturned = -1;
+  }
+
+  public boolean inferBounds(Bounds bnds)
+  {
+    boolean changed = false;
+    if (constant_ instanceof NumExpr) {
+      BigInteger val = ((NumExpr)constant_).getValue();
+      ZRefName name = args.get(0);
+      changed |= bnds.addLower(name,val);
+      changed |= bnds.addUpper(name,val);
+    }
+    return changed;
   }
 
   /** Chooses the mode in which the predicate can be evaluated.*/
@@ -52,7 +64,7 @@ public class FlatConst extends FlatPred
     // (note that when m!=null => args.get(0) is defined,
     //   but a null value means that its value is unknown)
     if (m != null && m.getEnvir().lookup(args.get(0)) == null)
-      m.getEnvir().setValue(args.get(0), constant);
+      m.getEnvir().setValue(args.get(0), constant_);
     return m;
   }
 
@@ -67,11 +79,11 @@ public class FlatConst extends FlatPred
       solutionsReturned++;
       if (evalMode_.isInput(0)) {
         Expr a = evalMode_.getEnvir().lookup(args.get(0));
-        if(a.equals(constant))
+        if(a.equals(constant_))
           result = true;
       }
       else {
-        evalMode_.getEnvir().setValue(args.get(0),constant);
+        evalMode_.getEnvir().setValue(args.get(0),constant_);
         result = true;
       }
     }
@@ -80,10 +92,10 @@ public class FlatConst extends FlatPred
   
   public String toString() {
     String val = "???";
-    if (constant != null)
-      val = constant.toString();
-    if (constant instanceof NumExpr) {
-      NumExpr numExpr = (NumExpr) constant;
+    if (constant_ != null)
+      val = constant_.toString();
+    if (constant_ instanceof NumExpr) {
+      NumExpr numExpr = (NumExpr) constant_;
       ZNumeral num = (ZNumeral) numExpr.getNumeral(); // TODO check this cast
       val = num.getValue().toString();
     }
@@ -98,7 +110,7 @@ public class FlatConst extends FlatPred
   {
     Object[] result = new Object[2];
     result[0] = args.get(0);
-    result[1] = constant;
+    result[1] = constant_;
     return result;
   }
 

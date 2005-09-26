@@ -21,6 +21,7 @@ package net.sourceforge.czt.animation.eval.flatpred;
 import java.util.List;
 import java.util.ArrayList;
 import java.math.*;
+
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
@@ -52,7 +53,26 @@ public class FlatLessThanEquals extends FlatPred
     args = newargs;
     solutionsReturned = -1;
   }
-  
+
+  public boolean inferBounds(Bounds bnds)
+  {
+    boolean changed = false;
+    ZRefName left = args.get(0);
+    ZRefName right = args.get(1);
+
+    // propagate upper bound from right to left.
+    BigInteger rmax = bnds.getUpper(right);
+    if (rmax != null)
+      changed |= bnds.addUpper(left, rmax);
+
+    // propagate lower bound from left to right.
+    BigInteger lmin = bnds.getLower(left);
+    if (lmin != null)
+      changed |= bnds.addLower(right, lmin);
+
+    return changed;
+  }
+
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {

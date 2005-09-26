@@ -86,12 +86,18 @@ public class Bounds implements Cloneable
    *  
    * @param var   The name of an integer variable.
    * @param lower The lower bound (must be non-null).
+   * @return      true iff the bound has changed (ie. is tighter).
    */
-  public void addLower(ZRefName var, /*@non_null@*/BigInteger lower)
+  public boolean addLower(ZRefName var, /*@non_null@*/BigInteger lower)
   {
+    assert lower != null;
     BigInteger old = lowerBound.get(var);
-    if (old == null || lower.compareTo(old) > 0)
+    if (old == null || lower.compareTo(old) > 0) {
       lowerBound.put(var, lower);
+      return true;
+    }
+    else
+      return false;
   }
   
   /** Adds another upper bound for var.
@@ -101,11 +107,17 @@ public class Bounds implements Cloneable
    *  
    * @param var   The name of an integer variable.
    * @param upper The upper bound (must be non-null).
+   * @return      true iff the bound has changed (ie. is tighter).
    */
-  public void addUpper(ZRefName var, /*@non_null@*/BigInteger upper)
+  public boolean addUpper(ZRefName var, /*@non_null@*/BigInteger upper)
   {
+    assert upper != null;
     BigInteger old = upperBound.get(var);
-    if (old == null || upper.compareTo(old) < 0)
+    if (old == null || upper.compareTo(old) < 0) {
       upperBound.put(var, upper);
+      return true;
+    }
+    else
+      return false;
   }
 }

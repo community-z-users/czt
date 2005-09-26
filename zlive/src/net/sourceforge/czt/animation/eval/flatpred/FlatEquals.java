@@ -21,6 +21,7 @@ package net.sourceforge.czt.animation.eval.flatpred;
 import java.util.List;
 import java.util.ArrayList;
 import java.math.*;
+
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
@@ -50,6 +51,34 @@ public class FlatEquals extends FlatPred
       throw new IllegalArgumentException("FlatEquals requires 2 args");
     args = newargs;
     solutionsReturned = -1;
+  }
+
+  /** Copies integer bounds from each arg to the other. */
+  public boolean inferBounds(Bounds bnds)
+  {
+    boolean changed = false;
+    ZRefName left = args.get(0);
+    ZRefName right = args.get(1);
+
+    // get all existing bounds, BEFORE we start adding bounds.
+    BigInteger lmin = bnds.getLower(left);
+    BigInteger lmax = bnds.getUpper(left);
+    BigInteger rmin = bnds.getLower(right);
+    BigInteger rmax = bnds.getUpper(right);
+
+    // propagate bounds from left to right.
+    if (lmin != null)
+      changed |= bnds.addLower(right, lmin);
+    if (lmax != null)
+      changed |= bnds.addUpper(right, lmax);
+
+    // propagate bounds from right to left.
+    if (rmin != null)
+      changed |= bnds.addLower(left, rmin);
+    if (rmax != null)
+      changed |= bnds.addUpper(left, rmax);
+
+    return changed;
   }
 
   /** Chooses the mode in which the predicate can be evaluated.*/
