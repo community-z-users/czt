@@ -116,8 +116,9 @@ public class PrecedenceHandlingVisitor
       RefName childName = wChild.getRefName();
       Expr newParent = null;
       if (wChild.getExpr() instanceof ApplExpr) {
+        ZExprList zExprList = factory_.createZExprList();
         RefExpr refExpr =
-          factory_.createRefExpr(childName, new ArrayList(), Boolean.FALSE);
+          factory_.createRefExpr(childName, zExprList, Boolean.FALSE);
         TupleExpr tupleExpr =
           factory_.createTupleExpr(factory_.createZExprList());
         newParent =
@@ -127,8 +128,8 @@ public class PrecedenceHandlingVisitor
         newParent = factory_.createProdExpr(factory_.createZExprList());
       }
       else {
-        newParent =
-          factory_.createRefExpr(childName, new ArrayList(), Boolean.TRUE);
+        ZExprList zExprList = factory_.createZExprList();
+        newParent = factory_.createRefExpr(childName, zExprList, Boolean.TRUE);
       }
 
       if (hasParenAnn(wExpr.getExpr())) {
@@ -139,22 +140,24 @@ public class PrecedenceHandlingVisitor
       RefName parentName = wExpr.getRefName();
       Expr newChild = null;
       if (wExpr.getExpr() instanceof ApplExpr) {
+        ZExprList zExprList = factory_.createZExprList();
         RefExpr refExpr = factory_.createRefExpr(parentName,
-                                                  new ArrayList(),
-                                                  Boolean.FALSE);
+                                                 zExprList,
+                                                 Boolean.FALSE);
         TupleExpr tupleExpr =
           factory_.createTupleExpr(factory_.createZExprList());
         newChild = factory_.createApplExpr(refExpr,
-                                            tupleExpr,
-                                            Boolean.TRUE);
+                                           tupleExpr,
+                                           Boolean.TRUE);
       }
       else if (wExpr.getExpr() instanceof ProdExpr) {
         newChild = factory_.createProdExpr(factory_.createZExprList());
       }
       else {
+        ZExprList zExprList = factory_.createZExprList();
         newChild = factory_.createRefExpr(parentName,
-                                           new ArrayList(),
-                                           Boolean.TRUE);
+                                          zExprList,
+                                          Boolean.TRUE);
       }
 
       //the next block creates the new parent and child. This is
@@ -374,9 +377,9 @@ class WrappedExpr
     if (o instanceof ApplExpr) {
       applExpr_ = (ApplExpr) o;
       if (! (applExpr_.getRightExpr() instanceof TupleExpr)) {
-        List list = new ArrayList();
-        list.add(applExpr_.getRightExpr());
-        TupleExpr te = factory_.createTupleExpr(list);
+        ZExprList zExprList = factory_.createZExprList();
+        zExprList.add(applExpr_.getRightExpr());
+        TupleExpr te = factory_.createTupleExpr(zExprList);
         applExpr_.setRightExpr(te);
       }
     }

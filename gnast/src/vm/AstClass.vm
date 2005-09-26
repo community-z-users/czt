@@ -69,7 +69,7 @@ import ${project.VisitorPackage}.${class.Name}Visitor;
 
 public class ${class.ImplName}
   extends java.util.AbstractList<${type}>
-  implements ${class.Name}, ListTerm<${type}>
+  implements ${class.Name}
 {
   /**
    * The list containing the data.

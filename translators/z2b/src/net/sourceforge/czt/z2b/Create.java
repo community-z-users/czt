@@ -94,10 +94,12 @@ public class Create
 
   /** Creates a RefExpr to a given Name */
   public static RefExpr refExpr(ZDeclName n) {
-    return factory_.createRefExpr(refName(n), new ArrayList(), Boolean.FALSE);
+    ZExprList zExprList = factory_.createZExprList();
+    return factory_.createRefExpr(refName(n), zExprList, Boolean.FALSE);
   }
   public static RefExpr refExpr(ZRefName n) {
-    return factory_.createRefExpr(refName(n), new ArrayList(), Boolean.FALSE);
+    ZExprList zExprList = factory_.createZExprList();
+    return factory_.createRefExpr(refName(n), zExprList, Boolean.FALSE);
   }
 
 

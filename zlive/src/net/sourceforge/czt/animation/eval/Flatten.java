@@ -441,7 +441,7 @@ public class Flatten
       }
       else {
         // Make a real tuple!
-        List<Expr> refExprs = new ArrayList<Expr>();
+        ZExprList refExprs = zlive_.getFactory().createZExprList();
         for (ZDeclName name : names) {
           ZRefName tmpName = zlive_.getFactory().createZRefName(name);
           refExprs.add(zlive_.getFactory().createRefExpr(tmpName));

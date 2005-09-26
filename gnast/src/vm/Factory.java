@@ -32,11 +32,6 @@
     return createApplExpr(createRefExpr(refName), expr, Boolean.FALSE);
   }
 
-  public BindExpr createBindExpr(java.util.List<? extends Decl> list)
-  {
-    return createBindExpr(createZDeclList(list));
-  }
-
   /**
    * Creates a ZDeclName with the given word and strokes and
    * id set to <code>null</code>.
@@ -106,7 +101,9 @@
    */
   public MemPred createEquality(Expr left, Expr right)
   {
-    return createMemPred(left, createSetExpr(list(right)), Boolean.TRUE);
+    ZExprList zExprList = createZExprList();
+    zExprList.add(right);
+    return createMemPred(left, createSetExpr(zExprList), Boolean.TRUE);
   }
 
   /**
@@ -127,7 +124,8 @@
   public RefExpr createGenInst(RefName refName,
                                java.util.List<? extends Expr> exprs)
   {
-    return createRefExpr(refName, exprs, Boolean.FALSE);
+    ZExprList zExprList = createZExprList(exprs);
+    return createRefExpr(refName, zExprList, Boolean.FALSE);
   }
 
   /**
@@ -138,13 +136,8 @@
   public RefExpr createGenOpApp(RefName refName,
                                 java.util.List<? extends Expr> exprs)
   {
-    return createRefExpr(refName, exprs, Boolean.TRUE);
-  }
-
-  public HideExpr createHideExpr(Expr expr,
-                                 java.util.List<? extends RefName> list)
-  {
-    return createHideExpr(expr, createZRefNameList(list));
+    ZExprList zExprList = createZExprList(exprs);
+    return createRefExpr(refName, zExprList, Boolean.TRUE);
   }
 
   /**
@@ -222,11 +215,6 @@
     return createProdExpr(createZExprList(list(left, right)));
   }
 
-  public ProdExpr createProdExpr(java.util.List<? extends Expr> list)
-  {
-    return createProdExpr(createZExprList(list));
-  }
-
   /**
    * Creates a reference (expression) to the given name.
    * The mixfix child of the returned reference expression
@@ -236,13 +224,6 @@
   public RefExpr createRefExpr(RefName refName)
   {
     return createRefExpr(refName, createZExprList(), Boolean.FALSE);
-  }
-
-  public RefExpr createRefExpr(RefName refName,
-                               java.util.List<? extends Expr> exprList,
-                               Boolean mixfix)
-  {
-    return createRefExpr(refName, createZExprList(exprList), mixfix);
   }
 
   /**
@@ -340,19 +321,13 @@
    */
   public SetExpr createSequence(java.util.List<? extends Expr> exprList)
   {
-    java.util.List<Expr> tupleList =
-      new java.util.ArrayList<Expr>(exprList.size());
+    ZExprList zExprList = createZExprList();
     int count = 1;
     for (java.util.Iterator<? extends Expr> i = exprList.iterator();
          i.hasNext(); count++) {
-      tupleList.add(createTupleExpr(createNumExpr(count), i.next()));
+      zExprList.add(createTupleExpr(createNumExpr(count), i.next()));
     }
-    return createSetExpr(tupleList);
-  }
-
-  public SetExpr createSetExpr(java.util.List<? extends Expr> exprList)
-  {
-    return createSetExpr(createZExprList(exprList));
+    return createSetExpr(zExprList);
   }
 
   /**
@@ -362,15 +337,4 @@
   public TupleExpr createTupleExpr(Expr left, Expr right)
   {
     return createTupleExpr(createZExprList(list(left, right)));
-  }
-
-  public TupleExpr createTupleExpr(java.util.List<? extends Expr> exprList)
-  {
-    return createTupleExpr(createZExprList(exprList));
-  }
-
-  public ZSchText createZSchText(java.util.List<? extends Decl> declList,
-                                 Pred pred)
-  {
-    return createZSchText(createZDeclList(declList), pred);
   }

@@ -41,6 +41,7 @@ import ${p.AstPackage}.*;
 #end
  */
 public interface ${class.Name} #if($class.Extends)extends ${class.Extends}
+#if(${class.isList()}), ListTerm<${class.getAllProperties().get(0).getListType()}>#end
 #end
 {
 #foreach($prop in $class.Properties)

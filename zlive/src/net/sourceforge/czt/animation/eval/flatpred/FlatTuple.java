@@ -117,7 +117,7 @@ public class FlatTuple extends FlatPred
       //In case the tuple is not defined in the env, a new tuple is formed and added to the env
       else {
         result = true;
-        List<Expr> exprList = new ArrayList<Expr>(args.size()-1);
+        ZExprList exprList = factory_.createZExprList();
         for(int i=0;i<args.size()-1;i++)
           exprList.add(evalMode_.getEnvir().lookup(args.get(i)));
         Expr tupleExpr = factory_.createTupleExpr(exprList);
