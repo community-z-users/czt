@@ -1415,7 +1415,7 @@
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
-          <xs:element ref="Z:DeclName" minOccurs="1" maxOccurs="unbounded">
+          <xs:element ref="Z:DeclName" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property name="GenFormals"/>
@@ -1438,7 +1438,9 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:ChannelSet">
         <xs:sequence>
-          <xs:element ref="Z:RefName" minOccurs="0" maxOccurs="unbounded"/>
+          <!-- Changed to accommodate Z.xsd updates -->
+          <!-- <xs:element ref="Z:RefName" minOccurs="0" maxOccurs="unbounded"/> -->
+          <xs:element ref="Z:RefNameList"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1504,8 +1506,11 @@
   <xs:complexType name="ProcessD">
     <xs:complexContent>
       <xs:extension base="CIRCUS:Process1">
-        <xs:sequence>
-          <xs:element ref="Z:Decl" minOccurs="1" maxOccurs="unbounded"/>
+        <xs:sequence>        
+          <!-- Accommodate Z.xsd changes: using Z Standard DeclPart from (12.7.2)
+          <xs:element ref="Z:Decl" minOccurs="1" maxOccurs="unbounded"/> 
+          -->
+          <xs:element ref="Z:DeclList"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1622,8 +1627,12 @@
       <xs:extension base="CIRCUS:CircusProcess">
         <xs:sequence>          
           <xs:element ref="Z:RefName"/>
+          <!-- Accommodate Z.xsd changes to use ExprList (Z Standard 12.2.12) 
           <xs:element name="Actuals" type="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>
           <xs:element name="GenActuals" type="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>
+          -->
+          <xs:element name="Actuals" type="Z:ExprList"/>
+          <xs:element name="GenActuals" type="Z:ExprList"/>
         </xs:sequence>
         <xs:attribute name="CallType" type="CIRCUS:CallType" use="optional" default="Normal"/>
       </xs:extension>
@@ -1682,8 +1691,11 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:Process1">
         <xs:sequence>                   
+          <!-- Accommodate Z.xsd changes: RenameList 
           <xs:element name="OldNames" type="Z:RefName" minOccurs="1" maxOccurs="unbounded"/>                      
           <xs:element name="NewNames" type="Z:RefName" minOccurs="1" maxOccurs="unbounded"/>
+          -->
+          <xs:element ref="Z:RenameList"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1728,35 +1740,35 @@
     </xs:complexContent>
   </xs:complexType> 
 
-  <!-- Process Definition :: Expressions -->
+  <!-- Process Definition :: Expressions -->  
   
   <!--
   <xs:complexType name="ProcessE">
     <xs:complexContent>
       <xs:extension base="CIRCUS:CircusProcess">
-        <xs:sequence>
-          <xs:element ref="Z:Expr" minOccurs="1" maxOccurs="unbounded"/>
+        <xs:sequence>          
+          <xs:element ref="Z:Expr" minOccurs="1" maxOccurs="unbounded"/>          
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>    
   <xs:complexType name="ActualParamProcess">
-        <xs:complexContent>
-            <xs:extension base="CIRCUS:ProcessE">
-                <xs:sequence>
-                    <xs:element ref="CIRCUS:ParamProcessDesc"/>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:ProcessE">
+        <xs:sequence>
+          <xs:element ref="CIRCUS:ParamProcessDesc"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="InstantiationProcess">
-        <xs:complexContent>
-            <xs:extension base="CIRCUS:ProcessE">
-                <xs:sequence>
-                    <xs:element ref="CIRCUS:IndexedProcessDesc"/>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:ProcessE">
+        <xs:sequence>
+          <xs:element ref="CIRCUS:IndexedProcessDesc"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>    
   -->
   
@@ -1826,7 +1838,8 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:NameSet">
         <xs:sequence>
-          <xs:element ref="Z:RefName" minOccurs="0" maxOccurs="unbounded"/>
+          <!-- <xs:element ref="Z:RefName" minOccurs="0" maxOccurs="unbounded"/> -->
+          <xs:element ref="Z:RefNameList"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1891,8 +1904,11 @@
   <xs:complexType name="ActionD">
     <xs:complexContent>
       <xs:extension base="CIRCUS:Action1">
-        <xs:sequence>
-          <xs:element ref="Z:Decl" minOccurs="1" maxOccurs="unbounded"/>
+        <xs:sequence>        
+          <!-- Accommodate Z.xsd changes: using Z Standard DeclPart from (12.7.2)
+          <xs:element ref="Z:Decl" minOccurs="1" maxOccurs="unbounded"/> 
+          -->
+          <xs:element ref="Z:DeclList"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1931,7 +1947,10 @@
       <xs:extension base="CIRCUS:CircusAction">
         <xs:sequence>
           <xs:element ref="Z:RefName"/>
+          <!-- Accommodate Z.xsd changes to use ExprList (Z Standard 12.2.12) 
           <xs:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>                  
+          -->
+          <xs:element ref="Z:ExprList"/>
         </xs:sequence>
         <xs:attribute name="CallType" type="CIRCUS:CallType" use="optional" default="Normal"/>
       </xs:extension>
@@ -1950,7 +1969,7 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:CircusAction">
         <xs:sequence>
-          <xs:element ref="CIRCUS:ParamActionDesc"/>
+          <xs:element ref="CIRCUS:ParamActionDesc"/>          
           <xs:element ref="Z:Expr" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
@@ -1999,8 +2018,11 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:Action1">
         <xs:sequence>                   
+          <!-- Accommodate Z.xsd changes:
           <xs:element name="OldNames" type="Z:RefName" minOccurs="1" maxOccurs="unbounded"/>
           <xs:element name="NewNames" type="Z:RefName" minOccurs="1" maxOccurs="unbounded"/>
+          -->
+          <xs:element ref="Z:RenameList"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2087,7 +2109,8 @@
       <xs:extension base="Z:TermA">
         <xs:sequence>
           <xs:element name="ChanName" type="Z:RefName"/>
-          <xs:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded">
+          <!-- <xs:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"> -->
+          <xs:element ref="Z:ExprList">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property name="GenActuals"/>
@@ -2134,7 +2157,7 @@
       <xs:extension base="CIRCUS:Field">
         <xs:sequence>
           <xs:element name="Variable" type="Z:RefName"/>
-          <xs:element ref="Z:Pred" minOccurs="0">
+          <xs:element ref="Z:Pred">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property name="Restriction"/>
@@ -2195,7 +2218,8 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:CircusCommand">
         <xs:sequence>
-          <xs:element name="Frame" type="Z:RefName" minOccurs="1" maxOccurs="unbounded"/>
+          <!-- <xs:element name="Frame" type="Z:RefName" minOccurs="1" maxOccurs="unbounded"/> -->
+          <xs:element name="Frame" type="Z:RefNameList"/>
           <xs:element ref="Z:Pred">
             <xs:annotation>
               <xs:appinfo>
@@ -2218,14 +2242,16 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:CircusCommand">
         <xs:sequence>                  
-          <xs:element ref="Z:RefName" minOccurs="1" maxOccurs="unbounded">
+          <!-- <xs:element ref="Z:RefName" minOccurs="1" maxOccurs="unbounded"> -->
+          <xs:element ref="Z:RefNameList">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property name="LHS"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>      
-          <xs:element ref="Z:Expr" minOccurs="1" maxOccurs="unbounded">
+          <!-- <xs:element ref="Z:Expr" minOccurs="1" maxOccurs="unbounded"> -->
+          <xs:element ref="Z:ExprList">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property name="RHS"/>
