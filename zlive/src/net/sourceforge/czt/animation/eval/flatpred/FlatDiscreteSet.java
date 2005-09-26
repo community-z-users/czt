@@ -98,16 +98,22 @@ implements EvalSet
   }
 
   /** Iterate through all members of the set.
-  *  It guarantees that there will be no duplicates.
+  *   It guarantees that there will be no duplicates.
+  *   Note: this method must only be called AFTER
+  *   nextEvaluation(), because all free variables of the
+  *   set must be instantiated before we can enumerate the members
+  *   of the set.
   *
   * @return an Iterator object.
   */
   public Iterator<Expr> members() {
+    assert solutionsReturned > 0;
     if(iterateSet_ == null) {
       iterateSet_ = new HashSet<Expr>();
       Envir env = evalMode_.getEnvir();
       for (ZRefName var : vars_) {
         Expr value = (Expr)env.lookup(var);
+        assert value != null;
         iterateSet_.add(value);
       }
     }
@@ -140,13 +146,15 @@ implements EvalSet
   }
 
   /** Tests for membership of the set.
-  * @param e  The fully evaluated expression.
-  * @return   true iff e is a member of the set.
-  */
+   *  This can only be called AFTER nextEvaluation().
+   *   
+   * @param e  The fully evaluated expression.
+   * @return   true iff e is a member of the set.
+   */
   public boolean isMember(/*@non_null@*/Expr e)
   {
     assert (e != null);
-    assert (evalMode_ != null);
+    assert solutionsReturned > 0;
     boolean result = false;
     Iterator<ZRefName> i = vars_.iterator();
     while( ! result && i.hasNext()) {
