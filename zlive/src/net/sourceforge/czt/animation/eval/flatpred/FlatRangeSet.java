@@ -48,7 +48,7 @@ public class FlatRangeSet
   public FlatRangeSet(ZRefName lowerBound, ZRefName upperBound, ZRefName set)
   {
     args = new ArrayList();
-	args.add(lowerBound);
+    args.add(lowerBound);
     args.add(upperBound);
     args.add(set);
     solutionsReturned = -1;
