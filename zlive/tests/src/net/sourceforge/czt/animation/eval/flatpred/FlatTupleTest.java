@@ -105,7 +105,7 @@ public class FlatTupleTest
     Assert.assertTrue(pred.nextEvaluation());
     Assert.assertTrue(mode.getEnvir().lookup(z) instanceof TupleExpr);
     TupleExpr tupleExpr = (TupleExpr)mode.getEnvir().lookup(z);
-    List exprList = tupleExpr.getExpr();
+    List<Expr> exprList = tupleExpr.getZExprList();
     for(int i=0;i<exprList.size();i++)
       Assert.assertTrue(exprList.get(i) instanceof NumExpr);
     Assert.assertTrue(exprList.get(0).equals(i10));

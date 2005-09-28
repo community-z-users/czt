@@ -370,7 +370,8 @@ public class ExprChecker
           ClassRef renameThisClass =
             rename(classRefType.getThisClass(), renameExpr);
           List<DeclName> renamePrimary =
-            renamePrimary(classRefType.getPrimary(), renameExpr.getRenamings());
+            renamePrimary(classRefType.getPrimary(),
+                          renameExpr.getZRenameList());
           ClassRefType newRefType =
             factory().createClassRefType(renameClassSig,
                                          renameThisClass,

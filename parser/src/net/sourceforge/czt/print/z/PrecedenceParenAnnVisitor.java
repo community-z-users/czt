@@ -172,7 +172,8 @@ public class PrecedenceParenAnnVisitor
   {
     VisitorUtils.visitTerm(this, prodExpr);
     preservePrecedence(prodExpr);
-    for (Iterator iter = prodExpr.getExpr().iterator(); iter.hasNext(); ) {
+    for (Iterator iter = prodExpr.getZExprList().iterator();
+         iter.hasNext(); ) {
       Object child = iter.next();
       if (child instanceof ProdExpr) {
         addParenAnn((ProdExpr) child);

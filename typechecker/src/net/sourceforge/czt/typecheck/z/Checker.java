@@ -777,8 +777,8 @@ abstract public class Checker<R>
     else {
       if (leftExpr instanceof TupleExpr) {
         TupleExpr tupleExpr = (TupleExpr) leftExpr;
-        result.add(getType2FromAnns((Expr) tupleExpr.getExpr().get(0)));
-        result.add(getType2FromAnns((Expr) tupleExpr.getExpr().get(1)));
+        result.add(getType2FromAnns(tupleExpr.getZExprList().get(0)));
+        result.add(getType2FromAnns(tupleExpr.getZExprList().get(1)));
       }
       else {
         result.add(getType2FromAnns(leftExpr));

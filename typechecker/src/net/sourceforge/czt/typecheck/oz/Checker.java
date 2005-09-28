@@ -680,7 +680,7 @@ abstract public class Checker<R>
                                           RenameExpr renameExpr,
                                           String errorMessage)
   {
-    List<NewOldPair> renamePairs = renameExpr.getRenamings();
+    List<NewOldPair> renamePairs = renameExpr.getZRenameList();
     checkForDuplicateRenames(renamePairs, renameExpr,  errorMessage);
 
     List<NameTypePair> attrs = cSig.getAttribute();
@@ -1092,7 +1092,7 @@ abstract public class Checker<R>
   protected ClassRef rename(ClassRef classRef, RenameExpr renameExpr)
   {
     List<NewOldPair> cfPairs = classRef.getNewOldPair();
-    List<NewOldPair> rnPairs = renameExpr.getRenamings();
+    List<NewOldPair> rnPairs = renameExpr.getZRenameList();
     List<NewOldPair> newPairs = list();
     for (NewOldPair rnPair :rnPairs) {
       NewOldPair cfPair = findNewOldPair(rnPair.getZDeclName(), cfPairs);

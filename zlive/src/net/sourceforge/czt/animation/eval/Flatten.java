@@ -226,16 +226,16 @@ public class Flatten
     Expr rhs = p.getRightExpr();
     String rel = null;
     if (rhs instanceof SetExpr
-	&& ((SetExpr)rhs).getExpr().size() == 1) {
+	&& ((SetExpr)rhs).getZExprList().size() == 1) {
       // We have an equality
-      rhs = (Expr)((SetExpr)rhs).getExpr().get(0);
+      rhs = (Expr)((SetExpr)rhs).getZExprList().get(0);
       flat_.add(new FlatEquals(lhs.accept(this), rhs.accept(this)));
       return null;
     }
     else if ((rel=binaryRelation(rhs)) != null
 	     && lhs instanceof TupleExpr
-	     && ((TupleExpr)lhs).getExpr().size() == 2) {
-      List<Expr> tuple = ((TupleExpr)lhs).getExpr();
+	     && ((TupleExpr)lhs).getZExprList().size() == 2) {
+      List<Expr> tuple = ((TupleExpr)lhs).getZExprList();
       ZRefName left = tuple.get(0).accept(this);
       ZRefName right = tuple.get(1).accept(this);
       if (rel.equals(ZString.ARG_TOK+ZString.LESS+ZString.ARG_TOK))
@@ -306,11 +306,11 @@ public class Flatten
 
   /** Simple RefExpr objects are returned unchanged. */
   public ZRefName visitRefExpr(RefExpr e) {
-    if (e.getExpr().size() != 0)
+    if (e.getZExprList().size() != 0)
       return notYet(e, "generic");
     // Try to unfold this name via a (non-generic) definition.
     DefinitionTable.Definition def = table_.lookup(e.getRefName().toString());
-    if (def != null && def.getDeclNames().size() == e.getExpr().size()) {
+    if (def != null && def.getDeclNames().size() == e.getZExprList().size()) {
       Expr newExpr = def.getExpr();
       return newExpr.accept(this);      
     }
@@ -333,7 +333,7 @@ public class Flatten
     ZRefName result = zlive_.createNewName();
 
     if (arg instanceof TupleExpr)
-      argList = ((TupleExpr) arg).getExpr();
+      argList = ((TupleExpr) arg).getZExprList();
 
     if (func instanceof RefExpr
         && ((RefExpr) func).getZRefName().getStroke().size() == 0) {
@@ -418,7 +418,7 @@ public class Flatten
   
   public ZRefName visitSetExpr(SetExpr e) 
   {
-    ArrayList<ZRefName> refnames = flattenExprList(e.getExpr());
+    ArrayList<ZRefName> refnames = flattenExprList(e.getZExprList());
     ZRefName result = zlive_.createNewName();
     flat_.add(new FlatDiscreteSet(refnames, result));
     return result;
@@ -427,7 +427,7 @@ public class Flatten
   public ZRefName visitSetCompExpr(SetCompExpr e) {
     ZRefName result = zlive_.createNewName();
     ZSchText text = e.getZSchText();
-    List<Decl> decls = text.getDecl();
+    List<Decl> decls = text.getZDeclList();
     Pred pred = text.getPred();
     Expr expr = e.getExpr();
     if (expr == null) {
@@ -459,7 +459,7 @@ public class Flatten
   }
 
   public ZRefName visitTupleExpr(TupleExpr e) {
-    ArrayList<ZRefName> refnames = flattenExprList(e.getExpr());
+    ArrayList<ZRefName> refnames = flattenExprList(e.getZExprList());
     ZRefName result = zlive_.createNewName();
     flat_.add(new FlatTuple(refnames, result));
     return result;
@@ -469,7 +469,7 @@ public class Flatten
   {
     List<ZDeclName> names = new ArrayList<ZDeclName>();
     List<ZRefName>  exprs = new ArrayList<ZRefName>();
-    for (Decl decl : e.getDecl()) {
+    for (Decl decl : e.getZDeclList()) {
       ConstDecl constDecl = (ConstDecl) decl;
       names.add(constDecl.getZDeclName());
       exprs.add(constDecl.getExpr().accept(this)); // recursive flatten
@@ -483,7 +483,7 @@ public class Flatten
   public ZDeclList visitZDeclList(ZDeclList declList)
   {
     // TODO: clean up the types here.  Can we avoid the casts?
-    List<Decl> declList2 = (List<Decl>) declList.getDecl().accept(this);
+    List<Decl> declList2 = (List<Decl>) declList.getZDeclList().accept(this);
     return zlive_.getFactory().createZDeclList(declList2);
   }
   */

@@ -98,7 +98,7 @@ public class ExprChecker
 
     //get an existing parameter annotations
     ParameterAnn pAnn = (ParameterAnn) refExpr.getAnn(ParameterAnn.class);
-    List<Expr> exprs = refExpr.getExpr();
+    List<Expr> exprs = refExpr.getZExprList();
 
     //if it is a generic type, but has not been declared in the
     //current paragraph, we must instantiate the optional type
@@ -242,7 +242,7 @@ public class ExprChecker
     List<Type2> types = list();
 
     //get and visit the list of expressions
-    List<Expr> exprs = prodExpr.getExpr();
+    List<Expr> exprs = prodExpr.getZExprList();
     int position = 1;
     for (Expr expr : exprs) {
       Type2 nestedType = expr.accept(exprChecker());
@@ -270,7 +270,7 @@ public class ExprChecker
   public Type2 visitSetExpr(SetExpr setExpr)
   {
     //get the inner expressions
-    List<Expr> exprs = setExpr.getExpr();
+    List<Expr> exprs = setExpr.getZExprList();
 
     //first try to get the inner type from the annotation in case this
     //expression has already been visited
@@ -418,7 +418,7 @@ public class ExprChecker
     List<Type2> types = list();
 
     //get the types of the individual elements
-    List<Expr> exprs = tupleExpr.getExpr();
+    List<Expr> exprs = tupleExpr.getZExprList();
     for (Expr expr : exprs) {
       Type2 innerType = expr.accept(exprChecker());
       types.add(innerType);
@@ -887,7 +887,7 @@ public class ExprChecker
       SchemaType hideSchemaType = factory().createSchemaType();
       if (!instanceOf(signature, VariableSignature.class)) {
         Signature hideSig =
-          createHideSig(signature, hideExpr.getName(), hideExpr);
+          createHideSig(signature, hideExpr.getZRefNameList(), hideExpr);
         checkForDuplicates(hideSig.getNameTypePair(), hideExpr);
         hideSchemaType.setSignature(hideSig);
       }
@@ -1150,7 +1150,7 @@ public class ExprChecker
       if (!instanceOf(signature, VariableSignature.class)) {
         String errorMessage =
           ErrorMessage.DUPLICATE_NAME_IN_RENAMEEXPR.toString();
-	List<NewOldPair> renamePairs = renameExpr.getRenamings();
+	List<NewOldPair> renamePairs = renameExpr.getZRenameList();
         Signature newSig = createRenameSig(signature, renamePairs,
                                            renameExpr, errorMessage);
         checkForDuplicates(newSig.getNameTypePair(), renameExpr);

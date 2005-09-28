@@ -41,9 +41,12 @@ import ${p.AstPackage}.*;
 #end
  */
 public interface ${class.Name} #if($class.Extends)extends ${class.Extends}
-#if(${class.isList()}), ListTerm<${class.getAllProperties().get(0).getListType()}>#end
+#if(${class.isList()}), java.util.List<${class.getAllProperties().get(0).getListType()}>#end
 #end
 {
+#if(${class.isList()})
+  ${class.Name} ${class.getAllProperties().get(0).GetterName}();
+#else
 #foreach($prop in $class.Properties)
 
 #set($doc="${class.Name}.${prop.Name}")
@@ -68,6 +71,19 @@ public interface ${class.Name} #if($class.Extends)extends ${class.Extends}
    * @return the ${prop.Name} element.
    */
   ${prop.Type.FullName} ${prop.GetterName}();
+
+#if(${prop.Type.Name} == 'ExprList' || ${prop.Type.Name} == 'RenameList' || ${prop.Type.Name} == 'RefNameList' || ${prop.Type.Name} == 'DeclList')
+#if(${prop.GetterName} == "get${prop.Type.Name}")
+
+  /**
+   * This is a convenience method.
+   * It returns a Z${prop.Type.Name} if #${prop.GetterName}
+   * returns an instance of Z${prop.Type.Name}
+   * and throws an UnsupportedAstClassException otherwise.
+   */
+  Z${prop.Type.Name} getZ${prop.Type.Name}();
+#end
+#end
 #end
 #if(! (${prop.isList()}))
 
@@ -82,5 +98,6 @@ public interface ${class.Name} #if($class.Extends)extends ${class.Extends}
 #end
 #if($class.AdditionalCodeFilename)
 #include($class.AdditionalCodeFilename)
+#end
 #end
 }

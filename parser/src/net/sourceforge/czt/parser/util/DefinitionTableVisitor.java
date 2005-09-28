@@ -89,9 +89,9 @@ public class DefinitionTableVisitor
   {
     List declNames = axPara.getDeclName();
     ZSchText schText = axPara.getZSchText();
-    List decls = schText.getDecl();
-    for (Iterator iter = decls.iterator(); iter.hasNext(); ) {
-      Decl decl = (Decl) iter.next();
+    List<Decl> decls = schText.getZDeclList();
+    for (Iterator<Decl> iter = decls.iterator(); iter.hasNext(); ) {
+      Decl decl = iter.next();
       if (decl instanceof ConstDecl) {
         ConstDecl constDecl = (ConstDecl) decl;
         DeclName declName = constDecl.getDeclName();

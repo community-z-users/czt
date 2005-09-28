@@ -157,7 +157,7 @@ public class PostChecker
           return added ? errorAnn : null;
         }
       }
-      refExpr.getExpr().addAll(exprs);
+      refExpr.getZExprList().addAll(exprs);
       removeAnn(refExpr, pAnn);
     }
     return null;

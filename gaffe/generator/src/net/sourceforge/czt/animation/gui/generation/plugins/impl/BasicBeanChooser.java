@@ -72,7 +72,7 @@ public final class BasicBeanChooser implements BeanChooser {
     else if(typeExpr instanceof PowerExpr) {
       PowerExpr powerExpr=(PowerExpr)typeExpr;
       if(powerExpr.getExpr() instanceof ProdExpr)
-	if(((ProdExpr)powerExpr.getExpr()).getExpr().size()==2)
+	if(((ProdExpr)powerExpr.getExpr()).getZExprList().size()==2)
 	  return chooseTableBean(new RelationModel(), variableName, editable);
 	else
 	  return chooseTableBean(new TupleSetModel(), variableName, editable);

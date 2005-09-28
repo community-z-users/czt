@@ -68,10 +68,10 @@ public class FlatTupleSel extends FlatPred
 	if ( ! (expr instanceof TupleExpr))
 	  throw new EvalException("Tuple selection cannot handle non-tuple: " + expr);
 	TupleExpr tuple = (TupleExpr) expr;
-	int size = tuple.getExpr().size();
+	int size = tuple.getZExprList().size();
 	if (size < selection)
 	  throw new CztException("Badly typed tuple selection: " + size);
-	Expr selected = tuple.getExpr().get(selection - 1);
+	Expr selected = tuple.getZExprList().get(selection - 1);
 
 	if (evalMode_.isInput(1)) {
 	  // Now check selected against the output

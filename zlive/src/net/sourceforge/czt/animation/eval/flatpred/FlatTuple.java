@@ -92,7 +92,7 @@ public class FlatTuple extends FlatPred
       //The case where the tuple itself is an input
       if(evalMode_.isInput(args.size()-1)) {
         Expr tupleExpr = evalMode_.getEnvir().lookup(tupleName);
-        List memberList = ((TupleExpr)tupleExpr).getExpr();
+        List<Expr> memberList = ((TupleExpr)tupleExpr).getZExprList();
         //no. of elements in env.tuple should be same as that passed as inputs
         if(memberList.size() == args.size()-1) {
           boolean flag = true;
@@ -101,11 +101,11 @@ public class FlatTuple extends FlatPred
 	    Object value = evalMode_.getEnvir().lookup(elem);
             //if value of elem is unknown (null), we do envir(elem) := value from tuple
             if(value == null) {
-              evalMode_.getEnvir().setValue(elem,(Expr)memberList.get(i));
+              evalMode_.getEnvir().setValue(elem, memberList.get(i));
             }
             else {
               // value is known, so check it is equal to value in tuple
-              if ( ! (value.equals((Expr)memberList.get(i))))
+              if ( ! (value.equals(memberList.get(i))))
                 flag = false;
             }
           }

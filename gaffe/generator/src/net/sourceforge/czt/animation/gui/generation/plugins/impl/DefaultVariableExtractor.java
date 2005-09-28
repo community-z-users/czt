@@ -63,7 +63,8 @@ public final class DefaultVariableExtractor implements VariableExtractor {
    */
   private Map/*<DeclName, VarDecl>*/ getXVariables(ConstDecl/*<SchExpr>*/ schema, Class clazz) {
     Map results/*<DeclName, VarDecl>*/=new HashMap/*<DeclName, VarDecl>*/();
-    List declarations= ((SchExpr)schema.getExpr()).getZSchText().getDecl();
+    List declarations =
+      ((SchExpr)schema.getExpr()).getZSchText().getZDeclList();
     for(Iterator it=declarations.iterator();it.hasNext();) {
       VarDecl declaration;
       try {

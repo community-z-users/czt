@@ -421,7 +421,7 @@ class WrappedExpr
 
   public static boolean isValidWrappedExpr(RefExpr refExpr)
   {
-    boolean result = refExpr.getExpr().size() > 1 &&
+    boolean result = refExpr.getZExprList().size() > 1 &&
       refExpr.getMixfix().equals(Boolean.TRUE);
     return result;
   }
@@ -440,7 +440,7 @@ class WrappedExpr
       final Expr rightExpr = applExpr_.getRightExpr();
       if (rightExpr instanceof TupleExpr) {
         final TupleExpr tupleExpr = (TupleExpr) rightExpr;
-        final List<Expr> exprs = tupleExpr.getExpr();
+        final List<Expr> exprs = tupleExpr.getZExprList();
         if (exprs.size() == 1) {
           final Expr newRightExpr = exprs.get(0);
           applExpr_.setRightExpr(newRightExpr);
@@ -467,18 +467,18 @@ class WrappedExpr
     return result;
   }
 
-  public List getList()
+  public List<Expr> getList()
   {
-    List result = null;
+    List<Expr> result = null;
 
     if (refExpr_ != null) {
-      result = refExpr_.getExpr();
+      result = refExpr_.getZExprList();
     }
     else if (prodExpr_ != null) {
-      result = prodExpr_.getExpr();
+      result = prodExpr_.getZExprList();
     }
     else {
-      result = ((TupleExpr) applExpr_.getRightExpr()).getExpr();
+      result = ((TupleExpr) applExpr_.getRightExpr()).getZExprList();
     }
     return result;
   }

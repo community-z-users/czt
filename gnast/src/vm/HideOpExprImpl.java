@@ -3,7 +3,7 @@
    * It returns the list of RefName if the RefNameList is an instance of
    * ZRefNameList and throws an UnsupportedAstClassException otherwise.
    */
-  public net.sourceforge.czt.base.ast.ListTerm<RefName> getName()
+  public ZRefNameList getName()
   {
     RefNameList refNameList = getRefNameList();
     if (refNameList instanceof ZRefNameList) {

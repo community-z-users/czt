@@ -330,7 +330,7 @@ public class OpExprChecker
     //hide the declarations
     String errorMessage =
       ErrorMessage.DUPLICATE_NAME_IN_RENAMEOPEXPR.toString();
-    List<NewOldPair> renamePairs = renameOpExpr.getRenamings();
+    List<NewOldPair> renamePairs = renameOpExpr.getZRenameList();
     Signature signature = createRenameSig(renameSig, renamePairs,
                                           renameOpExpr, errorMessage);
     checkForDuplicates(signature.getNameTypePair(), renameOpExpr);

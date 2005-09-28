@@ -17,7 +17,7 @@
    * It returns the list of declarations if the ExprList is an instance of
    * ZExprList and throws an UnsupportedAstClassException otherwise.
    */
-  public net.sourceforge.czt.base.ast.ListTerm<Expr> getInheritedExpr()
+  public ZExprList getInheritedExpr()
   {
     ExprList exprList = getInheritedClass();
     if (exprList instanceof ZExprList) {

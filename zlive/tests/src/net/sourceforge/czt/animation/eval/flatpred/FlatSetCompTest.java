@@ -70,13 +70,13 @@ public class FlatSetCompTest
     }
     ZSchText text = setComp.getZSchText();
     set = new FlatSetComp(zlive,
-			  text.getDecl(),
+			  text.getZDeclList(),
 			  text.getPred(),
 			  setComp.getExpr(),
 			  s);
     text = emptySetComp.getZSchText();
     emptySet = new FlatSetComp(zlive,
-			       text.getDecl(),
+			       text.getZDeclList(),
 			       text.getPred(),
 			       emptySetComp.getExpr(),
 			       s);

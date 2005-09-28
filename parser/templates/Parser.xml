@@ -384,7 +384,7 @@ action code
       else if (t instanceof RefExpr) {
         RefExpr re = (RefExpr) t;
 
-        if (re.getExpr().size() > 0) {
+        if (re.getZExprList().size() > 0) {
           parser.report_error(ParseMessage.MSG_REFNAME_NO_PARAMS_EXPECTED,
                               new Object [0], getLocation(re));
         }
@@ -493,12 +493,12 @@ action code
       }
       else if (previousChain_ == Sym.EQUALS) {
         SetExpr se = (SetExpr) memPred.getRightExpr();
-        result = (Expr) se.getExpr().get(0);
+        result = se.getZExprList().get(0);
       }
       //previousChain_ == Sym.IP
       else {
         TupleExpr te = (TupleExpr) memPred.getLeftExpr();
-        result = (Expr) te.getExpr().get(1);
+        result = te.getZExprList().get(1);
       }
 
       return result;
@@ -3860,10 +3860,12 @@ baseType ::=
         {:
            if (lbt instanceof ProdExpr) {
              ProdExpr pt = (ProdExpr) lbt;
-             pt.getExpr().add(rbt);
+             pt.getZExprList().add(rbt);
            }
            else {
-             ZExprList zExprList = factory_.createZExprList(list(lbt, rbt));
+             ZExprList zExprList = factory_.createZExprList();
+             zExprList.add(lbt);
+             zExprList.add(rbt);
              RESULT = factory_.createProdExpr(zExprList);
            }
            addLocAnn(RESULT, lbtleft, lbtright);
@@ -3876,7 +3878,7 @@ baseType ::=
            addLocAnn(RESULT, lsqleft, lsqright);
         :}
         |
-        LSQUARE:lsq ARG RSQUARE /* schema type with empty signature */
+        LSQUARE:lsq RSQUARE /* schema type with empty signature */
         {:
            RESULT = factory_.createSchExpr();
            addLocAnn(RESULT, lsqleft, lsqright);

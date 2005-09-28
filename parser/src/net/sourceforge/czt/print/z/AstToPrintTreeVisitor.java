@@ -234,7 +234,7 @@ public class AstToPrintTreeVisitor
       }
       else {
         TupleExpr tuple = (TupleExpr) args;
-        argList.addAll(tuple.getExpr());
+        argList.addAll(tuple.getZExprList());
       }
       return createOperatorApplication(opName, argList);
     }
@@ -264,7 +264,8 @@ public class AstToPrintTreeVisitor
         list.add(ZString.RSQUARE);
       }
       ZSchText schText = axPara.getZSchText();
-      for (Iterator iter = schText.getDecl().iterator(); iter.hasNext();) {
+      for (Iterator<Decl> iter = schText.getZDeclList().iterator();
+           iter.hasNext();) {
         list.add(visit(iter.next()));
         if (iter.hasNext()) list.add(ZString.NL);
       }
@@ -279,7 +280,7 @@ public class AstToPrintTreeVisitor
       List declNameList = axPara.getDeclName();
       if (declNameList.size() > 0) {
         final SchText schText = axPara.getSchText();
-        final List decls = axPara.getZSchText().getDecl();
+        final List<Decl> decls = axPara.getZSchText().getZDeclList();
         final ConstDecl constDecl = (ConstDecl) decls.get(0);
         final ZDeclName declName = constDecl.getZDeclName();
         final OperatorName operatorName = declName.getOperatorName();
@@ -328,7 +329,7 @@ public class AstToPrintTreeVisitor
     else {
       list.add(ZString.SCH);
     }
-    List decls = axPara.getZSchText().getDecl();
+    List<Decl> decls = axPara.getZSchText().getZDeclList();
     ConstDecl cdecl = (ConstDecl) decls.get(0);
     String declName = cdecl.getZDeclName().getWord();
     if (declName == null) throw new CztException();
@@ -343,7 +344,8 @@ public class AstToPrintTreeVisitor
     }
     SchExpr schExpr = (SchExpr) cdecl.getExpr();
     ZSchText schText = schExpr.getZSchText();
-    for (Iterator iter = schText.getDecl().iterator(); iter.hasNext();) {
+    for (Iterator<Decl> iter = schText.getZDeclList().iterator();
+         iter.hasNext();) {
       list.add(visit(iter.next()));
       if (iter.hasNext()) list.add(ZString.NL);
     }
@@ -374,14 +376,14 @@ public class AstToPrintTreeVisitor
     boolean isEquality = mixfix && secondExpr instanceof SetExpr;
     if (isEquality) {
       SetExpr setExpr = (SetExpr) secondExpr;
-      if (setExpr.getExpr().size() != 1) {
+      if (setExpr.getZExprList().size() != 1) {
         String message = "Unexpected Mixfix == true.";
         throw new CannotPrintAstException(message);
       }
       List list = new ArrayList();
       list.add(firstExpr);
       list.add("=");
-      list.add(setExpr.getExpr().get(0));
+      list.add(setExpr.getZExprList().get(0));
       PrintPredicate result =
         new PrintPredicate(list, precedence, null);
       if (memPred.getAnn(ParenAnn.class) != null) {
@@ -425,7 +427,8 @@ public class AstToPrintTreeVisitor
       refExpr.getMixfix().booleanValue();
     if (isGenericOperatorApplication) {
       final OperatorName opName = refExpr.getZRefName().getOperatorName();
-      final ListTerm argList = (ListTerm) refExpr.getExpr().accept(this);
+      final ZExprList argList =
+        (ZExprList) refExpr.getZExprList().accept(this);
       // TODO: preserve ParenAnn annotations?
       return createOperatorApplication(opName, argList);
     }
@@ -590,7 +593,7 @@ public class AstToPrintTreeVisitor
           throw new CannotPrintAstException(message);
         }
         TupleExpr tuple = (TupleExpr) arguments;
-        args = tuple.getExpr();
+        args = tuple.getZExprList();
       }
     }
     int pos = 0;
@@ -607,21 +610,21 @@ public class AstToPrintTreeVisitor
           throw new CannotPrintAstException(message);
         }
         SetExpr setExpr = (SetExpr) arg;
-        List sequence = setExpr.getExpr();
-        for (Iterator i = sequence.iterator(); i.hasNext();) {
-          Object o = i.next();
+        List<Expr> sequence = setExpr.getZExprList();
+        for (Iterator<Expr> i = sequence.iterator(); i.hasNext();) {
+          Expr o = i.next();
           if (! (o instanceof TupleExpr)) {
             String message = "Expected TupleExpr but got " + o;
             throw new CannotPrintAstException(message);
           }
           TupleExpr tuple = (TupleExpr) o;
-          List tupleContents = tuple.getExpr();
+          List<Expr> tupleContents = tuple.getZExprList();
           if (tupleContents.size() != 2) {
             String message =
               "Expected tuple of size 2 but was " + tupleContents.size();
             throw new CannotPrintAstException(message);
           }
-          result.add(visit((Expr) tupleContents.get(1)));
+          result.add(visit(tupleContents.get(1)));
           if (i.hasNext()) result.add(ZString.COMMA);
         }
         pos++;

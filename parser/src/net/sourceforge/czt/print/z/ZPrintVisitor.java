@@ -413,7 +413,7 @@ public class ZPrintVisitor
     visit(hideExpr.getExpr());
     printKeyword(ZString.ZHIDE);
     print(Sym.LPAREN);
-    printTermList(hideExpr.getName());
+    printTermList(hideExpr.getZRefNameList());
     print(Sym.RPAREN);
     if (braces) print(Sym.RPAREN);
     return null;
@@ -858,7 +858,7 @@ public class ZPrintVisitor
   {
     final boolean braces = prodExpr.getAnn(ParenAnn.class) != null;
     if (braces) print(Sym.LPAREN);
-    printTermList(prodExpr.getExpr(), ZString.CROSS);
+    printTermList(prodExpr.getZExprList(), ZString.CROSS);
     if (braces) print(Sym.RPAREN);
     return null;
   }
@@ -891,9 +891,9 @@ public class ZPrintVisitor
     }
     else { // Mixfix == false
       visit(refExpr.getRefName());
-      if (refExpr.getExpr().size() > 0) {
+      if (refExpr.getZExprList().size() > 0) {
         print(Sym.LSQUARE);
-        printTermList(refExpr.getExpr());
+        printTermList(refExpr.getZExprList());
         print(Sym.RSQUARE);
       }
     }
@@ -941,7 +941,7 @@ public class ZPrintVisitor
     if (braces) print(Sym.LPAREN);
     visit(renameExpr.getExpr());
     print(Sym.LSQUARE);
-    printTermList(renameExpr.getRenamings());
+    printTermList(renameExpr.getZRenameList());
     print(Sym.RSQUARE);
     if (braces) print(Sym.RPAREN);
     return null;
@@ -996,7 +996,7 @@ public class ZPrintVisitor
   public Object visitSetExpr(SetExpr setExpr)
   {
     print(Sym.LBRACE);
-    printTermList(setExpr.getExpr());
+    printTermList(setExpr.getZExprList());
     print(Sym.RBRACE);
     return null;
   }
@@ -1032,7 +1032,7 @@ public class ZPrintVisitor
   public Object visitTupleExpr(TupleExpr tupleExpr)
   {
     print(Sym.LPAREN);
-    printTermList(tupleExpr.getExpr());
+    printTermList(tupleExpr.getZExprList());
     print(Sym.RPAREN);
     return null;
   }
@@ -1156,7 +1156,7 @@ public class ZPrintVisitor
           return arguments.toString() + " not instance of TupleExpr";
         }
         TupleExpr tuple = (TupleExpr) arguments;
-        args = tuple.getExpr();
+        args = tuple.getZExprList();
       }
     }
     int pos = 0;
@@ -1172,18 +1172,18 @@ public class ZPrintVisitor
           return "Expected SetExpr but got " + arg;
         }
         SetExpr setExpr = (SetExpr) arg;
-        List sequence = setExpr.getExpr();
-        for (Iterator i = sequence.iterator(); i.hasNext();) {
-          Object o = i.next();
+        List<Expr> sequence = setExpr.getZExprList();
+        for (Iterator<Expr> i = sequence.iterator(); i.hasNext();) {
+          Expr o = i.next();
           if (! (o instanceof TupleExpr)) {
             return "Expected TupleExpr but got " + o;
           }
           TupleExpr tuple = (TupleExpr) o;
-          List tupleContents = tuple.getExpr();
+          List<Expr> tupleContents = tuple.getZExprList();
           if (tupleContents.size() != 2) {
             return "Expected tuple of size 2 but was " + tupleContents.size();
           }
-          visit((Expr) tupleContents.get(1));
+          visit(tupleContents.get(1));
           if (i.hasNext()) printKeyword(ZString.COMMA);
         }
         pos++;

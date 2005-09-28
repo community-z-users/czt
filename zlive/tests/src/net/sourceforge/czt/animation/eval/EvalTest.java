@@ -73,9 +73,9 @@ public abstract class EvalTest extends TestCase
       Expr leftExpr = memPred.getLeftExpr();
       Expr rightExpr = memPred.getRightExpr();
       if (rightExpr instanceof SetExpr) {
-        List exprList = ((SetExpr) rightExpr).getExpr();
+        List<Expr> exprList = ((SetExpr) rightExpr).getZExprList();
         if (exprList.size() == 1) {
-          Expr refExpr = (Expr) exprList.get(0);
+          Expr refExpr = exprList.get(0);
           if (refExpr instanceof RefExpr) {
             ZRefName refName = ((RefExpr) refExpr).getZRefName();
             if ((refName.getWord()).equals("undefnum")) {

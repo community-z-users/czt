@@ -86,7 +86,7 @@ final class SchemaExtractionVisitor implements SpecVisitor, ZSectVisitor, AxPara
    * Visitor method for finding the schemas in an <tt>AxPara</tt>.
    */
   public Object visitAxPara(AxPara zedObject) {//Only interested in AxParas
-    visitAllOf(zedObject.getZSchText().getDecl(),
+    visitAllOf(zedObject.getZSchText().getZDeclList(),
                ConstDecl.class);
     return null;
   };//Containing ConstDecls

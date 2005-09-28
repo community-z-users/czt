@@ -321,7 +321,7 @@ public class BTermWriter
    */
   //@ requires s != null;
   protected Pred splitSchText(ZSchText s) {
-    Iterator<Decl> i = s.getDecl().iterator();
+    Iterator<Decl> i = s.getZDeclList().iterator();
     Pred result = null;
     while (i.hasNext()) {
       Decl d = i.next();
@@ -448,9 +448,9 @@ public class BTermWriter
     BOperator op = null;
     if (p.getMixfix().booleanValue()
 	&& p.getRightExpr() instanceof SetExpr
-	&& ((SetExpr)p.getRightExpr()).getExpr().size() == 1) {
+	&& ((SetExpr)p.getRightExpr()).getZExprList().size() == 1) {
       Expr left = p.getLeftExpr();
-      Expr right = (Expr) ((SetExpr)p.getRightExpr()).getExpr().get(0);
+      Expr right = ((SetExpr)p.getRightExpr()).getZExprList().get(0);
       infixOp(bOp(arg+"="+arg), left, right);
       return p;
     }
@@ -475,12 +475,12 @@ public class BTermWriter
       } else if (op.arity == 2) {
         if ( ! (p.getLeftExpr() instanceof TupleExpr))
           throw new BException(op.name + " applied to non-tuple");
-        List pair = ((TupleExpr)p.getLeftExpr()).getExpr();
+        List<Expr> pair = ((TupleExpr)p.getLeftExpr()).getZExprList();
         if (pair.size() != 2) {
           throw new BException("B " + op.name + " applied to "
           + pair.size() + " args.");
         }
-        infixOp(op, (Expr)pair.get(0), (Expr)pair.get(1));
+        infixOp(op, pair.get(0), pair.get(1));
       } else {
         throw new BException("internal error: " + op.name 
         + " has illegal arity " + op.arity);
@@ -585,12 +585,12 @@ public class BTermWriter
       } else if (op.arity == 2) {
         if ( ! (e.getRightExpr() instanceof TupleExpr))
           throw new BException(op.name + " applied to non-tuple");
-        List pair = ((TupleExpr)e.getRightExpr()).getExpr();
+        List<Expr> pair = ((TupleExpr)e.getRightExpr()).getZExprList();
         if (pair.size() != 2) {
           throw new BException("B " + op.name + " applied to "
           + pair.size() + " args.");
         }
-        infixOp(op, (Expr)pair.get(0), (Expr)pair.get(1));
+        infixOp(op, pair.get(0), pair.get(1));
       } else {
         throw new BException("internal error: " + op.name 
           + " has illegal arity " + op.arity);
@@ -615,11 +615,11 @@ public class BTermWriter
     if (name.getStroke().size() == 0) 
       op = bOp(name.getWord());
     sLogger.fine("RefExpr(" + name.getWord() + "...) --> B " + op);
-    if (op != null && op.arity == e.getExpr().size()) {
+    if (op != null && op.arity == e.getZExprList().size()) {
       if (op.arity == 1) {
-        unaryOp(op, (Expr)e.getExpr().get(0));
+        unaryOp(op, e.getZExprList().get(0));
       } else {
-        infixOp(op, (Expr)e.getExpr().get(0), (Expr)e.getExpr().get(1));
+        infixOp(op, e.getZExprList().get(0), e.getZExprList().get(1));
       }
     } else {
       name.accept(this);
@@ -639,8 +639,8 @@ public class BTermWriter
     out.print("{");
     out.beginPrec();
     out.beginPrec(COMMA_PREC+1);
-    for (Iterator i = set.getExpr().iterator(); i.hasNext(); ) {
-      out.printExpr((Expr)i.next());
+    for (Iterator<Expr> i = set.getZExprList().iterator(); i.hasNext(); ) {
+      out.printExpr(i.next());
       if (i.hasNext())
         out.print(", ");
     }
@@ -652,38 +652,34 @@ public class BTermWriter
   }
 
   public Object visitProdExpr(ProdExpr e) {
-    List sets = e.getExpr();
+    List<Expr> sets = e.getZExprList();
     if (sets.size() == 2) {
-      infixOp(bOp(arg+ZString.CROSS+arg), 
-	      (Expr)sets.get(0),
-	      (Expr)sets.get(1));
+      infixOp(bOp(arg+ZString.CROSS+arg), sets.get(0), sets.get(1));
     }
     else {
       // construct a right associative tree of binary cartesian products
       assert sets.size() > 2;
       int last = sets.size() - 1;
-      Expr prod = (Expr)sets.get(last);
+      Expr prod = sets.get(last);
       for ( ; last >= 0; last--)
-	prod = getFactory().createProdExpr((Expr) sets.get(last), prod);
+	prod = getFactory().createProdExpr(sets.get(last), prod);
       visitProdExpr((ProdExpr)prod);
     }
     return e;
   }
 
   public Object visitTupleExpr(TupleExpr e) {
-    List sets = e.getExpr();
+    List<Expr> sets = e.getZExprList();
     if (sets.size() == 2) {
-      infixOp(bOp(arg+","+arg), 
-	      (Expr)sets.get(0),
-	      (Expr)sets.get(1));
+      infixOp(bOp(arg+","+arg), sets.get(0), sets.get(1));
     }
     else {
       // construct a right associative tree of binary cartesian products
       assert sets.size() > 2;
       int last = sets.size() - 1;
-      Expr pair = (Expr)sets.get(last);
+      Expr pair = sets.get(last);
       for ( ; last >= 0; last--)
-	pair = getFactory().createTupleExpr((Expr) sets.get(last), pair);
+	pair = getFactory().createTupleExpr(sets.get(last), pair);
       visitTupleExpr((TupleExpr)pair);
     }
     return e;

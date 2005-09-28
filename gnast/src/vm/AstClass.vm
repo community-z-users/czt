@@ -99,7 +99,7 @@ public class ${class.ImplName}
   }
 
 
-  public ListTerm<${type}> ${class.getAllProperties().get(0).GetterName}()
+  public ${class.Name} ${class.getAllProperties().get(0).GetterName}()
   {
     return this;
   }
@@ -352,6 +352,24 @@ public#abstract($class) class ${class.ImplName}
   {
     ${prop.MemVarName} = ${prop.VarName};
   }
+#if(${prop.Type.Name} == 'ExprList' || ${prop.Type.Name} == 'RenameList' || ${prop.Type.Name} == 'RefNameList' || ${prop.Type.Name} == 'DeclList')
+#if(${prop.GetterName} == "get${prop.Type.Name}")
+  /**
+   * This is a convenience method.
+   * It returns a Z${prop.Type.Name} if #${prop.GetterName}
+   * returns an instance of Z${prop.Type.Name}
+   * and throws an UnsupportedAstClassException otherwise.
+   */
+  public Z${prop.Type.Name} getZ${prop.Type.Name}()
+  {
+    ${prop.Type.Name} object = ${prop.GetterName}();
+    if (object instanceof Z${prop.Type.Name}) {
+      return (Z${prop.Type.Name}) object;
+    }
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+  }
+#end
+#end
 #end
 #end
 #if(${class.AdditionalImplCodeFilename})
