@@ -303,7 +303,7 @@ public class SimpleProver
     implements TermVisitor,
                JokerDeclListVisitor,
                JokerExprVisitor,
-               JokerNameVisitor,
+               JokerDeclNameVisitor,
                JokerPredVisitor,
                LookupConstDeclProvisoVisitor
   {
@@ -321,7 +321,8 @@ public class SimpleProver
 
     public Object visitJokerDeclList(JokerDeclList joker)
     {
-      return factory_.createJokerDeclList(joker.getName());
+      return factory_.createJokerDeclList(joker.getZDeclList(),
+                                          joker.getName());
     }
 
     public Object visitJokerExpr(JokerExpr joker)
@@ -329,12 +330,9 @@ public class SimpleProver
       return factory_.createJokerExpr(joker.getName());
     }
 
-    public Object visitJokerName(JokerName joker)
+    public Object visitJokerDeclName(JokerDeclName joker)
     {
-      return factory_.createJokerName(joker.getWord(),
-                                      joker.getStroke(),
-                                      joker.getId(),
-                                      joker.getName());
+      return factory_.createJokerDeclName(joker.getName());
     }
 
     public Object visitJokerPred(JokerPred joker)

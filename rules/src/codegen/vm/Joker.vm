@@ -56,11 +56,7 @@ public class ${classname}
       String message = "Cannot bind " + term + " to a ${typename}";
       throw new IllegalArgumentException(message);
     }
-#if ( ${isList} )
-    getBinding().get${typebase}().add((${typebase}) term);
-#else
     getBinding().set${typebase}((${typebase}) term);
-#end
     return getBinding();
   }
 

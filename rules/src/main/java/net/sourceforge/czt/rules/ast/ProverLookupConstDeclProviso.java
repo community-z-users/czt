@@ -45,7 +45,7 @@ public class ProverLookupConstDeclProviso
       if (table != null) {
         RefExpr ref = (RefExpr) getLeftExpr();
         DefinitionTable.Definition def =
-          table.lookup(ref.getRefName().getWord());
+          table.lookup(ref.getZRefName().getWord());
         Expr expr = def.getExpr();
       }
     }
