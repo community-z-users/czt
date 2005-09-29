@@ -321,8 +321,7 @@ public class SimpleProver
 
     public Object visitJokerDeclList(JokerDeclList joker)
     {
-      return factory_.createJokerDeclList(joker.getZDeclList(),
-                                          joker.getName());
+      return factory_.createJokerDeclList(joker.getName());
     }
 
     public Object visitJokerExpr(JokerExpr joker)
