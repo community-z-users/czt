@@ -89,7 +89,7 @@ public class BoundsTest extends ZTestCase
   }
   
 
-  /** Tests FlatLessThan bounds propogation from left to right. */
+  /** Tests FlatLessThan bounds propagation from left to right. */
   public void testLessThanLeft()
   {
     Bounds bnds = new Bounds();
@@ -112,7 +112,7 @@ public class BoundsTest extends ZTestCase
     Assert.assertEquals(new BigInteger("10"), bnds.getUpper(x));
   }
   
-  /** Tests FlatLessThan bounds propogation from right to left. */
+  /** Tests FlatLessThan bounds propagation from right to left. */
   public void testLessThanRight()
   {
     Bounds bnds = new Bounds();
@@ -136,7 +136,7 @@ public class BoundsTest extends ZTestCase
     Assert.assertEquals(new BigInteger("10"), bnds.getUpper(z));
   }
   
-  /** Tests FlatLessThanEquals bounds propogation from left to right. */
+  /** Tests FlatLessThanEquals bounds propagation from left to right. */
   public void testLessThanEqualsLeft()
   {
     Bounds bnds = new Bounds();
@@ -159,7 +159,7 @@ public class BoundsTest extends ZTestCase
     Assert.assertEquals(new BigInteger("10"), bnds.getUpper(x));
   }
   
-  /** Tests FlatLessThanEquals bounds propogation from right to left. */
+  /** Tests FlatLessThanEquals bounds propagation from right to left. */
   public void testLessThanEqualsRight()
   {
     Bounds bnds = new Bounds();
@@ -183,7 +183,7 @@ public class BoundsTest extends ZTestCase
     Assert.assertEquals(new BigInteger("10"), bnds.getUpper(z));
   }
   
-  /** Tests FlatEquals bounds propogation. */
+  /** Tests FlatEquals bounds propagation. */
   public void testEquals()
   {
     Bounds bnds = new Bounds();
