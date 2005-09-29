@@ -37,21 +37,12 @@ public class FlatNegate extends FlatPred
 
   public FlatNegate(ZRefName a, ZRefName b)
   {
-    args = new ArrayList(2);
+    args = new ArrayList<ZRefName>(2);
     args.add(a);
     args.add(b);
     solutionsReturned = -1;
   }
 
-  //@ requires newargs.size() == 2;
-  public FlatNegate(ArrayList newargs)
-  {
-    if (newargs == null || newargs.size() != 2)
-      throw new IllegalArgumentException("FlatNegate requires 2 args");
-    args = newargs;
-    solutionsReturned = -1;
-  }
-  
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {

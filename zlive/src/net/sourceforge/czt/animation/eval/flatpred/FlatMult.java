@@ -36,19 +36,10 @@ public class FlatMult extends FlatPred
   private Factory factory_ = new Factory();
   public FlatMult(ZRefName a, ZRefName b, ZRefName c)
   {
-    args = new ArrayList(3);
+    args = new ArrayList<ZRefName>(3);
     args.add(a);
     args.add(b);
     args.add(c);
-    solutionsReturned = -1;
-  }
-  
-  //@ requires newargs.size() == 3;
-  public FlatMult(ArrayList newargs)
-  {
-    if (newargs == null || newargs.size() != 3)
-      throw new IllegalArgumentException("FlatMult requires 3 args");
-    args = newargs;
     solutionsReturned = -1;
   }
 

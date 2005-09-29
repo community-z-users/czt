@@ -36,22 +36,11 @@ public class FlatNot extends FlatPred
 
   public FlatNot(FlatPredList fps)
   {
-    args = new ArrayList(fps.freeVars());
+    args = new ArrayList<ZRefName>(fps.freeVars());
     predlist_ = fps;
     solutionsReturned = -1;
   }
-  
-  /*
-  //@ requires newargs.size() > 0;
-  public FlatNot(ArrayList newargs)
-  {
-    if (newargs == null || newargs.size() == 0)
-      throw new IllegalArgumentException("FlatNot requires 1 or more args");
-    args = newargs;
-    solutionsReturned = -1;
-  }
-  */
-  
+
   /** Chooses the mode in which the predicate can be evaluated.*/
   public ModeList chooseMode(/*@non_null@*/ Envir env)
   {

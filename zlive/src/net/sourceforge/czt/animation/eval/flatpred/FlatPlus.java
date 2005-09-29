@@ -44,16 +44,7 @@ public class FlatPlus extends FlatPred
     args.add(c);
     solutionsReturned = -1;
   }
-  
-  //@ requires newargs.size() == 3;
-  public FlatPlus(ArrayList newargs)
-  {
-    if (newargs == null || newargs.size() != 3)
-      throw new IllegalArgumentException("FlatPlus requires 3 args");
-    args = newargs;
-    solutionsReturned = -1;
-  }
-  
+
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {

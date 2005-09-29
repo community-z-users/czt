@@ -39,18 +39,9 @@ public class FlatLessThan extends FlatPred
   
   public FlatLessThan(ZRefName a, ZRefName b)
   {
-    args = new ArrayList(2);
+    args = new ArrayList<ZRefName>(2);
     args.add(a);
     args.add(b);
-    solutionsReturned = -1;
-  }
-
-  //@ requires newargs.size() == 2;
-  public FlatLessThan(ArrayList newargs)
-  {
-    if (newargs == null || newargs.size() != 2)
-      throw new IllegalArgumentException("FlatLessThan requires 2 args");
-    args = newargs;
     solutionsReturned = -1;
   }
 

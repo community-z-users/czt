@@ -34,22 +34,11 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
 /** FlatEquals implements the a = b predicate. */
 public class FlatEquals extends FlatPred
 {
-  private Factory factory_ = new Factory();
-  
   public FlatEquals(ZRefName a, ZRefName b)
   {
-    args = new ArrayList(2);
+    args = new ArrayList<ZRefName>(2);
     args.add(a);
     args.add(b);
-    solutionsReturned = -1;
-  }
-
-  //@ requires newargs.size() == 2;
-  public FlatEquals(ArrayList newargs)
-  {
-    if (newargs == null || newargs.size() != 2)
-      throw new IllegalArgumentException("FlatEquals requires 2 args");
-    args = newargs;
     solutionsReturned = -1;
   }
 

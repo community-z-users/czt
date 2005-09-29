@@ -46,7 +46,7 @@ public class FlatBinding extends FlatPred {
     sLogger.entering("FlatBinding","FlatBinding");
     assert names.size() == exprs.size();
 
-    if ((new HashSet(names)).size() != names.size())
+    if ((new HashSet<ZDeclName>(names)).size() != names.size())
       throw new IllegalArgumentException("FlatBinding contains duplicate names: " + names);
 
     bindNames = names;

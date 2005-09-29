@@ -40,25 +40,15 @@ public class FlatCard
 extends FlatPred
 {
   protected Factory factory_ = new Factory();
-  //protected ArrayList vars_ = new ArrayList();
   
   public FlatCard(ZRefName set, ZRefName size)
   {
-    args = new ArrayList(2);
+    args = new ArrayList<ZRefName>(2);
     args.add(set);
     args.add(size);
     solutionsReturned = -1;
   }
-  
-  //@ requires newargs.size() == 2;
-  public FlatCard(ArrayList newargs)
-  {
-    if (newargs == null || newargs.size() != 2)
-      throw new IllegalArgumentException("FlatCard requires 2 args");
-    args = newargs;
-    solutionsReturned = -1;
-  }
-  
+
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {

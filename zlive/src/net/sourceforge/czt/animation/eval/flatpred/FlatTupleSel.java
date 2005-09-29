@@ -34,7 +34,6 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
 /** FlatTupleSel implements the a+b=c predicate. */
 public class FlatTupleSel extends FlatPred
 {
-  private Factory factory_ = new Factory();
   private Integer selection;
 
   public FlatTupleSel(ZRefName tuple, Integer i, ZRefName result)
@@ -42,7 +41,7 @@ public class FlatTupleSel extends FlatPred
     if (i <= 0)
       throw new CztException("Illegal tuple selection index: " + i);
     selection = i;
-    args = new ArrayList(2);
+    args = new ArrayList<ZRefName>(2);
     args.add(tuple);
     args.add(result);
     solutionsReturned = -1;

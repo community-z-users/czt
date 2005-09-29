@@ -37,18 +37,10 @@ public class FlatDiv extends FlatPred
 
   public FlatDiv(ZRefName a, ZRefName b, ZRefName c)
   {
-    args = new ArrayList(3);
+    args = new ArrayList<ZRefName>(3);
     args.add(a);
     args.add(b);
     args.add(c);
-    solutionsReturned = -1;
-  }
-//@ requires newargs.size() == 3;
-  public FlatDiv(ArrayList newargs)
-  {
-    if (newargs == null || newargs.size() != 3)
-      throw new IllegalArgumentException("FlatDiv requires 3 args");
-    args = newargs;
     solutionsReturned = -1;
   }
 

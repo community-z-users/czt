@@ -34,7 +34,6 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
 /**
 * @author Mark Utting
 *
-* This defines the interface to all different kinds of set objects.
 * FlatMember(s,e) implements e \in s, where s can be any kind of
 * set that implements the EvalSet interface.
 */
@@ -53,25 +52,12 @@ public class FlatMember extends FlatPred {
    */
   public FlatMember(ZRefName set, ZRefName element)
   {
-    args = new ArrayList(2);
+    args = new ArrayList<ZRefName>(2);
     args.add(set);
     args.add(element);
     solutionsReturned = -1;
   }
 
-  /** Membership of a set.
-   * 
-   * @param newargs  [set,member]
-   */
-  //@ requires newargs != null && newargs.size() == 2;
-  public FlatMember(ArrayList newargs)
-  {
-    if (newargs == null || newargs.size() != 2)
-      throw new IllegalArgumentException("FlatMember requires 2 args");
-    args = newargs;
-    solutionsReturned = -1;
-  }
-  
   public Mode chooseMode(Envir env)
   {
     // the set must be defined in env.
