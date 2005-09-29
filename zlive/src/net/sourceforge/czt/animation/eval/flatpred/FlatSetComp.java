@@ -133,6 +133,14 @@ public class FlatSetComp
     // TODO: should use the ORIGINAL env here, not this one (which has 'set' added).
    return estSize(evalMode_.getEnvir());
   }
+
+  /** TODO: try and get a better size estimate by equating
+   *  elem to the result of the set before estimating its size?
+   */
+  public double estSubsetSize(Envir env, ZRefName elem)
+  {
+    return estSize(env);
+  }
   
   /** A list of all the free variables that this set depends upon.
   * @return The free variables.
@@ -147,7 +155,7 @@ public class FlatSetComp
   *
   * @return an Iterator object which returns each member of the set.
   */
-  public Iterator members()
+  public Iterator<Expr> members()
   {
     if (knownMembers_ == null) {
       // generate all members.
@@ -164,6 +172,14 @@ public class FlatSetComp
         knownMembers_.add(env.lookup(resultName_));
     }
     return knownMembers_.iterator();
+  }
+
+  /** TODO: see if we can use bounds information about element
+   *  to reduce the size of the subset that we return?
+   */
+  public Iterator<Expr> subsetMembers(ZRefName element)
+  {
+    return members();
   }
 
   /** Does the actual evaluation */

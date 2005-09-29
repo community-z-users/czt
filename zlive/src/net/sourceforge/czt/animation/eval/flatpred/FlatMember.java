@@ -77,7 +77,7 @@ public class FlatMember extends FlatPred {
         double solns = 0.0;
         Expr e = env.lookup(setName);
         if (e != null && e instanceof EvalSet)
-          solns = ((EvalSet)e).estSize(env);
+          solns = ((EvalSet)e).estSubsetSize(env, elemName);
         else
           solns = Double.POSITIVE_INFINITY;
         Envir newEnv = env.add(elemName, null);
@@ -116,7 +116,7 @@ public class FlatMember extends FlatPred {
       // iterate through the members of set_
       if (solutionsReturned == 0) {
         // set up the iterator...
-        current_ = set_.members();
+        current_ = set_.subsetMembers(element);
       }
       assert current_ != null;
       solutionsReturned++;

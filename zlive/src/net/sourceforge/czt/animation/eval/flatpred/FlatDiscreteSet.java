@@ -89,6 +89,11 @@ implements EvalSet
     return estSize(evalMode_.getEnvir());
   }
 
+  public double estSubsetSize(Envir env, ZRefName elem)
+  {
+    return estSize(env);
+  }
+  
   /** A list of all the free variables that this set depends upon.
   * @return The free variables.
   */
@@ -118,6 +123,11 @@ implements EvalSet
       }
     }
     return iterateSet_.iterator();
+  }
+
+  public Iterator<Expr> subsetMembers(ZRefName element)
+  {
+    return members();
   }
 
   /** Does the actual evaluation */

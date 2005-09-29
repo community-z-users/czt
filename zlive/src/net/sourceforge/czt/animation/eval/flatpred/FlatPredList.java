@@ -282,6 +282,9 @@ public class FlatPredList
   public ModeList chooseMode(Envir env0)
   {
     LOG.entering("FlatPredList","chooseMode",env0);
+    // first do static inference of integer bounds
+    inferBounds(new Bounds());
+    
     List<Mode> submodes = new ArrayList<Mode>();
     Envir env = env0;
     double cost = 1.0;

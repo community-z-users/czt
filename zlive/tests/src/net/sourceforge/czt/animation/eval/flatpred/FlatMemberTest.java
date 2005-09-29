@@ -48,9 +48,23 @@ public class FlatMemberTest
   private NumExpr i40 = factory_.createNumExpr(40);
   private ZRefName w = factory_.createZRefName("w");
   
-  private FlatRangeSet set = new FlatRangeSet(x,y,z);
-  private FlatMember mem = new FlatMember(z,w);  // w \in z
+  private FlatRangeSet set;
+  private FlatMember mem;
+  private FlatPredList predlist;
 
+  protected void setUp()
+  {
+    set = new FlatRangeSet(x,y,z);
+    mem = new FlatMember(z,w);  // w \in z
+    
+    // Must set up a flatpred list and do the static inference
+    // pass before we can start using FlatRangeSet.
+    predlist = new FlatPredList(new ZLive());
+    predlist.add(set);
+    predlist.add(mem);
+    predlist.inferBounds(new Bounds());
+  }
+  
   public void testEmpty()
   {
     Mode m = mem.chooseMode(empty);

@@ -44,10 +44,10 @@ public class FlatRangeSet
   implements EvalSet
 {
   protected Factory factory_ = new Factory();
-  
-  /** A crude approximation of the size of an infinite set. */
-  public final double INFINITE_SIZE = 1000000000.0;
-  
+
+  /** The most recent variable bounds information. */
+  protected Bounds bounds_;
+
   /** The exact value of the lower bound, or null if not known. */
   protected BigInteger lower_;
   
@@ -90,6 +90,13 @@ public class FlatRangeSet
     solutionsReturned = -1;
   }
 
+  /** Saves the Bounds information for later use. */
+  public boolean inferBounds(Bounds bnds)
+  {
+    bounds_ = bnds;
+    return false;
+  }
+  
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
@@ -137,17 +144,53 @@ public class FlatRangeSet
 	return upper_;
   }
 */
+
+  /** Auxiliary function for calculating the size of the range set.
+   *  @param low  Bottom of the range, or null if no limit.
+   *  @param high Top of the range, or null if no limit.
+   *  @return     The number of elements in the set.
+   */
+  private double setSize(BigInteger low, BigInteger high)
+  {
+    if (low == null || high == null)
+      return Double.POSITIVE_INFINITY;
+    if(high.compareTo(low)<0)
+      return 0.0;
+    else
+      return (high.subtract(low).add(BigInteger.ONE).doubleValue());
+  }
   
   /** Estimate the size of the set in the given environment. */
   public double estSize(Envir env) {
     lower_ = getBound(env, lowerArg_);
     upper_ = getBound(env, upperArg_);
-    if (lower_ == null || upper_ == null)
-      return INFINITE_SIZE;
-    if(upper_.compareTo(lower_)<0)
-      return 0.0;
-    else
-      return (upper_.subtract(lower_).add(BigInteger.ONE).doubleValue());
+    return setSize(lower_, upper_);
+  }
+
+  public double estSubsetSize(Envir env, ZRefName element)
+  {
+    System.out.println("estSubsetSize on "+element);
+    assert bounds_ != null;
+    BigInteger low = getBound(env, lowerArg_);
+    BigInteger high = getBound(env, upperArg_);
+    BigInteger elemLow = bounds_.getLower(element);
+    BigInteger elemHigh = bounds_.getUpper(element);
+    
+    if (low == null) {
+      low = elemLow;
+      System.out.println("changed low from null to "+low);
+    }
+    else if (elemLow != null)
+      low = low.max(elemLow);
+    
+    if (high == null) {
+      high = elemHigh;
+      System.out.println("changed high from null to "+high);
+    }
+    else if (elemHigh != null)
+      high = high.min(elemHigh);
+    
+    return setSize(low, high);
   }
 
   /** Estimate the size of the set after setMode(). */
@@ -170,14 +213,18 @@ public class FlatRangeSet
   private class setIterator implements Iterator<Expr>
   {
     protected BigInteger current_;
-    public setIterator()
+    protected BigInteger highest_;
+    
+    public setIterator(BigInteger low, BigInteger high)
     {
-      assert(lower_ != null);
-      current_ = lower_;
+      assert(low != null);
+      assert(high != null);
+      current_ = low;
+      highest_ = high;
     }
     public boolean hasNext()
     {
-      return (current_.compareTo(upper_) <= 0);
+      return (current_.compareTo(highest_) <= 0);
     }
     public Expr next()
     {
@@ -186,9 +233,10 @@ public class FlatRangeSet
       return factory_.createNumExpr(temp);
     }
     public void remove()
-	{
-	  throw new UnsupportedOperationException("The Remove Operation is not supported");
-	}
+    {
+      throw new UnsupportedOperationException(
+          "The Remove Operation is not supported");
+    }
   }
 
 
@@ -206,7 +254,47 @@ public class FlatRangeSet
     upper_ = getBound(env, upperArg_);
     if (lower_ == null || upper_ == null)
       throw new EvalException("Unbounded integer range "+this);
-    return new setIterator();
+    return new setIterator(lower_, upper_);
+  }
+
+  /** This uses bounds information about element (if any)
+   *  to reduce the size of the set that is returned.
+   *  This has no side-effects, so does not change the
+   *  set returned by the usual members() method.
+   */
+  public Iterator<Expr> subsetMembers(ZRefName element)
+  {
+    assert evalMode_ != null;
+    assert bounds_ != null;
+    System.out.println("subsetMembers on "+element+" with bounds="+bounds_);
+    Envir env = evalMode_.getEnvir();
+    BigInteger low = getBound(env, lowerArg_);
+    BigInteger high = getBound(env, upperArg_);
+    BigInteger elemLow = bounds_.getLower(element);
+    BigInteger elemHigh = bounds_.getUpper(element);
+    System.out.println("subsetMembers sees bounds "+elemLow+".."+elemHigh);
+    
+    if (low == null) {
+      low = elemLow;
+      System.out.println("changed low from null to "+low);
+    }
+    else if (elemLow != null) {
+      low = low.max(elemLow);
+      System.out.println("changed low to "+low);
+    }
+
+    if (high == null) {
+      high = elemHigh;
+      System.out.println("changed high from null to "+high);
+    }
+    else if (elemHigh != null) {
+      high = high.min(elemHigh);
+      System.out.println("changed high to "+high);
+    }
+
+    if (low == null || high == null)
+      throw new EvalException("Unbounded integer "+element+" in "+this);
+    return new setIterator(low, high);
   }
 
   /** Does the actual evaluation */

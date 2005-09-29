@@ -20,6 +20,7 @@ package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.math.BigInteger;
 import java.util.HashMap;
+import java.lang.StringBuffer;
 import net.sourceforge.czt.z.ast.ZRefName;
 
 /** Maintains lower and upper bounds for integer variables.
@@ -40,6 +41,12 @@ public class Bounds implements Cloneable
   {
     lowerBound = new HashMap<ZRefName, BigInteger>();
     upperBound = new HashMap<ZRefName, BigInteger>();
+  }
+  
+  public String toString()
+  {
+    return "Lows="+lowerBound.toString()
+          +"Highs="+upperBound.toString();
   }
   
   /** Creates a copy of all the lower and upper bounds.

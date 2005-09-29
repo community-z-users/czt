@@ -51,13 +51,26 @@ public interface EvalSet extends Expr {
   /** Estimate the size of the set in a given environment. */
   public double estSize(Envir env);
 
+  /** Estimate the size of {x:this | x=elem} in a given environment.
+   *  This allows the bounds of elem to be used to reduce the size of set. 
+   */
+  public double estSubsetSize(Envir env, ZRefName elem);
+  
   /** Iterate through all members of the set.
    *  It guarantees that there will be no duplicates.
    *
    * @return an Iterator object.
    */
   public Iterator<Expr> members();
-
+  
+  /** Iterate through all members of this set that might
+   *  equal element (which need not be known yet).
+   *  The result will contain no duplicates.
+   *
+   * @return an Iterator object.
+   */
+  public Iterator<Expr> subsetMembers(ZRefName element);
+  
   /** Tests for membership of the set.
    * @param e  The fully evaluated expression.
    * @return   true iff e is a member of the set.
