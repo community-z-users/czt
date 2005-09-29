@@ -111,6 +111,7 @@
   <xs:element name="JokerExprList" type="P:JokerExprList" substitutionGroup="Z:ExprList"/>
   <xs:element name="JokerPred"     type="P:JokerPred"     substitutionGroup="Z:Pred"/>
   <xs:element name="JokerDeclList" type="P:JokerDeclList" substitutionGroup="Z:DeclList"/>
+  <xs:element name="HeadDeclList"  type="P:HeadDeclList" substitutionGroup="Z:DeclList"/>
   <xs:element name="JokerDeclName" type="P:JokerDeclName" substitutionGroup="Z:DeclName"/>
 
   <xs:element name="Binding" type="P:Binding" abstract="true">
@@ -442,10 +443,17 @@
   <xs:complexType name="JokerDeclList">
     <xs:complexContent>
       <xs:extension base="Z:DeclList">
+        <xs:attribute name="Name" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="HeadDeclList">
+    <xs:complexContent>
+      <xs:extension base="Z:DeclList">
         <xs:sequence>
           <xs:element ref="Z:ZDeclList"/>
+          <xs:element ref="P:JokerDeclList"/>
         </xs:sequence>
-        <xs:attribute name="Name" type="xs:string"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
