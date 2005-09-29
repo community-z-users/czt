@@ -34,32 +34,59 @@ import net.sourceforge.czt.animation.eval.*;
 /**
 * @author Mark Utting
 *
-* FlatRangeSet(a,b,s) implements a..b = s
+* FlatRangeSet(a,b,s) implements a..b = s.
+* However, the a and b bounds are both optional, which allows
+* these objects to represent the set of naturals and the set of
+* integers etc.
 */
 public class FlatRangeSet
   extends FlatPred
   implements EvalSet
 {
   protected Factory factory_ = new Factory();
-  public final double DEFAULT_SIZE = 1000000.0;
+  
+  /** A crude approximation of the size of an infinite set. */
+  public final double INFINITE_SIZE = 1000000000.0;
+  
+  /** The exact value of the lower bound, or null if not known. */
   protected BigInteger lower_;
+  
+  /** The exact value of the upper bound, or null if not known. */
   protected BigInteger upper_;
 
+  /** The index into args of the lower bound name (-1 if no bound) */
+  //@ invariant -1 <= lowerArg_ && lowerArg_ <= 0;
+  //@ invariant lower_ != null ==> lowerArg_ != -1;
+  private int lowerArg_ = -1;
+  
+  /** The index into args of the upper bound name (-1 if no bound) */
+  //@ invariant -1 <= upperArg_ && upperArg_ <= 1; 
+  //@ invariant upper_ != null ==> upperArg_ != -1;
+   private int upperArg_ = -1;
+   
+   /** The index into args of the name of the resulting set */
+   //@ invariant 0 <= setArg_ && setArg_ <= 2; 
+   private int setArg_ = -1;
+    
+  /** Creates a FlatRangeSet object, with optional bounds.
+   *
+   * @param lowerBound  a lower bound expression, or null for no bound.
+   * @param upperBound  an upper bound expression, or null for no bound.
+   * @param set         the name of the resulting set of integers.
+   */
   public FlatRangeSet(ZRefName lowerBound, ZRefName upperBound, ZRefName set)
   {
-    args = new ArrayList();
-    args.add(lowerBound);
-    args.add(upperBound);
+    args = new ArrayList<ZRefName>();
+    if (lowerBound != null) {
+      lowerArg_ = args.size();
+      args.add(lowerBound);
+    }
+    if (upperBound != null) {
+      upperArg_ = args.size();
+      args.add(upperBound);
+    }
+    setArg_ = args.size();
     args.add(set);
-    solutionsReturned = -1;
-  }
-
-  //@ requires newargs.size() == 3;
-  public FlatRangeSet(ArrayList newargs)
-  {
-    if (newargs == null || newargs.size() != 3)
-      throw new IllegalArgumentException("FlatRangeSet requires 3 args");
-    args = newargs;
     solutionsReturned = -1;
   }
 
@@ -69,13 +96,23 @@ public class FlatRangeSet
     Mode m = modeFunction(env);
     // bind (set |-> this), so that size estimates work better.
     if (m != null)
-      m.getEnvir().setValue(args.get(args.size()-1), this);
+      m.getEnvir().setValue(args.get(setArg_), this);
     return m;
   }
 
-  /** Looks in the envir (if any) for any upper/lower bounds. */
-  private BigInteger getBound(Envir env, ZRefName bound)
+  /** Looks in the envir (if any) for an upper/lower bound. 
+   *  If boundArg==-1, this means no bound, so the result will be null.
+   *  A null result also happens when env==null or the bound is
+   *  not yet available in env.
+   *  
+   *  @param env       the (optional) environment to look for bounds in.
+   *  @param boundArg  an index into args (ie. lowerArg_ or upperArg_).
+   */
+  private BigInteger getBound(Envir env, int boundArg)
   {
+    if (boundArg < 0)
+      return null;
+    ZRefName bound = args.get(boundArg);
     BigInteger result = null;
     Expr e = null;
     if (env != null)
@@ -100,19 +137,20 @@ public class FlatRangeSet
 	return upper_;
   }
 */
-
+  
+  /** Estimate the size of the set in the given environment. */
   public double estSize(Envir env) {
-    lower_ = getBound(env, args.get(0));
-    upper_ = getBound(env, args.get(1));
+    lower_ = getBound(env, lowerArg_);
+    upper_ = getBound(env, upperArg_);
     if (lower_ == null || upper_ == null)
-      return DEFAULT_SIZE;
+      return INFINITE_SIZE;
     if(upper_.compareTo(lower_)<0)
       return 0.0;
     else
       return (upper_.subtract(lower_).add(BigInteger.ONE).doubleValue());
   }
 
-  /** Estimate the size of the set. */
+  /** Estimate the size of the set after setMode(). */
   public double estSize()
   {
     assert(evalMode_ != null);
@@ -122,14 +160,14 @@ public class FlatRangeSet
   /** A list of all the free variables that this set depends upon.
   * @return The free variables.
   */
-  public Set freeVars()
+  public Set<ZRefName> freeVars()
   {
-    Set temp = new HashSet(args);
-    temp.remove(args.get(args.size()-1));
+    Set<ZRefName> temp = new HashSet<ZRefName>(args);
+    temp.remove(args.get(setArg_));
     return temp;
   }
 
-  private class setIterator implements Iterator
+  private class setIterator implements Iterator<Expr>
   {
     protected BigInteger current_;
     public setIterator()
@@ -140,8 +178,8 @@ public class FlatRangeSet
     public boolean hasNext()
     {
       return (current_.compareTo(upper_) <= 0);
- 	}
-    public Object next()
+    }
+    public Expr next()
     {
       BigInteger temp = current_;
       current_ = current_.add(BigInteger.ONE);
@@ -160,13 +198,15 @@ public class FlatRangeSet
   * @return an Iterator object.
   */
   //@ requires getMode() != null;
-  public Iterator members()
+  public Iterator<Expr> members()
   {
     assert(evalMode_ != null);
     Envir env = evalMode_.getEnvir();
-    lower_ = getBound(env, args.get(0));
-    upper_ = getBound(env, args.get(1));
-    return (new setIterator());
+    lower_ = getBound(env, lowerArg_);
+    upper_ = getBound(env, upperArg_);
+    if (lower_ == null || upper_ == null)
+      throw new EvalException("Unbounded integer range "+this);
+    return new setIterator();
   }
 
   /** Does the actual evaluation */
@@ -174,22 +214,20 @@ public class FlatRangeSet
   {
     assert evalMode_ != null;
     assert solutionsReturned >= 0;
-    assert evalMode_.isInput(0);
-    assert evalMode_.isInput(1);
     Envir env = evalMode_.getEnvir();
     boolean result = false;
-    lower_ = getBound(env, args.get(0));
-    upper_ = getBound(env, args.get(1));
-    ZRefName set = args.get(2);
+    lower_ = getBound(env, lowerArg_);
+    upper_ = getBound(env, upperArg_);
+    ZRefName setName = args.get(setArg_);
     if(solutionsReturned==0)
     {
       solutionsReturned++;
-      if (evalMode_.isInput(2)) {
-        Expr otherSet = env.lookup(set);
+      if (evalMode_.isInput(setArg_)) {
+        Expr otherSet = env.lookup(setName);
         result = equals(otherSet);
       } else {
         // assign this object (an EvalSet) to the output variable.
-        env.setValue(set, this);
+        env.setValue(setName, this);
         result = true;
       }
     }
@@ -208,9 +246,10 @@ public class FlatRangeSet
     if ( !(e instanceof NumExpr))
       throw new EvalException("Type error: members of FlatRangeSet must be numbers: " + e);
     BigInteger i = ((NumExpr)e).getValue();
-    lower_ = getBound(env, args.get(0));
-    upper_ = getBound(env, args.get(1));
-    return ((lower_.compareTo(i) <= 0) && (upper_.compareTo(i) >= 0));
+    lower_ = getBound(env, lowerArg_);
+    upper_ = getBound(env, upperArg_);
+    return (lower_ == null || lower_.compareTo(i) <= 0)
+        && (upper_ == null || upper_.compareTo(i) >= 0);
   }
 
   ///////////////////////// Pred methods ///////////////////////
@@ -226,14 +265,55 @@ public class FlatRangeSet
 
   /** This implementation of equals handles two RangeSets efficiently.
    *  In other cases, it uses the equalEvalSet method from FlatPred.
+   *  This equals method is really only meant to be used after
+   *  the sets have been evaluated.  It is not clear what it does
+   *  or should do before that.
    */
   public boolean equals(Object other) {
     if (other instanceof FlatRangeSet) {
       FlatRangeSet rset = (FlatRangeSet)other;
-      if ((lower_.compareTo(upper_)>0) && ((rset.lower_).compareTo(rset.upper_)>0))
-        return true;
+      /* An alternative equality test, which is less elegant.
+      // handle the no-bounds at all case.
+      if (lower_ == null && upper_ == null) {
+        return rset.lower_ == null && rset.upper_ == null;
+      }
+      // handle the no lower bound case.
+      if (lower_ == null) {
+        // we know that upper_ != null;
+        return rset.lower_ == null
+            && rset.upper_ != null
+            && upper_.compareTo(rset.upper_) == 0;
+      }
+      // handle the no upper bound case.
+      if (upper_ == null) {
+        // we know that lower_ != null;
+        return rset.lower_ != null
+            && rset.upper_ == null
+            && lower_.compareTo(rset.lower_) == 0;
+      }
+      // now we know that lower_ != null and upper_ != null
+      if (rset.lower_ == null || rset.upper_ == null)
+        return false;
+      // now we know that rset.lower_ != null and rset.upper_ != null
+      // handle the empty range case (lower_ > upper_) specially.
+      if (lower_.compareTo(upper_)>0) {
+        return rset.lower_.compareTo(rset.upper_) > 0;
+      }
+      return lower_.equals(rset.lower_)
+          && upper_.equals(rset.upper_);
+      */
+      if ((lower_ == null) != (rset.lower_ == null))
+        return false;
+      if ((upper_ == null) != (rset.upper_ == null))
+        return false;
+      // handle the empty range case (lower_ > upper_) specially.
+      if (lower_ != null && upper_ != null 
+          && lower_.compareTo(upper_)>0) {
+        return rset.lower_.compareTo(rset.upper_) > 0;
+      }
       else
-        return lower_.equals(rset.lower_) && upper_.equals(rset.upper_);
+        return (lower_ == null || lower_.equals(rset.lower_))
+            && (upper_ == null || upper_.equals(rset.upper_));
     } else if (other instanceof EvalSet) {
       return equalsEvalSet(this,(EvalSet)other);
     } else {

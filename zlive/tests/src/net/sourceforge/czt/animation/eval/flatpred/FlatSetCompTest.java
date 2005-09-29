@@ -43,7 +43,7 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
  * @author Mark Utting
  */
 public class FlatSetCompTest
-  extends FlatRangeSetTest
+  extends EvalSetTest
 {
   /** This overrides set and emptySet to be FlatDiscreteSet objects.
    *  set = {i,k,j,i} and emptySet = {}.

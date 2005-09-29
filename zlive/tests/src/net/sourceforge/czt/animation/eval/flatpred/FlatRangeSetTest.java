@@ -1,5 +1,5 @@
 /**
-Copyright (C) 2004 Mark Utting
+Copyright (C) 2005 Mark Utting
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -38,127 +38,86 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
 
 
 /**
- * A (JUnit) test class for testing the Animator
- * This tests a FlatRangeSet, mostly with the data 10..12.
- * It is also reused (via inheritance) to test other subclasses of EvalSet.
+ * A (JUnit) test class for testing FlatDiscreteSet.
  *
  * @author Mark Utting
  */
 public class FlatRangeSetTest
-  extends ZTestCase
+  extends EvalSetTest
 {
-  // names for integer variables
-  protected ZRefName i = factory_.createZRefName("i");
-  protected ZRefName j = factory_.createZRefName("j");
-  protected ZRefName k = factory_.createZRefName("k");
-  // names for set variables
-  protected ZRefName s = factory_.createZRefName("s");
-  protected ZRefName t = factory_.createZRefName("t");
-
-  // several environments used during testing.
-  protected Envir envEmpty = new Envir();
-  protected Envir envI  = envEmpty.add(i,i10);
-  protected Envir envK  = envEmpty.add(k,i12);
-  protected Envir envIJK = envEmpty.add(i,i10).add(j,i11).add(k,i12);
-  
-  // The two EvalSets that we will test.
-  // These should be overridden by subclasses...
-  protected EvalSet set = new FlatRangeSet(i,k,s);
-  protected EvalSet emptySet = new FlatRangeSet(k,j,s);
-  
-  public void testEmpty()
+  /** This overrides set and emptySet to be FlatDiscreteSet objects.
+   *  set = {i,k,j,i} and emptySet = {}.
+   */
+  public FlatRangeSetTest()
   {
-    Mode m = ((FlatPred)set).chooseMode(envEmpty);
-    Assert.assertNull(m);
+    set = new FlatRangeSet(i,k,s);   // 10..12
+    emptySet = new FlatRangeSet(k,j,s);   // 12..11
   }
   
-  public void testIOO()
+  /** A helper function for constructing and evaluating FlatRangeSets. */
+  private FlatRangeSet range(ZRefName lo, ZRefName hi, Envir env)
   {
-    Mode m = ((FlatPred)set).chooseMode(envI);
-    Assert.assertNull(m);
+    FlatRangeSet flat1 = new FlatRangeSet(lo,hi,s);
+    Mode m1 = flat1.chooseMode(env);
+    Assert.assertNotNull(m1);
+    flat1.setMode(m1);
+    flat1.startEvaluation();
+    Assert.assertTrue(flat1.nextEvaluation());
+    return flat1;
   }
   
-  public void testOIO()
+  public void testNoBoundEquality()
   {
-    Mode m = ((FlatPred)set).chooseMode(envK);
-    Assert.assertNull(m);
+    FlatRangeSet set = range(null,null,envIJK);
+    Assert.assertTrue(set.equals(range(null, null, envI)));
+    Assert.assertFalse(set.equals(range(i,null,envIJK)));
+    Assert.assertFalse(set.equals(range(null,i,envIJK)));
+    Assert.assertFalse(set.equals(range(i,j,envIJK)));
+  }
+    
+  public void testLowerBoundEquality()
+  {
+    FlatRangeSet set = range(j,null,envIJK); // 11..infinity
+    Assert.assertTrue(set.equals(range(j,null,envJ)));
+    Assert.assertFalse(set.equals(range(i,null,envIJK)));
+    Assert.assertFalse(set.equals(range(k,null,envIJK)));
+    Assert.assertFalse(set.equals(range(null,null,envIJK)));
+    Assert.assertFalse(set.equals(range(null,i,envIJK)));
+    Assert.assertFalse(set.equals(range(j,k,envIJK)));
   }
   
-  public void testEmptySet()
+  public void testUpperBoundEquality()
   {
-    Mode m = ((FlatPred)emptySet).chooseMode(envIJK);
-    Assert.assertTrue(m != null);
-    ((FlatPred)emptySet).setMode(m);
-    ((FlatPred)emptySet).startEvaluation();
-    Assert.assertTrue(((FlatPred)emptySet).nextEvaluation());
-    EvalSet tempSet = (EvalSet)m.getEnvir().lookup(s);
-    Assert.assertTrue(tempSet != null);
-    Assert.assertTrue(tempSet == emptySet);
-    Assert.assertEquals(0.0,emptySet.estSize(),ACCURACY);
-    Iterator it = tempSet.members();
-    Assert.assertTrue(it != null);
-    Assert.assertFalse(it.hasNext());
-    Assert.assertFalse(emptySet.isMember(i10));
-    Assert.assertFalse(emptySet.isMember(i12));
-    Assert.assertFalse(((FlatPred)emptySet).nextEvaluation());
+    FlatRangeSet set = range(null,j,envIJK); // -infinity..11
+    Assert.assertTrue(set.equals(range(null,j,envJ)));
+    Assert.assertFalse(set.equals(range(null,i,envIJK)));
+    Assert.assertFalse(set.equals(range(null,k,envIJK)));
+    Assert.assertFalse(set.equals(range(null,null,envIJK)));
+    Assert.assertFalse(set.equals(range(j,null,envIJK)));
+    Assert.assertFalse(set.equals(range(j,k,envIJK)));
   }
   
-  public void testII0()
+  public void testEmptyEquality()
   {
-    Mode m = ((FlatPred)set).chooseMode(envIJK);
-    Assert.assertTrue(m != null);
-    ((FlatPred)set).setMode(m);
-    ((FlatPred)set).startEvaluation();
-    Assert.assertTrue(((FlatPred)set).nextEvaluation());
-    Assert.assertTrue(m.getEnvir().lookup(s) != null);
-    Assert.assertTrue(m.getEnvir().lookup(s) == set);
-    //Checking the estSize() method
-    Assert.assertEquals(3.0, set.estSize(), ACCURACY);
-    //Checking the freeVars() method
-    Set temp = set.freeVars();
-    Assert.assertTrue(temp.contains(i));
-    Assert.assertTrue(temp.contains(k));
-    Assert.assertFalse(temp.contains(s));
-    //Checking the isMember() method
-    Assert.assertFalse(set.isMember(i9));
-    Assert.assertTrue(set.isMember(i10));
-    Assert.assertTrue(set.isMember(i11));
-    Assert.assertTrue(set.isMember(i12));
-    Assert.assertFalse(set.isMember(i13));
-    //Checking the members() method
-    Set allElements = new HashSet();
-    Iterator it = set.members();
-    //All the elements of in the set are added to a HashSet
-    while (it.hasNext())
-      allElements.add(it.next());
-    //Another HashSet named comparisonSet is being created which contains
-    //the same elements as the allElements should contain logically
-    Set comparisonSet = new HashSet();
-    comparisonSet.add(i10);
-    comparisonSet.add(i11);
-    comparisonSet.add(i12);
-    //This compares the two HashSets, and checks if they are equal
-    Assert.assertTrue(allElements.equals(comparisonSet));
-    Assert.assertFalse(((FlatPred)set).nextEvaluation());
+    FlatRangeSet set = range(j,i,envIJK); // 11..10
+    Assert.assertTrue(set.equals(range(k,j,envIJK)));  // 12..11
+    Assert.assertFalse(set.equals(range(j,null,envIJK)));
+    Assert.assertFalse(set.equals(range(null,i,envIJK)));
+    Assert.assertFalse(set.equals(range(null,null,envIJK)));
+    Assert.assertFalse(set.equals(range(i,j,envIJK))); // 10..11
+    Assert.assertFalse(set.equals(range(j,j,envIJK))); // 11..11
+    Assert.assertFalse(set.equals(range(i,i,envIJK))); // 10..10
   }
   
-  /** Tests i..k = t /\ i..k = t. */ 
-  public void testIII()
+  public void testOrdinaryEquality()
   {
-    EvalSet tempRangeSet = new FlatRangeSet(i,k,t);
-    FlatPred tempFlat = (FlatPred)tempRangeSet;
-    Mode tempMode = tempFlat.chooseMode(envIJK);
-    tempFlat.setMode(tempMode);
-    tempFlat.startEvaluation();
-    tempFlat.nextEvaluation();
-    Envir envIJKT = tempFlat.getMode().getEnvir();
-    Mode m = ((FlatPred)set).chooseMode(envIJKT);
-    Assert.assertTrue(m != null);
-    ((FlatPred)set).setMode(m);
-    ((FlatPred)set).startEvaluation();
-    // Check that the generated set (s) equals t.
-    Assert.assertTrue(((FlatPred)set).nextEvaluation());
-    Assert.assertFalse(((FlatPred)set).nextEvaluation());
+    FlatRangeSet set = range(i,k,envIJK); // 10..12
+    Assert.assertTrue(set.equals(range(i,k,envIJK)));
+    Assert.assertFalse(set.equals(range(i,null,envIJK)));
+    Assert.assertFalse(set.equals(range(null,k,envIJK)));
+    Assert.assertFalse(set.equals(range(null,null,envIJK)));
+    Assert.assertFalse(set.equals(range(i,j,envIJK))); // 10..11
+    Assert.assertFalse(set.equals(range(j,k,envIJK))); // 11..12
   }
 }
 
