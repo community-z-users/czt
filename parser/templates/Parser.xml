@@ -1177,7 +1177,7 @@ non terminal DeclList
 non terminal ZDeclList
     varDeclList;
 
-non terminal JokerDeclList
+non terminal DeclList
     jokerDeclList,
     varJokerDeclList;
 </add:zpatt>
@@ -1973,13 +1973,13 @@ declPart ::=
         ;
 
 jokerDeclList ::=
-        zDeclList:zdl JOKERDECLLIST:j
-        {: RESULT = factory_.createJokerDeclList(zdl, j); :}
+        zDeclList:zdl sep:s JOKERDECLLIST:j
+        {: RESULT = factory_.createHeadDeclList(zdl,
+             factory_.createJokerDeclList(j)); :}
         |
         JOKERDECLLIST:j
         {:
-           ZDeclList zdl = factory_.createZDeclList();
-           RESULT = factory_.createJokerDeclList(zdl, j);
+           RESULT = factory_.createJokerDeclList(j);
         :}
 </add:zpatt>
         ;
@@ -3917,13 +3917,13 @@ varDeclList ::=
 varJokerDeclList ::=
         varDeclList:vdl SEMICOLON JOKERDECLLIST:jdl
         {:
-           RESULT = factory_.createJokerDeclList(vdl, jdl);
+           RESULT = factory_.createHeadDeclList(vdl,
+             factory_.createJokerDeclList(jdl));
         :}
         |
         JOKERDECLLIST:jdl
         {:
-           ZDeclList zDeclList = factory_.createZDeclList();
-           RESULT = factory_.createJokerDeclList(zDeclList, jdl);
+           RESULT = factory_.createJokerDeclList(jdl);
         :}        
         ;
 
