@@ -63,7 +63,9 @@ public class SimpleProverTest
       for (Iterator<ConjPara> i = conjectures.iterator(); i.hasNext(); ) {
         ConjPara conjPara = i.next();
         PredSequent sequent = factory_.createPredSequent();
-        sequent.setPred(conjPara.getPred());
+	SimpleProver.CopyVisitor visitor =
+	    new SimpleProver.CopyVisitor(factory_);
+        sequent.setPred((Pred) conjPara.getPred().accept(visitor));
         SimpleProver prover = new SimpleProver(rules, factory_);
         if (! prover.prove(sequent)) {
           StringWriter writer = new StringWriter();

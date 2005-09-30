@@ -26,6 +26,7 @@ import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.rules.ast.*;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.Factory;
 import net.sourceforge.czt.zpatt.visitor.*;
@@ -195,47 +196,6 @@ public class SimpleProver
   }
 
   /**
-   * Assumes that all Jokers in lists are list joker.
-   */
-  public static boolean unify(List l1, List l2, Set<Binding> bindings)
-  {
-    if (l1.size() > l2.size()) {
-      return unify(l2, l1, bindings);
-    }
-    if (l1.size() == l2.size()) {
-      Iterator i1 = l1.iterator();
-      Iterator i2 = l2.iterator();
-      while(i1.hasNext()) {
-        if (! unify(i1.next(), i2.next(), bindings)) return false;
-      }
-      return true;
-    }
-    assert l1.size() < l2.size();
-    if (l1.isEmpty()) {
-      return l2.size() == 1 && l2.get(0) instanceof Joker;
-    }
-    if (l1.get(l1.size() - 1) instanceof Joker) {
-      Iterator i1 = l1.iterator();
-      Iterator i2 = l2.iterator();
-      Object o = null;
-      while(i2.hasNext()) {
-        if (i1.hasNext()) o = i1.next();
-        if (! unify(o, i2.next(), bindings)) return false;
-      }
-      return true;
-    }
-    if (l1.size() + 1 == l2.size() && l2.get(l1.size()) instanceof Joker) {
-      Iterator i1 = l1.iterator();
-      Iterator i2 = l2.iterator();
-      while(i1.hasNext()) {
-        if (! unify(i1.next(), i2.next(), bindings)) return false;
-      }
-      return true;
-    }
-    return false;
-  }
-
-  /**
    * Unifies two terms (no occur check).
    *
    * @param term1 the first term.
@@ -256,9 +216,6 @@ public class SimpleProver
     }
     if (term1.getClass() != term2.getClass()) {
       return false;
-    }
-    if (term1 instanceof List && term2 instanceof List) {
-      return unify((List) term1, (List) term2, bindings);
     }
     Object[] args1 = term1.getChildren();
     Object[] args2 = term2.getChildren();
@@ -302,6 +259,8 @@ public class SimpleProver
   public static class CopyVisitor
     implements TermVisitor,
                JokerDeclListVisitor,
+               ZDeclListVisitor,
+               HeadDeclListVisitor,
                JokerExprVisitor,
                JokerDeclNameVisitor,
                JokerPredVisitor,
@@ -323,6 +282,31 @@ public class SimpleProver
     {
       return factory_.createJokerDeclList(joker.getName());
     }
+
+    public Object visitZDeclList(ZDeclList zDeclList)
+    {
+      return transform(zDeclList.iterator(), new EmptyDeclListImpl());
+    }
+
+    public Object visitHeadDeclList(HeadDeclList hdl)
+    {
+      return transform(hdl.getZDeclList().iterator(),
+		       (DeclList) hdl.getJokerDeclList().accept(this));
+    }
+
+    /**
+     * Doesn't visit the last argument.
+     */
+    private DeclList transform(Iterator<Decl> iter, DeclList last)
+    {
+      if (iter.hasNext()) {
+	Decl decl = (Decl) iter.next().accept(this);
+	DeclList cdr = transform(iter, last);
+        return new DeclConsPairImpl(decl, cdr);
+      }
+      return last;
+    }
+
 
     public Object visitJokerExpr(JokerExpr joker)
     {
