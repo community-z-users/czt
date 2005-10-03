@@ -87,7 +87,7 @@ public class JokerScanner
   protected Symbol localLookup(Symbol symbol)
     throws Exception
   {
-    if (lookup_ == false) { 
+    if (lookup_ == false) {
       return symbol;
     }
     Symbol result = null;
