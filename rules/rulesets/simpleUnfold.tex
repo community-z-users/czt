@@ -9,6 +9,10 @@
 \newcommand{\SECTION}{\textbf{section}~}
 \newcommand{\parents}{\mathrel{\textbf{parents}}}
 \newcommand{\relation}{\mathrel{\textbf{relation}}}
+\newcommand{\function}{\mathrel{\textbf{function}}}
+\newcommand{\generic}{\mathrel{\textbf{generic}}}
+\newcommand{\leftassoc}{\mathrel{\textbf{leftassoc}}}
+\newcommand{\rightassoc}{\mathrel{\textbf{rightassoc}}}
 
 
 % Rule syntax: \begin{zedrule}{Name} Ant1 \\ Ant2 \derive Concl \end{zedrule}
@@ -31,6 +35,9 @@
 \newcommand{\proviso}{\raisebox{0.5ex}{${}_{\blacktriangleright}\ $}}%%or\star
 %       %%Zprechar \proviso U+22C6    % small star, or
 %       %%Zprechar \proviso U+25B8    % small solid triangle  |> )
+
+%% Syntax within provisos
+\newcommand{\schemamerge}{\mathbin{\textbf{schemamerge}}}
 
 
 \title{Simple Schema Unfolding Rules in CZT}
@@ -96,6 +103,17 @@ equality.  In fact, the intention is that the right hand argument
   \relation ( \_ \unfoldsTo \_ )
 \end{zed}
 
+We also define some syntax for use within the provisos that manipulate
+schemas and signatures.  The $\schemamerge$ operator calculates
+the union of two DeclLists. 
+\begin{verbatim}
+%%Zinword \schemamerge schemamerge
+\end{verbatim}
+
+\begin{zed}
+  \function 30 \leftassoc ( \_ \schemamerge \_ )
+\end{zed}
+
 \begin{gendef}[SCHEMA]
   \_ \unfoldsTo \_ : SCHEMA \rel SCHEMA
 \where
@@ -126,13 +144,16 @@ becomes the first declaration within $D1$.
 This rule handles simple schema inclusions, where the name
 $v$ is directly defined in the specification.  It does not
 recursively unfold the schema after looking it up, but it would
-be easy to change the rule to do that later.
+be easy to change the rule to do that later.  If D1 and D2 are 
+type compatible, then the schemamerge proviso returns their
+union in D3, otherwise it throws an exception.
+
 \begin{zedrule}{normaliseIncludeDecl}
    \proviso ?~ v == [D1 | P1] \\
    [D | true] \unfoldsTo [D2 | P2] \\
-   % TODO: check type compatibility later: \proviso [D1;D2] : \power [D3]
+   \proviso D3 == [D1] \schemamerge [D2]
 \derives
-   [v; D | true] \unfoldsTo [D1; D2 | P1 \land P2]
+   [v; D | true] \unfoldsTo [D3 | P1 \land P2]
 \end{zedrule}
 
 The base case is an empty declaration list, $[|true]$.
