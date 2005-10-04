@@ -19,12 +19,16 @@
 
 package net.sourceforge.czt.rules.ast;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import net.sourceforge.czt.rules.*;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.impl.LookupConstDeclProvisoImpl;
+import net.sourceforge.czt.zpatt.util.Factory;
 
 /**
  * <p>A LookupConstDeclProviso used by the prover.</p>
@@ -44,12 +48,27 @@ public class ProverLookupConstDeclProviso
       DefinitionTable table = (DefinitionTable) manager.get(key);
       if (table != null) {
         RefExpr ref = (RefExpr) getLeftExpr();
-        DefinitionTable.Definition def =
-          table.lookup(ref.getZRefName().getWord());
-        Expr expr = def.getExpr();
+        RefName refName = ref.getRefName();
+        String word = refName.accept(new GetRefNameWordVisitor());
+        DefinitionTable.Definition def = table.lookup(word);
+        if (def != null) {
+          Expr expr =
+            (Expr) SimpleProver.copy(def.getExpr(),
+                                     new Factory(new ProverFactory()));
+          Set<Binding> bindings = new HashSet<Binding>();
+          if (Unification.unify(expr, getRightExpr(), bindings)) {
+            status_ = Status.PASS;
+          }
+          else {
+            status_ = Status.FAIL;
+          }
+        }
+        else status_ = Status.UNKNOWN;
       }
     }
     catch (CommandException e) {
+      status_ = Status.UNKNOWN;
+      System.err.println(e);
     }
     return;
   }

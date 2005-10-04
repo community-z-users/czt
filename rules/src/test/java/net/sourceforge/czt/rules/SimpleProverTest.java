@@ -32,6 +32,7 @@ import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.ast.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.Factory;
 import net.sourceforge.czt.zpatt.jaxb.JaxbXmlReader;
@@ -57,7 +58,8 @@ public class SimpleProverTest
     try {
       URL url = getClass().getResource(resource);
       assertFalse(url == null);
-      Term term = ParseUtils.parse(new UrlSource(url), new SectionManager());
+      Term term = ParseUtils.parse(new UrlSource(url), manager_);
+      String sectname = term.accept(new GetZSectNameVisitor());
       List<Rule> rules = collectRules(term);
       List<ConjPara> conjectures = collectConjectures(term);
       for (Iterator<ConjPara> i = conjectures.iterator(); i.hasNext(); ) {
@@ -66,7 +68,8 @@ public class SimpleProverTest
 	SimpleProver.CopyVisitor visitor =
 	    new SimpleProver.CopyVisitor(factory_);
         sequent.setPred((Pred) conjPara.getPred().accept(visitor));
-        SimpleProver prover = new SimpleProver(rules, factory_);
+        SimpleProver prover =
+          new SimpleProver(rules, factory_, manager_, sectname);
         if (! prover.prove(sequent)) {
           StringWriter writer = new StringWriter();
           PrintUtils.print(conjPara.getPred(),
@@ -125,5 +128,24 @@ public class SimpleProverTest
       }
     }
     return result;
+  }
+
+  public static class GetZSectNameVisitor
+    implements SpecVisitor<String>,
+               ZSectVisitor<String>
+  {
+    public String visitSpec(Spec spec)
+    {
+      for (Sect sect : spec.getSect()) {
+        String name = sect.accept(this);
+        if (name != null) return name;
+      }
+      return null;
+    }
+
+    public String visitZSect(ZSect zSect)
+    {
+      return zSect.getName();
+    }
   }
 }
