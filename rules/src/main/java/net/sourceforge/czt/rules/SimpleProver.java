@@ -121,8 +121,6 @@ public class SimpleProver
    * Tries to prove an array of sequents.
    * Returns <code>true</code> if this succeeds,
    * <code>false</code> otherwise.
-   *
-   * Only handles PredSequent so far.
    */
   public boolean prove(List sequents)
   {
@@ -202,7 +200,8 @@ public class SimpleProver
                JokerDeclNameVisitor,
                JokerRefNameVisitor,
                JokerPredVisitor,
-               LookupConstDeclProvisoVisitor
+               LookupConstDeclProvisoVisitor,
+               CalculateProvisoVisitor
   {
     private Factory factory_;
 
@@ -272,6 +271,14 @@ public class SimpleProver
       Expr left = (Expr) proviso.getLeftExpr().accept(this);
       Expr right = (Expr) proviso.getRightExpr().accept(this);
       return factory_.createLookupConstDeclProviso(context, left, right);
+    }
+
+    public Object visitCalculateProviso(CalculateProviso proviso)
+    {
+      SequentContext context = proviso.getSequentContext();
+      Expr left = (Expr) proviso.getLeftExpr().accept(this);
+      Expr right = (Expr) proviso.getRightExpr().accept(this);
+      return factory_.createCalculateProviso(context, left, right);
     }
   }
 }
