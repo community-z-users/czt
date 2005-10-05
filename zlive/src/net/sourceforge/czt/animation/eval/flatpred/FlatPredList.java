@@ -194,7 +194,7 @@ public class FlatPredList
         for (DeclName name : vdecl.getDeclName()) {
           ZDeclName dvar = (ZDeclName) name;
           boundVars_.add(dvar);
-          ZRefName varref = factory_.createZRefName(dvar);
+          ZRefName varref = factory_.createZRefName(dvar.getWord(), dvar.getStroke(), null); // TODO: add link to dvar after typechecking
           predlist_.add(new FlatMember(typeName, varref));
         }
       }
@@ -203,7 +203,7 @@ public class FlatPredList
         ZDeclName dvar = cdecl.getZDeclName();
         boundVars_.add(dvar);
         Expr expr = cdecl.getExpr();
-        ZRefName varref = factory_.createZRefName(dvar);
+        ZRefName varref = factory_.createZRefName(dvar.getWord(), dvar.getStroke(), null); // TODO: add link to dvar after typechecking
         flatten_.flattenPred(factory_.createMemPred(varref, expr), predlist_);
       }
       else {
