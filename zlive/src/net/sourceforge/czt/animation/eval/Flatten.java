@@ -304,7 +304,10 @@ public class Flatten
   public ZRefName visitZRefName(ZRefName e)
   { return e; }
 
-  /** Simple RefExpr objects are returned unchanged. */
+  /** Simple RefExpr objects are returned unchanged.
+   *  We try to unfold non-generic definitions of names.
+   *  We replace \nat and \num by FlatRangeSet.
+   */
   public ZRefName visitRefExpr(RefExpr e) {
     if (e.getZExprList().size() != 0)
       return notYet(e, "generic");
@@ -314,7 +317,22 @@ public class Flatten
       Expr newExpr = def.getExpr();
       return newExpr.accept(this);      
     }
-    return e.getZRefName();
+    ZRefName result = e.getZRefName();
+    // check for \nat and \num
+    if ( result.getWord().equals(ZString.NAT)
+      && result.getStroke().isEmpty()) {
+      result = zlive_.createNewName();
+      ZRefName zeroName = zlive_.createNewName();
+      Expr zero = zlive_.getFactory().createNumExpr(0);
+      flat_.add(new FlatConst(zeroName, zero));
+      flat_.add(new FlatRangeSet(zeroName,null,result));
+    }
+    else if (result.getWord().equals(ZString.NUM)
+          && result.getStroke().isEmpty()) {
+        result = zlive_.createNewName();
+        flat_.add(new FlatRangeSet(null,null,result));
+      }
+    return result;
   }
 
   /** NumExpr objects are converted into tmp = Num. */
