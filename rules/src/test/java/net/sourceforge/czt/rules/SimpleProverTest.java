@@ -53,6 +53,11 @@ public class SimpleProverTest
     prove("/simple2.tex");
   }
 
+  public void testSimple3()
+  {
+    prove("/simple3.tex");
+  }
+
   private void prove(String resource)
   {
     try {

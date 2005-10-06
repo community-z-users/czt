@@ -49,14 +49,6 @@ public class SimpleProver
   private SectionManager manager_;
   private String section_;
 
-  public SimpleProver(List<Rule> rules, Factory factory)
-  {
-    rules_ = rules;
-    factory_ = factory;
-    manager_ = new SectionManager();
-    section_ = "standard_toolkit";
-  }
-
   public SimpleProver(List<Rule> rules, Factory factory,
                       SectionManager manager, String section)
   {
@@ -131,7 +123,9 @@ public class SimpleProver
       }
       else if (sequent instanceof ProverProviso) {
         ProverProviso proviso = (ProverProviso) sequent;
+        System.err.println("Check " + proviso);
         proviso.check(manager_, section_);
+        System.err.println(proviso.getStatus());
         if (! ProverProviso.Status.PASS.equals(proviso.getStatus())) {
           return false;
         }

@@ -56,10 +56,12 @@ public class ProverLookupConstDeclProviso
             (Expr) SimpleProver.copy(def.getExpr(),
                                      new Factory(new ProverFactory()));
           Set<Binding> bindings = new HashSet<Binding>();
-          if (Unification.unify(expr, getRightExpr(), bindings)) {
+          Unification unifier = new Unification(bindings);
+          if (unifier.unify(expr, getRightExpr())) {
             status_ = Status.PASS;
           }
           else {
+            System.err.println(unifier.getCause());
             status_ = Status.FAIL;
           }
         }

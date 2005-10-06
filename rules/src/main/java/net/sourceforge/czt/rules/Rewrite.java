@@ -23,7 +23,8 @@ import java.util.List;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
-import  net.sourceforge.czt.rules.ast.*;
+import net.sourceforge.czt.rules.ast.*;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.zpatt.ast.*;
@@ -50,12 +51,15 @@ public class Rewrite
   implements TermVisitor,
              ExprVisitor
 {
+  private SectionManager manager_;
+
   private List<Rule> rules_;
 
   private String section_;
 
-  public Rewrite(List<Rule> rules)
+  public Rewrite(SectionManager manager, List<Rule> rules)
   {
+    manager_ = manager;
     rules_ = rules;
   }
 
@@ -77,17 +81,25 @@ public class Rewrite
   public Object visitExpr(Expr expr)
   {
     Expr newExpr = (Expr) VisitorUtils.visitTerm(this, expr, true);
-    // We assume that newExpr does not contain jokers.
+    return rewrite(manager_, section_, newExpr, rules_);
+  }
+
+  public static Object rewrite(SectionManager manager,
+                               String section,
+                               Expr expr,
+                               List<Rule> rules)
+  {
     Factory factory = new Factory(new ProverFactory());
-    ProverJokerExpr joker = (ProverJokerExpr) factory.createJokerExpr();
-    Pred pred = factory.createEquality(newExpr, joker);
+    ProverJokerExpr joker = (ProverJokerExpr) factory.createJokerExpr("_");
+    Pred pred = factory.createEquality(expr, joker);
     PredSequent predSequent = factory.createPredSequent();
     predSequent.setPred(pred);
-    SimpleProver prover = new SimpleProver(rules_, factory);
+    SimpleProver prover =
+      new SimpleProver(rules, factory, manager, section);
     if (prover.prove(predSequent)) {
       return joker.boundTo().accept(new RemoveJokerVisitor());
     }
-    return newExpr;
+    return expr;
   }
 
   /**
@@ -96,9 +108,11 @@ public class Rewrite
    *
    * @throws NullPointerExcpetion if term is <code>null</code>.
    */
-  public static Term rewrite(Term term, List<Rule> rules)
+  public static Term rewrite(SectionManager manager,
+                             Term term,
+                             List<Rule> rules)
   {
-    Rewrite visitor = new Rewrite(rules);
+    Rewrite visitor = new Rewrite(manager, rules);
     return (Term) term.accept(visitor);
   }
 }

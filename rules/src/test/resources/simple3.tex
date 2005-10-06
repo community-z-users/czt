@@ -1,0 +1,60 @@
+\begin{zsection}
+\SECTION simple3 \parents standard\_toolkit
+\end{zsection}
+
+\begin{verbatim}
+%%Zinchar \proviso U+25B8
+%%Zinchar \derives U+2500
+%%Zinword \unfoldsTo unfoldsTo
+\end{verbatim}
+\newcommand{\unfoldsTo}{\mathrel{\leadsto}}
+
+\begin{zedjoker}{DeclList} D, D1, D2, D3\end{zedjoker} \\
+\begin{zedjoker}{Pred} P, P1, P2\end{zedjoker} \\
+\begin{zedjoker}{Expr} E\end{zedjoker} \\
+\begin{zedjoker}{Name} v\end{zedjoker} \\
+
+\begin{schema}{S1}
+  x:\nat
+\where
+  x > 41
+\end{schema}
+
+\begin{schema}{S2}
+  y:\nat
+\where
+  y < 41
+\end{schema}
+
+\begin{zedrule}{startNormalise}
+   [D1 | true] \unfoldsTo [D2 | P2]
+\derives
+   [D1 | P] = [D2 | P2 \land P]
+\end{zedrule}
+
+\begin{zedrule}{normaliseVarDecl}
+   [D1 | true] \unfoldsTo [D2 | P2]
+\derives
+   [v:E; D1 | true] \unfoldsTo [v:E; D2 | P2]
+\end{zedrule}
+
+\begin{zedrule}{normaliseIncludeDecl}
+   \proviso ?~ v == [D1 | P1] \\
+   [D | true] \unfoldsTo [D2 | P2] \\
+   \proviso [D3 | true] == [D1 | true] \schemamerge [D2 | true]
+\derives
+   [v; D | true] \unfoldsTo [D3 | P1 \land P2]
+\end{zedrule}
+
+\begin{zedrule}{normaliseEmpty}
+   [~ | true] \unfoldsTo [~ | true]
+\end{zedrule}
+
+\begin{zed}
+  \vdash?~ [S1 | true] \unfoldsTo [x:\nat | x > 41 \land true]
+\end{zed}
+
+\begin{zed}
+  \vdash?~ [S1; S2 | true] \unfoldsTo
+           [x:\nat; y:\nat | x > 41 \land (y < 41 \land true)]
+\end{zed}

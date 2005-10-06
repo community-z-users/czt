@@ -30,26 +30,54 @@ import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.Factory;
 import net.sourceforge.czt.zpatt.visitor.*;
 
-public final class Unification
+/**
+ * Unification of ASTs.
+ *
+ * @author Petra Malik
+ */
+public class Unification
 {
-  public static Object o1_;
-  public static Object o2_;
-  public static String reason_;
+  private UnificationException cause_ = null;
+  private boolean provideCause_ = true;
+  private Set<Binding> bindings_;
 
   public static boolean unify(Object o1, Object o2, Set<Binding> bindings)
+  {
+    Unification unifier = new Unification(bindings);
+    return unifier.unify(o1, o2);
+  }
+
+  public Unification(Set<Binding> bindings)
+  {
+    bindings_ = bindings;
+  }
+
+  public UnificationException getCause()
+  {
+    return cause_;
+  }
+
+  public void provideCause(boolean value)
+  {
+    provideCause_ = value;
+  }
+
+  public boolean unify(Object o1, Object o2)
   {
     if (o1 == null && o2 == null) {
       return true;
     }
     if (o1 != null && o2 != null) {
       if (o1 instanceof Term && o2 instanceof Term) {
-        return unify((Term) o1, (Term) o2, bindings);
+        return unify((Term) o1, (Term) o2);
       }
-      return o1.equals(o2);
+      if (! o1.equals(o2)) {
+        notEqualObjectsFailure(o1, o2);
+        return false;
+      }
+      return true;
     }
-    o1_ = o1;
-    o2_ = o2;
-    reason_ = "object";
+    notTermsFailure(o1, o2);
     return false;
   }
 
@@ -61,50 +89,118 @@ public final class Unification
    * @return <code>true</code> if both term unify,
    *         <code>false</code> otherwise.
    */
-  public static boolean unify(Term term1, Term term2, Set<Binding> bindings)
+  public boolean unify(Term term1, Term term2)
   {
     if (term1 == term2) {
       return true;
     }
     if (term1 instanceof Joker) {
-      return handleJoker((Joker) term1, term2, bindings);
+      return handleJoker((Joker) term1, term2);
     }
     if (term2 instanceof Joker) {
-      return handleJoker((Joker) term2, term1, bindings);
+      return handleJoker((Joker) term2, term1);
     }
     if (term1.getClass() != term2.getClass()) {
-      o1_ = term1;
-      o2_ = term2;
-      reason_ = "not of the same class";
+      notSameClassesFailure(term1, term2);
       return false;
     }
     Object[] args1 = term1.getChildren();
     Object[] args2 = term2.getChildren();
     assert args1.length == args2.length;
     for (int i = 0; i < args1.length; i++) {
-      if (! unify(args1[i], args2[i], bindings)) {
+      if (! unify(args1[i], args2[i])) {
+        childrenFailure(term1, term2);
         return false;
       }
     }
     return true;
   }
 
-  private static boolean handleJoker(Joker joker, Term term,
-                                     Set<Binding> bindings)
+  private boolean handleJoker(Joker joker, Term term)
   {
     Term boundTo = joker.boundTo();
     if (boundTo != null && ! (boundTo instanceof List)) {
-      return unify(boundTo, term, bindings);
+      return unify(boundTo, term);
     }
     try {
-      bindings.add(joker.bind(term));
+      bindings_.add(joker.bind(term));
       return true;
     }
     catch (IllegalArgumentException e) {
-      o1_ = joker;
-      o2_ = term;
-      reason_ = "cannot bind to joker";
+      jokerBindingFailure(joker, term, e);
       return false;
+    }
+  }
+
+  private void notTermsFailure(Object left, Object right)
+  {
+    if (provideCause_) {
+      String message = "Objects are not terms.";
+      cause_ = new UnificationException(left, right, message, cause_);
+    }
+  }
+
+  private void notSameClassesFailure(Object left, Object right)
+  {
+    if (provideCause_) {
+      String message = "Terms are not of the same type.";
+      cause_ = new UnificationException(left, right, message, cause_);
+    }
+  }
+
+  private void notEqualObjectsFailure(Object left, Object right)
+  {
+    if (provideCause_) {
+      String message = "Objects are not equal.";
+      cause_ = new UnificationException(left, right, message, cause_);
+    }
+  }
+
+  private void jokerBindingFailure(Object left, Object right,
+                                          Throwable cause)
+  {
+    if (provideCause_) {
+      String message = "Term cannot be bound to joker.";
+      cause_ = new UnificationException(left, right, message, cause_);
+    }
+  }
+
+  private void childrenFailure(Object left, Object right)
+  {
+    if (provideCause_) {
+      String message = "Children don't match.";
+      cause_ = new UnificationException(left, right, message, cause_);
+    }
+  }
+
+  public static class UnificationException
+    extends Exception
+  {
+    private String reason_;
+    private Object left_;
+    private Object right_;
+    
+    public UnificationException(Object left, Object right, String reason)
+    {
+      reason_ = reason;
+      left_ = left;
+      right_ = right;
+    }
+
+    public UnificationException(Object left, Object right,
+                                String reason,
+                                Throwable cause)
+    {
+      super(cause);
+      reason_ = reason;
+      left_ = left;
+      right_ = right;
+    }
+
+    public String getMessage()
+    {
+      return "Cannot unify " + left_ + " and " + right_ + ": " + reason_
+        + "\ncaused by: " + getCause();
     }
   }
 }
