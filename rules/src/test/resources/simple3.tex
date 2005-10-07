@@ -58,3 +58,10 @@
   \vdash?~ [S1; S2 | true] \unfoldsTo
            [x:\nat; y:\nat | x > 41 \land (y < 41 \land true)]
 \end{zed}
+
+\begin{zed}
+  \vdash?~ [S1; S2; z:\nat | x < z] =
+           [x:\nat; y:\nat; z:\nat | x > 41 \land (y < 41 \land true)
+                                     \land x < z]
+\end{zed}
+
