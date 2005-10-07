@@ -36,6 +36,9 @@
     file="${basedir}/zlive/build.xml"
     property="zlive.present"/>
   <available
+    file="${basedir}/rules/build.xml"
+    property="rules.present"/>
+  <available
     file="${basedir}/jedit/ZCharMap/build.xml"
     property="jedit.present"/>
 
@@ -78,12 +81,12 @@
     depends="install-bin, install-subprojects"/>
 
   <target name="install-subprojects"
-    depends="install-corejava, install-parser, install-gaffe, install-z2b, install-typechecker, install-zlive, install-jedit"
+    depends="install-corejava, install-parser, install-gaffe, install-z2b, install-typechecker, install-zlive, install-rules, install-jedit"
     description="install subprojects">
   </target>
 
   <target name="api-subprojects"
-    depends="api-corejava, api-parser, api-typechecker, api-zlive"
+    depends="api-corejava, api-parser, api-typechecker, api-zlive, api-rules"
     description="build the api for subprojects">
   </target>
 
@@ -133,6 +136,12 @@
     <ant dir="zlive" target="install"/>
   </target>
 
+  <target name="install-rules" if="rules.present"
+    depends="install-corejava, install-parser"
+    description="install rules">
+    <ant dir="rules" target="install"/>
+  </target>
+
   <target name="install-jedit" if="jedit.present"
     depends="czt.jar"
     description="install jedit plugin">
@@ -166,6 +175,11 @@
   <target name="api-zlive" if="zlive.present"
     description="build api doc for zlive">
     <ant dir="zlive" target="api"/>
+  </target>
+
+  <target name="api-rules" if="rules.present"
+    description="build api doc for rules">
+    <ant dir="rules" target="api"/>
   </target>
 
   <!-- not maintained any more
@@ -259,6 +273,11 @@
     </path>
     <pathconvert targetos="unix" property="zlive.unix" refid="zlive"/>
     <pathconvert targetos="windows" property="zlive.win" refid="zlive"/>
+    <path id="rules">
+      <pathelement location="${czt.jar.dir}/${rules.jar.file}"/>
+    </path>
+    <pathconvert targetos="unix" property="rules.unix" refid="rules"/>
+    <pathconvert targetos="windows" property="rules.win" refid="rules"/>
     <path id="typechecker">
       <pathelement location="${czt.jar.dir}/${typechecker.jar.file}"/>
     </path>
@@ -288,6 +307,8 @@ Z2B=${z2b.unix}
 ZML2XHTML=${zml2xhtml.unix}
 # ZLive jar file
 ZLIVE=${zlive.unix}
+# rules jar file
+RULES=${rules.unix}
 #TYPECHECKER
 TYPECHECKER=${typechecker.unix}
     </echo>
@@ -316,6 +337,8 @@ rem ZML2XHTML translator jar file
 set ZML2XHTML=${zml2xhtml.win}
 rem zlive animator jar file
 set ZLIVE=${zlive.win}
+rem rules jar file
+set RULES=${rules.win}
 rem typechecker jar file
 set TYPECHECKER=${typechecker.win}
     </echo>
@@ -328,6 +351,7 @@ set TYPECHECKER=${typechecker.win}
     <ant dir="translators/z2b" target="test"/>
     <ant dir="typechecker" target="test"/>
     <ant dir="zlive" target="test"/>
+    <ant dir="rules" target="test"/>
     <ant dir="." target="test-report"/>
   </target>
 
@@ -353,7 +377,7 @@ set TYPECHECKER=${typechecker.win}
   </target>
 
   <target name="clean" description="clean up subprojects"
-    depends="clean-gnast, clean-corejava, clean-java_cup, clean-ant-task, clean-gaffe, clean-gaffe-generator, clean-parser, clean-z2b, clean-typechecker, clean-zlive, clean-jedit">
+    depends="clean-gnast, clean-corejava, clean-java_cup, clean-ant-task, clean-gaffe, clean-gaffe-generator, clean-parser, clean-z2b, clean-typechecker, clean-zlive, clean-rules, clean-jedit">
     <delete dir="${jar.dir}"/>
     <delete file="${unix.settings.file}"/>
     <delete file="${windows.settings.file}"/>
@@ -407,6 +431,11 @@ set TYPECHECKER=${typechecker.win}
   <target name="clean-zlive" if="zlive.present"
     description="clean up typechecker">
     <ant dir="zlive" target="clean"/>
+  </target>
+
+  <target name="clean-rules" if="rules.present"
+    description="clean up typechecker">
+    <ant dir="rules" target="clean"/>
   </target>
 
   <target name="clean-jedit" if="jedit.present"
