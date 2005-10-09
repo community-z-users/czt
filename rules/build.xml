@@ -2,7 +2,7 @@
   <property name="czt.home" location=".."/>
   <property file="${czt.home}/czt.properties"/>
   <property name="rules.jar.dir" location="${czt.home}/${jar.dir}"/>
-  <property name="rules.jar.file" location="${rules.jar.dir}/rules.jar"/>
+  <property name="jar.file" location="${rules.jar.dir}/${rules.jar.file}"/>
   <property name="rules.src.dir" location="src/main/java"/>
   <property name="rules.build.dir" location="build"/>
   <property name="rules.api.dir" location="doc/api"/>
@@ -40,7 +40,7 @@
   <target name="install" depends="compile"
           description="build and install the jar files">
     <mkdir dir="${rules.jar.dir}"/>
-    <jar jarfile="${rules.jar.file}">
+    <jar jarfile="${jar.file}">
       <fileset dir="${rules.build.dir}"/>
     </jar>
   </target>
@@ -54,7 +54,7 @@
       debuglevel="${debuglevel}"
       optimize="${optimize}">
       <classpath refid="classpath"/>
-      <compilerarg value="-Xlint"/>
+      <!-- <compilerarg value="${compilerarg}"/> -->
     </javac>
   </target>
 
@@ -113,7 +113,7 @@
       debuglevel="${debuglevel}"
       optimize="${optimize}">
       <classpath>
-        <pathelement location="${rules.jar.file}"/>
+        <pathelement location="${jar.file}"/>
       </classpath>
       <classpath refid="classpath"/>
       <compilerarg value="-Xlint"/>
@@ -134,7 +134,7 @@
       <test toDir="${rules.build.dir}"
         name="net.sourceforge.czt.rules.SimpleProverTest"/>
       <classpath>
-        <pathelement location="${rules.jar.file}"/>
+        <pathelement location="${jar.file}"/>
         <pathelement location="${test.jar.file}"/>
       </classpath>
       <classpath refid="classpath"/>
