@@ -123,9 +123,7 @@ public class SimpleProver
       }
       else if (sequent instanceof ProverProviso) {
         ProverProviso proviso = (ProverProviso) sequent;
-        System.err.println("Check " + proviso);
         proviso.check(manager_, section_);
-        System.err.println(proviso.getStatus());
         if (! ProverProviso.Status.PASS.equals(proviso.getStatus())) {
           return false;
         }
