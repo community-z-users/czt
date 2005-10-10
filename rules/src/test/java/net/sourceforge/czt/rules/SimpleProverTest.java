@@ -31,6 +31,7 @@ import net.sourceforge.czt.parser.zpatt.ParseUtils;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.ast.*;
 import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.zpatt.ast.*;
@@ -64,6 +65,7 @@ public class SimpleProverTest
       URL url = getClass().getResource(resource);
       assertFalse(url == null);
       Term term = ParseUtils.parse(new UrlSource(url), manager_);
+      TypeCheckUtils.typecheck(term, manager_, Markup.LATEX);
       String sectname = term.accept(new GetZSectNameVisitor());
       List<Rule> rules = collectRules(term);
       List<ConjPara> conjectures = collectConjectures(term);
