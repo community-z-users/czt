@@ -99,7 +99,7 @@ public class Rewrite
     if (prover.prove(predSequent)) {
       return joker.boundTo().accept(new RemoveJokerVisitor());
     }
-    return expr;
+    return expr.accept(new RemoveJokerVisitor());
   }
 
   /**
