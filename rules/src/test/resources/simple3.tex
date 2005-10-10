@@ -9,8 +9,8 @@
 \end{verbatim}
 \newcommand{\unfoldsTo}{\mathrel{\leadsto}}
 
-\begin{zedjoker}{DeclList} D, D1, D2, D3\end{zedjoker} \\
-\begin{zedjoker}{Pred} P, P1, P2\end{zedjoker} \\
+\begin{zedjoker}{DeclList} D, D1, D2, D3, D4\end{zedjoker} \\
+\begin{zedjoker}{Pred} P, P1, P2, P3, P4\end{zedjoker} \\
 \begin{zedjoker}{Expr} E\end{zedjoker} \\
 \begin{zedjoker}{Name} v\end{zedjoker} \\
 
@@ -65,3 +65,16 @@
                                      \land x < z]
 \end{zed}
 
+\begin{zedrule}{normaliseDecoratedIncludeDecl}
+   \proviso ?~ v == [D1 | P1] \\
+   \proviso [D2|P2] == [D1|P1]~' \\
+   [D | true] \unfoldsTo [D3 | P3] \\
+   \proviso [D4 | true] == [D2 | true] \schemamerge [D3 | true]
+   % TODO: check type compatibility later: \proviso [D1;D2] : \power [D3]
+\derives
+   [v~'; D | true] \unfoldsTo [D4 | P2 \land P3]
+\end{zedrule}
+
+\begin{zed}
+  \vdash?~ [S1~' | true]  = [x' :\nat | x' > 41 \land true \land true]
+\end{zed}

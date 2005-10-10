@@ -23,9 +23,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.rules.*;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.zpatt.ast.*;
@@ -47,6 +49,8 @@ public class ProverCalculateProviso
   public void check(SectionManager manager, String section)
   {
     final Expr expr = getRightExpr();
+
+    // schema declaration merge
     if (expr instanceof ApplExpr) {
       final ApplExpr applExpr = (ApplExpr) expr;
       final Expr leftExpr = applExpr.getLeftExpr();
@@ -83,9 +87,39 @@ public class ProverCalculateProviso
         }
       }
     }
+    else if (expr instanceof DecorExpr) {
+      final DecorExpr decorExpr = (DecorExpr) expr;
+      final Stroke stroke = decorExpr.getStroke();
+      if (decorExpr.getExpr() instanceof SchExpr) {
+        final SchExpr schExpr = (SchExpr) decorExpr.getExpr();
+        final CollectStateVariablesVisitor collectVisitor =
+          new CollectStateVariablesVisitor();
+        schExpr.getZSchText().getDeclList().accept(collectVisitor);
+        final DecorateNamesVisitor visitor =
+          new DecorateNamesVisitor(collectVisitor.getVariables(), stroke);
+        try {
+          Expr result = (Expr) decorExpr.getExpr().accept(visitor);
+          Set<Binding> bindings = new HashSet<Binding>();
+          Unification unifier = new Unification(bindings);
+          if (result != null &&
+              unifier.unify(result, getLeftExpr())) {
+            status_ = Status.PASS;
+            return;
+          }
+          status_ = Status.FAIL;
+          return;
+        }
+        catch(CztException e) {
+          // status is unknown
+        }
+      }
+    }
     status_ = Status.UNKNOWN;
   }
 
+  /**
+   * Merges the declaration lists of the given schema expressions.
+   */
   private SchExpr merge(SchExpr left, SchExpr right)
   {
     final Factory factory = new Factory(new ProverFactory());
@@ -103,6 +137,10 @@ public class ProverCalculateProviso
     return status_;
   }
 
+  /**
+   * Appends a given declaration list to the declaration list
+   * contained in the visited prover AST.
+   */
   public static class AddDeclListVisitor
     implements SchExprVisitor<DeclList>,
                ZSchTextVisitor<DeclList>,
@@ -110,6 +148,9 @@ public class ProverCalculateProviso
                EmptyDeclListVisitor<DeclList>,
                JokerDeclListVisitor<DeclList>
   {
+    /**
+     * The declartion list to be appended.
+     */
     private DeclList declList_;
 
     public AddDeclListVisitor(DeclList declList)
@@ -149,6 +190,121 @@ public class ProverCalculateProviso
         if (boundTo != null) return boundTo.accept(this);
       }
       return null;
+    }
+  }
+
+  public static class CollectStateVariablesVisitor
+    implements ConstDeclVisitor,
+               VarDeclVisitor,
+               EmptyDeclListVisitor,
+               DeclConsPairVisitor,
+               JokerDeclListVisitor
+  {
+    private Set<DeclName> variables_ = new HashSet<DeclName>();
+
+    public Set<DeclName> getVariables()
+    {
+      return variables_;
+    }
+
+    public Object visitEmptyDeclList(EmptyDeclList emptyDeclList)
+    {
+      return null;
+    }
+
+    public Object visitDeclConsPair(DeclConsPair pair)
+    {
+      pair.car().accept(this);
+      pair.cdr().accept(this);
+      return null;
+    }
+
+    public Object visitVarDecl(VarDecl varDecl)
+    {
+      for (DeclName declName : varDecl.getDeclName()) {
+        variables_.add(declName);
+      }
+      return null;
+    }
+
+    public Object visitConstDecl(ConstDecl constDecl)
+    {
+      variables_.add(constDecl.getDeclName());
+      return null;
+    }
+
+    public Object visitJokerDeclList(JokerDeclList jokerDeclList)
+    {
+      if (jokerDeclList instanceof Joker) {
+        Joker joker = (Joker) jokerDeclList;
+        Term boundTo = joker.boundTo();
+        if (boundTo != null) {
+          return boundTo.accept(this);
+        }
+      }
+      throw new CztException("Found unbound Joker");
+    }
+  }
+
+  public static class DecorateNamesVisitor
+    implements TermVisitor<Term>,
+               ZDeclNameVisitor<Term>,
+               ZRefNameVisitor<Term>
+  {
+    private Set<DeclName> declNames_;
+
+    /**
+     * The stroke to be added to names.
+     */
+    private Stroke stroke_;
+
+    public DecorateNamesVisitor(Set<DeclName> declNames, Stroke stroke)
+    {
+      declNames_ = declNames;
+      stroke_ = stroke;
+    }
+
+    public Term visitTerm(Term term)
+    {
+      if (term instanceof Joker) {
+        Joker joker = (Joker) term;
+        Term boundTo = joker.boundTo();
+        if (boundTo != null) {
+          return boundTo.accept(this);
+        }
+        throw new CztException("Found unbound Joker");
+      }
+      return (Term) VisitorUtils.visitTerm(this, term, true);
+    }
+
+    public Term visitZDeclName(ZDeclName zDeclName)
+    {
+      Object[] children = zDeclName.getChildren();
+      for (int i = 0; i < children.length; i++) {
+        if (children[i] instanceof Term) {
+          children[i] = ((Term) children[i]).accept(this);
+        }
+      }
+      ZDeclName newName = (ZDeclName) zDeclName.create(children);
+      if (declNames_.contains(zDeclName)) {
+        newName.getStroke().add(stroke_);
+      }
+      return newName;
+    }
+
+    public Term visitZRefName(ZRefName zRefName)
+    {
+      Object[] children = zRefName.getChildren();
+      for (int i = 0; i < children.length; i++) {
+        if (children[i] instanceof Term) {
+          children[i] = ((Term) children[i]).accept(this);
+        }
+      }
+      ZRefName newName = (ZRefName) zRefName.create(children);
+      if (declNames_.contains(zRefName.getDecl())) {
+        newName.getStroke().add(stroke_);
+      }
+      return newName;
     }
   }
 }
