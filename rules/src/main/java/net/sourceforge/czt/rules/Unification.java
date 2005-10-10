@@ -106,12 +106,17 @@ public class Unification
     }
     Object[] args1 = term1.getChildren();
     Object[] args2 = term2.getChildren();
-    assert args1.length == args2.length;
-    for (int i = 0; i < args1.length; i++) {
-      if (! unify(args1[i], args2[i])) {
-        childrenFailure(term1, term2);
-        return false;
+    if (args1.length == args2.length) {
+      for (int i = 0; i < args1.length; i++) {
+        if (! unify(args1[i], args2[i])) {
+          childrenFailure(term1, term2);
+          return false;
+        }
       }
+    }
+    else {
+      numChildrenFailure(term1, term2);
+      return false;
     }
     return true;
   }
@@ -169,6 +174,14 @@ public class Unification
   {
     if (provideCause_) {
       String message = "Children don't match.";
+      cause_ = new UnificationException(left, right, message, cause_);
+    }
+  }
+
+  private void numChildrenFailure(Object left, Object right)
+  {
+    if (provideCause_) {
+      String message = "Different number of children.";
       cause_ = new UnificationException(left, right, message, cause_);
     }
   }
