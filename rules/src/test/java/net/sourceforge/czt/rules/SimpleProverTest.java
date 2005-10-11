@@ -38,6 +38,8 @@ import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.Factory;
 import net.sourceforge.czt.zpatt.jaxb.JaxbXmlReader;
 
+import static net.sourceforge.czt.rules.ProverUtils.*;
+
 public class SimpleProverTest
   extends TestCase
 {
@@ -93,65 +95,6 @@ public class SimpleProverTest
     }
     catch (IOException e) {
       fail("Should not throw exception " + e);
-    }
-  }
-
-  public static List<Rule> collectRules(Term term)
-  {
-    List<Rule> result = new ArrayList<Rule>();  
-    if (term instanceof Spec) {
-      for (Iterator i = ((Spec) term).getSect().iterator(); i.hasNext(); ) {
-        Sect sect = (Sect) i.next();
-        if (sect instanceof ZSect) {
-          for (Iterator j = ((ZSect) sect).getPara().iterator();
-               j.hasNext(); ) {
-            Para para = (Para) j.next();
-            if (para instanceof Rule) {
-              result.add((Rule) para);
-            }
-          }
-        }
-      }
-    }
-    return result;
-  }
-
-  public static List<ConjPara> collectConjectures(Term term)
-  {
-    List<ConjPara> result = new ArrayList<ConjPara>();  
-    if (term instanceof Spec) {
-      for (Iterator i = ((Spec) term).getSect().iterator(); i.hasNext(); ) {
-        Sect sect = (Sect) i.next();
-        if (sect instanceof ZSect) {
-          for (Iterator j = ((ZSect) sect).getPara().iterator();
-               j.hasNext(); ) {
-            Para para = (Para) j.next();
-            if (para instanceof ConjPara) {
-              result.add((ConjPara) para);
-            }
-          }
-        }
-      }
-    }
-    return result;
-  }
-
-  public static class GetZSectNameVisitor
-    implements SpecVisitor<String>,
-               ZSectVisitor<String>
-  {
-    public String visitSpec(Spec spec)
-    {
-      for (Sect sect : spec.getSect()) {
-        String name = sect.accept(this);
-        if (name != null) return name;
-      }
-      return null;
-    }
-
-    public String visitZSect(ZSect zSect)
-    {
-      return zSect.getName();
     }
   }
 }
