@@ -22,10 +22,12 @@ package net.sourceforge.czt.rules;
 import java.util.*;
 
 import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.rules.ast.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.zpatt.ast.*;
+import net.sourceforge.czt.zpatt.util.*;
 
 /**
  * Utility methods for proving and rewriting.
@@ -34,6 +36,28 @@ import net.sourceforge.czt.zpatt.ast.*;
  */
 public final class ProverUtils
 {
+  public static Factory FACTORY = new Factory(new ProverFactory());
+
+  public static PredSequent createPredSequent(Pred pred)
+  {
+    PredSequent predSequent = FACTORY.createPredSequent();
+    predSequent.setPred(pred);
+    return predSequent;
+  }
+
+  public static PredSequent createPredSequent(Expr expr)
+  {
+    Pred pred = FACTORY.createExprPred(expr);
+    return createPredSequent(pred);
+  }
+
+  public static PredSequent createRewritePredSequent(Expr expr)
+  {
+    ProverJokerExpr joker = (ProverJokerExpr) FACTORY.createJokerExpr("_");
+    Pred pred = FACTORY.createEquality(expr, joker);
+    return createPredSequent(pred);
+  }
+
   public static List<Rule> collectRules(Term term)
   {
     List<Rule> result = new ArrayList<Rule>();  
