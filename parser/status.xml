@@ -191,6 +191,10 @@
   <todo>
     <actions priority="high">
       <action context="code" dev="open">
+        Correct the Object-Z grammar so that any expression can be
+        used as the LHS of an operation promotion.
+      </action>
+      <action context="code" dev="open">
         Write a Circus parser.
       </action>
       <action context="code" dev="open">
