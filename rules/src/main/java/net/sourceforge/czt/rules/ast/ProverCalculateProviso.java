@@ -49,39 +49,39 @@ public class ProverCalculateProviso
   public void check(SectionManager manager, String section)
   {
     final Expr expr = getRightExpr();
-
     // schema declaration merge
     if (expr instanceof ApplExpr) {
       final ApplExpr applExpr = (ApplExpr) expr;
       final Expr leftExpr = applExpr.getLeftExpr();
       final Expr rightExpr = applExpr.getRightExpr();
       final boolean mixfix = applExpr.getMixfix();
-      if (! mixfix && leftExpr instanceof SchExpr &&
-          rightExpr instanceof ApplExpr) {
-        final SchExpr leftSchExpr = (SchExpr) leftExpr;
-        final ApplExpr applExpr2 = (ApplExpr) rightExpr;
-        final Expr leftExpr2 = applExpr2.getLeftExpr();
-        final Expr rightExpr2 = applExpr2.getRightExpr();
-        final boolean mixfix2 = applExpr2.getMixfix();
-        if (! mixfix2 && leftExpr2 instanceof RefExpr &&
-            rightExpr2 instanceof SchExpr) {
-          final RefExpr refExpr = (RefExpr) leftExpr2;
-          final SchExpr rightSchExpr = (SchExpr) rightExpr2;
-          final RefName refName = refExpr.getRefName();
-          if (refName instanceof ZRefName) {
-            final ZRefName zRefName = (ZRefName) refName;
-            if ("schemamerge".equals(zRefName.getWord())) {
-              SchExpr result = merge(leftSchExpr, rightSchExpr);
-              Set<Binding> bindings = new HashSet<Binding>();
-              if (result != null &&
-                  Unification.unify(result, getLeftExpr(), bindings)) {
-                status_ = Status.PASS;
-                return;
-              }
-              else {
-                status_ = Status.FAIL;
-                return;
-              }
+      if (mixfix && leftExpr instanceof RefExpr &&
+          rightExpr instanceof TupleExpr) {
+        final RefExpr refExpr = (RefExpr) leftExpr;
+        final TupleExpr tupleExpr = (TupleExpr) rightExpr;
+        final RefName refName = refExpr.getRefName();
+        final ExprList exprList = tupleExpr.getExprList();
+        if (refName instanceof ZRefName && exprList instanceof ZExprList) {
+          ZRefName zRefName = (ZRefName) refName;
+          ZExprList zExprList = (ZExprList) exprList;
+          if (" _ schemamerge _ ".equals(zRefName.getWord()) &&
+              zExprList.size() == 2 &&
+              zExprList.get(0) instanceof SchExpr &&
+              zExprList.get(1) instanceof SchExpr) {
+            final SchExpr leftSchExpr =
+              (SchExpr) zExprList.get(0);
+            final SchExpr rightSchExpr =
+              (SchExpr) zExprList.get(1);
+            SchExpr result = merge(leftSchExpr, rightSchExpr);
+            Set<Binding> bindings = new HashSet<Binding>();
+            if (result != null &&
+                Unification.unify(result, getLeftExpr(), bindings)) {
+              status_ = Status.PASS;
+              return;
+            }
+            else {
+              status_ = Status.FAIL;
+              return;
             }
           }
         }

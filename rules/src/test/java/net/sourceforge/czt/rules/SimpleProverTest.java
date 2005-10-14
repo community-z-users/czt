@@ -77,7 +77,7 @@ public class SimpleProverTest
 	CopyVisitor visitor = new CopyVisitor(factory_);
         sequent.setPred((Pred) conjPara.getPred().accept(visitor));
         SimpleProver prover =
-          new SimpleProver(rules, factory_, manager_, sectname);
+          new SimpleProver(rules, manager_, sectname);
         if (! prover.prove(sequent)) {
           StringWriter writer = new StringWriter();
           PrintUtils.print(conjPara.getPred(),

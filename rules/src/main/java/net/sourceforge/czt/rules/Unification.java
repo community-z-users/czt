@@ -22,6 +22,7 @@ package net.sourceforge.czt.rules;
 import java.util.*;
 
 import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.rules.ast.*;
 import net.sourceforge.czt.z.ast.*;
@@ -104,8 +105,9 @@ public class Unification
       notSameClassesFailure(term1, term2);
       return false;
     }
-    Object[] args1 = term1.getChildren();
-    Object[] args2 = term2.getChildren();
+    GetChildren visitor = new GetChildren();
+    Object[] args1 = term1.accept(visitor);
+    Object[] args2 = term2.accept(visitor);
     if (args1.length == args2.length) {
       for (int i = 0; i < args1.length; i++) {
         if (! unify(args1[i], args2[i])) {
@@ -212,8 +214,105 @@ public class Unification
 
     public String getMessage()
     {
+      if (left_ instanceof Term && right_ instanceof Term) {
+        return "Cannot unify " + TermToString.apply((Term) left_) + " and "
+          + TermToString.apply((Term) right_) + ": " + reason_
+          + "\ncaused by: " + getCause();
+      }
       return "Cannot unify " + left_ + " and " + right_ + ": " + reason_
         + "\ncaused by: " + getCause();
     }
   }
+
+  public static class GetChildren
+    implements RefExprVisitor<Object[]>,
+               TermVisitor<Object[]>,
+               ZRefNameVisitor<Object[]>
+  {
+    /**
+     * @czt.todo Fix this!
+     */
+    public Object[] visitRefExpr(RefExpr refExpr)
+    {
+      if (refExpr.getMixfix()) {
+        return refExpr.getChildren();
+      }
+      // Ignore type expressions when mixfix is false because
+      // expressions in sequents maybe typechecked while expressions
+      // in rules are not so that they may be missing type expressions.
+      // This is a hack!
+      return new Object[] { refExpr.getRefName() };
+    }
+
+    public Object[] visitTerm(Term term)
+    {
+      return term.getChildren();
+    }
+
+    public Object[] visitZRefName(ZRefName zRefName)
+    {
+      return new Object[] { zRefName.getWord(), zRefName.getStroke() };
+    }
+  }
+
+  protected static interface Wrapper
+  {
+    Object getContent();
+    Object[] getChildren();
+  }
+
+
+  /**
+   * Changes the internal ZExprList when getChildren()
+   * is called!
+   */
+  protected static class ZExprListWrapper
+    implements Wrapper
+  {
+    private ZExprList zExprList_;
+
+    public ZExprListWrapper(ZExprList zExprList)
+    {
+      zExprList_ = (ZExprList) zExprList.create(zExprList.getChildren());
+    }
+
+    public Object getContent()
+    {
+      return zExprList_;
+    }
+
+    public Object[] getChildren()
+    {
+      if (zExprList_.isEmpty()) {
+        return new Object[] { null, null };
+      }
+      return new Object[] { zExprList_.remove(0), this };
+    }
+  }
+
+  /*
+  protected static class HeadExprListWrapper
+    implements Wrapper
+  {
+    private HeadExprList headExprList_;
+
+    public HeadExprListWrapper(HeadExprList headExprList)
+    {
+      headExprList_ =
+        (HeadExprList) headExprList.create(headExprList.getChildren());
+    }
+
+    public Object getContent()
+    {
+      return headExprList_;
+    }
+
+    public Object[] getChildren()
+    {
+      if (headExprList.getZExprList().isEmpty()) {
+        return new Object[] { headExprList.get
+      }
+    }
+  }
+  */
 }

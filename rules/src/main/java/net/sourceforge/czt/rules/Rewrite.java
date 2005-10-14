@@ -95,7 +95,7 @@ public class Rewrite
     PredSequent predSequent = factory.createPredSequent();
     predSequent.setPred(pred);
     SimpleProver prover =
-      new SimpleProver(rules, factory, manager, section);
+      new SimpleProver(rules, manager, section);
     if (prover.prove(predSequent)) {
       return joker.boundTo().accept(new RemoveJokerVisitor());
     }

@@ -61,7 +61,6 @@ public class ProverLookupConstDeclProviso
             status_ = Status.PASS;
           }
           else {
-            System.err.println(unifier.getCause());
             status_ = Status.FAIL;
           }
         }

@@ -45,15 +45,12 @@ public class SimpleProver
   implements Prover
 {
   private List<Rule> rules_;
-  private Factory factory_;
   private SectionManager manager_;
   private String section_;
 
-  public SimpleProver(List<Rule> rules, Factory factory,
-                      SectionManager manager, String section)
+  public SimpleProver(List<Rule> rules, SectionManager manager, String section)
   {
     rules_ = rules;
-    factory_ = factory;
     manager_ = manager;
     section_ = section;
   }
@@ -67,10 +64,8 @@ public class SimpleProver
   {
     for (Iterator<Rule> i = rules_.iterator(); i.hasNext(); ) {
       Rule rule = i.next();
-      // Note: must use new ProverFactory here to generate fresh joker names.
-      Rule copiedRule = (Rule) copy(rule, new Factory(new ProverFactory()));
       try {
-        boolean success = applyRule(copiedRule, predSequent, factory_);
+        boolean success = apply(rule, predSequent);
         if (success && prove(predSequent.getDeduction())) {
           return true;
         }
@@ -138,26 +133,32 @@ public class SimpleProver
   /**
    * Tries to apply a given Rule to a given PredSequent.
    * The factory is used to create the Deduction object.
+   *
+   * @throws IllegalArgumentException if a rule has already been applied to
+   *                                  predSequent or the conclusion of the
+                                      rule is not a PredSequent.
    */
-  public static boolean applyRule(Rule rule,
-                                  PredSequent predSequent,
-                                  Factory factory)
+  public static boolean apply(Rule rule, PredSequent predSequent)
   {
     if (predSequent.getDeduction() != null) {
       String message = "A rule has been already applied to this PredSequent.";
-      throw new IllegalStateException(message);
+      throw new IllegalArgumentException(message);
     }
-    List sequents = rule.getSequent();
+    // Note: must use new ProverFactory here to generate fresh joker names.
+    Factory factory = new Factory(new ProverFactory());
+    rule = (Rule) copy(rule, factory);
+    List<Sequent> sequents = rule.getSequent();
     if (sequents.size() <= 0) {
       throw new IllegalArgumentException("Rule without Sequent");
     }
-    Sequent sequent = (Sequent) sequents.remove(0);
+    Sequent sequent = sequents.remove(0);
     if (sequent instanceof PredSequent) {
       Pred pred = ((PredSequent) sequent).getPred();
       Set<Binding> bindings = new HashSet<Binding>();
       List<Binding> bindingList = new ArrayList<Binding>();
-      bindingList.addAll(bindings);
-      if (Unification.unify(pred, predSequent.getPred(), bindings)) {
+      Unification unifier = new Unification(bindings);
+      if (unifier.unify(pred, predSequent.getPred())) {
+        bindingList.addAll(bindings);
         Deduction deduction =
           factory.createDeduction(bindingList, sequents, rule.getName());
         predSequent.setDeduction(deduction);
