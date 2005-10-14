@@ -101,10 +101,6 @@ public class Unification
     if (term2 instanceof Joker) {
       return handleJoker((Joker) term2, term1);
     }
-    if (term1.getClass() != term2.getClass()) {
-      notSameClassesFailure(term1, term2);
-      return false;
-    }
     GetChildren visitor = new GetChildren();
     Object[] args1 = term1.accept(visitor);
     Object[] args2 = term2.accept(visitor);
@@ -143,14 +139,6 @@ public class Unification
   {
     if (provideCause_) {
       String message = "Objects are not terms.";
-      cause_ = new UnificationException(left, right, message, cause_);
-    }
-  }
-
-  private void notSameClassesFailure(Object left, Object right)
-  {
-    if (provideCause_) {
-      String message = "Terms are not of the same type.";
       cause_ = new UnificationException(left, right, message, cause_);
     }
   }
@@ -235,23 +223,39 @@ public class Unification
     public Object[] visitRefExpr(RefExpr refExpr)
     {
       if (refExpr.getMixfix()) {
-        return refExpr.getChildren();
+        return add("RefExpr", refExpr.getChildren());
       }
       // Ignore type expressions when mixfix is false because
       // expressions in sequents maybe typechecked while expressions
       // in rules are not so that they may be missing type expressions.
       // This is a hack!
-      return new Object[] { refExpr.getRefName() };
+      return new Object[] { "RefExpr",
+                            refExpr.getRefName() };
     }
 
     public Object[] visitTerm(Term term)
     {
-      return term.getChildren();
+      return add(term.getClass().getName(), term.getChildren());
     }
 
+    /**
+     * Doesn't return the Decl child.
+     */
     public Object[] visitZRefName(ZRefName zRefName)
     {
-      return new Object[] { zRefName.getWord(), zRefName.getStroke() };
+      return new Object[] { "ZRefName",
+                            zRefName.getWord(),
+                            zRefName.getStroke() };
+    }
+
+    private Object[] add(String name, Object[] children)
+    {
+      Object[] result = new Object[children.length + 1];
+      result[0] = name;
+      for (int i = 0; i < children.length; i++) {
+        result[i + 1] = children[i];
+      }
+      return result;
     }
   }
 
