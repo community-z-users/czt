@@ -216,4 +216,56 @@ public class BoundsTest extends ZTestCase
     changed = preds.inferBounds(bnds);
     Assert.assertFalse(changed);
   }
+
+  /** Tests FlatPlus bounds propagation on x+y=z */
+  public void testPlusRight()
+  {
+    Bounds bnds = new Bounds();
+    bnds.addLower(x, new BigInteger("0"));
+    bnds.addUpper(x, new BigInteger("5"));
+    bnds.addLower(y, new BigInteger("3"));
+    bnds.addUpper(y, new BigInteger("4"));
+    bnds.addLower(z, new BigInteger("-10"));
+    bnds.addUpper(z, new BigInteger("10"));
+    FlatPredList preds = new FlatPredList(zlive_);
+    preds.add(new FlatPlus(x,y,z));
+    boolean changed = preds.inferBounds(bnds);
+    Assert.assertTrue(changed);
+    Assert.assertEquals(new BigInteger("0"), bnds.getLower(x));
+    Assert.assertEquals(new BigInteger("5"), bnds.getUpper(x));
+    Assert.assertEquals(new BigInteger("3"), bnds.getLower(y));
+    Assert.assertEquals(new BigInteger("4"), bnds.getUpper(y));
+    Assert.assertEquals(new BigInteger("3"), bnds.getLower(z));
+    Assert.assertEquals(new BigInteger("9"), bnds.getUpper(z));
+
+    // Check that we have reached a fixed point.
+    changed = preds.inferBounds(bnds);
+    Assert.assertFalse(changed);
+  }
+
+  /** Tests FlatPlus bounds propagation on x+y=z */
+  public void testPlusLeft()
+  {
+    Bounds bnds = new Bounds();
+    bnds.addLower(x, new BigInteger("0"));
+    bnds.addUpper(x, new BigInteger("10"));
+    bnds.addLower(y, new BigInteger("2"));
+    bnds.addUpper(y, new BigInteger("3"));
+    bnds.addLower(z, new BigInteger("7"));
+    bnds.addUpper(z, new BigInteger("8"));
+    FlatPredList preds = new FlatPredList(zlive_);
+    preds.add(new FlatPlus(x,y,z));
+    boolean changed = preds.inferBounds(bnds);
+    Assert.assertTrue(changed);
+    Assert.assertEquals(new BigInteger("4"), bnds.getLower(x));
+    Assert.assertEquals(new BigInteger("6"), bnds.getUpper(x));
+    Assert.assertEquals(new BigInteger("2"), bnds.getLower(y));
+    Assert.assertEquals(new BigInteger("3"), bnds.getUpper(y));
+    Assert.assertEquals(new BigInteger("7"), bnds.getLower(z));
+    Assert.assertEquals(new BigInteger("8"), bnds.getUpper(z));
+
+    // Check that we have reached a fixed point.
+    changed = preds.inferBounds(bnds);
+    Assert.assertFalse(changed);
+  }
 }

@@ -42,6 +42,9 @@ public class FlatSetComp
 {
   public final double DEFAULT_SIZE = 1000000.0;
 
+  /** The most recent variable bounds information. */
+  protected Bounds bounds_;
+
   /** This FlatPredList is used to evaluate ALL members of the set. */
   protected FlatPredList predsAll_;
 
@@ -99,6 +102,42 @@ public class FlatSetComp
     args.add(set);
     solutionsReturned = -1;
     knownMembers_ = null;
+  }
+
+  public boolean inferBounds(Bounds bnds)
+  {
+    // we infer bounds for both copies of the PredList.
+    // They should be identical.
+    boolean changeAll = predsAll_.inferBounds(bnds);
+    boolean changeOne = predsOne_.inferBounds(bnds);
+    assert changeAll == changeOne;
+    changeAll |= bnds.setEvalSet(args.get(args.size()-1), this);
+    bounds_ = bnds;
+    return changeAll;
+  }
+
+  public BigInteger getLower()
+  {
+    if (bounds_ == null)
+      return null;
+    else
+      return bounds_.getLower(resultName_);
+  }
+
+  public BigInteger getUpper()
+  {
+    if (bounds_ == null)
+      return null;
+    else
+      return bounds_.getUpper(resultName_);
+  }
+
+  /** Returns null for now -- because it is quite complex to calculate
+   *  maximum size of a set comprehension.
+   */
+  public BigInteger maxSize()
+  {
+	return null;
   }
 
   /** Like other Flat*Set* objects, this acts as a function:

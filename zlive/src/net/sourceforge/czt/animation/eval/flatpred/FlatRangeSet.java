@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.util.*;
+import java.util.logging.Logger;
 import java.math.*;
 
 import net.sourceforge.czt.util.*;
@@ -43,6 +44,9 @@ public class FlatRangeSet
   extends FlatPred
   implements EvalSet
 {
+  private static final Logger sLogger
+	= Logger.getLogger("net.sourceforge.czt.animation.eval");
+	  
   protected Factory factory_ = new Factory();
 
   /** The most recent variable bounds information. */
@@ -90,13 +94,53 @@ public class FlatRangeSet
     solutionsReturned = -1;
   }
 
-  /** Saves the Bounds information for later use. */
+  /** Saves the Bounds information for later use.
+   *  Note that we cannot deduce any constraints on a or b
+   *  from a..b.  Not even a<=b, because the b<a case is
+   *  allowable (it just means that a..b is empty).
+   */
   public boolean inferBounds(Bounds bnds)
   {
     bounds_ = bnds;
-    return false;
+    return bnds.setEvalSet(args.get(setArg_),this);
   }
-  
+
+  public BigInteger getLower()
+  {
+	sLogger.entering("FlatRangeSet", "getLower");
+	BigInteger result = null;
+    if (lower_ != null)
+      result = lower_;
+    else if (lowerArg_ >= 0 && bounds_ != null)
+      result = bounds_.getLower(args.get(lowerArg_));
+	sLogger.exiting("FlatRangeSet", "getLower", result);
+    return result;
+  }
+
+  public BigInteger getUpper()
+  {
+    sLogger.entering("FlatRangeSet", "getUpper");
+	BigInteger result = null;
+    if (upper_ != null)
+      result = upper_;
+    if (upperArg_ >= 0 && bounds_ != null)
+      result = bounds_.getUpper(args.get(upperArg_));
+	sLogger.exiting("FlatRangeSet", "getUpper", result);
+    return result;
+  }
+
+  public BigInteger maxSize()
+  {
+	BigInteger low = getLower();
+	BigInteger high = getUpper();
+	if (low == null || high == null)
+	  return null;
+	else if(high.compareTo(low)<0)
+	  return new BigInteger("0");
+	else
+	  return high.subtract(low).add(BigInteger.ONE);
+  }
+
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {

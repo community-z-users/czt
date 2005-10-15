@@ -260,18 +260,23 @@ public class FlatPredList
    */
   public boolean inferBounds(Bounds bnds)
   {
+    LOG.entering("FlatPredList","inferBounds",bnds);
     // bnds has changed during this method
     boolean anyChange = false;
     // bnds has changed during most recent pass of predlist_
     boolean recentChange = true;
     for (int i = 0; recentChange && i < inferPasses_; i++) {
+      LOG.fine("Starting inferBounds pass " + (i+1) + " with bounds="+bnds);
       recentChange = false;
       for (FlatPred pred : predlist_) {
-        if (pred.inferBounds(bnds))
+        if (pred.inferBounds(bnds)) {
+          LOG.finer("changed bounds of "+pred);
           recentChange = true;
+        }
       }
       anyChange |= recentChange;
     }
+    LOG.exiting("FlatPredList","chooseMode",anyChange);
     return anyChange;
   }
 

@@ -49,6 +49,21 @@ extends FlatPred
     solutionsReturned = -1;
   }
 
+  public boolean inferBounds(Bounds bnds)
+  {
+	boolean changed = false;
+	ZRefName setName = args.get(0);
+	ZRefName sizeName = args.get(1);
+	EvalSet set = bnds.getEvalSet(setName);
+	if (set != null) {
+      BigInteger maxSize = set.maxSize();
+      if (maxSize != null)
+    	changed |= bnds.addUpper(sizeName, maxSize);
+	}
+    changed |= bnds.addLower(sizeName, new BigInteger("0"));
+    return changed;
+  }
+
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {

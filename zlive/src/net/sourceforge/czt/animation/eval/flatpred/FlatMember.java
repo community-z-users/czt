@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.util.*;
+import java.util.logging.Logger;
 import java.math.*;
 
 import net.sourceforge.czt.util.*;
@@ -37,8 +38,11 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
 * FlatMember(s,e) implements e \in s, where s can be any kind of
 * set that implements the EvalSet interface.
 */
-public class FlatMember extends FlatPred {
-  
+public class FlatMember extends FlatPred 
+{
+  private static final Logger sLogger
+	= Logger.getLogger("net.sourceforge.czt.animation.eval");
+		    
   /** This is non_null during evaluation */
   protected EvalSet set_;
   
@@ -56,6 +60,25 @@ public class FlatMember extends FlatPred {
     args.add(set);
     args.add(element);
     solutionsReturned = -1;
+  }
+
+  public boolean inferBounds(Bounds bnds)
+  {
+	sLogger.entering("FlatMember", "inferBounds", bnds);
+	ZRefName setName = args.get(0);
+	ZRefName elemName = args.get(1);
+	EvalSet set = bnds.getEvalSet(setName);
+	boolean changed = false;
+	if (set != null) {
+      BigInteger lo = set.getLower();
+      if (lo != null)
+	    changed |= bnds.addLower(elemName, lo);
+      BigInteger hi = set.getUpper();
+	  if (hi != null)
+		changed |= bnds.addUpper(elemName, hi);
+	}
+	sLogger.exiting("FlatMember", "FlatRangeSet", changed);
+	return changed;
   }
 
   public Mode chooseMode(Envir env)

@@ -45,6 +45,41 @@ public class FlatPlus extends FlatPred
     solutionsReturned = -1;
   }
 
+  public boolean inferBounds(Bounds bnds)
+  {
+    boolean changed = false;
+    ZRefName a = args.get(0);
+    ZRefName b = args.get(1);
+    ZRefName c = args.get(2);
+
+    BigInteger amin = bnds.getLower(a);
+    BigInteger amax = bnds.getUpper(a);
+    BigInteger bmin = bnds.getLower(b);
+    BigInteger bmax = bnds.getUpper(b);
+    BigInteger cmin = bnds.getLower(c);
+    BigInteger cmax = bnds.getUpper(c);
+
+    // propagate bounds to c.
+    if (amin != null && bmin != null)
+      changed |= bnds.addLower(c, amin.add(bmin));
+    if (amax != null && bmax != null)
+      changed |= bnds.addUpper(c, amax.add(bmax));
+
+    // propagate bounds to a.
+    if (cmin != null && bmax != null)
+      changed |= bnds.addLower(a, cmin.add(bmax.negate()));
+    if (cmax != null && bmin != null)
+      changed |= bnds.addUpper(a, cmax.add(bmin.negate()));
+
+    // propagate bounds to b.
+    if (cmin != null && amax != null)
+      changed |= bnds.addLower(b, cmin.add(amax.negate()));
+    if (cmax != null && amin != null)
+      changed |= bnds.addUpper(b, cmax.add(amin.negate()));
+
+    return changed;
+  }
+  
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {

@@ -73,6 +73,7 @@ public class FlatRangeSetTest
     Assert.assertFalse(set.equals(range(i,null,envIJK)));
     Assert.assertFalse(set.equals(range(null,i,envIJK)));
     Assert.assertFalse(set.equals(range(i,j,envIJK)));
+    Assert.assertNull(set.maxSize());
   }
     
   public void testLowerBoundEquality()
@@ -84,6 +85,7 @@ public class FlatRangeSetTest
     Assert.assertFalse(set.equals(range(null,null,envIJK)));
     Assert.assertFalse(set.equals(range(null,i,envIJK)));
     Assert.assertFalse(set.equals(range(j,k,envIJK)));
+    Assert.assertNull(set.maxSize());
   }
   
   public void testUpperBoundEquality()
@@ -95,6 +97,7 @@ public class FlatRangeSetTest
     Assert.assertFalse(set.equals(range(null,null,envIJK)));
     Assert.assertFalse(set.equals(range(j,null,envIJK)));
     Assert.assertFalse(set.equals(range(j,k,envIJK)));
+    Assert.assertNull(set.maxSize());
   }
   
   public void testEmptyEquality()
@@ -107,6 +110,7 @@ public class FlatRangeSetTest
     Assert.assertFalse(set.equals(range(i,j,envIJK))); // 10..11
     Assert.assertFalse(set.equals(range(j,j,envIJK))); // 11..11
     Assert.assertFalse(set.equals(range(i,i,envIJK))); // 10..10
+    Assert.assertEquals(new BigInteger("0"), set.maxSize());
   }
   
   public void testOrdinaryEquality()
@@ -118,6 +122,7 @@ public class FlatRangeSetTest
     Assert.assertFalse(set.equals(range(null,null,envIJK)));
     Assert.assertFalse(set.equals(range(i,j,envIJK))); // 10..11
     Assert.assertFalse(set.equals(range(j,k,envIJK))); // 11..12
+    Assert.assertEquals(new BigInteger("3"), set.maxSize());
   }
 }
 

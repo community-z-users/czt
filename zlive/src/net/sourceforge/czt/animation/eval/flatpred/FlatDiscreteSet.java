@@ -43,15 +43,18 @@ implements EvalSet
   protected Factory factory_ = new Factory();
   protected Set<ZRefName> vars_ = new HashSet<ZRefName>();
 
+  /** The most recent variable bounds information. */
+  protected Bounds bounds_;
+
   /** Contains the enumerated members of the set. */
   protected Set<Expr> iterateSet_;
 
   public FlatDiscreteSet(List<ZRefName> elements, ZRefName set)
   {
     Object itNext;
-    args = new ArrayList<ZRefName>(elements);
     // remove duplicate ZRefNames
     Set<ZRefName> noDups = new HashSet<ZRefName>(elements);
+    args = new ArrayList<ZRefName>(noDups);
     vars_.addAll(noDups);
     args.add(set);
     solutionsReturned = -1;
@@ -65,6 +68,62 @@ implements EvalSet
         newargs.get(newargs.size()-1));
   }
 
+  /** Saves the Bounds information for later use.
+   */
+  public boolean inferBounds(Bounds bnds)
+  {
+    bounds_ = bnds;
+    return bnds.setEvalSet(args.get(args.size()-1), this);
+  }
+
+  /** Calculates minimum of the lower bounds of all the elements.
+   *  Returns null if the set does not contain integers,
+   *  or if it is empty, or if some of the elements do not
+   *  have any lower bound.
+   */
+  public BigInteger getLower()
+  {
+    if (bounds_ == null)
+      return null;
+    int numElems = args.size()-1;
+    if (numElems <= 0)
+      return null;
+    // calculate min of all the elements (null = -infinity).
+    BigInteger result = bounds_.getLower(args.get(0));
+    for (int i=1; result != null && i < numElems; i++) {
+      BigInteger tmp = bounds_.getLower(args.get(i));
+      if (tmp == null)
+	result = tmp;
+      else
+	result = result.min(tmp);
+    }
+    return result;
+  }
+
+  /** Calculates maximum of the upper bounds of all the elements.
+   *  Returns null if the set does not contain integers,
+   *  or if it is empty, or if some of the elements do not
+   *  have any upper bound.
+   */
+  public BigInteger getUpper()
+  {
+    if (bounds_ == null)
+      return null;
+    int numElems = args.size()-1;
+    if (numElems <= 0)
+      return null;
+    // calculate max of all the elements (null = infinity).
+    BigInteger result = bounds_.getUpper(args.get(0));
+    for (int i=1; result != null && i < numElems; i++) {
+      BigInteger tmp = bounds_.getUpper(args.get(i));
+      if (tmp == null)
+	result = tmp;
+      else
+	result = result.max(tmp);
+    }
+    return result;
+  }
+
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
@@ -73,6 +132,13 @@ implements EvalSet
     if (m != null)
       m.getEnvir().setValue(args.get(args.size()-1), this);
     return m;
+  }
+
+  /** The maximum size of the set is the number of distinct expressions.
+   */
+  public BigInteger maxSize()
+  {
+	return BigInteger.valueOf(args.size()-1);
   }
 
   /** Estimate the size of the set. */

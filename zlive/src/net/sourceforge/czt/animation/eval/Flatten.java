@@ -311,27 +311,36 @@ public class Flatten
   public ZRefName visitRefExpr(RefExpr e) {
     if (e.getZExprList().size() != 0)
       return notYet(e, "generic");
-    // Try to unfold this name via a (non-generic) definition.
-    DefinitionTable.Definition def = table_.lookup(e.getRefName().toString());
-    if (def != null && def.getDeclNames().size() == e.getZExprList().size()) {
-      Expr newExpr = def.getExpr();
-      return newExpr.accept(this);      
-    }
     ZRefName result = e.getZRefName();
     // check for \nat and \num
-    if ( result.getWord().equals(ZString.NAT)
-      && result.getStroke().isEmpty()) {
+    if ( result.toString().equals(ZString.NAT)) {
       result = zlive_.createNewName();
       ZRefName zeroName = zlive_.createNewName();
       Expr zero = zlive_.getFactory().createNumExpr(0);
       flat_.add(new FlatConst(zeroName, zero));
       flat_.add(new FlatRangeSet(zeroName,null,result));
     }
+    else if ( result.toString().equals(ZString.NAT
+    		+ ZString.SE + "1" + ZString.NW)) {
+        result = zlive_.createNewName();
+        ZRefName oneName = zlive_.createNewName();
+        Expr one = zlive_.getFactory().createNumExpr(1);
+        flat_.add(new FlatConst(oneName, one));
+        flat_.add(new FlatRangeSet(oneName,null,result));
+      }
     else if (result.getWord().equals(ZString.NUM)
           && result.getStroke().isEmpty()) {
         result = zlive_.createNewName();
         flat_.add(new FlatRangeSet(null,null,result));
       }
+    else {
+      // Try to unfold this name via a (non-generic) definition.
+      DefinitionTable.Definition def = table_.lookup(e.getRefName().toString());
+      if (def != null && def.getDeclNames().size() == e.getZExprList().size()) {
+        Expr newExpr = def.getExpr();
+        result = newExpr.accept(this);      
+      }
+    }
     return result;
   }
 

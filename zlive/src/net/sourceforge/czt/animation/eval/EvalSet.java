@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.animation.eval;
 
 import java.util.*;
+import java.math.BigInteger;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZRefName;
 
@@ -40,7 +41,18 @@ public interface EvalSet extends Expr {
    * @return default Envir, or null if it is not known yet.
    */
   public Envir getEnvir();
-  
+
+  /** The lower bound on numeric elements, if any, else null. */
+  public BigInteger getLower();
+
+  /** The upper bound on numeric elements, if any, else null. */
+  public BigInteger getUpper();
+
+  /** The maximum size of the set in the default environment.
+   *  @return  Upper bound on the size of the set, or null if not known.
+ . */
+  public BigInteger maxSize();
+
   /** Estimate the size of the set in the default environment.
    *  The default environment must have been set (via FlatPred.setMode)
    *  before you can call this.

@@ -58,6 +58,12 @@ public class FlatDiscreteSetTest
     set = new FlatDiscreteSet(argsList,s);
     emptySet = new FlatDiscreteSet(new ArrayList<ZRefName>(),s);
   }
+  
+  public void testMaxSize()
+  {
+	Assert.assertEquals(new BigInteger("0"), emptySet.maxSize());
+	Assert.assertEquals(new BigInteger("3"), set.maxSize());
+  }
 }
 
 

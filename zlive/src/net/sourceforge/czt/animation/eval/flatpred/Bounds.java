@@ -21,32 +21,42 @@ package net.sourceforge.czt.animation.eval.flatpred;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.lang.StringBuffer;
+import java.util.logging.*;
 import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.animation.eval.EvalSet;
 
 /** Maintains lower and upper bounds for integer variables.
  *  This is a helper class for the range-inference pass of
  *  ZLive, which deduces lower and upper bounds for integer
  *  variables, based on the semantics of each FlatPred operator.
+ *  It also stores information about variables that will bind
+ *  to sets, since this can help when deducing bounds of the
+ *  elements of those sets.
  *  
  * @author marku
  */
 public class Bounds implements Cloneable
 {
-  private HashMap<ZRefName, BigInteger> lowerBound;
-  private HashMap<ZRefName, BigInteger> upperBound;
+  private static final Logger sLogger
+  = Logger.getLogger("net.sourceforge.czt.animation.eval");
+  
+  private HashMap<ZRefName, BigInteger> lowerBound_;
+  private HashMap<ZRefName, BigInteger> upperBound_;
+  private HashMap<ZRefName, EvalSet> set_;
 
   /** Create a fresh Bounds object with no bounds values.
    */
   public Bounds()
   {
-    lowerBound = new HashMap<ZRefName, BigInteger>();
-    upperBound = new HashMap<ZRefName, BigInteger>();
+    lowerBound_ = new HashMap<ZRefName, BigInteger>();
+    upperBound_ = new HashMap<ZRefName, BigInteger>();
+    set_        = new HashMap<ZRefName, EvalSet>();
   }
   
   public String toString()
   {
-    return "Lows="+lowerBound.toString()
-          +"Highs="+upperBound.toString();
+    return "Lows="+lowerBound_.toString()
+          +" Highs="+upperBound_.toString();
   }
   
   /** Creates a copy of all the lower and upper bounds.
@@ -57,13 +67,36 @@ public class Bounds implements Cloneable
   {
     try {
       Bounds b = (Bounds) super.clone();
-      lowerBound = (HashMap<ZRefName, BigInteger>)lowerBound.clone();
-      upperBound = (HashMap<ZRefName, BigInteger>)upperBound.clone();
+      lowerBound_ = (HashMap<ZRefName, BigInteger>)lowerBound_.clone();
+      upperBound_ = (HashMap<ZRefName, BigInteger>)upperBound_.clone();
+      set_ = (HashMap<ZRefName, EvalSet>)set_.clone();
       return b;
     }
     catch (java.lang.CloneNotSupportedException e) {
       throw new net.sourceforge.czt.util.CztException(e);
     }
+  }
+  
+  /** Get the EvalSet for var, if known.
+   * 
+   * @param var  The name of an integer variable.
+   * @return     The EvalSet (null means unknown).
+   */
+  public EvalSet getEvalSet(ZRefName var)
+  {
+    return set_.get(var);
+  }
+  
+  /** Set the EvalSet for var.
+   * 
+   * @param var  The name of an integer variable.
+   * @param set  The EvalSet.
+   */
+  public boolean setEvalSet(/*@non_null@*/ZRefName var, /*@non_null@*/EvalSet set)
+  {
+	EvalSet old = set_.get(var);
+	set_.put(var,set);
+    return old==null && set!=null;
   }
   
   /** Get the optional lower bound for var.
@@ -73,7 +106,7 @@ public class Bounds implements Cloneable
    */
   public BigInteger getLower(ZRefName var)
   {
-    return lowerBound.get(var);
+    return lowerBound_.get(var);
   }
   
   /** Get the optional upper bound for var.
@@ -83,7 +116,7 @@ public class Bounds implements Cloneable
    */
   public BigInteger getUpper(ZRefName var)
   {
-    return upperBound.get(var);
+    return upperBound_.get(var);
   }
 
   /** Adds another lower bound for var.
@@ -98,9 +131,10 @@ public class Bounds implements Cloneable
   public boolean addLower(ZRefName var, /*@non_null@*/BigInteger lower)
   {
     assert lower != null;
-    BigInteger old = lowerBound.get(var);
+    BigInteger old = lowerBound_.get(var);
     if (old == null || lower.compareTo(old) > 0) {
-      lowerBound.put(var, lower);
+      lowerBound_.put(var, lower);
+      sLogger.fine("Bounds lower["+var+"] "+old+" := "+lower);
       return true;
     }
     else
@@ -119,9 +153,10 @@ public class Bounds implements Cloneable
   public boolean addUpper(ZRefName var, /*@non_null@*/BigInteger upper)
   {
     assert upper != null;
-    BigInteger old = upperBound.get(var);
+    BigInteger old = upperBound_.get(var);
     if (old == null || upper.compareTo(old) < 0) {
-      upperBound.put(var, upper);
+      upperBound_.put(var, upper);
+      sLogger.fine("Bounds upper["+var+"] "+old+" := "+upper);
       return true;
     }
     else
