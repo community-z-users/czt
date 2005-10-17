@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.sourceforge.czt.rules.*;
+import net.sourceforge.czt.rules.unification.Unifier;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
@@ -56,7 +57,7 @@ public class ProverLookupConstDeclProviso
             (Expr) SimpleProver.copy(def.getExpr(),
                                      new Factory(new ProverFactory()));
           Set<Binding> bindings = new HashSet<Binding>();
-          Unification unifier = new Unification(bindings);
+          Unifier unifier = new Unifier(bindings);
           if (unifier.unify(expr, getRightExpr())) {
             status_ = Status.PASS;
           }

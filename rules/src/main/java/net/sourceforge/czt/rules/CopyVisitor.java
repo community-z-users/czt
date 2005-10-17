@@ -40,8 +40,6 @@ import net.sourceforge.czt.zpatt.visitor.*;
 public class CopyVisitor
   implements TermVisitor,
              JokerDeclListVisitor,
-             ZDeclListVisitor,
-             HeadDeclListVisitor,
              JokerExprVisitor,
              JokerDeclNameVisitor,
              JokerRefNameVisitor,
@@ -64,30 +62,6 @@ public class CopyVisitor
   public Object visitJokerDeclList(JokerDeclList joker)
   {
     return factory_.createJokerDeclList(joker.getName());
-  }
-
-  public Object visitZDeclList(ZDeclList zDeclList)
-  {
-    return transform(zDeclList.iterator(), new EmptyDeclListImpl());
-  }
-
-  public Object visitHeadDeclList(HeadDeclList hdl)
-  {
-    return transform(hdl.getZDeclList().iterator(),
-                     (DeclList) hdl.getJokerDeclList().accept(this));
-  }
-
-  /**
-   * Doesn't visit the last argument.
-   */
-  private DeclList transform(Iterator<Decl> iter, DeclList last)
-  {
-    if (iter.hasNext()) {
-      Decl decl = (Decl) iter.next().accept(this);
-      DeclList cdr = transform(iter, last);
-      return new DeclConsPairImpl(decl, cdr);
-    }
-    return last;
   }
 
   public Object visitJokerExpr(JokerExpr joker)

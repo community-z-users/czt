@@ -24,8 +24,9 @@ import java.util.Set;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.rules.*;
 import net.sourceforge.czt.parser.util.DefinitionTable;
+import net.sourceforge.czt.rules.*;
+import net.sourceforge.czt.rules.unification.Unifier;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
@@ -75,7 +76,7 @@ public class ProverCalculateProviso
             SchExpr result = merge(leftSchExpr, rightSchExpr);
             Set<Binding> bindings = new HashSet<Binding>();
             if (result != null &&
-                Unification.unify(result, getLeftExpr(), bindings)) {
+                Unifier.unify(result, getLeftExpr(), bindings)) {
               status_ = Status.PASS;
               return;
             }
@@ -100,7 +101,7 @@ public class ProverCalculateProviso
         try {
           Expr result = (Expr) decorExpr.getExpr().accept(visitor);
           Set<Binding> bindings = new HashSet<Binding>();
-          Unification unifier = new Unification(bindings);
+          Unifier unifier = new Unifier(bindings);
           if (result != null &&
               unifier.unify(result, getLeftExpr())) {
             status_ = Status.PASS;
@@ -123,13 +124,18 @@ public class ProverCalculateProviso
   private SchExpr merge(SchExpr left, SchExpr right)
   {
     final Factory factory = new Factory(new ProverFactory());
-    DeclList declList = new EmptyDeclListImpl();
-    declList = right.accept(new AddDeclListVisitor(declList));
-    if (declList == null) return null;
-    declList = left.accept(new AddDeclListVisitor(declList));
-    if (declList == null) return null;
-    return factory.createSchExpr(factory.createZSchText(declList,
+    GetDeclList visitor = new GetDeclList(factory);
+    final ZDeclList leftDeclList = left.accept(visitor);
+    final ZDeclList rightDeclList = right.accept(visitor);
+    if (leftDeclList != null && rightDeclList != null) {
+      ZDeclList declList = factory.createZDeclList();
+      declList.addAll(leftDeclList);
+      declList.addAll(rightDeclList);
+      return factory.createSchExpr(factory.createZSchText(declList,
                       factory.createTruePred()));
+
+    }
+    return null;
   }
 
   public Status getStatus()
@@ -137,52 +143,43 @@ public class ProverCalculateProviso
     return status_;
   }
 
-  /**
-   * Appends a given declaration list to the declaration list
-   * contained in the visited prover AST.
-   */
-  public static class AddDeclListVisitor
-    implements SchExprVisitor<DeclList>,
-               ZSchTextVisitor<DeclList>,
-               DeclConsPairVisitor<DeclList>,
-               EmptyDeclListVisitor<DeclList>,
-               JokerDeclListVisitor<DeclList>
+  public static class GetDeclList
+    implements HeadDeclListVisitor<ZDeclList>,
+               JokerDeclListVisitor<ZDeclList>,
+               SchExprVisitor<ZDeclList>,
+               ZDeclListVisitor<ZDeclList>,
+               ZSchTextVisitor<ZDeclList>
   {
-    /**
-     * The declartion list to be appended.
-     */
-    private DeclList declList_;
+    private Factory factory_;
 
-    public AddDeclListVisitor(DeclList declList)
+    public GetDeclList(Factory factory)
     {
-      declList_ = declList;
+      factory_ = factory;
     }
 
-    public DeclList visitSchExpr(SchExpr schExpr)
+    public ZDeclList visitHeadDeclList(HeadDeclList headDeclList)
     {
-      return schExpr.getSchText().accept(this);
-    }
-
-    public DeclList visitZSchText(ZSchText zSchText)
-    {
-      return zSchText.getDeclList().accept(this);
-    }
-
-    public DeclList visitDeclConsPair(DeclConsPair pair)
-    {
-      DeclList declList = pair.cdr().accept(this);
-      if (declList != null) {
-        return new DeclConsPairImpl(pair.car(), declList);
+      ZDeclList rest = headDeclList.getJokerDeclList().accept(this);
+      if (rest != null) {
+        ZDeclList result = factory_.createZDeclList();
+        result.addAll(headDeclList.getZDeclList());
+        result.addAll(rest);
+        return result;
       }
       return null;
     }
 
-    public DeclList visitEmptyDeclList(EmptyDeclList empty)
+    public ZDeclList visitSchExpr(SchExpr schExpr)
     {
-      return declList_;
+      return schExpr.getSchText().accept(this);
     }
 
-    public DeclList visitJokerDeclList(JokerDeclList jokerDeclList)
+    public ZDeclList visitZSchText(ZSchText zSchText)
+    {
+      return zSchText.getDeclList().accept(this);
+    }
+
+    public ZDeclList visitJokerDeclList(JokerDeclList jokerDeclList)
     {
       if (jokerDeclList instanceof ProverJokerDeclList) {
         Joker joker = (Joker) jokerDeclList;
@@ -191,14 +188,19 @@ public class ProverCalculateProviso
       }
       return null;
     }
+
+    public ZDeclList visitZDeclList(ZDeclList zDeclList)
+    {
+      return zDeclList;
+    }
   }
 
   public static class CollectStateVariablesVisitor
     implements ConstDeclVisitor,
+               HeadDeclListVisitor,
                VarDeclVisitor,
-               EmptyDeclListVisitor,
-               DeclConsPairVisitor,
-               JokerDeclListVisitor
+               JokerDeclListVisitor,
+               ZDeclListVisitor
   {
     private Set<DeclName> variables_ = new HashSet<DeclName>();
 
@@ -207,15 +209,12 @@ public class ProverCalculateProviso
       return variables_;
     }
 
-    public Object visitEmptyDeclList(EmptyDeclList emptyDeclList)
+    public Object visitHeadDeclList(HeadDeclList headDeclList)
     {
-      return null;
-    }
-
-    public Object visitDeclConsPair(DeclConsPair pair)
-    {
-      pair.car().accept(this);
-      pair.cdr().accept(this);
+      for (Decl decl : headDeclList.getZDeclList()) {
+        decl.accept(this);
+      }
+      headDeclList.getJokerDeclList().accept(this);
       return null;
     }
 
@@ -243,6 +242,14 @@ public class ProverCalculateProviso
         }
       }
       throw new CztException("Found unbound Joker");
+    }
+
+    public Object visitZDeclList(ZDeclList zDeclList)
+    {
+      for (Decl decl : zDeclList) {
+        decl.accept(this);
+      }
+      return null;
     }
   }
 

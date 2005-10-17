@@ -17,11 +17,26 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.rules.ast;
+package net.sourceforge.czt.rules.unification;
 
-import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.base.ast.Term;
 
-public interface DeclConsPairVisitor<R> extends Visitor<R>
+/**
+ * <p>A wrapper for a term.</p>
+ *
+ * <p>Wrappers are used during unification to simulate certain
+ * behaviours of the term it is wrapped around.  For example, the
+ * {@link LispWrapper} simulates a lisp style list of terms that
+ * represent a list.</p>
+ *
+ * <p>Unification would probably work without wrappers, they are
+ * mainly used to avoid repeated copying, or to make the unification
+ * algorithm itself easier.</p>
+ *
+ * @author Petra Malik
+ */
+interface Wrapper
+  extends Term
 {
-  R visitDeclConsPair(DeclConsPair dcp);
+  Term getContent();
 }

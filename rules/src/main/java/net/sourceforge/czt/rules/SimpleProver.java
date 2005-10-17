@@ -24,6 +24,7 @@ import java.util.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.rules.ast.*;
+import net.sourceforge.czt.rules.unification.Unifier;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
@@ -156,7 +157,7 @@ public class SimpleProver
       Pred pred = ((PredSequent) sequent).getPred();
       Set<Binding> bindings = new HashSet<Binding>();
       List<Binding> bindingList = new ArrayList<Binding>();
-      Unification unifier = new Unification(bindings);
+      Unifier unifier = new Unifier(bindings);
       if (unifier.unify(pred, predSequent.getPred())) {
         bindingList.addAll(bindings);
         Deduction deduction =

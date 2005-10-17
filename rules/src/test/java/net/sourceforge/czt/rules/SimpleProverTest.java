@@ -97,23 +97,4 @@ public class SimpleProverTest
       fail("Should not throw exception " + e);
     }
   }
-
-  public static class GetZSectNameVisitor
-    implements SpecVisitor<String>,
-               ZSectVisitor<String>
-  {
-    public String visitSpec(Spec spec)
-    {
-      for (Sect sect : spec.getSect()) {
-        String name = sect.accept(this);
-        if (name != null) return name;
-      }
-      return null;
-    }
-
-    public String visitZSect(ZSect zSect)
-    {
-      return zSect.getName();
-    }
-  }
 }

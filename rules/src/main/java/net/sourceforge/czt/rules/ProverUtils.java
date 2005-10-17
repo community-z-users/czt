@@ -19,11 +19,17 @@
 
 package net.sourceforge.czt.rules;
 
+import java.io.*;
+import java.net.URL;
 import java.util.*;
 
 import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.parser.util.ParseException;
+import net.sourceforge.czt.parser.zpatt.ParseUtils;
+import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.ast.*;
 import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.zpatt.ast.*;
@@ -96,5 +102,63 @@ public final class ProverUtils
       }
     }
     return result;
+  }
+
+  public static void prove(URL url)
+    throws IOException, ParseException
+  {
+    Factory factory = new Factory(new ProverFactory());
+    SectionManager manager = new SectionManager();
+    Term term = ParseUtils.parse(new UrlSource(url), manager);
+    TypeCheckUtils.typecheck(term, manager, Markup.LATEX);
+    String sectname = term.accept(new GetZSectNameVisitor());
+    List<Rule> rules = collectRules(term);
+    List<ConjPara> conjectures = collectConjectures(term);
+    for (Iterator<ConjPara> i = conjectures.iterator(); i.hasNext(); ) {
+      ConjPara conjPara = i.next();
+      PredSequent sequent = factory.createPredSequent();
+      CopyVisitor visitor = new CopyVisitor(factory);
+      sequent.setPred((Pred) conjPara.getPred().accept(visitor));
+      SimpleProver prover =
+        new SimpleProver(rules, manager, sectname);
+      if (! prover.prove(sequent)) {
+        StringWriter writer = new StringWriter();
+        PrintUtils.print(conjPara.getPred(),
+                         writer,
+                         manager,
+                         sectname,
+                         Markup.LATEX);
+        writer.close();
+        System.err.println("Failed to prove " + writer.toString());
+        throw new IllegalStateException();
+      }
+    }
+  }
+
+  public static void main(String[] args)
+    throws IOException, ParseException
+  {
+    URL url = new URL(args[0]);
+    prove(url);
+  }
+
+
+  public static class GetZSectNameVisitor
+    implements SpecVisitor<String>,
+               ZSectVisitor<String>
+  {
+    public String visitSpec(Spec spec)
+    {
+      for (Sect sect : spec.getSect()) {
+        String name = sect.accept(this);
+        if (name != null) return name;
+      }
+      return null;
+    }
+
+    public String visitZSect(ZSect zSect)
+    {
+      return zSect.getName();
+    }
   }
 }

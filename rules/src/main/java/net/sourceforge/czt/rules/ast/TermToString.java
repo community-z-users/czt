@@ -19,17 +19,29 @@
 
 package net.sourceforge.czt.rules.ast;
 
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.zpatt.ast.Binding;
+import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.rules.*;
+import net.sourceforge.czt.zpatt.ast.*;
+import net.sourceforge.czt.zpatt.visitor.*;
 
-/**
- * A decl cons pair.
- *
- * @author Petra Malik
- */
-public interface ConsPair
+public class TermToString
+  extends net.sourceforge.czt.base.util.TermToString
+  implements JokerDeclListVisitor
 {
-  Term car();
+  public Object visitJokerDeclList(JokerDeclList joker)
+  {
+    buffer_.append(joker.getName());
+    if (joker instanceof Joker && ((Joker) joker).boundTo() != null) {
+      buffer_.append("/");
+      ((Joker) joker).boundTo().accept(this);
+    }
+    return null;
+  }
 
-  Term cdr();
+  public static String apply(Term term)
+  {
+    TermToString visitor = new TermToString();
+    term.accept(visitor);
+    return visitor.getString();
+  }
 }

@@ -17,24 +17,39 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.rules.ast;
+package net.sourceforge.czt.rules.unification;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.z.ast.Decl;
-import net.sourceforge.czt.z.ast.DeclList;
-import net.sourceforge.czt.zpatt.ast.Binding;
+import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.visitor.*;
+import net.sourceforge.czt.zpatt.ast.*;
+import net.sourceforge.czt.zpatt.visitor.*;
 
 /**
- * A decl cons pair.
+ * A visitor that returns the necessary wrapper classes for terms.
  *
  * @author Petra Malik
  */
-public interface DeclConsPair
-  extends DeclList, ConsPair
+public class Packer
+  implements HeadDeclListVisitor<Term>,
+             TermVisitor<Term>,
+             ZDeclListVisitor<Term>
 {
-  Decl car();
+  private final String DECLLIST = "DeclList";
 
-  DeclList cdr();
+  public Term visitTerm(Term term)
+  {
+    return term;
+  }
 
-  void setCdr(DeclList cl);
+  public Term visitHeadDeclList(HeadDeclList headDeclList)
+  {
+    return new HeadDeclListWrapper(headDeclList, DECLLIST);
+  }
+
+  public Term visitZDeclList(ZDeclList zDeclList)
+  {
+    return new LispWrapper(zDeclList, DECLLIST);
+  }
 }

@@ -118,9 +118,7 @@ public class Rewrite
 }
 
 class RemoveJokerVisitor
-  implements TermVisitor,
-             DeclConsPairVisitor,
-             EmptyDeclListVisitor
+  implements TermVisitor
 {
   private net.sourceforge.czt.z.util.Factory factory_
     = new net.sourceforge.czt.z.util.Factory();
@@ -136,19 +134,6 @@ class RemoveJokerVisitor
       return boundTo.accept(this);
     }
     return VisitorUtils.visitTerm(this, term, true);
-  }
-
-  public Object visitEmptyDeclList(EmptyDeclList emptyDeclList)
-  {
-    return factory_.createZDeclList();
-  }
-
-  public Object visitDeclConsPair(DeclConsPair pair)
-  {
-    Decl car = (Decl) pair.car().accept(this);
-    ZDeclList zDeclList = (ZDeclList) pair.cdr().accept(this);
-    zDeclList.add(0, car);
-    return zDeclList;
   }
 }
 
