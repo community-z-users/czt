@@ -71,10 +71,10 @@ public class TypeCheckerTest
     throws Exception
   {
     return TypeCheckUtils.typecheck(term,
-				    manager_,
-				    markup,
-				    useBeforeDecl_,
-				    useStrongTyping_);
+                                    manager_,
+                                    markup,
+                                    useBeforeDecl_,
+                                    useStrongTyping_);
   }
 
   public void testOZWeak()

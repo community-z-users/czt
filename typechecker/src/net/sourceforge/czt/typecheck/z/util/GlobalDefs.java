@@ -126,7 +126,7 @@ public class GlobalDefs
    * @return the first pair with the corresponding name.
    */
   public static NameTypePair findNameTypePair(ZDeclName zDeclName,
-					      List<NameTypePair> pairs)
+                                              List<NameTypePair> pairs)
   {
     NameTypePair result = null;
     for (NameTypePair pair : pairs) {
@@ -145,7 +145,7 @@ public class GlobalDefs
    * @return the first pair with the corresponding name.
    */
   public static NameTypePair findNameTypePair(ZDeclName zDeclName,
-					      Signature signature)
+                                              Signature signature)
   {
     List<NameTypePair> pairs = signature.getNameTypePair();
     NameTypePair result = findNameTypePair(zDeclName, pairs);
@@ -351,6 +351,97 @@ public class GlobalDefs
   {
     boolean result = zRefName1.getWord().equals(zRefName2.getWord()) &&
       zRefName1.getStroke().equals(zRefName2.getStroke());
+    return result;
+  }
+
+  public static Signature sort(Signature signature)
+  {
+    sort(signature.getNameTypePair());
+    return signature;
+  }
+
+  public static List<NameTypePair> sort(List<NameTypePair> pairs)
+  {
+    for (int j = 1; j < pairs.size(); j++) {
+      NameTypePair pair = pairs.get(j);
+      int i = j - 1;
+      while (i >= 0 && compareTo(pairs.get(i).getZDeclName(),
+                                 pair.getZDeclName()) > 0) {
+        pairs.set(i + 1, pairs.get(i));
+        i--;
+      }
+      pairs.set(i + 1, pair);
+    }
+    return pairs;
+  }
+
+  public static void insert(List<NameTypePair> pairsA,
+                            List<NameTypePair> pairsB)
+  {
+    for (NameTypePair pair : pairsB) {
+      insert(pairsA, pair);
+    }
+  }
+
+  //precondition: pairs is sorted
+  public static void insert(List<NameTypePair> pairs, NameTypePair pair)
+  {
+    int i = 0;
+    while (i < pairs.size() &&
+           compareTo(pairs.get(i).getZDeclName(), pair.getZDeclName()) < 0) {
+      i++;
+    }
+    pairs.add(i, pair);
+  }
+
+  public static int compareTo(ZDeclName zDeclName1, ZDeclName zDeclName2)
+  {
+    String word1 = zDeclName1.getWord();
+    String word2 = zDeclName2.getWord();
+    int compareWord = word1.compareTo(word2);
+    if (compareWord != 0) {
+      return compareWord;
+    }
+    else {
+      List<Stroke> strokes1 = zDeclName1.getStroke();
+      List<Stroke> strokes2 = zDeclName2.getStroke();
+      int lengthDiff = strokes1.size() - strokes2.size();
+      if (lengthDiff != 0) {
+        return lengthDiff;
+      }
+      else {
+        //sort as ? < ! < ' < num
+        for (int i = 0; i < strokes1.size(); i++) {
+          int stroke1Val = getValue(strokes1.get(i));
+          int stroke2Val = getValue(strokes2.get(i));
+          int compareStroke = stroke1Val - stroke2Val;
+          if (compareStroke != 0) {
+            return compareStroke;
+          }
+        }
+        return 0;
+      }
+    }
+  }
+
+  public static int getValue(Stroke stroke)
+  {
+    int result = -1;
+    if (stroke instanceof InStroke) {
+      result = 0;
+    }
+    else if (stroke instanceof OutStroke) {
+      result = 1;
+    }
+    else if (stroke instanceof NextStroke) {
+      result = 2;
+    }
+    else if (stroke instanceof NumStroke) {
+      result = 3;
+    }
+    else {
+      assert false : "Stroke instanceof " + stroke.getClass().getName();
+    }
     return result;
   }
 

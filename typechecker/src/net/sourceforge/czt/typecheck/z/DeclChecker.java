@@ -43,7 +43,7 @@ public class DeclChecker
   implements VarDeclVisitor<List<NameTypePair>>,
              ConstDeclVisitor<List<NameTypePair>>,
              InclDeclVisitor<List<NameTypePair>>,
-	     ZDeclListVisitor<List<NameTypePair>>
+             ZDeclListVisitor<List<NameTypePair>>
 {
   public DeclChecker(TypeChecker typeChecker)
   {
@@ -124,7 +124,6 @@ public class DeclChecker
       List<NameTypePair> nextPairs = decl.accept(declChecker());
       pairs.addAll(nextPairs);
     }
-
     return pairs;
   }
 }

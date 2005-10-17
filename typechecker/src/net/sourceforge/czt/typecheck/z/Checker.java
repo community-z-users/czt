@@ -426,6 +426,97 @@ abstract public class Checker<R>
     errors().addAll(paraErrors);
   }
 
+  protected boolean checkPair(NameTypePair first,
+                              NameTypePair second,
+                              List<TermA> termList,
+                              String errorMessage)
+  {
+    boolean result = true;
+    Type2 firstType = unwrapType(first.getType());
+    Type2 secondType = unwrapType(second.getType());
+    UResult unified = unify(firstType, secondType);
+
+    //if the types don't agree, raise an error
+    if (unified == FAIL) {
+      result = false;
+      //terms are not printed in some error messages
+      if (termList.size() > 0) {
+        List<Object> params = list();
+        params.add(second.getZDeclName());
+        params.addAll(termList);
+        params.add(firstType);
+        params.add(secondType);
+        error(termList.get(0), errorMessage, params.toArray());
+      }
+      else {
+        Object [] params =
+          new Object [] {second.getZDeclName(), firstType, secondType};
+        error(second.getZDeclName(), errorMessage, params);
+      }
+    }
+    return result;
+  }
+
+  protected void insertUnsort(List<NameTypePair> pairsA,
+                              List<NameTypePair> pairsB)
+  {
+    for (NameTypePair pair : pairsB) {
+      insertUnsort(pairsA, pair);
+    }
+  }
+
+  protected void insertUnsort(List<NameTypePair> pairsA, NameTypePair pair)
+  {
+    for (NameTypePair pairA : pairsA) {
+      if (namesEqual(pairA.getZDeclName(), pair.getZDeclName())) {
+        checkPair(pairA, pair, GlobalDefs.<TermA>list(),
+                  ErrorMessage.TYPE_MISMATCH_IN_SIGNATURE.toString());
+        return;
+      }
+    }
+    pairsA.add(pair);
+  }
+
+  //precondition: pairsA is sorted
+  protected void insertSort(List<NameTypePair> pairsA,
+                            List<NameTypePair> pairsB,
+                            TermA termA)
+  {
+    insertSort(pairsA, pairsA, list(termA),
+               ErrorMessage.TYPE_MISMATCH_IN_SIGNATURE.toString());
+  }
+
+  //precondition: pairsA is sorted
+  protected void insertSort(List<NameTypePair> pairsA,
+                               List<NameTypePair> pairsB,
+                               List<TermA> termList,
+                               String errorMessage)
+  {
+    for (NameTypePair pair : pairsB) {
+      insertSort(pairsA, pair, termList, errorMessage);
+    }
+  }
+
+  //precondition: pairs is sorted
+  protected void insertSort(List<NameTypePair> pairs,
+                            NameTypePair pair,
+                            List<TermA> termList,
+                            String errorMessage)
+  {
+    int i = 0;
+    while (i < pairs.size() &&
+           compareTo(pairs.get(i).getZDeclName(), pair.getZDeclName()) < 0) {
+      i++;
+    }
+
+    if (namesEqual(pairs.get(i).getZDeclName(), pair.getZDeclName())) {
+      checkPair(pairs.get(i), pair, termList, errorMessage);
+    }
+    else {
+      pairs.add(i, pair);
+    }
+  }
+
   protected void checkForDuplicates(List<NameTypePair> pairs,
                                     TermA termA)
   {
@@ -445,6 +536,37 @@ abstract public class Checker<R>
     }
     checkForDuplicates(pairs, termList, errorMessage);
   }
+
+  /*
+  protected void checkForDuplicates(List<NameTypePair> pairs,
+                                    TermA termA)
+  {
+    for (int i = 0; i < pairs.size(); i++) {
+      NameTypePair first = pairs.get(i);
+      for (int j = i + 1; j < pairs.size(); j++) {
+        NameTypePair second = pairs.get(j);
+        if (namesEqual(first.getZDeclName(), second.getZDeclName())) {
+          Type2 firstType = unwrapType(first.getType());
+          Type2 secondType = unwrapType(second.getType());
+          UResult unified = unify(firstType, secondType);
+
+          //if the types don't agree, raise an error
+          if (unified == FAIL) {
+            String errorMessage =
+              ErrorMessage.TYPE_MISMATCH_IN_SIGNATURE.toString();
+            Object [] params =
+              new Object [] {second.getZDeclName(), firstType, secondType};
+            error(second.getZDeclName(), errorMessage, params);
+            break;
+          }
+          //we don't need the second declaration
+          pairs.remove(j--);
+        }
+      }
+    }
+  }
+  */
+
   //check for type mismatches in a list of decls. Add an ErrorAnn to
   //any name that is in error
   protected void checkForDuplicates(List<NameTypePair> pairs,
@@ -602,7 +724,7 @@ abstract public class Checker<R>
   protected Signature createHideSig(Signature signature,
                                     List<RefName> refNames, TermA termA)
   {
-    //create a new name/type pair list   
+    //create a new name/type pair list
     List<NameTypePair> pairs = signature.getNameTypePair();
     List<NameTypePair> newPairs = list(pairs);
 
@@ -845,7 +967,7 @@ abstract public class Checker<R>
 
       //if this type's reference is in the parameters
       if (isPending() &&
-	  containsObject(typeEnv().getParameters(), genName)) {
+          containsObject(typeEnv().getParameters(), genName)) {
         result = type;
       }
       else if (unificationEnvType instanceof UnknownType &&
@@ -1088,8 +1210,8 @@ abstract public class Checker<R>
       if (uType.getPairs().size() > 0 && result instanceof SchemaType) {
         Signature signature = schemaType(result).getSignature();
         List<NewOldPair> pairs = uType.getPairs();
-        Signature newSig = createRenameSig(signature, 
-					   uType.getPairs(),
+        Signature newSig = createRenameSig(signature,
+                                           uType.getPairs(),
                                            null, null);
         result = factory().createSchemaType(newSig);
       }
@@ -1120,16 +1242,16 @@ abstract public class Checker<R>
     ZDeclName zDeclName = factory().createZDeclName(zRefName);
     return findNameTypePair(zDeclName, signature);
   }
-  
+
   protected NewOldPair findNewOldPair(ZDeclName zDeclName,
-				      List<NewOldPair> pairs)
+                                      List<NewOldPair> pairs)
   {
     ZRefName zRefName = factory().createZRefName(zDeclName);
     return findNewOldPair(zRefName, pairs);
   }
-  
+
   protected NewOldPair findNewOldPair(ZRefName zRefName,
-				      List<NewOldPair> pairs)
+                                      List<NewOldPair> pairs)
   {
     NewOldPair result = null;
     for (NewOldPair pair : pairs) {

@@ -40,7 +40,7 @@ import net.sourceforge.czt.typecheck.z.impl.*;
 public class PostChecker
   extends Checker<ErrorAnn>
   implements ThetaExprVisitor<ErrorAnn>,
-	     ExprPredVisitor<ErrorAnn>,
+             ExprPredVisitor<ErrorAnn>,
              RefExprVisitor<ErrorAnn>,
              SetExprVisitor<ErrorAnn>
 {
@@ -68,7 +68,7 @@ public class PostChecker
           ErrorAnn errorAnn =
             errorAnn(thetaExpr,
                      ErrorMessage.UNDECLARED_IDENTIFIER_IN_EXPR,
-		     params);
+                     params);
           boolean added = addErrorAnn(thetaExpr, errorAnn);
           return added ? errorAnn : null;
         }
@@ -85,7 +85,7 @@ public class PostChecker
     TypeAnn typeAnn = (TypeAnn) exprPred.getExpr().getAnn(TypeAnn.class);
     Type type = typeAnn.getType();
     if (type instanceof PowerType &&
-	powerType(type).getType() instanceof SchemaType) {
+        powerType(type).getType() instanceof SchemaType) {
       //check that each name in the signature is present in the
       //environment
       PowerType powerType = (PowerType) type;
@@ -99,7 +99,7 @@ public class PostChecker
           ErrorAnn errorAnn =
             errorAnn(exprPred,
                      ErrorMessage.UNDECLARED_IDENTIFIER_IN_EXPR,
-		     params);
+                     params);
           boolean added = addErrorAnn(exprPred, errorAnn);
           return added ? errorAnn : null;
         }
@@ -108,7 +108,7 @@ public class PostChecker
     else {
       assert false : type;
     }
-    return null;  
+    return null;
   }
 
   public ErrorAnn visitRefExpr(RefExpr refExpr)

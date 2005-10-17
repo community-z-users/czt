@@ -277,8 +277,8 @@ public class Factory
   public ZDeclName createZDeclName(ZDeclName zDeclName)
   {
     return createZDeclName(zDeclName.getWord(),
-			   zDeclName.getStroke(),
-			   zDeclName.getId());
+                           zDeclName.getStroke(),
+                           zDeclName.getId());
   }
 
   public ZDeclName createZDeclName(ZRefName zRefName)
@@ -292,8 +292,8 @@ public class Factory
   }
 
   public ZRefName createZRefName(String word,
-				List<Stroke> stroke,
-				DeclName declName)
+                                List<Stroke> stroke,
+                                DeclName declName)
   {
     return zFactory_.createZRefName(word, stroke, declName);
   }
@@ -301,8 +301,8 @@ public class Factory
   public ZRefName createZRefName(ZRefName zRefName)
   {
     return createZRefName(zRefName.getWord(),
-			  zRefName.getStroke(),
-			  zRefName.getDecl());
+                          zRefName.getStroke(),
+                          zRefName.getDecl());
   }
 
   public ZRefName createZRefName(ZDeclName zDeclName)
@@ -316,8 +316,8 @@ public class Factory
   }
 
   public RefExpr createRefExpr(RefName refName,
-			       List<Expr> expr,
-			       Boolean mixfix)
+                               List<Expr> expr,
+                               Boolean mixfix)
   {
     ZExprList zExprList = zFactory_.createZExprList(expr);
     return zFactory_.createRefExpr(refName, zExprList, mixfix);

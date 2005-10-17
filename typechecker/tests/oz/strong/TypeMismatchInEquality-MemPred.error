@@ -1,0 +1,23 @@
+\begin{zsection}
+  \SECTION TypeMismatchInEquality\_MemPred
+\end{zsection}
+
+\begin{class}{A}
+\end{class}
+
+\begin{class}{B}
+ A
+\end{class}
+
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{axdef}
+  a : \poly A\\
+  b : B\\
+  s : g
+\where
+  s = a\\
+  s = b
+\end{axdef}

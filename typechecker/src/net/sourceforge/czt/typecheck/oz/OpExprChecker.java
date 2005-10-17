@@ -91,7 +91,7 @@ public class OpExprChecker
     if (deltaList != null) {
       List<RefName> deltaNames = deltaList.getRefName();
       for (RefName deltaName : deltaNames) {
-	ZRefName zDeltaName = assertZRefName(deltaName);
+        ZRefName zDeltaName = assertZRefName(deltaName);
         ZDeclName deltaDeclName = factory().createZDeclName(zDeltaName);
         if (!containsZDeclName(primary(), deltaDeclName)) {
           Object [] params = {zDeltaName};
@@ -139,7 +139,7 @@ public class OpExprChecker
       ClassSig cSig = classType.getClassSig();
       if (!instanceOf(cSig, VariableClassSig.class)) {
         RefName promName = opPromExpr.getRefName();
-	ZRefName zPromName = assertZRefName(promName);
+        ZRefName zPromName = assertZRefName(promName);
         NameSignaturePair opDef = findOperation(zPromName, cSig);
 
         //if the name is not found, and use-before-decl is enabled,
@@ -148,11 +148,11 @@ public class OpExprChecker
             (expr == null || isSelfExpr(expr))) {
           List<Operation> ops = classPara().getOperation();
           for (Operation op : ops) {
-	    ZDeclName opName = op.getZDeclName();
+            ZDeclName opName = op.getZDeclName();
             if (namesEqual(opName, zPromName)) {
               Signature opSignature = op.accept(paraChecker());
-	      opDef =
-		factory().createNameSignaturePair(opName, opSignature);
+              opDef =
+                factory().createNameSignaturePair(opName, opSignature);
             }
           }
         }
@@ -161,8 +161,8 @@ public class OpExprChecker
         if (opDef == null) {
           Object [] params = {opPromExpr};
           error(opPromExpr,
-		ErrorMessage.NON_EXISTENT_NAME_IN_OPPROMEXPR,
-		params);
+                ErrorMessage.NON_EXISTENT_NAME_IN_OPPROMEXPR,
+                params);
         }
         else {
           signature = opDef.getSignature();
@@ -208,7 +208,7 @@ public class OpExprChecker
     Signature rSig = rOpExpr.accept(opExprChecker());
 
     List<NameTypePair> newPairs = list(lSig.getNameTypePair());
-    newPairs.addAll(rSig.getNameTypePair());
+    insert(newPairs, rSig.getNameTypePair());
     checkForDuplicates(newPairs, opExpr2,
                        ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
     Signature signature = factory().createSignature(newPairs);
@@ -360,7 +360,7 @@ public class OpExprChecker
     Signature rSig = rOpExpr.accept(opExprChecker());
 
     List<NameTypePair> newPairs = list(lSig.getNameTypePair());
-    newPairs.addAll(rSig.getNameTypePair());
+    insert(newPairs, rSig.getNameTypePair());
     checkForDuplicates(newPairs, scopeEnrichOpExpr,
                        ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
 
@@ -414,7 +414,7 @@ public class OpExprChecker
         if (size > 0 && strokes.get(size - 1) instanceof OutStroke) {
           strokes.remove(size - 1);
           ZDeclName baseName = factory().createZDeclName(distName.getWord(),
-							 strokes, null);
+                                                         strokes, null);
           NameTypePair opExprPair = findNameTypePair(baseName, signature);
           if (opExprPair != null) {
             Object [] params = {distName, baseName, distOpExpr};

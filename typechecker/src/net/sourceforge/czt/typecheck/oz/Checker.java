@@ -210,7 +210,8 @@ abstract public class Checker<R>
 
       //get and visit the list of declarations
       DeclList declList = zSchText.getDeclList();
-      pairs.addAll(declList.accept(declChecker()));
+      insert(pairs, declList.accept(declChecker()));
+      //pairs.addAll(declList.accept(declChecker()));
 
       //we use a different downcasting environment because we do not
       //want to add the declarations into the typing environment, but
@@ -220,7 +221,7 @@ abstract public class Checker<R>
         downcastEnv().add(pair.getZDeclName(), pair.getType());
       }
       if (zSchText.getPred() != null) {
-	traverseForDowncasts(zSchText.getPred());
+        traverseForDowncasts(zSchText.getPred());
       }
       downcastEnv().exitScope();
     }
@@ -229,7 +230,7 @@ abstract public class Checker<R>
   protected ZDeclName getZDeclName(Expr expr)
   {
     ZDeclName result = null;
-    if (expr instanceof RenameExpr) {      
+    if (expr instanceof RenameExpr) {
       RenameExpr renameExpr = (RenameExpr) expr;
       result = getZDeclName(renameExpr.getExpr());
     }
@@ -251,50 +252,50 @@ abstract public class Checker<R>
   }
 
   protected List<ClassRef> getSuperClasses(ClassRefType classRefType,
-					   List<ClassRef> visited)
+                                           List<ClassRef> visited)
   {
     List<ClassRef> superClasses = list(classRefType.getSuperClass());
     List<ClassRef> superSuperClasses = list();
     for (ClassRef superClass : superClasses) {
       Type2 type = unwrapType(getType(superClass.getZRefName()));
       if (type instanceof PowerType &&
-	  powerType(type).getType() instanceof ClassRefType) {
-	ClassRefType superClassType =
-	  (ClassRefType) powerType(type).getType();
-	
-	//add the super class itself
-	if (!contains(superSuperClasses, superClassType.getThisClass())) {
-	  superSuperClasses.add(superClassType.getThisClass());
-	}
-	
-	//for each superclass, get its superclasses, and add
-	List<ClassRef> superClassRefs = superClassType.getSuperClass();
-	for (ClassRef next : superClassRefs) {
-	  //do not search if this has already been looked up
-	  if (!contains(visited, next)) {
-	    visited.add(next);
-	    List<ClassRef> nextSuperClasses = 
-	      getSuperClasses(superClassType, visited);
-	    //add all transitive superclass if not already present
-	    for (ClassRef nextSuperClass : nextSuperClasses) {
-	      if (!contains(superSuperClasses, nextSuperClass)) {
-		superSuperClasses.add(nextSuperClass);
-	      }
-	    }
-	  }
-	}
+          powerType(type).getType() instanceof ClassRefType) {
+        ClassRefType superClassType =
+          (ClassRefType) powerType(type).getType();
+
+        //add the super class itself
+        if (!contains(superSuperClasses, superClassType.getThisClass())) {
+          superSuperClasses.add(superClassType.getThisClass());
+        }
+
+        //for each superclass, get its superclasses, and add
+        List<ClassRef> superClassRefs = superClassType.getSuperClass();
+        for (ClassRef next : superClassRefs) {
+          //do not search if this has already been looked up
+          if (!contains(visited, next)) {
+            visited.add(next);
+            List<ClassRef> nextSuperClasses =
+              getSuperClasses(superClassType, visited);
+            //add all transitive superclass if not already present
+            for (ClassRef nextSuperClass : nextSuperClasses) {
+              if (!contains(superSuperClasses, nextSuperClass)) {
+                superSuperClasses.add(nextSuperClass);
+              }
+            }
+          }
+        }
       }
       else {
-	assert false : "Type of " + superClass.getRefName() + " : " + type;
+        assert false : "Type of " + superClass.getRefName() + " : " + type;
       }
     }
 
     //add the transitive superclasses to the superclass list
     for (ClassRef superSuperClass : superSuperClasses) {
       if (!contains(superClasses, superSuperClass)) {
-	superClasses.add(superSuperClass);
+        superClasses.add(superSuperClass);
       }
-    }    
+    }
     return superClasses;
   }
 
@@ -317,7 +318,8 @@ abstract public class Checker<R>
         }
         else {
           typeEnv().add(pair);
-          target.add(pair);
+          //target.add(pair);
+          insert(target, pair);
         }
       }
     }
@@ -334,13 +336,14 @@ abstract public class Checker<R>
         Signature sourceSignature = pair.getSignature();
         Signature existingSignature = existing.getSignature();
         List<NameTypePair> conjoinedPairs =
-	  list(sourceSignature.getNameTypePair());
-        conjoinedPairs.addAll(existingSignature.getNameTypePair());
-	List<TermA> params = list();
-	params.add(expr);
-	params.add(sourceName);
+          list(sourceSignature.getNameTypePair());
+        insert(conjoinedPairs, existingSignature.getNameTypePair());
+        //conjoinedPairs.addAll(existingSignature.getNameTypePair());
+        List<TermA> params = list();
+        params.add(expr);
+        params.add(sourceName);
         checkForDuplicates(conjoinedPairs, params,
-			   ErrorMessage.INCOMPATIBLE_OP_INHERIT.toString());
+                           ErrorMessage.INCOMPATIBLE_OP_INHERIT.toString());
       }
       else {
         target.add(pair);
@@ -390,8 +393,10 @@ abstract public class Checker<R>
     for (NameTypePair pairA : pairsA) {
       NameTypePair pairB = findNameTypePair(pairA.getZDeclName(), sigB);
       if (pairB != null) {
-        signature.getNameTypePair().add(pairA);
-        signature.getNameTypePair().add(pairB);
+        insert(signature.getNameTypePair(), pairA);
+        insert(signature.getNameTypePair(), pairB);
+        //signature.getNameTypePair().add(pairA);
+        //signature.getNameTypePair().add(pairB);
       }
     }
     return signature;
@@ -402,12 +407,14 @@ abstract public class Checker<R>
   {
     //merge the attributes
     List<NameTypePair> attrDecls = newSig.getAttribute();
-    attrDecls.addAll(oldSig.getAttribute());
+    insert(attrDecls, oldSig.getAttribute());
+    //attrDecls.addAll(oldSig.getAttribute());
     checkForDuplicates(attrDecls, termA, ErrorMessage.INCOMPATIBLE_OVERRIDING);
 
     //merge the state signature
     List<NameTypePair> stateDecls = newSig.getState().getNameTypePair();
-    stateDecls.addAll(oldSig.getState().getNameTypePair());
+    //stateDecls.addAll(oldSig.getState().getNameTypePair());
+    insert(stateDecls, oldSig.getState().getNameTypePair());
     checkForDuplicates(stateDecls, termA, ErrorMessage.INCOMPATIBLE_OVERRIDING);
 
     //merge the operations
@@ -441,7 +448,8 @@ abstract public class Checker<R>
     //if there is already a pair, check it is compatible with the new definition
     if (existing != null) {
       List<NameTypePair> pairs = list(signature.getNameTypePair());
-      pairs.addAll(existing.getSignature().getNameTypePair());
+      insert(pairs, existing.getSignature().getNameTypePair());
+      //pairs.addAll(existing.getSignature().getNameTypePair());
       checkForDuplicates(pairs, opName, ErrorMessage.INCOMPATIBLE_OP_OVERRIDING);
       Signature newSig = factory().createSignature(pairs);
       NameSignaturePair newPair = factory().createNameSignaturePair(opName, newSig);
@@ -516,7 +524,7 @@ abstract public class Checker<R>
     if (visibilityList != null) {
       List<RefName> visibleNames = visibilityList.getRefName();
       for (RefName visibleName : visibleNames) {
-	ZRefName zVisibleName = assertZRefName(visibleName);
+        ZRefName zVisibleName = assertZRefName(visibleName);
         boolean found = false;
         for (ZDeclName featureName : declNames) {
           if (namesEqual(featureName, zVisibleName) &&
@@ -545,8 +553,8 @@ abstract public class Checker<R>
     for (NameTypePair superPair : superPairs) {
       ZRefName superName = factory().createZRefName(superPair.getZDeclName());
       if (isVisible(superName, superClass)) {
-	//if this feature is visible in the super class, it must be visible
-	//in the subclass as well
+        //if this feature is visible in the super class, it must be visible
+        //in the subclass as well
         NameTypePair subPair = findNameTypePair(superName, subPairs);
         if (subPair == null || !isVisible(superName, subClass)) {
           Object [] params = {subClass.getThisClass().getRefName(),
@@ -570,8 +578,8 @@ abstract public class Checker<R>
       ZRefName superName = factory().createZRefName(superPair.getZDeclName());
       if (isVisible(superName, superClass)) {
         NameSignaturePair subPair = findNameSigPair(superName, subPairs);
-	//if this operation is visible in the super class, it must be
-	//visible in the subclass as well
+        //if this operation is visible in the super class, it must be
+        //visible in the subclass as well
         if (subPair == null || !isVisible(superName, subClass)) {
           Object [] params = {subClass.getThisClass().getRefName(),
                               superName,
@@ -581,7 +589,7 @@ abstract public class Checker<R>
           error(polyExpr,
                 ErrorMessage.NON_VISIBLE_FEATURE_IN_POLYEXPR, params);
         }
-	//if it is visible, the signatures must be compatible
+        //if it is visible, the signatures must be compatible
         else if (subPair != null) {
           Signature superSig = superPair.getSignature();
           Signature subSig = subPair.getSignature();
@@ -632,7 +640,8 @@ abstract public class Checker<R>
       }
     }
     //create the signature
-    b3Pairs.addAll(b4Pairs);
+    //    b3Pairs.addAll(b4Pairs);
+    insert(b3Pairs, b4Pairs);
     Signature result = factory().createSignature(b3Pairs);
     return result;
   }
@@ -659,7 +668,7 @@ abstract public class Checker<R>
 
   //rename the primary names in a class
   protected List<DeclName> renamePrimary(List<DeclName> primaryNames,
-					 List<NewOldPair> renamePairs)
+                                         List<NewOldPair> renamePairs)
   {
     List<DeclName> newPrimaryNames = list();
     for (DeclName primaryName : primaryNames) {
@@ -741,7 +750,7 @@ abstract public class Checker<R>
         List<ClassRef> newClassRefs = list();
         for (ClassRef classRef : classRefs) {
           List<Type2> types = instantiateTypes(classRef.getType(), preTypes);
-	  List<NewOldPair> pairs = list();
+          List<NewOldPair> pairs = list();
           ClassRef newClassRef =
             factory().createClassRef(classRef.getRefName(), types, pairs);
           newClassRefs.add(newClassRef);
@@ -936,22 +945,22 @@ abstract public class Checker<R>
       //check that if there are any intersecting class references,
       //they are compatible
       for (ClassRef lClassRef : lcSig.getClasses()) {
-	for (ClassRef rClassRef : rcSig.getClasses()) {
-	  if (namesEqual(lClassRef.getZRefName(), rClassRef.getZRefName())) {
-	    assert lClassRef.getType().size() == rClassRef.getType().size();
-	    for (int i = 0; i < lClassRef.getType().size(); i++) {
-	      Type2 lrType = lClassRef.getType().get(i);
-	      Type2 rrType = rClassRef.getType().get(i);
-	      UResult unified = unify(lrType, rrType);
-	      if (unified == FAIL) {
-		Object [] params = {classUnionExpr};
-		error(classUnionExpr,
-		      ErrorMessage.INCOMPATIBLE_CLASSUNIONEXPR, params);
-		return result;
-	      }
-	    }
-	  }
-	}
+        for (ClassRef rClassRef : rcSig.getClasses()) {
+          if (namesEqual(lClassRef.getZRefName(), rClassRef.getZRefName())) {
+            assert lClassRef.getType().size() == rClassRef.getType().size();
+            for (int i = 0; i < lClassRef.getType().size(); i++) {
+              Type2 lrType = lClassRef.getType().get(i);
+              Type2 rrType = rClassRef.getType().get(i);
+              UResult unified = unify(lrType, rrType);
+              if (unified == FAIL) {
+                Object [] params = {classUnionExpr};
+                error(classUnionExpr,
+                      ErrorMessage.INCOMPATIBLE_CLASSUNIONEXPR, params);
+                return result;
+              }
+            }
+          }
+        }
       }
 
       //check that the features are compatible, and find common elements
@@ -967,14 +976,18 @@ abstract public class Checker<R>
         if (!isSelfName(lPair.getZDeclName())) {
           NameTypePair rPair = findNameTypePair(lPair.getZDeclName(), rsPairs);
           if (rPair != null) {
-            state.getNameTypePair().add(lPair);
-            state.getNameTypePair().add(rPair);
+            insert(state.getNameTypePair(), lPair);
+            insert(state.getNameTypePair(), rPair);
+            //state.getNameTypePair().add(lPair);
+            //state.getNameTypePair().add(rPair);
           }
-	  rPair = findNameTypePair(lPair.getZDeclName(), raPairs);
-	  if (rPair != null) {
-	    stateAndAttrs.add(lPair);
-	    stateAndAttrs.add(rPair);	    
-	  }
+          rPair = findNameTypePair(lPair.getZDeclName(), raPairs);
+          if (rPair != null) {
+            insert(stateAndAttrs, lPair);
+            insert(stateAndAttrs, rPair);
+            //stateAndAttrs.add(lPair);
+            //stateAndAttrs.add(rPair);
+          }
         }
       }
 
@@ -982,14 +995,18 @@ abstract public class Checker<R>
       for (NameTypePair lPair : laPairs) {
         NameTypePair rPair = findNameTypePair(lPair.getZDeclName(), raPairs);
         if (rPair != null) {
-          attrs.add(lPair);
-          attrs.add(rPair);
+          insert(attrs, lPair);
+          insert(attrs, rPair);
+          //attrs.add(lPair);
+          //attrs.add(rPair);
         }
-	rPair = findNameTypePair(lPair.getZDeclName(), rsPairs);
-	if (rPair != null) {
-	  stateAndAttrs.add(lPair);
-	  stateAndAttrs.add(rPair);	    
-	}
+        rPair = findNameTypePair(lPair.getZDeclName(), rsPairs);
+        if (rPair != null) {
+          insert(stateAndAttrs, lPair);
+          insert(stateAndAttrs, rPair);
+          //stateAndAttrs.add(lPair);
+          //stateAndAttrs.add(rPair);
+        }
       }
 
       //check compatibility
@@ -998,8 +1015,8 @@ abstract public class Checker<R>
                            ErrorMessage.INCOMPATIBLE_FEATURE_IN_CLASSUNIONEXPR);
         checkForDuplicates(attrs, classUnionExpr,
                            ErrorMessage.INCOMPATIBLE_FEATURE_IN_CLASSUNIONEXPR);
-	//state and local defs must also be compatible
-	checkForDuplicates(stateAndAttrs, classUnionExpr,
+        //state and local defs must also be compatible
+        checkForDuplicates(stateAndAttrs, classUnionExpr,
                            ErrorMessage.INCOMPATIBLE_FEATURE_IN_CLASSUNIONEXPR);
       }
 
@@ -1026,14 +1043,14 @@ abstract public class Checker<R>
 
       //add the class references
       for (ClassRef classRef : lcSig.getClasses()) {
-	if (!contains(classes, classRef)) {
-	  classes.add(classRef);
-	}
+        if (!contains(classes, classRef)) {
+          classes.add(classRef);
+        }
       }
       for (ClassRef classRef : rcSig.getClasses()) {
-	if (!contains(classes, classRef)) {
-	  classes.add(classRef);
-	}
+        if (!contains(classes, classRef)) {
+          classes.add(classRef);
+        }
       }
       ClassSig cSig = factory().createClassSig(classes, state, attrs, ops);
       result = factory().createClassUnionType(cSig);
@@ -1051,26 +1068,26 @@ abstract public class Checker<R>
 
       //if this is the set \oid
       if (classes.size() != 0) {
-	assert classes.size() > 1;
-	Type2 firstType = lookupClass(classes.get(0));
-	Type2 secondType = lookupClass(classes.get(1));
-	Type2 unioned = unionClasses(null, firstType, secondType);
-	for (int i = 2; i < classes.size(); i++) {
-	  Type2 nextType = lookupClass(classes.get(0));
-	  unioned = unionClasses(null, unioned, nextType);
-	}
-	result = unioned;
+        assert classes.size() > 1;
+        Type2 firstType = lookupClass(classes.get(0));
+        Type2 secondType = lookupClass(classes.get(1));
+        Type2 unioned = unionClasses(null, firstType, secondType);
+        for (int i = 2; i < classes.size(); i++) {
+          Type2 nextType = lookupClass(classes.get(0));
+          unioned = unionClasses(null, unioned, nextType);
+        }
+        result = unioned;
       }
     }
     else if (type instanceof VariableClassType) {
       VariableClassType vClassType = (VariableClassType) type;
       if (vClassType.getValue() != vClassType) {
-	result = resolveClassType(vClassType.getValue());
+        result = resolveClassType(vClassType.getValue());
       }
       else if (vClassType.getCandidateType() != null) {
-	result = resolveClassType(vClassType.getCandidateType());
+        result = resolveClassType(vClassType.getCandidateType());
       }
-    }   
+    }
     else if (type instanceof ClassType && sectTypeEnv().getSecondTime()) {
       ClassRef classRef = null;
       if (type instanceof ClassRefType) {

@@ -1150,7 +1150,7 @@ public class ExprChecker
       if (!instanceOf(signature, VariableSignature.class)) {
         String errorMessage =
           ErrorMessage.DUPLICATE_NAME_IN_RENAMEEXPR.toString();
-	List<NewOldPair> renamePairs = renameExpr.getZRenameList();
+        List<NewOldPair> renamePairs = renameExpr.getZRenameList();
         Signature newSig = createRenameSig(signature, renamePairs,
                                            renameExpr, errorMessage);
         checkForDuplicates(newSig.getNameTypePair(), renameExpr);
@@ -1228,9 +1228,8 @@ public class ExprChecker
         //get the type of the expression
         Type2 exprType = (Type2) decl.getType();
         //add the name and type to the list
-        NameTypePair nameTypePair =
-          factory().createNameTypePair(zDeclName, exprType);
-        pairs.add(nameTypePair);
+        NameTypePair pair = factory().createNameTypePair(zDeclName, exprType);
+        pairs.add(pair);
         names.add(zDeclName);
       }
     }

@@ -22,6 +22,7 @@ import static net.sourceforge.czt.typecheck.oz.util.GlobalDefs.*;
 
 import java.util.List;
 
+import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.typecheck.z.util.*;
 import net.sourceforge.czt.typecheck.z.impl.VariableType;
@@ -105,7 +106,8 @@ public class UnificationEnv
   {
     UResult result = PARTIAL;
     if (type2 instanceof VariableClassType ||
-	type2 instanceof PowerType && powerType(type2) instanceof VariableClassType) {
+        (type2 instanceof PowerType &&
+         powerType(type2) instanceof VariableClassType)) {
       result = PARTIAL;
     }
     else {
@@ -122,16 +124,16 @@ public class UnificationEnv
       //if we are using weak typing, and the type is a class type,
       //then create a variable class type with 'type' as its candidate
       if (!strong_ && type instanceof ClassType) {
-	ClassType classType = (ClassType) type;
-	VariableClassType vClassType = factory_.createVariableClassType();
-	vClassType.setCandidateType(classType);
-	vType.setValue(vClassType);
-	result = PARTIAL;
+        ClassType classType = (ClassType) type;
+        VariableClassType vClassType = factory_.createVariableClassType();
+        vClassType.setCandidateType(classType);
+        vType.setValue(vClassType);
+        result = PARTIAL;
       }
-      //if this is not a class type, or we are using strong typing, 
+      //if this is not a class type, or we are using strong typing,
       //continue as normal
       else {
-	result = super.unifyVariableType(vType, type);
+        result = super.unifyVariableType(vType, type);
       }
     }
     //if the variable is already ground, then unify the ground value with type2
@@ -142,13 +144,13 @@ public class UnificationEnv
   }
 
   protected UResult unifyVarClassType(VariableClassType vClassType, Type2 type)
-  {  
+  {
     UResult result = FAIL;
     if (type instanceof ClassType) {
       ClassType classType = (ClassType) type;
       result = strong_ ?
-	strongUnifyVarClassType(vClassType, classType) :
-	weakUnifyVarClassType(vClassType, classType);
+        strongUnifyVarClassType(vClassType, classType) :
+        weakUnifyVarClassType(vClassType, classType);
     }
     else if (type instanceof VariableType || type instanceof UnknownType) {
       result = super.unify(type, vClassType);
@@ -174,46 +176,46 @@ public class UnificationEnv
       ClassType candidateTypeA = vClassTypeA.getCandidateType();
       //if we have the same variable, the result is PARTIAL
       if (vClassTypeA == classType) {
-	result = PARTIAL;
+        result = PARTIAL;
       }
       //if a has no candidate type yet, the classType is its type
       else if (candidateTypeA == null) {
-	if (classType instanceof VariableClassType) {
-	  vClassTypeA.setValue(classType);
-	}
-	else {
-	  vClassTypeA.setCandidateType(classType);
-	}
+        if (classType instanceof VariableClassType) {
+          vClassTypeA.setValue(classType);
+        }
+        else {
+          vClassTypeA.setCandidateType(classType);
+        }
       }
       //if classType is a variable class
       else if (classType instanceof VariableClassType) {
-	VariableClassType vClassTypeB = (VariableClassType) classType;
-	ClassType candidateTypeB = vClassTypeB.getCandidateType();
-	
-	//if vClassTypeB does not have a candidate type
-	if (candidateTypeB == null) {
-	  result = weakUnifyVarClassType(vClassTypeB, vClassTypeA);
-	}
-	//if vClassTypeB does have a candidate type
-	else {
-	  //calculate the union and set this as the new candidate type for both
-	  ClassType newCandidateType = 
-	    checkCompatibility(candidateTypeA, candidateTypeB);
-	  if (newCandidateType != null) {
-	    vClassTypeA.setCandidateType(newCandidateType);
-	    vClassTypeB.setValue(vClassTypeA);
-	  }
-	  result = (newCandidateType == null) ? FAIL : PARTIAL;	  
-	}
+        VariableClassType vClassTypeB = (VariableClassType) classType;
+        ClassType candidateTypeB = vClassTypeB.getCandidateType();
+
+        //if vClassTypeB does not have a candidate type
+        if (candidateTypeB == null) {
+          result = weakUnifyVarClassType(vClassTypeB, vClassTypeA);
+        }
+        //if vClassTypeB does have a candidate type
+        else {
+          //calculate the union and set this as the new candidate type for both
+          ClassType newCandidateType =
+            checkCompatibility(candidateTypeA, candidateTypeB);
+          if (newCandidateType != null) {
+            vClassTypeA.setCandidateType(newCandidateType);
+            vClassTypeB.setValue(vClassTypeA);
+          }
+          result = (newCandidateType == null) ? FAIL : PARTIAL;
+        }
       }
       //if classType is not a variable
       else {
-	//calculate the union and set this as the candidate type
-	ClassType newCandidateType = checkCompatibility(candidateTypeA, classType);
-	if (newCandidateType != null) {
-	  vClassTypeA.setCandidateType(newCandidateType);
-	}
-	result = (newCandidateType == null) ? FAIL : PARTIAL;
+        //calculate the union and set this as the candidate type
+        ClassType newCandidateType = checkCompatibility(candidateTypeA, classType);
+        if (newCandidateType != null) {
+          vClassTypeA.setCandidateType(newCandidateType);
+        }
+        result = (newCandidateType == null) ? FAIL : PARTIAL;
       }
     }
     //if this variable is already ground, the value with classType
@@ -225,7 +227,7 @@ public class UnificationEnv
 
   protected UResult unifyClassType(ClassType typeA, ClassType typeB)
   {
-    UResult result = strong_ ? 
+    UResult result = strong_ ?
       strongUnifyClassType(typeA, typeB) :
       weakUnifyClassType(typeA, typeB);
     return result;
@@ -327,7 +329,7 @@ public class UnificationEnv
   }
 
   protected ClassType checkCompatibility(ClassType classTypeA,
-					 ClassType classTypeB)
+                                         ClassType classTypeB)
   {
     ClassSig cSigA = classTypeA.getClassSig();
     ClassSig cSigB = classTypeB.getClassSig();
@@ -341,7 +343,7 @@ public class UnificationEnv
     if (attrs == null) {
       return null;
     }
-    
+
     //check compatibility of operations
     List<NameTypePair> statePairs = checkCompatibility(stateA, stateB, attrsB);
     if (statePairs == null) {
@@ -359,14 +361,14 @@ public class UnificationEnv
     List<ClassRef> classes = list();
     for (ClassRef classRef : cSigA.getClasses()) {
       if (!contains(classes, classRef)) {
-	classes.add(classRef);
+        classes.add(classRef);
       }
     }
     for (ClassRef classRef : cSigB.getClasses()) {
       if (!contains(classes, classRef)) {
-	classes.add(classRef);
+        classes.add(classRef);
       }
-    }    
+    }
     Signature state = factory_.createSignature(statePairs);
     ClassSig cSig = factory_.createClassSig(classes, state, attrs, ops);
     ClassType result = null;
@@ -379,38 +381,38 @@ public class UnificationEnv
     return result;
   }
 
-  protected List<NameTypePair> 
+  protected List<NameTypePair>
     checkCompatibility(List<NameTypePair> pairsA,
-		       List<NameTypePair> pairsB,
-		       List<NameTypePair> altPairs)
+                       List<NameTypePair> pairsB,
+                       List<NameTypePair> altPairs)
   {
     List<NameTypePair> result = list();
     //check compatibility of attributes and state variables
     for (NameTypePair first : pairsA) {
       ZDeclName firstName = first.getZDeclName();
       if (!isSelfName(firstName)) {
-	NameTypePair second = findNameTypePair(firstName, pairsB);
-	if (second != null) {
-	  Type2 firstType = unwrapType(first.getType());
-	  Type2 secondType = unwrapType(second.getType());
-	  UResult unified = unify(firstType, secondType);
-	  if (unified == FAIL) {
-	    return null;
-	  }
-	  else {
-	    result.add(first);
-	  }
-	}
-	//check that the attribute does not have a conflicting state variable
-	second = findNameTypePair(firstName, altPairs);
-	if (second != null) {
-	  Type2 firstType = unwrapType(first.getType());
-	  Type2 secondType = unwrapType(second.getType());
-	  UResult unified = unify(firstType, secondType);
-	  if (unified == FAIL) {
-	    return null;
-	  }
-	}
+        NameTypePair second = findNameTypePair(firstName, pairsB);
+        if (second != null) {
+          Type2 firstType = unwrapType(first.getType());
+          Type2 secondType = unwrapType(second.getType());
+          UResult unified = unify(firstType, secondType);
+          if (unified == FAIL) {
+            return null;
+          }
+          else {
+            result.add(first);
+          }
+        }
+        //check that the attribute does not have a conflicting state variable
+        second = findNameTypePair(firstName, altPairs);
+        if (second != null) {
+          Type2 firstType = unwrapType(first.getType());
+          Type2 secondType = unwrapType(second.getType());
+          UResult unified = unify(firstType, secondType);
+          if (unified == FAIL) {
+            return null;
+          }
+        }
       }
     }
     return result;
@@ -419,22 +421,22 @@ public class UnificationEnv
   //check compatibility of operations
   protected List<NameSignaturePair>
     checkOpCompatibility(List<NameSignaturePair> pairsA,
-			 List<NameSignaturePair> pairsB)
+                         List<NameSignaturePair> pairsB)
   {
     List<NameSignaturePair> result = list();
     for (NameSignaturePair first : pairsA) {
       ZDeclName firstName = first.getZDeclName();
       NameSignaturePair second = findNameSigPair(firstName, pairsB);
       if (second != null) {
-	Signature lSig = first.getSignature();
-	Signature rSig = second.getSignature();
-	UResult unified = unify(lSig, rSig);
-	if (unified == FAIL) {
-	  return null;
-	}
-	else {
-	  result.add(first);
-	}
+        Signature lSig = first.getSignature();
+        Signature rSig = second.getSignature();
+        UResult unified = unify(lSig, rSig);
+        if (unified == FAIL) {
+          return null;
+        }
+        else {
+          result.add(first);
+        }
       }
     }
     return result;
@@ -443,5 +445,15 @@ public class UnificationEnv
   protected static boolean contains(List<ClassRef> list, ClassRef classRef)
   {
     return GlobalDefs.contains(list, classRef);
+  }
+
+  protected boolean contains(Term term, Object o, List<Term> preTerms)
+  {
+    //add this term to the list that has been checked, so that we can
+    //check recursive type structures
+    if (term instanceof ClassType) {
+      preTerms.add(term);
+    }
+    return super.contains(term, o, preTerms);
   }
 }

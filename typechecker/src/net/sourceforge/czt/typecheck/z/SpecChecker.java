@@ -54,11 +54,11 @@ public class SpecChecker
     List<NameSectTypeTriple> triples = specTypes.getNameSectTypeTriple();
     for (Sect sect : sects) {
       List<NameSectTypeTriple> sectTypes =
-	(List<NameSectTypeTriple>) sect.accept(specChecker());
+        (List<NameSectTypeTriple>) sect.accept(specChecker());
       for (NameSectTypeTriple triple : sectTypes) {
-	if (!triples.contains(triple)) {
-	  triples.add(triple);
-	}
+        if (!triples.contains(triple)) {
+          triples.add(triple);
+        }
       }
     }
 
@@ -120,7 +120,7 @@ public class SpecChecker
       List<NameTypePair> pairs = signature.getNameTypePair();
       for (NameTypePair pair : pairs) {
         //if the name already exists globally, raise an error
-	ZDeclName zDeclName = pair.getZDeclName();
+        ZDeclName zDeclName = pair.getZDeclName();
         if (!sectTypeEnv().add(zDeclName, pair.getType())) {
           Object [] params = {zDeclName};
           error(zDeclName, ErrorMessage.REDECLARED_GLOBAL_NAME, params);
@@ -129,19 +129,19 @@ public class SpecChecker
 
       //only check on the final traversal of the tree
       if (!useBeforeDecl() || sectTypeEnv().getSecondTime()) {
-	postCheck();
+        postCheck();
       }
     }
 
     if (useBeforeDecl() && sectTypeEnv().getSecondTime()) {
       try {
-	SectTypeEnv sectTypeEnv =
-	  (SectTypeEnv) sectInfo().get(new Key(sectName(), SectTypeEnv.class));
-	assert sectTypeEnv != null;
-	sectTypeEnv().overwriteTriples(sectTypeEnv.getTriple());    
+        SectTypeEnv sectTypeEnv =
+          (SectTypeEnv) sectInfo().get(new Key(sectName(), SectTypeEnv.class));
+        assert sectTypeEnv != null;
+        sectTypeEnv().overwriteTriples(sectTypeEnv.getTriple());
       }
       catch (Exception e) {
-	assert false : "No SectTypeEnv for " + sectName();
+        assert false : "No SectTypeEnv for " + sectName();
       }
 
     }

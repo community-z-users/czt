@@ -58,7 +58,7 @@ public class TypeCheckerTest
 
   //allow use before declaration
   protected boolean useBeforeDecl_ = false;
-  
+
   public static Test suite()
   {
     TestSuite suite = new TestSuite();
@@ -174,7 +174,7 @@ public class TypeCheckerTest
         fail("Parser returned null");
       }
       else {
-	Markup markup = ParseUtils.getMarkup(file);
+        Markup markup = ParseUtils.getMarkup(file);
         errors = typecheck(term, markup);
       }
     }
@@ -192,8 +192,8 @@ public class TypeCheckerTest
 
     if (errors.size() == 0) {
       fail("\nNo type error found" +
-	   "\n\tFile: " + file +
-	   "\n\tExpected: " + exception);
+           "\n\tFile: " + file +
+           "\n\tExpected: " + exception);
     }
     else {
       ErrorAnn errorAnn = errors.get(0);
@@ -219,8 +219,8 @@ public class TypeCheckerTest
   private void incorrectError(String file, String expected, String actual)
   {
     fail("\nIncorrect type error" +
-	 "\n\tFile: " + file +
-	 "\n\tError: " + expected +
-	 "\n\tActual: " + actual);
+         "\n\tFile: " + file +
+         "\n\tError: " + expected +
+         "\n\tActual: " + actual);
   }
 }

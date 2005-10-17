@@ -70,7 +70,7 @@ public class UnificationEnv
   }
 
   /**
-   * Add a gen name and type to this unificiation  environment. 
+   * Add a gen name and type to this unificiation  environment.
    */
   public void addGenName(ZDeclName zDeclName, Type2 type2)
   {
@@ -107,8 +107,8 @@ public class UnificationEnv
     return containsVariable(term, list(term));
   }
 
-  protected static boolean containsVariable(Term term, 
-					    List<Term> preTypes)
+  protected static boolean containsVariable(Term term,
+                                            List<Term> preTypes)
   {
     boolean result = false;
 
@@ -128,7 +128,7 @@ public class UnificationEnv
       Object [] children = term.getChildren();
       for (int i = 0; i < children.length; i++) {
         if (children[i] instanceof Term &&
-	    !containsObject(preTypes, (Term) children[i])) {
+            !containsObject(preTypes, (Term) children[i])) {
           if (containsVariable((Term) children[i], preTypes)) {
             return true;
           }
@@ -186,10 +186,10 @@ public class UnificationEnv
     if (isVariableType(type2) && uTypeName != null) {
       unifyVariableType(variableType(type2), uType);
     }
-    else if (isPowerType(type2) && 
-	     isVariableType(powerType(type2).getType()) &&
-	     uTypeName != null &&
-	     uType.getIsMem() == false) {
+    else if (isPowerType(type2) &&
+             isVariableType(powerType(type2).getType()) &&
+             uTypeName != null &&
+             uType.getIsMem() == false) {
       UnknownType subType = factory_.createUnknownType(uTypeName, true);
       subType.getType().addAll(uType.getType());
       unify(powerType(type2).getType(), subType);
@@ -205,7 +205,7 @@ public class UnificationEnv
     if (vType.getValue() == vType) {
       //if we have the same variable, the result is PARTIAL
       if (vType == type2) {
-	result = PARTIAL;
+        result = PARTIAL;
       }
       //if type2 contains this variable, then we have a cyclic type, so fail
       else if (contains(type2, vType)) {
@@ -213,8 +213,8 @@ public class UnificationEnv
       }
       //finally, if everything is ok, assign type2 to the variable
       else {
-	vType.setValue(type2);
-	result = unify(vType.getValue(), type2);
+        vType.setValue(type2);
+        result = unify(vType.getValue(), type2);
       }
     }
     //if the variable is already ground, then unify the ground value with type2
@@ -298,8 +298,9 @@ public class UnificationEnv
       if (listA.size() == listB.size()) {
         //iterate through every name/type pair, looking for each name in
         //the other signature
-        for (NameTypePair pairA : listA) {
-          NameTypePair pairB = findNameTypePair(pairA.getZDeclName(), sigB);
+        for (int i = 0; i < listA.size(); i++) {
+          NameTypePair pairA = listA.get(i);
+          NameTypePair pairB = listB.get(i);
           //if the pair in not in the signature, then fail
           if (pairB == null) {
             result = FAIL;
@@ -327,12 +328,11 @@ public class UnificationEnv
                                            Signature sigB)
   {
     UResult result = SUCC;
-
     //if this signature is not unified
     if (vSig.getValue() == vSig) {
       //if we have the same variable, the result is PARTIAL
       if (vSig == sigB) {
-	result = PARTIAL;
+        result = PARTIAL;
       }
       //if sigB contains this variable, then we have a cyclic type, so fail
       else if (contains(sigB, vSig)) {
@@ -340,9 +340,9 @@ public class UnificationEnv
       }
       else {
         vSig.setValue(sigB);
-	//the result must be PARTIAL if the signature contains
-	//a variable type or variable signature
-	result = containsVariable(sigB) ? PARTIAL : SUCC;
+        //the result must be PARTIAL if the signature contains
+        //a variable type or variable signature
+        result = PARTIAL;
       }
 
     }
@@ -351,21 +351,19 @@ public class UnificationEnv
     else {
       result = unifySignature(vSig.getValue(), sigB);
     }
-
     return result;
   }
 
   //return true if and only if term contains the object o
   protected boolean contains(Term term, Object o)
   {
-    return contains(term, o, list(term));
+    boolean result = contains(term, o, list(term));
+    return result;
   }
 
   protected boolean contains(Term term, Object o, List<Term> preTerms)
-  {  
+  {
     boolean result = false;
-    //add this term to the list that has been checked
-    preTerms.add(term);
 
     //if this term is the same as the object, then it contains the object
     if (term == o) {
@@ -375,13 +373,13 @@ public class UnificationEnv
     else {
       Object [] children = term.getChildren();
       for (int i = 0; i < children.length; i++) {
-	if (children[i] instanceof Term &&
-	    !containsObject(preTerms, children[i])) {
-	  if (contains((Term) children[i], o, preTerms)) {
-	    result = true;
-	    break;
-	  }
-	}
+        if (children[i] instanceof Term &&
+            !containsObject(preTerms, children[i])) {
+          if (contains((Term) children[i], o, preTerms)) {
+            result = true;
+            break;
+          }
+        }
       }
     }
     return result;
