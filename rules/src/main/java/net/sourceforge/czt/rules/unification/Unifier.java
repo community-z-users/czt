@@ -24,7 +24,7 @@ import java.util.*;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.rules.ast.*;
 import net.sourceforge.czt.rules.*;
-import net.sourceforge.czt.zpatt.ast.Binding;;
+import net.sourceforge.czt.zpatt.ast.Binding;
 
 /**
  * <p>Unification of ASTs.</p>
