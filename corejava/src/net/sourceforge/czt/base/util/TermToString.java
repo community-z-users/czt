@@ -25,7 +25,7 @@ import net.sourceforge.czt.base.visitor.*;
 public class TermToString
   implements TermVisitor
 {
-  private StringBuffer buffer_ = new StringBuffer();
+  protected StringBuffer buffer_ = new StringBuffer();
 
   public String getString()
   {
