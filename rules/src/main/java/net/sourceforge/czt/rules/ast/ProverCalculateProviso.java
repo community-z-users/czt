@@ -26,7 +26,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.rules.*;
-import net.sourceforge.czt.rules.unification.Unifier;
+import net.sourceforge.czt.rules.unification.UnificationUtils;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
@@ -74,9 +74,8 @@ public class ProverCalculateProviso
             final SchExpr rightSchExpr =
               (SchExpr) zExprList.get(1);
             SchExpr result = merge(leftSchExpr, rightSchExpr);
-            Set<Binding> bindings = new HashSet<Binding>();
             if (result != null &&
-                Unifier.unify(result, getLeftExpr(), bindings)) {
+                UnificationUtils.unify(result, getLeftExpr()) != null) {
               status_ = Status.PASS;
               return;
             }
@@ -100,10 +99,8 @@ public class ProverCalculateProviso
           new DecorateNamesVisitor(collectVisitor.getVariables(), stroke);
         try {
           Expr result = (Expr) decorExpr.getExpr().accept(visitor);
-          Set<Binding> bindings = new HashSet<Binding>();
-          Unifier unifier = new Unifier(bindings);
           if (result != null &&
-              unifier.unify(result, getLeftExpr())) {
+              UnificationUtils.unify(result, getLeftExpr()) != null) {
             status_ = Status.PASS;
             return;
           }

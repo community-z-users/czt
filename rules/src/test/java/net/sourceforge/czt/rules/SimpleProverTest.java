@@ -69,7 +69,7 @@ public class SimpleProverTest
       Term term = ParseUtils.parse(new UrlSource(url), manager_);
       TypeCheckUtils.typecheck(term, manager_, Markup.LATEX);
       String sectname = term.accept(new GetZSectNameVisitor());
-      List<Rule> rules = collectRules(term);
+      Map<String,Rule> rules = collectRules(term);
       List<ConjPara> conjectures = collectConjectures(term);
       for (Iterator<ConjPara> i = conjectures.iterator(); i.hasNext(); ) {
         ConjPara conjPara = i.next();

@@ -19,7 +19,7 @@
 
 package net.sourceforge.czt.rules;
 
-import java.util.List;
+import java.util.Map;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
@@ -53,11 +53,11 @@ public class Rewrite
 {
   private SectionManager manager_;
 
-  private List<Rule> rules_;
+  private Map<String,Rule> rules_;
 
   private String section_;
 
-  public Rewrite(SectionManager manager, List<Rule> rules)
+  public Rewrite(SectionManager manager, Map<String,Rule> rules)
   {
     manager_ = manager;
     rules_ = rules;
@@ -87,7 +87,7 @@ public class Rewrite
   public static Object rewrite(SectionManager manager,
                                String section,
                                Expr expr,
-                               List<Rule> rules)
+                               Map<String,Rule> rules)
   {
     Factory factory = new Factory(new ProverFactory());
     ProverJokerExpr joker = (ProverJokerExpr) factory.createJokerExpr("_");
@@ -110,7 +110,7 @@ public class Rewrite
    */
   public static Term rewrite(SectionManager manager,
                              Term term,
-                             List<Rule> rules)
+                             Map<String,Rule> rules)
   {
     Rewrite visitor = new Rewrite(manager, rules);
     return (Term) term.accept(visitor);

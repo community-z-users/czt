@@ -64,9 +64,9 @@ public final class ProverUtils
     return createPredSequent(pred);
   }
 
-  public static List<Rule> collectRules(Term term)
+  public static Map<String,Rule> collectRules(Term term)
   {
-    List<Rule> result = new ArrayList<Rule>();  
+    Map<String,Rule> result = new HashMap<String,Rule>();  
     if (term instanceof Spec) {
       for (Iterator i = ((Spec) term).getSect().iterator(); i.hasNext(); ) {
         Sect sect = (Sect) i.next();
@@ -75,7 +75,8 @@ public final class ProverUtils
                j.hasNext(); ) {
             Para para = (Para) j.next();
             if (para instanceof Rule) {
-              result.add((Rule) para);
+              Rule rule = (Rule) para;
+              result.put(rule.getName(), rule);
             }
           }
         }
@@ -112,7 +113,7 @@ public final class ProverUtils
     Term term = ParseUtils.parse(new UrlSource(url), manager);
     TypeCheckUtils.typecheck(term, manager, Markup.LATEX);
     String sectname = term.accept(new GetZSectNameVisitor());
-    List<Rule> rules = collectRules(term);
+    Map<String,Rule> rules = collectRules(term);
     List<ConjPara> conjectures = collectConjectures(term);
     for (Iterator<ConjPara> i = conjectures.iterator(); i.hasNext(); ) {
       ConjPara conjPara = i.next();

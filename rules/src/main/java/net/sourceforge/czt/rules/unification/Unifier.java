@@ -41,17 +41,11 @@ public class Unifier
 {
   private UnificationException cause_ = null;
   private boolean provideCause_ = true;
-  private Set<Binding> bindings_;
+  private Set<Binding> bindings_ = new HashSet<Binding>();
 
-  public static boolean unify(Object o1, Object o2, Set<Binding> bindings)
+  public Set<Binding> getBindings()
   {
-    Unifier unifier = new Unifier(bindings);
-    return unifier.unify(o1, o2);
-  }
-
-  public Unifier(Set<Binding> bindings)
-  {
-    bindings_ = bindings;
+    return bindings_;
   }
 
   public UnificationException getCause()

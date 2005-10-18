@@ -24,7 +24,7 @@ import java.util.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.rules.ast.*;
-import net.sourceforge.czt.rules.unification.Unifier;
+import net.sourceforge.czt.rules.unification.UnificationUtils;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
@@ -45,11 +45,13 @@ import net.sourceforge.czt.zpatt.visitor.*;
 public class SimpleProver
   implements Prover
 {
-  private List<Rule> rules_;
+  private Map<String,Rule> rules_;
   private SectionManager manager_;
   private String section_;
 
-  public SimpleProver(List<Rule> rules, SectionManager manager, String section)
+  public SimpleProver(Map<String,Rule> rules,
+                      SectionManager manager,
+                      String section)
   {
     rules_ = rules;
     manager_ = manager;
@@ -63,7 +65,7 @@ public class SimpleProver
    */
   public boolean prove(PredSequent predSequent)
   {
-    for (Iterator<Rule> i = rules_.iterator(); i.hasNext(); ) {
+    for (Iterator<Rule> i = rules_.values().iterator(); i.hasNext(); ) {
       Rule rule = i.next();
       try {
         boolean success = apply(rule, predSequent);
@@ -155,10 +157,10 @@ public class SimpleProver
     Sequent sequent = sequents.remove(0);
     if (sequent instanceof PredSequent) {
       Pred pred = ((PredSequent) sequent).getPred();
-      Set<Binding> bindings = new HashSet<Binding>();
-      List<Binding> bindingList = new ArrayList<Binding>();
-      Unifier unifier = new Unifier(bindings);
-      if (unifier.unify(pred, predSequent.getPred())) {
+      Set<Binding> bindings =
+        UnificationUtils.unify(pred, predSequent.getPred());
+      if (bindings != null) {
+        List<Binding> bindingList = new ArrayList<Binding>();
         bindingList.addAll(bindings);
         Deduction deduction =
           factory.createDeduction(bindingList, sequents, rule.getName());
