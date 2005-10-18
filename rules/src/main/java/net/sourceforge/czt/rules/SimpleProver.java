@@ -103,8 +103,7 @@ public class SimpleProver
    */
   public boolean prove(Deduction deduction)
   {
-    if (prove(deduction.getSequent())) return true;
-    return false;
+    return prove(deduction.getSequent());
   }
 
   /**
