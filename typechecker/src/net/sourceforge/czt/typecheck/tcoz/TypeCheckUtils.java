@@ -57,7 +57,7 @@ public class TypeCheckUtils
    * @param markup the <code>Markup</code> of the specification.
    * returns the list of ErrorAnns in the AST added by the typechecker.
    */
-  public static List<ErrorAnn> typecheck(Term term,
+  public static List<? extends ErrorAnn> typecheck(Term term,
 					 SectionInfo sectInfo,
 					 Markup markup)
   {
@@ -73,7 +73,7 @@ public class TypeCheckUtils
    * @param useBeforeDecl allow use of variables before declaration
    * returns the list of ErrorAnns in the AST added by the typechecker.
    */
-  public static List<ErrorAnn> typecheck(Term term,
+  public static List<? extends ErrorAnn> typecheck(Term term,
 					 SectionInfo sectInfo,
 					 Markup markup,
 					 boolean useBeforeDecl)
@@ -82,7 +82,7 @@ public class TypeCheckUtils
     return utils.lTypecheck(term, sectInfo, markup, useBeforeDecl);
   }
 
-  public static List<ErrorAnn> typecheck(Term term,
+  public static List<? extends ErrorAnn> typecheck(Term term,
 					 SectionInfo sectInfo,
 					 Markup markup,
 					 boolean useBeforeDecl,
@@ -96,7 +96,7 @@ public class TypeCheckUtils
                             useStrongTyping);
   }
 
-  protected List<ErrorAnn> lTypecheck(Term term,
+  protected List<? extends ErrorAnn> lTypecheck(Term term,
 				      SectionInfo sectInfo,
 				      Markup markup,
 				      boolean useBeforeDecl)
@@ -104,7 +104,7 @@ public class TypeCheckUtils
     return lTypecheck(term, sectInfo, markup, useBeforeDecl, false);
   }
 
-  protected List<ErrorAnn> lTypecheck(Term term,
+  protected List<? extends ErrorAnn> lTypecheck(Term term,
 				      SectionInfo sectInfo,
 				      Markup markup,
 				      boolean useBeforeDecl,
@@ -124,7 +124,7 @@ public class TypeCheckUtils
     return typeChecker.errors();
   }
 
-  protected List<ErrorAnn> lTypecheck(Term term,
+  protected List<? extends ErrorAnn> lTypecheck(Term term,
 				      SectionInfo sectInfo,
 				      Markup markup)
   {

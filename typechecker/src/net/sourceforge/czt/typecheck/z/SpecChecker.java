@@ -196,7 +196,7 @@ public class SpecChecker
       //if there is no SectTypeEnvAnn, then we must typecheck this section
       SectTypeEnvAnn ann = (SectTypeEnvAnn) termA.getAnn(SectTypeEnvAnn.class);
       if (ann == null) {
-        List<ErrorAnn> errors = specChecker().typecheck(termA, sectInfo());
+        List<? extends ErrorAnn> errors = specChecker().typecheck(termA, sectInfo());
         errors().addAll(errors);
         ann = (SectTypeEnvAnn) termA.getAnn(SectTypeEnvAnn.class);
       }

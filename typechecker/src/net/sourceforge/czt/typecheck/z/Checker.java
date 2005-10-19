@@ -364,7 +364,7 @@ abstract public class Checker<R>
   }
 
   //typecheck a file using an instance of this typechecker
-  protected List<ErrorAnn> typecheck(TermA termA, SectionInfo sectInfo)
+  protected List<? extends ErrorAnn> typecheck(TermA termA, SectionInfo sectInfo)
   {
     return TypeCheckUtils.typecheck(termA, sectInfo, markup());
   }
