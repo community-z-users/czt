@@ -22,15 +22,12 @@ package net.sourceforge.czt.rules;
 import java.util.*;
 
 import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.rules.ast.*;
-import net.sourceforge.czt.rules.unification.UnificationUtils;
+import net.sourceforge.czt.rules.unification.*;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.Factory;
-import net.sourceforge.czt.zpatt.visitor.*;
 
 /**
  * <p>A simple implementation of the Prover interface.</p>
@@ -87,11 +84,7 @@ public class SimpleProver
   {
     Deduction ded = predSequent.getDeduction();
     if (ded != null) {
-      List bindings = ded.getBinding();
-      for (Iterator i = bindings.iterator(); i.hasNext(); ) {
-        Binding binding = (Binding) i.next();
-        binding.reset();
-      }
+      ProverUtils.reset(ded.getBinding());
       predSequent.setDeduction(null);
     }
   }
@@ -113,8 +106,8 @@ public class SimpleProver
    */
   public boolean prove(List sequents)
   {
-    for (Iterator i = sequents.iterator(); i.hasNext(); ) {
-      Sequent sequent = (Sequent) i.next();
+    for (Iterator<Sequent> i = sequents.iterator(); i.hasNext(); ) {
+      Sequent sequent = i.next();
       if (sequent instanceof PredSequent) {
         if (! prove((PredSequent) sequent)) return false;
       }
@@ -158,6 +151,41 @@ public class SimpleProver
       Pred pred = ((PredSequent) sequent).getPred();
       Set<Binding> bindings =
         UnificationUtils.unify(pred, predSequent.getPred());
+      if (bindings != null) {
+        List<Binding> bindingList = new ArrayList<Binding>();
+        bindingList.addAll(bindings);
+        Deduction deduction =
+          factory.createDeduction(bindingList, sequents, rule.getName());
+        predSequent.setDeduction(deduction);
+        return true;
+      }
+    }
+    else {
+      String message = "Conclusion of a rule must be a PredSequent";
+      throw new IllegalArgumentException(message);
+    }
+    return false;
+  }
+
+  public static boolean apply2(Rule rule, PredSequent predSequent)
+    throws UnificationException
+  {
+    if (predSequent.getDeduction() != null) {
+      String message = "A rule has been already applied to this PredSequent.";
+      throw new IllegalArgumentException(message);
+    }
+    // Note: must use new ProverFactory here to generate fresh joker names.
+    Factory factory = new Factory(new ProverFactory());
+    rule = (Rule) copy(rule, factory);
+    List<Sequent> sequents = rule.getSequent();
+    if (sequents.size() <= 0) {
+      throw new IllegalArgumentException("Rule without Sequent");
+    }
+    Sequent sequent = sequents.remove(0);
+    if (sequent instanceof PredSequent) {
+      Pred pred = ((PredSequent) sequent).getPred();
+      Set<Binding> bindings =
+        UnificationUtils.unify2(pred, predSequent.getPred());
       if (bindings != null) {
         List<Binding> bindingList = new ArrayList<Binding>();
         bindingList.addAll(bindings);
