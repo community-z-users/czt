@@ -32,6 +32,9 @@ public final class UnificationUtils
   {
   }
 
+  /**
+   * Returns null if unification failed.
+   */
   public static Set<Binding> unify(Object o1, Object o2)
   {
     Unifier unifier = new Unifier();
@@ -40,5 +43,19 @@ public final class UnificationUtils
       binding.reset();
     }
     return null;
+  }
+
+  /**
+   * Throws and exception if unification failed.
+   */
+  public static Set<Binding> unify2(Object o1, Object o2)
+    throws UnificationException
+  {
+    Unifier unifier = new Unifier();
+    if (unifier.unify(o1, o2)) return unifier.getBindings();
+    for (Binding binding : unifier.getBindings()) {
+      binding.reset();
+    }
+    throw unifier.getCause();
   }
 }
