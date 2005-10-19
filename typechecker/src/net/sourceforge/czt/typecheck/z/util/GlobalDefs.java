@@ -474,6 +474,36 @@ public class GlobalDefs
       throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
     }
   }
+  
+  public static ZExprList assertZExprList(ExprList exprs) 
+  {
+    if (exprs instanceof ZExprList) {
+        return (ZExprList)exprs;
+    }
+    else {
+        throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    }
+  }
+  
+   public static ZDeclList assertZDeclList(DeclList dcls) 
+  {
+    if (dcls instanceof ZDeclList) {
+        return (ZDeclList)dcls;
+    }
+    else {
+        throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    }
+  }
+  
+  public static ZRefNameList assertZRefNameList(RefNameList list) 
+  {
+    if (list instanceof ZRefNameList) {
+        return (ZRefNameList)list;
+    }
+    else {
+        throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    }
+  }
 
   //non-safe typecast
   public static SchemaType schemaType(Object o)
