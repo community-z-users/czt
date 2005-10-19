@@ -64,16 +64,20 @@ public final class ProverUtils
     return createPredSequent(pred);
   }
 
+  public static void reset(Collection<Binding> bindings)
+  {
+    for (Binding binding : bindings) {
+      binding.reset();
+    }
+  }
+
   public static Map<String,Rule> collectRules(Term term)
   {
     Map<String,Rule> result = new HashMap<String,Rule>();  
     if (term instanceof Spec) {
-      for (Iterator i = ((Spec) term).getSect().iterator(); i.hasNext(); ) {
-        Sect sect = (Sect) i.next();
+      for (Sect sect : ((Spec) term).getSect()) {
         if (sect instanceof ZSect) {
-          for (Iterator j = ((ZSect) sect).getPara().iterator();
-               j.hasNext(); ) {
-            Para para = (Para) j.next();
+          for (Para para : ((ZSect) sect).getPara()) {
             if (para instanceof Rule) {
               Rule rule = (Rule) para;
               result.put(rule.getName(), rule);
@@ -89,12 +93,9 @@ public final class ProverUtils
   {
     List<ConjPara> result = new ArrayList<ConjPara>();  
     if (term instanceof Spec) {
-      for (Iterator i = ((Spec) term).getSect().iterator(); i.hasNext(); ) {
-        Sect sect = (Sect) i.next();
+      for (Sect sect : ((Spec) term).getSect()) {
         if (sect instanceof ZSect) {
-          for (Iterator j = ((ZSect) sect).getPara().iterator();
-               j.hasNext(); ) {
-            Para para = (Para) j.next();
+          for (Para para : ((ZSect) sect).getPara()) {
             if (para instanceof ConjPara) {
               result.add((ConjPara) para);
             }
