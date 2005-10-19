@@ -200,7 +200,7 @@ public class TypeChecker
     return null;
   }
 
-  public List<ErrorAnn> errors()
+  public List<? extends ErrorAnn> errors()
   {
     return errors_;
   }
