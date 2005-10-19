@@ -449,25 +449,31 @@
         That is, it contains a reference name to lookup the process definition.
         </p>
         <p>
-        Moreover, it contains a list of expressions and an attribute defining the kind of call this 
-        reference is related too. An empty list of expressions means a simple process call of the grammar rule <b>N</b>,
+        Moreover, it contains two list of expressions and an attribute defining the kind of call this 
+        reference is related too. The first list is related to generic actuals, whereas the second list is 
+        related to actual parameters or indexes. 
+        An empty list of generic actuals means that refering process is not generic.
+        An empty list of expressions means a simple process call of the grammar rules <b>N, N[Expr+]</b>,
         where <b>N</b> is the process name.
         If the list of expressions is not empty, then the <code>CallType</code> attribute defines if this is an indexed 
-        process instantiation call, a parameterised process call, or a generic process instantiation call.
+        process instantiation call, a parameterised process call.
+        It represents the grammar rules: <b>N(Expr+), N lfloor Expr+ rfloor</b>
         </p>
-        <p>
-        It represents the grammar rules: <b>N, N(Expr+), N[Expr+], N lfloor Expr+ rfloor</b>
-        </p>
-        <p>
-        The <code>CallType</code> invariant is as follows:        
+        <p>        
+        The invariant is as follows:        
         <ul>
-          <li>Normal = nonempty name and empty parameters. </li>
-          <li>Param  = nonempty parameters. Empty name for on-the-fly, nonempty name for previously declared paragraph. </li>
-          <li>Index  = same as Param with the different token recognition.</li>
-          <li>Gen    = nonempty name and nonempty parameters.</li>
-          <li>GenParam = nonempty name and nonempty parameters.</li>
-          <li>GenIndex = nonempty name and nonempty parameters.</li>
+          <li>N        = nonempty name, empty generic actuals, and empty parameters/indexes. </li>
+          <li>N[Expr+] = nonempty name, nonempty generic actuals, and empty parameters/indexes. </li>
+          <li>N(Expr+) = empty generic actuals, nonempty parameters. 
+                         Internal name for on-the-fly, user given name for previously declared action. 
+                         The call type defines whether the expressions are actual parameters or indexes.</li>
+          <li>N[Expr+](Expr+) = nonempty generic actuals, nonempty parameters. 
+                         Internal name for on-the-fly, user given name for previously declared action. 
+                         The call type defines whether the expressions are actual parameters or indexes.</li>          
         </ul>
+        The case for parameterised and indexed process is not present in the grammar. 
+        The default value of CallType is <b>Param</b> and need to be inspected only for the case where the 
+        second expression list demands attention.
         </p>
       </xs:documentation>
     </xs:annotation>
@@ -976,24 +982,17 @@
         That is, it contains a reference name to lookup the action definition.
         </p>
         <p>
-        Moreover, it contains a list of expressions and an attribute defining the kind of call this 
-        reference is related too. An empty list of expressions means a simple action call of the grammar rule <b>N</b>,
+        Moreover, it contains a list of expressions representing possible actual parameters.
+        An empty list of expressions means a simple action call of the grammar rule <b>N</b>,
         where <b>N</b> is the action name.
-        If the list of expressions is not empty, then the <code>CallType</code> attribute defines if this is a 
-        parameterised action/command call.
+        If the list of expressions is not empty, then the this is a parameterised action.
+        It represents the grammar rule <b>N(Expr+)</b> for CSP actions and commands.
         </p>
         <p>
-        It represents the grammar rules: <b>N, N(Expr+)</b> for CSP actions and commands.
-        </p>
-        <p>
-        The <code>CallType</code> invariant is as follows:        
+        The invariant is as follows:        
         <ul>
-          <li>Normal = nonempty name and empty parameters. </li>
-          <li>Param  = nonempty parameters. Internal name for on-the-fly, user given name for previously declared paragraph. </li>
-          <li>Index  = INVALID as actions do not have indexes.</li>
-          <li>Gen    = INVALID as actions do not have generic types.</li>
-          <li>GenParam = nonempty name and nonempty parameters.</li>
-          <li>GenIndex = nonempty name and nonempty parameters.</li>
+          <li>N        = nonempty name and empty parameters. </li>
+          <li>N(Expr+) = nonempty parameters. Internal name for on-the-fly, user given name for previously declared action. </li>
         </ul>
         </p>
       </xs:documentation>
@@ -1510,6 +1509,10 @@
           <!-- Accommodate Z.xsd changes: using Z Standard DeclPart from (12.7.2)
           <xs:element ref="Z:Decl" minOccurs="1" maxOccurs="unbounded"/> 
           -->
+          <!-- 
+          In Circus, the possibilites are VarDecl and InclDecl only and the parser must rule out ConstDecl.
+          Implementations should consider at least VarDecl, and InclDecl could be avoid for simplicity.
+          -->
           <xs:element ref="Z:DeclList"/>
         </xs:sequence>
       </xs:extension>
@@ -1634,18 +1637,20 @@
           <xs:element name="Actuals" type="Z:ExprList"/>
           <xs:element name="GenActuals" type="Z:ExprList"/>
         </xs:sequence>
-        <xs:attribute name="CallType" type="CIRCUS:CallType" use="optional" default="Normal"/>
+        <xs:attribute name="CallType" type="CIRCUS:CallType" use="optional" default="Param"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>  
   <xs:simpleType name="CallType">
     <xs:restriction base="xs:string">
-      <xs:enumeration value="Normal"/>
       <xs:enumeration value="Param"/>
       <xs:enumeration value="Index"/>
+      <!-- 
+      <xs:enumeration value="Normal"/>      
       <xs:enumeration value="Gen"/>
       <xs:enumeration value="GenParam"/>
       <xs:enumeration value="GenIndex"/>
+      -->
     </xs:restriction>
   </xs:simpleType> 
   
@@ -1908,6 +1913,10 @@
           <!-- Accommodate Z.xsd changes: using Z Standard DeclPart from (12.7.2)
           <xs:element ref="Z:Decl" minOccurs="1" maxOccurs="unbounded"/> 
           -->
+          <!-- 
+          In Circus, the possibilites are VarDecl and InclDecl only and the parser must rule out ConstDecl.
+          Implementations should consider at least VarDecl, and InclDecl could be avoid for simplicity.
+          -->
           <xs:element ref="Z:DeclList"/>
         </xs:sequence>
       </xs:extension>
@@ -1951,8 +1960,7 @@
           <xs:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>                  
           -->
           <xs:element ref="Z:ExprList"/>
-        </xs:sequence>
-        <xs:attribute name="CallType" type="CIRCUS:CallType" use="optional" default="Normal"/>
+        </xs:sequence>        
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>    
@@ -2275,6 +2283,8 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:CircusCommand">
         <xs:sequence>          
+          <!-- Modified for consistency with other DeclList places.
+               Accommodate Z.xsd changes: using Z Standard DeclPart from (12.7.2)                
           <xs:element ref="Z:VarDecl" minOccurs="1" maxOccurs="unbounded">
             <xs:annotation>
               <xs:appinfo>
@@ -2282,6 +2292,12 @@
               </xs:appinfo>
             </xs:annotation>
           </xs:element>          
+          !-->
+          <!-- 
+          In Circus, the possibilites are VarDecl and InclDecl only and the parser must rule out ConstDecl.
+          Implementations should consider at least VarDecl, and InclDecl could be avoid for simplicity.
+          -->
+          <xs:element ref="Z:DeclList"/>
           <xs:element ref="CIRCUS:CircusAction"/>
         </xs:sequence>
       </xs:extension>
