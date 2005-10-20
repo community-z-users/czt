@@ -1407,13 +1407,7 @@
     <xs:complexContent>
       <xs:extension base="Z:Para">
         <xs:sequence>
-          <xs:element ref="Z:DeclName">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="DeclName"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
+          <xs:element ref="Z:DeclName"/>
           <xs:element ref="Z:DeclName" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
               <xs:appinfo>
