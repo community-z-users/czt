@@ -19,14 +19,13 @@
 
 package net.sourceforge.czt.rules.ast;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.rules.*;
-import net.sourceforge.czt.rules.unification.UnificationUtils;
+import net.sourceforge.czt.rules.unification.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
@@ -74,13 +73,9 @@ public class ProverCalculateProviso
             final SchExpr rightSchExpr =
               (SchExpr) zExprList.get(1);
             SchExpr result = merge(leftSchExpr, rightSchExpr);
-            if (result != null &&
-                UnificationUtils.unify(result, getLeftExpr()) != null) {
-              status_ = Status.PASS;
-              return;
-            }
-            else {
-              status_ = Status.FAIL;
+            Set<Binding> bindings = null;
+            if (result != null) {
+              unify(result, getLeftExpr());
               return;
             }
           }
@@ -99,13 +94,10 @@ public class ProverCalculateProviso
           new DecorateNamesVisitor(collectVisitor.getVariables(), stroke);
         try {
           Expr result = (Expr) decorExpr.getExpr().accept(visitor);
-          if (result != null &&
-              UnificationUtils.unify(result, getLeftExpr()) != null) {
-            status_ = Status.PASS;
+          if (result != null) {
+            unify(result, getLeftExpr());
             return;
           }
-          status_ = Status.FAIL;
-          return;
         }
         catch(CztException e) {
           // status is unknown
@@ -113,6 +105,25 @@ public class ProverCalculateProviso
       }
     }
     status_ = Status.UNKNOWN;
+  }
+
+
+  private void unify(Term term1, Term term2)
+  {
+    try {
+      Set<Binding> bindings = UnificationUtils.unify(term1, term2);
+      if (bindings != null) {
+        status_ = Status.PASS;
+      }
+      else {
+        ProverUtils.reset(bindings);
+        status_ = Status.FAIL;
+      }
+    }
+    catch(Exception e) { // UnificationException e)
+      String message = "Failed to unify " + term1 + " and " + term2;
+      throw new RuntimeException(message, e);
+    }
   }
 
   /**
@@ -195,6 +206,7 @@ public class ProverCalculateProviso
   public static class CollectStateVariablesVisitor
     implements ConstDeclVisitor,
                HeadDeclListVisitor,
+               InclDeclVisitor,
                VarDeclVisitor,
                JokerDeclListVisitor,
                ZDeclListVisitor
@@ -213,6 +225,12 @@ public class ProverCalculateProviso
       }
       headDeclList.getJokerDeclList().accept(this);
       return null;
+    }
+
+    public Term visitInclDecl(InclDecl inclDecl)
+    {
+      String message = "CalculateProviso: Schema not normalised";
+      throw new IllegalStateException(message);
     }
 
     public Object visitVarDecl(VarDecl varDecl)
@@ -251,11 +269,13 @@ public class ProverCalculateProviso
   }
 
   public static class DecorateNamesVisitor
-    implements TermVisitor<Term>,
+    implements InclDeclVisitor<Term>,
+               TermVisitor<Term>,
                ZDeclNameVisitor<Term>,
                ZRefNameVisitor<Term>
   {
     private Set<DeclName> declNames_;
+    private Factory factory_ = new Factory(new ProverFactory());
 
     /**
      * The stroke to be added to names.
@@ -266,6 +286,15 @@ public class ProverCalculateProviso
     {
       declNames_ = declNames;
       stroke_ = stroke;
+    }
+
+    public Term visitInclDecl(InclDecl inclDecl)
+    {
+      // TODO: visit children?
+      DecorExpr decorExpr =
+        factory_.createDecorExpr(inclDecl.getExpr(), stroke_);
+      InclDecl result = (InclDecl) inclDecl.create(new Object[] { decorExpr });
+      return result;
     }
 
     public Term visitTerm(Term term)

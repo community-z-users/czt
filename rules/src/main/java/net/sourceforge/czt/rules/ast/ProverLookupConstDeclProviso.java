@@ -22,8 +22,9 @@ package net.sourceforge.czt.rules.ast;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.rules.*;
-import net.sourceforge.czt.rules.unification.UnificationUtils;
+import net.sourceforge.czt.rules.unification.*;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
@@ -53,16 +54,8 @@ public class ProverLookupConstDeclProviso
         String word = refName.accept(new GetRefNameWordVisitor());
         DefinitionTable.Definition def = table.lookup(word);
         if (def != null) {
-          Expr expr =
-            (Expr) SimpleProver.copy(def.getExpr(),
-                                     new Factory(new ProverFactory()));
-          Set<Binding> bindings = new HashSet<Binding>();
-          if (UnificationUtils.unify(expr, getRightExpr()) != null) {
-            status_ = Status.PASS;
-          }
-          else {
-            status_ = Status.FAIL;
-          }
+          unify(def.getExpr(), getRightExpr());
+          return;
         }
         else status_ = Status.UNKNOWN;
       }
@@ -72,6 +65,24 @@ public class ProverLookupConstDeclProviso
       System.err.println(e);
     }
     return;
+  }
+
+  private void unify(Term term1, Term term2)
+  {
+    try {
+      Set<Binding> bindings = UnificationUtils.unify(term1, term2);
+      if (bindings != null) {
+        status_ = Status.PASS;
+      }
+      else {
+        ProverUtils.reset(bindings);
+        status_ = Status.FAIL;
+      }
+    }
+    catch(Exception e) { // UnificationException e)
+      String message = "Failed to unify " + term1 + " and " + term2;
+      throw new RuntimeException(message, e);
+    }
   }
 
   public Status getStatus()
