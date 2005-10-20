@@ -61,6 +61,17 @@ public class SimpleProverTest
     prove("/simple3.tex");
   }
 
+  public void testSimpleUnfold()
+  {
+    try {
+      prove("/simpleUnfold.tex");
+      fail("Should throw IllegalStateException");
+    }
+    catch (IllegalStateException e) {
+      // ok
+    }
+  }
+
   private void prove(String resource)
   {
     try {
