@@ -504,6 +504,16 @@ public class GlobalDefs
         throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
     }
   }
+  
+  public static ZSchText assertZSchText(SchText schTxt) 
+  {
+    if (schTxt instanceof ZSchText) {
+        return (ZSchText)schTxt;
+    }
+    else {
+        throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+    }
+  }
 
   //non-safe typecast
   public static SchemaType schemaType(Object o)
