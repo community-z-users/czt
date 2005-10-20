@@ -1,0 +1,28 @@
+/*
+ * ZEvesServerConnectionException.java
+ *
+ * Created on 19 September 2005, 12:15
+ */
+
+package net.sourceforge.czt.zeves;
+
+/**
+ *
+ * @author leo
+ */
+public class ZEvesServerConnectionException extends Exception {
+    
+    /** Creates a new instance of ZEvesIncompatibleException */
+    public ZEvesServerConnectionException(String message) {
+        super(message);        
+    }
+    
+    public ZEvesServerConnectionException(String message, Throwable cause) {
+        super(message, cause);
+    }
+    
+    public ZEvesServerConnectionException(Throwable cause) {
+        super(cause);
+    }
+    
+}
