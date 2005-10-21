@@ -21,6 +21,7 @@ package net.sourceforge.czt.typecheck.oz;
 import java.util.List;
 
 import static net.sourceforge.czt.typecheck.oz.util.GlobalDefs.*;
+import static net.sourceforge.czt.z.util.ZUtils.*;
 
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;

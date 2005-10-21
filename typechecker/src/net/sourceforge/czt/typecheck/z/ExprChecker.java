@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Iterator;
 
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
+import static net.sourceforge.czt.z.util.ZUtils.*;
 
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.base.ast.*;

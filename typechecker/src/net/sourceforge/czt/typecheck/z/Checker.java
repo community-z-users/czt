@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.logging.Logger;
 
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
+import static net.sourceforge.czt.z.util.ZUtils.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;

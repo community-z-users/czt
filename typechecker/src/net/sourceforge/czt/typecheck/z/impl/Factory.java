@@ -293,7 +293,7 @@ public class Factory
 
   public ZRefName createZRefName(String word,
                                 List<Stroke> stroke,
-                                DeclName declName)
+                                ZDeclName declName)
   {
     return zFactory_.createZRefName(word, stroke, declName);
   }
