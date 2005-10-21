@@ -92,7 +92,7 @@ public final class ZUtils
     if (term instanceof ZSchText) {
       return (ZSchText) term;
     }
-    final String message = "Expected a ZDeclList but found " + term.getClass();
+    final String message = "Expected a ZSchText but found " + term.getClass();
     throw new UnsupportedAstClassException(message);
   }
 }
