@@ -12,6 +12,8 @@ package net.sourceforge.czt.zeves;
  */
 public class ZEvesServerConnectionException extends Exception {
     
+    static final long serialVersionUID = -7830153568452854242L;
+    
     /** Creates a new instance of ZEvesIncompatibleException */
     public ZEvesServerConnectionException(String message) {
         super(message);        

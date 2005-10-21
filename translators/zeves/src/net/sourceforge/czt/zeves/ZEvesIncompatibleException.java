@@ -13,6 +13,8 @@ package net.sourceforge.czt.zeves;
  * @author leo
  */
 public class ZEvesIncompatibleException extends RuntimeException {
+        
+    static final long serialVersionUID = -562355333369930614L;
     
     /** Creates a new instance of ZEvesIncompatibleException */
     public ZEvesIncompatibleException(String message) {
