@@ -37,7 +37,7 @@ public final class ZUtils
     if (term instanceof ZDeclName) {
       return (ZDeclName) term;
     }
-    final String message = "Expected a ZDeclName but found " + term.getClass();
+    final String message = "Expected a ZDeclName but found " + String.valueOf(term);
     throw new UnsupportedAstClassException(message);
   }
 
@@ -46,7 +46,7 @@ public final class ZUtils
     if (term instanceof ZRefName) {
       return (ZRefName) term;
     }
-    final String message = "Expected a ZRefName but found " + term.getClass();
+    final String message = "Expected a ZRefName but found " + String.valueOf(term);
     throw new UnsupportedAstClassException(message);
   }
 
@@ -55,7 +55,7 @@ public final class ZUtils
     if (term instanceof ZNumeral) {
       return (ZNumeral) term;
     }
-    final String message = "Expected a ZNumeral but found " + term.getClass();
+    final String message = "Expected a ZNumeral but found " + String.valueOf(term);
     throw new UnsupportedAstClassException(message);
   }
   
@@ -64,7 +64,7 @@ public final class ZUtils
     if (term instanceof ZExprList) {
       return (ZExprList) term;
     }
-    final String message = "Expected a ZExprList but found " + term.getClass();
+    final String message = "Expected a ZExprList but found " + String.valueOf(term);
     throw new UnsupportedAstClassException(message);
   }
   
@@ -73,7 +73,7 @@ public final class ZUtils
     if (term instanceof ZDeclList) {
         return (ZDeclList) term;
     }
-    final String message = "Expected a ZDeclList but found " + term.getClass();
+    final String message = "Expected a ZDeclList but found " + String.valueOf(term);
     throw new UnsupportedAstClassException(message);
   }
   
@@ -83,7 +83,7 @@ public final class ZUtils
         return (ZRefNameList) term;
     }
     final String message =
-      "Expected a ZRefNameList but found " + term.getClass();
+      "Expected a ZRefNameList but found " + String.valueOf(term);
     throw new UnsupportedAstClassException(message);
   }
   
@@ -92,7 +92,7 @@ public final class ZUtils
     if (term instanceof ZSchText) {
       return (ZSchText) term;
     }
-    final String message = "Expected a ZSchText but found " + term.getClass();
+    final String message = "Expected a ZSchText but found " + String.valueOf(term);
     throw new UnsupportedAstClassException(message);
   }
 }
