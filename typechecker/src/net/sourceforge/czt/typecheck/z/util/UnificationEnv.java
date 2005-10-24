@@ -300,7 +300,8 @@ public class UnificationEnv
         //the other signature
         for (int i = 0; i < listA.size(); i++) {
           NameTypePair pairA = listA.get(i);
-          NameTypePair pairB = listB.get(i);
+	  NameTypePair pairB = findNameTypePair(pairA.getZDeclName(), sigB);
+          //NameTypePair pairB = listB.get(i);
           //if the pair in not in the signature, then fail
           if (pairB == null) {
             result = FAIL;
