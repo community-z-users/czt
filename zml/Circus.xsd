@@ -852,6 +852,16 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
+  <xs:element name="NameSetExpr" type="CIRCUS:NameSetExpr" substitutionGroup="Z:Expr">
+    <xs:annotation>
+      <xs:documentation>
+        <p>
+        A <code>NameSet</code> wrapped as a Z expression. This is necessary for the proper creation of
+        <code>ApplNameSet</code> using functions and Z expressions.
+        </p>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
     
   <!-- Action Description -->     
   <!-- See ProcessDesc above 
@@ -1876,6 +1886,15 @@
       <xs:extension base="CIRCUS:NameSet">
         <xs:sequence>
           <xs:element ref="Z:Expr"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="NameSetExpr">
+    <xs:complexContent>
+      <xs:extension base="Z:Expr">
+        <xs:sequence>
+          <xs:element ref="CIRCUS:NameSet"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
