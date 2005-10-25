@@ -249,6 +249,16 @@
         </p>
       </xs:documentation>
     </xs:annotation>
+  </xs:element>  
+  <xs:element name="ChannelSetExpr" type="CIRCUS:ChannelSetExpr" substitutionGroup="Z:Expr">
+    <xs:annotation>
+      <xs:documentation>
+        <p>
+        A <code>ChannelSet</code> wrapped as a Z expression. This is necessary for the proper creation of
+        <code>ApplChannelSet</code> using functions and Z expressions.
+        </p>
+      </xs:documentation>
+    </xs:annotation>
   </xs:element>
         
   <!-- Process Description -->                
@@ -1476,6 +1486,15 @@
       <xs:extension base="CIRCUS:ChannelSet">
         <xs:sequence>
           <xs:element ref="Z:Expr"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>  
+  <xs:complexType name="ChannelSetExpr">
+    <xs:complexContent>
+      <xs:extension base="Z:Expr">
+        <xs:sequence>
+          <xs:element ref="CIRCUS:ChannelSet"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
