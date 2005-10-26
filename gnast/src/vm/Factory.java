@@ -1,24 +1,22 @@
-
   /**
-   * Creates a list of size one with the given object as element.
+   * Creates an empty list of the given element type.
    * This is a convenience method.
    */
-  public <E> java.util.List<E> list(E o)
+  public <E> java.util.List<E> list()
   {
     java.util.List<E> result = new java.util.ArrayList<E>();
-    result.add(o);
     return result;
   }
+  
 
   /**
-   * Creates a list with the two objects as elements.
+   * Creates a list with the given elements.
    * This is a convenience method.
    */
-  public <E> java.util.List<E> list(E first, E second)
+  public <E> java.util.List<E> list(E... elems)
   {
     java.util.List<E> result = new java.util.ArrayList<E>();
-    result.add(first);
-    result.add(second);
+    result.addAll(java.util.Arrays.asList(elems));
     return result;
   }
 
@@ -177,7 +175,7 @@
    * Creates a member predicate for a given referencing name and
    * an expression, that is a MemPred with mixfix set to <code>false</code>.
    * This is a convenience method.
-   */ 
+   */
   public MemPred createMemPred(RefName refName, Expr expr)
   {
     return createMemPred(createRefExpr(refName), expr, Boolean.FALSE);
