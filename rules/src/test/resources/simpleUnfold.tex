@@ -163,15 +163,14 @@ do the following transformations:
 Note that only one level of unfolding was done, so $S1$ was left unfolded.
 
 Using Stage 2, we should be able to
-do the following transformations (again maybe with a few
-`true's added to the right hand sides):
+do the following transformations:
 
 \begin{zed}
 \vdash? [S1;S1~' | true] \unfoldsTo
         [x:\nat; x':\nat | x<10 \land (x'<10 \land true)]
 \end{zed}
 \begin{zed}
-\vdash? [S2~' | true] \unfoldsTo [S1~'; y':\nat | y'<x \land true]
+\vdash? [S2~' | true] \unfoldsTo [S1~'; y':\nat | y'<x' \land true]
 \end{zed}
 
 (In fact, this last example is a bit difficult to implement safely,
@@ -180,6 +179,8 @@ should prime the $x$ or not.  The \verb!visitDecorExpr! could perhaps
 use the typechecker to see if $x$ is defined within $S1$ or not, but
 that would be too complex.  I propose that \verb!visitDecorExpr! should
 be quite restrictive, and throw an exception if the schema that it
-is trying to prime is not normalised.
+is trying to prime contains difficult operators (operators that
+decoration does not distribute into, like schema composition,
+piping, hiding, projection, and precondition).
 
 \end{document}
