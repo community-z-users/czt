@@ -146,8 +146,13 @@ public class Project
     String name = project_.getClassName(id);
     String template = project_.getTemplate(id);
     String packageName = project_.getPackage(id);
-    String addCodeFilename = "src/vm/" + name + ".java";
+    String addCodeFilename = "src/vm/" + getBasePackage() + "." + packageName
+      + "." + name + ".java";
     File addCodeFile = new File(addCodeFilename);
+    if (! addCodeFile.exists()) {
+      addCodeFilename = "src/vm/" + name + ".java";
+      addCodeFile = new File(addCodeFilename);
+    }
 
     if (name == null || template == null || packageName == null) {
       logSevere("Cannot generate class with id " + id);
