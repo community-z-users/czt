@@ -28,13 +28,37 @@ Old parser do not handle multiplication, so bridge it with the next axiomatic de
     regions: \power_1~(\power~X) \fun \power_1~(\power~X)
 \where
     \forall S: \power_1~(\power~X) @ \\
-     	\t1 regions~S = \{ P: \power_1~(\power~X) | P \subseteq S @ gendj(P, S) \}~\setminus~\{\{\}\}
+      \t1 regions~S = \{ P: \power_1~(\power~X) | P \subseteq S @ gendj(P, S) \}~\setminus~\{\{\}\}
 \end{gendef}
 
 \begin{gendef}[X]
     minimal: \power~(\power~X) \fun \power~(\power~X)
 \where
    \forall SS: \power~(\power~X) @ \\
-   	\t1 minimal~SS = \{ S: \power~X | S \in SS \land \\
+    \t1 minimal~SS = \{ S: \power~X | S \in SS \land \\
                 \t2 \lnot~(~\exists R: \power~X | R \in SS @ R \subset S~) \}
+\end{gendef}
+
+%TODO: Fix UNICODE CHARACTER
+%%Zinchar \searrow U+2200
+\begin{zed}
+\function 30 \leftassoc (\_ \searrow \_)
+\end{zed}
+
+\begin{gendef}[X]
+\_ \searrow \_ : \power~(\power~X) \cross \power X \fun \power~(\power~X)
+\where
+    \forall P: \power~(\power~X); p: \power~X @ P \searrow p = \{~ q: \power~X | q \in P @ q \setminus p ~\}
+\end{gendef}
+
+%TODO: Fix UNICODE CHARACTER
+%%Zinchar \diamond U+2201
+\begin{zed}
+\function 40 \leftassoc (\_ \diamond \_)
+\end{zed}
+
+\begin{gendef}[X]
+\_ \diamond \_ : \power~(\power~X) \cross \power X \fun \power~(\power~X)
+\where
+    \forall~ P: \power~(\power~X); p: \power~X @ P \diamond p = \{~ q: \power~X | q \in P @ q \cap p ~\}
 \end{gendef}
