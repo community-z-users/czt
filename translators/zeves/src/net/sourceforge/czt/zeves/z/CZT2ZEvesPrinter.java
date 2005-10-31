@@ -6,7 +6,6 @@
 
 package net.sourceforge.czt.zeves.z;
 
-import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
 import net.sourceforge.czt.z.ast.And;
 import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZDeclName;
@@ -14,6 +13,7 @@ import net.sourceforge.czt.z.ast.ZExprList;
 import net.sourceforge.czt.z.ast.ZRefName;
 import net.sourceforge.czt.z.ast.ZRefNameList;
 import net.sourceforge.czt.z.ast.ZSchText;
+import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.z.visitor.ZDeclListVisitor;
 import net.sourceforge.czt.z.visitor.ZExprListVisitor;
 import net.sourceforge.czt.z.visitor.ZRefNameListVisitor;
@@ -497,7 +497,7 @@ public class CZT2ZEvesPrinter implements
      * this should be a labelled-predicate or a predicate paragraph rather than an axiomatic/generic box.
      */
     private boolean isPredicatePara(SchText schText) {                        
-        return GlobalDefs.assertZSchText(schText).getZDeclList().isEmpty();
+        return ZUtils.assertZSchText(schText).getZDeclList().isEmpty();
     }
     
     /**
@@ -644,7 +644,7 @@ public class CZT2ZEvesPrinter implements
      * Returns the word part of a DeclName ensuring it is not empty.
      */
     private String getWord(DeclName name) {
-        ZDeclName dname = GlobalDefs.assertZDeclName(name);        
+        ZDeclName dname = ZUtils.assertZDeclName(name);        
         assert dname != null && dname.getWord().length() > 0 : "A valid word can be neither null nor empty.";
         String result = dname.getWord();
         result = translateWord(result);
@@ -652,7 +652,7 @@ public class CZT2ZEvesPrinter implements
     }
     
     private String getWord(RefName name) {
-        ZRefName rname = GlobalDefs.assertZRefName(name);
+        ZRefName rname = ZUtils.assertZRefName(name);
         assert rname != null && rname.getWord().length() > 0 : "A valid word can be neither null nor empty.";
         String result = rname.getWord();
         result = translateWord(result);
@@ -829,9 +829,9 @@ public class CZT2ZEvesPrinter implements
     
     private String getOperator(Term name) {
         if (name instanceof DeclName)
-            return getOperator(GlobalDefs.assertZDeclName((DeclName)name).getOperatorName());
+            return getOperator(ZUtils.assertZDeclName((DeclName)name).getOperatorName());
         else
-            return getOperator(GlobalDefs.assertZRefName((RefName)name).getOperatorName());
+            return getOperator(ZUtils.assertZRefName((RefName)name).getOperatorName());
     }
     
     /**
@@ -863,9 +863,9 @@ public class CZT2ZEvesPrinter implements
     
     private String getStrokes(Term name) {
         if (name instanceof ZDeclName)
-            return getStrokes(GlobalDefs.assertZDeclName((DeclName)name).getStroke());
+            return getStrokes(ZUtils.assertZDeclName((DeclName)name).getStroke());
         else
-            return getStrokes(GlobalDefs.assertZRefName((RefName)name).getStroke());
+            return getStrokes(ZUtils.assertZRefName((RefName)name).getStroke());
     }
     
     /**
@@ -898,9 +898,9 @@ public class CZT2ZEvesPrinter implements
     
     private String getName(Term name) {
         if (name instanceof ZDeclName)
-            return getDeclName(GlobalDefs.assertZDeclName((DeclName)name));
+            return getDeclName(ZUtils.assertZDeclName((DeclName)name));
         else
-            return getRefName(GlobalDefs.assertZRefName((RefName)name));
+            return getRefName(ZUtils.assertZRefName((RefName)name));
     }
     
     /**
@@ -1341,7 +1341,7 @@ public class CZT2ZEvesPrinter implements
     }
     
     public String visitSchText(SchText termx) {
-        ZSchText term = GlobalDefs.assertZSchText(termx);
+        ZSchText term = ZUtils.assertZSchText(termx);
         StringBuilder result = new StringBuilder("");
         boolean needBar = false;
         if (!term.getZDeclList().isEmpty()) {
