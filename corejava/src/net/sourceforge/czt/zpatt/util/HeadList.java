@@ -17,39 +17,15 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.rules.unification;
+package net.sourceforge.czt.zpatt.util;
+
+import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.visitor.TermVisitor;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.zpatt.ast.*;
-import net.sourceforge.czt.zpatt.visitor.*;
 
-/**
- * A visitor that returns the necessary wrapper classes for terms.
- *
- * @author Petra Malik
- */
-public class Packer
-  implements HeadDeclListVisitor<Term>,
-             TermVisitor<Term>,
-             ZDeclListVisitor<Term>
+public interface HeadList
+  extends Term
 {
-  private final String DECLLIST = "DeclList";
-
-  public Term visitTerm(Term term)
-  {
-    return term;
-  }
-
-  public Term visitHeadDeclList(HeadDeclList headDeclList)
-  {
-    return new HeadListWrapper(headDeclList, DECLLIST);
-  }
-
-  public Term visitZDeclList(ZDeclList zDeclList)
-  {
-    return new LispWrapper(zDeclList, DECLLIST);
-  }
+  List getList();
+  Object getJoker();
 }

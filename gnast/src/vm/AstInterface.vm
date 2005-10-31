@@ -42,7 +42,7 @@ import ${p.AstPackage}.*;
  */
 public interface ${class.Name} #if($class.Extends)extends ${class.Extends}
 #if(${class.isList()}), java.util.List<${class.getAllProperties().get(0).getListType()}>#end
-#end
+#end#if(${class.Name} == 'HeadDeclList'),  net.sourceforge.czt.zpatt.util.HeadList#end
 {
 #if(${class.isList()})
   ${class.Name} ${class.getAllProperties().get(0).GetterName}();

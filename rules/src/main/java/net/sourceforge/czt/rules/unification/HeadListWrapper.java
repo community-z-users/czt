@@ -25,25 +25,26 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.zpatt.ast.*;
+import net.sourceforge.czt.zpatt.util.*;
 
 /**
- * A wrapper for a HeadDeclList.
+ * A wrapper for a HeadLists.
  *
  * @author Petra Malik
  */
-class HeadDeclListWrapper
+class HeadListWrapper
   implements Wrapper
 {
-  private HeadDeclList headDeclList_;
+  private HeadList headList_;
   private String name_;
 
-  public HeadDeclListWrapper(HeadDeclList headDeclList, String name)
+  public HeadListWrapper(HeadList headList, String name)
   {
-    Object[] children = headDeclList.getChildren();
+    Object[] children = headList.getChildren();
     Term term = (Term) children[0];
     children[0] = term.create(term.getChildren());
-    headDeclList_ =
-      (HeadDeclList) headDeclList.create(children);
+    headList_ =
+      (HeadList) headList.create(children);
     name_ = name;
   }
 
@@ -58,21 +59,21 @@ class HeadDeclListWrapper
 
   public Term getContent()
   {
-    return headDeclList_;
+    return headList_;
   }
 
   public Object[] getChildren()
   {
-    final List<Decl> list = headDeclList_.getZDeclList();
+    final List list = headList_.getList();
     if (list.isEmpty()) {
       // should not happen except for printing log messages
       return new Object[] { name_, "?" };
     }
-    Decl decl = list.remove(0);
+    Object o = list.remove(0);
     if (list.isEmpty()) {
-      return new Object[] { name_, decl, headDeclList_.getJokerDeclList() };
+      return new Object[] { name_, o, headList_.getJoker() };
     }      
-    return new Object[] { name_, decl, this };
+    return new Object[] { name_, o, this };
   }
 
   public Term create(Object[] args)
