@@ -25,10 +25,14 @@ import java.util.List;
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.ast.TermA;
+import net.sourceforge.czt.base.util.MarshalException;
+import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
+import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
+import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.typecheck.z.util.*;
@@ -148,6 +152,7 @@ public class TypeCheckUtils
     System.err.println("flags: -s     syntax check only");
     System.err.println("       -d     allow use before declaration");
     System.err.println("       -n     force declarations before use");
+    System.err.println("       -p     print the AST");
     System.err.println("       -t     print global type declarations");
   }
 
@@ -202,6 +207,7 @@ public class TypeCheckUtils
     boolean syntaxOnly = false;
     boolean useBeforeDecl = useBeforeDeclDefault();
     boolean printTypes = false;
+    boolean printZml = false;
 
     for (int i = 0; i < args.length; i++) {
       if (args[i].startsWith("-")) {
@@ -218,6 +224,9 @@ public class TypeCheckUtils
             break;
           case 't':
             printTypes = true;
+            break;
+          case 'p':
+            printZml = true;
             break;
           default:
             printUsage();
@@ -270,6 +279,16 @@ public class TypeCheckUtils
 	    System.err.println("No type information available");
 	  }
         }
+        if (printZml) {
+          try {
+            term.accept(new IdAdder());
+            JaxbXmlWriter writer = new JaxbXmlWriter();
+            writer.write(term, System.err);
+          }
+          catch (MarshalException e) {
+            e.printStackTrace();
+          }
+        }
       }
     }
 
@@ -281,5 +300,39 @@ public class TypeCheckUtils
   {
     TypeCheckUtils utils = new TypeCheckUtils();
     utils.run(args);
+  }
+
+  public static class IdAdder
+    implements TermVisitor,
+               TermAVisitor,
+               ZDeclNameVisitor
+  {
+    private int count_ = 0;
+
+    public Object visitTerm(Term term)
+    {
+      VisitorUtils.visitTerm(this, term);
+      return null;
+    }
+
+    public Object visitTermA(TermA termA)
+    {
+      VisitorUtils.visitTerm(this, termA);
+      for (Object o : termA.getAnns()) {
+        if (o instanceof Term) {
+          ((Term) o).accept(this);
+        }
+      }
+      return null;
+    }
+
+    public Object visitZDeclName(ZDeclName zDeclName)
+    {
+      visitTermA(zDeclName);
+      if (zDeclName.getId() == null) {
+        zDeclName.setId(zDeclName.getWord() + "[" + count_++ + "]");
+      }
+      return null;
+    }
   }
 }
