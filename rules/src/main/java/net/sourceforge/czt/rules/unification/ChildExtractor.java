@@ -33,13 +33,23 @@ import net.sourceforge.czt.zpatt.visitor.*;
  * @author Petra Malik
  */
 public class ChildExtractor
-  implements HeadDeclListVisitor<Object[]>,
+  implements AxParaVisitor<Object[]>,
+             HeadDeclListVisitor<Object[]>,
              RefExprVisitor<Object[]>,
              TermVisitor<Object[]>,
              ZDeclListVisitor<Object[]>,
              ZRefNameVisitor<Object[]>
 {
   private final String DECLLIST = "DeclList";
+
+  /**
+   * Doesn't return the Box child.
+   */
+  public Object[] visitAxPara(AxPara axPara)
+  {
+    Object[] erg = { axPara.getDeclName(), axPara.getSchText() };
+    return erg;
+  }
 
   public Object[] visitHeadDeclList(HeadDeclList headDeclList)
   {
