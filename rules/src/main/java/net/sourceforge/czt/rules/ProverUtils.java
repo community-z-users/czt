@@ -24,6 +24,7 @@ import java.net.URL;
 import java.util.*;
 
 import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.parser.zpatt.ParseUtils;
 import net.sourceforge.czt.print.z.PrintUtils;
@@ -34,6 +35,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.*;
+import net.sourceforge.czt.zpatt.visitor.*;
 
 /**
  * Utility methods for proving and rewriting.
@@ -106,6 +108,16 @@ public final class ProverUtils
     return result;
   }
 
+
+  /**
+   * Throws UnboundJokerException!
+   */
+  public static Term removeJoker(Term term)
+  {
+    RemoveJokerVisitor visitor = new RemoveJokerVisitor();
+    return (Term) term.accept(visitor);
+  }
+
   public static void prove(URL url)
     throws IOException, ParseException
   {
@@ -162,5 +174,42 @@ public final class ProverUtils
     {
       return zSect.getName();
     }
+  }
+
+  public static class RemoveJokerVisitor
+    implements TermVisitor,
+               HeadDeclListVisitor
+  {
+    private net.sourceforge.czt.z.util.Factory factory_
+      = new net.sourceforge.czt.z.util.Factory();
+
+    public Object visitTerm(Term term)
+    {
+      if (term instanceof Joker) {
+        Joker joker = (Joker) term;
+        Term boundTo = joker.boundTo();
+        if (boundTo == null) {
+          throw new UnboundJokerException();
+        }
+        return boundTo.accept(this);
+      }
+      return VisitorUtils.visitTerm(this, term, true);
+    }
+
+    public Object visitHeadDeclList(HeadDeclList headDeclList)
+    {
+      ZDeclList zDeclList =
+        (ZDeclList) VisitorUtils.visitTerm(this, headDeclList, false);
+      zDeclList = (ZDeclList) zDeclList.create(zDeclList.getChildren());
+      ZDeclList rest =
+        (ZDeclList) headDeclList.getJokerDeclList().accept(this);
+      zDeclList.addAll(rest);
+      return zDeclList;
+    }
+  }
+
+  public static class UnboundJokerException
+    extends RuntimeException
+  {
   }
 }

@@ -97,9 +97,9 @@ public class Rewrite
     SimpleProver prover =
       new SimpleProver(rules, manager, section);
     if (prover.prove(predSequent)) {
-      return joker.boundTo().accept(new RemoveJokerVisitor());
+      return ProverUtils.removeJoker(joker.boundTo());
     }
-    return expr.accept(new RemoveJokerVisitor());
+    return ProverUtils.removeJoker(expr);
   }
 
   /**
@@ -115,29 +115,4 @@ public class Rewrite
     Rewrite visitor = new Rewrite(manager, rules);
     return (Term) term.accept(visitor);
   }
-}
-
-class RemoveJokerVisitor
-  implements TermVisitor
-{
-  private net.sourceforge.czt.z.util.Factory factory_
-    = new net.sourceforge.czt.z.util.Factory();
-
-  public Object visitTerm(Term term)
-  {
-    if (term instanceof Joker) {
-      Joker joker = (Joker) term;
-      Term boundTo = joker.boundTo();
-      if (boundTo == null) {
-        throw new UnboundJokerException();
-      }
-      return boundTo.accept(this);
-    }
-    return VisitorUtils.visitTerm(this, term, true);
-  }
-}
-
-class UnboundJokerException
-  extends RuntimeException
-{
 }
