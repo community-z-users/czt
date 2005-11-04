@@ -24,7 +24,9 @@ import java.util.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.rules.ast.*;
 import net.sourceforge.czt.rules.unification.*;
+import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Session;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.Factory;
@@ -45,6 +47,14 @@ public class SimpleProver
   private Map<String,Rule> rules_;
   private SectionManager manager_;
   private String section_;
+
+  public SimpleProver(Session session)
+    throws CommandException
+  {
+    rules_ = ((RuleTable) session.get(RuleTable.class)).getRules();
+    manager_ = session.getManager();
+    section_ = session.getSection();
+  }
 
   public SimpleProver(Map<String,Rule> rules,
                       SectionManager manager,
@@ -74,7 +84,10 @@ public class SimpleProver
         }
       }
       catch (IllegalArgumentException e) {
-        System.err.println("PredSequent cannot be applied to this rule.");
+        String message =
+          "PredSequent cannot be applied to rule " + rule.getName() + ": "
+          + e.getMessage();
+        System.err.println(message);
       }
     }
     return false;
