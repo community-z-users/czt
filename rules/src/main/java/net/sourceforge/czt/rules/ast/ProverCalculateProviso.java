@@ -93,7 +93,8 @@ public class ProverCalculateProviso
         final DecorateNamesVisitor visitor =
           new DecorateNamesVisitor(collectVisitor.getVariables(), stroke);
         try {
-          Expr result = (Expr) decorExpr.getExpr().accept(visitor);
+          Expr result = (Expr) ProverUtils.removeJoker(decorExpr.getExpr());
+          result = (Expr) result.accept(visitor);
           if (result != null) {
             unify(result, getLeftExpr());
             return;
