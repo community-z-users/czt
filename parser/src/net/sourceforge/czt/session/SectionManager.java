@@ -177,7 +177,7 @@ public class SectionManager
   /**
    * Adds the default commands to the command map.
    */
-  private void setupDefaultCommands()
+  public void setupDefaultCommands()
   {
     commands_.put(Source.class, new SourceLocator());
     commands_.put(Spec.class, ParseUtils.getCommand());
@@ -318,11 +318,20 @@ public class SectionManager
         return true;
       }
       for (int i = 0; i < suffix_.length; i++) {
-	File file = new File(name + suffix_[i]);
-	if (file.exists()) {
-	  manager.put(new Key(name, Source.class), new FileSource(file));
-	  return true;
-	}
+        File file = new File(name + suffix_[i]);
+        if (file.exists()) {
+          manager.put(new Key(name, Source.class), new FileSource(file));
+          return true;
+        }
+      }
+      String path = (String) properties_.get("czt.path");
+      for (int i = 0; i < suffix_.length; i++) {
+        String filename = path + "/" + name + suffix_[i];
+        File file = new File(filename);
+        if (file.exists()) {
+          manager.put(new Key(name, Source.class), new FileSource(file));
+          return true;
+        }
       }
       return false;
     }
