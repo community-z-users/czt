@@ -1319,7 +1319,7 @@
   </xs:element>       
   
   <!-- Parameterised Commands -->
-  <xs:element name="ParamCommand" type="CIRCUS:ParamCommand" abstract="true" substitutionGroup="CIRCUS:CircusCommand">
+  <xs:element name="ParamCommand" type="CIRCUS:ParamCommand" substitutionGroup="CIRCUS:CircusCommand">
     <xs:annotation>
       <xs:documentation>
         <p>
@@ -2239,7 +2239,8 @@
     <xs:complexContent>
       <xs:extension base="Z:Decl">
         <xs:sequence>          
-          <xs:element ref="Z:Decl"/>
+          <!-- Parser should enforce that elements are VarDecl -->
+          <xs:element ref="Z:DeclList"/>
         </xs:sequence>
         <xs:attribute name="ParamQualifier" type="CIRCUS:ParamQualifier" use="optional" default="Value"/>
       </xs:extension>
