@@ -39,6 +39,7 @@ import net.sourceforge.czt.zpatt.visitor.*;
  * <p>A CalculateProviso used by the prover.</p>
  *
  * @author Petra Malik
+ * @czt.todo Handle bindings!  Probably needs undo.
  */
 public class ProverCalculateProviso
   extends CalculateProvisoImpl
@@ -111,19 +112,30 @@ public class ProverCalculateProviso
 
   private void unify(Term term1, Term term2)
   {
+    Set<Binding> bindings = UnificationUtils.unify(term1, term2);
+    if (bindings != null) {
+      status_ = Status.PASS;
+    }
+    else {
+      status_ = Status.FAIL;
+    }
+  }
+
+  private void unify2(Term term1, Term term2)
+    throws UnificationException
+  {
     try {
-      Set<Binding> bindings = UnificationUtils.unify(term1, term2);
+      Set<Binding> bindings = UnificationUtils.unify2(term1, term2);
       if (bindings != null) {
         status_ = Status.PASS;
       }
       else {
-        ProverUtils.reset(bindings);
         status_ = Status.FAIL;
       }
     }
-    catch(Exception e) { // UnificationException e)
-      String message = "Failed to unify " + term1 + " and " + term2;
-      throw new RuntimeException(message, e);
+    catch(UnificationException e) {
+      String message = "ProverCalculateProviso";
+      throw new UnificationException(term1, term2, message, e);
     }
   }
 
