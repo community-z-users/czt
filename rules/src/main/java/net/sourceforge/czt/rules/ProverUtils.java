@@ -66,6 +66,11 @@ public final class ProverUtils
     return createPredSequent(pred);
   }
 
+  /**
+   * Resets all the bindings in the collection.
+   *
+   * @throws NullPointerException if one of the bindings is <code>null</code>.
+   */
   public static void reset(Collection<Binding> bindings)
   {
     for (Binding binding : bindings) {
@@ -198,8 +203,8 @@ public final class ProverUtils
 
     public Object visitHeadDeclList(HeadDeclList headDeclList)
     {
-      ZDeclList zDeclList =
-        (ZDeclList) VisitorUtils.visitTerm(this, headDeclList, false);
+      ZDeclList zDeclList = (ZDeclList)
+        VisitorUtils.visitTerm(this, headDeclList.getZDeclList(), false);
       zDeclList = (ZDeclList) zDeclList.create(zDeclList.getChildren());
       ZDeclList rest =
         (ZDeclList) headDeclList.getJokerDeclList().accept(this);
