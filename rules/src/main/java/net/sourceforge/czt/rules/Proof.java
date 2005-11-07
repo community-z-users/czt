@@ -63,6 +63,13 @@ public class Proof
     return collector.getResult();
   }
 
+  public List<Joker> getJokers()
+  {
+    JokerCollector collector = new JokerCollector();
+    predSequent_.accept(collector);
+    return collector.getResult();
+  }
+
   public boolean done()
   {
     return getOpenSubgoals().isEmpty();
