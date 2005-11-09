@@ -58,79 +58,107 @@ public class EvalSetTest
   protected Envir envJ  = envEmpty.add(j,i11);
   protected Envir envK  = envEmpty.add(k,i12);
   protected Envir envIJK = envEmpty.add(i,i10).add(j,i11).add(k,i12);
-  
-  // The two EvalSets that we will test.
-  /** Subclasses must initialise this to some set that contains
-   *  just 10, 11 and 12 (or i,j,k, respectively).
-   */
-  protected EvalSet set = new FlatRangeSet(i,k,s);
-  
-  /** Subclasses must initialise this to some set that is empty. */
-  protected EvalSet emptySet = new FlatDiscreteSet(new ArrayList<ZRefName>(),s);
 
+  // The two EvalSets that we will test.
+  /** Subclasses must initialise this FlatPredList so that it
+   *  calculates some set called s that contains
+   *  just 10, 11 and 12 (or i,j,k, respectively).
+   *  The resulting set must be the last entry in the FlatPredList.
+   */
+  protected FlatPredList set;
+  
+  /** Subclasses must initialise this FlatPredList so that it
+   *  calculates an empty set called s.
+   *  The resulting set must be the last entry in the FlatPredList.
+   */
+  protected FlatPredList emptySet;
+
+  public void setUp()
+  {
+    set = new FlatPredList(zlive_);
+    set.add(new FlatRangeSet(i,k,s));
+    
+    emptySet = new FlatPredList(zlive_);
+    emptySet.add(new FlatDiscreteSet(new ArrayList<ZRefName>(),s));
+  }
+  
+  /** @return Bounds for i,j,k only. */
+  protected Bounds getBounds()
+  {
+    Bounds bnds = new Bounds();
+    bnds.addLower(i,new BigInteger("10"));
+    bnds.addUpper(i,new BigInteger("10"));
+    bnds.addLower(j,new BigInteger("11"));
+    bnds.addUpper(j,new BigInteger("11"));
+    bnds.addLower(k,new BigInteger("12"));
+    bnds.addUpper(k,new BigInteger("12"));
+    return bnds;
+  }
   
   public void testEmpty()
   {
-    Mode m = ((FlatPred)set).chooseMode(envEmpty);
+    Mode m = set.chooseMode(envEmpty);
     Assert.assertNull(m);
   }
   
   public void testIOO()
   {
-    Mode m = ((FlatPred)set).chooseMode(envI);
+    Mode m = set.chooseMode(envI);
     Assert.assertNull(m);
   }
   
   public void testOIO()
   {
-    Mode m = ((FlatPred)set).chooseMode(envK);
+    Mode m = set.chooseMode(envK);
     Assert.assertNull(m);
   }
   
   public void testEmptySet()
   {
-    Mode m = ((FlatPred)emptySet).chooseMode(envIJK);
+    Mode m = emptySet.chooseMode(envIJK);
     Assert.assertTrue(m != null);
-    ((FlatPred)emptySet).setMode(m);
-    ((FlatPred)emptySet).startEvaluation();
-    Assert.assertTrue(((FlatPred)emptySet).nextEvaluation());
-    EvalSet tempSet = (EvalSet)m.getEnvir().lookup(s);
-    Assert.assertTrue(tempSet != null);
-    Assert.assertTrue(tempSet == emptySet);
-    Assert.assertEquals(0.0,emptySet.estSize(),ACCURACY);
-    Iterator it = tempSet.members();
+    emptySet.setMode(m);
+    emptySet.startEvaluation();
+    Assert.assertTrue(emptySet.nextEvaluation());
+    EvalSet resultSet = (EvalSet) m.getEnvir().lookup(s);
+    Assert.assertTrue(resultSet != null);
+    Assert.assertEquals(0.0,resultSet.estSize(),ACCURACY);
+    Iterator it = resultSet.members();
     Assert.assertTrue(it != null);
     Assert.assertFalse(it.hasNext());
-    Assert.assertFalse(emptySet.isMember(i10));
-    Assert.assertFalse(emptySet.isMember(i12));
-    Assert.assertFalse(((FlatPred)emptySet).nextEvaluation());
+    Assert.assertFalse(resultSet.isMember(i10));
+    Assert.assertFalse(resultSet.isMember(i12));
+    Assert.assertFalse(emptySet.nextEvaluation());
   }
   
   public void testII0()
   {
-    Mode m = ((FlatPred)set).chooseMode(envIJK);
+    Mode m = set.chooseMode(envIJK);
     Assert.assertTrue(m != null);
-    ((FlatPred)set).setMode(m);
-    ((FlatPred)set).startEvaluation();
-    Assert.assertTrue(((FlatPred)set).nextEvaluation());
-    Assert.assertTrue(m.getEnvir().lookup(s) != null);
-    Assert.assertTrue(m.getEnvir().lookup(s) == set);
-    //Checking the estSize() method
-    Assert.assertEquals(3.0, set.estSize(), ACCURACY);
+    set.setMode(m);
+    set.startEvaluation();
+    Assert.assertTrue(set.nextEvaluation());
+    EvalSet resultSet = (EvalSet) m.getEnvir().lookup(s);
+    Assert.assertTrue(resultSet != null);
+    // Checking the estSize() method
+    // Some implementations may return a bit more than the true size. 
+    Assert.assertTrue(3.0 <= resultSet.estSize());
+    Assert.assertTrue(resultSet.estSize() <= 4.0);
     //Checking the freeVars() method
+    //Some subclasses may not use j.
     Set temp = set.freeVars();
     Assert.assertTrue(temp.contains(i));
     Assert.assertTrue(temp.contains(k));
-    Assert.assertFalse(temp.contains(s));
+    Assert.assertTrue(temp.contains(s));
     //Checking the isMember() method
-    Assert.assertFalse(set.isMember(i9));
-    Assert.assertTrue(set.isMember(i10));
-    Assert.assertTrue(set.isMember(i11));
-    Assert.assertTrue(set.isMember(i12));
-    Assert.assertFalse(set.isMember(i13));
+    Assert.assertFalse(resultSet.isMember(i9));
+    Assert.assertTrue(resultSet.isMember(i10));
+    Assert.assertTrue(resultSet.isMember(i11));
+    Assert.assertTrue(resultSet.isMember(i12));
+    Assert.assertFalse(resultSet.isMember(i13));
     //Checking the members() method
     Set<Expr> allElements = new HashSet<Expr>();
-    Iterator<Expr> it = set.members();
+    Iterator<Expr> it = resultSet.members();
     //All the elements of in the set are added to a HashSet
     while (it.hasNext())
       allElements.add(it.next());
@@ -142,7 +170,7 @@ public class EvalSetTest
     comparisonSet.add(i12);
     //This compares the two HashSets, and checks if they are equal
     Assert.assertTrue(allElements.equals(comparisonSet));
-    Assert.assertFalse(((FlatPred)set).nextEvaluation());
+    Assert.assertFalse(set.nextEvaluation());
   }
 
   /** Tests t := i..k, then i..k == t. */ 
@@ -155,13 +183,13 @@ public class EvalSetTest
     tempFlat.startEvaluation();
     tempFlat.nextEvaluation();
     Envir envIJKT = tempFlat.getMode().getEnvir();
-    Mode m = ((FlatPred)set).chooseMode(envIJKT);
+    Mode m = set.chooseMode(envIJKT);
     Assert.assertTrue(m != null);
-    ((FlatPred)set).setMode(m);
-    ((FlatPred)set).startEvaluation();
+    set.setMode(m);
+    set.startEvaluation();
     // Check that the generated set (s) equals t.
-    Assert.assertTrue(((FlatPred)set).nextEvaluation());
-    Assert.assertFalse(((FlatPred)set).nextEvaluation());
+    Assert.assertTrue(set.nextEvaluation());
+    Assert.assertFalse(set.nextEvaluation());
   }
 }
 

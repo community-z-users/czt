@@ -41,6 +41,8 @@ import net.sourceforge.czt.z.util.Factory;
 public class ZTestCase
   extends TestCase
 {
+  protected ZLive zlive_ = new ZLive();
+  
   protected Factory factory_ = new Factory(new ZFactoryImpl());
 
   /** The accuracy used to check number-of-solutions in Mode results. */

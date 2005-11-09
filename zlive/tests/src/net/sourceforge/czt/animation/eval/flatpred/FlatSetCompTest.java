@@ -50,9 +50,12 @@ public class FlatSetCompTest
    */
   String setCompStr = "\\{ r : i \\upto k @ r \\}";
   String emptySetCompStr = "\\{ r : k \\upto i | r \\in \\{9\\} @ r \\}";
-  ZLive zlive = new ZLive();
 
   public FlatSetCompTest()
+  {
+  }
+  
+  public void setUp()
   {
     SetCompExpr setComp = null;
     SetCompExpr emptySetComp = null;
@@ -60,35 +63,38 @@ public class FlatSetCompTest
       Source e = new StringSource(setCompStr);
       e.setMarkup(Markup.LATEX);
       setComp = (SetCompExpr)ParseUtils.parseExpr(e, null,
-						  zlive.getSectionManager());
+						  zlive_.getSectionManager());
       e = new StringSource(emptySetCompStr);
       e.setMarkup(Markup.LATEX);
       emptySetComp = (SetCompExpr)ParseUtils.parseExpr(e, null,
-						  zlive.getSectionManager());
+						  zlive_.getSectionManager());
     } catch (Exception e) {
       fail("Error parsing set expr: " + e);
     }
     ZSchText text = setComp.getZSchText();
-    set = new FlatSetComp(zlive,
+    set = new FlatPredList(zlive_);
+    set.add(new FlatSetComp(zlive_,
 			  text.getZDeclList(),
 			  text.getPred(),
 			  setComp.getExpr(),
-			  s);
+			  s));
     text = emptySetComp.getZSchText();
-    emptySet = new FlatSetComp(zlive,
+    emptySet = new FlatPredList(zlive_);
+    emptySet.add(new FlatSetComp(zlive_,
 			       text.getZDeclList(),
 			       text.getPred(),
 			       emptySetComp.getExpr(),
-			       s);
+			       s));
   }
 
   public void testFreeVars()
   {
     Set vars = set.freeVars();
-    Assert.assertEquals(vars.size(), 2);
+    Assert.assertEquals(3, vars.size());
     Assert.assertTrue(vars.contains(i));
     Assert.assertFalse(vars.contains(j));
     Assert.assertTrue(vars.contains(k));
+    Assert.assertTrue(vars.contains(s));
   }
 }
 

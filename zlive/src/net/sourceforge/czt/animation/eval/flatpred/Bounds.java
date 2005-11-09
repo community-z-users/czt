@@ -33,6 +33,11 @@ import net.sourceforge.czt.animation.eval.EvalSet;
  *  to sets, since this can help when deducing bounds of the
  *  elements of those sets.
  *  
+ *  TODO: add bounds inference for sets of integers.
+ *    (we could add upper/lower bounds for s : \power \num,
+ *     then the inferBounds methods of the EvalSet subclasses
+ *     could propagate the bounds information for those sets.) 
+ *  
  * @author marku
  */
 public class Bounds implements Cloneable
@@ -94,8 +99,8 @@ public class Bounds implements Cloneable
    */
   public boolean setEvalSet(/*@non_null@*/ZRefName var, /*@non_null@*/EvalSet set)
   {
-	EvalSet old = set_.get(var);
-	set_.put(var,set);
+    EvalSet old = set_.get(var);
+    set_.put(var,set);
     return old==null && set!=null;
   }
   

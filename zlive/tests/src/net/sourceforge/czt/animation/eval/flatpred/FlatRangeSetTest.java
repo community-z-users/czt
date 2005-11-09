@@ -50,8 +50,14 @@ public class FlatRangeSetTest
    */
   public FlatRangeSetTest()
   {
-    set = new FlatRangeSet(i,k,s);   // 10..12
-    emptySet = new FlatRangeSet(k,j,s);   // 12..11
+  }
+  
+  public void setUp()
+  {
+    set = new FlatPredList(zlive_);
+    set.add(new FlatRangeSet(i,k,s));   // 10..12
+    emptySet = new FlatPredList(zlive_);
+    emptySet.add(new FlatRangeSet(k,j,s));   // 12..11
   }
   
   /** A helper function for constructing and evaluating FlatRangeSets. */

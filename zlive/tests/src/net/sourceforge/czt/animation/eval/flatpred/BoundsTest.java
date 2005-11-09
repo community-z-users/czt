@@ -28,8 +28,6 @@ import net.sourceforge.czt.animation.eval.ZTestCase;
 /** Tests the Bounds class. */
 public class BoundsTest extends ZTestCase
 {
-  ZLive zlive_ = new ZLive();
-  
   public void testLower()
   {
     Bounds bnds = new Bounds();

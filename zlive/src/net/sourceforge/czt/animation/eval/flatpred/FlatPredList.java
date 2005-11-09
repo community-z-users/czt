@@ -76,8 +76,8 @@ public class FlatPredList
    *  It is set up as Declarations are added.
    */
   protected /*@non_null@*/ Set<ZDeclName> boundVars_ = new HashSet();
-
-  /** Records the free variables used in this list.
+  
+  /** Records the free variables used within this predicate.
    *  This is calculated and cached by the freeVars() method.
    */
   protected Set<ZRefName> freeVars_;

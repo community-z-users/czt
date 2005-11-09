@@ -1,5 +1,5 @@
 /**
-Copyright (C) 2004 Mark Utting
+Copyright (C) 2005 Mark Utting
 This file is part of the CZT project.
 
 The CZT project contains free software; you can redistribute it and/or modify
@@ -40,8 +40,6 @@ public class FlatSetComp
   extends FlatPred
   implements EvalSet
 {
-  public final double DEFAULT_SIZE = 1000000.0;
-
   /** The most recent variable bounds information. */
   protected Bounds bounds_;
 
@@ -58,9 +56,6 @@ public class FlatSetComp
   /** The fresh ZRefName which will be bound to a member of the set. */
   protected ZRefName resultName_;
 
-  /** The set of free variables of this set. */
-  protected Set<ZRefName> freevars_;
-  
   /** The set of member values in the resulting set. */
   protected Set<Expr> knownMembers_;
   
@@ -97,8 +92,7 @@ public class FlatSetComp
     predsOne_.addPred(eq);
 
     // Calculate free vars of preds_.
-    freevars_ = predsAll_.freeVars();
-    args = new ArrayList<ZRefName>(freevars_);
+    args = new ArrayList<ZRefName>(predsAll_.freeVars());
     args.add(set);
     solutionsReturned = -1;
     knownMembers_ = null;
@@ -134,6 +128,8 @@ public class FlatSetComp
 
   /** Returns null for now -- because it is quite complex to calculate
    *  maximum size of a set comprehension.
+   *  
+   *  TODO: estimate maximum size.
    */
   public BigInteger maxSize()
   {
@@ -158,7 +154,7 @@ public class FlatSetComp
    */
   public double estSize(Envir env)
   {
-    double est = 1000000.0;
+    double est = EvalSet.UNKNOWN_SIZE;
     Mode m = predsAll_.chooseMode(env);
     if (m != null)
       est = m.getSolutions();
@@ -181,16 +177,10 @@ public class FlatSetComp
     return estSize(env);
   }
   
-  /** A list of all the free variables that this set depends upon.
-  * @return The free variables.
-  */
-  public Set<ZRefName> freeVars()
-  {
-    return freevars_;
-  }
-
   /** Iterate through all members of the set.
   *  It guarantees that there will be no duplicates.
+  *  
+  *  TODO: generate the members lazily, as requested by the iterator.
   *
   * @return an Iterator object which returns each member of the set.
   */
@@ -199,11 +189,12 @@ public class FlatSetComp
     if (knownMembers_ == null) {
       // generate all members.
       // TODO: use the ORIGINAL env, not this one which has 'set' added.
+      // TODO: we could generate the members lazily?
       Envir env0 = evalMode_.getEnvir();
       Mode m = predsAll_.chooseMode(env0);
       if (m == null)
         throw new EvalException("Cannot generate members of SetComp: " + this);
-      knownMembers_ = new HashSet();
+      knownMembers_ = new HashSet<Expr>();
       predsAll_.setMode(m);
       predsAll_.startEvaluation();
       Envir env = predsAll_.getOutputEnvir();

@@ -59,6 +59,11 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
  */
 public abstract class FlatPred extends PredImpl
 {
+  /** Records the free variables used within this predicate.
+   *  This is calculated and cached by the freeVars() method.
+   */
+  protected Set<ZRefName> freeVars_;
+  
   /** The mode that will be used during evaluation.
       This is usually set by an explicit call to setMode().
   */
@@ -89,9 +94,14 @@ public abstract class FlatPred extends PredImpl
       return null;
   }
 
-  /** Returns the free variables that appear in the predicate. */
+  /** Returns the free variables that appear in the predicate.
+   *  The default implementation returns all the variables in args.
+   */
   public Set<ZRefName> freeVars() {
-    return new HashSet<ZRefName>(args);
+    if (freeVars_ == null) {
+      freeVars_ = new HashSet<ZRefName>(args);
+    }
+    return freeVars_;
   }
 
   /** Infer bounds for any integer variables.

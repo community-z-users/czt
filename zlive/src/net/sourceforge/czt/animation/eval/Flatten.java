@@ -413,8 +413,8 @@ public class Flatten
       } 
       else if (funcname.equals(ZString.ARG_TOK + ZString.CUP + ZString.ARG_TOK)) {
           flat_.add(new FlatUnion(
-            argList.get(0).accept(this),
-            argList.get(1).accept(this), 
+            (ZRefName) argList.get(0).accept(this),
+            (ZRefName) argList.get(1).accept(this), 
             result));
       }
       // else if (...)   TODO: add more cases...

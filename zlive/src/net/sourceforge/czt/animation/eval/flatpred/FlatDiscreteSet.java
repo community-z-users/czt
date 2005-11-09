@@ -41,7 +41,6 @@ extends FlatPred
 implements EvalSet
 {
   protected Factory factory_ = new Factory();
-  protected Set<ZRefName> vars_ = new HashSet<ZRefName>();
 
   /** The most recent variable bounds information. */
   protected Bounds bounds_;
@@ -51,11 +50,9 @@ implements EvalSet
 
   public FlatDiscreteSet(List<ZRefName> elements, ZRefName set)
   {
-    Object itNext;
     // remove duplicate ZRefNames
     Set<ZRefName> noDups = new HashSet<ZRefName>(elements);
     args = new ArrayList<ZRefName>(noDups);
-    vars_.addAll(noDups);
     args.add(set);
     solutionsReturned = -1;
     iterateSet_ = null;
@@ -138,14 +135,13 @@ implements EvalSet
    */
   public BigInteger maxSize()
   {
-	return BigInteger.valueOf(args.size()-1);
+    return BigInteger.valueOf(args.size()-1);
   }
 
   /** Estimate the size of the set. */
   public double estSize(Envir env)
   {
-    assert(vars_ != null);
-    return ((double)vars_.size());
+    return (double) (args.size() - 1);
   }
   
   /** Estimate the size of the set. */
@@ -155,17 +151,10 @@ implements EvalSet
     return estSize(evalMode_.getEnvir());
   }
 
+  /** For FlatDiscreteSet, the estSubsetSize is the same as estSize. */
   public double estSubsetSize(Envir env, ZRefName elem)
   {
     return estSize(env);
-  }
-  
-  /** A list of all the free variables that this set depends upon.
-  * @return The free variables.
-  */
-  public Set freeVars()
-  {
-    return vars_;
   }
 
   /** Iterate through all members of the set.
@@ -182,7 +171,9 @@ implements EvalSet
     if(iterateSet_ == null) {
       iterateSet_ = new HashSet<Expr>();
       Envir env = evalMode_.getEnvir();
-      for (ZRefName var : vars_) {
+      int numExprs = args.size() - 1;
+      for (int i = 0; i < numExprs; i++) {
+        ZRefName var = args.get(i);
         Expr value = (Expr)env.lookup(var);
         assert value != null;
         iterateSet_.add(value);
@@ -191,6 +182,7 @@ implements EvalSet
     return iterateSet_.iterator();
   }
 
+  /** For FlatDiscreteSet, subsetMembers(...) is the same as members(). */
   public Iterator<Expr> subsetMembers(ZRefName element)
   {
     return members();
@@ -232,9 +224,11 @@ implements EvalSet
     assert (e != null);
     assert solutionsReturned > 0;
     boolean result = false;
-    Iterator<ZRefName> i = vars_.iterator();
-    while( ! result && i.hasNext()) {
-      Expr value = evalMode_.getEnvir().lookup(i.next());
+    int numExprs = args.size() - 1;
+    Envir env = evalMode_.getEnvir();
+    for (int i = 0; ! result && i < numExprs; i++) {
+      ZRefName var = args.get(i);
+      Expr value = (Expr)env.lookup(var);
       if(e.equals(value))
         result = true;
     }

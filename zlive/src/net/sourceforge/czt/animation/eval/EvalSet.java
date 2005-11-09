@@ -31,10 +31,8 @@ import net.sourceforge.czt.z.ast.ZRefName;
  */
 public interface EvalSet extends Expr {
 
-  /** A list of all the free variables that this set depends upon.
-   * @return The free variables.
-   */
-  public Set<ZRefName> freeVars();
+  /** Default estimate for the approximate size of an unknown set. */
+  public double UNKNOWN_SIZE = 1000000.0;
 
   /** Get the default environment that this set is using.
    *  The default environment can be set via FlatPred.setMode.

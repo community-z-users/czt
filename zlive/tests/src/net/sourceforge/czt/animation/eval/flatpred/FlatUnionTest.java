@@ -1,5 +1,5 @@
 /**
-Copyright (C) 2004 Mark Utting
+Copyright (C) 2005 Mark Utting
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -38,45 +38,56 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
 
 
 /**
- * A (JUnit) test class for testing FlatDiscreteSet.
+ * A (JUnit) test class for testing FlatUnion.
  *
  * @author Mark Utting
  */
-public class FlatDiscreteSetTest
+public class FlatUnionTest
   extends EvalSetTest
 {
-  /** This overrides set and emptySet to be FlatDiscreteSet objects.
+  FlatUnion union;
+  FlatUnion emptyUnion;
+  
+  /** This overrides set and emptySet to be FlatUnionSet objects.
    *  set = {i,k,j,i} and emptySet = {}.
    */
-  public FlatDiscreteSetTest()
+  public FlatUnionTest()
   {
   }
   
   public void setUp()
   {
-    ArrayList<ZRefName> argsList = new ArrayList<ZRefName>();
-    argsList.add(i);
-    argsList.add(k);
-    argsList.add(j);
-    argsList.add(i);
+    ZRefName s1 = zlive_.createNewName();
+    ZRefName s2 = zlive_.createNewName();
     set = new FlatPredList(zlive_);
-    set.add(new FlatDiscreteSet(argsList,s));
+    set.add(new FlatRangeSet(i,j,s1));   // 10..11
+    List<ZRefName> jk = new ArrayList<ZRefName>();
+    jk.add(j);
+    jk.add(k);
+    jk.add(j);
+    set.add(new FlatDiscreteSet(jk,s2));   // 11..12
+    union = new FlatUnion(s1,s2,s);
+    set.add(union);
+    
     emptySet = new FlatPredList(zlive_);
-    emptySet.add(new FlatDiscreteSet(new ArrayList<ZRefName>(),s));
+    emptySet.add(new FlatRangeSet(k,j,s1));   // 12..11
+    emptySet.add(new FlatDiscreteSet(new ArrayList<ZRefName>(), s2));
+    emptyUnion = new FlatUnion(s1,s2,s);
+    emptySet.add(emptyUnion);
   }
   
-  public void testMaxSize()
+  public void testEmptyBounds()
   {
-    EvalSet resultSet = (EvalSet) set.iterator().next();
-    Assert.assertNotNull(resultSet);
-
-    System.out.println("resultSet type = " + resultSet.getClass());
-    
-    Assert.assertTrue(resultSet instanceof FlatDiscreteSet);
-    
-    Assert.assertEquals(new BigInteger("3"), resultSet.maxSize());
-    resultSet = (EvalSet) emptySet.iterator().next();
-    Assert.assertEquals(new BigInteger("0"), resultSet.maxSize());
+    Assert.assertTrue(emptySet.inferBounds(getBounds()));
+    Assert.assertNull(emptyUnion.getLower());
+    Assert.assertNull(emptyUnion.getUpper());
+  }
+  
+  public void testBounds()
+  {
+    Assert.assertTrue(set.inferBounds(getBounds()));
+    Assert.assertEquals(new BigInteger("10"), union.getLower());
+    Assert.assertEquals(new BigInteger("12"), union.getUpper());
   }
 }
 

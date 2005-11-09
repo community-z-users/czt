@@ -59,7 +59,7 @@ public class FlatMemberTest
     
     // Must set up a flatpred list and do the static inference
     // pass before we can start using FlatRangeSet.
-    predlist = new FlatPredList(new ZLive());
+    predlist = new FlatPredList(zlive_);
     predlist.add(set);
     predlist.add(mem);
     predlist.inferBounds(new Bounds());

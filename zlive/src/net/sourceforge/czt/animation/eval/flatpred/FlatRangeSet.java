@@ -107,8 +107,8 @@ public class FlatRangeSet
 
   public BigInteger getLower()
   {
-	sLogger.entering("FlatRangeSet", "getLower");
-	BigInteger result = null;
+    sLogger.entering("FlatRangeSet", "getLower");
+    BigInteger result = null;
     if (lower_ != null)
       result = lower_;
     else if (lowerArg_ >= 0 && bounds_ != null)
@@ -242,16 +242,6 @@ public class FlatRangeSet
   {
     assert(evalMode_ != null);
     return estSize(evalMode_.getEnvir());
-  }
-  
-  /** A list of all the free variables that this set depends upon.
-  * @return The free variables.
-  */
-  public Set<ZRefName> freeVars()
-  {
-    Set<ZRefName> temp = new HashSet<ZRefName>(args);
-    temp.remove(args.get(setArg_));
-    return temp;
   }
 
   private class setIterator implements Iterator<Expr>
