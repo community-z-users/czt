@@ -39,6 +39,9 @@ import net.sourceforge.czt.typecheck.z.util.*;
 
 /**
  * Utilities for typechecking Z specifications.
+ * This class provides a main method for command line use,
+ * as well as several 'typecheck' methods that are designed
+ * to be called by other Java classes.
  *
  * @author Petra Malik, Tim Miller
  */
@@ -46,17 +49,19 @@ public class TypeCheckUtils
 {
   /**
    * Do not generate instances of this class.
+   * You should use the static methods directly.
    */
   protected TypeCheckUtils()
   {
   }
 
   /**
-   * Typecheck and type annotate a file.
-   * @param term the <code>Term</code> to typecheck.
-   * @param sectInfo the <code>SectionInfo</code> object to use.
+   * Typecheck and type annotate a term, with no default section 
+   * and allowing names to be used before they are declared.
+   * @param term the <code>Term</code> to typecheck (typically a Spec).
+   * @param sectInfo the <code>SectionInfo</code> (eg. SectionManager) object to use.
    * @param markup the <code>Markup</code> of the specification.
-   * returns the list of ErrorAnns in the AST added by the typechecker.
+   * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
 					 SectionInfo sectInfo,
@@ -66,12 +71,12 @@ public class TypeCheckUtils
   }
 
   /**
-   * Typecheck and type annotate a file.
-   * @param term the <code>Term</code> to typecheck.
+   * Typecheck and type annotate a term, with no default section.
+   * @param term the <code>Term</code> to typecheck (typically a Spec).
    * @param sectInfo the <code>SectionInfo</code> object to use.
    * @param markup the <code>Markup</code> of the specification.
    * @param useBeforeDecl allow use of variables before declaration
-   * returns the list of ErrorAnns in the AST added by the typechecker.
+   * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
 					 SectionInfo sectInfo,
@@ -82,13 +87,13 @@ public class TypeCheckUtils
   }
 
   /**
-   * Typecheck and type annotate a file.
+   * Typecheck and type annotate a Term, in the context of a given section.
    * @param term the <code>Term</code> to typecheck.
    * @param sectInfo the <code>SectionInfo</code> object to use.
    * @param markup the <code>Markup</code> of the specification.
    * @param useBeforeDecl allow use of variables before declaration
-   * @param sectName the section within which this term should be evaluated
-   * returns the list of ErrorAnns in the AST added by the typechecker.
+   * @param sectName the section within which this term should be checked.
+   * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
 					 SectionInfo sectInfo,
@@ -100,6 +105,7 @@ public class TypeCheckUtils
     return utils.lTypecheck(term, sectInfo, markup, useBeforeDecl, sectName);
   }
 
+  /** An internal method of the typechecker. */
   protected List<? extends ErrorAnn> lTypecheck(Term term,
 				      SectionInfo sectInfo,
 				      Markup markup)
@@ -107,6 +113,7 @@ public class TypeCheckUtils
     return lTypecheck(term, sectInfo, markup, false);
   }
 
+  /** An internal method of the typechecker. */
   protected List<? extends ErrorAnn> lTypecheck(Term term,
 				      SectionInfo sectInfo,
 				      Markup markup,
@@ -115,6 +122,7 @@ public class TypeCheckUtils
     return lTypecheck(term, sectInfo, markup, useBeforeDecl, null);
   }
 
+  /** An internal method of the typechecker. */
   protected List<? extends ErrorAnn> lTypecheck(Term term,
 				      SectionInfo sectInfo,
 				      Markup markup,
@@ -129,12 +137,25 @@ public class TypeCheckUtils
     return typeChecker.errors();
   }
 
+  /** A convenience method for parsing an arbitrary input specification.
+   *  Note that src.setMarkup(...) allows you to specify which markup format
+   *  the specification is using: LATEX or UNICODE etc.
+   *  @param  src The string or file to be parsed.
+   *  @param  sectInfo The section manager or SectionInfo to use during parsing.
+   *  @return A non-typechecked term.
+   */
   protected Term parse(Source src, SectionInfo sectInfo)
     throws IOException, net.sourceforge.czt.parser.util.ParseException
   {
     return ParseUtils.parse(src, sectInfo);
   }
 
+  /** A convenience method for parsing a file.
+   *  It uses the file name extension to guess which Z markup to parse.
+   *  @param  file The path to the file to be parsed.
+   *  @param  sectInfo The section manager or SectionInfo to use during parsing.
+   *  @return a non-typechecked term.
+   */
   protected Term parse(String file, SectionInfo sectInfo)
     throws IOException, net.sourceforge.czt.parser.util.ParseException
   {
@@ -146,6 +167,9 @@ public class TypeCheckUtils
     return "zedtypecheck";
   }
 
+  /** Print a usage message to System.err, describing the 
+   *  command line arguments accepted by main.
+   */
   protected void printUsage()
   {
     System.err.println("usage: " + name() + " [-sdt] filename ...");
@@ -161,6 +185,9 @@ public class TypeCheckUtils
     return false;
   }
 
+  /** The list of known toolkits.
+   *  This is used internally to avoid printing the types of toolkit names.
+   */
   protected List<String> toolkits()
   {
     List<String> toolkits = new java.util.ArrayList<String>();
@@ -190,6 +217,7 @@ public class TypeCheckUtils
     }
   }
 
+  /** @return a fresh new section manager. */
   protected SectionManager getSectionManager()
   {
     return new SectionManager();
