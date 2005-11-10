@@ -213,7 +213,6 @@ public class FlatRangeSet
 
   public double estSubsetSize(Envir env, ZRefName element)
   {
-    System.out.println("estSubsetSize on "+element);
     assert bounds_ != null;
     BigInteger low = getBound(env, lowerArg_);
     BigInteger high = getBound(env, upperArg_);
@@ -222,14 +221,12 @@ public class FlatRangeSet
     
     if (low == null) {
       low = elemLow;
-      System.out.println("changed low from null to "+low);
     }
     else if (elemLow != null)
       low = low.max(elemLow);
     
     if (high == null) {
       high = elemHigh;
-      System.out.println("changed high from null to "+high);
     }
     else if (elemHigh != null)
       high = high.min(elemHigh);
@@ -293,41 +290,34 @@ public class FlatRangeSet
 
   /** This uses bounds information about element (if any)
    *  to reduce the size of the set that is returned.
-   *  This has no side-effects, so does not change the
+   *  The set that is returned is guaranteed to be a subset
+   *  (or equal to) the true set of elements in the range. 
+   *  This methods has no side-effects, so does not change the
    *  set returned by the usual members() method.
    */
   public Iterator<Expr> subsetMembers(ZRefName element)
   {
     assert evalMode_ != null;
     assert bounds_ != null;
-    System.out.println("subsetMembers on "+element+" with bounds="+bounds_);
     Envir env = evalMode_.getEnvir();
     BigInteger low = getBound(env, lowerArg_);
     BigInteger high = getBound(env, upperArg_);
     BigInteger elemLow = bounds_.getLower(element);
     BigInteger elemHigh = bounds_.getUpper(element);
-    System.out.println("subsetMembers sees bounds "+elemLow+".."+elemHigh);
     
-    if (low == null) {
-      low = elemLow;
-      System.out.println("changed low from null to "+low);
-    }
-    else if (elemLow != null) {
-      low = low.max(elemLow);
-      System.out.println("changed low to "+low);
-    }
+    if (low != null && elemLow != null)
+      low = low.max(elemLow);  // take the tighter of the two bounds.
+    else if (lowerArg_ < 0)
+      low = elemLow; // real lower bound is infinite, so use elemLow.
 
-    if (high == null) {
-      high = elemHigh;
-      System.out.println("changed high from null to "+high);
-    }
-    else if (elemHigh != null) {
-      high = high.min(elemHigh);
-      System.out.println("changed high to "+high);
-    }
+    if (high != null && elemHigh != null)
+      high = high.min(elemHigh);  // take the tighter of the two bounds.
+    else if (upperArg_ < 0)
+      high = elemHigh; // real upper bound is infinite, so use elemHigh.
 
     if (low == null || high == null)
       throw new EvalException("Unbounded integer "+element+" in "+this);
+    
     return new setIterator(low, high);
   }
 
