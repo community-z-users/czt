@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateIntsTest
-Tests run: 90, Failures: 1, Errors: 0, Time elapsed: 0,351 sec
+Tests run: 90, Failures: 1, Errors: 0, Time elapsed: 0.393 sec
 ------------- Standard Output ---------------
 Passed test:animate_ints.tex:23
 Passed test:animate_ints.tex:24
@@ -59,119 +59,8 @@ Passed test:animate_ints.tex:89
 Passed test:animate_ints.tex:90
 Passed test:animate_ints.tex:91
 Passed test:animate_ints.tex:92
-estSubsetSize on a
-changed low from null to null
-estSubsetSize on b
-changed low from null to 1
-subsetMembers on a with bounds=Lows={b=1, tmp279=4, tmp278=4, tmp280=0} Highs={b=4, tmp279=4, a=4, tmp278=4, tmp280=0}
-subsetMembers sees bounds null..4
-changed high to 4
-subsetMembers on b with bounds=Lows={b=1, tmp279=4, tmp278=4, tmp280=0} Highs={b=4, tmp279=4, a=4, tmp278=4, tmp280=0}
-subsetMembers sees bounds 1..4
-changed low to 1
-changed high to 4
-subsetMembers on b with bounds=Lows={b=1, tmp279=4, tmp278=4, tmp280=0} Highs={b=4, tmp279=4, a=4, tmp278=4, tmp280=0}
-subsetMembers sees bounds 1..4
-changed low to 1
-changed high to 4
-subsetMembers on b with bounds=Lows={b=1, tmp279=4, tmp278=4, tmp280=0} Highs={b=4, tmp279=4, a=4, tmp278=4, tmp280=0}
-subsetMembers sees bounds 1..4
-changed low to 1
-changed high to 4
-subsetMembers on b with bounds=Lows={b=1, tmp279=4, tmp278=4, tmp280=0} Highs={b=4, tmp279=4, a=4, tmp278=4, tmp280=0}
-subsetMembers sees bounds 1..4
-changed low to 1
-changed high to 4
-subsetMembers on b with bounds=Lows={b=1, tmp279=4, tmp278=4, tmp280=0} Highs={b=4, tmp279=4, a=4, tmp278=4, tmp280=0}
-subsetMembers sees bounds 1..4
-changed low to 1
-changed high to 4
-subsetMembers on b with bounds=Lows={b=1, tmp279=4, tmp278=4, tmp280=0} Highs={b=4, tmp279=4, a=4, tmp278=4, tmp280=0}
-subsetMembers sees bounds 1..4
-changed low to 1
-changed high to 4
-subsetMembers on b with bounds=Lows={b=1, tmp279=4, tmp278=4, tmp280=0} Highs={b=4, tmp279=4, a=4, tmp278=4, tmp280=0}
-subsetMembers sees bounds 1..4
-changed low to 1
-changed high to 4
-subsetMembers on b with bounds=Lows={b=1, tmp279=4, tmp278=4, tmp280=0} Highs={b=4, tmp279=4, a=4, tmp278=4, tmp280=0}
-subsetMembers sees bounds 1..4
-changed low to 1
-changed high to 4
-subsetMembers on b with bounds=Lows={b=1, tmp279=4, tmp278=4, tmp280=0} Highs={b=4, tmp279=4, a=4, tmp278=4, tmp280=0}
-subsetMembers sees bounds 1..4
-changed low to 1
-changed high to 4
 Passed test:animate_ints.tex:95
-estSubsetSize on a
-changed low from null to null
-estSubsetSize on b
-changed low from null to null
-subsetMembers on a with bounds=Lows={tmp288=0, tmp286=4, tmp287=4} Highs={b=4, tmp288=0, tmp286=4, a=4, tmp287=4}
-subsetMembers sees bounds null..4
-changed high to 4
-subsetMembers on b with bounds=Lows={tmp288=0, tmp286=4, tmp287=4} Highs={b=4, tmp288=0, tmp286=4, a=4, tmp287=4}
-subsetMembers sees bounds null..4
-changed high to 4
-subsetMembers on b with bounds=Lows={tmp288=0, tmp286=4, tmp287=4} Highs={b=4, tmp288=0, tmp286=4, a=4, tmp287=4}
-subsetMembers sees bounds null..4
-changed high to 4
-subsetMembers on b with bounds=Lows={tmp288=0, tmp286=4, tmp287=4} Highs={b=4, tmp288=0, tmp286=4, a=4, tmp287=4}
-subsetMembers sees bounds null..4
-changed high to 4
-subsetMembers on b with bounds=Lows={tmp288=0, tmp286=4, tmp287=4} Highs={b=4, tmp288=0, tmp286=4, a=4, tmp287=4}
-subsetMembers sees bounds null..4
-changed high to 4
-subsetMembers on b with bounds=Lows={tmp288=0, tmp286=4, tmp287=4} Highs={b=4, tmp288=0, tmp286=4, a=4, tmp287=4}
-subsetMembers sees bounds null..4
-changed high to 4
-subsetMembers on b with bounds=Lows={tmp288=0, tmp286=4, tmp287=4} Highs={b=4, tmp288=0, tmp286=4, a=4, tmp287=4}
-subsetMembers sees bounds null..4
-changed high to 4
-subsetMembers on b with bounds=Lows={tmp288=0, tmp286=4, tmp287=4} Highs={b=4, tmp288=0, tmp286=4, a=4, tmp287=4}
-subsetMembers sees bounds null..4
-changed high to 4
-subsetMembers on b with bounds=Lows={tmp288=0, tmp286=4, tmp287=4} Highs={b=4, tmp288=0, tmp286=4, a=4, tmp287=4}
-subsetMembers sees bounds null..4
-changed high to 4
-subsetMembers on b with bounds=Lows={tmp288=0, tmp286=4, tmp287=4} Highs={b=4, tmp288=0, tmp286=4, a=4, tmp287=4}
-subsetMembers sees bounds null..4
-changed high to 4
 Passed test:animate_ints.tex::60
-estSubsetSize on a
-changed low from null to null
-estSubsetSize on b
-changed low from null to null
-subsetMembers on a with bounds=Lows={tmp301=1, tmp304=0, tmp296=4, tmp295=4, tmp302=2, tmp300=1, tmp298=2} Highs={tmp301=1, tmp304=0, b=4, tmp296=4, tmp295=4, tmp302=2, tmp300=1, a=4, tmp298=2}
-subsetMembers sees bounds null..4
-changed high to 4
-subsetMembers on b with bounds=Lows={tmp301=1, tmp304=0, tmp296=4, tmp295=4, tmp302=2, tmp300=1, tmp298=2} Highs={tmp301=1, tmp304=0, b=4, tmp296=4, tmp295=4, tmp302=2, tmp300=1, a=4, tmp298=2}
-subsetMembers sees bounds null..4
-changed high to 4
-subsetMembers on b with bounds=Lows={tmp301=1, tmp304=0, tmp296=4, tmp295=4, tmp302=2, tmp300=1, tmp298=2} Highs={tmp301=1, tmp304=0, b=4, tmp296=4, tmp295=4, tmp302=2, tmp300=1, a=4, tmp298=2}
-subsetMembers sees bounds null..4
-changed high to 4
-subsetMembers on b with bounds=Lows={tmp301=1, tmp304=0, tmp296=4, tmp295=4, tmp302=2, tmp300=1, tmp298=2} Highs={tmp301=1, tmp304=0, b=4, tmp296=4, tmp295=4, tmp302=2, tmp300=1, a=4, tmp298=2}
-subsetMembers sees bounds null..4
-changed high to 4
-subsetMembers on b with bounds=Lows={tmp301=1, tmp304=0, tmp296=4, tmp295=4, tmp302=2, tmp300=1, tmp298=2} Highs={tmp301=1, tmp304=0, b=4, tmp296=4, tmp295=4, tmp302=2, tmp300=1, a=4, tmp298=2}
-subsetMembers sees bounds null..4
-changed high to 4
-subsetMembers on b with bounds=Lows={tmp301=1, tmp304=0, tmp296=4, tmp295=4, tmp302=2, tmp300=1, tmp298=2} Highs={tmp301=1, tmp304=0, b=4, tmp296=4, tmp295=4, tmp302=2, tmp300=1, a=4, tmp298=2}
-subsetMembers sees bounds null..4
-changed high to 4
-subsetMembers on b with bounds=Lows={tmp301=1, tmp304=0, tmp296=4, tmp295=4, tmp302=2, tmp300=1, tmp298=2} Highs={tmp301=1, tmp304=0, b=4, tmp296=4, tmp295=4, tmp302=2, tmp300=1, a=4, tmp298=2}
-subsetMembers sees bounds null..4
-changed high to 4
-subsetMembers on b with bounds=Lows={tmp301=1, tmp304=0, tmp296=4, tmp295=4, tmp302=2, tmp300=1, tmp298=2} Highs={tmp301=1, tmp304=0, b=4, tmp296=4, tmp295=4, tmp302=2, tmp300=1, a=4, tmp298=2}
-subsetMembers sees bounds null..4
-changed high to 4
-subsetMembers on b with bounds=Lows={tmp301=1, tmp304=0, tmp296=4, tmp295=4, tmp302=2, tmp300=1, tmp298=2} Highs={tmp301=1, tmp304=0, b=4, tmp296=4, tmp295=4, tmp302=2, tmp300=1, a=4, tmp298=2}
-subsetMembers sees bounds null..4
-changed high to 4
-subsetMembers on b with bounds=Lows={tmp301=1, tmp304=0, tmp296=4, tmp295=4, tmp302=2, tmp300=1, tmp298=2} Highs={tmp301=1, tmp304=0, b=4, tmp296=4, tmp295=4, tmp302=2, tmp300=1, a=4, tmp298=2}
-subsetMembers sees bounds null..4
-changed high to 4
 Passed test:animate_ints.tex:97
 Passed test:animate_ints.tex:100
 Passed test:animate_ints.tex:101
@@ -203,98 +92,98 @@ Passed test:animate_ints.tex:135
 Passed test:animate_ints.tex:136
 ------------- ---------------- ---------------
 
-Testcase: animate_ints.tex:23 took 0,02 sec
-Testcase: animate_ints.tex:24 took 0 sec
-Testcase: animate_ints.tex:25 took 0,01 sec
-Testcase: animate_ints.tex:26 took 0 sec
-Testcase: animate_ints.tex:27 took 0 sec
-Testcase: animate_ints.tex:28 took 0 sec
-Testcase: animate_ints.tex:29 took 0,01 sec
-Testcase: animate_ints.tex:30 took 0 sec
-Testcase: animate_ints.tex:31 took 0 sec
-Testcase: animate_ints.tex:34 took 0,01 sec
-Testcase: animate_ints.tex:35 took 0 sec
-Testcase: animate_ints.tex:36 took 0 sec
-Testcase: animate_ints.tex:37 took 0 sec
-Testcase: animate_ints.tex:38 took 0 sec
-Testcase: animate_ints.tex:39 took 0,01 sec
-Testcase: animate_ints.tex:40 took 0 sec
-Testcase: animate_ints.tex:41 took 0 sec
-Testcase: animate_ints.tex:45 took 0,01 sec
-Testcase: animate_ints.tex:46 took 0 sec
-Testcase: animate_ints.tex:47 took 0 sec
-Testcase: animate_ints.tex:48 took 0 sec
-Testcase: animate_ints.tex:49 took 0 sec
-Testcase: animate_ints.tex:50 took 0 sec
-Testcase: animate_ints.tex:51 took 0 sec
-Testcase: animate_ints.tex:52 took 0 sec
-Testcase: animate_ints.tex:57 took 0,01 sec
-Testcase: animate_ints.tex:58 took 0 sec
-Testcase: animate_ints.tex:59 took 0 sec
-Testcase: animate_ints.tex:61 took 0 sec
-Testcase: animate_ints.tex:62 took 0 sec
-Testcase: animate_ints.tex:63 took 0,01 sec
-Testcase: animate_ints.tex:65 took 0 sec
-Testcase: animate_ints.tex:66 took 0 sec
-Testcase: animate_ints.tex:67 took 0 sec
-Testcase: animate_ints.tex:68 took 0 sec
-Testcase: animate_ints.tex:69 took 0 sec
-Testcase: animate_ints.tex:70 took 0,01 sec
-Testcase: animate_ints.tex:72 took 0 sec
-Testcase: animate_ints.tex:73 took 0 sec
-Testcase: animate_ints.tex:74 took 0 sec
-Testcase: animate_ints.tex:75 took 0,02 sec
-Testcase: animate_ints.tex:76 took 0 sec
-Testcase: animate_ints.tex:77 took 0 sec
-Testcase: animate_ints.tex:78 took 0 sec
-Testcase: animate_ints.tex:79 took 0,01 sec
-Testcase: animate_ints.tex:80 took 0 sec
-Testcase: animate_ints.tex:81 took 0 sec
-Testcase: animate_ints.tex:82 took 0 sec
-Testcase: animate_ints.tex:83 took 0,01 sec
-Testcase: animate_ints.tex:84 took 0 sec
-Testcase: animate_ints.tex:85 took 0 sec
-Testcase: animate_ints.tex:86 took 0 sec
-Testcase: animate_ints.tex:87 took 0 sec
-Testcase: animate_ints.tex:88 took 0 sec
-Testcase: animate_ints.tex:89 took 0,01 sec
-Testcase: animate_ints.tex:90 took 0 sec
-Testcase: animate_ints.tex:91 took 0 sec
-Testcase: animate_ints.tex:92 took 0 sec
-Testcase: animate_ints.tex:95 took 0,04 sec
-Testcase: animate_ints.tex::60 took 0,031 sec
-Testcase: animate_ints.tex:97 took 0,07 sec
-Testcase: animate_ints.tex:100 took 0,01 sec
-Testcase: animate_ints.tex:101 took 0 sec
-Testcase: animate_ints.tex:102 took 0 sec
-Testcase: animate_ints.tex:103 took 0 sec
+Testcase: animate_ints.tex:23 took 0.024 sec
+Testcase: animate_ints.tex:24 took 0.002 sec
+Testcase: animate_ints.tex:25 took 0.007 sec
+Testcase: animate_ints.tex:26 took 0.002 sec
+Testcase: animate_ints.tex:27 took 0.003 sec
+Testcase: animate_ints.tex:28 took 0.005 sec
+Testcase: animate_ints.tex:29 took 0.002 sec
+Testcase: animate_ints.tex:30 took 0.006 sec
+Testcase: animate_ints.tex:31 took 0.004 sec
+Testcase: animate_ints.tex:34 took 0.002 sec
+Testcase: animate_ints.tex:35 took 0.002 sec
+Testcase: animate_ints.tex:36 took 0.002 sec
+Testcase: animate_ints.tex:37 took 0.002 sec
+Testcase: animate_ints.tex:38 took 0.004 sec
+Testcase: animate_ints.tex:39 took 0.002 sec
+Testcase: animate_ints.tex:40 took 0.005 sec
+Testcase: animate_ints.tex:41 took 0.002 sec
+Testcase: animate_ints.tex:45 took 0.008 sec
+Testcase: animate_ints.tex:46 took 0.001 sec
+Testcase: animate_ints.tex:47 took 0.001 sec
+Testcase: animate_ints.tex:48 took 0.003 sec
+Testcase: animate_ints.tex:49 took 0.002 sec
+Testcase: animate_ints.tex:50 took 0.003 sec
+Testcase: animate_ints.tex:51 took 0.001 sec
+Testcase: animate_ints.tex:52 took 0.007 sec
+Testcase: animate_ints.tex:57 took 0.004 sec
+Testcase: animate_ints.tex:58 took 0.001 sec
+Testcase: animate_ints.tex:59 took 0.003 sec
+Testcase: animate_ints.tex:61 took 0.003 sec
+Testcase: animate_ints.tex:62 took 0.001 sec
+Testcase: animate_ints.tex:63 took 0.002 sec
+Testcase: animate_ints.tex:65 took 0.002 sec
+Testcase: animate_ints.tex:66 took 0.003 sec
+Testcase: animate_ints.tex:67 took 0.002 sec
+Testcase: animate_ints.tex:68 took 0.002 sec
+Testcase: animate_ints.tex:69 took 0.001 sec
+Testcase: animate_ints.tex:70 took 0.003 sec
+Testcase: animate_ints.tex:72 took 0.002 sec
+Testcase: animate_ints.tex:73 took 0.002 sec
+Testcase: animate_ints.tex:74 took 0.002 sec
+Testcase: animate_ints.tex:75 took 0.004 sec
+Testcase: animate_ints.tex:76 took 0.003 sec
+Testcase: animate_ints.tex:77 took 0.002 sec
+Testcase: animate_ints.tex:78 took 0.003 sec
+Testcase: animate_ints.tex:79 took 0.002 sec
+Testcase: animate_ints.tex:80 took 0.002 sec
+Testcase: animate_ints.tex:81 took 0.005 sec
+Testcase: animate_ints.tex:82 took 0.003 sec
+Testcase: animate_ints.tex:83 took 0.001 sec
+Testcase: animate_ints.tex:84 took 0.003 sec
+Testcase: animate_ints.tex:85 took 0.005 sec
+Testcase: animate_ints.tex:86 took 0.001 sec
+Testcase: animate_ints.tex:87 took 0.003 sec
+Testcase: animate_ints.tex:88 took 0.003 sec
+Testcase: animate_ints.tex:89 took 0.002 sec
+Testcase: animate_ints.tex:90 took 0.003 sec
+Testcase: animate_ints.tex:91 took 0.002 sec
+Testcase: animate_ints.tex:92 took 0.002 sec
+Testcase: animate_ints.tex:95 took 0.037 sec
+Testcase: animate_ints.tex::60 took 0.031 sec
+Testcase: animate_ints.tex:97 took 0.077 sec
+Testcase: animate_ints.tex:100 took 0.002 sec
+Testcase: animate_ints.tex:101 took 0.002 sec
+Testcase: animate_ints.tex:102 took 0.001 sec
+Testcase: animate_ints.tex:103 took 0.002 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@e8e0b988   (Function=net.sourceforge.czt.z.impl.ApplExprImpl@664bdf94)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@e8e0b988   (Function=net.sourceforge.czt.z.impl.ApplExprImpl@664bdf94)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ?)~succ _ ~10   (Function=( _ ?)~succ _ )
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ?)~succ _ ~10   (Function=( _ ?)~succ _ )
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
 
-Testcase: animate_ints.tex:106 took 0 sec
-Testcase: animate_ints.tex:107 took 0 sec
-Testcase: animate_ints.tex:108 took 0,01 sec
-Testcase: animate_ints.tex:109 took 0 sec
-Testcase: animate_ints.tex:110 took 0 sec
-Testcase: animate_ints.tex:111 took 0 sec
-Testcase: animate_ints.tex:114 took 0 sec
-Testcase: animate_ints.tex:115 took 0 sec
-Testcase: animate_ints.tex:116 took 0,01 sec
-Testcase: animate_ints.tex:117 took 0 sec
-Testcase: animate_ints.tex:118 took 0 sec
-Testcase: animate_ints.tex:119 took 0 sec
-Testcase: animate_ints.tex:122 took 0 sec
-Testcase: animate_ints.tex:123 took 0 sec
-Testcase: animate_ints.tex:124 took 0,01 sec
-Testcase: animate_ints.tex:125 took 0 sec
-Testcase: animate_ints.tex:126 took 0 sec
-Testcase: animate_ints.tex:127 took 0 sec
-Testcase: animate_ints.tex:128 took 0 sec
-Testcase: animate_ints.tex:131 took 0 sec
-Testcase: animate_ints.tex:132 took 0 sec
-Testcase: animate_ints.tex:133 took 0,01 sec
-Testcase: animate_ints.tex:134 took 0 sec
-Testcase: animate_ints.tex:135 took 0 sec
-Testcase: animate_ints.tex:136 took 0 sec
+Testcase: animate_ints.tex:106 took 0.002 sec
+Testcase: animate_ints.tex:107 took 0.001 sec
+Testcase: animate_ints.tex:108 took 0.002 sec
+Testcase: animate_ints.tex:109 took 0.002 sec
+Testcase: animate_ints.tex:110 took 0.002 sec
+Testcase: animate_ints.tex:111 took 0.003 sec
+Testcase: animate_ints.tex:114 took 0.002 sec
+Testcase: animate_ints.tex:115 took 0.001 sec
+Testcase: animate_ints.tex:116 took 0.002 sec
+Testcase: animate_ints.tex:117 took 0.001 sec
+Testcase: animate_ints.tex:118 took 0.002 sec
+Testcase: animate_ints.tex:119 took 0.003 sec
+Testcase: animate_ints.tex:122 took 0.003 sec
+Testcase: animate_ints.tex:123 took 0.001 sec
+Testcase: animate_ints.tex:124 took 0.005 sec
+Testcase: animate_ints.tex:125 took 0.003 sec
+Testcase: animate_ints.tex:126 took 0.001 sec
+Testcase: animate_ints.tex:127 took 0.001 sec
+Testcase: animate_ints.tex:128 took 0.001 sec
+Testcase: animate_ints.tex:131 took 0.002 sec
+Testcase: animate_ints.tex:132 took 0.001 sec
+Testcase: animate_ints.tex:133 took 0.003 sec
+Testcase: animate_ints.tex:134 took 0.001 sec
+Testcase: animate_ints.tex:135 took 0.003 sec
+Testcase: animate_ints.tex:136 took 0.001 sec
