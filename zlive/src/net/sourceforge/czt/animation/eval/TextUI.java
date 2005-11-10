@@ -22,8 +22,8 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.*;
 
+import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.animation.eval.flatpred.*;
@@ -35,17 +35,23 @@ public class TextUI {
   private static final Logger sLogger
   = Logger.getLogger("net.sourceforge.czt.animation.eval");
   
-  protected static ZLive animator = new ZLive();
+  protected static ZLive zlive_ = new ZLive();
 
   // @czt.todo Provide commands for displaying and changing this.
   protected static Markup markup_ = Markup.LATEX;
+  
+  /** Get the instance of ZLive that is used for evaluation. */
+  public ZLive getZLive()
+  {
+    return zlive_;
+  }
   
   public static void main (String args[])
         throws IOException
   {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     String str;
-    System.out.println("\n\nZLive Version 0.1\n2004 Release\n");
+    System.out.println(ZLive.banner);
 
     // set up a specific logger with our human-readable format
     Logger logger = Logger.getLogger("net.sourceforge.czt.animation.eval");
@@ -59,7 +65,7 @@ public class TextUI {
 
     boolean finished = false;
     while (!finished) {
-      System.out.print("zlive>");
+      System.out.print("zlive> ");
       str = br.readLine();
       if (str == null || str.equals("quit") || str.equals("exit"))
         finished = true;
@@ -74,44 +80,40 @@ public class TextUI {
   public static void processCmd(String cmd, String args) {
     try {
        if (cmd.equals("help")) {
-         System.out.println("\n         ---- ZLive Help ----");
-         System.out.println("\neval <Expression> - Evaluate an expression");
-         System.out.println("evalp <Predicate> - Evaluate a predicate");
-         System.out.println("why - Print out the optimised code of the last command");
-         System.out.println("version - Display the version of ZLive");
-         System.out.println("quit - Exit the ZLive program");
+         printHelp(System.out);
        }
        else if (cmd.equals("ver")) {
-         System.out.println("\nZLive Version 0.2");
-         System.out.println("2005 Release\n");
+         System.out.println(ZLive.banner);
        } 
        else if (cmd.equals("why")) {
-         animator.printCode();
+         zlive_.printCode();
        }
-       else if (cmd.equals("evalp")) {
+       else if (cmd.equals("eval") || cmd.equals("evalp")) {
 	Source src = new StringSource(args);
 	src.setMarkup(markup_);
         Pred pred = ParseUtils.parsePred(src, null,
-					 animator.getSectionManager());
-        System.out.println("Pred="+pred);
-        Pred result = animator.evalPred(pred);
-        System.out.println("Result="+result);
-       }
-       else if (cmd.equals("eval")) {
-	Source src = new StringSource(args);
-	src.setMarkup(markup_);
-        Expr expr = ParseUtils.parseExpr(src, null,
-					 animator.getSectionManager());
-        System.out.println("Expr="+expr);
-        Expr result = animator.evalExpr(expr);
-	// TODO: add a proper AST printing method to Unicode or LaTeX.
-	if (result instanceof NumExpr) {
-	  NumExpr num = (NumExpr) result;
-          ZNumeral znum = (ZNumeral) num.getNumeral();
-          System.out.println(znum.getValue());
+                      zlive_.getSectionManager());
+        System.out.println("DEBUG: evaluating "+pred);
+        Term result = null;
+        try
+        {
+          if (pred instanceof ExprPred)
+            result = zlive_.evalExpr( ((ExprPred)pred).getExpr());
+          else
+            result = zlive_.evalPred( pred );
         }
-	else
-	  System.out.println("Result="+result);
+        catch (UndefException ex)
+        {
+          System.out.print("Undefined!  " + ex.getMessage());
+        }
+        catch (EvalException ex)
+        {
+          System.out.print("Error: evaluation too difficult/large: "+ex.getMessage()); 
+        }
+        if (result != null)
+          printTerm(System.out, result);
+        System.out.println();
+        System.out.flush();
       }
       else {
         System.out.println("Invalid command.  Try 'help'?");
@@ -120,6 +122,44 @@ public class TextUI {
     catch (Exception e) {
       System.out.println("Error: " + e);
       e.printStackTrace();
+    }
+  }
+
+  /** Prints help/usage message */
+  public static void printHelp(PrintStream out)
+  {
+    out.println("\n------------ ZLive Help ------------");
+    out.println("eval <expr>  -- Evaluate an expression");
+    out.println("evalp <pred> -- Evaluate a predicate (synonym for eval)");
+    out.println("why          -- Print out the internal code of the last command");
+    out.println("version      -- Display the version of ZLive");
+    out.println("quit         -- Exit the ZLive program");
+  }
+
+  /** Prints an evaluated expression as a standard text string. 
+   *  TODO: add a proper AST printing method to Unicode or LaTeX.
+   */
+  public static void printTerm(PrintStream out, Term term)
+  {
+    if (term instanceof NumExpr) {
+      NumExpr num = (NumExpr) term;
+      ZNumeral znum = (ZNumeral) num.getNumeral();
+      out.print(znum.getValue());
+    }
+    else if (term instanceof EvalSet) {
+      EvalSet set = (EvalSet) term;
+      out.print("{ ");
+      Iterator<Expr> i = set.members();
+      while (i.hasNext()) {
+        printTerm(out, (Expr) i.next());
+        if (i.hasNext())
+          out.print(", ");
+      }
+      out.print(" }");
+    }
+    else /* fall back to the toString() method */
+    {
+      out.print(term);
     }
   }
 }

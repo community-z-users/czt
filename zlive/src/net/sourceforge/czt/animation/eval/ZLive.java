@@ -38,6 +38,9 @@ public class ZLive
   private static final Logger sLogger
   = Logger.getLogger("net.sourceforge.czt.animation.eval");
   
+  /** The name and current version of ZLive */
+  public static final String banner = "ZLive version 0.2, (C) 2005, Mark Utting";
+  
   private Factory factory_;
 
   private Flatten flatten_;
@@ -121,14 +124,14 @@ public class ZLive
   public SectionManager getSectionManager()
   { return sectman_; }
 
-  /** Get a flatten visitor. */
-  public Flatten getFlatten()
-  { return flatten_; }
-
    /** Set the section manager which will be used during evaluation. */
   //@ requires sm != null;
   public void setSectionManager(SectionManager sm)
   { sectman_ = sm; }
+
+  /** Get a flatten visitor. */
+  public Flatten getFlatten()
+  { return flatten_; }
 
   /** Which section evaluations are being done in. */
   public String getCurrentSection()
@@ -237,6 +240,7 @@ public class ZLive
 
   public static void main(String args[])
   {
-    System.out.println("ZLive version 0.0");
+    System.out.println(banner);
+    System.out.println("To use ZLive from the command line, run TextUI.");
   }
 }
