@@ -35,54 +35,6 @@ public class GlobalDefs
   public static final UResult FAIL = UResult.FAIL;
 
   /**
-   * Create an empty list.
-   * @return the empty list
-   */
-  /*
-  public static <E> List<E> list()
-  {
-    return new java.util.ArrayList<E>();
-  }
-  */
-  /**
-   * Create a list containing a specified element.
-   * @param e the specified element
-   * @return a list containg only <code>e</code>
-   */
-  /*
-  public static <E> List<E> list(E e)
-  {
-    List<E> result = list();
-    result.add(e);
-    return result;
-  }
-  */
-
-  /**
-   * Creates a list with the given elements.
-   * This is a convenience method.
-   */
-  /*
-  public static <E> java.util.List<E> list(E... elems)
-  {
-    java.util.List<E> result = new java.util.ArrayList<E>();
-    result.addAll(java.util.Arrays.asList(elems));
-    return result;
-  }
-  */
-
-  /**
-   * Create a list from another list.
-   * @param list the list from which to copy the members.
-   * @return a new list containing the elements in <code>list</code>
-   */
-  public static <E> List<E> list(List<E> list)
-  {
-    List<E> result = new java.util.ArrayList<E>(list);
-    return result;
-  }
-
-  /**
    * Create an empty Set.
    * @return the empty set
    */
@@ -281,7 +233,7 @@ public class GlobalDefs
    * @return true if and only if the name is in the list.
    */
   public static boolean containsZDeclName(List<ZDeclName> list,
-                                         ZDeclName zDeclName)
+					  ZDeclName zDeclName)
   {
     boolean result = false;
     for (ZDeclName next : list) {
@@ -292,6 +244,25 @@ public class GlobalDefs
     }
     return result;
   }
+
+  /**
+   * Test whether a list contains a ZDeclName with the same ID
+   * @param list the list to search.
+   * @param zDeclName the ZDeclName to search for.
+   * @return true if and only if the name is in the list.
+   */
+  public static boolean containsID(List<ZDeclName> list,
+				   ZDeclName zDeclName)
+  {
+    boolean result = false;
+    for (ZDeclName next : list) {
+      if (next.getId().equals(zDeclName.getId())) {
+        result = true;
+        break;
+      }
+    }
+    return result;
+  }  
 
   /**
    * Test whether a list contains a ZRefame.

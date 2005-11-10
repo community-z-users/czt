@@ -1184,7 +1184,7 @@ public class ExprChecker
     for (NameTypePair decl : decls) {
       ZDeclName zDeclName = decl.getZDeclName();
       //if this name is duplicated, raise an error
-      if (names.contains(zDeclName)) {
+      if (containsZDeclName(names, zDeclName)) {
         Object [] params = {zDeclName};
         error(bindExpr, ErrorMessage.DUPLICATE_IN_BINDEXPR, params);
       }

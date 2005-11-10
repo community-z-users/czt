@@ -358,6 +358,11 @@ abstract public class Checker<R>
     return typeChecker_.useBeforeDecl_;
   }
 
+  protected int id()
+  {
+    return typeChecker_.id_++;
+  }
+
   //the logger instance
   protected Logger logger()
   {
@@ -648,12 +653,23 @@ abstract public class Checker<R>
       //get the DeclNames
       List<DeclName> declNames = varDecl.getDeclName();
       for (DeclName declName : declNames) {
+	//add a unique ID to this name
+	addDeclNameID(declName);
+
         //add the name and its type to the list of NameTypePairs
         NameTypePair pair = factory().createNameTypePair(declName, baseType);
         pairs.add(pair);
       }
     }
     return pairs;
+  }
+
+  protected void addDeclNameID(DeclName declName)
+  {
+    if (declName instanceof ZDeclName) {
+      ZDeclName zDeclName = (ZDeclName) declName;
+      zDeclName.setId(new Integer(id()).toString());
+    }
   }
 
   protected Signature createCompSig(Signature lSig, Signature rSig,
@@ -982,8 +998,7 @@ abstract public class Checker<R>
       Type unificationEnvType = unificationEnv().getType(genName);
 
       //if this type's reference is in the parameters
-      if (isPending() &&
-          containsObject(typeEnv().getParameters(), genName)) {
+      if (isPending() && containsID(typeEnv().getParameters(), genName)) {
         result = type;
       }
       else if (unificationEnvType instanceof UnknownType &&
@@ -996,7 +1011,7 @@ abstract public class Checker<R>
         result = (Type2) unificationEnvType;
       }
       else {
-        throw new CztException("Cannot instantiate " + type);
+	assert false : "Cannot instantiate " + type;
       }
     }
     else if (type instanceof VariableType) {
@@ -1118,20 +1133,21 @@ abstract public class Checker<R>
     typeEnv().addParameters(declNames);
 
     //add each DeclName and its type
-    List<String> names = factory().list();
+    List<ZDeclName> names = factory().list();
     for (DeclName paramName : declNames) {
       ZDeclName zParamName = assertZDeclName(paramName);
-      //zDeclName.setId("" + id++);
+      addDeclNameID(zParamName);
+
       GenParamType genParamType = factory().createGenParamType(zParamName);
       PowerType powerType = factory().createPowerType(genParamType);
 
       //check if a generic parameter type is redeclared
-      if (names.contains(zParamName.getWord())) {
+      if (containsZDeclName(names, zParamName)) {
         Object [] params = {zParamName};
         error(zParamName, ErrorMessage.REDECLARED_GEN, params);
       }
       else {
-        names.add(zParamName.getWord());
+        names.add(zParamName);
       }
 
       //add the name and type to the TypeEnv

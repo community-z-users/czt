@@ -75,6 +75,9 @@ public class DeclChecker
     Expr expr = constDecl.getExpr();
     Type2 exprType = expr.accept(exprChecker());
 
+    //add a unique ID to this name
+    addDeclNameID(constName);
+
     //create the NameTypePair and the list of decls (only 1 element)
     NameTypePair pair = factory().createNameTypePair(constName, exprType);
     List<NameTypePair> pairs = factory().list(pair);
@@ -107,6 +110,8 @@ public class DeclChecker
       LocAnn locAnn = (LocAnn) expr.getAnn(LocAnn.class);
       List<NameTypePair> lPairs = vSchemaType.getSignature().getNameTypePair();
       for (NameTypePair pair : lPairs) {
+	//add a unique ID to this name
+	addDeclNameID(pair.getZDeclName());
         addAnn(pair.getZDeclName(), locAnn);
         pairs.add(pair);
       }

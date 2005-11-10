@@ -514,7 +514,7 @@ abstract public class Checker<R>
       ZDeclName first = declNames.get(i);
       for (int j = i + 1; j < declNames.size(); j++) {
         ZDeclName second = declNames.get(j);
-        if (first.equals(second)) {
+        if (namesEqual(first, second)) {
           Object [] params = {first, termA};
           error(first, errorMessage, params);
         }

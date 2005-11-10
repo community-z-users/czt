@@ -86,6 +86,9 @@ public class TypeChecker
   //allow variable use before declaration
   protected boolean useBeforeDecl_ = false;
 
+  //used for generating unique ids in names
+  protected int id_ = 0;
+
   //used for logging warning messages.
   protected Logger logger_ = CztLogger.getLogger(TypeChecker.class);
 
@@ -139,6 +142,7 @@ public class TypeChecker
     errors_ = zFactory_.list();
     paraErrors_ = zFactory_.list();
     useBeforeDecl_ = useBeforeDecl;
+    id_ = 0;
     specChecker_ = new SpecChecker(this);
     paraChecker_ = new ParaChecker(this);
     declChecker_ = new DeclChecker(this);
