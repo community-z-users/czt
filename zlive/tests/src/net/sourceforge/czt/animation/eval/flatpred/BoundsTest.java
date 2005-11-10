@@ -215,6 +215,146 @@ public class BoundsTest extends ZTestCase
     Assert.assertFalse(changed);
   }
 
+  /** Tests FlatNegate(x,y) bounds propagation from left to right,
+   *  with no existing bounds on y.
+   */
+  public void testNegateRightNone()
+  {
+    Bounds bnds = new Bounds();
+    bnds.addLower(x, new BigInteger("1"));
+    bnds.addUpper(x, new BigInteger("5"));
+    FlatPredList preds = new FlatPredList(zlive_);
+    preds.add(new FlatNegate(x,y));
+    boolean changed = preds.inferBounds(bnds);
+    Assert.assertTrue(changed);
+    Assert.assertEquals(new BigInteger("1"), bnds.getLower(x));
+    Assert.assertEquals(new BigInteger("5"), bnds.getUpper(x));
+    Assert.assertEquals(new BigInteger("-5"), bnds.getLower(y));
+    Assert.assertEquals(new BigInteger("-1"), bnds.getUpper(y));
+
+    // Check that we have reached a fixed point.
+    changed = preds.inferBounds(bnds);
+    Assert.assertFalse(changed);
+  }
+
+  /** Tests FlatNegate(x,y) bounds propagation from left to right
+   *  with existing looser bounds on y.
+   */
+  public void testNegateRightLoose()
+  {
+    Bounds bnds = new Bounds();
+    bnds.addLower(x, new BigInteger("1"));
+    bnds.addUpper(x, new BigInteger("5"));
+    bnds.addLower(y, new BigInteger("-10"));
+    bnds.addUpper(y, new BigInteger("10"));
+    FlatPredList preds = new FlatPredList(zlive_);
+    preds.add(new FlatNegate(x,y));
+    boolean changed = preds.inferBounds(bnds);
+    Assert.assertTrue(changed);
+    Assert.assertEquals(new BigInteger("1"), bnds.getLower(x));
+    Assert.assertEquals(new BigInteger("5"), bnds.getUpper(x));
+    Assert.assertEquals(new BigInteger("-5"), bnds.getLower(y));
+    Assert.assertEquals(new BigInteger("-1"), bnds.getUpper(y));
+
+    // Check that we have reached a fixed point.
+    changed = preds.inferBounds(bnds);
+    Assert.assertFalse(changed);
+  }
+
+  /** Tests FlatNegate(x,y) bounds propagation from left to right
+   *  with existing tighter bounds on y.
+   */
+  public void testNegateRightTight()
+  {
+    Bounds bnds = new Bounds();
+    bnds.addLower(x, new BigInteger("1"));
+    bnds.addUpper(x, new BigInteger("5"));
+    bnds.addLower(y, new BigInteger("-4"));
+    bnds.addUpper(y, new BigInteger("-2"));
+    FlatPredList preds = new FlatPredList(zlive_);
+    preds.add(new FlatNegate(x,y));
+    boolean changed = preds.inferBounds(bnds);
+    Assert.assertTrue(changed);
+    Assert.assertEquals(new BigInteger("2"), bnds.getLower(x));
+    Assert.assertEquals(new BigInteger("4"), bnds.getUpper(x));
+    Assert.assertEquals(new BigInteger("-4"), bnds.getLower(y));
+    Assert.assertEquals(new BigInteger("-2"), bnds.getUpper(y));
+
+    // Check that we have reached a fixed point.
+    changed = preds.inferBounds(bnds);
+    Assert.assertFalse(changed);
+  }
+
+  /** Tests FlatNegate(x,y) bounds propagation from right to left,
+   *  with no existing bounds on x.
+   */
+  public void testNegateLeftNone()
+  {
+    Bounds bnds = new Bounds();
+    bnds.addLower(x, new BigInteger("-5"));
+    bnds.addUpper(x, new BigInteger("-1"));
+    FlatPredList preds = new FlatPredList(zlive_);
+    preds.add(new FlatNegate(x,y));
+    boolean changed = preds.inferBounds(bnds);
+    Assert.assertTrue(changed);
+    Assert.assertEquals(new BigInteger("-5"), bnds.getLower(x));
+    Assert.assertEquals(new BigInteger("-1"), bnds.getUpper(x));
+    Assert.assertEquals(new BigInteger("1"), bnds.getLower(y));
+    Assert.assertEquals(new BigInteger("5"), bnds.getUpper(y));
+
+    // Check that we have reached a fixed point.
+    changed = preds.inferBounds(bnds);
+    Assert.assertFalse(changed);
+  }
+
+  /** Tests FlatNegate(x,y) bounds propagation from right to left
+   *  with existing looser bounds on x.
+   */
+  public void testNegateLeftLoose()
+  {
+    Bounds bnds = new Bounds();
+    bnds.addLower(x, new BigInteger("-5"));
+    bnds.addUpper(x, new BigInteger("-1"));
+    bnds.addLower(y, new BigInteger("-10"));
+    bnds.addUpper(y, new BigInteger("10"));
+    FlatPredList preds = new FlatPredList(zlive_);
+    preds.add(new FlatNegate(x,y));
+    boolean changed = preds.inferBounds(bnds);
+    Assert.assertTrue(changed);
+    Assert.assertEquals(new BigInteger("-5"), bnds.getLower(x));
+    Assert.assertEquals(new BigInteger("-1"), bnds.getUpper(x));
+    Assert.assertEquals(new BigInteger("1"), bnds.getLower(y));
+    Assert.assertEquals(new BigInteger("5"), bnds.getUpper(y));
+
+    // Check that we have reached a fixed point.
+    changed = preds.inferBounds(bnds);
+    Assert.assertFalse(changed);
+  }
+
+  /** Tests FlatNegate(x,y) bounds propagation from right to left
+   *  with existing tighter bounds on x.
+   */
+  public void testNegateLeftTight()
+  {
+    Bounds bnds = new Bounds();
+    bnds.addLower(x, new BigInteger("-4"));
+    bnds.addUpper(x, new BigInteger("-2"));
+    bnds.addLower(y, new BigInteger("1"));
+    bnds.addUpper(y, new BigInteger("5"));
+    FlatPredList preds = new FlatPredList(zlive_);
+    preds.add(new FlatNegate(x,y));
+    boolean changed = preds.inferBounds(bnds);
+    Assert.assertTrue(changed);
+    Assert.assertEquals(new BigInteger("-4"), bnds.getLower(x));
+    Assert.assertEquals(new BigInteger("-2"), bnds.getUpper(x));
+    Assert.assertEquals(new BigInteger("2"), bnds.getLower(y));
+    Assert.assertEquals(new BigInteger("4"), bnds.getUpper(y));
+
+    // Check that we have reached a fixed point.
+    changed = preds.inferBounds(bnds);
+    Assert.assertFalse(changed);
+  }
+
   /** Tests FlatPlus bounds propagation on x+y=z */
   public void testPlusRight()
   {

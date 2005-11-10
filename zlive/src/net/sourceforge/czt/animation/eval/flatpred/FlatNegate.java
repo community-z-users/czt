@@ -21,6 +21,7 @@ package net.sourceforge.czt.animation.eval.flatpred;
 import java.util.List;
 import java.util.ArrayList;
 import java.math.*;
+
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
@@ -41,6 +42,32 @@ public class FlatNegate extends FlatPred
     args.add(a);
     args.add(b);
     solutionsReturned = -1;
+  }
+
+  public boolean inferBounds(Bounds bnds)
+  {
+    boolean changed = false;
+    ZRefName a = args.get(0);
+    ZRefName b = args.get(1);
+
+    BigInteger aLower = bnds.getLower(a);
+    BigInteger aUpper = bnds.getUpper(a);
+    BigInteger bLower = bnds.getLower(b);
+    BigInteger bUpper = bnds.getUpper(b);
+
+    // propagate bounds from a to b.
+    if (aUpper != null)
+      changed |= bnds.addLower(b, aUpper.negate());
+    if (aLower != null)
+      changed |= bnds.addUpper(b, aLower.negate());
+
+    // propagate bounds from b to a.
+    if (bUpper != null)
+      changed |= bnds.addLower(a, bUpper.negate());
+    if (bLower != null)
+      changed |= bnds.addUpper(a, bLower.negate());
+
+    return changed;
   }
 
   /** Chooses the mode in which the predicate can be evaluated.*/
