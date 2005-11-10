@@ -406,6 +406,11 @@ abstract public class Checker<R>
     return typeChecker_.postChecker_;
   }
 
+  protected Checker<List<Type2>> charTupleChecker()
+  {
+    return typeChecker_.charTupleChecker_;
+  }
+
   protected void postCheck()
   {
     //post-check any previously unresolved expressions
@@ -651,7 +656,6 @@ abstract public class Checker<R>
     return pairs;
   }
 
-
   protected Signature createCompSig(Signature lSig, Signature rSig,
                                     TermA termA, String errorMessage)
   {
@@ -791,6 +795,16 @@ abstract public class Checker<R>
         }
       }
     }
+  }
+
+  //make a tuple from a sequence (section 9.2 of the Z standard)
+  protected Type2 mkTuple(List<Type2> list)
+  {
+    assert list.size() > 0;
+    Type2 result = list.size() == 1 ?
+      list.get(0) : 
+      factory().createProdType(list);
+    return result;
   }
 
   //rename the declarations

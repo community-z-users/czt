@@ -382,19 +382,12 @@ public class ExprChecker
       types.add(unwrapType(nextType));
     }
 
-    //if the expr is null, then use the signature to obtain the type
+    //if the expr is null, then use the schema test to obtain the type
     if (expr == null) {
-      //if the is only one element, then the type is a power set
-      //of the type of that element
-      if (types.size() == 1) {
-        Type2 innerType = types.get(0);
-        type = factory().createPowerType(innerType);
-      }
-      //otherwise, create a ProdType
-      else if (types.size() > 1) {
-        ProdType prodType = factory().createProdType(types);
-        type = factory().createPowerType(prodType);
-      }
+      //the type is the type of the characteristic tuple of the schema text
+      List<Type2> charac = schText.accept(charTupleChecker());
+      Type2 innerType = mkTuple(charac);
+      type = factory().createPowerType(innerType);
     }
     //if the expr is not null, then the overall type is a power set
     //of the type of expr
@@ -535,14 +528,14 @@ public class ExprChecker
 
   public Type2 visitLambdaExpr(LambdaExpr lambdaExpr)
   {
-    Type2 type = factory().createUnknownType();
-
     //enter a new variable scope
     typeEnv().enterScope();
 
     //get the signature of the SchText
     SchText schText = lambdaExpr.getSchText();
-    Signature signature = schText.accept(schTextChecker());
+    schText.accept(schTextChecker());
+
+    List<Type2> charac = schText.accept(charTupleChecker());
 
     //get the type of the expression
     Expr expr = lambdaExpr.getExpr();
@@ -552,32 +545,13 @@ public class ExprChecker
     typeEnv().exitScope();
 
     //the characterisitic tuple of the schema text
-    Type2 charTuple = null;
+    Type2 charTuple = mkTuple(charac);
 
-    //if the signature of the schema text is of size greater than one,
-    //then the characteristic tuple is actually a tuple
-    List<NameTypePair> pairs = signature.getNameTypePair();
-    if (pairs.size() > 1) {
-      List<Type2> charTupleList = factory().list();
-      for (NameTypePair pair : pairs) {
-        charTupleList.add(unwrapType(pair.getType()));
-      }
-      charTuple = factory().createProdType(charTupleList);
-    }
-    //otherwise, the characterisitic tuple is the type of the only decl
-    else if (pairs.size() == 1) {
-      NameTypePair pair = pairs.get(0);
-      charTuple = unwrapType(pair.getType());
-    }
-
-    if (charTuple != null) {
-      //the type of the expression is a power set of the cross product
-      //of the characteristic tuple of the schema text, and the type of
-      //the expression
-      ProdType prodType =
-        factory().createProdType(factory().list(charTuple, exprType));
-      type = factory().createPowerType(prodType);
-    }
+    //the type of this expression is a function from the type of the
+    //characteristic tuple to the type of the expression
+    ProdType prodType = 
+      factory().createProdType(factory().list(charTuple, exprType));
+    Type2 type = factory().createPowerType(prodType);
 
     //add the type annotation
     addTypeAnn(lambdaExpr, type);
@@ -605,20 +579,9 @@ public class ExprChecker
     }
     //otherwise, calculate the type from the schema text
     else {
-      //the type is the cross product of the declarations types
-      List<Type2> types = factory().list();
-      List<NameTypePair> pairs = signature.getNameTypePair();
-      for (NameTypePair pair : pairs) {
-        Type2 nextType = unwrapType(pair.getType());
-        types.add(nextType);
-      }
-
-      if (types.size() > 1) {
-        type = factory().createProdType(types);
-      }
-      else {
-        type = types.get(0);
-      }
+      //the type is the type of the characteristic tuple of the schema text
+      List<Type2> charac = schText.accept(charTupleChecker());
+      type = mkTuple(charac);
     }
 
     //exit the current scope

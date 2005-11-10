@@ -97,6 +97,7 @@ public class TypeChecker
   protected Checker<UResult> predChecker_ = null;
   protected Checker<Signature> schTextChecker_ = null;
   protected Checker<ErrorAnn> postChecker_ = null;
+  protected Checker<List<Type2>> charTupleChecker_ = null;
 
   public TypeChecker(TypeChecker info)
   {
@@ -145,6 +146,7 @@ public class TypeChecker
     predChecker_ = new PredChecker(this);
     schTextChecker_ = new SchTextChecker(this);
     postChecker_ = new PostChecker(this);
+    charTupleChecker_ = new CharTupleChecker(this);
   }
 
   public void setPreamble(String sectName, SectionInfo sectInfo)

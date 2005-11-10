@@ -10,6 +10,10 @@
     <!-- Add new releases here -->
     <release version="0.5" date="unreleased">
       <action dev="Tim" type="fix">
+        Fixed a problem with calculating the characteristic tuple in
+        SetCompExprs, LambdaExprs, and MuExprs.
+      </action>
+      <action dev="Tim" type="fix">
         Fixed a problem with class type unification to improve type
         inferencing.
       </action>
