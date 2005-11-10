@@ -64,9 +64,9 @@ public class TypeEnv
 
   public void enterScope()
   {
-    List<NameTypePair> info = list();
+    List<NameTypePair> info = factory_.list();
     typeInfo_.push(info);
-    List<ZDeclName> parameters = list();
+    List<ZDeclName> parameters = factory_.list();
     parameters_.push(parameters);
   }
 
@@ -92,7 +92,7 @@ public class TypeEnv
 
   public List<ZDeclName> getParameters()
   {
-    List<ZDeclName> result = list();
+    List<ZDeclName> result = factory_.list();
     result.addAll(parameters_.peek());
     return result;
   }
@@ -173,7 +173,7 @@ public class TypeEnv
 
   protected List<NameTypePair> getNameTypePairs()
   {
-    List<NameTypePair> result = list();
+    List<NameTypePair> result = factory_.list();
     for (List<NameTypePair> list : typeInfo_) {
       for (NameTypePair pair : list) {
         NameTypePair existing = findNameTypePair(pair.getZDeclName(), result);

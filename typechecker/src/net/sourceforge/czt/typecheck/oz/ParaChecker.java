@@ -82,7 +82,7 @@ public class ParaChecker
     resetPrimary();
 
     //declare the info needed to create the class type
-    List<NameTypePair> attributes = list();
+    List<NameTypePair> attributes = factory().list();
 
     //create the class type from the information so far
     ClassSig cSig = factory().createClassSig();
@@ -96,8 +96,8 @@ public class ParaChecker
     cSig.getClasses().add(thisClass);
     ClassRefType classType =
       factory().createClassRefType(cSig, thisClass,
-                                   GlobalDefs.<ClassRef>list(), null,
-                                   GlobalDefs.<DeclName>list());
+                                   factory().<ClassRef>list(), null,
+                                   factory().<DeclName>list());
     PowerType powerType = factory().createPowerType(classType);
 
     //add this class name and "self" to the pending typing environment
@@ -112,7 +112,7 @@ public class ParaChecker
     }
 
     //visit the attributes
-    List<NameTypePair> attrDecls = list();
+    List<NameTypePair> attrDecls = factory().list();
     List<Para> attrs = classPara.getLocalDef();
     for (Para para : attrs) {
       Signature signature = para.accept(paraChecker());
@@ -175,7 +175,7 @@ public class ParaChecker
     }
 
     //the list of operation names declared by this paragraph
-    List<ZDeclName> opNames = list();
+    List<ZDeclName> opNames = factory().list();
 
     //add implicit operations
     opExprChecker().addImplicitOps();
@@ -217,7 +217,7 @@ public class ParaChecker
     //create the signature of this paragraph
     NameTypePair cPair =
       factory().createNameTypePair(className(), addGenerics(powerType));
-    Signature signature = factory().createSignature(list(cPair));
+    Signature signature = factory().createSignature(factory().list(cPair));
 
     //exit the variable scopes
     pending().exitScope();
@@ -231,7 +231,7 @@ public class ParaChecker
 
   public Signature visitState(State state)
   {
-    List<NameTypePair> pairs = list();
+    List<NameTypePair> pairs = factory().list();
 
     //get the decls
     PrimaryDecl primaryDecl = state.getPrimaryDecl();

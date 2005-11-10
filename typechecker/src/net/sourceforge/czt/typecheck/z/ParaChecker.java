@@ -62,7 +62,7 @@ public class ParaChecker
   public Signature visitGivenPara(GivenPara givenPara)
   {
     //the list of NameTypePairs for this paras signature
-    List<NameTypePair> pairs = list();
+    List<NameTypePair> pairs = factory().list();
 
     //get each ZDeclName
     List<DeclName> givenNames = givenPara.getDeclName();
@@ -109,7 +109,7 @@ public class ParaChecker
   public Signature visitFreePara(FreePara freePara)
   {
     //the list of NameTypePairs for this paras signature
-    List<NameTypePair> pairs = list();
+    List<NameTypePair> pairs = factory().list();
 
     //enter a new pending scope
     pending().enterScope();
@@ -145,7 +145,7 @@ public class ParaChecker
   public Signature visitFreetype(Freetype freetype)
   {
     //the list of NameTypePairs for freetype's parent's signature
-    List<NameTypePair> pairs = list();
+    List<NameTypePair> pairs = factory().list();
 
     //the type of the Freetype's ZDeclName is a powerset of the
     //given type of itself
@@ -203,7 +203,7 @@ public class ParaChecker
       else {
         //otherwise create the type and add it to the list of decls
         ProdType prodType =
-          factory().createProdType(list(vPowerType.getType(), givenType));
+          factory().createProdType(factory().list(vPowerType.getType(), givenType));
         PowerType powerType =
           factory().createPowerType(prodType);
         pair = factory().createNameTypePair(branchName, powerType);
@@ -248,7 +248,7 @@ public class ParaChecker
   public Signature visitZSchText(ZSchText zSchText)
   {
     //the list of Names declared in this schema text
-    List<NameTypePair> gPairs = list();
+    List<NameTypePair> gPairs = factory().list();
 
     //get and visit the list of declarations
     DeclList declList = zSchText.getDeclList();

@@ -208,7 +208,7 @@ public class OpExprChecker
     OpExpr rOpExpr = opExpr2.getRightOpExpr();
     Signature rSig = rOpExpr.accept(opExprChecker());
 
-    List<NameTypePair> newPairs = list(lSig.getNameTypePair());
+    List<NameTypePair> newPairs = factory().list(lSig.getNameTypePair());
     insert(newPairs, rSig.getNameTypePair());
     checkForDuplicates(newPairs, opExpr2,
                        ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
@@ -360,7 +360,7 @@ public class OpExprChecker
     OpExpr rOpExpr = scopeEnrichOpExpr.getRightOpExpr();
     Signature rSig = rOpExpr.accept(opExprChecker());
 
-    List<NameTypePair> newPairs = list(lSig.getNameTypePair());
+    List<NameTypePair> newPairs = factory().list(lSig.getNameTypePair());
     insert(newPairs, rSig.getNameTypePair());
     checkForDuplicates(newPairs, scopeEnrichOpExpr,
                        ErrorMessage.TYPE_MISMATCH_IN_OPEXPR2);
@@ -410,7 +410,7 @@ public class OpExprChecker
     if (distOpExpr instanceof DistSeqOpExpr) {
       for (NameTypePair distPair : distPairs) {
         ZDeclName distName = distPair.getZDeclName();
-        List<Stroke> strokes = list(distName.getStroke());
+        List<Stroke> strokes = factory().list(distName.getStroke());
         int size = strokes.size();
         if (size > 0 && strokes.get(size - 1) instanceof OutStroke) {
           strokes.remove(size - 1);

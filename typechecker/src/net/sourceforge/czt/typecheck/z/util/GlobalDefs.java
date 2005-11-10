@@ -38,35 +38,38 @@ public class GlobalDefs
    * Create an empty list.
    * @return the empty list
    */
+  /*
   public static <E> List<E> list()
   {
     return new java.util.ArrayList<E>();
   }
-
+  */
   /**
    * Create a list containing a specified element.
    * @param e the specified element
    * @return a list containg only <code>e</code>
    */
+  /*
   public static <E> List<E> list(E e)
   {
     List<E> result = list();
     result.add(e);
     return result;
   }
+  */
 
   /**
-   * Create a list containing two specified elements.
-   * @param e1 the first specified element
-   * @param e2 the second specified element
-   * @return a list containg only the specified elements.
+   * Creates a list with the given elements.
+   * This is a convenience method.
    */
-  public static <E> List<E> list(E e1, E e2)
+  /*
+  public static <E> java.util.List<E> list(E... elems)
   {
-    List<E> result = list(e1);
-    result.add(e2);
+    java.util.List<E> result = new java.util.ArrayList<E>();
+    result.addAll(java.util.Arrays.asList(elems));
     return result;
   }
+  */
 
   /**
    * Create a list from another list.

@@ -85,9 +85,9 @@ public class SectTypeEnv
   public SectTypeEnv(ZFactory zFactory)
   {
     factory_ = new Factory(zFactory);
-    typeInfo_ = list();
-    declarations_ = list();
-    sectionDeclarations_ = list();
+    typeInfo_ = factory_.list();
+    declarations_ = factory_.list();
+    sectionDeclarations_ = factory_.list();
     visibleSections_ = set();
     checkedSections_ = set();
     parents_ = map();
@@ -95,7 +95,7 @@ public class SectTypeEnv
 
   public void overwriteTriples(List<NameSectTypeTriple> triples)
   {
-    typeInfo_ = list();
+    typeInfo_ = factory_.list();
     add(triples);
   }
 
@@ -270,7 +270,7 @@ public class SectTypeEnv
 
   public List<NameSectTypeTriple> getTriple()
   {
-    List<NameSectTypeTriple> triples = list();
+    List<NameSectTypeTriple> triples = factory_.list();
     for (NameSectTypeTriple triple : typeInfo_) {
       if (visibleSections_.contains(section_) ||
           triple.getSect().equals(PRELUDE)) {
@@ -319,7 +319,7 @@ public class SectTypeEnv
         Signature signature = schemaType.getSignature();
 
         List<NameTypePair> pairs = signature.getNameTypePair();
-        List<NameTypePair> newPairs = list(pairs);
+        List<NameTypePair> newPairs = factory_.list(pairs);
         for (NameTypePair pair : pairs) {
           ZDeclName primedName = factory_.createZDeclName(pair.getZDeclName());
           primedName.getStroke().add(factory_.createNextStroke());

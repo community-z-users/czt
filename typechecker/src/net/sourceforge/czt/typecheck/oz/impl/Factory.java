@@ -79,8 +79,8 @@ public class Factory
   public ClassRef createClassRef(ZDeclName zDeclName)
   {
     ClassRef result = createClassRef(zDeclName,
-				     GlobalDefs.<Type2>list(),
-				     GlobalDefs.<NewOldPair>list());
+				     this.<Type2>list(),
+				     this.<NewOldPair>list());
     return result;
   }
 

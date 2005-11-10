@@ -135,8 +135,8 @@ public class TypeChecker
     unificationEnv_ = new UnificationEnv(zFactory_);
     markup_ = markup == null ? Markup.LATEX : markup;
     carrierSet_ = new CarrierSet();
-    errors_ = list();
-    paraErrors_ = list();
+    errors_ = zFactory_.list();
+    paraErrors_ = zFactory_.list();
     useBeforeDecl_ = useBeforeDecl;
     specChecker_ = new SpecChecker(this);
     paraChecker_ = new ParaChecker(this);

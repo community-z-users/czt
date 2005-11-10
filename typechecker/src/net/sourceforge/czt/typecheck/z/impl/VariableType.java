@@ -49,7 +49,7 @@ public class VariableType
   protected VariableType(Factory factory)
   {
     super(null);
-    List<Stroke> strokes = list();
+    List<Stroke> strokes = factory.list();
     strokes.add(factory.createNumStroke(new Integer(serial_++)));
     zDeclName_ = factory.createZDeclName(ALPHA, strokes, null);
   }

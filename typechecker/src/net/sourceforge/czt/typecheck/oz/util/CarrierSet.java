@@ -87,7 +87,7 @@ public class CarrierSet
     //if 0, then we have the set \oid
     if (classRefs.size() == 0) {
       ZRefName oidName = ozFactory_.createZRefName(OzString.OID,
-						   GlobalDefs.<Stroke>list(),
+						   factory_.<Stroke>list(),
 						   null);
       ZExprList zExprList = ozFactory_.createZExprList();
       result = ozFactory_.createRefExpr(oidName,
@@ -120,7 +120,7 @@ public class CarrierSet
 
   public Term visitClassRef(ClassRef classRef)
   {
-    List<Expr> exprs = list();
+    List<Expr> exprs = factory_.list();
     List<Type2> types = classRef.getType();
     for (Type2 type : types) {
       Expr expr = (Expr) type.accept(this);
@@ -146,7 +146,7 @@ public class CarrierSet
         throw new UndeterminedTypeException();
       }
       ZRefName zRefName = zFactory_.createZRefName("?class?",
-						   GlobalDefs.<Stroke>list(),
+						   factory_.<Stroke>list(),
 						   null);
       ZExprList zExprList = zFactory_.createZExprList();
       result = zFactory_.createRefExpr(zRefName, zExprList, Boolean.FALSE);

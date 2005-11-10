@@ -261,7 +261,7 @@ public class Factory
 
   public ZDeclName createZDeclName(String word)
   {
-    return createZDeclName(word, GlobalDefs.<Stroke>list());
+    return createZDeclName(word, this.<Stroke>list());
   }
 
   public ZDeclName createZDeclName(String word, List<Stroke> stroke)
@@ -288,7 +288,7 @@ public class Factory
 
   public ZRefName createZRefName(String word)
   {
-    return createZRefName(word, GlobalDefs.<Stroke>list(), null);
+    return createZRefName(word, this.<Stroke>list(), null);
   }
 
   public ZRefName createZRefName(String word,
@@ -312,7 +312,7 @@ public class Factory
 
   public RefExpr createRefExpr(RefName refName)
   {
-    return createRefExpr(refName, GlobalDefs.<Expr>list(), Boolean.FALSE);
+    return createRefExpr(refName, this.<Expr>list(), Boolean.FALSE);
   }
 
   public RefExpr createRefExpr(RefName refName,
@@ -346,5 +346,24 @@ public class Factory
   public ZRenameList createZRenameList(List<NewOldPair> pairs)
   {
     return zFactory_.createZRenameList(pairs);
+  }
+
+  public <E> List<E> list()
+  {
+    java.util.List<E> result = new java.util.ArrayList<E>();
+    return result;
+  }
+
+  public <E> List<E> list(E... elems)
+  {
+    java.util.List<E> result = new java.util.ArrayList<E>();
+    result.addAll(java.util.Arrays.asList(elems));
+    return result;
+  }
+
+  public <E> List<E> list(List<E> list)
+  {
+    List<E> result = new java.util.ArrayList<E>(list);
+    return result;
   }
 }

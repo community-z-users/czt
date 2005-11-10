@@ -46,6 +46,7 @@ public class CarrierSet
     VariableSignatureVisitor<Term>,
     UnknownTypeVisitor<Term>
 {
+  protected Factory factory_;
   protected ZFactory zFactory_;
 
   /** Don't throw an exception when a variable type is encountered. */
@@ -68,6 +69,7 @@ public class CarrierSet
 
   public CarrierSet(ZFactory zFactory, boolean allowVariableTypes)
   {
+    factory_ = new Factory(zFactory);
     zFactory_ = zFactory;
     allowVariableTypes_ = allowVariableTypes;
   }
@@ -126,10 +128,10 @@ public class CarrierSet
   public Term visitSignature(Signature signature)
   {
     List<NameTypePair> pairs = signature.getNameTypePair();
-    List<Decl> decls = list();
+    List<Decl> decls = factory_.list();
     for (NameTypePair pair : pairs) {
       Expr expr = (Expr) pair.getType().accept(this);
-      List<DeclName> name = list(pair.getDeclName());
+      List<DeclName> name = factory_.list(pair.getDeclName());
       VarDecl varDecl = zFactory_.createVarDecl(name, expr);
       decls.add(varDecl);
     }
@@ -140,7 +142,7 @@ public class CarrierSet
 
   public Term visitProdType(ProdType prodType)
   {
-    List<Expr> exprs = list();
+    List<Expr> exprs = factory_.list();
     List<Type2> types = prodType.getType();
     for (Iterator iter = types.iterator(); iter.hasNext(); ) {
       Type type = (Type) iter.next();
@@ -158,7 +160,7 @@ public class CarrierSet
     if (!allowVariableTypes_) {
       throw new UndeterminedTypeException();
     }
-    List<Stroke> strokes = list();
+    List<Stroke> strokes = factory_.list();
     ZRefName zRefName =
       zFactory_.createZRefName("unknown", strokes, null);
     ZExprList zExprList = zFactory_.createZExprList();
@@ -197,7 +199,7 @@ public class CarrierSet
         zFactory_.createRefExpr(zRefName, zExprList, Boolean.FALSE);
       InclDecl inclDecl = zFactory_.createInclDecl(refExpr);
       ZDeclList zDeclList = 
-	zFactory_.createZDeclList(GlobalDefs.<Decl>list(inclDecl));
+	zFactory_.createZDeclList(factory_.<Decl>list(inclDecl));
       ZSchText result = zFactory_.createZSchText(zDeclList, null);
       return result;  
     }

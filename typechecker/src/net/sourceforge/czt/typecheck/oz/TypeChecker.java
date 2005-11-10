@@ -107,6 +107,6 @@ public class TypeChecker
     opExprChecker_ = new OpExprChecker(this);
     downcastEnv_ = new TypeEnv();
     classPara_ = null;
-    primary_ = list();
+    primary_ = zFactory_.list();
   }
 }

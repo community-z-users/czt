@@ -77,7 +77,7 @@ public class DeclChecker
 
     //create the NameTypePair and the list of decls (only 1 element)
     NameTypePair pair = factory().createNameTypePair(constName, exprType);
-    List<NameTypePair> pairs = list(pair);
+    List<NameTypePair> pairs = factory().list(pair);
 
     return pairs;
   }
@@ -85,7 +85,7 @@ public class DeclChecker
   public List<NameTypePair> visitInclDecl(InclDecl inclDecl)
   {
     //the list of name type pairs in this InclDecl
-    List<NameTypePair> pairs = list();
+    List<NameTypePair> pairs = factory().list();
 
     //get the expression
     Expr expr = inclDecl.getExpr();
@@ -117,7 +117,7 @@ public class DeclChecker
 
   public List<NameTypePair> visitZDeclList(ZDeclList zDeclList)
   {
-    List<NameTypePair> pairs = list();
+    List<NameTypePair> pairs = factory().list();
 
     //for each declaration in the list, get the declarations from that
     for (Decl decl : zDeclList.getDecl()) {

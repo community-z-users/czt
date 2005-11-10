@@ -139,7 +139,7 @@ public class ExprChecker
       ClassSig cSig = classRefType.getClassSig();
       if (!instanceOf(cSig, VariableClassSig.class)) {
         ClassRef cRef = classRefType.getThisClass();
-        List<ClassRef> subClasses = list(cRef);
+        List<ClassRef> subClasses = factory().list(cRef);
 
         //find any subclasses
         List<NameSectTypeTriple> triples = sectTypeEnv().getTriple();
@@ -306,7 +306,7 @@ public class ExprChecker
     }
     else if (type instanceof GenericType) {
       GenericType gType = (GenericType) type;
-      List<Type2> instantiations = list();
+      List<Type2> instantiations = factory().list();
       ParameterAnn pAnn =
         (ParameterAnn) bindSelExpr.getAnn(ParameterAnn.class);
 

@@ -60,7 +60,7 @@ public class UnificationEnv
 
   public void enterScope()
   {
-    List<NameTypePair> info = list();
+    List<NameTypePair> info = factory_.list();
     unificationInfo_.push(info);
   }
 
@@ -102,13 +102,12 @@ public class UnificationEnv
     return result;
   }
 
-  public static boolean containsVariable(Term term)
+  public boolean containsVariable(Term term)
   {
-    return containsVariable(term, list(term));
+    return containsVariable(term, factory_.list(term));
   }
 
-  protected static boolean containsVariable(Term term,
-                                            List<Term> preTypes)
+  protected boolean containsVariable(Term term, List<Term> preTypes)
   {
     boolean result = false;
 
@@ -358,7 +357,7 @@ public class UnificationEnv
   //return true if and only if term contains the object o
   protected boolean contains(Term term, Object o)
   {
-    boolean result = contains(term, o, list(term));
+    boolean result = contains(term, o, factory_.list(term));
     return result;
   }
 
@@ -388,7 +387,7 @@ public class UnificationEnv
 
   private List<NameTypePair> peek()
   {
-    List<NameTypePair> result = list();
+    List<NameTypePair> result = factory_.list();
     if (unificationInfo_.size() > 0) {
       result = unificationInfo_.peek();
     }

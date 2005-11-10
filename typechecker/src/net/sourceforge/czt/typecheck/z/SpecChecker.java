@@ -50,7 +50,7 @@ public class SpecChecker
     //visit each section, and get the definition made in that section
     List<Sect> sects = spec.getSect();
     SectTypeEnvAnn specTypes =
-      factory().createSectTypeEnvAnn(GlobalDefs.<NameSectTypeTriple>list());
+      factory().createSectTypeEnvAnn(factory().<NameSectTypeTriple>list());
     List<NameSectTypeTriple> triples = specTypes.getNameSectTypeTriple();
     for (Sect sect : sects) {
       List<NameSectTypeTriple> sectTypes =
@@ -75,7 +75,7 @@ public class SpecChecker
    */
   public Object visitSect(Sect sect)
   {
-    return list();
+    return factory().list();
   }
 
   public Object visitZSect(ZSect zSect)
@@ -83,8 +83,7 @@ public class SpecChecker
     final String prevSectName = sectName();
 
     //set the section name
-    sectName(zSect.getName());
-
+    sectName(zSect.getName()); 
     //if this section has already been declared, raise an error
     if (sectTypeEnv().isChecked(sectName())) {
       Object [] params = {zSect.getName()};
@@ -96,7 +95,7 @@ public class SpecChecker
 
     //get and visit the parent sections of the current section
     List<Parent> parents = zSect.getParent();
-    List<String> names = list();
+    List<String> names = factory().list();
     for (Parent parent : parents) {
       parent.accept(specChecker());
       if (names.contains(parent.getWord())) {

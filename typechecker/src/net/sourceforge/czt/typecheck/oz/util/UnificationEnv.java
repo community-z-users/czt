@@ -358,7 +358,7 @@ public class UnificationEnv
     }
 
     //add the class references
-    List<ClassRef> classes = list();
+    List<ClassRef> classes = factory_.list();
     for (ClassRef classRef : cSigA.getClasses()) {
       if (!contains(classes, classRef)) {
         classes.add(classRef);
@@ -386,7 +386,7 @@ public class UnificationEnv
                        List<NameTypePair> pairsB,
                        List<NameTypePair> altPairs)
   {
-    List<NameTypePair> result = list();
+    List<NameTypePair> result = factory_.list();
     //check compatibility of attributes and state variables
     for (NameTypePair first : pairsA) {
       ZDeclName firstName = first.getZDeclName();
@@ -423,7 +423,7 @@ public class UnificationEnv
     checkOpCompatibility(List<NameSignaturePair> pairsA,
                          List<NameSignaturePair> pairsB)
   {
-    List<NameSignaturePair> result = list();
+    List<NameSignaturePair> result = factory_.list();
     for (NameSignaturePair first : pairsA) {
       ZDeclName firstName = first.getZDeclName();
       NameSignaturePair second = findNameSigPair(firstName, pairsB);
