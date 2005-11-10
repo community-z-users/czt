@@ -12,7 +12,7 @@
     }
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }
- 
+
   /**
    * This is a convenience method.
    * It returns the ZExprList if ExprList (GenActuals) is an instance of
@@ -25,19 +25,4 @@
       return (ZExprList) expr;
     }
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
-  }
-
-  public String toString()
-  {
-    StringBuilder builder = new StringBuilder();
-    builder.append(String.valueOf(getChanName()));
-    if (getGenActuals() != null && getGenActuals() instanceof ZExprList) {
-        builder.append(getZGenActuals().isEmpty() ? "" : getZGenActuals().toString());
-    }
-    if (getChanFields() != null) {
-      for(Field f : getChanFields()) {
-          builder.append(f.toString());
-      }
-    }
-    return builder.toString();
   }

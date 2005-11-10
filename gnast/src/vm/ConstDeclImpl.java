@@ -12,9 +12,3 @@
     }
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }
-
-  public String toString()
-  {
-    return String.valueOf(getDeclName()) + " == " + String.valueOf(getExpr());
-  }
- 

@@ -12,19 +12,3 @@
     }
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }
-
-  public String toString()
-  {
-    StringBuilder builder = new StringBuilder();
-    builder.append(String.valueOf(getDeclName()));
-    builder.append(" ::= ");
-    if (getBranch() != null) {
-      java.util.Iterator<Branch> it = getBranch().iterator();
-      while(it.hasNext()) {
-          builder.append(it.next().toString());
-          if (it.hasNext())
-              builder.append(" | ");
-      }
-    } else builder.append(" null ");
-    return builder.toString();
-  } 

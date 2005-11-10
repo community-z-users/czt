@@ -13,26 +13,3 @@
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }
 
-  public String toString()
-  {
-    StringBuilder builder = new StringBuilder();
-    if (getDeclName() != null)
-      builder.append(getDeclName().toString());
-    switch(getBox()) {
-      case AxBox:
-        builder.append(String.valueOf(getSchText()));
-        break;
-      case OmitBox:
-      case SchBox:
-        if ((getSchText() instanceof ZSchText) &&
-             getZSchText().getDeclList() instanceof ZDeclList) {
-            ConstDecl cd = (ConstDecl)getZSchText().getZDeclList().get(0);
-            builder.append(String.valueOf(cd));
-        } else {
-            builder.append(String.valueOf(getSchText()));
-        }
-        break;
-    }
-    return builder.toString();
-  }
-
