@@ -610,8 +610,9 @@ abstract public class Checker<R>
               error(second.getZDeclName(), errorMessage, params);
             }
           }
-          //we don't need the second declaration
-          pairs.remove(j--);
+          //we don't need the second declaration, so merge the IDs
+	  second.getZDeclName().setId(first.getZDeclName().getId());
+	  //          pairs.remove(j--);
         }
       }
     }

@@ -105,7 +105,6 @@ public class ParaChecker
     pending().add(self, addGenerics(classType));
 
     //visit each inherited class
-
     List<Expr> inheritedClass = classPara.getInheritedExpr();
     for (Expr iClass : inheritedClass) {
       visitInheritedClass(iClass);
@@ -117,19 +116,20 @@ public class ParaChecker
     for (Para para : attrs) {
       Signature signature = para.accept(paraChecker());
       List<NameTypePair> newDecls = signature.getNameTypePair();
+      checkForDuplicates(newDecls, null);
       typeEnv().add(newDecls);
       insert(attrDecls, newDecls);
     }
 
     //check that each attribute is unique within the class
     for (int i = 0; i < attrDecls.size(); i++) {
-      NameTypePair first = attrDecls.get(i);
+      ZDeclName first = attrDecls.get(i).getZDeclName();
       for (int j = i + 1; j < attrDecls.size(); j++) {
-        NameTypePair second = attrDecls.get(j);
-        if (namesEqual(first.getZDeclName(), second.getZDeclName())) {
-          ZDeclName secondName = second.getZDeclName();
-          Object [] params = {secondName, className()};
-          error(secondName, ErrorMessage.REDECLARED_NAME_IN_CLASSPARA, params);
+        ZDeclName second = attrDecls.get(j).getZDeclName();
+        if (namesEqual(first, second) &&
+	    !first.getId().equals(second.getId())) {
+          Object [] params = {second, className()};
+          error(second, ErrorMessage.REDECLARED_NAME_IN_CLASSPARA, params);
         }
       }
     }
@@ -167,6 +167,7 @@ public class ParaChecker
 
     //add the "Init" variable to the state (to use for dereferencing)
     ZDeclName initName = factory().createZDeclName(OzString.INITWORD);
+    addDeclNameID(initName);
     NameTypePair existingInitPair = findNameTypePair(initName, cSig.getState());
     if (existingInitPair == null) {
       Type2 boolType = factory().createBoolType();
@@ -192,6 +193,9 @@ public class ParaChecker
 
       //add the name of the operation
       opNames.add(operation.getZDeclName());
+
+      //add a unique ID to the operation name
+      addDeclNameID(operation.getZDeclName());
 
       //exit the scope
       typeEnv().exitScope();

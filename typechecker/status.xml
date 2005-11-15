@@ -10,6 +10,10 @@
     <!-- Add new releases here -->
     <release version="0.5" date="unreleased">
       <action dev="Tim" type="fix">
+        Use the ZDeclName ID attribute to distinguish between
+        the same names in different scopes.
+      </action>
+      <action dev="Tim" type="fix">
         Fixed a problem with calculating the characteristic tuple in
         SetCompExprs, LambdaExprs, and MuExprs.
       </action>
@@ -17,7 +21,7 @@
         Fixed a problem with class type unification to improve type
         inferencing.
       </action>
-      <action dev="Tim" type="bugfix">
+      <action dev="Tim" type="fix">
         Implement a check that generic classes with an empty signature
         cannot be class unioned with two different sets of parameters,
         e.g. G[\nat] \classunin G[\power\nat].

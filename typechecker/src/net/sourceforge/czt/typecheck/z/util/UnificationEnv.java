@@ -292,33 +292,39 @@ public class UnificationEnv
       result = unifyVariableSignature((VariableSignature) sigB, sigA);
     }
     else {
-      List<NameTypePair> listA = sigA.getNameTypePair();
-      List<NameTypePair> listB = sigB.getNameTypePair();
-      if (listA.size() == listB.size()) {
-        //iterate through every name/type pair, looking for each name in
-        //the other signature
-        for (int i = 0; i < listA.size(); i++) {
-          NameTypePair pairA = listA.get(i);
-	  NameTypePair pairB = findNameTypePair(pairA.getZDeclName(), sigB);
-          //NameTypePair pairB = listB.get(i);
-          //if the pair in not in the signature, then fail
-          if (pairB == null) {
-            result = FAIL;
-          }
-          else {
-            UResult unified = unify(unwrapType(pairA.getType()),
-                                    unwrapType(pairB.getType()));
-            if (unified == FAIL) {
-              result = FAIL;
-            }
-            else if (unified == PARTIAL && result != FAIL) {
-              result = PARTIAL;
-            }
-          }
-        }
+      UResult resultA = unifySignatureAux(sigA, sigB);
+      UResult resultB = unifySignatureAux(sigB, sigA);
+      result = UResult.conj(resultA, resultB);
+    }
+    return result;
+  }
+
+  //unify the signature "one-way"
+  protected UResult unifySignatureAux(Signature sigA, Signature sigB)
+  {
+    UResult result = SUCC;
+    List<NameTypePair> listA = sigA.getNameTypePair();
+    List<NameTypePair> listB = sigB.getNameTypePair();
+
+    //iterate through every name/type pair, looking for each name in
+    //the other signature
+    for (int i = 0; i < listA.size(); i++) {
+      NameTypePair pairA = listA.get(i);
+      NameTypePair pairB = findNameTypePair(pairA.getZDeclName(), sigB);
+      //NameTypePair pairB = listB.get(i);
+      //if the pair in not in the signature, then fail
+      if (pairB == null) {
+	result = FAIL;
       }
       else {
-        result = FAIL;
+	UResult unified = unify(unwrapType(pairA.getType()),
+				unwrapType(pairB.getType()));
+	if (unified == FAIL) {
+	  result = FAIL;
+	}
+	else if (unified == PARTIAL && result != FAIL) {
+	  result = PARTIAL;
+	}
       }
     }
     return result;

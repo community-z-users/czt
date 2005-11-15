@@ -86,6 +86,7 @@ abstract public class Checker<R>
   protected void setClassPara(ClassPara classPara)
   {
     typeChecker_.classPara_ = classPara;
+    addDeclNameID(classPara.getClassName());
   }
 
   //the lst of primary state variables in the current class
@@ -477,7 +478,7 @@ abstract public class Checker<R>
       ZDeclName first = zDeclNames.get(i);
       for (int j = i + 1; j < zDeclNames.size(); j++) {
         ZDeclName second = zDeclNames.get(j);
-        if (first.equals(second)) {
+        if (namesEqual(first, second)) {
           Object [] params = {second, className()};
           error(second, ErrorMessage.REDECLARED_NAME_IN_CLASSPARA, params);
         }
@@ -514,7 +515,8 @@ abstract public class Checker<R>
       ZDeclName first = declNames.get(i);
       for (int j = i + 1; j < declNames.size(); j++) {
         ZDeclName second = declNames.get(j);
-        if (namesEqual(first, second)) {
+        if (namesEqual(first, second) &&
+	    !first.getId().equals(second.getId())) {
           Object [] params = {first, termA};
           error(first, errorMessage, params);
         }
