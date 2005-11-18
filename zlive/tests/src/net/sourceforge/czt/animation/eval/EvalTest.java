@@ -19,19 +19,14 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.logging.Logger;
 import junit.framework.*;
 import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.parser.util.ParseException;
-import net.sourceforge.czt.animation.eval.*;
 
 /**
 * A (JUnit) test class for testing the Animator

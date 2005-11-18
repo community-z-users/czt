@@ -29,6 +29,8 @@ import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.animation.eval.flatpred.*;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.parser.z.ParseUtils;
+import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
+import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.parser.util.ParseException;
 
 public class TextUI {
@@ -89,32 +91,50 @@ public class TextUI {
          zlive_.printCode();
        }
        else if (cmd.equals("eval") || cmd.equals("evalp")) {
-	Source src = new StringSource(args);
-	src.setMarkup(markup_);
-        Pred pred = ParseUtils.parsePred(src, null,
-                      zlive_.getSectionManager());
-        System.out.println("DEBUG: evaluating "+pred);
-        Term result = null;
-        try
-        {
-          if (pred instanceof ExprPred)
-            result = zlive_.evalExpr( ((ExprPred)pred).getExpr());
-          else
-            result = zlive_.evalPred( pred );
-        }
-        catch (UndefException ex)
-        {
-          System.out.print("Undefined!  " + ex.getMessage());
-        }
-        catch (EvalException ex)
-        {
-          System.out.print("Error: evaluation too difficult/large: "+ex.getMessage()); 
-        }
-        if (result != null)
-          printTerm(System.out, result);
-        System.out.println();
-        System.out.flush();
-      }
+         SectionManager manager = zlive_.getSectionManager();
+         String section = zlive_.getCurrentSection();
+         Source src = new StringSource(args);
+         src.setMarkup(markup_);
+         Term term = ParseUtils.parsePred(src, null, manager);
+         boolean isPred = true;
+         if (term instanceof ExprPred) {
+           // evaluate just the expression.
+           isPred = false;
+           term = ((ExprPred)term).getExpr();
+         }
+         List<? extends ErrorAnn> errors = TypeCheckUtils.typecheck(term, 
+             manager, Markup.LATEX, false, section);
+         if (errors.size() > 0) {
+           System.out.println("Error: term contains type errors.");
+           //print any errors
+           for (ErrorAnn next : errors) {
+             System.out.println(next);
+           }
+         }
+         else {
+           System.out.println("DEBUG: evaluating "+term);
+           Term result = null;
+           try
+           {
+             if (isPred)
+               result = zlive_.evalPred( (Pred)term );
+             else
+               result = zlive_.evalExpr( (Expr)term );
+           }
+           catch (UndefException ex)
+           {
+             System.out.print("Undefined!  " + ex.getMessage());
+           }
+           catch (EvalException ex)
+           {
+             System.out.print("Error: evaluation too difficult/large: "+ex.getMessage()); 
+           }
+           if (result != null)
+             printTerm(System.out, result);
+           System.out.println();
+           System.out.flush();
+         }
+       }
       else {
         System.out.println("Invalid command.  Try 'help'?");
       }

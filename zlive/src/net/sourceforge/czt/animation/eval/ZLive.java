@@ -23,8 +23,11 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.typecheck.z.ErrorAnn;
+import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.parser.z.ParseUtils;
@@ -137,7 +140,9 @@ public class ZLive
   public String getCurrentSection()
   { return currSectName_; }
 
-  /** Say which section future evaluations will be done in. */
+  /** Say which section future evaluations will be done in.
+   *  This checks that the given section is typechecked.
+   */
   public void setCurrentSection(String name)
     throws CommandException
   {
@@ -145,6 +150,20 @@ public class ZLive
     DefinitionTable newTable = (DefinitionTable) sectman_.get(key);
     defnTable_ = newTable;
     currSectName_ = name;
+    
+    // now typecheck the section
+    System.err.println("Setting current section to "+name);
+    SectionManager manager = this.getSectionManager();
+    ZSect sect = (ZSect) manager.get(new Key(name,ZSect.class));
+    List<? extends ErrorAnn> errors = TypeCheckUtils.typecheck(sect, 
+        manager, Markup.LATEX, false, null);
+    if (errors.size() > 0) {
+      System.err.println("Warning: section "+name+" contains type errors.");
+      //print any errors
+      for (ErrorAnn next : errors) {
+        System.err.println(next);
+      }
+    }
   }
 
   /** Evaluate a Pred.

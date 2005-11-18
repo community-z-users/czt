@@ -142,10 +142,13 @@ public class FlatSetComp
   */
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
+    LOG.entering("FlatSetComp","chooseMode",env);
+    LOG.fine("args = "+args+" freevars="+this.freeVars_);
     Mode m = modeFunction(env);
     // bind (set |-> this), so that size estimates work better.
     if (m != null)
       m.getEnvir().setValue(args.get(args.size()-1), this);
+    LOG.exiting("FlatSetComp","chooseMode",m);
     return m;
   }
   

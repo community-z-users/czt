@@ -194,7 +194,7 @@ public class FlatPredList
         for (DeclName name : vdecl.getDeclName()) {
           ZDeclName dvar = (ZDeclName) name;
           boundVars_.add(dvar);
-          ZRefName varref = factory_.createZRefName(dvar.getWord(), dvar.getStroke(), null); // TODO: add link to dvar after typechecking
+          ZRefName varref = factory_.createZRefName(dvar.getWord(), dvar.getStroke(), dvar);
           predlist_.add(new FlatMember(typeName, varref));
         }
       }
@@ -203,7 +203,7 @@ public class FlatPredList
         ZDeclName dvar = cdecl.getZDeclName();
         boundVars_.add(dvar);
         Expr expr = cdecl.getExpr();
-        ZRefName varref = factory_.createZRefName(dvar.getWord(), dvar.getStroke(), null); // TODO: add link to dvar after typechecking
+        ZRefName varref = factory_.createZRefName(dvar.getWord(), dvar.getStroke(), dvar);
         flatten_.flattenPred(factory_.createMemPred(varref, expr), predlist_);
       }
       else {
@@ -276,13 +276,13 @@ public class FlatPredList
       }
       anyChange |= recentChange;
     }
-    LOG.exiting("FlatPredList","chooseMode",anyChange);
+    LOG.exiting("FlatPredList","inferBounds",anyChange);
     return anyChange;
   }
 
   /** Optimises the list and chooses a mode.
    *  @czt.todo Implement a simple reordering algorithm here.
-   *  The current implement does no reordering.
+   *  The current implementation does no reordering.
    */
   public ModeList chooseMode(Envir env0)
   {
@@ -299,6 +299,7 @@ public class FlatPredList
       FlatPred fp = (FlatPred)i.next();
       Mode m = fp.chooseMode(env);
       if (m == null) {
+        LOG.finer("no mode for "+fp+" with env="+env);
 	LOG.exiting("FlatPredList","chooseMode",null);
         return null;
       }

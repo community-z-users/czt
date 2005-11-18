@@ -20,6 +20,7 @@ package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.lang.reflect.Constructor;
 import java.util.*;
+import java.util.logging.Logger;
 
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.*;
@@ -59,6 +60,9 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
  */
 public abstract class FlatPred extends PredImpl
 {
+  protected static final Logger LOG
+  = Logger.getLogger("net.sourceforge.czt.animation.eval");
+
   /** Records the free variables used within this predicate.
    *  This is calculated and cached by the freeVars() method.
    */
