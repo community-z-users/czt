@@ -3,6 +3,7 @@
   <property file="${czt.home}/czt.properties"/>
   <property name="typecheck.jar.dir" location="${czt.home}/${jar.dir}"/>
   <property name="typecheck.jar.file" location="${typecheck.jar.dir}/${typechecker.jar.file}"/>
+  <property name="typecheck.src.jar.file"  location="${typecheck.jar.dir}/src-${typechecker.jar.file}"/>
   <property name="typecheck.src.dir" location="src"/>
   <property name="typecheck.build.dir" location="build"/>
   <property name="typecheck.api.dir" location="doc/api"/>
@@ -105,5 +106,14 @@
     <delete dir="${typecheck.build.dir}"/>
     <delete dir="${typecheck.api.dir}"/>
     <ant dir="tests" target="clean"/>
+  </target> 
+
+  <target name="src" depends="compile"
+    description="generate the jar file with typechecker source source code" >
+    <mkdir dir="${typecheck.jar.dir}"/>
+    <jar jarfile="${typecheck.src.jar.file}">
+      <fileset dir="${typecheck.src.dir}">       
+      </fileset>          
+    </jar>
   </target>
 </project>
