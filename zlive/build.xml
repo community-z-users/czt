@@ -90,6 +90,26 @@
     <ant dir="tests" target="test"/>
   </target>
 
+  <target name="with.clover"
+    description="Initializes clover. (eg. ant clean with.clover test clover)">
+    <mkdir dir="clover-db"/>
+    <taskdef resource="clovertasks"/>
+    <clover-setup initString="clover-db/coverage.db">
+      <files includes="**/*.java" excludes="**/*Test.java"/>
+    </clover-setup>
+  </target>
+
+  <target name="clover" depends="with.clover"
+    description="Creates a clover report.">
+    <clover-report>
+      <current outfile="clover_html" title="CZT ZLive Clover Report">
+        <!-- we omit assert statement coverage, because they are
+	     just double checks, and are not intended to be tested. -->
+        <format type="html" filter="assert"/> 
+      </current>         
+    </clover-report>
+  </target>
+
   <target name="checkstyle" description="check java sources">
     <taskdef resource="checkstyletask.properties"
       classpath="${checkstyle.jar}"/>
