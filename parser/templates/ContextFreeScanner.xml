@@ -273,12 +273,6 @@ RULE = {RULECHAR}
   {RULE}        {  yybegin(Z); return symbol(Sym.RULE); }
   </add:zpatt>
 
-  <add:circus>
-  /* Circus paragraph */
-  {SCHCHAR} ({SPACE} | {CONTROL}) "circus"
-                {  yybegin(Z); return symbol(Sym.CIRCUS); }
-  </add:circus>
-
   <add:oz>
   /* Object-Z class paragraph */
   {SCHCHAR} ({SPACE} | {CONTROL}) "class"

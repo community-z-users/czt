@@ -41,7 +41,7 @@ import net.sourceforge.czt.tcoz.util.TcozString;
 </add:tcoz>
 
 <add:circus>
-//import net.sourceforge.czt.circus.util.CircusString;
+import net.sourceforge.czt.circus.util.CircusString;
 </add:circus>
 
 import net.sourceforge.czt.util.CztLogger;
@@ -583,9 +583,7 @@ NAME =   {NOT_LB}*
           yybegin(ZED);
           assert ! addSpace_;
           begin("circus");
-          String result =
-            ZString.SCH + ZString.SPACE + "circus" + ZString.SPACE;
-          return result(result);
+          return result(ZString.ZED);
         }
 </add:circus>
 <add:oz>

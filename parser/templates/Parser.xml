@@ -929,8 +929,19 @@ terminal
         JOKER, RULE, RULELINE, VDASH, PROVISO,
 </add:zpatt>
 <add:circus>
-        // What do I need to do in order to make the END suitable for \\end{circus}?
-        CIRCUS, CIRCCHAN,
+        CIRCDEF,  
+        // Channels
+        CIRCCHAN, CIRCCHANFROM,
+        // Channel and name sets
+        CHANSET, LCHANSET, RCHANSET, NAMESET, 
+        // Processes
+        CIRCPROC, CIRCBEGIN, CIRCSTATE, CIRCODOT, CIRCEND,
+        LFLOOR, RFLOOR, ASSIGNMENT,
+        CIRCSEQ, EXTCHOICE, INTCHOICE, 
+        INTERLEAVE, ALPHAPARALLEL, LPARALLEL, RPARALLEL,        
+        BIGCIRCSEQ, BIGINTERLEAVE, BIGINTCHOICE, BIGEXTCHOICE,
+        // Actions
+        SKIP, STOP, CHAOS,
 </add:circus>
 <add:oz>
         DELTA, CLASS, GENCLASS, STATE, INIT, OPSCH, SDEF,
@@ -1183,16 +1194,38 @@ non terminal DeclList
 </add:zpatt>
 
 <add:circus>
-non terminal List&lt;Para&gt;
-    circusParaItemList;
-
 /// Circus constructs ///////////////////////////////////////////////
 non terminal Para
-    circusParaItem;
-    
-non terminal ChannelPara 
-    channelPara;
-    
+    channelSetPara,
+    processPara,
+    channelPara,
+    actionPara,
+    unboxedInnerPara;
+
+non terminal List &lt; Para &gt;
+    unboxedInnerParaList,
+    unboxedInnerParaItemList,
+    innerParaList;
+
+non terminal CircusProcess 
+    processDesc, 
+    paramProcess, 
+    indexedProcess, 
+    process;
+
+non terminal CircusAction
+    paramAction,
+    circusAction,
+    cspAction;
+
+non terminal List /* ChannelDecl */    
+    channelDeclList;
+
+non terminal ChannelDecl
+    channelDecl, channelFromDecl;
+
+non terminal ZDeclList zDeclListNoNL;
+
 //non terminal List /* VarDecl*/        
 //    varDeclList;
 </add:circus>
@@ -1550,11 +1583,6 @@ narrParagraph ::=
 unboxedParagraphList ::=
         ZED unboxedParagraphItemList:uil END
         {: RESULT = uil; :}
-<add:circus>
-        |
-        CIRCUS circusParaItemList:cil END
-        {: RESULT = cil; :}
-</add:circus>        
         |        
         ZED error END
         {: RESULT = list(); :}
@@ -1572,21 +1600,6 @@ unboxedParagraphItemList ::=
            RESULT = list(ui);
         :}
         ;
-
-<add:circus>        
-circusParaItemList ::=
-        circusParaItemList:cil NL circusParaItem:ci
-        {:
-           if (ci != null) cil.add(ci);
-           RESULT = cil;
-        :}
-        |
-        circusParaItem:ci
-        {:
-           RESULT = list(ci);
-        :}
-        ;
-</add:circus>
         
 unboxedParagraphItem ::=
         basicTypeDefinition:btd
@@ -1620,15 +1633,19 @@ unboxedParagraphItem ::=
            }
            RESULT = ot;
         :}
-        ;
-
 <add:circus>
-circusParaItem ::=
+        |
         channelPara:cp
         {: RESULT = cp; :}
-        ;
+        |
+        channelSetPara:csp
+        {: RESULT = csp; :}
+        |
+        processPara:pp
+        {: RESULT = pp; :}       
 </add:circus>
-        
+        ;
+
 basicTypeDefinition ::= 
         LSQUARE:lsq nameList:nl RSQUARE
         {:
@@ -1937,13 +1954,176 @@ varg ::=
 /// Channel Paragraph ////////////////////////////////
 
 channelPara ::= 
-        CIRCCHAN:chan declPart:dp
-        {:  
-           //RESULT = factory_.createChannelPara(null, dp);  TODO:
-           RESULT = factory_.createChannelPara();
+        CIRCCHAN:chan channelDeclList:cdl
+        {:             
+           RESULT = factory_.createChannelPara(cdl);
            addLocAnn(RESULT, chanleft, chanright);
-        :}                
+        :}
+        |
+        CIRCCHANFROM:chanf channelFromDecl:cfd
+        {:
+           RESULT = factory_.createChannelPara(factory_.list(cfd));
+           addLocAnn(RESULT, chanfleft, chanfright);
+        :}                            
         ;
+
+        
+channelDeclList ::= 
+        channelDecl:cd
+        {:
+           RESULT = factory_.list(cd);
+        :}
+        |
+        channelDecl:cd SEMICOLON channelDeclList:cdl
+        {:
+           cdl.add(cd);
+           RESULT = cdl;
+        :}
+        ;
+        
+channelDecl ::=        
+        /* Typed channels */
+        declWordList:dwl COLON expression:e
+        {:
+           VarDecl vd = factory_.createVarDecl(dwl, e);
+           RESULT = factory_.createChannelDecl(null, vd);
+           addLocAnn(RESULT, dwlleft, dwlright);
+        :}
+        |
+        /* Generically defined channels */
+        LSQUARE:lsq nameList:nl RSQUARE declWordList:dwl COLON expression:e
+        {:            
+           VarDecl vd = factory_.createVarDecl(dwl, e);
+           RESULT = factory_.createChannelDecl(nl, vd);
+           addLocAnn(RESULT, lsqleft, lsqright);
+        :}
+        |
+        /* Synchronisation channels */
+        nameList:nl
+	{:
+           VarDecl vd = factory_.createVarDecl(nl, null);
+           RESULT = factory_.createChannelDecl(null, vd);
+           addLocAnn(RESULT, nlleft, nlright);
+	:} 
+        ;
+
+channelFromDecl ::=
+        expression:e
+        {:
+           InclDecl id = factory_.createInclDecl(e);
+           RESULT = factory_.createChannelDecl(null, id);
+           addLocAnn(RESULT, eleft, eright);
+        :}
+        |
+        LSQUARE:lsq nameList:nl RSQUARE expression:e
+        {:
+           InclDecl id = factory_.createInclDecl(e);
+           RESULT = factory_.createChannelDecl(nl, id);
+           addLocAnn(RESULT, lsqleft, lsqright);
+        :}
+        ; 
+
+processPara ::=
+        /* Process paragraph definition */
+        CIRCPROC:cp declName:dn 
+           optFormalParameters:ofp CIRCDEF processDesc:pd
+        {:
+           //actionScanner_.clearTable();
+           RESULT = factory_.createProcessPara(dn, ofp, pd);
+           addLocAnn(RESULT, cpleft, cpright);
+        :}
+        ;
+
+processDesc ::=
+        process:p
+        {: RESULT = p; :}
+        ;
+
+process ::=
+        CIRCBEGIN innerParaList:ipl1 CIRCSTATE expression:e
+            innerParaList:ipl2 SPOT circusAction:ca CIRCEND
+        {: RESULT = null; :}
+        ;
+
+innerParaList ::=
+        boxedParagraph:bp optNL innerParaList:ipl
+        {:
+           ipl.add(0, bp);
+           RESULT = ipl;
+        :}
+        |
+        unboxedInnerPara:uip NL innerParaList:ipl
+        {:
+           ipl.add(0, uip);
+           RESULT = ipl;
+        :}
+        |
+        //empty
+        {: RESULT = list(); :}
+        ;
+
+unboxedInnerPara ::=
+        basicTypeDefinition:btd
+        {: RESULT = btd; :}
+        |
+        abbreviationDefinition:ad
+        {: RESULT = ad; :}
+        |
+        freeTypeList:ftl
+        {:
+           RESULT = factory_.createFreePara(ftl);
+           addLocAnn(RESULT, ftlleft, ftlright);
+        :}
+        |
+        actionPara:ap
+        {: RESULT = ap; :}
+/*
+        |
+        namesetPara:np
+        {: RESULT = np; :}
+*/
+        ;
+
+actionPara ::=
+        declName:dn CIRCDEF paramAction:pa
+        {:
+           //insert "dn" into the lookup
+           RESULT = null; 
+        :}
+        ;
+
+paramAction ::=
+        zDeclListNoNL:zdlnn SPOT paramAction:pa
+        {: RESULT = null; :}
+        |
+        circusAction:ca
+        {: RESULT = ca; :}
+        ;
+
+//a zDeclList that does not allow NLs between declarations
+zDeclListNoNL ::=
+        declaration:bd
+        {: RESULT = factory_.createZDeclList(list(bd)); :}
+        |
+        declaration:d SEMICOLON zDeclListNoNL:zdlnn
+        {:
+           zdlnn.add(d);
+           RESULT = zdlnn;
+        :}
+        ;
+
+circusAction ::=
+        expression:e
+        {: RESULT = factory_.createSchExprAction(e); :}
+        |
+        cspAction:ca
+        {: RESULT = ca; :}
+        ;
+
+cspAction ::=
+        SKIP
+        ;
+
 </add:circus>     
                 
 /// schema text ///////////////////////////////////////////
@@ -1988,9 +2168,9 @@ zDeclList ::=
         declaration:d
         {: RESULT = factory_.createZDeclList(list(d)); :}
         |
-        zDeclList:zdl sep:s declaration:d
+        declaration:d sep zDeclList:zdl
         {:
-           zdl.add(d);
+           zdl.add(0, d);
            RESULT = zdl;
         :}
         ;
@@ -2005,12 +2185,11 @@ declaration ::=
 
 schemaTextNoExpression ::=
         optDeclPart:dp BAR predicate:p
-        {: RESULT =
-             factory_.createZSchText(dp, p); :}
+        {: RESULT = factory_.createZSchText(dp, p); :}
         |
-	zDeclList:zdl sep declaration:d
+        declaration:d sep zDeclList:zdl 
 	{:
-           zdl.add(d);
+           zdl.add(0, d);
            RESULT = factory_.createZSchText(zdl, null);
 	:}
 	|

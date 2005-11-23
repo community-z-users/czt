@@ -50,7 +50,7 @@ import net.sourceforge.czt.tcoz.util.TcozString;
 </add:tcoz>
 
 <add:circus>
-//import net.sourceforge.czt.circus.util.CircusString;
+import net.sourceforge.czt.circus.util.CircusString;
 </add:circus>
 
 /**
@@ -173,7 +173,25 @@ public class KeywordScanner
    result.put("actuator", new Integer(Sym.ACTUATOR));
 </add:tcoz>  
 <add:circus>
-//   result.put(CircusString.CIRCCHAN, new Integer(Sym.CIRCCHAN));
+   result.put(CircusString.CIRCCHAN, new Integer(Sym.CIRCCHAN));
+   result.put("circchannelfrom", new Integer(Sym.CIRCCHANFROM));
+/*
+   result.put(CircusString.CHANSET, new Integer(Sym.CHANSET));
+   result.put(CircusString.NAMESET, new Integer(Sym.NAMESET));
+   result.put(CircusString.LFLOOR, new Integer(Sym.LFLOOR));   
+   result.put(CircusString.RFLOOR, new Integer(Sym.LFLOOR));   
+*/
+   result.put("process", new Integer(Sym.CIRCPROC));
+   result.put("begin", new Integer(Sym.CIRCBEGIN));
+   result.put("state", new Integer(Sym.CIRCSTATE));
+   result.put("end", new Integer(Sym.CIRCEND));
+   result.put("Skip", new Integer(Sym.SKIP));
+   result.put("defs", new Integer(Sym.CIRCDEF));
+/*
+   result.put(CircusString.SKIP, new Integer(Sym.SKIP));
+   result.put(CircusString.STOP, new Integer(Sym.STOP));
+   result.put(CircusString.CHAOS, new Integer(Sym.CHAOS));
+*/
 </add:circus>
     return result;
   }
