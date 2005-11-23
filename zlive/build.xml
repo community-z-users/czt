@@ -17,7 +17,7 @@
       <include name="${java_cup.jar.file}"/>
     </fileset>
     <pathelement path="${java.class.path}"/>
-    <pathelement path="${ant.home}/lib/clover.jar"/>
+    <pathelement path="${clover.jar}"/>
     <pathelement path="${czt.home}/${jar.dir}/${parser.jar.file}"/>
     <pathelement path="${czt.home}/${jar.dir}/${typechecker.jar.file}"/>
     <pathelement path="${zlive.build.dir}"/>
@@ -95,6 +95,7 @@
     <mkdir dir="clover-db"/>
     <taskdef resource="clovertasks"/>
     <clover-setup initString="clover-db/coverage.db">
+      <!-- BUG: this does not exclude *Test.java like it should! -->
       <files includes="**/*.java" excludes="**/*Test.java"/>
     </clover-setup>
   </target>
