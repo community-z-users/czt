@@ -4126,8 +4126,9 @@ jokerRef ::=
         |
         JOKERTYPE:jt
         {:
-           ZRefName rn = factory_.createZRefName(jt, null);
-           RESULT = factory_.createRefExpr(rn);
+           // Idea: Try to use JokerExpr and avoid having Type Joker at all
+           // but it is not clear whether this works.
+           RESULT = factory_.createJokerExpr(jt);
         :}
         ;
 
