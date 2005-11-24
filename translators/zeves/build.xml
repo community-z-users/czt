@@ -5,6 +5,7 @@
   <property name="zeves.build.dir" location="build"/>  
   <property name="zeves.jar.dir" location="${czt.home}/${jar.dir}"/>
   <property name="zeves.jar.file" location="${zeves.jar.dir}/zeves.jar"/>  
+  <property name="zeves.src.jar.file" location="${zeves.jar.dir}/src-zeves.jar"/>    
   <property name="zeves.api.dir" location="doc/api"/>
   
   <path id="classpath">
@@ -13,8 +14,10 @@
     <pathelement location="${czt.home}/${jar.dir}/${corejava.base.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${corejava.core.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${corejava.jaxb.jar.file}"/>
-    <pathelement location="${czt.home}/${jar.dir}/${parser.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${java_cup.jar.file}"/>    
+    <pathelement location="${czt.home}/${jar.dir}/${java_cup.runtime.jar.file}"/>    
+    <pathelement location="${czt.home}/${jar.dir}/${parser.jar.file}"/>
+    <pathelement location="${czt.home}/${jar.dir}/${typechecker.jar.file}"/>    
     <pathelement path="${java.class.path}"/>
   </path>
   
@@ -57,6 +60,16 @@
     </jar>
   </target>  
   
+  <target name="src" depends="compile"
+    description="generate the jar file with zeves translator source code" >
+    <mkdir dir="${zeves.jar.dir}"/>
+    <jar jarfile="${zeves.src.jar.file}">
+      <fileset dir="${zeves.src.dir}">       
+      </fileset>          
+    </jar>
+  </target>
+
+  
   <target name="checkstyle" description="check java sources">
     <taskdef resource="checkstyletask.properties"
       classpath="${checkstyle.jar}"/>
@@ -73,4 +86,13 @@
     <!-- <ant dir="tests" target="clean"/> -->
   </target>
  
+  <target name="run-print" depends="install" if="file">
+    <echo message="Running the z-eves translator printer ..."/>
+    <java classname="net.sourceforge.czt.zeves.CZT2ZEves" fork="true">
+      <arg value="-print ${file}"/>
+      <classpath refid="classpath"/>
+      <jvmarg value="-Dczt.home=../.."/>
+    </java>
+  </target>
+
 </project>
