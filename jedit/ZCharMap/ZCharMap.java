@@ -34,6 +34,7 @@ import org.gjt.sp.jedit.*;
 import errorlist.*;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.util.XmlWriter;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.print.z.PrintUtils;
@@ -76,6 +77,8 @@ public class ZCharMap extends JPanel
    * The status bar label.
    */
   private JLabel status;
+
+  private JComboBox extension;
 
   private JComboBox markup;
 
@@ -124,6 +127,9 @@ public class ZCharMap extends JPanel
     renderingHints = new RenderingHints(hints);
 
     JPanel buttonRow = new JPanel();
+    extension =
+      new JComboBox(new String[] { "Standard Z", "Object Z" });
+    buttonRow.add(extension);
     markup = new JComboBox(new String[] { "LaTeX Markup", "Unicode Markup" });
     markup.addActionListener(new MarkupHandler());
     buttonRow.add(markup);
@@ -157,6 +163,20 @@ public class ZCharMap extends JPanel
     status.setFont(view.getTextArea().getPainter().getFont());
     add(BorderLayout.SOUTH,status);
     setFocusable(false);
+  }
+
+  //############################################################
+  //###################### METHODS #############################
+  //############################################################
+
+  public boolean isStandardZ()
+  {
+    return extension.getSelectedIndex() == 0;
+  }
+
+  public boolean isObjectZ()
+  {
+    return extension.getSelectedIndex() == 1;
   }
 
   //############################################################
@@ -469,22 +489,30 @@ public class ZCharMap extends JPanel
       checkTerm(term);
       return term;
     }
-    catch (ParseException exception) {
-      CztLogger.getLogger(ZCharMap.class).info("Parse error(s) occured.");
-      List errors = exception.getErrorList();
-      for (Iterator iter = errors.iterator(); iter.hasNext(); ) {
-        Object next = iter.next();
-        ParseError parseError = (ParseError) next;
-        addError(mView.getBuffer().getPath(), parseError.getLine() - 1,
-                 parseError.getColumn() - 1, 0, parseError.getMessage());
+    catch (CommandException exception) {
+      Throwable cause = exception.getCause();
+      if (cause instanceof ParseException) {
+        CztLogger.getLogger(ZCharMap.class).info("Parse error(s) occured.");
+        List errors = ((ParseException) cause).getErrorList();
+        for (Iterator iter = errors.iterator(); iter.hasNext(); ) {
+          Object next = iter.next();
+          ParseError parseError = (ParseError) next;
+          addError(mView.getBuffer().getPath(), parseError.getLine() - 1,
+                   parseError.getColumn() - 1, 0, parseError.getMessage());
+        }
+        String message = "Z parsing complete, " + computeErrorNumber();
+        mView.getStatus().setMessage(message);
       }
-      String message = "Z parsing complete, " + computeErrorNumber();
-      mView.getStatus().setMessage(message);
-    }
-    catch (IOException exception) {
-      String message = "Input output error: " + exception.getMessage();
-      CztLogger.getLogger(ZCharMap.class).warning(message);
-      addError(mView.getBuffer().getPath(), 0, 0, 0 , message);
+      else if (cause instanceof IOException) {
+        String message = "Input output error: " + cause.getMessage();
+        CztLogger.getLogger(ZCharMap.class).warning(message);
+        addError(mView.getBuffer().getPath(), 0, 0, 0 , message);
+      }
+      else {
+        String message = "Error while parsing: " + exception.getMessage();
+        CztLogger.getLogger(ZCharMap.class).warning(message);
+        addError(mView.getBuffer().getPath(), 0, 0, 0 , message);
+      }
     }
     return null;
   }
@@ -518,17 +546,29 @@ public class ZCharMap extends JPanel
   }
 
   private Term parse(Buffer buffer, SectionManager manager)
-    throws IOException, ParseException
+    throws CommandException
   {
     final String filename = buffer.getPath();
     final Source source = new FileSource(filename);
     source.setEncoding(buffer.getStringProperty("encoding"));
+    source.setMarkup(getMarkup());
+    final String name = "jedit://buffer";
+    manager.put(new Key(name, Source.class), source);
+    return (Term) manager.get(new Key(name, Spec.class));
+  }
+
+  private Markup getMarkup()
+  {
     if (markup.getSelectedIndex() == 0) {
-      source.setMarkup(Markup.LATEX);
+      return Markup.LATEX;
     }
     else {
-      source.setMarkup(Markup.UNICODE);
+      return Markup.UNICODE;
     }
+  }
+
+  private Properties getParseProperties()
+  {
     final Properties properties = new Properties();
     String propname =
       CommunityZToolsPlugin.PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS;
@@ -547,7 +587,7 @@ public class ZCharMap extends JPanel
     value = jEdit.getBooleanProperty(propname) ? "true" : "false";
     properties.setProperty(PROP_IGNORE_UNKNOWN_LATEX_COMMANDS,
                            value);
-    return ParseUtils.parse(source, manager, properties);
+    return properties;
   }
 
   private void checkTerm(Term term)
@@ -612,6 +652,38 @@ public class ZCharMap extends JPanel
     CommunityZToolsPlugin.errorSource_.clear();
   }
 
+  /**
+   * Creates a new section manager and sets the default commands
+   * depending on the extension selected by the user.
+   */
+  private SectionManager getSectionManager()
+  {
+    if (isObjectZ()) {
+      SectionManager manager = new SectionManager();
+      Command parseCommand =
+          net.sourceforge.czt.parser.oz.ParseUtils.getCommand();
+      manager.putCommand(Spec.class, parseCommand);
+      manager.putCommand(ZSect.class, parseCommand);
+      return manager;
+    }
+    else {
+      return new SectionManager();
+    }
+  }
+
+  private List<? extends ErrorAnn> typecheck(Term term, SectionManager manager)
+  {
+    if (isObjectZ()) {
+      return net.sourceforge.czt.typecheck.oz.TypeCheckUtils.typecheck(
+        term, manager,
+        markup.getSelectedIndex()==0 ? Markup.LATEX : Markup.UNICODE);
+    }
+    else {
+      return TypeCheckUtils.typecheck(term, manager,
+        markup.getSelectedIndex()==0 ? Markup.LATEX : Markup.UNICODE);
+    }
+  }
+
   class TypecheckHandler implements ActionListener
   {
     public void actionPerformed(ActionEvent e)
@@ -619,21 +691,11 @@ public class ZCharMap extends JPanel
       clearErrorList();
       CztLogger.getLogger(ZCharMap.class).info("Typechecking ...");
       try {
-	SectionManager manager = new SectionManager();
-	Term term = parse(manager);
+	SectionManager manager = getSectionManager();
+        Term term = parse(manager);
         if (term != null) {
-          List errors = TypeCheckUtils.typecheck(term, manager,
-            markup.getSelectedIndex()==0 ? Markup.LATEX : Markup.UNICODE
-            );
-          //print any errors
-          for (Iterator iter = errors.iterator(); iter.hasNext(); ) {
-            ErrorAnn errorAnn = (ErrorAnn) iter.next();
-            addError(mView.getBuffer().getPath(), errorAnn.getLine() - 1,
-                     errorAnn.getColumn() - 1, 0, errorAnn.toString());
-          }
-          final String message =
-            "Z typechecking complete, " + computeErrorNumber();
-          mView.getStatus().setMessage(message);
+          List<? extends ErrorAnn> errors = typecheck(term, manager);
+          printErrors(errors);
           CztLogger.getLogger(ZCharMap.class).info("Done typechecking.");
         }
         else {
@@ -650,6 +712,16 @@ public class ZCharMap extends JPanel
         addError(mView.getBuffer().getPath(), 0, 0, 0, message);
       }
     }
+
+    private void printErrors(List<? extends ErrorAnn> errors)
+    {
+      for (ErrorAnn errorAnn : errors) {
+        addError(mView.getBuffer().getPath(), errorAnn.getLine() - 1,
+                 errorAnn.getColumn() - 1, 0, errorAnn.toString());
+      }
+      String message = "Z typechecking complete, " + computeErrorNumber();
+      mView.getStatus().setMessage(message);
+    }
   }
 
   class ConvertHandler implements ActionListener
@@ -659,17 +731,17 @@ public class ZCharMap extends JPanel
       clearErrorList();
       CztLogger.getLogger(ZCharMap.class).info("Converting ...");
       try {
-	SectionManager manager = new SectionManager();
+	SectionManager manager = getSectionManager();
 	Term term = parse(manager);
         if (term != null) {
           Buffer buffer = jEdit.newFile(mView);
           StringWriter out = new StringWriter();
           if (markup.getSelectedIndex() == 0) {
             buffer.setStringProperty("encoding", "UTF-16");
-            PrintUtils.printUnicode(term, out, manager);
+            printUnicode(term, out, manager);
           }
           else {
-            PrintUtils.printLatex(term, out, manager);
+            printLatex(term, out, manager);
           }
           out.close();
           buffer.insert(0, out.toString());
@@ -688,6 +760,34 @@ public class ZCharMap extends JPanel
         addError(mView.getBuffer().getPath(), 0, 0, 0, message);
       }
     }
+
+    private void printUnicode(Term term,
+                              StringWriter out,
+                              SectionManager manager)
+    {
+      if (isObjectZ()) {
+        net.sourceforge.czt.print.oz.PrintUtils.printUnicode(term,
+                                                             out,
+                                                             manager);
+      }
+      else {
+        PrintUtils.printUnicode(term, out, manager);
+      }
+    }
+
+    private void printLatex(Term term,
+                            StringWriter out,
+                            SectionManager manager)
+    {
+      if (isObjectZ()) {
+        net.sourceforge.czt.print.oz.PrintUtils.printLatex(term,
+                                                           out,
+                                                           manager);
+      }
+      else {
+        PrintUtils.printLatex(term, out, manager);
+      }
+    }
   }
 
   class XmlHandler implements ActionListener
@@ -696,11 +796,10 @@ public class ZCharMap extends JPanel
     {
       clearErrorList();
       try {
-	SectionManager manager = new SectionManager();
+	SectionManager manager = getSectionManager();
 	Term term = parse(manager);
         if (term != null) {
-          net.sourceforge.czt.z.jaxb.JaxbXmlWriter writer =
-            new net.sourceforge.czt.z.jaxb.JaxbXmlWriter();
+          XmlWriter writer = getXmlWriter();
           Buffer buffer = jEdit.newFile(mView);
           buffer.setStringProperty("encoding", "UTF-8");
           StringWriter out = new StringWriter();
@@ -718,7 +817,18 @@ public class ZCharMap extends JPanel
         String message = "Caught " + exception.getClass().getName() + ": " +
           exception.getMessage();
 	System.err.println(message);
+        exception.printStackTrace(System.err);
         addError(mView.getBuffer().getPath(), 0, 0, 0, message);
+      }
+    }
+
+    private XmlWriter getXmlWriter()
+    {
+      if (isObjectZ()) {
+        return new net.sourceforge.czt.oz.jaxb.JaxbXmlWriter();
+      }
+      else {
+        return new net.sourceforge.czt.z.jaxb.JaxbXmlWriter();
       }
     }
   }
