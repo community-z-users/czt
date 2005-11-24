@@ -11,5 +11,12 @@ package net.sourceforge.czt.zeves.z;
  * @author leo
  */
 public enum Ability {    
-    enabled, disabled;    
+    none, enabled, disabled;    
+    
+    public String toString() {
+        if (this == none)
+            return "";
+        else
+            return super.toString();
+    }
 }

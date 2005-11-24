@@ -11,5 +11,12 @@ package net.sourceforge.czt.zeves.z;
  * @author leo
  */
 public enum Usage {    
-    axiom, rule, grule, frule;    
+    none, axiom, rule, grule, frule;    
+    
+    public String toString() {
+        if (this == none)
+            return "";
+        else
+            return super.toString();
+    }
 }
