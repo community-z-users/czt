@@ -8,6 +8,9 @@ doc/architecture.pdf -text
 doc/architecture.sxd -text
 doc/papers/ifm/Typecheckers.zuml -text
 doc/papers/ifm/mc.arch.stages.eps -text
+doc/refcard/z/refcard.dvi -text
+doc/refcard/z/refcard.p1.latb -text
+doc/refcard/z/refcard.p2.latb -text
 gaffe/doc/thesis/exercises.pdf svneol=native#unset
 gaffe/doc/thesis/guide.pdf svneol=native#unset
 gaffe/doc/thesis/thesis.pdf svneol=native#unset
