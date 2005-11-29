@@ -142,6 +142,10 @@ import net.sourceforge.czt.z.visitor.ThetaExprVisitor;
 import net.sourceforge.czt.z.visitor.TruePredVisitor;
 import net.sourceforge.czt.z.visitor.UnparsedParaVisitor;
 import net.sourceforge.czt.z.visitor.VarDeclVisitor;
+import net.sourceforge.czt.zeves.proof.ProofUtils;
+import net.sourceforge.czt.zeves.util.BasicZEvesTranslator;
+import net.sourceforge.czt.zeves.util.ZEvesUtils;
+import net.sourceforge.czt.zeves.util.ZEvesXMLPatterns;
 import net.sourceforge.czt.zeves.proof.ProofScript;
 import net.sourceforge.czt.z.visitor.CondExprVisitor;
 import net.sourceforge.czt.z.visitor.LambdaExprVisitor;
@@ -154,6 +158,10 @@ import net.sourceforge.czt.z.visitor.ProdExprVisitor;
 import net.sourceforge.czt.z.visitor.SetExprVisitor;
 import net.sourceforge.czt.z.visitor.TupleExprVisitor;
 import net.sourceforge.czt.z.visitor.TupleSelExprVisitor;
+import net.sourceforge.czt.zeves.util.Usage;
+import net.sourceforge.czt.zeves.util.Ability;
+import net.sourceforge.czt.zeves.util.Label;
+import net.sourceforge.czt.zeves.util.Location;
 
 /**
  * <p>
@@ -184,7 +192,7 @@ import net.sourceforge.czt.z.visitor.TupleSelExprVisitor;
  * @author leo, 20/09/2005
  * @since 1.5
  */
-public class CZT2ZEvesPrinter implements
+public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements 
         /* Special visitors */        
         TermVisitor<String>,  FreetypeVisitor<String>, SchTextVisitor<String>,
         ZDeclNameVisitor<String>, ZRefNameVisitor<String>,
@@ -237,244 +245,21 @@ public class CZT2ZEvesPrinter implements
      */
     private boolean fRelationalOpAppl;
     
-    private final SpecPrinter fSpecPrinter;
-    
-    /**
-     * General message format used for various Z/Eves "XML" formatting.
-     */
-    private final MessageFormat fZEvesXMLFmt;
+    private final SpecPrinter fSpecPrinter;    
     
     /**
      * Separation string for expressions in a ZExprList (used during visitZExprList)
      */
     private String fZExprListSep;
     
-    /**
-     * VARIOUS STRINGS USED AS Z/EVES XML PATTERNS FOR FORMATTING OPERATIONS
-     */
-    
-    private static final String SC_SEP = ";";
-    public static final String EQ_SIGN = " = ";
-    private static final String NL_SEP = System.getProperty("line.separator");
-    
-    
-    public static final String ZEVES_COMMAND = "<cmd name=\"{0}\">\n{1}\n</cmd>";
-    
-    public static final String COMMENT_PATTERN = "<!-- \n *** {0} *** \n\n {1} \n-->";
-    
-    /* Special XML pattern strings */
-    
-    /**
-     * {0} = number     => term.getNumber().toString()
-     */
-    public static final String NUM_STROKE_PATTERN = "&sub{0};";
-    
-    /**
-     * {0} = var-name   => getVarName(term.getDeclName());
-     * {1} = expr       => getExpr(term.getExpr());
-     */
-    public static final String BRANCH_PATTERN = "{0} &lchev {1} &rchev";
-    
-    /* z-paragraph XML pattern strings */
-    
-    /**
-     * {0} = location        => getLocation(term);
-     * {1} = ability         => getAbility(term);
-     * {2} = zboxItemName    => getSchName(((ConstDecl)term.getZSchText().getZDeclList()).getDeclName()); |
-     *                          getDefLHS(((ConstDecl)term.getZSchText().getZDeclList()).getDeclName());
-     * {3} = gen-formals     => getGenFormals(term.getDeclName());
-     * {4} = zboxItemSymbol  => "&eqhat;" | "=="
-     * {5} = zboxItemExpr    => getExpr(((ConstDecl)term.getZSchText().getZDeclList()).getExpr());
-     */
-    public static final String ZED_BOX_HORIZONTAL_PATTERN = "<zed-box {0} {1}>{2}\n{3}\n{4}\n{5}\n</zed-box>";
-    
-    /**
-     * {0} = location        => getLocation(term);
-     * {1} = ability         => getAbility(term);
-     * {2} = zboxItemNameList=> getIdentList(term.getDeclNames());
-     */
-    public static final String ZED_BOX_GIVENSET_PATTERN = "<zed-box {0} {1}>[{2}]</zed-box>";
-    
-    /**
-     * {0} = location        => getLocation(term);
-     * {1} = ability         => getAbility(term);
-     * {2} = zboxItemFreeType=> Build from getBranch for each branch.
-     */
-    public static final String ZED_BOX_FREETYPE_PATTERN = "<zed-box {0} {1}>{2}</zed-box>";
-    
-    /**
-     * {0} = location           => getLocation(term);
-     * {1} = ability            => getAbility(term);
-     * {2} = labelled-predicate => getAxiomPart(term.getPred); with label option enabled.
-     */
-    public static final String PREDICATE_PARA_PATTERN = ZED_BOX_FREETYPE_PATTERN;
-    
-    /**
-     * {0} = location        => getLocation(term);
-     * {1} = ability         => getAbility(term);
-     * {2} = decl-part       => getDeclPart(term.getZSchText().getZDeclList());
-     * {3} = axiom-part      => getAxiomPart(term.getSchText().getPred());
-     */
-    public static final String AXIOMATIC_BOX_PATTERN = "<axiomatic-box {0} {1}>\n{2}\n{3}\n</axiomatic-box>";
-    
-    /**
-     * {0} = location        => getLocation(term);
-     * {1} = ability         => getAbility(term);
-     * {2} = generic formals => getGenFormals(term.getDeclName());
-     * {3} = decl-part       => getDeclPart(term.getZSchText().getZDeclList());
-     * {4} = axiom-part      => getAxiomPart(term.getSchText().getPred());
-     */
-    public static final String GENERIC_BOX_PATTERN = "<generic-box {0} {1}>{2}\n{3}\n{4}\n</generic-box>";
-    
-    /**
-     * {0} = location        => getLocation(term);
-     * {1} = ability         => getAbility(term);
-     * {2} = schema-name     => getSchName(((ConstDecl)term.getZSchText().getZDeclList()).getDeclName());
-     * {3} = generic formals => NL_SEP + getGenFormals(term.getDeclName());
-     * {4} = decl-part       => getDeclPart(((SchExpr)((ConstDecl)term.getZSchText().getZDeclList()).getExpr()).getZSchText().getZDeclList());
-     * {5} = axiom-part      => getAxiomPart(((SchExpr)((ConstDecl)term.getZSchText().getZDeclList()).getExpr()).getSchText().getPred());
-     */
-    private static final String SCHEMA_BOX_PATTERN = "<schema-box {0} {1}>{2}{3}\n{4}\n{5}\n</schema-box>";
-    
-    /**
-     * {0} = location        => getLocation(term);
-     * {1} = ability         => getAbility(term);
-     * {2} = usage           => getUsage(term);
-     * {3} = theorem-name    => getTheoremName(term);
-     * {4} = generic formals => NL_SEP + getGenFormals(term.getDeclName());
-     * {5} = axiom-part      => getAxiomPart(term.getPred());
-     * {6} = proof-part      => getProofPart(term);
-     *
-     * Note: Provided axiom-part is not empty.
-     */
-    public static final String THEOREM_DEF_PATTERN = "<theorem-def {0} {1} {2}>{3} {4}\n{5}\n{6}\n</theorem-def>";
-    
-    /**
-     * {0} = ability      => label.getAbility();
-     * {1} = usage        => label.getUsage();
-     * {2} = theorem-name => label.getTheoremName();
-     */
-    public static final String LABEL_PATTERN = "&lchev; {0} {1} {2} &rchev;";
-    
-    /* predicate, predicate-1 XML pattern strings */
-    
-    /**
-     * {0} = predicate      => getPred(term.getPred());
-     */
-    public static final String NEG_PRED_PATTERN = "&not; {0}";
-    
-    /**
-     * {0} = quantifier     => getQntName(term); = "&exists;" | "&exists1;" | "&forall;"
-     * {1} = schema-text    => term.getSchText.accept(this);
-     * {2} = predicate      => getPred(term.getPred());
-     */
-    public static final String QNT_PRED_PATTERN = "{0} {1} &bullet; {2}";
-    
-    /**
-     * {0} = predicate      => getPred(term.getLeftPred());
-     * {1} = operator       => getBinPredName(term);  = "&wedge;" | &vee;" | "&rArr;" | "&hArr;"
-     * {2} = predicate      => getPred(term.getRightPred());
-     *
-     * Note: "&wedge;" needs to be treated specially, as we want to consider
-     *       labelled-predicates (i.e. each element on an AndPred having a Z/Eves label).
-     *       For this case, we can only accept term.getOp() as And, Chain, or Semi,
-     *       but not NL.
-     */
-    public static final String BIN_PRED_PATTERN = "{0} {1} {2}";
-    
-    /**
-     * {0} expression   => getExpr(term.getLeftExpr());
-     * {1} rel          => getRel(term); = "&isin;" | getRelOp(term) | "="
-     * {2} expression   => getExpr(term.getRightExpr());
-     *
-     * Note: getRel implements the MemPred cases in the order they appear in Z.xsd
-     */
-    public static final String MEMPRED_PATTERN = BIN_PRED_PATTERN;
-    
-    /* expression[-n] XML productions */
-    
-    /**
-     * {0} expression       => getExpr(term.getExpr());
-     */
-    public static final String NEG_EXPR_PATTERN = "&neg; {0}";
-    public static final String LAMBDA_EXPR_PATTERN = QNT_PRED_PATTERN;
-    
-    /**
-     * {0} let-def          => getLetDef(term.getSchText());
-     * {1} expression       => getExpr(term.getExpr());
-     */
-    public static final String LET_EXPR_PATTERN = "<word style=\"bold\"/>let<word/>{0} &bullet; {1}";
-    
-    /**
-     * {0} expression       => getExpr(term.getExpr());
-     *
-     * NOTE: For Z/Eves this is a schema-ref, which here is simply a RefExpr.
-     *       Nevertheless, care needs to be taken because in the translation of
-     *       RefExpr as Z/Eves does not allow all forms of schema-expression that CZT allows.
-     */
-    public static final String PRE_EXPR_PATTERN = "<word style=\"roman\"/>pre<word/>{0}";
-    
-    /**
-     * {0} expression       => getExpr(term.getExpr());
-     * {1} number           => term.getSelect().toString();
-     *
-     * NOTE: To avoid problems, we always enclosed the expression within parenthesis.
-     *       If those are redundant, the prover will remove then appropriately.
-     *       TODO: Check this or ask Mark Saaltink directly.
-     */
-    public static final String TUPLESEL_EXPR_PATTERN = "({0}).{1}";
-    public static final String BINDSEL_EXPR_PATTERN = TUPLESEL_EXPR_PATTERN;
-    
-    /**
-     * {0} predicate        => getPred(term.getPred());
-     * {1} expression       => getExpr(term.getLeftExpr());
-     * {2} expression       => getExpr(term.getRightExpr());
-     */
-    public static final String COND_EXPR_PATTERN = "<word style=\"bold\"/>if<word/>{0}\n" +
-            "<word style=\"bold\"/>then<word/>{1}\n" +
-            "<word style=\"bold\"/>else<word/>{2}";
-    
-    /**
-     * {0} expression       => getExpr(term.getExpr());
-     *
-     * NOTE: The expression can represent either a schema-ref dealt with through
-     *       RefExpr or DecorExpr, or schema-ref replacements dealt with through
-     *       a RenameExpr.
-     */
-    public static final String THETA_EXPR_PATTERN = "&theta; {0}";
-    
-    /**
-     * {0} expression   => getExpr(term.getExpr());
-     *
-     * NOTE: For Z/Eves XML, CZT PowerExpr is just a special kind of var-name
-     *       within expression-3, as there is no specific production for it.
-     */
-    public static final String POWER_EXPR_PATTERN = "&Popf; {0}";
-    
-    /**
-     * {0} expression   => getExpr(term.getLeftExpr());
-     * {1} sch-op-name  => getSchExprOpName(term); 
-     * {2} expression   => getExpr(term.getRightExpr());
-     *
-     * NOTE: All SchExpr2 patterns: CompExpr, PipeExpr, ProjExpr, AndExpr, 
-     *       OrExpr, ImpliesExpr, and IffExpr.     
-     */
-    public static final String BIN_SCHEXPR_PATTERN = MEMPRED_PATTERN;
-    
-    /**
-     * {0} expression   => getExpr(term.getExpr());
-     * {1} name list    => getZRefNameList.accept(this);
-     */
-    public static final String HIDE_EXPR_PATTERN = "{0} \\ ({1})";
-    
     /* Constructors */
     
     /** Creates a new instance of ZPrinter */
     public CZT2ZEvesPrinter(SectionInfo si) {
+        super();
         fZExprListSep = null;
         fRelationalOpAppl = false;
-        fCheckForLabelAnnotations = false;
-        fZEvesXMLFmt = new MessageFormat("");        
+        fCheckForLabelAnnotations = false;        
         fSpecPrinter = new SpecPrinter();
         setSectionInfo(si);
     }
@@ -514,41 +299,8 @@ public class CZT2ZEvesPrinter implements
      */
     private boolean isPredicatePara(SchText schText) {                        
         return ZUtils.assertZSchText(schText).getZDeclList().isEmpty();
-    }
-    
-    /**
-     * Returns wether the given term is a conjecture or not. Conjectures can contain ProofScript
-     * annotations. The terms which allow proof script annotations are ConjPara or Pred.
-     */
-    private boolean isConjecture(TermA term) {
-        return (term instanceof ConjPara || term instanceof Pred);
-    }
-    
-    private boolean isPara(Term term) {
-        return (term instanceof Para);
-    }
-    
-    /**
-     * Sets the formatting pattern for the underlying MessageFormat object.
-     * This method is usually called right before method format.
-     * To avoid interference by nested calls, this method should be called
-     * right before the format argument.
-     *
-    private void setZEvesXMLPattern(String pattern) {
-        fZEvesXMLFmt.applyPattern(pattern);
-    }
-    */
-    
-    /**
-     * Applies the format operation from the underlying MessageFormat object
-     * set to the last pattern. See constructor for the first pattern.
-     * This method is usually called straight after method setZEvesXMLPattern.
-     */
-    private String format(String pattern, Object... arguments) {
-        fZEvesXMLFmt.applyPattern(pattern);
-        return fZEvesXMLFmt.format(arguments, new StringBuffer(), null).toString();
-    }
-    
+    }    
+       
     /**
      * Wraps-up a translated zevesPara within a Z/Eves XML command name "add-paragraph".
      */
@@ -560,46 +312,12 @@ public class CZT2ZEvesPrinter implements
         return format(COMMENT_PATTERN, headline, text);
     }
     
-    /* Annotation related methods for Z/Eves productions not present in CZT */
-    
-    private Ability getAbilityAnn(TermA term) {
-        if (!isPara(term))
-            throw new IllegalArgumentException("Z/Eves location is allowed only for Para terms");
-        return (Ability)term.getAnn(Ability.class);
-    }
-    
-    private Location getLocationAnn(TermA term) {
-        if (!isPara(term))
-            throw new IllegalArgumentException("Z/Eves location is allowed only for Para terms");
-        return (Location)term.getAnn(Location.class);
-    }
-    
-    private Usage getUsageAnn(TermA term) {
-        if (!isConjecture(term))
-            throw new IllegalArgumentException("Z/Eves usage is allowed only for ConjPara and Pred terms");
-        return (Usage)term.getAnn(Usage.class);
-    }
-    
-    private Label getLabelAnn(TermA term) {
-        if (!isConjecture(term))
-            throw new IllegalArgumentException("Z/Eves label is allowed only for ConjPara and Pred terms");
-        Label l = (Label)term.getAnn(Label.class);
-        return l;
-    }
-    
-    private ProofScript getProofScriptAnn(TermA term) {
-        if (!isConjecture(term))
-            throw new IllegalArgumentException("Z/Eves proof script is allowed only for ConjPara and Pred terms");
-        ProofScript ps = (ProofScript)term.getAnn(ProofScript.class);
-        return ps;
-    }
-    
     /**
      * Returns the string valued result for the current status of the ability flag
      * present as a term annotation.
      */
     private String getAbility(TermA term) {
-        Ability a = getAbilityAnn(term);
+        Ability a = ZEvesUtils.getAbilityAnn(term);
         return a == null ? "" : a.toString().toLowerCase();
     }
     
@@ -612,7 +330,7 @@ public class CZT2ZEvesPrinter implements
          * Mark Saaltink said: "Locations are used in the GUI to record the origin of a paragraph (either from a file or from the GUI itself).
          * This is used so that if you re-import a LaTeX file after revising it, the appropriate paragraphs are updated. Just ignore it."
          */
-        Location l = getLocationAnn(term);
+        Location l = ZEvesUtils.getLocationAnn(term);
         return l == null ? "" : "location="+l.getLocation();
     }
     
@@ -622,12 +340,12 @@ public class CZT2ZEvesPrinter implements
      * thrown for other terms.
      */
     private String getUsage(TermA term) {
-        Usage u = getUsageAnn(term);
+        Usage u = ZEvesUtils.getUsageAnn(term);
         return u == null ? "" : u.toString().toLowerCase();
     }
     
     private String getLabel(TermA term) {
-        Label l = getLabelAnn(term);
+        Label l = ZEvesUtils.getLabelAnn(term);
         String result = "";
         if (l != null) {            
             result = format(LABEL_PATTERN, l.getAbility(), l.getUsage(), l.getTheoremName());
@@ -1122,7 +840,7 @@ public class CZT2ZEvesPrinter implements
      */
     private String getProofPart(ConjPara term) {
         StringBuilder result = new StringBuilder("");
-        ProofScript ps = getProofScriptAnn(term);
+        ProofScript ps = ProofUtils.getProofScriptAnn(term);
         if (ps != null) {
             result.append("<proof-part/>");
             result.append(ps);
@@ -1258,21 +976,12 @@ public class CZT2ZEvesPrinter implements
         return result;
     }
 
-    private Ability getDefaultAbility() {
-        return Ability.none;
-    }
-    
-    private Usage getDefaultUsage() {
-        return Usage.none;
-    }
-            
-    private Label createLabel(TermA term) {        
-        String thmName = term.getClass().getSimpleName() + term.hashCode();
-        Label result = new Label(thmName, getDefaultAbility(), getDefaultUsage());
-        return result;
-    }
-
     /* Top-level operations */
+    
+    public String print(Term term, SectionInfo si) {
+        setSectionInfo(si);  
+        return print(term);
+    }
     
     /**
      * Top-level method which translates the given CZT term to a corresponding Z/Eves
@@ -1282,27 +991,31 @@ public class CZT2ZEvesPrinter implements
     public String print(Term term) {
         if (term == null)
             throw new NullPointerException("Cannot convert a null term to Z/Eves XML");
-        if (!(term instanceof Para || term instanceof Pred || term instanceof Expr))
-            throw new ZEvesIncompatibleException("This class can only print Para, Pred, and Expr terms. For other " +
+        if (!(term instanceof Para || term instanceof Pred || term instanceof Expr ||
+              term instanceof DeclName || term instanceof RefName))
+            throw new ZEvesIncompatibleException("This class can only print Names, Para, Pred, and Expr terms. For other " +
                     "terms such as Spec and ZSection, one should use the ZEvesEvaluator class, as it allows appropriate " +
                     "handling of Z sections through special commands needed by the Z/Eves server.");
-        return term.accept(this).toString();
+        return term.accept(this);
     }
     
     public List<String> printSpec(Spec term, SectionInfo si) {
         setSectionInfo(si);
+        return printSpec(term);
+    }
+    
+    public List<String> printSpec(Spec term) {        
         return term.accept(fSpecPrinter);
     }
     
-    public List<String> printSpec(ZSect term, SectionInfo si) {
+    public List<String> printZSect(ZSect term, SectionInfo si) {
         setSectionInfo(si);
-        return term.accept(fSpecPrinter);
+        return printZSect(term);
     }
     
-    public String print(Term term, SectionInfo si) {
-        setSectionInfo(si);  
-        return print(term);
-    }
+     public List<String> printZSect(ZSect term) {     
+        return term.accept(fSpecPrinter);
+    }    
     
     public void setSectionInfo(SectionInfo si) {
         fSectionInfo = si;
@@ -1464,9 +1177,9 @@ public class CZT2ZEvesPrinter implements
         if (axiomPart.equals("")) {
             throw new ZEvesIncompatibleException("Z/Eves conjectures must not have an empty predicate part.");
         }
-        Label l = getLabelAnn(term);
+        Label l = ZEvesUtils.getLabelAnn(term);
         if (l == null) {
-            l = createLabel(term);
+            l = ZEvesUtils.createLabel(term);
             term.getAnns().add(l);                        
         }            
         String result = format(THEOREM_DEF_PATTERN, getLocation(term), l.getAbility(), l.getUsage(),
@@ -2003,6 +1716,11 @@ public class CZT2ZEvesPrinter implements
          * Returns a comma-separated list of toolkit names, where standard Z toolkit names are not 
          * included as they are loaded in Z/Eves by default. Moreover, user sections must NOT be
          * named "toolkit" as this is a reserved name for Z/Eves.
+         * <p>
+         * We are not yet processing parents outside the standard toolkit, as surprisingly the Z/Eves 
+         * does not yet implement sectioning. That means the available Z/Eves GUI's include this
+         * separately.
+         * </p>
          */
         private String getParents(List<Parent> parents) {        
             StringBuilder sb = new StringBuilder(ZEVES_TOOLKIT_NAME);
