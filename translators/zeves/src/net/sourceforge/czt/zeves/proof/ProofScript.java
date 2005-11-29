@@ -7,57 +7,74 @@
 package net.sourceforge.czt.zeves.proof;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Pred;
-import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.RefName;
+import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.zeves.util.BasicZEvesTranslator;
 import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
 
 /**
  *
  * @author leo
  */
-public class ProofScript {
+public class ProofScript extends BasicZEvesTranslator {
     
     private String fScript;
     private boolean fModified;    
     private final List<ProofCommand> fCmds;
-    private final CZT2ZEvesPrinter fZPrinter;
-    
+    private final CZT2ZEvesPrinter fZPrinter;    
     
     /** Creates a new instance of ProofScript */
     public ProofScript(CZT2ZEvesPrinter zprinter) {    
+        super();
         if (zprinter == null)
             throw new NullPointerException("Invalid CZT to Z/Eves XML converted.");
         fScript = "";
-        fModified = false;
+        fModified = false;        
         fCmds = new ArrayList<ProofCommand>(50);        
         fZPrinter = zprinter;
     }
     
     private String buildScript() {
         StringBuilder result = new StringBuilder("");
-        Iterator<ProofCommand> it = commands();
-        ProofCommand pc = it.next();
-        result.append(pc.getCommand());
-        while (it.hasNext()) {
-            result.append(";\n");            
-            pc = it.next();
+        if (size() != 0) {
+            Iterator<ProofCommand> it = commands();        
+            ProofCommand pc = it.next();
             result.append(pc.getCommand());
-        }        
+            while (it.hasNext()) {
+                result.append(";\n");            
+                pc = it.next();
+                result.append(pc.getCommand());
+            }        
+        }
         return result.toString();
+    }    
+    
+    private String wrapProofCommand(String command) {               
+        return format(ZEVES_COMMAND, "proof-command", command);
     }
     
-    public int length() {
+    public int size() {
         return fCmds.size();
     }
     
     public final Iterator<ProofCommand> commands() {
         return Collections.unmodifiableList(fCmds).iterator();
+    }
+    
+    public final List<String> translate() {
+        List<String> result = new ArrayList<String>(size());                
+        ProofCommand pc;
+        Iterator<ProofCommand> it = commands();        
+        while (it.hasNext()) {            
+            pc = it.next();
+            result.add(wrapProofCommand(pc.getCommand()));            
+        }                
+        return result;
     }
     
     public final String toString() {
@@ -66,6 +83,11 @@ public class ProofScript {
             fModified = false;
         }
         return fScript;
+    }
+    
+    public void clear() {
+        fModified = true;
+        fCmds.clear();        
     }
     
     /* PROOF COMMANDS FACTORY METHODS */
@@ -134,8 +156,12 @@ public class ProofScript {
         fModified = fCmds.add(new SimpleCommand("prenex", ProofCommandType.QUANTIFIERS));
     }
     
-    public void addInstantiateCommand() {
-        throw new UnsupportedOperationException();
+    public void addInstantiateCommand(ZRefName variable, Expr value) {        
+        fModified = fCmds.add(new InstantiateCommand(fZPrinter, variable, value));
+    }
+    
+    public void addInstantiateCommand(List<ZRefName> variables, List<Expr> values) {        
+        fModified = fCmds.add(new InstantiateCommand(fZPrinter, variables, values));
     }
     
     /* Reduction Proof Commands */

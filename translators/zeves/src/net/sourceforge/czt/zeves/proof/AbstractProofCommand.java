@@ -43,7 +43,7 @@ public abstract class AbstractProofCommand implements ProofCommand {
     }    
     
     protected String format(Object... attrs) {
-        assert attrs == null || attrs.length == 0;
+        assert attrs == null || attrs.length == 0 : "invalid proof command attributes";
         return "";
     }
     
