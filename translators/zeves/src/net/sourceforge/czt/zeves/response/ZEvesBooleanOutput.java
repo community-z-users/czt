@@ -22,4 +22,8 @@ public class ZEvesBooleanOutput extends AbstractZEvesOutput {
     public Object getOutput() {
         return fResult;
     }   
+    
+    protected String getOutputAsString() {
+        return "<name ident=\"" + String.valueOf(getOutput()) + "\"/>";
+    }
 }
