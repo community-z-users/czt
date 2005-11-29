@@ -111,27 +111,33 @@ public class ParaChecker
     //the list of NameTypePairs for this paras signature
     List<NameTypePair> pairs = factory().list();
 
-    //enter a new pending scope
+    //enter a new scope for adding the left side of each free type
     pending().enterScope();
 
-    //visit each Freetype
+    //for each free type in this paragraph, first add the left side
     List<Freetype> freetypes = freePara.getFreetype();
     for (Freetype freetype : freetypes) {
-      freetype.accept(paraChecker());
+      //the type of the Freetype's ZDeclName is a powerset of the
+      //given type of itself
+      ZDeclName freeTypeName = freetype.getZDeclName();
+      GivenType freeTypeGiven = factory().createGivenType(freeTypeName);
+      PowerType powerTypeGiven = factory().createPowerType(freeTypeGiven);
+
+      //add this type to the local type environment for the right side
+      //of the types to access, and to the signature
+      pending().add(freeTypeName, powerTypeGiven);
+      NameTypePair pair = 
+	factory().createNameTypePair(freeTypeName, powerTypeGiven);
+      pairs.add(pair);
     }
 
-    //enter a new pending scope
-    pending().enterScope();
-
-    //visit each Freetype again so that mutually recursive free types
-    //can be supported
+    //now visit the right side of each free type
     for (Freetype freetype : freetypes) {
-      Signature nextSignature = freetype.accept(paraChecker());
-      pairs.addAll(nextSignature.getNameTypePair());
+      Signature signature = freetype.accept(paraChecker());
+      pairs.addAll(signature.getNameTypePair());
     }
 
-    //exit both scopes
-    pending().exitScope();
+    //exit the scope
     pending().exitScope();
 
     //create the signature for this paragraph and add it as
@@ -147,25 +153,17 @@ public class ParaChecker
     //the list of NameTypePairs for freetype's parent's signature
     List<NameTypePair> pairs = factory().list();
 
-    //the type of the Freetype's ZDeclName is a powerset of the
-    //given type of itself
+    //create the type of the left side to compose the types of the
+    //branches
     ZDeclName freeTypeName = freetype.getZDeclName();
     GivenType givenType = factory().createGivenType(freeTypeName);
     PowerType powerType = factory().createPowerType(givenType);
-
-    //add this to the SectTypeEnv
-    NameTypePair pair =
-      factory().createNameTypePair(freeTypeName, powerType);
-    pairs.add(pair);
-
-    //add the name to the pending environment
-    pending().add(pair);
 
     //we don't visit the branches with their a "proper" visit method
     //because we need to pass the type of the ZDeclName
     List<Branch> branches = freetype.getBranch();
     for (Branch branch : branches) {
-      pair = localVisitBranch(branch, givenType);
+      NameTypePair pair = localVisitBranch(branch, givenType);
       if (pair != null) {
         pairs.add(pair);
         //add this pair to the SectTypeEnv
@@ -177,8 +175,8 @@ public class ParaChecker
     return signature;
   }
 
-  //"visit" a name type pair. We don't visit the branches with their a
-  //"proper" visit method because we need to pass the type of the
+  //"visit" a freetype branch. We don't visit the branches with their
+  //a "proper" visit method because we need to pass the type of the
   //DeclName. This method returns the name of the declaration with its
   //type
   protected NameTypePair localVisitBranch(Branch branch, GivenType givenType)
@@ -186,10 +184,10 @@ public class ParaChecker
     NameTypePair pair = null;
     ZDeclName branchName = branch.getZDeclName();
 
-    Expr expr = branch.getExpr();
     //if there is an expression, then get its type and make the type of
     //this branch PowerType of the cross product of 'givenType' and the
     //expr's type (C.4.10.13)
+    Expr expr = branch.getExpr();
     if (expr != null) {
       Type2 exprType = expr.accept(exprChecker());
       PowerType vPowerType = factory().createPowerType();
@@ -201,15 +199,18 @@ public class ParaChecker
         error(expr, ErrorMessage.NON_SET_IN_FREETYPE, params);
       }
       else {
-        //otherwise create the type and add it to the list of decls
-        ProdType prodType =
-          factory().createProdType(factory().list(vPowerType.getType(), givenType));
-        PowerType powerType =
-          factory().createPowerType(prodType);
+        //otherwise create the type and add it to the list of decls.
+	//the type of a complex branch is a function from the type of
+	//the inner expression, to the type of the lhs of the freetype
+	//in which this branch is declared
+	List<Type2> types = factory().list(vPowerType.getType(), givenType);
+        ProdType prodType = factory().createProdType(types);
+        PowerType powerType = factory().createPowerType(prodType);
         pair = factory().createNameTypePair(branchName, powerType);
       }
     }
-    //if not expression, and a simple type
+    //if there is no expression, the type is simply the type of the
+    //left side of the freetype in which this branch is declared
     else {
       pair = factory().createNameTypePair(branchName, givenType);
     }
@@ -222,7 +223,7 @@ public class ParaChecker
     //enter a new variable scope
     typeEnv().enterScope();
 
-    //add the generic types
+    //add the (optional) generic types
     addGenParamTypes(conjPara.getDeclName());
 
     //visit the predicate

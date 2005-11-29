@@ -181,7 +181,6 @@ public class SpecChecker
   {
     String parentName = parent.getWord();
     sectTypeEnv().addParent(parentName);
-
     TermA termA = null;
     try {
       termA = (TermA) sectInfo().get(new Key(parentName, ZSect.class));
@@ -207,6 +206,40 @@ public class SpecChecker
       }
       sectTypeEnv().setSection(section);
     }
+    /*
+    String section = sectTypeEnv().getSection();
+    SectTypeEnv sectTypeEnv = null;
+    try {
+      sectTypeEnv = (SectTypeEnv) sectInfo().get(new Key(parentName, SectTypeEnv.class));
+    }
+    catch (CommandException e) {
+      //      assert false;
+      e.printStackTrace();
+    }
+    if (sectTypeEnv == null) {
+      try {
+	TermA termA = (TermA) sectInfo().get(new Key(parentName, ZSect.class));
+	List<? extends ErrorAnn> errors = specChecker().typecheck(termA, sectInfo());
+	errors().addAll(errors);
+	SectTypeEnvAnn ann = (SectTypeEnvAnn) termA.getAnn(SectTypeEnvAnn.class);
+	for (NameSectTypeTriple triple : ann.getNameSectTypeTriple()) {
+	  sectTypeEnv().addParent(triple.getSect());
+	  sectTypeEnv().add(triple);	
+	}
+      }
+      catch (CommandException e) {
+	assert false;
+      }
+    }
+    else {
+      for (NameSectTypeTriple triple : sectTypeEnv.getTriple()) {
+        sectTypeEnv().addParent(triple.getSect());
+        sectTypeEnv().add(triple);	
+      }
+    }
+    
+    sectTypeEnv().setSection(section);
+    */
     return null;
   }
 

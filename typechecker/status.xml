@@ -10,6 +10,10 @@
     <!-- Add new releases here -->
     <release version="0.5" date="unreleased">
       <action dev="Tim" type="fix">
+        Only the left side of freetypes are in scope for mutually
+        recursive free types.
+      </action>
+      <action dev="Tim" type="fix">
         Use the ZDeclName ID attribute to distinguish between
         the same names in different scopes.
       </action>

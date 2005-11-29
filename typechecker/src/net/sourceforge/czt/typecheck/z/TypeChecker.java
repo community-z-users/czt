@@ -153,7 +153,7 @@ public class TypeChecker
     charTupleChecker_ = new CharTupleChecker(this);
   }
 
-  public void setPreamble(String sectName, SectionInfo sectInfo)
+  protected void setPreamble(String sectName, SectionInfo sectInfo)
   {
     if (sectName != null && sectInfo != null) {
       sectName_.replace(0, sectName_.length(), sectName);

@@ -54,21 +54,22 @@ public class TypeCheckUtils
   protected TypeCheckUtils()
   {
   }
-
+  
   /**
    * Typecheck and type annotate a term, with no default section 
-   * and allowing names to be used before they are declared.
+   * and not allowing names to be used before they are declared.
    * @param term the <code>Term</code> to typecheck (typically a Spec).
    * @param sectInfo the <code>SectionInfo</code> (eg. SectionManager) object to use.
    * @param markup the <code>Markup</code> of the specification.
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
-					 SectionInfo sectInfo,
-					 Markup markup)
+						   SectionInfo sectInfo,
+						   Markup markup)
   {
     return typecheck(term, sectInfo, markup, false);
   }
+
 
   /**
    * Typecheck and type annotate a term, with no default section.
@@ -79,9 +80,9 @@ public class TypeCheckUtils
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
-					 SectionInfo sectInfo,
-					 Markup markup,
-					 boolean useBeforeDecl)
+						   SectionInfo sectInfo,
+						   Markup markup,
+						   boolean useBeforeDecl)
   {
     return typecheck(term, sectInfo, markup, useBeforeDecl, null);
   }
@@ -96,10 +97,10 @@ public class TypeCheckUtils
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
-					 SectionInfo sectInfo,
-					 Markup markup,
-					 boolean useBeforeDecl,
-					 String sectName)
+						   SectionInfo sectInfo,
+						   Markup markup,
+						   boolean useBeforeDecl,
+						   String sectName)
   {
     TypeCheckUtils utils = new TypeCheckUtils();
     return utils.lTypecheck(term, sectInfo, markup, useBeforeDecl, sectName);
@@ -107,27 +108,27 @@ public class TypeCheckUtils
 
   /** An internal method of the typechecker. */
   protected List<? extends ErrorAnn> lTypecheck(Term term,
-				      SectionInfo sectInfo,
-				      Markup markup)
+						SectionInfo sectInfo,
+						Markup markup)
   {
     return lTypecheck(term, sectInfo, markup, false);
   }
-
+  
   /** An internal method of the typechecker. */
   protected List<? extends ErrorAnn> lTypecheck(Term term,
-				      SectionInfo sectInfo,
-				      Markup markup,
-				      boolean useBeforeDecl)
+						SectionInfo sectInfo,
+						Markup markup,
+						boolean useBeforeDecl)
   {
     return lTypecheck(term, sectInfo, markup, useBeforeDecl, null);
   }
-
+  
   /** An internal method of the typechecker. */
   protected List<? extends ErrorAnn> lTypecheck(Term term,
-				      SectionInfo sectInfo,
-				      Markup markup,
-				      boolean useBeforeDecl,
-				      String sectName)
+						SectionInfo sectInfo,
+						Markup markup,
+						boolean useBeforeDecl,
+						String sectName)
   {
     if (sectInfo instanceof SectionManager) {
         SectionManager sm = (SectionManager)sectInfo;
