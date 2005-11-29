@@ -7,6 +7,7 @@
 package net.sourceforge.czt.zeves.response;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 
@@ -32,11 +33,14 @@ public class ZEvesResponse {
         fErrors = new ArrayList<ZEvesErrorMessage>();
         fToStringView = new StringBuilder("");
         fAsStringView = new StringBuilder("");
-        interpret(zevesResponse);
+        if (zevesResponse.startsWith("<zerror>") && zevesResponse.endsWith("</zerror>"))
+            interpretError(zevesResponse);
+        else 
+            interpretOutput(zevesResponse);
         buildViews();
     }
     
-    protected void interpret(String zevesError) {
+    protected void interpretError(String zevesError) {
         zevesError = zevesError.substring("<zerror>".length(), zevesError.indexOf("</zerror>")).trim();
         int errMsgTagLength = "<errormessage>".length();
         while (!zevesError.equals("")) {
@@ -48,6 +52,20 @@ public class ZEvesResponse {
         }
         //String[] errors = .split("<errormessage>"); regex not used to avoid problems with linebreaks, for instance.
     }
+    
+    protected void interpretOutput(String zevesOutput) {
+        zevesOutput = zevesOutput.substring("<zoutput>".length(), zevesOutput.indexOf("</zoutput>")).trim();
+        // So far we only identify ZEvesBooleanOutput.        
+        if (zevesOutput.equals("<name ident=\"true\"/>")) {
+            ZEvesBooleanOutput bool = new ZEvesBooleanOutput(true);
+            fOutputs.add(bool);
+        }        
+        else {
+            ZEvesStringOutput str = new ZEvesStringOutput(zevesOutput);
+            fOutputs.add(str);
+        }        
+    }
+    // <zoutput><name ident="true"/></zoutput>
     
     protected void processError(String error) {
         assert error != null && !error.equals("");
@@ -65,8 +83,15 @@ public class ZEvesResponse {
     
     protected void buildViews() {
         if (fErrors.isEmpty()) {
-            fToStringView.append("<zoutput></zoutput>");
-            fAsStringView.append("success");
+            for(ZEvesOutput out : fOutputs) {                  
+                fToStringView.append(out.toString());                
+                if (out instanceof ZEvesBooleanOutput) {
+                    fAsStringView.append("success");
+                } else 
+                    fAsStringView.append(out.toString());
+                fToStringView.append("\n");
+                fAsStringView.append("\n");
+            }                        
         } else {
             fToStringView.append("<zerror>");
             for(ZEvesErrorMessage zem : fErrors) {
@@ -84,8 +109,16 @@ public class ZEvesResponse {
         return fErrors.size();
     }
     
+    public int getOutputCount() {
+        return fOutputs.size();
+    }
+    
     public Iterator<ZEvesErrorMessage> errors() {
-        return fErrors.iterator();
+        return Collections.unmodifiableList(fErrors).iterator();
+    }
+    
+    public Iterator<ZEvesOutput> outputs() {
+        return Collections.unmodifiableList(fOutputs).iterator();
     }
     
     public String toString() {
