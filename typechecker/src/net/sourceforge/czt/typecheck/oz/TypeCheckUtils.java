@@ -25,15 +25,14 @@ import java.util.List;
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.z.ast.ZFactory;
-import net.sourceforge.czt.z.ast.Spec;
-import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.oz.ast.OzFactory;
 import net.sourceforge.czt.oz.impl.OzFactoryImpl;
 import net.sourceforge.czt.parser.oz.*;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
+import net.sourceforge.czt.typecheck.z.util.SectTypeEnv;
 
 /**
  * Utilities for typechecking Object-Z specifications.
@@ -165,6 +164,7 @@ public class TypeCheckUtils
     sectionManager.putCommand(ZSect.class, ParseUtils.getCommand());
     sectionManager.putCommand(LatexMarkupFunction.class,
 			      ParseUtils.getCommand());
+    sectionManager.putCommand(SectTypeEnvAnn.class, TypeCheckUtils.getCommand());
     return sectionManager;
   }
 
@@ -173,5 +173,28 @@ public class TypeCheckUtils
   {
     TypeCheckUtils utils = new TypeCheckUtils();
     utils.run(args);
+  }
+
+  /**
+   * Get a Command object for use in SectionManager
+   *
+   * @return A command for typechecking sections.
+   */
+  public static Command getCommand()
+  {
+    return new TypeCheckCommand();
+  }
+
+  /**
+   * A command to compute the SectTypeInfo of a Z section.
+   */
+  protected static class TypeCheckCommand
+    extends net.sourceforge.czt.typecheck.z.TypeCheckUtils.TypeCheckCommand
+  {
+    protected List<? extends ErrorAnn> typecheck(Term term,
+						 SectionManager manager,
+						 Markup markup) {
+      return TypeCheckUtils.typecheck(term, manager, markup);
+    }
   }
 }

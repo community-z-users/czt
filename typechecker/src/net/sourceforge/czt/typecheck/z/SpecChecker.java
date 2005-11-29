@@ -134,18 +134,19 @@ public class SpecChecker
 
     if (useBeforeDecl() && sectTypeEnv().getSecondTime()) {
       try {
-        SectTypeEnv sectTypeEnv =
-          (SectTypeEnv) sectInfo().get(new Key(sectName(), SectTypeEnv.class));
-        assert sectTypeEnv != null;
-        sectTypeEnv().overwriteTriples(sectTypeEnv.getTriple());
+        SectTypeEnvAnn sectTypeEnvAnn =
+          (SectTypeEnvAnn) sectInfo().get(new Key(sectName(), SectTypeEnvAnn.class));
+        assert sectTypeEnvAnn != null;
+	sectTypeEnv().overwriteTriples(sectTypeEnvAnn.getNameSectTypeTriple());
       }
-      catch (Exception e) {
-        assert false : "No SectTypeEnv for " + sectName();
+      catch (CommandException e) {
+        assert false : "No SectTypeEnvAnn for " + sectName();
       }
-
     }
     else {
-      sectInfo().put(new Key(sectName(), SectTypeEnv.class), sectTypeEnv(), set());
+      SectTypeEnvAnn sectTypeEnvAnn = sectTypeEnv().getSectTypeEnvAnn();
+      sectInfo().put(new Key(sectName(), SectTypeEnvAnn.class),
+		     sectTypeEnvAnn, new java.util.HashSet());
     }
 
     if (useBeforeDecl() && !sectTypeEnv().getSecondTime()) {
@@ -173,6 +174,7 @@ public class SpecChecker
       removeTypeAnns(zSect);
     }
 
+    //create the SectTypeEnvAnn and add it to the section information    
     List<NameSectTypeTriple> result = sectTypeEnvAnn.getNameSectTypeTriple();
     return result;
   }
@@ -181,68 +183,26 @@ public class SpecChecker
   {
     String parentName = parent.getWord();
     sectTypeEnv().addParent(parentName);
-    TermA termA = null;
+
+    //get the global decl information for the parent
+    SectTypeEnvAnn sectTypeEnvAnn = null;
     try {
-      termA = (TermA) sectInfo().get(new Key(parentName, ZSect.class));
+      sectTypeEnvAnn = 
+	(SectTypeEnvAnn) sectInfo().get(new Key(parentName, SectTypeEnvAnn.class));
     }
     catch (CommandException e) {
-      assert false;
-    }
-
-    String section = sectTypeEnv().getSection();
-    if (termA != null) {
-      //if there is no SectTypeEnvAnn, then we must typecheck this section
-      SectTypeEnvAnn ann = (SectTypeEnvAnn) termA.getAnn(SectTypeEnvAnn.class);
-      if (ann == null) {
-        List<? extends ErrorAnn> errors = specChecker().typecheck(termA, sectInfo());
-        errors().addAll(errors);
-        ann = (SectTypeEnvAnn) termA.getAnn(SectTypeEnvAnn.class);
-      }
-
-      List<NameSectTypeTriple> triples = ann.getNameSectTypeTriple();
-      for (NameSectTypeTriple triple : triples) {
-        sectTypeEnv().addParent(triple.getSect());
-        sectTypeEnv().add(triple);
-      }
-      sectTypeEnv().setSection(section);
-    }
-    /*
-    String section = sectTypeEnv().getSection();
-    SectTypeEnv sectTypeEnv = null;
-    try {
-      sectTypeEnv = (SectTypeEnv) sectInfo().get(new Key(parentName, SectTypeEnv.class));
-    }
-    catch (CommandException e) {
-      //      assert false;
+      assert false : "No type information for " + parentName;
       e.printStackTrace();
     }
-    if (sectTypeEnv == null) {
-      try {
-	TermA termA = (TermA) sectInfo().get(new Key(parentName, ZSect.class));
-	List<? extends ErrorAnn> errors = specChecker().typecheck(termA, sectInfo());
-	errors().addAll(errors);
-	SectTypeEnvAnn ann = (SectTypeEnvAnn) termA.getAnn(SectTypeEnvAnn.class);
-	for (NameSectTypeTriple triple : ann.getNameSectTypeTriple()) {
-	  sectTypeEnv().addParent(triple.getSect());
-	  sectTypeEnv().add(triple);	
-	}
-      }
-      catch (CommandException e) {
-	assert false;
-      }
-    }
-    else {
-      for (NameSectTypeTriple triple : sectTypeEnv.getTriple()) {
-        sectTypeEnv().addParent(triple.getSect());
-        sectTypeEnv().add(triple);	
-      }
+    
+    //add the parent's global decls to this section's global type environment
+    for (NameSectTypeTriple triple : sectTypeEnvAnn.getNameSectTypeTriple()) {
+      sectTypeEnv().addParent(triple.getSect());
+      sectTypeEnv().add(triple);	
     }
     
-    sectTypeEnv().setSection(section);
-    */
     return null;
   }
-
 
 
   /**

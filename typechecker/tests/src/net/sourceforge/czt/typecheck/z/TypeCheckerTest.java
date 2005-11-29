@@ -69,6 +69,7 @@ public class TypeCheckerTest
   protected void setUp()
   {
     manager_ = new SectionManager();
+    manager_.putCommand(SectTypeEnvAnn.class, TypeCheckUtils.getCommand());
     CztLogger.getLogger(manager_.getClass()).setLevel(Level.OFF);
   }
 

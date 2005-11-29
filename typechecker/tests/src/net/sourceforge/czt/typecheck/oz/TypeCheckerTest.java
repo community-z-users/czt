@@ -26,6 +26,7 @@ import junit.framework.TestSuite;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.parser.oz.ParseUtils;
 
@@ -59,6 +60,7 @@ public class TypeCheckerTest
     super.setUp();
     manager_.putCommand(ZSect.class, ParseUtils.getCommand());
     manager_.putCommand(LatexMarkupFunction.class, ParseUtils.getCommand());
+    manager_.putCommand(SectTypeEnvAnn.class, TypeCheckUtils.getCommand());
   }
 
   protected Term parse(String file)

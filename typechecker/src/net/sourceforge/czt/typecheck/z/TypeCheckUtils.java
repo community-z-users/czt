@@ -130,10 +130,6 @@ public class TypeCheckUtils
 						boolean useBeforeDecl,
 						String sectName)
   {
-    if (sectInfo instanceof SectionManager) {
-        SectionManager sm = (SectionManager)sectInfo;
-        sm.putCommand(SectTypeEnv.class, TypeCheckUtils.getCommand());
-    }
     ZFactory zFactory = new ZFactoryImpl();
     TypeChecker typeChecker =
       new TypeChecker(zFactory, sectInfo, markup, useBeforeDecl);
@@ -225,7 +221,9 @@ public class TypeCheckUtils
   /** @return a fresh new section manager. */
   protected SectionManager getSectionManager()
   {
-    return new SectionManager();
+    SectionManager sectionManager = new SectionManager();
+    sectionManager.putCommand(SectTypeEnvAnn.class, TypeCheckUtils.getCommand());
+    return sectionManager;
   }
 
   protected void run(String [] args)
@@ -369,8 +367,6 @@ public class TypeCheckUtils
     }
   }
   
-  private static final TypeCheckCommand typeCheckCommand_ = new TypeCheckCommand();
-  
   /**
    * Get a Command object for use in SectionManager
    *
@@ -378,39 +374,46 @@ public class TypeCheckUtils
    */
   public static Command getCommand()
   {
-    return typeCheckCommand_;
+    return new TypeCheckCommand();
   }
   
   /**
    * A command to compute the SectTypeInfo of a Z section.
    */
-  // Make it protected in case other typecheckers need to extend it.
-  protected static class TypeCheckCommand implements Command  {
-      
-      protected List<? extends ErrorAnn> typecheck(ZSect zs, SectionManager manager, Markup markup) {
-          return TypeCheckUtils.typecheck(zs, manager, markup);
-      }
-      
-      public boolean compute(String name, SectionManager manager) throws CommandException {                         
-          // Retrieve the section information. It throws an exception if it is not available.
-          // This also parses the section. 
-          ZSect zs = (ZSect)manager.get(new Key(name, ZSect.class));
-          if (zs != null) {
-              // Once we have it, find out which Markup we are using.
-              // If parsing was ok, the get for Source ought to be ok as well.
-              Source source = (Source)manager.get(new Key(name, Source.class));            
-              
-              // Typechecks the given section. This will include the SectTypeEnv we 
-              // are looking for into the manager.
-              List<? extends ErrorAnn> errors = typecheck(zs, manager, source.getMarkup());
-              if (!errors.isEmpty()) {                  
-                  int count = errors.size();
-                  throw new CommandException("Indirect typechecking failed for section " + name + 
-                      ". It contains type errors. See exception cause for details.", new TypeErrorException(
-                            "Section " + name + " contains " + count + (count == 1 ? " error." : " errors."), errors));
-              }                  
-          }                   
-          return true;
-      }
+  protected static class TypeCheckCommand 
+    implements Command
+  {
+    protected List<? extends ErrorAnn> typecheck(Term term,
+						 SectionManager manager,
+						 Markup markup) {
+      return TypeCheckUtils.typecheck(term, manager, markup);
+    }
+    
+    public boolean compute(String name, SectionManager manager)
+      throws CommandException {                         
+      // Retrieve the section information. It throws an exception if it is not available.
+      // This also parses the section. 
+      ZSect zs = (ZSect) manager.get(new Key(name, ZSect.class));
+      if (zs != null) {
+	//Once we have it, find out which Markup we are using.
+	//If parsing was ok, the get for Source ought to be ok as well.
+	Source source = (Source) manager.get(new Key(name, Source.class));            
+	
+	//Typechecks the given section. This will include the SectTypeEnv we 
+	//are looking for into the manager.
+	List<? extends ErrorAnn> errors = typecheck(zs, manager, source.getMarkup());
+	if (!errors.isEmpty()) {
+	  int count = errors.size();
+	  Exception nestedException =
+	    new TypeErrorException("Section " + name + " contains " + 
+				   count + (count == 1 ? " error." : " errors."), errors);
+	  throw new CommandException("Indirect typechecking failed for section " + name + 
+				     ". It contains type errors." + 
+				     "See exception cause for details.",
+				     nestedException);
+	}
+      }                   
+      return true;
+    }
   }  
 }
