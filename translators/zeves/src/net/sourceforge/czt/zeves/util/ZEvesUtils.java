@@ -10,6 +10,8 @@
 
 package net.sourceforge.czt.zeves.util;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.ast.TermA;
 import net.sourceforge.czt.z.ast.ConjPara;
@@ -27,6 +29,14 @@ public class ZEvesUtils {
     /** Creates a new instance of ZEvesUtils */
     protected ZEvesUtils() {
     }
+    
+    public static String getLocalHost() {
+        try {
+            return InetAddress.getLocalHost().getHostName();
+        } catch (UnknownHostException e) {
+            return "localhost";
+        }
+    }    
     
     public static Ability getDefaultAbility() {
         return Ability.none;

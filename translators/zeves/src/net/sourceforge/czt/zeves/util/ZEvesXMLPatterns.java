@@ -23,7 +23,10 @@ public interface ZEvesXMLPatterns {
     public static final String EQ_SIGN = " = ";
     public static final String NL_SEP = System.getProperty("line.separator");    
     
-    public static final String ZEVES_COMMAND = "<cmd name=\"{0}\">\n{1}\n</cmd>";
+    /**
+     * Main XML API command for Z/Eves. DO NOT INCLUDE NL before/after {1}.
+     */
+    public static final String ZEVES_COMMAND = "<cmd name=\"{0}\">{1}</cmd>";
     
     public static final String COMMENT_PATTERN = "<!-- \n *** {0} *** \n\n {1} \n-->";
     
