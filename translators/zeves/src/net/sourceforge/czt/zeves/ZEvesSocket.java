@@ -106,21 +106,28 @@ public class ZEvesSocket {
         }
     }
     
+    private boolean isQuitCommand(String cmd) {
+        return cmd != null && (cmd.equals("<cmd name=\"quit\"></cmd>") || cmd.equals("<cmd name=\"quit\"/>"));
+    }
+    
     public ZEvesResponse processCommand(String cmd) throws ZEvesServerConnectionException {
         if (!isConnected())
             throw new ZEvesServerConnectionException("Cannot process a Z/Eves command. Connect to the Z/Eves server first.");
         fZEvesOut.println(cmd);        
-        StringBuilder response = new StringBuilder();
-        try {
-            String zevesIn = fZEvesIn.readLine();                
-            while (zevesIn != null/* && (zevesIn.equals("</zoutput>") || zevesIn.equals("</zerrort>")*/) {            
-                response.append(zevesIn);
-                zevesIn = fZEvesIn.readLine();
+        ZEvesResponse result;
+        // Z/Eves does return </zoutput> rather than <zouput/> upon quitting!
+        if (!isQuitCommand(cmd)) {
+            StringBuilder response = new StringBuilder("");
+            try {
+                String zevesIn = fZEvesIn.readLine();                
+                response.append(zevesIn);            
+            } catch(IOException e) {
+                throw new ZEvesServerConnectionException("An I/O exception happened while trying to read the output from the Z/Eves server. See cause for details.", e);
             }
-        } catch(IOException e) {
-            throw new ZEvesServerConnectionException("An I/O exception happened while trying to read the output from the Z/Eves server. See cause for details.", e);
+            result = new ZEvesResponse(response.toString());
+        } else {
+            result = new ZEvesResponse("<zoutput></zoutput>");
         }
-        ZEvesResponse result = new ZEvesResponse(response.toString());
         return result;
     }    
     
@@ -167,7 +174,7 @@ public class ZEvesSocket {
     }
     
     public SectionInfo getContext() throws ZEvesServerConnectionException {
-        if (!hasContext())            
+        if (fSectInfo != null)            
             throw new ZEvesServerConnectionException("Invalid section context for Z/Eves socket");
         return fSectInfo;
     }
@@ -197,9 +204,10 @@ public class ZEvesSocket {
     }
     
     public void setContext(String sectName, SectionInfo info) throws ZEvesServerConnectionException {
+        fZSect = null;
         fSectInfo = info;
         fPrinter.setSectionInfo(info);
-        if (hasContext()) {
+        if (fSectInfo != null) {
             try {
                 fZSect = (ZSect)fSectInfo.get(new Key(sectName, ZSect.class));
             } catch(CommandException e) {
@@ -225,6 +233,12 @@ public class ZEvesSocket {
             throw new ZEvesServerConnectionException("Connection with Z/Eves server has not yet been established.",
                     new IllegalStateException("Cannot close a connection that has not yet been openned. Try to connect first."));        
         try {
+            // try closing nicely...
+            try {
+                processCommand("<cmd name=\"quit\"></cmd>");
+            } catch(ZEvesServerConnectionException f) {
+                // ignore problems and carry on forcing the closure then.
+            }
             fStdIn.close();
             fZEvesIn.close();
             fZEvesOut.close();		
