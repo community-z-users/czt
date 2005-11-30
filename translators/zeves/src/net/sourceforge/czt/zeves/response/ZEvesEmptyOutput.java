@@ -10,13 +10,13 @@ package net.sourceforge.czt.zeves.response;
  *
  * @author leo
  */
-public class ZEvesEmptyOutput extends AbstractZEvesOutput {
+public class ZEvesEmptyOutput extends AbstractZEvesOutput<String> {
     
     /** Creates a new instance of ZEvesEmptyOutput */
     public ZEvesEmptyOutput() {
     }
     
-    public Object getOutput() {
+    public String getOutput() {
         return "";
     }
     

@@ -10,7 +10,7 @@ package net.sourceforge.czt.zeves.response;
  *
  * @author leo
  */
-public class ZEvesBooleanOutput extends AbstractZEvesOutput {
+public class ZEvesBooleanOutput extends AbstractZEvesOutput<Boolean> {
     
     private final Boolean fResult;
     
@@ -19,7 +19,7 @@ public class ZEvesBooleanOutput extends AbstractZEvesOutput {
         fResult = result;
     }    
     
-    public Object getOutput() {
+    public Boolean getOutput() {
         return fResult;
     }   
     

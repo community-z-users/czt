@@ -10,7 +10,7 @@ package net.sourceforge.czt.zeves.response;
  *
  * @author leo
  */
-public class ZEvesNumberOutput extends AbstractZEvesOutput {
+public class ZEvesNumberOutput extends AbstractZEvesOutput<Integer> {
     
     private final Integer fNumber;
     
@@ -19,7 +19,7 @@ public class ZEvesNumberOutput extends AbstractZEvesOutput {
         fNumber = number;
     }
     
-    public Object getOutput() {
+    public Integer getOutput() {
         return fNumber;
     }    
 }

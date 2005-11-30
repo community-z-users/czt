@@ -8,7 +8,7 @@ package net.sourceforge.czt.zeves.response;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
+import java.util.List;
 
 
 /**
@@ -26,14 +26,14 @@ public class ZEvesResponse {
     public ZEvesResponse(String zevesResponse) {
         if (zevesResponse == null)
             throw new NullPointerException("Invalid Z/Eves server response");
-        if (!((zevesResponse.startsWith("<zerror>") && zevesResponse.endsWith("</zerror>")) ||
-             (zevesResponse.startsWith("<zoutput>") && zevesResponse.endsWith("</zoutput>"))))
+        if (!((zevesResponse.startsWith("<zerror>") || zevesResponse.startsWith("<zoutput>")) &&
+            (zevesResponse.endsWith("/>") || zevesResponse.endsWith("</zerror>") || zevesResponse.endsWith("</zoutput>"))))        
             throw new IllegalArgumentException("Z/Eves server response must be either an zerror or zoutput: " + zevesResponse);
         fOutputs = new ArrayList<ZEvesOutput>();
         fErrors = new ArrayList<ZEvesErrorMessage>();
         fToStringView = new StringBuilder("");
         fAsStringView = new StringBuilder("");
-        if (zevesResponse.startsWith("<zerror>") && zevesResponse.endsWith("</zerror>"))
+        if (zevesResponse.startsWith("<zerror>"))
             interpretError(zevesResponse);
         else 
             interpretOutput(zevesResponse);
@@ -41,7 +41,10 @@ public class ZEvesResponse {
     }
     
     protected void interpretError(String zevesError) {
-        zevesError = zevesError.substring("<zerror>".length(), zevesError.indexOf("</zerror>")).trim();
+        if (zevesError.indexOf("/>") == -1)
+            zevesError = zevesError.substring("<zerror>".length(), zevesError.indexOf("</zerror>")).trim();
+        else
+            zevesError = zevesError.substring("<zerror>".length(), zevesError.indexOf("/>")).trim();
         int errMsgTagLength = "<errormessage>".length();
         while (!zevesError.equals("")) {
             int nextMsgIdx = zevesError.indexOf("</errormessage>");
@@ -54,13 +57,23 @@ public class ZEvesResponse {
     }
     
     protected void interpretOutput(String zevesOutput) {
-        zevesOutput = zevesOutput.substring("<zoutput>".length(), zevesOutput.indexOf("</zoutput>")).trim();
+        if (zevesOutput.indexOf("/>") == -1)
+            zevesOutput = zevesOutput.substring("<zoutput>".length(), zevesOutput.indexOf("</zoutput>")).trim();
+        else
+            zevesOutput = zevesOutput.substring("<zoutput>".length(), zevesOutput.indexOf("/>")).trim();
         // So far we only identify ZEvesBooleanOutput.        
-        if (zevesOutput.equals("<name ident=\"true\"/>")) {
+        if (zevesOutput.equals("<name ident=\"true\"")) {
             ZEvesBooleanOutput bool = new ZEvesBooleanOutput(true);
             fOutputs.add(bool);
         }        
-        else {
+        else if (zevesOutput.equals("<name ident=\"false\"")) {
+            ZEvesBooleanOutput bool = new ZEvesBooleanOutput(false);
+            fOutputs.add(bool);
+        }        
+        else if (zevesOutput.equals("")) {
+            ZEvesEmptyOutput empty = new ZEvesEmptyOutput();
+            fOutputs.add(empty);
+        } else {
             ZEvesStringOutput str = new ZEvesStringOutput(zevesOutput);
             fOutputs.add(str);
         }        
@@ -113,12 +126,12 @@ public class ZEvesResponse {
         return fOutputs.size();
     }
     
-    public Iterator<ZEvesErrorMessage> errors() {
-        return Collections.unmodifiableList(fErrors).iterator();
+    public List<ZEvesErrorMessage> errors() {
+        return Collections.unmodifiableList(fErrors);
     }
     
-    public Iterator<ZEvesOutput> outputs() {
-        return Collections.unmodifiableList(fOutputs).iterator();
+    public List<ZEvesOutput> outputs() {
+        return Collections.unmodifiableList(fOutputs);
     }
     
     public String toString() {

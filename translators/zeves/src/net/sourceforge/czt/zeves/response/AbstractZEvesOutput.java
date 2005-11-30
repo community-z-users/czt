@@ -10,7 +10,7 @@ package net.sourceforge.czt.zeves.response;
  *
  * @author leo
  */
-public abstract class AbstractZEvesOutput implements ZEvesOutput {
+public abstract class AbstractZEvesOutput<T> implements ZEvesOutput<T> {
     
     /** Creates a new instance of AbstractZEvesOutput */
     public AbstractZEvesOutput() {

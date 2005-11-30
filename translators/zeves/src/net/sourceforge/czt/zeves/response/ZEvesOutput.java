@@ -10,8 +10,8 @@ package net.sourceforge.czt.zeves.response;
  *
  * @author leo
  */
-public interface ZEvesOutput {
+public interface ZEvesOutput<T> {
     
-    public Object getOutput();
+    public T getOutput();
     public String toString();    
 }
