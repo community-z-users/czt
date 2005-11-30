@@ -103,7 +103,7 @@ public class TextUI {
            term = ((ExprPred)term).getExpr();
          }
          List<? extends ErrorAnn> errors = TypeCheckUtils.typecheck(term, 
-             manager, Markup.LATEX, false, section);
+             manager, false, section);
          if (errors.size() > 0) {
            System.out.println("Error: term contains type errors.");
            //print any errors

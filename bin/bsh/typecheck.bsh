@@ -36,12 +36,12 @@ typecheck(String filename, SectionInfo manager)
 typecheck(Term term)
 {
   manager = new SectionManager();
-  typecheck(term, manager, Markup.LATEX);
+  typecheck(term, manager);
 }
 
-typecheck(Term term, SectionInfo manager, Markup markup)
+typecheck(Term term, SectionInfo manager)
 {
-  errors = TypeCheckUtils.typecheck(term, manager, markup);
+  errors = TypeCheckUtils.typecheck(term, manager);
   for (Iterator iter = errors.iterator(); iter.hasNext(); ) {
     Object next = iter.next();
     System.err.println(next);

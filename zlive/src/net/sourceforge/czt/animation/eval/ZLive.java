@@ -156,7 +156,7 @@ public class ZLive
     SectionManager manager = this.getSectionManager();
     ZSect sect = (ZSect) manager.get(new Key(name,ZSect.class));
     List<? extends ErrorAnn> errors = TypeCheckUtils.typecheck(sect, 
-        manager, Markup.LATEX, false, null);
+        manager, false, null);
     if (errors.size() > 0) {
       System.err.println("Warning: section "+name+" contains type errors.");
       //print any errors

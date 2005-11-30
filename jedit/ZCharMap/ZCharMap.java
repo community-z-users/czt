@@ -128,7 +128,7 @@ public class ZCharMap extends JPanel
 
     JPanel buttonRow = new JPanel();
     extension =
-      new JComboBox(new String[] { "Standard Z", "Object Z" });
+      new JComboBox(new String[] { "Standard Z", "Object-Z" });
     buttonRow.add(extension);
     markup = new JComboBox(new String[] { "LaTeX Markup", "Unicode Markup" });
     markup.addActionListener(new MarkupHandler());
@@ -252,7 +252,7 @@ public class ZCharMap extends JPanel
       },
       { "Sets",
 	new ZChar("\u2119", "\\power", "Power Set"),
-//	new ZChar("\uD835\uDD3D", "\\finset", "Finite Power Set"),  // U+1D53D
+	new ZChar("\uD835\uDD3D", "\\finset", "Finite Power Set"),  // U+1D53D
 	new ZChar("{", "\\{", "Begin Set"),
 	new ZChar("|", "|", "Such That"),
 	new ZChar("\u2981", "@", "Returning"),
@@ -675,12 +675,10 @@ public class ZCharMap extends JPanel
   {
     if (isObjectZ()) {
       return net.sourceforge.czt.typecheck.oz.TypeCheckUtils.typecheck(
-        term, manager,
-        markup.getSelectedIndex()==0 ? Markup.LATEX : Markup.UNICODE);
+        term, manager);
     }
     else {
-      return TypeCheckUtils.typecheck(term, manager,
-        markup.getSelectedIndex()==0 ? Markup.LATEX : Markup.UNICODE);
+      return TypeCheckUtils.typecheck(term, manager);
     }
   }
 
