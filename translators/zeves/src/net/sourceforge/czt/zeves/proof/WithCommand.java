@@ -38,7 +38,7 @@ public class WithCommand extends SimpleCommand {
                 other = fZPrinter.print((Term)attrs[1]);
             else {
                 StringBuilder evtList = new StringBuilder();
-                assert !((List<RefName>)attrs[1]).isEmpty();
+                assert !((List/*<RefName>*/)attrs[1]).isEmpty();
                 Iterator<RefName> it = ((List<RefName>)attrs[1]).iterator();
                 RefName rname = it.next();                 // guaranteed to have at least one.
                 evtList.append(fZPrinter.print(rname));
