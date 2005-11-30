@@ -79,7 +79,7 @@ public class TypeInference
   {
     String para = header() + "\\begin{zed} [A,B] \\end{zed}";
     Spec spec = getSpec(para);
-    TypeCheckUtils.typecheck(spec, manager_, Markup.LATEX);
+    TypeCheckUtils.typecheck(spec, manager_);
 
     Type typeA = getType("A");
     Type typeB = getType("B");
@@ -102,7 +102,7 @@ public class TypeInference
       "B ::= b | bb \\ldata A \\rdata" +
       "\\end{zed}";
     Spec spec = getSpec(para);
-    TypeCheckUtils.typecheck(spec, manager_, Markup.LATEX);
+    TypeCheckUtils.typecheck(spec, manager_);
 
     Type succ [][] =
       {
@@ -128,7 +128,7 @@ public class TypeInference
       "c : \\power [ca : \\power A]\\\\" +
       "\\end{axdef}";
     Spec spec = getSpec(para);
-    TypeCheckUtils.typecheck(spec, manager_, Markup.LATEX);
+    TypeCheckUtils.typecheck(spec, manager_);
 
     Type succ [][] =
       {
@@ -150,7 +150,7 @@ public class TypeInference
       "c : \\power [ca : \\power X]\\\\" +
       "\\end{gendef}";
     Spec spec = getSpec(para);
-    TypeCheckUtils.typecheck(spec, manager_, Markup.LATEX);
+    TypeCheckUtils.typecheck(spec, manager_);
 
     Type succ [][] =
       {
@@ -177,7 +177,7 @@ public class TypeInference
       "b = \\power B" +
       "\\end{axdef}";
     Spec spec = getSpec(para);
-    TypeCheckUtils.typecheck(spec, manager_, Markup.LATEX);
+    TypeCheckUtils.typecheck(spec, manager_);
 
     Type succ [][] =
       {
@@ -201,7 +201,7 @@ public class TypeInference
       "b = \\power Z" +
       "\\end{gendef}";
     Spec spec = getSpec(para);
-    TypeCheckUtils.typecheck(spec, manager_, Markup.LATEX);
+    TypeCheckUtils.typecheck(spec, manager_);
 
     Type succ [][] =
       {

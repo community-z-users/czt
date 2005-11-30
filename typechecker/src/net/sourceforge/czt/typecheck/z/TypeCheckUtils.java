@@ -60,14 +60,12 @@ public class TypeCheckUtils
    * and not allowing names to be used before they are declared.
    * @param term the <code>Term</code> to typecheck (typically a Spec).
    * @param sectInfo the <code>SectionInfo</code> (eg. SectionManager) object to use.
-   * @param markup the <code>Markup</code> of the specification.
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
-						   SectionInfo sectInfo,
-						   Markup markup)
+						   SectionInfo sectInfo)
   {
-    return typecheck(term, sectInfo, markup, false);
+    return typecheck(term, sectInfo, false);
   }
 
 
@@ -75,80 +73,58 @@ public class TypeCheckUtils
    * Typecheck and type annotate a term, with no default section.
    * @param term the <code>Term</code> to typecheck (typically a Spec).
    * @param sectInfo the <code>SectionInfo</code> object to use.
-   * @param markup the <code>Markup</code> of the specification.
    * @param useBeforeDecl allow use of variables before declaration
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
 						   SectionInfo sectInfo,
-						   Markup markup,
 						   boolean useBeforeDecl)
   {
-    return typecheck(term, sectInfo, markup, useBeforeDecl, null);
+    return typecheck(term, sectInfo, useBeforeDecl, null);
   }
 
   /**
    * Typecheck and type annotate a Term, in the context of a given section.
    * @param term the <code>Term</code> to typecheck.
    * @param sectInfo the <code>SectionInfo</code> object to use.
-   * @param markup the <code>Markup</code> of the specification.
    * @param useBeforeDecl allow use of variables before declaration
    * @param sectName the section within which this term should be checked.
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
 						   SectionInfo sectInfo,
-						   Markup markup,
 						   boolean useBeforeDecl,
 						   String sectName)
   {
     TypeCheckUtils utils = new TypeCheckUtils();
-    return utils.lTypecheck(term, sectInfo, markup, useBeforeDecl, sectName);
-  }
-
-  /** An internal method of the typechecker. */
-  protected List<? extends ErrorAnn> lTypecheck(Term term,
-						SectionInfo sectInfo,
-						Markup markup)
-  {
-    return lTypecheck(term, sectInfo, markup, false);
+    return utils.lTypecheck(term, sectInfo, useBeforeDecl, sectName);
   }
   
   /** An internal method of the typechecker. */
   protected List<? extends ErrorAnn> lTypecheck(Term term,
 						SectionInfo sectInfo,
-						Markup markup,
-						boolean useBeforeDecl)
-  {
-    return lTypecheck(term, sectInfo, markup, useBeforeDecl, null);
-  }
-  
-  /** An internal method of the typechecker. */
-  protected List<? extends ErrorAnn> lTypecheck(Term term,
-						SectionInfo sectInfo,
-						Markup markup,
 						boolean useBeforeDecl,
 						String sectName)
   {
     ZFactory zFactory = new ZFactoryImpl();
     TypeChecker typeChecker =
-      new TypeChecker(zFactory, sectInfo, markup, useBeforeDecl);
+      new TypeChecker(zFactory, sectInfo, useBeforeDecl);
     typeChecker.setPreamble(sectName, sectInfo);
     term.accept(typeChecker);
     return typeChecker.errors();
   }
 
   /** A convenience method for parsing an arbitrary input specification.
-   *  Note that src.setMarkup(...) allows you to specify which markup format
+   *  Note that source.setMarkup(...) allows you to specify which markup format
    *  the specification is using: LATEX or UNICODE etc.
    *  @param  src The string or file to be parsed.
    *  @param  sectInfo The section manager or SectionInfo to use during parsing.
    *  @return A non-typechecked term.
    */
-  protected Term parse(Source src, SectionInfo sectInfo)
+  protected Term parse(Source source, SectionInfo sectInfo)
     throws IOException, net.sourceforge.czt.parser.util.ParseException
   {
-    return ParseUtils.parse(src, sectInfo);
+    return ParseUtils.parse(source, sectInfo);
   }
 
   /** A convenience method for parsing a file.
@@ -291,7 +267,7 @@ public class TypeCheckUtils
       //if the parse succeeded, typecheck the term
       if (term != null && !syntaxOnly) {
         List<? extends ErrorAnn> errors =
-	  this.lTypecheck(term, manager, markup, useBeforeDecl);
+	  this.lTypecheck(term, manager, useBeforeDecl, null);
 
         //print any errors
         for (Object next : errors) {
@@ -384,9 +360,8 @@ public class TypeCheckUtils
     implements Command
   {
     protected List<? extends ErrorAnn> typecheck(Term term,
-						 SectionManager manager,
-						 Markup markup) {
-      return TypeCheckUtils.typecheck(term, manager, markup);
+						 SectionManager manager) {
+      return TypeCheckUtils.typecheck(term, manager);
     }
     
     public boolean compute(String name, SectionManager manager)
@@ -395,13 +370,9 @@ public class TypeCheckUtils
       // This also parses the section. 
       ZSect zs = (ZSect) manager.get(new Key(name, ZSect.class));
       if (zs != null) {
-	//Once we have it, find out which Markup we are using.
-	//If parsing was ok, the get for Source ought to be ok as well.
-	Source source = (Source) manager.get(new Key(name, Source.class));            
-	
 	//Typechecks the given section. This will include the SectTypeEnv we 
 	//are looking for into the manager.
-	List<? extends ErrorAnn> errors = typecheck(zs, manager, source.getMarkup());
+	List<? extends ErrorAnn> errors = typecheck(zs, manager);
 	if (!errors.isEmpty()) {
 	  int count = errors.size();
 	  Exception nestedException =

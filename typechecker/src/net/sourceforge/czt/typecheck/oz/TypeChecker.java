@@ -57,42 +57,30 @@ public class TypeChecker
   {
     this(info.zFactory_.getZFactory(),
          info.ozFactory_.getOzFactory(),
-         info.sectInfo_,
-         info.markup_);
+         info.sectInfo_);
   }
 
   public TypeChecker(SectionInfo sectInfo)
   {
     this(new ZFactoryImpl(),
          new OzFactoryImpl(),
-         sectInfo,
-         Markup.UNICODE);
+         sectInfo);
   }
 
-  public TypeChecker(SectionInfo sectInfo, Markup markup)
+  public TypeChecker(ZFactory zFactory,
+                     OzFactory ozFactory,
+                     SectionInfo sectInfo)
   {
-    this(new ZFactoryImpl(),
-         new OzFactoryImpl(),
-         sectInfo,
-         markup);
+    this(zFactory, ozFactory, sectInfo, true, false);
   }
 
   public TypeChecker(ZFactory zFactory,
                      OzFactory ozFactory,
                      SectionInfo sectInfo,
-                     Markup markup)
-  {
-    this(zFactory, ozFactory, sectInfo, markup, false, false);
-  }
-
-  public TypeChecker(ZFactory zFactory,
-                     OzFactory ozFactory,
-                     SectionInfo sectInfo,
-                     Markup markup,
                      boolean useBeforeDecl,
                      boolean useStrongTyping)
   {
-    super(zFactory, sectInfo, markup, useBeforeDecl);
+    super(zFactory, sectInfo, useBeforeDecl);
     ozFactory_ = new Factory(zFactory, ozFactory);
     sectInfo_ = sectInfo;
     unificationEnv_ = new UnificationEnv(ozFactory_, useStrongTyping);
@@ -108,5 +96,10 @@ public class TypeChecker
     downcastEnv_ = new TypeEnv();
     classPara_ = null;
     primary_ = zFactory_.list();
+  }
+
+  protected void setPreamble(String sectName, SectionInfo sectInfo)
+  {
+    super.setPreamble(sectName, sectInfo);
   }
 }

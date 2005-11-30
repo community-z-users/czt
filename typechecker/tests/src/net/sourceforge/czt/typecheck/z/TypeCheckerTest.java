@@ -130,10 +130,10 @@ public class TypeCheckerTest
     return ParseUtils.parseLatexFile(file, manager_);
   }
 
-  protected List typecheck(Term term, Markup markup)
+  protected List typecheck(Term term)
     throws Exception
   {
-    return TypeCheckUtils.typecheck(term, manager_, markup, useBeforeDecl_);
+    return TypeCheckUtils.typecheck(term, manager_, useBeforeDecl_);
   }
 
   protected void handleNormal(String file)
@@ -141,8 +141,7 @@ public class TypeCheckerTest
     List<ErrorAnn> errors = new java.util.ArrayList<ErrorAnn>();
     try {
       Term term = parse(file);
-      Markup markup = ParseUtils.getMarkup(file);
-      errors = typecheck(term, markup);
+      errors = typecheck(term);
     }
     catch (RuntimeException e) {
       e.printStackTrace();
@@ -175,8 +174,7 @@ public class TypeCheckerTest
         fail("Parser returned null");
       }
       else {
-        Markup markup = ParseUtils.getMarkup(file);
-        errors = typecheck(term, markup);
+        errors = typecheck(term);
       }
     }
     catch (RuntimeException e) {

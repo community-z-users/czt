@@ -83,7 +83,22 @@ public class SpecChecker
     final String prevSectName = sectName();
 
     //set the section name
-    sectName(zSect.getName()); 
+    setSectName(zSect.getName()); 
+
+    //set the markup for this section
+    setMarkup(zSect);
+
+    /*
+    try {
+      Source source = (Source) sectInfo().get(new Key("set_toolkit", Source.class));
+      setMarkup(source.getMarkup());
+      System.err.println("markup = " + source.getMarkup());
+    }
+    catch (CommandException e) {
+      assert false : "No source location for " + sectName();
+    }
+    */
+
     //if this section has already been declared, raise an error
     if (sectTypeEnv().isChecked(sectName())) {
       Object [] params = {zSect.getName()};
@@ -165,7 +180,7 @@ public class SpecChecker
     SectTypeEnvAnn sectTypeEnvAnn = sectTypeEnv().getSectTypeEnvAnn();
     addAnn(zSect, sectTypeEnvAnn);
 
-    sectName(prevSectName);
+    setSectName(prevSectName);
     sectTypeEnv().setSection(sectName());
 
     //get the result and return it

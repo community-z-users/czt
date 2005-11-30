@@ -53,79 +53,65 @@ public class TypeCheckUtils
    * Typecheck and type annotate a file.
    * @param term the <code>Term</code> to typecheck.
    * @param sectInfo the <code>SectionInfo</code> object to use.
-   * @param markup the <code>Markup</code> of the specification.
    * returns the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
-					 SectionInfo sectInfo,
-					 Markup markup)
+						   SectionInfo sectInfo)
   {
     TypeCheckUtils utils = new TypeCheckUtils();
-    return utils.lTypecheck(term, sectInfo, markup, false);
+    return utils.lTypecheck(term, sectInfo, true, false, null);
   }
 
   /**
    * Typecheck and type annotate a file.
    * @param term the <code>Term</code> to typecheck.
    * @param sectInfo the <code>SectionInfo</code> object to use.
-   * @param markup the <code>Markup</code> of the specification.
    * @param useBeforeDecl allow use of variables before declaration
    * returns the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
-					 SectionInfo sectInfo,
-					 Markup markup,
-					 boolean useBeforeDecl)
+						   SectionInfo sectInfo,
+						   boolean useBeforeDecl)
   {
     TypeCheckUtils utils = new TypeCheckUtils();
-    return utils.lTypecheck(term, sectInfo, markup, useBeforeDecl);
+    return utils.lTypecheck(term, sectInfo, useBeforeDecl, false, null);
   }
 
   public static List<? extends ErrorAnn> typecheck(Term term,
-					 SectionInfo sectInfo,
-					 Markup markup,
-					 boolean useBeforeDecl,
-					 boolean useStrongTyping)
+						   SectionInfo sectInfo,
+						   boolean useBeforeDecl,
+						   boolean useStrongTyping)
   {
     TypeCheckUtils utils = new TypeCheckUtils();
-    return utils.lTypecheck(term,
-			    sectInfo,
-			    markup,
-			    useBeforeDecl,
-			    useStrongTyping);
+    return utils.lTypecheck(term, sectInfo, useBeforeDecl, useStrongTyping, null);
   }
 
+  /** An internal method of the typechecker. */
   protected List<? extends ErrorAnn> lTypecheck(Term term,
-				      SectionInfo sectInfo,
-				      Markup markup,
-				      boolean useBeforeDecl)
+						SectionInfo sectInfo,
+						boolean useBeforeDecl,
+						String sectName)
   {
-    return lTypecheck(term, sectInfo, markup, useBeforeDecl, false);
+    return lTypecheck(term, sectInfo, useBeforeDecl, false, sectName);
   }
 
+  /** An internal method of the typechecker. */
   protected List<? extends ErrorAnn> lTypecheck(Term term,
-				      SectionInfo sectInfo,
-				      Markup markup,
-				      boolean useBeforeDecl,
-				      boolean useStrongTyping)
+						SectionInfo sectInfo,
+						boolean useBeforeDecl,
+						boolean useStrongTyping,
+						String sectName)
   {
     ZFactory zFactory = new ZFactoryImpl();
     OzFactory ozFactory = new OzFactoryImpl();
     TypeChecker typeChecker = new TypeChecker(zFactory,
 					      ozFactory,
 					      sectInfo,
-					      markup,
 					      useBeforeDecl,
 					      useStrongTyping);
+    typeChecker.setPreamble(sectName, sectInfo);
     typeChecker.visitTerm(term);
     return typeChecker.errors();
-  }
-
-  protected List<? extends ErrorAnn> lTypecheck(Term term,
-				      SectionInfo sectInfo,
-				      Markup markup)
-  {
-    return lTypecheck(term, sectInfo, markup, false);
   }
 
   protected Term parse(Source src, SectionInfo sectInfo)
@@ -192,9 +178,8 @@ public class TypeCheckUtils
     extends net.sourceforge.czt.typecheck.z.TypeCheckUtils.TypeCheckCommand
   {
     protected List<? extends ErrorAnn> typecheck(Term term,
-						 SectionManager manager,
-						 Markup markup) {
-      return TypeCheckUtils.typecheck(term, manager, markup);
+						 SectionManager manager) {
+      return TypeCheckUtils.typecheck(term, manager);
     }
   }
 }

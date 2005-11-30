@@ -47,8 +47,7 @@ public class TypeChecker
     this(info.zFactory_.getZFactory(),
          info.ozFactory_.getOzFactory(),
          info.tcozFactory_.getTcozFactory(),
-         info.sectInfo_,
-         info.markup_);
+         info.sectInfo_);
   }
 
   public TypeChecker(SectionInfo sectInfo)
@@ -56,37 +55,25 @@ public class TypeChecker
     this(new ZFactoryImpl(),
          new OzFactoryImpl(),
 	 new TcozFactoryImpl(),
-         sectInfo,
-         Markup.UNICODE);
+         sectInfo);
   }
 
-  public TypeChecker(SectionInfo sectInfo, Markup markup)
+  public TypeChecker(ZFactory zFactory,
+                     OzFactory ozFactory,
+		     TcozFactory tcozFactory,
+                     SectionInfo sectInfo)
   {
-    this(new ZFactoryImpl(),
-         new OzFactoryImpl(),
-	 new TcozFactoryImpl(),
-         sectInfo,
-         markup);
+    this(zFactory, ozFactory, tcozFactory, sectInfo, true, false);
   }
 
   public TypeChecker(ZFactory zFactory,
                      OzFactory ozFactory,
 		     TcozFactory tcozFactory,
                      SectionInfo sectInfo,
-                     Markup markup)
-  {
-    this(zFactory, ozFactory, tcozFactory, sectInfo, markup, false, false);
-  }
-
-  public TypeChecker(ZFactory zFactory,
-                     OzFactory ozFactory,
-		     TcozFactory tcozFactory,
-                     SectionInfo sectInfo,
-                     Markup markup,
                      boolean useBeforeDecl,
                      boolean useStrongTyping)
   {
-    super(zFactory, ozFactory, sectInfo, markup, useBeforeDecl, useStrongTyping);
+    super(zFactory, ozFactory, sectInfo, useBeforeDecl, useStrongTyping);
     tcozFactory_ = new Factory(zFactory, ozFactory, tcozFactory);
     unificationEnv_ = new UnificationEnv(tcozFactory_, useStrongTyping);
     specChecker_ = new SpecChecker(this);
@@ -96,5 +83,10 @@ public class TypeChecker
     predChecker_ = new PredChecker(this);
     postChecker_ = new PostChecker(this);
     opExprChecker_ = new OpExprChecker(this);
+  }
+
+  protected void setPreamble(String sectName, SectionInfo sectInfo)
+  {
+    super.setPreamble(sectName, sectInfo);
   }
 }

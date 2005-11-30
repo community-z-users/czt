@@ -69,12 +69,11 @@ public class TypeCheckerTest
     return ParseUtils.parseLatexFile(file, manager_);
   }
 
-  protected List typecheck(Term term, Markup markup)
+  protected List typecheck(Term term)
     throws Exception
   {
     return TypeCheckUtils.typecheck(term,
                                     manager_,
-                                    markup,
                                     useBeforeDecl_,
                                     useStrongTyping_);
   }

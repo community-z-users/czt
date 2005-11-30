@@ -68,9 +68,6 @@ public class TypeChecker
   //a visitor for calculating carrier set
   protected CarrierSet carrierSet_;
 
-  //the markup used to print error messages
-  protected Markup markup_;
-
   //a section manager
   protected SectionInfo sectInfo_;
 
@@ -89,6 +86,9 @@ public class TypeChecker
   //used for generating unique ids in names
   protected int id_ = 0;
 
+  //the markup to use for error reporting
+  protected Markup markup_;
+
   //used for logging warning messages.
   protected Logger logger_ = CztLogger.getLogger(TypeChecker.class);
 
@@ -104,30 +104,22 @@ public class TypeChecker
 
   public TypeChecker(TypeChecker info)
   {
-    this(info.zFactory_.getZFactory(),
-         info.sectInfo_, info.markup_);
+    this(info.zFactory_.getZFactory(), info.sectInfo_);
   }
 
   public TypeChecker(SectionInfo sectInfo)
   {
-    this(new ZFactoryImpl(), sectInfo, Markup.UNICODE);
+    this(new ZFactoryImpl(), sectInfo);
   }
 
-  public TypeChecker(SectionInfo sectInfo, Markup markup)
+  public TypeChecker(ZFactory zFactory,
+                     SectionInfo sectInfo)
   {
-    this(new ZFactoryImpl(), sectInfo, markup);
+    this(zFactory, sectInfo, false);
   }
 
   public TypeChecker(ZFactory zFactory,
                      SectionInfo sectInfo,
-                     Markup markup)
-  {
-    this(zFactory, sectInfo, markup, false);
-  }
-
-  public TypeChecker(ZFactory zFactory,
-                     SectionInfo sectInfo,
-                     Markup markup,
                      boolean useBeforeDecl)
   {
     zFactory_ = new Factory(zFactory);
@@ -137,7 +129,7 @@ public class TypeChecker
     pending_ = new TypeEnv(zFactory);
     isPending_ = false;
     unificationEnv_ = new UnificationEnv(zFactory_);
-    markup_ = markup == null ? Markup.LATEX : markup;
+    markup_ = Markup.LATEX;
     carrierSet_ = new CarrierSet();
     errors_ = zFactory_.list();
     paraErrors_ = zFactory_.list();

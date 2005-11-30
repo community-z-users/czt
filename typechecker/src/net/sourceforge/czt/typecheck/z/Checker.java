@@ -32,6 +32,7 @@ import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.print.z.PrintUtils;
+import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.typecheck.z.util.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
@@ -328,6 +329,24 @@ abstract public class Checker<R>
     return typeChecker_.markup_;
   }
 
+  //set the markup for printing error messages
+  protected void setMarkup(Markup markup)
+  {
+    typeChecker_.markup_ = markup;
+  }
+
+  //set the markup from the LocAnn of a term, using LATEX if the
+  //markup cannot be determined from the location
+  protected void setMarkup(TermA termA)
+  {
+    LocAnn locAnn = (LocAnn) termA.getAnn(LocAnn.class);
+    if (locAnn != null) {
+      String fileName = locAnn.getLoc();
+      Markup markup = ParseUtils.getMarkup(fileName);
+      setMarkup(markup == null ? Markup.LATEX : markup);
+    }
+  }
+
   //the current section name
   protected String sectName()
   {
@@ -335,7 +354,7 @@ abstract public class Checker<R>
   }
 
   //set the current section name
-  protected void sectName(String sectName)
+  protected void setSectName(String sectName)
   {
     typeChecker_.sectName_.replace(0, typeChecker_.sectName_.length(),
                                    sectName);
@@ -367,12 +386,6 @@ abstract public class Checker<R>
   protected Logger logger()
   {
     return typeChecker_.logger_;
-  }
-
-  //typecheck a file using an instance of this typechecker
-  protected List<? extends ErrorAnn> typecheck(TermA termA, SectionInfo sectInfo)
-  {
-    return TypeCheckUtils.typecheck(termA, sectInfo, markup());
   }
 
   //the visitors used to typechecker a spec
@@ -547,36 +560,6 @@ abstract public class Checker<R>
     }
     checkForDuplicates(pairs, termList, errorMessage);
   }
-
-  /*
-  protected void checkForDuplicates(List<NameTypePair> pairs,
-                                    TermA termA)
-  {
-    for (int i = 0; i < pairs.size(); i++) {
-      NameTypePair first = pairs.get(i);
-      for (int j = i + 1; j < pairs.size(); j++) {
-        NameTypePair second = pairs.get(j);
-        if (namesEqual(first.getZDeclName(), second.getZDeclName())) {
-          Type2 firstType = unwrapType(first.getType());
-          Type2 secondType = unwrapType(second.getType());
-          UResult unified = unify(firstType, secondType);
-
-          //if the types don't agree, raise an error
-          if (unified == FAIL) {
-            String errorMessage =
-              ErrorMessage.TYPE_MISMATCH_IN_SIGNATURE.toString();
-            Object [] params =
-              new Object [] {second.getZDeclName(), firstType, secondType};
-            error(second.getZDeclName(), errorMessage, params);
-            break;
-          }
-          //we don't need the second declaration
-          pairs.remove(j--);
-        }
-      }
-    }
-  }
-  */
 
   //check for type mismatches in a list of decls. Add an ErrorAnn to
   //any name that is in error

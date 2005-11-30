@@ -54,13 +54,6 @@ abstract public class Checker<R>
     return typeChecker_.tcozFactory_;
   }
 
-  //typecheck a file using an instance of this typechecker
-  protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn>
-    typecheck(TermA termA, SectionInfo sectInfo)
-  {
-    return TypeCheckUtils.typecheck(termA, sectInfo, markup());
-  }
-
   protected void error(TermA termA,
 		       net.sourceforge.czt.typecheck.oz.ErrorMessage error,
 		       Object [] params)
