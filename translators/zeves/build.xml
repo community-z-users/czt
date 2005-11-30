@@ -83,6 +83,7 @@
           description="clean up">
     <delete dir="${zeves.build.dir}"/>
     <delete dir="${zeves.api.dir}"/>
+    <delete file="${zeves.jar.file}"/>
     <!-- <ant dir="tests" target="clean"/> -->
   </target>
  
