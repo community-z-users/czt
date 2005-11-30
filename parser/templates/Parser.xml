@@ -1428,6 +1428,7 @@ emptySectionHeader ::=
            resetJokerTable(name, parents, eleft, eright);
 </add:zpatt>
            RESULT = createZSect(name, parents);
+           addLocAnn(RESULT, eleft, eright);
         :}
         ;
 
