@@ -129,7 +129,7 @@ public final class ProverUtils
     Factory factory = new Factory(new ProverFactory());
     SectionManager manager = new SectionManager();
     Term term = ParseUtils.parse(new UrlSource(url), manager);
-    TypeCheckUtils.typecheck(term, manager, Markup.LATEX);
+    TypeCheckUtils.typecheck(term, manager);
     String sectname = term.accept(new GetZSectNameVisitor());
     Map<String,Rule> rules = collectRules(term);
     List<ConjPara> conjectures = collectConjectures(term);
