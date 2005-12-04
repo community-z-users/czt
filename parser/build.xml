@@ -35,7 +35,7 @@
       <include name="${java_cup.jar.file}"/>
     </fileset>
     <pathelement path="${java.class.path}"/>
-    <pathelement path="${ant.home}/lib/clover.jar"/>
+    <pathelement path="${clover.jar}"/>
   </path>
 
   <target name="init">
@@ -1100,8 +1100,8 @@
     </clover-setup>
   </target>
 
-  <target name="report" depends="with.clover"
-    description="Creates a clover report.">
+  <target name="clover" depends="with.clover"
+    description="Creates a test coverage report.">
     <clover-report>
       <current outfile="clover_html" title="CZT Parser Clover Report">
         <format type="html"/> 
