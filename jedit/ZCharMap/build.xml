@@ -46,6 +46,7 @@
         <include name="dockables.xml"/>
         <include name="**/*.props"/>
         <include name="**/*.html"/>
+        <include name="**/*.xml"/>
       </fileset>
     </jar>
   </target>
