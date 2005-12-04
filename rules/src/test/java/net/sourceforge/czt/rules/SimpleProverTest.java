@@ -78,7 +78,7 @@ public class SimpleProverTest
       URL url = getClass().getResource(resource);
       assertFalse(url == null);
       Term term = ParseUtils.parse(new UrlSource(url), manager_);
-      TypeCheckUtils.typecheck(term, manager_, Markup.LATEX);
+      TypeCheckUtils.typecheck(term, manager_);
       String sectname = term.accept(new GetZSectNameVisitor());
       Map<String,Rule> rules = collectRules(term);
       List<ConjPara> conjectures = collectConjectures(term);
