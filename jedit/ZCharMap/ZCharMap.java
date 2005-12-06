@@ -21,6 +21,7 @@ import java.awt.event.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.*;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -72,6 +73,8 @@ public class ZCharMap extends JPanel
    * The table.
    */
   private JTable mTable;
+  private TableModel zTableModel_;
+  private TableModel objectZTableModel_;
 
   /**
    * The status bar label.
@@ -129,6 +132,7 @@ public class ZCharMap extends JPanel
     JPanel buttonRow = new JPanel();
     extension =
       new JComboBox(new String[] { "Standard Z", "Object-Z" });
+    extension.addActionListener(new ExtensionHandler());
     buttonRow.add(extension);
     markup = new JComboBox(new String[] { "LaTeX Markup", "Unicode Markup" });
     markup.addActionListener(new MarkupHandler());
@@ -144,7 +148,11 @@ public class ZCharMap extends JPanel
     buttonRow.add(xmlButton);
     add(BorderLayout.NORTH, buttonRow);
 
-    mTable = new JTable(new ZCharTable());
+    zTableModel_ = new ZCharTable(getClass().getResource("/ZTable.xml"));
+    objectZTableModel_ =
+      new ZCharTable(getClass().getResource("/ObjectZTable.xml"));
+    mTable = new JTable();
+    setTableModel();
     mTable.setFont(view.getTextArea().getPainter().getFont());
     mTable.getColumnModel().getColumn(0).setMinWidth(90);
     mTable.setRowHeight(view.getTextArea().getPainter().getFont().getSize()+4);
@@ -179,6 +187,16 @@ public class ZCharMap extends JPanel
     return extension.getSelectedIndex() == 1;
   }
 
+  private void setTableModel()
+  {
+    if (isObjectZ()) {
+      mTable.setModel(objectZTableModel_);
+    }
+    else {
+      mTable.setModel(zTableModel_);
+    }
+  }
+
   //############################################################
   //###################### INNER CLASSES #######################
   //############################################################
@@ -193,20 +211,17 @@ public class ZCharMap extends JPanel
      * (the heading for the corresponding row) and all other columns
      * contain ZChar objects.
      */
-    private final Object[][] mTableArray = getTable();
+    private final Object[][] mTableArray;
 
-    private java.net.URL getTableUrl()
+    public ZCharTable(URL url)
     {
-      if (isObjectZ()) {
-        return getClass().getResource("/ObjectZTable.xml");
-      }
-      return getClass().getResource("/ZTable.xml");
+      mTableArray = getTable(url);
     }
 
-    private Object[][] getTable()
+    private Object[][] getTable(URL url)
     {
       try {
-        InputStream stream = getTableUrl().openStream();
+        InputStream stream = url.openStream();
         XmlParser parser = new XmlParser();
         CztXmlHandler handler = new CztXmlHandler();
         parser.setHandler(handler);
@@ -242,7 +257,7 @@ public class ZCharMap extends JPanel
     public int getColumnCount()
     {
       int erg = 0;
-      for(int i=0; i<mTableArray.length; i++) {
+      for(int i=0; i < mTableArray.length; i++) {
 	if (mTableArray[i].length > erg) erg = mTableArray[i].length;
       }
       return erg;
@@ -734,6 +749,15 @@ public class ZCharMap extends JPanel
       else {
         return new net.sourceforge.czt.z.jaxb.JaxbXmlWriter();
       }
+    }
+  }
+
+  class ExtensionHandler implements ActionListener
+  {
+    public void actionPerformed(ActionEvent e)
+    {
+      setTableModel();
+      mTable.repaint();
     }
   }
 
