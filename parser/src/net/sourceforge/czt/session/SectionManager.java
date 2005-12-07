@@ -193,6 +193,8 @@ public class SectionManager
                "net.sourceforge.czt.parser.util.DefinitionTableService");
     addCommand("net.sourceforge.czt.parser.util.JokerTable",
                "net.sourceforge.czt.parser.util.JokerTableCommand");
+    addCommand("net.sourceforge.czt.z.ast.SectTypeEnvAnn",
+               "net.sourceforge.czt.typecheck.z.TypeCheckCommand");
   }
 
   private boolean addCommand(String type, String commandClassName)
