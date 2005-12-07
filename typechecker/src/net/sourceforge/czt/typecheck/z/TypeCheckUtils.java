@@ -352,39 +352,4 @@ public class TypeCheckUtils
   {
     return new TypeCheckCommand();
   }
-  
-  /**
-   * A command to compute the SectTypeInfo of a Z section.
-   */
-  protected static class TypeCheckCommand 
-    implements Command
-  {
-    protected List<? extends ErrorAnn> typecheck(Term term,
-						 SectionManager manager) {
-      return TypeCheckUtils.typecheck(term, manager);
-    }
-    
-    public boolean compute(String name, SectionManager manager)
-      throws CommandException {                         
-      // Retrieve the section information. It throws an exception if it is not available.
-      // This also parses the section. 
-      ZSect zs = (ZSect) manager.get(new Key(name, ZSect.class));
-      if (zs != null) {
-	//Typechecks the given section. This will include the SectTypeEnv we 
-	//are looking for into the manager.
-	List<? extends ErrorAnn> errors = typecheck(zs, manager);
-	if (!errors.isEmpty()) {
-	  int count = errors.size();
-	  Exception nestedException =
-	    new TypeErrorException("Section " + name + " contains " + 
-				   count + (count == 1 ? " error." : " errors."), errors);
-	  throw new CommandException("Indirect typechecking failed for section " + name + 
-				     ". It contains type errors." + 
-				     "See exception cause for details.",
-				     nestedException);
-	}
-      }                   
-      return true;
-    }
-  }  
 }

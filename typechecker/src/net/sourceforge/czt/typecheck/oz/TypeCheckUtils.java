@@ -175,7 +175,7 @@ public class TypeCheckUtils
    * A command to compute the SectTypeInfo of a Z section.
    */
   protected static class TypeCheckCommand
-    extends net.sourceforge.czt.typecheck.z.TypeCheckUtils.TypeCheckCommand
+    extends net.sourceforge.czt.typecheck.z.TypeCheckCommand
   {
     protected List<? extends ErrorAnn> typecheck(Term term,
 						 SectionManager manager) {
