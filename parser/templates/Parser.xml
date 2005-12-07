@@ -202,6 +202,35 @@ action code
     }
 </add:oz>
 
+    /**
+     * Create an function application with the SchExpr formed from
+     * 'st' and any additional renaming/strokes etc in 'al'.
+     */
+    private ApplExpr createSchApplExpr(Expr e, SchText st,
+                                       List &lt; Object &gt; al) 
+    {
+      Expr se = factory_.createSchExpr(st);
+      for (Object a : al) {
+        if (a instanceof Stroke) {
+          se = factory_.createDecorExpr(se, (Stroke) a);
+        }
+        else if (a instanceof RenameExpr) {
+          RenameExpr re = (RenameExpr) a;
+          se = factory_.createRenameExpr(se, re.getRenameList());
+        }
+        else if (a instanceof BindSelExpr) {
+          BindSelExpr bse = (BindSelExpr) a;
+          se  = factory_.createBindSelExpr(se, bse.getRefName());
+        }
+        else if (a instanceof TupleSelExpr) {
+          TupleSelExpr tse = (TupleSelExpr) a;
+          se  = factory_.createTupleSelExpr(se, tse.getNumeral());
+        }
+      }
+      ApplExpr result = factory_.createApplExpr(e, se, Boolean.FALSE);
+      return result;
+    }
+
     private void checkName(Decorword decorword, int line, int column)
     {
       ZChar unmatched = decorword.check();
@@ -1086,6 +1115,12 @@ non terminal TermA
     septerm,
     func_appl,
     inner_term;
+
+non terminal List &lt; Object &gt;
+    additionalList;
+
+non terminal Object
+    additional;
 
 non terminal Pred
     predicate,
@@ -3212,10 +3247,9 @@ inner_term ::=
         :}
         |
         /* function application with schema expr as argument */
-        inner_term:it LSQUARE schemaTextNoExpression:st RSQUARE
+        inner_term:it LSQUARE schemaTextNoExpression:st RSQUARE additionalList:al
         {:
-           SchExpr se = factory_.createSchExpr(st);
-           RESULT = factory_.createApplExpr(expr(it), se, Boolean.FALSE);
+           RESULT = createSchApplExpr(expr(it), st, al);
            addLocAnn(RESULT, itleft, itright);
         :}
         |
@@ -3279,6 +3313,38 @@ inner_term ::=
            addLocAnn(RESULT, jrleft, jrright);
         :}
 </add:zpatt>
+        ;
+
+//a list of possible constructs that come after inner_term LSQUARE
+//expr RSQUARE
+additionalList ::=
+       additional:a additionalList:al
+       {:
+          al.add(0, a);
+          RESULT = al;
+       :}
+       |
+       //empty
+       {: RESULT = list(); :}
+       ;
+
+additional ::=
+        stroke:s
+        {: RESULT = s; :}
+        |
+        LSQUARE:lsq renameList:rnl RSQUARE
+        {:
+           RESULT = factory_.createRenameExpr(null, rnl);
+        :} %prec _RENAME
+        |
+        DOT refName:rn
+        {: RESULT = factory_.createBindSelExpr(null, rn); :}
+        |
+        DOT NUMERAL:n
+        {:
+           ZNumeral numeral = factory_.createZNumeral(n);
+           RESULT = factory_.createTupleSelExpr(null, numeral);
+        :}
         ;
 
 prodExpressionList ::=
