@@ -41,15 +41,9 @@ import net.sourceforge.czt.z.ast.*;
  *
  * @author Petra Malik, Tim Miller
  */
-public final class <class/>
+public class <class/>
+  implements Command
 {
-  /**
-   * Do not generate instances of this class.
-   */
-  private <class/>()
-  {
-  }
-
   public static Term parse(Source source,
                            SectionInfo sectInfo,
                            Properties properties)
@@ -430,36 +424,28 @@ public final class <class/>
    */
   public static Command getCommand()
   {
-    return new ParserCommand();
+    return new ParseUtils();
   }
 
-  /**
-   * A command to compute the AST of a Z section.
-   */
-  static class ParserCommand
-    implements Command
+  public boolean compute(String name, SectionManager manager)
+    throws CommandException
   {
-    public boolean compute(String name,
-                           SectionManager manager)
-      throws CommandException
-    {
-      try {
-        Source source = (Source) manager.get(new Key(name, Source.class));
-        if (source != null) {
-          Term term = ParseUtils.parse(source, manager);
-          if (term instanceof Spec) {
-            manager.put(new Key(name, Spec.class), (Spec) term);
-          }
+    try {
+      Source source = (Source) manager.get(new Key(name, Source.class));
+      if (source != null) {
+        Term term = ParseUtils.parse(source, manager);
+        if (term instanceof Spec) {
+          manager.put(new Key(name, Spec.class), (Spec) term);
         }
       }
-      catch (ParseException exception) {
-        throw new CommandException(exception);
-      }
-      catch (IOException exception) {
-        throw new CommandException(exception);
-      }
-      return true;
     }
+    catch (ParseException exception) {
+      throw new CommandException(exception);
+    }
+    catch (IOException exception) {
+      throw new CommandException(exception);
+    }
+    return true;
   }
 }
 </utils>

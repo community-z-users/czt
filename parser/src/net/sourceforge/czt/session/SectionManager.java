@@ -179,13 +179,85 @@ public class SectionManager
    */
   public void setupDefaultCommands()
   {
-    commands_.put(Source.class, new SourceLocator());
-    commands_.put(Spec.class, ParseUtils.getCommand());
-    commands_.put(ZSect.class, ParseUtils.getCommand());
-    commands_.put(OpTable.class, new OpTableCommand());
-    commands_.put(DefinitionTable.class, new DefinitionTableService());
-    commands_.put(LatexMarkupFunction.class, ParseUtils.getCommand());
-    commands_.put(JokerTable.class, new JokerTableCommand());
+    addCommand("net.sourceforge.czt.session.Source",
+               "net.sourceforge.czt.session.SourceLocator");
+    addCommand("net.sourceforge.czt.z.ast.Spec",
+               "net.sourceforge.czt.parser.z.ParseUtils");
+    addCommand("net.sourceforge.czt.z.ast.ZSect",
+               "net.sourceforge.czt.parser.z.ParseUtils");
+    addCommand("net.sourceforge.czt.parser.util.LatexMarkupFunction",
+               "net.sourceforge.czt.parser.z.ParseUtils");
+    addCommand("net.sourceforge.czt.parser.util.OpTable",
+               "net.sourceforge.czt.parser.util.OpTableCommand");
+    addCommand("net.sourceforge.czt.parser.util.DefinitionTable",
+               "net.sourceforge.czt.parser.util.DefinitionTableService");
+    addCommand("net.sourceforge.czt.parser.util.JokerTable",
+               "net.sourceforge.czt.parser.util.JokerTableCommand");
+  }
+
+  private boolean addCommand(String type, String commandClassName)
+  {
+    try {
+      Class typeClass = toClass(type);
+      Class commandClass = toClass(commandClassName);
+      if (typeClass != null && commandClass != null) {
+        Object command = commandClass.newInstance();
+        if (command instanceof Command) {
+          commands_.put(typeClass, (Command) command);
+          return true;
+        }
+        final String message = "Cannot instanciate command " +
+          commandClassName + "; given class is not a command";
+        CztLogger.getLogger(getClass()).warning(message);      
+      }
+    }
+    catch (ExceptionInInitializerError e) {
+      final String message = "Cannot instanciate command " + commandClassName +
+        "; exception in initialzier";
+      CztLogger.getLogger(getClass()).warning(message);
+    }
+    catch (IllegalAccessException e) {
+      final String message = "Cannot instanciate command " + commandClassName +
+        "; illegal access exception";
+      CztLogger.getLogger(getClass()).warning(message);
+    }
+    catch (InstantiationException e) {
+      final String message = "Cannot instanciate command " + commandClassName +
+        "; instantiation exception";
+      CztLogger.getLogger(getClass()).warning(message);
+    }
+    catch (SecurityException e) {
+      final String message = "Cannot instanciate command " + commandClassName +
+        "; security exception";
+      CztLogger.getLogger(getClass()).warning(message);
+    }
+    return false;
+  }
+
+  /**
+   * Returns Class.forName(className) but does not throw exceptions.
+   */
+  private Class toClass(String name)
+  {
+    try {
+      return Class.forName(name);
+    }
+    catch (ExceptionInInitializerError e) {
+      final String message = "Cannot get class " + name +
+        "; exception in initialzier";
+      CztLogger.getLogger(getClass()).warning(message);
+    }
+    catch (LinkageError e) {
+      final String message = "Cannot get class " + name +
+        "; linkage error";
+      CztLogger.getLogger(getClass()).warning(message);
+    }
+    catch (ClassNotFoundException e) {
+      final String message = "Cannot get class " + name +
+        "; class cannot be found";
+      CztLogger.getLogger(getClass()).warning(message);
+    }
+    return null;
   }
 
   /**
@@ -302,42 +374,6 @@ public class SectionManager
   }
 
   /**
-   * A command to compute the URL for a Z section.
-   */
-  class SourceLocator
-    implements Command
-  {
-    final protected String [] suffix_ = {".tex", ".utf8", "utf16", ""};
-
-    public boolean compute(String name,
-                           SectionManager manager)
-    {
-      URL url = getClass().getResource("/lib/" + name + ".tex");
-      if (url != null) {
-        manager.put(new Key(name, Source.class), new UrlSource(url));
-        return true;
-      }
-      for (int i = 0; i < suffix_.length; i++) {
-        File file = new File(name + suffix_[i]);
-        if (file.exists()) {
-          manager.put(new Key(name, Source.class), new FileSource(file));
-          return true;
-        }
-      }
-      String path = (String) properties_.get("czt.path");
-      for (int i = 0; i < suffix_.length; i++) {
-        String filename = path + "/" + name + suffix_[i];
-        File file = new File(filename);
-        if (file.exists()) {
-          manager.put(new Key(name, Source.class), new FileSource(file));
-          return true;
-        }
-      }
-      return false;
-    }
-  }
-
-  /**
    * A command to compute the latex markup function (class LatexMarkupFunction)
    * for a Z section.
    */
@@ -353,29 +389,6 @@ public class SectionManager
         ZSect zsect = (ZSect) manager.get(new Key(name, ZSect.class));
         if (! manager.isCached(key) && zsect != null) {
           manager.put(key, new LatexMarkupFunction(name));
-        }
-      }
-      return true;
-    }
-  }
-
-  /**
-   * A command to compute the operator table (class OpTable) of a Z section.
-   */
-  class OpTableCommand
-    implements Command
-  {
-    public boolean compute(String name,
-                           SectionManager manager)
-      throws CommandException
-    {
-      final Key key = new Key(name, OpTable.class);
-      if ( ! manager.isCached(key)) {
-        ZSect zSect = (ZSect) manager.get(new Key(name, ZSect.class));
-        if ( ! manager.isCached(key)) {
-          OpTableVisitor visitor = new OpTableVisitor(manager);
-          OpTable opTable = (OpTable) visitor.run(zSect);
-          manager.put(key, opTable);
         }
       }
       return true;
