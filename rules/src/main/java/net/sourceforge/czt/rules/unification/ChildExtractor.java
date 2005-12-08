@@ -38,6 +38,7 @@ public class ChildExtractor
              RefExprVisitor<Object[]>,
              TermVisitor<Object[]>,
              ZDeclListVisitor<Object[]>,
+             ZDeclNameVisitor<Object[]>,
              ZRefNameVisitor<Object[]>
 {
   private final String DECLLIST = "DeclList";
@@ -86,6 +87,12 @@ public class ChildExtractor
   public Object[] visitZDeclList(ZDeclList zDeclList)
   {
     return new Object[] { DECLLIST, zDeclList };
+  }
+
+  public Object[] visitZDeclName(ZDeclName zDeclName)
+  {
+    Object[] children = { zDeclName.getWord(), zDeclName.getStroke() };
+    return children;
   }
 
   /**
