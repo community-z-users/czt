@@ -1474,9 +1474,9 @@ empty ::=
         ;
 
 sectionList ::= 
-        section:s sectionList:sl
+        sectionList:sl section:s
         {: 
-           sl.add(0,s);
+           sl.add(s);
            RESULT = sl;
         :}
         |
@@ -1534,12 +1534,12 @@ parents ::=
         ;
 
 parentList ::=
-        DECORWORD:dw COMMA parentList:pl
+        parentList:pl COMMA DECORWORD:dw  
         {:
            checkName(dw, dwleft, dwright);
            Parent p = factory_.createParent(dw.getName());
            addLocAnn(p, dwleft, dwright);
-           pl.add(0, p);
+           pl.add(p);
            RESULT = pl;
         :}
         |
@@ -1557,21 +1557,21 @@ parentList ::=
 //Unboxed paragraphs must have a newline after their definition, 
 //unless they are the final paragraph within ZED ... END tokens
 paragraphList ::= 
-        boxedParagraph:p paragraphList:pl
+        paragraphList:pl boxedParagraph:p
         {:
-           if (p != null) pl.add(0, p);
+           if (p != null) pl.add(p);
            RESULT = pl;
         :}
         |
-        unboxedParagraphList:upl paragraphList:pl
+        paragraphList:pl unboxedParagraphList:upl
         {:
-           pl.addAll(0, upl);
+           pl.addAll(upl);
            RESULT = pl;
         :}
         |
-        narrParagraph:np paragraphList:pl
+        paragraphList:pl narrParagraph:np
         {:
-           pl.add(0, np);
+           pl.add(np);
            RESULT = pl;
         :}
         |
@@ -1625,9 +1625,9 @@ unboxedParagraphList ::=
         ;
 
 unboxedParagraphItemList ::=
-        unboxedParagraphItem:ui NL unboxedParagraphItemList:uil
+        unboxedParagraphItemList:uil NL unboxedParagraphItem:ui
         {:
-           if (ui != null) uil.add(0, ui);
+           if (ui != null) uil.add(ui);
            RESULT = uil;
         :}
         |
@@ -1778,9 +1778,9 @@ abbreviationDefinition ::=
 
 
 freeTypeList ::=
-        freeTypeDefinition:ftd ANDALSO freeTypeList:ftl
+        freeTypeList:ftl ANDALSO freeTypeDefinition:ftd
         {: 
-           ftl.add(0, ftd);
+           ftl.add(ftd);
            RESULT = ftl;
         :}
         |
@@ -1797,9 +1797,9 @@ freeTypeDefinition ::=
         ;
 
 branchList ::=
-        branch:b BAR branchList:bl
+        branchList:bl BAR branch:b
         {:
-           bl.add(0, b);
+           bl.add(b);
            RESULT = bl;
         :}
         |
@@ -1822,9 +1822,9 @@ branch ::=
         ;
 
 narrWordList ::=
-        TEXT:t narrWordList:nwl 
+        narrWordList:nwl TEXT:t  
         {:
-           nwl.add(0, t);
+           nwl.add(t);
            RESULT = nwl;
         :}
         |
@@ -2010,7 +2010,7 @@ channelDeclList ::=
            RESULT = factory_.list(cd);
         :}
         |
-        channelDecl:cd SEMICOLON channelDeclList:cdl
+        channelDeclList:cdl SEMICOLON channelDecl:cd
         {:
            cdl.add(cd);
            RESULT = cdl;
@@ -2082,15 +2082,15 @@ process ::=
         ;
 
 innerParaList ::=
-        boxedParagraph:bp optNL innerParaList:ipl
+        innerParaList:ipl optNL boxedParagraph:bp
         {:
-           ipl.add(0, bp);
+           ipl.add(bp);
            RESULT = ipl;
         :}
         |
-        unboxedInnerPara:uip NL innerParaList:ipl
+        innerParaList:ipl NL unboxedInnerPara:uip
         {:
-           ipl.add(0, uip);
+           ipl.add(uip);
            RESULT = ipl;
         :}
         |
@@ -2138,10 +2138,10 @@ paramAction ::=
 
 //a zDeclList that does not allow NLs between declarations
 zDeclListNoNL ::=
-        declaration:bd
+        basicDeclaration:bd
         {: RESULT = factory_.createZDeclList(list(bd)); :}
         |
-        declaration:d SEMICOLON zDeclListNoNL:zdlnn
+        zDeclListNoNL:zdlnn SEMICOLON declaration:d
         {:
            zdlnn.add(d);
            RESULT = zdlnn;
@@ -2204,9 +2204,9 @@ zDeclList ::=
         declaration:d
         {: RESULT = factory_.createZDeclList(list(d)); :}
         |
-        declaration:d sep zDeclList:zdl
+        zDeclList:zdl sep declaration:d
         {:
-           zdl.add(0, d);
+           zdl.add(d);
            RESULT = zdl;
         :}
         ;
@@ -2223,9 +2223,9 @@ schemaTextNoExpression ::=
         optDeclPart:dp BAR predicate:p
         {: RESULT = factory_.createZSchText(dp, p); :}
         |
-        declaration:d sep zDeclList:zdl 
+        zDeclList:zdl sep declaration:d
 	{:
-           zdl.add(0, d);
+           zdl.add(d);
            RESULT = factory_.createZSchText(zdl, null);
 	:}
 	|
@@ -2294,12 +2294,12 @@ sep ::=
 /// word, declName, and refName lists ////////////////////////////////////
 
 nameList ::=
-        DECORWORD:dw COMMA nameList:nl
+        nameList:nl COMMA DECORWORD:dw
         {: 
            checkName(dw, dwleft, dwright);
            DeclName dn = factory_.createZDeclName(dw.getName());
            addLocAnn(dn, dwleft, dwright);
-           nl.add(0, dn);
+           nl.add(dn);
            RESULT = nl;
         :}
         |
@@ -2331,22 +2331,22 @@ name ::=
         ;
 
 declWordList ::=
-        DECLWORD:dw COMMA declWordList:dwl
+        declWordList:dwl COMMA DECLWORD:dw
         {: 
            checkName(dw, dwleft, dwright);
            DeclName dn = factory_.createZDeclName(dw.getName());
            addLocAnn(dn, dwleft, dwright);
-           dwl.add(0, dn); 
+           dwl.add(dn); 
            RESULT = dwl;
         :}
         |
-        opName:on COMMA declWordList:dwl
+        declWordList:dwl COMMA opName:on
         {: 
-           dwl.add(0, strListToZDeclName(on, onleft, onright)); 
+           dwl.add(strListToZDeclName(on, onleft, onright)); 
            RESULT = dwl;
         :} 
         |
-        misusedOpName:mon COMMA declWordList:dwl
+        declWordList:dwl COMMA misusedOpName:mon
         {:
            misusedOpName(mon, monleft, monright);
         :}        
@@ -2459,21 +2459,21 @@ declName ::=
         ;
 
 refNameList ::=
-        DECORWORD:dw COMMA refNameList:rnl
+        refNameList:rnl COMMA DECORWORD:dw
         {:
            checkName(dw, dwleft, dwright);
            RefName rn = factory_.createZRefName(dw.getName());
            addLocAnn(rn, dwleft, dwright);
-           rnl.add(0, rn);
+           rnl.add(rn);
            RESULT = rnl;
         :}        
         <add:oz>
         |
-        INITWORD:iw COMMA refNameList:rnl
+        refNameList:rnl COMMA INITWORD:iw
         {:
            RefName rn = factory_.createZRefName(OzString.INITWORD);
            addLocAnn(rn, iwleft, iwright);
-           rnl.add(0, rn);
+           rnl.add(rn);
            RESULT = rnl;
         :}
         </add:oz>
@@ -3318,9 +3318,9 @@ inner_term ::=
 //a list of possible constructs that come after inner_term LSQUARE
 //expr RSQUARE
 additionalList ::=
-       additional:a additionalList:al
+       additionalList:al additional:a 
        {:
-          al.add(0, a);
+          al.add(a);
           RESULT = al;
        :}
        |
@@ -3394,9 +3394,9 @@ optConstDeclList ::=
         ;
 
 constDeclList ::=
-        constDecl:cd COMMA constDeclList:cdl
+        constDeclList:cdl COMMA constDecl:cd
         {:      
-           cdl.getDecl().add(0, cd);
+           cdl.getDecl().add(cd);
            RESULT = cdl;
         :}
         |
@@ -3405,9 +3405,9 @@ constDeclList ::=
         ;       
 
 letDefinitionList ::=
-        letDefinition:ld SEMICOLON letDefinitionList:ldl 
+        letDefinitionList:ldl SEMICOLON letDefinition:ld
         {:
-           ldl.getDecl().add(0, ld);
+           ldl.getDecl().add(ld);
            RESULT = ldl;
         :}
         |
@@ -3438,9 +3438,9 @@ stroke ::=
         ;
 
 renameList ::= 
-        rename:rn COMMA renameList:rnl
+        renameList:rnl COMMA rename:rn
         {:
-           rnl.getNewOldPair().add(0, rn);
+           rnl.getNewOldPair().add(rn);
            RESULT = rnl;
         :}
         |
@@ -3953,9 +3953,9 @@ rulePara ::=
         ;
 
 jokerList ::=
-       DECORWORD:dw COMMA jokerList:jl
+       jokerList:jl COMMA DECORWORD:dw
        {:
-          jl.add(0, dw.getName());
+          jl.add(dw.getName());
           RESULT = jl;
        :}
        |
@@ -4260,9 +4260,9 @@ operationList ::=
         //empty
         {: RESULT = list(); :}
         |
-        operation:o optNL operationList:ol
+        operationList:ol optNL operation:o
         {: 
-           ol.add(0, o); 
+           ol.add(o); 
            RESULT = ol;
         :}
         ;
@@ -4286,18 +4286,18 @@ inheritedList ::=
            RESULT = factory_.createZExprList();
         :}
         |
-        inheritedClassList:icl
+        inheritedClassList:icl optNL 
         {: RESULT = factory_.createZExprList(icl); :}
         ;
 
 inheritedClassList ::=
-        inheritedClass:ic optNL inheritedClassList:icl
+        inheritedClassList:icl NL inheritedClass:ic
         {:
            icl.add(0, ic);
            RESULT = icl;
         :}
         |
-        inheritedClass:ic optNL
+        inheritedClass:ic 
         {: RESULT = list(ic); :}
         ;
 
@@ -4800,9 +4800,9 @@ opExpr1 ::=
 
 <add:tcoz>
 topology ::=
-        connection:cn SEMICOLON topology:tp
+        topology:tp SEMICOLON connection:cn
         {:
-           tp.add(0, cn);
+           tp.add(cn);
            RESULT = tp; 
         :}
         |
@@ -4820,9 +4820,9 @@ connection ::=
         ;
                    
 eventSet ::=
-        event:e COMMA eventSet:el
+        eventSet:el COMMA event:e
         {: 
-           el.add(0, e);
+           el.add(e);
            RESULT = el;
         :}
         |
