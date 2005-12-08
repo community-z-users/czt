@@ -13,13 +13,15 @@
       <include name="${corejava.base.jar.file}"/>
       <include name="${corejava.core.jar.file}"/>
       <include name="${corejava.oz.jar.file}"/>
+      <include name="${corejava.zpatt.jar.file}"/>
       <include name="${corejava.jaxb.jar.file}"/>
+      <include name="${parser.jar.file}"/>
+      <include name="${typechecker.jar.file}"/>
+      <include name="${rules.jar.file}"/>
       <include name="${java_cup.jar.file}"/>
     </fileset>
     <pathelement path="${java.class.path}"/>
     <pathelement path="${ant.home}/lib/clover.jar"/>
-    <pathelement path="${czt.home}/${jar.dir}/${parser.jar.file}"/>
-    <pathelement path="${czt.home}/${jar.dir}/${typechecker.jar.file}"/>
     <pathelement location="${test.build.dir}"/>
     <pathelement path="${czt.home}/${jar.dir}/zlive.jar"/>
   </path>

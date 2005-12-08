@@ -1,6 +1,6 @@
 /*
   ZLive - A Z animator -- Part of the CZT Project.
-  Copyright 2004 Mark Utting
+  Copyright 2005 Mark Utting
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -46,7 +46,9 @@ public class ZLive
   
   private Factory factory_;
 
-  private Flatten flatten_;
+  private /*@non_null@*/ Flatten flatten_;
+  
+  private /*@non_null@*/ Preprocess preprocess_;
   
   /** A Writer interface to System.out. */
   protected Writer writer = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -99,10 +101,16 @@ public class ZLive
 	// This parses the above specification
 	ZSect sec = (ZSect) sectman_.get(new Key("ZLiveDefault", ZSect.class));
 	setCurrentSection(sec.getName());
+    }
+    catch (Exception e) {
+      System.out.println("ERROR creating ZLiveDefault section: " + e);
+      e.printStackTrace();
+    }
+    try {
+        preprocess_ = new Preprocess(sectman_);
+        preprocess_.setRules("/preprocess.tex");
     } catch (Exception e) {
-      System.out
-          .println("ERROR: cannot create default section in section manager: "
-              + e);
+      System.out.println("ERROR loading rules from preprocess.tex: " + e);
       e.printStackTrace();
     }
   }
@@ -143,14 +151,14 @@ public class ZLive
   /** Say which section future evaluations will be done in.
    *  This checks that the given section is typechecked.
    */
-  public void setCurrentSection(String name)
+  public void setCurrentSection(/*@non_null@*/String name)
     throws CommandException
   {
     Key key = new Key(name, DefinitionTable.class);
     DefinitionTable newTable = (DefinitionTable) sectman_.get(key);
     defnTable_ = newTable;
     currSectName_ = name;
-    
+
     // now typecheck the section
     System.err.println("Setting current section to "+name);
     SectionManager manager = this.getSectionManager();
@@ -169,6 +177,7 @@ public class ZLive
   /** Evaluate a Pred.
       This throws some kind of EvalException if pred is too difficult
       to evaluate or contains an undefined expression.
+      The input predicate must be type checked.
       @param pred  A net.sourceforge.czt.z.ast.Pred object.
       @return      Usually an instance of TruePred or FalsePred.
   */
@@ -196,6 +205,38 @@ public class ZLive
     return result;
   }
 
+  /** Evaluate an Expr.
+      This throws some kind of EvalException if expr is too difficult
+      to evaluate or contains an undefined expression.
+      The input expression must be type checked.
+      @param expr  A net.sourceforge.czt.z.ast.Pred object.
+      @return      Usually an instance of EvalSet, or some other expr.
+  */
+  public Expr evalExpr(Expr expr)
+    throws EvalException
+  {
+    sLogger.entering("ZLive","evalExpr");
+    if (currSectName_ == null || defnTable_ == null) {
+      throw new CztException("Must choose a section!");
+    }
+    // preprocess the expr, to unfold things.
+    expr = preprocess_.preprocess(expr);
+    
+    predlist_ = new FlatPredList(this);
+    ZRefName resultName = predlist_.addExpr(expr);
+    Envir env0 = new Envir();
+    Mode m = predlist_.chooseMode(env0);
+    if (m == null)
+      throw new EvalException("Cannot find mode to evaluate " + expr);
+    predlist_.setMode(m);
+    predlist_.startEvaluation();
+    if ( ! predlist_.nextEvaluation())
+        throw new CztException("No solution for expression");
+    Expr result = predlist_.getOutputEnvir().lookup(resultName);
+    sLogger.exiting("ZLive","evalExpr");
+    return result;
+  }
+
   /** Prints the list of FlatPreds used in the last call
     * to evalPred or evalExpr.
     */
@@ -206,8 +247,8 @@ public class ZLive
       }
       else {
         try {
-	  if (predlist_.size() == 0)
-	      System.out.println("Code is empty!");
+          if (predlist_.size() == 0)
+              System.out.println("Code is empty!");
           for (Iterator i = predlist_.iterator(); i.hasNext(); ) {
             FlatPred p = (FlatPred) i.next();
             writer.write("  " + p.toString() + "\n");
@@ -227,34 +268,6 @@ public class ZLive
     //writer.write(ast);
     PrintUtils.printUnicode(ast, writer, sectman_);
     writer.write("\n");
-  }
-
-  /** Evaluate an Expr.
-      This throws some kind of EvalException if expr is too difficult
-      to evaluate or contains an undefined expression.
-      @param expr  A net.sourceforge.czt.z.ast.Pred object.
-      @return      Usually an instance of EvalSet, or some other expr.
-  */
-  public Expr evalExpr(Expr expr)
-    throws EvalException
-  {
-    sLogger.entering("ZLive","evalExpr");
-    if (currSectName_ == null || defnTable_ == null) {
-      throw new CztException("Must choose a section!");
-    }
-    predlist_ = new FlatPredList(this);
-    ZRefName resultName = predlist_.addExpr(expr);
-    Envir env0 = new Envir();
-    Mode m = predlist_.chooseMode(env0);
-    if (m == null)
-      throw new EvalException("Cannot find mode to evaluate " + expr);
-    predlist_.setMode(m);
-    predlist_.startEvaluation();
-    if ( ! predlist_.nextEvaluation())
-        throw new CztException("No solution for expression");
-    Expr result = predlist_.getOutputEnvir().lookup(resultName);
-    sLogger.exiting("ZLive","evalExpr");
-    return result;
   }
 
   public static void main(String args[])
