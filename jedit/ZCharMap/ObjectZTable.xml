@@ -3,13 +3,22 @@
     <item name="Sect"
           description="Section Header"
           unicode="&#x2500; section NAME parents standard_toolkit &#x2029;&#xA;"
-          latex="\begin{zsection}&#xA;  \SECTION NAME \parents standard\_toolkit&#xA;\end{zsection}&#xA;"/>
+          latex="\begin{zsection}&#xA;  \SECTION NAME \parents
+          standard\_toolkit&#xA;\end{zsection}&#xA;"/>
+    <item name="Class"
+          description="Class Paragraph"
+          unicode="&#x250C; class NAME&#xA; &#xA;&#x2029;&#xA;"
+          latex="\begin{class}{NAME}&#xA;\end{class}&#xA;"/>
+    <item name="Gen Class"
+          description="Generic Class Paragraph"
+          unicode="&#x250C; genclass NAME [ TYPE ]&#xA; &#xA;&#x2029;&#xA;"
+          latex="\begin{class}{NAME} [ TYPE ]&#xA;\end{class}&#xA;"/>
     <item name="Op"
           description="Operator Template"
           unicode="&#x2500;&#xA;  function 42 leftassoc ( _ OPERATOR _ )&#xA;&#x2029;&#xA;"
           latex="\begin{zed}&#xA;  \function 42 \leftassoc ( \varg OPERATOR \varg )&#xA;\end{zed}&#xA;"/>
     <item name="[G]"
-          description="Given Sets"
+          description="Given Set"
           unicode="&#x2500; [ TYPE ] &#x2029;&#xA;"
           latex="\begin{zed}&#xA;  [ TYPE ]&#xA;\end{zed}&#xA;"/>
     <item name="Ax"
@@ -40,6 +49,40 @@
            description="Conjecture"
            unicode="&#x2500;&#xA;  &#x22A2;? PRED&#xA;&#x2029;&#xA;"
            latex="\begin{zed}&#xA;  \vdash? PRED&#xA;\end{zed}&#xA;"/>
+  </row>
+  <row heading="SubParas">
+     <item name="&#x2A21; (..)"
+           description="Visibility List"
+           unicode="&#x2A21; ( NAME , NAME )&#xA;"
+           latex="\project ( NAME , NAME )\\&#xA;"/>
+     <item name="=="
+           description="Local Horizontal Definition"
+           unicode="NAME == EXPR&#xA;"
+           latex="NAME == EXPR\\&#xA;"/>
+    <item name="[G]"
+          description="Local Given Set"
+          unicode="[ TYPE ]&#xA;"
+          latex="[ TYPE ]\\&#xA;"/>
+     <item name="::="
+           description="Local Freetype Definition"
+           unicode="TYPE ::= NAME | NAME &#x27EA; TYPE &#x27EB;&#xA;"
+           latex="TYPE ::= NAME | NAME \ldata TYPE \rdata\\&#xA;"/>
+     <item name="State"
+           description="State Schema"
+           unicode="&#x250C;&#x2500;&#xA;  PRIMARYDECLS&#xA;&#x0394;&#xA;  SECONDARYDECLS&#xA; |&#xA;  PRED&#xA;&#x2029;&#xA;"
+           latex="\begin{state}&#xA;  PRIMARYDECLS\\&#xA;\Delta\\&#xA;  SECONDARYDECLS&#xA;\where&#xA;  PREDS&#xA;\end{state}&#xA;"/>
+     <item name="Init"
+           description="Initial Predicate"
+           unicode="&#x250C; Init &#xA;  PRED&#xA;  &#x2029;&#xA;"
+           latex="\begin{init}&#xA;  PRED&#xA;\end{init}&#xA;"/>
+     <item name="Op Box"
+           description="Operation Box"
+           unicode="&#x250C; op &#xA;  ;&#x0394; ( NAME , NAME )&#xA;  DECLS&#xA; | PRED&#xA;&#x2029;&#xA;"
+           latex="\begin{op}{NAME}&#xA;  \Delta ( NAME , NAME )\\&#xA;  DECLS&#xA; \where&#xA;  PRED&#xA;\end{op}"/>
+     <item name="Op &#x2259;"
+           description="Horizontal Operation"
+           unicode="NAME &#x2259; OPEXPR&#xA;"
+           latex="NAME \sdef OPEXPR\\&#xA;"/>
   </row>
   <row heading="Predicates">
     <item name="&#x2200;"
@@ -78,6 +121,9 @@
     <item name="&#x2282;"
           description="Subset Of"
           latex="\subset"/>
+    <item name="&#xD835;&#xDD39;"
+        description="Booleans"
+        latex="\bool"/>
   </row>
   <row heading="Sets">
     <item name="&#x2119;"
@@ -280,5 +326,68 @@
     <item name="&#x2198;1&#x2196;"
           description="Subscript decoration"
           latex="_{1}"/>
+  </row>
+  <row heading="Class/Object Expressions">
+    <item name="&#x2A42;"
+        description="Class Union"
+        latex="\classuni"/>
+    <item name="&#x2193;"
+        description="Polymorphic Expression"
+        latex="\poly"/>
+    <item name="&#x24B8;"
+        description="Object Containment"
+        latex="\copyright"/>
+    <item name="self"
+        description="Self Expressions"
+        latex="\self"/>
+    <item name="Init"
+        description="Init word"
+        latex="\Init"/>
+    <item name="&#xD835;&#xDD46;"
+        description="Object Identity"
+        latex="\oid"/>
+  </row>
+  <row heading="Op Exprs">
+    <item name="&#x22C0;"
+          description="Distributed Operation Conjunction"
+          latex="\dcnj"/>
+    <item name="&#x2AFF;"
+          description="Distributed Choice"
+          latex="\dgch"/>
+    <item name="&#x2A1F;"
+          description="Distributed Sequential Composition"
+          latex="\dsqc"/>
+    <item name="[..]"
+          description="Anonymous Operation Expr"
+          unicode="[&#x0394; ( NAME , NAME ) ;  DECLS | PRED ]&#xA;"
+          latex="[\Delta ( NAME , NAME ) ; DECLS | PRED ]\\&#xA;"/>
+    <item name="."
+          description="Operation Promotion"
+          latex="."/>
+    <item name="&#x2227;"
+          description="Operation Conjunction"
+          latex="\land"/>
+    <item name="&#x2AFE;"
+          description="Choice"
+          latex="\gch"/>
+    <item name="&#x2225;"
+          description="Parallel Operation Conjunction"
+          latex="\parallel"/>
+<!--    <item name="&#x2225!;"
+          description="Associative Parallel Operation Conjunction"
+          latex="\plo"/>-->
+    <item name="&#x29F9;"
+          description="Operation Variable Hiding"
+          latex="\hide"/>
+    <item name="&#x2A1F;"
+          description="Sequential Operation Composition"
+          latex="\semi"/>
+    <item name="&#x2981;"
+          description="Scope Enrichment"
+          latex="@"/>
+    <item name="&#x2029;"
+          unicode="&#x2029;"
+          description="END"
+          latex="end"/>
   </row>
 </table>
