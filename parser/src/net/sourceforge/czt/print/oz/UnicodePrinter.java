@@ -32,10 +32,8 @@ import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.parser.util.Decorword;
 import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.util.CztException;
-//import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.oz.util.OzString;
-//import net.sourceforge.czt.z.visitor.*;
 
 /**
  * Print Z specifications in Unicode.
@@ -46,7 +44,7 @@ import net.sourceforge.czt.oz.util.OzString;
  */
 public class UnicodePrinter
   extends net.sourceforge.czt.print.z.UnicodePrinter
-{
+{ 
   /**
    * Create a new PrintWriter, without automatic line flushing.
    *
@@ -114,29 +112,32 @@ public class UnicodePrinter
    */
   public void printSymbol(Symbol s)
   {
-    switch(s.sym) {
-    case(Sym.CLASS):
-      printCLASS();
-      break;
-    case(Sym.GENCLASS):
-      printGENCLASS();
-      break;
-    case(Sym.STATE):
-      printSTATE();
-      break;
-    case(Sym.INIT):
-      printINIT();
-      break;
-    case(Sym.OPSCH):
-      printOPSCH();
-      break;
-    default:
+    if (s.left == OzPrintVisitor.OZ) {
+      switch(s.sym) {
+      case(Sym.CLASS):
+	printCLASS();
+	break;
+      case(Sym.GENCLASS):
+	printGENCLASS();
+	break;
+      case(Sym.STATE):
+	printSTATE();
+	break;
+      case(Sym.INIT):
+	printINIT();
+	break;
+      case(Sym.OPSCH):
+	printOPSCH();
+	break;
+      default :
+	Map fieldMap = DebugUtils.getFieldMap(Sym.class);
+	throw new CztException("Unexpected token (" + s.sym + ", " +
+			       fieldMap.get(s.sym) + ", " +
+			       s.value + ")");
+      }
+    }
+    else {
       super.printSymbol(s);
     }
-  }
-  
-  protected Map getFieldMap()
-  {
-    return DebugUtils.getFieldMap(Sym.class);
   }
 }

@@ -19,8 +19,12 @@
 
 package net.sourceforge.czt.print.z;
 
+import java.util.Map;
+
 import net.sourceforge.czt.java_cup.runtime.Symbol;
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.parser.util.DebugUtils;
 
 /**
  * A Z visitor used for printing.
@@ -30,8 +34,7 @@ import net.sourceforge.czt.util.Visitor;
 public abstract class AbstractPrintVisitor
   implements Visitor
 {
-  private Visitor visitor_ = this;
-  private ZPrinter printer_;
+ private ZPrinter printer_;
 
   public AbstractPrintVisitor(ZPrinter printer)
   {
@@ -43,14 +46,14 @@ public abstract class AbstractPrintVisitor
     return printer_;
   }
 
-  protected void print(int type)
+  protected void print(int type, int ext)
   {
-    printer_.printSymbol(new Symbol(type));
+    printer_.printSymbol(new Symbol(type, ext, -1));
   }
 
-  protected void print(int type, Object value)
+  protected void print(int type, int ext, Object value)
   {
-    printer_.printSymbol(new Symbol(type, value));
+    printer_.printSymbol(new Symbol(type, ext, -1, value));
   }
 
   /**

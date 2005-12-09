@@ -28,6 +28,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.visitor.*;
+import net.sourceforge.czt.parser.util.DebugUtils;
 
 /**
  * An Object-Z visitor used for printing.
@@ -38,6 +39,8 @@ public class OzPrintVisitor
   extends net.sourceforge.czt.print.z.ZPrintVisitor
   implements OzVisitor
 {
+  public static int OZ = Z + 1;
+
   /**
    * Creates a new Object-Z print visitor.
    * The section information should be able to provide information of
@@ -48,21 +51,31 @@ public class OzPrintVisitor
     super(printer);
   }
 
+  protected void ozPrint(int type)
+  {
+    print(type, OZ);
+  }
+
+  protected void ozPrint(int type, Object value)
+  {
+    print(type, OZ, value);
+  }
+
   public Object visitClassPara(ClassPara classPara)
   {
     //print the header information
     if (classPara.getFormalParameters().size() == 0) {
-      print(Sym.CLASS);
+      ozPrint(Sym.CLASS);
       visit(classPara.getDeclName());
     }
     else {
-      print(Sym.GENCLASS);
+      ozPrint(Sym.GENCLASS);
       visit(classPara.getDeclName());
-      print(Sym.LSQUARE);
+      zPrint(net.sourceforge.czt.print.z.Sym.LSQUARE);
       printTermList(classPara.getFormalParameters());
-      print(Sym.RSQUARE);
+      zPrint(net.sourceforge.czt.print.z.Sym.RSQUARE);
     }
-    print(Sym.NL);
+    zPrint(net.sourceforge.czt.print.z.Sym.NL);
 
     visit(classPara.getVisibilityList());
 
@@ -71,7 +84,7 @@ public class OzPrintVisitor
       ZExprList inheritedClass = (ZExprList) classPara.getInheritedClass();
       for (Expr expr : inheritedClass) {
 	visit(expr);
-	print(Sym.NL);
+	zPrint(net.sourceforge.czt.print.z.Sym.NL);
       }
     }
     else {
@@ -81,7 +94,7 @@ public class OzPrintVisitor
     //visit each inner paragraph, putting a NL between them
     for (Para para : classPara.getLocalDef()) {
       visit(para);
-      print(Sym.NL);
+      zPrint(net.sourceforge.czt.print.z.Sym.NL);
     }    
 
     //visit the state and inital predicate
@@ -91,10 +104,10 @@ public class OzPrintVisitor
     //visit each operation, putting a NL between them
     for (Operation operation : classPara.getOperation()) {
       visit(operation);
-      print(Sym.NL);
+      zPrint(net.sourceforge.czt.print.z.Sym.NL);
     } 
 
-    print(Sym.END);
+    zPrint(net.sourceforge.czt.print.z.Sym.END);
     return null;
   }
 
@@ -102,10 +115,10 @@ public class OzPrintVisitor
   {
     if (visibilityList != null) {
       printKeyword(ZString.ZPROJ);
-      print(Sym.LPAREN);
+      zPrint(net.sourceforge.czt.print.z.Sym.LPAREN);
       printTermList(visibilityList.getRefName());
-      print(Sym.RPAREN);
-      print(Sym.NL);
+      zPrint(net.sourceforge.czt.print.z.Sym.RPAREN);
+      zPrint(net.sourceforge.czt.print.z.Sym.NL);
     }
     return null;
   }
@@ -115,19 +128,19 @@ public class OzPrintVisitor
     if (initialState != null) {
       boolean isBox = Box.SchBox.equals(initialState.getBox());
       if (isBox) {
-	print(Sym.INIT);
-	print(Sym.NL);
+	ozPrint(Sym.INIT);
+	zPrint(net.sourceforge.czt.print.z.Sym.NL);
 	visit(initialState.getPred());
-	print(Sym.NL);
-	print(Sym.END);	
+	zPrint(net.sourceforge.czt.print.z.Sym.NL);
+	zPrint(net.sourceforge.czt.print.z.Sym.END);	
       }
       else {
 	printKeyword(OzString.INITWORD + ZString.SPACE + OzString.SDEF + ZString.SPACE);
-	print(Sym.LSQUARE);
+	zPrint(net.sourceforge.czt.print.z.Sym.LSQUARE);
 	visit(initialState.getPred());
-	print(Sym.RSQUARE);
+	zPrint(net.sourceforge.czt.print.z.Sym.RSQUARE);
       }
-      print(Sym.NL);
+      zPrint(net.sourceforge.czt.print.z.Sym.NL);
     }
     return null;
   }
@@ -137,42 +150,42 @@ public class OzPrintVisitor
     if (state != null) {
       boolean isBox = Box.SchBox.equals(state.getBox());
       if (isBox) {
-	print(Sym.STATE);
-	print(Sym.NL);
+	ozPrint(Sym.STATE);
+	zPrint(net.sourceforge.czt.print.z.Sym.NL);
       }
       else {
-	print(Sym.LSQUARE);
+	zPrint(net.sourceforge.czt.print.z.Sym.LSQUARE);
       }
       
       if (state.getPrimaryDecl() != null) {
 	visit(state.getPrimaryDecl());
-	print(Sym.NL);
+	zPrint(net.sourceforge.czt.print.z.Sym.NL);
       }
 
       if (state.getSecondaryDecl() != null) {
 	printKeyword(OzString.DELTA);
-	print(Sym.NL);
+	zPrint(net.sourceforge.czt.print.z.Sym.NL);
 	visit(state.getSecondaryDecl());
-	print(Sym.NL);
+	zPrint(net.sourceforge.czt.print.z.Sym.NL);
       }
 
       if (state.getPred() != null) {
 	printKeyword(ZString.BAR);
-	print(Sym.NL);
+	zPrint(net.sourceforge.czt.print.z.Sym.NL);
       }
 
       if (state.getPred() != null) {
 	visit(state.getPred());
-	print(Sym.NL);
+	zPrint(net.sourceforge.czt.print.z.Sym.NL);
       }
       
       if (isBox) {
-	print(Sym.END);
+	zPrint(net.sourceforge.czt.print.z.Sym.END);
       }
       else {
-	print(Sym.RSQUARE);
+	zPrint(net.sourceforge.czt.print.z.Sym.RSQUARE);
       }
-      print(Sym.NL);
+      zPrint(net.sourceforge.czt.print.z.Sym.NL);
     }
     return null;
   }
@@ -195,7 +208,7 @@ public class OzPrintVisitor
     if (isBox) {
       printKeyword(ZString.SCH + "op" + ZString.SPACE);
       visit(operation.getOpName());
-      print(Sym.NL);
+      zPrint(net.sourceforge.czt.print.z.Sym.NL);
 
       assert operation.getOpExpr() instanceof AnonOpExpr;
       AnonOpExpr anonOpExpr = (AnonOpExpr) operation.getOpExpr();
@@ -206,21 +219,21 @@ public class OzPrintVisitor
       if (opText.getSchText() instanceof ZSchText) {
 	ZSchText zSchText = (ZSchText) opText.getSchText();
 	visit(zSchText.getDeclList());
-	print(Sym.NL);
+	zPrint(net.sourceforge.czt.print.z.Sym.NL);
 	printKeyword(ZString.BAR);
-	print(Sym.NL);
+	zPrint(net.sourceforge.czt.print.z.Sym.NL);
 	visit(zSchText.getPred());
       }
       else {
 	throw new UnsupportedOperationException("Non-ZSchText in Operation");
       }
-      print(Sym.END);
+      zPrint(net.sourceforge.czt.print.z.Sym.END);
     }
     else {
       visit(operation.getOpName());
       printKeyword(ZString.SPACE + OzString.SDEF + ZString.SPACE);
       visit(operation.getOpExpr());
-      print(Sym.NL);
+      zPrint(net.sourceforge.czt.print.z.Sym.NL);
     }
     return null;
   }
@@ -235,10 +248,10 @@ public class OzPrintVisitor
   public Object visitDeltaList(DeltaList deltaList)
   {
     printKeyword(ZString.DELTA);
-    print(Sym.LPAREN);
+    zPrint(net.sourceforge.czt.print.z.Sym.LPAREN);
     printTermList(deltaList.getRefName());
-    print(Sym.RPAREN);
-    print(Sym.NL);
+    zPrint(net.sourceforge.czt.print.z.Sym.RPAREN);
+    zPrint(net.sourceforge.czt.print.z.Sym.NL);
     return null;
   }
 
@@ -326,9 +339,9 @@ public class OzPrintVisitor
   public Object visitAnonOpExpr(AnonOpExpr anonOpExpr)
   {
     printLPAREN(anonOpExpr);
-    print(Sym.LSQUARE);
+    zPrint(net.sourceforge.czt.print.z.Sym.LSQUARE);
     visit(anonOpExpr.getOpText());
-    print(Sym.RSQUARE);
+    zPrint(net.sourceforge.czt.print.z.Sym.RSQUARE);
     printRPAREN(anonOpExpr);
     return null;
   }
@@ -398,9 +411,9 @@ public class OzPrintVisitor
     printLPAREN(hideOpExpr);
     visit(hideOpExpr.getOpExpr());
     printKeyword(ZString.ZHIDE);
-    print(Sym.LPAREN);
+    zPrint(net.sourceforge.czt.print.z.Sym.LPAREN);
     visit(hideOpExpr.getRefNameList());
-    print(Sym.RPAREN);
+    zPrint(net.sourceforge.czt.print.z.Sym.RPAREN);
     printRPAREN(hideOpExpr);
     return null;
   }
@@ -409,9 +422,9 @@ public class OzPrintVisitor
   {
     printLPAREN(renameOpExpr);
     visit(renameOpExpr.getOpExpr());
-    print(Sym.LSQUARE);
+    zPrint(net.sourceforge.czt.print.z.Sym.LSQUARE);
     visit(renameOpExpr.getRenameList());
-    print(Sym.RSQUARE);
+    zPrint(net.sourceforge.czt.print.z.Sym.RSQUARE);
     printRPAREN(renameOpExpr);
     return null;
   }
@@ -449,12 +462,12 @@ public class OzPrintVisitor
   protected void printLPAREN(TermA termA)
   {
     final boolean braces = termA.getAnn(ParenAnn.class) != null;
-    if (braces) print(Sym.LPAREN);
+    if (braces) zPrint(net.sourceforge.czt.print.z.Sym.LPAREN);
   }
 
   protected void printRPAREN(TermA termA)
   {
     final boolean braces = termA.getAnn(ParenAnn.class) != null;
-    if (braces) print(Sym.RPAREN);
+    if (braces) zPrint(net.sourceforge.czt.print.z.Sym.RPAREN);
   }
 }

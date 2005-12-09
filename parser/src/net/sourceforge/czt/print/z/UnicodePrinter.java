@@ -285,10 +285,11 @@ public class UnicodePrinter
   }
 
   /**
-   * Prints a token from Symbol.
+   * Prints a token from ZSymbol.
    */
   public void printSymbol(Symbol s)
   {
+    assert s.left == ZPrintVisitor.Z;
     switch(s.sym) {
     case(Sym.TEXT):
       print(s.value);
@@ -372,15 +373,11 @@ public class UnicodePrinter
       printDECORWORD((Decorword) s.value);
       break;
     default :
+      Map fieldMap = DebugUtils.getFieldMap(Sym.class);
       throw new CztException("Unexpected token (" + s.sym + ", " +
-			     this.getFieldMap().get(s.sym) + ", " +
+			     fieldMap.get(s.sym) + ", " +
 			     s.value + ")");
     }
-  }
-
-  protected Map getFieldMap()
-  {
-    return DebugUtils.getFieldMap(Sym.class);
   }
 
   /**
