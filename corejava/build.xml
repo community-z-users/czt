@@ -470,7 +470,7 @@
         <include name="org/**"/>
         <include name="**/jaxb/gen/**"/>
       </packageset>
-      <classpath path="jwsdp.classpath"/>
+      <classpath path="${jwsdp.classpath}"/>
     </javadoc>
   </target>
 
