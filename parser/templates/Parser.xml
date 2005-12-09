@@ -4517,7 +4517,7 @@ initialState ::=
         ;
 
 operation ::=
-        OPSCH:osch name:n opText:ot END
+        OPSCH:osch name:n optNL opText:ot END
         {:
            OpExpr opExpr = factory_.createAnonOpExpr(ot);
            RESULT = factory_.createOperation(n, opExpr, Box.SchBox);
