@@ -15,6 +15,9 @@
     file="${basedir}/corejava/build.xml"
     property="corejava.present"/>
   <available
+    file="${basedir}/session/build.xml"
+    property="session.present"/>
+  <available
     file="${basedir}/gaffe/build.xml"
     property="gaffe.present"/>
   <available
@@ -51,7 +54,7 @@
   <echo message="czt.jar.uptodate result: ${czt.jar.uptodate}" />
 
   <target name="czt.jar"
-    depends="install-corejava, install-parser, install-typechecker"
+    depends="install-corejava, install-session, install-parser, install-typechecker"
     unless="czt.jar.uptodate"
     description="build the czt jar file">
     <property name="czt.build.dir" location="build"/>
@@ -62,6 +65,7 @@
     <unjar src="${jar.dir}/${corejava.tcoz.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${jar.dir}/${corejava.jaxb.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${jar.dir}/${java_cup.jar.file}" dest="${czt.build.dir}"/>
+    <unjar src="${jar.dir}/${session.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${jar.dir}/${parser.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${jar.dir}/${typechecker.jar.file}" dest="${czt.build.dir}"/>
     <copy todir="${czt.build.dir}/czt">
@@ -81,12 +85,12 @@
     depends="install-bin, install-subprojects"/>
 
   <target name="install-subprojects"
-    depends="install-corejava, install-parser, install-gaffe, install-z2b, install-typechecker, install-zlive, install-rules, install-jedit"
+    depends="install-corejava, install-session, install-parser, install-gaffe, install-z2b, install-typechecker, install-zlive, install-rules, install-jedit"
     description="install subprojects">
   </target>
 
   <target name="api-subprojects"
-    depends="api-corejava, api-parser, api-typechecker, api-zlive, api-rules"
+    depends="api-corejava, api-session, api-parser, api-typechecker, api-zlive, api-rules"
     description="build the api for subprojects">
   </target>
 
@@ -100,8 +104,13 @@
     <ant dir="corejava" target="install"/>
   </target>
 
+  <target name="install-session" if="session.present"
+    description="install session">
+    <ant dir="session" target="install"/>
+  </target>
+
   <target name="install-parser" if="parser.present"
-    depends="install-java_cup, install-corejava"
+    depends="install-java_cup, install-corejava, install-session"
     description="install parser">
     <ant dir="parser" target="install"/>
   </target>
@@ -125,13 +134,13 @@
   </target>
 
   <target name="install-typechecker" if="typechecker.present"
-    depends="install-corejava"
+    depends="install-corejava, install-session"
     description="install typeckecker">
     <ant dir="typechecker" target="install"/>
   </target>
 
   <target name="install-zlive" if="zlive.present"
-    depends="install-corejava, install-parser"
+    depends="install-corejava, install-parser, install-rules"
     description="install zlive">
     <ant dir="zlive" target="install"/>
   </target>
@@ -160,6 +169,11 @@
   <target name="api-corejava" if="corejava.present"
     description="build api doc for corejava">
     <ant dir="corejava" target="api"/>
+  </target>
+
+  <target name="api-session" if="session.present"
+    description="build api doc for session">
+    <ant dir="session" target="api"/>
   </target>
 
   <target name="api-parser" if="parser.present"
@@ -208,6 +222,11 @@
     </path>
     <pathconvert targetos="unix" property="corebase.unix" refid="corebase"/>
     <pathconvert targetos="windows" property="corebase.win" refid="corebase"/>
+    <path id="session">
+      <pathelement location="${czt.jar.dir}/${session.jar.file}"/>
+    </path>
+    <pathconvert targetos="unix" property="session.unix" refid="session"/>
+    <pathconvert targetos="windows" property="session.win" refid="session"/>
     <path id="gaffe">
       <pathelement location="${czt.jar.dir}/${gaffe.jar.file}"/>
       <pathelement location="${czt.jar.dir}/${gaffe.generator.jar.file}"/>
@@ -288,6 +307,8 @@
 COREJAVA=${corejava.unix}
 # corejava base
 COREJAVA_BASE=${corebase.unix}
+# session jar file
+SESSION=${session.unix}
 # Gaffe GUI generator and animator
 GAFFE=${gaffe.unix}
 # java cup
@@ -317,6 +338,8 @@ rem corejava jar files
 set COREJAVA=${corejava.win}
 rem corejava base
 set COREJAVA_BASE=${corebase.win}
+rem session jar file
+set SESSION=${session.win}
 rem Gaffe GUI generator and animator
 set GAFFE=${gaffe.win}
 rem java cup
@@ -347,6 +370,7 @@ set TYPECHECKER=${typechecker.win}
   <target name="test" description="test subprojects"
     depends="install-jars">
     <ant dir="corejava" target="test"/>
+    <ant dir="session" target="test"/>
     <ant dir="parser" target="test"/>
     <ant dir="translators/z2b" target="test"/>
     <ant dir="typechecker" target="test"/>
@@ -377,7 +401,7 @@ set TYPECHECKER=${typechecker.win}
   </target>
 
   <target name="clean" description="clean up subprojects"
-    depends="clean-gnast, clean-corejava, clean-java_cup, clean-ant-task, clean-gaffe, clean-gaffe-generator, clean-parser, clean-z2b, clean-typechecker, clean-zlive, clean-rules, clean-jedit">
+    depends="clean-gnast, clean-corejava, clean-session, clean-java_cup, clean-ant-task, clean-gaffe, clean-gaffe-generator, clean-parser, clean-z2b, clean-typechecker, clean-zlive, clean-rules, clean-jedit">
     <delete dir="${jar.dir}"/>
     <delete file="${unix.settings.file}"/>
     <delete file="${windows.settings.file}"/>
@@ -391,6 +415,11 @@ set TYPECHECKER=${typechecker.win}
   <target name="clean-corejava" if="corejava.present"
     description="clean up corejava">
     <ant dir="corejava" target="clean"/>
+  </target>
+
+  <target name="clean-session" if="session.present"
+    description="clean up typechecker">
+    <ant dir="session" target="clean"/>
   </target>
 
   <target name="clean-ant-task" if="ant-task.present"

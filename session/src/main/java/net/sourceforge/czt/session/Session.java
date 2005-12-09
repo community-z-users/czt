@@ -19,9 +19,6 @@
 
 package net.sourceforge.czt.session;
 
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.z.ast.*;
-
 public class Session
 {
   private SectionManager manager_ = new SectionManager();
@@ -52,18 +49,6 @@ public class Session
   public void setSection(String s)
   {
     section_ = s;
-  }
-
-  public boolean setExtension(String extension)
-  {
-    if ("zpatt".equals(extension)) {
-      Command parseCommand =
-        net.sourceforge.czt.parser.zpatt.ParseUtils.getCommand();
-      manager_.putCommand(Spec.class, parseCommand);
-      manager_.putCommand(ZSect.class, parseCommand);
-      return true;
-    }
-    return false;
   }
 
   public void setPath(String path)

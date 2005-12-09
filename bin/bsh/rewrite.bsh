@@ -1,9 +1,25 @@
 import net.sourceforge.czt.zpatt.util.Rewrite;
 
-rewrite(String termFile, String rulesFile)
+rewrite(String termFileName, String rulesFileName)
 {
+  termFile = new File(termFileName);
+  if (! termFile.exists()) {
+    System.err.println("File " + termFileName + " not found.");
+    return null;    
+  }
+  rulesFile = new File(rulesFileName);
+  if (! rulesFile.exists()) {
+    System.err.println("File " + rulesFileName + " not found.");
+    return null;    
+  }
   reader = new net.sourceforge.czt.zpatt.jaxb.JaxbXmlReader();
-  term = reader.read(new File(termFile));
-  return Rewrite.rewrite(term,
-                         collectRules(reader.read(new File(rulesFile))));
+  term = reader.read(termFile);
+  rules = reader.read(rulesFile);
+  if (term != null && rules != null) {
+    return Rewrite.rewrite(term,
+                           collectRules(rules));
+  }
+  else {
+    System.err.println("Cannot read");
+  }
 }

@@ -7,6 +7,7 @@
   <property name="corejava.core.jar" location="${czt.home}/${jar.dir}/${corejava.core.jar.file}"/>
   <property name="corejava.oz.jar" location="${czt.home}/${jar.dir}/${corejava.oz.jar.file}"/>
   <property name="corejava.jaxb.jar" location="${czt.home}/${jar.dir}/${corejava.jaxb.jar.file}"/>
+  <property name="session.jar" location="${czt.home}/${jar.dir}/${session.jar.file}"/>
   <property name="parser.jar" location="${czt.home}/${jar.dir}/${parser.jar.file}"/>
   <property name="java_cup.jar" location="${czt.home}/${jar.dir}/${java_cup.jar.file}"/>
   <property name="test.jar.file" location="${test.build.dir}/TestSuite.jar"/>
@@ -17,6 +18,7 @@
     <pathelement location="${corejava.core.jar}"/>
     <pathelement location="${corejava.oz.jar}"/>
     <pathelement location="${corejava.jaxb.jar}"/>
+    <pathelement location="${session.jar}"/>
     <pathelement location="${parser.jar}"/>
     <pathelement location="${java_cup.jar}"/>
     <pathelement path="${jwsdp.classpath}"/>

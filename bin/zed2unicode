@@ -1,3 +1,3 @@
 #!/bin/sh
 source `dirname $0`/settings.sh
-java -classpath ${PARSER}:${JAVA_CUP}:${COREJAVA} -Dczt.lib=`dirname $0`/../parser/lib net.sourceforge.czt.parser.z.LatexToUnicode "$@"
+java -classpath ${SESSION}:{PARSER}:${JAVA_CUP}:${COREJAVA} -Dczt.lib=`dirname $0`/../parser/lib net.sourceforge.czt.parser.z.LatexToUnicode "$@"

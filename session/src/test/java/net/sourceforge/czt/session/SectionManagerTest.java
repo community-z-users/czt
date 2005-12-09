@@ -19,12 +19,7 @@
 
 package net.sourceforge.czt.session;
 
-import java.io.*;
-
 import junit.framework.*;
-
-import net.sourceforge.czt.print.z.PrintUtils;
-import net.sourceforge.czt.z.ast.Spec;
 
 public class SectionManagerTest
   extends TestCase
@@ -39,29 +34,6 @@ public class SectionManagerTest
   protected void tearDown()
   {
     manager_ = null;
-  }
-
-  public void testParseSect()
-  {
-    try {
-      File file = File.createTempFile("SectionManagerTest", ".tex");
-      file.deleteOnExit();
-      FileWriter writer = new FileWriter(file);
-      String latexSpec =
-        "\\begin{schema}{Test} a:\\nat \\where true \\end{schema}";
-      writer.write(latexSpec, 0, latexSpec.length());
-      writer.close();
-      String filename = file.getCanonicalPath();
-      Spec spec =
-        (Spec) manager_.get(new Key(filename, Spec.class));
-      assertTrue(spec != null);
-    }
-    catch (IOException e) {
-      fail("Should not throw Exception " + e);
-    }
-    catch (CommandException e) {
-      fail("Should not throw CommandException " + e);
-    }
   }
 
   public void testClone()

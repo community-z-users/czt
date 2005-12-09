@@ -33,6 +33,7 @@
       <include name="${corejava.tcoz.jar.file}"/>
       <include name="${corejava.jaxb.jar.file}"/>
       <include name="${java_cup.jar.file}"/>
+      <include name="${session.jar.file}"/>
     </fileset>
     <pathelement path="${java.class.path}"/>
     <pathelement path="${clover.jar}"/>

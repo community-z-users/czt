@@ -35,6 +35,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   <property name="corejava.base.jar.path" location="${corejava.jar.dir}/${corejava.base.jar.file}"/>
   <property name="corejava.core.jar.path" location="${corejava.jar.dir}/${corejava.core.jar.file}"/>
   <property name="corejava.jaxb.jar.path" location="${corejava.jar.dir}/${corejava.jaxb.jar.file}"/>
+  <property name="session.jar.path" location="${corejava.jar.dir}/${session.jar.file}"/>
   <property name="parser.jar.path" location="${corejava.jar.dir}/${parser.jar.file}"/>
   <property name="java_cup.jar.path" location="${corejava.jar.dir}/${java_cup.jar.file}"/>
 
@@ -78,6 +79,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
       <pathelement path="${corejava.base.jar.path}"/>
       <pathelement path="${corejava.core.jar.path}"/>
       <pathelement path="${corejava.jaxb.jar.path}"/>
+      <pathelement path="${session.jar.path}"/>
       <pathelement path="${parser.jar.path}"/>
       <pathelement path="${java_cup.jar.path}"/>
     </path>

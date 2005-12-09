@@ -15,6 +15,7 @@
       <include name="${corejava.oz.jar.file}"/>
       <include name="${corejava.zpatt.jar.file}"/>
       <include name="${corejava.jaxb.jar.file}"/>
+      <include name="${session.jar.file}"/>
       <include name="${parser.jar.file}"/>
       <include name="${typechecker.jar.file}"/>
       <include name="${rules.jar.file}"/>

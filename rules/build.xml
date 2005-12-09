@@ -20,6 +20,7 @@
     <pathelement location="${czt.home}/${jar.dir}/${corejava.core.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${corejava.jaxb.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${corejava.zpatt.jar.file}"/>
+    <pathelement location="${czt.home}/${jar.dir}/${session.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${parser.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${java_cup.jar.file}"/>    
     <pathelement location="${czt.home}/${jar.dir}/${typechecker.jar.file}"/>

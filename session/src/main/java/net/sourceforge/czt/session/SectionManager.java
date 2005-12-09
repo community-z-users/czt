@@ -28,12 +28,6 @@ import java.util.Properties;
 import java.util.logging.Logger;
 import java.util.Set;
 
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.parser.util.*;
-import net.sourceforge.czt.parser.z.*;
-import net.sourceforge.czt.util.CztLogger;
-import net.sourceforge.czt.z.ast.*;
-
 /**
  * This class is a repository for information about Z specs/sections.
  * It stores all the objects used during parsing and transforming,
@@ -113,6 +107,11 @@ public class SectionManager
     setupDefaultCommands();
   }
 
+  private Logger getLogger()
+  {
+    return Logger.getLogger(getClass().getName());
+  }
+
   /**
    * <p>Returns a new SectionManager with the same content, commands,
    * and properties.</p>
@@ -179,25 +178,25 @@ public class SectionManager
    */
   public void setupDefaultCommands()
   {
-    addCommand("net.sourceforge.czt.session.Source",
+    putCommand("net.sourceforge.czt.session.Source",
                "net.sourceforge.czt.session.SourceLocator");
-    addCommand("net.sourceforge.czt.z.ast.Spec",
+    putCommand("net.sourceforge.czt.z.ast.Spec",
                "net.sourceforge.czt.parser.z.ParseUtils");
-    addCommand("net.sourceforge.czt.z.ast.ZSect",
+    putCommand("net.sourceforge.czt.z.ast.ZSect",
                "net.sourceforge.czt.parser.z.ParseUtils");
-    addCommand("net.sourceforge.czt.parser.util.LatexMarkupFunction",
+    putCommand("net.sourceforge.czt.parser.util.LatexMarkupFunction",
                "net.sourceforge.czt.parser.z.ParseUtils");
-    addCommand("net.sourceforge.czt.parser.util.OpTable",
+    putCommand("net.sourceforge.czt.parser.util.OpTable",
                "net.sourceforge.czt.parser.util.OpTableCommand");
-    addCommand("net.sourceforge.czt.parser.util.DefinitionTable",
+    putCommand("net.sourceforge.czt.parser.util.DefinitionTable",
                "net.sourceforge.czt.parser.util.DefinitionTableService");
-    addCommand("net.sourceforge.czt.parser.util.JokerTable",
+    putCommand("net.sourceforge.czt.parser.util.JokerTable",
                "net.sourceforge.czt.parser.util.JokerTableCommand");
-    addCommand("net.sourceforge.czt.z.ast.SectTypeEnvAnn",
+    putCommand("net.sourceforge.czt.z.ast.SectTypeEnvAnn",
                "net.sourceforge.czt.typecheck.z.TypeCheckCommand");
   }
 
-  private boolean addCommand(String type, String commandClassName)
+  public boolean putCommand(String type, String commandClassName)
   {
     try {
       Class typeClass = toClass(type);
@@ -210,28 +209,28 @@ public class SectionManager
         }
         final String message = "Cannot instanciate command " +
           commandClassName + "; given class is not a command";
-        CztLogger.getLogger(getClass()).warning(message);      
+        getLogger().warning(message);      
       }
     }
     catch (ExceptionInInitializerError e) {
       final String message = "Cannot instanciate command " + commandClassName +
         "; exception in initialzier";
-      CztLogger.getLogger(getClass()).warning(message);
+      getLogger().warning(message);
     }
     catch (IllegalAccessException e) {
       final String message = "Cannot instanciate command " + commandClassName +
         "; illegal access exception";
-      CztLogger.getLogger(getClass()).warning(message);
+      getLogger().warning(message);
     }
     catch (InstantiationException e) {
       final String message = "Cannot instanciate command " + commandClassName +
         "; instantiation exception";
-      CztLogger.getLogger(getClass()).warning(message);
+      getLogger().warning(message);
     }
     catch (SecurityException e) {
       final String message = "Cannot instanciate command " + commandClassName +
         "; security exception";
-      CztLogger.getLogger(getClass()).warning(message);
+      getLogger().warning(message);
     }
     return false;
   }
@@ -247,17 +246,17 @@ public class SectionManager
     catch (ExceptionInInitializerError e) {
       final String message = "Cannot get class " + name +
         "; exception in initialzier";
-      CztLogger.getLogger(getClass()).warning(message);
+      getLogger().warning(message);
     }
     catch (LinkageError e) {
       final String message = "Cannot get class " + name +
         "; linkage error";
-      CztLogger.getLogger(getClass()).warning(message);
+      getLogger().warning(message);
     }
     catch (ClassNotFoundException e) {
       final String message = "Cannot get class " + name +
         "; class cannot be found";
-      CztLogger.getLogger(getClass()).warning(message);
+      getLogger().warning(message);
     }
     return null;
   }
@@ -302,7 +301,7 @@ public class SectionManager
   public Object get(Key key)
     throws CommandException
   {
-    CztLogger.getLogger(getClass()).finer("Entering method get " + key);
+    getLogger().finer("Entering method get " + key);
     final Class infoType = key.getType();
     final String name = key.getName();
     Object result = content_.get(key);
@@ -311,7 +310,7 @@ public class SectionManager
       if (command == null) {
         throw new CommandException("No command available to compute " + key);
       }
-      CztLogger.getLogger(getClass()).finer("Try command ...");
+      getLogger().finer("Try command ...");
       command.compute(name, this);
       result = content_.get(new Key(name, infoType));
       if (result == null) {
@@ -320,7 +319,7 @@ public class SectionManager
       }
     }
     final String message = "Leaving method get and returning " + result;
-    CztLogger.getLogger(getClass()).finer(message);
+    getLogger().finer(message);
     return result;
   }
 
@@ -339,15 +338,15 @@ public class SectionManager
       String message =
         "SectionManager ERROR: " + value +
         " is not an instance of " + key.getType();
-      CztLogger.getLogger(getClass()).warning(message);
+      getLogger().warning(message);
     }
     assert key.getType().isInstance(value);
     if (content_.containsKey(key)) {
       String message = "Attempt to add duplicate key: " + key;
-      CztLogger.getLogger(getClass()).warning(message);
+      getLogger().warning(message);
     }
     content_.put(key, value);
-    CztLogger.getLogger(getClass()).finer("put " + key);
+    getLogger().finer("put " + key);
   }
 
   /**
@@ -366,34 +365,12 @@ public class SectionManager
    */
   public void reset()
   {
-    CztLogger.getLogger(getClass()).finer("reset");
+    getLogger().finer("reset");
     content_.clear();
   }
 
   public String toString()
   {
     return "SectionManager contains " + content_.toString();
-  }
-
-  /**
-   * A command to compute the latex markup function (class LatexMarkupFunction)
-   * for a Z section.
-   */
-  class LatexMarkupFunctionCommand
-    implements Command
-  {
-    public boolean compute(String name,
-                           SectionManager manager)
-      throws CommandException
-    {
-      Key key = new Key(name, LatexMarkupFunction.class);
-      if (! manager.isCached(key)) {
-        ZSect zsect = (ZSect) manager.get(new Key(name, ZSect.class));
-        if (! manager.isCached(key) && zsect != null) {
-          manager.put(key, new LatexMarkupFunction(name));
-        }
-      }
-      return true;
-    }
   }
 }
