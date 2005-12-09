@@ -85,12 +85,15 @@
     depends="install-bin, install-subprojects"/>
 
   <target name="install-subprojects"
-    depends="install-corejava, install-session, install-parser, install-gaffe, install-z2b, install-typechecker, install-zlive, install-rules, install-jedit"
+    depends="install-corejava, install-session, install-parser,
+      install-gaffe, install-z2b, install-typechecker, install-rules,
+      install-zlive, install-jedit" 
     description="install subprojects">
   </target>
 
   <target name="api-subprojects"
-    depends="api-corejava, api-session, api-parser, api-typechecker, api-zlive, api-rules"
+    depends="api-corejava, api-session, api-parser, api-typechecker,
+      api-rules, api-zlive"
     description="build the api for subprojects">
   </target>
 
@@ -140,7 +143,7 @@
   </target>
 
   <target name="install-zlive" if="zlive.present"
-    depends="install-corejava, install-parser, install-rules"
+    depends="install-corejava, install-typechecker, install-rules"
     description="install zlive">
     <ant dir="zlive" target="install"/>
   </target>
