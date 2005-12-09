@@ -772,7 +772,7 @@ public class ZCharMap extends JPanel
         else {
           convert_.setText("toLatex");
         }
-     }
+      }
       catch (Throwable exception) {
         CztLogger.getLogger(ZCharMap.class).info("CZT error occured.");
         String message = "Caught " + exception.getClass().getName() + ": " +
