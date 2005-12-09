@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project basedir="." default="run">
+<project name="example-subsvisitor" basedir="." default="run">
   <property name="czt.home" location="../../.."/>
   <property file="${czt.home}/czt.properties"/>
   

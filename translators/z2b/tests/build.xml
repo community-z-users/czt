@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<project basedir="." default="test">
-  <!-- set this to the relative directory name of some recent usertest results. -->
+<project name="z2b-tests" basedir="." default="test">
   <property name="czt.home" location="../../.."/>
   <property file="${czt.home}/czt.properties"/>
   <property name="test.build.dir" value="build"/>

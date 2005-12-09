@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project basedir="." default="usertest_compare">
+<project name="zlive-tests" basedir="." default="usertest_compare">
   <!-- The directory of old 'usertest' results that 'compare' will use. -->
   <property name="latest.usertests" value="UserTest-Results"/>
   <property name="czt.home" location="../.."/>

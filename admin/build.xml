@@ -1,4 +1,4 @@
-<project name="czt" default="release" basedir=".">
+<project name="admin" default="release" basedir=".">
   <!-- location of the czt directory -->
   <property name="czt.dir" location=".."/>
   <property file="${czt.dir}/czt.properties"/>

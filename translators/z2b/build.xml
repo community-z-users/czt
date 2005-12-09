@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project basedir="." default="install">
+<project name="z2b" basedir="." default="install">
   <property name="czt.home" location="../.."/>
   <property file="${czt.home}/czt.properties"/>
   <property name="src" location="src"/>

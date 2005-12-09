@@ -1,4 +1,4 @@
-<project basedir="." default="install">
+<project name="zeves" basedir="." default="install">
   <property name="czt.home" location="../.."/>
   <property file="${czt.home}/czt.properties"/>
   <property name="zeves.src.dir" location="src"/>
