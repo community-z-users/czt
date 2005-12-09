@@ -28,7 +28,6 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.visitor.*;
-import net.sourceforge.czt.print.z.*;
 
 /**
  * An Object-Z visitor used for printing.
@@ -36,7 +35,7 @@ import net.sourceforge.czt.print.z.*;
  * @author Petra Malik, Tim Miller
  */
 public class OzPrintVisitor
-  extends ZPrintVisitor
+  extends net.sourceforge.czt.print.z.ZPrintVisitor
   implements OzVisitor
 {
   /**
@@ -51,7 +50,52 @@ public class OzPrintVisitor
 
   public Object visitClassPara(ClassPara classPara)
   {
-    throw new UnsupportedOperationException();
+    //print the header information
+    if (classPara.getFormalParameters().size() == 0) {
+      print(Sym.CLASS);
+      visit(classPara.getDeclName());
+    }
+    else {
+      print(Sym.GENCLASS);
+      visit(classPara.getDeclName());
+      print(Sym.LSQUARE);
+      printTermList(classPara.getFormalParameters());
+      print(Sym.RSQUARE);
+    }
+    print(Sym.NL);
+
+    visit(classPara.getVisibilityList());
+
+    //visit each inherited class, putting a NL between them
+    if (classPara.getInheritedClass() instanceof ZExprList) {
+      ZExprList inheritedClass = (ZExprList) classPara.getInheritedClass();
+      for (Expr expr : inheritedClass) {
+	visit(expr);
+	print(Sym.NL);
+      }
+    }
+    else {
+      throw new UnsupportedOperationException("Non-ZExprList as Inherited Class");
+    }
+
+    //visit each inner paragraph, putting a NL between them
+    for (Para para : classPara.getLocalDef()) {
+      visit(para);
+      print(Sym.NL);
+    }    
+
+    //visit the state and inital predicate
+    visit(classPara.getState());
+    visit(classPara.getInitialState());
+
+    //visit each operation, putting a NL between them
+    for (Operation operation : classPara.getOperation()) {
+      visit(operation);
+      print(Sym.NL);
+    } 
+
+    print(Sym.END);
+    return null;
   }
 
   public Object visitVisibilityList(VisibilityList visibilityList)
@@ -61,33 +105,74 @@ public class OzPrintVisitor
       print(Sym.LPAREN);
       printTermList(visibilityList.getRefName());
       print(Sym.RPAREN);
+      print(Sym.NL);
     }
     return null;
   }
 
   public Object visitInitialState(InitialState initialState)
   {
-    throw new UnsupportedOperationException();
+    if (initialState != null) {
+      boolean isBox = Box.SchBox.equals(initialState.getBox());
+      if (isBox) {
+	print(Sym.INIT);
+	print(Sym.NL);
+	visit(initialState.getPred());
+	print(Sym.NL);
+	print(Sym.END);	
+      }
+      else {
+	printKeyword(OzString.INITWORD + ZString.SPACE + OzString.SDEF + ZString.SPACE);
+	print(Sym.LSQUARE);
+	visit(initialState.getPred());
+	print(Sym.RSQUARE);
+      }
+      print(Sym.NL);
+    }
+    return null;
   }
 
   public Object visitState(State state)
   {
-    if (Box.SchBox.equals(state.getBox())) {
-      print(net.sourceforge.czt.parser.oz.Sym.STATE);
-    }
-    else {
-      print(Sym.LSQUARE);
-    }
+    if (state != null) {
+      boolean isBox = Box.SchBox.equals(state.getBox());
+      if (isBox) {
+	print(Sym.STATE);
+	print(Sym.NL);
+      }
+      else {
+	print(Sym.LSQUARE);
+      }
+      
+      if (state.getPrimaryDecl() != null) {
+	visit(state.getPrimaryDecl());
+	print(Sym.NL);
+      }
 
-    visit(state.getPrimaryDecl());
-    visit(state.getSecondaryDecl());
-    visit(state.getPred());
+      if (state.getSecondaryDecl() != null) {
+	printKeyword(OzString.DELTA);
+	print(Sym.NL);
+	visit(state.getSecondaryDecl());
+	print(Sym.NL);
+      }
 
-    if (Box.SchBox.equals(state.getBox())) {
-      print(Sym.END);
-    }
-    else {
-      print(Sym.RSQUARE);
+      if (state.getPred() != null) {
+	printKeyword(ZString.BAR);
+	print(Sym.NL);
+      }
+
+      if (state.getPred() != null) {
+	visit(state.getPred());
+	print(Sym.NL);
+      }
+      
+      if (isBox) {
+	print(Sym.END);
+      }
+      else {
+	print(Sym.RSQUARE);
+      }
+      print(Sym.NL);
     }
     return null;
   }
@@ -106,9 +191,39 @@ public class OzPrintVisitor
 
   public Object visitOperation(Operation operation)
   {
-    throw new UnsupportedOperationException();
-  }
+    boolean isBox = Box.SchBox.equals(operation.getBox());
+    if (isBox) {
+      printKeyword(ZString.SCH + "op" + ZString.SPACE);
+      visit(operation.getOpName());
+      print(Sym.NL);
 
+      assert operation.getOpExpr() instanceof AnonOpExpr;
+      AnonOpExpr anonOpExpr = (AnonOpExpr) operation.getOpExpr();
+      OpText opText = anonOpExpr.getOpText();
+
+      visit(opText.getDeltaList());
+
+      if (opText.getSchText() instanceof ZSchText) {
+	ZSchText zSchText = (ZSchText) opText.getSchText();
+	visit(zSchText.getDeclList());
+	print(Sym.NL);
+	printKeyword(ZString.BAR);
+	print(Sym.NL);
+	visit(zSchText.getPred());
+      }
+      else {
+	throw new UnsupportedOperationException("Non-ZSchText in Operation");
+      }
+      print(Sym.END);
+    }
+    else {
+      visit(operation.getOpName());
+      printKeyword(ZString.SPACE + OzString.SDEF + ZString.SPACE);
+      visit(operation.getOpExpr());
+      print(Sym.NL);
+    }
+    return null;
+  }
 
   public Object visitOpText(OpText opText)
   {
@@ -123,6 +238,7 @@ public class OzPrintVisitor
     print(Sym.LPAREN);
     printTermList(deltaList.getRefName());
     print(Sym.RPAREN);
+    print(Sym.NL);
     return null;
   }
 

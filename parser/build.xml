@@ -71,7 +71,7 @@
     </jar>
   </target>
 
-  <target name="Unicode2Latex-cup" depends="init">
+  <target name="z-Unicode2Latex-cup" depends="init">
     <xslt
       in="templates/Unicode2Latex.xml"
       out="${build.src.dir}/net/sourceforge/czt/print/z/Unicode2Latex.cup"
@@ -82,7 +82,18 @@
     </xslt>
   </target>
 
-  <target name="UnicodeToLatex" depends="Unicode2Latex-cup, -set-javacup-task">
+  <target name="oz-Unicode2Latex-cup" depends="init">
+    <xslt
+      in="templates/Unicode2Latex.xml"
+      out="${build.src.dir}/net/sourceforge/czt/print/oz/Unicode2Latex.cup"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="Unicode2Latex"/>
+      <param name="package" expression="net.sourceforge.czt.print.oz"/>
+      <param name="add" expression="{oz}"/>
+    </xslt>
+  </target>
+
+  <target name="z-UnicodeToLatex" depends="z-Unicode2Latex-cup, -set-javacup-task">
     <java_cup
       srcfile="${build.src.dir}/net/sourceforge/czt/print/z/Unicode2Latex.cup"
       destdir="${build.src.dir}"
@@ -92,8 +103,18 @@
     </java_cup>
   </target>
 
+  <target name="oz-UnicodeToLatex" depends="oz-Unicode2Latex-cup, -set-javacup-task">
+    <java_cup
+      srcfile="${build.src.dir}/net/sourceforge/czt/print/oz/Unicode2Latex.cup"
+      destdir="${build.src.dir}"
+      parser="Unicode2Latex"
+      symbols="Sym"
+      classpath="${czt.lib}/${java_cup.jar.file}">
+    </java_cup>
+  </target>
+
   <target name="compile" depends="init, generate-src, 
-      UnicodeToLatex"
+      z-UnicodeToLatex, oz-UnicodeToLatex"
           description="Compiles the sources.">
     <javac source="1.5" srcdir="${src.dir}:${build.src.dir}"
            destdir="${build.class.dir}"
@@ -106,7 +127,7 @@
     depends="generate-z-src, generate-zpatt-src, generate-circus-src, generate-oz-src, generate-tcoz-src, generate-print-src"/>
 
   <target name="generate-print-src"
-    depends="print-scanner"/>
+    depends="z-print-scanner, oz-print-scanner"/>
 
   <target name="generate-z-src"
     depends="generate-z-parser, generate-z-scanner"/>
@@ -153,7 +174,7 @@
   <target name="generate-tcoz-scanner"
     depends="tcoz-l2u, tcoz-lmarkup, tcoz-ltu, tcoz-uscanner, tcoz-lscanner, tcoz-sscanner"/>
   
-  <target name="print-scanner">
+  <target name="z-print-scanner">
     <xslt
       in="templates/ContextFreeScanner.xml"
       out="${build.src.dir}/net/sourceforge/czt/print/z/ContextFreeScanner.jflex"
@@ -172,6 +193,28 @@
       <param name="class" expression="SectHeadScanner"/>
       <param name="package" expression="net.sourceforge.czt.print.z"/>
       <param name="add" expression="{z}{print}"/>
+    </xslt>
+  </target>
+
+  <target name="oz-print-scanner">
+    <xslt
+      in="templates/ContextFreeScanner.xml"
+      out="${build.src.dir}/net/sourceforge/czt/print/oz/ContextFreeScanner.jflex"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="ContextFreeScanner"/>
+      <param name="package" expression="net.sourceforge.czt.print.oz"/>
+      <param name="add" expression="{oz}{print}"/>
+    </xslt>
+    <jflex
+      file="${build.src.dir}/net/sourceforge/czt/print/oz/ContextFreeScanner.jflex"
+      destdir="${build.src.dir}"/>
+    <xslt
+      in="templates/SectHeadScanner.xml"
+      out="${build.src.dir}/net/sourceforge/czt/print/oz/SectHeadScanner.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="SectHeadScanner"/>
+      <param name="package" expression="net.sourceforge.czt.print.oz"/>
+      <param name="add" expression="{oz}{print}"/>
     </xslt>
   </target>
 

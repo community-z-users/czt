@@ -21,6 +21,7 @@ package net.sourceforge.czt.print.z;
 
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.Map;
 
 import net.sourceforge.czt.java_cup.runtime.Scanner;
 import net.sourceforge.czt.java_cup.runtime.Symbol;
@@ -29,6 +30,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.parser.util.Decorword;
+import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZString;
@@ -283,6 +285,105 @@ public class UnicodePrinter
   }
 
   /**
+   * Prints a token from Symbol.
+   */
+  public void printSymbol(Symbol s)
+  {
+    switch(s.sym) {
+    case(Sym.TEXT):
+      print(s.value);
+      break;
+    case(Sym.ZED):
+      printZED();
+      break;
+    case(Sym.AX):
+      printAX();
+      break;
+    case(Sym.GENAX):
+      printGENAX();
+      break;
+    case(Sym.SCH):
+      printSCH();
+      break;
+    case(Sym.GENSCH):
+      printGENSCH();
+      break;
+    case(Sym.PARENTS):
+      printPARENTS();
+      break;
+    case(Sym.SECTION):
+      printSECTION();
+      break;
+    case(Sym.WHERE):
+      printWHERE();
+      break;
+    case(Sym.END):
+      printEND();
+      break;
+    case(Sym.NL):
+      printNL();
+      break;
+    case(Sym.LPAREN):
+      printLPAREN();
+      break;
+    case(Sym.RPAREN):
+      printRPAREN();
+      break;
+    case(Sym.LSQUARE):
+      printLSQUARE();
+      break;
+    case(Sym.RSQUARE):
+      printRSQUARE();
+      break;
+    case(Sym.LBRACE):
+      printLBRACE();
+      break;
+    case(Sym.RBRACE):
+      printRBRACE();
+      break;
+    case(Sym.LBIND):
+      printLBIND();
+      break;
+    case(Sym.RBIND):
+      printRBIND();
+      break;
+    case(Sym.LDATA):
+      printLDATA();
+      break;
+    case(Sym.RDATA):
+      printRDATA();
+      break;
+    case(Sym.INSTROKE):
+      printINSTROKE();
+      break;
+    case(Sym.OUTSTROKE):
+      printOUTSTROKE();
+      break;
+    case(Sym.NEXTSTROKE):
+      printNEXTSTROKE();
+      break;
+    case(Sym.NUMSTROKE):
+      printNUMSTROKE((Integer) s.value);
+      break;
+    case(Sym.NUMERAL):
+      printNUMERAL((Integer) s.value);
+      break;
+    case(Sym.DECORWORD):
+      printDECORWORD((Decorword) s.value);
+      break;
+    default :
+      throw new CztException("Unexpected token (" + s.sym + ", " +
+			     this.getFieldMap().get(s.sym) + ", " +
+			     s.value + ")");
+    }
+  }
+
+  protected Map getFieldMap()
+  {
+    return DebugUtils.getFieldMap(Sym.class);
+  }
+
+  /**
    * Print a Z specification.  The token returned by the scanner
    * are simply translated into unicode; no parsing, syntax, or
    * semantic checking is performed.
@@ -294,91 +395,7 @@ public class UnicodePrinter
     try {
       Symbol s = null;
       while ( (s = scanner.next_token()).sym != Sym.EOF) {
-        switch(s.sym) {
-          case(Sym.TEXT):
-            print(s.value);
-            break;
-          case(Sym.ZED):
-            printZED();
-            break;
-          case(Sym.AX):
-            printAX();
-            break;
-          case(Sym.GENAX):
-            printGENAX();
-            break;
-          case(Sym.SCH):
-            printSCH();
-            break;
-          case(Sym.GENSCH):
-            printGENSCH();
-            break;
-          case(Sym.PARENTS):
-            printPARENTS();
-            break;
-          case(Sym.SECTION):
-            printSECTION();
-            break;
-          case(Sym.WHERE):
-            printWHERE();
-            break;
-          case(Sym.END):
-            printEND();
-            break;
-          case(Sym.NL):
-            printNL();
-            break;
-          case(Sym.LPAREN):
-            printLPAREN();
-            break;
-          case(Sym.RPAREN):
-            printRPAREN();
-            break;
-          case(Sym.LSQUARE):
-            printLSQUARE();
-            break;
-          case(Sym.RSQUARE):
-            printRSQUARE();
-            break;
-          case(Sym.LBRACE):
-            printLBRACE();
-            break;
-          case(Sym.RBRACE):
-            printRBRACE();
-            break;
-          case(Sym.LBIND):
-            printLBIND();
-            break;
-          case(Sym.RBIND):
-            printRBIND();
-            break;
-          case(Sym.LDATA):
-            printLDATA();
-            break;
-          case(Sym.RDATA):
-            printRDATA();
-            break;
-          case(Sym.INSTROKE):
-            printINSTROKE();
-            break;
-          case(Sym.OUTSTROKE):
-            printOUTSTROKE();
-            break;
-          case(Sym.NEXTSTROKE):
-            printNEXTSTROKE();
-            break;
-          case(Sym.NUMSTROKE):
-            printNUMSTROKE((Integer) s.value);
-            break;
-          case(Sym.NUMERAL):
-            printNUMERAL((Integer) s.value);
-            break;
-          case(Sym.DECORWORD):
-            printDECORWORD((Decorword) s.value);
-            break;
-          default :
-            throw new CztException("Unexpected token " + s.sym);
-        }
+	printSymbol(s);
         if (s.sym != Sym.TEXT) printSPACE();
       }
     }

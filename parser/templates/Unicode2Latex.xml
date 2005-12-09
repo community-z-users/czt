@@ -465,6 +465,9 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    LBIND, RBIND, LDATA, RDATA, ZED, AX, SCH, GENAX, GENSCH,
                    END, NL, SECTION, PARENTS, WHERE,
                    INSTROKE, OUTSTROKE, NEXTSTROKE,
+<add:oz>
+                   CLASS, GENCLASS, OPSCH, INIT, STATE,
+</add:oz>
                    END_MARKUP, TOKENSEQ;
 terminal ZSect     SECTHEAD;
 terminal Integer   NUMERAL, NUMSTROKE;
@@ -483,7 +486,7 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
              {: parser.getWriter().flush(); :}
              |
              TOKENSEQ tokenSeq:s TOKENSEQ
-             {:
+             {: 
                 if (s != null) parser.write(s.getName());
                 parser.getWriter().flush();
              :}
@@ -569,6 +572,24 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                 result += end("schema");
                 parser.write(result);
              :}
+<add:oz>
+             |
+             CLASS decorword:w tokenSeq:s END
+             {:
+                String result = begin("class") + "{" + w.getName() + "}";
+                if (s != null) result += s.getName();
+                result += end("class");
+                parser.write(result);
+             :}
+             |
+             GENCLASS decorword:w tokenSeq:s END
+             {:
+                String result = begin("class") + "{" + w.getName() + "}";
+                if (s != null) result += s.getName();
+                result += end("class");
+                parser.write(result);
+             :}
+</add:oz>
              ;
 
   markup ::=

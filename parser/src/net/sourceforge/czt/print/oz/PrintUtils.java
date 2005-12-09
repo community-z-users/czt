@@ -27,7 +27,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.print.z.*;
+import net.sourceforge.czt.print.z.AstToPrintTreeVisitor;
 
 /**
  * Utilities for printing Object-Z specifications given as an AST.
