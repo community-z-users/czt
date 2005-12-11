@@ -24,6 +24,7 @@
     <mkdir dir="${session.jar.dir}"/>
     <jar jarfile="${jar.file}">
       <fileset dir="${session.build.dir}"/>
+      <fileset dir="src/main/resources"/>
     </jar>
   </target>
 

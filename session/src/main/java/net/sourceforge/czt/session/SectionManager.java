@@ -21,12 +21,8 @@ package net.sourceforge.czt.session;
 
 import java.io.*;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 import java.util.logging.Logger;
-import java.util.Set;
 
 /**
  * This class is a repository for information about Z specs/sections.
@@ -178,22 +174,20 @@ public class SectionManager
    */
   public void setupDefaultCommands()
   {
-    putCommand("net.sourceforge.czt.session.Source",
-               "net.sourceforge.czt.session.SourceLocator");
-    putCommand("net.sourceforge.czt.z.ast.Spec",
-               "net.sourceforge.czt.parser.z.ParseUtils");
-    putCommand("net.sourceforge.czt.z.ast.ZSect",
-               "net.sourceforge.czt.parser.z.ParseUtils");
-    putCommand("net.sourceforge.czt.parser.util.LatexMarkupFunction",
-               "net.sourceforge.czt.parser.z.ParseUtils");
-    putCommand("net.sourceforge.czt.parser.util.OpTable",
-               "net.sourceforge.czt.parser.util.OpTableCommand");
-    putCommand("net.sourceforge.czt.parser.util.DefinitionTable",
-               "net.sourceforge.czt.parser.util.DefinitionTableService");
-    putCommand("net.sourceforge.czt.parser.util.JokerTable",
-               "net.sourceforge.czt.parser.util.JokerTableCommand");
-    putCommand("net.sourceforge.czt.z.ast.SectTypeEnvAnn",
-               "net.sourceforge.czt.typecheck.z.TypeCheckCommand");
+    final String propertiesFile = "/z.commands";
+    try {
+      Properties props = new Properties();
+      InputStream is = getClass().getResourceAsStream(propertiesFile);
+      props.loadFromXML(is);
+      for (Map.Entry<Object,Object> entry : props.entrySet()) {
+        putCommand((String) entry.getKey(), (String) entry.getValue());
+      }
+    }
+    catch (IOException e) {
+      final String message = "Cannot load default commands from file " +
+        propertiesFile;
+      getLogger().warning(message);      
+    }
   }
 
   public boolean putCommand(String type, String commandClassName)
