@@ -1115,10 +1115,11 @@ non terminal TermA
     inner_term;
 
 non terminal List &lt; Object &gt;
-    additionalList;
+    optAppendageList,
+    appendageList;
 
 non terminal Object
-    additional;
+    appendage;
 
 non terminal Pred
     predicate,
@@ -3245,9 +3246,9 @@ inner_term ::=
         :}
         |
         /* function application with schema expr as argument */
-        inner_term:it LSQUARE schemaTextNoExpression:st RSQUARE additionalList:al
+        inner_term:it LSQUARE schemaTextNoExpression:st RSQUARE optAppendageList:oal
         {:
-           RESULT = createSchApplExpr(expr(it), st, al);
+           RESULT = createSchApplExpr(expr(it), st, oal);
            addLocAnn(RESULT, itleft, itright);
         :}
         |
@@ -3313,27 +3314,33 @@ inner_term ::=
 </add:zpatt>
         ;
 
-//a list of possible constructs that come after inner_term LSQUARE
-//expr RSQUARE
-additionalList ::=
-       additionalList:al additional:a 
-       {:
-          al.add(a);
-          RESULT = al;
-       :}
+optAppendageList ::=
+       appendageList:al
+       {: RESULT = al; :}
        |
        //empty
        {: RESULT = list(); :}
        ;
 
-additional ::=
+//a list of possible constructs that come after inner_term LSQUARE
+//schemaTextNoExpression RSQUARE
+appendageList ::=
+       appendageList:al appendage:a 
+       {:
+          al.add(a);
+          RESULT = al;
+       :}
+       |
+       appendage:a
+       {: RESULT = list(a); :}
+       ;
+
+appendage ::=
         stroke:s
         {: RESULT = s; :}
         |
         LSQUARE:lsq renameList:rnl RSQUARE
-        {:
-           RESULT = factory_.createRenameExpr(null, rnl);
-        :} %prec _RENAME
+        {: RESULT = factory_.createRenameExpr(null, rnl); :}
         |
         DOT refName:rn
         {: RESULT = factory_.createBindSelExpr(null, rn); :}
