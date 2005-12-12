@@ -906,24 +906,22 @@ parser code
       return new LocInfo(file_, token.left, token.right);
     }
 
-    protected LocInfo getLocation(Object info)
+    protected LocInfo getLocation(TermA termA)
     {
-      int line = -1;
-      int column = -1;
-      if (info instanceof Symbol) {
-        return getLocation((Symbol) info);
+      LocAnn locAnn = (LocAnn) termA.getAnn(LocAnn.class);
+      return getLocation(locAnn);
+    }
+
+    protected LocInfo getLocation(LocAnn locAnn)
+    {
+      if (locAnn != null) {
+        int line = locAnn.getLine();
+        if (line > 0) line = line - 1;
+        int column = locAnn.getCol();
+        if (column > 0) column = column - 1;
+        return new LocInfo(file_, line, column);
       }
-      else if (info instanceof LocAnn) {
-        LocAnn locAnn = (LocAnn) info;
-        line = locAnn.getLine();
-        column = locAnn.getCol();
-      }
-      else if (info instanceof TermA) {
-        TermA termA = (TermA) info;
-        LocAnn locAnn = (LocAnn) termA.getAnn(LocAnn.class);
-        return getLocation(locAnn);
-      }
-      return new LocInfo(file_, line, column);
+      return new LocInfo(file_, -1, -1);
     }
 :}
 
@@ -3296,7 +3294,7 @@ inner_term ::=
         TRUE:t
         {:
            RESULT = factory_.createTruePred();
-           addLocAnn(RESULT, tright, tleft);
+           addLocAnn(RESULT, tleft, tright);
         :}
         |
         /* falsity */
