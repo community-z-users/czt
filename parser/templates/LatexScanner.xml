@@ -93,7 +93,8 @@ public class <class/>
   public Symbol next_token()
     throws java.lang.Exception
   {
-    return unicodeLexer_.next_token();
+    Symbol symbol = unicodeLexer_.next_token();
+    return symbol;
   }
 
   /**

@@ -102,7 +102,8 @@ public class <class/>
   public Symbol next_token()
     throws Exception
   {
-    return scanner_.next_token();
+    Symbol symbol = scanner_.next_token();
+    return symbol;
   }
 
   public static void convert(URL url,
