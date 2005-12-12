@@ -175,18 +175,31 @@ public class SectionManager
   public void setupDefaultCommands()
   {
     final String propertiesFile = "/z.commands";
+    putCommands(getClass().getResource(propertiesFile));
+  }
+
+  /**
+   *
+   * @throws NullPointerException if url is <code>null</code>.
+   */
+  public void putCommands(URL url)
+  {
     try {
       Properties props = new Properties();
-      InputStream is = getClass().getResourceAsStream(propertiesFile);
-      props.loadFromXML(is);
-      for (Map.Entry<Object,Object> entry : props.entrySet()) {
-        putCommand((String) entry.getKey(), (String) entry.getValue());
-      }
+      props.loadFromXML(url.openStream());
+      putCommands(props);
     }
     catch (IOException e) {
       final String message = "Cannot load default commands from file " +
-        propertiesFile;
-      getLogger().warning(message);      
+        url.toString();
+      getLogger().warning(message);
+    }
+  }
+
+  public void putCommands(Properties props)
+  {
+    for (Map.Entry<Object,Object> entry : props.entrySet()) {
+      putCommand((String) entry.getKey(), (String) entry.getValue());
     }
   }
 
