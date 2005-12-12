@@ -19,10 +19,18 @@
 
 package net.sourceforge.czt.session;
 
+import java.net.URL;
+import java.util.logging.Logger;
+
 public class Session
 {
   private SectionManager manager_ = new SectionManager();
   private String section_ = "";
+
+  private Logger getLogger()
+  {
+    return Logger.getLogger(getClass().getName());
+  }
 
   public Object get(Class c)
     throws CommandException
@@ -54,5 +62,16 @@ public class Session
   public void setPath(String path)
   {
     manager_.setProperty("czt.path", path);
+  }
+
+  public void setExtension(String extension)
+  {
+    URL url = getClass().getResource("/" + extension + ".commands");
+    if (url != null) {
+      manager_.putCommands(url);
+      return;
+    }
+    final String message = "Unknown extension " + extension;
+    getLogger().warning(message);
   }
 }
