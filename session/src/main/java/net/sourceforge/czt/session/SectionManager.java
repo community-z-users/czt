@@ -100,7 +100,8 @@ public class SectionManager
 
   public SectionManager()
   {
-    setupDefaultCommands();
+    final String standardZ = "z";
+    putCommands(standardZ);
   }
 
   private Logger getLogger()
@@ -172,10 +173,15 @@ public class SectionManager
   /**
    * Adds the default commands to the command map.
    */
-  public void setupDefaultCommands()
+  public void putCommands(String extension)
   {
-    final String propertiesFile = "/z.commands";
-    putCommands(getClass().getResource(propertiesFile));
+    URL url = getClass().getResource("/" + extension + ".commands");
+    if (url != null) {
+      putCommands(url);
+      return;
+    }
+    final String message = "Unknown extension " + extension;
+    getLogger().warning(message);
   }
 
   /**
