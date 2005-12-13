@@ -91,6 +91,7 @@ public class ZLive
     factory_ = new Factory();
     flatten_ = new Flatten(this);
     sectman_ = new SectionManager();
+    sectman_.putCommands("zpatt");
     try {
 	Source spec = new StringSource("\\begin{zsection} "
 				       + "\\SECTION ZLiveDefault "

@@ -19,7 +19,6 @@
 package net.sourceforge.czt.animation.eval;
 
 import static net.sourceforge.czt.rules.ProverUtils.collectConjectures;
-import static net.sourceforge.czt.rules.ProverUtils.collectRules;
 
 import java.io.*;
 import java.net.URL;
@@ -34,9 +33,9 @@ import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.zpatt.util.Factory;
 import net.sourceforge.czt.zpatt.ast.PredSequent;
 import net.sourceforge.czt.zpatt.ast.Rule;
-import net.sourceforge.czt.parser.zpatt.ParseUtils;
 import net.sourceforge.czt.rules.CopyVisitor;
 import net.sourceforge.czt.rules.Rewrite;
+import net.sourceforge.czt.rules.RuleTable;
 import net.sourceforge.czt.rules.ProverUtils.GetZSectNameVisitor;
 import net.sourceforge.czt.rules.ast.ProverFactory;
 import net.sourceforge.czt.session.*;
@@ -51,7 +50,7 @@ public class Preprocess
 {
   private SectionManager sectman_;
   
-  private Map<String,Rule> rules_;
+  private RuleTable rules_;
   
   private Factory factory_;
   
@@ -62,8 +61,11 @@ public class Preprocess
     sectman_ = sectman;
   }
 
+  /**
+   * Collects the rules of the first ZSect.
+   */
   public void setRules(String rulesFile)
-  throws IOException, ParseException
+    throws IOException, ParseException, CommandException
   {
     // do we need to use a fresh factory each time?
     factory_ = new Factory(new ProverFactory());
@@ -71,11 +73,12 @@ public class Preprocess
     URL url = getClass().getResource(rulesFile);
     if (url == null)
       throw new IOException("Cannot getResource("+rulesFile+")");
-    Term term = ParseUtils.parse(new UrlSource(url), sectman_);
-    TypeCheckUtils.typecheck(term, sectman_);
-    // String sectname = term.accept(new GetZSectNameVisitor());
-    rules_ = collectRules(term);
-    for (String ruleName : rules_.keySet())
+    sectman_.put(new Key(url.toString(), Source.class), new UrlSource(url));
+    Term term = (Spec) sectman_.get(new Key(url.toString(), Spec.class));
+    String sectname = term.accept(new GetZSectNameVisitor());
+    sectman_.get(new Key(sectname, SectTypeEnvAnn.class)); // typecheck sect
+    rules_ = (RuleTable) sectman_.get(new Key(sectname, RuleTable.class));
+    for (String ruleName : rules_.getRules().keySet())
       System.out.println("loaded rule "+ruleName);
     rewrite_ = new Rewrite(sectman_, rules_);
   }
