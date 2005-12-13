@@ -72,7 +72,7 @@ Declare the jokers used in these rules.
 
 The first step in the process is to move the predicates into
 the normalised result.
-\begin{zedrule}{startNormalise}
+\begin{zedrule}{Start}
    [D1 | true] \unfoldsTo [D2 | P2]
 \derives
    [D1 | P] = [D2 | P2 \land P]
@@ -85,7 +85,7 @@ Note that if the first declaration declares multiple variables,
 like $a,b,c:\nat$, then the matcher should automatically split this
 so that the $v:S$ pattern matches $a:\nat$ and the $b,c:\nat$
 becomes the first declaration within $D1$.
-\begin{zedrule}{normaliseVarDecl}
+\begin{zedrule}{VarDecl}
    [D1 | true] \unfoldsTo [D2 | P2]
 \derives
    [v:E; D1 | true] \unfoldsTo [v:E; D2 | P2]
@@ -98,7 +98,7 @@ be easy to change the rule to do that later.  If D1 and D2 are
 type compatible, then the schemamerge proviso returns their
 union in D3, otherwise it throws an exception.
 
-\begin{zedrule}{normaliseIncludeDecl}
+\begin{zedrule}{IncludeDecl}
    \proviso ?~ v == [D1 | P1] \\
    [D | true] \unfoldsTo [D2 | P2] \\
    \proviso [D3 | true] == [D1 | true] \schemamerge [D2 | true]
@@ -107,7 +107,7 @@ union in D3, otherwise it throws an exception.
 \end{zedrule}
 
 The base case is an empty declaration list, $[|true]$.
-\begin{zedrule}{normaliseEmpty}
+\begin{zedrule}{Empty}
    [~ | true] \unfoldsTo [~ | true]
 \end{zedrule}
 
@@ -126,7 +126,7 @@ For this rule, the only operator we must implement is the
 \verb!visitDecorExpr! method, which adds the given decoration to all the
 declared names within the schema.
 
-\begin{zedrule}{normaliseDecorDecl}
+\begin{zedrule}{DecorDecl}
    \proviso ?~ v == [D1 | P1] \\
    \proviso [D2|P2] == [D1|P1]~' \\
    [D | true] \unfoldsTo [D3 | P3] \\
