@@ -4135,10 +4135,10 @@ baseType ::=
            addLocAnn(RESULT, lsqleft, lsqright);
         :}
         |
-        JOKERTYPE:jt /* joker type */
+        JOKEREXPR:je /* joker type */
         {:
-           RESULT = factory_.createJokerExpr(jt);
-           addLocAnn(RESULT, jtleft, jtright);
+           RESULT = factory_.createJokerExpr(je);
+           addLocAnn(RESULT, jeleft, jeright);
         :}
         ;
 
