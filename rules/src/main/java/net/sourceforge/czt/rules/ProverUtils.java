@@ -78,24 +78,6 @@ public final class ProverUtils
     }
   }
 
-  public static Map<String,Rule> collectRules(Term term)
-  {
-    Map<String,Rule> result = new HashMap<String,Rule>();  
-    if (term instanceof Spec) {
-      for (Sect sect : ((Spec) term).getSect()) {
-        if (sect instanceof ZSect) {
-          for (Para para : ((ZSect) sect).getPara()) {
-            if (para instanceof Rule) {
-              Rule rule = (Rule) para;
-              result.put(rule.getName(), rule);
-            }
-          }
-        }
-      }
-    }
-    return result;
-  }
-
   public static List<ConjPara> collectConjectures(Term term)
   {
     List<ConjPara> result = new ArrayList<ConjPara>();  
@@ -121,44 +103,6 @@ public final class ProverUtils
   {
     RemoveJokerVisitor visitor = new RemoveJokerVisitor();
     return (Term) term.accept(visitor);
-  }
-
-  public static void prove(URL url)
-    throws IOException, ParseException
-  {
-    Factory factory = new Factory(new ProverFactory());
-    SectionManager manager = new SectionManager();
-    Term term = ParseUtils.parse(new UrlSource(url), manager);
-    TypeCheckUtils.typecheck(term, manager);
-    String sectname = term.accept(new GetZSectNameVisitor());
-    Map<String,Rule> rules = collectRules(term);
-    List<ConjPara> conjectures = collectConjectures(term);
-    for (Iterator<ConjPara> i = conjectures.iterator(); i.hasNext(); ) {
-      ConjPara conjPara = i.next();
-      PredSequent sequent = factory.createPredSequent();
-      CopyVisitor visitor = new CopyVisitor(factory);
-      sequent.setPred((Pred) conjPara.getPred().accept(visitor));
-      SimpleProver prover =
-        new SimpleProver(rules, manager, sectname);
-      if (! prover.prove(sequent)) {
-        StringWriter writer = new StringWriter();
-        PrintUtils.print(conjPara.getPred(),
-                         writer,
-                         manager,
-                         sectname,
-                         Markup.LATEX);
-        writer.close();
-        System.err.println("Failed to prove " + writer.toString());
-        throw new IllegalStateException();
-      }
-    }
-  }
-
-  public static void main(String[] args)
-    throws IOException, ParseException
-  {
-    URL url = new URL(args[0]);
-    prove(url);
   }
 
 

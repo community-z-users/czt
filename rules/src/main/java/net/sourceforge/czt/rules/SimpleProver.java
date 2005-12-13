@@ -56,11 +56,11 @@ public class SimpleProver
     section_ = session.getSection();
   }
 
-  public SimpleProver(Map<String,Rule> rules,
+  public SimpleProver(RuleTable rules,
                       SectionManager manager,
                       String section)
   {
-    rules_ = rules;
+    rules_ = rules.getRules();
     manager_ = manager;
     section_ = section;
   }

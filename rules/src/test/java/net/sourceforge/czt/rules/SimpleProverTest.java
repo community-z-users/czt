@@ -44,7 +44,6 @@ public class SimpleProverTest
   extends TestCase
 {
   Factory factory_ = new Factory(new ProverFactory());
-  SectionManager manager_ = new SectionManager();
 
   public void testSimple1()
   {
@@ -75,12 +74,16 @@ public class SimpleProverTest
   private void prove(String resource)
   {
     try {
+      SectionManager manager = new SectionManager();
+      manager.putCommands("zpatt");
       URL url = getClass().getResource(resource);
       assertFalse(url == null);
-      Term term = ParseUtils.parse(new UrlSource(url), manager_);
-      TypeCheckUtils.typecheck(term, manager_);
+      manager.put(new Key(url.toString(), Source.class), new UrlSource(url));
+      Term term = (Term) manager.get(new Key(url.toString(), Spec.class));
       String sectname = term.accept(new GetZSectNameVisitor());
-      Map<String,Rule> rules = collectRules(term);
+      manager.get(new Key(sectname, SectTypeEnvAnn.class));
+      RuleTable rules =
+        (RuleTable) manager.get(new Key(sectname, RuleTable.class));
       List<ConjPara> conjectures = collectConjectures(term);
       for (Iterator<ConjPara> i = conjectures.iterator(); i.hasNext(); ) {
         ConjPara conjPara = i.next();
@@ -88,12 +91,12 @@ public class SimpleProverTest
 	CopyVisitor visitor = new CopyVisitor(factory_);
         sequent.setPred((Pred) conjPara.getPred().accept(visitor));
         SimpleProver prover =
-          new SimpleProver(rules, manager_, sectname);
+          new SimpleProver(rules, manager, sectname);
         if (! prover.prove(sequent)) {
           StringWriter writer = new StringWriter();
           PrintUtils.print(conjPara.getPred(),
                            writer,
-                           manager_,
+                           manager,
                            "standard_toolkit",
                            Markup.LATEX);
           writer.close();
@@ -105,6 +108,9 @@ public class SimpleProverTest
       fail("Should not throw exception " + e);
     }
     catch (IOException e) {
+      fail("Should not throw exception " + e);
+    }
+    catch (CommandException e) {
       fail("Should not throw exception " + e);
     }
   }

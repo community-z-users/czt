@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Mark Utting
+  Copyright (C) 2005 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -53,11 +53,11 @@ public class Rewrite
 {
   private SectionManager manager_;
 
-  private Map<String,Rule> rules_;
+  private RuleTable rules_;
 
   private String section_;
 
-  public Rewrite(SectionManager manager, Map<String,Rule> rules)
+  public Rewrite(SectionManager manager, RuleTable rules)
   {
     manager_ = manager;
     rules_ = rules;
@@ -87,7 +87,7 @@ public class Rewrite
   public static Object rewrite(SectionManager manager,
                                String section,
                                Expr expr,
-                               Map<String,Rule> rules)
+                               RuleTable rules)
   {
     Factory factory = new Factory(new ProverFactory());
     ProverJokerExpr joker = (ProverJokerExpr) factory.createJokerExpr("_");
@@ -110,7 +110,7 @@ public class Rewrite
    */
   public static Term rewrite(SectionManager manager,
                              Term term,
-                             Map<String,Rule> rules)
+                             RuleTable rules)
   {
     Rewrite visitor = new Rewrite(manager, rules);
     return (Term) term.accept(visitor);
