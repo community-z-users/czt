@@ -66,12 +66,6 @@ public class Session
 
   public void setExtension(String extension)
   {
-    URL url = getClass().getResource("/" + extension + ".commands");
-    if (url != null) {
-      manager_.putCommands(url);
-      return;
-    }
-    final String message = "Unknown extension " + extension;
-    getLogger().warning(message);
+    manager_.putCommands(extension);
   }
 }
