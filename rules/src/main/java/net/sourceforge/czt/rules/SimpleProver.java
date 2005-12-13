@@ -215,6 +215,10 @@ public class SimpleProver
     return false;
   }
 
+  /**
+   *
+   * @throws NullPointerException if <code>term</code> is <code>null</code>.
+   */
   public static Term copy(Term term, Factory factory)
   {
     CopyVisitor visitor = new CopyVisitor(factory);
