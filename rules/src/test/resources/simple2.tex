@@ -6,7 +6,7 @@
 
 \begin{zedjoker}{DeclList} D, D1, D2, D3\end{zedjoker} \\
 \begin{zedjoker}{Pred} P, P1, P2\end{zedjoker} \\
-\begin{zedjoker}{Expr} E\end{zedjoker} \\
+\begin{zedjoker}{Expr} E, E2\end{zedjoker} \\
 \begin{zedjoker}{Name} v\end{zedjoker} \\
 
 \begin{schema}{Foo}
@@ -15,33 +15,44 @@
   true
 \end{schema}
 
+\begin{zed}
+  \relation ( \_~foo~\_ )
+\end{zed}
+
+\begin{gendef}[SCHEMA]
+  \_ ~foo~ \_ : SCHEMA \rel SCHEMA
+\where
+  \forall s1,s2:SCHEMA @ s1 ~foo~ s2 \iff s1=s2
+\end{gendef}
+
 \begin{zedrule}{test}
-  [ v:E ; D | P1 ]
+  [ v:E ; D | P1 ] foo~ E2
 \end{zedrule}
 
 \begin{zed}
-  \vdash?~ [ x:\nat | true ]
+  \vdash?~ [ x:\nat | true ] ~foo~ [ x:\nat | true ]
 \end{zed}
 
 \begin{zed}
-  \vdash?~ [ x:\nat; y:\nat | true ]
+  \vdash?~ [ x:\nat; y:\nat | true ] ~foo~ [ x:\nat; y:\nat | true ]
 \end{zed}
 
 \begin{zed}
-  \vdash?~ [ x:\nat; y:\nat ; Foo | true ]
+  \vdash?~ [ x:\nat; y:\nat ; Foo | true ] ~foo~
+           [ x:\nat; y:\nat ; Foo | true ]
 \end{zed}
 
 
-\begin{zedrule}{foo}
-  [ v ; D | P1 ]
+\begin{zedrule}{argh}
+  [ v ; D | P1 ] ~foo~ E2
 \end{zedrule}
 
 \begin{zed}
-  \vdash?~ [Foo | true]
+  \vdash?~ [Foo | true] ~foo~ [Foo | true]
 \end{zed}
 
 \begin{zed}
-  \vdash?~ [Foo ; x,y:\nat | true]
+  \vdash?~ [Foo ; x,y:\nat | true] ~foo~ [Foo ; x,y:\nat | true]
 \end{zed}
 
 \begin{zedrule}{test2}
@@ -106,15 +117,4 @@
 
 \begin{zed}
   \vdash?~ [ Foo | true ] \unfoldsTo [ x:\nat | true \land true ]
-\end{zed}
-
-
-\begin{zedrule}{proviso}
-  \proviso [D3 | true] == [D1 | true] \schemamerge [D2 | true]
-\derives
-  [D1 | true] plus [D2 | true] = [D3 | true]
-\end{zedrule}
-
-\begin{zed}
-  \vdash?~ [x:\nat | true] plus [y:\nat | true] = [x:\nat; y:\nat | true]
 \end{zed}
