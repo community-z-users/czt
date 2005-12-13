@@ -157,6 +157,7 @@ public class TypeChecker
                                                          SectTypeEnv.class));
       }
       catch (CommandException e) {
+        logger_.warning("Caught exception " + e);
       }
       if (sectTypeEnv != null) {
         sectTypeEnv_ = sectTypeEnv;
