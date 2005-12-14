@@ -72,7 +72,7 @@
         <pathelement location="${velocity.jar}"/>
       </classpath>
       <classpath refid="classpath"/>
-      <compilerarg value="-Xlint"/>
+      <compilerarg value="${compilerarg}"/>
     </javac>
   </target>
 
