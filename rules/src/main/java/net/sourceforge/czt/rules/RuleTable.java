@@ -32,6 +32,11 @@ public class RuleTable
     rules_ = rules;
   }
 
+  public Iterator<Rule> iterator()
+  {
+    return rules_.values().iterator();
+  }
+
   /**
    * Convenience method for getRule.
    */
