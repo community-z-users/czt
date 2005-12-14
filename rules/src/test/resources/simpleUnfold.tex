@@ -64,7 +64,7 @@ It uses only one kind of proviso, which is the LookupProviso
 Declare the jokers used in these rules.
 
 \begin{zedjoker}{DeclList} D, D1, D2, D3, D4 \end{zedjoker} \\
-\begin{zedjoker}{Pred} P, P1, P2, P3 \end{zedjoker} \\
+\begin{zedjoker}{Pred} P, P1, P2, P3, P4 \end{zedjoker} \\
 \begin{zedjoker}{Expr} E, E1, E2, E3 \end{zedjoker} \\
 \begin{zedjoker}{Name} v, v1, v2, v3 \end{zedjoker} \\
 
@@ -86,31 +86,34 @@ like $a,b,c:\nat$, then the matcher should automatically split this
 so that the $v:S$ pattern matches $a:\nat$ and the $b,c:\nat$
 becomes the first declaration within $D1$.
 \begin{zedrule}{VarDecl}
-   [D1 | true] \unfoldsTo [D2 | P2]
+   \proviso E : \power E2 \\
+   [D1 | true] \unfoldsTo [D2 | P2] \\
+   v \in E \land P2 \iff P3
 \derives
-   [v:E; D1 | true] \unfoldsTo [v:E; D2 | P2]
+   [v:E; D1 | true] \unfoldsTo [v:E2; D2 | P3]
 \end{zedrule}
 
-These rules handle simple schema inclusions, where the name
-$v$ is directly defined in the specification.  It does not
-recursively unfold the schema after looking it up, but it would
-be easy to change the rule to do that later.  If D1 and D2 are 
-type compatible, then the schemamerge proviso returns their
-union in D3, otherwise it throws an exception.
+These rules handle simple schema inclusions, where the name $v$ is
+directly defined in the specification.  If D1 and D2 are type
+compatible, then the schemamerge proviso returns their union in D3,
+otherwise it throws an exception.
 
 \begin{zedrule}{SchemaRef}
-  \proviso ?~ v == [D | P]
+  \proviso ?~ v == [D1 | P1] \\
+  [D1 | true] \unfoldsTo [D2 | P2] \\
+  P1 \land P2 \iff P3
 \derives
-  v \unfoldsTo [D | P]
+  v \unfoldsTo [D2 | P3]
 \end{zedrule}
 
 
 \begin{zedrule}{IncludeDecl}
    v \unfoldsTo [D1 | P1] \\
    [D | true] \unfoldsTo [D2 | P2] \\
-   \proviso [D3 | true] == [D1 | true] \schemamerge [D2 | true]
+   \proviso [D3 | true] == [D1 | true] \schemamerge [D2 | true] \\
+   P1 \land P2 \iff P3
 \derives
-   [v; D | true] \unfoldsTo [D3 | P1 \land P2]
+   [v; D | true] \unfoldsTo [D3 | P3]
 \end{zedrule}
 
 The base case is an empty declaration list, $[|true]$.
@@ -143,7 +146,17 @@ declared names within the schema.
    [v~'; D | true] \unfoldsTo [D4 | P2 \land P3]
 \end{zedrule}
 
+\begin{zedrule}{TrueLeft}
+  true \land P \iff P
+\end{zedrule}
 
+\begin{zedrule}{TrueRight}
+  P \land true \iff P
+\end{zedrule}
+
+\begin{zedrule}{Impl}
+  P \iff P
+\end{zedrule}
 
 \section*{Examples}
 Here is an example of the results we should get.
@@ -161,20 +174,27 @@ Using the $SchNorm1$ rule set, we should be able to
 do the following transformations:
 
 \begin{zed}
-\vdash? [S1|true] \unfoldsTo [x:\nat | x<10 \land true]
+  \vdash? [x : \nat | true] \unfoldsTo [x:\arithmos | x \in \nat]
 \end{zed}
 \begin{zed}
-\vdash? [S2|true] \unfoldsTo [S1; y:\nat | y<x \land true]
+  \vdash? [S1|true] \unfoldsTo [x:\arithmos | x<10 \land x\in\nat]
 \end{zed}
-
-Note that only one level of unfolding was done, so $S1$ was left unfolded.
+\begin{zed}
+  \vdash? [S1; y:\nat|true] \unfoldsTo
+          [x:\arithmos~; y:\arithmos | x<10 \land x\in\nat \land y\in\nat]
+\end{zed}
+\begin{zed}
+  \vdash? [S2|true] \unfoldsTo
+          [x:\arithmos~; y:\arithmos | y<x \land (x<10 \land
+                                       x\in\nat \land y\in\nat)]
+\end{zed}
 
 Using Stage 2, we should be able to
 do the following transformations:
 
 \begin{zed}
 \vdash? [S1;S1~' | true] \unfoldsTo
-        [x:\nat; x':\nat | x<10 \land (x'<10 \land true)]
+        [x:\arithmos~; x':\nat | x<10 \land x\in\nat \land (x'<10 \land true)]
 \end{zed}
 \begin{zed}
 \vdash? [S2~' | true] \unfoldsTo [S1~'; y':\nat | y'<x' \land true]
