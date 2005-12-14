@@ -44,14 +44,14 @@ import net.sourceforge.czt.zpatt.util.Factory;
 public class SimpleProver
   implements Prover
 {
-  private Map<String,Rule> rules_;
+  private RuleTable rules_;
   private SectionManager manager_;
   private String section_;
 
   public SimpleProver(Session session)
     throws CommandException
   {
-    rules_ = ((RuleTable) session.get(RuleTable.class)).getRules();
+    rules_ = (RuleTable) session.get(RuleTable.class);
     manager_ = session.getManager();
     section_ = session.getSection();
   }
@@ -60,7 +60,7 @@ public class SimpleProver
                       SectionManager manager,
                       String section)
   {
-    rules_ = rules.getRules();
+    rules_ = rules;
     manager_ = manager;
     section_ = section;
   }
@@ -72,7 +72,7 @@ public class SimpleProver
    */
   public boolean prove(PredSequent predSequent)
   {
-    for (Iterator<Rule> i = rules_.values().iterator(); i.hasNext(); ) {
+    for (Iterator<Rule> i = rules_.iterator(); i.hasNext(); ) {
       Rule rule = i.next();
       try {
         boolean success = apply(rule, predSequent);
