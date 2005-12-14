@@ -58,14 +58,13 @@ public class ProverTypeProviso
 
   public void check(SectionManager manager, String section)
   {
-    System.err.println(section);
     final Expr expr = (Expr) ProverUtils.removeJoker(getExpr());
     final Expr type = getType();
     List errors = TypeCheckUtils.typecheck(expr, manager, false, section);
     if (errors == null || errors.isEmpty()) {
       TypeAnn typeAnn = (TypeAnn) expr.getAnn(TypeAnn.class);
       CarrierSet visitor = new CarrierSet();
-      Term expr2 = (Expr) typeAnn.accept(visitor);
+      Term expr2 = (Term) typeAnn.getType().accept(visitor);
       unify(type, expr2);
     }
     else {
