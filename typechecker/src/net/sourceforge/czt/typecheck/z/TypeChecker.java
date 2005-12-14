@@ -151,16 +151,20 @@ public class TypeChecker
       sectName_.replace(0, sectName_.length(), sectName);
       sectTypeEnv_.setSection(sectName_.toString());
 
-      SectTypeEnv sectTypeEnv = null;
+      SectTypeEnvAnn sectTypeEnvAnn = null;
       try {
-        sectTypeEnv = (SectTypeEnv) sectInfo.get(new Key(sectName_.toString(),
-                                                         SectTypeEnv.class));
+        sectTypeEnvAnn = (SectTypeEnvAnn) sectInfo.get(new Key(sectName_.toString(),
+							       SectTypeEnvAnn.class));
       }
       catch (CommandException e) {
         logger_.warning("Caught exception " + e);
       }
-      if (sectTypeEnv != null) {
-        sectTypeEnv_ = sectTypeEnv;
+      if (sectTypeEnvAnn != null) {
+	//add the parent's global decls to this section's global type environment
+	for (NameSectTypeTriple triple : sectTypeEnvAnn.getNameSectTypeTriple()) {
+	  sectTypeEnv_.addParent(triple.getSect());
+	  sectTypeEnv_.add(triple);	
+	}
       }
     }
   }
