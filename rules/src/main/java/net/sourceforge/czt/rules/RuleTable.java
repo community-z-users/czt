@@ -25,16 +25,24 @@ import net.sourceforge.czt.zpatt.ast.*;
 
 public class RuleTable
 {
-  private Map<String, Rule> rules_ = new HashMap(); 
+  private Map<String, Rule> map_ = new HashMap();
+  private List<Rule> rules_ = new ArrayList();
 
-  public RuleTable(Map<String, Rule> rules)
+  public RuleTable(List<Rule> rules)
   {
     rules_ = rules;
+    for (Rule rule : rules) {
+      final String rulename = rule.getName();
+      if (map_.get(rulename) != null) {
+        System.err.println("WARNING: Overwriting rule " + rulename);
+      }
+      map_.put(rulename, rule);
+    }
   }
 
   public Iterator<Rule> iterator()
   {
-    return rules_.values().iterator();
+    return rules_.iterator();
   }
 
   /**
@@ -47,17 +55,17 @@ public class RuleTable
 
   public Rule getRule(String name)
   {
-    return rules_.get(name);
+    return map_.get(name);
   }
 
   @Deprecated
   public Map<String,Rule> getRules()
   {
-    return rules_;
+    return map_;
   }
 
   public String toString()
   {
-    return rules_.toString();
+    return map_.toString();
   }
 }

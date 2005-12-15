@@ -48,7 +48,7 @@ public class RuleTableCommand
                ZSectVisitor,
                RuleVisitor
   {
-    private Map<String, Rule> rules_ = new HashMap<String, Rule>();
+    private List<Rule> rules_ = new ArrayList<Rule>();
 
     public RuleTable getRuleTable()
     {
@@ -78,11 +78,7 @@ public class RuleTableCommand
 
     public Object visitRule(Rule rule)
     {
-      final String rulename = rule.getName();
-      if (rules_.get(rulename) != null) {
-        System.err.println("WARNING: Overwriting rule " + rulename);
-      }
-      rules_.put(rulename, rule);
+      rules_.add(rule);
       return null;
     }
   }
