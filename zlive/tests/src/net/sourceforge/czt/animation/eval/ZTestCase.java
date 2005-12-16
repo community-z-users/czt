@@ -41,7 +41,7 @@ import net.sourceforge.czt.z.util.Factory;
 public class ZTestCase
   extends TestCase
 {
-  protected ZLive zlive_ = new ZLive();
+  protected static ZLive zlive_ = new ZLive();
   
   protected Factory factory_ = new Factory(new ZFactoryImpl());
 
