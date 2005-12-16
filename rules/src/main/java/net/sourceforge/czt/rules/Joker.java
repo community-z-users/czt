@@ -29,6 +29,8 @@ import net.sourceforge.czt.zpatt.ast.Binding;
  */
 public interface Joker
 {
+  String getName();
+
   Term boundTo();
 
   /**
