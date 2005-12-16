@@ -137,13 +137,14 @@ For this rule, the only operator we must implement is the
 declared names within the schema.
 
 \begin{zedrule}{DecorDecl}
-   \proviso ?~ v == [D1 | P1] \\
+   v \unfoldsTo [D1 | P1] \\
    \proviso [D2|P2] == [D1|P1]~' \\
    [D | true] \unfoldsTo [D3 | P3] \\
-   \proviso [D4 | true] == [D2 | true] \schemamerge [D3 | true]
+   \proviso [D4 | true] == [D2 | true] \schemamerge [D3 | true] \\
+   P2 \land P3 \iff P4
    % TODO: check type compatibility later: \proviso [D1;D2] : \power [D3]
 \derives
-   [v~'; D | true] \unfoldsTo [D4 | P2 \land P3]
+   [v~'; D | true] \unfoldsTo [D4 | P4]
 \end{zedrule}
 
 \begin{zedrule}{TrueLeft}
@@ -193,11 +194,15 @@ Using Stage 2, we should be able to
 do the following transformations:
 
 \begin{zed}
+\vdash? [S1~' | true] \unfoldsTo [x':\arithmos | x'<10 \land x'\in\nat]
+\end{zed}
 \vdash? [S1;S1~' | true] \unfoldsTo
-        [x:\arithmos~; x':\nat | x<10 \land x\in\nat \land (x'<10 \land true)]
+        [x:\arithmos~; x':\nat | x<10 \land x\in\nat \land x'<10]
 \end{zed}
 \begin{zed}
-\vdash? [S2~' | true] \unfoldsTo [S1~'; y':\nat | y'<x' \land true]
+\vdash? [S2~' | true] \unfoldsTo
+        [x':\arithmos~; y':\arithmos | y'<x' \land (x'<10 \land
+                                       x'\in\nat \land y'\in\nat)]
 \end{zed}
 
 (In fact, this last example is a bit difficult to implement safely,
