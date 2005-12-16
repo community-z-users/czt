@@ -138,7 +138,9 @@ public final class ProverUtils
         Joker joker = (Joker) term;
         Term boundTo = joker.boundTo();
         if (boundTo == null) {
-          throw new UnboundJokerException();
+          final String message = "Joker " + joker.getName() +
+            " is not associated to a term.";
+          throw new UnboundJokerException(message);
         }
         return boundTo.accept(this);
       }
@@ -160,5 +162,13 @@ public final class ProverUtils
   public static class UnboundJokerException
     extends RuntimeException
   {
+    public UnboundJokerException()
+    {
+    }
+
+    public UnboundJokerException(String message)
+    {
+      super(message);
+    }
   }
 }
