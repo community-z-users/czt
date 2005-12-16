@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Mark Utting
+  Copyright (C) 2005 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -54,6 +54,18 @@ public class ProverFactory
     if (result == null) {
       result = new  ${j.ClassName}(name);
       m${j.Name}s_.put(name, result);
+#if(${j.Name} == 'JokerDeclName')
+      ProverJokerRefName jokerRefName = new ProverJokerRefName(name);
+      mJokerRefNames_.put(name, jokerRefName);
+      result.setJokerRefName(jokerRefName);
+      jokerRefName.setJokerDeclName(result);
+#end
+#if(${j.Name} == 'JokerRefName')
+      ProverJokerDeclName jokerDeclName = new ProverJokerDeclName(name);
+      mJokerDeclNames_.put(name, jokerDeclName);
+      result.setJokerDeclName(jokerDeclName);
+      jokerDeclName.setJokerRefName(result);
+#end
     }
     return result;
   }
