@@ -55,7 +55,7 @@
       debuglevel="${debuglevel}"
       optimize="${optimize}">
       <classpath refid="classpath"/>
-      <!-- <compilerarg value="${compilerarg}"/> -->
+      <compilerarg value="${compilerarg}"/>
     </javac>
   </target>
 
@@ -117,7 +117,7 @@
         <pathelement location="${jar.file}"/>
       </classpath>
       <classpath refid="classpath"/>
-      <compilerarg value="-Xlint"/>
+      <compilerarg value="${compilerarg}"/>
     </javac>
   </target>
 
