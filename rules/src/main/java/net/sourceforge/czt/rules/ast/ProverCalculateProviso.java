@@ -27,6 +27,7 @@ import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.rules.*;
 import net.sourceforge.czt.rules.unification.*;
 import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
@@ -87,21 +88,39 @@ public class ProverCalculateProviso
       final DecorExpr decorExpr = (DecorExpr) expr;
       final Stroke stroke = decorExpr.getStroke();
       if (decorExpr.getExpr() instanceof SchExpr) {
-        final SchExpr schExpr = (SchExpr) decorExpr.getExpr();
         final CollectStateVariablesVisitor collectVisitor =
           new CollectStateVariablesVisitor();
-        schExpr.getZSchText().getDeclList().accept(collectVisitor);
         final DecorateNamesVisitor visitor =
           new DecorateNamesVisitor(collectVisitor.getVariables(), stroke);
         try {
-          Expr result = (Expr) ProverUtils.removeJoker(decorExpr.getExpr());
-          result = (Expr) result.accept(visitor);
-          if (result != null) {
-            unify(result, getLeftExpr());
-            return;
+          SchExpr result =
+            (SchExpr) ProverUtils.removeJoker(decorExpr.getExpr());
+          List errors =
+            TypeCheckUtils.typecheck(result, manager, false, section);
+          if (errors == null || errors.isEmpty()) {
+            result.getZSchText().getDeclList().accept(collectVisitor);
+            result = (SchExpr) result.accept(visitor);
+            if (result != null) {
+              unify(result, getLeftExpr());
+              return;
+            }
           }
+          else {
+          }
+          System.err.println("Typeckecking failed:");
+          System.err.println(errors);
+          status_ = Status.FAIL;
+        }
+        catch(ProverUtils.UnboundJokerException e) {
+          // status is unknown
+          final String message =
+            "Found unbound joker when checking calculate proviso";
+          System.err.println(message + "\nCause by:\n  " + e.getMessage());
         }
         catch(CztException e) {
+          final String message =
+            "Caught CztException when checking calculate proviso";
+          System.err.println(message + "\nCause by:\n  " + e.getMessage());
           // status is unknown
         }
       }
