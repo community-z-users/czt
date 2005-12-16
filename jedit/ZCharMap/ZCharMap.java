@@ -397,7 +397,7 @@ public class ZCharMap extends JPanel
                                           "CZT Question",
                                           JOptionPane.YES_NO_OPTION);
           if (answer == 1) {
-            CztLogger.getLogger(ZCharMap.class).info("Abborting parse.");
+            CztLogger.getLogger(ZCharMap.class).info("Aborting parse.");
             return null;
           }
         }
@@ -413,7 +413,7 @@ public class ZCharMap extends JPanel
     catch (CommandException exception) {
       Throwable cause = exception.getCause();
       if (cause instanceof ParseException) {
-        CztLogger.getLogger(ZCharMap.class).info("Parse error(s) occured.");
+        CztLogger.getLogger(ZCharMap.class).info("Parse error(s) occurred.");
         List errors = ((ParseException) cause).getErrorList();
         for (Iterator iter = errors.iterator(); iter.hasNext(); ) {
           Object next = iter.next();
@@ -624,7 +624,7 @@ public class ZCharMap extends JPanel
       }
       catch (Throwable exception) {
         exception.printStackTrace();
-        CztLogger.getLogger(ZCharMap.class).info("CZT error occured.");
+        CztLogger.getLogger(ZCharMap.class).info("CZT error occurred.");
         String message = "Caught " + exception.getClass().getName() + ": " +
           exception.getMessage();
 	System.err.println(exception);
@@ -667,12 +667,12 @@ public class ZCharMap extends JPanel
           CztLogger.getLogger(ZCharMap.class).info("Done converting.");
         }
         else {
-          String message = "Z convertion aborted.";
+          String message = "Z conversion aborted.";
           CztLogger.getLogger(ZCharMap.class).info(message);
         }
       }
       catch (Throwable exception) {
-        CztLogger.getLogger(ZCharMap.class).info("CZT error occured.");
+        CztLogger.getLogger(ZCharMap.class).info("CZT error occurred.");
         String message = "Caught " + exception.getClass().getName() + ": " +
           exception.getMessage();
 	System.err.println(message);
@@ -727,12 +727,12 @@ public class ZCharMap extends JPanel
           buffer.insert(0, out.toString());
         }
         else {
-          String message = "Z convertion aborted.";
+          String message = "Z conversion aborted.";
           CztLogger.getLogger(ZCharMap.class).info(message);
         }
       }
       catch (Throwable exception) {
-        CztLogger.getLogger(ZCharMap.class).info("CZT error occured.");
+        CztLogger.getLogger(ZCharMap.class).info("CZT error occurred.");
         String message = "Caught " + exception.getClass().getName() + ": " +
           exception.getMessage();
 	System.err.println(message);
@@ -774,7 +774,7 @@ public class ZCharMap extends JPanel
         }
       }
       catch (Throwable exception) {
-        CztLogger.getLogger(ZCharMap.class).info("CZT error occured.");
+        CztLogger.getLogger(ZCharMap.class).info("CZT error occurred.");
         String message = "Caught " + exception.getClass().getName() + ": " +
           exception.getMessage();
 	System.err.println(message);
