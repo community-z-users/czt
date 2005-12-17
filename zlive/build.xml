@@ -104,14 +104,69 @@
     </clover-setup>
   </target>
 
-  <target name="clover" depends="with.clover"
-    description="Creates a clover report.">
+  <target name="clover"
+    description="Creates a custom clover report (eg. ant clean with.clover ... clover)">
     <clover-report>
-      <current outfile="clover_html" title="CZT ZLive Clover Report">
+      <current outfile="clover_html"
+        title="ZLive Custom Clover Report">
         <!-- we omit assert statement coverage, because they are
 	     just double checks, and are not intended to be tested. -->
         <format type="html" filter="assert"/> 
-      </current>         
+      </current>
+    </clover-report>
+  </target>
+
+  <target name="clover.test" depends="clean,with.clover,test"
+    description="Creates a clover report for junit tests only.">
+    <clover-historypoint historyDir="clover_hist/test"/>
+    <clover-report>
+      <current outfile="clover_test_html"
+        title="ZLive Unit Test Clover Report">
+        <!-- we omit assert statement coverage, because they are
+	     just double checks, and are not intended to be tested. -->
+        <format type="html" filter="assert"/> 
+      </current>
+      <!-- generate a historical report -->
+      <historical outfile="clover_test_html/historical"
+        historyDir="clover_hist/test">
+        <format type="html"/>
+      </historical>
+    </clover-report>
+  </target>
+
+  <target name="clover.usertest" depends="clean,with.clover,usertest"
+    description="Creates a clover report for user tests only.">
+    <clover-historypoint historyDir="clover_hist/usertest"/>
+    <clover-report>
+      <current outfile="clover_usertest_html"
+        title="ZLive UserTest Clover Report">
+        <!-- we omit assert statement coverage, because they are
+	     just double checks, and are not intended to be tested. -->
+        <format type="html" filter="assert"/> 
+      </current>
+      <!-- generate a historical report -->
+      <historical outfile="clover_usertest_html/historical"
+        historyDir="clover_hist/usertest">
+        <format type="html"/>
+      </historical>
+    </clover-report>
+  </target>
+
+  <target name="clover.alltest" depends="clean,with.clover,test,usertest"
+    description="Creates a clover report for unit + users tests.">
+    <clover-historypoint historyDir="clover_hist/alltest"/>
+    <clover-report>
+      <current outfile="clover_alltest_html"
+        title="ZLive All Tests Clover Report">
+        <!-- we omit assert statement coverage, because they are
+	     just double checks, and are not intended to be tested. -->
+        <format type="html" filter="assert"/> 
+      </current>
+      <!-- generate a historical report -->
+      <historical outfile="clover_alltest_html/historical"
+        historyDir="clover_hist/alltest">
+        <format type="html"/>
+      </historical>
     </clover-report>
   </target>
 
