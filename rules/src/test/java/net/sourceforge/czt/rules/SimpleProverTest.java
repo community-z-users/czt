@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Mark Utting
+  Copyright (C) 2005 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -53,11 +53,6 @@ public class SimpleProverTest
   public void testSimple2()
   {
     prove("/simple2.tex");
-  }
-
-  public void testSimple3()
-  {
-    prove("/simple3.tex");
   }
 
   public void testSimpleUnfold()
