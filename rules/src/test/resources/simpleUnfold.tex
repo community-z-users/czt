@@ -36,24 +36,13 @@
 %       %%Zprechar \proviso U+22C6    % small star, or
 %       %%Zprechar \proviso U+25B8    % small solid triangle  |> )
 
-%% Syntax within provisos
-\newcommand{\schemamerge}{\mathbin{\textbf{schemamerge}}}
-
 
 \title{Simple Schema Unfolding Rules in CZT}
 \author{Mark Utting}
 \begin{document}
 \maketitle
 
-This document defines the simplest rules possible for
-unfolding schema inclusions.  It only unfolds one level of simple schema
-inclusions (an undecorated name), does not handle
-schema operators, and does not normalise types to base types.
-
-It uses only one kind of proviso, which is the LookupProviso
-(more precisely, the LookupConstDeclProviso).
-
-\section*{Rule Syntax}
+This document defines simple rules for unfolding schema inclusions.
 
 \begin{zsection}
   \SECTION simpleUnfold \parents zpattern\_toolkit
@@ -94,9 +83,7 @@ becomes the first declaration within $D1$.
 \end{zedrule}
 
 These rules handle simple schema inclusions, where the name $v$ is
-directly defined in the specification.  If D1 and D2 are type
-compatible, then the schemamerge proviso returns their union in D3,
-otherwise it throws an exception.
+directly defined in the specification.
 
 \begin{zedrule}{SchemaRef}
   \proviso ?~ v == [D1 | P1] \\
@@ -110,7 +97,7 @@ otherwise it throws an exception.
 \begin{zedrule}{IncludeDecl}
    v \unfoldsTo [D1 | P1] \\
    [D | true] \unfoldsTo [D2 | P2] \\
-   \proviso [D3 | true] == [D1 | true] \schemamerge [D2 | true] \\
+   \proviso [D1 | true] \land [D2 | true] : \power [D3] \\
    P1 \land P2 \iff P3
 \derives
    [v; D | true] \unfoldsTo [D3 | P3]
@@ -140,9 +127,8 @@ declared names within the schema.
    v \unfoldsTo [D1 | P1] \\
    \proviso [D2|P2] == [D1|P1]~' \\
    [D | true] \unfoldsTo [D3 | P3] \\
-   \proviso [D4 | true] == [D2 | true] \schemamerge [D3 | true] \\
+   \proviso [D2 | true] \land [D3 | true] : \power [D4] \\
    P2 \land P3 \iff P4
-   % TODO: check type compatibility later: \proviso [D1;D2] : \power [D3]
 \derives
    [v~'; D | true] \unfoldsTo [D4 | P4]
 \end{zedrule}

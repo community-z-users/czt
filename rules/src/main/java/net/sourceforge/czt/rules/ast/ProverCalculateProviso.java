@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Mark Utting
+  Copyright (C) 2005 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -51,40 +51,7 @@ public class ProverCalculateProviso
   public void check(SectionManager manager, String section)
   {
     final Expr expr = getRightExpr();
-    // schema declaration merge
-    if (expr instanceof ApplExpr) {
-      final ApplExpr applExpr = (ApplExpr) expr;
-      final Expr leftExpr = applExpr.getLeftExpr();
-      final Expr rightExpr = applExpr.getRightExpr();
-      final boolean mixfix = applExpr.getMixfix();
-      if (mixfix && leftExpr instanceof RefExpr &&
-          rightExpr instanceof TupleExpr) {
-        final RefExpr refExpr = (RefExpr) leftExpr;
-        final TupleExpr tupleExpr = (TupleExpr) rightExpr;
-        final RefName refName = refExpr.getRefName();
-        final ExprList exprList = tupleExpr.getExprList();
-        if (refName instanceof ZRefName && exprList instanceof ZExprList) {
-          ZRefName zRefName = (ZRefName) refName;
-          ZExprList zExprList = (ZExprList) exprList;
-          if (" _ schemamerge _ ".equals(zRefName.getWord()) &&
-              zExprList.size() == 2 &&
-              zExprList.get(0) instanceof SchExpr &&
-              zExprList.get(1) instanceof SchExpr) {
-            final SchExpr leftSchExpr =
-              (SchExpr) zExprList.get(0);
-            final SchExpr rightSchExpr =
-              (SchExpr) zExprList.get(1);
-            SchExpr result = merge(leftSchExpr, rightSchExpr);
-            Set<Binding> bindings = null;
-            if (result != null) {
-              unify(result, getLeftExpr());
-              return;
-            }
-          }
-        }
-      }
-    }
-    else if (expr instanceof DecorExpr) {
+    if (expr instanceof DecorExpr) {
       final DecorExpr decorExpr = (DecorExpr) expr;
       final Stroke stroke = decorExpr.getStroke();
       if (decorExpr.getExpr() instanceof SchExpr) {
@@ -156,26 +123,6 @@ public class ProverCalculateProviso
       String message = "ProverCalculateProviso";
       throw new UnificationException(term1, term2, message, e);
     }
-  }
-
-  /**
-   * Merges the declaration lists of the given schema expressions.
-   */
-  private SchExpr merge(SchExpr left, SchExpr right)
-  {
-    final Factory factory = new Factory(new ProverFactory());
-    GetDeclList visitor = new GetDeclList(factory);
-    final ZDeclList leftDeclList = left.accept(visitor);
-    final ZDeclList rightDeclList = right.accept(visitor);
-    if (leftDeclList != null && rightDeclList != null) {
-      ZDeclList declList = factory.createZDeclList();
-      declList.addAll(leftDeclList);
-      declList.addAll(rightDeclList);
-      return factory.createSchExpr(factory.createZSchText(declList,
-                      factory.createTruePred()));
-
-    }
-    return null;
   }
 
   public Status getStatus()
