@@ -32,7 +32,6 @@ import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.animation.eval.flatpred.*;
 import net.sourceforge.czt.print.z.PrintUtils;
 
