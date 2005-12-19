@@ -61,8 +61,21 @@ Declare the jokers used in these rules.
 
 \newcommand{\unfoldsTo}{\mathrel{\leadsto}}
 
+\section{Rules from the sets\_toolkit}
+
 \begin{zedrule}{emptyset}
    \emptyset = \{\}
 \end{zedrule}
+
+TODO: $\power_1$ ?
+
+\begin{zedrule}{intersection}
+   E1 \cap E2 = \{x:E1 | x \in E2\}
+\end{zedrule}
+
+\begin{zedrule}{setminus}
+   E1 \setminus E2 = \{x:E1 | x \notin E2\}
+\end{zedrule}
+
 
 \end{document}
