@@ -9,6 +9,9 @@
 
   <path id="classpath">
     <pathelement path="${jwsdp.classpath}"/>
+    <pathelement path="${java.class.path}"/>
+    <pathelement path="${clover.jar}"/>
+    <pathelement path="${zlive.build.dir}"/>
     <fileset dir="${czt.home}/${jar.dir}">
       <include name="${corejava.base.jar.file}"/>
       <include name="${corejava.core.jar.file}"/>
@@ -20,10 +23,8 @@
       <include name="${typechecker.jar.file}"/>
       <include name="${rules.jar.file}"/>
       <include name="${java_cup.jar.file}"/>
+      <include name="${zlive.jar.file}"/>
     </fileset>
-    <pathelement path="${java.class.path}"/>
-    <pathelement path="${clover.jar}"/>
-    <pathelement path="${zlive.build.dir}"/>
   </path>
 
   <target name="init">
@@ -58,7 +59,7 @@
     </javac>
   </target>
 
-  <target name="run" depends="compile"
+  <target name="run" depends="install"
           description="run the ZLive Text UI">
     <java classname="net.sourceforge.czt.animation.eval.TextUI"
           fork="true">
