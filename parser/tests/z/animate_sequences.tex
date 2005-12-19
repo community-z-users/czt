@@ -26,42 +26,42 @@ the constant undefnum should have an undefined left-hand-side.
 \section{Testing <...> in (sequence type)}
  1. seq
      1. STRATEGY: type-based selection - empty sequence 
-\begin{zed} \vdash? \langle \rangle \infix \seq \nat \end{zed}
-\begin{zed} \vdash? \langle \rangle \infix \seq \langle \rangle \end{zed}
+\begin{zed} \vdash? \langle\rangle \in \seq \nat \end{zed}
+\begin{zed} \vdash? \langle\rangle \in \seq \langle\rangle \end{zed}
      2. STRATEGY: type-based selection - single-element sequence
-\begin{zed} \vdash? \langle 1 \rangle \infix \seq \nat \end{zed}
-\begin{zed} \vdash? \langle 1 \rangle \infix \seq (1 \upto 5) \end{zed}
+\begin{zed} \vdash? \langle 1 \rangle \in \seq \nat \end{zed}
+\begin{zed} \vdash? \langle 0 \rangle \notin \seq \nat_1 \end{zed}
      3. STRATEGY: type-based selection - multi-element sequence
-\begin{zed} \vdash? \langle 1, 2 \rangle \infix \seq \nat \end{zed}
-\begin{zed} \vdash? \langle 1, 2 \rangle \infix \seq (1 \upto 5) \end{zed}
-\begin{zed} \vdash? \langle 1, 6 \rangle \notin \seq (1 \upto 5) \end{zed}
+\begin{zed} \vdash? \langle 1,2,3 \rangle \in \seq \nat \end{zed}
+\begin{zed} \vdash? \langle 1,5,2 \rangle \in \seq (1 \upto 5) \end{zed}
+\begin{zed} \vdash? \langle 1,6,2 \rangle \notin \seq (1 \upto 5) \end{zed}
 
  2. iseq
      1. STRATEGY: type-based selection - empty sequence
-\begin{zed} \vdash? \langle \rangle \infix \iseq \nat \end{zed}
-\begin{zed} \vdash? \langle \rangle \infix \iseq \langle \rangle \end{zed}
+\begin{zed} \vdash? \langle \rangle \in \iseq \nat \end{zed}
+\begin{zed} \vdash? \langle \rangle \in \iseq \langle\rangle \end{zed}
      2. STRATEGY: type-based selection - single-element sequence
-\begin{zed} \vdash? \langle 1 \rangle \infix \iseq \nat \end{zed}
-\begin{zed} \vdash? \langle 1 \rangle \infix \iseq (1 \upto 5) \end{zed}
+\begin{zed} \vdash? \langle 1 \rangle \in \iseq \nat \end{zed}
+\begin{zed} \vdash? \langle 0 \rangle \notin \iseq \nat_1 \end{zed}
      3. STRATEGY: type-based selection - multi-element sequence
-\begin{zed} \vdash? \langle 1, 2 \rangle \infix \iseq \nat \end{zed}
-\begin{zed} \vdash? \langle 1, 2 \rangle \infix \iseq (1 \upto 5) \end{zed}
-\begin{zed} \vdash? \langle 1, 6 \rangle \notin \iseq (1 \upto 5) \end{zed}
+\begin{zed} \vdash? \langle 1,2,3 \rangle \in \iseq \nat \end{zed}
+\begin{zed} \vdash? \langle 1,5,2 \rangle \in \iseq (1 \upto 5) \end{zed}
+\begin{zed} \vdash? \langle 1,6,2 \rangle \notin \iseq (1 \upto 5) \end{zed}
      4. meaning of iseq
-\begin{zed} \vdash? \langle 3, 3 \rangle \notin \iseq \nat \end{zed}
+\begin{zed} \vdash? \langle 3,2,3 \rangle \notin \iseq \nat \end{zed}
 
  3. seq_1
      1. STRATEGY: type-based selection - empty sequence
 \begin{zed} \vdash? \langle \rangle \notin \seq_1 \nat \end{zed}
-\begin{zed} \vdash? \langle \rangle \notin \seq_1 \langle \rangle \end{zed}
+\begin{zed} \vdash? \langle \rangle \notin \seq_1 \langle\rangle \end{zed}
      2. STRATEGY: type-based selection - single-element sequence
-\begin{zed} \vdash? \langle 1 \rangle \infix \seq_1 \nat \end{zed}
-\begin{zed} \vdash? \langle 1 \rangle \infix \seq_1 (1 \upto 5) \end{zed}
+\begin{zed} \vdash? \langle 1 \rangle \in \seq_1 \nat \end{zed}
+\begin{zed} \vdash? \langle 0 \rangle \in \seq_1 (1 \upto 5) \end{zed}
      3. STRATEGY: type-based selection - multi-element sequence
-\begin{zed} \vdash? \langle 1, 2 \rangle \infix \seq_1 \nat \end{zed}
-\begin{zed} \vdash? \langle 1, 2 \rangle \infix \seq_1 (1 \upto 5) \end{zed}
+\begin{zed} \vdash? \langle 1,5,2 \rangle \in \seq_1 (1 \upto 5) \end{zed}
+\begin{zed} \vdash? \langle 1,6,2 \rangle \notin \seq_1 (1 \upto 5) \end{zed}
 
-\begin{zed} \vdash? \langle \rangle = \emptyset \end{zed}
+\begin{zed} \vdash? \langle \rangle = \emptyset[\power\arithmos] \end{zed}
 \begin{zed} \vdash? \langle 3 \rangle = \{(1,3)\} \end{zed}
 
 \section{Testing head}
@@ -78,7 +78,7 @@ the constant undefnum should have an undefined left-hand-side.
 \begin{zed} \vdash? tail~ \{(1,2)\} = \emptyset \end{zed}
 \begin{zed} \vdash? tail~ \{(1,2),(2,4)\} = \{(1,4)\} \end{zed}
 \begin{zed} \vdash? tail~ \{x : 1 \upto 10 @ (x,x*2)\} = \{x : 1 \upto 9 @ (x,(x+1)*2)\} \end{zed}
-\begin{zed} \vdash? tail~ \langle \rangle = undefnum \end{zed}
+\begin{zed} \vdash? tail~ \emptyset[(\nat,\num)] = undefnum \end{zed}
 
 \section{Testing last}
 \begin{zed} \vdash? last~ \langle 2 \rangle = 2 \end{zed}
@@ -86,7 +86,7 @@ the constant undefnum should have an undefined left-hand-side.
 \begin{zed} \vdash? last~ \{(1,2)\} = 2 \end{zed}
 \begin{zed} \vdash? last~ \{(1,2),(2,4)\} = 4 \end{zed}
 \begin{zed} \vdash? last~ \{x : 1 \upto 10 @ (x,x*2)\} = 20 \end{zed}
-\begin{zed} \vdash? last~ \langle \rangle = undefnum \end{zed}
+\begin{zed} \vdash? last~ \emptyset[(\nat,\num)] = undefnum \end{zed}
 
 \section{Testing front}
 \begin{zed} \vdash? front~ \langle 2 \rangle = \emptyset \end{zed}
@@ -94,7 +94,7 @@ the constant undefnum should have an undefined left-hand-side.
 \begin{zed} \vdash? front~ \{(1,2)\} = \emptyset \end{zed}
 \begin{zed} \vdash? front~ \{(1,2),(2,4)\} = \{(1,2)\} \end{zed}
 \begin{zed} \vdash? front~ \{x : 1 \upto 10 @ (x,x*2)\} = \{x : 1 \upto 9 @ (x,x*2)\} \end{zed}
-\begin{zed} \vdash? front~ \langle \rangle = undefnum \end{zed}
+\begin{zed} \vdash? front~ \emptyset[(\num,\nat)] = undefnum \end{zed}
 
 
 \section{Testing \prefix}
@@ -123,17 +123,17 @@ the constant undefnum should have an undefined left-hand-side.
 \begin{zed} \vdash? \lnot \langle 3,3 \rangle  \infix   \langle 1,3,5 \rangle \end{zed}
 
 \section{Testing \prefix, \suffix, \infix as constraints}
- This does not optimize properly yet.  
- \begin{zed} \vdash? \{s:\seq \nat | s \prefix s246 \land \# s \leq 1\} = \power \{(1,2)\} \end{zed}
+Jaza: This does not optimize properly yet.  
+\begin{zed} \vdash? \{s:\seq \nat | s \prefix s246 \land \# s \leq 1\} = \power \{(1,2)\} \end{zed}
 
 \section{Testing \dcat}
-\begin{zed} \vdash? \dcat \langle \rangle = \langle \rangle \end{zed}
+\begin{zed} \vdash? \dcat \langle \rangle = \emptyset[\nat \cross \num] \end{zed}
 \begin{zed} \vdash? \dcat \langle s246, s246 \rangle = s246 \cat s246 \end{zed}
 \begin{zed} \vdash? \dcat \langle s246, s246, \emptyset \rangle = s246 \cat s246 \end{zed}
 \begin{zed} \vdash? \dcat \langle s246, \langle 3 \rangle \rangle = \langle 2,4,6,3 \rangle \end{zed}
 
 \section{Testing squash}
-\begin{zed} \vdash? squash \{\} = \langle \rangle \end{zed}
+\begin{zed} \vdash? squash \{\} = \emptyset[\nat \cross \num] \end{zed}
 \begin{zed} \vdash? squash \{(3,4)\} = \{(1,4)\} \end{zed}
 \begin{zed} \vdash? squash \{(3,4),(4,3)\} = \langle 4,3 \rangle \end{zed}
 \begin{zed} \vdash? squash \{(3,4),(42,3)\} = \langle 4,3 \rangle \end{zed}

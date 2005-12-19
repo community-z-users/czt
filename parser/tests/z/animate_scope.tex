@@ -30,11 +30,11 @@ the constant undefnum should have an undefined left-hand-side.
 
 
 \section{Testing predicates that contain \LET...}
-NOTE: these are now illegal in standard Z.
-\begin{zed} \vdash? (\LET x==1 @ x=1) \end{zed}
-\begin{zed} \vdash? (\LET x==1; y==1 @ x=y) \end{zed}
+NOTE: these are now illegal in standard Z, so we use \exists instead.
+\begin{zed} \vdash? (\exists x==1 @ x=1) \end{zed}
+\begin{zed} \vdash? (\exists x==1; y==1 @ x=y) \end{zed}
 
- 13 April 2002: This one gives sub precond error: vars {x} doesn't include y
+ 13Apr2002: Jaza: This one gives sub precond error: vars {x} doesn't include y
  (Problem is that '+' stays as a ZVar!  Why?  Perhaps range of LET
   is not being unfolded, because traverse visitor problem?)
 \begin{zed} \vdash? 

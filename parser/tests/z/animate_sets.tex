@@ -57,7 +57,7 @@ Numeric ranges.
 
 \section{Testing set union}
 Empty sets
-\begin{zed} \vdash?  \{\}      \cup \emptyset   = \emptyset \end{zed}
+\begin{zed} \vdash?  \{\}     \cup \emptyset[\nat] = \emptyset \end{zed}
 \begin{zed} \vdash?  \emptyset \cup s13         = s13 \end{zed}
 \begin{zed} \vdash?  s13       \cup \emptyset   = s13 \end{zed}
 \begin{zed} \vdash?  \emptyset \cup fcomp13     = s13 \end{zed}
@@ -82,13 +82,13 @@ Set comprehensions
 These tests were written by Dong Qiao, 0657.424 student at Waikato 
 University in 2000.
 \begin{zed}
-set1 == \{\} \\                 % emptyset
-set2 == \emptyset \\            % emptyset
+set1 == \{5\} \setminus \{5\} \\      % emptyset
+set2 == \emptyset[\nat] \\            % emptyset
 set3 == \{1\} \\                % single element
 set4 == \{2,3,4\} \\            % 
-set5 == \{x: 5 \upto 10 | x \mod 2 = 0 \} \\
+set5 == \{x: 5 \upto 10 | x \mod 2 = 0 \} \\ % {6,8,10}
 set6 == 0 \upto 3  \\
-set7 == \{x: 1 \upto 10 | x < 6 \} \\
+set7 == \{x: 1 \upto 10 | x < 6 \} \\  % {1,2,3,4,5}
 set8 == 5 \upto 1 \\
 set9 == \{0 \upto 3\} \\
 \end{zed}
@@ -101,29 +101,29 @@ Check empty set
 \begin{zed}\vdash? \bigcup\{set1,set3,set4\}= set1\cup set3 \cup set4\end{zed}
 \begin{zed}\vdash? \bigcup\{set1,set5,set7\}= set1\cup set5 \cup set7\end{zed}
 \begin{zed}\vdash? \bigcup \{\{set1\}\}      = \{set1\} \end{zed}
-\begin{zed}\vdash? \bigcup \{set1,\{set3\}\} = set1 \cup \{set3\} \end{zed}
-\begin{zed}\vdash? \bigcup \{\{set1\},set3\} = \{set1\} \cup set3 \end{zed}
-\begin{zed}\vdash? \bigcup \{set1,\{set4\}\} = set1 \cup \{set4\} \end{zed}
-\begin{zed}\vdash? \bigcup \{\{set1\},set4\} = \{set1\} \cup set4 \end{zed}
+\begin{zed}\vdash? \bigcup \{\{\},set4\}     = set4 \end{zed}
+\begin{zed}\vdash? \bigcup \{\{\},set5\}     = set5 \end{zed}
+\begin{zed}\vdash? \bigcup \{\{\},set6\}     = set6 \end{zed}
+\begin{zed}\vdash? \bigcup \{\{\},\{set7\}\} = \{set7\} \end{zed}
 
 Singleton sets
-\begin{zed}\vdash? \bigcup\{set3,\{1\},\{2\}\}= set3\cup\{1\}\cup\{2\}\end{zed}
-\begin{zed}\vdash? \bigcup\{set3,set4\}       = set3 \cup set4 \end{zed}
-\begin{zed}\vdash? \bigcup\{set1,set3,\{1\}\} = set1\cup set3\cup\{1\}\end{zed}
+\begin{zed}\vdash? \bigcup\{set3,\{1\},\{2\}\}= \{1,2\} \end{zed}
+\begin{zed}\vdash? \bigcup\{set3,set4\}       = 1 \upto 4 \end{zed}
+\begin{zed}\vdash? \bigcup\{set1,set3,\{1\}\} = \{1\} \end{zed}
 \begin{zed}\vdash? \bigcup\{set3\}            = set3 \end{zed}
 \begin{zed}\vdash? \bigcup set9               = \{0,1,2,3\} \end{zed}
-\begin{zed}\vdash? \bigcup\{\{set3\},set4\}   = \{set3\} \cup set4 \end{zed}
-\begin{zed}\vdash? \bigcup\{set3,\{set4\}\}   = set3 \cup \{set4\} \end{zed}
+\begin{zed}\vdash? \bigcup\{\{set3\},\{set4\}\}= \{1 \upto 4\} \end{zed}
+\begin{zed}\vdash? \bigcup\{\{set6\},set9\}   = set9 \end{zed}
 
 Larger sets
 \begin{zed}\vdash? \bigcup \{set4,set5\}   = set4 \cup set5 \end{zed}
-\begin{zed}\vdash? \bigcup \{\{set4\},set5\} = \{set4\} \cup set5 \end{zed}
-\begin{zed}\vdash? \bigcup \{set4,\{set5\}\} = set4 \cup \{set5\} \end{zed}
+\begin{zed}\vdash? \bigcup \{set5,set4\}   = set4 \cup set5 \end{zed}
+\begin{zed}\vdash? \bigcup \{set4,set7\}   = set7 \end{zed}
 \begin{zed}\vdash? \bigcup \{set5,set6\}   = set5 \cup set6 \end{zed}
 \begin{zed}\vdash? \bigcup \{0 \upto 3, \{4,5\}\}  = 0 \upto 5 \end{zed}
-\begin{zed}\vdash? \bigcup \{set5,set7\}   = set5 \cup set7 \end{zed}
-\begin{zed}\vdash? \bigcup \{set6,set8\}   = set6 \cup set8 \end{zed}
-\begin{zed}\vdash? \bigcup\{set4,set5,set7\} = set4\cup set5\cup set7\end{zed}
+\begin{zed}\vdash? \bigcup \{set5,set7\}   = set7 \cup set5 \end{zed}
+\begin{zed}\vdash? \bigcup \{set6,set8\}   = set8 \cup set6 \end{zed}
+\begin{zed}\vdash? \bigcup\{set4,set5,set7\} = set7 \cup set5 \end{zed}
 
 TODO: add more infinite sets here
 \begin{zed}\vdash? \bigcup \{\nat_1\,,\{0\}\}     = \nat \end{zed}
@@ -135,7 +135,7 @@ TODO: add more infinite sets here
 
 \section{Testing set intersection}
 Empty sets
-\begin{zed} \vdash?  \{\}      \cap \emptyset   = \emptyset \end{zed}
+\begin{zed} \vdash?  \{\}      \cap \emptyset[\nat] = \emptyset \end{zed}
 \begin{zed} \vdash?  \emptyset \cap s13         = \emptyset \end{zed}
 \begin{zed} \vdash?  s13       \cap \emptyset   = \emptyset \end{zed}
 \begin{zed} \vdash?  \emptyset \cap fcomp13     = \emptyset \end{zed}
@@ -218,7 +218,7 @@ Note: this next one requires type analysis before it can be animated.
 
 \section{Testing set minus}
 Empty sets
-\begin{zed} \vdash?  \{\}      \setminus \emptyset   = \emptyset \end{zed}
+\begin{zed} \vdash?  \{\}      \setminus \emptyset[\nat] = \emptyset \end{zed}
 \begin{zed} \vdash?  \emptyset \setminus s13         = \emptyset \end{zed}
 \begin{zed} \vdash?  s13       \setminus \emptyset   = s13 \end{zed}
 \begin{zed} \vdash?  \emptyset \setminus fcomp13     = \emptyset \end{zed}
@@ -253,8 +253,8 @@ Set comprehensions
 
 
 \section{Testing membership of sets in sets-of-sets}
-\begin{zed} \vdash?  \emptyset \in \{\emptyset\} \end{zed}
-\begin{zed} \vdash?  \emptyset \in \{\emptyset \cap \emptyset\} \end{zed}
+\begin{zed} \vdash?  \emptyset[\nat] \in \{\emptyset\} \end{zed}
+\begin{zed} \vdash?  \emptyset \in \{\emptyset \cap \emptyset[\nat]\} \end{zed}
 \begin{zed} \vdash?  \{0,1\} \in \{\{0,1\}\} \end{zed}
 \begin{zed} \vdash?  \{0,1\} \in \{\{0,1\}\cap\{0,1\}\} \end{zed}
 \begin{zed} \vdash?  \{\negate 1,1\} \in \{\{\negate 1,1\},\{1,2\}\} \end{zed}
@@ -313,8 +313,8 @@ TODO: improve animator reordering so these work?
 
 
 \section{Testing membership in power sets}
-\begin{zed} \vdash?  \power \{\} = \{ \emptyset \} \end{zed}
-\begin{zed} \vdash?  \{\} \in \power \{\} \end{zed}
+\begin{zed} \vdash?  \power \{\} = \{ \emptyset[\nat] \} \end{zed}
+\begin{zed} \vdash?  \emptyset[\power\nat] \in \power \{\} \end{zed}
 \begin{zed} \vdash?  \{\} \in \power \{1\} \end{zed}
 \begin{zed} \vdash?  \{\} \in \power \{1,2,3\} \end{zed}
 \begin{zed} \vdash?  \{1\} \notin \power \{\} \end{zed}
@@ -332,8 +332,8 @@ TODO: improve animator reordering so these work?
 \begin{zed} \vdash?  \{1\} \in \power \nat \end{zed}
 \begin{zed} \vdash?  \{1,2,4\} \in \power \nat \end{zed}
 
-\begin{zed} \vdash?  \power_1 \{\} = \{\} \end{zed}
-\begin{zed} \vdash?  \{\} \notin \power_1 \{\} \end{zed}
+\begin{zed} \vdash?  \power_1 \{\} = \emptyset[\nat] \end{zed}
+\begin{zed} \vdash?  \{\} \notin \power_1 (\emptyset[\nat]) \end{zed}
 \begin{zed} \vdash?  \{\} \notin \power_1 \{1\} \end{zed}
 \begin{zed} \vdash?  \{\} \notin \power_1 \{1,2,3\} \end{zed}
 \begin{zed} \vdash?  \{1\} \notin \power_1 \{\} \end{zed}
@@ -356,9 +356,9 @@ TODO: improve animator reordering so these work?
 \subsection{Empty sets}
 \begin{enumerate}
 \item Built in type
-\begin{zed} \vdash?  \# \emptyset = 0 \end{zed}
+\begin{zed} \vdash?  \# \emptyset[\nat] = 0 \end{zed}
 \item Explicit empty set
-\begin{zed} \vdash?  \# \{\} = 0 \end{zed}
+\begin{zed} \vdash?  \# (\{\} \setminus \{1\}) = 0 \end{zed}
 \item Set comprehension
 \begin{zed} \vdash?  \# \{x:1 \upto 10 | x < 0 \land x = 0\} = 0 \end{zed}
 \end{enumerate}
@@ -393,5 +393,10 @@ The cardinality operator is not defined over infinite sets,
 so the following should all be undefined.
 \begin{zed} \vdash?  \# \num = undefnum \end{zed}
 \begin{zed} \vdash?  \# \nat = undefnum \end{zed}
+
+\subsection{Size inference for sets}
+\begin{zed} \vdash?  \{x:\nat | x<\#\{3,5,3\}\} = \{0,1\} \end{zed}
+\begin{zed} \vdash?  \{x:\nat | x<\#(3 \upto 5)\} = \{0,1,2\} \end{zed}
+
 
 \end{document}

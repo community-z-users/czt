@@ -52,8 +52,8 @@ the constant undefnum should have an undefined left-hand-side.
 
 
 \section{Testing \ran}
-\begin{zed} \vdash? \ran \emptyset = \{\} \end{zed}
-\begin{zed} \vdash? \ran \emptyset = \emptyset \end{zed}
+\begin{zed} \vdash? \ran \emptyset[\nat \cross \num] = \{\} \end{zed}
+\begin{zed} \vdash? \ran \emptyset[\nat \cross \power\nat] = \emptyset \end{zed}
 \begin{zed} \vdash? \ran \{(1, 1)\} = \{1\} \end{zed}
 \begin{zed} \vdash? \ran \{(1,1), (2,4), (3,9), (4,16)\} = \{1,4,9,16\} \end{zed}
 \begin{zed} \vdash? \ran (\{(1, 1)\} \cup \{(2,2)\}) = \{1,2\} \end{zed}
@@ -65,8 +65,8 @@ the constant undefnum should have an undefined left-hand-side.
 \begin{zed} \vdash? 1 \notin \ran \{x:\nat @ (x,x+2) \} \end{zed}
 
 \section{Testing \dom}
-\begin{zed} \vdash? \dom \emptyset = \{\} \end{zed}
-\begin{zed} \vdash? \dom \emptyset = \emptyset \end{zed}
+\begin{zed} \vdash? \dom \emptyset[\nat \cross \num] = \{\} \end{zed}
+\begin{zed} \vdash? \dom \emptyset[\nat \cross \power\nat] = \emptyset \end{zed}
 \begin{zed} \vdash? \dom \{(1, 1)\} = \{1\} \end{zed}
 \begin{zed} \vdash? \dom \{(1,1), (2,4), (3,9), (4,16)\} = 1 \upto 4 \end{zed}
 \begin{zed} \vdash? \dom (\{(1, 1)\} \cup \{(2,2)\}) = \{1,2\} \end{zed}
@@ -79,7 +79,7 @@ the constant undefnum should have an undefined left-hand-side.
 
 \section{Testing \inv}
 % Empty set
-\begin{zed} \vdash? \{\} \inv = \{\} \end{zed}
+\begin{zed} \vdash? \{\} \inv = \emptyset[\nat \cross \num] \end{zed}
 % One to one
 \begin{zed} \vdash? \{ (1,2) \} \inv = \{ (2,1) \} \end{zed}
 \begin{zed} \vdash? \{ (1,2),(2,4),(3,6) \} \inv = \{ (2,1),(4,2),(6,3) \} \end{zed}
@@ -107,7 +107,7 @@ the constant undefnum should have an undefined left-hand-side.
 
 % empty sets
 \begin{zed} \vdash? \{\} \ndres seq909 = seq909 \end{zed}
-\begin{zed} \vdash? \emptyset \ndres \emptyset = \emptyset \end{zed}
+\begin{zed} \vdash? \emptyset \ndres \emptyset = \emptyset[(\nat,\power\nat)] \end{zed}
 
 % singleton sets 
 \begin{zed} \vdash? \{1\} \ndres \{1 \mapsto \negate 1\} = \emptyset \end{zed}
@@ -148,18 +148,18 @@ the constant undefnum should have an undefined left-hand-side.
 \begin{zed} \vdash? \{(1,2),(3,4),(5,6)\} \plus = \{(1,2),(3,4),(5,6)\} \end{zed}
 \begin{zed} \vdash? \{(1,2),(2,3),(3,4)\} \plus = \{(1,2),(1,3),(1,4),(2,3),(2,4),(3,4)\} \end{zed}
 \begin{zed} \vdash? \{ x: 1 \upto 5 @ (x,x+1) \} \plus = \{(1,2),(1,3),(1,4),(1,5),(1,6),(2,3),(2,4),(2,5),(2,6),(3,4),(3,5),(3,6),(4,5),(4,6),(5,6)\} \end{zed}
-\begin{zed} \vdash? \emptyset \plus = \emptyset \end{zed}
+\begin{zed} \vdash? \emptyset \plus = \emptyset[\nat,\nat] \end{zed}
 \begin{zed} \vdash? (\{(1,2),(2,3),(3,4)\} \cup \{(4,5)\}) \plus = \{(1,2),(1,3),(1,4),(1,5),(2,3),(2,4),(2,5),(3,4),(3,5),(4,5)\} \end{zed}
 
 
 \section{Testing the disjoint and partition operators}
-\begin{zed} \vdash? \disjoint \{ \} \end{zed}
+\begin{zed} \vdash? \disjoint \emptyset[\power\nat] \end{zed}
 \begin{zed} \vdash? \disjoint \{ (1,\{1,3,5\}), (3,\{2,4,6\}) \} \end{zed}
 \begin{zed} \vdash? \disjoint \{ (1,\{1,3,5\}), (3,\{2,4,6\}), (5,\{\}) \} \end{zed}
 \begin{zed} \vdash? \lnot (\disjoint \{ (1,\{1,3,5\}), (3,\{2,4,5\}) \}) \end{zed}
 
-\begin{zed} \vdash? \{\} \partition \{\} \end{zed}
-\begin{zed} \vdash? \lnot \{\} \partition \{1\} \end{zed}
+\begin{zed} \vdash? \emptyset[\power\nat] \partition \{\} \end{zed}
+\begin{zed} \vdash? \lnot \emptyset[\power\nat] \partition \{1\} \end{zed}
 \begin{zed} \vdash? \{ (1,\{1,3,5\}) \} \partition (1 \upto 5) \setminus \{2,4\} \end{zed}
 \begin{zed} \vdash? \{ (1,\{1,3,5\}), (3,\{2,4,6\}) \} \partition 1 \upto 6 \end{zed}
 \begin{zed} \vdash? \{ (1,\{1,3,5\}), (3,\{2,4,6\}), (5,\{\}) \} \partition 1 \upto 6 \end{zed}
