@@ -77,5 +77,11 @@ TODO: $\power_1$ ?
    E1 \setminus E2 = \{x:E1 | x \notin E2\}
 \end{zedrule}
 
+\begin{zedrule}{symdiff}
+  \proviso E1 : \power E
+\derives
+   E1 \symdiff E2 = \{ x:E | \lnot (x \in E1 \iff x \in E2) \}
+\end{zedrule}
+
 
 \end{document}
