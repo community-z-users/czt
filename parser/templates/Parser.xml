@@ -391,6 +391,10 @@ action code
         parser.report_error(ParseMessage.MSG_EXPR_EXPECTED_FOUND_PRED,
                             new Object [0], getLocation(t));
 </add:z>
+<add:zpatt>
+        parser.report_error(ParseMessage.MSG_EXPR_EXPECTED_FOUND_PRED,
+                            new Object [0], getLocation(t));
+</add:zpatt>
       }
       else {
         parser.report_error(ParseMessage.MSG_EXPR_EXPECTED, 
