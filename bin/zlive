@@ -1,3 +1,3 @@
 #!/bin/sh
 source `dirname $0`/settings.sh
-java -classpath "${ZLIVE}:${RULES}:${TYPECHECKER}:${PARSER}:${GAFFE}:${COREJAVA}:${JAVA_CUP}:${JWSDP}" net.sourceforge.czt.animation.eval.TextUI "$@"
+java -classpath "${ZLIVE}:${RULES}:${SESSION}:${TYPECHECKER}:${PARSER}:${GAFFE}:${COREJAVA}:${JAVA_CUP}:${JWSDP}" net.sourceforge.czt.animation.eval.TextUI "$@"
