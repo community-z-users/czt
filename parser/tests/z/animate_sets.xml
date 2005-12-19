@@ -22,6 +22,9 @@ the constant undefnum should have an undefined left-hand-side.
 </Content>
     </NarrSect>
     <ZSect>
+        <Anns>
+            <LocAnn Col="1" Line="1" Loc="tests/z/animate_sets.tex"/>
+        </Anns>
         <Name>Specification</Name>
         <Parent>
             <Word>standard_toolkit</Word>
@@ -1772,11 +1775,11 @@ Empty sets
             </Anns>
             <MemPred Mixfix="true">
                 <Anns>
-                    <LocAnn Col="49" Line="60" Loc="tests/z/animate_sets.tex"/>
+                    <LocAnn Col="52" Line="60" Loc="tests/z/animate_sets.tex"/>
                 </Anns>
                 <ApplExpr Mixfix="true">
                     <Anns>
-                        <LocAnn Col="32" Line="60" Loc="tests/z/animate_sets.tex"/>
+                        <LocAnn Col="31" Line="60" Loc="tests/z/animate_sets.tex"/>
                     </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
@@ -1803,15 +1806,28 @@ Empty sets
                             </SetExpr>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="37" Line="60" Loc="tests/z/animate_sets.tex"/>
+                                    <LocAnn Col="36" Line="60" Loc="tests/z/animate_sets.tex"/>
                                 </Anns>
                                 <ZRefName>
                                     <Anns>
-                                        <LocAnn Col="37" Line="60" Loc="tests/z/animate_sets.tex"/>
+                                        <LocAnn Col="36" Line="60" Loc="tests/z/animate_sets.tex"/>
                                     </Anns>
                                     <Word>∅</Word>
                                 </ZRefName>
-                                <ZExprList/>
+                                <ZExprList>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="46" Line="60" Loc="tests/z/animate_sets.tex"/>
+                                        </Anns>
+                                        <ZRefName>
+                                            <Anns>
+                                                <LocAnn Col="46" Line="60" Loc="tests/z/animate_sets.tex"/>
+                                            </Anns>
+                                            <Word>ℕ</Word>
+                                        </ZRefName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                </ZExprList>
                             </RefExpr>
                         </ZExprList>
                     </TupleExpr>
@@ -1820,11 +1836,11 @@ Empty sets
                     <ZExprList>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="51" Line="60" Loc="tests/z/animate_sets.tex"/>
+                                <LocAnn Col="54" Line="60" Loc="tests/z/animate_sets.tex"/>
                             </Anns>
                             <ZRefName>
                                 <Anns>
-                                    <LocAnn Col="51" Line="60" Loc="tests/z/animate_sets.tex"/>
+                                    <LocAnn Col="54" Line="60" Loc="tests/z/animate_sets.tex"/>
                                 </Anns>
                                 <Word>∅</Word>
                             </ZRefName>
@@ -1836,7 +1852,7 @@ Empty sets
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="70" Line="60" Loc="tests/z/animate_sets.tex"/>
+                <LocAnn Col="73" Line="60" Loc="tests/z/animate_sets.tex"/>
             </Anns>
             <Content>
 </Content>
@@ -3384,12 +3400,56 @@ University in 2000.
                             </Anns>
                             <Word>set1</Word>
                         </ZDeclName>
-                        <SetExpr>
+                        <ApplExpr Mixfix="true">
                             <Anns>
-                                <LocAnn Col="9" Line="85" Loc="tests/z/animate_sets.tex"/>
+                                <LocAnn Col="15" Line="85" Loc="tests/z/animate_sets.tex"/>
                             </Anns>
-                            <ZExprList/>
-                        </SetExpr>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="12" Line="85" Loc="tests/z/animate_sets.tex"/>
+                                </Anns>
+                                <ZRefName>
+                                    <Anns>
+                                        <LocAnn Col="12" Line="85" Loc="tests/z/animate_sets.tex"/>
+                                    </Anns>
+                                    <Word> _ \ _ </Word>
+                                </ZRefName>
+                                <ZExprList/>
+                            </RefExpr>
+                            <TupleExpr>
+                                <Anns>
+                                    <LocAnn Col="12" Line="85" Loc="tests/z/animate_sets.tex"/>
+                                </Anns>
+                                <ZExprList>
+                                    <SetExpr>
+                                        <Anns>
+                                            <LocAnn Col="9" Line="85" Loc="tests/z/animate_sets.tex"/>
+                                        </Anns>
+                                        <ZExprList>
+                                            <NumExpr>
+                                                <Anns>
+                                                    <LocAnn Col="11" Line="85" Loc="tests/z/animate_sets.tex"/>
+                                                </Anns>
+                                                <ZNumeral Value="5"/>
+                                            </NumExpr>
+                                        </ZExprList>
+                                    </SetExpr>
+                                    <SetExpr>
+                                        <Anns>
+                                            <LocAnn Col="25" Line="85" Loc="tests/z/animate_sets.tex"/>
+                                        </Anns>
+                                        <ZExprList>
+                                            <NumExpr>
+                                                <Anns>
+                                                    <LocAnn Col="27" Line="85" Loc="tests/z/animate_sets.tex"/>
+                                                </Anns>
+                                                <ZNumeral Value="5"/>
+                                            </NumExpr>
+                                        </ZExprList>
+                                    </SetExpr>
+                                </ZExprList>
+                            </TupleExpr>
+                        </ApplExpr>
                     </ConstDecl>
                 </ZDeclList>
             </ZSchText>
@@ -3423,7 +3483,20 @@ University in 2000.
                                 </Anns>
                                 <Word>∅</Word>
                             </ZRefName>
-                            <ZExprList/>
+                            <ZExprList>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="19" Line="86" Loc="tests/z/animate_sets.tex"/>
+                                    </Anns>
+                                    <ZRefName>
+                                        <Anns>
+                                            <LocAnn Col="19" Line="86" Loc="tests/z/animate_sets.tex"/>
+                                        </Anns>
+                                        <Word>ℕ</Word>
+                                    </ZRefName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </ZExprList>
                         </RefExpr>
                     </ConstDecl>
                 </ZDeclList>
@@ -4806,7 +4879,7 @@ Check empty set
                 </Anns>
                 <ApplExpr Mixfix="false">
                     <Anns>
-                        <LocAnn Col="43" Line="104" Loc="tests/z/animate_sets.tex"/>
+                        <LocAnn Col="39" Line="104" Loc="tests/z/animate_sets.tex"/>
                     </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
@@ -4825,104 +4898,48 @@ Check empty set
                             <LocAnn Col="28" Line="104" Loc="tests/z/animate_sets.tex"/>
                         </Anns>
                         <ZExprList>
-                            <RefExpr Mixfix="false">
+                            <SetExpr>
                                 <Anns>
                                     <LocAnn Col="30" Line="104" Loc="tests/z/animate_sets.tex"/>
                                 </Anns>
-                                <ZRefName>
-                                    <Anns>
-                                        <LocAnn Col="30" Line="104" Loc="tests/z/animate_sets.tex"/>
-                                    </Anns>
-                                    <Word>set1</Word>
-                                </ZRefName>
                                 <ZExprList/>
-                            </RefExpr>
-                            <SetExpr>
+                            </SetExpr>
+                            <RefExpr Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="35" Line="104" Loc="tests/z/animate_sets.tex"/>
                                 </Anns>
-                                <ZExprList>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="37" Line="104" Loc="tests/z/animate_sets.tex"/>
-                                        </Anns>
-                                        <ZRefName>
-                                            <Anns>
-                                                <LocAnn Col="37" Line="104" Loc="tests/z/animate_sets.tex"/>
-                                            </Anns>
-                                            <Word>set3</Word>
-                                        </ZRefName>
-                                        <ZExprList/>
-                                    </RefExpr>
-                                </ZExprList>
-                            </SetExpr>
+                                <ZRefName>
+                                    <Anns>
+                                        <LocAnn Col="35" Line="104" Loc="tests/z/animate_sets.tex"/>
+                                    </Anns>
+                                    <Word>set4</Word>
+                                </ZRefName>
+                                <ZExprList/>
+                            </RefExpr>
                         </ZExprList>
                     </SetExpr>
                 </ApplExpr>
                 <SetExpr>
                     <ZExprList>
-                        <ApplExpr Mixfix="true">
+                        <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="53" Line="104" Loc="tests/z/animate_sets.tex"/>
+                                <LocAnn Col="48" Line="104" Loc="tests/z/animate_sets.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <ZRefName>
                                 <Anns>
                                     <LocAnn Col="48" Line="104" Loc="tests/z/animate_sets.tex"/>
                                 </Anns>
-                                <ZRefName>
-                                    <Anns>
-                                        <LocAnn Col="48" Line="104" Loc="tests/z/animate_sets.tex"/>
-                                    </Anns>
-                                    <Word> _ ∪ _ </Word>
-                                </ZRefName>
-                                <ZExprList/>
-                            </RefExpr>
-                            <TupleExpr>
-                                <Anns>
-                                    <LocAnn Col="48" Line="104" Loc="tests/z/animate_sets.tex"/>
-                                </Anns>
-                                <ZExprList>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="48" Line="104" Loc="tests/z/animate_sets.tex"/>
-                                        </Anns>
-                                        <ZRefName>
-                                            <Anns>
-                                                <LocAnn Col="48" Line="104" Loc="tests/z/animate_sets.tex"/>
-                                            </Anns>
-                                            <Word>set1</Word>
-                                        </ZRefName>
-                                        <ZExprList/>
-                                    </RefExpr>
-                                    <SetExpr>
-                                        <Anns>
-                                            <LocAnn Col="58" Line="104" Loc="tests/z/animate_sets.tex"/>
-                                        </Anns>
-                                        <ZExprList>
-                                            <RefExpr Mixfix="false">
-                                                <Anns>
-                                                    <LocAnn Col="60" Line="104" Loc="tests/z/animate_sets.tex"/>
-                                                </Anns>
-                                                <ZRefName>
-                                                    <Anns>
-                                                        <LocAnn Col="60" Line="104" Loc="tests/z/animate_sets.tex"/>
-                                                    </Anns>
-                                                    <Word>set3</Word>
-                                                </ZRefName>
-                                                <ZExprList/>
-                                            </RefExpr>
-                                        </ZExprList>
-                                    </SetExpr>
-                                </ZExprList>
-                            </TupleExpr>
-                        </ApplExpr>
+                                <Word>set4</Word>
+                            </ZRefName>
+                            <ZExprList/>
+                        </RefExpr>
                     </ZExprList>
                 </SetExpr>
             </MemPred>
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="76" Line="104" Loc="tests/z/animate_sets.tex"/>
+                <LocAnn Col="62" Line="104" Loc="tests/z/animate_sets.tex"/>
             </Anns>
             <Content>
 </Content>
@@ -4937,7 +4954,7 @@ Check empty set
                 </Anns>
                 <ApplExpr Mixfix="false">
                     <Anns>
-                        <LocAnn Col="43" Line="105" Loc="tests/z/animate_sets.tex"/>
+                        <LocAnn Col="39" Line="105" Loc="tests/z/animate_sets.tex"/>
                     </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
@@ -4960,30 +4977,17 @@ Check empty set
                                 <Anns>
                                     <LocAnn Col="30" Line="105" Loc="tests/z/animate_sets.tex"/>
                                 </Anns>
-                                <ZExprList>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="32" Line="105" Loc="tests/z/animate_sets.tex"/>
-                                        </Anns>
-                                        <ZRefName>
-                                            <Anns>
-                                                <LocAnn Col="32" Line="105" Loc="tests/z/animate_sets.tex"/>
-                                            </Anns>
-                                            <Word>set1</Word>
-                                        </ZRefName>
-                                        <ZExprList/>
-                                    </RefExpr>
-                                </ZExprList>
+                                <ZExprList/>
                             </SetExpr>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="39" Line="105" Loc="tests/z/animate_sets.tex"/>
+                                    <LocAnn Col="35" Line="105" Loc="tests/z/animate_sets.tex"/>
                                 </Anns>
                                 <ZRefName>
                                     <Anns>
-                                        <LocAnn Col="39" Line="105" Loc="tests/z/animate_sets.tex"/>
+                                        <LocAnn Col="35" Line="105" Loc="tests/z/animate_sets.tex"/>
                                     </Anns>
-                                    <Word>set3</Word>
+                                    <Word>set5</Word>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -4992,68 +4996,25 @@ Check empty set
                 </ApplExpr>
                 <SetExpr>
                     <ZExprList>
-                        <ApplExpr Mixfix="true">
+                        <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="57" Line="105" Loc="tests/z/animate_sets.tex"/>
+                                <LocAnn Col="48" Line="105" Loc="tests/z/animate_sets.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <ZRefName>
                                 <Anns>
-                                    <LocAnn Col="54" Line="105" Loc="tests/z/animate_sets.tex"/>
+                                    <LocAnn Col="48" Line="105" Loc="tests/z/animate_sets.tex"/>
                                 </Anns>
-                                <ZRefName>
-                                    <Anns>
-                                        <LocAnn Col="54" Line="105" Loc="tests/z/animate_sets.tex"/>
-                                    </Anns>
-                                    <Word> _ ∪ _ </Word>
-                                </ZRefName>
-                                <ZExprList/>
-                            </RefExpr>
-                            <TupleExpr>
-                                <Anns>
-                                    <LocAnn Col="54" Line="105" Loc="tests/z/animate_sets.tex"/>
-                                </Anns>
-                                <ZExprList>
-                                    <SetExpr>
-                                        <Anns>
-                                            <LocAnn Col="48" Line="105" Loc="tests/z/animate_sets.tex"/>
-                                        </Anns>
-                                        <ZExprList>
-                                            <RefExpr Mixfix="false">
-                                                <Anns>
-                                                    <LocAnn Col="50" Line="105" Loc="tests/z/animate_sets.tex"/>
-                                                </Anns>
-                                                <ZRefName>
-                                                    <Anns>
-                                                        <LocAnn Col="50" Line="105" Loc="tests/z/animate_sets.tex"/>
-                                                    </Anns>
-                                                    <Word>set1</Word>
-                                                </ZRefName>
-                                                <ZExprList/>
-                                            </RefExpr>
-                                        </ZExprList>
-                                    </SetExpr>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="62" Line="105" Loc="tests/z/animate_sets.tex"/>
-                                        </Anns>
-                                        <ZRefName>
-                                            <Anns>
-                                                <LocAnn Col="62" Line="105" Loc="tests/z/animate_sets.tex"/>
-                                            </Anns>
-                                            <Word>set3</Word>
-                                        </ZRefName>
-                                        <ZExprList/>
-                                    </RefExpr>
-                                </ZExprList>
-                            </TupleExpr>
-                        </ApplExpr>
+                                <Word>set5</Word>
+                            </ZRefName>
+                            <ZExprList/>
+                        </RefExpr>
                     </ZExprList>
                 </SetExpr>
             </MemPred>
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="76" Line="105" Loc="tests/z/animate_sets.tex"/>
+                <LocAnn Col="62" Line="105" Loc="tests/z/animate_sets.tex"/>
             </Anns>
             <Content>
 </Content>
@@ -5068,7 +5029,7 @@ Check empty set
                 </Anns>
                 <ApplExpr Mixfix="false">
                     <Anns>
-                        <LocAnn Col="43" Line="106" Loc="tests/z/animate_sets.tex"/>
+                        <LocAnn Col="39" Line="106" Loc="tests/z/animate_sets.tex"/>
                     </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
@@ -5087,104 +5048,48 @@ Check empty set
                             <LocAnn Col="28" Line="106" Loc="tests/z/animate_sets.tex"/>
                         </Anns>
                         <ZExprList>
-                            <RefExpr Mixfix="false">
+                            <SetExpr>
                                 <Anns>
                                     <LocAnn Col="30" Line="106" Loc="tests/z/animate_sets.tex"/>
                                 </Anns>
-                                <ZRefName>
-                                    <Anns>
-                                        <LocAnn Col="30" Line="106" Loc="tests/z/animate_sets.tex"/>
-                                    </Anns>
-                                    <Word>set1</Word>
-                                </ZRefName>
                                 <ZExprList/>
-                            </RefExpr>
-                            <SetExpr>
+                            </SetExpr>
+                            <RefExpr Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="35" Line="106" Loc="tests/z/animate_sets.tex"/>
                                 </Anns>
-                                <ZExprList>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="37" Line="106" Loc="tests/z/animate_sets.tex"/>
-                                        </Anns>
-                                        <ZRefName>
-                                            <Anns>
-                                                <LocAnn Col="37" Line="106" Loc="tests/z/animate_sets.tex"/>
-                                            </Anns>
-                                            <Word>set4</Word>
-                                        </ZRefName>
-                                        <ZExprList/>
-                                    </RefExpr>
-                                </ZExprList>
-                            </SetExpr>
+                                <ZRefName>
+                                    <Anns>
+                                        <LocAnn Col="35" Line="106" Loc="tests/z/animate_sets.tex"/>
+                                    </Anns>
+                                    <Word>set6</Word>
+                                </ZRefName>
+                                <ZExprList/>
+                            </RefExpr>
                         </ZExprList>
                     </SetExpr>
                 </ApplExpr>
                 <SetExpr>
                     <ZExprList>
-                        <ApplExpr Mixfix="true">
+                        <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="53" Line="106" Loc="tests/z/animate_sets.tex"/>
+                                <LocAnn Col="48" Line="106" Loc="tests/z/animate_sets.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <ZRefName>
                                 <Anns>
                                     <LocAnn Col="48" Line="106" Loc="tests/z/animate_sets.tex"/>
                                 </Anns>
-                                <ZRefName>
-                                    <Anns>
-                                        <LocAnn Col="48" Line="106" Loc="tests/z/animate_sets.tex"/>
-                                    </Anns>
-                                    <Word> _ ∪ _ </Word>
-                                </ZRefName>
-                                <ZExprList/>
-                            </RefExpr>
-                            <TupleExpr>
-                                <Anns>
-                                    <LocAnn Col="48" Line="106" Loc="tests/z/animate_sets.tex"/>
-                                </Anns>
-                                <ZExprList>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="48" Line="106" Loc="tests/z/animate_sets.tex"/>
-                                        </Anns>
-                                        <ZRefName>
-                                            <Anns>
-                                                <LocAnn Col="48" Line="106" Loc="tests/z/animate_sets.tex"/>
-                                            </Anns>
-                                            <Word>set1</Word>
-                                        </ZRefName>
-                                        <ZExprList/>
-                                    </RefExpr>
-                                    <SetExpr>
-                                        <Anns>
-                                            <LocAnn Col="58" Line="106" Loc="tests/z/animate_sets.tex"/>
-                                        </Anns>
-                                        <ZExprList>
-                                            <RefExpr Mixfix="false">
-                                                <Anns>
-                                                    <LocAnn Col="60" Line="106" Loc="tests/z/animate_sets.tex"/>
-                                                </Anns>
-                                                <ZRefName>
-                                                    <Anns>
-                                                        <LocAnn Col="60" Line="106" Loc="tests/z/animate_sets.tex"/>
-                                                    </Anns>
-                                                    <Word>set4</Word>
-                                                </ZRefName>
-                                                <ZExprList/>
-                                            </RefExpr>
-                                        </ZExprList>
-                                    </SetExpr>
-                                </ZExprList>
-                            </TupleExpr>
-                        </ApplExpr>
+                                <Word>set6</Word>
+                            </ZRefName>
+                            <ZExprList/>
+                        </RefExpr>
                     </ZExprList>
                 </SetExpr>
             </MemPred>
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="76" Line="106" Loc="tests/z/animate_sets.tex"/>
+                <LocAnn Col="62" Line="106" Loc="tests/z/animate_sets.tex"/>
             </Anns>
             <Content>
 </Content>
@@ -5222,100 +5127,58 @@ Check empty set
                                 <Anns>
                                     <LocAnn Col="30" Line="107" Loc="tests/z/animate_sets.tex"/>
                                 </Anns>
+                                <ZExprList/>
+                            </SetExpr>
+                            <SetExpr>
+                                <Anns>
+                                    <LocAnn Col="35" Line="107" Loc="tests/z/animate_sets.tex"/>
+                                </Anns>
                                 <ZExprList>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="32" Line="107" Loc="tests/z/animate_sets.tex"/>
+                                            <LocAnn Col="37" Line="107" Loc="tests/z/animate_sets.tex"/>
                                         </Anns>
                                         <ZRefName>
                                             <Anns>
-                                                <LocAnn Col="32" Line="107" Loc="tests/z/animate_sets.tex"/>
+                                                <LocAnn Col="37" Line="107" Loc="tests/z/animate_sets.tex"/>
                                             </Anns>
-                                            <Word>set1</Word>
+                                            <Word>set7</Word>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
                                 </ZExprList>
                             </SetExpr>
-                            <RefExpr Mixfix="false">
-                                <Anns>
-                                    <LocAnn Col="39" Line="107" Loc="tests/z/animate_sets.tex"/>
-                                </Anns>
-                                <ZRefName>
-                                    <Anns>
-                                        <LocAnn Col="39" Line="107" Loc="tests/z/animate_sets.tex"/>
-                                    </Anns>
-                                    <Word>set4</Word>
-                                </ZRefName>
-                                <ZExprList/>
-                            </RefExpr>
                         </ZExprList>
                     </SetExpr>
                 </ApplExpr>
                 <SetExpr>
                     <ZExprList>
-                        <ApplExpr Mixfix="true">
+                        <SetExpr>
                             <Anns>
-                                <LocAnn Col="57" Line="107" Loc="tests/z/animate_sets.tex"/>
+                                <LocAnn Col="48" Line="107" Loc="tests/z/animate_sets.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
-                                <Anns>
-                                    <LocAnn Col="54" Line="107" Loc="tests/z/animate_sets.tex"/>
-                                </Anns>
-                                <ZRefName>
+                            <ZExprList>
+                                <RefExpr Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="54" Line="107" Loc="tests/z/animate_sets.tex"/>
+                                        <LocAnn Col="50" Line="107" Loc="tests/z/animate_sets.tex"/>
                                     </Anns>
-                                    <Word> _ ∪ _ </Word>
-                                </ZRefName>
-                                <ZExprList/>
-                            </RefExpr>
-                            <TupleExpr>
-                                <Anns>
-                                    <LocAnn Col="54" Line="107" Loc="tests/z/animate_sets.tex"/>
-                                </Anns>
-                                <ZExprList>
-                                    <SetExpr>
+                                    <ZRefName>
                                         <Anns>
-                                            <LocAnn Col="48" Line="107" Loc="tests/z/animate_sets.tex"/>
+                                            <LocAnn Col="50" Line="107" Loc="tests/z/animate_sets.tex"/>
                                         </Anns>
-                                        <ZExprList>
-                                            <RefExpr Mixfix="false">
-                                                <Anns>
-                                                    <LocAnn Col="50" Line="107" Loc="tests/z/animate_sets.tex"/>
-                                                </Anns>
-                                                <ZRefName>
-                                                    <Anns>
-                                                        <LocAnn Col="50" Line="107" Loc="tests/z/animate_sets.tex"/>
-                                                    </Anns>
-                                                    <Word>set1</Word>
-                                                </ZRefName>
-                                                <ZExprList/>
-                                            </RefExpr>
-                                        </ZExprList>
-                                    </SetExpr>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="62" Line="107" Loc="tests/z/animate_sets.tex"/>
-                                        </Anns>
-                                        <ZRefName>
-                                            <Anns>
-                                                <LocAnn Col="62" Line="107" Loc="tests/z/animate_sets.tex"/>
-                                            </Anns>
-                                            <Word>set4</Word>
-                                        </ZRefName>
-                                        <ZExprList/>
-                                    </RefExpr>
-                                </ZExprList>
-                            </TupleExpr>
-                        </ApplExpr>
+                                        <Word>set7</Word>
+                                    </ZRefName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </ZExprList>
+                        </SetExpr>
                     </ZExprList>
                 </SetExpr>
             </MemPred>
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="76" Line="107" Loc="tests/z/animate_sets.tex"/>
+                <LocAnn Col="66" Line="107" Loc="tests/z/animate_sets.tex"/>
             </Anns>
             <Content>
 
@@ -5394,99 +5257,32 @@ Singleton sets
                 </ApplExpr>
                 <SetExpr>
                     <ZExprList>
-                        <ApplExpr Mixfix="true">
+                        <SetExpr>
                             <Anns>
-                                <LocAnn Col="62" Line="110" Loc="tests/z/animate_sets.tex"/>
+                                <LocAnn Col="49" Line="110" Loc="tests/z/animate_sets.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
-                                <Anns>
-                                    <LocAnn Col="60" Line="110" Loc="tests/z/animate_sets.tex"/>
-                                </Anns>
-                                <ZRefName>
+                            <ZExprList>
+                                <NumExpr>
                                     <Anns>
-                                        <LocAnn Col="60" Line="110" Loc="tests/z/animate_sets.tex"/>
+                                        <LocAnn Col="51" Line="110" Loc="tests/z/animate_sets.tex"/>
                                     </Anns>
-                                    <Word> _ ∪ _ </Word>
-                                </ZRefName>
-                                <ZExprList/>
-                            </RefExpr>
-                            <TupleExpr>
-                                <Anns>
-                                    <LocAnn Col="60" Line="110" Loc="tests/z/animate_sets.tex"/>
-                                </Anns>
-                                <ZExprList>
-                                    <ApplExpr Mixfix="true">
-                                        <Anns>
-                                            <LocAnn Col="53" Line="110" Loc="tests/z/animate_sets.tex"/>
-                                        </Anns>
-                                        <RefExpr Mixfix="false">
-                                            <Anns>
-                                                <LocAnn Col="49" Line="110" Loc="tests/z/animate_sets.tex"/>
-                                            </Anns>
-                                            <ZRefName>
-                                                <Anns>
-                                                    <LocAnn Col="49" Line="110" Loc="tests/z/animate_sets.tex"/>
-                                                </Anns>
-                                                <Word> _ ∪ _ </Word>
-                                            </ZRefName>
-                                            <ZExprList/>
-                                        </RefExpr>
-                                        <TupleExpr>
-                                            <Anns>
-                                                <LocAnn Col="49" Line="110" Loc="tests/z/animate_sets.tex"/>
-                                            </Anns>
-                                            <ZExprList>
-                                                <RefExpr Mixfix="false">
-                                                    <Anns>
-                                                        <LocAnn Col="49" Line="110" Loc="tests/z/animate_sets.tex"/>
-                                                    </Anns>
-                                                    <ZRefName>
-                                                        <Anns>
-                                                            <LocAnn Col="49" Line="110" Loc="tests/z/animate_sets.tex"/>
-                                                        </Anns>
-                                                        <Word>set3</Word>
-                                                    </ZRefName>
-                                                    <ZExprList/>
-                                                </RefExpr>
-                                                <SetExpr>
-                                                    <Anns>
-                                                        <LocAnn Col="57" Line="110" Loc="tests/z/animate_sets.tex"/>
-                                                    </Anns>
-                                                    <ZExprList>
-                                                        <NumExpr>
-                                                            <Anns>
-                                                                <LocAnn Col="59" Line="110" Loc="tests/z/animate_sets.tex"/>
-                                                            </Anns>
-                                                            <ZNumeral Value="1"/>
-                                                        </NumExpr>
-                                                    </ZExprList>
-                                                </SetExpr>
-                                            </ZExprList>
-                                        </TupleExpr>
-                                    </ApplExpr>
-                                    <SetExpr>
-                                        <Anns>
-                                            <LocAnn Col="66" Line="110" Loc="tests/z/animate_sets.tex"/>
-                                        </Anns>
-                                        <ZExprList>
-                                            <NumExpr>
-                                                <Anns>
-                                                    <LocAnn Col="68" Line="110" Loc="tests/z/animate_sets.tex"/>
-                                                </Anns>
-                                                <ZNumeral Value="2"/>
-                                            </NumExpr>
-                                        </ZExprList>
-                                    </SetExpr>
-                                </ZExprList>
-                            </TupleExpr>
-                        </ApplExpr>
+                                    <ZNumeral Value="1"/>
+                                </NumExpr>
+                                <NumExpr>
+                                    <Anns>
+                                        <LocAnn Col="53" Line="110" Loc="tests/z/animate_sets.tex"/>
+                                    </Anns>
+                                    <ZNumeral Value="2"/>
+                                </NumExpr>
+                            </ZExprList>
+                        </SetExpr>
                     </ZExprList>
                 </SetExpr>
             </MemPred>
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="80" Line="110" Loc="tests/z/animate_sets.tex"/>
+                <LocAnn Col="66" Line="110" Loc="tests/z/animate_sets.tex"/>
             </Anns>
             <Content>
 </Content>
@@ -5551,7 +5347,7 @@ Singleton sets
                     <ZExprList>
                         <ApplExpr Mixfix="true">
                             <Anns>
-                                <LocAnn Col="54" Line="111" Loc="tests/z/animate_sets.tex"/>
+                                <LocAnn Col="51" Line="111" Loc="tests/z/animate_sets.tex"/>
                             </Anns>
                             <RefExpr Mixfix="false">
                                 <Anns>
@@ -5561,7 +5357,7 @@ Singleton sets
                                     <Anns>
                                         <LocAnn Col="49" Line="111" Loc="tests/z/animate_sets.tex"/>
                                     </Anns>
-                                    <Word> _ ∪ _ </Word>
+                                    <Word> _ .. _ </Word>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -5570,30 +5366,18 @@ Singleton sets
                                     <LocAnn Col="49" Line="111" Loc="tests/z/animate_sets.tex"/>
                                 </Anns>
                                 <ZExprList>
-                                    <RefExpr Mixfix="false">
+                                    <NumExpr>
                                         <Anns>
                                             <LocAnn Col="49" Line="111" Loc="tests/z/animate_sets.tex"/>
                                         </Anns>
-                                        <ZRefName>
-                                            <Anns>
-                                                <LocAnn Col="49" Line="111" Loc="tests/z/animate_sets.tex"/>
-                                            </Anns>
-                                            <Word>set3</Word>
-                                        </ZRefName>
-                                        <ZExprList/>
-                                    </RefExpr>
-                                    <RefExpr Mixfix="false">
+                                        <ZNumeral Value="1"/>
+                                    </NumExpr>
+                                    <NumExpr>
                                         <Anns>
-                                            <LocAnn Col="59" Line="111" Loc="tests/z/animate_sets.tex"/>
+                                            <LocAnn Col="57" Line="111" Loc="tests/z/animate_sets.tex"/>
                                         </Anns>
-                                        <ZRefName>
-                                            <Anns>
-                                                <LocAnn Col="59" Line="111" Loc="tests/z/animate_sets.tex"/>
-                                            </Anns>
-                                            <Word>set4</Word>
-                                        </ZRefName>
-                                        <ZExprList/>
-                                    </RefExpr>
+                                        <ZNumeral Value="4"/>
+                                    </NumExpr>
                                 </ZExprList>
                             </TupleExpr>
                         </ApplExpr>
@@ -5603,7 +5387,7 @@ Singleton sets
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="73" Line="111" Loc="tests/z/animate_sets.tex"/>
+                <LocAnn Col="68" Line="111" Loc="tests/z/animate_sets.tex"/>
             </Anns>
             <Content>
 </Content>
@@ -5679,98 +5463,26 @@ Singleton sets
                 </ApplExpr>
                 <SetExpr>
                     <ZExprList>
-                        <ApplExpr Mixfix="true">
+                        <SetExpr>
                             <Anns>
-                                <LocAnn Col="62" Line="112" Loc="tests/z/animate_sets.tex"/>
+                                <LocAnn Col="49" Line="112" Loc="tests/z/animate_sets.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
-                                <Anns>
-                                    <LocAnn Col="58" Line="112" Loc="tests/z/animate_sets.tex"/>
-                                </Anns>
-                                <ZRefName>
+                            <ZExprList>
+                                <NumExpr>
                                     <Anns>
-                                        <LocAnn Col="58" Line="112" Loc="tests/z/animate_sets.tex"/>
+                                        <LocAnn Col="51" Line="112" Loc="tests/z/animate_sets.tex"/>
                                     </Anns>
-                                    <Word> _ ∪ _ </Word>
-                                </ZRefName>
-                                <ZExprList/>
-                            </RefExpr>
-                            <TupleExpr>
-                                <Anns>
-                                    <LocAnn Col="58" Line="112" Loc="tests/z/animate_sets.tex"/>
-                                </Anns>
-                                <ZExprList>
-                                    <ApplExpr Mixfix="true">
-                                        <Anns>
-                                            <LocAnn Col="53" Line="112" Loc="tests/z/animate_sets.tex"/>
-                                        </Anns>
-                                        <RefExpr Mixfix="false">
-                                            <Anns>
-                                                <LocAnn Col="49" Line="112" Loc="tests/z/animate_sets.tex"/>
-                                            </Anns>
-                                            <ZRefName>
-                                                <Anns>
-                                                    <LocAnn Col="49" Line="112" Loc="tests/z/animate_sets.tex"/>
-                                                </Anns>
-                                                <Word> _ ∪ _ </Word>
-                                            </ZRefName>
-                                            <ZExprList/>
-                                        </RefExpr>
-                                        <TupleExpr>
-                                            <Anns>
-                                                <LocAnn Col="49" Line="112" Loc="tests/z/animate_sets.tex"/>
-                                            </Anns>
-                                            <ZExprList>
-                                                <RefExpr Mixfix="false">
-                                                    <Anns>
-                                                        <LocAnn Col="49" Line="112" Loc="tests/z/animate_sets.tex"/>
-                                                    </Anns>
-                                                    <ZRefName>
-                                                        <Anns>
-                                                            <LocAnn Col="49" Line="112" Loc="tests/z/animate_sets.tex"/>
-                                                        </Anns>
-                                                        <Word>set1</Word>
-                                                    </ZRefName>
-                                                    <ZExprList/>
-                                                </RefExpr>
-                                                <RefExpr Mixfix="false">
-                                                    <Anns>
-                                                        <LocAnn Col="58" Line="112" Loc="tests/z/animate_sets.tex"/>
-                                                    </Anns>
-                                                    <ZRefName>
-                                                        <Anns>
-                                                            <LocAnn Col="58" Line="112" Loc="tests/z/animate_sets.tex"/>
-                                                        </Anns>
-                                                        <Word>set3</Word>
-                                                    </ZRefName>
-                                                    <ZExprList/>
-                                                </RefExpr>
-                                            </ZExprList>
-                                        </TupleExpr>
-                                    </ApplExpr>
-                                    <SetExpr>
-                                        <Anns>
-                                            <LocAnn Col="66" Line="112" Loc="tests/z/animate_sets.tex"/>
-                                        </Anns>
-                                        <ZExprList>
-                                            <NumExpr>
-                                                <Anns>
-                                                    <LocAnn Col="68" Line="112" Loc="tests/z/animate_sets.tex"/>
-                                                </Anns>
-                                                <ZNumeral Value="1"/>
-                                            </NumExpr>
-                                        </ZExprList>
-                                    </SetExpr>
-                                </ZExprList>
-                            </TupleExpr>
-                        </ApplExpr>
+                                    <ZNumeral Value="1"/>
+                                </NumExpr>
+                            </ZExprList>
+                        </SetExpr>
                     </ZExprList>
                 </SetExpr>
             </MemPred>
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="80" Line="112" Loc="tests/z/animate_sets.tex"/>
+                <LocAnn Col="64" Line="112" Loc="tests/z/animate_sets.tex"/>
             </Anns>
             <Content>
 </Content>
@@ -5931,11 +5643,11 @@ Singleton sets
             </Anns>
             <MemPred Mixfix="true">
                 <Anns>
-                    <LocAnn Col="47" Line="115" Loc="tests/z/animate_sets.tex"/>
+                    <LocAnn Col="48" Line="115" Loc="tests/z/animate_sets.tex"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
                     <Anns>
-                        <LocAnn Col="42" Line="115" Loc="tests/z/animate_sets.tex"/>
+                        <LocAnn Col="46" Line="115" Loc="tests/z/animate_sets.tex"/>
                     </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
@@ -5973,85 +5685,80 @@ Singleton sets
                                     </RefExpr>
                                 </ZExprList>
                             </SetExpr>
-                            <RefExpr Mixfix="false">
+                            <SetExpr>
                                 <Anns>
                                     <LocAnn Col="38" Line="115" Loc="tests/z/animate_sets.tex"/>
                                 </Anns>
-                                <ZRefName>
-                                    <Anns>
-                                        <LocAnn Col="38" Line="115" Loc="tests/z/animate_sets.tex"/>
-                                    </Anns>
-                                    <Word>set4</Word>
-                                </ZRefName>
-                                <ZExprList/>
-                            </RefExpr>
-                        </ZExprList>
-                    </SetExpr>
-                </ApplExpr>
-                <SetExpr>
-                    <ZExprList>
-                        <ApplExpr Mixfix="true">
-                            <Anns>
-                                <LocAnn Col="58" Line="115" Loc="tests/z/animate_sets.tex"/>
-                            </Anns>
-                            <RefExpr Mixfix="false">
-                                <Anns>
-                                    <LocAnn Col="55" Line="115" Loc="tests/z/animate_sets.tex"/>
-                                </Anns>
-                                <ZRefName>
-                                    <Anns>
-                                        <LocAnn Col="55" Line="115" Loc="tests/z/animate_sets.tex"/>
-                                    </Anns>
-                                    <Word> _ ∪ _ </Word>
-                                </ZRefName>
-                                <ZExprList/>
-                            </RefExpr>
-                            <TupleExpr>
-                                <Anns>
-                                    <LocAnn Col="55" Line="115" Loc="tests/z/animate_sets.tex"/>
-                                </Anns>
                                 <ZExprList>
-                                    <SetExpr>
-                                        <Anns>
-                                            <LocAnn Col="49" Line="115" Loc="tests/z/animate_sets.tex"/>
-                                        </Anns>
-                                        <ZExprList>
-                                            <RefExpr Mixfix="false">
-                                                <Anns>
-                                                    <LocAnn Col="51" Line="115" Loc="tests/z/animate_sets.tex"/>
-                                                </Anns>
-                                                <ZRefName>
-                                                    <Anns>
-                                                        <LocAnn Col="51" Line="115" Loc="tests/z/animate_sets.tex"/>
-                                                    </Anns>
-                                                    <Word>set3</Word>
-                                                </ZRefName>
-                                                <ZExprList/>
-                                            </RefExpr>
-                                        </ZExprList>
-                                    </SetExpr>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="63" Line="115" Loc="tests/z/animate_sets.tex"/>
+                                            <LocAnn Col="40" Line="115" Loc="tests/z/animate_sets.tex"/>
                                         </Anns>
                                         <ZRefName>
                                             <Anns>
-                                                <LocAnn Col="63" Line="115" Loc="tests/z/animate_sets.tex"/>
+                                                <LocAnn Col="40" Line="115" Loc="tests/z/animate_sets.tex"/>
                                             </Anns>
                                             <Word>set4</Word>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
                                 </ZExprList>
-                            </TupleExpr>
-                        </ApplExpr>
+                            </SetExpr>
+                        </ZExprList>
+                    </SetExpr>
+                </ApplExpr>
+                <SetExpr>
+                    <ZExprList>
+                        <SetExpr>
+                            <Anns>
+                                <LocAnn Col="50" Line="115" Loc="tests/z/animate_sets.tex"/>
+                            </Anns>
+                            <ZExprList>
+                                <ApplExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="54" Line="115" Loc="tests/z/animate_sets.tex"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="52" Line="115" Loc="tests/z/animate_sets.tex"/>
+                                        </Anns>
+                                        <ZRefName>
+                                            <Anns>
+                                                <LocAnn Col="52" Line="115" Loc="tests/z/animate_sets.tex"/>
+                                            </Anns>
+                                            <Word> _ .. _ </Word>
+                                        </ZRefName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                    <TupleExpr>
+                                        <Anns>
+                                            <LocAnn Col="52" Line="115" Loc="tests/z/animate_sets.tex"/>
+                                        </Anns>
+                                        <ZExprList>
+                                            <NumExpr>
+                                                <Anns>
+                                                    <LocAnn Col="52" Line="115" Loc="tests/z/animate_sets.tex"/>
+                                                </Anns>
+                                                <ZNumeral Value="1"/>
+                                            </NumExpr>
+                                            <NumExpr>
+                                                <Anns>
+                                                    <LocAnn Col="60" Line="115" Loc="tests/z/animate_sets.tex"/>
+                                                </Anns>
+                                                <ZNumeral Value="4"/>
+                                            </NumExpr>
+                                        </ZExprList>
+                                    </TupleExpr>
+                                </ApplExpr>
+                            </ZExprList>
+                        </SetExpr>
                     </ZExprList>
                 </SetExpr>
             </MemPred>
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="77" Line="115" Loc="tests/z/animate_sets.tex"/>
+                <LocAnn Col="73" Line="115" Loc="tests/z/animate_sets.tex"/>
             </Anns>
             <Content>
 </Content>
@@ -6085,104 +5792,61 @@ Singleton sets
                             <LocAnn Col="27" Line="116" Loc="tests/z/animate_sets.tex"/>
                         </Anns>
                         <ZExprList>
-                            <RefExpr Mixfix="false">
-                                <Anns>
-                                    <LocAnn Col="29" Line="116" Loc="tests/z/animate_sets.tex"/>
-                                </Anns>
-                                <ZRefName>
-                                    <Anns>
-                                        <LocAnn Col="29" Line="116" Loc="tests/z/animate_sets.tex"/>
-                                    </Anns>
-                                    <Word>set3</Word>
-                                </ZRefName>
-                                <ZExprList/>
-                            </RefExpr>
                             <SetExpr>
                                 <Anns>
-                                    <LocAnn Col="34" Line="116" Loc="tests/z/animate_sets.tex"/>
+                                    <LocAnn Col="29" Line="116" Loc="tests/z/animate_sets.tex"/>
                                 </Anns>
                                 <ZExprList>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="36" Line="116" Loc="tests/z/animate_sets.tex"/>
+                                            <LocAnn Col="31" Line="116" Loc="tests/z/animate_sets.tex"/>
                                         </Anns>
                                         <ZRefName>
                                             <Anns>
-                                                <LocAnn Col="36" Line="116" Loc="tests/z/animate_sets.tex"/>
+                                                <LocAnn Col="31" Line="116" Loc="tests/z/animate_sets.tex"/>
                                             </Anns>
-                                            <Word>set4</Word>
+                                            <Word>set6</Word>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
                                 </ZExprList>
                             </SetExpr>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="38" Line="116" Loc="tests/z/animate_sets.tex"/>
+                                </Anns>
+                                <ZRefName>
+                                    <Anns>
+                                        <LocAnn Col="38" Line="116" Loc="tests/z/animate_sets.tex"/>
+                                    </Anns>
+                                    <Word>set9</Word>
+                                </ZRefName>
+                                <ZExprList/>
+                            </RefExpr>
                         </ZExprList>
                     </SetExpr>
                 </ApplExpr>
                 <SetExpr>
                     <ZExprList>
-                        <ApplExpr Mixfix="true">
+                        <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="54" Line="116" Loc="tests/z/animate_sets.tex"/>
+                                <LocAnn Col="49" Line="116" Loc="tests/z/animate_sets.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <ZRefName>
                                 <Anns>
                                     <LocAnn Col="49" Line="116" Loc="tests/z/animate_sets.tex"/>
                                 </Anns>
-                                <ZRefName>
-                                    <Anns>
-                                        <LocAnn Col="49" Line="116" Loc="tests/z/animate_sets.tex"/>
-                                    </Anns>
-                                    <Word> _ ∪ _ </Word>
-                                </ZRefName>
-                                <ZExprList/>
-                            </RefExpr>
-                            <TupleExpr>
-                                <Anns>
-                                    <LocAnn Col="49" Line="116" Loc="tests/z/animate_sets.tex"/>
-                                </Anns>
-                                <ZExprList>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="49" Line="116" Loc="tests/z/animate_sets.tex"/>
-                                        </Anns>
-                                        <ZRefName>
-                                            <Anns>
-                                                <LocAnn Col="49" Line="116" Loc="tests/z/animate_sets.tex"/>
-                                            </Anns>
-                                            <Word>set3</Word>
-                                        </ZRefName>
-                                        <ZExprList/>
-                                    </RefExpr>
-                                    <SetExpr>
-                                        <Anns>
-                                            <LocAnn Col="59" Line="116" Loc="tests/z/animate_sets.tex"/>
-                                        </Anns>
-                                        <ZExprList>
-                                            <RefExpr Mixfix="false">
-                                                <Anns>
-                                                    <LocAnn Col="61" Line="116" Loc="tests/z/animate_sets.tex"/>
-                                                </Anns>
-                                                <ZRefName>
-                                                    <Anns>
-                                                        <LocAnn Col="61" Line="116" Loc="tests/z/animate_sets.tex"/>
-                                                    </Anns>
-                                                    <Word>set4</Word>
-                                                </ZRefName>
-                                                <ZExprList/>
-                                            </RefExpr>
-                                        </ZExprList>
-                                    </SetExpr>
-                                </ZExprList>
-                            </TupleExpr>
-                        </ApplExpr>
+                                <Word>set9</Word>
+                            </ZRefName>
+                            <ZExprList/>
+                        </RefExpr>
                     </ZExprList>
                 </SetExpr>
             </MemPred>
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="77" Line="116" Loc="tests/z/animate_sets.tex"/>
+                <LocAnn Col="63" Line="116" Loc="tests/z/animate_sets.tex"/>
             </Anns>
             <Content>
 
@@ -6312,11 +5976,11 @@ Larger sets
             </Anns>
             <MemPred Mixfix="true">
                 <Anns>
-                    <LocAnn Col="46" Line="120" Loc="tests/z/animate_sets.tex"/>
+                    <LocAnn Col="44" Line="120" Loc="tests/z/animate_sets.tex"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
                     <Anns>
-                        <LocAnn Col="43" Line="120" Loc="tests/z/animate_sets.tex"/>
+                        <LocAnn Col="39" Line="120" Loc="tests/z/animate_sets.tex"/>
                     </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
@@ -6335,34 +5999,27 @@ Larger sets
                             <LocAnn Col="28" Line="120" Loc="tests/z/animate_sets.tex"/>
                         </Anns>
                         <ZExprList>
-                            <SetExpr>
+                            <RefExpr Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="30" Line="120" Loc="tests/z/animate_sets.tex"/>
                                 </Anns>
-                                <ZExprList>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="32" Line="120" Loc="tests/z/animate_sets.tex"/>
-                                        </Anns>
-                                        <ZRefName>
-                                            <Anns>
-                                                <LocAnn Col="32" Line="120" Loc="tests/z/animate_sets.tex"/>
-                                            </Anns>
-                                            <Word>set4</Word>
-                                        </ZRefName>
-                                        <ZExprList/>
-                                    </RefExpr>
-                                </ZExprList>
-                            </SetExpr>
+                                <ZRefName>
+                                    <Anns>
+                                        <LocAnn Col="30" Line="120" Loc="tests/z/animate_sets.tex"/>
+                                    </Anns>
+                                    <Word>set5</Word>
+                                </ZRefName>
+                                <ZExprList/>
+                            </RefExpr>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="39" Line="120" Loc="tests/z/animate_sets.tex"/>
+                                    <LocAnn Col="35" Line="120" Loc="tests/z/animate_sets.tex"/>
                                 </Anns>
                                 <ZRefName>
                                     <Anns>
-                                        <LocAnn Col="39" Line="120" Loc="tests/z/animate_sets.tex"/>
+                                        <LocAnn Col="35" Line="120" Loc="tests/z/animate_sets.tex"/>
                                     </Anns>
-                                    <Word>set5</Word>
+                                    <Word>set4</Word>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -6373,15 +6030,15 @@ Larger sets
                     <ZExprList>
                         <ApplExpr Mixfix="true">
                             <Anns>
-                                <LocAnn Col="57" Line="120" Loc="tests/z/animate_sets.tex"/>
+                                <LocAnn Col="51" Line="120" Loc="tests/z/animate_sets.tex"/>
                             </Anns>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="54" Line="120" Loc="tests/z/animate_sets.tex"/>
+                                    <LocAnn Col="46" Line="120" Loc="tests/z/animate_sets.tex"/>
                                 </Anns>
                                 <ZRefName>
                                     <Anns>
-                                        <LocAnn Col="54" Line="120" Loc="tests/z/animate_sets.tex"/>
+                                        <LocAnn Col="46" Line="120" Loc="tests/z/animate_sets.tex"/>
                                     </Anns>
                                     <Word> _ ∪ _ </Word>
                                 </ZRefName>
@@ -6389,35 +6046,28 @@ Larger sets
                             </RefExpr>
                             <TupleExpr>
                                 <Anns>
-                                    <LocAnn Col="54" Line="120" Loc="tests/z/animate_sets.tex"/>
+                                    <LocAnn Col="46" Line="120" Loc="tests/z/animate_sets.tex"/>
                                 </Anns>
                                 <ZExprList>
-                                    <SetExpr>
-                                        <Anns>
-                                            <LocAnn Col="48" Line="120" Loc="tests/z/animate_sets.tex"/>
-                                        </Anns>
-                                        <ZExprList>
-                                            <RefExpr Mixfix="false">
-                                                <Anns>
-                                                    <LocAnn Col="50" Line="120" Loc="tests/z/animate_sets.tex"/>
-                                                </Anns>
-                                                <ZRefName>
-                                                    <Anns>
-                                                        <LocAnn Col="50" Line="120" Loc="tests/z/animate_sets.tex"/>
-                                                    </Anns>
-                                                    <Word>set4</Word>
-                                                </ZRefName>
-                                                <ZExprList/>
-                                            </RefExpr>
-                                        </ZExprList>
-                                    </SetExpr>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="62" Line="120" Loc="tests/z/animate_sets.tex"/>
+                                            <LocAnn Col="46" Line="120" Loc="tests/z/animate_sets.tex"/>
                                         </Anns>
                                         <ZRefName>
                                             <Anns>
-                                                <LocAnn Col="62" Line="120" Loc="tests/z/animate_sets.tex"/>
+                                                <LocAnn Col="46" Line="120" Loc="tests/z/animate_sets.tex"/>
+                                            </Anns>
+                                            <Word>set4</Word>
+                                        </ZRefName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="56" Line="120" Loc="tests/z/animate_sets.tex"/>
+                                        </Anns>
+                                        <ZRefName>
+                                            <Anns>
+                                                <LocAnn Col="56" Line="120" Loc="tests/z/animate_sets.tex"/>
                                             </Anns>
                                             <Word>set5</Word>
                                         </ZRefName>
@@ -6432,7 +6082,7 @@ Larger sets
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="76" Line="120" Loc="tests/z/animate_sets.tex"/>
+                <LocAnn Col="70" Line="120" Loc="tests/z/animate_sets.tex"/>
             </Anns>
             <Content>
 </Content>
@@ -6443,11 +6093,11 @@ Larger sets
             </Anns>
             <MemPred Mixfix="true">
                 <Anns>
-                    <LocAnn Col="46" Line="121" Loc="tests/z/animate_sets.tex"/>
+                    <LocAnn Col="44" Line="121" Loc="tests/z/animate_sets.tex"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
                     <Anns>
-                        <LocAnn Col="43" Line="121" Loc="tests/z/animate_sets.tex"/>
+                        <LocAnn Col="39" Line="121" Loc="tests/z/animate_sets.tex"/>
                     </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
@@ -6478,92 +6128,42 @@ Larger sets
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
-                            <SetExpr>
+                            <RefExpr Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="35" Line="121" Loc="tests/z/animate_sets.tex"/>
                                 </Anns>
-                                <ZExprList>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="37" Line="121" Loc="tests/z/animate_sets.tex"/>
-                                        </Anns>
-                                        <ZRefName>
-                                            <Anns>
-                                                <LocAnn Col="37" Line="121" Loc="tests/z/animate_sets.tex"/>
-                                            </Anns>
-                                            <Word>set5</Word>
-                                        </ZRefName>
-                                        <ZExprList/>
-                                    </RefExpr>
-                                </ZExprList>
-                            </SetExpr>
+                                <ZRefName>
+                                    <Anns>
+                                        <LocAnn Col="35" Line="121" Loc="tests/z/animate_sets.tex"/>
+                                    </Anns>
+                                    <Word>set7</Word>
+                                </ZRefName>
+                                <ZExprList/>
+                            </RefExpr>
                         </ZExprList>
                     </SetExpr>
                 </ApplExpr>
                 <SetExpr>
                     <ZExprList>
-                        <ApplExpr Mixfix="true">
+                        <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="53" Line="121" Loc="tests/z/animate_sets.tex"/>
+                                <LocAnn Col="46" Line="121" Loc="tests/z/animate_sets.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <ZRefName>
                                 <Anns>
-                                    <LocAnn Col="48" Line="121" Loc="tests/z/animate_sets.tex"/>
+                                    <LocAnn Col="46" Line="121" Loc="tests/z/animate_sets.tex"/>
                                 </Anns>
-                                <ZRefName>
-                                    <Anns>
-                                        <LocAnn Col="48" Line="121" Loc="tests/z/animate_sets.tex"/>
-                                    </Anns>
-                                    <Word> _ ∪ _ </Word>
-                                </ZRefName>
-                                <ZExprList/>
-                            </RefExpr>
-                            <TupleExpr>
-                                <Anns>
-                                    <LocAnn Col="48" Line="121" Loc="tests/z/animate_sets.tex"/>
-                                </Anns>
-                                <ZExprList>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="48" Line="121" Loc="tests/z/animate_sets.tex"/>
-                                        </Anns>
-                                        <ZRefName>
-                                            <Anns>
-                                                <LocAnn Col="48" Line="121" Loc="tests/z/animate_sets.tex"/>
-                                            </Anns>
-                                            <Word>set4</Word>
-                                        </ZRefName>
-                                        <ZExprList/>
-                                    </RefExpr>
-                                    <SetExpr>
-                                        <Anns>
-                                            <LocAnn Col="58" Line="121" Loc="tests/z/animate_sets.tex"/>
-                                        </Anns>
-                                        <ZExprList>
-                                            <RefExpr Mixfix="false">
-                                                <Anns>
-                                                    <LocAnn Col="60" Line="121" Loc="tests/z/animate_sets.tex"/>
-                                                </Anns>
-                                                <ZRefName>
-                                                    <Anns>
-                                                        <LocAnn Col="60" Line="121" Loc="tests/z/animate_sets.tex"/>
-                                                    </Anns>
-                                                    <Word>set5</Word>
-                                                </ZRefName>
-                                                <ZExprList/>
-                                            </RefExpr>
-                                        </ZExprList>
-                                    </SetExpr>
-                                </ZExprList>
-                            </TupleExpr>
-                        </ApplExpr>
+                                <Word>set7</Word>
+                            </ZRefName>
+                            <ZExprList/>
+                        </RefExpr>
                     </ZExprList>
                 </SetExpr>
             </MemPred>
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="76" Line="121" Loc="tests/z/animate_sets.tex"/>
+                <LocAnn Col="60" Line="121" Loc="tests/z/animate_sets.tex"/>
             </Anns>
             <Content>
 </Content>
@@ -6908,7 +6508,7 @@ Larger sets
                                             <Anns>
                                                 <LocAnn Col="46" Line="124" Loc="tests/z/animate_sets.tex"/>
                                             </Anns>
-                                            <Word>set5</Word>
+                                            <Word>set7</Word>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -6920,7 +6520,7 @@ Larger sets
                                             <Anns>
                                                 <LocAnn Col="56" Line="124" Loc="tests/z/animate_sets.tex"/>
                                             </Anns>
-                                            <Word>set7</Word>
+                                            <Word>set5</Word>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -7025,7 +6625,7 @@ Larger sets
                                             <Anns>
                                                 <LocAnn Col="46" Line="125" Loc="tests/z/animate_sets.tex"/>
                                             </Anns>
-                                            <Word>set6</Word>
+                                            <Word>set8</Word>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -7037,7 +6637,7 @@ Larger sets
                                             <Anns>
                                                 <LocAnn Col="56" Line="125" Loc="tests/z/animate_sets.tex"/>
                                             </Anns>
-                                            <Word>set8</Word>
+                                            <Word>set6</Word>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -7127,15 +6727,15 @@ Larger sets
                     <ZExprList>
                         <ApplExpr Mixfix="true">
                             <Anns>
-                                <LocAnn Col="61" Line="126" Loc="tests/z/animate_sets.tex"/>
+                                <LocAnn Col="53" Line="126" Loc="tests/z/animate_sets.tex"/>
                             </Anns>
                             <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="57" Line="126" Loc="tests/z/animate_sets.tex"/>
+                                    <LocAnn Col="48" Line="126" Loc="tests/z/animate_sets.tex"/>
                                 </Anns>
                                 <ZRefName>
                                     <Anns>
-                                        <LocAnn Col="57" Line="126" Loc="tests/z/animate_sets.tex"/>
+                                        <LocAnn Col="48" Line="126" Loc="tests/z/animate_sets.tex"/>
                                     </Anns>
                                     <Word> _ ∪ _ </Word>
                                 </ZRefName>
@@ -7143,66 +6743,30 @@ Larger sets
                             </RefExpr>
                             <TupleExpr>
                                 <Anns>
-                                    <LocAnn Col="57" Line="126" Loc="tests/z/animate_sets.tex"/>
+                                    <LocAnn Col="48" Line="126" Loc="tests/z/animate_sets.tex"/>
                                 </Anns>
                                 <ZExprList>
-                                    <ApplExpr Mixfix="true">
-                                        <Anns>
-                                            <LocAnn Col="52" Line="126" Loc="tests/z/animate_sets.tex"/>
-                                        </Anns>
-                                        <RefExpr Mixfix="false">
-                                            <Anns>
-                                                <LocAnn Col="48" Line="126" Loc="tests/z/animate_sets.tex"/>
-                                            </Anns>
-                                            <ZRefName>
-                                                <Anns>
-                                                    <LocAnn Col="48" Line="126" Loc="tests/z/animate_sets.tex"/>
-                                                </Anns>
-                                                <Word> _ ∪ _ </Word>
-                                            </ZRefName>
-                                            <ZExprList/>
-                                        </RefExpr>
-                                        <TupleExpr>
-                                            <Anns>
-                                                <LocAnn Col="48" Line="126" Loc="tests/z/animate_sets.tex"/>
-                                            </Anns>
-                                            <ZExprList>
-                                                <RefExpr Mixfix="false">
-                                                    <Anns>
-                                                        <LocAnn Col="48" Line="126" Loc="tests/z/animate_sets.tex"/>
-                                                    </Anns>
-                                                    <ZRefName>
-                                                        <Anns>
-                                                            <LocAnn Col="48" Line="126" Loc="tests/z/animate_sets.tex"/>
-                                                        </Anns>
-                                                        <Word>set4</Word>
-                                                    </ZRefName>
-                                                    <ZExprList/>
-                                                </RefExpr>
-                                                <RefExpr Mixfix="false">
-                                                    <Anns>
-                                                        <LocAnn Col="57" Line="126" Loc="tests/z/animate_sets.tex"/>
-                                                    </Anns>
-                                                    <ZRefName>
-                                                        <Anns>
-                                                            <LocAnn Col="57" Line="126" Loc="tests/z/animate_sets.tex"/>
-                                                        </Anns>
-                                                        <Word>set5</Word>
-                                                    </ZRefName>
-                                                    <ZExprList/>
-                                                </RefExpr>
-                                            </ZExprList>
-                                        </TupleExpr>
-                                    </ApplExpr>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="66" Line="126" Loc="tests/z/animate_sets.tex"/>
+                                            <LocAnn Col="48" Line="126" Loc="tests/z/animate_sets.tex"/>
                                         </Anns>
                                         <ZRefName>
                                             <Anns>
-                                                <LocAnn Col="66" Line="126" Loc="tests/z/animate_sets.tex"/>
+                                                <LocAnn Col="48" Line="126" Loc="tests/z/animate_sets.tex"/>
                                             </Anns>
                                             <Word>set7</Word>
+                                        </ZRefName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="58" Line="126" Loc="tests/z/animate_sets.tex"/>
+                                        </Anns>
+                                        <ZRefName>
+                                            <Anns>
+                                                <LocAnn Col="58" Line="126" Loc="tests/z/animate_sets.tex"/>
+                                            </Anns>
+                                            <Word>set5</Word>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -7215,7 +6779,7 @@ Larger sets
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="79" Line="126" Loc="tests/z/animate_sets.tex"/>
+                <LocAnn Col="72" Line="126" Loc="tests/z/animate_sets.tex"/>
             </Anns>
             <Content>
 
@@ -7735,7 +7299,7 @@ Empty sets
             </Anns>
             <MemPred Mixfix="true">
                 <Anns>
-                    <LocAnn Col="49" Line="138" Loc="tests/z/animate_sets.tex"/>
+                    <LocAnn Col="53" Line="138" Loc="tests/z/animate_sets.tex"/>
                 </Anns>
                 <ApplExpr Mixfix="true">
                     <Anns>
@@ -7774,7 +7338,20 @@ Empty sets
                                     </Anns>
                                     <Word>∅</Word>
                                 </ZRefName>
-                                <ZExprList/>
+                                <ZExprList>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="47" Line="138" Loc="tests/z/animate_sets.tex"/>
+                                        </Anns>
+                                        <ZRefName>
+                                            <Anns>
+                                                <LocAnn Col="47" Line="138" Loc="tests/z/animate_sets.tex"/>
+                                            </Anns>
+                                            <Word>ℕ</Word>
+                                        </ZRefName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                </ZExprList>
                             </RefExpr>
                         </ZExprList>
                     </TupleExpr>
@@ -7783,11 +7360,11 @@ Empty sets
                     <ZExprList>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="51" Line="138" Loc="tests/z/animate_sets.tex"/>
+                                <LocAnn Col="55" Line="138" Loc="tests/z/animate_sets.tex"/>
                             </Anns>
                             <ZRefName>
                                 <Anns>
-                                    <LocAnn Col="51" Line="138" Loc="tests/z/animate_sets.tex"/>
+                                    <LocAnn Col="55" Line="138" Loc="tests/z/animate_sets.tex"/>
                                 </Anns>
                                 <Word>∅</Word>
                             </ZRefName>
@@ -7799,7 +7376,7 @@ Empty sets
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="70" Line="138" Loc="tests/z/animate_sets.tex"/>
+                <LocAnn Col="74" Line="138" Loc="tests/z/animate_sets.tex"/>
             </Anns>
             <Content>
 </Content>
@@ -13391,7 +12968,7 @@ Empty sets
             </Anns>
             <MemPred Mixfix="true">
                 <Anns>
-                    <LocAnn Col="54" Line="221" Loc="tests/z/animate_sets.tex"/>
+                    <LocAnn Col="58" Line="221" Loc="tests/z/animate_sets.tex"/>
                 </Anns>
                 <ApplExpr Mixfix="true">
                     <Anns>
@@ -13430,7 +13007,20 @@ Empty sets
                                     </Anns>
                                     <Word>∅</Word>
                                 </ZRefName>
-                                <ZExprList/>
+                                <ZExprList>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="52" Line="221" Loc="tests/z/animate_sets.tex"/>
+                                        </Anns>
+                                        <ZRefName>
+                                            <Anns>
+                                                <LocAnn Col="52" Line="221" Loc="tests/z/animate_sets.tex"/>
+                                            </Anns>
+                                            <Word>ℕ</Word>
+                                        </ZRefName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                </ZExprList>
                             </RefExpr>
                         </ZExprList>
                     </TupleExpr>
@@ -13439,11 +13029,11 @@ Empty sets
                     <ZExprList>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="56" Line="221" Loc="tests/z/animate_sets.tex"/>
+                                <LocAnn Col="60" Line="221" Loc="tests/z/animate_sets.tex"/>
                             </Anns>
                             <ZRefName>
                                 <Anns>
-                                    <LocAnn Col="56" Line="221" Loc="tests/z/animate_sets.tex"/>
+                                    <LocAnn Col="60" Line="221" Loc="tests/z/animate_sets.tex"/>
                                 </Anns>
                                 <Word>∅</Word>
                             </ZRefName>
@@ -13455,7 +13045,7 @@ Empty sets
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="75" Line="221" Loc="tests/z/animate_sets.tex"/>
+                <LocAnn Col="79" Line="221" Loc="tests/z/animate_sets.tex"/>
             </Anns>
             <Content>
 </Content>
@@ -15882,7 +15472,7 @@ Set comprehensions
             </Anns>
             <MemPred Mixfix="false">
                 <Anns>
-                    <LocAnn Col="32" Line="256" Loc="tests/z/animate_sets.tex"/>
+                    <LocAnn Col="38" Line="256" Loc="tests/z/animate_sets.tex"/>
                 </Anns>
                 <RefExpr Mixfix="false">
                     <Anns>
@@ -15894,20 +15484,33 @@ Set comprehensions
                         </Anns>
                         <Word>∅</Word>
                     </ZRefName>
-                    <ZExprList/>
+                    <ZExprList>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="32" Line="256" Loc="tests/z/animate_sets.tex"/>
+                            </Anns>
+                            <ZRefName>
+                                <Anns>
+                                    <LocAnn Col="32" Line="256" Loc="tests/z/animate_sets.tex"/>
+                                </Anns>
+                                <Word>ℕ</Word>
+                            </ZRefName>
+                            <ZExprList/>
+                        </RefExpr>
+                    </ZExprList>
                 </RefExpr>
                 <SetExpr>
                     <Anns>
-                        <LocAnn Col="36" Line="256" Loc="tests/z/animate_sets.tex"/>
+                        <LocAnn Col="42" Line="256" Loc="tests/z/animate_sets.tex"/>
                     </Anns>
                     <ZExprList>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="38" Line="256" Loc="tests/z/animate_sets.tex"/>
+                                <LocAnn Col="44" Line="256" Loc="tests/z/animate_sets.tex"/>
                             </Anns>
                             <ZRefName>
                                 <Anns>
-                                    <LocAnn Col="38" Line="256" Loc="tests/z/animate_sets.tex"/>
+                                    <LocAnn Col="44" Line="256" Loc="tests/z/animate_sets.tex"/>
                                 </Anns>
                                 <Word>∅</Word>
                             </ZRefName>
@@ -15919,7 +15522,7 @@ Set comprehensions
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="59" Line="256" Loc="tests/z/animate_sets.tex"/>
+                <LocAnn Col="65" Line="256" Loc="tests/z/animate_sets.tex"/>
             </Anns>
             <Content>
 </Content>
@@ -15992,7 +15595,20 @@ Set comprehensions
                                             </Anns>
                                             <Word>∅</Word>
                                         </ZRefName>
-                                        <ZExprList/>
+                                        <ZExprList>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="63" Line="257" Loc="tests/z/animate_sets.tex"/>
+                                                </Anns>
+                                                <ZRefName>
+                                                    <Anns>
+                                                        <LocAnn Col="63" Line="257" Loc="tests/z/animate_sets.tex"/>
+                                                    </Anns>
+                                                    <Word>ℕ</Word>
+                                                </ZRefName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </ZExprList>
                                     </RefExpr>
                                 </ZExprList>
                             </TupleExpr>
@@ -16003,7 +15619,7 @@ Set comprehensions
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="74" Line="257" Loc="tests/z/animate_sets.tex"/>
+                <LocAnn Col="80" Line="257" Loc="tests/z/animate_sets.tex"/>
             </Anns>
             <Content>
 </Content>
@@ -19938,7 +19554,20 @@ TODO: improve animator reordering so these work?
                                         </Anns>
                                         <Word>∅</Word>
                                     </ZRefName>
-                                    <ZExprList/>
+                                    <ZExprList>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="49" Line="316" Loc="tests/z/animate_sets.tex"/>
+                                            </Anns>
+                                            <ZRefName>
+                                                <Anns>
+                                                    <LocAnn Col="49" Line="316" Loc="tests/z/animate_sets.tex"/>
+                                                </Anns>
+                                                <Word>ℕ</Word>
+                                            </ZRefName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </ZExprList>
                                 </RefExpr>
                             </ZExprList>
                         </SetExpr>
@@ -19948,7 +19577,7 @@ TODO: improve animator reordering so these work?
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="61" Line="316" Loc="tests/z/animate_sets.tex"/>
+                <LocAnn Col="67" Line="316" Loc="tests/z/animate_sets.tex"/>
             </Anns>
             <Content>
 </Content>
@@ -19959,21 +19588,45 @@ TODO: improve animator reordering so these work?
             </Anns>
             <MemPred Mixfix="false">
                 <Anns>
-                    <LocAnn Col="27" Line="317" Loc="tests/z/animate_sets.tex"/>
+                    <LocAnn Col="44" Line="317" Loc="tests/z/animate_sets.tex"/>
                 </Anns>
-                <SetExpr>
+                <RefExpr Mixfix="false">
                     <Anns>
                         <LocAnn Col="22" Line="317" Loc="tests/z/animate_sets.tex"/>
                     </Anns>
-                    <ZExprList/>
-                </SetExpr>
+                    <ZRefName>
+                        <Anns>
+                            <LocAnn Col="22" Line="317" Loc="tests/z/animate_sets.tex"/>
+                        </Anns>
+                        <Word>∅</Word>
+                    </ZRefName>
+                    <ZExprList>
+                        <PowerExpr>
+                            <Anns>
+                                <LocAnn Col="32" Line="317" Loc="tests/z/animate_sets.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="38" Line="317" Loc="tests/z/animate_sets.tex"/>
+                                </Anns>
+                                <ZRefName>
+                                    <Anns>
+                                        <LocAnn Col="38" Line="317" Loc="tests/z/animate_sets.tex"/>
+                                    </Anns>
+                                    <Word>ℕ</Word>
+                                </ZRefName>
+                                <ZExprList/>
+                            </RefExpr>
+                        </PowerExpr>
+                    </ZExprList>
+                </RefExpr>
                 <PowerExpr>
                     <Anns>
-                        <LocAnn Col="31" Line="317" Loc="tests/z/animate_sets.tex"/>
+                        <LocAnn Col="48" Line="317" Loc="tests/z/animate_sets.tex"/>
                     </Anns>
                     <SetExpr>
                         <Anns>
-                            <LocAnn Col="38" Line="317" Loc="tests/z/animate_sets.tex"/>
+                            <LocAnn Col="55" Line="317" Loc="tests/z/animate_sets.tex"/>
                         </Anns>
                         <ZExprList/>
                     </SetExpr>
@@ -19982,7 +19635,7 @@ TODO: improve animator reordering so these work?
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="52" Line="317" Loc="tests/z/animate_sets.tex"/>
+                <LocAnn Col="69" Line="317" Loc="tests/z/animate_sets.tex"/>
             </Anns>
             <Content>
 </Content>
@@ -21037,19 +20690,38 @@ TODO: improve animator reordering so these work?
                 </RefExpr>
                 <SetExpr>
                     <ZExprList>
-                        <SetExpr>
+                        <RefExpr Mixfix="false">
                             <Anns>
                                 <LocAnn Col="38" Line="335" Loc="tests/z/animate_sets.tex"/>
                             </Anns>
-                            <ZExprList/>
-                        </SetExpr>
+                            <ZRefName>
+                                <Anns>
+                                    <LocAnn Col="38" Line="335" Loc="tests/z/animate_sets.tex"/>
+                                </Anns>
+                                <Word>∅</Word>
+                            </ZRefName>
+                            <ZExprList>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="48" Line="335" Loc="tests/z/animate_sets.tex"/>
+                                    </Anns>
+                                    <ZRefName>
+                                        <Anns>
+                                            <LocAnn Col="48" Line="335" Loc="tests/z/animate_sets.tex"/>
+                                        </Anns>
+                                        <Word>ℕ</Word>
+                                    </ZRefName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </ZExprList>
+                        </RefExpr>
                     </ZExprList>
                 </SetExpr>
             </MemPred>
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="52" Line="335" Loc="tests/z/animate_sets.tex"/>
+                <LocAnn Col="63" Line="335" Loc="tests/z/animate_sets.tex"/>
             </Anns>
             <Content>
 </Content>
@@ -21085,12 +20757,32 @@ TODO: improve animator reordering so these work?
                                 <NumStroke Digit="1"/>
                             </ZRefName>
                             <ZExprList>
-                                <SetExpr>
+                                <RefExpr Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="43" Line="336" Loc="tests/z/animate_sets.tex"/>
+                                        <LocAnn Col="44" Line="336" Loc="tests/z/animate_sets.tex"/>
+                                        <ParenAnn/>
                                     </Anns>
-                                    <ZExprList/>
-                                </SetExpr>
+                                    <ZRefName>
+                                        <Anns>
+                                            <LocAnn Col="44" Line="336" Loc="tests/z/animate_sets.tex"/>
+                                        </Anns>
+                                        <Word>∅</Word>
+                                    </ZRefName>
+                                    <ZExprList>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="54" Line="336" Loc="tests/z/animate_sets.tex"/>
+                                            </Anns>
+                                            <ZRefName>
+                                                <Anns>
+                                                    <LocAnn Col="54" Line="336" Loc="tests/z/animate_sets.tex"/>
+                                                </Anns>
+                                                <Word>ℕ</Word>
+                                            </ZRefName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </ZExprList>
+                                </RefExpr>
                             </ZExprList>
                         </RefExpr>
                     </ZExprList>
@@ -21111,7 +20803,7 @@ TODO: improve animator reordering so these work?
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="57" Line="336" Loc="tests/z/animate_sets.tex"/>
+                <LocAnn Col="70" Line="336" Loc="tests/z/animate_sets.tex"/>
             </Anns>
             <Content>
 </Content>
@@ -22307,7 +21999,7 @@ TODO: improve animator reordering so these work?
             </Anns>
             <MemPred Mixfix="true">
                 <Anns>
-                    <LocAnn Col="35" Line="359" Loc="tests/z/animate_sets.tex"/>
+                    <LocAnn Col="41" Line="359" Loc="tests/z/animate_sets.tex"/>
                 </Anns>
                 <ApplExpr Mixfix="true">
                     <Anns>
@@ -22335,14 +22027,27 @@ TODO: improve animator reordering so these work?
                             </Anns>
                             <Word>∅</Word>
                         </ZRefName>
-                        <ZExprList/>
+                        <ZExprList>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="35" Line="359" Loc="tests/z/animate_sets.tex"/>
+                                </Anns>
+                                <ZRefName>
+                                    <Anns>
+                                        <LocAnn Col="35" Line="359" Loc="tests/z/animate_sets.tex"/>
+                                    </Anns>
+                                    <Word>ℕ</Word>
+                                </ZRefName>
+                                <ZExprList/>
+                            </RefExpr>
+                        </ZExprList>
                     </RefExpr>
                 </ApplExpr>
                 <SetExpr>
                     <ZExprList>
                         <NumExpr>
                             <Anns>
-                                <LocAnn Col="37" Line="359" Loc="tests/z/animate_sets.tex"/>
+                                <LocAnn Col="43" Line="359" Loc="tests/z/animate_sets.tex"/>
                             </Anns>
                             <ZNumeral Value="0"/>
                         </NumExpr>
@@ -22352,7 +22057,7 @@ TODO: improve animator reordering so these work?
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="48" Line="359" Loc="tests/z/animate_sets.tex"/>
+                <LocAnn Col="54" Line="359" Loc="tests/z/animate_sets.tex"/>
             </Anns>
             <Content>
 \item Explicit empty set
@@ -22364,7 +22069,7 @@ TODO: improve animator reordering so these work?
             </Anns>
             <MemPred Mixfix="true">
                 <Anns>
-                    <LocAnn Col="30" Line="361" Loc="tests/z/animate_sets.tex"/>
+                    <LocAnn Col="48" Line="361" Loc="tests/z/animate_sets.tex"/>
                 </Anns>
                 <ApplExpr Mixfix="true">
                     <Anns>
@@ -22382,18 +22087,56 @@ TODO: improve animator reordering so these work?
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
-                    <SetExpr>
+                    <ApplExpr Mixfix="true">
                         <Anns>
-                            <LocAnn Col="25" Line="361" Loc="tests/z/animate_sets.tex"/>
+                            <LocAnn Col="31" Line="361" Loc="tests/z/animate_sets.tex"/>
+                            <ParenAnn/>
                         </Anns>
-                        <ZExprList/>
-                    </SetExpr>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="28" Line="361" Loc="tests/z/animate_sets.tex"/>
+                            </Anns>
+                            <ZRefName>
+                                <Anns>
+                                    <LocAnn Col="28" Line="361" Loc="tests/z/animate_sets.tex"/>
+                                </Anns>
+                                <Word> _ \ _ </Word>
+                            </ZRefName>
+                            <ZExprList/>
+                        </RefExpr>
+                        <TupleExpr>
+                            <Anns>
+                                <LocAnn Col="28" Line="361" Loc="tests/z/animate_sets.tex"/>
+                            </Anns>
+                            <ZExprList>
+                                <SetExpr>
+                                    <Anns>
+                                        <LocAnn Col="26" Line="361" Loc="tests/z/animate_sets.tex"/>
+                                    </Anns>
+                                    <ZExprList/>
+                                </SetExpr>
+                                <SetExpr>
+                                    <Anns>
+                                        <LocAnn Col="41" Line="361" Loc="tests/z/animate_sets.tex"/>
+                                    </Anns>
+                                    <ZExprList>
+                                        <NumExpr>
+                                            <Anns>
+                                                <LocAnn Col="43" Line="361" Loc="tests/z/animate_sets.tex"/>
+                                            </Anns>
+                                            <ZNumeral Value="1"/>
+                                        </NumExpr>
+                                    </ZExprList>
+                                </SetExpr>
+                            </ZExprList>
+                        </TupleExpr>
+                    </ApplExpr>
                 </ApplExpr>
                 <SetExpr>
                     <ZExprList>
                         <NumExpr>
                             <Anns>
-                                <LocAnn Col="32" Line="361" Loc="tests/z/animate_sets.tex"/>
+                                <LocAnn Col="50" Line="361" Loc="tests/z/animate_sets.tex"/>
                             </Anns>
                             <ZNumeral Value="0"/>
                         </NumExpr>
@@ -22403,7 +22146,7 @@ TODO: improve animator reordering so these work?
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="43" Line="361" Loc="tests/z/animate_sets.tex"/>
+                <LocAnn Col="61" Line="361" Loc="tests/z/animate_sets.tex"/>
             </Anns>
             <Content>
 \item Set comprehension
@@ -23910,6 +23653,327 @@ so the following should all be undefined.
                 <LocAnn Col="50" Line="395" Loc="tests/z/animate_sets.tex"/>
             </Anns>
             <Content>
+
+\subsection{Size inference for sets}
+</Content>
+        </NarrPara>
+        <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_sets.tex"/>
+            </Anns>
+            <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Col="49" Line="398" Loc="tests/z/animate_sets.tex"/>
+                </Anns>
+                <SetCompExpr>
+                    <Anns>
+                        <LocAnn Col="22" Line="398" Loc="tests/z/animate_sets.tex"/>
+                    </Anns>
+                    <ZSchText>
+                        <ZDeclList>
+                            <VarDecl>
+                                <Anns>
+                                    <LocAnn Col="25" Line="398" Loc="tests/z/animate_sets.tex"/>
+                                </Anns>
+                                <ZDeclName>
+                                    <Anns>
+                                        <LocAnn Col="24" Line="398" Loc="tests/z/animate_sets.tex"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                </ZDeclName>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="26" Line="398" Loc="tests/z/animate_sets.tex"/>
+                                    </Anns>
+                                    <ZRefName>
+                                        <Anns>
+                                            <LocAnn Col="26" Line="398" Loc="tests/z/animate_sets.tex"/>
+                                        </Anns>
+                                        <Word>ℕ</Word>
+                                    </ZRefName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </VarDecl>
+                        </ZDeclList>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="34" Line="398" Loc="tests/z/animate_sets.tex"/>
+                            </Anns>
+                            <TupleExpr>
+                                <Anns>
+                                    <LocAnn Col="33" Line="398" Loc="tests/z/animate_sets.tex"/>
+                                </Anns>
+                                <ZExprList>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="33" Line="398" Loc="tests/z/animate_sets.tex"/>
+                                        </Anns>
+                                        <ZRefName>
+                                            <Anns>
+                                                <LocAnn Col="33" Line="398" Loc="tests/z/animate_sets.tex"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                        </ZRefName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                    <ApplExpr Mixfix="true">
+                                        <Anns>
+                                            <LocAnn Col="35" Line="398" Loc="tests/z/animate_sets.tex"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="35" Line="398" Loc="tests/z/animate_sets.tex"/>
+                                            </Anns>
+                                            <ZRefName>
+                                                <Anns>
+                                                    <LocAnn Col="35" Line="398" Loc="tests/z/animate_sets.tex"/>
+                                                </Anns>
+                                                <Word># _ </Word>
+                                            </ZRefName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <SetExpr>
+                                            <Anns>
+                                                <LocAnn Col="37" Line="398" Loc="tests/z/animate_sets.tex"/>
+                                            </Anns>
+                                            <ZExprList>
+                                                <NumExpr>
+                                                    <Anns>
+                                                        <LocAnn Col="39" Line="398" Loc="tests/z/animate_sets.tex"/>
+                                                    </Anns>
+                                                    <ZNumeral Value="3"/>
+                                                </NumExpr>
+                                                <NumExpr>
+                                                    <Anns>
+                                                        <LocAnn Col="41" Line="398" Loc="tests/z/animate_sets.tex"/>
+                                                    </Anns>
+                                                    <ZNumeral Value="5"/>
+                                                </NumExpr>
+                                                <NumExpr>
+                                                    <Anns>
+                                                        <LocAnn Col="43" Line="398" Loc="tests/z/animate_sets.tex"/>
+                                                    </Anns>
+                                                    <ZNumeral Value="3"/>
+                                                </NumExpr>
+                                            </ZExprList>
+                                        </SetExpr>
+                                    </ApplExpr>
+                                </ZExprList>
+                            </TupleExpr>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="33" Line="398" Loc="tests/z/animate_sets.tex"/>
+                                </Anns>
+                                <ZRefName>
+                                    <Anns>
+                                        <LocAnn Col="33" Line="398" Loc="tests/z/animate_sets.tex"/>
+                                    </Anns>
+                                    <Word> _ &lt; _ </Word>
+                                </ZRefName>
+                                <ZExprList/>
+                            </RefExpr>
+                        </MemPred>
+                    </ZSchText>
+                </SetCompExpr>
+                <SetExpr>
+                    <ZExprList>
+                        <SetExpr>
+                            <Anns>
+                                <LocAnn Col="51" Line="398" Loc="tests/z/animate_sets.tex"/>
+                            </Anns>
+                            <ZExprList>
+                                <NumExpr>
+                                    <Anns>
+                                        <LocAnn Col="53" Line="398" Loc="tests/z/animate_sets.tex"/>
+                                    </Anns>
+                                    <ZNumeral Value="0"/>
+                                </NumExpr>
+                                <NumExpr>
+                                    <Anns>
+                                        <LocAnn Col="55" Line="398" Loc="tests/z/animate_sets.tex"/>
+                                    </Anns>
+                                    <ZNumeral Value="1"/>
+                                </NumExpr>
+                            </ZExprList>
+                        </SetExpr>
+                    </ZExprList>
+                </SetExpr>
+            </MemPred>
+        </ConjPara>
+        <NarrPara>
+            <Anns>
+                <LocAnn Col="68" Line="398" Loc="tests/z/animate_sets.tex"/>
+            </Anns>
+            <Content>
+</Content>
+        </NarrPara>
+        <ConjPara>
+            <Anns>
+                <LocAnn Col="1" Line="1" Loc="tests/z/animate_sets.tex"/>
+            </Anns>
+            <MemPred Mixfix="true">
+                <Anns>
+                    <LocAnn Col="51" Line="399" Loc="tests/z/animate_sets.tex"/>
+                </Anns>
+                <SetCompExpr>
+                    <Anns>
+                        <LocAnn Col="22" Line="399" Loc="tests/z/animate_sets.tex"/>
+                    </Anns>
+                    <ZSchText>
+                        <ZDeclList>
+                            <VarDecl>
+                                <Anns>
+                                    <LocAnn Col="25" Line="399" Loc="tests/z/animate_sets.tex"/>
+                                </Anns>
+                                <ZDeclName>
+                                    <Anns>
+                                        <LocAnn Col="24" Line="399" Loc="tests/z/animate_sets.tex"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                </ZDeclName>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="26" Line="399" Loc="tests/z/animate_sets.tex"/>
+                                    </Anns>
+                                    <ZRefName>
+                                        <Anns>
+                                            <LocAnn Col="26" Line="399" Loc="tests/z/animate_sets.tex"/>
+                                        </Anns>
+                                        <Word>ℕ</Word>
+                                    </ZRefName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </VarDecl>
+                        </ZDeclList>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="34" Line="399" Loc="tests/z/animate_sets.tex"/>
+                            </Anns>
+                            <TupleExpr>
+                                <Anns>
+                                    <LocAnn Col="33" Line="399" Loc="tests/z/animate_sets.tex"/>
+                                </Anns>
+                                <ZExprList>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="33" Line="399" Loc="tests/z/animate_sets.tex"/>
+                                        </Anns>
+                                        <ZRefName>
+                                            <Anns>
+                                                <LocAnn Col="33" Line="399" Loc="tests/z/animate_sets.tex"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                        </ZRefName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                    <ApplExpr Mixfix="true">
+                                        <Anns>
+                                            <LocAnn Col="35" Line="399" Loc="tests/z/animate_sets.tex"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="35" Line="399" Loc="tests/z/animate_sets.tex"/>
+                                            </Anns>
+                                            <ZRefName>
+                                                <Anns>
+                                                    <LocAnn Col="35" Line="399" Loc="tests/z/animate_sets.tex"/>
+                                                </Anns>
+                                                <Word># _ </Word>
+                                            </ZRefName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <ApplExpr Mixfix="true">
+                                            <Anns>
+                                                <LocAnn Col="40" Line="399" Loc="tests/z/animate_sets.tex"/>
+                                                <ParenAnn/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="38" Line="399" Loc="tests/z/animate_sets.tex"/>
+                                                </Anns>
+                                                <ZRefName>
+                                                    <Anns>
+                                                        <LocAnn Col="38" Line="399" Loc="tests/z/animate_sets.tex"/>
+                                                    </Anns>
+                                                    <Word> _ .. _ </Word>
+                                                </ZRefName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                            <TupleExpr>
+                                                <Anns>
+                                                    <LocAnn Col="38" Line="399" Loc="tests/z/animate_sets.tex"/>
+                                                </Anns>
+                                                <ZExprList>
+                                                    <NumExpr>
+                                                        <Anns>
+                                                            <LocAnn Col="38" Line="399" Loc="tests/z/animate_sets.tex"/>
+                                                        </Anns>
+                                                        <ZNumeral Value="3"/>
+                                                    </NumExpr>
+                                                    <NumExpr>
+                                                        <Anns>
+                                                            <LocAnn Col="46" Line="399" Loc="tests/z/animate_sets.tex"/>
+                                                        </Anns>
+                                                        <ZNumeral Value="5"/>
+                                                    </NumExpr>
+                                                </ZExprList>
+                                            </TupleExpr>
+                                        </ApplExpr>
+                                    </ApplExpr>
+                                </ZExprList>
+                            </TupleExpr>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="33" Line="399" Loc="tests/z/animate_sets.tex"/>
+                                </Anns>
+                                <ZRefName>
+                                    <Anns>
+                                        <LocAnn Col="33" Line="399" Loc="tests/z/animate_sets.tex"/>
+                                    </Anns>
+                                    <Word> _ &lt; _ </Word>
+                                </ZRefName>
+                                <ZExprList/>
+                            </RefExpr>
+                        </MemPred>
+                    </ZSchText>
+                </SetCompExpr>
+                <SetExpr>
+                    <ZExprList>
+                        <SetExpr>
+                            <Anns>
+                                <LocAnn Col="53" Line="399" Loc="tests/z/animate_sets.tex"/>
+                            </Anns>
+                            <ZExprList>
+                                <NumExpr>
+                                    <Anns>
+                                        <LocAnn Col="55" Line="399" Loc="tests/z/animate_sets.tex"/>
+                                    </Anns>
+                                    <ZNumeral Value="0"/>
+                                </NumExpr>
+                                <NumExpr>
+                                    <Anns>
+                                        <LocAnn Col="57" Line="399" Loc="tests/z/animate_sets.tex"/>
+                                    </Anns>
+                                    <ZNumeral Value="1"/>
+                                </NumExpr>
+                                <NumExpr>
+                                    <Anns>
+                                        <LocAnn Col="59" Line="399" Loc="tests/z/animate_sets.tex"/>
+                                    </Anns>
+                                    <ZNumeral Value="2"/>
+                                </NumExpr>
+                            </ZExprList>
+                        </SetExpr>
+                    </ZExprList>
+                </SetExpr>
+            </MemPred>
+        </ConjPara>
+        <NarrPara>
+            <Anns>
+                <LocAnn Col="72" Line="399" Loc="tests/z/animate_sets.tex"/>
+            </Anns>
+            <Content>
+
 
 \end{document}
 </Content>

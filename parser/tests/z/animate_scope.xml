@@ -895,71 +895,71 @@ the constant undefnum should have an undefined left-hand-side.
 
 
 \section{Testing predicates that contain \LET...}
-NOTE: these are now illegal in standard Z.
+NOTE: these are now illegal in standard Z, so we use \exists instead.
 </Content>
         </NarrPara>
         <ConjPara>
             <Anns>
                 <LocAnn Col="1" Line="1" Loc="tests/z/animate_scope.tex"/>
             </Anns>
-            <MemPred Mixfix="true">
+            <ExistsPred>
                 <Anns>
-                    <LocAnn Col="35" Line="34" Loc="tests/z/animate_scope.tex"/>
+                    <LocAnn Col="22" Line="34" Loc="tests/z/animate_scope.tex"/>
                     <ParenAnn/>
                 </Anns>
-                <LetExpr>
-                    <Anns>
-                        <LocAnn Col="22" Line="34" Loc="tests/z/animate_scope.tex"/>
-                    </Anns>
-                    <ZSchText>
-                        <ZDeclList>
-                            <ConstDecl>
+                <ZSchText>
+                    <ZDeclList>
+                        <ConstDecl>
+                            <Anns>
+                                <LocAnn Col="31" Line="34" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
+                            <ZDeclName>
                                 <Anns>
-                                    <LocAnn Col="28" Line="34" Loc="tests/z/animate_scope.tex"/>
+                                    <LocAnn Col="30" Line="34" Loc="tests/z/animate_scope.tex"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="27" Line="34" Loc="tests/z/animate_scope.tex"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                </ZDeclName>
-                                <NumExpr>
-                                    <Anns>
-                                        <LocAnn Col="30" Line="34" Loc="tests/z/animate_scope.tex"/>
-                                    </Anns>
-                                    <ZNumeral Value="1"/>
-                                </NumExpr>
-                            </ConstDecl>
-                        </ZDeclList>
-                    </ZSchText>
+                                <Word>x</Word>
+                            </ZDeclName>
+                            <NumExpr>
+                                <Anns>
+                                    <LocAnn Col="33" Line="34" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <ZNumeral Value="1"/>
+                            </NumExpr>
+                        </ConstDecl>
+                    </ZDeclList>
+                </ZSchText>
+                <MemPred Mixfix="true">
+                    <Anns>
+                        <LocAnn Col="38" Line="34" Loc="tests/z/animate_scope.tex"/>
+                    </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
-                            <LocAnn Col="34" Line="34" Loc="tests/z/animate_scope.tex"/>
+                            <LocAnn Col="37" Line="34" Loc="tests/z/animate_scope.tex"/>
                         </Anns>
                         <ZRefName>
                             <Anns>
-                                <LocAnn Col="34" Line="34" Loc="tests/z/animate_scope.tex"/>
+                                <LocAnn Col="37" Line="34" Loc="tests/z/animate_scope.tex"/>
                             </Anns>
                             <Word>x</Word>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
-                </LetExpr>
-                <SetExpr>
-                    <ZExprList>
-                        <NumExpr>
-                            <Anns>
-                                <LocAnn Col="36" Line="34" Loc="tests/z/animate_scope.tex"/>
-                            </Anns>
-                            <ZNumeral Value="1"/>
-                        </NumExpr>
-                    </ZExprList>
-                </SetExpr>
-            </MemPred>
+                    <SetExpr>
+                        <ZExprList>
+                            <NumExpr>
+                                <Anns>
+                                    <LocAnn Col="39" Line="34" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <ZNumeral Value="1"/>
+                            </NumExpr>
+                        </ZExprList>
+                    </SetExpr>
+                </MemPred>
+            </ExistsPred>
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="48" Line="34" Loc="tests/z/animate_scope.tex"/>
+                <LocAnn Col="51" Line="34" Loc="tests/z/animate_scope.tex"/>
             </Anns>
             <Content>
 </Content>
@@ -968,91 +968,91 @@ NOTE: these are now illegal in standard Z.
             <Anns>
                 <LocAnn Col="1" Line="1" Loc="tests/z/animate_scope.tex"/>
             </Anns>
-            <MemPred Mixfix="true">
+            <ExistsPred>
                 <Anns>
-                    <LocAnn Col="41" Line="35" Loc="tests/z/animate_scope.tex"/>
+                    <LocAnn Col="22" Line="35" Loc="tests/z/animate_scope.tex"/>
                     <ParenAnn/>
                 </Anns>
-                <LetExpr>
+                <ZSchText>
+                    <ZDeclList>
+                        <ConstDecl>
+                            <Anns>
+                                <LocAnn Col="31" Line="35" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="30" Line="35" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <Word>x</Word>
+                            </ZDeclName>
+                            <NumExpr>
+                                <Anns>
+                                    <LocAnn Col="33" Line="35" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <ZNumeral Value="1"/>
+                            </NumExpr>
+                        </ConstDecl>
+                        <ConstDecl>
+                            <Anns>
+                                <LocAnn Col="37" Line="35" Loc="tests/z/animate_scope.tex"/>
+                            </Anns>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="36" Line="35" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <Word>y</Word>
+                            </ZDeclName>
+                            <NumExpr>
+                                <Anns>
+                                    <LocAnn Col="39" Line="35" Loc="tests/z/animate_scope.tex"/>
+                                </Anns>
+                                <ZNumeral Value="1"/>
+                            </NumExpr>
+                        </ConstDecl>
+                    </ZDeclList>
+                </ZSchText>
+                <MemPred Mixfix="true">
                     <Anns>
-                        <LocAnn Col="22" Line="35" Loc="tests/z/animate_scope.tex"/>
+                        <LocAnn Col="44" Line="35" Loc="tests/z/animate_scope.tex"/>
                     </Anns>
-                    <ZSchText>
-                        <ZDeclList>
-                            <ConstDecl>
-                                <Anns>
-                                    <LocAnn Col="28" Line="35" Loc="tests/z/animate_scope.tex"/>
-                                </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="27" Line="35" Loc="tests/z/animate_scope.tex"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                </ZDeclName>
-                                <NumExpr>
-                                    <Anns>
-                                        <LocAnn Col="30" Line="35" Loc="tests/z/animate_scope.tex"/>
-                                    </Anns>
-                                    <ZNumeral Value="1"/>
-                                </NumExpr>
-                            </ConstDecl>
-                            <ConstDecl>
-                                <Anns>
-                                    <LocAnn Col="34" Line="35" Loc="tests/z/animate_scope.tex"/>
-                                </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="33" Line="35" Loc="tests/z/animate_scope.tex"/>
-                                    </Anns>
-                                    <Word>y</Word>
-                                </ZDeclName>
-                                <NumExpr>
-                                    <Anns>
-                                        <LocAnn Col="36" Line="35" Loc="tests/z/animate_scope.tex"/>
-                                    </Anns>
-                                    <ZNumeral Value="1"/>
-                                </NumExpr>
-                            </ConstDecl>
-                        </ZDeclList>
-                    </ZSchText>
                     <RefExpr Mixfix="false">
                         <Anns>
-                            <LocAnn Col="40" Line="35" Loc="tests/z/animate_scope.tex"/>
+                            <LocAnn Col="43" Line="35" Loc="tests/z/animate_scope.tex"/>
                         </Anns>
                         <ZRefName>
                             <Anns>
-                                <LocAnn Col="40" Line="35" Loc="tests/z/animate_scope.tex"/>
+                                <LocAnn Col="43" Line="35" Loc="tests/z/animate_scope.tex"/>
                             </Anns>
                             <Word>x</Word>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
-                </LetExpr>
-                <SetExpr>
-                    <ZExprList>
-                        <RefExpr Mixfix="false">
-                            <Anns>
-                                <LocAnn Col="42" Line="35" Loc="tests/z/animate_scope.tex"/>
-                            </Anns>
-                            <ZRefName>
+                    <SetExpr>
+                        <ZExprList>
+                            <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="42" Line="35" Loc="tests/z/animate_scope.tex"/>
+                                    <LocAnn Col="45" Line="35" Loc="tests/z/animate_scope.tex"/>
                                 </Anns>
-                                <Word>y</Word>
-                            </ZRefName>
-                            <ZExprList/>
-                        </RefExpr>
-                    </ZExprList>
-                </SetExpr>
-            </MemPred>
+                                <ZRefName>
+                                    <Anns>
+                                        <LocAnn Col="45" Line="35" Loc="tests/z/animate_scope.tex"/>
+                                    </Anns>
+                                    <Word>y</Word>
+                                </ZRefName>
+                                <ZExprList/>
+                            </RefExpr>
+                        </ZExprList>
+                    </SetExpr>
+                </MemPred>
+            </ExistsPred>
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="54" Line="35" Loc="tests/z/animate_scope.tex"/>
+                <LocAnn Col="57" Line="35" Loc="tests/z/animate_scope.tex"/>
             </Anns>
             <Content>
 
- 13 April 2002: This one gives sub precond error: vars {x} doesn't include y
+ 13Apr2002: Jaza: This one gives sub precond error: vars {x} doesn't include y
  (Problem is that '+' stays as a ZVar!  Why?  Perhaps range of LET
   is not being unfolded, because traverse visitor problem?)
 </Content>

@@ -22,6 +22,9 @@ the constant undefnum should have an undefined left-hand-side.
 </Content>
     </NarrSect>
     <ZSect>
+        <Anns>
+            <LocAnn Col="1" Line="1" Loc="tests/z/animate_freetypes.tex"/>
+        </Anns>
         <Name>Specification</Name>
         <Parent>
             <Word>standard_toolkit</Word>
@@ -1249,7 +1252,7 @@ Testing membership of free types
             </Anns>
             <MemPred Mixfix="true">
                 <Anns>
-                    <LocAnn Col="28" Line="56" Loc="tests/z/animate_freetypes.tex"/>
+                    <LocAnn Col="26" Line="56" Loc="tests/z/animate_freetypes.tex"/>
                 </Anns>
                 <TupleExpr>
                     <Anns>
@@ -1264,22 +1267,39 @@ Testing membership of free types
                                 <Anns>
                                     <LocAnn Col="22" Line="56" Loc="tests/z/animate_freetypes.tex"/>
                                 </Anns>
-                                <Word>Known</Word>
+                                <Word>Red</Word>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
-                        <RefExpr Mixfix="false">
+                        <ApplExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="35" Line="56" Loc="tests/z/animate_freetypes.tex"/>
+                                <LocAnn Col="38" Line="56" Loc="tests/z/animate_freetypes.tex"/>
                             </Anns>
-                            <ZRefName>
+                            <RefExpr Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="35" Line="56" Loc="tests/z/animate_freetypes.tex"/>
+                                    <LocAnn Col="33" Line="56" Loc="tests/z/animate_freetypes.tex"/>
                                 </Anns>
-                                <Word>N14</Word>
-                            </ZRefName>
-                            <ZExprList/>
-                        </RefExpr>
+                                <ZRefName>
+                                    <Anns>
+                                        <LocAnn Col="33" Line="56" Loc="tests/z/animate_freetypes.tex"/>
+                                    </Anns>
+                                    <Word>ran</Word>
+                                </ZRefName>
+                                <ZExprList/>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="38" Line="56" Loc="tests/z/animate_freetypes.tex"/>
+                                </Anns>
+                                <ZRefName>
+                                    <Anns>
+                                        <LocAnn Col="38" Line="56" Loc="tests/z/animate_freetypes.tex"/>
+                                    </Anns>
+                                    <Word>Feeling</Word>
+                                </ZRefName>
+                                <ZExprList/>
+                            </RefExpr>
+                        </ApplExpr>
                     </ZExprList>
                 </TupleExpr>
                 <RefExpr Mixfix="false">
@@ -1298,7 +1318,7 @@ Testing membership of free types
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="48" Line="56" Loc="tests/z/animate_freetypes.tex"/>
+                <LocAnn Col="55" Line="56" Loc="tests/z/animate_freetypes.tex"/>
             </Anns>
             <Content>
 
