@@ -23,7 +23,7 @@
       <include name="${typechecker.jar.file}"/>
       <include name="${rules.jar.file}"/>
       <include name="${java_cup.jar.file}"/>
-      <include name="${zlive.jar.file}"/>
+      <include name="${zlive.jar.file}"/>   <!-- gives access to rulesets -->
     </fileset>
   </path>
 
@@ -59,7 +59,7 @@
     </javac>
   </target>
 
-  <target name="run" depends="install"
+  <target name="run" depends="compile, install"
           description="run the ZLive Text UI">
     <java classname="net.sourceforge.czt.animation.eval.TextUI"
           fork="true">
