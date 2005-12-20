@@ -20701,18 +20701,23 @@ TODO: improve animator reordering so these work?
                                 <Word>∅</Word>
                             </ZRefName>
                             <ZExprList>
-                                <RefExpr Mixfix="false">
+                                <PowerExpr>
                                     <Anns>
                                         <LocAnn Col="48" Line="335" Loc="tests/z/animate_sets.tex"/>
                                     </Anns>
-                                    <ZRefName>
+                                    <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="48" Line="335" Loc="tests/z/animate_sets.tex"/>
+                                            <LocAnn Col="54" Line="335" Loc="tests/z/animate_sets.tex"/>
                                         </Anns>
-                                        <Word>ℕ</Word>
-                                    </ZRefName>
-                                    <ZExprList/>
-                                </RefExpr>
+                                        <ZRefName>
+                                            <Anns>
+                                                <LocAnn Col="54" Line="335" Loc="tests/z/animate_sets.tex"/>
+                                            </Anns>
+                                            <Word>ℕ</Word>
+                                        </ZRefName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                </PowerExpr>
                             </ZExprList>
                         </RefExpr>
                     </ZExprList>
@@ -20721,7 +20726,7 @@ TODO: improve animator reordering so these work?
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="63" Line="335" Loc="tests/z/animate_sets.tex"/>
+                <LocAnn Col="69" Line="335" Loc="tests/z/animate_sets.tex"/>
             </Anns>
             <Content>
 </Content>

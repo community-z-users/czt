@@ -276,36 +276,38 @@ the constant undefnum should have an undefined left-hand-side.
                         <Word>seq _ </Word>
                     </ZRefName>
                     <ZExprList>
-                        <ApplExpr Mixfix="true">
+                        <RefExpr Mixfix="false">
                             <Anns>
                                 <LocAnn Col="45" Line="30" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <ZRefName>
                                 <Anns>
                                     <LocAnn Col="45" Line="30" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
-                                <ZRefName>
+                                <Word>∅</Word>
+                            </ZRefName>
+                            <ZExprList>
+                                <RefExpr Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="45" Line="30" Loc="tests/z/animate_sequences.tex"/>
+                                        <LocAnn Col="55" Line="30" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
-                                    <Word>⟨ ,, ⟩</Word>
-                                </ZRefName>
-                                <ZExprList/>
-                            </RefExpr>
-                            <SetExpr>
-                                <Anns>
-                                    <LocAnn Col="45" Line="45" Loc="tests/z/animate_sequences.tex"/>
-                                </Anns>
-                                <ZExprList/>
-                            </SetExpr>
-                        </ApplExpr>
+                                    <ZRefName>
+                                        <Anns>
+                                            <LocAnn Col="55" Line="30" Loc="tests/z/animate_sequences.tex"/>
+                                        </Anns>
+                                        <Word>ℕ</Word>
+                                    </ZRefName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </ZExprList>
+                        </RefExpr>
                     </ZExprList>
                 </RefExpr>
             </MemPred>
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="69" Line="30" Loc="tests/z/animate_sequences.tex"/>
+                <LocAnn Col="70" Line="30" Loc="tests/z/animate_sequences.tex"/>
             </Anns>
             <Content>
      2. STRATEGY: type-based selection - single-element sequence
@@ -984,36 +986,38 @@ the constant undefnum should have an undefined left-hand-side.
                         <Word>iseq _ </Word>
                     </ZRefName>
                     <ZExprList>
-                        <ApplExpr Mixfix="true">
+                        <RefExpr Mixfix="false">
                             <Anns>
                                 <LocAnn Col="47" Line="42" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <ZRefName>
                                 <Anns>
                                     <LocAnn Col="47" Line="42" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
-                                <ZRefName>
+                                <Word>∅</Word>
+                            </ZRefName>
+                            <ZExprList>
+                                <RefExpr Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="47" Line="42" Loc="tests/z/animate_sequences.tex"/>
+                                        <LocAnn Col="57" Line="42" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
-                                    <Word>⟨ ,, ⟩</Word>
-                                </ZRefName>
-                                <ZExprList/>
-                            </RefExpr>
-                            <SetExpr>
-                                <Anns>
-                                    <LocAnn Col="47" Line="47" Loc="tests/z/animate_sequences.tex"/>
-                                </Anns>
-                                <ZExprList/>
-                            </SetExpr>
-                        </ApplExpr>
+                                    <ZRefName>
+                                        <Anns>
+                                            <LocAnn Col="57" Line="42" Loc="tests/z/animate_sequences.tex"/>
+                                        </Anns>
+                                        <Word>ℕ</Word>
+                                    </ZRefName>
+                                    <ZExprList/>
+                                </RefExpr>
+                            </ZExprList>
+                        </RefExpr>
                     </ZExprList>
                 </RefExpr>
             </MemPred>
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="71" Line="42" Loc="tests/z/animate_sequences.tex"/>
+                <LocAnn Col="72" Line="42" Loc="tests/z/animate_sequences.tex"/>
             </Anns>
             <Content>
      2. STRATEGY: type-based selection - single-element sequence
@@ -1843,29 +1847,31 @@ the constant undefnum should have an undefined left-hand-side.
                                 <NumStroke Digit="1"/>
                             </ZRefName>
                             <ZExprList>
-                                <ApplExpr Mixfix="true">
+                                <RefExpr Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="51" Line="56" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
-                                    <RefExpr Mixfix="false">
+                                    <ZRefName>
                                         <Anns>
                                             <LocAnn Col="51" Line="56" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
-                                        <ZRefName>
+                                        <Word>∅</Word>
+                                    </ZRefName>
+                                    <ZExprList>
+                                        <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="51" Line="56" Loc="tests/z/animate_sequences.tex"/>
+                                                <LocAnn Col="61" Line="56" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
-                                            <Word>⟨ ,, ⟩</Word>
-                                        </ZRefName>
-                                        <ZExprList/>
-                                    </RefExpr>
-                                    <SetExpr>
-                                        <Anns>
-                                            <LocAnn Col="51" Line="51" Loc="tests/z/animate_sequences.tex"/>
-                                        </Anns>
-                                        <ZExprList/>
-                                    </SetExpr>
-                                </ApplExpr>
+                                            <ZRefName>
+                                                <Anns>
+                                                    <LocAnn Col="61" Line="56" Loc="tests/z/animate_sequences.tex"/>
+                                                </Anns>
+                                                <Word>ℕ</Word>
+                                            </ZRefName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </ZExprList>
+                                </RefExpr>
                             </ZExprList>
                         </RefExpr>
                     </ZExprList>
@@ -1886,7 +1892,7 @@ the constant undefnum should have an undefined left-hand-side.
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="75" Line="56" Loc="tests/z/animate_sequences.tex"/>
+                <LocAnn Col="76" Line="56" Loc="tests/z/animate_sequences.tex"/>
             </Anns>
             <Content>
      2. STRATEGY: type-based selection - single-element sequence
@@ -2404,23 +2410,42 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Word>∅</Word>
                             </ZRefName>
                             <ZExprList>
-                                <PowerExpr>
+                                <ProdExpr>
                                     <Anns>
-                                        <LocAnn Col="49" Line="64" Loc="tests/z/animate_sequences.tex"/>
+                                        <LocAnn Col="67" Line="64" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="55" Line="64" Loc="tests/z/animate_sequences.tex"/>
-                                        </Anns>
-                                        <ZRefName>
+                                    <ZExprList>
+                                        <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="55" Line="64" Loc="tests/z/animate_sequences.tex"/>
+                                                <LocAnn Col="49" Line="64" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
-                                            <Word>𝔸</Word>
-                                        </ZRefName>
-                                        <ZExprList/>
-                                    </RefExpr>
-                                </PowerExpr>
+                                            <ZRefName>
+                                                <Anns>
+                                                    <LocAnn Col="49" Line="64" Loc="tests/z/animate_sequences.tex"/>
+                                                </Anns>
+                                                <Word>ℕ</Word>
+                                            </ZRefName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <PowerExpr>
+                                            <Anns>
+                                                <LocAnn Col="61" Line="64" Loc="tests/z/animate_sequences.tex"/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="67" Line="64" Loc="tests/z/animate_sequences.tex"/>
+                                                </Anns>
+                                                <ZRefName>
+                                                    <Anns>
+                                                        <LocAnn Col="67" Line="64" Loc="tests/z/animate_sequences.tex"/>
+                                                    </Anns>
+                                                    <Word>𝔸</Word>
+                                                </ZRefName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                        </PowerExpr>
+                                    </ZExprList>
+                                </ProdExpr>
                             </ZExprList>
                         </RefExpr>
                     </ZExprList>
@@ -2429,7 +2454,7 @@ the constant undefnum should have an undefined left-hand-side.
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="75" Line="64" Loc="tests/z/animate_sequences.tex"/>
+                <LocAnn Col="87" Line="64" Loc="tests/z/animate_sequences.tex"/>
             </Anns>
             <Content>
 </Content>
@@ -3835,11 +3860,11 @@ the constant undefnum should have an undefined left-hand-side.
             </Anns>
             <MemPred Mixfix="true">
                 <Anns>
-                    <LocAnn Col="50" Line="81" Loc="tests/z/animate_sequences.tex"/>
+                    <LocAnn Col="61" Line="81" Loc="tests/z/animate_sequences.tex"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
                     <Anns>
-                        <LocAnn Col="48" Line="81" Loc="tests/z/animate_sequences.tex"/>
+                        <LocAnn Col="59" Line="81" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
@@ -3849,64 +3874,83 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="21" Line="81" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <Word>tail</Word>
+                            <Word>head</Word>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
-                    <RefExpr Mixfix="false">
+                    <ApplExpr Mixfix="false">
                         <Anns>
-                            <LocAnn Col="27" Line="81" Loc="tests/z/animate_sequences.tex"/>
+                            <LocAnn Col="58" Line="81" Loc="tests/z/animate_sequences.tex"/>
+                            <ParenAnn/>
                         </Anns>
-                        <ZRefName>
+                        <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="27" Line="81" Loc="tests/z/animate_sequences.tex"/>
+                                <LocAnn Col="26" Line="81" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <Word>∅</Word>
-                        </ZRefName>
-                        <ZExprList>
-                            <TupleExpr>
+                            <ZRefName>
                                 <Anns>
-                                    <LocAnn Col="37" Line="81" Loc="tests/z/animate_sequences.tex"/>
+                                    <LocAnn Col="26" Line="81" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
-                                <ZExprList>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="38" Line="81" Loc="tests/z/animate_sequences.tex"/>
-                                        </Anns>
-                                        <ZRefName>
+                                <Word>tail</Word>
+                            </ZRefName>
+                            <ZExprList/>
+                        </RefExpr>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="31" Line="81" Loc="tests/z/animate_sequences.tex"/>
+                                <ParenAnn/>
+                            </Anns>
+                            <ZRefName>
+                                <Anns>
+                                    <LocAnn Col="31" Line="81" Loc="tests/z/animate_sequences.tex"/>
+                                </Anns>
+                                <Word>∅</Word>
+                            </ZRefName>
+                            <ZExprList>
+                                <ProdExpr>
+                                    <Anns>
+                                        <LocAnn Col="53" Line="81" Loc="tests/z/animate_sequences.tex"/>
+                                    </Anns>
+                                    <ZExprList>
+                                        <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="38" Line="81" Loc="tests/z/animate_sequences.tex"/>
+                                                <LocAnn Col="41" Line="81" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
-                                            <Word>ℕ</Word>
-                                        </ZRefName>
-                                        <ZExprList/>
-                                    </RefExpr>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="43" Line="81" Loc="tests/z/animate_sequences.tex"/>
-                                        </Anns>
-                                        <ZRefName>
+                                            <ZRefName>
+                                                <Anns>
+                                                    <LocAnn Col="41" Line="81" Loc="tests/z/animate_sequences.tex"/>
+                                                </Anns>
+                                                <Word>ℕ</Word>
+                                            </ZRefName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="43" Line="81" Loc="tests/z/animate_sequences.tex"/>
+                                                <LocAnn Col="53" Line="81" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
-                                            <Word>ℤ</Word>
-                                        </ZRefName>
-                                        <ZExprList/>
-                                    </RefExpr>
-                                </ZExprList>
-                            </TupleExpr>
-                        </ZExprList>
-                    </RefExpr>
+                                            <ZRefName>
+                                                <Anns>
+                                                    <LocAnn Col="53" Line="81" Loc="tests/z/animate_sequences.tex"/>
+                                                </Anns>
+                                                <Word>ℤ</Word>
+                                            </ZRefName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </ZExprList>
+                                </ProdExpr>
+                            </ZExprList>
+                        </RefExpr>
+                    </ApplExpr>
                 </ApplExpr>
                 <SetExpr>
                     <ZExprList>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="52" Line="81" Loc="tests/z/animate_sequences.tex"/>
+                                <LocAnn Col="63" Line="81" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
                             <ZRefName>
                                 <Anns>
-                                    <LocAnn Col="52" Line="81" Loc="tests/z/animate_sequences.tex"/>
+                                    <LocAnn Col="63" Line="81" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
                                 <Word>undefnum</Word>
                             </ZRefName>
@@ -3918,7 +3962,7 @@ the constant undefnum should have an undefined left-hand-side.
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="70" Line="81" Loc="tests/z/animate_sequences.tex"/>
+                <LocAnn Col="81" Line="81" Loc="tests/z/animate_sequences.tex"/>
             </Anns>
             <Content>
 
@@ -4439,11 +4483,11 @@ the constant undefnum should have an undefined left-hand-side.
             </Anns>
             <MemPred Mixfix="true">
                 <Anns>
-                    <LocAnn Col="50" Line="89" Loc="tests/z/animate_sequences.tex"/>
+                    <LocAnn Col="55" Line="89" Loc="tests/z/animate_sequences.tex"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
                     <Anns>
-                        <LocAnn Col="48" Line="89" Loc="tests/z/animate_sequences.tex"/>
+                        <LocAnn Col="53" Line="89" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
@@ -4468,18 +4512,18 @@ the constant undefnum should have an undefined left-hand-side.
                             <Word>∅</Word>
                         </ZRefName>
                         <ZExprList>
-                            <TupleExpr>
+                            <ProdExpr>
                                 <Anns>
-                                    <LocAnn Col="37" Line="89" Loc="tests/z/animate_sequences.tex"/>
+                                    <LocAnn Col="49" Line="89" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
                                 <ZExprList>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="38" Line="89" Loc="tests/z/animate_sequences.tex"/>
+                                            <LocAnn Col="37" Line="89" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
                                         <ZRefName>
                                             <Anns>
-                                                <LocAnn Col="38" Line="89" Loc="tests/z/animate_sequences.tex"/>
+                                                <LocAnn Col="37" Line="89" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
                                             <Word>ℕ</Word>
                                         </ZRefName>
@@ -4487,18 +4531,18 @@ the constant undefnum should have an undefined left-hand-side.
                                     </RefExpr>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="43" Line="89" Loc="tests/z/animate_sequences.tex"/>
+                                            <LocAnn Col="49" Line="89" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
                                         <ZRefName>
                                             <Anns>
-                                                <LocAnn Col="43" Line="89" Loc="tests/z/animate_sequences.tex"/>
+                                                <LocAnn Col="49" Line="89" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
                                             <Word>ℤ</Word>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
                                 </ZExprList>
-                            </TupleExpr>
+                            </ProdExpr>
                         </ZExprList>
                     </RefExpr>
                 </ApplExpr>
@@ -4506,11 +4550,11 @@ the constant undefnum should have an undefined left-hand-side.
                     <ZExprList>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="52" Line="89" Loc="tests/z/animate_sequences.tex"/>
+                                <LocAnn Col="57" Line="89" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
                             <ZRefName>
                                 <Anns>
-                                    <LocAnn Col="52" Line="89" Loc="tests/z/animate_sequences.tex"/>
+                                    <LocAnn Col="57" Line="89" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
                                 <Word>undefnum</Word>
                             </ZRefName>
@@ -4522,7 +4566,7 @@ the constant undefnum should have an undefined left-hand-side.
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="70" Line="89" Loc="tests/z/animate_sequences.tex"/>
+                <LocAnn Col="75" Line="89" Loc="tests/z/animate_sequences.tex"/>
             </Anns>
             <Content>
 
@@ -5230,11 +5274,11 @@ the constant undefnum should have an undefined left-hand-side.
             </Anns>
             <MemPred Mixfix="true">
                 <Anns>
-                    <LocAnn Col="51" Line="97" Loc="tests/z/animate_sequences.tex"/>
+                    <LocAnn Col="62" Line="97" Loc="tests/z/animate_sequences.tex"/>
                 </Anns>
                 <ApplExpr Mixfix="false">
                     <Anns>
-                        <LocAnn Col="49" Line="97" Loc="tests/z/animate_sequences.tex"/>
+                        <LocAnn Col="60" Line="97" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
                     <RefExpr Mixfix="false">
                         <Anns>
@@ -5244,64 +5288,83 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="21" Line="97" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <Word>front</Word>
+                            <Word>head</Word>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
-                    <RefExpr Mixfix="false">
+                    <ApplExpr Mixfix="false">
                         <Anns>
-                            <LocAnn Col="28" Line="97" Loc="tests/z/animate_sequences.tex"/>
+                            <LocAnn Col="59" Line="97" Loc="tests/z/animate_sequences.tex"/>
+                            <ParenAnn/>
                         </Anns>
-                        <ZRefName>
+                        <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="28" Line="97" Loc="tests/z/animate_sequences.tex"/>
+                                <LocAnn Col="26" Line="97" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <Word>∅</Word>
-                        </ZRefName>
-                        <ZExprList>
-                            <TupleExpr>
+                            <ZRefName>
                                 <Anns>
-                                    <LocAnn Col="38" Line="97" Loc="tests/z/animate_sequences.tex"/>
+                                    <LocAnn Col="26" Line="97" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
-                                <ZExprList>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="39" Line="97" Loc="tests/z/animate_sequences.tex"/>
-                                        </Anns>
-                                        <ZRefName>
+                                <Word>front</Word>
+                            </ZRefName>
+                            <ZExprList/>
+                        </RefExpr>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="32" Line="97" Loc="tests/z/animate_sequences.tex"/>
+                                <ParenAnn/>
+                            </Anns>
+                            <ZRefName>
+                                <Anns>
+                                    <LocAnn Col="32" Line="97" Loc="tests/z/animate_sequences.tex"/>
+                                </Anns>
+                                <Word>∅</Word>
+                            </ZRefName>
+                            <ZExprList>
+                                <ProdExpr>
+                                    <Anns>
+                                        <LocAnn Col="54" Line="97" Loc="tests/z/animate_sequences.tex"/>
+                                    </Anns>
+                                    <ZExprList>
+                                        <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="39" Line="97" Loc="tests/z/animate_sequences.tex"/>
+                                                <LocAnn Col="42" Line="97" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
-                                            <Word>ℤ</Word>
-                                        </ZRefName>
-                                        <ZExprList/>
-                                    </RefExpr>
-                                    <RefExpr Mixfix="false">
-                                        <Anns>
-                                            <LocAnn Col="44" Line="97" Loc="tests/z/animate_sequences.tex"/>
-                                        </Anns>
-                                        <ZRefName>
+                                            <ZRefName>
+                                                <Anns>
+                                                    <LocAnn Col="42" Line="97" Loc="tests/z/animate_sequences.tex"/>
+                                                </Anns>
+                                                <Word>ℤ</Word>
+                                            </ZRefName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="44" Line="97" Loc="tests/z/animate_sequences.tex"/>
+                                                <LocAnn Col="54" Line="97" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
-                                            <Word>ℕ</Word>
-                                        </ZRefName>
-                                        <ZExprList/>
-                                    </RefExpr>
-                                </ZExprList>
-                            </TupleExpr>
-                        </ZExprList>
-                    </RefExpr>
+                                            <ZRefName>
+                                                <Anns>
+                                                    <LocAnn Col="54" Line="97" Loc="tests/z/animate_sequences.tex"/>
+                                                </Anns>
+                                                <Word>ℕ</Word>
+                                            </ZRefName>
+                                            <ZExprList/>
+                                        </RefExpr>
+                                    </ZExprList>
+                                </ProdExpr>
+                            </ZExprList>
+                        </RefExpr>
+                    </ApplExpr>
                 </ApplExpr>
                 <SetExpr>
                     <ZExprList>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="53" Line="97" Loc="tests/z/animate_sequences.tex"/>
+                                <LocAnn Col="64" Line="97" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
                             <ZRefName>
                                 <Anns>
-                                    <LocAnn Col="53" Line="97" Loc="tests/z/animate_sequences.tex"/>
+                                    <LocAnn Col="64" Line="97" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
                                 <Word>undefnum</Word>
                             </ZRefName>
@@ -5313,7 +5376,7 @@ the constant undefnum should have an undefined left-hand-side.
         </ConjPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="71" Line="97" Loc="tests/z/animate_sequences.tex"/>
+                <LocAnn Col="82" Line="97" Loc="tests/z/animate_sequences.tex"/>
             </Anns>
             <Content>
 
