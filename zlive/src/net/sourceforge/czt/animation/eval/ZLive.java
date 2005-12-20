@@ -188,6 +188,9 @@ public class ZLive
     if (currSectName_ == null || defnTable_ == null) {
       throw new CztException("Must choose a section!");
     }
+    // preprocess the predicate, to unfold things.
+    pred = (Pred) preprocess_.preprocess(currSectName_, pred);
+    
     predlist_ = new FlatPredList(this);
     predlist_.addPred(pred);
     Envir env0 = new Envir();
@@ -220,7 +223,7 @@ public class ZLive
       throw new CztException("Must choose a section!");
     }
     // preprocess the expr, to unfold things.
-    expr = preprocess_.preprocess(expr);
+    expr = (Expr) preprocess_.preprocess(currSectName_, expr);
     
     predlist_ = new FlatPredList(this);
     ZRefName resultName = predlist_.addExpr(expr);

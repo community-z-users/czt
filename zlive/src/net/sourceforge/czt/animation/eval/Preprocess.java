@@ -81,13 +81,12 @@ public class Preprocess
     // for debugging only...
     for (String ruleName : rules_.getRules().keySet())
       System.out.println("loaded rule "+ruleName);
-    rewrite_ = new Rewrite(sectman_, rules_);
   }
- 
-  public Expr preprocess(Expr expr)
+  
+  public Term preprocess(String sectname, Term term)
   {
-    if (rewrite_ == null)
+    if (rules_ == null)
       throw new RuntimeException("preprocessing error: no rules!");
-    return (Expr) rewrite_.visitExpr(expr);
+    return Rewrite.rewrite(sectman_, sectname, term, rules_);
   }
 }
