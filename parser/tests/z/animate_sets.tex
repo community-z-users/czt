@@ -399,4 +399,65 @@ so the following should all be undefined.
 \begin{zed} \vdash?  \{x:\nat | x<\#(3 \upto 5)\} = \{0,1,2\} \end{zed}
 
 
+\section{Testing Subseteq and Subset}
+
+\begin{zed} \vdash?  \emptyset \subseteq \emptyset[\nat] \end{zed}
+\begin{zed} \vdash?  \emptyset \subseteq \{0\} \end{zed}
+\begin{zed} \vdash?  \{1,3,5\} \subseteq \{5,3,1\} \end{zed}
+\begin{zed} \vdash?  \{1,3,5\} \subseteq (1 \upto 5) \end{zed}
+\begin{zed} \vdash?  \{1,3,5\} \subseteq \{x:\nat_1|x\leq5 \land x\neq2 \} \end{zed}
+\begin{zed} \vdash?  \{\{1,3,1\}\} \subseteq \{\{3,1\}\} \end{zed}
+\begin{zed} \vdash?  \lnot \{1,3,5\} \subseteq \{5,1\} \end{zed}
+\begin{zed} \vdash?  \lnot \{1,3,5\} \subseteq (1 \upto 4) \end{zed}
+\begin{zed} \vdash?  \lnot \{1,3,5\} \subseteq (2 \upto 5) \end{zed}
+\begin{zed} \vdash?  \lnot \{0,3,5\} \subseteq \{x:\nat_1|x\leq5\} \end{zed}
+\begin{zed} \vdash?  \lnot \{1,3,5\} \subseteq \{x:\nat_1|x<5\} \end{zed}
+\begin{zed} \vdash?  (1 \upto 5) \subseteq (1 \upto 5) \end{zed}
+\begin{zed} \vdash?  (1 \upto 5) \subseteq \{5,4,3,2,1\} \end{zed}
+\begin{zed} \vdash?  (1 \upto 5) \subseteq \{x:\nat_1|x\leq5\} \end{zed}
+\begin{zed} \vdash?  \lnot (1 \upto 5) \subseteq (2 \upto 5) \end{zed}
+\begin{zed} \vdash?  \lnot (1 \upto 5) \subseteq (1 \upto 4) \end{zed}
+\begin{zed} \vdash?  \{x:1\upto3|x\neq2\} \subseteq \{1,3\} \end{zed}
+\begin{zed} \vdash?  \{x:1\upto3|x\neq2\} \subseteq (1 \upto 3) \end{zed}
+\begin{zed} \vdash?  \{x:1\upto3|x\neq2\} \subseteq \{x:\nat_1|x<5\} \end{zed}
+\begin{zed} \vdash?  \lnot \{x:1\upto3|x\neq2\} \subseteq \{1\} \end{zed}
+\begin{zed} \vdash?  \lnot \{x:1\upto3|x\neq2\} \subseteq (0 \upto 2) \end{zed}
+\begin{zed} \vdash?  \{1,3,5\} \subseteq \nat_1 \end{zed}
+\begin{zed} \vdash?  (1 \upto 5) \subseteq \nat_1 \end{zed}
+\begin{zed} \vdash?  \{x:1\upto3|x\neq2\} \subseteq \nat_1 \end{zed}
+\begin{zed} \vdash?  \lnot \{0,5\} \subseteq \nat_1 \end{zed}
+\begin{zed} \vdash?  \lnot (0 \upto 5) \subseteq \nat_1 \end{zed}
+\begin{zed} \vdash?  \lnot \{x:0\upto3|x\neq2\} \subseteq \nat_1 \end{zed}
+
+% The commented out tests put ZLive into an infinite backtracking loop...
+%\begin{zed} \vdash?  \lnot \emptyset \subset \emptyset[\nat] \end{zed}
+\begin{zed} \vdash?  \emptyset \subset \{0\} \end{zed}
+\begin{zed} \vdash?  \{1,3,5\} \subset \{5,3,2,1\} \end{zed}
+\begin{zed} \vdash?  \{1,3,5\} \subset (1 \upto 5) \end{zed}
+\begin{zed} \vdash?  \{1,3,5\} \subset \{x:\nat_1|x\leq5 \land x\neq2\} \end{zed}
+%\begin{zed} \vdash?  \lnot \{\{1,3,1\}\} \subset \{\{3,1\}\} \end{zed}
+%\begin{zed} \vdash?  \lnot \{1,3,5\} \subset \{5,3,1\} \end{zed}
+%\begin{zed} \vdash?  \lnot \{1,3,5\} \subset (1 \upto 4) \end{zed}
+%\begin{zed} \vdash?  \lnot \{1,3,5\} \subset (2 \upto 5) \end{zed}
+%\begin{zed} \vdash?  \lnot \{0,3,5\} \subset \{x:\nat_1|x\leq5\} \end{zed}
+%\begin{zed} \vdash?  \lnot \{1,3,5\} \subset \{x:\nat_1|x<5\} \end{zed}
+\begin{zed} \vdash?  (1 \upto 5) \subset (0 \upto 5) \end{zed}
+\begin{zed} \vdash?  (1 \upto 5) \subset (1 \upto 6) \end{zed}
+\begin{zed} \vdash?  (1 \upto 5) \subset \{x:\nat|x\leq5\} \end{zed}
+%\begin{zed} \vdash?  \lnot (1 \upto 5) \subset (1 \upto 5) \end{zed}
+%\begin{zed} \vdash?  \lnot (1 \upto 5) \subset \{5,4,3,2,1\} \end{zed}
+\begin{zed} \vdash?  \{x:1\upto3|x\neq2\} \subset \{1,2,3\} \end{zed}
+\begin{zed} \vdash?  \{x:1\upto3|x\neq2\} \subset (1 \upto 3) \end{zed}
+\begin{zed} \vdash?  \{x:1\upto3|x\neq2\} \subset \{x:\nat_1|x\leq3\} \end{zed}
+%\begin{zed} \vdash?  \lnot \{x:1\upto3|x\neq2\} \subset \{1,3\} \end{zed}
+%\begin{zed} \vdash?  \lnot \{x:1\upto3|x\neq2\} \subset (\{1\} \cup \{3\}) \end{zed}
+\begin{zed} \vdash?  \{1,3,5\} \subset \nat_1 \end{zed}
+\begin{zed} \vdash?  (1 \upto 5) \subset \nat_1 \end{zed}
+\begin{zed} \vdash?  \{x:1\upto3|x\neq2\} \subset \nat_1 \end{zed}
+\begin{zed} \vdash?  \lnot \{0,5\} \subset \nat_1 \end{zed}
+\begin{zed} \vdash?  \lnot (0 \upto 5) \subset \nat_1 \end{zed}
+\begin{zed} \vdash?  \lnot \{x:0\upto3|x\neq2\} \subset \nat_1 \end{zed}
+Note: the last six will fail until we figure out a way of proving
+that a small set cannot be equal to an infinite one...
+
 \end{document}
