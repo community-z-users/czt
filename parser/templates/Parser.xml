@@ -989,8 +989,7 @@ terminal
 
 terminal String
 <add:zpatt>
-        JOKERNAME, JOKERNAMELIST, JOKEREXPR, JOKERPRED,
-        JOKERDECLLIST, JOKERTYPE,
+        JOKERNAME, JOKERNAMELIST, JOKEREXPR, JOKERPRED, JOKERDECLLIST,
 </add:zpatt>
         TEXT, PREP, PRE, POSTP, POST, IP, I, LP, L, ELP, EL, ERP, ER,
         SRP, SR, EREP, ERE, SREP, SRE, ES, SS;
@@ -4193,18 +4192,6 @@ jokerRef ::=
         {:
            RefName rn = factory_.createJokerRefName(jn);
            RESULT = factory_.createRefExpr(rn);
-        :}
-/*
-        |
-        JOKERDECLLIST:jdl
-        {: RESULT = jdl; :}
-*/
-        |
-        JOKERTYPE:jt
-        {:
-           // Idea: Try to use JokerExpr and avoid having Type Joker at all
-           // but it is not clear whether this works.
-           RESULT = factory_.createJokerExpr(jt);
         :}
         ;
 
