@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateSetsTest
-Tests run: 214, Failures: 140, Errors: 10, Time elapsed: 0.827 sec
+Tests run: 216, Failures: 90, Errors: 10, Time elapsed: 5,528 sec
 ------------- Standard Output ---------------
 Passed test:animate_sets.tex:34
 Passed test:animate_sets.tex:35
@@ -21,6 +21,11 @@ Passed test:animate_sets.tex:52
 Passed test:animate_sets.tex:53
 Passed test:animate_sets.tex:54
 Passed test:animate_sets.tex:55
+Passed test:animate_sets.tex:60
+Passed test:animate_sets.tex:61
+Passed test:animate_sets.tex:62
+Passed test:animate_sets.tex:63
+Passed test:animate_sets.tex:64
 Passed test:animate_sets.tex:66
 Passed test:animate_sets.tex:67
 Passed test:animate_sets.tex:68
@@ -32,6 +37,30 @@ Passed test:animate_sets.tex:75
 Passed test:animate_sets.tex:76
 Passed test:animate_sets.tex:77
 Passed test:animate_sets.tex:78
+Passed test:animate_sets.tex:138
+Passed test:animate_sets.tex:139
+Passed test:animate_sets.tex:140
+Passed test:animate_sets.tex:141
+Passed test:animate_sets.tex:142
+Passed test:animate_sets.tex:144
+Passed test:animate_sets.tex:145
+Passed test:animate_sets.tex:146
+Passed test:animate_sets.tex:148
+Passed test:animate_sets.tex:149
+Passed test:animate_sets.tex:150
+Passed test:animate_sets.tex:151
+Passed test:animate_sets.tex:153
+Passed test:animate_sets.tex:154
+Passed test:animate_sets.tex:155
+Passed test:animate_sets.tex:156
+Passed test:animate_sets.tex:158
+Passed test:animate_sets.tex:159
+Passed test:animate_sets.tex:160
+Passed test:animate_sets.tex:161
+Passed test:animate_sets.tex:162
+Passed test:animate_sets.tex:163
+Passed test:animate_sets.tex:164
+Passed test:animate_sets.tex:165
 Passed test:animate_sets.tex:176
 Passed test:animate_sets.tex:177
 Passed test:animate_sets.tex:178
@@ -39,19 +68,40 @@ Passed test:animate_sets.tex:200
 Passed test:animate_sets.tex:203
 Passed test:animate_sets.tex:206
 Passed test:animate_sets.tex:209
+Passed test:animate_sets.tex:221
+Passed test:animate_sets.tex:222
+Passed test:animate_sets.tex:223
+Passed test:animate_sets.tex:224
+Passed test:animate_sets.tex:225
+Passed test:animate_sets.tex:227
+Passed test:animate_sets.tex:228
+Passed test:animate_sets.tex:229
+Passed test:animate_sets.tex:231
+Passed test:animate_sets.tex:232
+Passed test:animate_sets.tex:233
+Passed test:animate_sets.tex:234
+Passed test:animate_sets.tex:236
+Passed test:animate_sets.tex:237
+Passed test:animate_sets.tex:238
+Passed test:animate_sets.tex:239
 Passed test:animate_sets.tex:245
 Passed test:animate_sets.tex:246
 Passed test:animate_sets.tex:247
 Passed test:animate_sets.tex:248
 Passed test:animate_sets.tex:249
 Passed test:animate_sets.tex:250
+Passed test:animate_sets.tex:256
+Passed test:animate_sets.tex:257
 Passed test:animate_sets.tex:258
+Passed test:animate_sets.tex:259
 Passed test:animate_sets.tex:260
+Passed test:animate_sets.tex:262
 Passed test:animate_sets.tex:266
 Passed test:animate_sets.tex:269
 Passed test:animate_sets.tex:273
 Passed test:animate_sets.tex:282
 Passed test:animate_sets.tex:283
+Passed test:animate_sets.tex:359
 Passed test:animate_sets.tex:361
 Passed test:animate_sets.tex:363
 Passed test:animate_sets.tex:369
@@ -65,1053 +115,793 @@ Passed test:animate_sets.tex:385
 Passed test:animate_sets.tex:386
 Passed test:animate_sets.tex:387
 Passed test:animate_sets.tex:388
+Passed test:animate_sets.tex:398
+Passed test:animate_sets.tex:399
 ------------- ---------------- ---------------
 
-Testcase: animate_sets.tex:34 took 0.002 sec
-Testcase: animate_sets.tex:35 took 0.002 sec
-Testcase: animate_sets.tex:36 took 0.002 sec
-Testcase: animate_sets.tex:37 took 0.003 sec
-Testcase: animate_sets.tex:38 took 0.001 sec
-Testcase: animate_sets.tex:39 took 0.003 sec
-Testcase: animate_sets.tex:40 took 0.002 sec
-Testcase: animate_sets.tex:41 took 0.002 sec
-Testcase: animate_sets.tex:42 took 0.003 sec
-Testcase: animate_sets.tex:45 took 0.002 sec
-Testcase: animate_sets.tex:46 took 0.002 sec
-Testcase: animate_sets.tex:47 took 0.001 sec
-Testcase: animate_sets.tex:48 took 0.002 sec
-Testcase: animate_sets.tex:49 took 0.002 sec
-Testcase: animate_sets.tex:50 took 0.002 sec
-Testcase: animate_sets.tex:51 took 0.006 sec
-Testcase: animate_sets.tex:52 took 0.002 sec
-Testcase: animate_sets.tex:53 took 0.002 sec
-Testcase: animate_sets.tex:54 took 0.004 sec
-Testcase: animate_sets.tex:55 took 0.002 sec
-Testcase: animate_sets.tex:60 took 0.004 sec
-	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate  = ( _ ? _ )~({}, ?)?
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate  = ( _ ? _ )~({}, ?)?
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:61 took 0.002 sec
-	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate  = ( _ ? _ )~(?, s13)s13
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate  = ( _ ? _ )~(?, s13)s13
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:62 took 0.001 sec
-	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate  = ( _ ? _ )~(s13, ?)s13
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate  = ( _ ? _ )~(s13, ?)s13
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:63 took 0.01 sec
-	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate  = ( _ ? _ )~(?, fcomp13)s13
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate  = ( _ ? _ )~(?, fcomp13)s13
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:64 took 0.008 sec
-	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate  = ( _ ? _ )~(fcomp13, ?)( _ .. _ )~(1, 3)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate  = ( _ ? _ )~(fcomp13, ?)( _ .. _ )~(1, 3)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:66 took 0.002 sec
-Testcase: animate_sets.tex:67 took 0.002 sec
-Testcase: animate_sets.tex:68 took 0.004 sec
-Testcase: animate_sets.tex:70 took 0.002 sec
-Testcase: animate_sets.tex:71 took 0.002 sec
-Testcase: animate_sets.tex:72 took 0.002 sec
-Testcase: animate_sets.tex:73 took 0.002 sec
-Testcase: animate_sets.tex:75 took 0.092 sec
-Testcase: animate_sets.tex:76 took 0.015 sec
-Testcase: animate_sets.tex:77 took 0.026 sec
-Testcase: animate_sets.tex:78 took 0.016 sec
-Testcase: animate_sets.tex:97 took 0 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set1}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set1}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:98 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set1, set2}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set1, set2}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:99 took 0.002 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set1, set3}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set1, set3}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:100 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set1, set4}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set1, set4}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:101 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set1, set3, set4}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set1, set3, set4}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:102 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set1, set5, set7}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set1, set5, set7}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:103 took 0.002 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{{set1}}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{{set1}}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:104 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set1, {set3}}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set1, {set3}}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:105 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{{set1}, set3}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{{set1}, set3}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:106 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set1, {set4}}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set1, {set4}}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:107 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{{set1}, set4}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{{set1}, set4}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:110 took 0.002 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set3, {1}, {2}}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set3, {1}, {2}}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:111 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set3, set4}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set3, set4}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:112 took 0.002 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set1, set3, {1}}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set1, set3, {1}}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:113 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set3}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set3}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:114 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~set9   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~set9   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:115 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{{set3}, set4}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{{set3}, set4}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:116 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set3, {set4}}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set3, {set4}}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:119 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set4, set5}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set4, set5}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:120 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{{set4}, set5}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{{set4}, set5}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:121 took 0.002 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set4, {set5}}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set4, {set5}}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:122 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set5, set6}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set5, set6}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:123 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{( _ .. _ )~(0, 3), {4, 5}}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{( _ .. _ )~(0, 3), {4, 5}}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:124 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set5, set7}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set5, set7}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:125 took 0.002 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set6, set8}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set6, set8}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:126 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set4, set5, set7}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{set4, set5, set7}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:129 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{??1?, {0}}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{??1?, {0}}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:130 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{??1?, {1, 3, 5}}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{??1?, {1, 3, 5}}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:131 took 0 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{?, { [x: ?] | ( _ < _ )~ _ < _  @ null }}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{?, { [x: ?] | ( _ < _ )~ _ < _  @ null }}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:132 took 0.002 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{??1?, { [x: ?] | ( _ < _ )~ _ < _  @ null }}   (?)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ?~{??1?, { [x: ?] | ( _ < _ )~ _ < _  @ null }}   (?)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:138 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~({}, ?)   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~({}, ?)   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:139 took 0.002 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(?, s13)   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(?, s13)   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:140 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(s13, ?)   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(s13, ?)   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:141 took 0.002 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(?, fcomp13)   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(?, fcomp13)   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Testcase: animate_sets.tex:34 took 0,01 sec
+Testcase: animate_sets.tex:35 took 0 sec
+Testcase: animate_sets.tex:36 took 0,01 sec
+Testcase: animate_sets.tex:37 took 0,01 sec
+Testcase: animate_sets.tex:38 took 0 sec
+Testcase: animate_sets.tex:39 took 0,01 sec
+Testcase: animate_sets.tex:40 took 0,01 sec
+Testcase: animate_sets.tex:41 took 0,01 sec
+Testcase: animate_sets.tex:42 took 0,01 sec
+Testcase: animate_sets.tex:45 took 0,02 sec
+Testcase: animate_sets.tex:46 took 0,01 sec
+Testcase: animate_sets.tex:47 took 0,12 sec
+Testcase: animate_sets.tex:48 took 0,01 sec
+Testcase: animate_sets.tex:49 took 0,02 sec
+Testcase: animate_sets.tex:50 took 0,01 sec
+Testcase: animate_sets.tex:51 took 0,02 sec
+Testcase: animate_sets.tex:52 took 0,02 sec
+Testcase: animate_sets.tex:53 took 0,01 sec
+Testcase: animate_sets.tex:54 took 0,02 sec
+Testcase: animate_sets.tex:55 took 0,02 sec
+Testcase: animate_sets.tex:60 took 0,02 sec
+Testcase: animate_sets.tex:61 took 0,02 sec
+Testcase: animate_sets.tex:62 took 0,01 sec
+Testcase: animate_sets.tex:63 took 0,03 sec
+Testcase: animate_sets.tex:64 took 0,03 sec
+Testcase: animate_sets.tex:66 took 0,01 sec
+Testcase: animate_sets.tex:67 took 0,03 sec
+Testcase: animate_sets.tex:68 took 0,03 sec
+Testcase: animate_sets.tex:70 took 0,02 sec
+Testcase: animate_sets.tex:71 took 0,03 sec
+Testcase: animate_sets.tex:72 took 0,03 sec
+Testcase: animate_sets.tex:73 took 0,021 sec
+Testcase: animate_sets.tex:75 took 0,03 sec
+Testcase: animate_sets.tex:76 took 0,02 sec
+Testcase: animate_sets.tex:77 took 0,04 sec
+Testcase: animate_sets.tex:78 took 0,04 sec
+Testcase: animate_sets.tex:97 took 0,01 sec
+	FAILED
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@12b36d7f   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@12b36d7f   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
+
+Testcase: animate_sets.tex:98 took 0,03 sec
+	FAILED
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@d957943f   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@d957943f   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:142 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(fcomp13, ?)   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(fcomp13, ?)   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:144 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(s1, s1)   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(s1, s1)   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:145 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(s1, ( _ .. _ )~(0, 2))   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(s1, ( _ .. _ )~(0, 2))   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:146 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(( _ .. _ )~(0, 2), s1)   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(( _ .. _ )~(0, 2), s1)   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:148 took 0 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(s13, {5, 4, 5, 0})   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(s13, {5, 4, 5, 0})   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:149 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(s13, s35)   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(s13, s35)   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:150 took 0.002 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(s13, ( _ .. _ )~(0, 6))   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(s13, ( _ .. _ )~(0, 6))   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:151 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(( _ .. _ )~(0, 6), s13)   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(( _ .. _ )~(0, 6), s13)   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:153 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(s13, fcomp13)   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(s13, fcomp13)   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:154 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(fcomp13, s13)   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(fcomp13, s13)   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:155 took 0.002 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(fcomp13, fcomp13)   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(fcomp13, fcomp13)   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:156 took 0.001 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(fcomp13, fcomp149)   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(fcomp13, fcomp149)   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
-
-Testcase: animate_sets.tex:158 took 0.002 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(( _ .. _ )~(1, 3), ( _ .. _ )~(4, 9))   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(( _ .. _ )~(1, 3), ( _ .. _ )~(4, 9))   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Testcase: animate_sets.tex:99 took 0,02 sec
+	FAILED
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@dccf5cfe   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@dccf5cfe   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:159 took 0.001 sec
+Testcase: animate_sets.tex:100 took 0,03 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(( _ .. _ )~(1, 3), ( _ .. _ )~(3, 9))   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(( _ .. _ )~(1, 3), ( _ .. _ )~(3, 9))   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@e04725bd   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@e04725bd   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:160 took 0 sec
+Testcase: animate_sets.tex:101 took 0,03 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(( _ .. _ )~(1, 3), ( _ .. _ )~(2, 9))   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(( _ .. _ )~(1, 3), ( _ .. _ )~(2, 9))   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@59a9261e   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@59a9261e   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:161 took 0.001 sec
+Testcase: animate_sets.tex:102 took 0,03 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(( _ .. _ )~(1, 3), ( _ .. _ )~(0, 9))   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(( _ .. _ )~(1, 3), ( _ .. _ )~(0, 9))   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@cf88bca6   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@cf88bca6   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:162 took 0.001 sec
+Testcase: animate_sets.tex:103 took 0,01 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(( _ .. _ )~(1, 3), ( _ .. _ )~(0, 3))   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(( _ .. _ )~(1, 3), ( _ .. _ )~(0, 3))   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@f23b9504   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@f23b9504   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:163 took 0.002 sec
+Testcase: animate_sets.tex:104 took 0,02 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(( _ .. _ )~(1, 3), ( _ .. _ )~(0, 1))   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(( _ .. _ )~(1, 3), ( _ .. _ )~(0, 1))   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@3a725f09   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@3a725f09   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:164 took 0.001 sec
+Testcase: animate_sets.tex:105 took 0,01 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(( _ .. _ )~(1, 3), ( _ .. _ )~((- _ )~3, 0))   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(( _ .. _ )~(1, 3), ( _ .. _ )~((- _ )~3, 0))   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@4153d906   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@4153d906   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:165 took 0.002 sec
+Testcase: animate_sets.tex:106 took 0,02 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(( _ .. _ )~(1, 3), ( _ .. _ )~(0, (- _ )~1))   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(( _ .. _ )~(1, 3), ( _ .. _ )~(0, (- _ )~1))   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@44cba1c5   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@44cba1c5   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:167 took 0.001 sec
+Testcase: animate_sets.tex:107 took 0,01 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(?, ( _ .. _ )~(4, 6))   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(?, ( _ .. _ )~(4, 6))   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@bf16d070   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@bf16d070   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:168 took 0.001 sec
+Testcase: animate_sets.tex:110 took 0,02 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(?, ( _ .. _ )~((- _ )~3, 0))   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(?, ( _ .. _ )~((- _ )~3, 0))   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@44fa2d1c   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@44fa2d1c   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:169 took 0.001 sec
+Testcase: animate_sets.tex:111 took 0,02 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(?, ( _ .. _ )~((- _ )~3, (- _ )~1))   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(?, ( _ .. _ )~((- _ )~3, (- _ )~1))   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@b749c3ff   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@b749c3ff   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:170 took 0.001 sec
+Testcase: animate_sets.tex:112 took 0,02 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(?, ?)   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(?, ?)   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@7d4f73c8   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@7d4f73c8   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:171 took 0.001 sec
+Testcase: animate_sets.tex:113 took 0,01 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(?, ??1?)   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(?, ??1?)   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@19a2fefd   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@19a2fefd   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:176 took 0.009 sec
-Testcase: animate_sets.tex:177 took 0.007 sec
-Testcase: animate_sets.tex:178 took 0.009 sec
-Testcase: animate_sets.tex:181 took 0.007 sec
+Testcase: animate_sets.tex:114 took 0,02 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ({2} X ( _ .. _ )~(0, 1))   ()
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ({2} X ( _ .. _ )~(0, 1))   ()
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@6a3859f5   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@6a3859f5   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:185 took 0.003 sec
+Testcase: animate_sets.tex:115 took 0,02 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@4a622d47   ()
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@4a622d47   ()
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@fdc7a5d1   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@fdc7a5d1   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:189 took 0.003 sec
+Testcase: animate_sets.tex:116 took 0,02 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@4a622d47   ()
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@4a622d47   ()
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@32187373   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@32187373   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:196 took 0.001 sec
+Testcase: animate_sets.tex:119 took 0,02 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@4a622d47   ()
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@4a622d47   ()
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@29ac8d1d   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@29ac8d1d   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:200 took 0.009 sec
-Testcase: animate_sets.tex:203 took 0.01 sec
-Testcase: animate_sets.tex:206 took 0.015 sec
-Testcase: animate_sets.tex:209 took 0.01 sec
-Testcase: animate_sets.tex:212 took 0.009 sec
+Testcase: animate_sets.tex:120 took 0,03 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp1101,tmp1100)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp1101,tmp1100)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@f818d8c3   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@f818d8c3   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:215 took 0.005 sec
+Testcase: animate_sets.tex:121 took 0,01 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: Mu null @ 
-	[x, y: {3}] |    ()
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: Mu null @ 
-	[x, y: {3}] |    ()
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@57db94e4   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@57db94e4   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:221 took 0.002 sec
+Testcase: animate_sets.tex:122 took 0,03 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~({}, ?)   ( _ \ _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~({}, ?)   ( _ \ _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@2721b7f   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@2721b7f   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:222 took 0.001 sec
+Testcase: animate_sets.tex:123 took 0,03 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(?, s13)   ( _ \ _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(?, s13)   ( _ \ _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@682c3093   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@682c3093   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:223 took 0.001 sec
+Testcase: animate_sets.tex:124 took 0,02 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(s13, ?)   ( _ \ _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(s13, ?)   ( _ \ _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@2d295a87   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@2d295a87   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:224 took 0.001 sec
+Testcase: animate_sets.tex:125 took 0,02 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(?, fcomp13)   ( _ \ _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(?, fcomp13)   ( _ \ _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@9c227267   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@9c227267   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:225 took 0.001 sec
+Testcase: animate_sets.tex:126 took 0,031 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(fcomp13, ?)   ( _ \ _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(fcomp13, ?)   ( _ \ _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@dd827ba3   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@dd827ba3   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:227 took 0.002 sec
+Testcase: animate_sets.tex:129 took 0,01 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(s1, s1)   ( _ \ _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(s1, s1)   ( _ \ _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@f9475f6c   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@f9475f6c   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:228 took 0.001 sec
+Testcase: animate_sets.tex:130 took 0,01 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(s1, ( _ .. _ )~(0, 2))   ( _ \ _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(s1, ( _ .. _ )~(0, 2))   ( _ \ _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@9b1f86a9   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@9b1f86a9   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:229 took 0.002 sec
+Testcase: animate_sets.tex:131 took 0,03 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(( _ .. _ )~(0, 2), s1)   ( _ \ _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(( _ .. _ )~(0, 2), s1)   ( _ \ _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@edd8b5b2   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@edd8b5b2   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:231 took 0.001 sec
+Testcase: animate_sets.tex:132 took 0,03 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(s13, {5, 4, 5, 0})   ( _ \ _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(s13, {5, 4, 5, 0})   ( _ \ _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@32ea95c9   (?)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@32ea95c9   (?)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:232 took 0.001 sec
+Testcase: animate_sets.tex:138 took 0,02 sec
+Testcase: animate_sets.tex:139 took 0,02 sec
+Testcase: animate_sets.tex:140 took 0,02 sec
+Testcase: animate_sets.tex:141 took 0,04 sec
+Testcase: animate_sets.tex:142 took 0,03 sec
+Testcase: animate_sets.tex:144 took 0,02 sec
+Testcase: animate_sets.tex:145 took 0,03 sec
+Testcase: animate_sets.tex:146 took 0,03 sec
+Testcase: animate_sets.tex:148 took 0,02 sec
+Testcase: animate_sets.tex:149 took 0,03 sec
+Testcase: animate_sets.tex:150 took 0,02 sec
+Testcase: animate_sets.tex:151 took 0,03 sec
+Testcase: animate_sets.tex:153 took 0,15 sec
+Testcase: animate_sets.tex:154 took 0,04 sec
+Testcase: animate_sets.tex:155 took 0,06 sec
+Testcase: animate_sets.tex:156 took 0,051 sec
+Testcase: animate_sets.tex:158 took 0,03 sec
+Testcase: animate_sets.tex:159 took 0,04 sec
+Testcase: animate_sets.tex:160 took 0,03 sec
+Testcase: animate_sets.tex:161 took 0,04 sec
+Testcase: animate_sets.tex:162 took 0,04 sec
+Testcase: animate_sets.tex:163 took 0,03 sec
+Testcase: animate_sets.tex:164 took 0,04 sec
+Testcase: animate_sets.tex:165 took 0,03 sec
+Testcase: animate_sets.tex:167 took 0,03 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(s13, s35)   ( _ \ _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(s13, s35)   ( _ \ _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp1441,tmp1440)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp1441,tmp1440)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:233 took 0.001 sec
+Testcase: animate_sets.tex:168 took 0,03 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(s13, ( _ .. _ )~(0, 6))   ( _ \ _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(s13, ( _ .. _ )~(0, 6))   ( _ \ _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp1457,tmp1456)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp1457,tmp1456)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:234 took 0.001 sec
+Testcase: animate_sets.tex:169 took 0,04 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(( _ .. _ )~(0, 6), s13)   ( _ \ _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(( _ .. _ )~(0, 6), s13)   ( _ \ _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp1473,tmp1472)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp1473,tmp1472)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:236 took 0.001 sec
+Testcase: animate_sets.tex:170 took 0,02 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(s13, fcomp13)   ( _ \ _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(s13, fcomp13)   ( _ \ _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp1489)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp1489)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:237 took 0.001 sec
+Testcase: animate_sets.tex:171 took 0,02 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(fcomp13, s13)   ( _ \ _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(fcomp13, s13)   ( _ \ _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp1500,tmp1499)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp1500,tmp1499)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:238 took 0.001 sec
+Testcase: animate_sets.tex:176 took 0,03 sec
+Testcase: animate_sets.tex:177 took 0,03 sec
+Testcase: animate_sets.tex:178 took 0,03 sec
+Testcase: animate_sets.tex:181 took 0,06 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(fcomp13, fcomp13)   ( _ \ _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(fcomp13, fcomp13)   ( _ \ _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ProdExprImpl@1afb0f83   ()
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ProdExprImpl@1afb0f83   ()
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:239 took 0.002 sec
+Testcase: animate_sets.tex:185 took 0,04 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(fcomp13, fcomp149)   ( _ \ _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ \ _ )~(fcomp13, fcomp149)   ( _ \ _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@171891f2   ()
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@171891f2   ()
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:243 took 0.007 sec
+Testcase: animate_sets.tex:189 took 0,04 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp1146,tmp1145)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp1146,tmp1145)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@171891f2   ()
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@171891f2   ()
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:244 took 0.006 sec
+Testcase: animate_sets.tex:196 took 0,041 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp1153,tmp1152)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp1153,tmp1152)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@171891f2   ()
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@171891f2   ()
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:245 took 0.007 sec
-Testcase: animate_sets.tex:246 took 0.014 sec
-Testcase: animate_sets.tex:247 took 0.02 sec
-Testcase: animate_sets.tex:248 took 0.01 sec
-Testcase: animate_sets.tex:249 took 0.013 sec
-Testcase: animate_sets.tex:250 took 0.009 sec
-Testcase: animate_sets.tex:251 took 0.007 sec
+Testcase: animate_sets.tex:200 took 0,05 sec
+Testcase: animate_sets.tex:203 took 0,05 sec
+Testcase: animate_sets.tex:206 took 0,04 sec
+Testcase: animate_sets.tex:209 took 0,05 sec
+Testcase: animate_sets.tex:212 took 0,03 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp1255,tmp1254)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp1255,tmp1254)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp1660,tmp1659)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp1660,tmp1659)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:252 took 0.073 sec
+Testcase: animate_sets.tex:215 took 0,02 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp1263,tmp1262)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp1263,tmp1262)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.MuExprImpl@b4b4a72f   ()
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.MuExprImpl@b4b4a72f   ()
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:256 took 0.001 sec
+Testcase: animate_sets.tex:221 took 0,03 sec
+Testcase: animate_sets.tex:222 took 0,02 sec
+Testcase: animate_sets.tex:223 took 0,02 sec
+Testcase: animate_sets.tex:224 took 0,14 sec
+Testcase: animate_sets.tex:225 took 0,04 sec
+Testcase: animate_sets.tex:227 took 0,02 sec
+Testcase: animate_sets.tex:228 took 0,03 sec
+Testcase: animate_sets.tex:229 took 0,03 sec
+Testcase: animate_sets.tex:231 took 0,03 sec
+Testcase: animate_sets.tex:232 took 0,03 sec
+Testcase: animate_sets.tex:233 took 0,03 sec
+Testcase: animate_sets.tex:234 took 0,041 sec
+Testcase: animate_sets.tex:236 took 0,04 sec
+Testcase: animate_sets.tex:237 took 0,04 sec
+Testcase: animate_sets.tex:238 took 0,05 sec
+Testcase: animate_sets.tex:239 took 0,06 sec
+Testcase: animate_sets.tex:243 took 0,01 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate ? in {?}
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate ? in {?}
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2067,tmp2066)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2067,tmp2066)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:257 took 0.002 sec
+Testcase: animate_sets.tex:244 took 0,01 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(?, ?)   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~(?, ?)   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2074,tmp2073)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2074,tmp2073)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:258 took 0.001 sec
-Testcase: animate_sets.tex:259 took 0.002 sec
+Testcase: animate_sets.tex:245 took 0,01 sec
+Testcase: animate_sets.tex:246 took 0,03 sec
+Testcase: animate_sets.tex:247 took 0,03 sec
+Testcase: animate_sets.tex:248 took 0,02 sec
+Testcase: animate_sets.tex:249 took 0,03 sec
+Testcase: animate_sets.tex:250 took 0,03 sec
+Testcase: animate_sets.tex:251 took 0,02 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~({0, 1}, {0, 1})   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~({0, 1}, {0, 1})   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2176,tmp2175)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2176,tmp2175)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:260 took 0.002 sec
-Testcase: animate_sets.tex:262 took 0.001 sec
+Testcase: animate_sets.tex:252 took 0,13 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~({{(- _ )~1, 1}, {1, 2}}, {{(- _ )~1, 1}, {1, 3}})   ( _ ? _ )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: ( _ ? _ )~({{(- _ )~1, 1}, {1, 2}}, {{(- _ )~1, 1}, {1, 3}})   ( _ ? _ )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2184,tmp2183)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2184,tmp2183)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:266 took 0.001 sec
-Testcase: animate_sets.tex:269 took 0.003 sec
-Testcase: animate_sets.tex:273 took 0.003 sec
-Testcase: animate_sets.tex:282 took 0.004 sec
-Testcase: animate_sets.tex:283 took 0.003 sec
-Testcase: animate_sets.tex:288 took 0.001 sec
+Testcase: animate_sets.tex:256 took 0,01 sec
+Testcase: animate_sets.tex:257 took 0,02 sec
+Testcase: animate_sets.tex:258 took 0,01 sec
+Testcase: animate_sets.tex:259 took 0,03 sec
+Testcase: animate_sets.tex:260 took 0,02 sec
+Testcase: animate_sets.tex:262 took 0,05 sec
+Testcase: animate_sets.tex:266 took 0,031 sec
+Testcase: animate_sets.tex:269 took 0,01 sec
+Testcase: animate_sets.tex:273 took 0,04 sec
+Testcase: animate_sets.tex:282 took 0,02 sec
+Testcase: animate_sets.tex:283 took 0,01 sec
+Testcase: animate_sets.tex:288 took 0,02 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: {(1, 2)}~1   (Function={(1, 2)})
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: {(1, 2)}~1   (Function={(1, 2)})
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@be9b8d9   (Function=net.sourceforge.czt.z.impl.SetExprImpl@676d53ec)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@be9b8d9   (Function=net.sourceforge.czt.z.impl.SetExprImpl@676d53ec)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:289 took 0.001 sec
+Testcase: animate_sets.tex:289 took 0 sec
 	Caused an ERROR
-Flatten does not yet handle: {(1, 2)}~2   (Function={(1, 2)})
-java.lang.RuntimeException: Flatten does not yet handle: {(1, 2)}~2   (Function={(1, 2)})
+Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@bea2d38   (Function=net.sourceforge.czt.z.impl.SetExprImpl@676d53ec)
+java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@bea2d38   (Function=net.sourceforge.czt.z.impl.SetExprImpl@676d53ec)
 	at net.sourceforge.czt.animation.eval.Flatten.notYet(Flatten.java:98)
 	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:427)
 	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:47)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:110)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:141)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExpr(FlatPredList.java:245)
-	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:227)
-	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:133)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:229)
+	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:290 took 0.001 sec
+Testcase: animate_sets.tex:290 took 0,01 sec
 	Caused an ERROR
-Flatten does not yet handle: {}~1   (Function={})
-java.lang.RuntimeException: Flatten does not yet handle: {}~1   (Function={})
+Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@e6ab9230   (Function=net.sourceforge.czt.z.impl.SetExprImpl@3cef73b5)
+java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@e6ab9230   (Function=net.sourceforge.czt.z.impl.SetExprImpl@3cef73b5)
 	at net.sourceforge.czt.animation.eval.Flatten.notYet(Flatten.java:98)
 	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:427)
 	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:47)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:110)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:141)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExpr(FlatPredList.java:245)
-	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:227)
-	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:133)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:229)
+	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:292 took 0.002 sec
+Testcase: animate_sets.tex:292 took 0,03 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: { [x: ?] |  @ (x, ( _ + _ )~(x, 1)) }~0   (Function={ [x: ?] |  @ (x, ( _ + _ )~(x, 1)) })
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: { [x: ?] |  @ (x, ( _ + _ )~(x, 1)) }~0   (Function={ [x: ?] |  @ (x, ( _ + _ )~(x, 1)) })
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@43bb59dd   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@6218629)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@43bb59dd   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@6218629)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:293 took 0.001 sec
+Testcase: animate_sets.tex:293 took 0,02 sec
 	Caused an ERROR
-Flatten does not yet handle: { [x: ?] |  @ (x, ( _ + _ )~(x, 1)) }~(- _ )~1   (Function={ [x: ?] |  @ (x, ( _ + _ )~(x, 1)) })
-java.lang.RuntimeException: Flatten does not yet handle: { [x: ?] |  @ (x, ( _ + _ )~(x, 1)) }~(- _ )~1   (Function={ [x: ?] |  @ (x, ( _ + _ )~(x, 1)) })
+Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@97ef4c9   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@cf5a47ec)
+java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@97ef4c9   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@cf5a47ec)
 	at net.sourceforge.czt.animation.eval.Flatten.notYet(Flatten.java:98)
 	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:427)
 	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:47)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:110)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:141)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExpr(FlatPredList.java:245)
-	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:227)
-	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:133)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:229)
+	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:294 took 0.002 sec
+Testcase: animate_sets.tex:294 took 0,03 sec
 	Caused an ERROR
-Flatten does not yet handle: { [x: ?] | ( _ < _ )~ _ < _  @ (x, ( _ + _ )~(x, 1)) }~5   (Function={ [x: ?] | ( _ < _ )~ _ < _  @ (x, ( _ + _ )~(x, 1)) })
-java.lang.RuntimeException: Flatten does not yet handle: { [x: ?] | ( _ < _ )~ _ < _  @ (x, ( _ + _ )~(x, 1)) }~5   (Function={ [x: ?] | ( _ < _ )~ _ < _  @ (x, ( _ + _ )~(x, 1)) })
+Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@5f30f4ad   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@8b253e94)
+java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@5f30f4ad   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@8b253e94)
 	at net.sourceforge.czt.animation.eval.Flatten.notYet(Flatten.java:98)
 	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:427)
 	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:47)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:110)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:141)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExpr(FlatPredList.java:245)
-	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:227)
-	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:133)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:229)
+	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:296 took 0.002 sec
+Testcase: animate_sets.tex:296 took 0,02 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: Lambda ( _ + _ )~(x, 1) @ 
-	[x: ?] | ~0   (Function=Lambda ( _ + _ )~(x, 1) @ 
-	[x: ?] | )
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: Lambda ( _ + _ )~(x, 1) @ 
-	[x: ?] | ~0   (Function=Lambda ( _ + _ )~(x, 1) @ 
-	[x: ?] | )
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@7ceb6efa   (Function=net.sourceforge.czt.z.impl.LambdaExprImpl@103bd96c)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@7ceb6efa   (Function=net.sourceforge.czt.z.impl.LambdaExprImpl@103bd96c)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:297 took 0.001 sec
+Testcase: animate_sets.tex:297 took 0,02 sec
 	Caused an ERROR
-Flatten does not yet handle: Lambda ( _ + _ )~(x, 1) @ 
-	[x: ?] | ~(- _ )~1   (Function=Lambda ( _ + _ )~(x, 1) @ 
-	[x: ?] | )
-java.lang.RuntimeException: Flatten does not yet handle: Lambda ( _ + _ )~(x, 1) @ 
-	[x: ?] | ~(- _ )~1   (Function=Lambda ( _ + _ )~(x, 1) @ 
-	[x: ?] | )
+Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@10c22289   (Function=net.sourceforge.czt.z.impl.LambdaExprImpl@e01a622c)
+java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@10c22289   (Function=net.sourceforge.czt.z.impl.LambdaExprImpl@e01a622c)
 	at net.sourceforge.czt.animation.eval.Flatten.notYet(Flatten.java:98)
 	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:427)
 	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:47)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:110)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:141)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExpr(FlatPredList.java:245)
-	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:227)
-	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:133)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:229)
+	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:298 took 0.001 sec
+Testcase: animate_sets.tex:298 took 0,02 sec
 	Caused an ERROR
-Flatten does not yet handle: Lambda ( _ + _ )~(x, 1) @ 
-	[x: ?] | ( _ < _ )~ _ < _ ~5   (Function=Lambda ( _ + _ )~(x, 1) @ 
-	[x: ?] | ( _ < _ )~ _ < _ )
-java.lang.RuntimeException: Flatten does not yet handle: Lambda ( _ + _ )~(x, 1) @ 
-	[x: ?] | ( _ < _ )~ _ < _ ~5   (Function=Lambda ( _ + _ )~(x, 1) @ 
-	[x: ?] | ( _ < _ )~ _ < _ )
+Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@b3cdc6fa   (Function=net.sourceforge.czt.z.impl.LambdaExprImpl@c7ae6ea7)
+java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@b3cdc6fa   (Function=net.sourceforge.czt.z.impl.LambdaExprImpl@c7ae6ea7)
 	at net.sourceforge.czt.animation.eval.Flatten.notYet(Flatten.java:98)
 	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:427)
 	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:47)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:110)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:141)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExpr(FlatPredList.java:245)
-	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:227)
-	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:133)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:229)
+	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:300 took 0.002 sec
+Testcase: animate_sets.tex:300 took 0,02 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: { [x: ?] |  @ ((x, 1), x) }~(5, 1)   (Function={ [x: ?] |  @ ((x, 1), x) })
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: { [x: ?] |  @ ((x, 1), x) }~(5, 1)   (Function={ [x: ?] |  @ ((x, 1), x) })
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@b85e4d63   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@714c59c1)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@b85e4d63   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@714c59c1)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:301 took 0.001 sec
+Testcase: animate_sets.tex:301 took 0,02 sec
 	Caused an ERROR
-Flatten does not yet handle: { [x: ?] |  @ ((x, 1), x) }~(5, 2)   (Function={ [x: ?] |  @ ((x, 1), x) })
-java.lang.RuntimeException: Flatten does not yet handle: { [x: ?] |  @ ((x, 1), x) }~(5, 2)   (Function={ [x: ?] |  @ ((x, 1), x) })
+Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@e350e9e3   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@753b8e2)
+java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@e350e9e3   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@753b8e2)
 	at net.sourceforge.czt.animation.eval.Flatten.notYet(Flatten.java:98)
 	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:427)
 	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:47)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:110)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:141)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExpr(FlatPredList.java:245)
-	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:227)
-	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:133)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:229)
+	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:303 took 0.002 sec
+Testcase: animate_sets.tex:303 took 0,04 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: { [x: ?, y: ( _ .. _ )~(1, 5)] | ( _ < _ )~ _ < _  @ (x, ( _ + _ )~(x, y)) }~2   (Function={ [x: ?, y: ( _ .. _ )~(1, 5)] | ( _ < _ )~ _ < _  @ (x, ( _ + _ )~(x, y)) })
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: { [x: ?, y: ( _ .. _ )~(1, 5)] | ( _ < _ )~ _ < _  @ (x, ( _ + _ )~(x, y)) }~2   (Function={ [x: ?, y: ( _ .. _ )~(1, 5)] | ( _ < _ )~ _ < _  @ (x, ( _ + _ )~(x, y)) })
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@7b8c9b1c   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@9c939988)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@7b8c9b1c   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@9c939988)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:304 took 0.001 sec
+Testcase: animate_sets.tex:304 took 0,04 sec
 	Caused an ERROR
-Flatten does not yet handle: { [x: ?, y: ( _ .. _ )~(1, 5)] | ( _ < _ )~ _ < _  @ (x, ( _ + _ )~(x, y)) }~3   (Function={ [x: ?, y: ( _ .. _ )~(1, 5)] | ( _ < _ )~ _ < _  @ (x, ( _ + _ )~(x, y)) })
-java.lang.RuntimeException: Flatten does not yet handle: { [x: ?, y: ( _ .. _ )~(1, 5)] | ( _ < _ )~ _ < _  @ (x, ( _ + _ )~(x, y)) }~3   (Function={ [x: ?, y: ( _ .. _ )~(1, 5)] | ( _ < _ )~ _ < _  @ (x, ( _ + _ )~(x, y)) })
+Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@dabd1179   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@fa7c5fca)
+java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@dabd1179   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@fa7c5fca)
 	at net.sourceforge.czt.animation.eval.Flatten.notYet(Flatten.java:98)
 	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:427)
 	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:47)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:110)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:141)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExpr(FlatPredList.java:245)
-	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:227)
-	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:133)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:229)
+	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:305 took 0.002 sec
+Testcase: animate_sets.tex:305 took 0,03 sec
 	Caused an ERROR
-Flatten does not yet handle: { [x: ?, y: ( _ .. _ )~(1, 5)] | ( _ < _ )~ _ < _  @ (x, ( _ + _ )~(x, y)) }~1   (Function={ [x: ?, y: ( _ .. _ )~(1, 5)] | ( _ < _ )~ _ < _  @ (x, ( _ + _ )~(x, y)) })
-java.lang.RuntimeException: Flatten does not yet handle: { [x: ?, y: ( _ .. _ )~(1, 5)] | ( _ < _ )~ _ < _  @ (x, ( _ + _ )~(x, y)) }~1   (Function={ [x: ?, y: ( _ .. _ )~(1, 5)] | ( _ < _ )~ _ < _  @ (x, ( _ + _ )~(x, y)) })
+Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@39ec2ab9   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@5865260c)
+java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@39ec2ab9   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@5865260c)
 	at net.sourceforge.czt.animation.eval.Flatten.notYet(Flatten.java:98)
 	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:427)
 	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:47)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:110)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:141)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExpr(FlatPredList.java:245)
-	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:227)
-	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:133)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:229)
+	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:307 took 0.001 sec
+Testcase: animate_sets.tex:307 took 0,03 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: { [x: ?, y: ( _ .. _ )~(1, 5)] | ( _ < _ )~ _ < _  @ null }~2   (Function={ [x: ?, y: ( _ .. _ )~(1, 5)] | ( _ < _ )~ _ < _  @ null })
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: { [x: ?, y: ( _ .. _ )~(1, 5)] | ( _ < _ )~ _ < _  @ null }~2   (Function={ [x: ?, y: ( _ .. _ )~(1, 5)] | ( _ < _ )~ _ < _  @ null })
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@e23fb805   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@2404bb7f)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@e23fb805   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@2404bb7f)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:309 took 0.002 sec
+Testcase: animate_sets.tex:309 took 0,03 sec
 	Caused an ERROR
-Flatten does not yet handle: { [x, y: ?] |  = y( _ * _ )~(x, x) @ null }~(- _ )~1   (Function={ [x, y: ?] |  = y( _ * _ )~(x, x) @ null })
-java.lang.RuntimeException: Flatten does not yet handle: { [x, y: ?] |  = y( _ * _ )~(x, x) @ null }~(- _ )~1   (Function={ [x, y: ?] |  = y( _ * _ )~(x, x) @ null })
+Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@abb75453   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@4832cf22)
+java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@abb75453   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@4832cf22)
 	at net.sourceforge.czt.animation.eval.Flatten.notYet(Flatten.java:98)
 	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:427)
 	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:47)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:110)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:141)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExpr(FlatPredList.java:245)
-	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:227)
-	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:133)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:229)
+	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:311 took 0.001 sec
+Testcase: animate_sets.tex:311 took 0,02 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: { [x, y: ?] |  = y( _ * _ )~(x, x) @ null }~0   (Function={ [x, y: ?] |  = y( _ * _ )~(x, x) @ null })
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: { [x, y: ?] |  = y( _ * _ )~(x, x) @ null }~0   (Function={ [x, y: ?] |  = y( _ * _ )~(x, x) @ null })
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@8a41dcb   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@4398c7b)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@8a41dcb   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@4398c7b)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:312 took 0 sec
+Testcase: animate_sets.tex:312 took 0,03 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: { [x, y: ?] |  = y( _ * _ )~(x, x) @ null }~2   (Function={ [x, y: ?] |  = y( _ * _ )~(x, x) @ null })
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: { [x, y: ?] |  = y( _ * _ )~(x, x) @ null }~2   (Function={ [x, y: ?] |  = y( _ * _ )~(x, x) @ null })
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@f4ef6a05   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@396c97f)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@f4ef6a05   (Function=net.sourceforge.czt.z.impl.SetCompExprImpl@396c97f)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:316 took 0.001 sec
+Testcase: animate_sets.tex:316 took 0,01 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@275dfd6d   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@275dfd6d   ()
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:317 took 0.001 sec
+Testcase: animate_sets.tex:317 took 0,01 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@275dfd6d   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@275dfd6d   ()
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:318 took 0.001 sec
+Testcase: animate_sets.tex:318 took 0 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@4a97205a   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@4a97205a   ()
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:319 took 0.001 sec
+Testcase: animate_sets.tex:319 took 0,01 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c9cf7e5b   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c9cf7e5b   ()
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:320 took 0.002 sec
+Testcase: animate_sets.tex:320 took 0,02 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@275dfd6d   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@275dfd6d   ()
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:321 took 0.001 sec
+Testcase: animate_sets.tex:321 took 0,01 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@275dfd6d   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@275dfd6d   ()
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:322 took 0.004 sec
+Testcase: animate_sets.tex:322 took 0,02 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@4a97205a   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@4a97205a   ()
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:323 took 0.001 sec
+Testcase: animate_sets.tex:323 took 0,02 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c9cf7e5b   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c9cf7e5b   ()
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:324 took 0.001 sec
+Testcase: animate_sets.tex:324 took 0,01 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@4a97205a   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@4a97205a   ()
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:325 took 0.001 sec
+Testcase: animate_sets.tex:325 took 0,01 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c9cf7e5b   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c9cf7e5b   ()
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:326 took 0.001 sec
+Testcase: animate_sets.tex:326 took 0,02 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@4a97205a   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@4a97205a   ()
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:327 took 0.002 sec
+Testcase: animate_sets.tex:327 took 0,01 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c9cf7e5b   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c9cf7e5b   ()
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:328 took 0.001 sec
+Testcase: animate_sets.tex:328 took 0,02 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c9cf7e5b   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c9cf7e5b   ()
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:329 took 0.002 sec
+Testcase: animate_sets.tex:329 took 0,011 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c9cf7e5b   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c9cf7e5b   ()
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:330 took 0.001 sec
+Testcase: animate_sets.tex:330 took 0,02 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c9cf7e5b   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c9cf7e5b   ()
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:331 took 0.002 sec
+Testcase: animate_sets.tex:331 took 0,01 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@4a622d47   ()
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@4a622d47   ()
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@171891f2   ()
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@171891f2   ()
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:332 took 0 sec
+Testcase: animate_sets.tex:332 took 0,01 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@4a622d47   ()
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@4a622d47   ()
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@171891f2   ()
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@171891f2   ()
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:333 took 0.001 sec
+Testcase: animate_sets.tex:333 took 0,01 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@4a622d47   ()
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@4a622d47   ()
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@171891f2   ()
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@171891f2   ()
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:335 took 0.001 sec
+Testcase: animate_sets.tex:335 took 0,01 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({})   (generic)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({})   (generic)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@8c6f4ad2   (generic)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@8c6f4ad2   (generic)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:336 took 0.001 sec
+Testcase: animate_sets.tex:336 took 0,01 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({})   (generic)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({})   (generic)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@8c6f4ad2   (generic)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@8c6f4ad2   (generic)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:337 took 0.002 sec
+Testcase: animate_sets.tex:337 took 0,02 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({1})   (generic)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({1})   (generic)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@afa86dbf   (generic)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@afa86dbf   (generic)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:338 took 0.001 sec
+Testcase: animate_sets.tex:338 took 0,01 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({1, 2, 3})   (generic)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({1, 2, 3})   (generic)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@2ee0cbc0   (generic)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@2ee0cbc0   (generic)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:339 took 0.002 sec
+Testcase: animate_sets.tex:339 took 0,02 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({})   (generic)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({})   (generic)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@8c6f4ad2   (generic)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@8c6f4ad2   (generic)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:340 took 0.001 sec
+Testcase: animate_sets.tex:340 took 0,01 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({})   (generic)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({})   (generic)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@8c6f4ad2   (generic)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@8c6f4ad2   (generic)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:341 took 0.001 sec
+Testcase: animate_sets.tex:341 took 0,02 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({1})   (generic)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({1})   (generic)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@afa86dbf   (generic)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@afa86dbf   (generic)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:342 took 0 sec
+Testcase: animate_sets.tex:342 took 0,01 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({1, 2, 3})   (generic)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({1, 2, 3})   (generic)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@2ee0cbc0   (generic)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@2ee0cbc0   (generic)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:343 took 0.001 sec
+Testcase: animate_sets.tex:343 took 0,01 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({1})   (generic)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({1})   (generic)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@afa86dbf   (generic)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@afa86dbf   (generic)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:344 took 0.001 sec
+Testcase: animate_sets.tex:344 took 0,01 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({1, 2, 3})   (generic)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({1, 2, 3})   (generic)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@2ee0cbc0   (generic)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@2ee0cbc0   (generic)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:345 took 0.001 sec
+Testcase: animate_sets.tex:345 took 0,02 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({1})   (generic)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({1})   (generic)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@afa86dbf   (generic)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@afa86dbf   (generic)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:346 took 0.002 sec
+Testcase: animate_sets.tex:346 took 0,01 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({1, 2, 3})   (generic)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({1, 2, 3})   (generic)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@2ee0cbc0   (generic)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@2ee0cbc0   (generic)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:347 took 0.001 sec
+Testcase: animate_sets.tex:347 took 0,03 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({1, 2, 3})   (generic)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({1, 2, 3})   (generic)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@2ee0cbc0   (generic)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@2ee0cbc0   (generic)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:348 took 0.002 sec
+Testcase: animate_sets.tex:348 took 0,01 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({1, 2, 3})   (generic)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({1, 2, 3})   (generic)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@2ee0cbc0   (generic)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@2ee0cbc0   (generic)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:349 took 0.001 sec
+Testcase: animate_sets.tex:349 took 0,02 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({1, 2, 3})   (generic)
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: (? _ ?1?)~({1, 2, 3})   (generic)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@2ee0cbc0   (generic)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@2ee0cbc0   (generic)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:350 took 0.001 sec
+Testcase: animate_sets.tex:350 took 0,01 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@4a622d47   ()
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@4a622d47   ()
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@171891f2   ()
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@171891f2   ()
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:351 took 0.001 sec
+Testcase: animate_sets.tex:351 took 0,01 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@fa3d6f08   ()
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@fa3d6f08   ()
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@69dc7ec5   ()
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@69dc7ec5   ()
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:359 took 0.002 sec
+Testcase: animate_sets.tex:359 took 0,01 sec
+Testcase: animate_sets.tex:361 took 0,03 sec
+Testcase: animate_sets.tex:363 took 0,03 sec
+Testcase: animate_sets.tex:369 took 0,02 sec
+Testcase: animate_sets.tex:371 took 0,05 sec
+Testcase: animate_sets.tex:373 took 0,03 sec
+Testcase: animate_sets.tex:379 took 0,01 sec
+Testcase: animate_sets.tex:381 took 0,04 sec
+Testcase: animate_sets.tex:383 took 0,02 sec
+Testcase: animate_sets.tex:384 took 0,01 sec
+Testcase: animate_sets.tex:385 took 0,02 sec
+Testcase: animate_sets.tex:386 took 0,02 sec
+Testcase: animate_sets.tex:387 took 0,02 sec
+Testcase: animate_sets.tex:388 took 0,03 sec
+Testcase: animate_sets.tex:394 took 0,01 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate  = (# _ )~?0
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate  = (# _ )~?0
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp2542)
+junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp2542)
+	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:133)
 
-Testcase: animate_sets.tex:361 took 0.002 sec
-Testcase: animate_sets.tex:363 took 0.01 sec
-Testcase: animate_sets.tex:369 took 0.001 sec
-Testcase: animate_sets.tex:371 took 0.01 sec
-Testcase: animate_sets.tex:373 took 0.001 sec
-Testcase: animate_sets.tex:379 took 0.003 sec
-Testcase: animate_sets.tex:381 took 0.008 sec
-Testcase: animate_sets.tex:383 took 0.002 sec
-Testcase: animate_sets.tex:384 took 0.001 sec
-Testcase: animate_sets.tex:385 took 0.002 sec
-Testcase: animate_sets.tex:386 took 0.004 sec
-Testcase: animate_sets.tex:387 took 0.002 sec
-Testcase: animate_sets.tex:388 took 0.001 sec
-Testcase: animate_sets.tex:394 took 0.002 sec
+Testcase: animate_sets.tex:395 took 0,01 sec
 	FAILED
-Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp1555)
-junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp1555)
-	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:138)
+Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp2545,tmp2544)
+junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp2545,tmp2544)
+	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:133)
 
-Testcase: animate_sets.tex:395 took 0.001 sec
-	FAILED
-Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp1558,tmp1557)
-junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp1558,tmp1557)
-	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:138)
-
+Testcase: animate_sets.tex:398 took 0,031 sec
+Testcase: animate_sets.tex:399 took 0,04 sec
