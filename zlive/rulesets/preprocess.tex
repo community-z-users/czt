@@ -61,6 +61,24 @@ Declare the jokers used in these rules.
 
 \newcommand{\unfoldsTo}{\mathrel{\leadsto}}
 
+TODO 1: respect order of rules in this file.
+
+Note that the right hand side of these rules must use only 
+the primitive constraints of ZLive, because unfolding is done
+as a single bottom-up pass, so the terms on the right hand side
+are not unfolded again.
+
+First we try unfolding simple definitions.
+TODO: when the recursive call to = fails, continue with E.
+
+\begin{zedrule}{unfolddefn}
+  \proviso? ~ v==E \\
+  E = E2
+\derives
+   v = E2
+\end{zedrule}
+
+
 \section{Rules from the sets\_toolkit}
 
 \begin{zedrule}{emptyset}
@@ -83,5 +101,90 @@ TODO: $\power_1$ ?
    E1 \symdiff E2 = \{ x:E | \lnot (x \in E1 \iff x \in E2) \}
 \end{zedrule}
 
+TODO: it might be better to make $\subseteq$ into a primitive constraint?
+\begin{zedrule}{subseteq}
+   E1 \subseteq E2 \iff (\forall x:E1 @ x \in E2)
+\end{zedrule}
+
+\begin{zedrule}{subset}
+   E1 \subset E2 \iff (\forall x:E1 @ x \in E2) \land E1 \neq E2
+\end{zedrule}
+
+
+\section{Rules for Relations}
+
+\begin{zedrule}{first}
+   first~ E = E.1
+\end{zedrule}
+
+\begin{zedrule}{second}
+   second~ E = E.2
+\end{zedrule}
+
+\begin{zedrule}{maplet}
+   E1 \mapsto E2 = (E1,E2)
+\end{zedrule}
+
+\begin{zedrule}{domain}
+   \dom E = \{x:E @ x.1\}
+\end{zedrule}
+
+\begin{zedrule}{range}
+   \ran E = \{x:E @ x.2\}
+\end{zedrule}
+
+\begin{zedrule}{identity}
+   \id ~ E = \{x:E @ (x,x)\}
+\end{zedrule}
+
+\begin{zedrule}{relcomp}
+   E1 \semi E2 = \{r1:E1; r2:E2 | r1.2=r2.1 @ (r1.1,r2.2)\}
+\end{zedrule}
+
+\begin{zedrule}{funccomp}
+   E1 \semi E2 = \{r1:E1; r2:E2 | r2.2=r1.1 @ (r2.1,r1.2)\}
+\end{zedrule}
+
+\begin{zedrule}{domainrestriction}
+   E1 \dres E2 = \{r:E2 | r.1 \in E1\}
+\end{zedrule}
+
+\begin{zedrule}{rangerestriction}
+   E1 \rres E2 = \{r:E1 | r.2 \in E2\}
+\end{zedrule}
+
+\begin{zedrule}{domainsubtraction}
+   E1 \ndres E2 = \{r:E2 | r.1 \notin E1\}
+\end{zedrule}
+
+\begin{zedrule}{rangesubtraction}
+   E1 \nrres E2 = \{r:E1 | r.2 \notin E2\}
+\end{zedrule}
+
+\begin{zedrule}{inverse}
+   E1 \inv = \{r:E1 @ (r.2,r.1)\}
+\end{zedrule}
+
+\begin{zedrule}{relimage}
+   E1 \limg E2 \rimg = \{r:E1 | r.1 \in E2 @ r.2\}
+\end{zedrule}
+
+This is a bit complicated, because we have to expand $\dom$ out.
+\begin{zedrule}{reloverride}
+   E1 \oplus E2 = \{domE2==\{r2:E2@r2.1\}; r1:E1 | r1.1 \notin domE2 @ r1\} \cup E2
+\end{zedrule}
+
+TODO: transitive closure and reflexive transitive closure.
+
+
+\section{Rules for Functions}
+
+TODO: generalise this to work on more complex decllists.
+(We must calculate its characteristic tuple).
+\begin{zedrule}{lambda}
+   (\lambda v:E @ E2) = \{v:E @ (v,E2) \}
+\end{zedrule}
+
+TODO: implement function application (using $\mu$?)
 
 \end{document}
