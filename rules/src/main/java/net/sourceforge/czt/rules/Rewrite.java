@@ -49,7 +49,9 @@ import net.sourceforge.czt.zpatt.visitor.*;
  */
 public class Rewrite
   implements TermVisitor,
-             ExprVisitor
+             ExprVisitor,
+             PredVisitor,
+             ZSectVisitor
 {
   private SectionManager manager_;
 
@@ -74,16 +76,25 @@ public class Rewrite
     return VisitorUtils.visitTerm(this, term, true);
   }
 
-  /**
-   * This works fine for expressions, but what to do with
-   * other terms like, for example, predicates?
-   */
   public Object visitExpr(Expr expr)
   {
     Expr newExpr = (Expr) VisitorUtils.visitTerm(this, expr, true);
     return rewrite(manager_, section_, newExpr, rules_);
   }
 
+  public Object visitPred(Pred pred)
+  {
+    Pred newPred = (Pred) VisitorUtils.visitTerm(this, pred, true);
+    return rewrite(manager_, section_, newPred, rules_);
+  }
+
+  /**
+   * Returns a rewritten version of the given expression by trying to
+   * prove <code>expr = JokerExpr</code> using the given rules.  Note
+   * that this is not recursive, i.e. the children of the expression
+   * are not rewritten.  If the prover fails, the given expression
+   * itself is returned.
+   */
   public static Object rewrite(SectionManager manager,
                                String section,
                                Expr expr,
@@ -99,12 +110,36 @@ public class Rewrite
     if (prover.prove(predSequent)) {
       return ProverUtils.removeJoker(joker.boundTo());
     }
-    return ProverUtils.removeJoker(expr);
+    return expr;
   }
 
   /**
-   * Rewrites a term using a given rule.
-   * Assumes that the conclusion of the rule is an equality.
+   * Returns a rewritten version of the given predicate by trying to
+   * prove <code>pred \iff JokerPred</code> using the given rules.
+   * Note that this is not recursive, i.e. the children of the
+   * predicate are not rewritten.  If the prover fails, the given
+   * predicate itself is returned.
+   */
+  public static Object rewrite(SectionManager manager,
+                               String section,
+                               Pred pred,
+                               RuleTable rules)
+  {
+    Factory factory = new Factory(new ProverFactory());
+    ProverJokerPred joker = (ProverJokerPred) factory.createJokerPred("_");
+    PredSequent predSequent = factory.createPredSequent();
+    predSequent.setPred(factory.createIffPred(pred, joker));
+    SimpleProver prover =
+      new SimpleProver(rules, manager, section);
+    if (prover.prove(predSequent)) {
+      return ProverUtils.removeJoker(joker.boundTo());
+    }
+    return pred;
+  }
+
+  /**
+   * Recurses into a Spec or ZSect and rewrites predicates and
+   * expressions using the given rules.
    *
    * @throws NullPointerExcpetion if term is <code>null</code>.
    */
@@ -113,6 +148,22 @@ public class Rewrite
                              RuleTable rules)
   {
     Rewrite visitor = new Rewrite(manager, rules);
+    return (Term) term.accept(visitor);
+  }
+
+  /**
+   * Recurses into a term and rewrites predicates and
+   * expressions using the given rules.
+   *
+   * @throws NullPointerExcpetion if term is <code>null</code>.
+   */
+  public static Term rewrite(SectionManager manager,
+                             String section,
+                             Term term,
+                             RuleTable rules)
+  {
+    Rewrite visitor = new Rewrite(manager, rules);
+    visitor.section_ = section;
     return (Term) term.accept(visitor);
   }
 }
