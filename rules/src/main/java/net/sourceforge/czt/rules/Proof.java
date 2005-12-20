@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Mark Utting
+  Copyright (C) 2005 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -83,9 +83,26 @@ public class Proof
   }
 
   public boolean apply(Rule rule)
-    throws UnificationException
+    throws RuleApplicationException
   {
     PredSequent predSequent = (PredSequent) getOpenSubgoals().get(0);
     return SimpleProver.apply2(rule, predSequent);
+  }
+
+  public boolean apply(Rule[] rules, SectionManager manager, String section)
+    throws RuleApplicationException
+  {
+    int ruleId = 0;
+    while (! getOpenSubgoals().isEmpty()) {
+      Object goal = getOpenSubgoals().get(0);
+      if (goal instanceof ProverProviso) {
+        if (! check(manager, section)) return false;
+      }
+      else {
+	if (ruleId >= rules.length || ! apply(rules[ruleId])) return false;
+	ruleId++;
+      }
+    }
+    return true;
   }
 }
