@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Mark Utting
+  Copyright (C) 2005 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -153,11 +153,11 @@ public class Unifier
   }
 
   private void jokerBindingFailure(Object left, Object right,
-                                          Throwable cause)
+                                   Throwable cause)
   {
     if (provideCause_) {
       String message = "Term cannot be bound to joker.";
-      cause_ = new UnificationException(left, right, message, cause_);
+      cause_ = new UnificationException(left, right, message, cause);
     }
   }
 
