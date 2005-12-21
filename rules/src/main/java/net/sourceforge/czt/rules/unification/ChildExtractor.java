@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Mark Utting
+  Copyright (C) 2005 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -33,8 +33,10 @@ import net.sourceforge.czt.zpatt.visitor.*;
  * @author Petra Malik
  */
 public class ChildExtractor
-  implements AxParaVisitor<Object[]>,
+  implements ApplExprVisitor<Object[]>,
+             AxParaVisitor<Object[]>,
              HeadDeclListVisitor<Object[]>,
+             MemPredVisitor<Object[]>,
              RefExprVisitor<Object[]>,
              TermVisitor<Object[]>,
              ZDeclListVisitor<Object[]>,
@@ -44,17 +46,42 @@ public class ChildExtractor
   private final String DECLLIST = "DeclList";
 
   /**
+   * Doesn't return the Mixfix child.
+   */
+  public Object[] visitApplExpr(ApplExpr applExpr)
+  {
+    Object[] erg = { "ApplExpr",
+                     applExpr.getLeftExpr(),
+                     applExpr.getRightExpr()};
+    return erg;
+  }
+
+  /**
    * Doesn't return the Box child.
    */
   public Object[] visitAxPara(AxPara axPara)
+
   {
-    Object[] erg = { axPara.getDeclName(), axPara.getSchText() };
+    Object[] erg = { "AxPara",
+                     axPara.getDeclName(),
+                     axPara.getSchText() };
     return erg;
   }
 
   public Object[] visitHeadDeclList(HeadDeclList headDeclList)
   {
     return new Object[] { DECLLIST, headDeclList };
+  }
+
+  /**
+   * Doesn't return the Mixfix child.
+   */
+  public Object[] visitMemPred(MemPred memPred)
+  {
+    Object[] erg = { "MemPred",
+                     memPred.getLeftExpr(),
+                     memPred.getRightExpr()};
+    return erg;
   }
 
   /**
