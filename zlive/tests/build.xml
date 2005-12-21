@@ -20,11 +20,12 @@
       <include name="${typechecker.jar.file}"/>
       <include name="${rules.jar.file}"/>
       <include name="${java_cup.jar.file}"/>
+      <include name="${modeljunit.jar.file}"/>
+      <include name="${zlive.jar.file}"/>   <!-- gives access to rulesets -->
     </fileset>
     <pathelement path="${java.class.path}"/>
     <pathelement path="${ant.home}/lib/clover.jar"/>
     <pathelement location="${test.build.dir}"/>
-    <pathelement path="${czt.home}/${jar.dir}/zlive.jar"/>
   </path>
   
   <target name="init">

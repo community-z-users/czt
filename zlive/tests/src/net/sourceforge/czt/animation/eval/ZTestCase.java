@@ -27,6 +27,7 @@ import junit.framework.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.z.util.Factory;
+import net.sourceforge.czt.modeljunit.*;
 
 
 /**
@@ -39,7 +40,7 @@ import net.sourceforge.czt.z.util.Factory;
  * @author Mark Utting
  */
 public class ZTestCase
-  extends TestCase
+  extends ModelTestCase
 {
   protected static ZLive zlive_ = new ZLive();
   

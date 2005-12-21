@@ -50,6 +50,13 @@ public class FlatMultTest
   
   private FlatPred pred = new FlatMult(x,y,z);
 
+  public void testMBT()
+  {
+    FlatPredModel iut = new FlatPredModel(pred, new ZRefName[] {x,y,z},
+                                                new Expr[] {i2,i3,i6});
+    fsmRandomWalk(iut, 20);
+  }
+  
   public void testEmpty()
   {
     Assert.assertNull("should not return a mode", pred.chooseMode(empty));
