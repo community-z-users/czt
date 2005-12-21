@@ -36,14 +36,13 @@ import net.sourceforge.czt.zpatt.visitor.*;
  * <p>A rewrite engine for Z terms.</p>
  *
  * <p>Given a set or rules and a term (AST), this engine rewrites the
- * term using the rules.</p>
- *
- * Questions:
- * <ul>
- *   <li>First rewrite the children of a term and then try to rewrite
- *     the new term or the other way round?</li>
- *   <li>What happens if two rules can be applied?</li>
- * </ul>
+ * term using the rules.  It rewrites each level of the term in a
+ * top-down fashion.
+ * 
+ * It tries the rules in the order that they appear in the 
+ * specification and commits to the first matching rule.
+ * If there are no matching rules, the expression is left unchanged.
+ * An expression can be rewritten by several rules in succession.
  *
  * @author Petra Malik
  */
@@ -78,14 +77,14 @@ public class Rewrite
 
   public Object visitExpr(Expr expr)
   {
-    Expr newExpr = (Expr) VisitorUtils.visitTerm(this, expr, true);
-    return rewrite(manager_, section_, newExpr, rules_);
+    Expr newExpr = (Expr) rewrite(manager_, section_, expr, rules_);
+    return VisitorUtils.visitTerm(this, newExpr, true);
   }
 
   public Object visitPred(Pred pred)
   {
-    Pred newPred = (Pred) VisitorUtils.visitTerm(this, pred, true);
-    return rewrite(manager_, section_, newPred, rules_);
+    Pred newPred = (Pred) rewrite(manager_, section_, pred, rules_);
+    return VisitorUtils.visitTerm(this, newPred, true);
   }
 
   /**
