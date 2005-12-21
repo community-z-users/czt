@@ -37,12 +37,13 @@ import java.util.*;
  *    an abstraction of the current state of the underlying SUT.
  *    </li>
  *    
- *    <li>It must have some <code>@transition void Meth(boolean testing)</code>
+ *    <li>It must have some <code>@transition void Meth()</code>
  *    methods.  These define the transitions of the FSM.  Each of these
- *    transition methods may change the state of the FSM, and when
- *    <code>testing</code> is true they should test some feature of the 
+ *    transition methods may change the state of the FSM, and if the
+ *    <code>testing</code> argument of the most recent <code>init(testing)</code>
+ *    call was true, then these transitions should test some feature of the 
  *    underlying SUT and fail if errors are found.
- *    If <code>testing</code> is false, then we are just traversing the FSM
+ *    If the <code>testing</code> was false, then we are just traversing the FSM
  *    to determine its structure, so the SUT tests do not have to be run.
  *    
  *    <p>
@@ -57,20 +58,38 @@ import java.util.*;
  *    So a typical transition method with a guard will look like this:
  *    <pre>
  *      public boolean deleteGuard() { return ...; }
- *      public @transition void delete(boolean testing)
+ *      public @transition void delete()
  *      {
- *        if (testing) {
- *          ... perform the SUT test and check results ...
- *        }
+ *        ... perform the SUT test and check results ...
  *        fsmstate = ...new state of FSM...;
  *      }
  *    </pre>
+ *    NOTE: If the SUT test part is expensive, then you can save the init(testing)
+ *    flag and only do the SUT tests when that flag is true.
  *    </li>
  *  </ol>
- *  </p> 
+ *  </p>
+ *  
+ *  <p>TODO:
+ *    <ul>
+ *      <li> better reporting of failed tests.</li>
+ *      <li> record some coverage statistics and make them accessible via an API.</li>
+ *      <li> add more test generation algorithms.</li>
+ *    </ul>
+ *  </p>
  */
 public class ModelTestCase extends TestCase
 {
+  public ModelTestCase()
+  {
+      super();
+  }
+
+  public ModelTestCase( String testName )
+  {
+      super( testName );
+  }
+
   /** This class defines the finite state machine model of the system under test.
    *  It is null until fsmInit() has successfully loaded that class.
    */
@@ -129,7 +148,7 @@ public class ModelTestCase extends TestCase
   /** Loads the given class and finds its @transition methods.
    *  This method must be called before any fsm traversals are done.
    */
-  public static void fsmInit(/*@non_null@*/ Class fsm)
+  public static void fsmLoad(/*@non_null@*/ Class fsm)
   {
     if (fsmClass == fsm)
       return;  // done already
@@ -144,10 +163,9 @@ public class ModelTestCase extends TestCase
         fsmInit = m;
       else if (m.isAnnotationPresent(transition.class)) {
         Class[] paramTypes = m.getParameterTypes();
-        if (paramTypes.length != 1
-            || paramTypes[0] != boolean.class)
+        if (paramTypes.length != 0)
           fail("ERROR: @transition method "+fsmName+"."+m.getName()
-              +" must take one boolean parameter."); 
+              +" must have no parameters."); 
         if (m.getReturnType() != void.class)
           printWarning("ERROR: @transition method "
               +fsmName+"."+m.getName()+" should be void.");
@@ -258,11 +276,12 @@ public class ModelTestCase extends TestCase
       int length,
       /*@non_null@*/ Random rand)
   {
-    fsmInit(fsm.getClass());
+    fsmLoad(fsm.getClass());
     int nTrans = fsmTransitions.size();
     BitSet transitionsTested = new BitSet(nTrans);
     BitSet transitionsTried = new BitSet(nTrans);
     try {
+      fsmInit.invoke(fsm, new Object[] {Boolean.TRUE});
       // now traverse the FSM randomly
       int totalLength = 0;
       while (totalLength < length) {
@@ -276,10 +295,10 @@ public class ModelTestCase extends TestCase
           transitionsTried.set(next); // we have tried this one.
           Method m = fsmTransitions.get(next);
           if (fsmEnabled(fsm, next) > 0.0) {
-            m.invoke(fsm, new Object[] {true});
+            m.invoke(fsm, fsmNoArgs);
             transitionsTested.set(next);
             totalLength++;
-            printProgress("  TOOK TRANSITION "+next);
+            printProgress("  TOOK TRANSITION "+next+": "+fsmTransitions.get(next).getName());
             break;
           }
           else
@@ -288,7 +307,7 @@ public class ModelTestCase extends TestCase
         if (transitionsTried.cardinality() == nTrans) {
           // we must reset the FSM to its initial state.
           printProgress("RESET TO INITIAL STATE");
-          fsmInit.invoke(fsm, new Object[] {true});
+          fsmInit.invoke(fsm, new Object[] {Boolean.TRUE});
         }
       }
     } catch (Exception e) {
@@ -304,16 +323,5 @@ public class ModelTestCase extends TestCase
     double percent = 100.0 * (double) tested / (double) nTrans;
     printProgress("RandomWalk testing of "+fsmName+" covered "
         +tested+"/"+nTrans+" transitions ("+percent+"%).");
-  }
-
-  public static void test1()
-  {
-    // fsmRandomWalk(new FSM(), 6, new Random());
-    fsmRandomWalk(new FSM(), 10);
-  }
-  
-  public static void main(String args[])
-  {
-    test1();
   }
 }

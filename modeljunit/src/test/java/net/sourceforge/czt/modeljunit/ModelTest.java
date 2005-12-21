@@ -5,17 +5,17 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * Unit test for simple App.
+ * Unit test for ModelJUnit
  */
-public class AppTest 
-    extends TestCase
+public class ModelTest 
+    extends ModelTestCase
 {
     /**
      * Create the test case
      *
      * @param testName name of the test case
      */
-    public AppTest( String testName )
+    public ModelTest( String testName )
     {
         super( testName );
     }
@@ -25,14 +25,14 @@ public class AppTest
      */
     public static Test suite()
     {
-        return new TestSuite( AppTest.class );
+        return new TestSuite( ModelTest.class );
     }
 
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
+    public void testRandomWalk()
     {
-        assertTrue( true );
+      // fsmRandomWalk(new FSM(), 6, new Random());
+      fsmRandomWalk(new FSM(), 10);
+      // TODO: check coverage
     }
+
 }
