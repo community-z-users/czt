@@ -161,29 +161,9 @@ This is a bit complicated, because we have to expand $\dom$ out.
 TODO: transitive closure and reflexive transitive closure.
 
 
-\section{Rules for Functions}
-
-TODO: generalise this to work on more complex decllists.
-(We must calculate its characteristic tuple).
-\begin{zedrule}{lambda}
-   (\lambda v:E @ E2) = \{v:E @ (v,E2) \}
-\end{zedrule}
-
-\begin{zedrule}{funcappl}
-   E1 ~ E2 = (\mu r:E1 | r.1=E2 @ r.2)
-\end{zedrule}
-
-
-\section{Sequence Rules}
-
-\begin{zedrule}{literalsequence}
-   (\langle \listarg \rangle) ~ E = E
-\end{zedrule}
-
-
 \section{Unfolding Definitions}
 
-Last of all, we try unfolding simple definitions.
+Next, we try unfolding simple definitions.
 (This must at least come after the $\emptyset$ rule above,
 otherwise the definition of emptyset in the sets_toolkit
 gets used instead of our simpler unfold rule).
@@ -193,5 +173,32 @@ gets used instead of our simpler unfold rule).
 \derives
    v = E
 \end{zedrule}
+
+
+\section{Rules for Functions}
+
+TODO: generalise this to work on more complex decllists.
+(We must calculate its characteristic tuple).
+\begin{zedrule}{lambda}
+   (\lambda v:E @ E2) = \{v:E @ (v,E2) \}
+\end{zedrule}
+
+%% NOTE: We do not include this rule, because it causes TOO MANY
+%% applications to be unfolded.  Instead, ZLive does this
+%% rule as the last step of unfolding, after all its
+%% predefined operators have been translated into FlatPred
+%% constraints.
+%\begin{zedrule}{funcappl}
+%   E1 ~ E2 = (\mu r:E1 | r.1=E2 @ r.2)
+%\end{zedrule}
+
+
+\section{Sequence Rules}
+
+\begin{zedrule}{literalsequence}
+   (\langle \listarg \rangle) ~ E = E
+\end{zedrule}
+
+
 
 \end{document}
