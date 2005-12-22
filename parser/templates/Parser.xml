@@ -4132,10 +4132,12 @@ baseType ::=
            addLocAnn(RESULT, lsqleft, lsqright);
         :}
         |
-        LSQUARE:lsq RSQUARE /* schema type with empty signature */
+        LPAREN:lp baseType:bt RPAREN /* parenthesized type */
         {:
-           RESULT = factory_.createSchExpr();
-           addLocAnn(RESULT, lsqleft, lsqright);
+           RESULT = bt;
+           // It would be nice to add this, but multiple LocAnns are
+           // not allowed.
+           // addLocAnn(RESULT, lpleft, right);
         :}
         |
         JOKEREXPR:je /* joker type */
