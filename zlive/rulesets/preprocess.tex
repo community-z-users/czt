@@ -93,14 +93,41 @@ TODO: it might be better to make $\subseteq$ into a primitive constraint?
    E1 \subset E2 \iff (\forall x:E1 @ x \in E2) \land E1 \neq E2
 \end{zedrule}
 
+Some rules for easy cases of $\bigcup$.
+\begin{zedrule}{genunion1}
+   \bigcup \{E\} = E
+\end{zedrule}
+
+TODO: we really want a recursive rule here,
+but we need an ExprList joker for that.
+\begin{zedrule}{genunion2}
+   \bigcup \{E1,E2\} = E1 \cup E2
+\end{zedrule}
+\begin{zedrule}{genunion3}
+   \bigcup \{E1,E2,E3\} = E1 \cup E2 \cup E3
+\end{zedrule}
+
+A general rule for $\bigcup$.
+\begin{zedrule}{genunion}
+   \proviso E : \power \power E2
+\derives
+   \bigcup E = \{s:E; x:E2 | x \in s @ x\}
+\end{zedrule}
+
+\begin{zedrule}{genintersection}
+   \proviso E : \power \power E2
+\derives
+   \bigcap E = \{x:E2 | (\forall s:E @ x \in s) @ x\}
+\end{zedrule}
+
 
 \section{Rules for Relations}
 
-\begin{zedrule}{first}
+\begin{zedrule}{firstdef}
    first~ E = E.1
 \end{zedrule}
 
-\begin{zedrule}{second}
+\begin{zedrule}{seconddef}
    second~ E = E.2
 \end{zedrule}
 
@@ -192,6 +219,32 @@ TODO: generalise this to work on more complex decllists.
 %   E1 ~ E2 = (\mu r:E1 | r.1=E2 @ r.2)
 %\end{zedrule}
 
+TODO: add a new set representation, which handles all function types,
+plus relations and the various kinds of sequences.
+
+\begin{zedrule}{disjointdef}
+   \disjoint E \iff (\forall p,q:E | p \neq q @ p.2 \cap q.2 = \{\})
+\end{zedrule}
+
+\begin{zedrule}{partitiondef}
+   E1 \partition E2 \iff \disjoint E1 \land \bigcup(\ran E1) = E2
+\end{zedrule}
+
+
+\section{Integer Rules}
+
+These are mostly handled as primitives of ZLive.
+
+\begin{zedrule}{num1}
+   \num_1 = \{x:\num | x \neq 0\}
+\end{zedrule}
+
+TODO: add mod as a primitive?
+
+TODO: implement iter somehow (it is like transitive closure).
+
+TODO: implement min and max as primitives, but only over integer sets.
+
 
 \section{Sequence Rules}
 
@@ -199,6 +252,86 @@ TODO: generalise this to work on more complex decllists.
    (\langle \listarg \rangle) ~ E = E
 \end{zedrule}
 
+TODO: implement concatenation as a primitive, with several
+modes of evaluation (III is semi-det, IIO, OII and IOI are det
+and OOI is multi-det).
 
+TODO: this could be more efficient and have more modes if it
+was a primitive? (IO and OI are det).
+\begin{zedrule}{reverse}
+   rev ~ E = (\lambda n:\dom E @ E(\# E - n + 1))
+\end{zedrule}
+
+\begin{zedrule}{headdef}
+   head ~ E = E ~ 1
+\end{zedrule}
+
+\begin{zedrule}{lastdef}
+   last ~ E = E ~ (\# E)
+\end{zedrule}
+
+TODO: it might be possible and better to implement $s=tail~e$
+as $\langle x \rangle \cat s = e$, where $x$ is a fresh variable?
+Similarly for $front$.
+\begin{zedrule}{taildef}
+   tail ~ E = (\lambda n : 1 \upto (\# E - 1) @ E ~ (n+1))
+\end{zedrule}
+
+\begin{zedrule}{frontdef}
+   front ~ E = (\# E) \ndres E
+\end{zedrule}
+
+TODO: implement squash as a primitive?
+Because the definition in the standard is quite inefficient as
+an evaluation rule ($O(N^2)$ at least). 
+
+\begin{zedrule}{extractdef}
+   E1 \extract E2 = squash(E1 \dres E2)
+\end{zedrule}
+
+\begin{zedrule}{filterdef}
+   E1 \filter E2 = squash(E1 \rres E2)
+\end{zedrule}
+
+TODO: this might be better done using $\cat$
+(if we had much more sophisticated modes).
+\begin{zedrule}{prefixdef}
+   E1 \prefix E2 \iff E1 \subseteq E2
+\end{zedrule}
+
+\begin{zedrule}{suffixdef}
+   \proviso E1 : \power (\arithmos \cross E3)
+\derives
+   E1 \suffix E2 \iff (\exists s:\seq E3 @ s \cat E1 = E2)
+\end{zedrule}
+
+\begin{zedrule}{infixdef}
+   \proviso E1 : \power (\arithmos \cross E3)
+\derives
+   E1 \infix E2 \iff (\exists s,t:\seq E3 @ s \cat E1 \cat t = E2)
+\end{zedrule}
+
+For distributed concatenation, we have a recursive rule and
+two base cases, exactly like the axioms in the Z standard.
+However, the recursive axiom will not match all arguments,
+so we really need some additional recursive rules that use 
+head and tail (but these would only be valid when the sequence
+non-empty, hence the if-then-else). 
+\begin{zedrule}{dcat0}
+   \dcat \langle \rangle = \langle \rangle
+\end{zedrule}
+\begin{zedrule}{dcat1}
+   \dcat \langle E \rangle = E
+\end{zedrule}
+\begin{zedrule}{dcatdistributive}
+   \dcat (E1 \cat E2) = (\dcat E1) \cat (\dcat E2)
+\end{zedrule}
+
+% This rule causes infinite recursion, of course!
+%\begin{zedrule}{dcatheadtail}
+%   \dcat E = \IF E=\{\} 
+%             \THEN \{\} 
+%             \ELSE (\dcat (head~E)) \cat (\dcat (tail~E))
+%\end{zedrule}
 
 \end{document}
