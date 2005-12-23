@@ -1,42 +1,10 @@
 \documentclass{article}
-\usepackage{oz}
-\usepackage{alltt}
-\newenvironment{Rationale}{\\ \textbf{Rationale:}\it}{}
-\newcommand{\V}{\mathcal{V}}
+\usepackage{czt}
 
-% Simulate some standard Z commands
-\newenvironment{zsection}{\[}{\]}
-\newcommand{\SECTION}{\textbf{section}~}
-\newcommand{\parents}{\mathrel{\textbf{parents}}}
-\newcommand{\relation}{\mathrel{\textbf{relation}}}
-\newcommand{\function}{\mathrel{\textbf{function}}}
-\newcommand{\generic}{\mathrel{\textbf{generic}}}
-\newcommand{\leftassoc}{\mathrel{\textbf{leftassoc}}}
-\newcommand{\rightassoc}{\mathrel{\textbf{rightassoc}}}
-
-
-% Rule syntax: \begin{zedrule}{Name} Ant1 \\ Ant2 \derive Concl \end{zedrule}
-\newenvironment{zedrule}[1]{\par\textbf{rule }#1\vspace{-1ex}\infrule}{\endinfrule}
-\newcommand{\derives}{\derive{}}
-
-\newenvironment{zedjoker}[1]{\par$\bigstar$ #1\ }{}
-
-\newcommand{\Context}{\Gamma}
-\newcommand{\notfreein}{\mathbin{\backslash}}
-\newcommand{\HasType}{\mathbin{:}} % \small\rlap{$\circ$}{\raisebox{1ex}{$\circ$}}}}
 \parindent 0pt
 \parskip 1ex plus 3pt
 
-%% Define some extra macros for the Z standard.
-%% These will eventually be defined in a czt.sty file.
-\newcommand{\negate}{\mathop{-}}
-\newcommand{\arithmos}{{A\!\!\!\!A}}   %% TODO: get a proper symbol
-\newcommand{\substitute}{\mathrel{\curvearrowleft}}  % U+21B6
-\newcommand{\proviso}{\raisebox{0.5ex}{${}_{\blacktriangleright}\ $}}%%or\star
-%       %%Zprechar \proviso U+22C6    % small star, or
-%       %%Zprechar \proviso U+25B8    % small solid triangle  |> )
-
-%% Syntax within provisos
+%% Syntax within provisos (TODO: move these into zpattern_toolkit).
 \newcommand{\schemamerge}{\mathbin{\textbf{schemamerge}}}
 
 
@@ -45,8 +13,14 @@
 \begin{document}
 \maketitle
 
-This document defines some simple rules for unfolding expressions prior to
-evaluating them in ZLive.
+This document defines some simple rules for unfolding expressions 
+and predicates prior to evaluating them in ZLive.  The rules are
+applied repeatedly to each expression/predicate until no more rules
+match, then the subexpressions are transformed.  So it is a top-down
+traversal of the syntax tree.  We must be careful not to write rules
+that create infinite loops of rewritings (eg. generating larger and
+larger terms).
+
 
 \begin{zsection}
   \SECTION ZLivePreprocess \parents zpattern\_toolkit, standard\_toolkit
@@ -54,10 +28,10 @@ evaluating them in ZLive.
 
 Declare the jokers used in these rules.
 
-\begin{zedjoker}{DeclList} D, D1, D2, D3 \end{zedjoker} \\
-\begin{zedjoker}{Pred} P, P1, P2, P3 \end{zedjoker} \\
-\begin{zedjoker}{Expr} E, E1, E2, E3 \end{zedjoker} \\
-\begin{zedjoker}{Name} v, v1, v2, v3 \end{zedjoker} \\
+\begin{zedjoker}{DeclList} D, D1, D2, D3 \end{zedjoker}
+\begin{zedjoker}{Pred} P, P1, P2, P3 \end{zedjoker}
+\begin{zedjoker}{Expr} E, E1, E2, E3 \end{zedjoker}
+\begin{zedjoker}{Name} v, v1, v2, v3 \end{zedjoker}
 
 \newcommand{\unfoldsTo}{\mathrel{\leadsto}}
 
@@ -108,12 +82,17 @@ but we need an ExprList joker for that.
 \end{zedrule}
 
 A general rule for $\bigcup$.
+The right-hand side will be evaluable after we have implemented
+some reordering optimizations. 
 \begin{zedrule}{genunion}
    \proviso E : \power \power E2
 \derives
    \bigcup E = \{s:E; x:E2 | x \in s @ x\}
 \end{zedrule}
 
+This right-hand side will not be evaluable in general,
+unless the base type $E2$ is small.  We might have to
+implement $\bigcap$ as a primitive?
 \begin{zedrule}{genintersection}
    \proviso E : \power \power E2
 \derives
@@ -144,15 +123,15 @@ A general rule for $\bigcup$.
 \end{zedrule}
 
 \begin{zedrule}{identity}
-   \id ~ E = \{x:E @ (x,x)\}
+   \id E = \{x:E @ (x,x)\}
 \end{zedrule}
 
 \begin{zedrule}{relcomp}
-   E1 \semi E2 = \{r1:E1; r2:E2 | r1.2=r2.1 @ (r1.1,r2.2)\}
+   E1 \comp E2 = \{r1:E1; r2:E2 | r1.2=r2.1 @ (r1.1,r2.2)\}
 \end{zedrule}
 
 \begin{zedrule}{funccomp}
-   E1 \semi E2 = \{r1:E1; r2:E2 | r2.2=r1.1 @ (r2.1,r1.2)\}
+   E1 \circ E2 = \{r1:E1; r2:E2 | r2.2=r1.1 @ (r2.1,r1.2)\}
 \end{zedrule}
 
 \begin{zedrule}{domainrestriction}
@@ -165,7 +144,7 @@ A general rule for $\bigcup$.
 
 \begin{zedrule}{domainsubtraction}
    E1 \ndres E2 = \{r:E2 | r.1 \notin E1\}
-\end{zedrule}\mapsto
+\end{zedrule}
 
 \begin{zedrule}{rangesubtraction}
    E1 \nrres E2 = \{r:E1 | r.2 \notin E2\}
@@ -192,7 +171,7 @@ TODO: transitive closure and reflexive transitive closure.
 
 Next, we try unfolding simple definitions.
 (This must at least come after the $\emptyset$ rule above,
-otherwise the definition of emptyset in the sets_toolkit
+otherwise the definition of emptyset in the sets\_toolkit
 gets used instead of our simpler unfold rule).
 
 \begin{zedrule}{unfolddefn}
@@ -316,7 +295,9 @@ two base cases, exactly like the axioms in the Z standard.
 However, the recursive axiom will not match all arguments,
 so we really need some additional recursive rules that use 
 head and tail (but these would only be valid when the sequence
-non-empty, hence the if-then-else). 
+is non-empty, hence we need an if-then-else or something, but this
+creates an infinite rewrite loop...).  So we probably have to
+implement $\dcat$ as a ZLive primitive. 
 \begin{zedrule}{dcat0}
    \dcat \langle \rangle = \langle \rangle
 \end{zedrule}
