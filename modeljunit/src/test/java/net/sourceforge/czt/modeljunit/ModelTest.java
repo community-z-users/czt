@@ -1,7 +1,6 @@
 package net.sourceforge.czt.modeljunit;
 
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
@@ -33,6 +32,7 @@ public class ModelTest
       // fsmRandomWalk(new FSM(), 6, new Random());
       fsmRandomWalk(new FSM(), 10);
       // TODO: check coverage
+      System.out.println("Covered "+fsmGetNumTransitionsCovered()
+    		  +"/"+fsmGetNumTransitions()+" transitions.");
     }
-
 }
