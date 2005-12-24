@@ -1,3 +1,22 @@
+/**
+Copyright (C) 2006 Mark Utting
+This file is part of the czt project.
+
+The czt project contains free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+The czt project is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with czt; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+
 package net.sourceforge.czt.modeljunit;
 
 import junit.framework.TestCase;
@@ -9,9 +28,9 @@ import java.util.*;
  *  <p>
  *  TODO: separate out the MBT traversal algorithms, the model manager and 
  *  the coverage metrics into separate classes and make the methods 
- *  non-static. In fact, the coverage metric objects should be listeners
- *  attached to the model manager.  We may be able to use the
- *  www.jdsl.org graph libraries to store and traverse the FSM.
+ *  non-static.  Add an interface that FSMs must implement.
+ *  We may be able to use the www.jdsl.org graph libraries to store
+ *  and traverse the FSM.
  *  </p>
  *  <p>
  *  This class provides several methods that use model-based testing techniques
@@ -44,28 +63,28 @@ import java.util.*;
  *    an abstraction of the current state of the underlying SUT.
  *    </li>
  *    
- *    <li>It must have some <code>@transition void Meth()</code>
- *    methods.  These define the transitions of the FSM.  Each of these
- *    transition methods may change the state of the FSM, and if the
+ *    <li>It must have some <code>@Action void Meth()</code>
+ *    methods.  These define all the transitions of the FSM.  Each of
+ *    these Action methods may change the state of the FSM, and if the
  *    <code>testing</code> argument of the most recent <code>init(testing)</code>
- *    call was true, then these transitions should test some feature of the 
+ *    call was true, then these action methods should test some feature of the 
  *    underlying SUT and fail if errors are found.
  *    If the <code>testing</code> was false, then we are just traversing the FSM
  *    to determine its structure, so the SUT tests do not have to be run.
  *    
  *    <p>
- *    Some transitions are not valid in all states, so you can add a
- *    <em>guard method</em> to say when a transition is enabled.
- *    The guard method must have the same name as its transition method
+ *    Some actions are not valid in all states, so you can add a
+ *    <em>guard method</em> to say when that action is enabled.
+ *    The guard method must have the same name as its action method
  *    but with "Guard" added at the end.  It must have no parameters and
  *    must return a boolean or float value (the latter are used for
  *    probabilistic testing). 
- *    The transition method will only be called when its guard is true
+ *    The action method will only be called when its guard is true
  *    (or greater than 0.0F in the case of probabilistic guards). 
- *    So a typical transition method with a guard will look like this:
+ *    So a typical action method with a guard will look like this:
  *    <pre>
  *      public boolean deleteGuard() { return ...; }
- *      public @transition void delete()
+ *      public @action void delete()
  *      {
  *        ... perform the SUT test and check results ...
  *        fsmstate = ...new state of FSM...;
@@ -108,43 +127,46 @@ public class ModelTestCase extends TestCase
   /** The implementation under test (null means none yet). */
   //@invariant fsmModel != null ==> fsmClass != null;
   private static Object fsmModel = null;
-  
+
   /** The init method of fsmClass. */
   //@invariant fsmInit == null <==> fsmClass == null;
   private static Method fsmInit = null;
   
-  /** All the @transition methods of fsmClass. */
-  //@invariant fsmTransitions == null <==> fsmClass == null;
-  private static ArrayList<Method> fsmTransitions = null;
+  /** All the @Action methods of fsmClass. */
+  //@invariant fsmActions == null <==> fsmClass == null;
+  private static ArrayList<Method> fsmActions = null;
 
   /** All the guards of fsmClass. 
-   *  These are in exactly the same order as fmsTransitions.
-   *  A null entry means that that transition methods has no guard. */
+   *  These are in exactly the same order as fsmActions.
+   *  A null entry means that that Action method has no guard. */
   //@invariant fsmGuards == null <==> fsmClass == null;
   private static ArrayList<Method> fsmGuards = null;
+  
+  /** Coverage listeners. */
+  private static Set<CoverageMetric> fsmCoverage = new HashSet<CoverageMetric>();
 
-  /** Statistics about the coverage of transitions. */
-  //@invariant fsmTransitionCoverage == null <==> fsmModel == null;
-  private static int[] fsmTransitionCoverage = null;
+  /** The current state of the implementation under test. */
+  //@invariant fsmState == null <==> fsmModel == null;
+  private static Object fsmState = null;
   
   /** Current test sequence */
   //@invariant fsmSequence == null <==> fsmModel == null;
-  private static ArrayList<Integer> fsm;
+  private static ArrayList<Transition> fsmSequence;
 
   /** An empty array of objects. */
   private static final Object[] fsmNoArgs = new Object[] {};
   
-  /** Looks up a transition by name.
-   * @param name The name of a transition.
-   * @return     The index within fsmTransitions/fsmGuards, else -1.
+  /** Looks up an Action by name and returns its number.
+   * @param name The name of an Action.
+   * @return     The index within fsmActions/fsmGuards, else -1.
    */
   //@requires fsmClass != null;
-  //@ensures -1 <= \result && \result < fsmTransitions.size();
-  //@ensures \result >= 0 ==> name.equals(fsmTransitions.get(i).getName());
-  protected static int fsmGetTransition(String name)
+  //@ensures -1 <= \result && \result < fsmActions.size();
+  //@ensures \result >= 0 ==> name.equals(fsmActions.get(i).getName());
+  protected static int fsmGetAction(String name)
   {
-    for (int i=0; i < fsmTransitions.size(); i++) {
-      if (name.equals(fsmTransitions.get(i).getName()))
+    for (int i=0; i < fsmActions.size(); i++) {
+      if (name.equals(fsmActions.get(i).getName()))
         return i;
     }
     return -1;
@@ -168,52 +190,74 @@ public class ModelTestCase extends TestCase
 	  return fsmModel;
   }
   
-  /** Returns the name of the given transition. */
+  /** Returns the current state of the implementation under test. */
+  protected static Object fsmGetState()
+  {
+    return fsmState;
+  }
+  
+  /** Returns the name of the given Action. */
   //@requires fsmGetModelClass() != null;
-  protected static Object fsmGetTransitionName(int index)
+  protected static Object fsmGetActionName(int index)
   {
-	  return fsmTransitions.get(index).getName();
+	  return fsmActions.get(index).getName();
   }
 
-  /** The total number of transitions. */
+  /** The total number of Actions. */
   //@requires fsmGetModel() != null;
-  protected static int fsmGetNumTransitions()
+  protected static int fsmGetNumActions()
   {
-	  return fsmTransitions.size();
-  }
-
-  /** The number of transitions covered since last fsmResetStatistics. */
-  //@requires fsmGetModel() != null;
-  protected static int fsmGetNumTransitionsCovered()
-  {
-	  int covered = 0;
-	  for (int i=fsmGetNumTransitions()-1; i>=0; i--)
-		  if (fsmTransitionCoverage[i] > 0)
-			  covered++;
-	  return covered;
+	  return fsmActions.size();
   }
 
   /** Print a warning, during analysis of the FSM class. 
-   *  By default, this prints warnings to System.err.
+   *  By default, this prints warnings to System.out.
    *  Subclasses can override this if they to do something different.
    */
   public static void printWarning(String msg)
   {
-    System.err.println(msg);
+    System.out.println(msg);
   }
 
   /** Print progress messages, during FSM-based testing.
    *  This prints progress messages during the FSM analysis stages
    *  and during the actual testing.
-   *  By default, this prints messages to System.err.
+   *  By default, this prints messages to System.out.
    *  Subclasses can override this if they to do something different.
    */
   public static void printProgress(String msg)
   {
-    System.err.println(msg);
+    System.out.println(msg);
   }
-  
-  /** Loads the given class and finds its @transition methods.
+
+  /** Reset all the coverage statistics.
+   *  This can be called at any time, provided that an FSM
+   *  model class has been loaded (that is, fsmGetClass() != null).
+   */
+  public static void fsmResetCoverage()
+  {
+   // TODO: call reset on all the coverage listeners?
+  }
+
+  /** Add a coverage listener. */
+  public static void addCoverage(CoverageMetric cover)
+  {
+    fsmCoverage.add(cover);
+  }
+
+  /** Remove a coverage listener. */
+  public static boolean removeCoverage(CoverageMetric cover)
+  {
+    return fsmCoverage.remove(cover);
+  }
+
+  /** Iterate over all the coverage listeners */
+  public Iterator<CoverageMetric> coverageIterator()
+  {
+    return fsmCoverage.iterator();
+  }
+
+  /** Loads the given class and finds its @Action methods.
    *  This method must be called before any fsm traversals are done.
    */
   protected static void fsmLoad(/*@non_null@*/ Class fsm)
@@ -223,41 +267,41 @@ public class ModelTestCase extends TestCase
     fsmClass = null;
     fsmName = fsm.getName();
     fsmInit = null;
-    fsmTransitions = new ArrayList<Method>();
+    fsmActions = new ArrayList<Method>();
     for (Method m : fsm.getMethods()) {
       if (m.getName().equals("init")
           && m.getParameterTypes().length == 1
           && m.getParameterTypes()[0].equals(boolean.class))
         fsmInit = m;
-      else if (m.isAnnotationPresent(transition.class)) {
+      else if (m.isAnnotationPresent(Action.class)) {
         Class[] paramTypes = m.getParameterTypes();
         if (paramTypes.length != 0)
-          fail("ERROR: @transition method "+fsmName+"."+m.getName()
+          fail("ERROR: @Action method "+fsmName+"."+m.getName()
               +" must have no parameters."); 
         if (m.getReturnType() != void.class)
-          printWarning("ERROR: @transition method "
+          printWarning("ERROR: @Action method "
               +fsmName+"."+m.getName()+" should be void.");
         printProgress("Adding method "+fsmName+"."+m.getName()
             +" to test suite");
-        fsmTransitions.add(m);
+        fsmActions.add(m);
       }
     }
-    int nTransitions = fsmTransitions.size();
-    if (nTransitions == 0) {
-      fail("ERROR: FSM model "+fsmName+" has no methods marked with @transition.");
+    int nActions = fsmActions.size();
+    if (nActions == 0) {
+      fail("ERROR: FSM model "+fsmName+" has no methods marked with @Action.");
     }
-    // Now look for guards of the transition methods.
-    fsmGuards = new ArrayList<Method>(nTransitions);
-    for (Method m : fsmTransitions)
+    // Now look for guards of the Action methods.
+    fsmGuards = new ArrayList<Method>(nActions);
+    for (Method m : fsmActions)
       fsmGuards.add(null);  // all guards are null by default
     for (Method m : fsm.getMethods()) {
       if (m.getName().endsWith("Guard")
           && m.getParameterTypes().length == 0) {
         String trName = m.getName().substring(0, m.getName().length()-5);
-        int trPos = fsmGetTransition(trName);
+        int trPos = fsmGetAction(trName);
         if (trPos < 0)
           printWarning("Warning: "+fsmName+"."+m.getName()
-              +" guard does not match any transition method.");
+              +" guard does not match any Action method.");
         else if (m.getReturnType() != boolean.class
               && m.getReturnType() != float.class) {
           printWarning("Warning: guard method "+fsmName+"."+m.getName()
@@ -265,8 +309,7 @@ public class ModelTestCase extends TestCase
         }
         else {
           fsmGuards.add(trPos, m);
-          printProgress("Adding guard "+fsmName+"."+m.getName()
-              +" to test suite");
+          printProgress("Adding guard "+fsmName+"."+m.getName());
         }
       }
     }
@@ -279,39 +322,33 @@ public class ModelTestCase extends TestCase
     fsmClass = fsm;
   }
 
-  /** Reset all the coverage statistics.
-   *  This can be called at any time, provided that an FSM
-   *  model class has been loaded (that is, fsmGetClass() != null).
-   */
-  public static void fsmResetCoverage()
-  {
-	 fsmTransitionCoverage = new int[fsmTransitions.size()];
-  }
-
   /** Reinitialise the FSM to its initial state.
    *  This also does the fsmLoad of fsm.class if it has not
    *  already been done.
    */
   public static void fsmInit(Object fsm, boolean testing)
   {
-	  try {
-	    fsmLoad(fsm.getClass());
-	    fsmModel = fsm;
-	    fsmInit.invoke(fsm, new Object[] {testing});
-	  }
-	  catch (Exception ex) {
-		  fail("Error calling FSM init method: " + ex.getMessage());
-	  }
+    try {
+      fsmLoad(fsm.getClass());
+      fsmModel = fsm;
+      fsmInit.invoke(fsm, new Object[]{testing});
+      if (fsmSequence == null)
+        fsmSequence = new ArrayList<Transition>();
+      fsmSequence.clear();
+      fsmState = fsm.toString();
+    } catch (Exception ex) {
+      fail("Error calling FSM init method: " + ex.getMessage());
+    }
   }
 
-  /** Is transition number 'index' enabled?
-   *  Returns 0.0 if transition number 'index' is disabled,
+  /** Is Action number 'index' enabled?
+   *  Returns 0.0 if Action number 'index' is disabled,
    *  or a positive number if it is enabled.
    *  Missing guard methods return 1.0F, while boolean guard methods
    *  return 1.0F when true and 0.0F when false.
    * @param  fsm    The instance of the FSM that is being tested.
-   * @param  index  Index into the fsmTransitions array.
-   * @return        The `enabledness' of this transition.
+   * @param  index  Index into the fsmActions array.
+   * @return        The `enabledness' of this Action.
    */
   protected static float fsmEnabled(int index)
   {
@@ -334,50 +371,57 @@ public class ModelTestCase extends TestCase
     return ((Float)result).floatValue();
   }
   
-  /** Take the given transition.
-   *  Returns true if the transition was taken, false if it was disabled.
+  /** Try to take the given Action from the current state.
+   *  Returns true if the Action was taken, false if it was disabled.
    * @param  index  Index into the fsmTransitions array.
    * @return        True if taken, false if it is disabled.
    */
-  protected static boolean fsmTransition(int index)
+  protected static boolean fsmDoAction(int index)
   {
 	  if (fsmEnabled(index) <= 0.0)
 		  return false;
 	  
-	  Method m = fsmTransitions.get(index);
+	  Method m = fsmActions.get(index);
 	  try {
 		  m.invoke(fsmModel, fsmNoArgs);
 	  }
-	  catch (Exception ex) {
-		  fail("Error calling "+fsmGetModelName()+"."
-				  +m.getName()+"(): "+ex.getMessage());
+	  catch (InvocationTargetException ex) {
+        String msg = "Error calling "+fsmGetModelName()+"."+m.getName()+"()"
+          + " in state "+fsmState;
+		throw new RuntimeException(msg, ex.getCause());
+        // fail("Error calling "+fsmGetModelName()+"."
+		//		  +m.getName()+"(): "+ex.getCause());
 	  }
-	  fsmTransitionCoverage[index]++;
+      catch (IllegalAccessException ex) {
+        fail("Error in model.  Non-public actions? "+ex);
+      }
+      Object newState = fsmModel.toString();
+      Transition done = new Transition(fsmState, m.getName(), newState);
+      fsmSequence.add(done);
+      fsmState = newState;
+	  for (CoverageMetric cm : fsmCoverage)
+        cm.doneTransition(done);
 	  return true;
   }
 
-  /** Take any random enabled transition.
-   *  Returns true if the transition was taken, false if it was disabled.
+  /** Take any randomly-chosen Action that is enabled.
+   *  Returns the number of the Action taken, -1 if all are disabled.
    * @param rand  The Random number generator that controls the choice.
-   * @return      The transition taken, or -1 if none are enabled.
+   * @return      The Action taken, or -1 if none are enabled.
    */
-  protected static int fsmRandomTransition(Random rand)
+  protected static int fsmDoRandomAction(Random rand)
   {
-	int nTrans = fsmGetNumTransitions();
+	int nTrans = fsmGetNumActions();
 	BitSet tried = new BitSet(nTrans);
-	printProgress("STARTING SEARCH FOR TRANSITION");
 	int index = rand.nextInt(nTrans);
 	while (tried.cardinality() < nTrans) {
 	  while (tried.get(index))
 		index = rand.nextInt(nTrans);
-	  printProgress("  Trying "+index);
 	  tried.set(index); // we have tried this one.
-	  if (fsmTransition(index)) {
-		printProgress("  TOOK TRANSITION "+index+": "+fsmGetTransitionName(index));
+	  if (fsmDoAction(index)) {
 		return index;
 	  }
-	  printProgress("  (disabled) "+index);
-	  Method m = fsmTransitions.get(index);
+	  Method m = fsmActions.get(index);
 	}
 	return -1;
   }
@@ -393,7 +437,7 @@ public class ModelTestCase extends TestCase
   /** Does a random walk through a finite state machine.
    *  It tests exactly 'length' transitions.
    *  If it has not finished testing, but gets into a state
-   *  where there are no transitions enabled, then it will
+   *  where there are no Actions enabled, then it will
    *  use the <code>init()</code> method of the FSM to start
    *  from the initial state again.
    *  <p>
@@ -416,16 +460,11 @@ public class ModelTestCase extends TestCase
 	int totalLength = 0;
     fsmInit(fsm, true);
     while (totalLength < length) {
-      int taken = fsmRandomTransition(rand);
+      int taken = fsmDoRandomAction(rand);
       if (taken == -1)
     	fsmInit(fsm, true);
       else
     	totalLength++;
     }
-    int tested = fsmGetNumTransitionsCovered();
-    int nTrans = fsmGetNumTransitions();
-    double percent = 100.0 * (double) tested / (double) nTrans;
-    printProgress("RandomWalk testing of "+fsmName+" covered "
-        +tested+"/"+nTrans+" transitions ("+percent+"%).");
   }
 }

@@ -8,6 +8,6 @@ import java.lang.annotation.*;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD,ElementType.METHOD,ElementType.LOCAL_VARIABLE,ElementType.PARAMETER})
-public @interface transition
+public @interface Action
 {
 }

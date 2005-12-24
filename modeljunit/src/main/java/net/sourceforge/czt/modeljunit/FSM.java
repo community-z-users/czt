@@ -19,7 +19,7 @@ public class FSM
   }
 
   public boolean transition0Guard() { return state == 2; }
-  public @transition void transition0()
+  public @Action void transition0()
   {
     if (testing) {
       System.out.println("transition0: " + state + " --> 0");
@@ -28,7 +28,7 @@ public class FSM
   }
 
   public boolean transition1Guard() { return state == 2; }
-  public @transition void transition1()
+  public @Action void transition1()
   {
     if (testing) {
       System.out.println("transition1: " + state + " --> 1");
@@ -37,7 +37,7 @@ public class FSM
   }
   
   public boolean transition2Guard() { return state == 0; }
-  public @transition void transition2()
+  public @Action void transition2()
   {
     if (testing) {
       System.out.println("transition2: " + state + " --> 2");
@@ -46,7 +46,7 @@ public class FSM
   }
 
   public boolean transitionNoneGuard() { return state != 1; }
-  public @transition void transitionNone()
+  public @Action void transitionNone()
   {
     if (testing) {
       // leave state the same.

@@ -27,12 +27,18 @@ public class ModelTest
         return new TestSuite( ModelTest.class );
     }
 
-    public void testRandomWalk()
+    public static void testRandomWalk()
     {
+      FSM iut = new FSM();
+      fsmLoad(iut.getClass());
+      CoverageMetric actions = new ActionCoverage(fsmGetNumActions());
+      addCoverage(actions);
       // fsmRandomWalk(new FSM(), 6, new Random());
       fsmRandomWalk(new FSM(), 10);
-      // TODO: check coverage
-      System.out.println("Covered "+fsmGetNumTransitionsCovered()
-    		  +"/"+fsmGetNumTransitions()+" transitions.");
+      System.out.println("Action coverage: "+actions);
+      System.out.print("History: ");
+      for (Float f : actions.getHistory())
+        System.out.print(f*100.0F+", ");
+      System.out.println();
     }
 }
