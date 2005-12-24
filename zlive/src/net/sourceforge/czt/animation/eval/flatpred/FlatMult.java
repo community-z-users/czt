@@ -88,9 +88,12 @@ public class FlatMult extends FlatPred
         else {
           BigInteger z = ((NumExpr)c).getValue();
           BigInteger x = z.divide(y);
-          Expr a = factory_.createNumExpr(x);
-          evalMode_.getEnvir().setValue(args.get(0),a);
-          result = true;
+          // we must check that this does indeed satisfy x*y=z.
+          if (x.multiply(y).equals(z)) {
+            Expr a = factory_.createNumExpr(x);
+            evalMode_.getEnvir().setValue(args.get(0),a);
+            result = true;
+          }
         }
       }
       else if (evalMode_.isInput(0) && evalMode_.isInput(2)) {
@@ -103,9 +106,11 @@ public class FlatMult extends FlatPred
         else {
           BigInteger z = ((NumExpr)c).getValue();
           BigInteger y = z.divide(x);
-          Expr b = factory_.createNumExpr(y);
-          evalMode_.getEnvir().setValue(args.get(1),b);
-          result = true;
+          if (x.multiply(y).equals(z)) {
+            Expr b = factory_.createNumExpr(y);
+            evalMode_.getEnvir().setValue(args.get(1),b);
+            result = true;
+          }
         }
       }
     }

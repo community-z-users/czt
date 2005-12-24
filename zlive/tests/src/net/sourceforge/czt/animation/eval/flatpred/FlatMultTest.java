@@ -1,5 +1,5 @@
 /**
-Copyright (C) 2004 Mark Utting
+Copyright (C) 2005 Mark Utting
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -19,23 +19,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.*;
-import java.math.*;
-
-import junit.framework.*;
-
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.impl.ZFactoryImpl;
-import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.parser.z.ParseUtils;
-import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.util.ParseException;
-import net.sourceforge.czt.animation.eval.*;
-import net.sourceforge.czt.animation.eval.flatpred.*;
+import junit.framework.Assert;
+import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.ZTestCase;
+import net.sourceforge.czt.modeljunit.ActionCoverage;
+import net.sourceforge.czt.modeljunit.CoverageMetric;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.ZRefName;
 
 
 /**
@@ -53,8 +43,17 @@ public class FlatMultTest
   public void testMBT()
   {
     FlatPredModel iut = new FlatPredModel(pred, new ZRefName[] {x,y,z},
-                                                new Expr[] {i2,i3,i6});
-    fsmRandomWalk(iut, 20);
+                                                new Expr[] {i3,i4,i12},
+                                                new Expr[] {in5,i5,i11});
+    fsmLoad(iut.getClass());
+    CoverageMetric actions = new ActionCoverage(fsmGetNumActions());
+    addCoverage(actions);
+    fsmRandomWalk(iut, 400);
+    System.out.println("Action Coverage: "+actions);
+    System.out.print("History: ");
+    for (Float f : actions.getHistory())
+      System.out.print(f*100.0F+", ");
+    System.out.println();
   }
   
   public void testEmpty()
