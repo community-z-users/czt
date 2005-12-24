@@ -1,0 +1,35 @@
+Wed? 21 Dec 2005: 1/2 day
+Designed and implemented FlatPredModel with 5 states and 6 actions.  
+Found one error, but it was in the test harness part: 
+I added something to env_, but forgot to save the result.
+
+Sat 24 Dec 2005: 1 hour
+[Plus about 4 hours on the ModelJUnit classes, implementing Action coverage]
+Split the chooseModeIII into lots of modes.
+Another adaptor error: forgot to use new env after evaluation.
+      env_ = pred_.getEnvir();
+It takes about 50 random steps to reach 100% Action coverage.
+
+Sat 24 Dec 2005: 2 more hours (about 1/2 hour writing model, rest debugging).
+Split the startEval into 1 good-value and 3 bad-value transitions.
+Another adaptor error: quite difficult to find (about 1 hour+).
+     startEval was assigning the output env to be the current one,
+     but in fact, the FlatPred was still using the original input env.
+     So this caused the *next* startEval operation to fail one of its
+     checks.
+
+Then an IUT error!: with inputs x=2, z=5, there is no solution for y,
+but FlatMult returns true (with y=3 I guess).
+
+
+After that was fixed, I got an x=0 exception, which was expected,
+but not by the test adaptor/model.  After trying some other bad
+combinations, it became apparent that bad values can have solutions
+when non-III modes are used!  The model needs to be parameterized
+in some different way!
+
+Model now has 13 Actions and it takes a bit over 200 steps
+to reach 100% coverage.
+
+
+
