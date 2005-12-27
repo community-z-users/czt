@@ -38,7 +38,7 @@ import java.util.logging.Logger;
  * do not have to be repeatedly parsed.  This can give major performance
  * improvements!
  * </p>
- * <p>  
+ * <p>
  * However, a fundamental problem is that things can become
  * inconsistent if you add a section XYZ, then add other sections that
  * use it, then reload a new version of XYZ (the other sections will
@@ -51,24 +51,24 @@ import java.util.logging.Logger;
  * leave this consistency issue to the clients!  That is, clients
  * should clone or reset the section manager to avoid adding
  * the same object twice.  If you do try to add the same key twice,
- * the section manager will simply give a warning, 
+ * the section manager will simply give a warning,
  * "Attempt to add duplicate key:...".  In the future, this will become
  * a fatal error.
  * We are still experimenting with the best approach here.
  * </p>
  * <p>
- * There are currently three ways of getting/reusing a section 
- * manager object. 
+ * There are currently three ways of getting/reusing a section
+ * manager object.
  * <ol>
- *   <li> <code>new SectionManager()</code> 
+ *   <li> <code>new SectionManager()</code>
  *      -- which starts with an empty cache, so gives you the overhead
  *         of parsing toolkits again.</li>
  *   <li> <code>oldSectMan.reset()</code> -- currently this clears the
  *        whole cache, but it SHOULD leave the toolkit entries there.</li>
- *   <li> <code>oldSectMan.clone()</code> -- depending upon WHEN you do 
+ *   <li> <code>oldSectMan.clone()</code> -- depending upon WHEN you do
  *        this clone, you can decide just how much you want to leave in
  *        the cache.</li>
- * </ol> 
+ * </ol>
  * To avoid reparsing toolkits repeatedly (which makes things slow!),
  * you should avoid creating new section managers and use the reset or
  * clone methods instead.
@@ -85,12 +85,12 @@ public class SectionManager
    * For each (key, object) pair, the object must be an instance of
    * key.getType().
    */
-  private Map<Key,Object> content_ = new HashMap();
+  private Map<Key,Object> content_ = new HashMap<Key,Object>();
 
   /**
    * The default commands.
    */
-  private Map<Class,Command> commands_ = new HashMap();
+  private Map<Class,Command> commands_ = new HashMap<Class,Command>();
 
   /**
    * Properties are used to store persistant global settings
@@ -128,11 +128,10 @@ public class SectionManager
     return result;
   }
 
-  private void copyMap(Map from, Map to)
+  private static <E,F> void copyMap(Map<E,F> from, Map<E,F> to)
   {
     to.clear();
-    for (Iterator<Map.Entry> i = from.entrySet().iterator(); i.hasNext(); ) {
-      Map.Entry entry = i.next();
+    for (Map.Entry<E,F> entry : from.entrySet()) {
       to.put(entry.getKey(), entry.getValue());
     }
   }
@@ -222,7 +221,7 @@ public class SectionManager
         }
         final String message = "Cannot instanciate command " +
           commandClassName + "; given class is not a command";
-        getLogger().warning(message);      
+        getLogger().warning(message);
       }
     }
     catch (ExceptionInInitializerError e) {
