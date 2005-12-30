@@ -647,6 +647,7 @@ NAME =   {NOT_LB}*
         {
           yybegin(COMMENT_STATE);
         }
+
   {TEXT}
         {
           return new Symbol(LatexSym.TEXT, yyline, yycolumn, yytext());

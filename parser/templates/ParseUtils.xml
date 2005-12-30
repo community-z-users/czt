@@ -59,7 +59,8 @@ public class <class/>
     }
     else if (source.getMarkup() == Markup.UNICODE) {
       UnicodeParser parser =
-        new UnicodeParser(source.getReader(), source.toString(), sectInfo, properties);
+        new UnicodeParser(source.getReader(), source.toString(),
+                           sectInfo, properties);
       return parser.parse();
     }
     else {

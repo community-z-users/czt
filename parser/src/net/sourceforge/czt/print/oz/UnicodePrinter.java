@@ -44,7 +44,7 @@ import net.sourceforge.czt.oz.util.OzString;
  */
 public class UnicodePrinter
   extends net.sourceforge.czt.print.z.UnicodePrinter
-{ 
+{
   /**
    * Create a new PrintWriter, without automatic line flushing.
    *
@@ -73,7 +73,7 @@ public class UnicodePrinter
   public void printCLASS()
   {
     print(ZString.SCH + ZString.SPACE + "class" + ZString.SPACE);
-  } 
+  }
 
   /**
    * Prints the GENCLASS token.
@@ -108,6 +108,14 @@ public class UnicodePrinter
   }
 
   /**
+   * Prints the SDEF token.
+   */
+  public void printSDEF()
+  {
+    print(ZString.SPACE + OzString.SDEF + ZString.SPACE);
+  }
+
+  /**
    * Prints a token from Symbol.
    */
   public void printSymbol(Symbol s)
@@ -115,25 +123,28 @@ public class UnicodePrinter
     if (s.left == OzPrintVisitor.OZ) {
       switch(s.sym) {
       case(Sym.CLASS):
-	printCLASS();
-	break;
+        printCLASS();
+        break;
       case(Sym.GENCLASS):
-	printGENCLASS();
-	break;
+        printGENCLASS();
+        break;
       case(Sym.STATE):
-	printSTATE();
-	break;
+        printSTATE();
+        break;
       case(Sym.INIT):
-	printINIT();
-	break;
+        printINIT();
+        break;
       case(Sym.OPSCH):
-	printOPSCH();
-	break;
+        printOPSCH();
+        break;
+      case(Sym.SDEF):
+        printSDEF();
+        break;
       default :
-	Map fieldMap = DebugUtils.getFieldMap(Sym.class);
-	throw new CztException("Unexpected token (" + s.sym + ", " +
-			       fieldMap.get(s.sym) + ", " +
-			       s.value + ")");
+        Map fieldMap = DebugUtils.getFieldMap(Sym.class);
+        throw new CztException("Unexpected token (" + s.sym + ", " +
+                               fieldMap.get(s.sym) + ", " +
+                               s.value + ")");
       }
     }
     else {

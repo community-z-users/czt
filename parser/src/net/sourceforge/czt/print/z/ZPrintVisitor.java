@@ -987,7 +987,7 @@ public class ZPrintVisitor
   {
     printTermList(zDeclList.getDecl(), ZString.SEMICOLON);
     return null;
-  } 
+  }
 
   public Object visitSectTypeEnvAnn(SectTypeEnvAnn ann)
   {

@@ -58,8 +58,6 @@ import net.sourceforge.czt.parser.util.*;
  */
 class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
 {
-  private boolean debug_ = false;
-
   //indicates whether the previous token is a named box token
   //i.e. SCH, GENSCH, CLASS, OPSCH
   private boolean inBoxName = false;
@@ -82,7 +80,6 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     else if (result.sym == Sym.DECORWORD &amp;&amp; !inBoxName) {
       //if this is a colon decl, convert the DECORWORD to a DECLWORD
       if (isColonDecl()) {
-        debug("converting " + get_info(result) + " to DECLWORD");
         result.sym = Sym.DECLWORD;
       }
 <add:oz>
@@ -123,7 +120,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
 </add:oz>
              result.sym == Sym.GENSCH) {
         inBoxName = true;
-    }   
+    } 
     return result;
   }
 
@@ -134,18 +131,15 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     boolean doLookahead = true;
     LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();
     Symbol currsym = dumb_.pop();
-    debug("popping: " + get_info(currsym));
     tokens.addLast(currsym);
 
     while (currsym.sym == Sym.COMMA &amp;&amp; doLookahead) {
       currsym = dumb_.pop();
-      debug("popping: " + get_info(currsym));
       tokens.addLast(currsym);
       doLookahead = false;
       while(currsym.sym == Sym.DECORWORD || currsym.sym == Sym.ARG ||
             currsym.sym == Sym.LISTARG || currsym.sym == Sym.DECLWORD) {
         currsym = dumb_.pop();
-        debug("popping: " + currsym.value);
         tokens.addLast(currsym);
         doLookahead = true;
       }
@@ -163,21 +157,19 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     for (int i = tokens.size() - 1; i >= 0; i--) {
       Symbol symbol = tokens.get(i);
       if (symbol.sym == Sym.DECORWORD  &amp;&amp; isColonDecl) {
-        debug("converting result: " + symbol.value + " to DECLWORD");
         symbol.sym = Sym.DECLWORD;
       }
       else {
-        debug("pushing back " + get_info(symbol));
       }
       dumb_.push(symbol);
     }
   }
 
-  private void debug(String msg)
+  private Object get_sym(Symbol symbol)
   {
-    if (debug_) {
-      System.err.println(msg);
-    }
+    Map symbolMap = DebugUtils.getFieldMap(Sym.class);
+    Object sym = symbolMap.get(new Integer(symbol.sym));
+    return sym;
   }
 
   private Object get_info(Symbol symbol)

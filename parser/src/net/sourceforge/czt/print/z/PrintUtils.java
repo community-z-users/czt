@@ -58,9 +58,9 @@ public final class PrintUtils
    * writing trees that do not contain context information.
    */
   public static void print(Term term,
-			   Writer out,
-			   SectionInfo sectInfo,
-			   Markup markup)
+                           Writer out,
+                           SectionInfo sectInfo,
+                           Markup markup)
   {
     if (markup == Markup.LATEX) {
       printLatex(term, out, sectInfo);
@@ -75,10 +75,10 @@ public final class PrintUtils
   }
 
   public static void print(Term term,
-			   Writer out,
-			   SectionInfo sectInfo,
-			   String sectName,
-			   Markup markup)
+                           Writer out,
+                           SectionInfo sectInfo,
+                           String sectName,
+                           Markup markup)
   {
     if (markup == Markup.LATEX) {
       printLatex(term, out, sectInfo, sectName);

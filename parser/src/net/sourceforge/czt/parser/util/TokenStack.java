@@ -52,7 +52,8 @@ public class TokenStack
     throws Exception
   {
     if (stack_.empty()) {
-      return scanner_.next_token();
+      Symbol result = scanner_.next_token();
+      return result;
     }
     return (Symbol) stack_.pop();
   }

@@ -38,6 +38,9 @@ import net.sourceforge.czt.z.util.ZChar;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.session.*;
+<add:oz>
+import net.sourceforge.czt.oz.util.OzString;
+</add:oz>
 
 action code
 {:
@@ -465,9 +468,7 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    LBIND, RBIND, LDATA, RDATA, ZED, AX, SCH, GENAX, GENSCH,
                    END, NL, SECTION, PARENTS, WHERE,
                    INSTROKE, OUTSTROKE, NEXTSTROKE,
-<add:oz>
-                   CLASS, GENCLASS, OPSCH, INIT, STATE,
-</add:oz>
+                   CLASS, GENCLASS, OPSCH, INIT, STATE, SDEF,
                    END_MARKUP, TOKENSEQ;
 terminal ZSect     SECTHEAD;
 terminal Integer   NUMERAL, NUMSTROKE;
@@ -480,6 +481,9 @@ terminal Decorword DECORWORD;
 non terminal              input, narrWordList, sectionHeader,
                           sectionList, paragraphList;
 non terminal String       markup, para, wordmarkup;
+<add:oz>
+non terminal LatexCommand innerPara;
+</add:oz>
 non terminal LatexCommand token, tokenSeq, paren, special, decorword;
 
    input ::= narrWordList:narr sectionList:s
@@ -572,7 +576,6 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                 result += end("schema");
                 parser.write(result);
              :}
-<add:oz>
              |
              CLASS decorword:w tokenSeq:s END
              {:
@@ -589,7 +592,6 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                 result += end("class");
                 parser.write(result);
              :}
-</add:oz>
              ;
 
   markup ::=
@@ -637,6 +639,11 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
              {: RESULT = concate(w1, w2); :}
              |
              {: RESULT = null; :}
+<add:oz>
+             |
+             tokenSeq:w1 innerPara:ip
+             {: RESULT = concate(w1, ip); :}
+</add:oz>
              ;
 
    token ::= decorword:s
@@ -681,6 +688,14 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                 RESULT =
                   new LatexCommand("\n\\where\n", ZString.VL, true, true);
              :}
+<add:oz>
+             |
+             SDEF
+             {:
+                RESULT =
+                  new LatexCommand("\\sdef", OzString.SDEF, true, true);
+             :}             
+</add:oz>
              ;
 
    decorword ::= DECORWORD:s
@@ -757,4 +772,88 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                   new LatexCommand("\\\\\n", ZString.NL, true, true);
              :}
              ;
+
+<add:oz>
+  innerPara ::=
+             AX tokenSeq:s END
+             {:
+                String latex = begin("axdef") + "\n";
+                if (s != null) latex += s.getName();
+                latex += end("axdef");
+                String unicode = ZString.AX;
+                if (s != null) unicode += s.getUnicode();
+                unicode += ZString.END;
+                RESULT = new LatexCommand(latex, unicode, false, false);
+             :}
+             |
+             SCH decorword:w tokenSeq:s END
+             {:
+                String latex = begin("schema") + "{" + w.getName() + "}\n";
+                if (s != null) latex += s.getName();
+                latex += end("schema");
+                String unicode = ZString.SCH + ZString.SPACE + w.getName();
+                if (s != null) unicode += s.getUnicode();
+                unicode += ZString.END;
+                RESULT = new LatexCommand(latex, unicode, false, false);
+             :}
+             |
+             GENAX tokenSeq:s END
+             {:
+                String latex = begin("gendef");
+                if (s != null) latex += s.getName();
+                latex += end("gendef");
+                String unicode = ZString.GENAX;
+                if (s != null) unicode += s.getUnicode();
+                unicode += ZString.END;
+                RESULT = new LatexCommand(latex, unicode, false, false);
+             :}
+             |
+             GENSCH decorword:w tokenSeq:s END
+             {:
+                String latex = begin("schema") + "{" + w.getName() + "}";
+                if (s != null) latex += s.getName();
+                latex += end("schema");
+                String unicode = ZString.SCHCHAR + ZString.GENCHAR + w.getName();
+                if (s != null) unicode += s.getUnicode();
+                unicode += ZString.END;
+                RESULT = new LatexCommand(latex, unicode, false, false);
+             :}
+             |
+             STATE tokenSeq:s END
+             {:
+                String latex = begin("state");
+                if (s != null) latex += s.getName();
+                latex += end("state");
+                String unicode = ZString.SCH + ZString.ZEDCHAR;
+                if (s != null) unicode += s.getUnicode();
+                unicode += ZString.END;
+                RESULT = new LatexCommand(latex, unicode, false, false);
+             :}
+             |
+             INIT tokenSeq:s END
+             {:
+                String latex = begin("init");
+                if (s != null) latex += s.getName();
+                latex += end("init");
+                String unicode = ZString.SCH + ZString.SPACE +
+                                 OzString.INITWORD + ZString.SPACE;
+                if (s != null) unicode += s.getUnicode();
+                unicode += ZString.END;
+                RESULT = new LatexCommand(latex, unicode, false, false);
+             :}
+             |
+             OPSCH decorword:w tokenSeq:s END
+             {:
+                String latex = begin("op") + "{" + w.getName() + "}";
+                if (s != null) latex += s.getName();
+                latex += end("op");
+                String unicode =
+                  ZString.SCH + "op" + ZString.SPACE + w.getName();
+                if (s != null) unicode += s.getUnicode();
+                unicode += ZString.END;
+                RESULT = new LatexCommand(latex, unicode, false, false);
+             :}
+             ;
+</add:oz>
+ 
 </parser>

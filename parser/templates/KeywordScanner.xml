@@ -75,33 +75,19 @@ public class KeywordScanner
   implements Scanner
 {
   private SeparateDelimiter scanner_;
-  private Map keywords_ = createKeywordMap();
+  private Map &lt;String, Integer&gt; keywords_ = createKeywordMap();
   private Stack&lt;Symbol&gt; tokens_ = new Stack&lt;Symbol&gt;();
+
+public static long time = 0;
 
   public KeywordScanner(ContextFreeScanner scanner, Properties properties)
   {
     scanner_ = new SeparateDelimiter(scanner, properties);
   }
 
-  private Map createKeywordMap()
+  private Map&lt;String, Integer&gt; createKeywordMap()
   {
-    Map result = new HashMap();
-    // Z Standard 7.4.2 (Alphabetic Keywords)
-    result.put(ZString.ELSE, new Integer(Sym.ELSE));
-    result.put(ZString.FALSE, new Integer(Sym.FALSE));
-    result.put(ZString.FUNCTION, new Integer(Sym.FUNCTION));
-    result.put(ZString.GENERIC, new Integer(Sym.GENERIC));
-    result.put(ZString.IF, new Integer(Sym.IF));
-    result.put(ZString.LEFTASSOC, new Integer(Sym.LEFTASSOC));
-    result.put(ZString.LET, new Integer(Sym.LET));
-    result.put(ZString.POWER, new Integer(Sym.POWER));
-    result.put(ZString.PARENTS, new Integer(Sym.PARENTS));
-    result.put(ZString.PRE, new Integer(Sym.ZPRE));
-    result.put(ZString.RELATION, new Integer(Sym.RELATION));
-    result.put(ZString.RIGHTASSOC, new Integer(Sym.RIGHTASSOC));
-    result.put(ZString.SECTION, new Integer(Sym.SECTION));
-    result.put(ZString.THEN, new Integer(Sym.THEN));
-    result.put(ZString.TRUE, new Integer(Sym.TRUE));
+    Map&lt;String, Integer&gt; result = new HashMap&lt;String, Integer&gt;();
 
     // Z Standard 7.4.3 (Symbolic Keywords)
     result.put(ZString.COLON, new Integer(Sym.COLON));
@@ -135,6 +121,24 @@ public class KeywordScanner
     result.put(ZString.THETA, new Integer(Sym.THETA));
     result.put(ZString.ZCOMP, new Integer(Sym.ZCOMP));
     result.put(ZString.ZPIPE, new Integer(Sym.ZPIPE));
+
+    // Z Standard 7.4.2 (Alphabetic Keywords)
+    result.put(ZString.ELSE, new Integer(Sym.ELSE));
+    result.put(ZString.FALSE, new Integer(Sym.FALSE));
+    result.put(ZString.FUNCTION, new Integer(Sym.FUNCTION));
+    result.put(ZString.GENERIC, new Integer(Sym.GENERIC));
+    result.put(ZString.IF, new Integer(Sym.IF));
+    result.put(ZString.LEFTASSOC, new Integer(Sym.LEFTASSOC));
+    result.put(ZString.LET, new Integer(Sym.LET));
+    result.put(ZString.PARENTS, new Integer(Sym.PARENTS));
+    result.put(ZString.POWER, new Integer(Sym.POWER));
+    result.put(ZString.PRE, new Integer(Sym.ZPRE));
+    result.put(ZString.RELATION, new Integer(Sym.RELATION));
+    result.put(ZString.RIGHTASSOC, new Integer(Sym.RIGHTASSOC));
+    result.put(ZString.SECTION, new Integer(Sym.SECTION));
+    result.put(ZString.THEN, new Integer(Sym.THEN));
+    result.put(ZString.TRUE, new Integer(Sym.TRUE));
+
 <add:zpatt>
     result.put(ZString.VDASH, new Integer(Sym.VDASH));
     result.put(ZPattString.PROVISO, new Integer(Sym.PROVISO));

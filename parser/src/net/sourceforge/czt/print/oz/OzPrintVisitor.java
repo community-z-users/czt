@@ -20,6 +20,7 @@
 package net.sourceforge.czt.print.oz;
 
 import java.util.List;
+import java.util.Iterator;
 
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.oz.util.OzString;
@@ -83,49 +84,64 @@ public class OzPrintVisitor
     if (classPara.getInheritedClass() instanceof ZExprList) {
       ZExprList inheritedClass = (ZExprList) classPara.getInheritedClass();
       for (Expr expr : inheritedClass) {
-	visit(expr);
-	zPrint(net.sourceforge.czt.print.z.Sym.NL);
+        visit(expr);
+        zPrint(net.sourceforge.czt.print.z.Sym.NL);
       }
     }
     else {
-      throw new 
-	UnsupportedOperationException("Non-ZExprList as Inherited Class");
+      throw new
+        UnsupportedOperationException("Non-ZExprList as Inherited Class");
     }
 
     //visit each inner paragraph, putting a NL between them
-    for (Para para : classPara.getLocalDef()) {      
+    for (Para para : classPara.getLocalDef()) {
       if (para instanceof AxPara) {
-	AxPara axPara = (AxPara) para;
-	visitInnerAxPara(axPara);
+        AxPara axPara = (AxPara) para;
+        visitInnerAxPara(axPara);
       }
-      visit(para);
-      zPrint(net.sourceforge.czt.print.z.Sym.NL);
-    }    
+      else if (para instanceof FreePara) {
+        FreePara freePara = (FreePara) para;
+        visitInnerFreePara(freePara);
+      }
+      else {
+        visit(para);
+        zPrint(net.sourceforge.czt.print.z.Sym.NL);
+      }
+    }
 
     //visit the state and inital predicate
     visit(classPara.getState());
     visit(classPara.getInitialState());
 
     //visit each operation, putting a NL between them
-    for (Operation operation : classPara.getOperation()) {
+    for (Iterator<Operation> iter = classPara.getOperation().iterator();
+         iter.hasNext(); ) {
+      Operation operation = iter.next();
       visit(operation);
-      zPrint(net.sourceforge.czt.print.z.Sym.NL);
-    } 
-
+      if (iter.hasNext()) {
+        zPrint(net.sourceforge.czt.print.z.Sym.NL);
+      }
+    }
     zPrint(net.sourceforge.czt.print.z.Sym.END);
     return null;
   }
 
   protected Object visitInnerAxPara(AxPara axPara)
   {
-    System.err.println("ASDSA");
     Box box = axPara.getBox();
     if (Box.OmitBox.equals(box)) {
       visit(axPara.getSchText());
     }
     else {
-      visit(axPara);
+      assert false : "Inner AxPara with OmitBox";
     }
+    return null;
+  }
+
+  protected Object visitInnerFreePara(FreePara freePara)
+  {
+    printTermList(freePara.getFreetype(), ZString.ANDALSO);
+    zPrint(Sym.NL);
     return null;
   }
 
@@ -146,18 +162,17 @@ public class OzPrintVisitor
     if (initialState != null) {
       boolean isBox = Box.SchBox.equals(initialState.getBox());
       if (isBox) {
-	ozPrint(Sym.INIT);
-	zPrint(net.sourceforge.czt.print.z.Sym.NL);
-	visit(initialState.getPred());
-	zPrint(net.sourceforge.czt.print.z.Sym.NL);
-	zPrint(net.sourceforge.czt.print.z.Sym.END);	
+        ozPrint(Sym.INIT);
+        zPrint(net.sourceforge.czt.print.z.Sym.NL);
+        visit(initialState.getPred());
+        zPrint(net.sourceforge.czt.print.z.Sym.END);
       }
       else {
-	printKeyword(OzString.INITWORD + ZString.SPACE + 
-		     OzString.SDEF + ZString.SPACE);
-	zPrint(net.sourceforge.czt.print.z.Sym.LSQUARE);
-	visit(initialState.getPred());
-	zPrint(net.sourceforge.czt.print.z.Sym.RSQUARE);
+        printKeyword(OzString.INITWORD + ZString.SPACE +
+                     OzString.SDEF + ZString.SPACE);
+        zPrint(net.sourceforge.czt.print.z.Sym.LSQUARE);
+        visit(initialState.getPred());
+        zPrint(net.sourceforge.czt.print.z.Sym.RSQUARE);
       }
       zPrint(net.sourceforge.czt.print.z.Sym.NL);
     }
@@ -169,58 +184,54 @@ public class OzPrintVisitor
     if (state != null) {
       boolean isBox = Box.SchBox.equals(state.getBox());
       if (isBox) {
-	ozPrint(Sym.STATE);
-	zPrint(net.sourceforge.czt.print.z.Sym.NL);
+        ozPrint(Sym.STATE);
+        zPrint(net.sourceforge.czt.print.z.Sym.NL);
       }
       else {
-	zPrint(net.sourceforge.czt.print.z.Sym.LSQUARE);
+        zPrint(net.sourceforge.czt.print.z.Sym.LSQUARE);
       }
-      
 
       DeclList pDeclList = state.getPrimaryDecl().getDeclList();
       if (pDeclList instanceof ZDeclList) {
-	ZDeclList zDeclList = (ZDeclList) pDeclList;
-	if (zDeclList.size() > 0) {
-	  visit(state.getPrimaryDecl());
-	  zPrint(net.sourceforge.czt.print.z.Sym.NL);
-	}
+        ZDeclList zDeclList = (ZDeclList) pDeclList;
+        if (zDeclList.size() > 0) {
+          visit(state.getPrimaryDecl());
+        }
       }
       else {
-	throw new 
-	  UnsupportedOperationException("Non-ZDeclList in PrimaryDecl");
+        throw new
+          UnsupportedOperationException("Non-ZDeclList in PrimaryDecl");
       }
-
 
       DeclList sDeclList = state.getSecondaryDecl().getDeclList();
       if (sDeclList instanceof ZDeclList) {
-	ZDeclList zDeclList = (ZDeclList) sDeclList;
-	if (zDeclList.size() > 0) {
-	  printKeyword(OzString.DELTA);
-	  zPrint(net.sourceforge.czt.print.z.Sym.NL);
-	  visit(state.getSecondaryDecl());
-	  zPrint(net.sourceforge.czt.print.z.Sym.NL);
-	}
+        ZDeclList zDeclList = (ZDeclList) sDeclList;
+        if (zDeclList.size() > 0) {
+          zPrint(net.sourceforge.czt.print.z.Sym.NL);
+          printKeyword(OzString.DELTA);
+          zPrint(net.sourceforge.czt.print.z.Sym.NL);
+          visit(state.getSecondaryDecl());
+        }
       }
       else {
-	throw new 
-	  UnsupportedOperationException("Non-ZDeclList in SecondayDecl");
+        throw new
+          UnsupportedOperationException("Non-ZDeclList in SecondayDecl");
       }
 
       if (state.getPred() != null) {
-	printKeyword(ZString.BAR);
-	zPrint(net.sourceforge.czt.print.z.Sym.NL);
+        if (isBox) {
+          zPrint(net.sourceforge.czt.print.z.Sym.WHERE);
+          visit(state.getPred());
+        }
+        else {
+          printKeyword(ZString.BAR);
+          visit(state.getPred());
+          zPrint(net.sourceforge.czt.print.z.Sym.RSQUARE);
+        }
       }
 
-      if (state.getPred() != null) {
-	visit(state.getPred());
-	zPrint(net.sourceforge.czt.print.z.Sym.NL);
-      }
-      
       if (isBox) {
-	zPrint(net.sourceforge.czt.print.z.Sym.END);
-      }
-      else {
-	zPrint(net.sourceforge.czt.print.z.Sym.RSQUARE);
+        zPrint(net.sourceforge.czt.print.z.Sym.END);
       }
       zPrint(net.sourceforge.czt.print.z.Sym.NL);
     }
@@ -243,7 +254,7 @@ public class OzPrintVisitor
   {
     boolean isBox = Box.SchBox.equals(operation.getBox());
     if (isBox) {
-      printKeyword(ZString.SCH + "op" + ZString.SPACE);
+      ozPrint(net.sourceforge.czt.print.oz.Sym.OPSCH);
       visit(operation.getOpName());
       zPrint(net.sourceforge.czt.print.z.Sym.NL);
 
@@ -254,23 +265,22 @@ public class OzPrintVisitor
       visit(opText.getDeltaList());
 
       if (opText.getSchText() instanceof ZSchText) {
-	ZSchText zSchText = (ZSchText) opText.getSchText();
-	visit(zSchText.getDeclList());
-	zPrint(net.sourceforge.czt.print.z.Sym.NL);
-	printKeyword(ZString.BAR);
-	zPrint(net.sourceforge.czt.print.z.Sym.NL);
-	visit(zSchText.getPred());
+        ZSchText zSchText = (ZSchText) opText.getSchText();
+        visit(zSchText.getDeclList());
+        if (zSchText.getPred() != null) {
+          zPrint(net.sourceforge.czt.print.z.Sym.WHERE);
+          visit(zSchText.getPred());
+        }
       }
       else {
-	throw new UnsupportedOperationException("Non-ZSchText in Operation");
+        throw new UnsupportedOperationException("Non-ZSchText in Operation");
       }
       zPrint(net.sourceforge.czt.print.z.Sym.END);
     }
     else {
       visit(operation.getOpName());
-      printKeyword(ZString.SPACE + OzString.SDEF + ZString.SPACE);
+      ozPrint(net.sourceforge.czt.print.oz.Sym.SDEF);
       visit(operation.getOpExpr());
-      zPrint(net.sourceforge.czt.print.z.Sym.NL);
     }
     return null;
   }

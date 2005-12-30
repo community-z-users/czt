@@ -837,10 +837,12 @@ parser code
       Symbol result = nlScanner_.next_token();
       assert result != action_obj.previous_;
       action_obj.previous_ = result;
+/*********
       String logMessage =
         "Next token in " + file_ +
         " is (" + symbolMap_.get(result.sym) + ", " + result.value + ").";
       CztLogger.getLogger(<class/>.class).finer(logMessage);
+**********/
       return result;
     }
 

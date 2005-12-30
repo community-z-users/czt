@@ -169,7 +169,8 @@ public class UnicodePrinter
    */
   public void printNL()
   {
-    print(ZString.NL);
+    //print(ZString.NL);
+        print("\n");
   }
 
   /**
@@ -375,8 +376,8 @@ public class UnicodePrinter
     default :
       Map fieldMap = DebugUtils.getFieldMap(Sym.class);
       throw new CztException("Unexpected token (" + s.sym + ", " +
-			     fieldMap.get(s.sym) + ", " +
-			     s.value + ")");
+                             fieldMap.get(s.sym) + ", " +
+                             s.value + ")");
     }
   }
 
@@ -392,7 +393,7 @@ public class UnicodePrinter
     try {
       Symbol s = null;
       while ( (s = scanner.next_token()).sym != Sym.EOF) {
-	printSymbol(s);
+        printSymbol(s);
         if (s.sym != Sym.TEXT) printSPACE();
       }
     }

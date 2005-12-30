@@ -554,7 +554,7 @@ public class AstToPrintTreeVisitor
     return new OperatorApplication(opName, argList, precedence, assoc);
   }
 
-  private Object visit(Object object)
+  protected Object visit(Object object)
   {
     if (object instanceof Term) {
       return ((Term) object).accept(this);

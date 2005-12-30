@@ -27,7 +27,6 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.print.z.AstToPrintTreeVisitor;
 
 /**
  * Utilities for printing Object-Z specifications given as an AST.
@@ -59,9 +58,9 @@ public final class PrintUtils
    * writing trees that do not contain context information.
    */
   public static void print(Term term,
-			   Writer out,
-			   SectionInfo sectInfo,
-			   Markup markup)
+                           Writer out,
+                           SectionInfo sectInfo,
+                           Markup markup)
   {
     if (markup == Markup.LATEX) {
       printLatex(term, out, sectInfo);
@@ -76,10 +75,10 @@ public final class PrintUtils
   }
 
   public static void print(Term term,
-			   Writer out,
-			   SectionInfo sectInfo,
-			   String sectName,
-			   Markup markup)
+                           Writer out,
+                           SectionInfo sectInfo,
+                           String sectName,
+                           Markup markup)
   {
     if (markup == Markup.LATEX) {
       printLatex(term, out, sectInfo, sectName);
@@ -111,7 +110,7 @@ public final class PrintUtils
   {
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
     Term tree = (Term) term.accept(toPrintTree);
-    ZmlScanner scanner = new net.sourceforge.czt.print.oz.ZmlScanner(tree);
+    ZmlScanner scanner = new ZmlScanner(tree);
     Unicode2Latex parser = new Unicode2Latex(new SectHeadScanner(scanner));
     parser.setSectionInfo(sectInfo);
     UnicodePrinter printer = new UnicodePrinter(out);
@@ -153,7 +152,7 @@ public final class PrintUtils
     catch (CommandException exception) {
       throw new CztException(exception);
     }
-    ZmlScanner scanner = new net.sourceforge.czt.print.oz.ZmlScanner(tree);
+    ZmlScanner scanner = new ZmlScanner(tree);
     scanner.prepend(new Symbol(Sym.TOKENSEQ));
     scanner.append(new Symbol(Sym.TOKENSEQ));
     Unicode2Latex parser = new Unicode2Latex(scanner);
@@ -187,7 +186,7 @@ public final class PrintUtils
   {
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
     Term tree = (Term) term.accept(toPrintTree);
-    ZmlScanner scanner = new net.sourceforge.czt.print.oz.ZmlScanner(tree);
+    ZmlScanner scanner = new ZmlScanner(tree);
     UnicodePrinter printer = new UnicodePrinter(out);
     printer.printZed(scanner);
   }
@@ -219,7 +218,7 @@ public final class PrintUtils
     catch (CommandException exception) {
       throw new CztException(exception);
     }
-    ZmlScanner scanner = new net.sourceforge.czt.print.oz.ZmlScanner(tree);
+    ZmlScanner scanner = new ZmlScanner(tree);
     UnicodePrinter printer = new UnicodePrinter(out);
     printer.printZed(scanner);
   }
