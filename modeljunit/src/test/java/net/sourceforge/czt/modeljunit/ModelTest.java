@@ -54,5 +54,6 @@ public class ModelTest
       hist = actions.getHistory();
       Assert.assertNotNull(hist);
       Assert.assertEquals("History not reset.", 1, hist.size());
+      Assert.assertEquals(0.0F, hist.get(0), 0.01F);
     }
 }
