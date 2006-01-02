@@ -22,10 +22,18 @@ package net.sourceforge.czt.modeljunit;
 import java.util.ArrayList;
 
 /** An interface to a test coverage metric.
- *  TODO: add recordHistory(int frequency) method, and reset method?
+ *  TODO: add recordHistory(int frequency) method, for efficiency?
  */
 public interface CoverageMetric
 {
+  /** Reset all coverage data, including history.
+   *  However, you can assume that the model does not change.
+   *  After calling this method, getPercentage() should return 0.0F,
+   *  and history should contain just a single 0.0F, meaning that
+   *  nothing has been covered yet.
+   */
+  public void reset();
+  
   /** The coverage percentage so far. */ 
   public float getPercentage();
   

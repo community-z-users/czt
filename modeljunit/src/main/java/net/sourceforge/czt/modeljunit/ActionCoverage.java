@@ -37,11 +37,16 @@ public class ActionCoverage implements CoverageMetric
   public ActionCoverage(int numActions)
   {
     numActions_ = numActions;
+    reset();
+  }
+
+  public void reset()
+  {
     done_ = new HashSet<String>();
     history_ = new ArrayList<Float>(100);
     history_.add(0.0F);
   }
-
+  
   public float getPercentage()
   {
     return (float) done_.size() / (float) numActions_;

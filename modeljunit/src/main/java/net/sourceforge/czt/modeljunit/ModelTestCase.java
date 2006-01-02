@@ -245,7 +245,8 @@ public class ModelTestCase extends TestCase
    */
   public static void fsmResetCoverage()
   {
-   // TODO: call reset on all the coverage listeners?
+    for (CoverageMetric cm : fsmCoverage)
+      cm.reset();
   }
 
   /** Add a coverage listener. */
