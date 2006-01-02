@@ -22,11 +22,13 @@ package net.sourceforge.czt.modeljunit;
 /** A transition represents a triple (StartState,Action,EndState). */
 public class Transition
 {
-  private Object startState_;
-  private String action_;
-  private Object endState_;
+  private /*@non_null@*/ Object startState_;
+  private /*@non_null@*/ String action_;
+  private /*@non_null@*/ Object endState_;
 
-  public Transition(Object start, String action, Object end)
+  public Transition(/*@non_null@*/Object start, 
+                    /*@non_null@*/String action,
+                    /*@non_null@*/Object end)
   {
     startState_ = start;
     action_ = action;
@@ -64,5 +66,13 @@ public class Transition
         && tr.endState_.equals(endState_);
     }
     return false;
+  }
+  
+  @Override
+  public String toString()
+  {
+    return "(" + startState_.toString() + ", "
+           + action_.toString() + ", "
+           + endState_.toString() + ")";
   }
 }

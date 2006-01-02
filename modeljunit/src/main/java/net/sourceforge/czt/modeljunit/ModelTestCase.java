@@ -19,9 +19,17 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.modeljunit;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Random;
+import java.util.Set;
+
+import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
-import java.lang.reflect.*;
-import java.util.*;
 
 
 /** Test a system, based on a finite state machine (FSM) model of that system.
@@ -98,7 +106,6 @@ import java.util.*;
  *  
  *  <p>TODO:
  *    <ul>
- *      <li> better reporting of failed tests.</li>
  *      <li> record some coverage statistics and make them accessible via an API.</li>
  *      <li> add more test generation algorithms.</li>
  *    </ul>
@@ -106,6 +113,8 @@ import java.util.*;
  */
 public class ModelTestCase extends TestCase
 {
+  public static final int PATHLEN = 5;
+  
   public ModelTestCase()
   {
       super();
@@ -386,11 +395,26 @@ public class ModelTestCase extends TestCase
 		  m.invoke(fsmModel, fsmNoArgs);
 	  }
 	  catch (InvocationTargetException ex) {
-        String msg = "Error calling "+fsmGetModelName()+"."+m.getName()+"()"
-          + " in state "+fsmState;
-		throw new RuntimeException(msg, ex.getCause());
-        // fail("Error calling "+fsmGetModelName()+"."
-		//		  +m.getName()+"(): "+ex.getCause());
+        StringBuffer msg = new StringBuffer();
+        msg.append("Error calling "+fsmGetModelName()+"."+m.getName()+"()"
+          + " in state "+fsmState);
+        for (int i=1; i<=PATHLEN && i<=fsmSequence.size(); i++) {
+          msg.append("\n\tafter "
+              +fsmSequence.get(fsmSequence.size()-i).toString());
+        }
+        if (PATHLEN < fsmSequence.size())
+          msg.append("\n\t...");
+        
+        /* Here is an alternative which throws just the original exception.
+         * However, this does not allow us to add the model path like above.
+         
+        if (ex.getCause() != null
+            && ex.getCause() instanceof AssertionFailedError) {
+          AssertionFailedError origEx = (AssertionFailedError) ex.getCause();
+          throw origEx;
+        }
+        */
+		throw new RuntimeException(msg.toString(), ex.getCause());
 	  }
       catch (IllegalAccessException ex) {
         fail("Error in model.  Non-public actions? "+ex);
