@@ -12,7 +12,7 @@
 
   <target name="init">
     <tstamp/>
-    <mkdir dir="${session.build.dir}"/>
+    <mkdir dir="${session.build.dir}/classes"/>
     <mkdir dir="${test.build.dir}"/>
   </target>
 
@@ -23,7 +23,7 @@
           description="build and install the jar files">
     <mkdir dir="${session.jar.dir}"/>
     <jar jarfile="${jar.file}">
-      <fileset dir="${session.build.dir}"/>
+      <fileset dir="${session.build.dir}/classes"/>
       <fileset dir="src/main/resources"/>
     </jar>
   </target>
@@ -32,7 +32,7 @@
           description="compile the sources">
     <javac
       srcdir="${session.src.dir}"
-      destdir="${session.build.dir}"
+      destdir="${session.build.dir}/classes"
       debug="${debug}"
       debuglevel="${debuglevel}"
       optimize="${optimize}">
