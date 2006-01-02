@@ -83,11 +83,11 @@ public class ZCharMap extends JPanel
 
   private JComboBox extension;
 
-  private JComboBox markup;
-
   private RenderingHints renderingHints;
 
   private JButton convert_;
+
+  private final String UNICODE_MODE = "zed";
 
   //############################################################
   //####################### CONSTRUCTOR ########################
@@ -134,16 +134,13 @@ public class ZCharMap extends JPanel
       new JComboBox(new String[] { "Standard Z", "Object-Z" });
     extension.addActionListener(new ExtensionHandler());
     buttonRow.add(extension);
-    markup = new JComboBox(new String[] { "LaTeX Markup", "Unicode Markup" });
-    markup.addActionListener(new MarkupHandler());
-    buttonRow.add(markup);
     JButton typecheckButton = new JButton("Typecheck");
     typecheckButton.addActionListener(new TypecheckHandler());
     buttonRow.add(typecheckButton);
-    convert_ = new JButton("toUnicode");
+    convert_ = new JButton("Convert");
     convert_.addActionListener(new ConvertHandler());
     buttonRow.add(convert_);
-    JButton xmlButton = new JButton("toXML");
+    JButton xmlButton = new JButton("to XML");
     xmlButton.addActionListener(new XmlHandler());
     buttonRow.add(xmlButton);
     add(BorderLayout.NORTH, buttonRow);
@@ -346,11 +343,11 @@ public class ZCharMap extends JPanel
 	status.setText(" ");
       } else {
 	ZChar zchar = (ZChar) mTable.getModel().getValueAt(row,col);
-	if (markup.getSelectedIndex() == 0) {
-	  mView.getTextArea().setSelectedText(zchar.getLatex());
+	if (Markup.UNICODE.equals(getMarkup())) {
+	  mView.getTextArea().setSelectedText(zchar.getUnicode());
 	}
 	else {
-	  mView.getTextArea().setSelectedText(zchar.getUnicode());
+	  mView.getTextArea().setSelectedText(zchar.getLatex());
 	}
       }
     }
@@ -480,11 +477,11 @@ public class ZCharMap extends JPanel
 
   private Markup getMarkup()
   {
-    if (markup.getSelectedIndex() == 0) {
-      return Markup.LATEX;
+    if (UNICODE_MODE.equals(mView.getBuffer().getMode().toString())) {
+      return Markup.UNICODE;
     }
     else {
-      return Markup.UNICODE;
+      return Markup.LATEX;
     }
   }
 
@@ -649,18 +646,20 @@ public class ZCharMap extends JPanel
     {
       clearErrorList();
       CztLogger.getLogger(ZCharMap.class).info("Converting ...");
+      final Markup markup = getMarkup();
       try {
 	SectionManager manager = getSectionManager();
 	Term term = parse(manager);
         if (term != null) {
           Buffer buffer = jEdit.newFile(mView);
           StringWriter out = new StringWriter();
-          if (markup.getSelectedIndex() == 0) {
-            buffer.setStringProperty("encoding", "UTF-16");
-            printUnicode(term, out, manager);
+          if (Markup.UNICODE.equals(markup)) {
+            printLatex(term, out, manager);
           }
           else {
-            printLatex(term, out, manager);
+            buffer.setStringProperty("encoding", "UTF-16");
+            printUnicode(term, out, manager);
+            buffer.setMode(UNICODE_MODE);
           }
           out.close();
           buffer.insert(0, out.toString());
@@ -676,6 +675,7 @@ public class ZCharMap extends JPanel
         String message = "Caught " + exception.getClass().getName() + ": " +
           exception.getMessage();
 	System.err.println(message);
+        exception.printStackTrace(System.err);
         addError(mView.getBuffer().getPath(), 0, 0, 0, message);
       }
     }
@@ -758,28 +758,6 @@ public class ZCharMap extends JPanel
     {
       setTableModel();
       mTable.repaint();
-    }
-  }
-
-  class MarkupHandler implements ActionListener
-  {
-    public void actionPerformed(ActionEvent e)
-    {
-      try {
-        if (markup.getSelectedIndex() == 0) {
-          convert_.setText("toUnicode");
-        }
-        else {
-          convert_.setText("toLatex");
-        }
-      }
-      catch (Throwable exception) {
-        CztLogger.getLogger(ZCharMap.class).info("CZT error occurred.");
-        String message = "Caught " + exception.getClass().getName() + ": " +
-          exception.getMessage();
-	System.err.println(message);
-        addError(mView.getBuffer().getPath(), 0, 0, 0, message);
-      }
     }
   }
 
