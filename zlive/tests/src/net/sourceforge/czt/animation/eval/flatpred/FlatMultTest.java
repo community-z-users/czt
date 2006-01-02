@@ -43,12 +43,13 @@ public class FlatMultTest
   public void testMBT()
   {
     FlatPredModel iut = new FlatPredModel(pred, new ZRefName[] {x,y,z},
-                                                new Expr[] {i3,i4,i12},
-                                                new Expr[] {in5,i5,i11});
+                            new Eval(1, "???", i3, i4, i12),
+                            new Eval(0, "I?I", i2, i5, i11) // 11 is prime
+                            );
     fsmLoad(iut.getClass());
     CoverageMetric actions = new ActionCoverage(fsmGetNumActions());
     addCoverage(actions);
-    fsmRandomWalk(iut, 400);
+    fsmRandomWalk( iut, 400);
     System.out.println("Action Coverage: "+actions);
     System.out.print("History: ");
     for (Float f : actions.getHistory())

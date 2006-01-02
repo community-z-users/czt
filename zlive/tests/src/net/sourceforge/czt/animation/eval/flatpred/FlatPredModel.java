@@ -41,14 +41,14 @@ public class FlatPredModel
   /** The names of all the free variables of the FlatPred. */
   private ZRefName[] names_;
   
-  /** Example values that should satisfy the FlatPred. */
-  private /*@non_null@*/ Expr[] goodValues_;
-  
-  /** Bad values, any one of which will falsify the FlatPred. */
-  private /*@non_null@*/ Expr[] badValues_;
+  /** Example values for startEval1 */
+  private /*@non_null@*/ Eval eval1_;
+
+  /** Example values for startEval2 */
+  private Eval eval2_;
 
   /** The possible main states of the FlatPred. */
-  enum State {Init, NoMode, GotMode, StartedEval, DoneEval};
+  enum State {Init, NoMode, GotMode, EvalTrue, EvalFalse};
   private State state_;
 
   /** The environment being used for testing. */
@@ -72,12 +72,12 @@ public class FlatPredModel
    */
    //@requires names.length == values.length;
   public FlatPredModel(FlatPred toTest, ZRefName[] names,
-        Expr[] goodValues, Expr[] badValues)
+        Eval eval1, Eval eval2)
   {
     pred_ = toTest;
     names_ = names;
-    goodValues_ = goodValues;
-    badValues_ = badValues;
+    eval1_ = eval1;
+    eval2_ = eval2;
     init(false);
   }
 
@@ -90,11 +90,8 @@ public class FlatPredModel
       for (int i=0; i<names_.length; i++) {
         if ( ! env_.isDefined(names_[i]))
           result.append('O');
-        else if (env_.isDefined(names_[i])
-              && goodValues_[i].equals(env_.lookup(names_[i])))
-          result.append('I');  // good input
         else
-          result.append('i');  // bad input
+          result.append('I');  // an input
       }
     }
     return result.toString();
@@ -125,7 +122,7 @@ public class FlatPredModel
     env_ = new Envir();
     for (int i=0; i<names_.length; i++) {
       if (input[i])
-        env_ = env_.add(names_[i], goodValues_[i]);
+        env_ = env_.add(names_[i], eval1_.args[i]);
     }
     mode_ = pred_.chooseMode(env_);
     System.out.println("chooseMode("+env_+") --> "+mode_);
@@ -141,7 +138,10 @@ public class FlatPredModel
         Assert.assertEquals(input[i], mode_.isInput(i));
       }
       pred_.setMode(mode_);
-      // TODO: check that new environment has all names defined.
+      // check that all names are defined in the output environment.
+      Envir newenv = mode_.getEnvir();
+      for (int i=0; i<names_.length; i++)
+        Assert.assertTrue(names_[i]+" is undefined", newenv.isDefined(names_[i]));
       state_ = State.GotMode;
       // NOTE that env_ is left as the input environment.
     }
@@ -161,110 +161,113 @@ public class FlatPredModel
     chooseMode(new boolean[] {true,true,true}, true);
   }
 
-  /** Tries chooseMode with all names being inputs. */
+  /** Tries chooseMode with all names except the last being inputs. */
   public boolean chooseModeIIOGuard() {return state_ == State.NoMode; }
   @Action public void chooseModeIIO()
   {
     chooseMode(new boolean[] {true,true,false}, true);
   }
   
-  /** Tries chooseMode with all names being inputs. */
+  /** Tries chooseMode with all names except the second one being inputs. */
   public boolean chooseModeIOIGuard() {return state_ == State.NoMode; }
   @Action public void chooseModeIOI()
   {
     chooseMode(new boolean[] {true,false,true}, true);
   }
   
-  /** Tries chooseMode with all names being inputs. */
+  /** Tries chooseMode with all names except the first one being inputs. */
   public boolean chooseModeOIIGuard() {return state_ == State.NoMode; }
   @Action public void chooseModeOII()
   {
     chooseMode(new boolean[] {false,true,true}, true);
   }
 
-  /** Helper method for starting a new evaluation.
-   *  By default, all input values will be taken from goodValues_.
-   *  However, if badPosition is a valid index into names_ and
-   *  names_[badPosition] is in the environment, then that name will be
-   *  set to a bad value, which should make the evaluation fail.
-   *  @param badPosition Which input (if any) should be bad.
+  /** Checks that we are in State.GotMode and that the current mode
+   *  is compatible with data.modes.
    */
-  public void startEval(int badPosition)
+  protected boolean startEvalGuard(Eval data)
+  {
+    boolean result = state_ == State.GotMode;
+    for (int i=0; result && i<names_.length; i++) {
+      if (env_.isDefined(names_[i])) {
+        // names_[i] is an input, so 'I' or '?' is allowed.
+        if (data.modes.charAt(i) == 'O')
+          result = false;
+      }
+      else {
+        // names_[i] is an output, so 'O' or '?' is allowed.
+        if (data.modes.charAt(i) == 'I')
+          result = false;
+      }
+    }
+    return result;
+  }
+
+  /** Helper method for starting a new evaluation.
+   *  @param data The data values and modes which can be used.
+   */
+  public void startEval(/*@non_null@*/ Eval data)
   {
     // Note: we use the original env here, as given to chooseMode.
-    boolean shouldSucceed = true;
     for (int i=0; i<names_.length; i++) {
       if (env_.isDefined(names_[i])) {
-        Expr value = goodValues_[i]; // good by default
-        if (i == badPosition) {
-          value = badValues_[i];
-          shouldSucceed = false;
-        }
+        Expr value = data.args[i];
         env_.setValue(names_[i], value);
       }
     }
     System.out.println("startEval with env="+env_);
     pred_.startEvaluation();
-    result_ = pred_.nextEvaluation();
-    Assert.assertEquals(shouldSucceed, result_);
-    if(result_) {
+    result_ = false;
+    // check that true is returned the expected number of times.
+    for (int i = data.successes; i > 0; i--) {
+      result_ = pred_.nextEvaluation();
+      Assert.assertTrue(result_);
+    }
+
+    // check that the correct results were returned.
+    if (data.successes == 1) {
       Envir newenv = pred_.getEnvir();
       System.out.println("nextEval returns newenv="+newenv);
-      // check that the all results are correct
       for (int i=0; i<names_.length; i++) {
-        Assert.assertTrue(newenv.isDefined(names_[i]));
-        Assert.assertEquals(newenv.lookup(names_[i]), goodValues_[i]);
+        Assert.assertTrue(names_[i]+" undefined.",
+            newenv.isDefined(names_[i]));
+        Assert.assertEquals(names_[i]+" has incorrect value.",
+            newenv.lookup(names_[i]), data.args[i]);
       }
     }
-    state_ = State.DoneEval;
+    state_ = result_ ? State.EvalTrue : State.EvalFalse;
   }
 
-  /** Starts a new evaluation.
-   */
-  public boolean startGoodEvalGuard() {return state_ == State.GotMode; }
-  @Action public void startGoodEval()
+  /** Starts a new evaluation using the eval1_ data. */
+  public boolean startEval1Guard() { return startEvalGuard(eval1_); }
+  @Action public void startEval1()
   {
-    startEval(-1);
-  }
-  
-  /** Starts a bad evaluation, with the result bad.
-   */
-  public boolean startBadResultEvalGuard() {return state_ == State.GotMode; }
-  @Action public void startBadResultEval()
-  {
-    startEval(names_.length - 1);
+    startEval(eval1_);
   }
 
-  /** Starts a bad evaluation, with the first input.
-   */
-  public boolean startBadInput1EvalGuard() {return toString().equals("GotModeIII"); }
-  @Action public void startBadInput1Eval()
+  /** Starts a new evaluation using the eval2_ data. */
+  public boolean startEval2Guard() { return startEvalGuard(eval2_); }
+  @Action public void startEval2()
   {
-    startEval(0);
-  }
-
-  /** Starts a bad evaluation, with the second input bad.
-   */
-  public boolean startBadInput2EvalGuard() {return toString().equals("GotModeIII"); }
-  @Action public void startBadInput2Eval()
-  {
-    startEval(1);
+    startEval(eval2_);
   }
 
   /** Continue calling nextEvaluation.
    *  This currently assumes a maximum of one solution.
    */
-  public boolean continueEvalGuard() {return state_ == State.DoneEval && result_; }
+  public boolean continueEvalGuard() {return state_ == State.EvalTrue
+                                          || state_ == State.EvalFalse; }
   @Action public void continueEval()
   {
     result_ = pred_.nextEvaluation();
     System.out.println("continueEval gives "+result_+" with env="+env_);
     Assert.assertFalse(result_);
-    state_ = State.DoneEval; // unchanged
+    state_ = State.EvalFalse;
   }
 
   /** Go back and do a new evaluation, using the same mode. */
-  public boolean newEvalGuard() {return state_ == State.DoneEval; }
+  public boolean newEvalGuard() {return state_ == State.EvalTrue
+                                     || state_ == State.EvalFalse;  }
   @Action public void newEval()
   {
     System.out.println("newEval with env="+env_);
@@ -272,7 +275,9 @@ public class FlatPredModel
   }
   
   /** Go back and try a new mode. */
-  public boolean newModeGuard() {return state_ == State.DoneEval; }
+  public boolean newModeGuard() {return state_ == State.EvalTrue
+                                     || state_ == State.EvalFalse
+                                     || state_ == State.GotMode; }
   @Action public void newMode()
   {
     System.out.println("newMode with env="+env_);

@@ -30,7 +30,10 @@ import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.animation.eval.flatpred.*;
 
-/** FlatMult implements the a*b=c predicate. */
+/** FlatMult implements the a*b=c predicate.
+ *  TODO: make it handle the IOI and OII cases more conservatively
+ *     when one of those inputs might be zero.  (Use bounds information?)
+ */
 public class FlatMult extends FlatPred
 {
   private Factory factory_ = new Factory();
@@ -106,6 +109,7 @@ public class FlatMult extends FlatPred
         else {
           BigInteger z = ((NumExpr)c).getValue();
           BigInteger y = z.divide(x);
+          // we must check that this does indeed satisfy x*y=z.
           if (x.multiply(y).equals(z)) {
             Expr b = factory_.createNumExpr(y);
             evalMode_.getEnvir().setValue(args.get(1),b);
