@@ -1,19 +1,19 @@
 /**
 Copyright (C) 2006 Mark Utting
-This file is part of the czt project.
+This file is part of the CZT project.
 
-The czt project contains free software; you can redistribute it and/or modify
+The CZT project contains free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
 
-The czt project is distributed in the hope that it will be useful,
+The CZT project is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with czt; if not, write to the Free Software
+along with CZT; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -23,13 +23,18 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import net.sourceforge.czt.jdsl.graph.api.Graph;
+import net.sourceforge.czt.jdsl.graph.api.InspectableGraph;
+import net.sourceforge.czt.jdsl.graph.api.Vertex;
+import net.sourceforge.czt.jdsl.graph.ref.IncidenceListGraph;
 
 
 /** Test a system, based on a finite state machine (FSM) model of that system.
@@ -150,7 +155,16 @@ public class ModelTestCase extends TestCase
    *  A null entry means that that Action method has no guard. */
   //@invariant fsmGuards == null <==> fsmClass == null;
   private static ArrayList<Method> fsmGuards = null;
-  
+
+  /** The graph of all the states and transitions of this FSM. */
+  //@invariant fsmGraph!=null ==> fsmClass!=null;
+  protected static Graph fsmGraph;
+
+  /** A map from fsm states to the corresponding vertex of fsmGraph. */
+  //@invariant fsmVertex==null <==> fsmGraph==null;
+  // invariant (obj,vertex) in fsmVertex <==> vertex.element()==obj;
+  protected static Map<Object,Vertex> fsmVertex;
+
   /** Coverage listeners. */
   private static Set<CoverageMetric> fsmCoverage = new HashSet<CoverageMetric>();
 
@@ -192,8 +206,27 @@ public class ModelTestCase extends TestCase
   {
 	  return fsmClass.getName();
   }
-  
-  /** Returns the name of the FSM class that is the test model. */
+
+  /** Returns the graph of the FSM model.
+   *  This will return null until after fsmBuildGraph has been called.
+   */
+  public static InspectableGraph fsmGetGraph()
+  {
+    return fsmGraph;
+  }
+
+  /** Maps a state to a vertex object of the FSM graph.
+   *  This will return null until after fsmBuildGraph has been called.
+   */
+  public static Vertex fsmGetVertex(Object state)
+  {
+    if (fsmVertex == null)
+      return null;
+    else
+      return fsmVertex.get(state);
+  }
+
+  /** Returns the model object that is begin tested. */
   protected static Object fsmGetModel()
   {
 	  return fsmModel;
@@ -292,7 +325,7 @@ public class ModelTestCase extends TestCase
           printWarning("ERROR: @Action method "
               +fsmName+"."+m.getName()+" should be void.");
         printProgress("Adding method "+fsmName+"."+m.getName()
-            +" to test suite");
+            +" to test suite as #"+fsmActions.size());
         fsmActions.add(m);
       }
     }
@@ -332,6 +365,79 @@ public class ModelTestCase extends TestCase
     fsmClass = fsm;
   }
 
+  /** Builds the FSM graph by exploring the fsm object.
+   *  @param fsm  The model to explore.
+   *  @param rand A random number generator to drive the exploration.
+   */
+  public static void fsmBuildGraph(Object fsm, Random rand)
+  {
+    fsmGraph = new IncidenceListGraph();
+    fsmVertex = new HashMap<Object,Vertex>();
+    // This records the (state,action) pairs that have not yet been explored.
+    Map<Object,BitSet> todo = new HashMap<Object,BitSet>();
+    // set up the initial state
+    {
+      fsmInit(fsm, false);
+      Vertex initial = fsmGraph.insertVertex(fsmState);
+      printProgress("Added vertex for initial state "+fsmState);
+      fsmVertex.put(fsmState, initial);
+      BitSet enabled = fsmEnabledActions();
+      if (enabled.isEmpty())
+        throw new FsmException("Initial state has no actions enabled.");
+      todo.put(fsmState, enabled);
+    }
+    // Loop invariants: 
+    //   fsmState is the current state we are exploring.
+    //   todo does not contain any empty BitSets.
+    //   for every transition (s0,action,s1) in the FSM, exactly one
+    //     of the following is true:
+    //       s0 has not yet been visited, or
+    //       todo(s0) has a bit set for action, or
+    //       (s0,action,s1) has been added to fsmGraph.
+    //
+    while ( ! todo.isEmpty()) {
+      BitSet enabled = todo.get(fsmState);
+      printProgress("  todo("+fsmState+") = "+enabled);
+      if (enabled == null) {
+        // we take a random action, if possible, else init.
+        Object oldState = fsmState;
+        int action = fsmDoRandomAction(rand);
+        if (action >= 0) {
+          printProgress("Took random action ("+oldState+", "+action+" "
+              +fsmActions.get(action).getName()+", "+fsmState+")");
+        }
+        else {
+          fsmInit(fsm, false);
+          printProgress("Took init.  State is "+fsmState);
+        }
+      }
+      else {
+        int action = enabled.nextSetBit(0);
+        assert action >= 0;  // our invariant says it should not be empty.
+        enabled.clear(action); // mark this transition as done.
+        if (enabled.isEmpty())
+          todo.remove(fsmState); // mark this whole state as done.
+        Object oldState = fsmState;
+        Vertex oldVertex = fsmVertex.get(oldState);
+        fsmDoAction(action);
+        // see if this fsmState is a new one.
+        Vertex newVertex = fsmVertex.get(fsmState);
+        if (newVertex == null) {
+          // we have reached a new state, so add & analyze it.
+          newVertex = fsmGraph.insertVertex(fsmState);
+          fsmVertex.put(fsmState, newVertex);
+          printProgress("Added vertex for state "+fsmState);
+          enabled = fsmEnabledActions();
+          if ( ! enabled.isEmpty())
+            todo.put(fsmState, enabled);
+        }
+        String actionName = fsmActions.get(action).getName();
+        fsmGraph.insertDirectedEdge(oldVertex, newVertex, actionName);
+        printProgress("Added edge ("+oldState+","+actionName+","+fsmState+")");
+      }
+    }
+  }
+
   /** Reinitialise the FSM to its initial state.
    *  This also does the fsmLoad of fsm.class if it has not
    *  already been done.
@@ -360,7 +466,7 @@ public class ModelTestCase extends TestCase
    * @param  index  Index into the fsmActions array.
    * @return        The `enabledness' of this Action.
    */
-  protected static float fsmEnabled(int index)
+  public static float fsmEnabled(int index)
   {
     Method guard = fsmGuards.get(index);
     if (guard == null)
@@ -380,7 +486,19 @@ public class ModelTestCase extends TestCase
     }
     return ((Float)result).floatValue();
   }
-  
+
+  /** Return the bitset of all actions that are enabled 
+   *  in the current state. */
+  public static BitSet fsmEnabledActions()
+  {
+    BitSet enabled = new BitSet();
+    for (int i=0; i < fsmActions.size(); i++) {
+      if (fsmEnabled(i) > 0.0F)
+        enabled.set(i);
+    }
+    return enabled;
+  }
+
   /** Try to take the given Action from the current state.
    *  Returns true if the Action was taken, false if it was disabled.
    * @param  index  Index into the fsmTransitions array.

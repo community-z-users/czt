@@ -1,13 +1,32 @@
+TODO:
+* implement a visualizer?
+  Perhaps using JGraph (http://www.jgraph.com) or 
+  GINY (http://csbi.sourceforge.net) or some other Java graphics package.
+  See http://manageability.org/blog/stuff/open-source-graph-network-visualization-in-java
+
+
+Log of Design and Implementation Changes
+========================================
+14Dec05: First version as subclass of junit TestCase.  Loads FSM.class
+21Dec05: Moved boolean testing parameter from transitions into just init().
+24Dec05: Added coverage listeners.  Renamed @transition to @Action.
+03Dec05: Implemented graph builder (with random seed).
+
+
+Experiences using ModelJUnit to test ZLive FlatPred subclasses
+==============================================================
+Initially, all testing was done on the FlatMult subclass of FlatPred.
+
 Wed 21 Dec 2005: 1/2 day
-================
+----------------
 Designed and implemented FlatPredModel with 5 states and 6 actions.  
 Found one error, but it was in the test harness part: 
-I added something to env_, but forgot to save the result.
+(I added something to env_, but forgot to save the result.)
 
 
 
 Sat 24 Dec 2005: 1 hour
-================
+----------------
 [Plus about 4 hours on the ModelJUnit classes, implementing Action coverage]
 Split the chooseModeIII into lots of modes.
 Another adaptor error: forgot to use new env after evaluation.
@@ -17,7 +36,7 @@ It takes about 50 random steps to reach 100% Action coverage.
 
 
 Sat 24 Dec 2005: 2 more hours (about 1/2 hour writing model, rest debugging).
-================
+----------------
 Split the startEval into 1 good-value and 3 bad-value transitions.
 Another adaptor error: quite difficult to find (about 1 hour+).
      startEval was assigning the output env to be the current one,
@@ -39,7 +58,7 @@ to reach 100% coverage.
 
 
 Mon 2 Jan 2006:  2 more hours generalising model.
-===============
+----------------
 It now takes 2 Eval data objects which parameterize the eval1/eval2 actions.
 Found one minor adaptor/oracle bug -- checked the wrong envir in chooseMode.
 Model now has 11 actions and about 14 states.
