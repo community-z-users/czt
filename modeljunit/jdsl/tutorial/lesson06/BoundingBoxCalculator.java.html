@@ -1,0 +1,118 @@
+<html>
+<head>
+<title>Code Fragment</title>
+</head>
+
+<body text=#000000 bgcolor=#ffffff>
+<center>
+</center><br><br><dl><dd><pre>
+
+<font color=#ff8000>import</font> jdsl.core.algo.traversals.*;
+<font color=#ff8000>import</font> jdsl.core.api.*;
+<font color=#ff8000>import</font> java.awt.*;
+<font color=#ff8000>import</font> java.awt.geom.*;
+
+<font color=#ff0080>/** 
+ * The first step in drawing the tree. The tree is drawn so:
+ *   - Edges are straight lines
+ *   - nodes are centered above the drawings of their children
+ *   - bounding boxes of the drawings of subtrees rooted at siblings are drawn
+ *     adjacent.
+ *   - The width of a bounding box is the maximum of the label width and the
+ *     sum of the bounding boxes of the children.
+ *
+ * @author Lucy Perry (lep)
+ * @version JDSL 2
+*/</font>
+<font color=#8000a0>public</font> <font color=#8000a0><font color=#ff8000>class</font> </font>BoundingBoxCalculator <font color=#8000a0><font color=#ff8000>extends</font> </font>EulerTour {
+  
+  <font color = #ff0080>/* ************************************ */</font> 
+  <font color = #ff0080>/* The members described in the lesson. */</font>
+  <font color = #ff0080>/* ************************************ */</font> 
+  <font color=#ff0080>//b6.4</font>
+  <font color=#8000a0><font color=#8000a0>protected</font> </font><font color=#8000a0>int</font> offset = 50;        <font color=#ff0080>// size of the grid squares</font>
+  <font color=#8000a0><font color=#8000a0>protected</font> </font><font color=#8000a0>int</font> width  = 0;         <font color=#ff0080>// a running total width of the explored tree drawing</font>
+
+  <font color=#8000a0><font color=#8000a0>protected</font> </font><font color=#8000a0>int</font> depth = 0;          <font color=#ff0080>// a running total depth of the explored tree drawing</font>
+  <font color=#8000a0><font color=#8000a0>protected</font> </font>Graphics g;             <font color=#ff0080>// the graphics object where the tree will be drawn</font>
+  <font color=#8000a0><font color=#8000a0>protected</font> </font>FontMetrics fm;         <font color=#ff0080>// the fontMetrics object for g</font>
+  <font color=#ff0080>//e6.4</font>
+  
+  <font color=#ff0080>/**
+   * When a node is visited first in the Euler Tour we know the upper-left hand 
+   * corner of its bounding box, which we store as decorations.
+   */</font>
+  <font color=#ff0080>//b6.5</font>
+  <font color=#8000a0><font color=#8000a0>protected</font> </font><font color=#8000a0>void</font> <font color=#0000ff>visitFirstTime</font>(Position pos){
+    pos.<font color=#0000ff>set</font>(<font color=#008000>"y"</font>, <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Integer</font>(depth));
+    pos.<font color=#0000ff>set</font>(<font color=#008000>"x"</font>, <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Integer</font>(width));
+    depth += offset;
+  }
+  <font color=#ff0080>//e6.5</font>
+  
+  <font color=#ff0080>/**
+   * When a node is visited last in the Euler Tour we know the width 
+   * of its bounding box, which we store as a decoration.
+   */</font>
+  <font color=#ff0080>//b6.6</font>
+  <font color=#8000a0><font color=#8000a0>protected</font> </font><font color=#8000a0>void</font> <font color=#0000ff>visitLastTime</font>(Position pos){
+    <font color=#8000a0><font color=#8000a0>int</font> </font>textWidth = <font color=#0000ff>textWidth</font>(pos);
+    <font color=#8000a0><font color=#8000a0>int</font> </font>shift = 0;
+    <font color=#8000a0><font color=#8000a0>int</font> </font>x =<font color=#0000ff> </font>(<font color=#0000ff></font>(Integer)pos.<font color=#0000ff>get</font>(<font color=#008000>"x"</font>)).<font color=#0000ff>intValue</font>();
+    <font color=#8000a0><font color=#8000a0>int</font> </font>boxWidth = width-x;
+    <font color=#ff8000>if</font><font color=#0000ff> </font>(textWidth&gtboxWidth) {
+      <font color=#8000a0><font color=#8000a0>int</font> </font>delta = textWidth-boxWidth;
+      boxWidth = textWidth;
+      width += delta;
+      shift = delta/2;
+    }
+    pos.<font color=#0000ff>set</font>(<font color=#008000>"width"</font>, <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Integer</font>(boxWidth));
+    <font color=#ff0080>// The distance that the children's bounding boxes need to</font>
+    <font color=#ff0080>// be shifted in the drawing.</font>
+    pos.<font color=#0000ff>set</font>(<font color=#008000>"shift"</font>, <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Integer</font>(shift));
+    depth -= offset;
+  }
+  <font color=#ff0080>//e6.6</font>
+  
+  <font color=#ff0080>/* 
+   * Sets all attributes for an external node
+   */</font>
+  <font color=#ff0080>//b6.7 </font>
+  <font color=#8000a0><font color=#8000a0>protected</font> </font><font color=#8000a0>void</font> <font color=#0000ff>visitExternal</font>( <font color=#8000a0>Position </font>pos ) { 
+    pos.<font color=#0000ff>set</font>(<font color=#008000>"y"</font>, <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Integer</font>(depth));
+    pos.<font color=#0000ff>set</font>(<font color=#008000>"x"</font>, <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Integer</font>(width));
+    <font color=#8000a0><font color=#8000a0>int</font> </font>textWidth = <font color=#0000ff>textWidth</font>(pos);
+    width+=textWidth;
+    pos.<font color=#0000ff>set</font>(<font color=#008000>"width"</font>, <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Integer</font>(textWidth));
+    pos.<font color=#0000ff>set</font>(<font color=#008000>"shift"</font>, <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Integer</font>(0));
+  } 
+  <font color=#ff0080>//e6.7</font>
+
+  <font color = #ff0080>/* ************************************ */</font> 
+  <font color = #ff0080>/* Members not described in the lesson. */</font>
+  <font color = #ff0080>/* ************************************ */</font> 
+      
+  <font color=#8000a0><font color=#8000a0>protected</font> </font><font color=#8000a0>int</font> pad=5;              <font color=#ff0080>// the distance to separate bounding boxes;</font>
+  
+  <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#0000ff>BoundingBoxCalculator</font>(Graphics gg) {
+    g=gg;
+    fm = g.<font color=#0000ff>getFontMetrics</font>();
+  }
+  
+  <font color=#ff0080>/**
+   * Calculates the width of the drawing of the node label.  Stores 
+   * the attributes needed to calculate the exact position to draw the
+   * label.
+   */</font>
+  <font color=#8000a0><font color=#8000a0>protected</font> </font><font color=#8000a0>int</font> <font color=#0000ff>textWidth</font>(Position pos) {
+    <font color=#8000a0><font color=#8000a0>String</font> </font>str=pos.<font color=#0000ff>element</font>().<font color=#0000ff>toString</font>();
+    Rectangle2D bounds = fm.<font color=#0000ff>getStringBounds</font>(str,g);
+    pos.<font color=#0000ff>set</font>(<font color=#008000>"bounds"</font>, bounds);
+    pos.<font color=#0000ff>set</font>(<font color=#008000>"ascent"</font>, <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Integer</font>(fm.<font color=#0000ff>getMaxAscent</font>()));
+    pos.<font color=#0000ff>set</font>(<font color=#008000>"descent"</font>, <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Integer</font>(fm.<font color=#0000ff>getMaxDescent</font>()));
+    <font color=#ff8000>return</font><font color=#0000ff> </font>(<font color=#8000a0>int</font>)bounds.<font color=#0000ff>getWidth</font>()+pad;
+  }
+}
+</dl>
+</body>
+</html>

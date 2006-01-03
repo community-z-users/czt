@@ -1,0 +1,230 @@
+<html>
+<head>
+<title>Code Fragment</title>
+</head>
+
+<body text=#000000 bgcolor=#ffffff>
+<center>
+</center><br><br><dl><dd><pre>
+
+
+<font color=#ff8000>import</font> jdsl.core.api.*;
+<font color=#ff8000>import</font> java.awt.*;
+<font color=#ff8000>import</font> java.awt.event.*;
+
+
+<font color=#ff0080>/**
+	* @author Lucy Perry (lep)
+	* @version JDSL 2
+	*/</font>
+<font color=#8000a0>public</font> <font color=#8000a0><font color=#ff8000>class</font> </font>Triage <font color=#8000a0><font color=#ff8000>extends</font> </font>Frame 
+        <font color=#8000a0><font color=#ff8000>implements</font> </font>ActionListener,WindowListener{
+
+    <font color = #ff0080>/* ************************************ */</font> 
+    <font color = #ff0080>/* The members described in the lesson. */</font>
+    <font color = #ff0080>/* ************************************ */</font> 
+
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#0000ff>Triage</font>(){
+      <font color=#ff8000>super</font><font color=#0000ff></font>();
+      <font color=#ff0080>//b4.1</font>
+      <font color=#ff0080>//create the PriorityQueue, passing a Comparator to its constructor</font>
+      pq_ = <font color=#8000a0><font color=#ff8000>new</font> </font>jdsl.core.ref.<font color=#0000ff>ArrayHeap</font>(<font color=#ff8000>new</font> jdsl.core.ref.<font color=#0000ff>IntegerComparator</font>());    
+      <font color=#ff0080>//e4.1</font>
+      <font color=#0000ff>setupPanel</font>();<font color=#ff0080>//takes care of visual components</font>
+    }
+
+    <font color=#ff0080>/** 
+     * This method is called when the "Add a patient" button is pressed
+     * The patient's name is retrieved from the text field, and used as
+     * as an element. The priority number is retrieved from the choice 
+     * widget, and used as a key.
+     * Then the key and element are inserted, together, into the 
+     * PriorityQueue.
+     */</font>
+    <font color=#ff0080>//b4.2 </font>
+    <font color=#8000a0><font color=#8000a0>protected</font> </font><font color=#8000a0>void</font> <font color=#0000ff>enterPatient</font>(){
+      <font color=#8000a0>Object </font>element = name_field_.<font color=#0000ff>getText</font>();
+      <font color=#8000a0><font color=#8000a0>int</font> </font>priority = java.lang.Integer.<font color=#0000ff>parseInt</font>(priority_chooser_.<font color=#0000ff>getSelectedItem</font>(), 10);
+      <font color=#ff0080>//rememer that the key must be an Object, so make the int an Integer</font>
+      <font color=#8000a0>Object </font>key = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Integer</font>(priority);
+      <font color=#ff0080>//Insert the data into the PriorityQueue</font>
+      pq_.<font color=#0000ff>insert</font>(key, element);
+    }
+    <font color=#ff0080>//e4.2</font>
+
+    <font color=#ff0080>/**
+     * This method is called when the "Remove top patient" button is pressed.
+     * The top-priority patient is removed from the PriorityQueue, and 
+     * patient's name displayed in a text field.
+     */</font>
+    <font color=#ff0080>//b4.3</font>
+    <font color=#8000a0><font color=#8000a0>protected</font> </font><font color=#8000a0>void</font> <font color=#0000ff>getTopPatient</font>(){
+        <font color=#8000a0>Object </font>output;
+        <font color=#ff0080>//Remove the top-priority item from the PriorityQueue</font>
+        <font color=#ff8000>try</font>{
+	        output = pq_.<font color=#0000ff>removeMin</font>();
+        }
+        <font color=#ff8000>catch</font><font color=#0000ff></font>(EmptyContainerException ece){
+	        output = <font color=#008000>"No patients in queue."</font>;
+        }
+        top_priority_patient_.<font color=#0000ff>setText</font>(<font color=#0000ff></font>(<font color=#8000a0>String</font>)output);
+    }
+    <font color=#ff0080>//e4.3</font>
+
+    <font color = #ff0080>/* ************************************ */</font> 
+    <font color = #ff0080>/* Members not described in the lesson. */</font>
+    <font color = #ff0080>/* ************************************ */</font> 
+    
+    <font color=#ff0080>//JDSL PriorityQueue for keeping track of data</font>
+    <font color=#8000a0><font color=#8000a0>private</font> </font>PriorityQueue pq_;
+
+    <font color=#ff0080>//awt panel, holds all visual components</font>
+    <font color=#8000a0><font color=#8000a0>private</font> </font>Panel panel_;
+    
+    <font color=#ff0080>//user enters a patient's name here</font>
+    <font color=#8000a0><font color=#8000a0>private</font> </font>TextField name_field_;
+
+    <font color=#ff0080>//a choice widget for selecting a triage priority</font>
+    <font color=#8000a0><font color=#8000a0>private</font> </font>Choice priority_chooser_;
+
+    <font color=#ff0080>//click this button to enter a patient + priority in the PriorityQueue</font>
+    <font color=#8000a0><font color=#8000a0>private</font> </font>Button enter_patient_;
+
+    <font color=#ff0080>//click this button to remove the top-priority patient</font>
+    <font color=#8000a0><font color=#8000a0>private</font> </font>Button remove_top_patient_;
+
+    <font color=#ff0080>//when the top patient is removed, the patient's name is displayed here</font>
+    <font color=#8000a0><font color=#8000a0>private</font> </font>TextField top_priority_patient_;
+
+    <font color=#ff0080>//click this button to quit</font>
+    <font color=#8000a0><font color=#8000a0>private</font> </font>Button quit_;
+
+
+
+
+
+
+
+
+    <font color=#ff0080>//takes care of visual components</font>
+    <font color=#8000a0><font color=#8000a0>private</font> </font><font color=#8000a0>void</font> <font color=#0000ff>setupPanel</font>(){
+      <font color=#0000ff>setLocation</font>(50,50);<font color=#ff0080>//makes frame pop up in a nice place</font>
+
+      panel_ = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Panel</font>();
+      
+      <font color=#0000ff>add</font>(panel_);
+      
+      name_field_ = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>TextField</font>(25);
+      name_field_.<font color=#0000ff>setEditable</font>(true);
+      
+      priority_chooser_ = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Choice</font>();
+      priority_chooser_.<font color=#0000ff>add</font>(<font color=#008000>"1"</font>);
+      priority_chooser_.<font color=#0000ff>add</font>(<font color=#008000>"2"</font>);
+      priority_chooser_.<font color=#0000ff>add</font>(<font color=#008000>"3"</font>);
+      priority_chooser_.<font color=#0000ff>add</font>(<font color=#008000>"4"</font>);
+      priority_chooser_.<font color=#0000ff>add</font>(<font color=#008000>"5"</font>);
+      
+      enter_patient_ = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Button</font>(<font color=#008000>"Add a patient to the PriorityQueue"</font>);
+      enter_patient_.<font color=#0000ff>addActionListener</font>(<font color=#ff8000>this</font>);
+      
+      remove_top_patient_ = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Button</font>(<font color=#008000>"Remove the top-priority patient"</font>);
+      remove_top_patient_.<font color=#0000ff>addActionListener</font>(<font color=#ff8000>this</font>);
+      
+      top_priority_patient_ = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>TextField</font>(25);
+      top_priority_patient_.<font color=#0000ff>setEditable</font>(false);
+      
+      quit_ = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Button</font>(<font color=#008000>"Quit"</font>);
+      quit_.<font color=#0000ff>addActionListener</font>(<font color=#ff8000>this</font>);
+      
+      <font color=#0000ff>addWindowListener</font>(<font color=#ff8000>this</font>);
+      
+      <font color=#8000a0>GridBagLayout </font>layout = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>GridBagLayout</font>();
+      panel_.<font color=#0000ff>setLayout</font>(layout);
+      
+      <font color=#8000a0>GridBagConstraints </font>constraints = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>GridBagConstraints</font>();
+      constraints.gridy=GridBagConstraints.RELATIVE;<font color=#ff0080>//right below the last one</font>
+      constraints.gridx=1;<font color=#ff0080>//1 column</font>
+      constraints.anchor=GridBagConstraints.CENTER;
+      constraints.ipady=2;<font color=#ff0080>//set vgap to 2 pixels.</font>
+      constraints.ipadx=3;
+
+   
+   
+
+      panel_.<font color=#0000ff>add</font>(<font color=#ff8000>new</font> <font color=#0000ff>Label</font>(<font color=#008000>"Enter patient's name here:"</font>), constraints);
+      panel_.<font color=#0000ff>add</font>(name_field_, constraints);
+      
+      panel_.<font color=#0000ff>add</font>(<font color=#ff8000>new</font> <font color=#0000ff>Label</font>(<font color=#008000>""</font>), constraints);<font color=#ff0080>//blank line</font>
+      
+      panel_.<font color=#0000ff>add</font>(<font color=#ff8000>new</font> <font color=#0000ff>Label</font>(<font color=#008000>"Set the patient's triage priority here:"</font>), constraints);
+      panel_.<font color=#0000ff>add</font>(<font color=#ff8000>new</font> <font color=#0000ff>Label</font>(<font color=#008000>"(1 = most urgent,  5 = least urgent)"</font>), constraints);
+      panel_.<font color=#0000ff>add</font>(priority_chooser_, constraints);
+      
+      panel_.<font color=#0000ff>add</font>(<font color=#ff8000>new</font> <font color=#0000ff>Label</font>(<font color=#008000>""</font>), constraints);<font color=#ff0080>//blank line</font>
+      
+      panel_.<font color=#0000ff>add</font>(enter_patient_, constraints);
+      
+      panel_.<font color=#0000ff>add</font>(<font color=#ff8000>new</font> <font color=#0000ff>Label</font>(<font color=#008000>""</font>), constraints);<font color=#ff0080>//blank line</font>
+      
+      panel_.<font color=#0000ff>add</font>(remove_top_patient_, constraints);
+      
+      panel_.<font color=#0000ff>add</font>(<font color=#ff8000>new</font> <font color=#0000ff>Label</font>(<font color=#008000>""</font>), constraints);<font color=#ff0080>//blank line</font>
+      
+      panel_.<font color=#0000ff>add</font>(<font color=#ff8000>new</font> <font color=#0000ff>Label</font>(<font color=#008000>"Ready to treat patient:"</font>), constraints);
+      panel_.<font color=#0000ff>add</font>(top_priority_patient_, constraints);
+      
+      
+      panel_.<font color=#0000ff>add</font>(<font color=#ff8000>new</font> <font color=#0000ff>Label</font>(<font color=#008000>""</font>), constraints);<font color=#ff0080>//blank line</font>
+      panel_.<font color=#0000ff>add</font>(<font color=#ff8000>new</font> <font color=#0000ff>Label</font>(<font color=#008000>""</font>), constraints);<font color=#ff0080>//blank line</font>
+      panel_.<font color=#0000ff>add</font>(<font color=#ff8000>new</font> <font color=#0000ff>Label</font>(<font color=#008000>""</font>), constraints);<font color=#ff0080>//blank line</font>
+      
+      panel_.<font color=#0000ff>add</font>(quit_, constraints);
+      
+      <font color=#0000ff>validate</font>();
+      <font color=#0000ff>setVisible</font>(true);
+      panel_.<font color=#0000ff>validate</font>();
+      panel_.<font color=#0000ff>setVisible</font>(true);
+      <font color=#0000ff>pack</font>();
+  }
+
+
+    <font color=#ff0080>//handles button presses</font>
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>actionPerformed</font>(ActionEvent e){
+      
+      <font color=#ff8000>if</font><font color=#0000ff></font>(e.<font color=#0000ff>getSource</font>() == enter_patient_){
+	    <font color=#0000ff>enterPatient</font>();
+      }
+      <font color=#8000a0><font color=#ff8000>else</font> </font><font color=#ff8000>if</font><font color=#0000ff> </font>(e.<font color=#0000ff>getSource</font>() == remove_top_patient_){
+	    <font color=#0000ff>getTopPatient</font>();
+      }
+      <font color=#8000a0><font color=#ff8000>else</font> </font><font color=#ff8000>if</font><font color=#0000ff> </font>(e.<font color=#0000ff>getSource</font>() == quit_){
+	    System.<font color=#0000ff>exit</font>(0);
+      }
+    }
+
+
+
+
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>static</font> <font color=#8000a0><font color=#8000a0>void</font> </font><font color=#0000ff>main</font>(<font color=#8000a0>String</font> args[]){
+      <font color=#8000a0>Triage </font>t = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Triage</font>();
+    }
+
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>windowActivated</font>(WindowEvent e) {}
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>windowClosed</font>(WindowEvent e) {}
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>windowClosing</font>(WindowEvent e) {System.<font color=#0000ff>exit</font>(0);}
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>windowDeactivated</font>(WindowEvent e) {}
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>windowDeiconified</font>(WindowEvent e) {}
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>windowIconified</font>(WindowEvent e) {}
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>windowOpened</font>(WindowEvent e) {}
+
+
+}
+
+
+
+
+
+  
+</dl>
+</body>
+</html>

@@ -1,0 +1,37 @@
+# Small set of edges for testing correctness of algos 5 19
+#  5 69
+#Commented by David Powell (dep) 5 483
+#Sun Jan 26 00:35:54 EST 1997 5 336
+#revised Tue Feb 18 01:33:21 EST 1997 by bh 5 172
+# -- removed extraneous fields 5 385
+#excerpted from sparse_flights.dat by mdh Tue Mar 31 09:21:07 EST 1998 5 24
+# 5 477
+# 5 37
+#Fields: 5 451
+# 2 - Airline 5 206
+# 4 - Flight (left-padded with whitespace) 5 402
+# 2 - <padding> 5 474
+# 3 - Source Airport 5 481
+# 1 - <padding> 5 234
+# 5 - Departure Time (left-padded with whitespace) 5 477
+# 2 - <padding> 5 90
+# 3 - Destination Airport 5 333
+# 1 - <padding> 5 249
+# 5 - Arrival Time (left-padded with whitespace) 5 26
+# 2 - <padding> 5 154
+# 3 - Plane type 5 310
+# 3 - <padding> 5 37
+# remainder - Flight Classes 5 118
+# 5 93
+US8878  LAX  900A  ABQ 1012A  D10    F  Y  B  M  Q 311
+DL1234  LAX  912A  SFO 1011A  D10    F  Y  B  M  Q 260
+DL4321  ABQ 1030A  HOU 1215P  D10    F  Y  B  M  Q 33
+DL4322  SFO 1045A  DEN  115P  D10    F  Y  B  M  Q 115
+US2222  HOU  100P  ATL  549P  747    F  Y  B  M  H 413
+AA222   DEN  139P  ORD  459P  747    F  Y  B  M  H 113
+UA22    ORD  549P  JFK  831P  747    F  Y  B  M  H 379
+US12    ATL  611P  JFK  832P  747    F  Y  B  M  H 254
+DL22    MIA 1230P  MSY  130P  747    F  Y  B  M  H  268
+US2     MIA 1241P  MSY  122P  747    F  Y  B  M  H  83
+BF44    MSY  129P  ORD  530P  747    F  Y  B  M  H  95
+UA21    MSY  145P  ORD  531P  747    F  Y  B  M  H  396

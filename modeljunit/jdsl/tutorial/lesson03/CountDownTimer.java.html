@@ -1,0 +1,111 @@
+<html>
+<head>
+<title>Code Fragment</title>
+</head>
+
+<body text=#000000 bgcolor=#ffffff >
+<center>
+</center><br><br><dl><dd><pre>
+
+<font color=#ff8000>import</font> java.util.*;
+<font color=#ff8000>import</font> java.awt.*;
+<font color=#ff8000>import</font> java.awt.geom.*;
+<font color=#ff8000>import</font> jdsl.core.api.*;
+<font color=#ff8000>import</font> jdsl.core.ref.*;
+
+<font color=#ff0080>/**
+ * @author Robert Cohen (rfc)
+ * @version JDSL 2
+ */</font>
+<font color=#8000a0>public</font> <font color=#8000a0><font color=#ff8000>class</font> </font>CountDownTimer <font color=#8000a0><font color=#ff8000>extends</font> </font>Canvas <font color=#8000a0><font color=#ff8000>implements</font> </font>Runnable {
+  
+  <font color=#8000a0>Thread </font>projector;
+  <font color=#8000a0>long </font>delay=1000;       <font color=#ff0080>//one second</font>
+  <font color=#8000a0><font color=#8000a0>int</font> </font>time, timeLeft;
+  <font color=#8000a0><font color=#8000a0>int</font> </font>xPos;
+  <font color=#8000a0><font color=#8000a0>int</font> </font>yPos;
+  <font color=#8000a0><font color=#8000a0>boolean</font> </font>initialized;
+  <font color=#8000a0>Sequence </font>listeners = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>ArraySequence</font>();
+  <font color=#8000a0><font color=#8000a0>boolean</font> </font>running;
+  
+  <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#0000ff>CountDownTimer</font>(<font color=#8000a0>int</font> secs) {
+    delay = 1000; <font color=#ff0080>// once a second</font>
+    timeLeft = secs;
+    time=secs;
+    <font color=#0000ff>setFont</font>( <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Font</font>( <font color=#008000>"Arial"</font>, Font.BOLD + Font.ITALIC, 36 ) );
+  }<font color = #ff0080>/* init */</font>
+  
+  <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>start</font>() {
+    <font color=#ff8000>if</font><font color=#0000ff></font>( projector == null )
+      projector = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Thread</font>( <font color=#ff8000>this</font>, <font color=#008000>"CountDownTimer"</font> );
+    running=true;
+    projector.<font color=#0000ff>start</font>();
+  }<font color = #ff0080>/* start */</font>
+  
+  <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>run</font>() {
+    <font color=#ff8000>while</font><font color=#0000ff></font>(running&&<font color=#0000ff></font>(Thread.<font color=#0000ff>currentThread</font>()==projector)&&<font color=#0000ff></font>(timeLeft&gt0)) {
+      <font color=#ff8000>try</font> { Thread.<font color=#0000ff>sleep</font>( delay ); 
+      }
+      <font color=#ff8000>catch</font><font color=#0000ff></font>( <font color=#8000a0>InterruptedException </font>e ) {}
+      <font color=#ff8000>if</font><font color=#0000ff> </font>(!running) {<font color=#ff8000>break</font>;}
+      timeLeft--;
+      <font color=#0000ff>notifyListeners</font>();
+      <font color=#0000ff>repaint</font>();
+    }
+  }
+  
+  <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>boolean</font> <font color=#0000ff>isRunning</font>() {
+    <font color=#ff8000>if</font><font color=#0000ff> </font>(projector==null)
+      <font color=#8000a0><font color=#ff8000>return</font> </font>false;
+    <font color=#ff8000>else</font>
+      <font color=#8000a0><font color=#ff8000>return</font> </font>projector.<font color=#0000ff>isAlive</font>();
+  }
+  
+  
+  <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>paint</font>( <font color=#8000a0>Graphics </font>g ) {
+    <font color=#ff8000>if</font><font color=#0000ff> </font>(!initialized) {
+      <font color=#0000ff>setPos</font>();
+      initialized=true;
+    }    
+    g.<font color=#0000ff>drawString</font>(<font color=#8000a0>String</font>.<font color=#0000ff>valueOf</font>(timeLeft),xPos,yPos);
+  }<font color = #ff0080>/* update */</font>
+  
+  <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>stop</font>() {
+    running = false;
+    projector=null;
+  }<font color = #ff0080>/* stop */</font>
+  
+  <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>reset</font>() {
+    <font color=#0000ff>stop</font>();
+    timeLeft=time;
+    <font color=#0000ff>repaint</font>();
+  }
+  
+  <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>addCountDownTimerListener</font>(CountDownTimerListener c) {
+    listeners.<font color=#0000ff>insertLast</font>(c);
+  }
+  
+  <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>notifyListeners</font>() {
+    <font color=#8000a0>CountDownTimerEvent </font>e = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>CountDownTimerEvent</font>(<font color=#ff8000>this</font>, timeLeft);
+    <font color=#ff8000>for</font><font color=#0000ff></font>(ObjectIterator i=listeners.<font color=#0000ff>elements</font>();i.<font color=#0000ff>hasNext</font>();)
+<font color=#0000ff>      </font>(<font color=#0000ff></font>(CountDownTimerListener)i.<font color=#0000ff>nextObject</font>()).<font color=#0000ff>timerTicked</font>(e);
+  }
+  
+  <font color=#8000a0><font color=#8000a0>private</font> </font><font color=#8000a0>void</font> <font color=#0000ff>setPos</font>() {
+    <font color=#8000a0>Graphics </font>g = <font color=#0000ff>getGraphics</font>();
+    <font color=#8000a0>FontMetrics </font>fm=g.<font color=#0000ff>getFontMetrics</font>();
+    <font color=#8000a0><font color=#8000a0>String</font> </font>str=<font color=#8000a0>String</font>.<font color=#0000ff>valueOf</font>(timeLeft);
+    Rectangle2D bounds = fm.<font color=#0000ff>getStringBounds</font>(str,g);
+    <font color=#8000a0><font color=#8000a0>int</font> </font>textWidth =<font color=#0000ff> </font>(<font color=#8000a0>int</font>)bounds.<font color=#0000ff>getWidth</font>();
+    <font color=#8000a0><font color=#8000a0>int</font> </font>textHeight =<font color=#0000ff> </font>(<font color=#8000a0>int</font>)bounds.<font color=#0000ff>getHeight</font>();
+    <font color=#8000a0>Dimension </font>canvasSize = <font color=#0000ff>getSize</font>();
+    <font color=#8000a0><font color=#8000a0>int</font> </font>canvasHeight=canvasSize.height;
+    <font color=#8000a0><font color=#8000a0>int</font> </font>canvasWidth=canvasSize.width;
+    xPos =<font color=#0000ff> </font>(canvasWidth&lttextWidth) ? 0 :<font color=#0000ff> </font>(canvasWidth-textWidth)/2;
+    yPos =<font color=#0000ff> </font>(canvasHeight&lttextHeight) ? 0 : 
+<font color=#0000ff>      </font>(canvasHeight-textHeight)/2 + textHeight;
+  }
+}
+</dl>
+</body>
+</html>

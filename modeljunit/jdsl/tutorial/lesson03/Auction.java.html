@@ -1,0 +1,143 @@
+<html>
+<head>
+<title>Code Fragment</title>
+</head>
+
+<body text=#000000 bgcolor=#ffffff>
+<center>
+</center><br><br><dl><dd><pre>
+
+<font color=#ff8000>import</font> jdsl.core.api.*;
+<font color=#ff8000>import</font> jdsl.core.ref.*;
+
+<font color=#ff0080>/**
+ * Simulates an auction.  New bids always must exceed the
+ * current highest bid.
+ *
+ * @author Robert Cohen (rfc)
+ * @version JDSL 2
+ */</font>
+<font color=#8000a0>public</font> <font color=#8000a0><font color=#ff8000>class</font> </font>Auction {
+
+    <font color = #ff0080>/* ************************************ */</font> 
+    <font color = #ff0080>/* The members described in the lesson. */</font>
+    <font color = #ff0080>/* ************************************ */</font> 
+
+    <font color=#ff0080>//b3.1</font>
+    <font color=#8000a0><font color=#8000a0>private</font> </font>Sequence bids = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>NodeSequence</font>();
+    <font color=#8000a0><font color=#8000a0>private</font> </font><font color=#8000a0>double</font> highBid;
+    <font color=#ff0080>//e3.1</font>
+
+    <font color=#ff0080>/**
+     * Place an initial bid for a person.
+     */</font>
+    <font color=#ff0080>//b3.2</font>
+    <font color=#8000a0><font color=#8000a0>public</font> </font>Position <font color=#0000ff>initial</font>(<font color=#8000a0>String</font> name, <font color=#8000a0><font color=#8000a0>double</font> </font>amount) <font color=#8000a0><font color=#ff8000>throws</font> </font>InvalidBidException{
+        <font color=#0000ff>checkBid</font>(amount);
+        <font color=#8000a0>Bid </font>b = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Bid</font>(name, amount);
+        highBid=amount;
+        <font color=#8000a0><font color=#ff8000>return</font> </font>bids.<font color=#0000ff>insertLast</font>(b);
+    }
+    <font color=#ff0080>//e3.2</font>
+  
+    <font color=#ff0080>/**
+     * Perform validity checks on a bid.
+     */</font>
+     <font color=#ff0080>//b3.3</font>
+    <font color=#8000a0><font color=#8000a0>private</font> </font><font color=#8000a0>void</font> <font color=#0000ff>checkBid</font>(<font color=#8000a0>double</font> amount) <font color=#8000a0><font color=#ff8000>throws</font> </font>InvalidBidException {
+        <font color=#ff8000>if</font><font color=#0000ff> </font>(closed)
+            <font color=#8000a0><font color=#ff8000>throw</font> </font><font color=#ff8000>new</font> <font color=#0000ff>InvalidBidException</font>(<font color=#008000>"Bids have closed."</font>);
+        <font color=#ff8000>if</font><font color=#0000ff> </font>(amount&lt=0) 
+            <font color=#8000a0><font color=#ff8000>throw</font> </font><font color=#ff8000>new</font> <font color=#0000ff>InvalidBidException</font>(<font color=#008000>"Bid must be positive."</font>);
+        <font color=#8000a0><font color=#ff8000>else</font> </font><font color=#ff8000>if</font><font color=#0000ff> </font>(amount &lt= highBid)
+            <font color=#8000a0><font color=#ff8000>throw</font> </font><font color=#ff8000>new</font> <font color=#0000ff>InvalidBidException</font>(<font color=#008000>"Bid must top current high bid."</font>);
+    }
+    <font color=#ff0080>//e3.3</font>
+  
+    <font color=#ff0080>/**
+     * Top the current high bid for someone already in the auction.
+     */</font>
+    <font color=#ff0080>//b3.4 </font>
+    <font color=#8000a0><font color=#8000a0>public</font> </font>Position <font color=#0000ff>top</font>(Position p, <font color=#8000a0><font color=#8000a0>double</font> </font>amount) <font color=#8000a0><font color=#ff8000>throws</font> </font>InvalidBidException {
+        <font color=#0000ff>checkBid</font>(amount);
+        <font color=#8000a0>Bid </font>b =<font color=#0000ff> </font>(Bid)p.<font color=#0000ff>element</font>();
+        b.<font color=#0000ff>setAmount</font>(amount);
+        <font color=#ff8000>try</font> {
+            bids.<font color=#0000ff>remove</font>(p);
+        } <font color=#ff8000>catch</font><font color=#0000ff> </font>(InvalidAccessorException e) {
+            <font color=#8000a0><font color=#ff8000>throw</font> </font><font color=#ff8000>new</font> <font color=#0000ff>InvalidBidException</font>(<font color=#008000>"Bidder not in Auction."</font>);
+        }
+        highBid=amount;
+        <font color=#8000a0><font color=#ff8000>return</font> </font>bids.<font color=#0000ff>insertLast</font>(b);
+    }
+    <font color=#ff0080>//e3.4</font>
+  
+    <font color=#ff0080>/**
+     * Remove someone from the auction.
+     */</font>
+    <font color=#ff0080>//b3.5 </font>
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>quit</font>(Position p) {
+        bids.<font color=#0000ff>remove</font>(p);
+        <font color=#ff8000>if</font><font color=#0000ff> </font>(bids.<font color=#0000ff>size</font>()==0)
+            highBid=0;
+        <font color=#ff8000>else</font>
+            highBid=<font color=#0000ff></font>(<font color=#0000ff></font>(Bid)bids.<font color=#0000ff>last</font>().<font color=#0000ff>element</font>()).<font color=#0000ff>amount</font>();
+    }
+    <font color=#ff0080>//e3.5</font>
+  
+    <font color = #ff0080>/* ************************************ */</font> 
+    <font color = #ff0080>/* Members not described in the lesson. */</font>
+    <font color = #ff0080>/* ************************************ */</font> 
+    
+    <font color=#8000a0><font color=#8000a0>private</font> </font><font color=#8000a0>boolean</font> closed=false;
+  
+    <font color=#ff0080>/**
+     * Place an initial bid for an amount 1 more than the
+     * current highest bid.
+     */</font>
+    <font color=#8000a0><font color=#8000a0>public</font> </font>Position <font color=#0000ff>initial</font>(<font color=#8000a0>String</font> name) <font color=#8000a0><font color=#ff8000>throws</font> </font>InvalidBidException{
+        <font color=#8000a0><font color=#ff8000>return</font> </font><font color=#0000ff>initial</font>(name, highBid+1);
+    }
+  
+    <font color=#ff0080>/**
+     * Top the current high bid for someone already in the auction
+     * for an amount 1 more than the current highest bid.
+     */</font>
+    <font color=#8000a0><font color=#8000a0>public</font> </font>Position <font color=#0000ff>top</font>(Position p) <font color=#8000a0><font color=#ff8000>throws</font> </font>InvalidBidException {
+        <font color=#8000a0><font color=#ff8000>return</font> </font><font color=#0000ff>top</font>(p, highBid+1);
+    }
+  
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>int</font> <font color=#0000ff>numBidders</font>(){
+        <font color=#8000a0><font color=#ff8000>return</font> </font>bids.<font color=#0000ff>size</font>();
+    }    
+  
+    <font color=#ff0080>/**
+     * Close the auction and print the results.
+     */</font>
+    <font color=#8000a0><font color=#8000a0>public</font> </font>Position <font color=#0000ff>close</font>() {
+        closed = true;
+        <font color=#ff8000>if</font><font color=#0000ff> </font>(bids.<font color=#0000ff>size</font>() == 0)
+            <font color=#8000a0><font color=#ff8000>return</font> </font>null;
+        <font color=#ff8000>else</font> {
+            <font color=#8000a0><font color=#ff8000>return</font> </font>bids.<font color=#0000ff>last</font>();
+        }
+    }
+  
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>double</font> <font color=#0000ff>highBid</font>() {<font color=#ff8000>return</font> highBid;}
+  
+    <font color=#ff0080>/**
+     * Overrides the default.
+     */</font>
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>String</font> <font color=#0000ff>toString</font>() {
+        <font color=#8000a0><font color=#8000a0>String</font> </font>ret = <font color=#008000>""</font>;
+        <font color=#ff8000>if</font><font color=#0000ff> </font>(bids.<font color=#0000ff>size</font>()==0)
+            <font color=#8000a0><font color=#ff8000>return</font> </font>ret;
+        <font color=#ff8000>for</font><font color=#0000ff></font>(<font color=#8000a0>int</font> i=0; i&ltbids.<font color=#0000ff>size</font>()-1; ++i)
+            ret +=<font color=#0000ff> </font>(<font color=#0000ff></font>(Bid)bids.<font color=#0000ff>atRank</font>(i).<font color=#0000ff>element</font>()).<font color=#0000ff>toString</font>() +'\n';
+        ret +=<font color=#0000ff> </font>(<font color=#0000ff></font>(Bid)bids.<font color=#0000ff>atRank</font>(bids.<font color=#0000ff>size</font>()-1).<font color=#0000ff>element</font>()).<font color=#0000ff>toString</font>();
+        <font color=#8000a0><font color=#ff8000>return</font> </font>ret;
+    }
+ }
+</dl>
+</body>
+</html>

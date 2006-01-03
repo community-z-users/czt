@@ -1,0 +1,244 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>JDSL Tutorial Lesson 5</title>
+    <link rel=stylesheet type="text/css" href="../styles.css">
+  </head>
+
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+<!-- JDSLHEADER -->
+<font face="Tahoma, sans-serif" size="+2" color="darkred">
+The Data Structures Library in Java
+</font>
+<br>
+<br>
+<font face="Tahoma, sans-serif" size="+3"><b>
+JDSL Tutorial
+</b></font>
+<!-- JDSLMAIN -->
+<p>
+<a href="../lesson04/lesson04.html">Previous Lesson</a>
+<br><a href="../tutorial.html">Table of Contents</a>
+<br><a href="../lesson06/lesson06.html">Next Lesson</a>
+
+<hr>
+<center>
+<font face="Tahoma, sans-serif" size="+3"><b>
+Lesson 5: Phone Book</b></font></center>
+
+<br>This simple phone number database supports insertion and removal of names
+and corresponding phone numbers, and allows the user to retrieve a phone
+number by entering a name. The program demonstrates some capabilities of
+the JDSL's <tt>Dictionary</tt> and <tt>OrderedDictionary</tt> interfaces.
+<h3>
+New concepts covered:</h3>
+
+<ul>
+<li>
+<A HREF="../../doc/jdsl/core/api/Dictionary.html">Dictionary</A></li>
+
+<li>
+<A HREF="../../doc/jdsl/core/api/OrderedDictionary.html">OrderedDictionary</A></li>
+
+<li>
+<A HREF="../../doc/jdsl/core/api/EqualityComparator.html">EqualityComparator</A></li>
+</ul>
+
+<hr>The entire <tt>PhoneBook.java</tt> file can be viewed by clicking <a href="PhoneBook.java.html">here.</a>
+<br>To run this demo program, type <tt>java PhoneBook</tt> in a shell.
+<br>
+<hr>
+<p>As the name implies, the primary use of a <tt><A HREF="../../doc/jdsl/core/api/Dictionary.html">Dictionary</A></tt> is to
+store elements so that they can be located quickly using keys. Like a <tt><A HREF="../../doc/jdsl/core/api/PriorityQueue.html">PriorityQueue</A></tt>,
+a <tt>Dictionary</tt> is a <tt><A HREF="../../doc/jdsl/core/api/Container.html">Container</A></tt> of <tt>key-element</tt> pairs.
+However, although a total order relation on the keys is always required
+for a <tt>PriorityQueue</tt>, it is optional for a <tt>Dictionary</tt>.
+When a total order relation on the keys is actually defined, the data structure
+is called an <tt><A HREF="../../doc/jdsl/core/api/OrderedDictionary.html">OrderedDictionary</A></tt>, and it supports additional methods
+that refer to the ordering of the keys.
+<p>In this example, we explore the added capabilities of an <tt><A HREF="../../doc/jdsl/core/api/OrderedDictionary.html">OrderedDictionary</A></tt>.&nbsp;
+We use the&nbsp; <tt><A HREF="../../doc/jdsl/core/ref/RedBlackTree.html">jdsl.core.ref.RedBlackTree</A></tt> class in our implementation.
+Note that, as in the previous example with the <tt><A HREF="../../doc/jdsl/core/api/PriorityQueue.html">PriorityQueue</A></tt>,
+we must pass a JDSL <tt><A HREF="../../doc/jdsl/core/api/Comparator.html">Comparator</A></tt> to the data structure in its construtor.
+We'll use the <tt><A HREF="../../doc/jdsl/core/ref/ComparableComparator.html">ComparableComparator</A></tt> described in <a href="../lesson02/lesson02.html">Lesson
+2</a>.<br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0080">//create the OrderedDictionary,
+passing a Comparator to its constructor<br>
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; od_ = <font color="#FF8000">new</font><font color="#8000A0">
+</font>jdsl.core.ref.<font color="#0000FF">RedBlackTree</font>(<font color="#FF8000">new</font>
+<font color="#0000FF">ComparableComparator</font>());<br>
+<br>
+</tt>In the <tt>PhoneBook</tt> method <tt>addEntry()</tt>, we see how
+<tt>key,element</tt>
+pairs are inserted into the <tt><A HREF="../../doc/jdsl/core/api/OrderedDictionary.html">OrderedDictionary</A></tt>: This method is
+called when the "add a name,number entry" button is clicked. The <tt>String</tt>
+in the <tt>name_adder_</tt> field is used as the key, and the <tt>String</tt>
+(phone number) in the <tt>number_adder_</tt> field is used as the element
+to store. The key and element are then inserted into the <tt>OrderedDictionary</tt>.
+<p><tt><font color="#8000A0">&nbsp;&nbsp;&nbsp; public void</font> <font color="#0000FF">addEntry</font>(){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#8000A0">Object </font>key
+= name_adder_.<font color="#0000FF">getText</font>();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#8000A0">Object </font>element
+= number_adder_.<font color="#0000FF">getText</font>();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; od_.<font color="#0000FF">insert</font>(key,
+element);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0080">//now clear out those
+text fields just to look nice<br>
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; name_adder_.<font color="#0000FF">setText</font>(<font color="#008000">""</font>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; number_adder_.<font color="#0000FF">setText</font>(<font color="#008000">""</font>);<br>
+&nbsp;&nbsp;&nbsp; }<br>
+<br>
+</tt>In the PhoneBook method <tt>findEntry()</tt>, we see how to retrieve
+data using a key. (In this case, we're retrieving phone numbers by using
+names as keys.)&nbsp; The following method is called when the "find the
+phone number" button is clicked. The <tt>String</tt> in the <tt>name_query_</tt>
+field is used as a search key. That key is passed as a parameter to the
+<tt><A HREF="../../doc/jdsl/core/api/Dictionary.html">Dictionary</A></tt>'s
+<tt>find(.)</tt> method. A <tt><A HREF="../../doc/jdsl/core/api/Locator.html">Locator</A></tt> is returned
+from the <tt>find(.)</tt> operation, and is stored as our <tt>current_entry_</tt>.
+Then the <tt>displayCurrentEntry()</tt> helper method is invoked.
+<p><tt><font color="#8000A0">&nbsp;&nbsp;&nbsp; public void</font> <font color="#0000FF">findEntry</font>(){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#8000A0">Object </font>key
+= name_query_.<font color="#0000FF">getText</font>();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0080">// note that a JDSL
+Locator is returned from the find(.) operation<br>
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; current_entry_ = od_.<font color="#0000FF">find</font>(key);<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0080">//this helper method
+will display the data<br>
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#0000FF">displayCurrentEntry</font>();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0080">//now clear out the
+name_query_ text field just to look nice<br>
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; name_query_.<font color="#0000FF">setText</font>(<font color="#008000">""</font>);<br>
+&nbsp;&nbsp;&nbsp; }<br>
+<br>
+</tt>Now, if that was all our program did, a JDSL <tt><A HREF="../../doc/jdsl/core/api/Dictionary.html">Dictionary</A></tt> (non-ordered)
+would have sufficed. In that case, we probably would have used the
+<tt><A HREF="../../doc/jdsl/core/ref/HashtableDictionary.html">jdsl.core.ref.HashtableDictionary</A></tt>
+as our implementation. But, in fact, this example program also utilizes
+the <tt>before(.)</tt>and
+<tt>after(.)</tt> methods of the <tt><A HREF="../../doc/jdsl/core/api/OrderedDictionary.html">OrderedDictionary</A></tt>
+interface.
+<p>The following method is called when the "previous entry" button is clicked.
+It uses the <tt><A HREF="../../doc/jdsl/core/api/OrderedDictionary.html">OrderedDictionary</A></tt> method <tt>before(Locator)</tt>.
+<p><tt>&nbsp;&nbsp;&nbsp; <font color="#8000A0">public void</font> <font color="#0000FF">getEntryBefore</font>(){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0080">//we want to see the
+entry before the current_entry_<br>
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0080">//note that
+the before(.) method takes a Locator as a parameter<br>
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF8000">try</font>{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; jdsl.core.api.Locator prevEntry
+= od_.<font color="#0000FF">before</font>(current_entry_);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; current_entry_ = prevEntry;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF8000">catch</font>(jdsl.core.api.InvalidAccessorException
+iae){}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0080">//this would happen
+if we tried calling before(.) using an invalid<br>
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0080">//Locator for
+current_entry_.<br>
+<br>
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#0000FF">displayCurrentEntry</font>();<font color="#FF0080">//Display
+the current (valid or not) entry.<br>
+</font>&nbsp;&nbsp;&nbsp; }<br></tt>
+<br>
+This next method is called when the "next entry" button is clicked. It
+uses the <tt><A HREF="../../doc/jdsl/core/api/OrderedDictionary.html">OrderedDictionary</A></tt> method <tt>after(Locator)</tt>.
+<p><tt><font color="#8000A0">&nbsp;&nbsp;&nbsp; public void</font> <font color="#0000FF">getEntryAfter</font>(){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0080">//we want to see the
+entry after the the current_entry_<br>
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0080">//note that
+the after(.) method takes a Locator as a parameter<br>
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF8000">try</font>{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; jdsl.core.api.Locator nextEntry
+= od_.<font color="#0000FF">after</font>(current_entry_);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; current_entry_ = nextEntry;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF8000">catch</font>(jdsl.core.api.InvalidAccessorException
+iae){}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0080">//this would happen
+if we tried calling after(.) using an invalid<br>
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0080">//Locator for
+current_entry_.<br>
+<br>
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#0000FF">displayCurrentEntry</font>();<font color="#FF0080">//Display
+the current (valid or not) entry.<br>
+</font>&nbsp;&nbsp;&nbsp; }<br>
+<br>
+</tt>
+
+Finally, we show the <tt>displayCurrentEntry()</tt> method, which uses two special,
+invalid <tt>Locator</tt>s that are defined in the <tt><A HREF="../../doc/jdsl/core/api/Dictionary.html">Dictionary</A></tt> and <tt><A HREF="../../doc/jdsl/core/api/OrderedDictionary.html">OrderedDictionary</A></tt>
+interfaces.  These <tt>Locator</tt>s are returned when queries fail -- when you try
+to <tt>find(.)</tt> a key that is not present, or when you try to go <tt>before(.)</tt> the
+<tt>first()</tt> <tt>Locator</tt> in the <tt>Dictionary</tt>, for example.
+<p>
+
+<pre><tt>
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>displayCurrentEntry</font>() {
+      <font color=#8000a0><font color=#8000a0>String</font> </font>toDisplay = null;
+
+      <font color=#ff0080>//if a find(.) operation was unsuccessful, it returned NO_SUCH_KEY</font>
+      <font color=#ff8000>if</font><font color=#0000ff> </font>(current_entry_ == jdsl.core.api.Dictionary.NO_SUCH_KEY){
+        toDisplay = <font color=#008000>"No entry was found using that name as a key."</font>;
+      }
+
+      <font color=#ff0080>//if before(.) or after(.) was requested, and there was no such entry</font>
+      <font color=#8000a0><font color=#ff8000>else</font> </font><font color=#ff8000>if</font><font color=#0000ff> </font>(current_entry_ == jdsl.core.api.OrderedDictionary.BOUNDARY_VIOLATION){
+        toDisplay = <font color=#008000>"You've passed the beginning or end of the Dictionary."</font>;
+      }
+      
+      <font color=#ff8000>else</font>{
+        toDisplay =<font color=#0000ff> </font>(<font color=#8000a0>String</font>)<font color=#0000ff></font>(current_entry_.<font color=#0000ff>key</font>()) + 
+          <font color=#008000>" "</font> +<font color=#0000ff> </font>(<font color=#8000a0>String</font>)<font color=#0000ff></font>(current_entry_.<font color=#0000ff>element</font>());
+      } 
+      
+      <font color=#ff0080>//put the string in the text field</font>
+      show_entry_.<font color=#0000ff>setText</font>(toDisplay);
+
+    }
+</tt></pre>
+<p>
+
+Before ending this lesson, we should note that the <tt><A HREF="../../doc/jdsl/core/api/Dictionary.html">Dictionary</A></tt>
+and
+<tt><A HREF="../../doc/jdsl/core/api/OrderedDictionary.html">OrderedDictionary</A></tt> interfaces both make use of the <tt><A HREF="../../doc/jdsl/core/api/Locator.html">Locator</A></tt>
+design pattern. You will recall that in <a href="../lesson04/lesson04.html">Lesson
+4</a> we saw how <tt>Locator</tt>s are useful as a "coat check" for a <tt>key,element</tt>
+pair that is contained in a
+<tt><A HREF="../../doc/jdsl/core/api/KeyBasedContainer.html">KeyBasedContainer</A></tt>.
+<p>As in the <tt>PriorityQueue</tt>, <tt>key,element</tt> pairs can be
+removed from the <tt>Dictionary</tt> by passing the appropriate <tt>Locator</tt>
+to the <tt>remove(Locator)</tt> method. In this <tt>PhoneBook</tt> example,
+we see that
+<tt>Locator</tt>s are used as parameters for the
+<tt>before(Locator)</tt>
+and <tt>after(Locator)</tt> methods. We should also note that the <tt>find(Object)</tt>
+method returns a <tt>Locator</tt>. Consult the JDSL
+documentation for more information about how to use
+<tt>Locator</tt>s
+effectively.
+<br>
+
+<hr>
+<a href="../lesson04/lesson04.html">Previous Lesson</a>
+<br><a href="../tutorial.html">Table of Contents</a>
+<br><a href="../lesson06/lesson06.html">Next Lesson</a>
+
+<hr>
+<address>
+<a href="mailto:jdsl@cs.brown.edu">Problems, comments?</a></address>
+
+<br>
+<tt><!-- hhmts start -->Last
+modified: Mon Aug 16 10:12:50 EDT 1999
+<!-- hhmts end --></tt>
+
+<!-- JDSLFOOTER -->
+
+</body>
+</html>

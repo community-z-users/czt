@@ -1,0 +1,116 @@
+<html>
+<head>
+<title>Code Fragment</title>
+</head>
+
+<body text=#000000 bgcolor=#ffffff>
+<center>
+</center><br><br><dl><dd><pre>
+
+<font color=#ff8000>import</font> jdsl.core.algo.traversals.*;
+<font color=#ff8000>import</font> java.awt.*;
+<font color=#ff8000>import</font> java.awt.geom.*;
+<font color=#ff8000>import</font> jdsl.core.api.*;
+
+<font color=#ff0080>/**
+	* @author Lucy Perry (lep)
+	* @version JDSL 2
+	*/</font>
+<font color=#8000a0>public</font> <font color=#8000a0><font color=#ff8000>class</font> </font>TreeDrawer <font color=#8000a0><font color=#ff8000>extends</font> </font>EulerTour {
+  <font color=#ff0080>// Traversal of a tree that is specialized to draw a</font>
+  <font color=#ff0080>// tree within an applet.</font>
+  <font color=#8000a0><font color=#8000a0>protected</font> </font><font color=#8000a0>int</font> Yoffset = 40;       <font color=#ff0080>// Y offset from (0,0)</font>
+  <font color=#8000a0><font color=#8000a0>protected</font> </font><font color=#8000a0>int</font> Xoffset = 20;       <font color=#ff0080>// X offset from (0,0)</font>
+  <font color=#8000a0><font color=#8000a0>protected</font> </font>Graphics g;             <font color=#ff0080>// where to draw the tree</font>
+  <font color=#8000a0><font color=#8000a0>protected</font> </font>Color background;       <font color=#ff0080>// fill color</font>
+  <font color=#8000a0><font color=#8000a0>protected</font> </font><font color=#8000a0>int</font> totalShift;         <font color=#ff0080>// a running total to shift bounding boxes.  The shift</font>
+                                    <font color=#ff0080>//    distance is the sum of the shifts stored at </font>
+                                    <font color=#ff0080>//    ancestors.</font>
+
+  <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#0000ff>TreeDrawer</font>(Graphics gg) {
+    g=gg;
+    background = g.<font color=#0000ff>getColor</font>();
+  }
+  
+  <font color=#ff0080>/**
+   * When visiting a node for the first time we shift x by totalShift
+   */</font>
+  <font color=#8000a0><font color=#8000a0>protected</font> </font><font color=#8000a0>void</font> <font color=#0000ff>visitFirstTime</font>(Position pos){
+    <font color=#8000a0><font color=#8000a0>int</font> </font>x =<font color=#0000ff> </font>(<font color=#0000ff></font>(Integer)pos.<font color=#0000ff>get</font>(<font color=#008000>"x"</font>)).<font color=#0000ff>intValue</font>();
+    <font color=#8000a0><font color=#8000a0>int</font> </font>shift =<font color=#0000ff> </font>(<font color=#0000ff></font>(Integer)pos.<font color=#0000ff>get</font>(<font color=#008000>"shift"</font>)).<font color=#0000ff>intValue</font>();
+    pos.<font color=#0000ff>set</font>(<font color=#008000>"x"</font>, <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Integer</font>(x+totalShift));
+    totalShift += shift;
+  }
+  
+  
+  <font color=#ff0080>/**
+   * When visiting a node for the last time we draw the node.
+   */</font>
+  <font color=#8000a0><font color=#8000a0>protected</font> </font><font color=#8000a0>void</font> <font color=#0000ff>visitLastTime</font>(Position pos){
+    <font color=#8000a0><font color=#8000a0>int</font> </font>shift =<font color=#0000ff> </font>(<font color=#0000ff></font>(Integer)pos.<font color=#0000ff>get</font>(<font color=#008000>"shift"</font>)).<font color=#0000ff>intValue</font>();
+    <font color=#ff8000>if</font><font color=#0000ff></font>(!tree_.<font color=#0000ff>isRoot</font>(pos)) {
+      <font color=#ff0080>//Draw the edge to the parent</font>
+      g.<font color=#0000ff>setColor</font>(Color.black);
+      g.<font color=#0000ff>drawLine</font>(<font color=#0000ff>xPos</font>(pos), <font color=#0000ff>yPos</font>(pos), <font color=#0000ff>xPos</font>(tree_.<font color=#0000ff>parent</font>(pos)),
+		 <font color=#0000ff>yPos</font>(tree_.<font color=#0000ff>parent</font>(pos)));
+    }
+    <font color=#8000a0>Color </font>strColor;
+    <font color=#ff8000>if</font><font color=#0000ff> </font>(tree_.<font color=#0000ff>isExternal</font>(pos)) {
+      strColor=Color.black;
+    } <font color=#ff8000>else</font> {
+      strColor=Color.red;
+    }
+    <font color=#0000ff>drawString</font>(pos, strColor);
+    totalShift -= shift;
+    <font color=#0000ff>cleanup</font>(pos);
+  }
+  
+  <font color=#ff0080>/**
+   * External nodes are drawn in the same manner as internal nodes
+   */</font>
+  <font color=#8000a0><font color=#8000a0>protected</font> </font><font color=#8000a0>void</font> <font color=#0000ff>visitExternal</font>( <font color=#8000a0>Position </font>pos ) { 
+    <font color=#0000ff>visitFirstTime</font>(pos);
+    <font color=#0000ff>visitLastTime</font>(pos);
+  }
+  
+  <font color=#ff0080>/**
+   * Draw the string at its proper location.
+   */</font>
+  <font color=#8000a0><font color=#8000a0>private</font> </font><font color=#8000a0>void</font> <font color=#0000ff>drawString</font>(Position pos, <font color=#8000a0>Color </font>strColor) {
+    <font color=#8000a0><font color=#8000a0>String</font> </font>str=pos.<font color=#0000ff>element</font>().<font color=#0000ff>toString</font>();
+    <font color=#8000a0><font color=#8000a0>int</font> </font>ascent =<font color=#0000ff> </font>(<font color=#0000ff></font>(Integer)pos.<font color=#0000ff>get</font>(<font color=#008000>"ascent"</font>)).<font color=#0000ff>intValue</font>();
+    <font color=#8000a0><font color=#8000a0>int</font> </font>descent =<font color=#0000ff> </font>(<font color=#0000ff></font>(Integer)pos.<font color=#0000ff>get</font>(<font color=#008000>"descent"</font>)).<font color=#0000ff>intValue</font>();
+    Rectangle2D bounds =<font color=#0000ff> </font>(<font color=#0000ff></font>(Rectangle2D)pos.<font color=#0000ff>get</font>(<font color=#008000>"bounds"</font>));
+    <font color=#8000a0><font color=#8000a0>int</font> </font>height =<font color=#0000ff> </font>(<font color=#8000a0>int</font>)bounds.<font color=#0000ff>getHeight</font>();
+    <font color=#8000a0><font color=#8000a0>int</font> </font>width =<font color=#0000ff> </font>(<font color=#8000a0>int</font>)bounds.<font color=#0000ff>getWidth</font>();
+    <font color=#8000a0><font color=#8000a0>int</font> </font>x = <font color=#0000ff>xPos</font>(pos)-width/2;
+    <font color=#8000a0><font color=#8000a0>int</font> </font>y = <font color=#0000ff>yPos</font>(pos)-ascent/2;
+    g.<font color=#0000ff>setColor</font>(background);
+    g.<font color=#0000ff>fillRect</font>(x,y,width,ascent+descent);
+    y += ascent;
+    g.<font color=#0000ff>setColor</font>(strColor);
+    g.<font color=#0000ff>drawString</font>(str,x,y);
+  }
+  
+  <font color=#8000a0><font color=#8000a0>private</font> </font><font color=#8000a0>int</font> <font color=#0000ff>xPos</font>(Position p) {
+    <font color=#8000a0><font color=#8000a0>int</font> </font>x =<font color=#0000ff> </font>(<font color=#0000ff></font>(Integer)p.<font color=#0000ff>get</font>(<font color=#008000>"x"</font>)).<font color=#0000ff>intValue</font>();
+    <font color=#8000a0><font color=#8000a0>int</font> </font>width =<font color=#0000ff> </font>(<font color=#0000ff></font>(Integer)p.<font color=#0000ff>get</font>(<font color=#008000>"width"</font>)).<font color=#0000ff>intValue</font>();
+    <font color=#8000a0><font color=#ff8000>return</font> </font>x + width/2 + Xoffset;
+  }
+  
+  <font color=#8000a0><font color=#8000a0>private</font> </font><font color=#8000a0>int</font> <font color=#0000ff>yPos</font>(Position p) {
+    <font color=#ff8000>return</font><font color=#0000ff> </font>(<font color=#0000ff></font>(Integer)p.<font color=#0000ff>get</font>(<font color=#008000>"y"</font>)).<font color=#0000ff>intValue</font>()+Yoffset;
+  }
+
+  <font color=#8000a0><font color=#8000a0>private</font> </font><font color=#8000a0>void</font> <font color=#0000ff>cleanup</font>(Position p) {
+    p.<font color=#0000ff>destroy</font>(<font color=#008000>"x"</font>);
+    p.<font color=#0000ff>destroy</font>(<font color=#008000>"y"</font>);
+    p.<font color=#0000ff>destroy</font>(<font color=#008000>"shift"</font>);
+    p.<font color=#0000ff>destroy</font>(<font color=#008000>"ascent"</font>);
+    p.<font color=#0000ff>destroy</font>(<font color=#008000>"descent"</font>);
+    p.<font color=#0000ff>destroy</font>(<font color=#008000>"bounds"</font>);
+  }
+}
+</dl>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>JDSL Tutorial Lesson 2</title>
+    <link rel=stylesheet type="text/css" href="../styles.css">
+  </head>
+
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+<!-- JDSLHEADER -->
+<font face="Tahoma, sans-serif" size="+2" color="darkred">
+The Data Structures Library in Java
+</font>
+<br>
+<br>
+<font face="Tahoma, sans-serif" size="+3"><b>
+JDSL Tutorial
+</b></font><!-- JDSLMAIN -->
+<p>
+<a href="../lesson01/lesson01.html">Previous Lesson</a>
+<br><a href="../tutorial.html">Table of Contents</a>
+<br><a href="../lesson03/lesson03.html">Next Lesson</a>
+
+<hr>
+<center><font face="Tahoma, sans-serif" size="+3"><b>
+Lesson 2: Sequence Fun</b></font>
+</center>
+
+<br>In the previous lesson we learned about JDSL Sequences.&nbsp; In
+this lesson we look in more depth at sequences.&nbsp; Like the <tt>Echo</tt>
+application in <a href="../lesson01/lesson01.html">Lesson 1</a>, this application
+starts with the user entering a string that is parsed into words.&nbsp;
+We add functions to sort and permute the word
+<tt>Sequence</tt>.
+<h3>
+New concepts covered:</h3>
+
+<ul>
+<li>
+<A HREF="../../doc/jdsl/core/api/Comparator.html">Comparator</A></li>
+
+<li>
+Algorithm Object</li>
+</ul>
+
+<hr>The entire <tt>SequenceFun.java</tt> file can be viewed by clicking
+<a href="SequenceFun.java.html">here.</a>
+<br>This is a Java application.&nbsp; The <tt>main</tt> method is in the
+<tt>SequenceFun</tt> class.
+<p>The JDSL contains a number of built-in functions for manipulating sequences.&nbsp;
+In this lesson, we look at a few.&nbsp; First, we'll look in detail at
+some important parts of the definition of the <tt>SequenceFun</tt> class:
+<pre><tt>&nbsp;&nbsp;&nbsp; <font color="#FF8000">import</font> jdsl.core.api.*;
+&nbsp;&nbsp;&nbsp; <font color="#FF8000">import</font> jdsl.core.ref.*;
+&nbsp;&nbsp;&nbsp; <font color="#FF8000">import</font> jdsl.core.algo.sorts.*;</tt></pre>
+We are using classes and an interface from the <tt><A HREF="../../doc/jdsl/core/algo/sorts/package-summary.html">jdsl.core.algo.sorts</A></tt>
+package. The classes and interfaces in this package provide sort algorithms
+for sequences. In the JDSL, the container provides methods for insertion,
+deletion, modification, and querying of its structure and elements. All
+other algorithms are implemented in <i>algorithm objects </i>defined outside
+the container. Typically, you pass the container plus other information
+to the algorithm object, which then performs the algorithm. We will see
+this in action in this program.
+<pre><tt>&nbsp;&nbsp;&nbsp; <font color="#8000A0">private void</font> <font color="#0000FF">sort</font>(Sequence seq) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0080">// This object will do the sorting.
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#8000A0">SortObject </font>sorter = <font color="#FF8000">new</font><font color="#8000A0"> </font><font color="#0000FF">ArrayQuickSort</font>();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0080">// Sort in alphabetical order.
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sorter.<font color="#0000FF">sort</font>(seq, <font color="#FF8000">new</font><font color="#8000A0"> </font><font color="#0000FF">ComparableComparator</font>());
+&nbsp;&nbsp;&nbsp; }</tt></pre>
+This is all there is to sorting a <tt><A HREF="../../doc/jdsl/core/api/Sequence.html">Sequence</A></tt>.&nbsp; You create a
+<tt><A HREF="../../doc/jdsl/core/algo/sorts/SortObject.html">SortObject</A></tt>,
+then call its (only) method: <tt>sort()</tt>.&nbsp; After the method is
+called the <tt>Sequence</tt> is modified so that the elements are in sorted
+order. The ordering of the elements is defined by the <tt>Comparator</tt>
+object, which we will look at in a moment.
+<p>The <tt><A HREF="../../doc/jdsl/core/algo/sorts/package-summary.html">jdsl.core.algo.sorts</A></tt> package contains a number of sorting
+classes. Each implements a different sorting algorithm and is optimized
+for a particular sequence implementation. The <tt><A HREF="../../doc/jdsl/core/algo/sorts/ArrayQuickSort.html">ArrayQuickSort</A></tt> class
+implements quicksort and is optimized for <tt><A HREF="../../doc/jdsl/core/ref/ArraySequence.html">ArraySequence</A></tt> implementations.
+It will work correctly, but less efficiently, for other <tt>Sequence</tt>
+implementations (e.g. <tt>NodeSequence</tt>).
+<p>A sequence can be sorted in a number of different ways.&nbsp; For example,
+you might want to order a sequence of people by their age, name, or height.
+The
+<tt><A HREF="../../doc/jdsl/core/api/Comparator.html">Comparator</A></tt> interface is used to define an ordering on objects.&nbsp;
+The interface has a number of methods, the most important being <tt>compare(Object
+obj1, Object obj2)</tt> that returns a negative integer if <tt>x1&lt;x2</tt>,
+0 if <tt>x1=x2</tt>, and a positive integer if <tt>x1>x2</tt>.&nbsp;&nbsp;
+Let's look at the <tt>compare</tt> method that defines an alphabetical
+ordering of strings that is not from our program, but demonstrates the
+idea:
+<pre><tt>&nbsp;&nbsp;&nbsp; <font color="#8000A0">public int</font> <font color="#0000FF">compare </font>(<font color="#8000A0">String</font> x1, <font color="#8000A0">String </font>x2) <font color="#FF8000">throws</font><font color="#8000A0"> </font>ClassCastException {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF8000">return</font><font color="#8000A0">&nbsp; </font>x1.<font color="#0000FF">compareTo</font>(x2);
+&nbsp;&nbsp;&nbsp; }</tt></pre>
+The <tt>compare</tt> method is defined in terms of the <tt>String.compareTo()</tt>
+method defined in the <tt>java.lang.String</tt> class.&nbsp; The rest of
+the methods of the <tt>Comparator</tt> interface are tests:&nbsp; <tt>isComparable()</tt>,
+<tt>isGreaterThan()</tt>,
+<tt>isLessThan()</tt>,
+<tt>isEqualTo()</tt>,
+and <tt>isGreaterThanOrEqualTo()</tt>.
+<p>The JDSL contains two special <tt>Comparator</tt> classes that make
+it easy to use java comparisons with the JDSL.&nbsp; The <tt><A HREF="../../doc/jdsl/core/ref/ComparableComparator.html">jdsl.core.ref.ComparableComparator</A></tt>
+orders objects that implement the <tt>java.lang.Comparable</tt> interface.&nbsp;
+We can use that class here, since <tt>String</tt> implements <tt>Comparable</tt>.&nbsp;
+There also is a <tt><A HREF="../../doc/jdsl/core/ref/ComparatorExtender.html">jdsl.core.ref.ComparatorExtender</A></tt>, that produces
+a <tt>jdsl.core.api.Comparator</tt> from a <tt>java.util.Comparator</tt>.
+<p>Additionally, there is a special <tt>Comparator</tt> factory called
+<tt><A HREF="../../doc/jdsl/core/ref/ComparatorReverser.html">ComparatorReverser</A></tt>
+that takes a <tt>Comparator</tt> and produces a new <tt>Comparator</tt>
+for a reverse order from the original <tt>Comparator</tt>. The <tt>ComparatorReverser</tt>
+is used in the following method, to sort the <tt>Sequence</tt> in reverse
+order:
+<pre><tt>&nbsp;&nbsp;&nbsp; <font color="#8000A0">private void</font> <font color="#0000FF">reverseSort</font>(Sequence seq) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0080">// This object will do the sorting.&nbsp;
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#8000A0">SortObject </font>sorter = <font color="#FF8000">new</font><font color="#8000A0"> </font><font color="#0000FF">ArrayQuickSort</font>();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0080">// Sort in alphabetical order.&nbsp;
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sorter.<font color="#0000FF">sort</font>(seq, <font color="#FF8000">new</font><font color="#8000A0"> </font><font color="#0000FF">ComparatorReverser</font>(<font color="#FF8000">new</font> <font color="#0000FF">ComparableComparator</font>()));
+&nbsp;&nbsp;&nbsp; }</tt></pre>
+The demo program's <tt>permute(.)</tt> method demonstrates two more
+features of the JDSL <tt><A HREF="../../doc/jdsl/core/api/Sequence.html">Sequence</A></tt>:
+<p><tt>&nbsp;&nbsp;&nbsp; <font color="#8000A0">protected void </font><font color="#0000FF">permute</font>(Sequence
+s) {</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#8000A0">Random
+</font>rnd
+= <font color="#FF8000">new</font><font color="#8000A0"> </font>java.util.<font color="#0000FF">Random</font>();</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF8000">for</font>(<font color="#8000A0">int</font>
+i=s.<font color="#0000FF">size</font>()-1;i>0;i--) {</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#8000A0">int
+</font>j=rnd.<font color="#0000FF">nextInt</font>(i+1);</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF8000">if</font>(j&lt;i)</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+s.<font color="#0000FF">swapElements</font>(s.<font color="#0000FF">atRank</font>(i),s.<font color="#0000FF">atRank</font>(j));</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; }</tt>
+<p>This method randomly permutes a <tt>Sequence</tt>.&nbsp; It iterates
+from the end of the sequence, selecting a random element to swap.&nbsp;
+The method
+<tt>atRank(int i)</tt> returns the <tt><A HREF="../../doc/jdsl/core/api/Position.html">Position</A></tt> at rank
+i (see <a href="../lesson03/lesson03.html">Lesson 3</a>).&nbsp; The <tt>swapElements()</tt>
+method swaps the elements at the two ranks.
+<p>We will continue to work with <tt>Sequence</tt>s in the next lesson.&nbsp;
+In particular we look at <tt>Positions</tt>, a concept that is new in the
+JDSL.&nbsp; A <tt>Position</tt> gives a handle to the internal structure
+of the <tt>Sequence</tt>, without violating encapsulation.&nbsp; This feature
+makes a number of operations convenient and efficient.
+<p>
+<hr>
+
+<a href="../lesson01/lesson01.html">Previous Lesson</a>
+<br><a href="../tutorial.html">Table of Contents</a>
+<br><a href="../lesson03/lesson03.html">Next Lesson</a></td>
+
+<hr>
+<address>
+<a href="mailto:jdsl@cs.brown.edu">Problems, comments?</a>
+</address>
+
+<br>
+<tt><!-- hhmts start -->
+Last modified: Sat Apr 19 16:53:34 CEST 2003
+<!-- hhmts end --></tt>
+
+<!-- JDSLFOOTER -->
+
+</body>
+</html>

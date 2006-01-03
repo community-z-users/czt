@@ -1,0 +1,240 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>JDSL Tutorial Lesson 3</title>
+    <link rel=stylesheet type="text/css" href="../styles.css">
+  </head>
+
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+
+<!-- JDSLHEADER -->
+
+<font face="Tahoma, sans-serif" size="+2" color="darkred">
+The Data Structures Library in Java
+</font>
+<br>
+<br>
+<font face="Tahoma, sans-serif" size="+3"><b>
+JDSL Tutorial
+</b></font>
+
+<!-- JDSLMAIN -->
+
+<p>
+<a href="../lesson02/lesson02.html">Previous Lesson</a>
+<br><a href="../tutorial.html">Table of Contents</a>
+<br><a href="../lesson04/lesson04.html">Next Lesson</a>
+
+<hr>
+<center><font face="Tahoma, sans-serif" size="+3"><b>
+Lesson 3: Auction</b></font>
+</center>
+<br>
+In the previous lessons, we learned about JDSL <tt>Sequence</tt>s.&nbsp;
+In this lesson, we will learn how to work with JDSL <tt>Position</tt>s,
+as we study this demo application which simulates an on-line auction.
+<h3>
+New concepts covered:</h3>
+
+<ul>
+<li>
+<A HREF="../../doc/jdsl/core/api/Position.html">Position</A></li>
+
+<li>
+<A HREF="../../doc/jdsl/core/api/PositionalContainer.html">PositionalContainer</A></li>
+</ul>
+
+<hr>
+<p>There are eight source files involved in this application.&nbsp; The
+first files describe the entity classes:
+<ul>
+<li>
+<a href="Auction.java.html">Auction.java</a> - Maintains a Sequence of <tt>Bid</tt>s.</li>
+
+<li>
+<a href="Bid.java.html">Bid.java</a></li>
+
+<li>
+<a href="InvalidBidException.java.html">InvalidBidException.java</a>&nbsp; -
+thrown on an attempt to make an illegal bid, such as a bid with a negative
+amount.</li>
+</ul>
+These files describe the user interface and the control classes:
+<ul>
+<li>
+<a href="AuctionFrame.java.html">AuctionFrame.java</a> - builds the user interface.</li>
+
+<li>
+<a href="AuctionSimulator.java.html">AuctionSimulator.java</a> - the main class.
+Runs the simulation.</li>
+
+<li>
+<a href="CountDownTimer.java.html">CountdownTimer.java</a> - a GUI widget that
+counts down the remaining time in the auction.</li>
+
+<li>
+<a href="CountDownTimerEvent.java.html">CountDownTimerEvent.java</a> - one of
+these is generated every second.</li>
+
+<li>
+<a href="CountDownTimerListener.java.html">CountDownTimerListener.java</a> -
+for <tt>CountDownTimerEvent</tt>s.&nbsp; Implemented here by the <tt>AuctionSimulator</tt>.</li>
+</ul>
+
+<p>This is a Java application.&nbsp; The <tt>main</tt> method is in the
+<tt>AuctionSimulator</tt>
+class.&nbsp; This method opens up a frame that simulates a running auction.&nbsp;
+The auction begins when you either enter a bid, or click the start button.&nbsp;
+As the auction progresses, bids from others are simulated.&nbsp; You can
+top an existing bid, or withdraw from the auction.&nbsp; When the auction
+ends, the winner is announced.
+<p>
+<hr>
+<p>The only class we will examine in the tutorial is <tt>Auction</tt>.&nbsp;
+The other classes -- not relevant to our lesson -- make use of only standard
+java, and the GUI code was produced using Visual Cafe, from 
+<a href="http://www.symantec.com">Symantec</a>.
+<p>The <tt>Auction</tt> class takes advantage of <tt><A HREF="../../doc/jdsl/core/api/Position.html">Position</A></tt>s to
+maintain a <tt><A HREF="../../doc/jdsl/core/api/Sequence.html">Sequence</A></tt> of <tt>Bid</tt> objects. <tt>Position</tt>s
+are a type of <tt><A HREF="../../doc/jdsl/core/api/Accessor.html">Accessor</A></tt>, an object that accesses the interior of
+a <tt><A HREF="../../doc/jdsl/core/api/Container.html">Container</A></tt> without violating encapsulation.&nbsp; <tt>Accessor</tt>s
+give you a quick way to find an element, without scanning through the entire
+<tt>Container</tt>,
+which can greatly improve the performance of your application.&nbsp; The
+JDSL has two <tt>Accessor</tt> types: <tt>Position</tt>s and <tt>Locator</tt>s
+(<tt>Locator</tt>s&nbsp; are covered in <a href="../lesson04/lesson04.html">Lesson
+4</a>).
+<p>Let's look at the important parts of the <tt>Auction</tt> class:
+<blockquote><tt>&nbsp; <font color="#8000A0">private </font>Sequence bids
+= <font color="#FF8000">new</font><font color="#8000A0"> </font><font color="#0000FF">NodeSequence</font>();</tt>
+<br><tt>&nbsp; <font color="#8000A0">private double</font> highBid;</tt></blockquote>
+We maintain the following three invariants in the <tt>bids NodeSequence</tt><font color="#0000FF">:</font>
+<ul>
+<li>
+Each individual has at most one bid in bids.</li>
+
+<li>
+The bids are ordered from smallest to largest.</li>
+
+<li>
+Any new bid must exceed the existing highest bid</li>
+</ul>
+The <tt>highBid</tt> variable is a derived value that stores the high bid
+of the auction.
+<ul><tt>&nbsp; <font color="#8000A0">public </font>Position <font color="#0000FF">initial</font>(<font color="#8000A0">String</font>
+name, <font color="#8000A0">double </font>amount)</tt>
+<br><tt><font color="#FF8000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; throws</font> InvalidBidException{</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; <font color="#0000FF">checkBid</font>(amount);</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; <font color="#8000A0">Bid </font>b = <font color="#FF8000">new</font><font color="#0000FF"> Bid</font>(name,
+amount);</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; highBid=amount;</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; <font color="#FF8000">return </font>bids.<font color="#0000FF">insertLast</font>(b);</tt>
+<br><tt>&nbsp; }</tt></ul>
+The return type of this method is&nbsp; <tt><A HREF="../../doc/jdsl/core/api/Position.html">Position</A></tt>. A <tt>Position</tt>
+is a place inside a <tt><A HREF="../../doc/jdsl/core/api/Container.html">Container</A></tt> that holds an element and usually
+is connected to other <tt>Position</tt>s in the <tt>Container</tt>. This
+means with its <tt>Position</tt>, you can find an element in constant time
+even if the <tt>Position</tt>s are restructured inside the <tt>Container</tt>.&nbsp;
+In a <tt><A HREF="../../doc/jdsl/core/api/Sequence.html">Sequence</A></tt>, the <tt>Position</tt>s are connected linearly,
+such that each <tt>Position</tt> is associated with a rank (the first has
+rank 0, etc.). Not every <tt>Container</tt> has <tt>Position</tt>s. There
+is a sub-interface of <tt>Container</tt> that support <tt>Position</tt>s,
+called <tt><A HREF="../../doc/jdsl/core/api/PositionalContainer.html">PositionalContainer</A></tt>.
+<p>A <tt><A HREF="../../doc/jdsl/core/api/PositionalContainer.html">PositionalContainer</A></tt> builds and returns a <tt><A HREF="../../doc/jdsl/core/api/Position.html">Position</A></tt>
+when an element is inserted. Actually, <tt>Position</tt> is an interface.
+It is up to the designer of the class implementing <tt>PositionalContainer</tt>
+to determine how its <tt>Position</tt> will be implemented. From our perspective,
+we only need to know that we have a <tt>Position</tt>, and its element
+is the object we inserted. Here, the <tt>Position</tt> represents the place
+in the <tt><A HREF="../../doc/jdsl/core/ref/NodeSequence.html">NodeSequence</A></tt> holding the <tt>Bid</tt>.
+<p>Notice that this method can throw an <tt>InvalidBidException</tt>.&nbsp;
+This method is thrown by the <tt>checkBid(.)</tt> method:
+<br>&nbsp;
+<blockquote><tt>&nbsp; <font color="#8000A0">private void</font> <font color="#0000FF">checkBid</font>(<font color="#8000A0">double</font>
+amount) <font color="#FF8000">throws</font><font color="#8000A0"> </font>InvalidBidException
+{</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; <font color="#FF8000">if</font>(closed)</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF8000">throw new
+</font><font color="#0000FF">InvalidBidException</font>(<font color="#008000">"Bids
+have closed."</font>);</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; <font color="#FF8000">if</font>(amount&lt;=0)</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF8000">throw new
+</font><font color="#0000FF">InvalidBidException</font>(<font color="#008000">"Bid
+must be positive."</font>);</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; <font color="#FF8000">else if</font>(amount
+&lt;= highBid)</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF8000">throw new
+</font><font color="#0000FF">InvalidBidException</font>(<font color="#008000">"Bid
+must top current high bid."</font>);</tt>
+<br><tt>&nbsp; }</tt></blockquote>
+Bids are invalid if the auction has already closed, if the amount is negative,
+or if the amount doesn't top the existing high bid.
+<blockquote><tt>&nbsp; <font color="#8000A0">public </font>Position <font color="#0000FF">top</font>(Position
+p, <font color="#8000A0">double </font>amount)</tt>
+<br><tt><font color="#FF8000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; throws </font>InvalidBidException
+{</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; <font color="#0000FF">checkBid</font>(amount);</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; <font color="#8000A0">Bid </font>b =(Bid)p.<font color="#0000FF">element</font>();</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; b.<font color="#0000FF">setAmount</font>(amount);</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; <font color="#FF8000">try</font> {</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bids.<font color="#0000FF">remove</font>(p);</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; } <font color="#FF8000">catch</font>(InvalidAccessorException
+e) {</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF8000">throw new
+</font><font color="#0000FF">InvalidBidException</font>(<font color="#008000">"Bidder
+not in Auction."</font>);</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; }</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; highBid=amount;</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; <font color="#FF8000">return </font>bids.<font color="#0000FF">insertLast</font>(b);</tt>
+<br><tt>&nbsp; }</tt></blockquote>
+Here is where we see the advantage of <tt>Position</tt>s. We have a new
+bid from someone who has already bid before. We have the rule that any
+bid must top the existing high bid, and the high bid is the last bid in
+the sequence. To maintain the invariants, when an individual tops an existing
+bid, we remove the <tt>Position</tt>, increase the bid amount, and re-insert
+the element at the end, returning a new <tt>Position</tt>.
+<p>Finding the bid for a person is very efficient (constant time) with
+a <tt>Position</tt>. However, this would be much less efficient using an
+array or a <tt>java.util.List</tt>, since these only allow access by rank
+(or index). When we want to find the bid, we would have to search through
+the array (or List) rather than have direct access. The gives us a direct
+reference to where the element is in the <tt>Container</tt>, no matter
+how the <tt>Container</tt> is restructured.
+<br>&nbsp;
+<blockquote><tt>&nbsp; <font color="#8000A0">public void</font> <font color="#0000FF">quit</font>(Position
+p) {</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; bids.<font color="#0000FF">remove</font>(p);</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; <font color="#FF8000">if</font>(bids.<font color="#0000FF">size</font>()==0)</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; highBid=0;</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; <font color="#FF8000">else</font></tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; highBid=((Bid)bids.<font color="#0000FF">last</font>().<font color="#0000FF">element</font>()).<font color="#0000FF">amount</font>();</tt>
+<br><tt>&nbsp; }</tt></blockquote>
+The <tt>quit(.)</tt> method represents an individual leaving the auction,
+so all we do is remove the associated <tt>Position</tt>.&nbsp; If the person
+who quit the auction was the high bidder, then we need to adjust the <tt>highBid</tt>
+variable.
+<p>In the <a href="../lesson04/lesson04.html">next lesson</a>, we look
+at <tt>KeyBasedContainer</tt>s, the other major JDSL <tt>Container</tt>
+type, and <tt>Locator</tt>s, their <tt>Accessor</tt>s.
+<p>
+
+<hr>
+<a href="../lesson02/lesson02.html">Previous Lesson</a>
+<br><a href="../tutorial.html">Table of Contents</a>
+<br><a href="../lesson04/lesson04.html">Next Lesson</a>
+
+<hr>
+<address>
+<a href="mailto:jdsl@cs.brown.edu">Problems, comments?</a>
+</address>
+
+<br>
+<tt><!-- hhmts start -->
+Last modified: Sat Apr 19 16:53:54 CEST 2003
+<!-- hhmts end --></tt>
+
+<!-- JDSLFOOTER -->
+
+</body>
+</html>

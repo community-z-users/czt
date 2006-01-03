@@ -1,0 +1,113 @@
+<html>
+<head>
+<title>Code Fragment</title>
+</head>
+
+<body text=#000000 bgcolor=#ffffff>
+<center>
+</center><br><br><dl><dd><pre>
+
+<font color=#ff8000>import</font> jdsl.core.algo.traversals.*;
+<font color=#ff8000>import</font> jdsl.core.api.*;
+<font color=#ff8000>import</font> jdsl.core.ref.*;
+<font color=#ff8000>import</font> java.util.Random;
+
+<font color=#ff0080>/**
+ * Class that builds a random tree.  Each node stores a random 
+ * name from a Sequence of names.
+ *
+ * @author Lucy Perry (lep)
+ * @version JDSL 2
+*/</font>
+<font color=#8000a0>public</font> <font color=#8000a0><font color=#ff8000>class</font> </font>RandomTreeBuilder { 
+
+    <font color = #ff0080>/* ************************************ */</font> 
+    <font color = #ff0080>/* The members described in the lesson. */</font>
+    <font color = #ff0080>/* ************************************ */</font> 
+
+    <font color=#ff0080>//b6.1</font>
+    <font color=#8000a0><font color=#8000a0>protected</font> </font>Tree tree;
+    <font color=#8000a0><font color=#8000a0>protected</font> </font>Sequence names;
+    <font color=#ff0080>//e6.1</font>
+    
+    <font color=#ff0080>/**
+     *Builds a random tree.  The build method does the work.
+     */</font>
+    <font color=#ff0080>//b6.2</font>
+    <font color=#8000a0><font color=#8000a0>public</font> </font>Tree <font color=#0000ff>randomTree</font>(<font color=#8000a0>int</font> n) {
+        <font color=#ff0080>// Create a random binary tree with n external nodes</font>
+        tree = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>NodeTree</font>();
+        names = NameGenerator.<font color=#0000ff>getNames</font>();
+        <font color=#0000ff>build</font>(tree.<font color=#0000ff>root</font>(), n);  <font color=#ff0080>// auxiliary recursive method</font>
+        <font color=#8000a0><font color=#ff8000>return</font> </font>tree;
+    }
+    <font color=#ff0080>//e6.2</font>
+    
+    <font color=#ff0080>/**
+     * Recursively build a random tree.  The algorithm builds a subtree with
+     * n nodes with root node p as follows:
+     *   - If n=1 then do nothing
+     *   - Otherwise
+     *       - randomly select the size of the subtree rooted at the first child
+     *       - repeat until the number of nodes to build has been distributed to 
+     *         children subtrees.
+     *       - randomly permute the order of sizes.
+     *       - recursively build each subtree
+     */</font>
+    <font color=#ff0080>//b6.3 </font>
+    <font color=#8000a0><font color=#8000a0>protected</font> </font><font color=#8000a0>void</font> <font color=#0000ff>build</font>(Position p, <font color=#8000a0><font color=#8000a0>int</font> </font>n) {
+        <font color=#8000a0><font color=#8000a0>int</font> </font>toBuild = n-1;
+        <font color=#8000a0>Sequence </font>sizes=<font color=#ff8000>new</font> <font color=#0000ff>ArraySequence</font>();
+        <font color=#ff8000>if</font><font color=#0000ff> </font>(tree.<font color=#0000ff>isExternal</font>(p)) {
+            <font color=#ff8000>while</font><font color=#0000ff> </font>(toBuild&gt0) {
+                <font color=#8000a0><font color=#8000a0>int</font> </font>size = <font color=#0000ff>randomInteger</font>(1, toBuild);
+                sizes.<font color=#0000ff>insertLast</font>(<font color=#ff8000>new</font> <font color=#0000ff>Integer</font>(size));
+                toBuild-=size;
+            }
+            <font color=#0000ff>permute</font>(sizes);
+            <font color=#ff8000>for</font><font color=#0000ff></font>(<font color=#8000a0>int</font> i=0; i&ltsizes.<font color=#0000ff>size</font>();i++){
+                <font color=#8000a0>Position </font>pos = tree.<font color=#0000ff>insertLastChild</font>(p,null);
+                <font color=#8000a0><font color=#8000a0>int</font> </font>size =<font color=#0000ff> </font>(<font color=#0000ff></font>(Integer)sizes.<font color=#0000ff>atRank</font>(i).<font color=#0000ff>element</font>()).<font color=#0000ff>intValue</font>();
+                <font color=#0000ff>build</font>(pos,size);
+            }
+            tree.<font color=#0000ff>replaceElement</font>(p,<font color=#0000ff>pickName</font>());
+        }
+    }
+    <font color=#ff0080>//e6.3</font>
+
+    <font color = #ff0080>/* ************************************ */</font> 
+    <font color = #ff0080>/* Members not described in the lesson. */</font>
+    <font color = #ff0080>/* ************************************ */</font> 
+    
+    <font color=#8000a0><font color=#8000a0>protected</font> </font>Random gen = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Random</font>();
+
+    <font color=#ff0080>/**
+     * Randomly permute a sequence.  This is the same method as in lesson 2.
+     */</font>
+    <font color=#8000a0><font color=#8000a0>protected</font> </font><font color=#8000a0>void</font> <font color=#0000ff>permute</font>(Sequence s) {
+        <font color=#ff8000>for</font><font color=#0000ff></font>(<font color=#8000a0>int</font> i=s.<font color=#0000ff>size</font>()-1;i&gt1;i--) {
+            <font color=#8000a0><font color=#8000a0>int</font> </font>j=<font color=#0000ff>randomInteger</font>(1,i);
+            <font color=#ff8000>if</font><font color=#0000ff> </font>(j&lti)
+                s.<font color=#0000ff>swapElements</font>(s.<font color=#0000ff>atRank</font>(i),s.<font color=#0000ff>atRank</font>(j));
+        }
+    }
+
+    <font color=#ff0080>/**
+     * Randomly pick a name. 
+     */</font>
+    <font color=#8000a0><font color=#8000a0>protected</font> </font><font color=#8000a0>String</font> <font color=#0000ff>pickName</font>() {
+        <font color=#8000a0><font color=#8000a0>int</font> </font>i=<font color=#0000ff>randomInteger</font>(0,names.<font color=#0000ff>size</font>()-1);
+        <font color=#ff8000>return</font><font color=#0000ff> </font>(<font color=#8000a0>String</font>)names.<font color=#0000ff>atRank</font>(i).<font color=#0000ff>element</font>();
+    }
+
+    <font color=#ff0080>/** 
+     * Return a random integer i such that min &lt= i <= max
+     */</font>
+    <font color=#8000a0><font color=#8000a0>protected</font> </font><font color=#8000a0>int</font> <font color=#0000ff>randomInteger</font>(<font color=#8000a0>int</font> min, <font color=#8000a0><font color=#8000a0>int</font> </font>max) {
+        <font color=#8000a0><font color=#8000a0>int</font> </font>r = gen.<font color=#0000ff>nextInt</font>(max-min+1);
+        <font color=#8000a0><font color=#ff8000>return</font> </font>r+min;
+    }
+}
+</dl>
+</body>
+</html>

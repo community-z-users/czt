@@ -1,0 +1,275 @@
+<HTML>
+<HEAD>
+<TITLE>Data Structures Library in Java - Installation Help</TITLE>
+<!-- Changed by: Mark Handy, 13-Jan-2000 -->
+</head>
+
+<!--#include file="template_header.html" -->
+
+<font face="Tahoma, sans-serif" size="+2" color="darkred">
+The Data Structures Library in Java
+</font>
+<br>
+<br>
+<b><font face="Tahoma, sans-serif" size="+3">
+Installation Help
+</font></b><p>
+
+<!--#include file="template_main.html" -->
+ 
+<!-- Main Content Here --> 
+
+These instructions are available both from the <a
+href="http://www.jdsl.org/">JDSL web page</a> and from
+a file in the downloadable JDSL distribution.
+<p>
+[<a href="#Unix">Unix</a> | <a href="#W9x">Windows 95/98</a> | <a
+href="#WNT">Windows NT</a> | <a href="#MOSX">Mac OS X</a>]
+<p>
+
+<hr>
+
+<p>
+<a name="Unix"></a><b>Unix</b>
+
+<ol>
+<li>Choose an appropriate directory to hold the JDSL installation -- for
+example, <tt>$HOME/jtools</tt>.</li>
+
+<li>Move the JDSL file you downloaded to <tt>$HOME/jtools</tt> and make
+<tt>$HOME/jtools</tt> your working directory (cd into it).</li>
+
+<li>Expand the JDSL file as follows:
+<br><br>
+To expand <tt>filename.tar.gz</tt>:
+<p>
+<blockquote><tt>gunzip filename.tar.gz</tt> 
+<br>
+<tt>tar -xvf filename.tar</tt></blockquote> 
+To expand <tt>filename.zip</tt>:
+<p>
+<blockquote><tt>unzip filename.zip</tt></blockquote>
+
+Directory <tt>$HOME/jtools</tt> will now contain a <tt>jdsl-2.1</tt>
+directory.  We will refer to <tt>$HOME/jtools/jdsl-2.1</tt> as
+<tt><font color="#DD0088">JDSLHOME</font></tt> for the rest of this
+discussion.
+<br>
+Directory <tt><font color="#DD0088">JDSLHOME</font></tt> contains,
+among other things, a <tt>lib</tt> directory, which in turn contains a
+file <tt>jdsl.jar</tt>.  That jar file holds the JDSL class
+files.</li>
+
+<li>Find the configuration file in your home directory that has the
+string <tt>setenv CLASSPATH <font
+color="#FF7F50">pathlist</font></tt>.  This file is usually
+<tt>$HOME/.cshrc</tt> or <tt>~/.cshrc</tt>.  The string <tt><font
+color="#FF7F50">pathlist</font></tt> could be almost anything -- for
+example, it might be
+<tt>setenv&nbsp;CLASSPATH&nbsp;.:/usr/lib/java</tt><br></li>
+
+<li>Add <tt>:<font color="#DD0088">JDSLHOME</font>/lib/jdsl.jar</tt>
+to the end of that string. (Note that there is a colon at the
+beginning of the string.)  So, if you originally had
+<tt>setenv&nbsp;CLASSPATH&nbsp;.:/usr/lib/java</tt>
+and you installed JDSL in <tt>$HOME/jtools</tt>, then you should
+now have
+<p>
+<blockquote>
+<tt>setenv&nbsp;CLASSPATH&nbsp;.:/usr/lib/java:/$HOME/jtools/jdsl-2.1/lib/jdsl.jar</tt>
+</blockquote>
+(Make sure not to add a line-break in the middle of the line while
+doing this.)</li>
+<li>Save the file.</li>
+
+<li>You will need to re-source your configuration file for any shell
+from which you wish to use the JDSL classes during this login session.
+(If you are using csh, type
+<p>
+<blockquote>
+<tt>source $HOME/.cshrc</tt>
+</blockquote>
+into that shell, substituting in the name of the file you modified.)</li>
+
+<li>You can remove the JDSL file you downloaded, if you wish.</li>
+</ol>
+
+<hr>
+
+<p>
+<a name="W9x"></a><b>Windows 95/98</b>
+
+<ol>
+<li>Choose an appropriate directory to hold the JDSL installation --
+for example, <tt>C:\jtools</tt>.</li>
+
+<li>Move the JDSL file you downloaded to <tt>C:\jtools</tt> and make
+<tt>C:\jtools</tt> your working directory (cd into it).</li>
+ 
+<li>Expand the JDSL file, storing the expanded files in <tt>C:\jtools</tt>.
+<br>
+Directory <tt>C:\jtools</tt> will now contain a <tt>jdsl-2.1</tt>
+directory.  We will refer to <tt>C:\jtools\jdsl-2.1</tt> as <tt><font
+color="#DD0088">JDSLHOME</font></tt> for the rest of this discussion.
+<br>
+Directory <tt><font color="#DD0088">JDSLHOME</font></tt> contains,
+among other things, a <tt>lib</tt> directory, which in turn contains a
+file <tt>jdsl.jar</tt>.  That jar file holds the JDSL class
+files.</li>
+
+<li>Edit your <tt>AUTOEXEC.BAT</tt> file (usually
+<tt>C:\WINDOWS\AUTOEXEC.BAT</tt>). You can either do this using
+<tt>msconfig.exe</tt> (available from a menu in the <tt>System
+Properties</tt> control panel) or with a text editor (for example,
+<tt>Notepad</tt>). Do <b>not</b> edit it with a word processing
+program.</li>
+
+<li>Find the string <tt>SET CLASSPATH=<font
+color="#FF7F50">pathlist</font></tt>. The string <tt><font
+color="#FF7F50">pathlist</font></tt> could be almost anything -- for
+example, it might be
+<tt>SET&nbsp;CLASSPATH=.;%JAVA_HOME%\lib\classes.zip</tt>.  If there
+is no such string, add the string <tt>SET&nbsp;CLASSPATH=</tt> as a
+new line.</li>
+
+<li>Add <tt>;<font color="#DD0088">JDSLHOME</font>\lib\jdsl.jar</tt>
+to the end of that string. (Note that there is a semicolon at the
+beginning of the string.) So, if you originally had
+<tt>SET&nbsp;CLASSPATH=.;%JAVA_HOME%\lib\classes.zip</tt> and you
+installed JDSL in <tt>C:\jtools</tt>, then you should now have
+<p>
+<blockquote>
+<tt>SET&nbsp;CLASSPATH=.;%JAVA_HOME%\lib\classes.zip;C:\jtools\jdsl-2.1\lib\jdsl.jar</tt>
+</blockquote>
+(Make sure not to add a line-break in the middle of the line while
+doing this.)</li>
+
+<li>Save the file.</li>
+
+<li>You will need to restart, in order to use JDSL.</li>
+
+<li>You can remove the JDSL file you downloaded, if you wish.</li>
+</ol>
+
+<hr>
+
+<p>
+<a name="WNT"></a><b>Windows NT</b>
+
+<ol>
+<li>Choose an appropriate directory to hold the JDSL installation -- 
+for example, <tt>C:\jtools</tt>.</li>
+ 
+<li>Move the JDSL file you downloaded to <tt>C:\jtools</tt> and make
+<tt>C:\jtools</tt> your working directory (cd into it).</li>
+ 
+<li>Expand the JDSL file, storing the expanded files in
+<tt>C:\jtools</tt>.
+<br>
+Directory <tt>C:\jtools</tt> will now contain a <tt>jdsl-2.1</tt>
+directory.  We will refer to <tt>C:\jtools\jdsl-2.1</tt> as <tt><font
+color="#DD0088">JDSLHOME</font></tt> for the rest of this discussion.
+<br>
+Directory <tt><font color="#DD0088">JDSLHOME</font></tt> contains,
+among other things, a <tt>lib</tt> directory, which in turn contains a
+file <tt>jdsl.jar</tt>.  That jar file holds the JDSL class
+files.</li>
+
+<li> Double-click the <tt>System</tt> icon inside the <tt>Control
+Panel</tt>. When the <tt>System Properties</tt> dialog box opens,
+choose the <tt>Environment</tt> tab.  At this point you need to decide
+between <tt>System Variables</tt> and <tt>User Variables</tt> as the
+location where you will set your <tt>CLASSPATH</tt> (the directory
+path that Java searches to find Java code).  System variables affect
+all users; you may need to use a system variable if you want multiple
+users to have access to JDSL.  You also need to use a system variable
+if you have been using a system-variable <tt>CLASSPATH</tt> previously
+and you don't want your previous programs to stop working.  User
+variables can override or include-and-extend the corresponding system
+variable.  They apply only to a single user.  If you already have a
+user-variable <tt>CLASSPATH</tt>, we recommend you edit that.</li>
+
+<li>When you have decided which list of variables you want your
+<tt>CLASSPATH</tt> in, one of the following situations holds for that
+list (note the semicolons, which are separators):
+<ul>
+<li>The list of variables contains a variable <tt>CLASSPATH <font
+color="#FF7F50">pathlist</font></tt>.  The string <tt><font
+color="#FF7F50">pathlist</font></tt> could be almost anything -- for
+example, it might be
+<tt>CLASSPATH&nbsp;.;%JAVA_HOME%\lib\classes.zip</tt>.  Then click on
+that variable and add <tt>;<font
+color="#DD0088">JDSLHOME</font>\lib\jdsl.jar</tt> to the end of
+<tt><font color="#FF7F50">pathlist</font></tt>, using the text-editing
+boxes below the list.  So if you originally had
+<tt>CLASSPATH&nbsp;.;%JAVA_HOME%\lib\classes.zip</tt> and you
+installed JDSL in <tt>C:\jtools</tt>, then you should now have
+<p>
+<blockquote>
+<tt>CLASSPATH&nbsp;.;%JAVA_HOME%\lib\classes.zip;C:\jtools\jdsl-2.1\lib\jdsl.jar</tt>
+</blockquote></li>
+
+<li>The list does not contain a <tt>CLASSPATH</tt> variable.  Then add
+the variable <tt>CLASSPATH&nbsp;.;<font
+color="#DD0088">JDSLHOME</font>\lib\jdsl.jar</tt>, by adding the name
+and value to the text-editing boxes below the list.  So if you
+installed JDSL in <tt>C:\jtools</tt>, then you should now have
+<p>
+<blockquote>
+<tt>CLASSPATH&nbsp;.;C:\jtools\jdsl-2.1\lib\jdsl.jar</tt>
+</blockquote></li>
+</ul>
+</li>
+
+<li>Click <tt>Set</tt> and then <tt>OK</tt> at the bottom-right of the
+dialog.</li>
+
+<li>Now JDSL should be installed. You will need to log out and log back in,
+in order to use JDSL.</li>
+
+<li>You can remove the JDSL file you downloaded, if you wish.</li>
+
+</ol>
+
+<hr>
+
+<p>
+<a name="MOSX"></a><b>Mac OS X</b>
+
+<ol>
+
+<li>Choose an appropriate directory to hold the JDSL installation --
+for example <tt>/Developer/Java</tt>.</li>
+
+<li>Move the JDSL file you downloaded to <tt>/Developer/Java</tt> and make
+<tt>/Developer/Java</tt> your working directory (cd into it).</li>
+
+<li>If the JDSL file you downloaded was not automatically expanded,
+then expand it as shown for Unix or using
+<tt>/Applications/Utilities/Stuffit&nbsp;Expander</tt>.
+<br>
+Directory <tt>/Developer/Java</tt> will now contain a
+<tt>jdsl-2.1</tt> directory.  We will refer to
+<tt>/Developer/Java/jdsl-2.1</tt> as <tt><font
+color="#DD0088">JDSLHOME</font></tt> for the rest of this discussion.
+<br>
+Directory <tt><font color="#DD0088">JDSLHOME</font></tt> contains,
+among other things, a <tt>lib</tt> directory, which in turn contains a
+file <tt>jdsl.jar</tt>.  That jar file holds the JDSL class
+files.</li>
+
+<li>Copy or move <tt><font
+color="#DD0088">JDSLHOME</font>/lib/jdsl.jar</tt> to
+<tt>/Library/Java/Extensions</tt>.  You do not have to change any
+configuration files because <tt>/Library/Java/Extensions</tt> is a
+standard path for extension libraries.</li>
+
+<li>You can remove the JDSL file you downloaded, if you wish.</li>
+
+</ol>
+ 
+<!-- End Main Content --> 
+ 
+<!--#include file="template_bottom.html" -->
+
+</HTML>
