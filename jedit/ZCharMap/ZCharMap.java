@@ -600,43 +600,47 @@ public class ZCharMap extends JPanel
     }
   }
 
+  private void printErrors(List<? extends ErrorAnn> errors)
+  {
+    for (ErrorAnn errorAnn : errors) {
+      addError(mView.getBuffer().getPath(), errorAnn.getLine() - 1,
+               errorAnn.getColumn() - 1, 0, errorAnn.toString());
+    }
+    String message = "Z typechecking complete, " + computeErrorNumber();
+    mView.getStatus().setMessage(message);
+  }
+
+  public void typecheck()
+  {
+    clearErrorList();
+    CztLogger.getLogger(ZCharMap.class).info("Typechecking ...");
+    try {
+      SectionManager manager = getSectionManager();
+      Term term = parse(manager);
+      if (term != null) {
+        List<? extends ErrorAnn> errors = typecheck(term, manager);
+        printErrors(errors);
+        CztLogger.getLogger(ZCharMap.class).info("Done typechecking.");
+      }
+      else {
+        final String message = "Z typechecking aborted.";
+        CztLogger.getLogger(ZCharMap.class).info(message);
+      }
+    }
+    catch (Throwable exception) {
+      exception.printStackTrace();
+      CztLogger.getLogger(ZCharMap.class).info("CZT error occurred.");
+      String message = "Caught " + exception.getClass().getName() + ": " +
+        exception.getMessage();
+      addError(mView.getBuffer().getPath(), 0, 0, 0, message);
+    }
+  }
+
   class TypecheckHandler implements ActionListener
   {
     public void actionPerformed(ActionEvent e)
     {
-      clearErrorList();
-      CztLogger.getLogger(ZCharMap.class).info("Typechecking ...");
-      try {
-	SectionManager manager = getSectionManager();
-        Term term = parse(manager);
-        if (term != null) {
-          List<? extends ErrorAnn> errors = typecheck(term, manager);
-          printErrors(errors);
-          CztLogger.getLogger(ZCharMap.class).info("Done typechecking.");
-        }
-        else {
-          final String message = "Z typechecking aborted.";
-          CztLogger.getLogger(ZCharMap.class).info(message);
-        }
-      }
-      catch (Throwable exception) {
-        exception.printStackTrace();
-        CztLogger.getLogger(ZCharMap.class).info("CZT error occurred.");
-        String message = "Caught " + exception.getClass().getName() + ": " +
-          exception.getMessage();
-	System.err.println(exception);
-        addError(mView.getBuffer().getPath(), 0, 0, 0, message);
-      }
-    }
-
-    private void printErrors(List<? extends ErrorAnn> errors)
-    {
-      for (ErrorAnn errorAnn : errors) {
-        addError(mView.getBuffer().getPath(), errorAnn.getLine() - 1,
-                 errorAnn.getColumn() - 1, 0, errorAnn.toString());
-      }
-      String message = "Z typechecking complete, " + computeErrorNumber();
-      mView.getStatus().setMessage(message);
+      typecheck();
     }
   }
 

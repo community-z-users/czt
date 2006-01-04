@@ -35,6 +35,7 @@ public class CommunityZToolsPlugin
   protected static final DefaultErrorSource errorSource_ =
     new DefaultErrorSource("CZT");
   private static final Handler handler_ = new ErrorHandler();
+  public static final String NAME = "czt";
   public static final String OPTION_PREFIX = "options.czt.";
   public static final String PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS =
     "CommunityZToolsPlugin.extractCommaOrSemiFromDecorwors";

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE ACTIONS SYSTEM "actions.dtd">
+
+<ACTIONS>
+  <ACTION NAME="czt.typecheck">
+    <CODE>
+      wm.getDockable(CommunityZToolsPlugin.NAME).typecheck();
+    </CODE>
+  </ACTION>
+</ACTIONS>
