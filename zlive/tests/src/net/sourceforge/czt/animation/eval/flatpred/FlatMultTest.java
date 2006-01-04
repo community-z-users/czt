@@ -19,6 +19,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval.flatpred;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.ZTestCase;
@@ -27,6 +30,7 @@ import net.sourceforge.czt.modeljunit.coverage.CoverageHistory;
 import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
 import net.sourceforge.czt.modeljunit.coverage.StateCoverage;
 import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
+import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZRefName;
 
@@ -45,26 +49,43 @@ public class FlatMultTest
 
   public void testMBT()
   {
+    int interval = 2;
     FlatPredModel iut = new FlatPredModel(pred, new ZRefName[] {x,y,z},
                             new Eval(1, "???", i3, i4, i12),
                             new Eval(0, "I?I", i2, i5, i11) // 11 is prime
                             );
-    CoverageHistory actions = new CoverageHistory(new ActionCoverage(), 1);
-    CoverageHistory states = new CoverageHistory(new StateCoverage(), 1);
-    CoverageHistory trans = new CoverageHistory(new TransitionCoverage(), 1);
+    CoverageHistory actions = new CoverageHistory(new ActionCoverage(), interval);
+    CoverageHistory states = new CoverageHistory(new StateCoverage(), interval);
+    CoverageHistory trans = new CoverageHistory(new TransitionCoverage(), interval);
+    CoverageHistory tpair = new CoverageHistory(new TransitionPairCoverage(), interval);
     addCoverageMetric(actions);
     addCoverageMetric(states);
     addCoverageMetric(trans);
-    fsmRandomWalk(iut, 400);
+    addCoverageMetric(tpair);
+    fsmRandomWalk(iut, 1500);
 
-    // Just for interest, we print some statistics.
-    // We build the graph, so we get more accurate stats.
+    // We print a vertical table of coverage statistics.
+    // First we build the graph, so we get more accurate stats
     // (this also adds some transitions to the end of the history).
     fsmBuildGraph(iut);
+    int minlen = Integer.MAX_VALUE;
+    List<List<Integer>> table = new ArrayList<List<Integer>>();
+    System.out.print("Transitions");
     for (CoverageMetric cm : getCoverageMetrics()) {
-      System.out.println(cm.getName()+": "+cm);
-      if (cm instanceof CoverageHistory)
-        System.out.println("History: "+((CoverageHistory)cm).toCSV());
+      if (cm instanceof CoverageHistory) {
+        System.out.print(","+cm.getName());
+        List<Integer> history = ((CoverageHistory)cm).getHistory();
+        table.add(history);
+        if (history.size() < minlen)
+          minlen = history.size();
+      }
+    }
+    System.out.println();
+    for (int i=0; i < minlen; i++) {
+      System.out.print(i*interval);
+      for (List<Integer> hist : table)
+        System.out.print(","+hist.get(i));
+      System.out.println();
     }
   }
 
