@@ -52,25 +52,29 @@ public class FlatPredModel
   private State state_;
 
   /** The environment being used for testing. */
+  //@invariant env_ == null <==> mode_ == null;
   private Envir env_;
 
   /** The mode that has currently been set. */
+  //@invariant mode_ == null <==> (state_==Init || state_==NoMode);
   private Mode mode_;
 
   /** The result of the previous operation (inferBounds or nextEvaluation). */
   private boolean result_;
-  
+
   /** Create a test harness for a FlatPred subclass.
    *  The goodValues should be a correct evaluation for the toTest object.
    *  For example, if toTest represents the constraint a*b=c,
    *  then names should contain {a,b,c} and goodValues should contain
    *  some values like {2,3,6}.
-   *  
+   *
    * @param toTest  An instance of a FlatPred subclass.
    * @param names   The free variables of the toTest object.
-   * @param goodValues  Good values for each of the names.
+   * @param eval1   Example values for names.
+   * @param eval2   Example values for names.
    */
-   //@requires names.length == values.length;
+  //@requires names.length == eval1.args.length;
+  //@requires names.length == eval2.args.length;
   public FlatPredModel(FlatPred toTest, ZRefName[] names,
         Eval eval1, Eval eval2)
   {
@@ -130,7 +134,7 @@ public class FlatPredModel
     Assert.assertEquals(mode_ != null, shouldWork);
     if (mode_ == null) {
       state_ = State.NoMode;
-      env_ = new Envir();
+      env_ = null;
     }
     else {
       // now check that mode is correct.
@@ -206,6 +210,7 @@ public class FlatPredModel
   /** Helper method for starting a new evaluation.
    *  @param data The data values and modes which can be used.
    */
+  //@requires env_ != null;
   public void startEval(/*@non_null@*/ Eval data)
   {
     // Note: we use the original env here, as given to chooseMode.
@@ -281,6 +286,8 @@ public class FlatPredModel
   @Action public void newMode()
   {
     System.out.println("newMode with env="+env_);
+    mode_ = null;
+    env_  = null;
     state_ = State.NoMode;
   }
 }

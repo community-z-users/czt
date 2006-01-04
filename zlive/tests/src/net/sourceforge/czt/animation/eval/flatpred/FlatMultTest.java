@@ -22,8 +22,11 @@ package net.sourceforge.czt.animation.eval.flatpred;
 import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.ZTestCase;
-import net.sourceforge.czt.modeljunit.ActionCoverage;
-import net.sourceforge.czt.modeljunit.CoverageMetric;
+import net.sourceforge.czt.modeljunit.coverage.ActionCoverage;
+import net.sourceforge.czt.modeljunit.coverage.CoverageHistory;
+import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
+import net.sourceforge.czt.modeljunit.coverage.StateCoverage;
+import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZRefName;
 
@@ -46,15 +49,28 @@ public class FlatMultTest
                             new Eval(1, "???", i3, i4, i12),
                             new Eval(0, "I?I", i2, i5, i11) // 11 is prime
                             );
-    fsmLoad(iut.getClass());
-    CoverageMetric actions = new ActionCoverage(fsmGetNumActions());
-    addCoverage(actions);
-    fsmRandomWalk( iut, 400);
-    System.out.println("Action Coverage: "+actions);
-    System.out.print("History: ");
-    for (Float f : actions.getHistory())
-      System.out.print(f*100.0F+", ");
-    System.out.println();
+    CoverageHistory actions = new CoverageHistory(new ActionCoverage(), 1);
+    CoverageHistory states = new CoverageHistory(new StateCoverage(), 1);
+    CoverageHistory trans = new CoverageHistory(new TransitionCoverage(), 1);
+    addCoverageMetric(actions);
+    addCoverageMetric(states);
+    addCoverageMetric(trans);
+    fsmRandomWalk(iut, 400);
+
+    // Just for interest, we print some statistics.
+    // We build the graph, so we get more accurate stats.
+    // (this also adds some transitions to the end of the history).
+    fsmBuildGraph(iut);
+    for (CoverageMetric cm : getCoverageMetrics()) {
+      System.out.println(cm.getName()+": "+cm);
+      if (cm instanceof CoverageHistory)
+        System.out.println("History: "+((CoverageHistory)cm).toCSV());
+    }
+  }
+
+  public static void main(String[] args)
+  {
+    new FlatMultTest().testMBT();
   }
   
   public void testEmpty()
