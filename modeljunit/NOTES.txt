@@ -14,7 +14,8 @@ Log of Design and Implementation Changes
 04Jan06: Made CoverageHistory into a separate wrapper class.
 04Jan06: Non-resetable FSMs make buildGraph loop.  So added random init().
 	     Same in fsmRandomWalk -- this increased coverage slightly.
-
+04Jan06: Added State coverage and Transition coverage.
+05Jan06: Added Transition-Pair coverage.
 
 
 Experiences using ModelJUnit to test ZLive FlatPred subclasses
@@ -86,3 +87,7 @@ After the model was corrected, it had:
   11 actions, 14 states, 40 transitions.
   Took 8 inits and 115 transitions to build the graph.
 
+
+Thu 5 Jan 2006:
+---------------
+Coverage metrics:

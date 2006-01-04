@@ -139,7 +139,7 @@ public class ModelTestCase extends TestCase
   }
 
   /** This class defines the finite state machine model of the system under test.
-   *  It is null until fsmInit() has successfully loaded that class.
+   *  It is null until fsmLoad() has successfully loaded that class.
    */
   private static Class fsmClass = null;
   
@@ -478,8 +478,13 @@ public class ModelTestCase extends TestCase
   }
 
   /** Reinitialise the FSM to its initial state.
-   *  This also does the fsmLoad of fsm.class if it has not
-   *  already been done.
+   *  This does the fsmLoad of fsm.class if it has not
+   *  already been done.  It also calls the doneInit(testing)
+   *  method of all the coverage listeners.
+   *  
+   *  @param fsm     The FSM model that is being tested.
+   *  @param testing False means we are just exploring the graph, so the
+   *                 fsm object could skip the actual tests if it wants.
    */
   public static void fsmInit(Object fsm, boolean testing)
   {
@@ -491,6 +496,8 @@ public class ModelTestCase extends TestCase
         fsmSequence = new ArrayList<Transition>();
       fsmSequence.clear();
       fsmState = fsm.toString();
+      for (CoverageMetric cm : fsmCoverage)
+        cm.doneInit(testing);
     } catch (Exception ex) {
       fail("Error calling FSM init method: " + ex.getMessage());
     }

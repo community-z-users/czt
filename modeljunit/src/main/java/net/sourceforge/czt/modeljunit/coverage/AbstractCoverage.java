@@ -22,8 +22,8 @@ package net.sourceforge.czt.modeljunit.coverage;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sourceforge.czt.jdsl.graph.api.Edge;
 import net.sourceforge.czt.jdsl.graph.api.Graph;
-import net.sourceforge.czt.jdsl.graph.api.Vertex;
 import net.sourceforge.czt.modeljunit.Transition;
 
 /** A partial implementation of CoverageMetric.
@@ -160,5 +160,14 @@ public abstract class AbstractCoverage implements CoverageMetric
   public String toString()
   {
     return getCoverage() + "/" + getMaximum();
+  }
+
+  /** A convenience method for converting a graph edge into a Transition. */
+  public static Transition transition(Edge e, Graph model)
+  {
+    Object origin = model.origin(e).element();
+    Object dest = model.destination(e).element();
+    String action = (String) e.element();
+    return new Transition(origin, action, dest);
   }
 }

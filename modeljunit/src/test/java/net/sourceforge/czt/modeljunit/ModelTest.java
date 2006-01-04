@@ -20,8 +20,8 @@
 package net.sourceforge.czt.modeljunit;
 
 import java.util.BitSet;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 import junit.framework.Assert;
 import junit.framework.Test;
@@ -35,6 +35,7 @@ import net.sourceforge.czt.modeljunit.coverage.CoverageHistory;
 import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
 import net.sourceforge.czt.modeljunit.coverage.StateCoverage;
 import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
+import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;
 
 /**
  * Unit test for ModelJUnit
@@ -174,6 +175,12 @@ public class ModelTest extends ModelTestCase
    */
   public void FsmCoverage(CoverageMetric metric, int max, int... expect)
   {
+    // remove old coverage listeners
+    Iterator<CoverageMetric> iter = getCoverageMetrics().iterator();
+    while (iter.hasNext()) {
+      iter.next();
+      iter.remove();
+    }
     FSM iut = new FSM();
     addCoverageMetric(metric);
     System.out.println("Testing "+metric.getName());
@@ -198,21 +205,39 @@ public class ModelTest extends ModelTestCase
     }
   }
 
+  /** This test is a bit dependent on the path of the random walk.
+   *  It may need adjusting when the seed or random walk algorithm changes.
+   */
   public void testActionCoverage()
   {
     FsmCoverage(new ActionCoverage(), 4, 
         new int[] {1,1, 3,3, 20,4});
   }
 
+  /** This test is a bit dependent on the path of the random walk.
+   *  It may need adjusting when the seed or random walk algorithm changes.
+   */
   public void testStateCoverage()
   {
     FsmCoverage(new StateCoverage(), 3, 
         new int[] {1,1, 2,2, 20,3});
   }
 
+  /** This test is a bit dependent on the path of the random walk.
+   *  It may need adjusting when the seed or random walk algorithm changes.
+   */
   public void testTransitionCoverage()
   {
     FsmCoverage(new TransitionCoverage(), 5, 
         new int[] {1,1, 3,3, 40,5});
+  }
+
+  /** This test is a bit dependent on the path of the random walk.
+   *  It may need adjusting when the seed or random walk algorithm changes.
+   */
+  public void testTransitionPairCoverage()
+  {
+    FsmCoverage(new TransitionPairCoverage(), 10, 
+        new int[] {1,0, 2,1, 3,2, 100,9, 200,10});
   }
 }
