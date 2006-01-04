@@ -10,7 +10,11 @@ Log of Design and Implementation Changes
 14Dec05: First version as subclass of junit TestCase.  Loads FSM.class
 21Dec05: Moved boolean testing parameter from transitions into just init().
 24Dec05: Added coverage listeners.  Renamed @transition to @Action.
-03Dec05: Implemented graph builder (with random seed).
+03Jan06: Implemented graph builder (with random seed).
+04Jan06: Made CoverageHistory into a separate wrapper class.
+04Jan06: Non-resetable FSMs make buildGraph loop.  So added random init().
+	     Same in fsmRandomWalk -- this increased coverage slightly.
+
 
 
 Experiences using ModelJUnit to test ZLive FlatPred subclasses
@@ -64,4 +68,21 @@ Found one minor adaptor/oracle bug -- checked the wrong envir in chooseMode.
 Model now has 11 actions and about 14 states.
 It takes 43 steps to reach 100% action coverage.
 
+
+Wed 4 Jan 2006:  a few minutes fixing the model bug.
+---------------
+Noticed a bug in FlatPredModel while looking at BuildGraph output
+-- this illustrates the benefit of being able to 'see' the graph.
+It had NoModeIII, NoModeIOI... states, as well as the expected NoMode.
+(I had not realised that newMode needed to set mode_ and env_ to null).
+This meant that NoMode was only reachable from init.
+This non-resetable loop made fsmBuildGraph loop infinitely, and
+exposed the need for a random init.  Adding the random init to
+fsmRandomWalk also increased transition coverage from 61 to 65 (the max).
+Before the FlatPredModel bug was fixed, the model had:
+  11 actions, 19 states, 65 transitions.  
+  Took 6 inits and 145 transitions to build the graph.
+After the model was corrected, it had:
+  11 actions, 14 states, 40 transitions.
+  Took 8 inits and 115 transitions to build the graph.
 

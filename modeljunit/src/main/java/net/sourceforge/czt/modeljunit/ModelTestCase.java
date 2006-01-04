@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -35,6 +35,7 @@ import net.sourceforge.czt.jdsl.graph.api.Graph;
 import net.sourceforge.czt.jdsl.graph.api.InspectableGraph;
 import net.sourceforge.czt.jdsl.graph.api.Vertex;
 import net.sourceforge.czt.jdsl.graph.ref.IncidenceListGraph;
+import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
 
 
 /** Test a system, based on a finite state machine (FSM) model of that system.
@@ -118,6 +119,13 @@ import net.sourceforge.czt.jdsl.graph.ref.IncidenceListGraph;
  */
 public class ModelTestCase extends TestCase
 {
+  /** During random walk (including fsmBuildGraph), this is the
+   *  probability of doing init() rather than choosing a random
+   *  transition.  This must be non-zero in order to break out of
+   *  cycles that do not have any path to the initial state.
+   */
+  public static final double INIT_PROBABILITY = 0.05;
+
   public static final int PATHLEN = 5;
   
   public ModelTestCase()
@@ -166,7 +174,7 @@ public class ModelTestCase extends TestCase
   protected static Map<Object,Vertex> fsmVertex;
 
   /** Coverage listeners. */
-  private static Set<CoverageMetric> fsmCoverage = new HashSet<CoverageMetric>();
+  private static List<CoverageMetric> fsmCoverage = new ArrayList<CoverageMetric>();
 
   /** The current state of the implementation under test. */
   //@invariant fsmState == null <==> fsmModel == null;
@@ -276,28 +284,28 @@ public class ModelTestCase extends TestCase
    *  This can be called at any time, provided that an FSM
    *  model class has been loaded (that is, fsmGetClass() != null).
    */
-  public static void fsmResetCoverage()
+  public static void fsmResetCoverageMetrics()
   {
     for (CoverageMetric cm : fsmCoverage)
       cm.reset();
   }
 
   /** Add a coverage listener. */
-  public static void addCoverage(CoverageMetric cover)
+  public static void addCoverageMetric(CoverageMetric cover)
   {
     fsmCoverage.add(cover);
   }
 
   /** Remove a coverage listener. */
-  public static boolean removeCoverage(CoverageMetric cover)
+  public static boolean removeCoverageMetric(CoverageMetric cover)
   {
     return fsmCoverage.remove(cover);
   }
 
   /** Iterate over all the coverage listeners */
-  public Iterator<CoverageMetric> coverageIterator()
+  public List<CoverageMetric> getCoverageMetrics()
   {
-    return fsmCoverage.iterator();
+    return fsmCoverage;
   }
 
   /** Loads the given class and finds its @Action methods.
@@ -360,17 +368,29 @@ public class ModelTestCase extends TestCase
       fail("ERROR: FSM model "+fsm.getClass()+" has no init(boolean) method.");
     }
     // get ready to record coverage statistics.
-    fsmResetCoverage();
+    fsmResetCoverageMetrics();
     // now set fsmClass, to show that it is a valid FSM class.
     fsmClass = fsm;
   }
+  
+  /** Builds the FSM graph with a default random seed.
+   *  @see #fsmBuildGraph(Object, Random)
+   */
+  public static void fsmBuildGraph(Object fsm)
+  {
+    fsmBuildGraph(fsm, new Random(123456789L));
+  }
 
   /** Builds the FSM graph by exploring the fsm object.
+   *  After the graph is built, it calls the setModel method
+   *  of all the coverage listeners.
    *  @param fsm  The model to explore.
    *  @param rand A random number generator to drive the exploration.
    */
   public static void fsmBuildGraph(Object fsm, Random rand)
   {
+    int nTrans = 0; // number of transitions taken while building graph.
+    int nInits = 0; // number of inits taken while building graph.
     fsmGraph = new IncidenceListGraph();
     fsmVertex = new HashMap<Object,Vertex>();
     // This records the (state,action) pairs that have not yet been explored.
@@ -378,8 +398,9 @@ public class ModelTestCase extends TestCase
     // set up the initial state
     {
       fsmInit(fsm, false);
+      nInits++;
       Vertex initial = fsmGraph.insertVertex(fsmState);
-      printProgress("Added vertex for initial state "+fsmState);
+      printProgress("Buildgraph: Added vertex for initial state "+fsmState);
       fsmVertex.put(fsmState, initial);
       BitSet enabled = fsmEnabledActions();
       if (enabled.isEmpty())
@@ -397,18 +418,29 @@ public class ModelTestCase extends TestCase
     //
     while ( ! todo.isEmpty()) {
       BitSet enabled = todo.get(fsmState);
-      printProgress("  todo("+fsmState+") = "+enabled);
+      printProgress("  Buildgraph: todo("+fsmState+") = "+enabled);
       if (enabled == null) {
-        // we take a random action, if possible, else init.
+        // If this state has some enabled actions, then we might choose
+        // one of them randomly using fsmDoRandomAction, or we might
+        // do an init (with probability BUILD_INIT_PROBABILITY).
+        // This means we break out of closed loops that cannot reach
+        // the initial state after an average of 1.0/BUILD_INIT_PROBABILITY
+        // transitions.
+        // If there are no enabled actions, we MUST do the init.
         Object oldState = fsmState;
-        int action = fsmDoRandomAction(rand);
+        int action = -2;  // -2 means we did not even try fsmDoRandomAction.
+        if (rand.nextDouble() >= INIT_PROBABILITY)
+          action = fsmDoRandomAction(rand); // try a normal action
         if (action >= 0) {
-          printProgress("Took random action ("+oldState+", "+action+" "
-              +fsmActions.get(action).getName()+", "+fsmState+")");
+          nTrans++;
+          printProgress("Buildgraph: Took random action ("+oldState+", "
+              +action+" "+fsmActions.get(action).getName()+", "+fsmState+")");
         }
         else {
           fsmInit(fsm, false);
-          printProgress("Took init.  State is "+fsmState);
+          nInits++;
+          String msg = (action == -2) ? "Random init." : "Had to init.";
+          printProgress("Buildgraph: "+msg+"  State is "+fsmState);
         }
       }
       else {
@@ -420,22 +452,29 @@ public class ModelTestCase extends TestCase
         Object oldState = fsmState;
         Vertex oldVertex = fsmVertex.get(oldState);
         fsmDoAction(action);
+        nTrans++;
         // see if this fsmState is a new one.
         Vertex newVertex = fsmVertex.get(fsmState);
         if (newVertex == null) {
           // we have reached a new state, so add & analyze it.
           newVertex = fsmGraph.insertVertex(fsmState);
           fsmVertex.put(fsmState, newVertex);
-          printProgress("Added vertex for state "+fsmState);
+          printProgress("Buildgraph: Added vertex for state "+fsmState);
           enabled = fsmEnabledActions();
           if ( ! enabled.isEmpty())
             todo.put(fsmState, enabled);
         }
         String actionName = fsmActions.get(action).getName();
         fsmGraph.insertDirectedEdge(oldVertex, newVertex, actionName);
-        printProgress("Added edge ("+oldState+","+actionName+","+fsmState+")");
+        printProgress("Buildgraph: Added edge ("+oldState+","
+            +actionName+","+fsmState+")");
       }
     }
+    for (CoverageMetric cm : fsmCoverage) {
+      cm.setModel(fsmGraph, fsmVertex);
+    }
+    printProgress("Buildgraph: Model complete after "
+        +nInits+" inits and "+nTrans+" transitions.");
   }
 
   /** Reinitialise the FSM to its initial state.
@@ -554,19 +593,22 @@ public class ModelTestCase extends TestCase
    */
   protected static int fsmDoRandomAction(Random rand)
   {
-	int nTrans = fsmGetNumActions();
-	BitSet tried = new BitSet(nTrans);
-	int index = rand.nextInt(nTrans);
-	while (tried.cardinality() < nTrans) {
-	  while (tried.get(index))
-		index = rand.nextInt(nTrans);
-	  tried.set(index); // we have tried this one.
-	  if (fsmDoAction(index)) {
-		return index;
-	  }
-	  Method m = fsmActions.get(index);
-	}
-	return -1;
+    int nTrans = fsmGetNumActions();
+    BitSet tried = new BitSet(nTrans);
+    int index = rand.nextInt(nTrans);
+    //System.out.println("random choice is "+index);
+    while (tried.cardinality() < nTrans) {
+      while (tried.get(index)) {
+        index = rand.nextInt(nTrans);
+        //System.out.println("random RETRY gives "+index);
+      }
+      tried.set(index); // we have tried this one.
+      if (fsmDoAction(index)) {
+        return index;
+      }
+      Method m = fsmActions.get(index);
+    }
+    return -1;
   }
 
   /** Calls fsmRandomWalk/3 with a fixed seed so that tests are repeatable. */
@@ -589,6 +631,8 @@ public class ModelTestCase extends TestCase
    *  third parameter.  If you want to test the same path
    *  each time (this makes the test results more predictable),
    *  then pass <code>new Random(<em>fixedSeed</em>)</code>.
+   *  ({@link #fsmRandomWalk(Object, int) fsmRandomWalk(fsm,length)}
+   *  does this for you). 
    *  
    * @param fsm    This object defines a finite state machine model of the SUT.
    * @param length The number of transitions to test.
@@ -603,8 +647,12 @@ public class ModelTestCase extends TestCase
 	int totalLength = 0;
     fsmInit(fsm, true);
     while (totalLength < length) {
-      int taken = fsmDoRandomAction(rand);
-      if (taken == -1)
+      int taken = -1;
+      double prob = rand.nextDouble();
+      //System.out.println("random double is "+prob);
+      if (prob >= INIT_PROBABILITY)
+        taken = fsmDoRandomAction(rand);
+      if (taken < 0)
     	fsmInit(fsm, true);
       else
     	totalLength++;
