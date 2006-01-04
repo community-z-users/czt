@@ -8,4 +8,19 @@
       wm.getDockable(CommunityZToolsPlugin.NAME).typecheck();
     </CODE>
   </ACTION>
+  <ACTION NAME="czt.toLatex">
+    <CODE>
+      wm.getDockable(CommunityZToolsPlugin.NAME).toLatex();
+    </CODE>
+  </ACTION>
+  <ACTION NAME="czt.toUnicode">
+    <CODE>
+      wm.getDockable(CommunityZToolsPlugin.NAME).toUnicode();
+    </CODE>
+  </ACTION>
+  <ACTION NAME="czt.toXml">
+    <CODE>
+      wm.getDockable(CommunityZToolsPlugin.NAME).toXml();
+    </CODE>
+  </ACTION>
 </ACTIONS>

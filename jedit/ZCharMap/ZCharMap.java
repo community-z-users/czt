@@ -636,6 +636,118 @@ public class ZCharMap extends JPanel
     }
   }
 
+  private XmlWriter getXmlWriter()
+  {
+    if (isObjectZ()) {
+      return new net.sourceforge.czt.oz.jaxb.JaxbXmlWriter();
+    }
+    else {
+      return new net.sourceforge.czt.z.jaxb.JaxbXmlWriter();
+    }
+  }
+
+  public void toXml()
+  {
+    clearErrorList();
+    try {
+      SectionManager manager = getSectionManager();
+      Term term = parse(manager);
+      if (term != null) {
+        XmlWriter writer = getXmlWriter();
+        Buffer buffer = jEdit.newFile(mView);
+        buffer.setStringProperty("encoding", "UTF-8");
+        StringWriter out = new StringWriter();
+        writer.write(term, out);
+        out.close();
+        buffer.insert(0, out.toString());
+      }
+      else {
+        String message = "Z conversion aborted.";
+        CztLogger.getLogger(ZCharMap.class).info(message);
+      }
+    }
+    catch (Throwable exception) {
+      CztLogger.getLogger(ZCharMap.class).info("CZT error occurred.");
+      String message = "Caught " + exception.getClass().getName() + ": " +
+        exception.getMessage();
+      System.err.println(message);
+      exception.printStackTrace(System.err);
+      addError(mView.getBuffer().getPath(), 0, 0, 0, message);
+    }
+  }
+
+
+  private void printUnicode(Term term,
+                            StringWriter out,
+                            SectionManager manager)
+  {
+    if (isObjectZ()) {
+      net.sourceforge.czt.print.oz.PrintUtils.printUnicode(term, out, manager);
+    }
+    else {
+      PrintUtils.printUnicode(term, out, manager);
+    }
+  }
+
+  private void printLatex(Term term,
+                          StringWriter out,
+                          SectionManager manager)
+  {
+    if (isObjectZ()) {
+      net.sourceforge.czt.print.oz.PrintUtils.printLatex(term, out, manager);
+    }
+    else {
+      PrintUtils.printLatex(term, out, manager);
+    }
+  }
+
+  public void convertTo(Markup markup)
+  {
+    clearErrorList();
+    CztLogger.getLogger(ZCharMap.class).info("Converting ...");
+    try {
+      SectionManager manager = getSectionManager();
+      Term term = parse(manager);
+      if (term != null) {
+        Buffer buffer = jEdit.newFile(mView);
+        StringWriter out = new StringWriter();
+        if (Markup.LATEX.equals(markup)) {
+          printLatex(term, out, manager);
+        }
+        else {
+          buffer.setStringProperty("encoding", "UTF-16");
+          printUnicode(term, out, manager);
+          buffer.setMode(UNICODE_MODE);
+        }
+        out.close();
+        buffer.insert(0, out.toString());
+        CztLogger.getLogger(ZCharMap.class).info("Done converting.");
+      }
+      else {
+        String message = "Z conversion aborted.";
+        CztLogger.getLogger(ZCharMap.class).info(message);
+      }
+    }
+    catch (Throwable exception) {
+      CztLogger.getLogger(ZCharMap.class).info("CZT error occurred.");
+      String message = "Caught " + exception.getClass().getName() + ": " +
+        exception.getMessage();
+      System.err.println(message);
+      exception.printStackTrace(System.err);
+      addError(mView.getBuffer().getPath(), 0, 0, 0, message);
+    }
+  }
+
+  public void toUnicode()
+  {
+    convertTo(Markup.UNICODE);
+  }
+
+  public void toLatex()
+  {
+    convertTo(Markup.LATEX);
+  }
+
   class TypecheckHandler implements ActionListener
   {
     public void actionPerformed(ActionEvent e)
@@ -648,67 +760,11 @@ public class ZCharMap extends JPanel
   {
     public void actionPerformed(ActionEvent e)
     {
-      clearErrorList();
-      CztLogger.getLogger(ZCharMap.class).info("Converting ...");
-      final Markup markup = getMarkup();
-      try {
-	SectionManager manager = getSectionManager();
-	Term term = parse(manager);
-        if (term != null) {
-          Buffer buffer = jEdit.newFile(mView);
-          StringWriter out = new StringWriter();
-          if (Markup.UNICODE.equals(markup)) {
-            printLatex(term, out, manager);
-          }
-          else {
-            buffer.setStringProperty("encoding", "UTF-16");
-            printUnicode(term, out, manager);
-            buffer.setMode(UNICODE_MODE);
-          }
-          out.close();
-          buffer.insert(0, out.toString());
-          CztLogger.getLogger(ZCharMap.class).info("Done converting.");
-        }
-        else {
-          String message = "Z conversion aborted.";
-          CztLogger.getLogger(ZCharMap.class).info(message);
-        }
-      }
-      catch (Throwable exception) {
-        CztLogger.getLogger(ZCharMap.class).info("CZT error occurred.");
-        String message = "Caught " + exception.getClass().getName() + ": " +
-          exception.getMessage();
-	System.err.println(message);
-        exception.printStackTrace(System.err);
-        addError(mView.getBuffer().getPath(), 0, 0, 0, message);
-      }
-    }
-
-    private void printUnicode(Term term,
-                              StringWriter out,
-                              SectionManager manager)
-    {
-      if (isObjectZ()) {
-        net.sourceforge.czt.print.oz.PrintUtils.printUnicode(term,
-                                                             out,
-                                                             manager);
+      if (Markup.UNICODE.equals(getMarkup())) {
+        convertTo(Markup.LATEX);
       }
       else {
-        PrintUtils.printUnicode(term, out, manager);
-      }
-    }
-
-    private void printLatex(Term term,
-                            StringWriter out,
-                            SectionManager manager)
-    {
-      if (isObjectZ()) {
-        net.sourceforge.czt.print.oz.PrintUtils.printLatex(term,
-                                                           out,
-                                                           manager);
-      }
-      else {
-        PrintUtils.printLatex(term, out, manager);
+        convertTo(Markup.UNICODE);
       }
     }
   }
@@ -717,42 +773,7 @@ public class ZCharMap extends JPanel
   {
     public void actionPerformed(ActionEvent e)
     {
-      clearErrorList();
-      try {
-	SectionManager manager = getSectionManager();
-	Term term = parse(manager);
-        if (term != null) {
-          XmlWriter writer = getXmlWriter();
-          Buffer buffer = jEdit.newFile(mView);
-          buffer.setStringProperty("encoding", "UTF-8");
-          StringWriter out = new StringWriter();
-          writer.write(term, out);
-          out.close();
-          buffer.insert(0, out.toString());
-        }
-        else {
-          String message = "Z conversion aborted.";
-          CztLogger.getLogger(ZCharMap.class).info(message);
-        }
-      }
-      catch (Throwable exception) {
-        CztLogger.getLogger(ZCharMap.class).info("CZT error occurred.");
-        String message = "Caught " + exception.getClass().getName() + ": " +
-          exception.getMessage();
-	System.err.println(message);
-        exception.printStackTrace(System.err);
-        addError(mView.getBuffer().getPath(), 0, 0, 0, message);
-      }
-    }
-
-    private XmlWriter getXmlWriter()
-    {
-      if (isObjectZ()) {
-        return new net.sourceforge.czt.oz.jaxb.JaxbXmlWriter();
-      }
-      else {
-        return new net.sourceforge.czt.z.jaxb.JaxbXmlWriter();
-      }
+      toXml();
     }
   }
 

@@ -17,11 +17,15 @@ plugin.CommunityZToolsPlugin.depend.2=plugin errorlist.ErrorListPlugin 1.3
 czt.title=Community Z Tools
 
 # Plugin menu item properties
-plugin.CommunityZToolsPlugin.menu=czt - czt.typecheck
+plugin.CommunityZToolsPlugin.menu=czt - \
+  czt.typecheck czt.toLatex czt.toUnicode czt.toXml
 
 # action labels
 czt.label=Community Z Tools
 czt.typecheck.label=Parse and typecheck buffer
+czt.toLatex.label=Convert to Latex mark-up
+czt.toUnicode.label=Convert to Unicode mark-up
+czt.toXml.label=Convert to XML
 
 # Option pane
 plugin.CommunityZToolsPlugin.option-pane=czt
