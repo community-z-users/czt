@@ -50,7 +50,7 @@ public class ZLive
   private /*@non_null@*/ Preprocess preprocess_;
   
   /** A Writer interface to System.out. */
-  protected Writer writer = new BufferedWriter(new OutputStreamWriter(System.out));
+  protected PrintWriter writer_ = new PrintWriter(System.out);
 
   protected SectionManager sectman_;
 
@@ -103,14 +103,14 @@ public class ZLive
 	setCurrentSection(sec.getName());
     }
     catch (Exception e) {
-      System.out.println("ERROR creating ZLiveDefault section: " + e);
+      System.err.println("ERROR creating ZLiveDefault section: " + e);
       e.printStackTrace();
     }
     try {
         preprocess_ = new Preprocess(sectman_);
         preprocess_.setRules("/preprocess.tex");
     } catch (Exception e) {
-      System.out.println("ERROR loading rules from preprocess.tex: " + e);
+      System.err.println("ERROR loading rules from preprocess.tex: " + e);
       e.printStackTrace();
     }
   }
@@ -242,21 +242,21 @@ public class ZLive
 
     public void printCode()
     {
-      printCode(writer);
+      printCode(writer_);
     }
 
   /** Prints the list of FlatPreds used in the last call
     * to evalPred or evalExpr.
     */
-    public void printCode(Writer writer)
+    public void printCode(PrintWriter writer)
     {
       if(predlist_ == null) {
-        System.out.println("No previous evaluations");
+        writer.println("No previous evaluations");
       }
       else {
         try {
           if (predlist_.size() == 0)
-              System.out.println("Code is empty!");
+            writer.println("Code is empty!");
           for (Iterator i = predlist_.iterator(); i.hasNext(); ) {
             FlatPred p = (FlatPred) i.next();
             writer.write("  " + p.toString() + "\n");
