@@ -35,6 +35,8 @@
     <mkdir dir="${zlive-jedit-plugin.build.dir}/external"/>
     <unjar src="${czt.home}/${jar.dir}/${corejava.zpatt.jar.file}"
       dest="${zlive-jedit-plugin.build.dir}/external"/>
+    <unjar src="${czt.home}/${jar.dir}/${rules.jar.file}"
+      dest="${zlive-jedit-plugin.build.dir}/external"/>
     <unjar src="${czt.home}/${jar.dir}/${zlive.jar.file}"
       dest="${zlive-jedit-plugin.build.dir}/external"/>
     <jar jarfile="${jar.file}">
