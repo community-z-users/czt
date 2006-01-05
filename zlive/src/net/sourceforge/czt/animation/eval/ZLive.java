@@ -240,10 +240,15 @@ public class ZLive
     return result;
   }
 
+    public void printCode()
+    {
+      printCode(writer);
+    }
+
   /** Prints the list of FlatPreds used in the last call
     * to evalPred or evalExpr.
     */
-    public void printCode()
+    public void printCode(Writer writer)
     {
       if(predlist_ == null) {
         System.out.println("No previous evaluations");

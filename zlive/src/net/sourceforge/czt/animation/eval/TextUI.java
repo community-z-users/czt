@@ -79,16 +79,22 @@ public class TextUI {
   }
   
   /** Process one input command. */
-  public static void processCmd(String cmd, String args) {
+  public static void processCmd(String cmd, String args)
+  {
+    processCmd(cmd, args, new PrintWriter(System.out));
+  }
+
+  /** Process one input command and write output to writer. */
+  public static void processCmd(String cmd, String args, PrintWriter out) {
     try {
        if (cmd.equals("help")) {
-         printHelp(System.out);
+         printHelp(out);
        }
        else if (cmd.equals("ver")) {
-         System.out.println(ZLive.banner);
+         out.println(ZLive.banner);
        } 
        else if (cmd.equals("why")) {
-         zlive_.printCode();
+         zlive_.printCode(out);
        }
        else if (cmd.equals("eval") || cmd.equals("evalp")) {
          SectionManager manager = zlive_.getSectionManager();
@@ -105,14 +111,14 @@ public class TextUI {
          List<? extends ErrorAnn> errors = TypeCheckUtils.typecheck(term, 
              manager, false, section);
          if (errors.size() > 0) {
-           System.out.println("Error: term contains type errors.");
+           out.println("Error: term contains type errors.");
            //print any errors
            for (ErrorAnn next : errors) {
-             System.out.println(next);
+             out.println(next);
            }
          }
          else {
-           System.out.println("DEBUG: evaluating "+term);
+           out.println("DEBUG: evaluating " + term);
            Term result = null;
            try
            {
@@ -123,30 +129,38 @@ public class TextUI {
            }
            catch (UndefException ex)
            {
-             System.out.print("Undefined!  " + ex.getMessage());
+             out.print("Undefined!  " + ex.getMessage());
            }
            catch (EvalException ex)
            {
-             System.out.print("Error: evaluation too difficult/large: "+ex.getMessage()); 
+             out.print("Error: evaluation too difficult/large: "
+                       + ex.getMessage()); 
            }
            if (result != null)
-             printTerm(System.out, result);
-           System.out.println();
-           System.out.flush();
+             printTerm(out, result);
+           out.println();
+           out.flush();
          }
        }
       else {
-        System.out.println("Invalid command.  Try 'help'?");
+        out.println("Invalid command.  Try 'help'?");
       }
     }
     catch (Exception e) {
-      System.out.println("Error: " + e);
-      e.printStackTrace();
+      out.println("Error: " + e);
+      e.printStackTrace(out);
     }
   }
 
   /** Prints help/usage message */
   public static void printHelp(PrintStream out)
+  {
+    PrintWriter writer = new PrintWriter(out);
+    printHelp(writer);
+  }
+
+  /** Writes help/usage message */
+  public static void printHelp(PrintWriter out)
   {
     out.println("\n------------ ZLive Help ------------");
     out.println("eval <expr>  -- Evaluate an expression");
@@ -157,9 +171,17 @@ public class TextUI {
   }
 
   /** Prints an evaluated expression as a standard text string. 
-   *  TODO: add a proper AST printing method to Unicode or LaTeX.
    */
   public static void printTerm(PrintStream out, Term term)
+  {
+    PrintWriter writer = new PrintWriter(out);
+    printTerm(writer, term);
+  }
+
+  /** Writess an evaluated expression as a standard text string. 
+   *  TODO: add a proper AST printing method to Unicode or LaTeX.
+   */
+  public static void printTerm(PrintWriter out, Term term)
   {
     if (term instanceof NumExpr) {
       NumExpr num = (NumExpr) term;
