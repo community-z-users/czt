@@ -11,7 +11,6 @@
 
   <path id="zlive-jedit-plugin.class.path">
     <fileset dir="${czt.home}/${jar.dir}">
-      <include name="${czt.jar.file}"/>
       <include name="${corejava.zpatt.jar.file}"/>
       <include name="${zlive.jar.file}"/>
     </fileset>
