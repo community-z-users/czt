@@ -183,6 +183,7 @@
 
   <target name="install-zlive-plugin" if="zlive-plugin.present"
     depends="install-jedit">
+    <ant dir="jedit/zlive" target="install"/>
     <copy file="${jar.dir}/${zlive-jedit-plugin.jar.file}"
       todir="${plugin.jar.dir}"/>
   </target>
