@@ -47,6 +47,9 @@
   <available
     file="${basedir}/jedit/ZCharMap/build.xml"
     property="jedit.present"/>
+  <available
+    file="${basedir}/jedit/zlive/build.xml"
+    property="zlive-plugin.present"/>
 
   <target name="all" depends="install-bin, install-subprojects, czt.jar, api-subprojects"/>
 
@@ -90,7 +93,7 @@
   <target name="install-subprojects"
     depends="install-corejava, install-session, install-modeljunit,
       install-parser, install-gaffe, install-z2b, install-typechecker,
-      install-rules, install-zlive, install-jedit" 
+      install-rules, install-zlive, install-jedit, install-zlive-plugin" 
     description="install subprojects">
   </target>
 
@@ -176,6 +179,12 @@
     <copy file="${namespace.jar}" todir="${plugin.jar.dir}"/>
     <copy file="${xsdlib.jar}" todir="${plugin.jar.dir}"/>
     <copy file="${relaxngDatatype.jar}" todir="${plugin.jar.dir}"/>
+  </target>
+
+  <target name="install-zlive-plugin" if="zlive-plugin.present"
+    depends="install-jedit">
+    <copy file="${jar.dir}/${zlive-jedit-plugin.jar.file}"
+      todir="${plugin.jar.dir}"/>
   </target>
 
   <target name="api-corejava" if="corejava.present"
@@ -430,7 +439,7 @@ set TYPECHECKER=${typechecker.win}
   </target>
 
   <target name="clean" description="clean up subprojects"
-    depends="clean-gnast, clean-corejava, clean-session, clean-modeljunit, clean-java_cup, clean-ant-task, clean-gaffe, clean-gaffe-generator, clean-parser, clean-z2b, clean-typechecker, clean-zlive, clean-rules, clean-jedit">
+    depends="clean-gnast, clean-corejava, clean-session, clean-modeljunit, clean-java_cup, clean-ant-task, clean-gaffe, clean-gaffe-generator, clean-parser, clean-z2b, clean-typechecker, clean-zlive, clean-rules, clean-jedit, clean-zlive-plugin">
     <delete dir="${jar.dir}"/>
     <delete file="${unix.settings.file}"/>
     <delete file="${windows.settings.file}"/>
@@ -506,10 +515,8 @@ set TYPECHECKER=${typechecker.win}
     <ant dir="jedit/ZCharMap" target="clean"/>
   </target>
 
-  <!-- not maintained any more
-  <target name="clean-zml2xhtml" if="zml2xhtml.present"
-    description="clean up zml2xhtml">
-    <ant dir="translators/zml2xhtml" target="clean"/>
+  <target name="clean-zlive-plugin" if="jedit.present"
+    description="clean up jedit plugin">
+    <ant dir="jedit/zlive" target="clean"/>
   </target>
-  -->
 </project>
