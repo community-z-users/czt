@@ -189,15 +189,22 @@ public class SectionManager
    */
   public void putCommands(URL url)
   {
+    final String errorMessage = "Error while loading default commands " +
+      "for the section manager: Cannot open " + url.toString();
     try {
       Properties props = new Properties();
-      props.loadFromXML(url.openStream());
-      putCommands(props);
+      InputStream is = url.openStream();
+      if (is != null) {
+        props.loadFromXML(is);
+        putCommands(props);
+        return;
+      }
+      getLogger().warning(errorMessage);
+      throw new RuntimeException(errorMessage);
     }
     catch (IOException e) {
-      final String message = "Cannot load default commands from file " +
-        url.toString();
-      getLogger().warning(message);
+      getLogger().warning(errorMessage);
+      throw new RuntimeException(errorMessage, e);
     }
   }
 
