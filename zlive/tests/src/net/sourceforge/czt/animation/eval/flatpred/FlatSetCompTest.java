@@ -57,20 +57,8 @@ public class FlatSetCompTest
   
   public void setUp()
   {
-    SetCompExpr setComp = null;
-    SetCompExpr emptySetComp = null;
-    try {
-      Source e = new StringSource(setCompStr);
-      e.setMarkup(Markup.LATEX);
-      setComp = (SetCompExpr)ParseUtils.parseExpr(e, null,
-						  zlive_.getSectionManager());
-      e = new StringSource(emptySetCompStr);
-      e.setMarkup(Markup.LATEX);
-      emptySetComp = (SetCompExpr)ParseUtils.parseExpr(e, null,
-						  zlive_.getSectionManager());
-    } catch (Exception e) {
-      fail("Error parsing set expr: " + e);
-    }
+    SetCompExpr setComp = (SetCompExpr) parseExpr(setCompStr);
+    SetCompExpr emptySetComp = (SetCompExpr) parseExpr(emptySetCompStr);
     ZSchText text = setComp.getZSchText();
     set = new FlatPredList(zlive_);
     set.add(new FlatSetComp(zlive_,

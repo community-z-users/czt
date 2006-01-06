@@ -19,15 +19,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval;
 
-import java.util.*;
-import java.math.*;
-
-import junit.framework.*;
-
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.modeljunit.ModelTestCase;
+import net.sourceforge.czt.parser.z.ParseUtils;
+import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.StringSource;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.NumExpr;
+import net.sourceforge.czt.z.ast.ZRefName;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.modeljunit.*;
 
 
 /**
@@ -100,6 +101,19 @@ public class ZTestCase
   protected NumExpr i28 = factory_.createNumExpr(28);
   protected NumExpr i29 = factory_.createNumExpr(29);
   protected NumExpr i30 = factory_.createNumExpr(30);
+  
+  public Expr parseExpr(String latexString)
+  {
+    try {
+      Source e = new StringSource(latexString);
+      e.setMarkup(Markup.LATEX);
+      return (Expr) ParseUtils.parseExpr(e, null, zlive_.getSectionManager());
+    } catch (Exception e) {
+      fail("Error parsing expr: " + latexString);
+    }
+    // not reached
+    return null;
+  }
 }
 
 
