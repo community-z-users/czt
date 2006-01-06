@@ -96,6 +96,20 @@ public class TextUI {
        else if (cmd.equals("why")) {
          zlive_.printCode(out);
        }
+       else if (cmd.equals("set")) {
+         if (args == null || "".equals(args)) {
+           for (String s : zlive_.propertyNames()) {
+             out.println(s + " = " + zlive_.getProperty(s));
+           }
+         }
+         else {
+           String parts[] = args.split(" ", 2);
+           zlive_.setProperty(parts[0], parts.length > 1 ? parts[1] : "");
+         }
+       }
+       else if (cmd.equals("unset")) {
+         zlive_.unsetProperty(args);
+       }
        else if (cmd.equals("eval") || cmd.equals("evalp")) {
          SectionManager manager = zlive_.getSectionManager();
          String section = zlive_.getCurrentSection();
@@ -162,12 +176,14 @@ public class TextUI {
   /** Writes help/usage message */
   public static void printHelp(PrintWriter out)
   {
-    out.println("\n------------ ZLive Help ------------");
-    out.println("eval <expr>  -- Evaluate an expression");
-    out.println("evalp <pred> -- Evaluate a predicate (synonym for eval)");
-    out.println("why          -- Print out the internal code of the last command");
-    out.println("version      -- Display the version of ZLive");
-    out.println("quit         -- Exit the ZLive program");
+    out.println("\n--------------- ZLive Help ---------------");
+    out.println("eval <expr>       -- Evaluate an expression");
+    out.println("evalp <pred>      -- Evaluate a predicate (synonym for eval)");
+    out.println("why               -- Print out the internal code of the last command");
+    out.println("set               -- Print out all settings");
+    out.println("set <var> <value> -- Sets <var> to <value>.");
+    out.println("version           -- Display the version of ZLive");
+    out.println("quit              -- Exit the ZLive program");
   }
 
   /** Prints an evaluated expression as a standard text string. 

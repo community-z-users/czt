@@ -67,6 +67,9 @@ public class ZLive
 
   private static long newNameNum = 0;
 
+  private Map<String,String> properties_ = new HashMap<String,String>();
+  public final String PROP_MARKUP = "markup";
+
   /** Generates a fresh temporary name. */
   public ZRefName createNewName()
   {
@@ -139,6 +142,29 @@ public class ZLive
   //@ requires sm != null;
   public void setSectionManager(SectionManager sm)
   { sectman_ = sm; }
+
+  /** Get a property. */
+  public String getProperty(String key)
+  {
+    return properties_.get(key);
+  }
+
+  public Collection<String> propertyNames()
+  {
+    return properties_.keySet();
+  }
+
+  /** Sets a property. */
+  public String setProperty(String key, String value)
+  {
+    return (String) properties_.put(key, value);
+  }
+
+  /** Unsets a property. */
+  public String unsetProperty(String key)
+  {
+    return properties_.remove(key);
+  }
 
   /** Get a flatten visitor. */
   public Flatten getFlatten()
