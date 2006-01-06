@@ -38,7 +38,6 @@ public class FlatForall extends FlatPred
 
   protected FlatPredList schText_;
   protected FlatPredList body_;
-  private Set<ZRefName> freeVars_;
   
   /** The mode returned by schText_ */
   protected Mode schMode_ = null;
