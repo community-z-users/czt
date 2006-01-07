@@ -58,21 +58,24 @@ public class FlatBinding extends FlatPred {
   }
     
 
-  /** Same modes as FlatTuple */
-  public Mode chooseMode(Envir env) {
+  /** Same modes as FlatTuple
+   * TODO: move this code up to FlatPred
+   */
+  public Mode chooseMode(Envir env)
+  {
     Mode m = modeFunction(env);
     if (m == null) {
       BitSet inputs = getInputs(env);
       double solutions = 0.0;
-      if (inputs.get(args.size()-1)) {
-	solutions = 1.0;
-	if (inputs.cardinality() > 1)
-	  solutions = 0.5;
-	for(int i=0;i<args.size()-1;i++) {
-	  if ( ! inputs.get(i))
-	    env = env.add(args.get(i),null);
-	}
-	m = new Mode(env, inputs, solutions);
+      if (inputs.get(args.size() - 1)) {
+        solutions = 1.0;
+        if (inputs.cardinality() > 1)
+          solutions = 0.5;
+        for (int i = 0; i < args.size() - 1; i++) {
+          if (!inputs.get(i))
+            env = env.add(args.get(i), null);
+        }
+        m = new Mode(env, inputs, solutions);
       }
     }
     return m;

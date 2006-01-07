@@ -51,6 +51,7 @@ public class FlatMultTest
   {
     int interval = 2;
     FlatPredModel iut = new FlatPredModel(pred, new ZRefName[] {x,y,z},
+                            "OII,IOI,IIO,III",
                             new Eval(1, "???", i3, i4, i12),
                             new Eval(0, "I?I", i2, i5, i11) // 11 is prime
                             );

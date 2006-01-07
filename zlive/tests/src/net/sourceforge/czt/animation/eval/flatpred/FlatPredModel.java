@@ -21,6 +21,7 @@ package net.sourceforge.czt.animation.eval.flatpred;
 
 import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.UndefException;
 import net.sourceforge.czt.modeljunit.Action;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZRefName;
@@ -40,7 +41,13 @@ public class FlatPredModel
   
   /** The names of all the free variables of the FlatPred. */
   private ZRefName[] names_;
-  
+
+  /** A comma-separated list of the valid mode triples.
+   *  Eg. "OOO,IIO,III".  This controls whether the various
+   *  chooseModeXXX actions expect chooseMode to succeed or not.
+   */
+  private String validModes_;
+
   /** Example values for startEval1 */
   private /*@non_null@*/ Eval eval1_;
 
@@ -51,7 +58,7 @@ public class FlatPredModel
   enum State {Init, NoMode, GotMode, EvalTrue, EvalFalse};
   private State state_;
 
-  /** The environment being used for testing. */
+  /** The input environment being used for testing. */
   //@invariant env_ == null <==> mode_ == null;
   private Envir env_;
 
@@ -63,23 +70,30 @@ public class FlatPredModel
   private boolean result_;
 
   /** Create a test harness for a FlatPred subclass.
-   *  The goodValues should be a correct evaluation for the toTest object.
    *  For example, if toTest represents the constraint a*b=c,
-   *  then names should contain {a,b,c} and goodValues should contain
-   *  some values like {2,3,6}.
+   *  then names should contain {a,b,c} and eval1 and eval2 might contain
+   *  some valid values like {2,3,6} or invalid values like {2,5,11}.
    *
    * @param toTest  An instance of a FlatPred subclass.
    * @param names   The free variables of the toTest object.
+   * @param validModes A comma-separated string containing all the modes
+   *                that are valid for this predicate (OOO..III).
    * @param eval1   Example values for names.
    * @param eval2   Example values for names.
    */
   //@requires names.length == eval1.args.length;
   //@requires names.length == eval2.args.length;
-  public FlatPredModel(FlatPred toTest, ZRefName[] names,
-        Eval eval1, Eval eval2)
+  public FlatPredModel(FlatPred toTest, ZRefName[] names, String validModes,
+      Eval eval1, Eval eval2)
   {
+    // some debug messages.
+    System.out.print("\n\nIUT = " + toTest + " with names ");
+    for (ZRefName n : names)
+      System.out.print(n + ", ");
+    System.out.println(" and freevars=" + toTest.freeVars());
     pred_ = toTest;
     names_ = names;
+    validModes_ = validModes;
     eval1_ = eval1;
     eval2_ = eval2;
     init(false);
@@ -119,19 +133,37 @@ public class FlatPredModel
     state_ = State.NoMode;
   }
 
-  /** A helper method for the chooseModeXXX actions */
-  //@requires input.length == names_.length;
-  public void chooseMode(boolean[] input, boolean shouldWork)
+  /** A helper method for the chooseModeXXX actions.
+   *  @param inout  String of three 'I' (input) or 'O' (output) chars.
+   *   The three chars control whether names_[0]/names_[2..N-2]/names_[N-1]
+   *   are inputs or outputs, respectively.
+   */
+  //@requires inout.length == 3;
+  public void chooseMode(String inout)
   {
+    assert inout.length() == 3;
+    boolean isInput[] = new boolean[names_.length];
     env_ = new Envir();
-    for (int i=0; i<names_.length; i++) {
-      if (input[i])
-        env_ = env_.add(names_[i], eval1_.args[i]);
-    }
+    // Is names_[0] an input?
+    isInput[0] = inout.charAt(0) == 'I';
+    // Are names_[1..length-2] inputs?
+    for (int i=1; i <= names_.length - 2; i++)
+      isInput[i] = inout.charAt(1) == 'I';
+    // Is names_[length-1] an input?
+    isInput[names_.length - 1] = inout.charAt(2) == 'I';
+    
+    // Now add the inputs into env.
+    for (int i=0; i < names_.length; i++)
+      if (isInput[i])
+        env_ = env_.add(names_[i], null);
+    boolean shouldWork = validModes_.contains(inout);
+
     mode_ = pred_.chooseMode(env_);
     System.out.println("chooseMode("+env_+") --> "+mode_);
-    // System.err.println("mode was "+mode_);
-    Assert.assertEquals(mode_ != null, shouldWork);
+    if (shouldWork)
+      Assert.assertNotNull("Valid mode expected, but got null",mode_);
+    else
+      Assert.assertNull("Null mode expected, but got "+mode_, mode_);
     if (mode_ == null) {
       state_ = State.NoMode;
       env_ = null;
@@ -139,13 +171,14 @@ public class FlatPredModel
     else {
       // now check that mode is correct.
       for (int i=0; i<names_.length; i++) {
-        Assert.assertEquals(input[i], mode_.isInput(i));
+        Assert.assertEquals(isInput[i], mode_.isInput(i));
       }
       pred_.setMode(mode_);
       // check that all names are defined in the output environment.
       Envir newenv = mode_.getEnvir();
       for (int i=0; i<names_.length; i++)
-        Assert.assertTrue(names_[i]+" is undefined", newenv.isDefined(names_[i]));
+        Assert.assertTrue(names_[i]+" should be defined",
+            newenv.isDefined(names_[i]));
       state_ = State.GotMode;
       // NOTE that env_ is left as the input environment.
     }
@@ -155,35 +188,35 @@ public class FlatPredModel
   public boolean chooseModeOOOGuard() {return state_ == State.NoMode; }
   @Action public void chooseModeOOO()
   {
-    chooseMode(new boolean[] {false,false,false}, false);
-  }
-
-  /** Tries chooseMode with all names being inputs. */
-  public boolean chooseModeIIIGuard() {return state_ == State.NoMode; }
-  @Action public void chooseModeIII()
-  {
-    chooseMode(new boolean[] {true,true,true}, true);
+    chooseMode("OOO");
   }
 
   /** Tries chooseMode with all names except the last being inputs. */
   public boolean chooseModeIIOGuard() {return state_ == State.NoMode; }
   @Action public void chooseModeIIO()
   {
-    chooseMode(new boolean[] {true,true,false}, true);
+    chooseMode("IIO");
   }
   
   /** Tries chooseMode with all names except the second one being inputs. */
   public boolean chooseModeIOIGuard() {return state_ == State.NoMode; }
   @Action public void chooseModeIOI()
   {
-    chooseMode(new boolean[] {true,false,true}, true);
+    chooseMode("IOI");
   }
   
   /** Tries chooseMode with all names except the first one being inputs. */
   public boolean chooseModeOIIGuard() {return state_ == State.NoMode; }
   @Action public void chooseModeOII()
   {
-    chooseMode(new boolean[] {false,true,true}, true);
+    chooseMode("OII");
+  }
+
+  /** Tries chooseMode with all names being inputs. */
+  public boolean chooseModeIIIGuard() {return state_ == State.NoMode; }
+  @Action public void chooseModeIII()
+  {
+    chooseMode("III");
   }
 
   /** Checks that we are in State.GotMode and that the current mode
@@ -229,8 +262,17 @@ public class FlatPredModel
       Assert.assertTrue(result_);
     }
 
-    // check that the correct results were returned.
-    if (data.successes == 1) {
+    if (data.successes == Eval.UNDEF) {
+      try {
+        pred_.nextEvaluation();
+        Assert.fail("Should have thrown UndefException: "+pred_);
+      }
+      catch (UndefException ex) {
+        // Good!
+      }
+    }
+    else if (data.successes == 1) {
+      // check that the correct results were returned.
       Envir newenv = pred_.getEnvir();
       System.out.println("nextEval returns newenv="+newenv);
       for (int i=0; i<names_.length; i++) {

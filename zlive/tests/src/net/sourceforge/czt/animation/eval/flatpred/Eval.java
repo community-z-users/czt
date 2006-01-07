@@ -26,12 +26,19 @@ import net.sourceforge.czt.z.ast.Expr;
  *  the FlatPred being tested.  The startEval transition will put
  *  some of these values into the environment (the modes_ string
  *  determines which ones are compulsory), then call startEvaluation()
- *  and check that nextEvaluation returns true successes_ times.
+ *  and check that nextEvaluation returns true successes times.
+ *  If successes==1, then it will also check that the values
+ *  calculated by nextEvalution are the same as the values in args.
+ *  
  * @author marku
  */
 public class Eval
 {
-  /** The number of times that this evaluation should succeed. */
+  public static final int UNDEF = -1;
+
+  /** The number of times that this evaluation should succeed.
+   *  UNDEF means that it should throw an UndefException.
+   */
   public int successes;
 
   /** Which evaluation modes are allowed.
@@ -46,7 +53,6 @@ public class Eval
   
   public Eval(int numSuccesses, String modeMask, Expr... argValues)
   {
-    assert numSuccesses >= 0;
     assert modeMask != null;
     assert modeMask.length() == argValues.length;
     successes = numSuccesses;

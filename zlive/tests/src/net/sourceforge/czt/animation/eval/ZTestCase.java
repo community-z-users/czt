@@ -19,6 +19,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval;
 
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import net.sourceforge.czt.modeljunit.ModelTestCase;
 import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.session.Markup;

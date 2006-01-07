@@ -19,18 +19,15 @@
 
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.logging.Logger;
-import java.math.*;
-import net.sourceforge.czt.util.*;
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.OperatorName;
-import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.animation.eval.*;
-import net.sourceforge.czt.animation.eval.flatpred.*;
+
+import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.UndefException;
+import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.ZRefName;
 
 /** This overrides the forall evaluation algorithm. */
 public class FlatMu extends FlatPred
@@ -39,16 +36,20 @@ public class FlatMu extends FlatPred
   = Logger.getLogger("net.sourceforge.czt.animation.eval");
 
   protected FlatPredList schText_;
-  private Set<ZRefName> freeVars_;
+  protected ZRefName resultName_;
   
   public FlatMu(FlatPredList sch, ZRefName result)
   {
-    sLogger.entering("FlatForall","FlatForall");
+    sLogger.entering("FlatMu","FlatMu");
     schText_ = sch;
-    freeVars_ = schText_.freeVars();
+    resultName_ = result;
+    freeVars_ = new HashSet<ZRefName>(schText_.freeVars());
+    // HashSet has removed duplicates
     args = new ArrayList<ZRefName>(freeVars_);
+    args.add(resultName_);
+    freeVars_.add(resultName_); // result of the mu is also a free var.
     solutionsReturned = -1;
-    sLogger.exiting("FlatForall","FlatForall");
+    sLogger.exiting("FlatMu","FlatMu");
   }
 
   /** TODO */
@@ -57,42 +58,106 @@ public class FlatMu extends FlatPred
     return false;
   }
 
-  public Mode chooseMode(/*@non_null@*/ Envir env)
+  public Mode chooseMode(/*@non_null@*/ Envir env0)
   {
-    sLogger.entering("FlatForall","chooseMode",env);
-    // Use modeAllDefined to check that all free variables are defined
-    Mode mode = modeAllDefined(env);
-
+    sLogger.entering("FlatMu","chooseMode",env0);
+    Mode mode = this.modeFunction(env0);
     if (mode != null) {
       // Now check if the bound vars are finite enough to enumerate
-      mode = schText_.chooseMode(env);
+      Mode schmode = schText_.chooseMode(env0);
       sLogger.fine("schema text gives mode = " + mode);
+      if (schmode == null)
+        mode = null;  // cannot evaluate the FlatMu.
+      else {
+        ModeList finalMode = new ModeList(mode);
+        finalMode.add(schmode);
+        mode = finalMode;
       }
-
-    sLogger.exiting("FlatForall","chooseMode",mode);
+    }
+    sLogger.exiting("FlatMu","chooseMode",mode);
+    // Note that we return the original mode, with solutions <= 1.0
+    // because \mu expressions return only one value, even if their
+    // schema part has multiple solutions.
+    // For example:  (\mu x:1..10 @ 3).
     return mode;
   }
 
-  /** TODO: Does the actual evaluation */
-  public boolean nextEvaluation()
+  public void setMode( /*@non_null@*/ Mode mode)
   {
-    sLogger.entering("FlatExists","nextEvaluation");
-
-    sLogger.exiting("FlatExists","nextEvaluation",Boolean.FALSE);
-    return false;
+    assert mode instanceof ModeList;
+    super.setMode(mode);
+    ModeList modelist = (ModeList) mode;
+    schText_.setMode(modelist.iterator().next());
   }
 
+  /** Iterates through all solutions to the schema text
+   *  and the expression, checks that they are all equal,
+   *  then returns that value.  It throws an UndefException
+   *  if the schema text/expr evaluation does, or if there
+   *  are no solutions or more than one (distinct) solution.
+   */
+  public boolean nextEvaluation()
+  {
+    sLogger.entering("FlatMu", "nextEvaluation");
+    assert evalMode_ != null;
+    boolean result = false;
+    Envir env = evalMode_.getEnvir();
+    Envir schEnv = ((ModeList)evalMode_).get(0).getEnvir();
+    if (solutionsReturned == 0) {
+      solutionsReturned++;
+      Expr value = null;
+      schText_.startEvaluation();
+      while (schText_.nextEvaluation()) {
+        Expr nextValue = schEnv.lookup(resultName_);
+        sLogger.fine("FlatMu gets next value: "+nextValue);
+        if (value == null) {
+          value = nextValue;
+        }
+        else if ( ! value.equals(nextValue)) {
+          UndefException ex
+            = new UndefException("Mu expression has multiple results: "
+                + value + "  /=  " + nextValue);
+          sLogger.throwing("FlatMu","nextEvaluation",ex);
+          throw ex;
+        }
+      }
+      if (value == null) {
+        UndefException ex =
+          new UndefException("Mu expression has no solutions: " + this);
+        sLogger.throwing("FlatMu","nextEvaluation",ex);
+        throw ex;
+      }
+      if (evalMode_.isInput(args.size()-1)) {
+        if (value.equals(env.lookup(resultName_)))
+          result = true;
+      }
+      else {
+        env.setValue(resultName_, value);
+        result = true;
+      }
+    }
+    sLogger.exiting("FlatMu", "nextEvaluation", result);
+    return result;
+  }
+
+  public String toString() {
+    StringBuffer result = new StringBuffer();
+    result.append("FlatMu(");
+    result.append(schText_.toString());
+    result.append(" @ ");
+    result.append(resultName_);
+    result.append(")");
+    return result.toString();
+  }
 
   ///////////////////////// Pred methods ///////////////////////
 
   public Object accept(Visitor visitor)
   {
-    /* TODO
     if (visitor instanceof FlatMuVisitor) {
       FlatMuVisitor flatMuVisitor = (FlatMuVisitor) visitor;
       return flatMuVisitor.visitFlatMu(this);
     }
-    */
     return super.accept(visitor);
   }
 }

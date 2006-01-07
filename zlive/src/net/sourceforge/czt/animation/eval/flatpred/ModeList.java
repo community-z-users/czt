@@ -51,7 +51,7 @@ public class ModeList extends Mode
   public ModeList(/*@non_null@*/Mode mode)
   {
     this(mode.postEnvir_, mode.inputs_, mode.solutions_,
-	 new ArrayList<Mode>());
+        new ArrayList<Mode>());
   }
 
   /** Add a mode to the end of the submodes list.
@@ -61,10 +61,24 @@ public class ModeList extends Mode
     subModes_.add(mode);
   }
 
+  /** The number of sub modes. */
+  public int size()
+  {
+    return subModes_.size();
+  }
+
+  /** Gets one of the submodes. */
+  public Mode get(int position)
+  {
+    return subModes_.get(position);
+  }
+
   /** An iterator over the submodes list.
    *  These are the Mode objects for the subcomponents
    *  of the flatpred object associated with this mode.
    */
   public Iterator<Mode> iterator()
-  { return subModes_.iterator(); }
+  {
+    return subModes_.iterator();
+  }
 }

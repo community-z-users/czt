@@ -39,6 +39,38 @@ public class ZFormatter extends SimpleFormatter {
   private int depth = 0;
 
   private final String PARAM_PREFIX = "\t\t";
+  
+  private static Handler handler_;
+
+  /** Helper method to start recording log messages to the
+   *  given file using the ZFormatter class as the formatter.
+   *  @param fileName  the name of the log file
+   *  @param detail    Eg. Level.FINEST.
+   */
+  public static void startLogging(String fileName, Level detail)
+  {
+    // set up a specific logger with our human-readable format
+    Logger logger = Logger.getLogger("net.sourceforge.czt.animation.eval");
+    logger.setLevel(detail);
+    try {
+      handler_ = new FileHandler(fileName);
+      handler_.setLevel(Level.ALL);
+      handler_.setEncoding("utf8");
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+    handler_.setFormatter(new ZFormatter());
+    logger.addHandler(handler_);
+    logger.setUseParentHandlers(false); // just use this handler
+  }
+  
+  /** Stop the log messages that were started by startLogging. */
+  public static void stopLogging()
+  {
+    Logger logger = Logger.getLogger("net.sourceforge.czt.animation.eval");
+    logger.removeHandler(handler_);
+    handler_ = null;
+  }
 
   public String format(LogRecord record)
   {
@@ -46,30 +78,37 @@ public class ZFormatter extends SimpleFormatter {
     cls = cls.substring(cls.lastIndexOf('.')+1); // strip package name
     String meth = record.getSourceMethodName();
     String msg = record.getMessage();
-
+    
     // indent
     if (msg.startsWith("ENTRY"))
-	depth++;
+      depth++;
     StringBuffer indent = new StringBuffer();
     indent.append(depth);
     for (int i=0; i<depth; i++)
-	indent.append("  ");
-    if (msg.startsWith("RETURN"))
-        depth--;
-    assert depth >= 0;
-
+      indent.append("  ");
+    
     // process parameters
     StringBuffer params = new StringBuffer();
     Object args[] = record.getParameters();
     if (args != null) {
       for (int i=0; i<args.length; i++) {
-	Object arg = args[i];
-	String argstr = (arg==null) ? "null" : arg.toString();
-	params.append(PARAM_PREFIX + i + "=" + argstr + "\n");
+        Object arg = args[i];
+        String argstr = (arg==null) ? "null" : arg.toString();
+        params.append(PARAM_PREFIX + i + "=" + argstr + "\n");
       }
     }
 
+    if (msg.startsWith("RETURN"))
+      depth--;
+    else if (msg.startsWith("THROW")) {
+      depth--;
+      Throwable ex = record.getThrown();
+      if (ex != null)
+        params.append(ex.toString());
+    }
+    //assert depth >= 0;
+
     return indent + cls + ":" + meth 
-	+ " " + msg + "\n" + params;
+      + " " + msg + "\n" + params;
   }
 }

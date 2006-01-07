@@ -75,7 +75,8 @@ public class FlatPredList
    *  In fact, it contains BOTH the DeclName and RefName form of each bound var.
    *  It is set up as Declarations are added.
    */
-  protected /*@non_null@*/ Set<ZDeclName> boundVars_ = new HashSet();
+  protected/*@non_null@*/Set<ZDeclName> boundVars_
+    = new HashSet<ZDeclName>();
   
   /** Records the free variables used within this predicate.
    *  This is calculated and cached by the freeVars() method.
@@ -90,8 +91,11 @@ public class FlatPredList
   
   protected /*@non_null@*/ Factory factory_;
   
-  /** A Writer interface to System.out. */
-  protected Writer writer = new BufferedWriter(new OutputStreamWriter(System.out));
+  /** A Writer interface to System.out.
+   *  TODO: allow this to be set by clients and/or passed to printCode().
+   */
+  protected Writer writer
+    = new BufferedWriter(new OutputStreamWriter(System.out));
 
   private final static BitSet empty_ = new BitSet();
   
@@ -288,19 +292,19 @@ public class FlatPredList
   {
     LOG.entering("FlatPredList","chooseMode",env0);
     // first do static inference of integer bounds
-    inferBounds(new Bounds());
+    inferBounds(new Bounds()); // TODO: make the client responsible for this?
     
     List<Mode> submodes = new ArrayList<Mode>();
     Envir env = env0;
-    double cost = 1.0;
-    Iterator i = predlist_.iterator();
+    double cost = Mode.ONE_SOLUTION;
+    Iterator<FlatPred> i = predlist_.iterator();
     LOG.finer(this.hashCode()+" starting");
     while (i.hasNext()) {
       FlatPred fp = (FlatPred)i.next();
       Mode m = fp.chooseMode(env);
       if (m == null) {
         LOG.finer("no mode for "+fp+" with env="+env);
-	LOG.exiting("FlatPredList","chooseMode",null);
+        LOG.exiting("FlatPredList","chooseMode",null);
         return null;
       }
       submodes.add(m);
@@ -323,8 +327,8 @@ public class FlatPredList
     evalMode_ = (ModeList)mode;
 
     // set modes of all the flatpreds in the list.
-    Iterator preds = predlist_.iterator();
-    Iterator modes = evalMode_.iterator();
+    Iterator<FlatPred> preds = predlist_.iterator();
+    Iterator<Mode> modes = evalMode_.iterator();
     while (preds.hasNext())
       ((FlatPred)preds.next()).setMode((Mode)modes.next());
 
@@ -360,42 +364,44 @@ public class FlatPredList
    */
   public boolean nextEvaluation() {
     LOG.entering("FlatPredList","nextEvaluation");
-    final int end = predlist_.size();
+    final int end = predlist_.size(); // points just PAST the last flatpred.
     int curr;
     if (solutionsReturned == 0) {
       // start from the beginning of the list
       solutionsReturned++;
-      LOG.fine("starting search, size=" + end);
       curr = 0;
+      LOG.fine("starting search, size=" + end
+          + ((curr < end) ? ": "+predlist_.get(curr) : ""));
       if (curr < end)
-	((FlatPred)predlist_.get(curr)).startEvaluation();
+        predlist_.get(curr).startEvaluation();
       else {
-	// curr==end==0, so we do not enter the loop below at all.
-	// The result will be true.
+        // curr==end==0, so we do not enter the loop below at all.
+        // The result will be true.
       }
     }
     else {
       // start backtracking from the end of the list
-      LOG.fine("starting backtracking");
       solutionsReturned++;
       curr = end - 1;
+      LOG.fine("starting backtracking from "+curr);
     }
     // invariant: the output env contains a valid solution for predlist[0..curr-1]
     while (0 <= curr && curr < end) {
-      FlatPred fp = (FlatPred)predlist_.get(curr);
+      FlatPred fp = predlist_.get(curr);
       if (fp.nextEvaluation()) {
         curr++;
         if (curr < end) {
-          FlatPred nextfp = (FlatPred)predlist_.get(curr);
+          FlatPred nextfp = predlist_.get(curr);
           LOG.fine("moving forward to "+curr+": "+nextfp);
           nextfp.startEvaluation();
         } else {
-          LOG.fine("moving forward to "+curr+".");
+          LOG.fine("producing new solution: "+this.getOutputEnvir());
         }
       }
       else {
         curr--;
-        LOG.fine("moving backwards to "+curr);
+        LOG.fine("moving backwards to "+curr
+            +((curr >= 0) ? ": "+predlist_.get(curr) : ""));
      }
     }
     LOG.exiting("FlatPredList","nextEvaluation",new Boolean(curr == end));
@@ -408,7 +414,7 @@ public class FlatPredList
   public void printCode()
   {
     try {
-      for (Iterator i = predlist_.iterator(); i.hasNext(); ) {
+      for (Iterator<FlatPred> i = predlist_.iterator(); i.hasNext(); ) {
         FlatPred p = (FlatPred) i.next();
         writer.write("Print flat " + p.toString() + "\n");
         //print(p, writer);
@@ -425,7 +431,7 @@ public class FlatPredList
 
   public String toString() {
     StringBuffer result = new StringBuffer();
-    for (Iterator i = predlist_.iterator(); i.hasNext(); ) {
+    for (Iterator<FlatPred> i = predlist_.iterator(); i.hasNext(); ) {
       FlatPred p = (FlatPred) i.next();
       result.append(p.toString());
       if (i.hasNext())

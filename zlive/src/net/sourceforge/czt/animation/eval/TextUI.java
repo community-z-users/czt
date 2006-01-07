@@ -55,15 +55,8 @@ public class TextUI {
     String str;
     System.out.println(ZLive.banner);
 
-    // set up a specific logger with our human-readable format
-    Logger logger = Logger.getLogger("net.sourceforge.czt.animation.eval");
-    logger.setLevel(Level.FINEST);
-    Handler fh = new FileHandler("zlive.log");
-    fh.setLevel(Level.ALL);
-    fh.setEncoding("utf8");
-    fh.setFormatter(new ZFormatter());
-    logger.addHandler(fh);
-    logger.setUseParentHandlers(false); // just use this handler
+    // save log messages into zlive.log, using our human-readable format
+    ZFormatter.startLogging("zlive.log", Level.FINEST);
 
     boolean finished = false;
     while (!finished) {

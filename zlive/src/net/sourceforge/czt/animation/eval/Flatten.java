@@ -230,6 +230,7 @@ public class Flatten
       // We have an equality
       rhs = (Expr)((SetExpr)rhs).getZExprList().get(0);
       flat_.add(new FlatEquals(lhs.accept(this), rhs.accept(this)));
+      sLogger.exiting("Flatten","visitMemPred","=");
       return null;
     }
     else if ((rel=binaryRelation(rhs)) != null

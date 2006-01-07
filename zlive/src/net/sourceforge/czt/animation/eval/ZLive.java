@@ -73,8 +73,11 @@ public class ZLive
   /** Generates a fresh temporary name. */
   public ZRefName createNewName()
   {
+    // This is a temporary debugging aid, to detect some infinite loops.
+    // Once we start evaluating larger terms it will need to be removed
+    // (or at least the number increased!).
     if (newNameNum == 554) {
-      Exception e = new Exception("infinite loop");
+      Exception e = new Exception("infinite loop???  See ZLive.createNewName");
       StringWriter w = new StringWriter();
       e.printStackTrace(new PrintWriter(w));
       sLogger.fine("Stack dump: "+w.toString());

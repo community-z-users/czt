@@ -61,9 +61,9 @@ public class FlatTuple extends FlatPred
       BitSet inputs = getInputs(env);
       double solutions = 0.0;
       if (inputs.get(args.size()-1)) {
-        solutions = 1.0;
+        solutions = Mode.ONE_SOLUTION;
         if (inputs.cardinality() > 1)
-          solutions = 0.5;
+          solutions = Mode.MAYBE_ONE_SOLUTION;
         for(int i=0;i<args.size()-1;i++) {
           if ( ! inputs.get(i))
             env = env.add(args.get(i),null);

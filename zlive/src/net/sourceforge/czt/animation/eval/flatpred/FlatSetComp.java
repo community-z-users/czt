@@ -93,7 +93,7 @@ public class FlatSetComp
 
     // Calculate free vars of preds_.
     args = new ArrayList<ZRefName>(predsAll_.freeVars());
-    args.add(set);
+    args.add(set);  // TODO: could set already be in args?
     solutionsReturned = -1;
     knownMembers_ = null;
   }
@@ -215,7 +215,12 @@ public class FlatSetComp
     return members();
   }
 
-  /** Does the actual evaluation */
+  /** Does the actual evaluation.
+   *  In fact, in output mode this is lazy -- it just assigns
+   *  itself to the output variable, so that the members of
+   *  the set can be evaluated (and cached) only when needed.
+   *  This is the same as lazy evaluation in functional languages.
+   */
   public boolean nextEvaluation()
   {
     assert evalMode_ != null;

@@ -162,7 +162,7 @@ public abstract class FlatPred extends PredImpl
     BitSet inputs = getInputs(env);
     double solutions = 0.0;
     if (inputs.cardinality() == args.size())
-      solutions = 0.5;
+      solutions = Mode.MAYBE_ONE_SOLUTION;
     Mode m = null;
     if (solutions > 0.0)
       m = new Mode(env, inputs, solutions);
@@ -180,10 +180,10 @@ public abstract class FlatPred extends PredImpl
     BitSet inputs = getInputs(env);
     double solutions = 0.0;
     if (inputs.cardinality() == args.size())
-      solutions = 0.5;
+      solutions = Mode.MAYBE_ONE_SOLUTION;
     else if (inputs.cardinality() == args.size() - 1 
         && ! inputs.get(args.size()-1)) {
-      solutions = 1.0;
+      solutions = Mode.ONE_SOLUTION;
       env = env.add(args.get(args.size()-1), null);
     }
     Mode m = null;
@@ -202,9 +202,9 @@ public abstract class FlatPred extends PredImpl
     BitSet inputs = getInputs(env);
     double solutions = 0.0;
     if (inputs.cardinality() == args.size())
-      solutions = 0.5;
+      solutions = Mode.MAYBE_ONE_SOLUTION;
     else if (inputs.cardinality() == args.size() - 1) {
-      solutions = 1.0;
+      solutions = Mode.ONE_SOLUTION;
       // add the output variable into the environment
       for (int i = 0; i < args.size(); i++) {
         if ( ! inputs.get(i))
