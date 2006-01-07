@@ -100,6 +100,7 @@ Fri 6 Jan 2006: 15 mins to reuse model for FlatMu testing.
 
 Sat 7 Jan 2006: 1 hour to generalise model in two ways.
 ---------------
+(plus about 7 hours writing and debugging FlatMu implementation).
 IUT error in FlatMu.nextEvaluation() (in the third transition)
   -- missing call to schText.startEvaluation().  This triggered an assert
   in FlatMult, which immediately suggested the problem.
@@ -115,6 +116,11 @@ Model error -- assumes that mode IOI should work, but it should not
 Model: Added validModes parameter to FlatPredModel, so that the chooseModeXXX
   actions have accurate verdicts.  (About 30-40 mins).
 All tests pass!  (For FlatMult and FlatMu).
+Added several more FlatMu scenarios -- after some parsing problems
+and debugging of the FlatMu and Flatten implementation, these passed.
+IUT error: FlatMu mode III does not work correctly -- removed from tests
+  temporarily because it is difficult to fix.
+
 
 
 
