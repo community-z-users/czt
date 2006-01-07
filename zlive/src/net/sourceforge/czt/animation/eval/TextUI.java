@@ -74,7 +74,9 @@ public class TextUI {
   /** Process one input command. */
   public static void processCmd(String cmd, String args)
   {
-    processCmd(cmd, args, new PrintWriter(System.out));
+    PrintWriter output = new PrintWriter(System.out);
+    processCmd(cmd, args, output);
+    output.flush();   // don't close it, because it may be System.out.
   }
 
   /** Process one input command and write output to writer. */
