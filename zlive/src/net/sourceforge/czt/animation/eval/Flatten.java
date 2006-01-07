@@ -65,6 +65,7 @@ public class Flatten
       PowerExprVisitor<ZRefName>,
       SetExprVisitor<ZRefName>,
       SetCompExprVisitor<ZRefName>,
+      MuExprVisitor<ZRefName>,
       ProdExprVisitor<ZRefName>,
       TupleExprVisitor<ZRefName>,
       BindExprVisitor<ZRefName>,
@@ -115,7 +116,7 @@ public class Flatten
    *  @param  toFlatten The Pred to flatten.
    *  @param  destination Generated FlatPred objects are appended to this list.
    */
-  public void flattenPred(Pred toFlatten, List destination)
+  public void flattenPred(Pred toFlatten, List<FlatPred> destination)
     throws CommandException
   {
     flat_ = destination;
@@ -131,7 +132,7 @@ public class Flatten
    *  @return The name of the variable that will contain the result,
    *          after evaluation.
    */
-  public ZRefName flattenExpr(Expr toFlatten, List destination)
+  public ZRefName flattenExpr(Expr toFlatten, List<FlatPred> destination)
     throws CommandException
   {
     flat_ = destination;
@@ -142,7 +143,7 @@ public class Flatten
   }  
  
   /** An auxiliary method for getting all the names in a list of Decl. */
-  protected List<ZDeclName> declNames(List<Decl> decls) {
+  protected static List<ZDeclName> declNames(List<Decl> decls) {
     List<ZDeclName> result = new ArrayList<ZDeclName>();
     for (Decl decl : decls) {
       if (decl instanceof VarDecl) {
@@ -191,6 +192,34 @@ public class Flatten
     for (Expr elem : elements)
       refnames.add(elem.accept(this));
     return refnames;
+  }
+
+  /** Constructs a characteristic tuple.
+   *  TODO: make this handle schemas etc. properly.
+   * 
+   * @param decls  List of declarations.
+   * @return       The characteristic tuple.
+   */
+  public Expr charTuple(List<Decl> decls)
+  {
+    Expr expr = null;
+    List<ZDeclName> names = declNames(decls);
+    if (names.size() == 0)
+      throw new EvalException("empty set comprehension!");
+    else if (names.size() == 1) {
+      ZRefName refName = zlive_.getFactory().createZRefName(names.get(0));
+      expr = zlive_.getFactory().createRefExpr(refName);
+    }
+    else {
+      // Make a real tuple!
+      ZExprList refExprs = zlive_.getFactory().createZExprList();
+      for (ZDeclName name : names) {
+        ZRefName tmpName = zlive_.getFactory().createZRefName(name);
+        refExprs.add(zlive_.getFactory().createRefExpr(tmpName));
+      }
+      expr = zlive_.getFactory().createTupleExpr(refExprs);
+    }
+    return expr;
   }
 
   /** We throw an error if we reach a kind of term that we do not handle. */
@@ -451,35 +480,31 @@ public class Flatten
     flat_.add(new FlatDiscreteSet(refnames, result));
     return result;
   }
-  
+
   public ZRefName visitSetCompExpr(SetCompExpr e) {
     ZRefName result = zlive_.createNewName();
     ZSchText text = e.getZSchText();
     List<Decl> decls = text.getZDeclList();
     Pred pred = text.getPred();
     Expr expr = e.getExpr();
-    if (expr == null) {
-      // fill in the characteristic tuple
-      List<ZDeclName> names = declNames(decls);
-      if (names.size() == 0)
-        throw new EvalException("empty set comprehension!");
-      else if (names.size() == 1) {
-        ZRefName refName = zlive_.getFactory().createZRefName(names.get(0));
-        expr = zlive_.getFactory().createRefExpr(refName);
-      }
-      else {
-        // Make a real tuple!
-        ZExprList refExprs = zlive_.getFactory().createZExprList();
-        for (ZDeclName name : names) {
-          ZRefName tmpName = zlive_.getFactory().createZRefName(name);
-          refExprs.add(zlive_.getFactory().createRefExpr(tmpName));
-        }
-        expr = zlive_.getFactory().createTupleExpr(refExprs);
-      }
-    }
+    if (expr == null)
+      expr = charTuple(decls);
     // We do not flatten decls/pred/expr, because FlatSetComp does it.
     flat_.add(new FlatSetComp(zlive_, decls, pred, expr, result));
     return result;
+  }
+
+  public ZRefName visitMuExpr(MuExpr e)
+  {
+    FlatPredList sch = new FlatPredList(zlive_);
+    ZSchText stext = e.getZSchText();
+    sch.addSchText(stext);
+    Expr expr = e.getExpr();
+    if (expr == null)
+      expr = charTuple(stext.getZDeclList());
+    ZRefName resultName = sch.addExpr(expr);
+    flat_.add(new FlatMu(sch, resultName));
+    return resultName;
   }
 
   public ZRefName visitProdExpr(ProdExpr e) {
@@ -525,7 +550,6 @@ public class Flatten
   public ZRefName visitDecl(Decl zedObject) {return zedObject; }
   public ZRefName visitConstDecl(ConstDecl zedObject) {return zedObject; }
   public ZRefName visitImpliesExpr(ImpliesExpr zedObject) {return zedObject; }
-  public ZRefName visitMuExpr(MuExpr zedObject) {return zedObject; }
   public ZRefName visitSchExpr2(SchExpr2 zedObject) {return zedObject; }
   public ZRefName visitExistsExpr(ExistsExpr zedObject) {return zedObject; }
   public ZRefName visitExists1Expr(Exists1Expr zedObject) {return zedObject; }

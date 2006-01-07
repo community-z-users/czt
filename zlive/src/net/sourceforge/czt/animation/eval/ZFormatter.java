@@ -104,7 +104,7 @@ public class ZFormatter extends SimpleFormatter {
       depth--;
       Throwable ex = record.getThrown();
       if (ex != null)
-        params.append(ex.toString());
+        params.append(PARAM_PREFIX + ex.toString() + "\n");
     }
     //assert depth >= 0;
 

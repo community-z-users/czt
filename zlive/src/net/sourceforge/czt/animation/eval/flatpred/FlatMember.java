@@ -77,7 +77,7 @@ public class FlatMember extends FlatPred
 	  if (hi != null)
 		changed |= bnds.addUpper(elemName, hi);
 	}
-	sLogger.exiting("FlatMember", "FlatRangeSet", changed);
+	sLogger.exiting("FlatMember", "inferBounds", changed);
 	return changed;
   }
 

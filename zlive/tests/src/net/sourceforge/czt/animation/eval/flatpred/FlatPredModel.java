@@ -77,7 +77,10 @@ public class FlatPredModel
    * @param toTest  An instance of a FlatPred subclass.
    * @param names   The free variables of the toTest object.
    * @param validModes A comma-separated string containing all the modes
-   *                that are valid for this predicate (OOO..III).
+   *                that are valid for this predicate.  These must be a
+   *                subset of OOO, OII, IOI, IIO, III.  If you have only 2
+   *                names, then IOI=III.  If you have only 1 name, then
+   *                OOO=OII and IOI=IIO=III.
    * @param eval1   Example values for names.
    * @param eval2   Example values for names.
    */
