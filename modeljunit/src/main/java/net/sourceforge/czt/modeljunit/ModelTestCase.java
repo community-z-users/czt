@@ -126,7 +126,7 @@ public class ModelTestCase extends TestCase
    */
   public static final double INIT_PROBABILITY = 0.05;
 
-  public static final int PATHLEN = 5;
+  public static final int PATHLEN = 20;
   
   public ModelTestCase()
   {
