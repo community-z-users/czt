@@ -364,6 +364,24 @@ public class FlatRangeSet
         && (upper_ == null || upper_.compareTo(i) >= 0);
   }
 
+  public String toString()
+  {
+    StringBuffer result = new StringBuffer();
+    result.append("FlatRangeSet(");
+    if (lowerArg_ < 0)
+      result.append("-");
+    else
+      result.append(args.get(lowerArg_));
+    result.append(",");
+    if (upperArg_ < 0)
+      result.append("-");
+    else
+      result.append(args.get(upperArg_));
+    result.append(",");
+    result.append(args.get(setArg_));
+    result.append(")");
+    return result.toString();
+  }
   ///////////////////////// Pred methods ///////////////////////
 
   public Object accept(Visitor visitor)

@@ -18,17 +18,17 @@
 */
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.util.List;
+import java.math.BigInteger;
 import java.util.ArrayList;
-import java.math.*;
-import net.sourceforge.czt.util.*;
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
+
+import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.NumExpr;
+import net.sourceforge.czt.z.ast.ZNumeral;
+import net.sourceforge.czt.z.ast.ZRefName;
 import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.animation.eval.*;
-import net.sourceforge.czt.animation.eval.flatpred.*;
 
 /** FlatPlus implements the var = const predicate. */
 public class FlatConst extends FlatPred
@@ -99,7 +99,7 @@ public class FlatConst extends FlatPred
       ZNumeral num = (ZNumeral) numExpr.getNumeral(); // TODO check this cast
       val = num.getValue().toString();
     }
-    return ("FlatConst(" + (args.get(0)).toString() + "," + val + ")");
+    return args.get(0).toString() + "==" + val;
   }
 
 
