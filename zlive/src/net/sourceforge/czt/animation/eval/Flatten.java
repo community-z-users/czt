@@ -23,7 +23,6 @@ import java.util.*;
 import java.util.logging.*;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.base.visitor.*;
@@ -32,7 +31,6 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.z.util.ZString;
 
-import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.animation.eval.flatpred.*;
 
 /** Flattens a Pred/Expr term into a list of FlatPred objects.
@@ -382,6 +380,9 @@ public class Flatten
     return result;
   }
 
+  /** Used to allocate fresh temporary names in ApplExpr rewrites. */
+  private static int applvar = 1;
+
   /** Each ApplExpr is flattened into a different kind of FlatPred. */
   public ZRefName visitApplExpr(ApplExpr e) {
     Expr func = (Expr) e.getLeftExpr();
@@ -449,12 +450,32 @@ public class Flatten
       }
       // else if (...)   TODO: add more cases...
       else {
-	return notYet(e, funcname);
-        // TODO: flat_.add(new FlatAppl(func, args, result));
+        return notYet(e, funcname);
       }
     }
     else {
-	return notYet(e, "Function="+func);
+      // Transform (func~arg) into (\mu p:func | p.1=arg @ p.2)
+      // (this cannot be done at the same time as the preprocess rules,
+      //  because we have to handle the above special cases first).
+      Factory factory = zlive_.getFactory();
+      // create the DeclList:  p:func
+      ZDeclName pDeclName = factory.createZDeclName("p",null,
+          "ZLiveAppl"+(applvar++));
+      ZRefName pRefName = factory.createZRefName("p",null,pDeclName);
+      VarDecl decl = factory.createVarDecl(factory.list(pDeclName),func);
+      ZDeclList decls = factory.createZDeclList(factory.list(decl));
+      // create the predicate: p.1=arg
+      Expr pRefExpr = factory.createRefExpr(pRefName);
+      Expr p1 = factory.createTupleSelExpr(pRefExpr,factory.createZNumeral(1));
+      Pred pred = factory.createEquality(p1,arg);
+      ZSchText stext = factory.createZSchText(decls,pred);
+      // create the expr: p.2
+      Expr p2 = factory.createTupleSelExpr(pRefExpr,factory.createZNumeral(2));
+      // create (\mu [p:func | p.1=arg] @ p.2) 
+      FlatPredList fp = new FlatPredList(zlive_);
+      fp.addSchText(stext);
+      result = fp.addExpr(p2);
+      flat_.add(new FlatMu(fp, result));
     }
     return result;
   }
