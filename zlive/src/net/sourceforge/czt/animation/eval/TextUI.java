@@ -39,8 +39,8 @@ public class TextUI {
   
   protected static ZLive zlive_ = new ZLive();
 
-  // @czt.todo Provide commands for displaying and changing this.
-  protected static Markup markup_ = Markup.LATEX;
+  /** Markup used when no setting has been provided. */
+  protected static Markup defaultMarkup = Markup.LATEX;
   
   /** Get the instance of ZLive that is used for evaluation. */
   public ZLive getZLive()
@@ -85,7 +85,7 @@ public class TextUI {
        if (cmd.equals("help")) {
          printHelp(out);
        }
-       else if (cmd.equals("ver")) {
+       else if (cmd.equals("ver") || cmd.equals("version")) {
          out.println(ZLive.banner);
        } 
        else if (cmd.equals("why")) {
@@ -109,7 +109,12 @@ public class TextUI {
          SectionManager manager = zlive_.getSectionManager();
          String section = zlive_.getCurrentSection();
          Source src = new StringSource(args);
-         src.setMarkup(markup_);
+         Markup markup = defaultMarkup;
+         String markupProp = zlive_.getProperty(ZLive.PROP_MARKUP);
+         if (Markup.UNICODE.toString().equalsIgnoreCase(markupProp)) {
+           markup = Markup.UNICODE;
+         }
+         src.setMarkup(markup);
          Term term = ParseUtils.parsePred(src, null, manager);
          boolean isPred = true;
          if (term instanceof ExprPred) {
@@ -146,7 +151,7 @@ public class TextUI {
                        + ex.getMessage()); 
            }
            if (result != null)
-             printTerm(out, result);
+             printTerm(out, result, markup);
            out.println();
            out.flush();
          }
@@ -183,16 +188,15 @@ public class TextUI {
 
   /** Prints an evaluated expression as a standard text string. 
    */
-  public static void printTerm(PrintStream out, Term term)
+  public static void printTerm(PrintStream out, Term term, Markup markup)
   {
     PrintWriter writer = new PrintWriter(out);
-    printTerm(writer, term);
+    printTerm(writer, term, markup);
   }
 
-  /** Writess an evaluated expression as a standard text string. 
-   *  TODO: add a proper AST printing method to Unicode or LaTeX.
+  /** Writes an evaluated expression as a standard text string. 
    */
-  public static void printTerm(PrintWriter out, Term term)
+  public static void printTerm(PrintWriter out, Term term, Markup markup)
   {
     if (term instanceof NumExpr) {
       NumExpr num = (NumExpr) term;
@@ -204,14 +208,29 @@ public class TextUI {
       out.print("{ ");
       Iterator<Expr> i = set.members();
       while (i.hasNext()) {
-        printTerm(out, (Expr) i.next());
+        printTerm(out, (Expr) i.next(), markup);
         if (i.hasNext())
           out.print(", ");
       }
       out.print(" }");
     }
-    else /* fall back to the toString() method */
-    {
+    else {
+      if (Markup.LATEX.equals(markup)) {
+        try {
+          PrintUtils.printLatex(term, out, zlive_.getSectionManager());
+          return;
+        }
+        catch (Exception e) {
+          e.printStackTrace(System.err);
+        }
+      }
+      try {
+        PrintUtils.printUnicode(term, out, zlive_.getSectionManager());
+        return;
+      }
+      catch (Exception e) {
+        e.printStackTrace(System.err);
+      }
       out.print(term);
     }
   }
