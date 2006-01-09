@@ -68,7 +68,7 @@ public class ZLive
   private static long newNameNum = 0;
 
   private Map<String,String> properties_ = new HashMap<String,String>();
-  public final String PROP_MARKUP = "markup";
+  public static final String PROP_MARKUP = "markup";
 
   /** Generates a fresh temporary name. */
   public ZRefName createNewName()
