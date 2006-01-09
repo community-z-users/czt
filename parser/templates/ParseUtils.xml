@@ -34,6 +34,7 @@ import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.ZString;
 
 /**
  * Utilities for parsing <add:oz>Object</add:oz>
@@ -319,8 +320,25 @@ public class <class/>
       buf.append("\n\\end{axdef}\n");
     }
     else {
-      String message = "Unicode inputs not implemented yet";
-      throw new UnsupportedOperationException(message);
+      if (parent == null)
+        parent = "standard_toolkit";
+      buf.append(ZString.ZED);
+      buf.append(" section ");
+      buf.append(name);
+      buf.append(" parents ");
+      buf.append(parent);
+      buf.append(ZString.END);
+      buf.append(ZString.AX);
+      buf.append(ZString.BAR);
+      buf.append(ZString.NL);
+      Reader reader = src.getReader();
+      int ch = reader.read();
+      while (ch != -1) {
+        buf.appendCodePoint(ch);
+        ch = reader.read();
+      }
+      buf.append(ZString.NL);
+      buf.append(ZString.END);
     }
     // we create a temporary sectman so that this temp section does not
     //  clutter up the original section manager.
