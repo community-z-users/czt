@@ -48,4 +48,6 @@ public interface SectionInfo
   Object get(Key key) throws CommandException;
 
   void put(Key key, Object value, Set/*<Key>*/ dependencies);
+
+  boolean isCached(Key key);
 }

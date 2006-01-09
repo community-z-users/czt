@@ -722,14 +722,17 @@ action code
         new PrecedenceHandlingVisitor(opTable);
       final ZSect sect = (ZSect) zSect.accept(visitor);
       LatexMarkupFunction latexMarkupFunction = null;
-      try {
-        latexMarkupFunction = (LatexMarkupFunction)
-          sectInfo_.get(new Key(sectName, LatexMarkupFunction.class));
-      }
-      catch (CommandException exception) {
-        String message =
-          "Cannot find LatexMarkupFunction for " + sectName;
-        CztLogger.getLogger(<class/>.class).warning(message);
+      final Key key = new Key(sectName, LatexMarkupFunction.class);
+      if (sectInfo_.isCached(key)) {
+        try {
+          latexMarkupFunction = (LatexMarkupFunction)
+            sectInfo_.get(key);
+        }
+        catch (CommandException exception) {
+          String message =
+            "Error retrieving LatexMarkupFunction for " + sectName;
+          CztLogger.getLogger(<class/>.class).warning(message);
+        }
       }
       if (latexMarkupFunction != null) {
         final LatexMarkupPara markupPara = latexMarkupFunction.toAst(factory_);
