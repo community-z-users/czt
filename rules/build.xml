@@ -43,6 +43,7 @@
     <mkdir dir="${rules.jar.dir}"/>
     <jar jarfile="${jar.file}">
       <fileset dir="${rules.build.dir}"/>
+      <fileset dir="src/main/resources"/>
     </jar>
   </target>
 
