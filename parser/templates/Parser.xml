@@ -1698,7 +1698,7 @@ basicTypeDefinition ::=
         ;
 
 schema ::=
-        SCH:sch name:n schemaText:st END
+        SCH:sch name:n optNL schemaText:st END
         {:
            RESULT = factory_.createSchema(n, null, st);
            addLocAnn(RESULT, schleft, schright);
