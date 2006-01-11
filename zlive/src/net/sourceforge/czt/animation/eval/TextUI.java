@@ -171,6 +171,7 @@ public class TextUI {
   {
     PrintWriter writer = new PrintWriter(out);
     printHelp(writer);
+    writer.flush();
   }
 
   /** Writes help/usage message */
@@ -184,6 +185,7 @@ public class TextUI {
     out.println("set <var> <value> -- Sets <var> to <value>.");
     out.println("version           -- Display the version of ZLive");
     out.println("quit              -- Exit the ZLive program");
+    out.flush();
   }
 
   /** Prints an evaluated expression as a standard text string. 
@@ -192,6 +194,7 @@ public class TextUI {
   {
     PrintWriter writer = new PrintWriter(out);
     printTerm(writer, term, markup);
+    writer.flush();
   }
 
   /** Writes an evaluated expression as a standard text string. 
@@ -218,6 +221,7 @@ public class TextUI {
       if (Markup.LATEX.equals(markup)) {
         try {
           PrintUtils.printLatex(term, out, zlive_.getSectionManager());
+          out.flush();
           return;
         }
         catch (Exception e) {
@@ -226,6 +230,7 @@ public class TextUI {
       }
       try {
         PrintUtils.printUnicode(term, out, zlive_.getSectionManager());
+        out.flush();
         return;
       }
       catch (Exception e) {
@@ -233,5 +238,6 @@ public class TextUI {
       }
       out.print(term);
     }
+    out.flush();
   }
 }
