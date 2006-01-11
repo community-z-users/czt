@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2005 Petra Malik
+  Copyright (C) 2004, 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -275,7 +275,7 @@ public class SectionManager
     catch (ClassNotFoundException e) {
       final String message = "Cannot get class " + name +
         "; class cannot be found";
-      getLogger().warning(message);
+      getLogger().info(message);
     }
     return null;
   }
