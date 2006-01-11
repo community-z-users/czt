@@ -220,7 +220,8 @@ public class TextUI {
     else {
       if (Markup.LATEX.equals(markup)) {
         try {
-          PrintUtils.printLatex(term, out, zlive_.getSectionManager());
+          PrintUtils.printLatex(term, out, zlive_.getSectionManager(),
+                                zlive_.getCurrentSection());
           out.flush();
           return;
         }
