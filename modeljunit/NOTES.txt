@@ -16,6 +16,7 @@ Log of Design and Implementation Changes
 	     Same in fsmRandomWalk -- this increased coverage slightly.
 04Jan06: Added State coverage and Transition coverage.
 05Jan06: Added Transition-Pair coverage.
+11Jan06: Added fsmSaveGraph to write out the graph in DOT format.
 
 
 Experiences using ModelJUnit to test ZLive FlatPred subclasses

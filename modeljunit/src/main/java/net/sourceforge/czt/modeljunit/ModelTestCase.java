@@ -19,18 +19,20 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.modeljunit;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
 import junit.framework.TestCase;
+import net.sourceforge.czt.jdsl.graph.api.Edge;
+import net.sourceforge.czt.jdsl.graph.api.EdgeIterator;
 import net.sourceforge.czt.jdsl.graph.api.Graph;
 import net.sourceforge.czt.jdsl.graph.api.InspectableGraph;
 import net.sourceforge.czt.jdsl.graph.api.Vertex;
@@ -475,6 +477,36 @@ public class ModelTestCase extends TestCase
     }
     printProgress("Buildgraph: Model complete after "
         +nInits+" inits and "+nTrans+" transitions.");
+  }
+
+  /** Saves the FSM graph into the given file, in DOT format.
+   *  The DOT format can be converted into many other graphical formats,
+   *  including xfig, postscript, jpeg etc. by using the 'dot' or 'neato'
+   *  tools, which are freely available from http://www.graphviz.org.
+   *  This method should only be called after buildGraph has built the graph.
+   * @param filename  The filename should end with ".dot".
+   */
+  public static void fsmSaveGraph(String filename)
+  throws FileNotFoundException
+  {
+    if (fsmGraph == null)
+      throw new IllegalStateException("Graph not built yet.  Call buildGraph.");
+    PrintWriter output = new PrintWriter(filename);
+    String shortName = fsmGetModelName();
+    shortName = shortName.substring(shortName.lastIndexOf('.')+1);
+    output.println("digraph "+shortName);
+    output.println("{");
+    EdgeIterator edges = fsmGraph.edges();
+    while (edges.hasNext()) {
+      Edge e = edges.nextEdge();
+      Object origin = fsmGraph.origin(e).element();
+      Object dest = fsmGraph.destination(e).element();
+      String action = (String) e.element();
+      output.println("  "+origin+" -> "+dest
+          +"  [label=\""+action+"\"];");
+    }
+    output.println("}");
+    output.close();
   }
 
   /** Reinitialise the FSM to its initial state.
