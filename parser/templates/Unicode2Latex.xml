@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright (C) 2003, 2004, 2005 Petra Malik
+     Copyright (C) 2003, 2004, 2005, 2006 Petra Malik
      This file is part of the CZT project.
 
      The CZT project contains free software;
@@ -288,6 +288,8 @@ action code
 :}
 
 parser code {:
+  public static final Map symbolMap_ = DebugUtils.getFieldMap(Sym.class);
+
   private Writer writer_ = new OutputStreamWriter(System.out);
   protected SectionInfo sectInfo_ = new SectionManager();
   protected String sectionName_ = null;
@@ -357,6 +359,9 @@ parser code {:
         sectInfo_.get(new Key(sectionName_, LatexMarkupFunction.class));
       action_obj.setupMarkupTable(table);
     }
+    String logMessage = "Next token is (" + symbolMap_.get(result.sym) + ", "
+      + result.value + ").";
+    CztLogger.getLogger(<class/>.class).finer(logMessage);
     return result;
   }
 
