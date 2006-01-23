@@ -130,8 +130,8 @@ public class FlatPredModel
     result_ = false;
   }
 
-  public boolean skipInferBoundsGuard() {return state_ == State.Init; }
-  @Action public void skipInferBounds()
+  public boolean inferBoundsGuard() {return state_ == State.Init; }
+  @Action public void inferBounds()
   {
     state_ = State.NoMode;
   }
@@ -225,7 +225,7 @@ public class FlatPredModel
   /** Checks that we are in State.GotMode and that the current mode
    *  is compatible with data.modes.
    */
-  protected boolean startEvalGuard(Eval data)
+  protected boolean doEvalGuard(Eval data)
   {
     boolean result = state_ == State.GotMode;
     for (int i=0; result && i<names_.length; i++) {
@@ -247,7 +247,7 @@ public class FlatPredModel
    *  @param data The data values and modes which can be used.
    */
   //@requires env_ != null;
-  public void startEval(/*@non_null@*/ Eval data)
+  public void doEval(/*@non_null@*/ Eval data)
   {
     // Note: we use the original env here, as given to chooseMode.
     for (int i=0; i<names_.length; i++) {
@@ -256,7 +256,7 @@ public class FlatPredModel
         env_.setValue(names_[i], value);
       }
     }
-    System.out.println("startEval with env="+env_);
+    System.out.println("doEval with env="+env_);
     pred_.startEvaluation();
     result_ = false;
     // check that true is returned the expected number of times.
@@ -289,17 +289,17 @@ public class FlatPredModel
   }
 
   /** Starts a new evaluation using the eval1_ data. */
-  public boolean startEval1Guard() { return startEvalGuard(eval1_); }
-  @Action public void startEval1()
+  public boolean doEval1Guard() { return doEvalGuard(eval1_); }
+  @Action public void doEval1()
   {
-    startEval(eval1_);
+    doEval(eval1_);
   }
 
   /** Starts a new evaluation using the eval2_ data. */
-  public boolean startEval2Guard() { return startEvalGuard(eval2_); }
-  @Action public void startEval2()
+  public boolean doEval2Guard() { return doEvalGuard(eval2_); }
+  @Action public void doEval2()
   {
-    startEval(eval2_);
+    doEval(eval2_);
   }
 
   /** Continue calling nextEvaluation.
