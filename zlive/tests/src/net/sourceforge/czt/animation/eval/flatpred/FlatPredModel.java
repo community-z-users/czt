@@ -23,6 +23,7 @@ import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.UndefException;
 import net.sourceforge.czt.modeljunit.Action;
+import net.sourceforge.czt.modeljunit.FsmModel;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZRefName;
 
@@ -34,7 +35,7 @@ import net.sourceforge.czt.z.ast.ZRefName;
  *
  * @author Mark Utting
  */
-public class FlatPredModel
+public class FlatPredModel implements FsmModel
 {
   /** The FlatPred object that is being tested. */
   private FlatPred pred_;
@@ -99,10 +100,10 @@ public class FlatPredModel
     validModes_ = validModes;
     eval1_ = eval1;
     eval2_ = eval2;
-    init(false);
+    reset(true);
   }
 
-  public String toString()
+  public String getState()
   {
     StringBuffer result = new StringBuffer();
     result.append(state_.toString());
@@ -122,7 +123,7 @@ public class FlatPredModel
    *  TODO: it would be nice to be able to actually reset the FlatPred.
    * @param testing true if this is a real test run (currently ignored).
    */
-  public void init(boolean testing)
+  public void reset(boolean testing)
   {
     state_ = State.Init;
     env_ = null;
