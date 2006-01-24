@@ -133,7 +133,7 @@ public abstract class AbstractCoverage implements CoverageMetric
    *  The default implementation does nothing.
    *  </p>
    */
-  public void doneInit(boolean testing)
+  public void doneReset(boolean testing)
   {
   }
 

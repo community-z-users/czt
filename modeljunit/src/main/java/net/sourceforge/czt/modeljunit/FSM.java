@@ -21,7 +21,7 @@ package net.sourceforge.czt.modeljunit;
 
 /** Simple example of a finite state machine (FSM) for testing.
  */
-public class FSM
+public class FSM implements FsmModel
 {
   private int state = 0;  // 0..2
   private boolean testing = false;
@@ -31,12 +31,12 @@ public class FSM
     state = 0;
   }
 
-  public String toString()
+  public String getState()
   {
     return String.valueOf(state);
   }
 
-  public void init(boolean startTesting)
+  public void reset(boolean startTesting)
   {
     state = 0;
     testing = startTesting;

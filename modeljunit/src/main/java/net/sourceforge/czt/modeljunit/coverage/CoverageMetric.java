@@ -70,7 +70,7 @@ public interface CoverageMetric
   public void setModel(Graph model, Map<Object,Vertex> state2vertex);
 
   /** The testing process calls this after each init() action. */
-  public void doneInit(boolean testing);
+  public void doneReset(boolean testing);
 
   /** The testing process calls this after taking each transition. */
   public void doneTransition(Transition tr);

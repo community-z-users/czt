@@ -74,7 +74,7 @@ public class TransitionPairCoverage extends AbstractCoverage
     maxCoverage_ = coverage_.size();
   }
 
-  public void doneInit(boolean testing)
+  public void doneReset(boolean testing)
   {
     lastTransition_ = null;
   }

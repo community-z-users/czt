@@ -103,9 +103,9 @@ public class CoverageHistory implements CoverageMetric
   }
 
   /** Delegates to getMetric().doneInit(...). */
-  public void doneInit(boolean testing)
+  public void doneReset(boolean testing)
   {
-    metric_.doneInit(testing);
+    metric_.doneReset(testing);
   }
 
   /** Delegates to getMetric().doneTransition(...),

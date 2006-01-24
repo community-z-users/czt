@@ -62,7 +62,7 @@ public class ModelTest extends ModelTestCase
 
   public static void testEnabled()
   {
-    fsmInit(new FSM(), true);
+    fsmReset(new FSM(), true);
     Assert.assertEquals("0", fsmGetState());
     int action0 = fsmGetAction("action0");
     int action1 = fsmGetAction("action1");
