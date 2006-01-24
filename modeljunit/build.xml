@@ -83,6 +83,8 @@
       <formatter type="xml"/>
       <test toDir="${modeljunit.build.dir}"
         name="net.sourceforge.czt.modeljunit.ModelTest"/>
+        <test toDir="${modeljunit.build.dir}"
+          name="net.sourceforge.czt.modeljunit.QuiDoncTest"/>
       <classpath>
         <pathelement location="${jar.file}"/>
         <pathelement location="${test.jar.file}"/>

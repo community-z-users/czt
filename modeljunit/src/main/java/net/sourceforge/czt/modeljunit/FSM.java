@@ -24,7 +24,6 @@ package net.sourceforge.czt.modeljunit;
 public class FSM implements FsmModel
 {
   private int state = 0;  // 0..2
-  private boolean testing = false;
 
   public FSM()
   {
@@ -36,45 +35,36 @@ public class FSM implements FsmModel
     return String.valueOf(state);
   }
 
-  public void reset(boolean startTesting)
+  public void reset(boolean testing)
   {
     state = 0;
-    testing = startTesting;
   }
 
   public boolean action0Guard() { return state == 2; }
   public @Action void action0()
   {
-    if (testing) {
-      System.out.println("action0: " + state + " --> 0");
-    }
+    System.out.println("action0: " + state + " --> 0");
     state = 0;
   }
 
   public boolean action1Guard() { return state == 2; }
   public @Action void action1()
   {
-    if (testing) {
-      System.out.println("action1: " + state + " --> 1");
-    }
+    System.out.println("action1: " + state + " --> 1");
     state = 1;
   }
   
   public boolean action2Guard() { return state == 0; }
   public @Action void action2()
   {
-    if (testing) {
-      System.out.println("action2: " + state + " --> 2");
-    }
+    System.out.println("action2: " + state + " --> 2");
     state = 2;
   }
 
   public boolean actionNoneGuard() { return state != 1; }
   public @Action void actionNone()
   {
-    if (testing) {
-      // leave state the same.
-      System.out.println("actionNone: " + state + " --> " + state);
-    }
+    // leave state the same.
+    System.out.println("actionNone: " + state + " --> " + state);
   }
 }
