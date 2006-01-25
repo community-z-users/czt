@@ -1,5 +1,5 @@
 TODO:
-* implement a visualizer?
+* implement a visualizer?  [DONE output of graph in 'dot' format]
   Perhaps using JGraph (http://www.jgraph.com) or 
   GINY (http://csbi.sourceforge.net) or some other Java graphics package.
   See http://manageability.org/blog/stuff/open-source-graph-network-visualization-in-java
@@ -124,5 +124,13 @@ IUT error: FlatMu mode III does not work correctly -- removed from tests
   temporarily because it is difficult to fix.
 
 
+Wed 26 Jan 2006: 1/2 hour
+---------------
+Refactored FlatPredModel to make it more easily understandable
+and to allow interruption between startEvaluation and nextEvaluation.
+(renamed several states and actions, and split doEval into separate
+actions, startEval and nextEval).  No changes to the test results.
+Measured FlatMult code coverage: 73% branch and 89% stmt, which is
+one branch higher than the manual JUnit tests (68% branch and 89% stmt).
 
 
