@@ -56,7 +56,7 @@ public class FlatPredModel implements FsmModel
   private Eval eval2_;
 
   /** The possible main states of the FlatPred. */
-  enum State {Init, NoMode, GotMode, EvalTrue, EvalFalse};
+  enum State {Init, NoMode, GotMode, Started, Finished};
   private State state_;
 
   /** The input environment being used for testing. */
@@ -67,8 +67,9 @@ public class FlatPredModel implements FsmModel
   //@invariant mode_ == null <==> (state_==Init || state_==NoMode);
   private Mode mode_;
 
-  /** The result of the previous operation (inferBounds or nextEvaluation). */
-  private boolean result_;
+  /** The data being used for the current evaluation. */
+  //@invariant data_ != null <==> state_==Started;
+  private Eval data_;
 
   /** Create a test harness for a FlatPred subclass.
    *  For example, if toTest represents the constraint a*b=c,
@@ -128,7 +129,7 @@ public class FlatPredModel implements FsmModel
     state_ = State.Init;
     env_ = null;
     mode_ = null;
-    result_ = false;
+    data_ = null;
   }
 
   public boolean inferBoundsGuard() {return state_ == State.Init; }
@@ -226,7 +227,7 @@ public class FlatPredModel implements FsmModel
   /** Checks that we are in State.GotMode and that the current mode
    *  is compatible with data.modes.
    */
-  protected boolean doEvalGuard(Eval data)
+  protected boolean startEvalGuard(Eval data)
   {
     boolean result = state_ == State.GotMode;
     for (int i=0; result && i<names_.length; i++) {
@@ -248,7 +249,7 @@ public class FlatPredModel implements FsmModel
    *  @param data The data values and modes which can be used.
    */
   //@requires env_ != null;
-  public void doEval(/*@non_null@*/ Eval data)
+  public void startEval(/*@non_null@*/ Eval data)
   {
     // Note: we use the original env here, as given to chooseMode.
     for (int i=0; i<names_.length; i++) {
@@ -257,16 +258,52 @@ public class FlatPredModel implements FsmModel
         env_.setValue(names_[i], value);
       }
     }
-    System.out.println("doEval with env="+env_);
+    System.out.println("startEval with env="+env_);
     pred_.startEvaluation();
-    result_ = false;
-    // check that true is returned the expected number of times.
-    for (int i = data.successes; i > 0; i--) {
-      result_ = pred_.nextEvaluation();
-      Assert.assertTrue(result_);
-    }
+    data_ = data;
+    state_ = State.Started;
+  }
 
-    if (data.successes == Eval.UNDEF) {
+  /** Starts a new evaluation using the eval1_ data. */
+  public boolean startEval1Guard() { return startEvalGuard(eval1_); }
+  @Action public void startEval1()
+  {
+    startEval(eval1_);
+  }
+
+  /** Starts a new evaluation using the eval2_ data. */
+  public boolean startEval2Guard() { return startEvalGuard(eval2_); }
+  @Action public void startEval2()
+  {
+    startEval(eval2_);
+  }
+
+  public boolean nextEvalGuard() {return state_ == State.Started; }
+  /** Call nextEvaluation() the expected number of times,
+   *  and check that it returns true (or throws an exception).
+   */
+  @Action public void nextEval()
+  {
+    assert data_ != null;
+    System.out.println("nextEval trying nextEval() "+data_.successes+" times.");
+    if (data_.successes > 1) {
+      // check that true is returned the expected number of times.
+      for (int i = data_.successes; i > 0; i--)
+        Assert.assertTrue(pred_.nextEvaluation());
+    }
+    else if (data_.successes == 1) {
+      Assert.assertTrue(pred_.nextEvaluation());
+      // check that the correct results were returned.
+      Envir newenv = pred_.getEnvir();
+      System.out.println("nextEval returns newenv="+newenv);
+      for (int i=0; i<names_.length; i++) {
+        Assert.assertTrue(names_[i]+" undefined.",
+            newenv.isDefined(names_[i]));
+        Assert.assertEquals(names_[i]+" has incorrect value.",
+            newenv.lookup(names_[i]), data_.args[i]);
+      }
+    }
+    else if (data_.successes == Eval.UNDEF) {
       try {
         pred_.nextEvaluation();
         Assert.fail("Should have thrown UndefException: "+pred_);
@@ -275,65 +312,40 @@ public class FlatPredModel implements FsmModel
         // Good!
       }
     }
-    else if (data.successes == 1) {
-      // check that the correct results were returned.
-      Envir newenv = pred_.getEnvir();
-      System.out.println("nextEval returns newenv="+newenv);
-      for (int i=0; i<names_.length; i++) {
-        Assert.assertTrue(names_[i]+" undefined.",
-            newenv.isDefined(names_[i]));
-        Assert.assertEquals(names_[i]+" has incorrect value.",
-            newenv.lookup(names_[i]), data.args[i]);
-      }
-    }
-    state_ = result_ ? State.EvalTrue : State.EvalFalse;
+    // else data_.successes == 0, so we do nothing.
+    data_ = null;
+    state_ = State.Finished;
   }
 
-  /** Starts a new evaluation using the eval1_ data. */
-  public boolean doEval1Guard() { return doEvalGuard(eval1_); }
-  @Action public void doEval1()
+  public boolean nextEvalFalseGuard() {return state_ == State.Finished; }
+  /** Checks that nextEvaluation() returns false. */
+  public @Action void nextEvalFalse()
   {
-    doEval(eval1_);
+    boolean result = pred_.nextEvaluation();
+    System.out.println("nextEvalFalse gives "+result+" with env="+env_);
+    Assert.assertFalse(result);
   }
 
-  /** Starts a new evaluation using the eval2_ data. */
-  public boolean doEval2Guard() { return doEvalGuard(eval2_); }
-  @Action public void doEval2()
-  {
-    doEval(eval2_);
-  }
-
-  /** Continue calling nextEvaluation.
-   *  This currently assumes a maximum of one solution.
-   */
-  public boolean continueEvalGuard() {return state_ == State.EvalTrue
-                                          || state_ == State.EvalFalse; }
-  @Action public void continueEval()
-  {
-    result_ = pred_.nextEvaluation();
-    System.out.println("continueEval gives "+result_+" with env="+env_);
-    Assert.assertFalse(result_);
-    state_ = State.EvalFalse;
-  }
-
-  /** Go back and do a new evaluation, using the same mode. */
-  public boolean newEvalGuard() {return state_ == State.EvalTrue
-                                     || state_ == State.EvalFalse;  }
+  public boolean newEvalGuard() {return state_ == State.Started
+                                     || state_ == State.Finished;  }
+  /** Go back and start a new evaluation, using the same mode. */
   @Action public void newEval()
   {
     System.out.println("newEval with env="+env_);
+    data_ = null;
     state_ = State.GotMode;
   }
   
-  /** Go back and try a new mode. */
-  public boolean newModeGuard() {return state_ == State.EvalTrue
-                                     || state_ == State.EvalFalse
+  public boolean newModeGuard() {return state_ == State.Started
+                                     || state_ == State.Finished
                                      || state_ == State.GotMode; }
+  /** Go back and try a new mode. */
   @Action public void newMode()
   {
     System.out.println("newMode with env="+env_);
     mode_ = null;
     env_  = null;
+    data_ = null;
     state_ = State.NoMode;
   }
 }
