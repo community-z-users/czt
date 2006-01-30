@@ -45,11 +45,26 @@
     file="${basedir}/rules/build.xml"
     property="rules.present"/>
   <available
-    file="${basedir}/jedit/ZCharMap/build.xml"
+    file="${jedit.jar}"
     property="jedit.present"/>
+  <available
+    file="${basedir}/jedit/ZCharMap/build.xml"
+    property="jedit-plugin.present"/>
   <available
     file="${basedir}/jedit/zlive/build.xml"
     property="zlive-plugin.present"/>
+  <condition property="build.jedit.plugin">
+    <and>
+      <isset property="jedit.present"/>
+      <isset property="jedit-plugin.present"/>
+    </and>
+  </condition>
+  <condition property="build.zlive.plugin">
+    <and>
+      <isset property="jedit.present"/>
+      <isset property="zlive-plugin.present"/>
+    </and>
+  </condition>
 
   <target name="all" depends="install-bin, install-subprojects, czt.jar, api-subprojects"/>
 
@@ -166,7 +181,10 @@
     <ant dir="rules" target="install"/>
   </target>
 
-  <target name="install-jedit" if="jedit.present"
+  <target name="install-jedit"
+    depends="install-jedit-present, install-jedit-failure"/>
+
+  <target name="install-jedit-present" if="build.jedit.plugin"
     depends="czt.jar"
     description="install jedit plugin">
     <ant dir="jedit/ZCharMap" target="install"/>
@@ -181,11 +199,22 @@
     <copy file="${relaxngDatatype.jar}" todir="${plugin.jar.dir}"/>
   </target>
 
-  <target name="install-zlive-plugin" if="zlive-plugin.present"
+  <target name="install-jedit-failure" unless="build.jedit.plugin">
+    <echo message="Skipping jedit plugin."/>
+  </target>
+
+  <target name="install-zlive-plugin"
+    depends="install-zlive-plugin-present, install-zlive-plugin-failure"/>
+
+  <target name="install-zlive-plugin-present" if="build.zlive.plugin"
     depends="install-jedit">
     <ant dir="jedit/zlive" target="install"/>
     <copy file="${jar.dir}/${zlive-jedit-plugin.jar.file}"
       todir="${plugin.jar.dir}"/>
+  </target>
+
+  <target name="install-zlive-plugin-failure" unless="build.zlive.plugin">
+    <echo message="Skipping zlive plugin."/>
   </target>
 
   <target name="api-corejava" if="corejava.present"
@@ -511,13 +540,13 @@ set TYPECHECKER=${typechecker.win}
     <ant dir="rules" target="clean"/>
   </target>
 
-  <target name="clean-jedit" if="jedit.present"
+  <target name="clean-jedit" if="jedit-plugin.present"
     description="clean up jedit plugin">
     <ant dir="jedit/ZCharMap" target="clean"/>
   </target>
 
-  <target name="clean-zlive-plugin" if="jedit.present"
-    description="clean up jedit plugin">
+  <target name="clean-zlive-plugin" if="zlive-plugin.present"
+    description="clean up zlive plugin">
     <ant dir="jedit/zlive" target="clean"/>
   </target>
 </project>
