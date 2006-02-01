@@ -100,6 +100,7 @@ public class SectionManager
 
   public SectionManager()
   {
+    getLogger().config("Creating a new section manager");
     final String standardZ = "z";
     putCommands(standardZ);
   }
@@ -174,6 +175,7 @@ public class SectionManager
    */
   public void putCommands(String extension)
   {
+    getLogger().config("Set extension to '" + extension + "'");
     URL url = getClass().getResource("/" + extension + ".commands");
     if (url != null) {
       putCommands(url);
@@ -189,6 +191,7 @@ public class SectionManager
    */
   public void putCommands(URL url)
   {
+    getLogger().config("Load commands from URL '" + url + "'");
     final String errorMessage = "Error while loading default commands " +
       "for the section manager: Cannot open " + url.toString();
     try {
@@ -217,6 +220,7 @@ public class SectionManager
 
   public boolean putCommand(String type, String commandClassName)
   {
+    final Logger logger = getLogger();
     try {
       Class typeClass = toClass(type);
       Class commandClass = toClass(commandClassName);
@@ -224,32 +228,33 @@ public class SectionManager
         Object command = commandClass.newInstance();
         if (command instanceof Command) {
           commands_.put(typeClass, (Command) command);
+          logger.config("Set command for " + typeClass + " to " + command);
           return true;
         }
         final String message = "Cannot instanciate command " +
           commandClassName + "; given class is not a command";
-        getLogger().warning(message);
+        logger.warning(message);
       }
     }
     catch (ExceptionInInitializerError e) {
       final String message = "Cannot instanciate command " + commandClassName +
         "; exception in initialzier";
-      getLogger().warning(message);
+      logger.warning(message);
     }
     catch (IllegalAccessException e) {
       final String message = "Cannot instanciate command " + commandClassName +
         "; illegal access exception";
-      getLogger().warning(message);
+      logger.warning(message);
     }
     catch (InstantiationException e) {
       final String message = "Cannot instanciate command " + commandClassName +
         "; instantiation exception";
-      getLogger().warning(message);
+      logger.warning(message);
     }
     catch (SecurityException e) {
       final String message = "Cannot instanciate command " + commandClassName +
         "; security exception";
-      getLogger().warning(message);
+      logger.warning(message);
     }
     return false;
   }
@@ -384,7 +389,7 @@ public class SectionManager
    */
   public void reset()
   {
-    getLogger().finer("reset");
+    getLogger().config("Resetting section manager");
     content_.clear();
   }
 
