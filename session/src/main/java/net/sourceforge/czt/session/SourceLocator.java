@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Petra Malik
+  Copyright (C) 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -31,6 +31,7 @@ public class SourceLocator
   final protected String [] suffix_ = {".tex", ".utf8", "utf16", ""};
 
   public boolean compute(String name, SectionManager manager)
+    throws CommandException
   {
     URL url = getClass().getResource("/lib/" + name + ".tex");
     if (url != null) {
@@ -53,6 +54,22 @@ public class SourceLocator
         return true;
       }
     }
-    return false;
+    throw new SourceLocatorException(name);
+  }
+
+  public static class SourceLocatorException
+    extends CommandException
+  {
+    private String name_;
+
+    public SourceLocatorException(String name)
+    {
+      name_ = name;
+    }
+
+    public String getName()
+    {
+      return name_;
+    }
   }
 }
