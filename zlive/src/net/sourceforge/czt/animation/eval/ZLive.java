@@ -22,26 +22,26 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.*;
 
-import net.sourceforge.czt.parser.util.*;
-import net.sourceforge.czt.parser.util.ParseException;
+import net.sourceforge.czt.animation.eval.flatpred.*;
 import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.parser.z.ParseUtils;
+import net.sourceforge.czt.print.z.PrintUtils;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.util.*;
+import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.parser.z.ParseUtils;
-import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.animation.eval.flatpred.*;
-import net.sourceforge.czt.print.z.PrintUtils;
 
 public class ZLive
 {
-  private static final Logger sLogger
-  = Logger.getLogger("net.sourceforge.czt.animation.eval");
+  private static final Logger sLogger =
+    Logger.getLogger("net.sourceforge.czt.animation.eval");
   
   /** The name and current version of ZLive */
-  public static final String banner = "ZLive version 0.2, (C) 2005, Mark Utting";
+  public static final String banner =
+    "ZLive version 0.2, (C) 2005, Mark Utting";
   
   private Factory factory_;
 
@@ -54,21 +54,13 @@ public class ZLive
 
   protected SectionManager sectman_;
 
-  /** The name of the section in which all evaluations will be done.
-      Evaluations are illegal until this is set.
-   */
-  protected String currSectName_;
-
-  /** The definition table for the current section. */
-  protected DefinitionTable defnTable_;
-
   /** Stores the code used in the most recent evaluation. */
   protected FlatPredList predlist_;
 
   private static long newNameNum = 0;
 
-  private Map<String,String> properties_ = new HashMap<String,String>();
-  public static final String PROP_MARKUP = "markup";
+  private String sectName_;
+  private Markup markup_ = Markup.LATEX;
 
   /** Generates a fresh temporary name. */
   public ZRefName createNewName()
@@ -146,61 +138,40 @@ public class ZLive
   public void setSectionManager(SectionManager sm)
   { sectman_ = sm; }
 
-  /** Get a property. */
-  public String getProperty(String key)
-  {
-    return properties_.get(key);
-  }
-
-  public Collection<String> propertyNames()
-  {
-    return properties_.keySet();
-  }
-
-  /** Sets a property. */
-  public String setProperty(String key, String value)
-  {
-    return (String) properties_.put(key, value);
-  }
-
-  /** Unsets a property. */
-  public String unsetProperty(String key)
-  {
-    return properties_.remove(key);
-  }
-
   /** Get a flatten visitor. */
   public Flatten getFlatten()
   { return flatten_; }
 
+  public Markup getMarkup()
+  {
+    return markup_;
+  }
+
+  /**
+   * @throws IllegalArgumentException if the given markup is not supported.
+   */
+  public void setMarkup(String markup)
+  {
+      markup_ = Enum.valueOf(Markup.class, markup);
+  }
+
+  public void setMarkup(Markup markup)
+  {
+    markup_ = markup;
+  }
+
   /** Which section evaluations are being done in. */
   public String getCurrentSection()
-  { return currSectName_; }
+  {
+    return sectName_;
+  }
 
-  /** Say which section future evaluations will be done in.
-   *  This checks that the given section is typechecked.
-   */
-  public void setCurrentSection(/*@non_null@*/String name)
+  public void setCurrentSection(String sectName)
     throws CommandException
   {
-    Key key = new Key(name, DefinitionTable.class);
-    DefinitionTable newTable = (DefinitionTable) sectman_.get(key);
-    defnTable_ = newTable;
-    currSectName_ = name;
-
-    // now typecheck the section
-    System.err.println("Setting current section to "+name);
-    SectionManager manager = this.getSectionManager();
-    ZSect sect = (ZSect) manager.get(new Key(name,ZSect.class));
-    List<? extends ErrorAnn> errors = TypeCheckUtils.typecheck(sect, 
-        manager, false, null);
-    if (errors.size() > 0) {
-      System.err.println("Warning: section "+name+" contains type errors.");
-      //print any errors
-      for (ErrorAnn next : errors) {
-        System.err.println(next);
-      }
-    }
+    sectman_.get(new Key(sectName, ZSect.class));
+    sectman_.get(new Key(sectName, SectTypeEnvAnn.class));
+    sectName_ = sectName;
   }
 
   /** Evaluate a Pred.
@@ -214,11 +185,11 @@ public class ZLive
     throws EvalException
   {
     sLogger.entering("ZLive","evalPred");
-    if (currSectName_ == null || defnTable_ == null) {
+    if (getCurrentSection() == null) {
       throw new CztException("Must choose a section!");
     }
     // preprocess the predicate, to unfold things.
-    pred = (Pred) preprocess_.preprocess(currSectName_, pred);
+    pred = (Pred) preprocess_.preprocess(getCurrentSection(), pred);
     
     predlist_ = new FlatPredList(this);
     predlist_.addPred(pred);
@@ -248,11 +219,11 @@ public class ZLive
     throws EvalException
   {
     sLogger.entering("ZLive","evalExpr");
-    if (currSectName_ == null || defnTable_ == null) {
+    if (getCurrentSection() == null) {
       throw new CztException("Must choose a section!");
     }
     // preprocess the expr, to unfold things.
-    expr = (Expr) preprocess_.preprocess(currSectName_, expr);
+    expr = (Expr) preprocess_.preprocess(getCurrentSection(), expr);
     
     predlist_ = new FlatPredList(this);
     ZRefName resultName = predlist_.addExpr(expr);

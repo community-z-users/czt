@@ -22,26 +22,23 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.*;
 
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.animation.eval.flatpred.*;
-import net.sourceforge.czt.print.z.PrintUtils;
+import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.ParseUtils;
+import net.sourceforge.czt.print.z.PrintUtils;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
-import net.sourceforge.czt.parser.util.ParseException;
+import net.sourceforge.czt.z.ast.*;
 
 public class TextUI {
-  private static final Logger sLogger
-  = Logger.getLogger("net.sourceforge.czt.animation.eval");
+  private static final Logger sLogger =
+    Logger.getLogger("net.sourceforge.czt.animation.eval");
   
   protected static ZLive zlive_ = new ZLive();
 
-  /** Markup used when no setting has been provided. */
-  protected static Markup defaultMarkup = Markup.LATEX;
-  
   /** Get the instance of ZLive that is used for evaluation. */
   public ZLive getZLive()
   {
@@ -82,6 +79,7 @@ public class TextUI {
   /** Process one input command and write output to writer. */
   public static void processCmd(String cmd, String args, PrintWriter out) {
     try {
+      final SectionManager manager = zlive_.getSectionManager();
        if (cmd.equals("help")) {
          printHelp(out);
        }
@@ -93,37 +91,61 @@ public class TextUI {
        }
        else if (cmd.equals("set")) {
          if (args == null || "".equals(args)) {
-           for (String s : zlive_.propertyNames()) {
-             out.println(s + " = " + zlive_.getProperty(s));
-           }
+           out.println("markup = " + zlive_.getMarkup());
+           out.println("section = " + zlive_.getCurrentSection());
          }
          else {
-           String parts[] = args.split(" ", 2);
-           zlive_.setProperty(parts[0], parts.length > 1 ? parts[1] : "");
+           final String parts[] = args.split(" ", 2);
+           final String value = parts.length > 1 ? parts[1] : "";
+           if ("markup".equals(parts[0])) {
+             zlive_.setMarkup(value);
+           }
+           else if ("section".equals(parts[0])) {
+             zlive_.setCurrentSection(value);
+           }
+           else {
+             out.println("Unknown setting " + parts[0]);
+           }
          }
        }
-       else if (cmd.equals("unset")) {
-         zlive_.unsetProperty(args);
+       else if (cmd.equals("load")) {
+         Source source = new FileSource(args);
+         manager.put(new Key(args, Source.class), source);
+         Spec spec = (Spec) manager.get(new Key(args, Spec.class));
+         String sectName = null;
+         for (Sect sect : spec.getSect()) {
+           if (sect instanceof ZSect) {
+             sectName = ((ZSect) sect).getName();
+             out.println("Loading section " + sectName);
+             manager.get(new Key(sectName, SectTypeEnvAnn.class));
+           }
+         }
+         if (sectName != null) {
+           out.println("Setting section to " + sectName);
+           zlive_.setCurrentSection(sectName);
+         }
+       }
+       else if (cmd.equals("env")) {
+         final String section = zlive_.getCurrentSection();
+         if (section != null) {
+           out.println(manager.get(new Key(section, OpTable.class)));
+           out.println(manager.get(new Key(section, DefinitionTable.class)));
+         }
        }
        else if (cmd.equals("eval") || cmd.equals("evalp")) {
-         SectionManager manager = zlive_.getSectionManager();
          String section = zlive_.getCurrentSection();
          Source src = new StringSource(args);
-         Markup markup = defaultMarkup;
-         String markupProp = zlive_.getProperty(ZLive.PROP_MARKUP);
-         if (Markup.UNICODE.toString().equalsIgnoreCase(markupProp)) {
-           markup = Markup.UNICODE;
-         }
+         Markup markup = zlive_.getMarkup();
          src.setMarkup(markup);
-         Term term = ParseUtils.parsePred(src, null, manager);
+         Term term = ParseUtils.parsePred(src, section, manager);
          boolean isPred = true;
          if (term instanceof ExprPred) {
            // evaluate just the expression.
            isPred = false;
            term = ((ExprPred)term).getExpr();
          }
-         List<? extends ErrorAnn> errors = TypeCheckUtils.typecheck(term, 
-             manager, false, section);
+         List<? extends ErrorAnn> errors =
+           TypeCheckUtils.typecheck(term, manager, false, section);
          if (errors.size() > 0) {
            out.println("Error: term contains type errors.");
            //print any errors
@@ -159,6 +181,9 @@ public class TextUI {
       else {
         out.println("Invalid command.  Try 'help'?");
       }
+    }
+    catch (SourceLocator.SourceLocatorException e) {
+      out.println("Cannot find source for section '" + e.getName() + "'");
     }
     catch (Exception e) {
       out.println("Error: " + e);
