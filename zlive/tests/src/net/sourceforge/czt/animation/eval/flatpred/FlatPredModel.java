@@ -104,6 +104,11 @@ public class FlatPredModel implements FsmModel
     reset(true);
   }
 
+  /** Debugging messages that can be printed to System.out/err. */
+  public void debug(String msg)
+  {    
+  }
+
   public String getState()
   {
     StringBuffer result = new StringBuffer();
@@ -164,7 +169,7 @@ public class FlatPredModel implements FsmModel
     boolean shouldWork = validModes_.contains(inout);
 
     mode_ = pred_.chooseMode(env_);
-    System.out.println("chooseMode("+env_+") --> "+mode_);
+    debug("chooseMode("+env_+") --> "+mode_);
     if (shouldWork)
       Assert.assertNotNull("Valid mode expected, but got null",mode_);
     else
@@ -258,7 +263,7 @@ public class FlatPredModel implements FsmModel
         env_.setValue(names_[i], value);
       }
     }
-    System.out.println("startEval with env="+env_);
+    debug("startEval with env="+env_);
     pred_.startEvaluation();
     data_ = data;
     state_ = State.Started;
@@ -285,9 +290,9 @@ public class FlatPredModel implements FsmModel
   @Action public void nextEval()
   {
     assert data_ != null;
-    System.out.println("nextEval trying nextEval() "+data_.successes+" times.");
+    debug("nextEval trying nextEval() "+data_.successes+" times.");
     if (data_.successes > 1) {
-      // check that true is returned the expected number of times.
+      // just check that true is returned the expected number of times.
       for (int i = data_.successes; i > 0; i--)
         Assert.assertTrue(pred_.nextEvaluation());
     }
@@ -295,7 +300,7 @@ public class FlatPredModel implements FsmModel
       Assert.assertTrue(pred_.nextEvaluation());
       // check that the correct results were returned.
       Envir newenv = pred_.getEnvir();
-      System.out.println("nextEval returns newenv="+newenv);
+      debug("nextEval returns newenv="+newenv);
       for (int i=0; i<names_.length; i++) {
         Assert.assertTrue(names_[i]+" undefined.",
             newenv.isDefined(names_[i]));
@@ -322,7 +327,7 @@ public class FlatPredModel implements FsmModel
   public @Action void nextEvalFalse()
   {
     boolean result = pred_.nextEvaluation();
-    System.out.println("nextEvalFalse gives "+result+" with env="+env_);
+    debug("nextEvalFalse gives "+result+" with env="+env_);
     Assert.assertFalse(result);
   }
 
@@ -331,7 +336,7 @@ public class FlatPredModel implements FsmModel
   /** Go back and start a new evaluation, using the same mode. */
   @Action public void newEval()
   {
-    System.out.println("newEval with env="+env_);
+    debug("newEval with env="+env_);
     data_ = null;
     state_ = State.GotMode;
   }
@@ -342,7 +347,7 @@ public class FlatPredModel implements FsmModel
   /** Go back and try a new mode. */
   @Action public void newMode()
   {
-    System.out.println("newMode with env="+env_);
+    debug("newMode with env="+env_);
     mode_ = null;
     env_  = null;
     data_ = null;

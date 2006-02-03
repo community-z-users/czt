@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateMiscTest
-Tests run: 80, Failures: 32, Errors: 0, Time elapsed: 14.662 sec
+Tests run: 80, Failures: 32, Errors: 0, Time elapsed: 14.553 sec
 ------------- Standard Output ---------------
 loaded rule setminus
 loaded rule filterdef
@@ -96,7 +96,7 @@ Passed test:animate_misc.tex:162
 Passed test:animate_misc.tex:163
 ------------- ---------------- ---------------
 
-Testcase: animate_misc.tex:28 took 0.169 sec
+Testcase: animate_misc.tex:28 took 0.168 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@34cc934d   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@34cc934d   ()
@@ -108,7 +108,7 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@5b2aa3d2   ()
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_misc.tex:33 took 0.095 sec
+Testcase: animate_misc.tex:33 took 0.093 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@3bd718d1   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@3bd718d1   ()
@@ -126,13 +126,13 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@f3d1696c   ()
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_misc.tex:40 took 0.176 sec
+Testcase: animate_misc.tex:40 took 0.175 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@53581b47   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@53581b47   ()
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_misc.tex:43 took 0.214 sec
+Testcase: animate_misc.tex:43 took 0.212 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@9e032f94   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@9e032f94   ()
@@ -144,36 +144,36 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@d06721eb   ()
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_misc.tex:48 took 0.485 sec
+Testcase: animate_misc.tex:48 took 0.481 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@c297328   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@c297328   ()
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_misc.tex:50 took 0.484 sec
+Testcase: animate_misc.tex:50 took 0.479 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@328783ad   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@328783ad   ()
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_misc.tex:52 took 0.532 sec
+Testcase: animate_misc.tex:52 took 0.528 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@a4cb1a43   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@a4cb1a43   ()
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_misc.tex:54 took 0.561 sec
+Testcase: animate_misc.tex:54 took 0.528 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@cb292ac8   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.CondExprImpl@cb292ac8   ()
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_misc.tex:58 took 0.309 sec
-Testcase: animate_misc.tex:59 took 0.328 sec
+Testcase: animate_misc.tex:58 took 0.306 sec
+Testcase: animate_misc.tex:59 took 0.325 sec
 Testcase: animate_misc.tex:60 took 0.426 sec
-Testcase: animate_misc.tex:61 took 0.277 sec
-Testcase: animate_misc.tex:65 took 0.027 sec
-Testcase: animate_misc.tex:66 took 0.04 sec
+Testcase: animate_misc.tex:61 took 0.271 sec
+Testcase: animate_misc.tex:65 took 0.028 sec
+Testcase: animate_misc.tex:66 took 0.039 sec
 Testcase: animate_misc.tex:67 took 0.051 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.IffPredImpl@80cbf735   ()
@@ -186,13 +186,13 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.OrPredImpl@d39e90a7   ()
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_misc.tex:70 took 0.038 sec
+Testcase: animate_misc.tex:70 took 0.037 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.OrPredImpl@5af7c0f2   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.OrPredImpl@5af7c0f2   ()
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_misc.tex:71 took 0.037 sec
+Testcase: animate_misc.tex:71 took 0.038 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.OrPredImpl@5af7c0f2   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.OrPredImpl@5af7c0f2   ()
@@ -204,9 +204,9 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.OrPredImpl@e250f13d   ()
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_misc.tex:74 took 0.039 sec
-Testcase: animate_misc.tex:75 took 0.05 sec
-Testcase: animate_misc.tex:76 took 0.052 sec
+Testcase: animate_misc.tex:74 took 0.038 sec
+Testcase: animate_misc.tex:75 took 0.051 sec
+Testcase: animate_misc.tex:76 took 0.051 sec
 Testcase: animate_misc.tex:77 took 0.051 sec
 Testcase: animate_misc.tex:79 took 0.038 sec
 	FAILED
@@ -220,19 +220,19 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ImpliesPredImpl@629dfb86   ()
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_misc.tex:81 took 0.039 sec
+Testcase: animate_misc.tex:81 took 0.04 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ImpliesPredImpl@629dfb86   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ImpliesPredImpl@629dfb86   ()
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_misc.tex:82 took 0.039 sec
+Testcase: animate_misc.tex:82 took 0.038 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ImpliesPredImpl@e9f72bd1   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ImpliesPredImpl@e9f72bd1   ()
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_misc.tex:84 took 0.039 sec
+Testcase: animate_misc.tex:84 took 0.038 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.IffPredImpl@48397f6d   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.IffPredImpl@48397f6d   ()
@@ -258,45 +258,45 @@ junit.framework.AssertionFailedError: Should not throw exception java.lang.Runti
 
 Testcase: animate_misc.tex:93 took 0.027 sec
 Testcase: animate_misc.tex:94 took 0.04 sec
-Testcase: animate_misc.tex:95 took 0.04 sec
-Testcase: animate_misc.tex:96 took 0.055 sec
-Testcase: animate_misc.tex:97 took 0.143 sec
+Testcase: animate_misc.tex:95 took 0.039 sec
+Testcase: animate_misc.tex:96 took 0.054 sec
+Testcase: animate_misc.tex:97 took 0.144 sec
 Testcase: animate_misc.tex:98 took 0.04 sec
 Testcase: animate_misc.tex:101 took 0.183 sec
-Testcase: animate_misc.tex:102 took 0.301 sec
-Testcase: animate_misc.tex:103 took 0.277 sec
-Testcase: animate_misc.tex:104 took 0.28 sec
-Testcase: animate_misc.tex:105 took 0.202 sec
-Testcase: animate_misc.tex:108 took 0.186 sec
-Testcase: animate_misc.tex:109 took 0.397 sec
-Testcase: animate_misc.tex:110 took 0.494 sec
-Testcase: animate_misc.tex:111 took 0.419 sec
+Testcase: animate_misc.tex:102 took 0.298 sec
+Testcase: animate_misc.tex:103 took 0.278 sec
+Testcase: animate_misc.tex:104 took 0.277 sec
+Testcase: animate_misc.tex:105 took 0.201 sec
+Testcase: animate_misc.tex:108 took 0.184 sec
+Testcase: animate_misc.tex:109 took 0.393 sec
+Testcase: animate_misc.tex:110 took 0.491 sec
+Testcase: animate_misc.tex:111 took 0.416 sec
 Testcase: animate_misc.tex:114 took 0.028 sec
-Testcase: animate_misc.tex:115 took 0.041 sec
+Testcase: animate_misc.tex:115 took 0.04 sec
 Testcase: animate_misc.tex:116 took 0.039 sec
-Testcase: animate_misc.tex:117 took 0.055 sec
-Testcase: animate_misc.tex:118 took 0.055 sec
-Testcase: animate_misc.tex:119 took 0.053 sec
-Testcase: animate_misc.tex:122 took 0.299 sec
-Testcase: animate_misc.tex:123 took 0.264 sec
-Testcase: animate_misc.tex:124 took 0.264 sec
-Testcase: animate_misc.tex:125 took 0.193 sec
-Testcase: animate_misc.tex:126 took 0.238 sec
+Testcase: animate_misc.tex:117 took 0.054 sec
+Testcase: animate_misc.tex:118 took 0.054 sec
+Testcase: animate_misc.tex:119 took 0.052 sec
+Testcase: animate_misc.tex:122 took 0.302 sec
+Testcase: animate_misc.tex:123 took 0.261 sec
+Testcase: animate_misc.tex:124 took 0.261 sec
+Testcase: animate_misc.tex:125 took 0.189 sec
+Testcase: animate_misc.tex:126 took 0.237 sec
 Testcase: animate_misc.tex:129 took 0.452 sec
-Testcase: animate_misc.tex:130 took 0.474 sec
+Testcase: animate_misc.tex:130 took 0.471 sec
 Testcase: animate_misc.tex:133 took 0.313 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.Exists1PredImpl@50252303   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.Exists1PredImpl@50252303   ()
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_misc.tex:134 took 0.261 sec
+Testcase: animate_misc.tex:134 took 0.259 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.Exists1PredImpl@e781169b   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.Exists1PredImpl@e781169b   ()
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_misc.tex:135 took 0.259 sec
+Testcase: animate_misc.tex:135 took 0.258 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.Exists1PredImpl@f0eadc12   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.Exists1PredImpl@f0eadc12   ()
@@ -308,31 +308,31 @@ Should not throw exception java.lang.RuntimeException: Flatten does not yet hand
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.Exists1PredImpl@f7099799   ()
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_misc.tex:137 took 0.294 sec
+Testcase: animate_misc.tex:137 took 0.298 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.Exists1PredImpl@29d85eda   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.Exists1PredImpl@29d85eda   ()
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_misc.tex:138 took 0.311 sec
+Testcase: animate_misc.tex:138 took 0.308 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.Exists1PredImpl@57fe911c   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.Exists1PredImpl@57fe911c   ()
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_misc.tex:139 took 0.328 sec
+Testcase: animate_misc.tex:139 took 0.323 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.Exists1PredImpl@ebcc63e4   ()
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.Exists1PredImpl@ebcc63e4   ()
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_misc.tex:152 took 0.14 sec
-Testcase: animate_misc.tex:153 took 0.217 sec
-Testcase: animate_misc.tex:154 took 0.218 sec
-Testcase: animate_misc.tex:155 took 0.261 sec
+Testcase: animate_misc.tex:152 took 0.141 sec
+Testcase: animate_misc.tex:153 took 0.221 sec
+Testcase: animate_misc.tex:154 took 0.217 sec
+Testcase: animate_misc.tex:155 took 0.257 sec
 Testcase: animate_misc.tex:158 took 0.114 sec
-Testcase: animate_misc.tex:159 took 0.112 sec
-Testcase: animate_misc.tex:160 took 0.112 sec
+Testcase: animate_misc.tex:159 took 0.115 sec
+Testcase: animate_misc.tex:160 took 0.111 sec
 Testcase: animate_misc.tex:161 took 0.17 sec
-Testcase: animate_misc.tex:162 took 0.107 sec
-Testcase: animate_misc.tex:163 took 0.105 sec
+Testcase: animate_misc.tex:162 took 0.104 sec
+Testcase: animate_misc.tex:163 took 0.108 sec

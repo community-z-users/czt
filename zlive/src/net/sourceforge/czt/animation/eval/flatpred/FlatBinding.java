@@ -1,20 +1,39 @@
-/*
- * FlatBinding.java
- *
- * Created on 06 April 2005, 16:03
- */
+/**
+Copyright (C) 2006 Mark Utting
+This file is part of the CZT project.
+
+The CZT project contains free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+The CZT project is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with CZT; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
 
 package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.util.ArrayList;
 import java.util.BitSet;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.logging.*;
+import java.util.logging.Logger;
+
 import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.ast.BindExpr;
+import net.sourceforge.czt.z.ast.ConstDecl;
+import net.sourceforge.czt.z.ast.Decl;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.ZDeclName;
+import net.sourceforge.czt.z.ast.ZRefName;
 import net.sourceforge.czt.z.util.Factory;
 
 /**
@@ -24,39 +43,34 @@ import net.sourceforge.czt.z.util.Factory;
  * explodes bind (a ZBinding term) into a set of names and expressions.
  *
  * @author leo
+ * @author marku  (Rewrote nextEvaluation, 3 Feb 2006)
  */
-public class FlatBinding extends FlatPred {
-    
-  private static final Logger sLogger
-    = Logger.getLogger("net.sourceforge.czt.animation.eval");
-
+public class FlatBinding extends FlatPred
+{
   protected Factory factory_ = new Factory();
 
   private List<ZDeclName> bindNames;
-  
+
   /** Constructs a FlatBinding FlatPred.
-      @param names The list of names in the binding (name1,name2,...nameN).
-      @param exprs The list of expressions (e1,e2,...,eN).
-      @param bind  The ZBinding term that contains names and exprs.
-  */
-  public FlatBinding(List<ZDeclName> names,
-		     List<ZRefName> exprs, 
-		     ZRefName bind)
+   @param names The list of names in the binding (name1,name2,...nameN). (no duplicates)
+   @param exprs The list of expressions (e1,e2,...,eN).
+   @param bind  The name of the BindExpr \lblot name1==e1, ... nameN==eN \rblot.
+   */
+  public FlatBinding(List<ZDeclName> names, List<ZRefName> exprs,
+      ZRefName bind)
   {
-    sLogger.entering("FlatBinding","FlatBinding");
     assert names.size() == exprs.size();
 
     if ((new HashSet<ZDeclName>(names)).size() != names.size())
-      throw new IllegalArgumentException("FlatBinding contains duplicate names: " + names);
+      throw new IllegalArgumentException(
+          "FlatBinding contains duplicate names: " + names);
 
     bindNames = names;
     args = new ArrayList<ZRefName>();
     args.addAll(exprs);
     args.add(bind);
     solutionsReturned = -1;
-    sLogger.exiting("FlatBinding","FlatBinding");
   }
-    
 
   /** Same modes as FlatTuple
    * TODO: move this code up to FlatPred
@@ -81,75 +95,88 @@ public class FlatBinding extends FlatPred {
     return m;
   }
 
-    private boolean assertInputArgs() {
-        boolean result = evalMode_.isInput(args.size()-1);
-        if(!result) {
-            result = true;
-            for (int i=0;result && i<args.size()-1;i++)
-                result = evalMode_.isInput(i);
-        }
-        return result;
+  /** Checks that the binding is an input, or ALL the other parameters are inputs. */
+  private boolean assertInputArgs()
+  {
+    boolean result = evalMode_.isInput(args.size() - 1);
+    if (!result) {
+      result = true;
+      for (int i = 0; result && i < args.size() - 1; i++)
+        result = evalMode_.isInput(i);
     }
-    
-    public boolean nextEvaluation() {
-        assert (evalMode_ != null);
-        assert (solutionsReturned >= 0);
-        assert (assertInputArgs());
-        boolean result = false;        
-        if(solutionsReturned==0) {
-            //bindName contains the ZRefName which refers to the bind Expression in the env
-            ZRefName bindName = args.get(args.size()-1);
-            
-            solutionsReturned++;
-            
-            //The case where the bind itself is an input
-            if(evalMode_.isInput(args.size()-1)) {
-                BindExpr bindExpr = (BindExpr)evalMode_.getEnvir().lookup(bindName);                
-                List bindingsList = ((ZDeclList) bindExpr.getDeclList()).getDecl();
-                //no. of elements in env.binding should be same as that passed as inputs
-                if(bindingsList.size() == args.size()-1) {
-                    boolean flag = true;
-                    for(int i=0;i<bindingsList.size();i++) {
-                        //if a ZRefName is not in the env, then it is set seeing the value in env.bindings
-                        ConstDecl constDecl = (ConstDecl)args.get(i);                        
-                        ZRefName bindElemName = factory_.createZRefName(constDecl.getZDeclName());
-                        if(evalMode_.getEnvir().lookup(bindElemName) == null) {
-                            evalMode_.getEnvir().setValue(bindElemName, constDecl.getExpr());
-                        }
-                        //if a ZRefName is there in the env, it is checked to be equal to the corresponsing one in env.bindings
-                        else {
-                            if(!(evalMode_.getEnvir().lookup(bindElemName).equals(constDecl.getExpr())))
-                                flag = false;
-                        }
-                    }
-                    //the result is set to false even if one of the ZRefNames differs in the env.tuple and in the inputs
-                    result = flag;
-                }
+    return result;
+  }
+
+  public boolean nextEvaluation()
+  {
+    assert (evalMode_ != null);
+    assert (solutionsReturned >= 0);
+    assert (assertInputArgs());
+    boolean result = false;
+    if (solutionsReturned == 0) {
+      //bindName contains the ZRefName which refers to the bind Expression in the env
+      ZRefName bindName = args.get(args.size() - 1);
+
+      solutionsReturned++;
+      Envir env = evalMode_.getEnvir();
+
+      //The case where the binding itself is an input
+      if (evalMode_.isInput(args.size() - 1)) {
+        BindExpr bindExpr = (BindExpr) env.lookup(bindName);
+        List<Decl> bindingsList = bindExpr.getZDeclList().getDecl();
+        //no. of elements in env.binding should be same as bindNames
+        if (bindingsList.size() != bindNames.size())
+          throw new CztException("Type error: bindings have sizes "
+              +bindingsList.size()+" and "+bindNames.size());
+        result = true;  // we start optimistic
+        for (int i = 0; i < bindNames.size(); i++) {
+          ZRefName exprName = args.get(i);
+          ZDeclName boundName = bindNames.get(i);
+          // find the corresponding boundName in bindingsList
+          // TODO: this is O(N^2) in the length of the binding lists.
+          //       It would be more efficient to sort both lists first,
+          //       then do one pass over them.
+          ConstDecl cdecl = null;
+          for (Decl decl : bindingsList) {
+            if (((ConstDecl)decl).getDeclName().equals(boundName)) {
+              cdecl = (ConstDecl) decl;
+              break;
             }
-            //In case the tuple is not defined in the env, a new tuple is formed and added to the env
-            else {
-                result = true;
-                List exprList = new ArrayList(args.size()-1);
-                for(int i=0;i<args.size()-1;i++) {
-                    ConstDecl constDecl = (ConstDecl)args.get(i);
-                    ZRefName bindElemName = factory_.createZRefName(constDecl.getZDeclName());
-                    exprList.add(evalMode_.getEnvir().lookup(bindElemName));
-                }
-                Expr bindExpr =
-                  factory_.createBindExpr(factory_.createZDeclList(exprList));
-                evalMode_.getEnvir().setValue(bindName, bindExpr);
-            }
+          }
+          if (cdecl == null)
+            throw new CztException("Type error: binding does not contain: "+boundName);
+          //if exprName is not in the env, then it is set using the value in env.bindings
+          if (env.lookup(exprName) == null)
+              env.setValue(exprName, cdecl.getExpr());
+          else
+            // check that the two values are equal
+            if ( ! env.lookup(exprName).equals(cdecl.getExpr()))
+              result = false;
+          }
         }
-        return result;
-    }
-    
-    ///////////////////////// Pred methods ///////////////////////
-    
-    public Object accept(Visitor visitor) {
-        if (visitor instanceof FlatBindingVisitor) {
-            FlatBindingVisitor flatBindingVisitor = (FlatBindingVisitor) visitor;
-            return flatBindingVisitor.visitFlatBinding(this);
+      else {
+        // create a new binding and add it to the env
+        result = true;
+        List<Decl> declList = new ArrayList<Decl>(bindNames.size());
+        for (int i = 0; i < bindNames.size(); i++) {
+          ConstDecl cdecl = factory_.createConstDecl(bindNames.get(i), env.lookup(args.get(i)));
+          declList.add(cdecl);
         }
-        return super.accept(visitor);
+        Expr bindExpr = factory_.createBindExpr(factory_.createZDeclList(declList));
+        env.setValue(bindName, bindExpr);
+      }
     }
+    return result;
+  }
+
+  ///////////////////////// Pred methods ///////////////////////
+
+  public Object accept(Visitor visitor)
+  {
+    if (visitor instanceof FlatBindingVisitor) {
+      FlatBindingVisitor flatBindingVisitor = (FlatBindingVisitor) visitor;
+      return flatBindingVisitor.visitFlatBinding(this);
+    }
+    return super.accept(visitor);
+  }
 }
