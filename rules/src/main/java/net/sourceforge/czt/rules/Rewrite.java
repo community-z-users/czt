@@ -77,14 +77,26 @@ public class Rewrite
 
   public Object visitExpr(Expr expr)
   {
-    Expr newExpr = (Expr) rewrite(manager_, section_, expr, rules_);
-    return VisitorUtils.visitTerm(this, newExpr, true);
+    Expr oldExpr = expr;
+    // apply rules until no more changes
+    do {
+      oldExpr = expr;
+      expr = (Expr) rewriteOnce(manager_, section_, expr, rules_);
+    } while (expr != oldExpr);
+    // now recurse into subexpressions
+    return VisitorUtils.visitTerm(this, expr, true);
   }
 
   public Object visitPred(Pred pred)
   {
-    Pred newPred = (Pred) rewrite(manager_, section_, pred, rules_);
-    return VisitorUtils.visitTerm(this, newPred, true);
+    Pred oldPred = pred;
+    // apply rules until no more changes
+    do {
+      oldPred = pred;
+      pred = (Pred) rewriteOnce(manager_, section_, pred, rules_);
+    } while (pred != oldPred);
+    // now recurse into subexpressions
+    return VisitorUtils.visitTerm(this, pred, true);
   }
 
   /**
@@ -94,7 +106,7 @@ public class Rewrite
    * are not rewritten.  If the prover fails, the given expression
    * itself is returned.
    */
-  public static Object rewrite(SectionManager manager,
+  public static Object rewriteOnce(SectionManager manager,
                                String section,
                                Expr expr,
                                RuleTable rules)
@@ -119,7 +131,7 @@ public class Rewrite
    * predicate are not rewritten.  If the prover fails, the given
    * predicate itself is returned.
    */
-  public static Object rewrite(SectionManager manager,
+  public static Object rewriteOnce(SectionManager manager,
                                String section,
                                Pred pred,
                                RuleTable rules)
@@ -140,7 +152,7 @@ public class Rewrite
    * Recurses into a Spec or ZSect and rewrites predicates and
    * expressions using the given rules.
    *
-   * @throws NullPointerExcpetion if term is <code>null</code>.
+   * @throws NullPointerException if term is <code>null</code>.
    */
   public static Term rewrite(SectionManager manager,
                              Term term,
@@ -154,7 +166,7 @@ public class Rewrite
    * Recurses into a term and rewrites predicates and
    * expressions using the given rules.
    *
-   * @throws NullPointerExcpetion if term is <code>null</code>.
+   * @throws NullPointerException if term is <code>null</code>.
    */
   public static Term rewrite(SectionManager manager,
                              String section,
