@@ -134,3 +134,14 @@ Measured FlatMult code coverage: 73% branch and 89% stmt, which is
 one branch higher than the manual JUnit tests (68% branch and 89% stmt).
 
 
+
+Fri 3 Feb 2006:
+---------------
+Wrote tests for FlatBinding, using FlatPredModel.
+Took 2.5 hours in total (roughly 40 mins to write test, 30 of which was to construct SUT)
+Found two SUT errors (which led to complete rewrite of nextEvaluation()).
+   1.  Class cast error, due to wrong types in List.
+   2.  Problems with equality between ZDeclNames.
+Found two model parameterization errors
+   1.  Needed to add OOO mode (which is same as "O") in testEmpty.
+   2.  Wrong number of params in "III" string for testEmpty.  Should be "I".
