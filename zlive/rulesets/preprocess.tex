@@ -28,10 +28,10 @@ larger terms).
 
 Declare the jokers used in these rules.
 
-\begin{zedjoker}{DeclList} D, D1, D2, D3 \end{zedjoker}
-\begin{zedjoker}{Pred} P, P1, P2, P3 \end{zedjoker}
-\begin{zedjoker}{Expr} E, E1, E2, E3 \end{zedjoker}
-\begin{zedjoker}{Name} v, v1, v2, v3 \end{zedjoker}
+\begin{zedjoker}{DeclList} D, D1, D2, D3, D4 \end{zedjoker}
+\begin{zedjoker}{Pred} P, P1, P2, P3, P4 \end{zedjoker}
+\begin{zedjoker}{Expr} E, E1, E2, E3, E4 \end{zedjoker}
+\begin{zedjoker}{Name} v, v1, v2, v3, v4 \end{zedjoker}
 
 \newcommand{\unfoldsTo}{\mathrel{\leadsto}}
 
@@ -314,5 +314,48 @@ implement $\dcat$ as a ZLive primitive.
 %             \THEN \{\} 
 %             \ELSE (\dcat (head~E)) \cat (\dcat (tail~E))
 %\end{zedrule}
+
+\begin{zedrule}{Schema}
+  [D | true] \unfoldsTo [D1 | P2] \\
+  \proviso E == binding [D1 | true]
+\derives
+  [D | P] = \{ D1 | P \land P2 @ E \}
+\end{zedrule}
+
+\begin{zedrule}{VarDecl}
+   \proviso E : \power E2 \\
+   [D1 | true] \unfoldsTo [D2 | P2]
+\derives
+   [v:E; D1 | true] \unfoldsTo [v:E2; D2 |  v \in E \land P2]
+\end{zedrule}
+
+\begin{zedrule}{SchemaRef}
+  \proviso ?~ v == [D1 | P1] \\
+  [D1 | true] \unfoldsTo [D2 | P2]
+\derives
+  v \unfoldsTo [D2 | P1 \land P2]
+\end{zedrule}
+
+
+\begin{zedrule}{IncludeDecl}
+   v \unfoldsTo [D1 | P1] \\
+   [D | true] \unfoldsTo [D2 | P2] \\
+   \proviso [D1 | true] \land [D2 | true] : \power [D3]
+\derives
+   [v; D | true] \unfoldsTo [D3 |  P1 \land P2]
+\end{zedrule}
+
+\begin{zedrule}{Empty}
+   [~ | true] \unfoldsTo [~ | true]
+\end{zedrule}
+
+\begin{zedrule}{DecorDecl}
+   v \unfoldsTo [D1 | P1] \\
+   \proviso [D2|P2] == [D1|P1]~' \\
+   [D | true] \unfoldsTo [D3 | P3] \\
+   \proviso [D2 | true] \land [D3 | true] : \power [D4]
+\derives
+   [v~'; D | true] \unfoldsTo [D4 | P2 \land P3]
+\end{zedrule}
 
 \end{document}
