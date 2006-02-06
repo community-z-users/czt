@@ -95,7 +95,8 @@ public class Flatten
   /** Throws a 'not yet implemented' exception. */
   protected ZRefName notYet(Term t, String msg) {
     throw new RuntimeException("Flatten does not yet handle: " + t
-			       + "   ("+msg+")");
+			       + " (" + TextUI.printTerm(t, zlive_.getMarkup())
+                               + ") " + msg);
   }
 
   public Flatten(ZLive zlive)

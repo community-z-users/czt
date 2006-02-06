@@ -195,8 +195,12 @@ public class ZLive
     predlist_.addPred(pred);
     Envir env0 = new Envir();
     Mode m = predlist_.chooseMode(env0);
-    if (m == null)
-      throw new EvalException("Cannot find mode to evaluate " + pred);
+    if (m == null) {
+      final String message =
+        "Cannot find mode to evaluate " + pred +
+        " (" + TextUI.printTerm(pred, markup_) + ")";
+      throw new EvalException(message);
+    }
     predlist_.setMode(m);
     predlist_.startEvaluation();
     Pred result;
@@ -229,8 +233,12 @@ public class ZLive
     ZRefName resultName = predlist_.addExpr(expr);
     Envir env0 = new Envir();
     Mode m = predlist_.chooseMode(env0);
-    if (m == null)
-      throw new EvalException("Cannot find mode to evaluate " + expr);
+    if (m == null) {
+      final String message =
+        "Cannot find mode to evaluate " + expr +
+        " (" + TextUI.printTerm(expr, markup_) + ")";
+      throw new EvalException(message);
+    }
     predlist_.setMode(m);
     predlist_.startEvaluation();
     if ( ! predlist_.nextEvaluation())
