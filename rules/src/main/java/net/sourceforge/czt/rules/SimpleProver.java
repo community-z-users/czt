@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Mark Utting
+  Copyright (C) 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -20,6 +20,7 @@
 package net.sourceforge.czt.rules;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.rules.ast.*;
@@ -65,6 +66,11 @@ public class SimpleProver
     section_ = section;
   }
 
+  private Logger getLogger()
+  {
+    return Logger.getLogger(getClass().getName());
+  }
+
   /**
    * Tries all known rules to prove the sequent.
    * Returns <code>true</code> if this succeeds,
@@ -72,22 +78,28 @@ public class SimpleProver
    */
   public boolean prove(PredSequent predSequent)
   {
-    for (Iterator<Rule> i = rules_.iterator(); i.hasNext(); ) {
-      Rule rule = i.next();
+    for (Iterator<Rule> iter = rules_.iterator(); iter.hasNext(); ) {
+      Rule rule = iter.next();
+      String message = "Trying rule " + rule.getName();
+      getLogger().config(message);
       try {
         boolean success = apply(rule, predSequent);
         if (success && prove(predSequent.getDeduction())) {
+          message = "Rule " + rule.getName() + " succeeded";
+          getLogger().config(message);
           return true;
         }
         else {
           undo(predSequent);
-        }
+          message = "Rule " + rule.getName() + " failed";
+          getLogger().config(message);
+       }
       }
       catch (IllegalArgumentException e) {
-        String message =
+        message =
           "PredSequent cannot be applied to rule " + rule.getName() + ": "
           + e.getMessage();
-        System.err.println(message);
+        getLogger().warning(message);
       }
     }
     return false;
