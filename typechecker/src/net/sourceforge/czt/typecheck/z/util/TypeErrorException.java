@@ -34,7 +34,7 @@ public class TypeErrorException extends RuntimeException {
         fErrors.addAll(errors);
     }
     
-    public List<? extends ErrorAnn> errors() {
+    public List<ErrorAnn> errors() {
         return Collections.unmodifiableList(fErrors);
     }
 }
