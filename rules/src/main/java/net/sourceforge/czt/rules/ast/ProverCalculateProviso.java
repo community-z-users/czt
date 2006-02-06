@@ -50,6 +50,7 @@ public class ProverCalculateProviso
 
   public void check(SectionManager manager, String section)
   {
+    Factory factory_ = new Factory();
     final Expr expr = getRightExpr();
     if (expr instanceof DecorExpr) {
       final DecorExpr decorExpr = (DecorExpr) expr;
@@ -92,6 +93,97 @@ public class ProverCalculateProviso
         }
       }
     }
+    else if (expr instanceof ApplExpr) {
+      ApplExpr applExpr = (ApplExpr) expr;
+      Expr left = applExpr.getLeftExpr();
+      if (left instanceof RefExpr) {
+        RefExpr refExpr = (RefExpr) left;
+        RefName refName = refExpr.getRefName();
+        if (refName instanceof ZRefName) {
+          ZRefName zRefName = (ZRefName) refName;
+          if ("binding".equals(zRefName.getWord())) {
+            Expr rightExpr = applExpr.getRightExpr();
+            if (rightExpr instanceof SchExpr) {
+              SchExpr schExpr = (SchExpr) rightExpr;
+              SchText schText = schExpr.getSchText();
+              if (schText instanceof ZSchText) {
+                ZSchText zSchText = (ZSchText) schText;
+                ZDeclList zDeclList =
+                  zSchText.accept(new GetZDeclList(factory_));
+                ZDeclList newZDeclList = factory_.createZDeclList();
+                for (Decl decl : zDeclList) {
+                  if (decl instanceof VarDecl) {
+                    VarDecl varDecl = (VarDecl) decl;
+                    for (DeclName declName : varDecl.getDeclName()) {
+                      ZDeclName zDeclName =
+                        declName.accept(new GetZDeclName());
+                      Object[] children = { zDeclName.getWord(),
+                                            zDeclName.getStroke(),
+                                            null };
+                      ZDeclName newZDeclName =
+                        factory_.createZDeclName(zDeclName.getWord(),
+                                                 zDeclName.getStroke());
+                      ZRefName newZRefName =
+                        factory_.createZRefName(zDeclName.getWord(),
+                                                zDeclName.getStroke());
+                      RefExpr newRefExpr =
+                        factory_.createRefExpr(newZRefName);
+                      ConstDecl constDecl =
+                        factory_.createConstDecl(newZDeclName,
+                                                 newRefExpr);
+                      newZDeclList.add(constDecl);
+                    }
+                  }
+                  else {
+                    final String message = decl.getClass() +
+                      " is not a supported Decl " +
+                      " for the calculate proviso";
+                    throw new CztException(message);
+                  }
+                }
+                BindExpr bindExpr = factory_.createBindExpr(newZDeclList);
+                unify(bindExpr, getLeftExpr());
+                return;
+              }
+              else {
+                final String message = schText.getClass() +
+                  " is not a supported SchText " +
+                  " for the calculate proviso";
+                throw new CztException(message);
+              }
+            }
+            else {
+              final String message = rightExpr.getClass() +
+                " is not supported by the binding function " +
+                "of the calculate proviso";
+              throw new CztException(message);
+            }
+          }
+          else {
+            final String message = zRefName.getWord() +
+              " is not supported by the calculate proviso";
+            throw new CztException(message);
+          }
+        }
+        else {
+          final String message = refName.getClass() +
+            " is not a supported RefName " +
+            " for the calculate proviso";
+          throw new CztException(message);
+        }
+      }
+      else {
+        final String message = left.getClass() +
+          " not supported as left exprssion" +
+          "of ApplExpr by calculate proviso";
+        throw new CztException(message);
+      }
+    }
+    else {
+      final String message =
+        expr.getClass() + " not supported in calculate proviso";
+      throw new CztException(message);
+    }
     status_ = Status.UNKNOWN;
   }
 
@@ -130,8 +222,9 @@ public class ProverCalculateProviso
     return status_;
   }
 
-  public static class GetDeclList
-    implements HeadDeclListVisitor<ZDeclList>,
+  public static class GetZDeclList
+    implements TermVisitor<ZDeclList>,
+               HeadDeclListVisitor<ZDeclList>,
                JokerDeclListVisitor<ZDeclList>,
                SchExprVisitor<ZDeclList>,
                ZDeclListVisitor<ZDeclList>,
@@ -139,9 +232,17 @@ public class ProverCalculateProviso
   {
     private Factory factory_;
 
-    public GetDeclList(Factory factory)
+    public GetZDeclList(Factory factory)
     {
       factory_ = factory;
+    }
+
+    public ZDeclList visitTerm(Term term)
+    {
+      final String message = term.getClass() +
+        " is not a supported DeclList " +
+        " for the calculate proviso";
+      throw new CztException(message);
     }
 
     public ZDeclList visitHeadDeclList(HeadDeclList headDeclList)
@@ -173,12 +274,47 @@ public class ProverCalculateProviso
         Term boundTo = joker.boundTo();
         if (boundTo != null) return boundTo.accept(this);
       }
-      return null;
+      final String message = jokerDeclList.getClass() +
+        " is not a supported JokerDeclList " +
+        " for the calculate proviso";
+      throw new CztException(message);
     }
 
     public ZDeclList visitZDeclList(ZDeclList zDeclList)
     {
       return zDeclList;
+    }
+  }
+
+  public static class GetZDeclName
+    implements TermVisitor<ZDeclName>,
+               JokerDeclNameVisitor<ZDeclName>,
+               ZDeclNameVisitor<ZDeclName>
+  {
+    public ZDeclName visitTerm(Term term)
+    {
+      final String message = term.getClass() +
+        " is not a supported DeclName " +
+        " for the calculate proviso";
+      throw new CztException(message);
+    }
+
+    public ZDeclName visitJokerDeclName(JokerDeclName jokerDeclName)
+    {
+      if (jokerDeclName instanceof ProverJokerDeclName) {
+        Joker joker = (Joker) jokerDeclName;
+        Term boundTo = joker.boundTo();
+        if (boundTo != null) return boundTo.accept(this);
+      }
+      final String message = jokerDeclName.getClass() +
+        " is not a supported JokerDeclName " +
+        " for the calculate proviso";
+      throw new CztException(message);
+    }
+
+    public ZDeclName visitZDeclName(ZDeclName zDeclName)
+    {
+      return zDeclName;
     }
   }
 
