@@ -266,4 +266,11 @@ public class TextUI {
     }
     out.flush();
   }
+
+  public static String printTerm(Term term, Markup markup)
+  {
+    StringWriter stringWriter = new StringWriter();
+    printTerm(new PrintWriter(stringWriter), term, markup);
+    return stringWriter.toString();
+  }
 }
