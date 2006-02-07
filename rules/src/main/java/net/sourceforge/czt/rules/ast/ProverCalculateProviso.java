@@ -125,7 +125,8 @@ public class ProverCalculateProviso
                                                  zDeclName.getStroke());
                       ZRefName newZRefName =
                         factory_.createZRefName(zDeclName.getWord(),
-                                                zDeclName.getStroke());
+                                                zDeclName.getStroke(),
+                                                zDeclName);
                       RefExpr newRefExpr =
                         factory_.createRefExpr(newZRefName);
                       ConstDecl constDecl =
