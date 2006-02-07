@@ -362,6 +362,11 @@ public class Flatten
         result = zlive_.createNewName();
         flat_.add(new FlatRangeSet(null,null,result));
       }
+    else if (result.getWord().equals(ZString.ARITHMOS)
+          && result.getStroke().isEmpty()) {
+        result = zlive_.createNewName();
+        flat_.add(new FlatRangeSet(null,null,result));
+      }
     else {
       // Try to unfold this name via a (non-generic) definition.
       DefinitionTable.Definition def = table_.lookup(e.getRefName().toString());
