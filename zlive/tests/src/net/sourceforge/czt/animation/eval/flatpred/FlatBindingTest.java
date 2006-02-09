@@ -23,12 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.czt.animation.eval.ZTestCase;
-import net.sourceforge.czt.modeljunit.coverage.ActionCoverage;
-import net.sourceforge.czt.modeljunit.coverage.CoverageHistory;
-import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
-import net.sourceforge.czt.modeljunit.coverage.StateCoverage;
-import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
-import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;
+import net.sourceforge.czt.modeljunit.ModelTestCase;
 import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.ZDeclName;
@@ -55,7 +50,8 @@ public class FlatBindingTest
                             new Eval(1, "O", bind),
                             new Eval(1, "I", bind)
                             );
-    fsmRandomWalk(iut, 1500);
+    ModelTestCase model = new ModelTestCase(iut);
+    model.randomWalk(1500);
   }
 
   public void testMBT()
@@ -75,6 +71,7 @@ public class FlatBindingTest
                             new Eval(1, "???", i3, i4, bind),
                             new Eval(0, "I?I", i2, i5, bind)
                             );
+    ModelTestCase model = new ModelTestCase(iut);
     /*
     CoverageHistory actions = new CoverageHistory(new ActionCoverage(), interval);
     CoverageHistory states = new CoverageHistory(new StateCoverage(), interval);
@@ -85,7 +82,7 @@ public class FlatBindingTest
     addCoverageMetric(trans);
     addCoverageMetric(tpair);
     */
-    fsmRandomWalk(iut, 1500);
+    model.randomWalk(1500);
 
     /*
     // We print a vertical table of coverage statistics.

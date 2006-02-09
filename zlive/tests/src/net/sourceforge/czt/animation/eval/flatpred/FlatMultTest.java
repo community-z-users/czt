@@ -19,12 +19,14 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval.flatpred;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.ZTestCase;
+import net.sourceforge.czt.modeljunit.ModelTestCase;
 import net.sourceforge.czt.modeljunit.coverage.ActionCoverage;
 import net.sourceforge.czt.modeljunit.coverage.CoverageHistory;
 import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
@@ -48,6 +50,7 @@ public class FlatMultTest
   private FlatPred pred = new FlatMult(x,y,z);
 
   public void testMBT()
+  throws FileNotFoundException
   {
     int interval = 2;
     FlatPredModel iut = new FlatPredModel(pred, new ZRefName[] {x,y,z},
@@ -55,24 +58,25 @@ public class FlatMultTest
                             new Eval(1, "???", i3, i4, i12),
                             new Eval(0, "I?I", i2, i5, i11) // 11 is prime
                             );
+    ModelTestCase model = new ModelTestCase(iut);
     CoverageHistory actions = new CoverageHistory(new ActionCoverage(), interval);
     CoverageHistory states = new CoverageHistory(new StateCoverage(), interval);
     CoverageHistory trans = new CoverageHistory(new TransitionCoverage(), interval);
     CoverageHistory tpair = new CoverageHistory(new TransitionPairCoverage(), interval);
-    addCoverageMetric(actions);
-    addCoverageMetric(states);
-    addCoverageMetric(trans);
-    addCoverageMetric(tpair);
-    fsmRandomWalk(iut, 1500);
+    model.addCoverageMetric(actions);
+    model.addCoverageMetric(states);
+    model.addCoverageMetric(trans);
+    model.addCoverageMetric(tpair);
+    model.randomWalk(1500);
 
     // We print a vertical table of coverage statistics.
     // First we build the graph, so we get more accurate stats
     // (this also adds some transitions to the end of the history).
-    fsmBuildGraph(iut);
+    model.buildGraph();
     int minlen = Integer.MAX_VALUE;
     List<List<Integer>> table = new ArrayList<List<Integer>>();
     System.out.print("Transitions");
-    for (CoverageMetric cm : getCoverageMetrics()) {
+    for (CoverageMetric cm : model.getCoverageMetrics()) {
       if (cm instanceof CoverageHistory) {
         System.out.print(","+cm.getName());
         List<Integer> history = ((CoverageHistory)cm).getHistory();
@@ -88,13 +92,15 @@ public class FlatMultTest
         System.out.print(","+hist.get(i));
       System.out.println();
     }
+    model.printGraphDot("FlatMult.dot");
   }
 
   public static void main(String[] args)
+  throws FileNotFoundException
   {
     new FlatMultTest().testMBT();
   }
-  
+
   public void testEmpty()
   {
     Assert.assertNull("should not return a mode", pred.chooseMode(empty));

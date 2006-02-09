@@ -19,12 +19,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval;
 
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import net.sourceforge.czt.modeljunit.ModelTestCase;
+import junit.framework.Assert;
+import junit.framework.TestCase;
 import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.Source;
@@ -45,8 +41,7 @@ import net.sourceforge.czt.z.util.Factory;
  *
  * @author Mark Utting
  */
-public class ZTestCase
-  extends ModelTestCase
+public class ZTestCase extends TestCase
 {
   protected static ZLive zlive_ = new ZLive();
   
@@ -114,7 +109,7 @@ public class ZTestCase
       e.setMarkup(Markup.LATEX);
       return (Expr) ParseUtils.parseExpr(e, null, zlive_.getSectionManager());
     } catch (Exception e) {
-      fail("Error parsing expr: " + latexString);
+      Assert.fail("Error parsing expr: " + latexString);
     }
     // not reached
     return null;

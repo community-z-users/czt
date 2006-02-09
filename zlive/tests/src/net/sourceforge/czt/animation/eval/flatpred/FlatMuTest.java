@@ -19,11 +19,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval.flatpred;
 
+import java.io.FileNotFoundException;
 import java.util.logging.Level;
 
 import net.sourceforge.czt.animation.eval.Flatten;
 import net.sourceforge.czt.animation.eval.ZFormatter;
 import net.sourceforge.czt.animation.eval.ZTestCase;
+import net.sourceforge.czt.modeljunit.ModelTestCase;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.MuExpr;
 import net.sourceforge.czt.z.ast.ZRefName;
@@ -39,6 +41,7 @@ public class FlatMuTest
   extends ZTestCase
 {
   public void testMu1()
+  throws FileNotFoundException
   {
     MuExpr mu = (MuExpr) parseExpr("(\\mu a:x \\upto y @ a*a)");
 
@@ -46,7 +49,7 @@ public class FlatMuTest
     sch.addSchText(mu.getZSchText());
     ZRefName resultName = sch.addExpr(mu.getExpr());
     FlatMu pred = new FlatMu(sch, resultName);
-    
+
     FlatPredModel iut =
       new FlatPredModel(pred,
         new ZRefName[] {x,y,resultName},
@@ -54,10 +57,14 @@ public class FlatMuTest
         new Eval(1, "II?", i2, i2, i4),
         new Eval(-1, "II?", i2, i1, i4)   // should throw undef
     );
-    fsmRandomWalk(iut, 200);
+    ModelTestCase model = new ModelTestCase(iut);
+    model.randomWalk(200);
+    model.buildGraph();
+    model.printGraphDot("FlatMu1.dot");
   }
 
   public void testMu2()
+  throws FileNotFoundException
   {
     MuExpr mu = (MuExpr) parseExpr("(\\mu a,b:x \\upto y @ a \\div 2)");
 
@@ -73,10 +80,14 @@ public class FlatMuTest
         new Eval(1, "II?", i2, i3, i1),   // ok, because 2/2 = 3/2.
         new Eval(-1, "IIO", i2, i4, i1)   // should throw undef
     );
-    fsmRandomWalk(iut, 200);
+    ModelTestCase model = new ModelTestCase(iut);
+    model.randomWalk(200);
+    model.buildGraph();
+    model.printGraphDot("FlatMu2.dot");
   }
 
   public void testMuImplicit()
+  throws FileNotFoundException
   {
     ZFormatter.startLogging("zlive.log", Level.FINEST);
 
@@ -100,7 +111,10 @@ public class FlatMuTest
         new Eval(1, "I?", i5, pair),
         new Eval(-1, "IO", i20, pair)  // should throw undef
     );
-    fsmRandomWalk(iut, 200);
+    ModelTestCase model = new ModelTestCase(iut);
+    model.randomWalk(200);
+    model.buildGraph();
+    model.printGraphDot("FlatMu3.dot");
     ZFormatter.stopLogging();
   }
 }
