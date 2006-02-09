@@ -23,12 +23,13 @@ import java.io.FileNotFoundException;
 
 import junit.framework.Assert;
 import junit.framework.Test;
+import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
  * Unit test for ModelJUnit
  */
-public class QuiDoncTest extends ModelTestCase
+public class QuiDoncTest extends TestCase
 {
   /**
    * Create the test case
@@ -51,16 +52,16 @@ public class QuiDoncTest extends ModelTestCase
   public static void testEnabled()
   throws FileNotFoundException
   {
-    QuiDonc quidonc = new QuiDonc();
-    fsmBuildGraph(quidonc);
-    fsmSaveGraph("QuiDonc.dot");
+    ModelTestCase model = new ModelTestCase(new QuiDonc());
+    model.buildGraph();
+    model.printGraphDot("QuiDonc.dot");
     // NOTE: with the State+timeouts getState, it has 11 vertices, 37 edges.
-    Assert.assertEquals(5, fsmGetGraph().numVertices());
-    int numEdges = fsmGetGraph().numEdges();
+    Assert.assertEquals(5, model.getGraph().numVertices());
+    int numEdges = model.getGraph().numEdges();
     System.out.println("QuiDonc has "+numEdges+" edges.");
-    // should be 18 transitions, but we cannot find the non-det
+    // should be 18 transitions, but we cannot find some of the non-det
     // wait transitions that are enabled only on the third wait call.
-    Assert.assertEquals(15, fsmGetGraph().numEdges());
+    Assert.assertEquals(17, model.getGraph().numEdges());
     // fsmDoAction(fsmGetAction("dial"));
   }
 }

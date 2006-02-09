@@ -18,6 +18,9 @@ Log of Design and Implementation Changes
 05Jan06: Added Transition-Pair coverage.
 11Jan06: Added fsmSaveGraph to write out the graph in DOT format.
 24Jan06: Added FsmModel interface.  Renamed init() to reset().
+08Feb06: Refactored to be independent of JUnit.  Most methods are non-static.
+09Feb06: Changed buildGraph to be incremental in the background.
+             Added fsmDone bitset as well as fsmTodo bitset.
 
 
 Experiences using ModelJUnit to test ZLive FlatPred subclasses

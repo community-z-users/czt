@@ -25,6 +25,7 @@ import java.util.List;
 
 import junit.framework.Assert;
 import junit.framework.Test;
+import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import net.sourceforge.czt.jdsl.graph.api.Edge;
 import net.sourceforge.czt.jdsl.graph.api.EdgeIterator;
@@ -40,8 +41,8 @@ import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;
 /**
  * Unit test for ModelJUnit
  */
-public class ModelTest extends ModelTestCase
-{
+public class ModelTest extends TestCase
+{  
   /**
    * Create the test case
    *
@@ -62,34 +63,35 @@ public class ModelTest extends ModelTestCase
 
   public static void testEnabled()
   {
-    fsmReset(new FSM(), true);
-    Assert.assertEquals("0", fsmGetState());
-    int action0 = fsmGetAction("action0");
-    int action1 = fsmGetAction("action1");
-    int action2 = fsmGetAction("action2");
-    int actionNone = fsmGetAction("actionNone");
-    int rubbish = fsmGetAction("rubbish");
+    ModelTestCase model = new ModelTestCase(new FSM());
+    model.doReset(true);
+    Assert.assertEquals("0", model.getCurrentState());
+    int action0 = model.fsmFindAction("action0");
+    int action1 = model.fsmFindAction("action1");
+    int action2 = model.fsmFindAction("action2");
+    int actionNone = model.fsmFindAction("actionNone");
+    int rubbish = model.fsmFindAction("rubbish");
     Assert.assertTrue(action0 >= 0);
     Assert.assertTrue(action1 >= 0);
     Assert.assertTrue(action2 >= 0);
     Assert.assertTrue(actionNone >= 0);
     Assert.assertEquals(-1, rubbish);
-    Assert.assertEquals("action0", fsmGetActionName(action0));
-    Assert.assertEquals("action1", fsmGetActionName(action1));
-    Assert.assertEquals("action2", fsmGetActionName(action2));
-    Assert.assertEquals("actionNone", fsmGetActionName(actionNone));
+    Assert.assertEquals("action0", model.getActionName(action0));
+    Assert.assertEquals("action1", model.getActionName(action1));
+    Assert.assertEquals("action2", model.getActionName(action2));
+    Assert.assertEquals("actionNone", model.getActionName(actionNone));
 
     // check enabled actions of state 0.
-    BitSet enabled = fsmEnabledActions();
+    BitSet enabled = model.currentEnabledActions();
     Assert.assertEquals(false, enabled.get(action0));
     Assert.assertEquals(false, enabled.get(action1));
     Assert.assertEquals(true, enabled.get(action2));
     Assert.assertEquals(true, enabled.get(actionNone));
 
     // Now take action2, to state 2, and check its enabled actions.
-    fsmDoAction(action2);
-    Assert.assertEquals("2", fsmGetState().toString());
-    enabled = fsmEnabledActions();
+    model.doAction(action2);
+    Assert.assertEquals("2", model.getCurrentState().toString());
+    enabled = model.currentEnabledActions();
     Assert.assertEquals(true, enabled.get(action0));
     Assert.assertEquals(true, enabled.get(action1));
     Assert.assertEquals(false, enabled.get(action2));
@@ -99,11 +101,10 @@ public class ModelTest extends ModelTestCase
   /** This tests a random walk, plus ActionCoverage metric with history.*/
   public static void testRandomWalk()
   {
-    FSM iut = new FSM();
-    fsmLoad(iut.getClass());
+    ModelTestCase model = new ModelTestCase(new FSM());
     CoverageHistory metric = new CoverageHistory(new ActionCoverage(), 1);
-    addCoverageMetric(metric);
-    fsmRandomWalk(iut, 4);
+    model.addCoverageMetric(metric);
+    model.randomWalk(4);
     int coverage = metric.getCoverage();
     Assert.assertEquals(3, coverage);
     Assert.assertEquals(-1, metric.getMaximum()); // unknown.
@@ -120,7 +121,7 @@ public class ModelTest extends ModelTestCase
       System.out.print(cov + ", ");
     System.out.println();
 
-    fsmResetCoverageMetrics();
+    model.resetCoverageMetrics();
     hist = metric.getHistory();
     Assert.assertNotNull(hist);
     Assert.assertEquals("History not reset.", 1, hist.size());
@@ -129,15 +130,15 @@ public class ModelTest extends ModelTestCase
 
   public static void testBuildGraph()
   {
-    FSM iut = new FSM();
-    fsmBuildGraph(iut);
-    InspectableGraph graph = fsmGetGraph();
+    ModelTestCase model = new ModelTestCase(new FSM());
+    model.buildGraph();
+    InspectableGraph graph = model.getGraph();
     // now check that the correct graph has been built.
     Assert.assertEquals(3, graph.numVertices());
     Assert.assertEquals(5, graph.numEdges());
-    Vertex s0 = fsmGetVertex("0");
-    Vertex s1 = fsmGetVertex("1");
-    Vertex s2 = fsmGetVertex("2");
+    Vertex s0 = model.getVertex("0");
+    Vertex s1 = model.getVertex("1");
+    Vertex s2 = model.getVertex("2");
     Assert.assertNotNull(s0);
     Assert.assertNotNull(s1);
     Assert.assertNotNull(s2);
@@ -175,21 +176,18 @@ public class ModelTest extends ModelTestCase
    */
   public void FsmCoverage(CoverageMetric metric, int max, int... expect)
   {
+    ModelTestCase model = new ModelTestCase(new FSM());
     // remove old coverage listeners
-    Iterator<CoverageMetric> iter = getCoverageMetrics().iterator();
-    while (iter.hasNext()) {
-      iter.next();
-      iter.remove();
-    }
+    model.removeAllCoverageMetrics();
     FSM iut = new FSM();
-    addCoverageMetric(metric);
+    model.addCoverageMetric(metric);
     System.out.println("Testing "+metric.getName());
     Assert.assertEquals(0, metric.getCoverage());
     Assert.assertEquals(-1, metric.getMaximum());
-    fsmBuildGraph(iut);
+    model.buildGraph();
     Assert.assertTrue(metric.getCoverage() > 0);
     Assert.assertEquals(max, metric.getMaximum());
-    fsmResetCoverageMetrics();
+    model.resetCoverageMetrics();
     Assert.assertEquals(0, metric.getCoverage());
     Assert.assertEquals(max, metric.getMaximum());
     Assert.assertEquals(0.0F, metric.getPercentage(), 0.1F);
@@ -198,7 +196,7 @@ public class ModelTest extends ModelTestCase
       int cov = expect[i+1];
       System.out.println("After random walk of length "+expect[i]+
           " we expect "+metric.getName()+" = "+cov);
-      fsmRandomWalk(iut, expect[i]);
+      model.randomWalk(expect[i]);
       Assert.assertEquals(cov, metric.getCoverage());
       Assert.assertEquals(max, metric.getMaximum());
       Assert.assertEquals((100.0F * cov)/max, metric.getPercentage(), 0.1F);
@@ -210,6 +208,7 @@ public class ModelTest extends ModelTestCase
    */
   public void testActionCoverage()
   {
+    System.out.println("Starting testActionCoverage");
     FsmCoverage(new ActionCoverage(), 4, 
         new int[] {1,1, 3,3, 20,4});
   }
@@ -219,8 +218,9 @@ public class ModelTest extends ModelTestCase
    */
   public void testStateCoverage()
   {
+    System.out.println("Starting testStateCoverage");
     FsmCoverage(new StateCoverage(), 3, 
-        new int[] {1,1, 2,2, 20,3});
+        new int[] {1,2, 2,3, 20,3});
   }
 
   /** This test is a bit dependent on the path of the random walk.
@@ -228,6 +228,7 @@ public class ModelTest extends ModelTestCase
    */
   public void testTransitionCoverage()
   {
+    System.out.println("Starting testTransitionCoverage");
     FsmCoverage(new TransitionCoverage(), 5, 
         new int[] {1,1, 3,3, 40,5});
   }
@@ -237,7 +238,8 @@ public class ModelTest extends ModelTestCase
    */
   public void testTransitionPairCoverage()
   {
+    System.out.println("Starting testTransitionPairCoverage");
     FsmCoverage(new TransitionPairCoverage(), 10, 
-        new int[] {1,0, 2,1, 3,2, 100,9, 200,10});
+        new int[] {1,0, 2,1, 3,2, 100,10, 200,10});
   }
 }
