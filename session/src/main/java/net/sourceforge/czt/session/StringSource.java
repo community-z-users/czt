@@ -27,6 +27,7 @@ import java.io.StringReader;
 public class StringSource
   extends Source
 {
+  private String source_ = "StringSource";
   private String string_;
 
   /**
@@ -38,9 +39,19 @@ public class StringSource
     string_ = value;
   }
 
+  /**
+   * @throws NullPointerException if value or source is <code>null</code>.
+   */
+  public StringSource(String value, String source)
+  {
+    if (value == null || source == null) throw new NullPointerException();
+    source_ = source;
+    string_ = value;
+  }
+
   public String toString()
   {
-    return "StringSource";
+    return source_;
   }
 
   protected InputStream getStream()
