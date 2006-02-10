@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005, 2006 Petra Malik
+  Copyright (C) 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -17,7 +17,7 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.print.z;
+package net.sourceforge.czt.print.oz;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -44,7 +44,7 @@ public class UnicodePrinterCommand
       PrintUtils.printUnicode(term, writer, manager);
       writer.close();
       manager.put(new Key(name, UnicodeString.class),
-                  new UnicodeString(writer.toString()));
+                  new UnicodeString(writer.toString(), "oz"));
       return true;
     }
     catch (IOException e) {

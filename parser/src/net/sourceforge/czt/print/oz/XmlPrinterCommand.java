@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005, 2006 Petra Malik
+  Copyright (C) 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -17,7 +17,7 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.print.z;
+package net.sourceforge.czt.print.oz;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -27,24 +27,26 @@ import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.ast.*;
-import net.sourceforge.czt.print.util.UnicodeString;
+import net.sourceforge.czt.print.util.XmlString;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
 
-public class UnicodePrinterCommand
+public class XmlPrinterCommand
   implements Command
 {
   public boolean compute(String name, SectionManager manager)
     throws CommandException
   {
     try {
+      JaxbXmlWriter xmlWriter = new JaxbXmlWriter();
       final Writer writer = new StringWriter();
       final Key key = new Key(name, Term.class);
       final Term term = (Term) manager.get(key);
-      PrintUtils.printUnicode(term, writer, manager);
+      xmlWriter.write(term, writer);
       writer.close();
-      manager.put(new Key(name, UnicodeString.class),
-                  new UnicodeString(writer.toString()));
+      manager.put(new Key(name, XmlString.class),
+                  new XmlString(writer.toString(), "oz"));
       return true;
     }
     catch (IOException e) {

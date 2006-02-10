@@ -27,6 +27,7 @@ import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.ast.*;
+import net.sourceforge.czt.print.util.LatexString;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
 
@@ -42,7 +43,8 @@ public class LatexPrinterCommand
       final Term term = (Term) manager.get(key);
       PrintUtils.printLatex(term, writer, manager);
       writer.close();
-      manager.put(new Key(name, String.class), writer.toString());
+      manager.put(new Key(name, LatexString.class),
+                  new LatexString(writer.toString()));
       return true;
     }
     catch (IOException e) {
