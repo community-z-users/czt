@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Petra Malik
+  Copyright (C) 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -21,6 +21,7 @@ package net.sourceforge.czt.parser.util;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZSect;
 
 public class TermCommand
@@ -29,9 +30,15 @@ public class TermCommand
   public boolean compute(String name, SectionManager manager)
     throws CommandException
   {
-    final Key key = new Key(name, ZSect.class);
-    final ZSect zsect = (ZSect) manager.get(new Key(name, ZSect.class));
-    manager.put(new Key(name, Term.class), zsect);
+    final Key newKey = new Key(name, Term.class);
+    Term term;
+    try {
+      term = (ZSect) manager.get(new Key(name, ZSect.class));
+    }
+    catch (CommandException exception) {
+      term = (Spec) manager.get(new Key(name, Spec.class));
+    }
+    manager.put(newKey, term);
     return true;
   }
 }
