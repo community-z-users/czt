@@ -1,0 +1,44 @@
+# Plugin properties
+
+# Basic plugin information properties
+plugin.zsidekick.ZSideKickPlugin.activate=defer
+plugin.zsidekick.ZSideKickPlugin.name=ZSideKick
+plugin.zsidekick.ZSideKickPlugin.author=Petra Malik
+plugin.zsidekick.ZSideKickPlugin.version=1.0
+plugin.zsidekick.ZSideKickPlugin.jars=czt.jar
+
+# Plugin dependency properties
+plugin.zsidekick.ZSideKickPlugin.depend.0=jdk 1.5
+plugin.zsidekick.ZSideKickPlugin.depend.1=jedit 04.00.04.00
+plugin.zsidekick.ZSideKickPlugin.depend.2=plugin errorlist.ErrorListPlugin 1.3
+plugin.zsidekick.ZSideKickPlugin.depend.3=plugin sidekick.SideKickPlugin 0.3
+
+# Plugin menu item properties
+plugin.zsidekick.ZSideKickPlugin.menu=zsidekick.toLatex \
+                                      zsidekick.toUnicode \
+                                      zsidekick.toXml
+
+# action labels
+zsidekick.toLatex.label=Convert to Latex mark-up
+zsidekick.toUnicode.label=Convert to Unicode mark-up
+zsidekick.toXml.label=Convert to XML
+
+# Option pane
+plugin.zsidekick.ZSideKickPlugin.option-pane=zsidekick
+options.zsidekick.label=ZSideKick
+options.zsidekick.code=new zsidekick.OptionPane();
+options.zsidekick.standardConformance=<html><h3>Extensions to Z Standard</h3></html>
+options.zsidekick.extractCommaOrSemi=Extract comma, semicolon, and dot from the beginning and end of a DECORWORD
+options.zsidekick.addSpaceBeforeLatexPunctation=Add space before latex punctation (, and ; characters)
+options.zsidekick.ignoreUnknownLatexCommands=Allow latex commands that do not have mark-up directives
+options.zsidekick.resetButton=Reset all options to be Z Standard conforming
+
+# SideKick parsers
+sidekick.parser.z.label=Z
+mode.z.sidekick.parser=z
+sidekick.parser.oz.label=Object-Z
+mode.oz.sidekick.parser=oz
+sidekick.parser.zlatex.label=Z (Latex)
+mode.zlatex.sidekick.parser=zlatex
+sidekick.parser.ozlatex.label=Object-Z (Latex)
+mode.ozlatex.sidekick.parser=ozlatex

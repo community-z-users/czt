@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE ACTIONS SYSTEM "actions.dtd">
+
+<ACTIONS>
+  <ACTION NAME="zsidekick.toLatex">
+    <CODE>
+      parsedData = sidekick.SideKickParsedData.getParsedData(view);
+      manager = parsedData.getManager();
+      key = new net.sourceforge.czt.session.Key(buffer.getPath(),
+        net.sourceforge.czt.print.util.LatexString.class);
+      latex = manager.get(key);
+      buffer = org.gjt.sp.jedit.jEdit.newFile(view);
+      buffer.setStringProperty("encoding", "UTF-16");
+      buffer.setMode(latex.getExtension() + "latex");
+      buffer.insert(0, latex.toString());
+    </CODE>
+  </ACTION>
+  <ACTION NAME="zsidekick.toUnicode">
+    <CODE>
+      parsedData = sidekick.SideKickParsedData.getParsedData(view);
+      manager = parsedData.getManager();
+      key = new net.sourceforge.czt.session.Key(buffer.getPath(),
+        net.sourceforge.czt.print.util.UnicodeString.class);
+      unicode = manager.get(key);
+      buffer = org.gjt.sp.jedit.jEdit.newFile(view);
+      buffer.setStringProperty("encoding", "UTF-16");
+      buffer.setMode(unicode.getExtension());
+      buffer.insert(0, unicode.toString());
+    </CODE>
+  </ACTION>
+  <ACTION NAME="zsidekick.toXml">
+    <CODE>
+      parsedData = sidekick.SideKickParsedData.getParsedData(view);
+      manager = parsedData.getManager();
+      key = new net.sourceforge.czt.session.Key(buffer.getPath(),
+        net.sourceforge.czt.print.util.XmlString.class);
+      unicode = manager.get(key);
+      buffer = org.gjt.sp.jedit.jEdit.newFile(view);
+      buffer.setStringProperty("encoding", "UTF-8");
+      buffer.insert(0, unicode.toString());
+    </CODE>
+  </ACTION>
+</ACTIONS>

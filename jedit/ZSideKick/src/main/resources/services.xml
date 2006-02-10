@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE SERVICES SYSTEM "services.dtd">
+
+<SERVICES>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="z">
+    new zsidekick.ZParser();
+  </SERVICE>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="oz">
+    new zsidekick.OzParser();
+  </SERVICE>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="zlatex">
+    new zsidekick.ZLatexParser();
+  </SERVICE>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="ozlatex">
+    new zsidekick.OzLatexParser();
+  </SERVICE>
+</SERVICES>
