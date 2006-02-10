@@ -100,9 +100,13 @@ public class SectionManager
 
   public SectionManager()
   {
-    getLogger().config("Creating a new section manager");
-    final String standardZ = "z";
-    putCommands(standardZ);
+    this("z");
+  }
+
+  public SectionManager(String extension)
+  {
+    getLogger().config("Creating a new " + extension + " section manager");
+    putCommands(extension);
   }
 
   private Logger getLogger()
