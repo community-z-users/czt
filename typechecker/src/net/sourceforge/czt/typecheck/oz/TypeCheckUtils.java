@@ -170,16 +170,4 @@ public class TypeCheckUtils
   {
     return new TypeCheckCommand();
   }
-
-  /**
-   * A command to compute the SectTypeInfo of a Z section.
-   */
-  protected static class TypeCheckCommand
-    extends net.sourceforge.czt.typecheck.z.TypeCheckCommand
-  {
-    protected List<? extends ErrorAnn> typecheck(Term term,
-						 SectionManager manager) {
-      return TypeCheckUtils.typecheck(term, manager);
-    }
-  }
 }
