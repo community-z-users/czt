@@ -1,6 +1,6 @@
 /*
  * ZCharMap.java
- * Copyright (C) 2003, 2004, 2005 Mark Utting
+ * Copyright (C) 2003, 2004, 2006 Petra Malik
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,33 +19,17 @@
 
 import java.awt.event.*;
 import java.awt.*;
-import java.io.FileNotFoundException;
 import java.io.*;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Properties;
 import javax.swing.event.*;
 import javax.swing.table.*;
 import javax.swing.*;
 
 import org.gjt.sp.jedit.*;
+import org.gjt.sp.jedit.msg.*;
 import com.microstar.xml.*;
-import errorlist.*;
-
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.util.XmlWriter;
-import net.sourceforge.czt.parser.util.*;
-import net.sourceforge.czt.parser.z.*;
-import net.sourceforge.czt.print.z.PrintUtils;
-import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.typecheck.z.*;
-import net.sourceforge.czt.util.CztLogger;
-import net.sourceforge.czt.z.ast.NarrSect;
-import net.sourceforge.czt.z.ast.Sect;
-import net.sourceforge.czt.z.ast.Spec;
-import net.sourceforge.czt.z.ast.ZSect;
 
 /**
  * <p>A window containing a Z character map.</p>
@@ -58,7 +42,7 @@ import net.sourceforge.czt.z.ast.ZSect;
  *           (especially how to handle resizing and the first column).
  */
 public class ZCharMap extends JPanel
-  implements ParsePropertiesKeys
+  implements EBComponent
 {
   //############################################################
   //##################### MEMBER VARIABLES #####################
@@ -81,8 +65,6 @@ public class ZCharMap extends JPanel
    */
   private JLabel status;
 
-  private JComboBox extension;
-
   private RenderingHints renderingHints;
 
   private JButton convert_;
@@ -101,7 +83,7 @@ public class ZCharMap extends JPanel
   public ZCharMap(View view)
   {
     super(new BorderLayout());
-
+    EditBus.addToBus(this);
     mView = view;
 
     org.gjt.sp.jedit.textarea.TextAreaPainter textAreaPainter =
@@ -128,22 +110,6 @@ public class ZCharMap extends JPanel
 		RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
     }
     renderingHints = new RenderingHints(hints);
-
-    JPanel buttonRow = new JPanel();
-    extension =
-      new JComboBox(new String[] { "Standard Z", "Object-Z" });
-    extension.addActionListener(new ExtensionHandler());
-    buttonRow.add(extension);
-    JButton typecheckButton = new JButton("Typecheck");
-    typecheckButton.addActionListener(new TypecheckHandler());
-    buttonRow.add(typecheckButton);
-    convert_ = new JButton("Convert");
-    convert_.addActionListener(new ConvertHandler());
-    buttonRow.add(convert_);
-    JButton xmlButton = new JButton("to XML");
-    xmlButton.addActionListener(new XmlHandler());
-    buttonRow.add(xmlButton);
-    add(BorderLayout.NORTH, buttonRow);
 
     zTableModel_ = new ZCharTable(getClass().getResource("/ZTable.xml"));
     objectZTableModel_ =
@@ -174,19 +140,36 @@ public class ZCharMap extends JPanel
   //###################### METHODS #############################
   //############################################################
 
-  public boolean isStandardZ()
+  public void handleMessage(EBMessage message)
   {
-    return extension.getSelectedIndex() == 0;
-  }
-
-  public boolean isObjectZ()
-  {
-    return extension.getSelectedIndex() == 1;
+    if (message instanceof EditPaneUpdate) {
+      EditPaneUpdate editPaneUpdate = (EditPaneUpdate) message;
+      if (editPaneUpdate.getWhat() == editPaneUpdate.BUFFER_CHANGED) {
+        setTableModel();
+        mTable.repaint();
+      }
+    }
+    if (message instanceof ViewUpdate) {
+      ViewUpdate viewUpdate = (ViewUpdate) message;
+      if (viewUpdate.getWhat() == ViewUpdate.EDIT_PANE_CHANGED) {
+        setTableModel();
+        mTable.repaint();
+      }
+    }
+    else if (message instanceof BufferUpdate) {
+      BufferUpdate bufferUpdate = (BufferUpdate) message;
+      if (bufferUpdate.getWhat() == BufferUpdate.PROPERTIES_CHANGED) {
+        setTableModel();
+        mTable.repaint();
+      }
+    }
   }
 
   private void setTableModel()
   {
-    if (isObjectZ()) {
+    Mode mode = mView.getBuffer().getMode();
+    if (mode != null &&
+        ("oz".equals(mode.toString()) || "ozlatex".equals(mode.toString()))) {
       mTable.setModel(objectZTableModel_);
     }
     else {
@@ -343,7 +326,7 @@ public class ZCharMap extends JPanel
 	status.setText(" ");
       } else {
 	ZChar zchar = (ZChar) mTable.getModel().getValueAt(row,col);
-	if (Markup.UNICODE.equals(getMarkup())) {
+	if (isUnicode()) {
 	  mView.getTextArea().setSelectedText(zchar.getUnicode());
 	}
 	else {
@@ -380,410 +363,12 @@ public class ZCharMap extends JPanel
     }
   }
 
-  private Term parse(SectionManager manager)
-  {
-    try {
-      final Buffer buffer = mView.getBuffer();
-      if (buffer.isDirty()) {
-        try {
-          final String message = "Current buffer is unsaved.\n" +
-            "Continue with the original on-disk version?";
-          int answer =
-            JOptionPane.showConfirmDialog(mView,
-                                          message,
-                                          "CZT Question",
-                                          JOptionPane.YES_NO_OPTION);
-          if (answer == 1) {
-            CztLogger.getLogger(ZCharMap.class).info("Aborting parse.");
-            return null;
-          }
-        }
-        catch (HeadlessException exception) {
-          final String message = "Current buffer is unsaved.";
-          CztLogger.getLogger(ZCharMap.class).info(message);
-        }
-      }
-      Term term = parse(buffer, manager);
-      checkTerm(term);
-      return term;
-    }
-    catch (CommandException exception) {
-      Throwable cause = exception.getCause();
-      if (cause instanceof ParseException) {
-        CztLogger.getLogger(ZCharMap.class).info("Parse error(s) occurred.");
-        List errors = ((ParseException) cause).getErrorList();
-        for (Iterator iter = errors.iterator(); iter.hasNext(); ) {
-          Object next = iter.next();
-          ParseError parseError = (ParseError) next;
-          addError(mView.getBuffer().getPath(), parseError.getLine() - 1,
-                   parseError.getColumn() - 1, 0, parseError.getMessage());
-        }
-        String message = "Z parsing complete, " + computeErrorNumber();
-        mView.getStatus().setMessage(message);
-      }
-      else if (cause instanceof IOException) {
-        String message = "Input output error: " + cause.getMessage();
-        CztLogger.getLogger(ZCharMap.class).warning(message);
-        addError(mView.getBuffer().getPath(), 0, 0, 0 , message);
-      }
-      else {
-        String message = "Error while parsing: " + exception.getMessage();
-        CztLogger.getLogger(ZCharMap.class).warning(message);
-        addError(mView.getBuffer().getPath(), 0, 0, 0 , message);
-      }
-    }
-    return null;
-  }
-
-  private ErrorSource.Error[] getAllErrors()
-  {
-    return CommunityZToolsPlugin.errorSource_.getAllErrors();
-  }
-
-  private String computeErrorNumber()
-  {
-    ErrorSource.Error[] errors = getAllErrors();
-    int errorNr = 0;
-    int warningNr = 0;
-    if (errors != null) {
-      for (int i = 0; i < errors.length; i++) {
-        final int errorType = errors[i].getErrorType();
-        if (errorType == ErrorSource.ERROR) {
-          errorNr++;
-        }
-        else if (errorType == ErrorSource.WARNING) {
-          warningNr++;
-        }
-        else {
-          final String message = "Unexpected error type " + errorType;
-          CztLogger.getLogger(ZCharMap.class).warning(message);
-        }
-      }
-    }
-    return errorNr + " error(s), " + warningNr + " warning(s)";
-  }
-
-  private Term parse(Buffer buffer, SectionManager manager)
-    throws CommandException
-  {
-    final String filename = buffer.getPath();
-    final Source source = new FileSource(filename);
-    source.setEncoding(buffer.getStringProperty("encoding"));
-    source.setMarkup(getMarkup());
-    final String name = "jedit://buffer";
-    manager.put(new Key(name, Source.class), source);
-    return (Term) manager.get(new Key(name, Spec.class));
-  }
-
-  private Markup getMarkup()
+  private boolean isUnicode()
   {
     if (UNICODE_MODE.equals(mView.getBuffer().getMode().toString())) {
-      return Markup.UNICODE;
+      return true;
     }
-    else {
-      return Markup.LATEX;
-    }
-  }
-
-  private Properties getParseProperties()
-  {
-    final Properties properties = new Properties();
-    String propname =
-      CommunityZToolsPlugin.PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS;
-    String value = 
-      jEdit.getBooleanProperty(propname) ? "true" : "false";
-    properties.setProperty(PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS,
-                           value);
-    propname =
-      CommunityZToolsPlugin.PROP_SPACE_BEFORE_PUNCTATION;
-    value = 
-      jEdit.getBooleanProperty(propname) ? "true" : "false";
-    properties.setProperty(PROP_ADD_SPACE_BEFORE_PUNCTATION,
-                           value);
-    propname =
-      CommunityZToolsPlugin.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS;
-    value = jEdit.getBooleanProperty(propname) ? "true" : "false";
-    properties.setProperty(PROP_IGNORE_UNKNOWN_LATEX_COMMANDS,
-                           value);
-    return properties;
-  }
-
-  private void checkTerm(Term term)
-  {
-    if (term instanceof Spec) {
-      Spec spec = (Spec) term;
-      List sects = spec.getSect();
-      final boolean unnamedSectWithoutContent =
-        (sects.size() == 2) &&
-        (sects.get(0) instanceof NarrSect) &&
-        (sects.get(1) instanceof ZSect) &&
-        (((ZSect) sects.get(1)).getPara().size() == 0);
-      if (unnamedSectWithoutContent) {
-        String message = "No Z constructs found.";
-        CztLogger.getLogger(ZCharMap.class).warning(message);
-        addWarning(message);
-      }
-    }
-    else {
-      String message = "Unexpected term " + term.getClass().getName() + ".";
-      CztLogger.getLogger(ZCharMap.class).warning(message);
-    }
-  }
-
-  private void addError(String location,
-                        int line,
-                        int column,
-                        int length,
-                        String message)
-  {
-    addError(ErrorSource.ERROR, location, line, column, length, message);
-  }
-
-  private void addError(int errorType,
-                        String location,
-                        int line,
-                        int column,
-                        int length,
-                        String message)
-  {
-    if (line < 0) line = 0;
-    if (column < 0) column = 0;
-    if (length < 0) length = 0;
-    DefaultErrorSource.DefaultError error = 
-      new DefaultErrorSource.DefaultError(CommunityZToolsPlugin.errorSource_,
-                                          errorType,
-                                          location,
-                                          line,
-                                          column,
-                                          length,
-                                          message);
-    CommunityZToolsPlugin.errorSource_.addError(error);
-  }
- 
-  private void addWarning(String msg)
-  {
-    addError(ErrorSource.WARNING, mView.getBuffer().getPath(), 0, 0, 0, msg);
-  }
- 
-  private void clearErrorList()
-  {
-    CommunityZToolsPlugin.errorSource_.clear();
-  }
-
-  /**
-   * Creates a new section manager and sets the default commands
-   * depending on the extension selected by the user.
-   */
-  private SectionManager getSectionManager()
-  {
-    if (isObjectZ()) {
-      SectionManager manager = new SectionManager();
-      Command parseCommand =
-          net.sourceforge.czt.parser.oz.ParseUtils.getCommand();
-      manager.putCommand(Spec.class, parseCommand);
-      manager.putCommand(ZSect.class, parseCommand);
-      return manager;
-    }
-    else {
-      return new SectionManager();
-    }
-  }
-
-  private List<? extends ErrorAnn> typecheck(Term term, SectionManager manager)
-  {
-    if (isObjectZ()) {
-      return net.sourceforge.czt.typecheck.oz.TypeCheckUtils.typecheck(
-        term, manager);
-    }
-    else {
-      return TypeCheckUtils.typecheck(term, manager);
-    }
-  }
-
-  private void printErrors(List<? extends ErrorAnn> errors)
-  {
-    for (ErrorAnn errorAnn : errors) {
-      addError(mView.getBuffer().getPath(), errorAnn.getLine() - 1,
-               errorAnn.getColumn() - 1, 0, errorAnn.toString());
-    }
-    String message = "Z typechecking complete, " + computeErrorNumber();
-    mView.getStatus().setMessage(message);
-  }
-
-  public void typecheck()
-  {
-    clearErrorList();
-    CztLogger.getLogger(ZCharMap.class).info("Typechecking ...");
-    try {
-      SectionManager manager = getSectionManager();
-      Term term = parse(manager);
-      if (term != null) {
-        List<? extends ErrorAnn> errors = typecheck(term, manager);
-        printErrors(errors);
-        CztLogger.getLogger(ZCharMap.class).info("Done typechecking.");
-      }
-      else {
-        final String message = "Z typechecking aborted.";
-        CztLogger.getLogger(ZCharMap.class).info(message);
-      }
-    }
-    catch (Throwable exception) {
-      exception.printStackTrace();
-      CztLogger.getLogger(ZCharMap.class).info("CZT error occurred.");
-      String message = "Caught " + exception.getClass().getName() + ": " +
-        exception.getMessage();
-      addError(mView.getBuffer().getPath(), 0, 0, 0, message);
-    }
-  }
-
-  private XmlWriter getXmlWriter()
-  {
-    if (isObjectZ()) {
-      return new net.sourceforge.czt.oz.jaxb.JaxbXmlWriter();
-    }
-    else {
-      return new net.sourceforge.czt.z.jaxb.JaxbXmlWriter();
-    }
-  }
-
-  public void toXml()
-  {
-    clearErrorList();
-    try {
-      SectionManager manager = getSectionManager();
-      Term term = parse(manager);
-      if (term != null) {
-        XmlWriter writer = getXmlWriter();
-        Buffer buffer = jEdit.newFile(mView);
-        buffer.setStringProperty("encoding", "UTF-8");
-        StringWriter out = new StringWriter();
-        writer.write(term, out);
-        out.close();
-        buffer.insert(0, out.toString());
-      }
-      else {
-        String message = "Z conversion aborted.";
-        CztLogger.getLogger(ZCharMap.class).info(message);
-      }
-    }
-    catch (Throwable exception) {
-      CztLogger.getLogger(ZCharMap.class).info("CZT error occurred.");
-      String message = "Caught " + exception.getClass().getName() + ": " +
-        exception.getMessage();
-      System.err.println(message);
-      exception.printStackTrace(System.err);
-      addError(mView.getBuffer().getPath(), 0, 0, 0, message);
-    }
-  }
-
-
-  private void printUnicode(Term term,
-                            StringWriter out,
-                            SectionManager manager)
-  {
-    if (isObjectZ()) {
-      net.sourceforge.czt.print.oz.PrintUtils.printUnicode(term, out, manager);
-    }
-    else {
-      PrintUtils.printUnicode(term, out, manager);
-    }
-  }
-
-  private void printLatex(Term term,
-                          StringWriter out,
-                          SectionManager manager)
-  {
-    if (isObjectZ()) {
-      net.sourceforge.czt.print.oz.PrintUtils.printLatex(term, out, manager);
-    }
-    else {
-      PrintUtils.printLatex(term, out, manager);
-    }
-  }
-
-  public void convertTo(Markup markup)
-  {
-    clearErrorList();
-    CztLogger.getLogger(ZCharMap.class).info("Converting ...");
-    try {
-      SectionManager manager = getSectionManager();
-      Term term = parse(manager);
-      if (term != null) {
-        Buffer buffer = jEdit.newFile(mView);
-        StringWriter out = new StringWriter();
-        if (Markup.LATEX.equals(markup)) {
-          printLatex(term, out, manager);
-        }
-        else {
-          buffer.setStringProperty("encoding", "UTF-16");
-          printUnicode(term, out, manager);
-          buffer.setMode(UNICODE_MODE);
-        }
-        out.close();
-        buffer.insert(0, out.toString());
-        CztLogger.getLogger(ZCharMap.class).info("Done converting.");
-      }
-      else {
-        String message = "Z conversion aborted.";
-        CztLogger.getLogger(ZCharMap.class).info(message);
-      }
-    }
-    catch (Throwable exception) {
-      CztLogger.getLogger(ZCharMap.class).info("CZT error occurred.");
-      String message = "Caught " + exception.getClass().getName() + ": " +
-        exception.getMessage();
-      System.err.println(message);
-      exception.printStackTrace(System.err);
-      addError(mView.getBuffer().getPath(), 0, 0, 0, message);
-    }
-  }
-
-  public void toUnicode()
-  {
-    convertTo(Markup.UNICODE);
-  }
-
-  public void toLatex()
-  {
-    convertTo(Markup.LATEX);
-  }
-
-  class TypecheckHandler implements ActionListener
-  {
-    public void actionPerformed(ActionEvent e)
-    {
-      typecheck();
-    }
-  }
-
-  class ConvertHandler implements ActionListener
-  {
-    public void actionPerformed(ActionEvent e)
-    {
-      if (Markup.UNICODE.equals(getMarkup())) {
-        convertTo(Markup.LATEX);
-      }
-      else {
-        convertTo(Markup.UNICODE);
-      }
-    }
-  }
-
-  class XmlHandler implements ActionListener
-  {
-    public void actionPerformed(ActionEvent e)
-    {
-      toXml();
-    }
-  }
-
-  class ExtensionHandler implements ActionListener
-  {
-    public void actionPerformed(ActionEvent e)
-    {
-      setTableModel();
-      mTable.repaint();
-    }
+    return false;
   }
 
   /**
