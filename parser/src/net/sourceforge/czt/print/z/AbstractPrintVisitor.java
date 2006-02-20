@@ -1,5 +1,5 @@
 /*
-  Copyright 2004, 2005 Petra Malik
+  Copyright 2004, 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -34,7 +34,7 @@ import net.sourceforge.czt.parser.util.DebugUtils;
 public abstract class AbstractPrintVisitor
   implements Visitor
 {
- private ZPrinter printer_;
+  private ZPrinter printer_;
 
   public AbstractPrintVisitor(ZPrinter printer)
   {
