@@ -70,7 +70,7 @@
       debuglevel="${debuglevel}"
       optimize="${optimize}">
       <classpath>
-        <pathelement location="${velocity.jar}"/>
+        <pathelement path="${velocity.classpath}"/>
       </classpath>
       <classpath refid="classpath"/>
       <compilerarg value="${compilerarg}"/>
