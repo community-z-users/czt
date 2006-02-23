@@ -32,10 +32,12 @@ understanding of how object identity is treated in Object-Z.
 
 \subsection{Object Identity and Classes}
 
-An object's identity distinguishes it from all other objects.  Two
+An object's identity distinguishes it from all other objects. The
+value of an object is its identity, therefore two
 different objects of the same type, $o_{1}$ and $o_{2}$, can have the
 same values for their state, yet still be distinct objects; that is
-$o_{1} \neq o_{2}$.
+$o_{1} \neq o_{2}$. The predicate $o_{1} = o_{2}$ is true if and only
+if $o_{1}$ and $o_{2}$ reference the same object.
 
 Object-Z's semantics implicitly include the concept of object identity
 in the language, therefore giving it a {\em reference semantics}
@@ -71,32 +73,35 @@ the {\em polymorphic core} of the class union \cite{dong93}.
 
 Object-Z also provides a {\em polymorphic operator}. That is, for a
 class $A$, the expression $\poly A$ refers to the set of object
-identities in $A$ and any subclasses of $A$. The polymorphic core of
-this expression is the features of $A$.
+identities in $A$ and any subclasses of $A$, and is type consistence
+if and only if each subclass of $A$ has at least the features in $A$
+with the same types. The polymorphic core of this expression is the
+features of $A$.
 
 \subsection{Motivation}
 
-Chen \cite{chen94} discusses a model in which a class type is a set of
-classes. That is, if we have a class $A$ with subclasses $B$ and $C$,
-then the expression $\poly A$ is the set of classes $\{A, B,
-C\}$. This idea is used as the basis for the class type in our
-typechecker, but we make two significant improvements.
+Chen \cite{chen94} discusses a model in which an Object-Z class type
+is a set of classes. That is, if we have a class $A$ with subclasses
+$B$ and $C$, then the expression $\poly A$ is the set of classes $\{A,
+B, C\}$. This idea is similar to the class types in our typechecker,
+but we make two significant improvements.
 
 Firstly, Chen does not discuss how to represent classes. In Object-Z,
 classes are defined as countably infinite sets of object
 identities. However, we need a way to represent these sets in the
-typechecker, which is difficult because programming languages do not
-support infinite sets, and Object-Z provides us with no idea of what
-the value object identities look like. Chen's examples use the class
-names to represent the classes, but this does not provide complete
-support for generic classes. For example, take the Object-Z class
-defined in Figure~\ref{generic-class-A}.  In this example, we have the
-generic class $A$, with parameter $X$ and no features.  Two objects
-are declared using $A$: one with $X$ instantiated to $\nat$ and the
-other to $\power \nat$. The equality $a_{1} = a_{2}$ is type incorrect
-because $A[\nat]$ and $A[\power \nat]$ are disjoint sets of object
-identities. If only the class name is used, we cannot not detect this,
-because the types of both instances is $\{A\}$. 
+typechecker, which requires some thought because programming languages
+do not support infinite sets, and Object-Z provides us with no idea of
+what the value object identities look like. Chen's examples use the
+class names to represent the classes, but this does not provide
+complete support for generic classes. For example, take the Object-Z
+class defined in Figure~\ref{generic-class-A}.  In this example, we
+have the generic class $A$, with generic parameter $X$ and no
+features.  Two objects are declared using $A$: one with $X$
+instantiated to $\nat$ and the other to $\power \nat$. The equality
+$a_{1} = a_{2}$ is type incorrect because $A[\nat]$ and $A[\power
+\nat]$ are disjoint sets of object identities. If only the class name
+is used, we cannot not detect this, because the types of both
+instances is $\{A\}$.
 
 \begin{figure}[t]
 \input{fig/generic-class-A.tex}
@@ -125,9 +130,9 @@ a class type that records features, including those inherited from any
 superclasses, simplifies and optimises the implementation of the
 typechecker.
 
-The purpose of the work in this paper is to extend Chen's model with a
-way of modelling classes to provide a suitable class type that
-supports class union, polymorphic expressions, and appropriately
-manages dereferencing on objects, and to specify a unification
-algorithm for these types to support type inference.
+The purpose of the work in this paper is to provide a way of modelling
+classes to provide a suitable class type that supports class union,
+polymorphic expressions, and appropriately manages dereferencing on
+objects, and to specify a unification algorithm for these types to
+support type inference.
 

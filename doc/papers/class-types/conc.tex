@@ -11,25 +11,23 @@ generic class instantiations.
 
 We also present two type unification algorithms for type inference and
 detecting type inconsistencies between expressions. The first enforces
-a {\em weak} form of consistency between two class types, and the
+a {\em weak} form of unification between two class types, and the
 second enforces a {\em strong} form. The strong form of type
 consistency is used to detect possible implicit downcasts, while the
 weak form permits implicit downcasts provided there is at least one
 legal downcast. The CZT Object-Z typechecker gives users the
 flexibility to choose which form of typing to use.
 
-In the alpha version of the typechecker, we have found that the model
-of class types presented in this paper is sufficient for detecting
-type inconsistencies between Object-Z expressions and it makes type
+In the typechecker, we have found that the model of class types
+presented in this paper is sufficient for detecting type
+inconsistencies between Object-Z expressions and it makes type
 inference and applying the type rules straightforward. It also fits in
 well with the existing Z type system.
 
-\subsection{Future Work}
+\subsection{Other Work}
 
-We intend to explore the possibility of specifying the Object-Z type rules
-using an extension of the type-inference rule metalanguage defined in 
-\theStandard \cite{isoz}. In addition to this, the continued investigation
-into inference techniques for Object-Z types is warranted -- particularly
-deriving class types from operation and attribute promotions. 
-This will be coordinated with the continued effort developing the
-open-source CZT project.
+We have drafted a set of Object-Z type rules using a combination of
+the calculus used by Palsberg \cite{palsberg95} and the type-inference
+rule metalanguage defined in \theStandard \cite{isoz}, and will
+continue to review and refine these. This will be coordinated with the
+continued effort developing the open-source CZT project.

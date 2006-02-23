@@ -17,9 +17,30 @@ our extension of this representation to include Object-Z class types.
 
 \subsection{Overview of Z Types}
 
+The Z type hierarchy is defined in \ISOZ{10.2}. It has, at its root,
+the abstract type {\em Type}, which is the supertype of all Z
+types. {\em Type} is partitioned into: {\em GenericType}, which is
+used for definitions that are made in a generic environment, and which
+must be instantiated when used; and {\em Type2}, which are all
+non-generic types: {\em GivenType}, {\em GenParamType}, {\em
+PowerType}, {\em ProdType}, and {\em SchemaType}. A schema type has a
+{\em Signature}, which is a possibly-empty function from names to
+their types. The Z type hierarchy can be seen in Figure~\ref{z-types}.
+
+\def\epsfsize#1#2{0.7#1}
+\begin{figure}
+\begin{center}
+\epsfbox{fig/z-types.eps}
+\end{center}
+\caption{The Z Type Hierarchy}
+\label{z-types}
+\end{figure}
+\def\epsfsize#1#2{\epsfxsize}
+
 Z has several primitive types, from which more complex types can be
-derived. {\em Given types} are the types of {\em given sets}, which are
-defined using the following syntax:
+derived. These are the leaf nodes in Figure~\ref{z-types}. {\em Given
+types} are the types of {\em given sets}, which are defined using the
+following syntax:
 \begin{zed}
   [Resource]
 \end{zed}
@@ -38,7 +59,7 @@ This adds ``$resources : \power (\power$ {\tt GIVEN}
 $Resource)$'' into the type environment.
 
 {\em Product types} are the type of tuple expressions, which are
-declared using $(a, \ldots, b)$ syntax, of cross product expressions. To
+declared using $(e_1, \ldots, e_n)$ syntax, of cross product expressions. To
 declare a triple of resources, we can use the following:
 \begin{axdef}
    triple : Resource \cross Resource \cross Resource
@@ -66,13 +87,20 @@ $Resource]$'' into the type environment.
 types in the Z type system. They are related in that one is needed for
 the other. Generic definitions in Z permit definitions whose type is
 polymorphic, in that the definition can be instantiated. For example,
-the following generic paragraph introduces the prefix relation
-$singleton$, which holds if the supplied set is a singleton set.
+the following generic paragraph introduces the infix relation
+$\neq$, which holds if the two arguments are no equal.
+%\begin{gendef}[X]
+%  singleton~\_ : \power X
+%\where
+%  \forall xs : \power X @ singleton~xs \iff \#xs = 1
+%\end{gendef}
+
 \begin{gendef}[X]
-  singleton~\_ : \power X
+  \_~\neq~\_ : \power (X \cross X)
 \where
-  \forall xs : \power X @ singleton~xs \iff \#xs = 1
+\forall x , y : X @ x \neq y \iff \lnot x = y
 \end{gendef}
+
 % I made the <= an =
 %
 % This is a really interesting point.
@@ -87,53 +115,34 @@ $singleton$, which holds if the supplied set is a singleton set.
 % set containing a single element is called a singleton set.
 
 
-This adds ``$singleton~\_ : [X] \power $ {\tt GENTYPE} $X$'' into the
-type environment, in which ``{\tt GENTYPE} $X$'' is the generic
-parameter type, and ``$[X] \power $ {\tt GENTYPE} $X$'' is the generic
-type\footnote{The {\tt GENTYPE} keyword suggests this is the wrong way
-around, but we follow the definition from \ISOZ{10.2}.}. When this
-name is referenced, the generic parameter $X$ is instantiated to be
-the type of the set parameter. For example, in the paragraph:
+This adds ``$\_\neq~\_ : [X] \power ($ {\tt GENTYPE} $X \cross$ {\tt
+GENTYPE} $X)$'' into the type environment, in which ``{\tt GENTYPE}
+$X$'' is the generic parameter type, and ``$[X] \power $ {\tt GENTYPE}
+$X$'' is the generic type\footnote{The {\tt GENTYPE} keyword suggests
+this is the wrong way around, but we follow the definition from
+\ISOZ{10.2}.}. When this name is referenced, the generic parameter $X$
+is instantiated to be the type of the set parameter. For example, in
+the paragraph:
 \begin{axdef}
-  resources : \power Resource
+  r_1, r_2 : Resource
 \where
-  singleton~resources
+  r_1 \neq r_2
 \end{axdef}
 
 $X$ is instantiated to ``{\tt GIVEN} $Resource$''.
-
-The Z type hierarchy is defined in \ISOZ{10.2}. It has, at its root,
-the abstract type {\em Type}, which is the supertype of all Z
-types. {\em Type} is partitioned into: {\em GenericType}, which is
-used for definitions that are made in a generic environment, and which
-must be instantiated when used; and {\em Type2}, which are all
-non-generic types: {\em GivenType}, {\em GenParamType}, {\em
-PowerType}, {\em ProdType}, and {\em SchemaType}. A schema type has a
-{\em Signature}, which is a possibly-empty function from names to
-their types. The Z type hierarchy can be seen in Figure~\ref{z-types}.
-
-\def\epsfsize#1#2{0.7#1}
-\begin{figure}
-\begin{center}
-\epsfbox{fig/z-types.eps}
-\end{center}
-\caption{The Z Type Hierarchy}
-\label{z-types}
-\end{figure}
-\def\epsfsize#1#2{\epsfxsize}
 
 \subsection{Extending the Z Type System for Object-Z}
 
 Extending this type system to include class types is straightforward:
 add a new type {\em ClassType}, which is a subtype of {\em
-Type2}. This {\em ClassType} is used represent the set of object
+Type2}. This {\em ClassType} is used to represent the set of object
 identities and the polymorphic core\footnote{Recall from
 Section~\ref{background} that the polymorphic core is the common
 features of a set of classes.} of those identities. For a class $A$,
 the type of the name $A$ introduced into the type environment is a
 power set of the class type representing the objects in
-$A$. Figure~\ref{ClassType.fig} specifies, in Object-Z, the structure of
-the class type.
+$A$. Figure~\ref{ClassType.fig} specifies, in Object-Z, the structure
+of the class type.
 
 \begin{figure}[t]
  \input{fig/ClassType}
@@ -169,31 +178,47 @@ the {\em ClassSignature}. Each class signature has 4 features:
 % the original definition is if it is being misused.
 % I could be way off ;)
 
-The attribute $classRef$ is the basis of Chen's model of class types
-as sets of classes. The class $ClassRef$ represents a set of object
+The attribute $classRef$ is similar to Chen's model of class types as
+sets of classes. The class $ClassRef$ represents a set of object
 identities. Crudely, the set of object identities produced by two
-$ClassRef$s are equal if the class name and
-instantiations are all equal.
+$ClassRef$s are equal if the class name and instantiations are all
+equal.
 
 In addition to the class references, the attributes, operations, and
-state variables are modelled in the class type. These three features
-together model the polymorphic core of the type. This is useful for
-feature renaming because we can record the rename information of one
-class expression while specifying that the set of object identities
-for that expression remain the same.
+state variables are modelled in the class signature. These three
+features together model the polymorphic core of the type. This is
+useful for feature renaming because we can record the rename
+information of one class expression while specifying that the set of
+object identities for that expression remain the same.
 
 However, there is other information that needs to be recorded when a
 class is declared using a class paragraph: the generic parameters, the
-class name, the superclasses, and the visibility list, a list of names
-features that are visible from outside the class. Generic parameters
+class name, the superclasses, and the visibility list (a list of
+features that are visible from outside the class). Generic parameters
 are recorded by declaring the class as a generic type, just as
 $singleton$ was declared in the previous section, so this information
 does not need to be modelled explicitly in the class type. The other
 features are declared by creating a type class $ClassRefType$, which
 inherits $ClassType$. This is shown in
 Figure~\ref{ClassType.fig}. Similarly, two other type classes
-$PolyType$ and $ClassUnionType$ are declared that extend $ClassType$,
-but they add no extra features, so are not shown in the figure.
+$PolyType$ and $ClassUnionType$ are declared that inherit from
+$ClassType$. $ClassUnionType$ has not extra features, while
+$ClassPolyType$ has one additional feature: a $ClassRef$, which
+records the root class of a polymorphic expressions. For example, in
+the expression $\poly A$, $A$ is the root class. Figure~\ref{oz-types}
+shows the extended Z type hierarchy that includes the new types for
+Object-Z. An ellipsis implies that the hierarchy is the same as in
+Figure~\ref{z-types}.
+
+\def\epsfsize#1#2{0.7#1}
+\begin{figure}
+\begin{center}
+\epsfbox{fig/oz-types.eps}
+\end{center}
+\caption{The Extended Type Hierarchy for Object-Z}
+\label{oz-types}
+\end{figure}
+\def\epsfsize#1#2{\epsfxsize}
 
 \subsection{Design Rationale}
 
@@ -218,34 +243,34 @@ is important.
 Subclassing $ClassType$ for the three distinct flavours of class types
 is useful because the $ClassRefType$ needs to model information that
 was not relevant to the other two types. Also, modelling the
-polymorphic core and class references in $ClassType$ aids analysis in
-the case that the type rules require only that the type is a class
-type. Some semantic restrictions in Object-Z also reinforce this
-approach. In a class union $A \classuni B$, both $A$ and $B$ need to
-be class references or class unions --- polymorphic expressions are
+polymorphic core and class references in $ClassSignature$ aids
+analysis in the case that the type rules require only that the type is
+a class type. Some semantic restrictions in Object-Z also reinforce
+this approach. In a class union $A \classuni B$, both $A$ and $B$ need
+to be class references or class unions --- polymorphic expressions are
 not permitted. Using our subclasses makes both cases straightforward
 to check in the typechecker.
 
-Having a $ClassSignature$ is important, because the type system must
-be developed in such a way that unification can be partially
-performed. That is, we can infer from the context that the type of a
-particular name reference is a class type, but cannot infer the class
-signature until the class is later declared\footnote{Object-Z supports
-use before declaration for classes.}.  To this point, {\em variable
-class signatures} can be used, which are similar to {\em variable
-types} and {\em variable signatures} in Z, as discussed in
-\cite{toyn00}.
+%Having a $ClassSignature$ is important, because the type system must
+%be developed in such a way that unification can be partially
+%performed. That is, we can infer from the context that the type of a
+%particular name reference is a class type, but cannot infer the class
+%signature until the class is later declared\footnote{Object-Z supports
+%use before declaration for classes.}.  To this point, {\em variable
+%class signatures} can be used, which are similar to {\em variable
+%types} and {\em variable signatures} in Z, as discussed in
+%\cite{toyn00}.
 
-As an example, take the declaration $b : \poly B$. From the reference
-to $\poly B$, the typechecker can infer that $B$ is a class reference
-type even if $B$ is declared after this declaration. Using this
-information, any constraints over $b$ that require an object instance
-can be solved even without the signature of the class being known.
+%As an example, take the declaration $b : \poly B$. From the reference
+%to $\poly B$, the typechecker can infer that $B$ is a class reference
+%type even if $B$ is declared after this declaration. Using this
+%information, any constraints over $b$ that require an object instance
+%can be solved even without the signature of the class being known.
 
-However, unlike type unification in standard Z, if we have
-a predicate $b = c$, in which $c$ is an instance of another class $C$
-(possibly a subclass of $B$), we cannot unify the
-variable class signature with the class signature of $C$ type, because
-there may be features declared in $C$ that are not declared in
-$B$. We elaborate on this problem, and propose a solution, 
-in the following section.
+%However, unlike type unification in standard Z, if we have
+%a predicate $b = c$, in which $c$ is an instance of another class $C$
+%(possibly a subclass of $B$), we cannot unify the
+%variable class signature with the class signature of $C$ type, because
+%there may be features declared in $C$ that are not declared in
+%$B$. We elaborate on this problem, and propose a solution, 
+%in the following section.

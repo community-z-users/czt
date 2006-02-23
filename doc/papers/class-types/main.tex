@@ -1,17 +1,22 @@
-\documentclass[10pt]{llncs}
-\let\SS=\S
+\documentclass{llncs}
+%\let\SS=\S
 \usepackage{oz}
+\usepackage{makeidx}
 %\usepackage{largepaper}
 \usepackage{verbatim}
 \usepackage{url}
 \usepackage{epsf}
 \usepackage{xspace}
+\usepackage{algorithm}
+\usepackage{oldalgorithmic}
 
 % Short reference to a section of the ISO Z Standard. Stolen from Mark
 % and Petra's ZB2005 paper ;)
 \newcommand{\ISOZ}[1]{ZStd{\SS}#1}
 \newcommand{\Standard}{ISO Standard for Z\xspace}
 \newcommand{\theStandard}{the \Standard}
+
+\def\arithmos{\bbold A}
 
 \newcommand{\TIF}{\xspace{\bf if}\xspace}
 \newcommand{\TTHEN}{\xspace{\bf then}\xspace}
@@ -22,7 +27,7 @@
 \newcommand{\TDO}{\xspace{\bf do}\xspace}
 \newcommand{\TRETURN}{\xspace{\bf return}\xspace}
 
-\newcommand{\nexti}{\quad\quad}
+\newcommand{\nexti}{\hspace{4mm}}
 
 \zedindent=3mm
 
