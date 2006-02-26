@@ -71,6 +71,7 @@
       optimize="${optimize}">
       <classpath>
         <pathelement path="${velocity.classpath}"/>
+        <pathelement path="${jwsdp.classpath}"/>
       </classpath>
       <classpath refid="classpath"/>
       <compilerarg value="${compilerarg}"/>
