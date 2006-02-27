@@ -29,8 +29,10 @@ import net.sourceforge.czt.java_cup.runtime.Symbol;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.base.util.*;
-import net.sourceforge.czt.parser.util.Decorword;
 import net.sourceforge.czt.parser.util.DebugUtils;
+import net.sourceforge.czt.parser.util.Decorword;
+import net.sourceforge.czt.parser.util.Token;
+import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZString;
@@ -45,6 +47,7 @@ import net.sourceforge.czt.z.visitor.*;
  */
 public class UnicodePrinter
   extends PrintWriter
+  implements AbstractPrintVisitor.ZPrinter
 {
   /**
    * Create a new PrintWriter, without automatic line flushing.
@@ -285,6 +288,12 @@ public class UnicodePrinter
     print(ZString.ZED);
   }
 
+  public void printToken(Token token)
+  {
+    print(token.toString());
+    if (! "TEXT".equals(token.getName())) printSPACE();
+  }
+
   /**
    * Prints a token from ZSymbol.
    */
@@ -379,6 +388,7 @@ public class UnicodePrinter
                              fieldMap.get(s.sym) + ", " +
                              s.value + ")");
     }
+    if (s.sym != Sym.TEXT) printSPACE();
   }
 
   /**

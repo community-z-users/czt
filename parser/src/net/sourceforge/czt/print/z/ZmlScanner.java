@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004 Petra Malik
+  Copyright (C) 2004, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -20,6 +20,7 @@
 package net.sourceforge.czt.print.z;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import net.sourceforge.czt.java_cup.runtime.Scanner;
@@ -28,7 +29,9 @@ import net.sourceforge.czt.java_cup.runtime.Symbol;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.base.util.*;
-
+import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.parser.z.*;
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -80,20 +83,42 @@ public class ZmlScanner
     return result;
   }
 
+  private static Map<String, Object> FIELD_MAP =
+    DebugUtils.getFieldMap2(Sym.class);
+
+  public static int getIntValue(String tokenName)
+  {
+    Object object = FIELD_MAP.get(tokenName);
+    if (object instanceof Integer) {
+      Integer result = (Integer) object;
+      return result;
+    }
+    throw new CztException(tokenName.toString() + " not found.");
+  }
+
   /**
    * An implementation of AbstractPrintVisitor.ZPrinter.
    */
   public static class SymbolCollector
     implements AbstractPrintVisitor.ZPrinter
   {
-    private List symbolList_ = new Vector();
+    private List<Symbol> symbolList_ = new Vector<Symbol>();
 
     public void printSymbol(Symbol symbol)
     {
       symbolList_.add(symbol);
     }
 
-    public List getSymbols()
+    public void printToken(Token token)
+    {
+      int intValue = getIntValue(token.getName());
+      symbolList_.add(new Symbol(intValue,
+                                 ZPrintVisitor.Z,
+                                 -1,
+                                 token.getSpelling()));
+    }
+
+    public List<Symbol> getSymbols()
     {
       return symbolList_;
     }

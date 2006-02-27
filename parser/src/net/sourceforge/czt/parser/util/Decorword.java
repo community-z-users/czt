@@ -166,7 +166,24 @@ public class Decorword
     result.append(getWord());
     for (int i = 0; i < getStrokes().length; i++) {
       Stroke stroke = (Stroke) getStrokes()[i];
-      result.append(stroke.toString());
+      if (stroke instanceof InStroke) {
+        result.append(ZChar.INSTROKE);
+      }
+      else if (stroke instanceof OutStroke) {
+        result.append(ZChar.OUTSTROKE);
+      }
+      else if (stroke instanceof NextStroke) {
+        result.append(ZChar.PRIME);
+      }
+      else if (stroke instanceof NumStroke) {
+        NumStroke numStroke = (NumStroke) stroke;
+        result.append(ZChar.SE);
+        result.append(numStroke.getDigit());
+        result.append(ZChar.NW);
+      }
+      else {
+        result.append(stroke.toString());
+      }
     }
     return result.toString();
   }

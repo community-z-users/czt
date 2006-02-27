@@ -25,6 +25,8 @@ import net.sourceforge.czt.java_cup.runtime.Symbol;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.parser.util.DebugUtils;
+import net.sourceforge.czt.parser.util.Token;
+import net.sourceforge.czt.parser.z.*;
 
 /**
  * A Z visitor used for printing.
@@ -56,11 +58,17 @@ public abstract class AbstractPrintVisitor
     printer_.printSymbol(new Symbol(type, ext, -1, value));
   }
 
+  protected void print(Token token)
+  {
+    printer_.printToken(token);
+  }
+
   /**
    * A printer that can print Z symbols.
    */
   public interface ZPrinter
   {
     void printSymbol(Symbol symbol);
+    void printToken(Token token);
   }
 }

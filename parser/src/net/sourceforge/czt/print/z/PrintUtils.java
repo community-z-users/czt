@@ -186,9 +186,12 @@ public final class PrintUtils
   {
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
     Term tree = (Term) term.accept(toPrintTree);
-    ZmlScanner scanner = new ZmlScanner(tree);
+    PrecedenceParenAnnVisitor precVisitor =
+      new PrecedenceParenAnnVisitor();
+    tree.accept(precVisitor);
     UnicodePrinter printer = new UnicodePrinter(out);
-    printer.printZed(scanner);
+    ZPrintVisitor visitor = new ZPrintVisitor(printer);
+    tree.accept(visitor);
   }
 
   /**

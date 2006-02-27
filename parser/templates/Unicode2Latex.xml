@@ -471,9 +471,13 @@ scan with {: return local_next_token(); :};
 /* Terminals */
 terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    LBIND, RBIND, LDATA, RDATA, ZED, AX, SCH, GENAX, GENSCH,
-                   END, NL, SECTION, PARENTS, WHERE,
+                   END, NL,
+                   SECTION, PARENTS, // used by the SectHeadScanner
+                   WHERE, // the latex \where command
                    INSTROKE, OUTSTROKE, NEXTSTROKE,
+ <add:oz>
                    CLASS, GENCLASS, OPSCH, INIT, STATE, SDEF,
+ </add:oz>
                    END_MARKUP, TOKENSEQ;
 terminal ZSect     SECTHEAD;
 terminal Integer   NUMERAL, NUMSTROKE;
@@ -581,6 +585,7 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                 result += end("schema");
                 parser.write(result);
              :}
+<add:oz>
              |
              CLASS decorword:w tokenSeq:s END
              {:
@@ -597,6 +602,7 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                 result += end("class");
                 parser.write(result);
              :}
+</add:oz>
              ;
 
   markup ::=
