@@ -22,6 +22,10 @@ package net.sourceforge.czt.rules.codegen;
 import java.io.FileWriter;
 import java.io.Writer;
 import java.util.Vector;
+import org.w3c.dom.DOMConfiguration;
+import org.w3c.dom.DOMError;
+import org.w3c.dom.DOMErrorHandler;
+import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.exception.ParseErrorException;
@@ -29,10 +33,6 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
 
-import org.apache.xerces.dom3.DOMConfiguration;
-import org.apache.xerces.dom3.DOMError;
-import org.apache.xerces.dom3.DOMErrorHandler;
-import org.apache.xerces.dom3.bootstrap.DOMImplementationRegistry;
 import org.apache.xerces.xs.*;
 
 /**
