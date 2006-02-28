@@ -71,9 +71,9 @@
       optimize="${optimize}">
       <classpath>
         <pathelement path="${velocity.classpath}"/>
-        <pathelement path="${jwsdp.classpath}"/>
+        <pathelement path="${xerces.classpath}"/>
       </classpath>
-      <classpath refid="classpath"/>
+      <classpath refid="classpath"/> 
       <compilerarg value="${compilerarg}"/>
     </javac>
   </target>
@@ -89,7 +89,8 @@
     <java classname="net.sourceforge.czt.rules.codegen.Main" fork="true">
       <arg line="../zml/ZPattern.xsd"/>
       <classpath>
-        <pathelement location="${velocity.jar}"/>
+        <pathelement location="${velocity.classpath}"/>
+        <pathelement path="${xerces.classpath}"/>
         <pathelement location="${codegen.jar.file}"/>
       </classpath>
       <classpath refid="classpath"/> 
