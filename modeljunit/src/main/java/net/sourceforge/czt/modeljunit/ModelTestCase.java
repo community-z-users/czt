@@ -527,7 +527,6 @@ public class ModelTestCase
    *  or a positive number if it is enabled.
    *  Missing guard methods return 1.0F, while boolean guard methods
    *  return 1.0F when true and 0.0F when false.
-   * @param  fsm    The instance of the FSM that is being tested.
    * @param  index  Index into the fsmActions array.
    * @return        The `enabledness' of this Action.
    */

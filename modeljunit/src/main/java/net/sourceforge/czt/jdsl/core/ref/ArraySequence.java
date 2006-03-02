@@ -1073,7 +1073,7 @@ implements Sequence {
 
     /**
       * Sets the Position's container, for O(1) implementation of contains()
-      * @param The Position's container
+      * @param c The Position's container
       */
     final void setContainer(InspectableContainer c){
       cont_ = c;
@@ -1082,7 +1082,7 @@ implements Sequence {
 
     /**
       * Sets the Position's element
-      * @param The Position's new element
+      * @param elt The Position's new element
       */
     final void setElement(Object elt){
       elt_ = elt;

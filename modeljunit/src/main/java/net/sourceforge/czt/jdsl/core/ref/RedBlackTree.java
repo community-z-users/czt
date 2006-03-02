@@ -1109,7 +1109,7 @@ public class RedBlackTree implements OrderedDictionary {
     
     /**
      * Takes O(1) time
-     *  @param this node's new container.
+     *  @param container this node's new container.
      */
     private final void setContainer(RedBlackTree container){
       container_ = container;
@@ -1127,7 +1127,7 @@ public class RedBlackTree implements OrderedDictionary {
     /**	
      * Takes O(1) time
      * Replaces my element
-     * @param newElement my new element
+     * @param element my new element
      */
     private final void setElement(Object element) { element_ = element; }
 

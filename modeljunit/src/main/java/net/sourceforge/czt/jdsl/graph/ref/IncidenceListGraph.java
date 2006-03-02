@@ -710,7 +710,6 @@ implements Graph, EdgeDirection {
         /**
          * Create a new isolated vertex.
          *
-         * @param cont  The graph
          * @param elt   The element associated with this position
          */
         ILVertex( Object elt ) {
@@ -748,7 +747,6 @@ implements Graph, EdgeDirection {
 	 * O(degree).  Self-loops reported twice unless they are directed
 	 * and only one direction is requested.
 	 * @param edgetype
-	 * @return 
 	 */
  	int degree( int edgetype ) {
 	    int retval = 0;

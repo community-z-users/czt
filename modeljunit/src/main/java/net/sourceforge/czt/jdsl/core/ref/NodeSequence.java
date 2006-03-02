@@ -717,13 +717,13 @@ public class NodeSequence extends AbstractPositionalContainer
 	
 	/**
 	 * Sets the node after this one in the Sequence
-	 * @param The node after this one in the Sequence
+	 * @param n The node after this one in the Sequence
 	 */
         private final void setNext(FNSNode n) { next_ = n; }
 	
 	/**
 	 * Sets the node before this one in the Sequence
-	 * @param The node before this one in the Sequence
+	 * @param p The node before this one in the Sequence
 	 */
         private final void setPrev(FNSNode p) { prev_ = p; }
 	

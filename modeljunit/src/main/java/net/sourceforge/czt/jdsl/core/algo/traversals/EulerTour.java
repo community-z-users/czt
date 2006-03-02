@@ -97,7 +97,7 @@ public abstract class EulerTour {
      * The meat of the algorithm.
      * This method is called recursively.
      * 
-     * @param Position subtreeRoot
+     * @param subtreeRoot subtreeRoot
      */
     private void tourSubtree(Position subtreeRoot){
 	if (tree_.isInternal(subtreeRoot)){
