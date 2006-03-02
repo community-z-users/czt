@@ -290,7 +290,7 @@ public class UnicodePrinter
 
   public void printToken(Token token)
   {
-    print(token.toString());
+    print(token.spelling());
     if (! "TEXT".equals(token.getName())) printSPACE();
   }
 

@@ -37,6 +37,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZChar;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.print.z.WhereWord;
 import net.sourceforge.czt.session.*;
 <add:oz>
 import net.sourceforge.czt.oz.util.OzString;
@@ -450,9 +451,9 @@ parser code {:
         ((net.sourceforge.czt.java_cup.runtime.Symbol) info);
       if (s.left &gt;= 0) {                
         m.append(" in line "+(s.left+1));   
-        if (s.right &gt;= 0) m.append(", column "+(s.right+1));
+        if (s.right &gt;= 0) m.append(", column "+(s.right + 1));
       }
-      m.append(" (" + s.sym + "," + s.value + ")");
+      m.append(", Token(" + symbolMap_.get(s.sym) + "," + s.value + ")");
     }
     m.append(": " + message);
     System.err.println(m);
@@ -460,6 +461,7 @@ parser code {:
 
   public void report_fatal_error(String message, Object info) {
     report_error(message, info);
+    done_parsing();
     throw new UnsupportedOperationException("Parse error.");
   }
 :};
@@ -683,7 +685,8 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                 String latex = "^" + i.toString();
                 String unicode = ZString.SE + i.toString() + ZString.NW;
                 RESULT =
-                  new LatexCommand(latex, unicode, false, false); :}
+                  new LatexCommand(latex, unicode, false, false);
+             :}
              |
              NUMERAL:i
              {:
@@ -712,7 +715,13 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
    decorword ::= DECORWORD:s
              {:
                 assert s != null;
-                RESULT = toLatex(s.getName(), sleft, sright);
+                if (s instanceof WhereWord) {
+                  RESULT =
+                    new LatexCommand("\n\\where\n", ZString.VL, true, true);
+                }
+                else {
+                  RESULT = toLatex(s.getName(), sleft, sright);
+                }
              :}
              ;
 

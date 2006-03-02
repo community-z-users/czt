@@ -28,8 +28,5 @@ public interface Token
 {
   String getName();
   Object getSpelling();
-  int getLine();
-  int getColumn();
-  int getRightCharPosition();
-  int getLeftCharPosition();
+  String spelling();
 }

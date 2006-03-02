@@ -1,6 +1,6 @@
 /*
   Copyright (C) 2006 Petra Malik
-  This file is part of the czt project.
+  This file is part of the czt project: http://czt.sourceforge.net
 
   The czt project contains free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -17,44 +17,18 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.parser.z;
+package net.sourceforge.czt.print.z;
 
-import net.sourceforge.czt.parser.util.Token;
+import java.util.ArrayList;
 
-public class ZToken
-  implements Token
+import net.sourceforge.czt.parser.util.Decorword;
+import net.sourceforge.czt.z.util.ZString;
+
+public class WhereWord
+  extends Decorword
 {
-  private TokenName name_;
-  private Object spelling_;
-
-  public ZToken(TokenName name)
+  public WhereWord()
   {
-    name_ = name;
-  }
-
-  public ZToken(TokenName name, Object spelling)
-  {
-    name_ = name;
-    spelling_ = spelling;
-  }
-
-  public String getName()
-  {
-    return name_.toString();
-  }
-
-  public TokenName getTokenName()
-  {
-    return name_;
-  }
-
-  public Object getSpelling()
-  {
-    return spelling_ != null ? spelling_ : name_.spelling();
-  }
-
-  public String spelling()
-  {
-    return getSpelling().toString();
+    super(ZString.BAR, new ArrayList());
   }
 }

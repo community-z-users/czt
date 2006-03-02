@@ -25,11 +25,13 @@ import java.util.Iterator;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.oz.util.OzString;
 import net.sourceforge.czt.print.ast.*;
+import net.sourceforge.czt.print.z.WhereWord;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.visitor.*;
 import net.sourceforge.czt.parser.util.DebugUtils;
+import net.sourceforge.czt.parser.z.TokenName;
 
 /**
  * An Object-Z visitor used for printing.
@@ -72,11 +74,11 @@ public class OzPrintVisitor
     else {
       ozPrint(Sym.GENCLASS);
       visit(classPara.getDeclName());
-      zPrint(net.sourceforge.czt.print.z.Sym.LSQUARE);
+      zPrint(TokenName.LSQUARE);
       printTermList(classPara.getFormalParameters());
-      zPrint(net.sourceforge.czt.print.z.Sym.RSQUARE);
+      zPrint(TokenName.RSQUARE);
     }
-    zPrint(net.sourceforge.czt.print.z.Sym.NL);
+    zPrint(TokenName.NL);
 
     visit(classPara.getVisibilityList());
 
@@ -85,7 +87,7 @@ public class OzPrintVisitor
       ZExprList inheritedClass = (ZExprList) classPara.getInheritedClass();
       for (Expr expr : inheritedClass) {
         visit(expr);
-        zPrint(net.sourceforge.czt.print.z.Sym.NL);
+        zPrint(TokenName.NL);
       }
     }
     else {
@@ -105,7 +107,7 @@ public class OzPrintVisitor
       }
       else {
         visit(para);
-        zPrint(net.sourceforge.czt.print.z.Sym.NL);
+        zPrint(TokenName.NL);
       }
     }
 
@@ -119,10 +121,10 @@ public class OzPrintVisitor
       Operation operation = iter.next();
       visit(operation);
       if (iter.hasNext()) {
-        zPrint(net.sourceforge.czt.print.z.Sym.NL);
+        zPrint(TokenName.NL);
       }
     }
-    zPrint(net.sourceforge.czt.print.z.Sym.END);
+    zPrint(TokenName.END);
     return null;
   }
 
@@ -141,7 +143,7 @@ public class OzPrintVisitor
   protected Object visitInnerFreePara(FreePara freePara)
   {
     printTermList(freePara.getFreetype(), ZString.ANDALSO);
-    zPrint(Sym.NL);
+    zPrint(TokenName.NL);
     return null;
   }
 
@@ -149,10 +151,10 @@ public class OzPrintVisitor
   {
     if (visibilityList != null) {
       printKeyword(ZString.ZPROJ);
-      zPrint(net.sourceforge.czt.print.z.Sym.LPAREN);
+      zPrint(TokenName.LPAREN);
       printTermList(visibilityList.getRefName());
-      zPrint(net.sourceforge.czt.print.z.Sym.RPAREN);
-      zPrint(net.sourceforge.czt.print.z.Sym.NL);
+      zPrint(TokenName.RPAREN);
+      zPrint(TokenName.NL);
     }
     return null;
   }
@@ -163,18 +165,18 @@ public class OzPrintVisitor
       boolean isBox = Box.SchBox.equals(initialState.getBox());
       if (isBox) {
         ozPrint(Sym.INIT);
-        zPrint(net.sourceforge.czt.print.z.Sym.NL);
+        zPrint(TokenName.NL);
         visit(initialState.getPred());
-        zPrint(net.sourceforge.czt.print.z.Sym.END);
+        zPrint(TokenName.END);
       }
       else {
         printKeyword(OzString.INITWORD + ZString.SPACE +
                      OzString.SDEF + ZString.SPACE);
-        zPrint(net.sourceforge.czt.print.z.Sym.LSQUARE);
+        zPrint(TokenName.LSQUARE);
         visit(initialState.getPred());
-        zPrint(net.sourceforge.czt.print.z.Sym.RSQUARE);
+        zPrint(TokenName.RSQUARE);
       }
-      zPrint(net.sourceforge.czt.print.z.Sym.NL);
+      zPrint(TokenName.NL);
     }
     return null;
   }
@@ -185,10 +187,10 @@ public class OzPrintVisitor
       boolean isBox = Box.SchBox.equals(state.getBox());
       if (isBox) {
         ozPrint(Sym.STATE);
-        zPrint(net.sourceforge.czt.print.z.Sym.NL);
+        zPrint(TokenName.NL);
       }
       else {
-        zPrint(net.sourceforge.czt.print.z.Sym.LSQUARE);
+        zPrint(TokenName.LSQUARE);
       }
 
       DeclList pDeclList = state.getPrimaryDecl().getDeclList();
@@ -207,9 +209,9 @@ public class OzPrintVisitor
       if (sDeclList instanceof ZDeclList) {
         ZDeclList zDeclList = (ZDeclList) sDeclList;
         if (zDeclList.size() > 0) {
-          zPrint(net.sourceforge.czt.print.z.Sym.NL);
+          zPrint(TokenName.NL);
           printKeyword(OzString.DELTA);
-          zPrint(net.sourceforge.czt.print.z.Sym.NL);
+          zPrint(TokenName.NL);
           visit(state.getSecondaryDecl());
         }
       }
@@ -220,20 +222,20 @@ public class OzPrintVisitor
 
       if (state.getPred() != null) {
         if (isBox) {
-          zPrint(net.sourceforge.czt.print.z.Sym.WHERE);
+          zPrint(TokenName.DECORWORD, new WhereWord());
           visit(state.getPred());
         }
         else {
           printKeyword(ZString.BAR);
           visit(state.getPred());
-          zPrint(net.sourceforge.czt.print.z.Sym.RSQUARE);
+          zPrint(TokenName.RSQUARE);
         }
       }
 
       if (isBox) {
-        zPrint(net.sourceforge.czt.print.z.Sym.END);
+        zPrint(TokenName.END);
       }
-      zPrint(net.sourceforge.czt.print.z.Sym.NL);
+      zPrint(TokenName.NL);
     }
     return null;
   }
@@ -256,7 +258,7 @@ public class OzPrintVisitor
     if (isBox) {
       ozPrint(net.sourceforge.czt.print.oz.Sym.OPSCH);
       visit(operation.getOpName());
-      zPrint(net.sourceforge.czt.print.z.Sym.NL);
+      zPrint(TokenName.NL);
 
       assert operation.getOpExpr() instanceof AnonOpExpr;
       AnonOpExpr anonOpExpr = (AnonOpExpr) operation.getOpExpr();
@@ -268,14 +270,14 @@ public class OzPrintVisitor
         ZSchText zSchText = (ZSchText) opText.getSchText();
         visit(zSchText.getDeclList());
         if (zSchText.getPred() != null) {
-          zPrint(net.sourceforge.czt.print.z.Sym.WHERE);
+          zPrint(TokenName.DECORWORD, new WhereWord());
           visit(zSchText.getPred());
         }
       }
       else {
         throw new UnsupportedOperationException("Non-ZSchText in Operation");
       }
-      zPrint(net.sourceforge.czt.print.z.Sym.END);
+      zPrint(TokenName.END);
     }
     else {
       visit(operation.getOpName());
@@ -295,10 +297,10 @@ public class OzPrintVisitor
   public Object visitDeltaList(DeltaList deltaList)
   {
     printKeyword(ZString.DELTA);
-    zPrint(net.sourceforge.czt.print.z.Sym.LPAREN);
+    zPrint(TokenName.LPAREN);
     printTermList(deltaList.getRefName());
-    zPrint(net.sourceforge.czt.print.z.Sym.RPAREN);
-    zPrint(net.sourceforge.czt.print.z.Sym.NL);
+    zPrint(TokenName.RPAREN);
+    zPrint(TokenName.NL);
     return null;
   }
 
@@ -386,9 +388,9 @@ public class OzPrintVisitor
   public Object visitAnonOpExpr(AnonOpExpr anonOpExpr)
   {
     printLPAREN(anonOpExpr);
-    zPrint(net.sourceforge.czt.print.z.Sym.LSQUARE);
+    zPrint(TokenName.LSQUARE);
     visit(anonOpExpr.getOpText());
-    zPrint(net.sourceforge.czt.print.z.Sym.RSQUARE);
+    zPrint(TokenName.RSQUARE);
     printRPAREN(anonOpExpr);
     return null;
   }
@@ -458,9 +460,9 @@ public class OzPrintVisitor
     printLPAREN(hideOpExpr);
     visit(hideOpExpr.getOpExpr());
     printKeyword(ZString.ZHIDE);
-    zPrint(net.sourceforge.czt.print.z.Sym.LPAREN);
+    zPrint(TokenName.LPAREN);
     visit(hideOpExpr.getRefNameList());
-    zPrint(net.sourceforge.czt.print.z.Sym.RPAREN);
+    zPrint(TokenName.RPAREN);
     printRPAREN(hideOpExpr);
     return null;
   }
@@ -469,9 +471,9 @@ public class OzPrintVisitor
   {
     printLPAREN(renameOpExpr);
     visit(renameOpExpr.getOpExpr());
-    zPrint(net.sourceforge.czt.print.z.Sym.LSQUARE);
+    zPrint(TokenName.LSQUARE);
     visit(renameOpExpr.getRenameList());
-    zPrint(net.sourceforge.czt.print.z.Sym.RSQUARE);
+    zPrint(TokenName.RSQUARE);
     printRPAREN(renameOpExpr);
     return null;
   }
@@ -509,12 +511,12 @@ public class OzPrintVisitor
   protected void printLPAREN(TermA termA)
   {
     final boolean braces = termA.getAnn(ParenAnn.class) != null;
-    if (braces) zPrint(net.sourceforge.czt.print.z.Sym.LPAREN);
+    if (braces) zPrint(TokenName.LPAREN);
   }
 
   protected void printRPAREN(TermA termA)
   {
     final boolean braces = termA.getAnn(ParenAnn.class) != null;
-    if (braces) zPrint(net.sourceforge.czt.print.z.Sym.RPAREN);
+    if (braces) zPrint(TokenName.RPAREN);
   }
 }

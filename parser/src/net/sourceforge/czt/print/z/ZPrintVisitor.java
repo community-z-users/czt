@@ -30,8 +30,9 @@ import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.parser.util.Decorword;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.parser.util.DebugUtils;
-import net.sourceforge.czt.parser.z.ZToken;
+import net.sourceforge.czt.parser.z.Keyword;
 import net.sourceforge.czt.parser.z.TokenName;
+import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
@@ -64,19 +65,14 @@ public class ZPrintVisitor
     super(printer);
   }
 
-  protected void zPrint(int type)
-  {
-    print(type, Z);
-  }
-
-  protected void zPrint(int type, Object value)
-  {
-    print(type, Z, value);
-  }
-
   protected void zPrint(ZToken token)
   {
     print(token);
+  }
+
+  protected void zPrint(Keyword keyword)
+  {
+    print(keyword);
   }
 
   protected void zPrint(TokenName tokenName)
@@ -125,17 +121,6 @@ public class ZPrintVisitor
   public Object visitAxPara(AxPara axPara)
   {
     throw new UnsupportedOperationException("Unexpeced term AxPara");
-  }
-
-  /**
-   * Prints the first term followed by the symbol followed by the
-   * second term.
-   */
-  private void print(Term t1, int symbol, Term t2)
-  {
-    visit(t1);
-    zPrint(symbol);
-    visit(t2);
   }
 
   /**
@@ -501,7 +486,7 @@ public class ZPrintVisitor
 
   public Object visitInStroke(InStroke inStroke)
   {
-    zPrint(Sym.INSTROKE);
+    zPrint(TokenName.INSTROKE);
     return null;
   }
 
@@ -603,7 +588,7 @@ public class ZPrintVisitor
     for (Iterator iter = list.iterator(); iter.hasNext();) {
       txt.append((String) iter.next());
     }
-    zPrint(Sym.TEXT, txt.toString());
+    zPrint(TokenName.TEXT, txt.toString());
   }
 
   public Object visitNegExpr(NegExpr negExpr)
@@ -628,7 +613,7 @@ public class ZPrintVisitor
 
   public Object visitNextStroke(NextStroke nextStroke)
   {
-    zPrint(Sym.NEXTSTROKE);
+    zPrint(TokenName.NEXTSTROKE);
     return null;
   }
 
@@ -649,7 +634,7 @@ public class ZPrintVisitor
 
   public Object visitNumStroke(NumStroke numStroke)
   {
-    zPrint(Sym.NUMSTROKE, numStroke.getDigit());
+    zPrint(TokenName.NUMSTROKE, numStroke.getDigit());
     return null;
   }
 
@@ -741,7 +726,7 @@ public class ZPrintVisitor
 
   public Object visitOutStroke(OutStroke outStroke)
   {
-    zPrint(Sym.OUTSTROKE);
+    zPrint(TokenName.OUTSTROKE);
     return null;
   }
 
@@ -823,7 +808,7 @@ public class ZPrintVisitor
           zPrint(TokenName.RSQUARE);
         }
         else if (string.equals(ZString.BAR)) {
-          zPrint(Sym.WHERE);
+          zPrint(TokenName.DECORWORD, new WhereWord());
         }
         else if (string.equals(ZString.NL)) {
           zPrint(TokenName.NL);
@@ -1125,11 +1110,11 @@ public class ZPrintVisitor
 
     if (! isAnonymous) {
       zPrint(TokenName.ZED);
-      zPrint(Sym.SECTION);
+      zPrint(Keyword.SECTION);
       if (name == null) throw new CztException();
       zPrint(TokenName.DECORWORD, new Decorword(name));
       if (parents.size() > 0) {
-        zPrint(Sym.PARENTS);
+        zPrint(Keyword.PARENTS);
         printTermList(parents);
       }
       zPrint(TokenName.END);
