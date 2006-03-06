@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2005 Petra Malik
+  Copyright (C) 2004, 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -25,6 +25,7 @@ import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.ast.*;
+import net.sourceforge.czt.print.z.PrecedenceParenAnnVisitor;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
 
@@ -186,9 +187,12 @@ public final class PrintUtils
   {
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
     Term tree = (Term) term.accept(toPrintTree);
-    ZmlScanner scanner = new ZmlScanner(tree);
+    PrecedenceParenAnnVisitor precVisitor =
+      new PrecedenceParenAnnVisitor();
+    tree.accept(precVisitor);
     UnicodePrinter printer = new UnicodePrinter(out);
-    printer.printZed(scanner);
+    OzPrintVisitor visitor = new OzPrintVisitor(printer);
+    tree.accept(visitor);
   }
 
   /**
@@ -218,8 +222,11 @@ public final class PrintUtils
     catch (CommandException exception) {
       throw new CztException(exception);
     }
-    ZmlScanner scanner = new ZmlScanner(tree);
+    PrecedenceParenAnnVisitor precVisitor =
+      new PrecedenceParenAnnVisitor();
+    tree.accept(precVisitor);
     UnicodePrinter printer = new UnicodePrinter(out);
-    printer.printZed(scanner);
+    OzPrintVisitor visitor = new OzPrintVisitor(printer);
+    tree.accept(visitor);
   }
 }

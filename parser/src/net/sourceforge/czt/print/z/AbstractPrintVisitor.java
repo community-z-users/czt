@@ -48,16 +48,6 @@ public abstract class AbstractPrintVisitor
     return printer_;
   }
 
-  protected void print(int type, int ext)
-  {
-    printer_.printSymbol(new Symbol(type, ext, -1));
-  }
-
-  protected void print(int type, int ext, Object value)
-  {
-    printer_.printSymbol(new Symbol(type, ext, -1, value));
-  }
-
   protected void print(Token token)
   {
     printer_.printToken(token);
@@ -68,7 +58,6 @@ public abstract class AbstractPrintVisitor
    */
   public interface ZPrinter
   {
-    void printSymbol(Symbol symbol);
     void printToken(Token token);
   }
 }

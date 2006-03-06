@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2005 Petra Malik
+  Copyright (C) 2004, 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -221,8 +221,11 @@ public final class PrintUtils
     catch (CommandException exception) {
       throw new CztException(exception);
     }
-    ZmlScanner scanner = new ZmlScanner(tree);
+    PrecedenceParenAnnVisitor precVisitor =
+      new PrecedenceParenAnnVisitor();
+    tree.accept(precVisitor);
     UnicodePrinter printer = new UnicodePrinter(out);
-    printer.printZed(scanner);
+    ZPrintVisitor visitor = new ZPrintVisitor(printer);
+    tree.accept(visitor);
   }
 }

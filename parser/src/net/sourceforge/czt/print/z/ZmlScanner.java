@@ -104,11 +104,6 @@ public class ZmlScanner
   {
     private List<Symbol> symbolList_ = new Vector<Symbol>();
 
-    public void printSymbol(Symbol symbol)
-    {
-      symbolList_.add(symbol);
-    }
-
     public void printToken(Token token)
     {
       int intValue = getIntValue(token.getName());

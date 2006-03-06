@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2005 Petra Malik, Tim Miller
+  Copyright (C) 2004, 2005, 2006 Petra Malik, Tim Miller
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -31,6 +31,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.visitor.*;
 import net.sourceforge.czt.parser.util.DebugUtils;
+import net.sourceforge.czt.parser.oz.OzToken;
 import net.sourceforge.czt.parser.z.TokenName;
 
 /**
@@ -54,31 +55,21 @@ public class OzPrintVisitor
     super(printer);
   }
 
-  protected void ozPrint(int type)
-  {
-    print(type, OZ);
-  }
-
-  protected void ozPrint(int type, Object value)
-  {
-    print(type, OZ, value);
-  }
-
   public Object visitClassPara(ClassPara classPara)
   {
     //print the header information
     if (classPara.getFormalParameters().size() == 0) {
-      ozPrint(Sym.CLASS);
+      print(OzToken.CLASS);
       visit(classPara.getDeclName());
     }
     else {
-      ozPrint(Sym.GENCLASS);
+      print(OzToken.GENCLASS);
       visit(classPara.getDeclName());
-      zPrint(TokenName.LSQUARE);
+      print(TokenName.LSQUARE);
       printTermList(classPara.getFormalParameters());
-      zPrint(TokenName.RSQUARE);
+      print(TokenName.RSQUARE);
     }
-    zPrint(TokenName.NL);
+    print(TokenName.NL);
 
     visit(classPara.getVisibilityList());
 
@@ -87,7 +78,7 @@ public class OzPrintVisitor
       ZExprList inheritedClass = (ZExprList) classPara.getInheritedClass();
       for (Expr expr : inheritedClass) {
         visit(expr);
-        zPrint(TokenName.NL);
+        print(TokenName.NL);
       }
     }
     else {
@@ -107,7 +98,7 @@ public class OzPrintVisitor
       }
       else {
         visit(para);
-        zPrint(TokenName.NL);
+        print(TokenName.NL);
       }
     }
 
@@ -121,10 +112,10 @@ public class OzPrintVisitor
       Operation operation = iter.next();
       visit(operation);
       if (iter.hasNext()) {
-        zPrint(TokenName.NL);
+        print(TokenName.NL);
       }
     }
-    zPrint(TokenName.END);
+    print(TokenName.END);
     return null;
   }
 
@@ -143,7 +134,7 @@ public class OzPrintVisitor
   protected Object visitInnerFreePara(FreePara freePara)
   {
     printTermList(freePara.getFreetype(), ZString.ANDALSO);
-    zPrint(TokenName.NL);
+    print(TokenName.NL);
     return null;
   }
 
@@ -151,10 +142,10 @@ public class OzPrintVisitor
   {
     if (visibilityList != null) {
       printKeyword(ZString.ZPROJ);
-      zPrint(TokenName.LPAREN);
+      print(TokenName.LPAREN);
       printTermList(visibilityList.getRefName());
-      zPrint(TokenName.RPAREN);
-      zPrint(TokenName.NL);
+      print(TokenName.RPAREN);
+      print(TokenName.NL);
     }
     return null;
   }
@@ -164,19 +155,19 @@ public class OzPrintVisitor
     if (initialState != null) {
       boolean isBox = Box.SchBox.equals(initialState.getBox());
       if (isBox) {
-        ozPrint(Sym.INIT);
-        zPrint(TokenName.NL);
+        print(OzToken.INIT);
+        print(TokenName.NL);
         visit(initialState.getPred());
-        zPrint(TokenName.END);
+        print(TokenName.END);
       }
       else {
         printKeyword(OzString.INITWORD + ZString.SPACE +
                      OzString.SDEF + ZString.SPACE);
-        zPrint(TokenName.LSQUARE);
+        print(TokenName.LSQUARE);
         visit(initialState.getPred());
-        zPrint(TokenName.RSQUARE);
+        print(TokenName.RSQUARE);
       }
-      zPrint(TokenName.NL);
+      print(TokenName.NL);
     }
     return null;
   }
@@ -186,11 +177,11 @@ public class OzPrintVisitor
     if (state != null) {
       boolean isBox = Box.SchBox.equals(state.getBox());
       if (isBox) {
-        ozPrint(Sym.STATE);
-        zPrint(TokenName.NL);
+        print(OzToken.STATE);
+        print(TokenName.NL);
       }
       else {
-        zPrint(TokenName.LSQUARE);
+        print(TokenName.LSQUARE);
       }
 
       DeclList pDeclList = state.getPrimaryDecl().getDeclList();
@@ -209,9 +200,9 @@ public class OzPrintVisitor
       if (sDeclList instanceof ZDeclList) {
         ZDeclList zDeclList = (ZDeclList) sDeclList;
         if (zDeclList.size() > 0) {
-          zPrint(TokenName.NL);
+          print(TokenName.NL);
           printKeyword(OzString.DELTA);
-          zPrint(TokenName.NL);
+          print(TokenName.NL);
           visit(state.getSecondaryDecl());
         }
       }
@@ -222,20 +213,20 @@ public class OzPrintVisitor
 
       if (state.getPred() != null) {
         if (isBox) {
-          zPrint(TokenName.DECORWORD, new WhereWord());
+          print(TokenName.DECORWORD, new WhereWord());
           visit(state.getPred());
         }
         else {
           printKeyword(ZString.BAR);
           visit(state.getPred());
-          zPrint(TokenName.RSQUARE);
+          print(TokenName.RSQUARE);
         }
       }
 
       if (isBox) {
-        zPrint(TokenName.END);
+        print(TokenName.END);
       }
-      zPrint(TokenName.NL);
+      print(TokenName.NL);
     }
     return null;
   }
@@ -256,9 +247,9 @@ public class OzPrintVisitor
   {
     boolean isBox = Box.SchBox.equals(operation.getBox());
     if (isBox) {
-      ozPrint(net.sourceforge.czt.print.oz.Sym.OPSCH);
+      print(OzToken.OPSCH);
       visit(operation.getOpName());
-      zPrint(TokenName.NL);
+      print(TokenName.NL);
 
       assert operation.getOpExpr() instanceof AnonOpExpr;
       AnonOpExpr anonOpExpr = (AnonOpExpr) operation.getOpExpr();
@@ -270,18 +261,18 @@ public class OzPrintVisitor
         ZSchText zSchText = (ZSchText) opText.getSchText();
         visit(zSchText.getDeclList());
         if (zSchText.getPred() != null) {
-          zPrint(TokenName.DECORWORD, new WhereWord());
+          print(TokenName.DECORWORD, new WhereWord());
           visit(zSchText.getPred());
         }
       }
       else {
         throw new UnsupportedOperationException("Non-ZSchText in Operation");
       }
-      zPrint(TokenName.END);
+      print(TokenName.END);
     }
     else {
       visit(operation.getOpName());
-      ozPrint(net.sourceforge.czt.print.oz.Sym.SDEF);
+      print(OzToken.SDEF);
       visit(operation.getOpExpr());
     }
     return null;
@@ -297,10 +288,10 @@ public class OzPrintVisitor
   public Object visitDeltaList(DeltaList deltaList)
   {
     printKeyword(ZString.DELTA);
-    zPrint(TokenName.LPAREN);
+    print(TokenName.LPAREN);
     printTermList(deltaList.getRefName());
-    zPrint(TokenName.RPAREN);
-    zPrint(TokenName.NL);
+    print(TokenName.RPAREN);
+    print(TokenName.NL);
     return null;
   }
 
@@ -388,9 +379,9 @@ public class OzPrintVisitor
   public Object visitAnonOpExpr(AnonOpExpr anonOpExpr)
   {
     printLPAREN(anonOpExpr);
-    zPrint(TokenName.LSQUARE);
+    print(TokenName.LSQUARE);
     visit(anonOpExpr.getOpText());
-    zPrint(TokenName.RSQUARE);
+    print(TokenName.RSQUARE);
     printRPAREN(anonOpExpr);
     return null;
   }
@@ -460,9 +451,9 @@ public class OzPrintVisitor
     printLPAREN(hideOpExpr);
     visit(hideOpExpr.getOpExpr());
     printKeyword(ZString.ZHIDE);
-    zPrint(TokenName.LPAREN);
+    print(TokenName.LPAREN);
     visit(hideOpExpr.getRefNameList());
-    zPrint(TokenName.RPAREN);
+    print(TokenName.RPAREN);
     printRPAREN(hideOpExpr);
     return null;
   }
@@ -471,9 +462,9 @@ public class OzPrintVisitor
   {
     printLPAREN(renameOpExpr);
     visit(renameOpExpr.getOpExpr());
-    zPrint(TokenName.LSQUARE);
+    print(TokenName.LSQUARE);
     visit(renameOpExpr.getRenameList());
-    zPrint(TokenName.RSQUARE);
+    print(TokenName.RSQUARE);
     printRPAREN(renameOpExpr);
     return null;
   }
@@ -511,12 +502,12 @@ public class OzPrintVisitor
   protected void printLPAREN(TermA termA)
   {
     final boolean braces = termA.getAnn(ParenAnn.class) != null;
-    if (braces) zPrint(TokenName.LPAREN);
+    if (braces) print(TokenName.LPAREN);
   }
 
   protected void printRPAREN(TermA termA)
   {
     final boolean braces = termA.getAnn(ParenAnn.class) != null;
-    if (braces) zPrint(TokenName.RPAREN);
+    if (braces) print(TokenName.RPAREN);
   }
 }

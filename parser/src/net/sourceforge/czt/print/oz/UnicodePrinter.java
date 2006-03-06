@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2005 Petra Malik, Tim Miller
+  Copyright (C) 2004, 2005, 2006 Petra Malik, Tim Miller
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -65,90 +65,5 @@ public class UnicodePrinter
   public UnicodePrinter(Writer out, boolean autoFlush)
   {
     super(out, autoFlush);
-  }
-
-  /**
-   * Prints the CLASS token.
-   */
-  public void printCLASS()
-  {
-    print(ZString.SCH + ZString.SPACE + "class" + ZString.SPACE);
-  }
-
-  /**
-   * Prints the GENCLASS token.
-   */
-  public void printGENCLASS()
-  {
-    print(ZString.SCH + ZString.SPACE + "genclass" + ZString.SPACE);
-  }
-
-  /**
-   * Prints the STATE token.
-   */
-  public void printSTATE()
-  {
-    print(ZString.SCH + ZString.ZEDCHAR);
-  }
-
-  /**
-   * Prints the INIT token.
-   */
-  public void printINIT()
-  {
-    print(ZString.SCH + ZString.SPACE + OzString.INITWORD + ZString.SPACE);
-  }
-
-  /**
-   * Prints the OPSCH token.
-   */
-  public void printOPSCH()
-  {
-    print(ZString.SCH +  "op" + ZString.SPACE);
-  }
-
-  /**
-   * Prints the SDEF token.
-   */
-  public void printSDEF()
-  {
-    print(ZString.SPACE + OzString.SDEF + ZString.SPACE);
-  }
-
-  /**
-   * Prints a token from Symbol.
-   */
-  public void printSymbol(Symbol s)
-  {
-    if (s.left == OzPrintVisitor.OZ) {
-      switch(s.sym) {
-      case(Sym.CLASS):
-        printCLASS();
-        break;
-      case(Sym.GENCLASS):
-        printGENCLASS();
-        break;
-      case(Sym.STATE):
-        printSTATE();
-        break;
-      case(Sym.INIT):
-        printINIT();
-        break;
-      case(Sym.OPSCH):
-        printOPSCH();
-        break;
-      case(Sym.SDEF):
-        printSDEF();
-        break;
-      default :
-        Map fieldMap = DebugUtils.getFieldMap(Sym.class);
-        throw new CztException("Unexpected token (" + s.sym + ", " +
-                               fieldMap.get(s.sym) + ", " +
-                               s.value + ")");
-      }
-    }
-    else {
-      super.printSymbol(s);
-    }
   }
 }

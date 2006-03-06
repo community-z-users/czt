@@ -17,40 +17,28 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.parser.z;
+package net.sourceforge.czt.parser.util;
 
-import net.sourceforge.czt.parser.util.Token;
-
-public class ZToken
+public class TokenImpl
   implements Token
 {
-  private TokenName name_;
+  private Token token_;
   private Object spelling_;
 
-  public ZToken(TokenName name)
+  public TokenImpl(Token token, Object spelling)
   {
-    name_ = name;
-  }
-
-  public ZToken(TokenName name, Object spelling)
-  {
-    name_ = name;
+    token_ = token;
     spelling_ = spelling;
   }
 
   public String getName()
   {
-    return name_.toString();
-  }
-
-  public TokenName getTokenName()
-  {
-    return name_;
+    return token_.toString();
   }
 
   public Object getSpelling()
   {
-    return spelling_ != null ? spelling_ : name_.spelling();
+    return spelling_ != null ? spelling_ : token_.spelling();
   }
 
   public String spelling()
