@@ -69,8 +69,6 @@ public class ZCharMap extends JPanel
 
   private JButton convert_;
 
-  private final String UNICODE_MODE = "zed";
-
   //############################################################
   //####################### CONSTRUCTOR ########################
   //############################################################
@@ -326,11 +324,11 @@ public class ZCharMap extends JPanel
 	status.setText(" ");
       } else {
 	ZChar zchar = (ZChar) mTable.getModel().getValueAt(row,col);
-	if (isUnicode()) {
-	  mView.getTextArea().setSelectedText(zchar.getUnicode());
+	if (isLatex()) {
+	  mView.getTextArea().setSelectedText(zchar.getLatex());
 	}
 	else {
-	  mView.getTextArea().setSelectedText(zchar.getLatex());
+	  mView.getTextArea().setSelectedText(zchar.getUnicode());
 	}
       }
     }
@@ -363,9 +361,9 @@ public class ZCharMap extends JPanel
     }
   }
 
-  private boolean isUnicode()
+  private boolean isLatex()
   {
-    if (UNICODE_MODE.equals(mView.getBuffer().getMode().toString())) {
+    if (mView.getBuffer().getMode().toString().contains("latex")) {
       return true;
     }
     return false;
