@@ -96,7 +96,7 @@ public class ExprChecker
 
     //if we have class types, intersect the features of the two classes
     if (lUnified != FAIL && rUnified != FAIL &&
-	vlPowerType.getType() instanceof ClassType &&
+        vlPowerType.getType() instanceof ClassType &&
         vrPowerType.getType() instanceof ClassType) {
       ClassType lClassType = (ClassType) vlPowerType.getType();
       ClassType rClassType = (ClassType) vrPowerType.getType();
@@ -255,10 +255,9 @@ public class ExprChecker
     //get the type of the expression
     Expr expr = bindSelExpr.getExpr();
     Type2 exprType = expr.accept(exprChecker());
-    exprType = resolveClassType(exprType);
 
     if (instanceOf(exprType, VariableClassType.class) ||
-	!instanceOf(exprType, VariableType.class)) {
+        !instanceOf(exprType, VariableType.class)) {
       if (exprType instanceof SchemaType) {
         type = zExprChecker_.visitBindSelExpr(bindSelExpr);
       }
@@ -304,6 +303,9 @@ public class ExprChecker
     if (type instanceof Type2) {
       type = resolveUnknownType((Type2) type);
     }
+    //if this is a reference to a generic declared inside a class,
+    //being referenced outside of that class, the parameters must be
+    //instantiated
     else if (type instanceof GenericType) {
       GenericType gType = (GenericType) type;
       List<Type2> instantiations = factory().list();
@@ -339,6 +341,7 @@ public class ExprChecker
 
     //add the type annotation
     addTypeAnn(bindSelExpr, type);
+
     Type2 result = unwrapType(type);
     return result;
   }
@@ -368,7 +371,8 @@ public class ExprChecker
           ClassSig renameClassSig =
             createRenameClassSig(classSig, renameExpr, errorMessage);
           ClassRef renameThisClass =
-            rename(classRefType.getThisClass(), renameExpr);
+            renameClassRef(classRefType.getThisClass(),
+                           renameExpr.getZRenameList());
           List<DeclName> renamePrimary =
             renamePrimary(classRefType.getPrimary(),
                           renameExpr.getZRenameList());
@@ -387,6 +391,17 @@ public class ExprChecker
       else {
         Object [] params = {renameExpr, exprType};
         error(renameExpr, ErrorMessage.NON_SCHEXPR_IN_RENAMEEXPR, params);
+
+        if (vPowerType.getType() instanceof UnknownType) {
+          UnknownType uType = (UnknownType) vPowerType.getType();
+          if (uType.getZRefName() != null) {
+            List<NewOldPair> newPairs =
+              mergeRenamePairs(uType.getPairs(), renameExpr.getZRenameList());
+            uType.getPairs().clear();
+            uType.getPairs().addAll(newPairs);
+          }
+          type = uType;
+        }
       }
     }
 

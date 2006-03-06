@@ -83,21 +83,10 @@ public class SpecChecker
     final String prevSectName = sectName();
 
     //set the section name
-    setSectName(zSect.getName()); 
+    setSectName(zSect.getName());
 
     //set the markup for this section
     setMarkup(zSect);
-
-    /*
-    try {
-      Source source = (Source) sectInfo().get(new Key("set_toolkit", Source.class));
-      setMarkup(source.getMarkup());
-      System.err.println("markup = " + source.getMarkup());
-    }
-    catch (CommandException e) {
-      assert false : "No source location for " + sectName();
-    }
-    */
 
     //if this section has already been declared, raise an error
     if (sectTypeEnv().isChecked(sectName())) {
@@ -152,7 +141,7 @@ public class SpecChecker
         SectTypeEnvAnn sectTypeEnvAnn =
           (SectTypeEnvAnn) sectInfo().get(new Key(sectName(), SectTypeEnvAnn.class));
         assert sectTypeEnvAnn != null;
-	sectTypeEnv().overwriteTriples(sectTypeEnvAnn.getNameSectTypeTriple());
+        sectTypeEnv().overwriteTriples(sectTypeEnvAnn.getNameSectTypeTriple());
       }
       catch (CommandException e) {
         assert false : "No SectTypeEnvAnn for " + sectName();
@@ -161,7 +150,7 @@ public class SpecChecker
     else {
       SectTypeEnvAnn sectTypeEnvAnn = sectTypeEnv().getSectTypeEnvAnn();
       sectInfo().put(new Key(sectName(), SectTypeEnvAnn.class),
-		     sectTypeEnvAnn, new java.util.HashSet());
+                     sectTypeEnvAnn, new java.util.HashSet());
     }
 
     if (useBeforeDecl() && !sectTypeEnv().getSecondTime()) {
@@ -189,7 +178,7 @@ public class SpecChecker
       removeTypeAnns(zSect);
     }
 
-    //create the SectTypeEnvAnn and add it to the section information    
+    //create the SectTypeEnvAnn and add it to the section information
     List<NameSectTypeTriple> result = sectTypeEnvAnn.getNameSectTypeTriple();
     return result;
   }
@@ -202,20 +191,20 @@ public class SpecChecker
     //get the global decl information for the parent
     SectTypeEnvAnn sectTypeEnvAnn = null;
     try {
-      sectTypeEnvAnn = 
-	(SectTypeEnvAnn) sectInfo().get(new Key(parentName, SectTypeEnvAnn.class));
+      sectTypeEnvAnn =
+        (SectTypeEnvAnn) sectInfo().get(new Key(parentName, SectTypeEnvAnn.class));
     }
     catch (CommandException e) {
       assert false : "No type information for " + parentName;
       e.printStackTrace();
     }
-    
+
     //add the parent's global decls to this section's global type environment
     for (NameSectTypeTriple triple : sectTypeEnvAnn.getNameSectTypeTriple()) {
       sectTypeEnv().addParent(triple.getSect());
-      sectTypeEnv().add(triple);	
+      sectTypeEnv().add(triple);
     }
-    
+
     return null;
   }
 

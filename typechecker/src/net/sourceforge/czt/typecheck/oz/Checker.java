@@ -509,7 +509,7 @@ abstract public class Checker<R>
       for (int j = i + 1; j < declNames.size(); j++) {
         ZDeclName second = declNames.get(j);
         if (namesEqual(first, second) &&
-	    !first.getId().equals(second.getId())) {
+            !idsEqual(first.getId(), second.getId())) {
           Object [] params = {first, termA};
           error(first, errorMessage, params);
         }
@@ -662,6 +662,43 @@ abstract public class Checker<R>
     return newPairs;
   }
 
+  //rename the references in a class ref
+  protected List<ClassRef> renameClassRefs(List<ClassRef> classRefs,
+                                           List<NewOldPair> renamePairs)
+  {
+    List<ClassRef> newClassRefs = factory().list();
+    for (ClassRef classRef : classRefs) {
+      ClassRef newClassRef = renameClassRef(classRef, renamePairs);
+      /*
+      List<NewOldPair> newClassRefPairs = factory().list();
+      for (NewOldPair pair : classRef.getNewOldPair()) {
+        NewOldPair newPair = factory().createNewOldPair(pair);
+        newClassRefPairs.add(newPair);
+      }
+      for (NewOldPair renamePair : renamePairs) {
+        boolean renamed = false;
+        for (NewOldPair classRefPair : newClassRefPairs) {
+          DeclName classRefNewName = classRefPair.getNewName();
+          RefName renameOldName = renamePair.getOldName();
+          if (namesEqual(classRefNewName, renameOldName)) {
+            classRefPair.setNewName(renamePair.getNewName());
+            renamed = true;
+          }
+        }
+        if (!renamed) {
+          newClassRefPairs.add(renamePair);
+        }
+      }
+      ClassRef newClassRef =
+        factory().createClassRef(classRef.getZRefName(),
+                                 classRef.getType(),
+                                 newClassRefPairs);
+      */
+      newClassRefs.add(newClassRef);
+    }
+    return newClassRefs;
+  }
+
   //rename the primary names in a class
   protected List<DeclName> renamePrimary(List<DeclName> primaryNames,
                                          List<NewOldPair> renamePairs)
@@ -688,6 +725,9 @@ abstract public class Checker<R>
     List<NewOldPair> renamePairs = renameExpr.getZRenameList();
     checkForDuplicateRenames(renamePairs, renameExpr,  errorMessage);
 
+    List<ClassRef> classRefs = cSig.getClasses();
+    List<ClassRef> newClassRefs = renameClassRefs(classRefs, renamePairs);
+
     List<NameTypePair> attrs = cSig.getAttribute();
     Signature attrSig = factory().createSignature(attrs);
     Signature newAttrSig = rename(attrSig, renamePairs);
@@ -699,7 +739,7 @@ abstract public class Checker<R>
     List<NameSignaturePair> ops = cSig.getOperation();
     List<NameSignaturePair> newOps = renameOps(ops, renamePairs);
 
-    ClassSig result = factory().createClassSig(cSig.getClasses(),
+    ClassSig result = factory().createClassSig(newClassRefs,
                                                newState, newAttrs, newOps);
     checkClassSig(result, renameExpr, null,
                   ErrorMessage.REDECLARED_NAME_IN_RENAMEEXPR);
@@ -755,7 +795,17 @@ abstract public class Checker<R>
           factory().createClassSig(newClassRefs, newState, newAttrs, newOps);
       }
 
-      if (type instanceof ClassRefType) {
+      if (type instanceof VariableClassType) {
+        VariableClassType vcType = (VariableClassType) type;
+        VariableClassType resultVC = factory().createVariableClassType();
+        if (vcType.getCandidateType() != null) {
+          Type2 instCandidateType = (Type2) instantiate(vcType.getCandidateType());
+          assert instCandidateType instanceof ClassType;
+          resultVC.setCandidateType((ClassType) instCandidateType);
+        }
+        result = resultVC;
+      }
+      else if (type instanceof ClassRefType) {
         ClassRefType classRefType = (ClassRefType) type;
         ClassRef classRef = instantiate(classRefType.getThisClass(), preTypes);
         result = factory().createClassRefType(newCSig, classRef,
@@ -768,7 +818,7 @@ abstract public class Checker<R>
         ClassRef classRef = instantiate(classPolyType.getRootClass(), preTypes);
         result = factory().createClassPolyType(newCSig, classRef);
       }
-      else {
+      else if (type instanceof ClassUnionType) {
         ClassUnionType classUnionType = (ClassUnionType) type;
         result = factory().createClassUnionType(newCSig);
       }
@@ -783,7 +833,7 @@ abstract public class Checker<R>
   protected ClassRef instantiate(ClassRef classRef, List<Type2> preTypes)
   {
     List<Type2> types = instantiateTypes(classRef.getType(), preTypes);
-    List<NewOldPair> pairs = factory().list();
+    List<NewOldPair> pairs = factory().list(classRef.getNewOldPair());
     ClassRef result =
       factory().createClassRef(classRef.getRefName(), types, pairs);
     return result;
@@ -878,6 +928,10 @@ abstract public class Checker<R>
     if (type instanceof ClassType && pairs.size() > 0) {
       ClassType classType = (ClassType) type;
       ClassSig cSig = classType.getClassSig();
+
+      List<ClassRef> classRefs = cSig.getClasses();
+      List<ClassRef> newClassRefs = renameClassRefs(classRefs, pairs);
+
       List<NameTypePair> attrs = cSig.getAttribute();
       Signature attrSig = factory().createSignature(attrs);
       Signature newAttrSig = rename(attrSig, pairs);
@@ -889,7 +943,7 @@ abstract public class Checker<R>
       List<NameSignaturePair> ops = cSig.getOperation();
       List<NameSignaturePair> newOps = renameOps(ops, pairs);
 
-      ClassSig newCSig = factory().createClassSig(cSig.getClasses(),
+      ClassSig newCSig = factory().createClassSig(newClassRefs,
                                                   newState, newAttrs, newOps);
       result = (Type2) classType.create(result.getChildren());
       ((ClassType) result).setClassSig(newCSig);
@@ -909,7 +963,7 @@ abstract public class Checker<R>
         for (int i = 0; i < names.size(); i++) {
           unificationEnv().addGenName(names.get(i), types.get(i));
         }
-        Type newType = instantiate(refType);
+        Type newType = instantiate((GenericType) refType);
         refType = newType;
         unificationEnv().exitScope();
       }
@@ -1054,6 +1108,7 @@ abstract public class Checker<R>
     return result;
   }
 
+  //calculate a class type from the class references in a class type
   protected Type2 resolveClassType(Type2 type)
   {
     Type2 result = type;
@@ -1096,14 +1151,40 @@ abstract public class Checker<R>
       }
       result = lookupClass(classRef);
     }
-    else if (type instanceof UnknownType) {
+    else if (type instanceof UnknownType && sectTypeEnv().getSecondTime()) {
       result = resolveUnknownType(type);
     }
     return result;
   }
 
-  protected ClassRef rename(ClassRef classRef, RenameExpr renameExpr)
+  protected ClassRef renameClassRef(ClassRef classRef,
+                                    List<NewOldPair> renamePairs)
   {
+    List<NewOldPair> newClassRefPairs = factory().list();
+    for (NewOldPair pair : classRef.getNewOldPair()) {
+      NewOldPair newPair = factory().createNewOldPair(pair);
+      newClassRefPairs.add(newPair);
+    }
+    for (NewOldPair renamePair : renamePairs) {
+      boolean renamed = false;
+      for (NewOldPair classRefPair : newClassRefPairs) {
+        DeclName classRefNewName = classRefPair.getNewName();
+        RefName renameOldName = renamePair.getOldName();
+        if (namesEqual(classRefNewName, renameOldName)) {
+          classRefPair.setNewName(renamePair.getNewName());
+          renamed = true;
+        }
+      }
+      if (!renamed) {
+        newClassRefPairs.add(renamePair);
+      }
+    }
+    ClassRef result =
+      factory().createClassRef(classRef.getZRefName(),
+                               classRef.getType(),
+                               newClassRefPairs);
+    return result;
+    /*
     List<NewOldPair> cfPairs = classRef.getNewOldPair();
     List<NewOldPair> rnPairs = renameExpr.getZRenameList();
     List<NewOldPair> newPairs = factory().list();
@@ -1121,6 +1202,7 @@ abstract public class Checker<R>
                                                classRef.getType(),
                                                newPairs);
     return result;
+    */
   }
 
   protected CarrierSet getCarrierSet()
@@ -1144,11 +1226,17 @@ abstract public class Checker<R>
         powerType(unwrapType(type)).getType() instanceof ClassRefType) {
       net.sourceforge.czt.oz.ast.ClassRefType ctype =
         (ClassRefType) powerType(unwrapType(type)).getType();
-      result = "P " + classRefTypeToString(ctype);
+      if (!containsObject(seen, ctype)) {
+        seen.add(ctype);
+        result = "P " + classRefTypeToString(ctype);
+      }
     }
     else if (type instanceof net.sourceforge.czt.oz.ast.ClassRefType) {
       ClassRefType ctype = (ClassRefType) type;
-      result = classRefTypeToString(ctype);
+      if (!containsObject(seen, ctype)) {
+        seen.add(ctype);
+        result = classRefTypeToString(ctype);
+      }
     }
     else {
       result = type.toString();
@@ -1163,6 +1251,7 @@ abstract public class Checker<R>
     result += "(CLASS " + className + "\n";
 
     ClassSig csig = ctype.getClassSig();
+    result += "\tREF(" + csig.getClasses() + ")\n";
     result += "\tATTR(" + className + ")\n";
     for (Object o : csig.getAttribute()) {
       NameTypePair pair = (NameTypePair) o;
@@ -1176,7 +1265,7 @@ abstract public class Checker<R>
     result += "\tOPS(" + className + ")\n";
     for (Object o : csig.getOperation()) {
       NameSignaturePair p = (net.sourceforge.czt.oz.ast.NameSignaturePair) o;
-      result += "\t\t" + p.getZDeclName() + " : " + p.getSignature();
+      result += "\t\t" + p.getZDeclName() + " : " + p.getSignature() + "\n";
     }
     result += ")";
     return result;

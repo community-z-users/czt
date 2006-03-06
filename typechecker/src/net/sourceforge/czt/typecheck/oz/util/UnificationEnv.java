@@ -113,6 +113,7 @@ public class UnificationEnv
     else {
       result = super.unifyUnknownType(uType, type2);
     }
+
     return result;
   }
 

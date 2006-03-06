@@ -81,7 +81,7 @@ public class ErrorAnn
 
   public void setErrorMessage(String errorMessage)
   {
-    errorMessage_ = errorMessage.toString();;
+    errorMessage_ = errorMessage.toString();
   }
 
   public String getErrorMessage()

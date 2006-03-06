@@ -97,8 +97,8 @@ public class CarrierSet
   {
     ZRefName zRefName =
       zFactory_.createZRefName(genParamType.getName().getWord(),
-			       genParamType.getName().getStroke(),
-			       null);
+                               genParamType.getName().getStroke(),
+                               null);
     ZExprList zExprList = zFactory_.createZExprList();
     RefExpr result =
       zFactory_.createRefExpr(zRefName, zExprList, Boolean.FALSE);
@@ -110,7 +110,7 @@ public class CarrierSet
     ZRefName zRefName =
       zFactory_.createZRefName(givenType.getName().getWord(),
                               givenType.getName().getStroke(),
-			       null);
+                               null);
     ZExprList zExprList = zFactory_.createZExprList();
     RefExpr result =
       zFactory_.createRefExpr(zRefName, zExprList, Boolean.FALSE);
@@ -162,7 +162,8 @@ public class CarrierSet
     }
     List<Stroke> strokes = factory_.list();
     ZRefName zRefName =
-      zFactory_.createZRefName("unknown", strokes, null);
+      zFactory_.createZRefName("unknown(" + unknownType.getZRefName() + ")",
+                               strokes, null);
     ZExprList zExprList = zFactory_.createZExprList();
     RefExpr result =
       zFactory_.createRefExpr(zRefName, zExprList, Boolean.FALSE);
@@ -198,10 +199,10 @@ public class CarrierSet
       RefExpr refExpr =
         zFactory_.createRefExpr(zRefName, zExprList, Boolean.FALSE);
       InclDecl inclDecl = zFactory_.createInclDecl(refExpr);
-      ZDeclList zDeclList = 
-	zFactory_.createZDeclList(factory_.<Decl>list(inclDecl));
+      ZDeclList zDeclList =
+        zFactory_.createZDeclList(factory_.<Decl>list(inclDecl));
       ZSchText result = zFactory_.createZSchText(zDeclList, null);
-      return result;  
+      return result;
     }
     return vSig.getValue().accept(this);
   }

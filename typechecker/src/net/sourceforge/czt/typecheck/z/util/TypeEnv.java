@@ -147,7 +147,6 @@ public class TypeEnv
       result = pair.getType();
       zRefName.setDecl(pair.getZDeclName());
     }
-
     return result;
   }
 

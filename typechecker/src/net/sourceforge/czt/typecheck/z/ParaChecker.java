@@ -69,6 +69,7 @@ public class ParaChecker
     for (DeclName givenName : givenNames) {
       //create the type
       ZDeclName zGivenName = assertZDeclName(givenName);
+      addDeclNameID(zGivenName);
       GivenType givenType = factory().createGivenType(zGivenName);
       PowerType powerType = factory().createPowerType(givenType);
 
@@ -120,14 +121,15 @@ public class ParaChecker
       //the type of the Freetype's ZDeclName is a powerset of the
       //given type of itself
       ZDeclName freeTypeName = freetype.getZDeclName();
+      addDeclNameID(freeTypeName);
       GivenType freeTypeGiven = factory().createGivenType(freeTypeName);
       PowerType powerTypeGiven = factory().createPowerType(freeTypeGiven);
 
       //add this type to the local type environment for the right side
       //of the types to access, and to the signature
       pending().add(freeTypeName, powerTypeGiven);
-      NameTypePair pair = 
-	factory().createNameTypePair(freeTypeName, powerTypeGiven);
+      NameTypePair pair =
+        factory().createNameTypePair(freeTypeName, powerTypeGiven);
       pairs.add(pair);
     }
 
@@ -156,6 +158,7 @@ public class ParaChecker
     //create the type of the left side to compose the types of the
     //branches
     ZDeclName freeTypeName = freetype.getZDeclName();
+    addDeclNameID(freeTypeName);
     GivenType givenType = factory().createGivenType(freeTypeName);
     PowerType powerType = factory().createPowerType(givenType);
 
@@ -183,6 +186,7 @@ public class ParaChecker
   {
     NameTypePair pair = null;
     ZDeclName branchName = branch.getZDeclName();
+    addDeclNameID(branchName);
 
     //if there is an expression, then get its type and make the type of
     //this branch PowerType of the cross product of 'givenType' and the
@@ -200,10 +204,10 @@ public class ParaChecker
       }
       else {
         //otherwise create the type and add it to the list of decls.
-	//the type of a complex branch is a function from the type of
-	//the inner expression, to the type of the lhs of the freetype
-	//in which this branch is declared
-	List<Type2> types = factory().list(vPowerType.getType(), givenType);
+        //the type of a complex branch is a function from the type of
+        //the inner expression, to the type of the lhs of the freetype
+        //in which this branch is declared
+        List<Type2> types = factory().list(vPowerType.getType(), givenType);
         ProdType prodType = factory().createProdType(types);
         PowerType powerType = factory().createPowerType(prodType);
         pair = factory().createNameTypePair(branchName, powerType);

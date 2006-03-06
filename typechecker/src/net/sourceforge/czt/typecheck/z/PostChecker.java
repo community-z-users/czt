@@ -167,22 +167,17 @@ public class PostChecker
   {
     //get the type from the annotations
     Type2 type = getType2FromAnns(setExpr);
-
-    if (type instanceof PowerType) {
-      PowerType powerType = (PowerType) type;
-      Type2 innerType = powerType.getType();
-      //if the inner type is not resolved, then replace the expr with an
-      //error annotation
-      if (resolve(innerType) instanceof VariableType) {
-        Object [] params = {setExpr};
-        ErrorAnn errorAnn =
-          errorAnn(setExpr, ErrorMessage.PARAMETERS_NOT_DETERMINED, params);
-        boolean added = addErrorAnn(setExpr, errorAnn);
-        return added ? errorAnn : null;
-      }
+    assert type instanceof PowerType : type;
+    try {
+      Expr expr = (Expr) type.accept(carrierSet());
+      assert expr != null;
     }
-    else {
-      assert false : type;
+    catch (UndeterminedTypeException e) {
+      Object [] params = {setExpr};
+      ErrorAnn errorAnn =
+        errorAnn(setExpr, ErrorMessage.PARAMETERS_NOT_DETERMINED, params);
+      boolean added = addErrorAnn(setExpr, errorAnn);
+      return added ? errorAnn : null;
     }
     return null;
   }

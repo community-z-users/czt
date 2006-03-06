@@ -78,11 +78,11 @@
     z : Z
   \end{axdef}
   \begin{state}
-   r1 : R1
+   r1 : R1[RenamedX/x, RenamedOp1/Op1]
   \where
-    r1.x \in Z\\
+    r1.RenamedX \in Z\\
     r1.y \in \finset Z\\
-    r1.r2.r1.r2.r1.r2.r1.r2.r1.r2.r1.x \in Z
+    r1.r2.r1.r2.r1.r2.r1.r2.r1.r2.r1.RenamedX \in Z
   \end{state}
   Op1 \sdef [x? : \nat]
 \end{class} 
@@ -92,11 +92,12 @@
     r1 : R1[\nat,\nat]\\
     r2 : R2[\finset\finset\nat]\\
   \where\\
-    r1.r2.r1.x = 1\\
-   r1.r2.r1.r2.r1.r2.r1.r2.r1.x \in \{\}\\
+   r1.r2.r1.RenamedX = 1\\
+   r1.r2.r1.r2.r1.r2.r1.r2.r1.RenamedX \in \{\}\\
   \end{state}\\
-  Op1 \sdef  r1.r2.r1.r2.r1.r2.r1.r2.r1.Op1 \land
-            r2.r1.r2.r1.r2.r1.r2.r1.r2.r1.r2.Op1
+  Op1 \sdef  r1.r2.r1.r2.r1.r2.r1.r2.r1.RenamedOp1 \land
+            r2.r1.r2.r1.r2.r1.r2.r1.r2.r1.r2.Op1\\
+  Op2 \sdef r1.Op1 \land r2.r1.RenamedOp1
 \end{class}
 
 \begin{class}{Me[X]}
@@ -105,7 +106,8 @@
    m :  Me[\nat]\\
    t : Top[\nat]
   \where
-    t.r1.r2.r1.x = 1\\
+    t.r1.r2.r1.RenamedX = 1\\
+    t.r1.x = 1\\
     m.x \in \finset \nat
   \end{state}
 \end{class}

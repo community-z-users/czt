@@ -33,6 +33,9 @@ import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
 
+/**** TODO: Remove this ****/
+import net.sourceforge.czt.oz.ast.*;
+
 /**
  * A <code>SectTypeEnv</code> maintains a mapping between a global
  * declaration, its section name, and its type.
@@ -371,7 +374,7 @@ public class SectTypeEnv
     for (NameSectTypeTriple next : typeInfo_) {
       System.err.print("\t(" + next.getZDeclName());
       System.err.print(", (" + next.getSect());
-      System.err.println(", (" + next.getType() + ")))");
+      System.err.println(", (" + toString2(next.getType()) + ")))");
     }
   }
 
@@ -383,16 +386,16 @@ public class SectTypeEnv
 
   //get a triple whose name matches a specified name and it
   //defined in a currently visible scope.
-  private NameSectTypeTriple getTriple(ZDeclName zDeclName) 
+  private NameSectTypeTriple getTriple(ZDeclName zDeclName)
   {
     NameSectTypeTriple result = null;
-    for (NameSectTypeTriple next : typeInfo_) {
+    for (NameSectTypeTriple triple : typeInfo_) {
       //we don't use equals() in DeclName so that we can use this
       //lookup for RefName objects as well
-      if (namesEqual(next.getZDeclName(), zDeclName) &&
+      if (namesEqual(triple.getZDeclName(), zDeclName) &&
           (visibleSections_.contains(section_) ||
-           next.getSect().equals(PRELUDE))) {
-        result = next;
+           triple.getSect().equals(PRELUDE))) {
+        result = triple;
         break;
       }
     }
@@ -417,6 +420,65 @@ public class SectTypeEnv
         }
       }
     }
+    return result;
+  }
+
+  protected List<Type> seen = new java.util.ArrayList<Type>();
+  public String toString2(Type type)
+  {
+    seen = new java.util.ArrayList<Type>();
+    return toString(type);
+  }
+
+  public String toString(Type type)
+  {
+    String result = new String();
+    if (unwrapType(type) instanceof PowerType &&
+        powerType(unwrapType(type)).getType() instanceof ClassRefType) {
+      net.sourceforge.czt.oz.ast.ClassRefType ctype =
+        (ClassRefType) powerType(unwrapType(type)).getType();
+      if (!containsObject(seen, ctype)) {
+        seen.add(ctype);
+        result = "P " + classRefTypeToString(ctype);
+      }
+    }
+    else if (type instanceof net.sourceforge.czt.oz.ast.ClassRefType) {
+      ClassRefType ctype = (ClassRefType) type;
+      if (!containsObject(seen, ctype)) {
+        seen.add(ctype);
+        result = classRefTypeToString(ctype);
+      }
+    }
+    else {
+      result = type.toString();
+    }
+    return result;
+  }
+
+  public String classRefTypeToString(ClassRefType ctype)
+  {
+    String result = new String();
+    ZRefName className = ctype.getThisClass().getZRefName();
+    result += "(CLASS " + className + "\n";
+
+    ClassSig csig = ctype.getClassSig();
+    result += "\tREF(" + csig.getClasses() + ")\n";
+    result += "\tATTR(" + className + ")\n";
+    for (Object o : csig.getAttribute()) {
+      NameTypePair pair = (NameTypePair) o;
+      result += "\t\t" + pair.getZDeclName() + " : " + pair.getType() + "\n";
+    }
+    result += "\tSTATE(" + className + ")\n";
+    for (Object o : csig.getState().getNameTypePair()) {
+      NameTypePair pair = (NameTypePair) o;
+      result += "\t\t" + pair.getZDeclName() + " : " + toString(pair.getType()) + "\n";
+    }
+    result += "\tOPS(" + className + ")\n";
+    for (Object o : csig.getOperation()) {
+      NameSignaturePair p = (net.sourceforge.czt.oz.ast.NameSignaturePair) o;
+      result += "\t\t" + p.getZDeclName() + " : " + p.getSignature() + "\n";
+    }
+    result += ")";
     return result;
   }
 }

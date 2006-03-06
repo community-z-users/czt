@@ -157,6 +157,14 @@ public class Factory
     return result;
   }
 
+  public NewOldPair createNewOldPair(NewOldPair newOldPair)
+  {
+    DeclName newName = newOldPair.getNewName();
+    RefName oldName = newOldPair.getOldName();
+    NewOldPair result = createNewOldPair(newName, oldName);
+    return result;
+  }
+
   public NameTypePair createNameTypePair(DeclName declName, Type type)
   {
     NameTypePair pair = zFactory_.createNameTypePair(declName, type);
@@ -292,8 +300,8 @@ public class Factory
   }
 
   public ZRefName createZRefName(String word,
-                                List<Stroke> stroke,
-                                ZDeclName declName)
+                                 List<Stroke> stroke,
+                                 ZDeclName declName)
   {
     return zFactory_.createZRefName(word, stroke, declName);
   }

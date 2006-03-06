@@ -14,10 +14,10 @@
   bi == 1\\
   \begin{state}
    c : C\\
-   a : A
+   a : A[RenamedOpA1/OpA1]
   \end{state}\\
   OpB1 \sdef [x? : \nat | c.b.a.ai \in \{\}]\\
-  OpB2 \sdef c.b.a.OpA1 \land [x? : \power \nat]
+  OpB2 \sdef c.b.a.RenamedOpA1 \land [x? : \power \nat]
 \end{class}
 
 \begin{class}{C}

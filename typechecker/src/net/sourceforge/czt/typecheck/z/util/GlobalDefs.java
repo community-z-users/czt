@@ -233,7 +233,7 @@ public class GlobalDefs
    * @return true if and only if the name is in the list.
    */
   public static boolean containsZDeclName(List<ZDeclName> list,
-					  ZDeclName zDeclName)
+                                          ZDeclName zDeclName)
   {
     boolean result = false;
     for (ZDeclName next : list) {
@@ -252,7 +252,7 @@ public class GlobalDefs
    * @return true if and only if the name is in the list.
    */
   public static boolean containsID(List<ZDeclName> list,
-				   ZDeclName zDeclName)
+                                   ZDeclName zDeclName)
   {
     boolean result = false;
     for (ZDeclName next : list) {
@@ -262,7 +262,7 @@ public class GlobalDefs
       }
     }
     return result;
-  }  
+  }
 
   /**
    * Test whether a list contains a ZRefame.
@@ -311,9 +311,21 @@ public class GlobalDefs
   /**
    * Test whether the base name and strokes of two DeclNames are equal.
    */
+  public static boolean namesEqual(DeclName declName1, DeclName declName2)
+  {
+    boolean result = false;
+    if (declName1 instanceof ZDeclName && declName2 instanceof ZDeclName) {
+      result = namesEqual((ZDeclName) declName1, (ZDeclName) declName2);
+    }
+    return result;
+  }
+
+  /**
+   * Test whether the base name and strokes of a DeclName and RefName are equal.
+   */
   public static boolean namesEqual(ZDeclName zDeclName, ZRefName zRefName)
   {
-    boolean result =zDeclName.getWord().equals(zRefName.getWord()) &&
+    boolean result = zDeclName.getWord().equals(zRefName.getWord()) &&
       zDeclName.getStroke().equals(zRefName.getStroke());
     return result;
   }
@@ -325,6 +337,38 @@ public class GlobalDefs
   {
     boolean result = zRefName1.getWord().equals(zRefName2.getWord()) &&
       zRefName1.getStroke().equals(zRefName2.getStroke());
+    return result;
+  }
+
+  /**
+   * Test whether the base name and strokes of two RefNames are equal.
+   */
+  public static boolean namesEqual(RefName refName1, RefName refName2)
+  {
+    boolean result = false;
+    if (refName1 instanceof ZRefName && refName2 instanceof ZRefName) {
+      result = namesEqual((ZRefName) refName1, (ZRefName) refName2);
+    }
+    return result;
+  }
+
+  /**
+   * Test whether the base name and strokes of a DeclName and RefName are equal.
+   */
+  public static boolean namesEqual(DeclName declName, RefName refName)
+  {
+    boolean result = false;
+    if (declName instanceof ZDeclName && refName instanceof ZRefName) {
+      result = namesEqual((ZDeclName) declName, (ZRefName) refName);
+    }
+    return result;
+  }
+
+
+
+  public static boolean idsEqual(String id1, String id2)
+  {
+    boolean result = id1 != null && id2 != null && id1.equals(id2);
     return result;
   }
 

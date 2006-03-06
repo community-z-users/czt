@@ -127,7 +127,7 @@ public class ParaChecker
       for (int j = i + 1; j < attrDecls.size(); j++) {
         ZDeclName second = attrDecls.get(j).getZDeclName();
         if (namesEqual(first, second) &&
-	    !first.getId().equals(second.getId())) {
+            !idsEqual(first.getId(), second.getId())) {
           Object [] params = {second, className()};
           error(second, ErrorMessage.REDECLARED_NAME_IN_CLASSPARA, params);
         }
@@ -138,7 +138,7 @@ public class ParaChecker
     insert(cSig.getAttribute(), attrDecls);
 
     //check for incompatible overriding
-    checkForDuplicates(cSig.getAttribute(), null,
+    checkForDuplicates(cSig.getAttribute(), className(),
                        ErrorMessage.INCOMPATIBLE_OVERRIDING);
 
     //visit the state
@@ -146,7 +146,7 @@ public class ParaChecker
     if (state != null) {
       Signature signature = state.accept(paraChecker());
       List<NameTypePair> decls = cSig.getState().getNameTypePair();
-      checkForDuplicates(decls, null, ErrorMessage.INCOMPATIBLE_OVERRIDING);
+      checkForDuplicates(decls, className(), ErrorMessage.INCOMPATIBLE_OVERRIDING);
     }
 
     //visit the initial predicate

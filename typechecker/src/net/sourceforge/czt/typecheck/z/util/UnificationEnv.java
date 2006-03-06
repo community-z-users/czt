@@ -191,6 +191,7 @@ public class UnificationEnv
              uType.getIsMem() == false) {
       UnknownType subType = factory_.createUnknownType(uTypeName, true);
       subType.getType().addAll(uType.getType());
+      subType.getPairs().addAll(uType.getPairs());
       unify(powerType(type2).getType(), subType);
     }
     UResult result = PARTIAL;
@@ -225,7 +226,10 @@ public class UnificationEnv
 
   protected UResult unifyGivenType(GivenType givenTypeA, GivenType givenTypeB)
   {
-    UResult result = givenTypeA.equals(givenTypeB) ? SUCC : FAIL;
+    ZDeclName zDeclNameA = givenTypeA.getName();
+    ZDeclName zDeclNameB = givenTypeB.getName();
+    UResult result = namesEqual(zDeclNameA, zDeclNameB) ? SUCC : FAIL;
+    //    UResult result = givenTypeA.equals(givenTypeB) ? SUCC : FAIL;
     return result;
   }
 
@@ -314,17 +318,17 @@ public class UnificationEnv
       //NameTypePair pairB = listB.get(i);
       //if the pair in not in the signature, then fail
       if (pairB == null) {
-	result = FAIL;
+        result = FAIL;
       }
       else {
-	UResult unified = unify(unwrapType(pairA.getType()),
-				unwrapType(pairB.getType()));
-	if (unified == FAIL) {
-	  result = FAIL;
-	}
-	else if (unified == PARTIAL && result != FAIL) {
-	  result = PARTIAL;
-	}
+        UResult unified = unify(unwrapType(pairA.getType()),
+                                unwrapType(pairB.getType()));
+        if (unified == FAIL) {
+          result = FAIL;
+        }
+        else if (unified == PARTIAL && result != FAIL) {
+          result = PARTIAL;
+        }
       }
     }
     return result;

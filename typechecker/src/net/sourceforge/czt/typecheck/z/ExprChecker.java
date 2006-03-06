@@ -120,7 +120,7 @@ public class ExprChecker
         }
 
         //instantiate the type
-        type = (GenericType) exprChecker().instantiate(genericType);
+        type = exprChecker().instantiate(genericType);
 
         if (pAnn != null) {
           removeAnn(refExpr, pAnn);
@@ -163,7 +163,7 @@ public class ExprChecker
           }
 
           //instantiate the type
-          type = (GenericType) exprChecker().instantiate(genericType);
+          type = exprChecker().instantiate(genericType);
 
           if (pAnn != null) {
             removeAnn(refExpr, pAnn);
@@ -549,7 +549,7 @@ public class ExprChecker
 
     //the type of this expression is a function from the type of the
     //characteristic tuple to the type of the expression
-    ProdType prodType = 
+    ProdType prodType =
       factory().createProdType(factory().list(charTuple, exprType));
     Type2 type = factory().createPowerType(prodType);
 
