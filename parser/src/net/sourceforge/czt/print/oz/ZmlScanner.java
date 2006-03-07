@@ -32,11 +32,13 @@ import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
+import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.print.z.*;
 
 /**
  * This Scanner uses the print visitor to tokenize a
- * given Z term.
+ * given Z/Object-Z term.
  *
  * @author Petra Malik
  */
@@ -51,7 +53,7 @@ public class ZmlScanner
     PrecedenceParenAnnVisitor precVisitor =
       new PrecedenceParenAnnVisitor();
     term.accept(precVisitor);
-    SymbolCollector collector = new SymbolCollector();
+    SymbolCollector collector = new SymbolCollector(Sym.class);
     ZPrintVisitor visitor = new OzPrintVisitor(collector);
     term.accept(visitor);
     symbols_ = collector.getSymbols();

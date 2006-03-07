@@ -59,7 +59,7 @@ public class ZmlScanner
     PrecedenceParenAnnVisitor precVisitor =
       new PrecedenceParenAnnVisitor();
     term.accept(precVisitor);
-    SymbolCollector collector = new SymbolCollector();
+    SymbolCollector collector = new SymbolCollector(Sym.class);
     ZPrintVisitor visitor = new ZPrintVisitor(collector);
     term.accept(visitor);
     symbols_ = collector.getSymbols();
@@ -83,12 +83,10 @@ public class ZmlScanner
     return result;
   }
 
-  private static Map<String, Object> FIELD_MAP =
-    DebugUtils.getFieldMap2(Sym.class);
-
-  public static int getIntValue(String tokenName)
+  public static int getIntValue(String tokenName,
+                                Map<String, Object> fieldMap)
   {
-    Object object = FIELD_MAP.get(tokenName);
+    Object object = fieldMap.get(tokenName);
     if (object instanceof Integer) {
       Integer result = (Integer) object;
       return result;
@@ -104,9 +102,16 @@ public class ZmlScanner
   {
     private List<Symbol> symbolList_ = new Vector<Symbol>();
 
+    private Map<String, Object> fieldMap_;
+
+    public SymbolCollector(Class clazz)
+    {
+      fieldMap_ = DebugUtils.getFieldMap2(clazz);
+    }
+
     public void printToken(Token token)
     {
-      int intValue = getIntValue(token.getName());
+      int intValue = getIntValue(token.getName(), fieldMap_);
       symbolList_.add(new Symbol(intValue,
                                  ZPrintVisitor.Z,
                                  -1,
