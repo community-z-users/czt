@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2005 Mark Utting
+  Copyright (C) 2004, 2005, 2006 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -55,7 +55,7 @@ public class OperatorName
    * for instance ["_", "+", "_"].
    * All word parts of the operator name must have the same strokes.
    */
-  private List list_;
+  private List<String> list_;
 
   /**
    * Creates a new operator name with the given name and strokes.
@@ -90,7 +90,7 @@ public class OperatorName
     this(name.getWord(), name.getStroke());
   }
 
-  public OperatorName(List list)
+  public OperatorName(List<String> list)
     throws OperatorNameException
   {
     final String errorMessage = list + " is not an operator name.";
@@ -165,12 +165,12 @@ public class OperatorName
    * and checks whether operator tokens and argument tokens
    * are alternatingly.
    */
-  private static List wordToList(String name, List strokeList)
+  private static List<String> wordToList(String name, List strokeList)
     throws OperatorNameException
   {
     final String errorMessage = name + " is not an operator name.";
     final String strokes = strokeListToString(strokeList);
-    List result = new ArrayList();
+    List<String> result = new ArrayList<String>();
     StringTokenizer tokenizer = new StringTokenizer(name);
     Boolean expectArgument = null;
 
@@ -238,7 +238,7 @@ public class OperatorName
     return strokes_;
   }
 
-  public Iterator iterator()
+  public Iterator<String> iterator()
   {
     return list_.iterator();
   }
@@ -252,7 +252,7 @@ public class OperatorName
   {
     final String ARG = ZString.ARG;
     final String LISTARG = ZString.LISTARG;
-    final String first = (String) list_.get(0);
+    final String first = list_.get(0);
     boolean sizeIsTwo = list_.size() == 2;
     boolean sizeIsThree = list_.size() == 3;
     boolean firstIsArg = first.equals(ARG) || first.equals(LISTARG);
@@ -268,8 +268,8 @@ public class OperatorName
     }
     final String ARG = ZString.ARG;
     final String LISTARG = ZString.LISTARG;
-    final String first = (String) list_.get(0);
-    final String last = (String) list_.get(list_.size() - 1);
+    final String first = list_.get(0);
+    final String last = list_.get(list_.size() - 1);
     boolean firstIsArg = first.equals(ARG) || first.equals(LISTARG);
     boolean lastIsArg = last.equals(ARG) || last.equals(LISTARG);
     if (firstIsArg) {
