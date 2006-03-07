@@ -113,8 +113,6 @@ public class ZmlScanner
     {
       int intValue = getIntValue(token.getName(), fieldMap_);
       symbolList_.add(new Symbol(intValue,
-                                 ZPrintVisitor.Z,
-                                 -1,
                                  token.getSpelling()));
     }
 

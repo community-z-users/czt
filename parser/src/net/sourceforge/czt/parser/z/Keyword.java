@@ -48,10 +48,29 @@ public enum Keyword
   ANDALSO(ZString.AMP),
   HIDE(ZString.ZHIDE),
   RENAME(ZString.SLASH),
-  SEMI(ZString.SEMICOLON),
+  DOT(ZString.DOT),
+  SEMICOLON(ZString.SEMICOLON),
   ARG(ZString.LL),
   LISTARG(",,"),
-  EQUALS(ZString.EQUALS);
+  EQUALS(ZString.EQUALS),
+  CONJECTURE(ZString.CONJECTURE),
+  FORALL(ZString.ALL),
+  SPOT(ZString.SPOT),
+  EXISTS(ZString.EXI),
+  EXIONE(ZString.EXIONE),
+  IFF(ZString.IFF),
+  IMPLIES(ZString.IMP),
+  OR(ZString.OR),
+  AND(ZString.AND),
+  NOT(ZString.NOT),
+  MEM(ZString.MEM),
+  PROJECT(ZString.ZPROJ),
+  CROSS(ZString.CROSS),
+  LAMBDA(ZString.LAMBDA),
+  MU(ZString.MU),
+  THETA(ZString.THETA),
+  ZCOMP(ZString.ZCOMP),
+  ZPIPE(ZString.ZPIPE);
 
   private String spelling_;
 
