@@ -9,6 +9,21 @@
   <changes>
     <!-- Add new releases here -->
     <release version="0.5" date="unreleased">
+      <action dev="Tim" type="fix"
+        Fixed problem with renaming in mutually recursive types.
+      </action>
+      <action dev="Tim" type="fix"
+        Corrected bug number 1443880 -- Duplicate names not allowed in
+        unrelated sections.
+      </action>
+      <action dev="Tim" type="fix"
+        Expanded schema references beginning Delta and Xi when they
+        are locally declared. Added new class AbstractTypeEnv,
+        superclass to SectTypeEnv and TypeEnv, which provides the
+        method to do this.
+      </action>
+      <action dev="Tim" type="fix"
+      </action>
       <action dev="Tim" type="fix">
         Only the left side of freetypes are in scope for mutually
         recursive free types.
@@ -139,9 +154,6 @@
       <action context="code" dev="Tim">
         Implement functionality to allow downcasting using selections as 
         well as names (e.g obj.val \in C)
-      </action>
-      <action context="code" dev="Tim">
-        There is still a problem with renaming in mutually recursive types.
       </action>
     </actions>
     <actions priority="medium">

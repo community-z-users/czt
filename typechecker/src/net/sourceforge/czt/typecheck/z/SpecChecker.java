@@ -124,7 +124,9 @@ public class SpecChecker
       for (NameTypePair pair : pairs) {
         //if the name already exists globally, raise an error
         ZDeclName zDeclName = pair.getZDeclName();
-        if (!sectTypeEnv().add(zDeclName, pair.getType())) {
+        NameSectTypeTriple duplicate =
+          sectTypeEnv().add(zDeclName, pair.getType());
+        if (duplicate != null) {
           Object [] params = {zDeclName};
           error(zDeclName, ErrorMessage.REDECLARED_GLOBAL_NAME, params);
         }
@@ -192,17 +194,24 @@ public class SpecChecker
     SectTypeEnvAnn sectTypeEnvAnn = null;
     try {
       sectTypeEnvAnn =
-        (SectTypeEnvAnn) sectInfo().get(new Key(parentName, SectTypeEnvAnn.class));
+        (SectTypeEnvAnn) sectInfo().get(new Key(parentName,
+                                                SectTypeEnvAnn.class));
     }
     catch (CommandException e) {
-      assert false : "No type information for " + parentName;
+      assert false : "No type information for section " + parentName;
       e.printStackTrace();
     }
 
     //add the parent's global decls to this section's global type environment
     for (NameSectTypeTriple triple : sectTypeEnvAnn.getNameSectTypeTriple()) {
       sectTypeEnv().addParent(triple.getSect());
-      sectTypeEnv().add(triple);
+      NameSectTypeTriple duplicate = sectTypeEnv().add(triple);
+      //raise an error if there are duplicates in merging parents
+      if (duplicate != null) {
+        Object [] params = {triple.getZDeclName(), duplicate.getSect(),
+                            triple.getSect(), sectName()};
+        error(parent, ErrorMessage.REDECLARED_GLOBAL_NAME_PARENT_MERGE, params);
+      }
     }
 
     return null;

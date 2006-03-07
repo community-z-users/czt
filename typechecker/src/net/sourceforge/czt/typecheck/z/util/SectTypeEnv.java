@@ -30,17 +30,16 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
+import net.sourceforge.czt.parser.util.Pair;
 import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
-
-/**** TODO: Remove this ****/
-import net.sourceforge.czt.oz.ast.*;
 
 /**
  * A <code>SectTypeEnv</code> maintains a mapping between a global
  * declaration, its section name, and its type.
  */
 public class SectTypeEnv
+  extends AbstractTypeEnv
 {
   /** The name of the prelude section. */
   public static final String PRELUDE = "prelude";
@@ -59,8 +58,8 @@ public class SectTypeEnv
   /** The list of all NameSectTypeTriples add so far. */
   protected List<NameSectTypeTriple> typeInfo_;
 
-  /** The list of variables declared so far. */
-  protected List<ZDeclName> declarations_;
+  /** The map of variables and declared in a 2nd pass of a specification. */
+  protected List<NameSectTypeTriple> declarations_;
 
   /** The list of sections declared so far. */
   protected List<String> sectionDeclarations_;
@@ -108,7 +107,10 @@ public class SectTypeEnv
    */
   public void setSection(String section)
   {
-    if (!visibleSections_.contains(section)) visibleSections_.add(section);
+    visibleSections_.clear();
+    Set<String> parents = getTransitiveParents(section);
+    visibleSections_.addAll(parents);
+    visibleSections_.add(section);
     if (!checkedSections_.contains(section)) checkedSections_.add(section);
     section_ = section;
   }
@@ -134,7 +136,6 @@ public class SectTypeEnv
   public boolean isChecked(String section)
   {
     boolean result = checkedSections_.contains(section);
-
     if (secondTime_) {
       result = sectionDeclarations_.contains(section);
       sectionDeclarations_.add(section);
@@ -153,7 +154,7 @@ public class SectTypeEnv
   /**
    * @return the visible sections
    */
-  public Set<String> getVisibleSections()
+  public Set<String> visibleSections()
   {
     return visibleSections_;
   }
@@ -161,7 +162,7 @@ public class SectTypeEnv
   /**
    * End the current section.
    */
-  public void endSection()
+  protected void endSection()
   {
     visibleSections_.clear();
     section_ = null;
@@ -174,7 +175,7 @@ public class SectTypeEnv
   public void addParent(String parent)
   {
     //add the parent as a visible section
-    visibleSections_.add(parent);
+    if (!visibleSections_.contains(parent)) visibleSections_.add(parent);
 
     //get the current section's list of parents
     Set<String> parents = parents_.get(section_);
@@ -194,23 +195,35 @@ public class SectTypeEnv
    * Add a <code>NameSectTypeTriple</code> to this environment.
    * @return true if and only if this name is not a duplicate
    */
-  public boolean add(NameSectTypeTriple triple)
+  public NameSectTypeTriple add(NameSectTypeTriple triple)
   {
-    boolean result = true;
+    NameSectTypeTriple result = null;
 
     //if not already declared, add this declaration to the environment
     NameSectTypeTriple existing = getTriple(triple.getZDeclName());
     if (existing == null) {
       typeInfo_.add(triple);
-      result = true;
     }
+    //otherwise, overwrite the existing declaration, and note that
+    //this declaration is a duplicate
     else {
       existing.setType(triple.getType());
+      if (!existing.getZDeclName().equals(triple.getZDeclName())) {
+        result = existing;
+      }
     }
 
     if (secondTime_) {
-      result = !declarations_.contains(triple.getZDeclName());
-      declarations_.add(triple.getZDeclName());
+      result = null;
+      for (NameSectTypeTriple declaration : declarations_) {
+        if (namesEqual(declaration.getZDeclName(), triple.getZDeclName()) &&
+            !declaration.getZDeclName().equals(triple.getZDeclName()) &&
+            visibleSections_.contains(declaration.getSect())) {
+          result = declaration;
+          break;
+        }
+      }
+      declarations_.add(triple);
     }
 
     return result;
@@ -227,49 +240,19 @@ public class SectTypeEnv
    * Add a <code>NameTypePair</code> to this environment.
    * @return true if and only if this name is not a duplicate
    */
-  public boolean add(NameTypePair nameTypePair)
- {
+  public NameSectTypeTriple add(NameTypePair nameTypePair)
+  {
     return add(nameTypePair.getZDeclName(), nameTypePair.getType());
   }
 
-  public boolean add(ZDeclName zDeclName, Type type)
+  public NameSectTypeTriple add(ZDeclName zDeclName, Type type)
   {
-    boolean result = true;
-    for (NameSectTypeTriple triple : typeInfo_) {
-      if (namesEqual(triple.getZDeclName(), zDeclName)) {
-        triple.setType(type);
-        result = false;
-      }
-    }
-
-    if (result) {
-      NameSectTypeTriple insert =
-        factory_.createNameSectTypeTriple(zDeclName, section_, type);
-      typeInfo_.add(insert);
-    }
-
-    if (secondTime_) {
-      result = !declarations_.contains(zDeclName);
-      declarations_.add(zDeclName);
-    }
-
+    NameSectTypeTriple insert =
+      factory_.createNameSectTypeTriple(zDeclName, section_, type);
+    NameSectTypeTriple result = add(insert);
     return result;
   }
 
-  public boolean update(ZRefName zRefName, Type type)
-  {
-    NameSectTypeTriple triple = getTriple(zRefName);
-    if (triple != null) {
-      triple.setType(type);
-    }
-    else {
-      ZDeclName zDeclName = factory_.createZDeclName(zRefName);
-      NameSectTypeTriple insert =
-        factory_.createNameSectTypeTriple(zDeclName, section_, type);
-      typeInfo_.add(insert);
-    }
-    return true;
-  }
 
   public List<NameSectTypeTriple> getTriple()
   {
@@ -304,64 +287,12 @@ public class SectTypeEnv
       zRefName.setDecl(triple.getZDeclName());
     }
 
-    //if the type is unknown and the name starts with delta or xi, try
-    //looking up the base name
-    if (result instanceof UnknownType &&
-        (zRefName.getWord().startsWith(ZString.DELTA) ||
-         zRefName.getWord().startsWith(ZString.XI))) {
-      final int size = (ZString.DELTA).length();
-      String baseWord = zRefName.getWord().substring(size);
-      ZRefName baseName =
-        factory_.createZRefName(baseWord, zRefName.getStroke(), null);
-      Type baseType = getType(baseName);
-
-      //if this is a schema, determine and add the delta/xi type
-      if (isSchema(baseType)) {
-        PowerType powerType = (PowerType) unwrapType(baseType);
-        SchemaType schemaType = (SchemaType) powerType.getType();
-        Signature signature = schemaType.getSignature();
-
-        List<NameTypePair> pairs = signature.getNameTypePair();
-        List<NameTypePair> newPairs = factory_.list(pairs);
-        for (NameTypePair pair : pairs) {
-          ZDeclName primedName = factory_.createZDeclName(pair.getZDeclName());
-          primedName.getStroke().add(factory_.createNextStroke());
-          NameTypePair newPair =
-            factory_.createNameTypePair(primedName, pair.getType());
-          newPairs.add(newPair);
-        }
-        //create the new type
-        Signature newSignature = factory_.createSignature(newPairs);
-        SchemaType newSchemaType = factory_.createSchemaType(newSignature);
-        PowerType newPowerType = factory_.createPowerType(newSchemaType);
-
-        if (baseType instanceof GenericType) {
-          GenericType gType = (GenericType) baseType;
-          result =
-            factory_.createGenericType(gType.getName(), newPowerType, null);
-        }
-        else {
-          result = newPowerType;
-        }
-
-        //add this to the environment so it need not be determined again
-        add(zDeclName, result);
-      }
+    //if the type is unknown, try looking up the Delta or Xi reference
+    //of it
+    if (result instanceof UnknownType) {
+      result = getDeltaXiType(zRefName, result);
     }
 
-    return result;
-  }
-
-  protected boolean isSchema(Type type)
-  {
-    boolean result = false;
-    Type2 type2 = unwrapType(type);
-    if (type2 instanceof PowerType) {
-      PowerType powerType = (PowerType) type2;
-      if (powerType.getType() instanceof SchemaType) {
-        result = true;
-      }
-    }
     return result;
   }
 
@@ -374,7 +305,7 @@ public class SectTypeEnv
     for (NameSectTypeTriple next : typeInfo_) {
       System.err.print("\t(" + next.getZDeclName());
       System.err.print(", (" + next.getSect());
-      System.err.println(", (" + toString2(next.getType()) + ")))");
+      System.err.println(", (" + next.getType() + ")))");
     }
   }
 
@@ -393,7 +324,7 @@ public class SectTypeEnv
       //we don't use equals() in DeclName so that we can use this
       //lookup for RefName objects as well
       if (namesEqual(triple.getZDeclName(), zDeclName) &&
-          (visibleSections_.contains(section_) ||
+          (visibleSections_.contains(triple.getSect()) ||
            triple.getSect().equals(PRELUDE))) {
         result = triple;
         break;
@@ -420,65 +351,6 @@ public class SectTypeEnv
         }
       }
     }
-    return result;
-  }
-
-  protected List<Type> seen = new java.util.ArrayList<Type>();
-  public String toString2(Type type)
-  {
-    seen = new java.util.ArrayList<Type>();
-    return toString(type);
-  }
-
-  public String toString(Type type)
-  {
-    String result = new String();
-    if (unwrapType(type) instanceof PowerType &&
-        powerType(unwrapType(type)).getType() instanceof ClassRefType) {
-      net.sourceforge.czt.oz.ast.ClassRefType ctype =
-        (ClassRefType) powerType(unwrapType(type)).getType();
-      if (!containsObject(seen, ctype)) {
-        seen.add(ctype);
-        result = "P " + classRefTypeToString(ctype);
-      }
-    }
-    else if (type instanceof net.sourceforge.czt.oz.ast.ClassRefType) {
-      ClassRefType ctype = (ClassRefType) type;
-      if (!containsObject(seen, ctype)) {
-        seen.add(ctype);
-        result = classRefTypeToString(ctype);
-      }
-    }
-    else {
-      result = type.toString();
-    }
-    return result;
-  }
-
-  public String classRefTypeToString(ClassRefType ctype)
-  {
-    String result = new String();
-    ZRefName className = ctype.getThisClass().getZRefName();
-    result += "(CLASS " + className + "\n";
-
-    ClassSig csig = ctype.getClassSig();
-    result += "\tREF(" + csig.getClasses() + ")\n";
-    result += "\tATTR(" + className + ")\n";
-    for (Object o : csig.getAttribute()) {
-      NameTypePair pair = (NameTypePair) o;
-      result += "\t\t" + pair.getZDeclName() + " : " + pair.getType() + "\n";
-    }
-    result += "\tSTATE(" + className + ")\n";
-    for (Object o : csig.getState().getNameTypePair()) {
-      NameTypePair pair = (NameTypePair) o;
-      result += "\t\t" + pair.getZDeclName() + " : " + toString(pair.getType()) + "\n";
-    }
-    result += "\tOPS(" + className + ")\n";
-    for (Object o : csig.getOperation()) {
-      NameSignaturePair p = (net.sourceforge.czt.oz.ast.NameSignaturePair) o;
-      result += "\t\t" + p.getZDeclName() + " : " + p.getSignature() + "\n";
-    }
-    result += ")";
     return result;
   }
 }

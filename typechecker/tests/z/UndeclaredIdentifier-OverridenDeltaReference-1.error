@@ -1,0 +1,19 @@
+\begin{zsection}
+  \SECTION UndeclaredIdentifier\_OverridenDeltaReference\_1
+\end{zsection}
+
+Test that explicitly declared Delta names are not expanded when referenced
+
+\begin{schema}{S1}
+  x : \nat
+\end{schema}
+
+\begin{schema}{\Delta S1}
+  y : \nat
+\end{schema}
+
+\begin{schema}{S2}
+  \Delta S1
+\where
+  x' = 1
+\end{schema}

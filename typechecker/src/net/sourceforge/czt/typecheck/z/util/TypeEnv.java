@@ -37,6 +37,7 @@ import net.sourceforge.czt.typecheck.z.impl.*;
  * variables to their type/signature .
  */
 public class TypeEnv
+  extends AbstractTypeEnv
 {
   /** A Factory. */
   protected Factory factory_;
@@ -147,27 +148,18 @@ public class TypeEnv
       result = pair.getType();
       zRefName.setDecl(pair.getZDeclName());
     }
+
+    //if the type is unknown, try looking up the Delta or Xi reference
+    //of it
+    if (pair == null) {
+      result = getDeltaXiType(zRefName, result);
+    }
     return result;
   }
 
   public List<NameTypePair> getNameTypePair()
   {
     return typeInfo_.peek();
-  }
-
-  public Type getTypeFromAnns(TermA termA)
-  {
-    Type result = factory_.createUnknownType();
-
-    List anns = termA.getAnns();
-    for (Object next : anns) {
-      if (next instanceof TypeAnn) {
-        result = ((TypeAnn) next).getType();
-        break;
-      }
-    }
-
-    return result;
   }
 
   protected List<NameTypePair> getNameTypePairs()
@@ -179,19 +171,6 @@ public class TypeEnv
         if (existing == null) {
           result.add(pair);
         }
-      }
-    }
-    return result;
-  }
-
-  protected NameTypePair findNameTypePair(ZDeclName zDeclName,
-                                          List<NameTypePair> pairs)
-  {
-    NameTypePair result = null;
-    for (NameTypePair pair : pairs) {
-      if (namesEqual(pair.getZDeclName(), zDeclName)) {
-        result = pair;
-        break;
       }
     }
     return result;
