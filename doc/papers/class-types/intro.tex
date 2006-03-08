@@ -15,9 +15,10 @@ suite of tools implemented in Java for the ISO standardised version of
 Z \cite{isoz}, and extensions to Z, such as Object-Z. Work so far has
 seen the development of core classes and libraries for generating
 abstract syntax trees, and parsers for Z, Object-Z, and other Z
-extensions, as well as a typechecker for Z. Current development
-includes an editing environment, a Z animator, and of course, an
-Object-Z typechecker.
+extensions, as well as a typechecker for Z, and of course,
+Object-Z. Other development includes an editing environment, a Z
+animator, and a simple theorem prover for  Z transformations, such as
+schema unfolding.
 
 Typechecking Object-Z is a difficult task, and presents many more
 problems than typechecking standard Z. Object-Z introduces such
@@ -35,10 +36,10 @@ used to annotate expressions in an abstract syntax tree of a parsed
 Object-Z specification, and to allow automatic application of type
 rules to find type inconsistencies in specifications. This class type
 is flexible enough to solve the problems discussed above. We also
-present two unification algorithms for type inference and determining
-type consistency between two class types. The first enforces a {\em
-weak} form of consistency between two class types, and the second
-enforces a {\em strong} form. Our class type model and unification
-algorithms should be flexible enough to work for other formal
-object-oriented specification languages with type systems similar to
-Object-Z.
+present two unification algorithms used for type inference and
+determining type consistency between two class types. The first
+enforces a {\em weak} form of consistency between two class types, and
+the second enforces a {\em strong} form. Our class type model and
+unification algorithms should be flexible enough to work for other
+formal object-oriented specification languages with type systems
+similar to Object-Z.

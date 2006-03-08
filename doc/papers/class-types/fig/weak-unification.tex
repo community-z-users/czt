@@ -30,12 +30,12 @@ $Unify(s_i, t_i)$ \TEND\\
 \STATE \nexti\nexti\nexti $UnifySignature(p, q)$\label{alg:unify-signature}\\
 \STATE \nexti\nexti\TELSE\TIF $s=ClassTypeVar~s_1 \land t=ClassTypeVar~t_1$ \TTHEN
       \label{alg:start-var-class-types}\\
-\STATE \nexti\nexti\nexti \TIF $s_1 \approx_{\tau} t_1$ \TTHEN%\\
- $s_1 := s_1 \cup_{\tau} t_1;~ t_1 := s_1$\\
+\STATE \nexti\nexti\nexti \TIF $s_1 \approx_{c} t_1$ \TTHEN%\\
+ $s_1 := s_1 \cup_{c} t_1;~ t_1 := s_1$\\
 \STATE \nexti\nexti\nexti \TELSE $FAIL$\\
 \STATE \nexti\nexti\TELSE\TIF $s = ClassTypeVar~s_1 \land t =
 ClassType\mathrel{\_}$~~\TTHEN\\
-\STATE \nexti\nexti\nexti\TIF $s_1 \approx_{\tau} t$ \TTHEN $s_1 := s_1 \cup_{\tau} t$\\
+\STATE \nexti\nexti\nexti\TIF $s_1 \approx_{c} t$ \TTHEN $s_1 := s_1 \cup_{c} t$\\
 \STATE \nexti\nexti\nexti\TELSE $FAIL$\label{alg:end-var-class-types}\\
 \STATE \nexti\nexti\TELSE\TIF $s = ClassType \{c_1, \ldots, c_m\} \land t =
    ClassType\{d_1, \ldots, d_n\}$ \TTHEN\label{alg:state-ground-class-types}\\

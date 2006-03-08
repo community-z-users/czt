@@ -45,7 +45,7 @@ following syntax:
   [Resource]
 \end{zed}
 
-This adds ``$Resource : \power$ {\tt GIVEN} $Resource$'' into the type
+This adds ``$Resource : \power$ {\tt GIVEN} $Resource$'' into the typing
 environment.
 
 {\em Power types} are the types of sets. A set can be declared using
@@ -56,7 +56,7 @@ declare a set of resources, we can use the following:
 \end{axdef}
 
 This adds ``$resources : \power (\power$ {\tt GIVEN}
-$Resource)$'' into the type environment.
+$Resource)$'' into the typing environment.
 
 {\em Product types} are the type of tuple expressions, which are
 declared using $(e_1, \ldots, e_n)$ syntax, of cross product expressions. To
@@ -67,7 +67,7 @@ declare a triple of resources, we can use the following:
 
 This adds ``$triple : $ {\tt GIVEN}
 $Resource \cross$ {\tt GIVEN} $Resource \cross$ {\tt GIVEN} $Resource$''
-into the type environment.
+into the typing environment.
 
 {\em Schema types} are the type of schema expressions, which are sets
 of variable bindings. The most common way of declaring a schema
@@ -81,14 +81,14 @@ expression is using a schema box:
 
 This adds ``$System
 : \power [resource_1 : $ {\tt GIVEN} $Resource; resource_2 : $ {\tt GIVEN}
-$Resource]$'' into the type environment.
+$Resource]$'' into the typing environment.
 
 {\em Generic parameter types} and {\em generic types} are the final
 types in the Z type system. They are related in that one is needed for
 the other. Generic definitions in Z permit definitions whose type is
 polymorphic, in that the definition can be instantiated. For example,
 the following generic paragraph introduces the infix relation
-$\neq$, which holds if the two arguments are no equal.
+$\neq$, which holds if the two arguments are not equal.
 %\begin{gendef}[X]
 %  singleton~\_ : \power X
 %\where
@@ -116,7 +116,7 @@ $\neq$, which holds if the two arguments are no equal.
 
 
 This adds ``$\_\neq~\_ : [X] \power ($ {\tt GENTYPE} $X \cross$ {\tt
-GENTYPE} $X)$'' into the type environment, in which ``{\tt GENTYPE}
+GENTYPE} $X)$'' into the typing environment, in which ``{\tt GENTYPE}
 $X$'' is the generic parameter type, and ``$[X] \power $ {\tt GENTYPE}
 $X$'' is the generic type\footnote{The {\tt GENTYPE} keyword suggests
 this is the wrong way around, but we follow the definition from
@@ -139,7 +139,7 @@ Type2}. This {\em ClassType} is used to represent the set of object
 identities and the polymorphic core\footnote{Recall from
 Section~\ref{background} that the polymorphic core is the common
 features of a set of classes.} of those identities. For a class $A$,
-the type of the name $A$ introduced into the type environment is a
+the type of the name $A$ introduced into the typing environment is a
 power set of the class type representing the objects in
 $A$. Figure~\ref{ClassType.fig} specifies, in Object-Z, the structure
 of the class type.
@@ -196,19 +196,22 @@ class is declared using a class paragraph: the generic parameters, the
 class name, the superclasses, and the visibility list (a list of
 features that are visible from outside the class). Generic parameters
 are recorded by declaring the class as a generic type, just as
-$singleton$ was declared in the previous section, so this information
+$\_~\neq~\_$ was declared in the previous section, so this information
 does not need to be modelled explicitly in the class type. The other
 features are declared by creating a type class $ClassRefType$, which
 inherits $ClassType$. This is shown in
 Figure~\ref{ClassType.fig}. Similarly, two other type classes
 $PolyType$ and $ClassUnionType$ are declared that inherit from
-$ClassType$. $ClassUnionType$ has not extra features, while
-$ClassPolyType$ has one additional feature: a $ClassRef$, which
-records the root class of a polymorphic expressions. For example, in
-the expression $\poly A$, $A$ is the root class. Figure~\ref{oz-types}
+$ClassType$. $ClassUnionType$ has no extra features, while
+$ClassPolyType$ has one additional feature: a $ClassRef$ that records
+the root class of a polymorphic expressions. For example, in the
+expression $\poly A$, $A$ is the root class. Throughout the rest of
+this paper, we use $ClassType\{c_1, \ldots, c_n\}$ to represent a
+class type made up of class references $c_1, \ldots, c_n$.
+Figure~\ref{oz-types}
 shows the extended Z type hierarchy that includes the new types for
-Object-Z. An ellipsis implies that the hierarchy is the same as in
-Figure~\ref{z-types}.
+Object-Z. An ellipsis ($\ldots$) implies that the hierarchy is the
+same as in Figure~\ref{z-types}.
 
 \def\epsfsize#1#2{0.7#1}
 \begin{figure}

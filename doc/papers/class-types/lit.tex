@@ -3,19 +3,23 @@
 Typechecking formal object-oriented specification languages has not
 been investigated in great detail in the existing literature,
 especially when compared to other specification languages such as
-Z. While much work has focuses on the theoretical aspects of
+Z. Much work has focuses on the theoretical aspects of
 object-oriented type analysis, such as Palsberg \cite{palsberg95},
-application of such work to formal languages is minimal.
+however, the treatment of classes in Object-Z as sets of object
+identities is quite different to the object types discussed in work
+such as Palsberg's, which consider object types compatible if their
+interfaces are compatible.
 
 Chen's class type model \cite{chen94}, discussed in
-Section~\ref{background}, is similar to our model, but models classes
-as sets of object identities, but with no discussion of how to
-represent these sets. Chen does not model the polymorphic core in
-class types, making feature renaming difficult to support, and meaning
-that the polymorphic core must be calculated each time a reference to
-a class type with more than one subtype is made. Chen does not discuss
-unification or type inference. No other reference to Chen's Object-Z
-typechecker can be found in literature or via an Internet search.
+Section~\ref{background}, is similar to our model in that it models
+classes as sets of object identities, but Chen does not discuss how to
+represent these sets. Also, Chen does not model the polymorphic core
+in class types, making feature renaming difficult to support, and
+meaning that the polymorphic core must be calculated each time a
+reference to a class type with more than one subtype is made. Chen
+does not discuss unification or type inference. No other reference to
+Chen's Object-Z typechecker can be found in literature or via an
+Internet search.
 
 The Wizard typechecker for Object-Z \cite{johnston96} models class
 types similar to that of Chen. The basic class type is a {\em class
@@ -26,10 +30,10 @@ that define possible sets of object identities. A class union type is
 a set of class reference types. This is similar to our model, but
 differs in that the core information of polymorphic expressions and
 class unions is modelled in each class reference. Neither unification
-or type inference are discussed in \cite{johnston96}, and Wizard's
-type inference algorithm does not infer the minimal class union type
-for implicitly instantiated references, but instead infers the type to
-be the first type it encounters.
+or type inference are discussed in \cite{johnston96}, and Wizard does
+not infer the minimal class union type for implicitly instantiated
+references, but instead infers the type to be the first type it
+encounters.
 
 Smalltalk \cite{goldberg83} seems to be one of the few object-oriented
 languages that has attracted interest in the research community with

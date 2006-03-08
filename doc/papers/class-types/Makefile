@@ -16,7 +16,7 @@ $(TARGET).pdf: $(TARGET).ps
 	ps2pdf -dPDFsettings=/prepress $(TARGET).ps $(TARGET).pdf
 
 $(TARGET).ps: $(TARGET).dvi
-	dvips -o $(TARGET).ps $(TARGET).dvi
+	dvips -Ppdf -G0 $(TARGET).dvi -o $(TARGET).ps
 
 $(TARGET).dvi: $(TARGET).tex $(INCLUDES) $(BIBLIOGRAPHY) $(FIGURES) $(REFERENCES) $(EPS)
 	latex $(TARGET)
