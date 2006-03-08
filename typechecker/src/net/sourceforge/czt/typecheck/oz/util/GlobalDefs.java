@@ -41,6 +41,48 @@ public class GlobalDefs
     return (VariableClassSig) o;
   }
 
+  //unfold any references to variable class types in a type
+  public static Type2 resolveVariableClassType(Type2 type)
+  {
+    Type2 result = resolve(type);
+    if (result instanceof VariableClassType) {
+      VariableClassType vClassType = (VariableClassType) result;
+      if (vClassType.getCandidateType() != null) {
+	result = vClassType.getCandidateType();
+      }
+    }
+    else if (result instanceof PowerType) {
+      PowerType powerType = (PowerType) result;
+      Type2 resolved = resolveVariableClassType(powerType.getType());
+      powerType.setType(resolved);
+    }
+    else if (result instanceof ProdType) {
+      ProdType prodType = (ProdType) result;
+      for (int i = 0; i < prodType.getType().size(); i++) {
+	Type2 resolved = resolveVariableClassType(prodType.getType().get(i));
+	prodType.getType().set(i, resolved);
+      }
+    }
+    else if (result instanceof SchemaType) {
+      Signature signature = ((SchemaType) result).getSignature();
+      for (NameTypePair pair : signature.getNameTypePair()) {
+	Type2 resolved = resolveVariableClassType(unwrapType(pair.getType()));
+	pair.setType(resolved);
+      }
+    }
+    else if (result instanceof ClassType) {
+      ClassSig cSig = ((ClassType) result).getClassSig();
+      List<ClassRef> classRefs = cSig.getClasses();
+      for (ClassRef classRef : classRefs) {
+	for (int i = 0; i < classRef.getType().size(); i++) {
+	  Type2 resolved = resolveVariableClassType(classRef.getType().get(i));
+	  classRef.getType().set(i, resolved);
+	}
+      }
+    }
+    return result;
+  }
+
   //check if a name is in a signature's visibility list
   public static boolean isVisible(RefName refName, Type2 type)
   {

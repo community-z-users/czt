@@ -952,13 +952,13 @@ public class ExprChecker
     Type2 funcType = funcExpr.accept(exprChecker());
     Type2 argType = argExpr.accept(exprChecker());
 
-    VariableType domType = factory().createVariableType();
-    VariableType ranType = factory().createVariableType();
+    Type2 domType = factory().createVariableType();
+    Type2 ranType = factory().createVariableType();
     List<Type2> types = factory().<Type2>list(domType, ranType);
     ProdType vProdType = factory().createProdType(types);
     PowerType vPowerType = factory().createPowerType(vProdType);
     UResult unified = unify(vPowerType, funcType);
-
+    
     //if the left expression is not a function, raise an error
     if (unified == FAIL) {
       Object [] params = {applExpr, funcType};
@@ -966,15 +966,24 @@ public class ExprChecker
     }
     else {
       //the type of the domain of the function must unify with the
-      //type of the argument
-      unified = unify(resolve(domType), argType);
+      //type of the argument     
+      if (funcType instanceof PowerType &&
+	  powerType(funcType).getType() instanceof ProdType) {
+	//use the non-variable types for domType and ranType so that
+	//variable class types are not detected for the Object-Z
+	//typechecker.
+	ProdType pFuncType = (ProdType) powerType(funcType).getType();
+	domType = pFuncType.getType().get(0);
+	ranType = pFuncType.getType().get(1);
+      }
+      unified =  unify(resolve(domType), argType);
       if (unified == FAIL) {
         Object [] params = {applExpr, resolve(domType), argType};
         error(applExpr, ErrorMessage.TYPE_MISMATCH_IN_APPLEXPR, params);
-      }
+      }      
       else {
         //if the domain and argument unify, then the type is the range type
-        type = resolve(ranType);
+	type = resolve(ranType);
       }
     }
 

@@ -1,0 +1,31 @@
+\begin{zsection}
+ \SECTION ApplExpr\_Oz \parents prelude
+\end{zsection}
+
+Testing that a reference to a generic function with no parameter
+instantiations detects the smallest minimal type when inferring using
+classes.
+
+\begin{gendef}[X, Y]
+ fun : \power (\power(X \cross Y))
+\end{gendef}
+
+\begin{class}{A}
+\end{class}
+
+\begin{class}{B}
+\end{class}
+
+\begin{axdef}
+ f : fun\\
+ a : A\\
+ b : B
+\where
+ f(a) \in B\\
+ f(b) \in A\\
+\end{axdef}
+
+\begin{zed}
+ \vdash? (f(a) = a \lor f(a) = b) \land
+         (f(b) = a \lor f(b) = b)
+\end{zed}

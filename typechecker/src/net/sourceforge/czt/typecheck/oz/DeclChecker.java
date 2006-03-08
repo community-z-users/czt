@@ -20,6 +20,8 @@ package net.sourceforge.czt.typecheck.oz;
 
 import java.util.List;
 
+import net.sourceforge.czt.typecheck.oz.util.GlobalDefs;
+
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
@@ -63,6 +65,7 @@ public class DeclChecker
     //expr should be a set expr
     PowerType vPowerType = factory().createPowerType();
     UResult unified = strongUnify(vPowerType, exprType);
+    vPowerType = (PowerType) GlobalDefs.resolveVariableClassType(vPowerType);
 
     //the list of name type pairs in this VarDecl
     List<NameTypePair> pairs = checkVarDecl(varDecl, unified,

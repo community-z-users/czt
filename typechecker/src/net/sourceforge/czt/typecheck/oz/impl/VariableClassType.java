@@ -143,6 +143,9 @@ public class VariableClassType
   public String toString()
   {
     String result = "VClassType " + super.toString();
+    if (candidateType_ != null) {
+      result += " (" + candidateType_ + ")";
+    }
     return result;
   }
 
