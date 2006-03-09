@@ -15,11 +15,13 @@ plugin.zsidekick.ZSideKickPlugin.depend.3=plugin sidekick.SideKickPlugin 0.3
 
 # Plugin menu item properties
 plugin.zsidekick.ZSideKickPlugin.menu=zsidekick.toLatex \
+                                      zsidekick.toOldLatex \
                                       zsidekick.toUnicode \
                                       zsidekick.toXml
 
 # action labels
 zsidekick.toLatex.label=Convert to Latex mark-up
+zsidekick.toOldLatex.label=Convert to old Latex mark-up
 zsidekick.toUnicode.label=Convert to Unicode mark-up
 zsidekick.toXml.label=Convert to XML
 
