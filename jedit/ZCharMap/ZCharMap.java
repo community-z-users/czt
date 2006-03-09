@@ -363,10 +363,7 @@ public class ZCharMap extends JPanel
 
   private boolean isLatex()
   {
-    if (mView.getBuffer().getMode().toString().contains("latex")) {
-      return true;
-    }
-    return false;
+    return mView.getBuffer().getMode().toString().contains("latex");
   }
 
   /**
