@@ -123,6 +123,24 @@ public final class PrintUtils
     }
   }
 
+  public static void printOldLatex(Term term, Writer out, SectionInfo sectInfo)
+  {
+    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
+    Term tree = (Term) term.accept(toPrintTree);
+    ZmlScanner scanner = new ZmlScanner(tree);
+    Unicode2Latex parser = new Unicode2Latex(new SectHeadScanner(scanner));
+    parser.setOld(true);
+    parser.setSectionInfo(sectInfo);
+    UnicodePrinter printer = new UnicodePrinter(out);
+    parser.setWriter(printer);
+    try {
+      parser.parse();
+    }
+    catch (Exception e) {
+      throw new CztException(e);
+    }
+  }
+
   /**
    * Prints a given term (usually an Expr or Pred) as latex markup to
    * the given writer.  The name of section (where this term belongs
@@ -143,6 +161,35 @@ public final class PrintUtils
                                 Writer out,
                                 SectionInfo sectInfo,
                                 String sectionName)
+  {
+    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
+    Term tree;
+    try {
+      tree = (Term) toPrintTree.run(term, sectionName);
+    }
+    catch (CommandException exception) {
+      throw new CztException(exception);
+    }
+    ZmlScanner scanner = new ZmlScanner(tree);
+    scanner.prepend(new Symbol(Sym.TOKENSEQ));
+    scanner.append(new Symbol(Sym.TOKENSEQ));
+    Unicode2Latex parser = new Unicode2Latex(scanner);
+    parser.setOld(true);
+    parser.setSectionInfo(sectInfo, sectionName);
+    UnicodePrinter printer = new UnicodePrinter(out);
+    parser.setWriter(printer);
+    try {
+      parser.parse();
+    }
+    catch (Exception e) {
+      throw new CztException(e);
+    }
+  }
+
+  public static void printOldLatex(Term term,
+                                   Writer out,
+                                   SectionInfo sectInfo,
+                                   String sectionName)
   {
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
     Term tree;

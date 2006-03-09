@@ -27,6 +27,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.TermAVisitor;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
+import net.sourceforge.czt.parser.util.Decorword;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.parser.util.TokenImpl;
 import net.sourceforge.czt.parser.z.TokenName;
@@ -279,36 +280,46 @@ public class AstToPrintTreeVisitor
     }
     else if (Box.OmitBox.equals(box)) {
       list.add(TokenName.ZED);
-      List declNameList = axPara.getDeclName();
-      if (declNameList.size() > 0) {
-        final SchText schText = axPara.getSchText();
-        final List<Decl> decls = axPara.getZSchText().getZDeclList();
-        final ConstDecl constDecl = (ConstDecl) decls.get(0);
+      final List declNameList = axPara.getDeclName();
+      final SchText schText = axPara.getSchText();
+      final List<Decl> decls = axPara.getZSchText().getZDeclList();
+      for (Decl decl : decls) {
+        final ConstDecl constDecl = (ConstDecl) decl;
         final ZDeclName declName = constDecl.getZDeclName();
         final OperatorName operatorName = declName.getOperatorName();
         final OpTable.OpInfo opInfo = operatorName == null ? null :
           opTable_.lookup(operatorName);
-
         if (opInfo != null && Cat.Generic.equals(opInfo.getCat())) {
           // generic operator definition
-          list.addAll(printOperator(operatorName, axPara.getDeclName()));
+          list.addAll(printOperator(operatorName, declNameList));
           list.add(ZString.DEFEQUAL);
           list.add(visit(constDecl.getExpr()));
         }
-        else { // generic horizontal definition
+        else { // (generic) horizontal definition
           list.add(visit(declName));
-          list.add(TokenName.LSQUARE);
-          for (Iterator iter = declNameList.iterator(); iter.hasNext();) {
-            list.add(visit(iter.next()));
-            if (iter.hasNext()) list.add(ZString.COMMA);
+          if (declNameList.size() > 0) {
+            list.add(TokenName.LSQUARE);
+            for (Iterator iter = declNameList.iterator(); iter.hasNext();) {
+              list.add(visit(iter.next()));
+              if (iter.hasNext()) list.add(ZString.COMMA);
+            }
+            list.add(TokenName.RSQUARE);
           }
-          list.add(TokenName.RSQUARE);
-          list.add(ZString.DEFEQUAL);
-          list.add(visit(constDecl.getExpr()));
+          final Expr expr = constDecl.getExpr();
+          final TypeAnn typeAnn = (TypeAnn) expr.getAnn(TypeAnn.class);
+          Decorword spelling = new Decorword(ZString.DEFEQUAL);
+          if (typeAnn != null) {
+            Type type = typeAnn.getType();
+            if (type instanceof PowerType) {
+              PowerType powerType = (PowerType) type;
+              if (powerType.getType() instanceof SchemaType) {
+                spelling = new DefsWord();
+              }
+            }
+          }
+          list.add(new TokenImpl(TokenName.DECORWORD, spelling));
+          list.add(visit(expr));
         }
-      }
-      else { // horizontal definition
-        list.add(visit(axPara.getSchText()));
       }
       list.add(TokenName.END);
     }

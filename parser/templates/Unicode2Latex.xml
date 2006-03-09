@@ -37,6 +37,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZChar;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.print.z.DefsWord;
 import net.sourceforge.czt.print.z.WhereWord;
 import net.sourceforge.czt.session.*;
 <add:oz>
@@ -292,6 +293,7 @@ parser code {:
   public static final Map symbolMap_ = DebugUtils.getFieldMap(Sym.class);
 
   private Writer writer_ = new OutputStreamWriter(System.out);
+  protected boolean old_ = false;
   protected SectionInfo sectInfo_ = new SectionManager();
   protected String sectionName_ = null;
   /**
@@ -317,6 +319,16 @@ parser code {:
   {
     sectInfo_ = sectInfo;
     sectionName_ = sectionName;
+  }
+
+  public void setOld(boolean value)
+  {
+    old_ = value;
+  }
+
+  public boolean isOld()
+  {
+    return old_;
   }
 
   public Writer getWriter()
@@ -718,6 +730,10 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                 if (s instanceof WhereWord) {
                   RESULT =
                     new LatexCommand("\n\\where\n", ZString.VL, true, true);
+                }
+                else if (parser.old_ &amp;&amp; s instanceof DefsWord) {
+                  RESULT =
+                    new LatexCommand("\\defs", ZString.DEFEQUAL, true, true);
                 }
                 else {
                   RESULT = toLatex(s.getName(), sleft, sright);
