@@ -31,14 +31,27 @@ public class TermCommand
     throws CommandException
   {
     final Key newKey = new Key(name, Term.class);
-    Term term;
+    Key zSectKey = new Key(name, ZSect.class);
+    Key specKey = new Key(name, Spec.class);
+    if (manager.isCached(zSectKey)) {
+      manager.put(newKey, manager.get(zSectKey));
+      return true;
+    }
+    if (manager.isCached(specKey)) {
+      manager.put(newKey, manager.get(specKey));
+      return true;
+    }
+    Term term = null;
     try {
-      term = (ZSect) manager.get(new Key(name, ZSect.class));
+      term = (ZSect) manager.get(zSectKey);
     }
     catch (CommandException exception) {
-      term = (Spec) manager.get(new Key(name, Spec.class));
+      term = (Spec) manager.get(specKey);
     }
-    manager.put(newKey, term);
-    return true;
+    if (term != null) {
+      manager.put(newKey, term);
+      return true;
+    }
+    return false;
   }
 }
