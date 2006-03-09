@@ -131,11 +131,13 @@ abstract public class Checker<R>
     return errorAnn;
   }
 
+  /*
   protected UResult strongUnify(Type2 typeA, Type2 typeB)
   {
     UnificationEnv unificationEnv = (UnificationEnv) unificationEnv();
     return unificationEnv.strongUnify(typeA, typeB);
   }
+  */
 
   protected UResult weakUnify(Type2 typeA, Type2 typeB)
   {

@@ -270,6 +270,11 @@ abstract public class Checker<R>
     return unificationEnv().unify(sigA, sigB);
   }
 
+  public UResult strongUnify(Type2 typeA, Type2 typeB)
+  {
+    return unificationEnv().strongUnify(typeA, typeB);
+  }
+
   protected CarrierSet carrierSet()
   {
     return typeChecker_.carrierSet_;

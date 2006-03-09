@@ -137,6 +137,11 @@ public class UnificationEnv
     return false;
   }
 
+  public UResult strongUnify(Type2 typeA, Type2 typeB)
+  {
+    return unify(typeA, typeB);
+  }
+
   public UResult unify(Signature sigA, Signature sigB)
   {
     UResult result = unifySignature(sigA, sigB);

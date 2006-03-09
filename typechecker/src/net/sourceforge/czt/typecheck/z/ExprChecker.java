@@ -957,7 +957,11 @@ public class ExprChecker
     List<Type2> types = factory().<Type2>list(domType, ranType);
     ProdType vProdType = factory().createProdType(types);
     PowerType vPowerType = factory().createPowerType(vProdType);
-    UResult unified = unify(vPowerType, funcType);
+
+    //infer the types of the domain and range. strongUnify is used
+    //because we can infer the minimal type from this one inference
+    //even if they are class types.
+    UResult unified = strongUnify(vPowerType, funcType);
     
     //if the left expression is not a function, raise an error
     if (unified == FAIL) {
@@ -966,17 +970,8 @@ public class ExprChecker
     }
     else {
       //the type of the domain of the function must unify with the
-      //type of the argument     
-      if (funcType instanceof PowerType &&
-	  powerType(funcType).getType() instanceof ProdType) {
-	//use the non-variable types for domType and ranType so that
-	//variable class types are not detected for the Object-Z
-	//typechecker.
-	ProdType pFuncType = (ProdType) powerType(funcType).getType();
-	domType = pFuncType.getType().get(0);
-	ranType = pFuncType.getType().get(1);
-      }
-      unified =  unify(resolve(domType), argType);
+      //type of the argument   
+      unified = unify(resolve(domType), argType);
       if (unified == FAIL) {
         Object [] params = {applExpr, resolve(domType), argType};
         error(applExpr, ErrorMessage.TYPE_MISMATCH_IN_APPLEXPR, params);
