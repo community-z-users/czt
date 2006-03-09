@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004 Petra Malik
+  Copyright (C) 2004, 2006 Petra Malik
   Copyright (C) 2004 Tim Miller
   This file is part of the czt project.
 
@@ -117,7 +117,7 @@ public class TypeCheckUtils
   /** A convenience method for parsing an arbitrary input specification.
    *  Note that source.setMarkup(...) allows you to specify which markup format
    *  the specification is using: LATEX or UNICODE etc.
-   *  @param  src The string or file to be parsed.
+   *  @param  source The string or file to be parsed.
    *  @param  sectInfo The section manager or SectionInfo to use during parsing.
    *  @return A non-typechecked term.
    */
