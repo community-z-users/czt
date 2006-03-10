@@ -120,7 +120,17 @@ action code
     /** The type of the previous chain relation e.g. MEM, EQUALS, IP */
     protected int previousChain_ = -1;
 
-    /** Section information. */
+<add:oz>
+    /**
+     * The tope of the stack is true if an operation expr is
+     * currently being parsed. This is needed because Z exprs and
+     * Object-Z operations are both specified using non-terminal 'term'
+     */
+    protected Stack &lt; Boolean &gt; isOpExpr_ = 
+       new Stack &lt; Boolean &gt; ();
+</add:oz>
+
+   /** Section information. */
     protected SectionInfo sectInfo_;
 
     /** The operator scanner. */
@@ -381,6 +391,17 @@ action code
       else if (t instanceof ExprPred) {
         result = ((ExprPred) t).getExpr();
       }
+<add:oz>
+      else if (t instanceof OpPromotionExpr) {
+        OpPromotionExpr ope = (OpPromotionExpr) t;
+        assert ope.getExpr() != null;
+        Expr e = ope.getExpr();
+        RefName rn = ope.getRefName();
+        result = factory_.createBindSelExpr(ope.getExpr(), ope.getRefName());
+        LocAnn locAnn = (LocAnn) t.getAnn(LocAnn.class);
+        if (locAnn != null) result.getAnns().add(locAnn);
+      }
+</add:oz>
       else if (t instanceof Pred) {
 <add:oz>
         result = factory_.createPredExpr((Pred) t);
@@ -402,6 +423,32 @@ action code
       }
       return result;
     }
+
+<add:oz>
+    /**
+     * Converts an TermA to an OpExpr.
+     */
+    protected OpExpr opExpr(TermA t)
+      throws ParseException
+    {
+      OpExpr result = null;
+
+      if (t instanceof OpExpr) {
+        result = (OpExpr) t;
+      }
+      else if (t instanceof RefExpr) {
+        RefExpr re = (RefExpr) t;
+        result = factory_.createOpPromotionExpr(null, re.getRefName());
+        LocAnn locAnn = (LocAnn) t.getAnn(LocAnn.class);
+        if (locAnn != null) result.getAnns().add(locAnn);
+      }
+      else {
+        parser.report_error(ParseMessage.MSG_OPEXPR_EXPECTED,
+                            new Object[0], getLocation(t));
+      }
+      return result;
+    }
+</add:oz>
 
     /**
      * Converts a TermA to a RefName.
@@ -764,6 +811,45 @@ action code
       }
       termA.getAnns().add(locAnn);
     }
+
+<add:oz>
+    /**
+     * Reset the isOpExpr_ stack.
+     */
+     protected void resetIsOpExpr()
+     {
+       isOpExpr_.clear();
+     } 
+
+    /**
+     * Return the top of the isOpExpr_ stack.
+     */
+     protected boolean isOpExpr()
+     {
+       if (isOpExpr_.size() == 0) {
+         return false;
+       }
+       return isOpExpr_.peek();
+     } 
+
+    /**
+     * Push an item onto the isOpExpr_ stack.
+     */
+     protected void pushIsOpExpr(boolean b)
+     {
+//System.err.println("pushing "+  b);
+       isOpExpr_.push(b);
+     }
+
+    /**
+     * Pop the stop of the isOpExpr_ stack.
+     */
+     protected void popIsOpExpr()
+     {
+//System.err.println("popping back to " + isOpExpr());
+       isOpExpr_.pop();
+     }
+</add:oz>
 :}
 
 parser code
@@ -839,13 +925,33 @@ parser code
     {
       Symbol result = nlScanner_.next_token();
       assert result != action_obj.previous_;
+<add:oz>
+      //if we are parsing an OpExpr, then convert all SPOT tokens to
+      //SCOPE tokens to remove a shift/reduce problem
+      //this should be in the SmartScanner, but because this is not
+      //able to be referenced from the parser code, we leave it here
+      //for now.
+      if (action_obj.previous_ !=  null &amp;&amp;
+          action_obj.previous_.sym == Sym.RSQUARE) {
+        action_obj.popIsOpExpr();
+      }
+      else if (action_obj.previous_ !=  null &amp;&amp;
+          action_obj.previous_.sym == Sym.LSQUARE) {
+        action_obj.pushIsOpExpr(false);
+      }
+      else if (result.sym == Sym.OPNAME) {
+        action_obj.pushIsOpExpr(true);
+      }
+
+      if (result.sym == Sym.SPOT &amp;&amp; action_obj.isOpExpr()) {
+        result.sym = Sym.SCOPE;
+      }
+</add:oz>
       action_obj.previous_ = result;
-/*********
       String logMessage =
         "Next token in " + file_ +
         " is (" + symbolMap_.get(result.sym) + ", " + result.value + ").";
       CztLogger.getLogger(<class/>.class).finer(logMessage);
-**********/
       return result;
     }
 
@@ -981,7 +1087,7 @@ terminal
 </add:circus>
 <add:oz>
         DELTA, CLASS, GENCLASS, STATE, INIT, OPSCH, SDEF,
-        INITWORD, POLY, CONTAINMENT,
+        INITWORD, POLY, CONTAINMENT, SCOPE,
         DCNJ, DGCH, DSQC, PARALLEL, ASSOPARALLEL, GCH, CLASSUNION,
 </add:oz>
 <add:tcoz>
@@ -1312,12 +1418,10 @@ non terminal DeltaList
 non terminal VisibilityList
     visibilityList;
                         
-non terminal Expr
-    opPromotionLhs;
-
 non terminal OpExpr
     opExpr,
-    opExpr1;
+    outer_opExpr,
+    inner_opExpr;
 
 non terminal ExprList
     inheritedList;
@@ -1326,6 +1430,7 @@ non terminal List&lt;Expr&gt;
     inheritedClassList;
 
 non terminal OpText
+    opTextWithDelta,
     opText;
 
 non terminal Operation
@@ -1361,11 +1466,15 @@ precedence left         NL, SEMICOLON;
 precedence nonassoc     DEFEQUAL;
 precedence left         ALL, EXI, EXIONE, SPOT;
 <add:oz>
+precedence left         DCNJ, DGCH, DSQC;
 precedence left         ASSOPARALLEL;
 <add:tcoz>
+precedence left         DIC, DIL;
+precedence left         WAIT;
 precedence left         NEXTPRO, ATTIME;
 precedence left         NETTOPLEFT, NETTOPRIGHT;
 </add:tcoz>
+precedence left         SCOPE;
 precedence left         PARALLEL<add:tcoz>, INTERLEAVE, INTERRUPT,
 TIMEOUT, TIMEEND</add:tcoz>;
 precedence left         GCH <add:tcoz>, INTCHOICE </add:tcoz>;
@@ -1613,6 +1722,9 @@ boxedParagraph ::=
 </add:oz>
         |
         error END
+<add:oz>
+        {: resetIsOpExpr(); :}
+</add:oz>
         ;
 
 narrParagraph ::=
@@ -1628,7 +1740,12 @@ unboxedParagraphList ::=
         {: RESULT = uil; :}
         |        
         ZED error END
-        {: RESULT = list(); :}
+        {:
+           RESULT = list();
+<add:oz>
+           resetIsOpExpr();
+</add:oz>
+        :}
         ;
 
 unboxedParagraphItemList ::=
@@ -3018,6 +3135,12 @@ term ::=
         /* (schema) conjunction */
         term:lhs AND:and term:rhs
         {:
+<add:oz>
+          if (isOpExpr()) {
+             RESULT = factory_.createConjOpExpr(opExpr(lhs), opExpr(rhs));
+          }
+          else
+</add:oz>
           if (lhs instanceof Expr &amp;&amp; rhs instanceof Expr) {
             RESULT = factory_.createAndExpr(expr(lhs), expr(rhs));
           }
@@ -3042,7 +3165,16 @@ term ::=
         /* schema composition */
         term:lhs ZCOMP:comp term:rhs
         {:
-           RESULT = factory_.createCompExpr(expr(lhs), expr(rhs));
+<add:oz>
+           if (isOpExpr()) {
+             RESULT = factory_.createSeqOpExpr(opExpr(lhs), opExpr(rhs));
+           }
+           else {
+</add:oz>
+             RESULT = factory_.createCompExpr(expr(lhs), expr(rhs));
+<add:oz>
+           }
+</add:oz>
            addLocAnn(RESULT, compleft, compright);
         :}
         |
@@ -3057,7 +3189,16 @@ term ::=
         term:t ZHIDE:hide LPAREN refNameList:rnl RPAREN
         {:
            ZRefNameList zRefNameList = factory_.createZRefNameList(rnl);
-           RESULT = factory_.createHideExpr(expr(t), zRefNameList);
+<add:oz>
+           if (isOpExpr()) {
+             RESULT = factory_.createHideOpExpr(opExpr(t), zRefNameList);
+           }
+           else {
+</add:oz>
+             RESULT = factory_.createHideExpr(expr(t), zRefNameList);
+<add:oz>
+           }
+</add:oz>
            addLocAnn(RESULT, hideleft, hideright);
         :}
         |
@@ -3068,6 +3209,8 @@ term ::=
            ZRefName rn = factory_.createZRefName(jnl, null);
            List&lt;RefName&gt; rnl = list((RefName) rn);
            ZRefNameList zRefNameList = factory_.createZRefNameList(rnl);
+
+
            RESULT = factory_.createHideExpr(expr(t), zRefNameList);
            addLocAnn(RESULT, hideleft, hideright);
         :}
@@ -3134,6 +3277,9 @@ term ::=
            RESULT = factory_.createContainmentExpr(expr(t));
            addLocAnn(RESULT, tleft, tright);
         :}
+        |
+        outer_opExpr:ooe
+        {: RESULT = ooe; :}
 </add:oz>
         ;
 
@@ -3202,21 +3348,58 @@ inner_term ::=
         LSQUARE:lsq RSQUARE
         {:
            DeclList dl = factory_.createZDeclList();
-           RESULT = factory_.createSchExpr(factory_.createZSchText(dl, null));
+           SchText st = factory_.createZSchText(dl, null);
+<add:oz>
+           if (isOpExpr()) {
+             OpText ot = factory_.createOpText(null, st);
+             RESULT = factory_.createAnonOpExpr(ot);
+           }
+           else {
+</add:oz>
+             RESULT = factory_.createSchExpr(st);
+<add:oz>
+           }
+</add:oz>
            addLocAnn(RESULT, lsqleft, lsqright);
         :}
         |
         /* schema construction */
-        LSQUARE:lsq schemaTextNoExpression:stne RSQUARE
+        /* push 'false' onto the isOpExpr stack, because both schema
+         * exprs and operations contain only expressions
+         */  
+        LSQUARE:lsq //<add:oz> {: pushIsOpExpr(false); :} </add:oz>
+          schemaTextNoExpression:stne
+          /* pop the stack now the expr has been parsed */
+//          <add:oz> {: popIsOpExpr(); :} </add:oz> 
+RSQUARE
         {:
+<add:oz>
+           if (isOpExpr()) {
+             OpText ot = factory_.createOpText(null, stne);
+             RESULT = factory_.createAnonOpExpr(ot);
+           }
+           else {
+</add:oz>
            RESULT = factory_.createSchExpr(stne);
+<add:oz>
+           }
+</add:oz>
            addLocAnn(RESULT, lsqleft, lsqright);
         :}
         |
         /* binding selection */
         inner_term:it DOT:dot refName:rn
         {:
-           RESULT = factory_.createBindSelExpr(expr(it), rn);
+<add:oz>
+           if (isOpExpr()) {
+             RESULT = factory_.createOpPromotionExpr(expr(it), rn);
+           }
+           else {
+</add:oz>
+             RESULT = factory_.createBindSelExpr(expr(it), rn);
+<add:oz>
+           }
+</add:oz>
            addLocAnn(RESULT, dotleft, dotright);
         :}
         |
@@ -3254,7 +3437,8 @@ inner_term ::=
         :}
         |
         /* function application with schema expr as argument */
-        inner_term:it LSQUARE schemaTextNoExpression:st RSQUARE optAppendageList:oal
+        inner_term:it LSQUARE schemaTextNoExpression:st RSQUARE 
+           optAppendageList:oal
         {:
            RESULT = createSchApplExpr(expr(it), st, oal);
            addLocAnn(RESULT, itleft, itright);
@@ -3273,7 +3457,16 @@ inner_term ::=
         /* schema renaming */
         inner_term:it LSQUARE renameList:rnl RSQUARE
         {:
-           RESULT = factory_.createRenameExpr(expr(it), rnl);
+<add:oz>
+           if (isOpExpr()) {
+             RESULT = factory_.createRenameOpExpr(opExpr(it), rnl);
+           }
+           else {
+</add:oz>
+             RESULT = factory_.createRenameExpr(expr(it), rnl);
+<add:oz>
+           }
+</add:oz>
            addLocAnn(RESULT, itleft, itright);
         :} %prec _RENAME
         |
@@ -3312,6 +3505,11 @@ inner_term ::=
            RESULT = factory_.createFalsePred();
            addLocAnn(RESULT, fleft, fright);
         :}
+<add:oz>
+        |
+        inner_opExpr:ioe
+        {: RESULT = ioe; :}
+</add:oz>        
 <add:zpatt>
         |
         jokerRef:jr
@@ -4245,6 +4443,7 @@ class ::=
            List&lt;DeclName&gt; ofp = ch.getSecond();
            RESULT = factory_.createClassPara(dn, ofp, vl, il, ipl, s, is, ol);
            addLocAnn(RESULT, chleft, chright);
+           assert isOpExpr() == false;
         :}
         ;
 
@@ -4527,8 +4726,11 @@ operation ::=
            addLocAnn(RESULT, oschleft, oschright);
         :}
         |
-        OPNAME:on SDEF opExpr:oe
+        /* push true onto the stack now that this is an op expr */
+        OPNAME:on /*{: pushIsOpExpr(true); :}*/ SDEF opExpr:oe
         {:
+           //the op expr has finished parsing, so pop the stack.
+           popIsOpExpr();
            ZDeclName dn = factory_.createZDeclName(on.getName());
            RESULT = factory_.createOperation(dn, oe, Box.OmitBox);
            addLocAnn(RESULT, onleft, onright);
@@ -4537,6 +4739,17 @@ operation ::=
         ;
 
 opText ::=
+        opTextWithDelta:otwd
+        {: RESULT = otwd; :}
+        |
+        optDeclPart:dp BAR predicate:p
+        {: RESULT = createOpText(null, dp, p); :}
+        |
+        optDeclPart:dp
+        {: RESULT = createOpText(null, dp, null); :}
+        ;
+
+opTextWithDelta ::=
         deltaList:dl sep:s declPart:dp BAR predicate:p
         {: RESULT = createOpText(dl, dp, p); :}
         |
@@ -4548,42 +4761,51 @@ opText ::=
         |
         deltaList:dl
         {: RESULT = createOpText(dl, null, null); :}
-        |
-        optDeclPart:dp BAR predicate:p
-        {: RESULT = createOpText(null, dp, p); :}
-        |
-        optDeclPart:dp
-        {: RESULT = createOpText(null, dp, null); :}
-        ;
+        ;     
 
 opExpr ::=
-        DCNJ:dcnj schemaText:st SPOT opExpr:oe
+        //all operation expressions that have a syntactic
+        //counterpart Z expression.
+        term:t
+        {: RESULT = opExpr(t); :}
+        ;
+
+//operations that do not have a syntactic counterpart Z
+//expression. We push false onto the isOpExpr stack because we parse
+//the schemaText, but count the @ as a SPOT token to remove an ambiguity
+outer_opExpr ::=
+        DCNJ:dcnj {: pushIsOpExpr(false); :} schemaText:st
+             SPOT {: pushIsOpExpr(true); :} term:t
         {:
-           RESULT = factory_.createDistConjOpExpr(st, oe);
+           RESULT = factory_.createDistConjOpExpr(st, opExpr(t));
            addLocAnn(RESULT, dcnjleft, dcnjright);
         :}
         |
-        DGCH:dgch schemaText:st SPOT opExpr:oe
+        DGCH:dgch {: pushIsOpExpr(false); :} schemaText:st
+             SPOT {: pushIsOpExpr(true); :} term:t
         {:
-           RESULT = factory_.createDistChoiceOpExpr(st, oe);
+           RESULT = factory_.createDistChoiceOpExpr(st, opExpr(t));
            addLocAnn(RESULT, dgchleft, dgchright);
         :}
         |
         /* We need a unicode character for this. */
-        /*DSQC*/ ZCOMP:dsqc schemaText:st SPOT opExpr:oe
+        /*DSQC*/ ZCOMP:dsqc {: pushIsOpExpr(false); :} schemaText:st
+             SPOT {: pushIsOpExpr(true); :} term:t
         {:
-           RESULT = factory_.createDistSeqOpExpr(st, oe);
+           RESULT = factory_.createDistSeqOpExpr(st, opExpr(t));
            addLocAnn(RESULT, dsqcleft, dsqcright);
         :}
+<add:tcoz>
         |
-        <add:tcoz>
-        DIC:dic schemaText:st SPOT opExpr:oe
-        {: RESULT = factory_.createDistInChoiceProExpr(st, oe);
+        DIC:dic {: pushIsOpExpr(false); :} schemaText:st 
+           SPOT {: pushIsOpExpr(true); :} term:t
+        {: RESULT = factory_.createDistInChoiceProExpr(st, opExpr(t));
            addLocAnn(RESULT, dicleft, dicright);
         :}
         |
-        DIL:dil schemaText:st SPOT opExpr:oe
-        {: RESULT = factory_.createDistInterleaveProExpr(st, oe);
+        DIL:dil {: pushIsOpExpr(false); :} schemaText:st
+           SPOT {: pushIsOpExpr(true); :} term:t
+        {: RESULT = factory_.createDistInterleaveProExpr(st, opExpr(t));
            addLocAnn(RESULT, dilleft, dilright);
         :}
         |
@@ -4592,123 +4814,73 @@ opExpr ::=
            RESULT = factory_.createTopologyProExpr(nt);
            addLocAnn(RESULT, dparaleft, dpararight);
         :}
-        |
-        </add:tcoz>
-        opExpr1:oe1
-        {: RESULT = oe1; :}
+</add:tcoz>
         ;
 
-opExpr1 ::=
-        /* a horizontal operation expression */
-        LSQUARE opText:ot RSQUARE
-        {: RESULT = factory_.createAnonOpExpr(ot); :}
+inner_opExpr ::=
+        /* a horizontal operation expression with a delta list */
+        LSQUARE opTextWithDelta:ot RSQUARE
+        {: RESULT = factory_.createAnonOpExpr(ot); :}  
         |
-<add:ozz>
-        /* operator promotion */
-        opPromotionLhs:oplhs DOT refName:rn
+        /*  a horizontal operation expression with just a predicate */
+        LSQUARE term:t RSQUARE
         {:
-           RESULT = factory_.createOpPromotionExpr(oplhs, rn);
-           addLocAnn(RESULT, oplhsleft, oplhsright);
-        :}
-        |
-</add:ozz>
-<add:tcoz>
-        /* operator promotion */
-        opPromotionLhs:oplhs DOT inner_term:it
-        {:
-           RESULT = factory_.createOpPromotionExpr(oplhs, refname(it));
-           addLocAnn(RESULT, oplhsleft, oplhsright);
-        :}
-        |
-</add:tcoz>
-        /* operation promotion */
-        refName:rn
-        {:
-           RESULT = factory_.createOpPromotionExpr(null, rn);
-           addLocAnn(RESULT, rnleft, rnright);
-        :}
-        |
-        /* variable renaming */
-        opExpr1:oe1 LSQUARE renameList:rnl RSQUARE
-        {:
-           RESULT = factory_.createRenameOpExpr(oe1, rnl);
-           addLocAnn(RESULT, oe1left, oe1right);
-        :}
-        |
-        /* variable hiding */
-        opExpr1:oe1 ZHIDE LPAREN refNameList:rnl RPAREN
-        {:
-           ZRefNameList zrnl = factory_.createZRefNameList(rnl);
-           RESULT = factory_.createHideOpExpr(oe1, zrnl);
-           addLocAnn(RESULT, oe1left, oe1right);
-        :}
-        |
-        /* operation conjunction */
-        opExpr1:lhs AND opExpr:rhs
-        {:
-           RESULT = factory_.createConjOpExpr(lhs, rhs);
-           addLocAnn(RESULT, lhsleft, lhsright);
+           ZDeclList dl = factory_.createZDeclList();
+           OpText ot = createOpText(null, dl, pred(t));
+           RESULT = factory_.createAnonOpExpr(ot);
+           addLocAnn(RESULT, tleft, tright);
         :}
         |
         /* parallel conjuntion */
-        opExpr1:lhs PARALLEL opExpr:rhs
+        inner_term:lhs PARALLEL inner_term:rhs
         {:
-           RESULT = factory_.createParallelOpExpr(lhs, rhs);
+           RESULT = 
+             factory_.createParallelOpExpr(opExpr(lhs), opExpr(rhs));
            addLocAnn(RESULT, lhsleft, lhsright);
-        :}
+        :}    
         |
         /* associative parallel conjunction */
-        opExpr1:lhs ASSOPARALLEL opExpr:rhs
+        inner_term:lhs ASSOPARALLEL inner_term:rhs
         {:
-           RESULT = factory_.createAssoParallelOpExpr(lhs, rhs);
+           RESULT = 
+             factory_.createAssoParallelOpExpr(opExpr(lhs), opExpr(rhs));
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
         /* angelic choice */
-        opExpr1:lhs GCH opExpr:rhs
+        inner_term:lhs GCH inner_term:rhs
         {:
-           RESULT = factory_.createExChoiceOpExpr(lhs, rhs);
-           addLocAnn(RESULT, lhsleft, lhsright);
-        :}
-        |
-        /* operation composition */
-        opExpr1:lhs ZCOMP opExpr:rhs
-        {:
-           RESULT = factory_.createSeqOpExpr(lhs, rhs);
+           RESULT =
+             factory_.createExChoiceOpExpr(opExpr(lhs), opExpr(rhs));
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
         /* scope enrichment */
-        opExpr1:lhs SPOT opExpr:rhs
+        inner_term:lhs SCOPE inner_term:rhs
         {:
-           RESULT = factory_.createScopeEnrichOpExpr(lhs, rhs);
+           RESULT =
+             factory_.createScopeEnrichOpExpr(opExpr(lhs), opExpr(rhs));
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
-        |
-        LPAREN opExpr:oe RPAREN
-        {:
-           oe.getAnns().add(factory_.createParenAnn());
-           RESULT = oe;
-        :}
+/*
 <add:tcoz>
         |
-        opExpr1:lhs INTCHOICE opExpr:rhs
+        inner_term:lhs INTCHOICE inner_term:rhs
         {:
-           RESULT = factory_.createInChoiceProExpr(lhs, rhs);
+           RESULT = factory_.createInChoiceProExpr(opExpr(lhs), opExpr(rhs));
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
-        opExpr1:lhs INTERLEAVE opExpr:rhs
+        inner_term:lhs INTERLEAVE inner_term:rhs
         {:
-           RESULT = factory_.createInterleaveProExpr(lhs, rhs);
+           RESULT = factory_.createInterleaveProExpr(opExpr(lhs), opExpr(rhs));
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
-/*
  //ambiguity here with opExpr || [opText], where opText has inclDecl
- //although this should be opExpr |[ eventSet |] opExpr
+ //although this renders as opExpr |[ eventSet |] opExpr
  //Needs to be taken care of in the scanner - this could prove difficult
-        opExpr1:lhs PARALLEL LSQUARE eventSet:ets RSQUARE opExpr1:rhs
+        inner_term:lhs PARALLEL LSQUARE eventSet:ets RSQUARE inner_term:rhs
         {:
            EventSet es = factory_.createEventSet(ets);
            RESULT = factory_.createSynPllProExpr(lhs, rhs, es);
@@ -4716,34 +4888,38 @@ opExpr1 ::=
         :}
         |
 */
-        opExpr1:lhs TIMEOUT LSQUARE expression:e RSQUARE opExpr1:rhs
+/*
+        inner_term:lhs TIMEOUT LSQUARE expression:e RSQUARE inner_term:rhs
         {:
-           RESULT = factory_.createTimeoutStartProExpr(lhs, e, rhs);
+           RESULT =
+             factory_.createTimeoutStartProExpr(opExpr(lhs), e, opExpr(rhs));
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
-        opExpr1:lhs TIMEEND LBRACE expression:e RBRACE opExpr1:rhs
+        inner_term:lhs TIMEEND LBRACE expression:e RBRACE inner_term:rhs
         {:
-           RESULT = factory_.createTimeoutEndProExpr(lhs, e, rhs);
+           RESULT =
+             factory_.createTimeoutEndProExpr(opExpr(lhs), e, opExpr(rhs));
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
-        opExpr1:lhs INTERRUPT LBRACE expression:e RBRACE opExpr1:rhs
+        inner_term:lhs INTERRUPT LBRACE expression:e RBRACE inner_term:rhs
         {:
-           RESULT = factory_.createInterruptProExpr(lhs, e, rhs);
+           RESULT =
+            factory_.createInterruptProExpr(opExpr(lhs), e, opExpr(rhs));
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
-        opExpr1:oe SPOT DEADLINE expression:e
+        inner_term:t SCOPE DEADLINE expression:e
         {:
-           RESULT = factory_.createDeadlineProExpr(oe, e);
-           addLocAnn(RESULT, oeleft, oeright);
+           RESULT = factory_.createDeadlineProExpr(opExpr(t), e);
+           addLocAnn(RESULT, tleft, tright);
         :}
         |
-        opExpr1:oe SPOT WAITUNTIL expression:e
+        inner_term:t SCOPE WAITUNTIL expression:e
         {:
-           RESULT = factory_.createWaitUntilProExpr(oe, e);
-           addLocAnn(RESULT, oeleft, oeright);
+           RESULT = factory_.createWaitUntilProExpr(opExpr(t), e);
+           addLocAnn(RESULT, tleft, tright);
          :}
         |
         WAIT:wait expression:e
@@ -4752,53 +4928,58 @@ opExpr1 ::=
            addLocAnn(RESULT, waitleft, waitright);
         :}
         |
-        inOutEvent:et NEXTPRO opExpr1:oe
+        inOutEvent:et NEXTPRO inner_term:t
         {:
-           RESULT = factory_.createAtProExpr(et, null, oe);
+           RESULT = factory_.createAtProExpr(et, null, opExpr(t));
            addLocAnn(RESULT, etleft, etright);
         :}
         |
-        opPromotionLhs:oplhs DOT inner_term:it NEXTPRO opExpr1:oe
+*/
+/*
+        inner_inner_term:it NEXTPRO inner_opExpr:t
         {:
            Event et = factory_.createEvent(refname(oplhs), expr(it));
            RESULT = factory_.createAtProExpr(et, null, oe);
            addLocAnn(RESULT, oplhsleft, oplhsright);
         :}
         |
-        refName:rn NEXTPRO opExpr1:oe
+*/
+/*
+        refName:rn NEXTPRO inner_term:t
         {:
            Event et = factory_.createEvent(rn, null);
-           RESULT = factory_.createAtProExpr(et, null, oe);
+           RESULT = factory_.createAtProExpr(et, null, opExpr(t));
            addLocAnn(RESULT, rnleft, rnright);
         :}
         |
-        inOutEvent:et ATTIME expression:e NEXTPRO opExpr1:oe
+        inOutEvent:et ATTIME expression:e NEXTPRO inner_term:t
         {:
-           RESULT = factory_.createAtProExpr(et, e, oe);
+           RESULT = factory_.createAtProExpr(et, e, opExpr(t));
            addLocAnn(RESULT, etleft, etright);
         :}
         |
         opPromotionLhs:oplhs DOT inner_term:it 
-           ATTIME expression:e NEXTPRO opExpr1:oe
+           ATTIME expression:e NEXTPRO inner_term:t
         {:
            Event et = factory_.createEvent(refname(oplhs), expr(it));
            RESULT = factory_.createAtProExpr(et, e, oe);
            addLocAnn(RESULT, oplhsleft, oplhsright);
         :}
         |
-        refName:rn ATTIME expression:e NEXTPRO opExpr1:oe
+        refName:rn ATTIME expression:e NEXTPRO inner_term:t
         {:
            Event et = factory_.createEvent(rn, null);
-           RESULT = factory_.createAtProExpr(et, e, oe);
+           RESULT = factory_.createAtProExpr(et, e, opExpr(t));
            addLocAnn(RESULT, rnleft, rnright);
         :}
         |
-        MU:mu refName:rn SPOT opExpr1:oe
+        MU:mu refName:rn SCOPE inner_term:t
         {:
-           RESULT = factory_.createRecProExpr(rn, oe);
+           RESULT = factory_.createRecProExpr(rn, opExpr(t));
            addLocAnn(RESULT, muleft, muright);
         :}
 </add:tcoz>
+*/
         ;
 
 <add:tcoz>
@@ -4866,30 +5047,6 @@ inOutEvent ::=
         :}
         ;            
 </add:tcoz>
-
-opPromotionLhs ::=
-        refName:rn
-        {:
-           RESULT = factory_.createRefExpr(rn);
-           addLocAnn(RESULT, rnleft, rnright);
-        :}
-<add:ozz>
-        |
-        opPromotionLhs:oplhs DOT refName:rn
-        {:
-           RESULT = factory_.createBindSelExpr(oplhs, rn);
-           addLocAnn(RESULT, oplhsleft, oplhsright);
-        :}
-</add:ozz>
-<add:tcoz>
-        |
-        opPromotionLhs:oplhs DOT inner_term:it
-        {:
-           RESULT = factory_.createBindSelExpr(oplhs, refname(it));
-           addLocAnn(RESULT, oplhsleft, oplhsright);
-        :}
-</add:tcoz>
-        ;
 
 deltaList ::=
         DELTA:d LPAREN refNameList:rnl RPAREN

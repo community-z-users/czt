@@ -20,6 +20,10 @@
          </action>
     -->
     <release version="0.5" date="unrelease">
+      <action context="code" dev="open">
+        Corrected the Object-Z grammar so that any expression can be
+        used as the LHS of an operation promotion.
+      </action>
       <action dev="Tim" type="fix">
         Change some rules to improve memory usage for LALR(1) grammar
       </action>
@@ -195,10 +199,6 @@
 
   <todo>
     <actions priority="high">
-      <action context="code" dev="open">
-        Correct the Object-Z grammar so that any expression can be
-        used as the LHS of an operation promotion.
-      </action>
       <action context="code" dev="open">
         Write a Circus parser.
       </action>
