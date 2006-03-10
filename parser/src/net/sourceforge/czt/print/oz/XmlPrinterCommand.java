@@ -30,7 +30,7 @@ import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.print.util.XmlString;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
+import net.sourceforge.czt.oz.jaxb.JaxbXmlWriter;
 
 public class XmlPrinterCommand
   implements Command
