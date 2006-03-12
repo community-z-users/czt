@@ -128,8 +128,7 @@ public final class PrintUtils
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
     Term tree = (Term) term.accept(toPrintTree);
     ZmlScanner scanner = new ZmlScanner(tree);
-    Unicode2Latex parser = new Unicode2Latex(new SectHeadScanner(scanner));
-    parser.setOld(true);
+    Unicode2OldLatex parser = new Unicode2OldLatex(new SectHeadScanner(scanner));
     parser.setSectionInfo(sectInfo);
     UnicodePrinter printer = new UnicodePrinter(out);
     parser.setWriter(printer);
@@ -173,8 +172,7 @@ public final class PrintUtils
     ZmlScanner scanner = new ZmlScanner(tree);
     scanner.prepend(new Symbol(Sym.TOKENSEQ));
     scanner.append(new Symbol(Sym.TOKENSEQ));
-    Unicode2Latex parser = new Unicode2Latex(scanner);
-    parser.setOld(true);
+    Unicode2OldLatex parser = new Unicode2OldLatex(scanner);
     parser.setSectionInfo(sectInfo, sectionName);
     UnicodePrinter printer = new UnicodePrinter(out);
     parser.setWriter(printer);

@@ -82,6 +82,17 @@
     </xslt>
   </target>
 
+  <target name="oldz-Unicode2Latex-cup" depends="init">
+    <xslt
+      in="templates/Unicode2Latex.xml"
+      out="${build.src.dir}/net/sourceforge/czt/print/z/Unicode2OldLatex.cup"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="Unicode2OldLatex"/>
+      <param name="package" expression="net.sourceforge.czt.print.z"/>
+      <param name="add" expression="{oldz}"/>
+    </xslt>
+  </target>
+
   <target name="oz-Unicode2Latex-cup" depends="init">
     <xslt
       in="templates/Unicode2Latex.xml"
@@ -103,6 +114,16 @@
     </java_cup>
   </target>
 
+  <target name="oldz-UnicodeToLatex" depends="oldz-Unicode2Latex-cup, -set-javacup-task">
+    <java_cup
+      srcfile="${build.src.dir}/net/sourceforge/czt/print/z/Unicode2OldLatex.cup"
+      destdir="${build.src.dir}"
+      parser="Unicode2OldLatex"
+      symbols="Sym"
+      classpath="${czt.lib}/${java_cup.jar.file}">
+    </java_cup>
+  </target>
+
   <target name="oz-UnicodeToLatex" depends="oz-Unicode2Latex-cup, -set-javacup-task">
     <java_cup
       srcfile="${build.src.dir}/net/sourceforge/czt/print/oz/Unicode2Latex.cup"
@@ -114,7 +135,7 @@
   </target>
 
   <target name="compile" depends="init, generate-src, 
-      z-UnicodeToLatex, oz-UnicodeToLatex"
+      z-UnicodeToLatex, oldz-UnicodeToLatex, oz-UnicodeToLatex"
           description="Compiles the sources.">
     <javac source="1.5" srcdir="${src.dir}:${build.src.dir}"
            destdir="${build.class.dir}"

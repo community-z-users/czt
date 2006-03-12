@@ -293,7 +293,6 @@ parser code {:
   public static final Map symbolMap_ = DebugUtils.getFieldMap(Sym.class);
 
   private Writer writer_ = new OutputStreamWriter(System.out);
-  protected boolean old_ = false;
   protected SectionInfo sectInfo_ = new SectionManager();
   protected String sectionName_ = null;
   /**
@@ -319,16 +318,6 @@ parser code {:
   {
     sectInfo_ = sectInfo;
     sectionName_ = sectionName;
-  }
-
-  public void setOld(boolean value)
-  {
-    old_ = value;
-  }
-
-  public boolean isOld()
-  {
-    return old_;
   }
 
   public Writer getWriter()
@@ -731,10 +720,12 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                   RESULT =
                     new LatexCommand("\n\\where\n", ZString.VL, true, true);
                 }
-                else if (parser.old_ &amp;&amp; s instanceof DefsWord) {
+<add:oldz>
+                else if (s instanceof DefsWord) {
                   RESULT =
                     new LatexCommand("\\defs", ZString.DEFEQUAL, true, true);
                 }
+</add:oldz>
                 else {
                   RESULT = toLatex(s.getName(), sleft, sright);
                 }
