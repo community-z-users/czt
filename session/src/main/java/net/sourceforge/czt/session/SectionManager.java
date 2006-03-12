@@ -387,14 +387,19 @@ public class SectionManager
   }
 
   /**
-   * Deletes all entries in the cache.
-   *
-   * @czt.todo Do not delete toolkit entries.
+   * Deletes entries in the cache that are not called "prelude" and
+   * that do not end with "_toolkit".
    */
   public void reset()
   {
     getLogger().config("Resetting section manager");
-    content_.clear();
+    for (Key key : content_.keySet()) {
+      final String name = key.getName();
+      if (! "prelude".equals(name) &&
+          ! name.endsWith("_toolkit")) {
+        content_.remove(key);
+      }
+    }
   }
 
   public String toString()

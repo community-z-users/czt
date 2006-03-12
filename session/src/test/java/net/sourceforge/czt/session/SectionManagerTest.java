@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Petra Malik
+  Copyright (C) 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -49,5 +49,28 @@ public class SectionManagerTest
     clone.setProperty(s3, s3);
     assertTrue(manager_.getProperty(s3) == null);
     assertEquals(clone.getProperty(s3), s3);
+  }
+
+  public void testReset()
+    throws CommandException
+  {
+    Key key1 = new Key("test1", String.class);
+    Key key2 = new Key("prelude", String.class);
+    Key key3 = new Key("test_toolkit", String.class);
+    manager_.put(key1, "bar");
+    manager_.put(key2, "foo");
+    manager_.put(key3, "barfoot");
+    assertNotNull(manager_.get(key1));
+    assertNotNull(manager_.get(key2));
+    assertNotNull(manager_.get(key3));
+    manager_.reset();
+    assertNotNull(manager_.get(key2));
+    assertNotNull(manager_.get(key3));
+    try {
+      manager_.get(key1);
+      fail("Should throw Exception");
+    }
+    catch (CommandException e) {
+    }
   }
 }
