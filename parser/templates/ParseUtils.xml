@@ -28,8 +28,10 @@ import java.net.URL;
 import java.util.Properties;
 import java.util.logging.Logger;
 import java.util.Iterator;
+import org.xml.sax.InputSource;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.util.UnmarshalException;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
@@ -37,9 +39,25 @@ import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZString;
 
+<add:z>
+import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
+</add:z>
+<add:zpatt>
+import net.sourceforge.czt.zpatt.jaxb.JaxbXmlReader;
+</add:zpatt>
+<add:circus>
+import net.sourceforge.czt.circus.jaxb.JaxbXmlReader;
+</add:circus>
+<add:oz>
+import net.sourceforge.czt.oz.jaxb.JaxbXmlReader;
+</add:oz>
+<add:tcoz>
+import net.sourceforge.czt.tcoz.jaxb.JaxbXmlReader;
+</add:tcoz>
+
 /**
  * Utilities for parsing <add:oz>Object</add:oz>
- *  <add:tcoz>TCO</add:tcoz>Z specifications.
+ *  <add:tcoz>TCO</add:tcoz>Z<add:zpatt>patt</add:zpatt> specifications.
  *
  * @author Petra Malik, Tim Miller
  */
@@ -49,7 +67,7 @@ public class <class/>
   public static Term parse(Source source,
                            SectionInfo sectInfo,
                            Properties properties)
-    throws ParseException, IOException
+    throws ParseException, IOException, UnmarshalException
   {
     if (source.getMarkup() == Markup.LATEX) {
       LatexParser parser =
@@ -65,13 +83,17 @@ public class <class/>
                            sectInfo, properties);
       return parser.parse();
     }
+    else if (source.getMarkup() == Markup.ZML) {
+      JaxbXmlReader reader = new JaxbXmlReader();
+      return reader.read(new InputSource(source.getReader()));
+    }
     else {
       throw new UnsupportedOperationException();
     }
   }
 
   public static Term parse(Source source, SectionInfo sectInfo)
-    throws ParseException, IOException
+    throws ParseException, IOException, UnmarshalException
   {
     return parse(source, sectInfo, new Properties());
   }
@@ -465,6 +487,9 @@ public class <class/>
       throw new CommandException(exception);
     }
     catch (IOException exception) {
+      throw new CommandException(exception);
+    }
+    catch (UnmarshalException exception) {
       throw new CommandException(exception);
     }
     return true;
