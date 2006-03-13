@@ -80,6 +80,8 @@ import java.util.logging.Logger;
 public class SectionManager
   implements Cloneable, SectionInfo
 {
+  private final static String DEFAULT_EXTENSION = "z";
+
   /**
    * The Cache, a mapping from Key to Object.
    * For each (key, object) pair, the object must be an instance of
@@ -100,7 +102,7 @@ public class SectionManager
 
   public SectionManager()
   {
-    this("z");
+    this(DEFAULT_EXTENSION);
   }
 
   public SectionManager(String extension)
@@ -393,11 +395,12 @@ public class SectionManager
   public void reset()
   {
     getLogger().config("Resetting section manager");
-    for (Key key : content_.keySet()) {
+    for (Iterator<Key> iter = content_.keySet().iterator(); iter.hasNext();) {
+      final Key key = iter.next();
       final String name = key.getName();
       if (! "prelude".equals(name) &&
           ! name.endsWith("_toolkit")) {
-        content_.remove(key);
+        iter.remove();
       }
     }
   }
