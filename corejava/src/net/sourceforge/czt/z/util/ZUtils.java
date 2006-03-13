@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Mark Utting
+  Copyright (C) 2005, 2006 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -19,6 +19,8 @@
 
 package net.sourceforge.czt.z.util;
 
+import java.util.List;
+
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
 import net.sourceforge.czt.z.ast.*;
@@ -30,6 +32,15 @@ public final class ZUtils
    */
   private ZUtils()
   {
+  }
+
+  public static boolean isAnonymous(ZSect zSect)
+  {
+    final String name = zSect.getName();
+    final List<Parent> parents = zSect.getParent();
+    return Section.ANONYMOUS.getName().equals(name) &&
+      parents.size() == 1 &&
+      Section.STANDARD_TOOLKIT.getName().equals(parents.get(0).getWord());
   }
 
   public static ZDeclName assertZDeclName(Term term)
