@@ -38,6 +38,7 @@ import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.OperatorName;
 import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.z.visitor.*;
 
 /**
@@ -1068,15 +1069,9 @@ public class ZPrintVisitor
 
   public Object visitZSect(ZSect zSect)
   {
-    final String name = zSect.getName();
-    final List parents = zSect.getParent();
-    final boolean nameIsSpecification = "Specification".equals(name);
-    final boolean isAnonymous =
-      "Specification".equals(name) &&
-      parents.size() == 1 &&
-      "standard_toolkit".equals(((Parent) parents.get(0)).getWord());
-
-    if (! isAnonymous) {
+    if (! ZUtils.isAnonymous(zSect)) {
+      final String name = zSect.getName();
+      final List parents = zSect.getParent();
       print(TokenName.ZED);
       print(Keyword.SECTION);
       if (name == null) throw new CztException();
