@@ -36,6 +36,7 @@ import net.sourceforge.czt.util.ParseException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZChar;
 import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.print.z.DefsWord;
 import net.sourceforge.czt.print.z.WhereWord;
@@ -523,18 +524,22 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
 
    sectionHeader ::= SECTHEAD:zsect
              {:
-                sections_.put(zsect.getName(), zsect);
-                parser.write(begin("zsection"));
-                final String latexName = toLatexInSectHead(zsect.getName());
-                parser.write("\\SECTION " + latexName + " \\parents ");
-                for (Iterator iter = zsect.getParent().iterator();
-                     iter.hasNext();) {
-                  Parent parent = (Parent) iter.next();
-                  String parentLatexName = toLatexInSectHead(parent.getWord());
-                  parser.write(parentLatexName);
-                  if (iter.hasNext()) parser.write(", ");
+                final String name = zsect.getName();
+                sections_.put(name, zsect);
+                if (! ZUtils.isAnonymous(zsect)) {
+                  parser.write(begin("zsection"));
+                  final String latexName = toLatexInSectHead(zsect.getName());
+                  parser.write("\\SECTION " + latexName + " \\parents ");
+                  for (Iterator iter = zsect.getParent().iterator();
+                       iter.hasNext();) {
+                    Parent parent = (Parent) iter.next();
+                    String parentLatexName =
+                      toLatexInSectHead(parent.getWord());
+                    parser.write(parentLatexName);
+                    if (iter.hasNext()) parser.write(", ");
+                  }
+                  parser.write(end("zsection"));
                 }
-                parser.write(end("zsection"));
              :}
              ;
 
