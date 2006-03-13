@@ -64,4 +64,10 @@ public class ZLiveConsole
     }
     output.commandDone();
   }
+
+  public void execute(Console console, String input, Output output,
+                      Output error, String command)
+  {
+    execute(console, output, command);
+  }
 }
