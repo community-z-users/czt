@@ -122,7 +122,8 @@ public class TypeCheckUtils
    *  @return A non-typechecked term.
    */
   protected Term parse(Source source, SectionInfo sectInfo)
-    throws IOException, net.sourceforge.czt.parser.util.ParseException
+    throws IOException, net.sourceforge.czt.parser.util.ParseException,
+      net.sourceforge.czt.base.util.UnmarshalException
   {
     return ParseUtils.parse(source, sectInfo);
   }
@@ -203,7 +204,7 @@ public class TypeCheckUtils
   }
 
   protected void run(String [] args)
-    throws IOException
+    throws IOException, net.sourceforge.czt.base.util.UnmarshalException
   {
     if (args.length == 0) {
       printUsage();
@@ -303,7 +304,7 @@ public class TypeCheckUtils
   }
 
   public static void main(String[] args)
-    throws IOException
+    throws IOException, net.sourceforge.czt.base.util.UnmarshalException
   {
     TypeCheckUtils utils = new TypeCheckUtils();
     utils.run(args);

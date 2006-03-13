@@ -115,9 +115,15 @@ public class TypeCheckUtils
   }
 
   protected Term parse(Source src, SectionInfo sectInfo)
-    throws IOException, net.sourceforge.czt.parser.util.ParseException
+    throws IOException, net.sourceforge.czt.parser.util.ParseException,
+           net.sourceforge.czt.base.util.UnmarshalException
   {
-    return ParseUtils.parse(src, sectInfo);
+    try {
+      return ParseUtils.parse(src, sectInfo);
+    }
+    catch (net.sourceforge.czt.base.util.UnmarshalException ex) {
+      throw new RuntimeException(ex);
+    }
   }
 
   protected Term parse(String file, SectionInfo sectInfo)
@@ -155,7 +161,7 @@ public class TypeCheckUtils
   }
 
   public static void main(String[] args)
-    throws IOException
+    throws IOException, net.sourceforge.czt.base.util.UnmarshalException
   {
     TypeCheckUtils utils = new TypeCheckUtils();
     utils.run(args);
