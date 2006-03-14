@@ -45,6 +45,19 @@ import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.oz.util.OzString;
 </add:oz>
 
+<add:oldz>
+/**
+ * Translator into old (Z-EVES) latex markup.
+ *
+ * <ul>
+ *   <li>Arithmos is translated into \num (this is not always the
+ *       right thing to do but the best approximation I could think of)</li>
+ *   <li>The Z-EVES style of defining Z sections is used</li>
+ *   <li>For global schema definitions, the latex command \defs
+ *       is used instead of "=="</li>
+ * </ul>
+ */
+</add:oldz>
 action code
 {:
   private Map sections_ = new HashMap();
@@ -286,6 +299,11 @@ action code
       }
     }
     addStandardMapping(unicode2latexMap_);
+<add:oldz>
+    LatexCommand arithmos =
+       new LatexCommand("\\num", ZString.ARITHMOS, false, false);
+    unicode2latexMap_.put(ZString.ARITHMOS, arithmos);
+</add:oldz>
   }
 
 :}
