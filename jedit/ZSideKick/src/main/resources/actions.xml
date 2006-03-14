@@ -13,6 +13,8 @@
           net.sourceforge.czt.print.util.LatexString.class);
         latex = manager.get(key);
         buffer = org.gjt.sp.jedit.jEdit.newFile(view);
+        buffer.setStringProperty("encoding",
+                                 System.getProperty( "file.encoding"));
         buffer.setMode(latex.getExtension() + "latex");
         buffer.insert(0, latex.toString());
       }
@@ -32,6 +34,8 @@
           net.sourceforge.czt.print.util.OldLatexString.class);
         latex = manager.get(key);
         buffer = org.gjt.sp.jedit.jEdit.newFile(view);
+        buffer.setStringProperty("encoding",
+                                 System.getProperty( "file.encoding"));
         buffer.setMode(latex.getExtension() + "latex");
         buffer.insert(0, latex.toString());
       }
