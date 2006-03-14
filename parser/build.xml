@@ -100,7 +100,7 @@
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="Unicode2Latex"/>
       <param name="package" expression="net.sourceforge.czt.print.oz"/>
-      <param name="add" expression="{oz}"/>
+      <param name="add" expression="{z}{oz}"/>
     </xslt>
   </target>
 

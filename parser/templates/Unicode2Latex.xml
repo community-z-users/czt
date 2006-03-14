@@ -491,8 +491,8 @@ terminal String    TEXT,
 terminal Decorword DECORWORD;
 
 /* Non terminals */
-non terminal              input, narrWordList, sectionHeader,
-                          sectionList, paragraphList;
+non terminal              input, narrWordList, sectionList, paragraphList;
+non terminal ZSect        sectionHeader;
 non terminal String       markup, para, wordmarkup;
 <add:oz>
 non terminal LatexCommand innerPara;
@@ -517,19 +517,32 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
              ;
 
    sectionList ::= 
-             sectionList sectionHeader paragraphList
+             sectionList sectionHeader:zsect paragraphList
+<add:oldz>
+             {:
+                if (! ZUtils.isAnonymous(zsect)) {
+                  parser.write(end("zsection"));
+                }
+             :}
+</add:oldz>
              |
              // empty
              ;
 
    sectionHeader ::= SECTHEAD:zsect
              {:
+                RESULT = zsect;
                 final String name = zsect.getName();
                 sections_.put(name, zsect);
                 if (! ZUtils.isAnonymous(zsect)) {
                   parser.write(begin("zsection"));
                   final String latexName = toLatexInSectHead(zsect.getName());
+<add:z>
                   parser.write("\\SECTION " + latexName + " \\parents ");
+</add:z>
+<add:oldz>
+                  parser.write("{" + latexName + "}{");
+</add:oldz>
                   for (Iterator iter = zsect.getParent().iterator();
                        iter.hasNext();) {
                     Parent parent = (Parent) iter.next();
@@ -538,7 +551,12 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                     parser.write(parentLatexName);
                     if (iter.hasNext()) parser.write(", ");
                   }
+<add:oldz>
+                  parser.write("}");
+</add:oldz>
+<add:z>
                   parser.write(end("zsection"));
+</add:z>
                 }
              :}
              ;
