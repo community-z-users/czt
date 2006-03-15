@@ -41,7 +41,7 @@ public class GetChildrenVisitor
     List<Para> children = zSect.getPara();
     for (Iterator<Para> iter = children.iterator(); iter.hasNext();) {
       Para para = iter.next();
-      if (para instanceof LatexMarkupPara) {
+      if (para instanceof LatexMarkupPara || para instanceof NarrPara) {
         iter.remove();
       }
     }
