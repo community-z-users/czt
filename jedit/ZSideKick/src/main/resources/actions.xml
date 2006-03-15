@@ -36,7 +36,7 @@
         buffer = org.gjt.sp.jedit.jEdit.newFile(view);
         buffer.setStringProperty("encoding",
                                  System.getProperty( "file.encoding"));
-        buffer.setMode(latex.getExtension() + "latex");
+        buffer.setMode("tex");
         buffer.insert(0, latex.toString());
       }
       else {
