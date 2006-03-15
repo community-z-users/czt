@@ -28,6 +28,7 @@ public class LongStringVisitor
              AxParaVisitor<String>,
              ConjParaVisitor<String>,
              FreeParaVisitor<String>,
+             GivenParaVisitor<String>,
              NarrParaVisitor<String>,
              NarrSectVisitor<String>,
              OptempParaVisitor<String>,
@@ -41,7 +42,21 @@ public class LongStringVisitor
 
   public String visitAxPara(AxPara axPara)
   {
-    return "Z paragraph";
+    String result = "Axiomatic description paragraph";
+    final Box box = axPara.getBox();
+    try {
+      if (Box.OmitBox.equals(box)) {
+        result = "Definition paragraph";
+      }
+      else if (Box.SchBox.equals(box)) {
+        ConstDecl constDecl =
+          (ConstDecl) axPara.getZSchText().getZDeclList().get(0);
+        result = "Schema paragraph for \"" +
+          constDecl.getZDeclName().getWord() + "\"";
+      }
+    }
+    catch (Exception e) {}
+    return result;
   }
 
   public String visitConjPara(ConjPara conjPara)
@@ -52,6 +67,11 @@ public class LongStringVisitor
   public String visitFreePara(FreePara freePara)
   {
     return "Free types paragraph";
+  }
+
+  public String visitGivenPara(GivenPara givenPara)
+  {
+    return "Given types paragraph";
   }
 
   public String visitNarrPara(NarrPara narrPara)

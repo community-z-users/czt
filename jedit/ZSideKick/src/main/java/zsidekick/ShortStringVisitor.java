@@ -28,6 +28,7 @@ public class ShortStringVisitor
              AxParaVisitor<String>,
              ConjParaVisitor<String>,
              FreeParaVisitor<String>,
+             GivenParaVisitor<String>,
              NarrParaVisitor<String>,
              NarrSectVisitor<String>,
              OptempParaVisitor<String>,
@@ -41,7 +42,20 @@ public class ShortStringVisitor
 
   public String visitAxPara(AxPara axPara)
   {
-    return "AxPara";
+    String result = "AxPara";
+    final Box box = axPara.getBox();
+    try {
+      if (Box.OmitBox.equals(box)) {
+        result = "DefPara";
+      }
+      else if (Box.SchBox.equals(box)) {
+        ConstDecl constDecl =
+          (ConstDecl) axPara.getZSchText().getZDeclList().get(0);
+        result = constDecl.getZDeclName().getWord();
+      }
+    }
+    catch (Exception e) {}
+    return result;
   }
 
   public String visitConjPara(ConjPara conjPara)
@@ -52,6 +66,11 @@ public class ShortStringVisitor
   public String visitFreePara(FreePara freePara)
   {
     return "FreePara";
+  }
+
+  public String visitGivenPara(GivenPara givenPara)
+  {
+    return "GivenPara";
   }
 
   public String visitNarrPara(NarrPara narrPara)
