@@ -989,20 +989,13 @@ abstract public class Checker<R>
     List<ZDeclName> zDeclNames = gType.getName();
     Type2 firstType = gType.getType();
     Type2 optionalType =
-      exprChecker().instantiate(gType.getType(),
-                                factory().list(gType.getType()));
+      exprChecker().instantiate(gType.getType());
     GenericType result =
       factory().createGenericType(zDeclNames, firstType, optionalType);
     return result;
   }
 
   protected Type2 instantiate(Type2 type)
-  {
-    Type2 result = exprChecker().instantiate(type, factory().list(type));
-    return result;
-  }
-
-  protected Type2 instantiate(Type2 type, List<Type2> preTypes)
   {
     Type2 result = factory().createUnknownType();
     if (type instanceof GenParamType) {
@@ -1032,7 +1025,7 @@ abstract public class Checker<R>
     else if (type instanceof VariableType) {
       VariableType vType = (VariableType) type;
       if (vType.getValue() != vType) {
-        result = exprChecker().instantiate(vType.getValue(), preTypes);
+        result = exprChecker().instantiate(vType.getValue());
       }
       else {
         result = vType;
@@ -1040,10 +1033,7 @@ abstract public class Checker<R>
     }
     else if (type instanceof PowerType) {
       PowerType powerType = (PowerType) type;
-      if (containsObject(preTypes, powerType.getType())) {
-        return powerType;
-      }
-      Type2 replaced = exprChecker().instantiate(powerType.getType(), preTypes);
+      Type2 replaced = exprChecker().instantiate(powerType.getType());
       result = factory().createPowerType(replaced);
     }
     else if (type instanceof GivenType) {
@@ -1053,13 +1043,13 @@ abstract public class Checker<R>
     else if (type instanceof SchemaType) {
       SchemaType schemaType = (SchemaType) type;
       Signature signature =
-        exprChecker().instantiate(schemaType.getSignature(), preTypes);
+        exprChecker().instantiate(schemaType.getSignature());
       result = factory().createSchemaType(signature);
     }
     else if (type instanceof ProdType) {
       ProdType prodType = (ProdType) type;
       List<Type2> newTypes =
-        exprChecker().instantiateTypes(prodType.getType(), preTypes);
+        exprChecker().instantiateTypes(prodType.getType());
       result = factory().createProdType(newTypes);
     }
     else if (type instanceof UnknownType) {
@@ -1072,7 +1062,7 @@ abstract public class Checker<R>
           types.addAll(pAnn.getParameters());
         }
         boolean isMem = uType.getIsMem();
-        List<Type2> newTypes = exprChecker().instantiateTypes(types, preTypes);
+        List<Type2> newTypes = exprChecker().instantiateTypes(types);
         List<NewOldPair> newPairs = factory().list(uType.getPairs());
         result = factory().createUnknownType(uTypeName, isMem, newTypes, newPairs);
       }
@@ -1083,27 +1073,25 @@ abstract public class Checker<R>
     return result;
   }
 
-  protected Signature instantiate(Signature signature, List<Type2> preTypes)
+  protected Signature instantiate(Signature signature)
   {
     List<NameTypePair> pairs = signature.getNameTypePair();
     List<NameTypePair> newPairs =
-      exprChecker().instantiatePairs(pairs, preTypes);
+      exprChecker().instantiatePairs(pairs);
     Signature result = factory().createSignature(newPairs);
     return result;
   }
 
-  protected List<NameTypePair> instantiatePairs(List<NameTypePair> pairs,
-                                                List<Type2> preTypes)
+  protected List<NameTypePair> instantiatePairs(List<NameTypePair> pairs)
   {
     List<NameTypePair> newPairs = factory().list();
     for (NameTypePair pair : pairs) {
-      if (containsObject(preTypes, pair.getType()) ||
-          pair.getType() instanceof GenericType) {
-        newPairs.add(pair);
+      if (pair.getType() instanceof GenericType) {
+	newPairs.add(pair);
       }
       else {
         Type replaced =
-          exprChecker().instantiate(unwrapType(pair.getType()), preTypes);
+          exprChecker().instantiate(unwrapType(pair.getType()));
         NameTypePair newPair =
           factory().createNameTypePair(pair.getZDeclName(), replaced);
         newPairs.add(newPair);
@@ -1112,18 +1100,12 @@ abstract public class Checker<R>
     return newPairs;
   }
 
-  protected List<Type2> instantiateTypes(List<Type2> types,
-                                         List<Type2> preTypes)
+  protected List<Type2> instantiateTypes(List<Type2> types)
   {
     List<Type2> newTypes = factory().list();
     for (Type2 type : types) {
-      if (containsObject(preTypes, type)) {
-        newTypes.add(type);
-      }
-      else {
-        Type2 replaced = exprChecker().instantiate(type, preTypes);
-        newTypes.add(replaced);
-      }
+      Type2 replaced = exprChecker().instantiate(type);
+      newTypes.add(replaced);
     }
     return newTypes;
   }
@@ -1132,14 +1114,10 @@ abstract public class Checker<R>
   //GenericType with this Type2 as the type
   protected Type addGenerics(Type2 type)
   {
-    Type result = null;
     List<ZDeclName> params = typeEnv().getParameters();
-    if (params.size() > 0) {
-      result = factory().createGenericType(params, type, null);
-    }
-    else {
-      result = type;
-    }
+    Type result = params.size() == 0
+      ? type
+      : factory().createGenericType(params, type, null);
     return result;
   }
 
@@ -1266,12 +1244,23 @@ abstract public class Checker<R>
         result = factory().createSchemaType(newSig);
       }
     }
-    else if (sectTypeEnv().getSecondTime() &&
-             type instanceof PowerType &&
-             powerType(type).getType() instanceof UnknownType) {
-      Type2 resolved =
-        exprChecker().resolveUnknownType(powerType(type).getType());
-      result = factory().createPowerType(resolved);
+    else if (sectTypeEnv().getSecondTime()) {
+      if (type instanceof VariableType) {
+	result = type;
+      }
+      else {
+	Object [] newChildren = new Object [type.getChildren().length];
+	for (int i = 0; i < type.getChildren().length; i++) {
+	  Object child = type.getChildren()[i];
+	  if (child instanceof Type2) {
+	    newChildren[i] = resolveUnknownType((Type2) child);
+	  }
+	  else {
+	    newChildren[i] = child;
+	  }
+	}
+	result = (Type2) type.create(newChildren);
+      }
     }
     return result;
   }
@@ -1389,13 +1378,6 @@ abstract public class Checker<R>
         removeErrorAndTypeAnns((Term) next);
       }
     }
-  }
-
-  protected List<Type> seen = new java.util.ArrayList<Type>();
-  public String toString2(Type type)
-  {
-    seen = new java.util.ArrayList<Type>();
-    return exprChecker().toString(type);
   }
 
   public String toString(Type type)

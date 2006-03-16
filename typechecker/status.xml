@@ -10,6 +10,10 @@
     <!-- Add new releases here -->
     <release version="0.5" date="unreleased">
       <action dev="Tim" type="fix"
+        Restrict class types to trees and not graphs to prevent stack
+        overflowing when printing ASTs (bug 1448515).
+      </action>
+      <action dev="Tim" type="fix"
         Fixed problem with renaming in mutually recursive types.
       </action>
       <action dev="Tim" type="fix"

@@ -306,12 +306,11 @@ public class ExprChecker
     //if this is a reference to a generic declared inside a class,
     //being referenced outside of that class, the parameters must be
     //instantiated
-    else if (type instanceof GenericType) {
+    if (type instanceof GenericType) {
       GenericType gType = (GenericType) type;
       List<Type2> instantiations = factory().list();
       ParameterAnn pAnn =
         (ParameterAnn) bindSelExpr.getAnn(ParameterAnn.class);
-
       unificationEnv().enterScope();
 
       //add new vtypes for the (missing) parameters

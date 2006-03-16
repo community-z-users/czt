@@ -78,7 +78,7 @@ abstract public class Checker<R>
     addOperation(skip, signature, getSelfSig());
   }
 
-  protected Type2 instantiate(Type2 type, List<Type2> preTypes)
+  protected Type2 instantiate(Type2 type)
   {
     Type2 result = factory().createUnknownType();
     //if this is a class type, instantiate it
@@ -88,7 +88,7 @@ abstract public class Checker<R>
     }
     //if not a class type, use the Object-Z typechecker's instantiate method
     else {
-      result = super.instantiate(type, preTypes);
+      result = super.instantiate(type);
     }
     return result;
   }

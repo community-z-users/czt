@@ -20,6 +20,7 @@ package net.sourceforge.czt.typecheck.oz.util;
 
 import java.util.List;
 
+import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.util.OzString;
@@ -134,10 +135,39 @@ public class GlobalDefs
   }
 
   //find a NameSignaturePair in a class signature
-  public static NameSignaturePair findOperation(ZDeclName zDeclName, ClassSig cSig)
+  public static NameSignaturePair findOperation(ZDeclName zDeclName, 
+						ClassSig cSig)
   {
     NameSignaturePair result = findNameSigPair(zDeclName, cSig.getOperation());
     return result;
+  }
+
+  public static boolean containsCycle(Term term)
+  {
+    List list = new java.util.ArrayList();
+    return containsCycle(list, term);
+  }
+
+  public static boolean containsCycle(List<Object> list, Term term)
+  {
+    System.err.println("trying " + term);
+    if (containsObject(list, term)) {
+      System.err.println("\t\tcycle @ "+ term);
+      return true;
+    }
+    else {
+      for (int i = 0; i < term.getChildren().length; i++) {
+	Object child = term.getChildren()[i];
+	if (child instanceof Term) {
+	  List<Object> newlist = new java.util.ArrayList(list);
+	  newlist.add(term);
+	  if (containsCycle(newlist, (Term) child)) {
+	    return true;
+	  }
+	}
+      }      
+    }
+    return false;
   }
 
   public static boolean isSelfName(ZDeclName zDeclName)

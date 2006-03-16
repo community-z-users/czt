@@ -22,6 +22,7 @@ package net.sourceforge.czt.typecheck.oz;
 import java.io.*;
 import java.util.List;
 
+import net.sourceforge.czt.base.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.session.*;
@@ -158,6 +159,12 @@ public class TypeCheckUtils
 			      ParseUtils.getCommand());
     sectionManager.putCommand(SectTypeEnvAnn.class, TypeCheckUtils.getCommand());
     return sectionManager;
+  }
+
+  /** @return a Jaxb writer for Object-Z. */
+  protected JaxbXmlWriter getJaxbXmlWriter()
+  {
+    return new net.sourceforge.czt.oz.jaxb.JaxbXmlWriter();
   }
 
   public static void main(String[] args)

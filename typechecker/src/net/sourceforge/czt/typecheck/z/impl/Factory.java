@@ -53,21 +53,23 @@ public class Factory
 
   public static Term cloneTerm(Term term)
   {
-    return cloneTerm(term, term);
+    List<Term> listTerm = new java.util.ArrayList();
+    listTerm.add(term);
+    return cloneTerm(term, listTerm);
   }
 
-  public static Term cloneTerm(Term term, Term rootTerm)
+  public static Term cloneTerm(Term term, List<Term> listTerm)
   {
     Object [] children = term.getChildren();
     Object [] args = new Object [children.length];
     for (int i = 0; i < children.length; i++) {
       Object next = children[i];
-      if (next == rootTerm) {
+      if (containsObject(listTerm, next)) {
         args[i] = next;
       }
       else if (next != null && next instanceof Term) {
         Term nextTerm = (Term) next;
-        args[i] = cloneTerm(nextTerm, rootTerm);
+        args[i] = cloneTerm(nextTerm, listTerm);
       }
       else {
         args[i] = children[i];

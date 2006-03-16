@@ -31,7 +31,7 @@ import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
-import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
+import net.sourceforge.czt.base.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.parser.util.*;
@@ -202,6 +202,12 @@ public class TypeCheckUtils
     sectionManager.putCommand(SectTypeEnvAnn.class, TypeCheckUtils.getCommand());
     return sectionManager;
   }
+  
+  /** @return a Jaxb writer for Z. */
+  protected JaxbXmlWriter getJaxbXmlWriter()
+  {
+    return new net.sourceforge.czt.z.jaxb.JaxbXmlWriter();
+  }
 
   protected void run(String [] args)
     throws IOException, net.sourceforge.czt.base.util.UnmarshalException
@@ -290,7 +296,7 @@ public class TypeCheckUtils
         if (printZml) {
           try {
             term.accept(new IdAdder());
-            JaxbXmlWriter writer = new JaxbXmlWriter();
+            JaxbXmlWriter writer = getJaxbXmlWriter();
             writer.write(term, System.err);
           }
           catch (MarshalException e) {

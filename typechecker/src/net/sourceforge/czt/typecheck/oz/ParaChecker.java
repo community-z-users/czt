@@ -215,7 +215,7 @@ public class ParaChecker
 
     //add the "self" variable to the state
     NameTypePair selfPair =
-      factory().createNameTypePair(self, addGenerics(classType));
+      factory().createNameTypePair(self, addGenerics((Type2)factory().cloneTerm(classType)));
     insert(cSig.getState().getNameTypePair(), selfPair);
 
     //create the signature of this paragraph

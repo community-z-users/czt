@@ -748,7 +748,7 @@ abstract public class Checker<R>
     return result;
   }
 
-  protected Type2 instantiate(Type2 type, List<Type2> preTypes)
+  protected Type2 instantiate(Type2 type)
   {
     Type2 result = factory().createUnknownType();
     //if this is a class type, instantiate it
@@ -756,28 +756,24 @@ abstract public class Checker<R>
       ClassType classType = (ClassType) type;
       ClassSig cSig = classType.getClassSig();
 
-      if (!containsObject(preTypes, classType)) {
-        preTypes.add(classType);
-      }
-
       ClassSig newCSig = null;
       if (!(cSig instanceof VariableClassSig)) {
         //instantiate the state
         Signature state = cSig.getState();
         Signature newState = null;
         if (state != null) {
-          newState = instantiate(state, preTypes);
+          newState = instantiate(state);
         }
 
         //instantiate the attributes
         List<NameTypePair> attrs = cSig.getAttribute();
-        List<NameTypePair> newAttrs = instantiatePairs(attrs, preTypes);
+        List<NameTypePair> newAttrs = instantiatePairs(attrs);
 
         //instantiate the operations
         List<NameSignaturePair> ops = cSig.getOperation();
         List<NameSignaturePair> newOps = factory().list();
         for (NameSignaturePair pair : ops) {
-          Signature signature = instantiate(pair.getSignature(), preTypes);
+          Signature signature = instantiate(pair.getSignature());
           NameSignaturePair newPair =
             factory().createNameSignaturePair(pair.getZDeclName(), signature);
           newOps.add(newPair);
@@ -787,7 +783,7 @@ abstract public class Checker<R>
         List<ClassRef> classRefs = cSig.getClasses();
         List<ClassRef> newClassRefs = factory().list();
         for (ClassRef classRef : classRefs) {
-          List<Type2> types = instantiateTypes(classRef.getType(), preTypes);
+          List<Type2> types = instantiateTypes(classRef.getType());
           List<NewOldPair> pairs = factory().list();
           ClassRef newClassRef =
             factory().createClassRef(classRef.getRefName(), types, pairs);
@@ -809,7 +805,7 @@ abstract public class Checker<R>
       }
       else if (type instanceof ClassRefType) {
         ClassRefType classRefType = (ClassRefType) type;
-        ClassRef classRef = instantiate(classRefType.getThisClass(), preTypes);
+        ClassRef classRef = instantiate(classRefType.getThisClass());
         result = factory().createClassRefType(newCSig, classRef,
                                               classRefType.getSuperClass(),
                                               classRefType.getVisibilityList(),
@@ -817,7 +813,7 @@ abstract public class Checker<R>
       }
       else if (type instanceof ClassPolyType) {
         ClassPolyType classPolyType = (ClassPolyType) type;
-        ClassRef classRef = instantiate(classPolyType.getRootClass(), preTypes);
+        ClassRef classRef = instantiate(classPolyType.getRootClass());
         result = factory().createClassPolyType(newCSig, classRef);
       }
       else if (type instanceof ClassUnionType) {
@@ -827,14 +823,14 @@ abstract public class Checker<R>
     }
     //if not a class type, use the Z typechecker's instantiate method
     else {
-      result = super.instantiate(type, preTypes);
+      result = super.instantiate(type);
     }
     return result;
   }
 
-  protected ClassRef instantiate(ClassRef classRef, List<Type2> preTypes)
+  protected ClassRef instantiate(ClassRef classRef)
   {
-    List<Type2> types = instantiateTypes(classRef.getType(), preTypes);
+    List<Type2> types = instantiateTypes(classRef.getType());
     List<NewOldPair> pairs = factory().list(classRef.getNewOldPair());
     ClassRef result =
       factory().createClassRef(classRef.getRefName(), types, pairs);
@@ -915,11 +911,10 @@ abstract public class Checker<R>
 
   protected Type2 resolveUnknownType(Type2 type)
   {
-    Type2 result = type;
-    if (sectTypeEnv().getSecondTime() && type instanceof UnknownType) {
+    Type2 result = super.resolveUnknownType(type);
+    if (type instanceof UnknownType) {
       UnknownType uType = (UnknownType) type;
-      Type2 resolved = super.resolveUnknownType(uType);
-      result = renameClassType(resolved, uType.getPairs());
+      result = renameClassType(result, uType.getPairs());
     }
     return result;
   }
@@ -1224,21 +1219,21 @@ abstract public class Checker<R>
   public String toString(Type type)
   {
     String result = new String();
-    if (unwrapType(type) instanceof PowerType &&
-        powerType(unwrapType(type)).getType() instanceof ClassRefType) {
-      net.sourceforge.czt.oz.ast.ClassRefType ctype =
-        (ClassRefType) powerType(unwrapType(type)).getType();
-      if (!containsObject(seen, ctype)) {
-        seen.add(ctype);
-        result = "P " + classRefTypeToString(ctype);
-      }
+    if (unwrapType(type) instanceof PowerType) {
+      PowerType powerType = (PowerType) unwrapType(type);
+      result = "P " + exprChecker().toString(powerType.getType());
     }
     else if (type instanceof net.sourceforge.czt.oz.ast.ClassRefType) {
       ClassRefType ctype = (ClassRefType) type;
-      if (!containsObject(seen, ctype)) {
-        seen.add(ctype);
-        result = classRefTypeToString(ctype);
-      }
+      result = classRefTypeToString(ctype);
+    }
+    else if (type instanceof ClassUnionType ||
+	     type instanceof ClassPolyType)
+    {
+      ClassType cType = (ClassType) type;
+      result += type.toString();
+      result += "\n";
+      result += toString(cType.getClassSig());
     }
     else {
       result = type.toString();
@@ -1271,5 +1266,29 @@ abstract public class Checker<R>
     }
     result += ")";
     return result;
+  }
+
+  public String toString(ClassSig csig)
+  {
+    String result = new String();
+    result += "(CSIG\n";
+    result += "\tREF(" + csig.getClasses() + ")\n";
+    result += "\tATTR\n";
+    for (Object o : csig.getAttribute()) {
+      NameTypePair pair = (NameTypePair) o;
+      result += "\t\t" + pair.getZDeclName() + " : " + pair.getType() + "\n";
+    }
+    result += "\tSTATE\n";
+    for (Object o : csig.getState().getNameTypePair()) {
+      NameTypePair pair = (NameTypePair) o;
+      result += "\t\t" + pair.getZDeclName() + " : " + toString(pair.getType()) + "\n";
+    }
+    result += "\tOPS\n";
+    for (Object o : csig.getOperation()) {
+      NameSignaturePair p = (net.sourceforge.czt.oz.ast.NameSignaturePair) o;
+      result += "\t\t" + p.getZDeclName() + " : " + p.getSignature() + "\n";
+    }
+    result += ")";
+    return result;    
   }
 }
