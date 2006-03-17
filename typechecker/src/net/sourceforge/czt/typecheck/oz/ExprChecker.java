@@ -259,7 +259,7 @@ public class ExprChecker
     if (instanceOf(exprType, VariableClassType.class) ||
         !instanceOf(exprType, VariableType.class)) {
       if (exprType instanceof SchemaType) {
-        type = zExprChecker_.visitBindSelExpr(bindSelExpr);
+	type = bindSelExpr.accept(zExprChecker_);
       }
       else if (exprType instanceof ClassType) {
         ClassType classType = (ClassType) exprType;
@@ -362,6 +362,10 @@ public class ExprChecker
     }
     else if (!instanceOf(vPowerType.getType(), VariableType.class)) {
       if (vPowerType.getType() instanceof ClassRefType) {
+	//add declname IDs to the new names
+	addDeclNameIDs(renameExpr.getZRenameList());
+
+	//rename the class features
         ClassRefType classRefType = (ClassRefType) vPowerType.getType();
         ClassSig classSig = classRefType.getClassSig();
         if (!instanceOf(classSig, VariableClassSig.class)) {
@@ -385,7 +389,7 @@ public class ExprChecker
         }
       }
       else if (vPowerType.getType() instanceof SchemaType) {
-        type = zExprChecker_.visitRenameExpr(renameExpr);
+	type = renameExpr.accept(zExprChecker_);
       }
       else {
         Object [] params = {renameExpr, exprType};

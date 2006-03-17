@@ -325,8 +325,9 @@ public class ExprChecker
   public Type2 visitNumExpr(NumExpr numExpr)
   {
     //the type of a NumExpr is the given type arithmos
-    ZDeclName arithmos = factory().createZDeclName(ZString.ARITHMOS);
-    Type2 type = factory().createGivenType(arithmos);
+    ZRefName arithmos = factory().createZRefName(ZString.ARITHMOS);
+    PowerType arithType = (PowerType) getType(arithmos);
+    Type2 type = arithType.getType();
 
     //add the type as an annotation
     addTypeAnn(numExpr, type);
@@ -1112,6 +1113,10 @@ public class ExprChecker
     }
     //if the expr is a schema reference, perform the renaming
     else {
+      //add declname IDs to the new names
+      addDeclNameIDs(renameExpr.getZRenameList());
+
+      //rename the signature
       SchemaType schemaType = schemaType(vPowerType.getType());
       Signature signature = schemaType.getSignature();
       SchemaType newSchemaType = factory().createSchemaType();

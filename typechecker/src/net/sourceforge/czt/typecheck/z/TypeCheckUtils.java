@@ -293,16 +293,16 @@ public class TypeCheckUtils
 	    System.err.println("No type information available");
 	  }
         }
-        if (printZml) {
-          try {
-            term.accept(new IdAdder());
-            JaxbXmlWriter writer = getJaxbXmlWriter();
-            writer.write(term, System.err);
-          }
-          catch (MarshalException e) {
-            e.printStackTrace();
-          }
-        }
+      }
+
+      if (term != null && printZml) {
+	try {
+	  JaxbXmlWriter writer = getJaxbXmlWriter();
+	  writer.write(term, System.err);
+	}
+	catch (MarshalException e) {
+	  e.printStackTrace();
+	}
       }
     }
 
@@ -316,40 +316,6 @@ public class TypeCheckUtils
     utils.run(args);
   }
 
-  public static class IdAdder
-    implements TermVisitor,
-               TermAVisitor,
-               ZDeclNameVisitor
-  {
-    private int count_ = 0;
-
-    public Object visitTerm(Term term)
-    {
-      VisitorUtils.visitTerm(this, term);
-      return null;
-    }
-
-    public Object visitTermA(TermA termA)
-    {
-      VisitorUtils.visitTerm(this, termA);
-      for (Object o : termA.getAnns()) {
-        if (o instanceof Term) {
-          ((Term) o).accept(this);
-        }
-      }
-      return null;
-    }
-
-    public Object visitZDeclName(ZDeclName zDeclName)
-    {
-      visitTermA(zDeclName);
-      if (zDeclName.getId() == null) {
-        zDeclName.setId(zDeclName.getWord() + "[" + count_++ + "]");
-      }
-      return null;
-    }
-  }
-  
   /**
    * Get a Command object for use in SectionManager
    *

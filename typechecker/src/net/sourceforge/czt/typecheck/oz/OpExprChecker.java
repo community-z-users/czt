@@ -328,6 +328,9 @@ public class OpExprChecker
     OpExpr opExpr = renameOpExpr.getOpExpr();
     Signature renameSig = opExpr.accept(opExprChecker());
 
+    //add declname IDs to the new names
+    addDeclNameIDs(renameOpExpr.getZRenameList());
+
     //hide the declarations
     String errorMessage =
       ErrorMessage.DUPLICATE_NAME_IN_RENAMEOPEXPR.toString();

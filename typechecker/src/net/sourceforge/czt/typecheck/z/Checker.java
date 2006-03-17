@@ -643,7 +643,7 @@ abstract public class Checker<R>
       List<DeclName> declNames = varDecl.getDeclName();
       for (DeclName declName : declNames) {
         //add a unique ID to this name
-        addDeclNameID(declName);
+        factory().addDeclNameID(declName);
 
         //add the name and its type to the list of NameTypePairs
         NameTypePair pair = factory().createNameTypePair(declName, baseType);
@@ -651,14 +651,6 @@ abstract public class Checker<R>
       }
     }
     return pairs;
-  }
-
-  protected void addDeclNameID(DeclName declName)
-  {
-    if (declName instanceof ZDeclName) {
-      ZDeclName zDeclName = (ZDeclName) declName;
-      zDeclName.setId(new Integer(id()).toString());
-    }
   }
 
   protected Signature createCompSig(Signature lSig, Signature rSig,
@@ -808,31 +800,13 @@ abstract public class Checker<R>
     return result;
   }
 
-  /*
-  protected void renameUnknownTypes(Term term,
-                                    List<Term> preTerm,
-                                    List<NewOldPair> renamePairs)
+  //add IDs to each new name in a list of renaming pairs
+  protected void addDeclNameIDs(List<NewOldPair> pairs)
   {
-    preTerm.add(term);
-    if (term instanceof UnknownType) {
-      UnknownType uType = (UnknownType) term;
-      List<NewOldPair> unknownPairs = uType.getPairs();
-      List<NewOldPair> newPairs = mergeRenamePairs(unknownPairs, renamePairs);
-      uType.getPairs().clear();
-      uType.getPairs().addAll(newPairs);
-    }
-    else {
-      Object [] children = term.getChildren();
-      for (int i = 0; i < children.length; i++) {
-        if (children[i] != null &
-            children[i] instanceof Term &&
-            !containsObject(preTerm, children[i])) {
-          renameUnknownTypes((Term) children[i], preTerm, renamePairs);
-        }
-      }
+    for (NewOldPair pair : pairs) {
+      factory().addDeclNameID(pair.getNewName());
     }
   }
-  */
 
   //make a tuple from a sequence (section 9.2 of the Z standard)
   protected Type2 mkTuple(List<Type2> list)
@@ -851,9 +825,6 @@ abstract public class Checker<R>
     List<NameTypePair> pairs = signature.getNameTypePair();
     for (NameTypePair pair : pairs) {
       NewOldPair namePair = findNewOldPair(pair.getZDeclName(), renamePairs);
-      List<Term> preTerms = factory().list();
-      preTerms.add(pair.getType());
-      //renameUnknownTypes(pair.getType(), preTerms, renamePairs);
       if (namePair != null) {
         ZDeclName newName = namePair.getZDeclName();
         NameTypePair newPair =
@@ -1130,7 +1101,7 @@ abstract public class Checker<R>
     List<ZDeclName> names = factory().list();
     for (DeclName paramName : declNames) {
       ZDeclName zParamName = assertZDeclName(paramName);
-      addDeclNameID(zParamName);
+      factory().addDeclNameID(zParamName);
 
       GenParamType genParamType = factory().createGenParamType(zParamName);
       PowerType powerType = factory().createPowerType(genParamType);

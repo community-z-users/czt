@@ -102,6 +102,7 @@ public class ParaChecker
 
     //add this class name and "self" to the pending typing environment
     ZDeclName self = factory().createZDeclName(OzString.SELF);
+    factory().addDeclNameID(self);
     pending().add(self, addGenerics(classType));
 
     //visit each inherited class
@@ -167,7 +168,7 @@ public class ParaChecker
 
     //add the "Init" variable to the state (to use for dereferencing)
     ZDeclName initName = factory().createZDeclName(OzString.INITWORD);
-    addDeclNameID(initName);
+    factory().addDeclNameID(initName);
     NameTypePair existingInitPair = findNameTypePair(initName, cSig.getState());
     if (existingInitPair == null) {
       Type2 boolType = factory().createBoolType();
@@ -195,7 +196,7 @@ public class ParaChecker
       opNames.add(operation.getZDeclName());
 
       //add a unique ID to the operation name
-      addDeclNameID(operation.getZDeclName());
+      factory().addDeclNameID(operation.getZDeclName());
 
       //exit the scope
       typeEnv().exitScope();

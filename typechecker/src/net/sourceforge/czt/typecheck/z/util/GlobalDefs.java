@@ -270,8 +270,8 @@ public class GlobalDefs
    * @param zRefName the ZRefName to search for.
    * @return true if and only if the name is in the list.
    */
-  public static boolean containsRefName(List<ZRefName> list,
-                                        ZRefName zRefName)
+  public static boolean containsZRefName(List<ZRefName> list,
+					 ZRefName zRefName)
   {
     boolean result = false;
     for (ZRefName next : list) {

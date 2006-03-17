@@ -86,7 +86,7 @@ abstract public class Checker<R>
   protected void setClassPara(ClassPara classPara)
   {
     typeChecker_.classPara_ = classPara;
-    addDeclNameID(classPara.getClassName());
+    factory().addDeclNameID(classPara.getClassName());
   }
 
   //the lst of primary state variables in the current class
@@ -130,14 +130,6 @@ abstract public class Checker<R>
                                      markup());
     return errorAnn;
   }
-
-  /*
-  protected UResult strongUnify(Type2 typeA, Type2 typeB)
-  {
-    UnificationEnv unificationEnv = (UnificationEnv) unificationEnv();
-    return unificationEnv.strongUnify(typeA, typeB);
-  }
-  */
 
   protected UResult weakUnify(Type2 typeA, Type2 typeB)
   {
@@ -520,20 +512,18 @@ abstract public class Checker<R>
 
     //check that all names in the visibility list are features of this class
     if (visibilityList != null) {
-      List<RefName> visibleNames = visibilityList.getRefName();
-      for (RefName visibleName : visibleNames) {
-        ZRefName zVisibleName = assertZRefName(visibleName);
+      for (ZRefName visibleName : visibilityList) {
         boolean found = false;
         for (ZDeclName featureName : declNames) {
-          if (namesEqual(featureName, zVisibleName) &&
-              !namesEqual(className(), zVisibleName)) {
+          if (namesEqual(featureName, visibleName) &&
+              !namesEqual(className(), visibleName)) {
             found = true;
             break;
           }
         }
         if (!found) {
-          Object [] params = {zVisibleName, className()};
-          error(zVisibleName,
+          Object [] params = {visibleName, className()};
+          error(visibleName,
                 ErrorMessage.NON_EXISTENT_NAME_IN_VISIBILITYLIST,
                 params);
         }
@@ -671,31 +661,6 @@ abstract public class Checker<R>
     List<ClassRef> newClassRefs = factory().list();
     for (ClassRef classRef : classRefs) {
       ClassRef newClassRef = renameClassRef(classRef, renamePairs);
-      /*
-      List<NewOldPair> newClassRefPairs = factory().list();
-      for (NewOldPair pair : classRef.getNewOldPair()) {
-        NewOldPair newPair = factory().createNewOldPair(pair);
-        newClassRefPairs.add(newPair);
-      }
-      for (NewOldPair renamePair : renamePairs) {
-        boolean renamed = false;
-        for (NewOldPair classRefPair : newClassRefPairs) {
-          DeclName classRefNewName = classRefPair.getNewName();
-          RefName renameOldName = renamePair.getOldName();
-          if (namesEqual(classRefNewName, renameOldName)) {
-            classRefPair.setNewName(renamePair.getNewName());
-            renamed = true;
-          }
-        }
-        if (!renamed) {
-          newClassRefPairs.add(renamePair);
-        }
-      }
-      ClassRef newClassRef =
-        factory().createClassRef(classRef.getZRefName(),
-                                 classRef.getType(),
-                                 newClassRefPairs);
-      */
       newClassRefs.add(newClassRef);
     }
     return newClassRefs;
@@ -1181,25 +1146,6 @@ abstract public class Checker<R>
                                classRef.getType(),
                                newClassRefPairs);
     return result;
-    /*
-    List<NewOldPair> cfPairs = classRef.getNewOldPair();
-    List<NewOldPair> rnPairs = renameExpr.getZRenameList();
-    List<NewOldPair> newPairs = factory().list();
-    for (NewOldPair rnPair :rnPairs) {
-      NewOldPair cfPair = findNewOldPair(rnPair.getZDeclName(), cfPairs);
-      if (cfPair == null) {
-        newPairs.add(rnPair);
-      }
-      else {
-        NewOldPair newPair =
-          factory().createNewOldPair(rnPair.getNewName(), cfPair.getOldName());
-      }
-    }
-    ClassRef result = factory().createClassRef(classRef.getRefName(),
-                                               classRef.getType(),
-                                               newPairs);
-    return result;
-    */
   }
 
   protected CarrierSet getCarrierSet()

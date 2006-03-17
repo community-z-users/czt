@@ -231,10 +231,7 @@ public class UnificationEnv
 
   protected UResult unifyGivenType(GivenType givenTypeA, GivenType givenTypeB)
   {
-    ZDeclName zDeclNameA = givenTypeA.getName();
-    ZDeclName zDeclNameB = givenTypeB.getName();
-    UResult result = namesEqual(zDeclNameA, zDeclNameB) ? SUCC : FAIL;
-    //    UResult result = givenTypeA.equals(givenTypeB) ? SUCC : FAIL;
+    UResult result = givenTypeA.equals(givenTypeB) ? SUCC : FAIL;
     return result;
   }
 

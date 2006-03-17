@@ -36,6 +36,9 @@ public class Factory
   /** The ZFactory that is used to create wrapped types. */
   protected ZFactory zFactory_;
 
+  /** Used for generating unique ids in names. */
+  protected int id_ = 0;
+
   public Factory()
   {
     zFactory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
@@ -281,19 +284,26 @@ public class Factory
 
   public ZDeclName createZDeclName(String word, List<Stroke> stroke, String id)
   {
-    return zFactory_.createZDeclName(word, stroke, id);
+    ZDeclName result = zFactory_.createZDeclName(word, stroke, id);
+    addDeclNameID(result);
+    return result;
   }
 
   public ZDeclName createZDeclName(ZDeclName zDeclName)
   {
-    return createZDeclName(zDeclName.getWord(),
-                           zDeclName.getStroke(),
-                           zDeclName.getId());
+    ZDeclName result = zFactory_.createZDeclName(zDeclName.getWord(),
+						 zDeclName.getStroke(),
+						 zDeclName.getId());
+    copyLocAnn(zDeclName, result);
+    return result;
   }
 
   public ZDeclName createZDeclName(ZRefName zRefName)
   {
-    return createZDeclName(zRefName.getWord(), zRefName.getStroke(), null);
+    ZDeclName result =
+       createZDeclName(zRefName.getWord(), zRefName.getStroke(), null);
+    copyLocAnn(zRefName, result);
+    return result;
   }
 
   public ZRefName createZRefName(String word)
@@ -310,9 +320,11 @@ public class Factory
 
   public ZRefName createZRefName(ZRefName zRefName)
   {
-    return createZRefName(zRefName.getWord(),
-                          zRefName.getStroke(),
-                          zRefName.getDecl());
+    ZRefName result =  createZRefName(zRefName.getWord(),
+				      zRefName.getStroke(),
+				      zRefName.getDecl());
+    copyLocAnn(zRefName, result);
+    return result;
   }
 
   public ZRefName createZRefName(ZDeclName zDeclName)
@@ -356,6 +368,27 @@ public class Factory
   public ZRenameList createZRenameList(List<NewOldPair> pairs)
   {
     return zFactory_.createZRenameList(pairs);
+  }
+
+  public void addDeclNameID(DeclName declName)
+  {
+    if (declName instanceof ZDeclName) {
+      ZDeclName zDeclName = (ZDeclName) declName;
+      zDeclName.setId(freshId().toString());
+    }
+  }
+
+  public Integer freshId()
+  {
+    return new Integer(id_++);
+  }
+
+  public void copyLocAnn(TermA src, TermA dest)
+  {
+    Object locAnn = src.getAnn(LocAnn.class);
+    if (locAnn != null) {
+      dest.getAnns().add(locAnn);
+    }
   }
 
   public <E> List<E> list()

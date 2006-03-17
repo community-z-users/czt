@@ -29,6 +29,7 @@ import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.z.util.Section;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.parser.util.Pair;
 import net.sourceforge.czt.typecheck.z.*;
@@ -42,16 +43,8 @@ public class SectTypeEnv
   extends AbstractTypeEnv
 {
   /** The name of the prelude section. */
-  public static final String PRELUDE = "prelude";
+  public static final String PRELUDE = Section.PRELUDE.getName();
 
-  /** The names of the toolkit sections. */
-  public static final String [] TOOLKITS = {PRELUDE,
-                                            "set_toolkit",
-                                            "relation_toolkit",
-                                            "function_toolkit",
-                                            "sequence_toolkit",
-                                            "number_toolkit",
-                                            "standard_toolkit"};
   /** A Factory. */
   protected static Factory factory_;
 

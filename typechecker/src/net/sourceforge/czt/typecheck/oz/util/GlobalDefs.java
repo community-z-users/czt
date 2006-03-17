@@ -85,13 +85,14 @@ public class GlobalDefs
   }
 
   //check if a name is in a signature's visibility list
-  public static boolean isVisible(RefName refName, Type2 type)
+  public static boolean isVisible(ZRefName zRefName, Type2 type)
   {
     boolean result = true;
     if (type instanceof ClassRefType) {
       ClassRefType classRefType = (ClassRefType) type;
+      List<ZRefName> list = classRefType.getVisibilityList();
       result = classRefType.getVisibilityList() == null ||
-        classRefType.getVisibilityList().getRefName().contains(refName);
+	containsZRefName(classRefType.getVisibilityList(), zRefName);
     }
     return result;
   }
@@ -150,9 +151,7 @@ public class GlobalDefs
 
   public static boolean containsCycle(List<Object> list, Term term)
   {
-    System.err.println("trying " + term);
     if (containsObject(list, term)) {
-      System.err.println("\t\tcycle @ "+ term);
       return true;
     }
     else {

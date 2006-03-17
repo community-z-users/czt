@@ -109,7 +109,7 @@ public class CarrierSet
   {
     ZRefName zRefName =
       zFactory_.createZRefName(givenType.getName().getWord(),
-                              givenType.getName().getStroke(),
+			       givenType.getName().getStroke(),
                                null);
     ZExprList zExprList = zFactory_.createZExprList();
     RefExpr result =

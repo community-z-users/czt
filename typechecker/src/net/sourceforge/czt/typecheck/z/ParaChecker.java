@@ -69,7 +69,7 @@ public class ParaChecker
     for (DeclName givenName : givenNames) {
       //create the type
       ZDeclName zGivenName = assertZDeclName(givenName);
-      addDeclNameID(zGivenName);
+      factory().addDeclNameID(zGivenName);
       GivenType givenType = factory().createGivenType(zGivenName);
       PowerType powerType = factory().createPowerType(givenType);
 
@@ -121,7 +121,7 @@ public class ParaChecker
       //the type of the Freetype's ZDeclName is a powerset of the
       //given type of itself
       ZDeclName freeTypeName = freetype.getZDeclName();
-      addDeclNameID(freeTypeName);
+      factory().addDeclNameID(freeTypeName);
       GivenType freeTypeGiven = factory().createGivenType(freeTypeName);
       PowerType powerTypeGiven = factory().createPowerType(freeTypeGiven);
 
@@ -158,7 +158,7 @@ public class ParaChecker
     //create the type of the left side to compose the types of the
     //branches
     ZDeclName freeTypeName = freetype.getZDeclName();
-    addDeclNameID(freeTypeName);
+    factory().addDeclNameID(freeTypeName);
     GivenType givenType = factory().createGivenType(freeTypeName);
     PowerType powerType = factory().createPowerType(givenType);
 
@@ -186,7 +186,7 @@ public class ParaChecker
   {
     NameTypePair pair = null;
     ZDeclName branchName = branch.getZDeclName();
-    addDeclNameID(branchName);
+    factory().addDeclNameID(branchName);
 
     //if there is an expression, then get its type and make the type of
     //this branch PowerType of the cross product of 'givenType' and the
