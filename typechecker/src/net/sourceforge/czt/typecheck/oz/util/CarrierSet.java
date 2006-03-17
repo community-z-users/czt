@@ -162,4 +162,23 @@ public class CarrierSet
     }
     return result;
   }
+
+  public Term visitGivenType(GivenType givenType)
+  {
+    RefExpr refExpr = (RefExpr) super.visitGivenType(givenType);
+    Expr result = refExpr;
+    ClassDeclAnn classDeclAnn = (ClassDeclAnn) givenType.getAnn(ClassDeclAnn.class);
+    if (classDeclAnn != null) {
+      ZDeclName className = classDeclAnn.getClassName();
+      ZRefName classRefName = zFactory_.createZRefName(
+						       className.getWord(),
+						       className.getStroke(),
+						       className);
+      ZExprList zExprList = zFactory_.createZExprList();
+      RefExpr classRefExpr = 
+	zFactory_.createRefExpr(classRefName, zExprList, Boolean.FALSE);
+      result = zFactory_.createBindSelExpr(classRefExpr, refExpr.getZRefName());
+    }
+    return result;
+  }
 }

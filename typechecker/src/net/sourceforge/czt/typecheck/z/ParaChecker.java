@@ -72,6 +72,7 @@ public class ParaChecker
       factory().addDeclNameID(zGivenName);
       GivenType givenType = factory().createGivenType(zGivenName);
       PowerType powerType = factory().createPowerType(givenType);
+      paraChecker().addContext(givenType);
 
       //add the NameTypePair to the list for the signature
       NameTypePair pair = factory().createNameTypePair(zGivenName, powerType);
@@ -124,6 +125,7 @@ public class ParaChecker
       factory().addDeclNameID(freeTypeName);
       GivenType freeTypeGiven = factory().createGivenType(freeTypeName);
       PowerType powerTypeGiven = factory().createPowerType(freeTypeGiven);
+      paraChecker().addContext(freeTypeGiven);
 
       //add this type to the local type environment for the right side
       //of the types to access, and to the signature
@@ -161,6 +163,7 @@ public class ParaChecker
     factory().addDeclNameID(freeTypeName);
     GivenType givenType = factory().createGivenType(freeTypeName);
     PowerType powerType = factory().createPowerType(givenType);
+    paraChecker().addContext(givenType);
 
     //we don't visit the branches with their a "proper" visit method
     //because we need to pass the type of the ZDeclName

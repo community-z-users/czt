@@ -32,6 +32,7 @@ import net.sourceforge.czt.oz.visitor.*;
 import net.sourceforge.czt.oz.util.*;
 import net.sourceforge.czt.typecheck.z.util.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
+import net.sourceforge.czt.typecheck.oz.util.*;
 import net.sourceforge.czt.typecheck.oz.impl.*;
 import net.sourceforge.czt.typecheck.z.*;
 
@@ -121,7 +122,7 @@ public class ParaChecker
       typeEnv().add(newDecls);
       insert(attrDecls, newDecls);
     }
-
+    
     //check that each attribute is unique within the class
     for (int i = 0; i < attrDecls.size(); i++) {
       ZDeclName first = attrDecls.get(i).getZDeclName();

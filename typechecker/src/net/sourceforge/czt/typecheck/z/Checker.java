@@ -600,7 +600,6 @@ abstract public class Checker<R>
           }
           //we don't need the second declaration, so merge the IDs
           second.getZDeclName().setId(first.getZDeclName().getId());
-          //          pairs.remove(j--);
         }
       }
     }
@@ -1008,8 +1007,7 @@ abstract public class Checker<R>
       result = factory().createPowerType(replaced);
     }
     else if (type instanceof GivenType) {
-      GivenType givenType = (GivenType) type;
-      result = factory().createGivenType(givenType.getName());
+      result = type;
     }
     else if (type instanceof SchemaType) {
       SchemaType schemaType = (SchemaType) type;
@@ -1118,6 +1116,11 @@ abstract public class Checker<R>
       //add the name and type to the TypeEnv
       typeEnv().add(zParamName, powerType);
     }
+  }
+
+  //for the Z typechecker, this does nothing
+  public void addContext(GivenType givenType)
+  {
   }
 
   //gets the type of the expression represented by a name
@@ -1231,6 +1234,7 @@ abstract public class Checker<R>
 	  }
 	}
 	result = (Type2) type.create(newChildren);
+	copyAnns(type, result);
       }
     }
     return result;

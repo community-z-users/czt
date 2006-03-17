@@ -137,6 +137,16 @@ abstract public class Checker<R>
     return unificationEnv.weakUnify(typeA, typeB);
   }
 
+  //adds the class name to a given type, so that the class name can be
+  //including in error messages.
+  public void addContext(GivenType givenType)
+  {
+    if (classPara() != null) {
+      ClassDeclAnn classDeclAnn =  new ClassDeclAnn(className());
+      addAnn(givenType, classDeclAnn);
+    }
+  }
+
   protected Type getType(ZRefName zRefName)
   {
     //first look up the name in the downcast environment

@@ -207,6 +207,16 @@ public class GlobalDefs
   }
 
   /**
+   * Copies annoatations from one <code>TermA</code> to another
+   * @param src the <code>TermA</code> from which to read the annotations.
+   * @param dest the <code>TermA</code> to which to add the annotations.
+   */
+  public static void copyAnns(TermA src, TermA dest)
+  {
+    dest.getAnns().addAll(src.getAnns());
+  }
+
+  /**
    * Test whether a list contains a reference to an object.
    * @param list the list to search.
    * @param o the reference to search for.

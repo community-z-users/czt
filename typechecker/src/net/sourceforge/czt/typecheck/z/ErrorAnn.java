@@ -202,7 +202,7 @@ public class ErrorAnn
                        String sectName,
                        Markup markup)
   {
-    PrintUtils.print(term, writer, sectInfo, sectName, markup_);
+    PrintUtils.print(term, writer, sectInfo, sectName, markup);
   }
 }
 

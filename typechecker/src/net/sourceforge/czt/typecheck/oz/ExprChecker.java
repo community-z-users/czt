@@ -342,6 +342,7 @@ public class ExprChecker
     addTypeAnn(bindSelExpr, type);
 
     Type2 result = unwrapType(type);
+
     return result;
   }
 
