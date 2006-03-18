@@ -57,11 +57,13 @@ public class CZT2ZEves {
             System.out.println("Usage: '-print filename.tex', or '-run addr port'");
     }
     
-    public static List<String> runPrinter(String filename) throws FileNotFoundException, ParseException {
+    public static List<String> runPrinter(String filename)
+    throws FileNotFoundException, ParseException
+    {
         SectionInfo manager = new SectionManager();
         List<String> result;
         Spec term = (Spec)ParseUtils.parse(filename, manager);
-        List<? extends ErrorAnn> errors = TypeCheckUtils.typecheck(term, manager, Markup.LATEX);
+        List<? extends ErrorAnn> errors = TypeCheckUtils.typecheck(term, manager);
         if (errors.isEmpty()) {
             result = specToZEvesXML(term, manager);            
         } else {
