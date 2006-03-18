@@ -219,7 +219,7 @@ public class Form extends JPanel implements BeanContextProxy
   /**
    * Returns all of the listeners of class <code>c</code>.
    */
-  public EventListener[] getListeners(Class c)
+  public <T extends EventListener> T[] getListeners(Class<T> c)
   {
     return listenerList.getListeners(c);
   };
