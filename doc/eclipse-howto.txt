@@ -1,33 +1,126 @@
 Instructions on how to use Eclipse on a CZT project.
 
-We used Eclipse 3.0 release candidate 1 from www.eclipse.org
+Author: Mark Utting, March 2006
 
-Create a workspace at the top of the CZT hierarchy.
+I used Eclipse 3.1.2 from www.eclipse.org
 
-Create a new project.
-    Use one of the CZT subdirectories, like zlive.
-    Choose a Java project. (Eclipse will search for src and build
-	directories) 
-    Switch to the Java perspective (Eclipse should suggest this automatically)
-    In project settings, add all the necessary .jar files
-	from CZT home ./lib directory (all of them except zlive.jar).
 
-In "Window/Preferences" in the "Java/Code Style/Code Formatter" tab,
-import the CZT code style: eclipse-code-format-style.xml.
+1. Checkout the CVS sources
+===========================
+You must use a separate CVS utility (such as TortoiseCVS under
+Windows, or the command line cvs client under Linux or Cygwin)
+to check out the CZT sources from the Sourceforge repository.
+This is because the built-in CVS client of Eclipse cannot handle
+top-level files that are shared between all projects, like our
+czt.properties and build.xml files.
 
-Eclipse will try to compile the project, and will get some errors:
-    "The import JUnit cannot be resolved."
-	    Right-click and choose "Quick Fix", then "Add JUnit libraries" 
-    "Method assert(boolean) is undefined."
-	    Go into "Window/Preferences" menu.  Then in the "Java/Compiler" 
-	    tab, in the "Compliance and Classfiles" tab, change all the
-	    compliance levels to Java 1.4.  Also, to ENABLE the assert
-	    statements, ???
+Here are example checkout commands for anonymous use (anyone):
+('.' checks out the whole hierarchy, including top-level files)
 
-Select the root of the project tree (eg. zlive) and use "Project/Share
-Project" to tell Eclipse that you are using CVS.
+ cvs -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/czt login
+ cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/czt co -P .
 
-To allow your project ant build files to use JUnit, go into
-"Window/Preferences/Ant/Runtime/ClassPath", and add
-<ECLIPSEHOME>/plugins/org.junit_3.8.1/junit.jar to the "Ant Home Entries"
-list. 
+and for a CZT developer whose SourceForge login is USERNAME:
+
+ export CVS_RSH=ssh
+ cvs -z3 -d:ext:USERNAME@cvs.sourceforge.net:/cvsroot/czt co -P .
+
+
+2. Build CZT
+============
+See ../README.txt for instructions how to build CZT using 'ant'
+from the command line.  You need to do this before creating Eclipse
+projects, because the 'ant' build process generates most of the CZT
+Java source files.
+
+3. Set up an Eclipse workspace and customize Eclipse Preferences
+================================================================
+Create an Eclipse workspace somewhere 
+(usually quite separate from the CZT hierarchy).
+	
+In the Eclipse "Window|Preferences" dialogue, in the 
+"Java/Code Style/Formatter" tab, import the CZT 
+code style: <CZT_HOME>/devtools/eclipse-code-format-style.xml.
+
+Change the Eclipse Java Compiler compliance level to 5.0.
+(Windows|Preferences, then the Java|Compiler tab).
+
+To allow your project ant build files to use JUnit, go into the
+"Window|Preferences|Ant|Runtime|ClassPath" tab, and add
+<ECLIPSEHOME>/plugins/org.junit_3.8.1/junit.jar to the "Ant Home
+Entries" list.
+
+4. Set up some Eclipse projects
+===============================
+For each CZT project that you are interested in, create an Eclipse
+Java project.  The following steps are one way of doing this:
+
+Use the "File|New|Project" command, select "Java Project", then choose
+a name for the project (usually the same as the name of the CZT
+subdirectory, such as corejava or zlive), and enable the "Create
+project from existing source" option and browse to the appropriate CZT
+project folder.  When you press Next, Eclipse will search for source
+code folders, and will usually choose <PROJECT>/src and
+<PROJECT>/tests/src, but some CZT projects follow the Maven style of
+subdirectories, which uses mostly <PROJECT>/src/main/java and
+<PROJECT>/src/test/java).  Sometimes the list of source folders
+suggested by Eclipse needs to be modified:
+
+Note 1: For the corejava project, you should remove the corejava/examples
+        folders from the source folders.
+
+Note 2: For the devtools project, you should remove any
+        devtools/java_cup/* folders from the source folders.
+
+Note 3: In every project, it is a good idea to change Eclipse's Default 
+        output folder to be a fresh folder that is not already in use
+        by CZT (I use '<PROJECT>/eclipse_build').
+
+
+Next you need to set up the libraries that this project uses.
+There are at least two ways of doing this, the EASY way and the NICE way.
+
+The EASY way of doing this is to add ALL the *.jar files that
+are in the <CZT_HOME>/lib directory (these were created by the
+'ant' build process).  This is fine for working on an individual
+project, but means that Eclipse does not know about the relationships
+between projects, so it is not so good if you want to do refactoring
+across projects.
+
+Most projects will require additional *.jar files, such as junit.jar,
+or the JAXB jar files from the JWSDP libraries. 
+For example, the corejava project needs these *.jar files:
+
+    <JWSDP_HOME>/jaxb/lib/*.jar
+    <JWSDP_HOME>/jwsdp-shared/lib/*.jar
+
+NOTE: if you are adding several related *.jar files to a project, it
+      is nice to use the "Add Variable" option and define a variable 
+      for the folder that contains those *.jar files, then use 
+      "Extend..."  to add the actual *.jar files.
+
+
+The NICE way of setting up the CZT projects in Eclipse is to tell
+Eclipse about the dependencies between the projects, by adding
+projects to the Java Build Path of other projects.  This also has
+the advantage that once you have added some external *.jar files
+to one project (like corejava), you can *export* all those jar
+files to the dependent projects so that you do not need to define
+them over and over again for each project.
+
+The file doc/eclipse-projects.zip contains an example set of
+.project and .classpath files that you may find it helpful to 
+refer to when creating Eclipse projects for CZT. 
+
+
+
+
+Final Notes:
+============
+For getting updates and sending commits to the CZT CVS repository,
+you can either use a separate CVS client or you can use the built-in
+Eclipse CVS support by selecting the root of a project tree (eg. zlive)
+and use "Team/Share Project" to tell Eclipse that you are using CVS.
+
+
+

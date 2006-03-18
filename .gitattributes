@@ -6,6 +6,7 @@ corejava/src/documentation/resources/images/cztlogo.jpg svneol=native#unset
 corejava/src/documentation/resources/images/sflogo.png svneol=native#unset
 doc/architecture.pdf -text
 doc/architecture.sxd -text
+doc/eclipse-projects.zip -text
 doc/papers/ifm/Typecheckers.zuml -text
 doc/papers/ifm/mc.arch.stages.eps -text
 doc/refcard/z/refcard.dvi -text
