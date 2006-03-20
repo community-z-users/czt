@@ -31,7 +31,7 @@ package net.sourceforge.czt.parser.util;
 public interface ParsePropertiesKeys
 {
   /**
-   * When set to <code>true</code>, the parser tools will extract
+   * When set to <code>true</code>, the parser tools extract
    * symbol characters COMMA, SEMICOLON, and FULL STOP from the
    * beginning and end of a WORD token to become WORDs themselves.
    * This is a planned change to the Z Standard; see also
@@ -49,5 +49,5 @@ public interface ParsePropertiesKeys
    * error is Standard conforming but ignoring those unknown commands
    * is sometimes convenient.
    */
-  String PROP_IGNORE_UNKNOWN_LATEX_COMMANDS = "ignore_unknow_latex_commands";
+  String PROP_IGNORE_UNKNOWN_LATEX_COMMANDS = "ignore_unknown_latex_commands";
 }
