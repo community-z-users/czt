@@ -2,8 +2,8 @@
   \SECTION circus\_toolkit \parents standard\_toolkit
 \end{zsection}
 
-%%Zpreword \circchannel channel
-%%Zpreword \circchannelfrom circchannelfrom
+%%Zpreword \circchannel channel                            
+%%Zpreword \circchannelfrom channelFrom
 %%Zpreword \circprocess process
 %%Zpreword \circbegin begin
 %%Zinword  \circstate state
@@ -47,8 +47,39 @@ Old parser do not handle multiplication, so bridge it with the next axiomatic de
                 \t2 \lnot~(~\exists R: \power~X | R \in SS @ R \subset S~) \}
 \end{gendef}
 
-%%Zinchar \searrow U+2200
-%\begin{zed}
-% \function 30 \leftassoc (\_ \searrow \_)
-%\end{zed}
-
+%<<<<<<< circus_toolkit.tex
+%%TODO: Fix UNICODE CHARACTER
+% Zinchar searrow U+2200
+%%\begin{zed}
+%%\function 30 \leftassoc (\_ searrow \_)
+%%\end{zed}
+%
+%\begin{gendef}[X]
+%%\_ searrow \_ : \power~(\power~X) \cross \power X \fun \power~(\power~X)
+%    searrow:\power~(\power~X) \cross \power X \fun \power~(\power~X)
+%\where
+%    \forall P: \power~(\power~X); p: \power~X @ searrow~(P, p) = \{~ q: \power~X | q \in P @ q \setminus p ~\}
+%\end{gendef}
+%
+%%TODO: Fix UNICODE CHARACTER
+% Zinchar \diamond U+2201
+%%\begin{zed}
+%%\function 40 \leftassoc (\_ \diamond \_)
+%%\end{zed}
+%=======
+% Zinchar \searrow U+2200
+%%\begin{zed}
+%% \function 30 \leftassoc (\_ \searrow \_)
+%%\end{zed}
+%>>>>>>> 1.5
+%
+%<<<<<<< circus_toolkit.tex
+%\begin{gendef}[X]
+%%\_ \diamond \_ : \power~(\power~X) \cross \power X \fun \power~(\power~X)
+%  diamond: \power~(\power~X) \cross \power X \fun \power~(\power~X)
+%\where
+%    %\forall~ P: \power~(\power~X); p: \power~X @ P \diamond p = \{~ q: \power~X | q \in P @ q \cap p ~\}
+%    \forall~ P: \power~(\power~X); p: \power~X @ diamond~(P, p) = \{~ q: \power~X | q \in P @ q \cap p ~\}
+%\end{gendef}
+%=======
+%>>>>>>> 1.5
