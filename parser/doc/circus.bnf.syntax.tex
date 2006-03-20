@@ -1,0 +1,153 @@
+\documentclass{article}
+
+\usepackage{circus}
+
+\begin{document}
+
+\begin{syntax}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \mathsf{Program} & \quad \mathsf{::=} \quad &
+        \mathsf{CircusPar^*}
+        \smallskip \\ %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \mathsf{CircusPar} & \quad \mathsf{::=} \quad &
+        \mathsf{Par} \ \mathsf{|} \ \circchannel\ \mathsf{CDecl} \
+        \mathsf{|} \
+        \circchanset\ \mathsf{N} == \mathsf{CSExp} \ \mathsf{|} \ \mathsf{ProcDecl}
+        \smallskip \\ %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \mathsf{CDecl} & \mathsf{::=} &
+        \mathsf{SimpleCDecl}\ \mathsf{|} \
+        \mathsf{SimpleCDecl};\mathsf{CDecl}
+        \\ %
+        \mathsf{SimpleCDecl} & \mathsf{::=} & \mathsf{N^+} \
+        \mathsf{|} \ \mathsf{N^+: Exp} \ \mathsf{|} \
+        \mathsf{[N^+]N^+:Exp} \ \mathsf{|} \
+        \mathsf{SchemaExp}
+        \\ %
+        \mathsf{CSExp} & %
+        \mathsf{::=} & \mathsf{ \lchanset ~ \rchanset } %
+        \ \mathsf{|} \ \mathsf{ \lchanset N^+ \rchanset} %
+        \ \mathsf{|} \ \mathsf{N}
+        \ \mathsf{|} \ \mathsf{CSExp \cup CSExp} %
+        \ \mathsf{|} \ \mathsf{CSExp \cap CSExp}
+        \\ %
+        & \mathsf{|} & \mathsf{CSExp \setminus CSExp}
+        \smallskip \\ %
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \mathsf{ProcDecl} & \quad \mathsf{::=} \quad & \mathsf{\circprocess\ N \defs ProcDef} \ \mathsf{|} \ \mathsf{\circprocess\ N[N^+] \defs ProcDef} %
+        \\ %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \mathsf{ProcDef} & %
+        \mathsf{::=} & \mathsf{ Decl @ ProcDef } %
+        \ \mathsf{|} \ \mathsf{ Decl \odot ProcDef } %
+        \ \mathsf{|} \ \mathsf{ Proc } %
+        \\ %
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \mathsf{Proc} & \mathsf{::=} & \mathsf{\circbegin\ PPar^*\
+        \circstate\ SchemaExp\ PPar^* @ Action\ \circend} %
+        \\ %
+        & \mathsf{|} & \mathsf{Proc; Proc}
+        \ \mathsf{|} \ \mathsf{Proc} \extchoice \mathsf{Proc}
+        \ \mathsf{|} \ \mathsf{Proc} \intchoice \mathsf{Proc}
+        \\ %
+        & \mathsf{|} & \mathsf{Proc} \lpar \mathsf{CSExp} \rpar \mathsf{Proc} %
+        \ \mathsf{|} \ \mathsf{Proc} \interleave \mathsf{Proc} %
+        \ \mathsf{|} \ \mathsf{Proc} \hide \mathsf{CSExp}
+        \\ %
+        & \mathsf{|} & ( \mathsf{Decl @ ProcDef} ) ( \mathsf{Exp^+})%
+        \ \mathsf{|} \ \mathsf{N} ( \mathsf{Exp^+} )
+        \ \mathsf{|} \ \mathsf{N} %
+        \\ %
+        & \mathsf{|} & ( \mathsf{Decl \odot ProcDef} ) \lfloor \mathsf{Exp^+} \rfloor %
+        \ \mathsf{|} \ \mathsf{N} \lfloor \mathsf{Exp^+} \rfloor %
+        \ \mathsf{|} \ \mathsf{Proc} [ \mathsf{N^+} := \mathsf{N^+} ]
+        \ \mathsf{|} \ \mathsf{N} [ \mathsf{Exp^+} ]
+        \\ %
+        & \mathsf{|} & \Comp \mathsf{Decl} @ \mathsf{Proc} %
+        \ \mathsf{|} \ \Extchoice \mathsf{Decl} @ \mathsf{Proc} %
+        \ \mathsf{|} \ \Intchoice \mathsf{Decl} @ \mathsf{Proc}
+        \\ %
+        & \mathsf{|} & \lpar \mathsf{CSExp} \rpar \mathsf{Decl} @ \mathsf{Proc} %
+        \ \mathsf{|} \ \Interleave \mathsf{Decl} @ \mathsf{Proc} %
+        \smallskip \\ %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \mathsf{NSExp} & %
+        \mathsf{::=} & \mathsf{ \{ ~ \} } %
+        \ \mathsf{|} \ \mathsf{ \{ N^+ \} } %
+        \ \mathsf{|} \ \mathsf{N}
+        \ \mathsf{|} \ \mathsf{NSExp \cup NSExp} %
+        \ \mathsf{|} \ \mathsf{NSExp \cap NSExp}
+        \\ %
+        & \mathsf{|} & \mathsf{NSExp \setminus NSExp}
+        \smallskip \\ %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \mathsf{PPar} & \mathsf{::=} & \mathsf{Par}
+        \ \mathsf{|} \ \mathsf{N \defs ParAction}
+        \ \mathsf{|} \ \mathsf{\circnameset\ N == NSExp}
+        \smallskip \\ %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \mathsf{ParAction} & \mathsf{::=} & \mathsf{Action}
+        \ \mathsf{|} \ \mathsf{Decl @ ParAction}
+        \smallskip \\ %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \mathsf{Action} & \mathsf{::=} & \mathsf{SchemaExp}
+        \ \mathsf{|} \ \mathsf{Command}
+        \ \mathsf{|} \ \mathsf{N}
+        \ \mathsf{|} \ \mathsf{CSPAction}
+        \ \mathsf{|} \ \mathsf{Action}~[ \mathsf{N^+} := \mathsf{N^+} ]
+        \\ %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \mathsf{CSPAction} & \quad \mathsf{::=} \quad & Skip \
+        \mathsf{|} \ Stop \ \mathsf{|} \ Chaos
+        \ \mathsf{|} \ \mathsf{Comm} \then \mathsf{Action} %
+        \ \mathsf{|} \ \mathsf{Pred}\ \&\ \mathsf{Action}
+        \\ %
+        & \mathsf{|} & \mathsf{Action}; \mathsf{Action} %
+        \ \mathsf{|} \ \mathsf{Action} \extchoice \mathsf{Action} %
+        \ \mathsf{|} \ \mathsf{Action} \intchoice \mathsf{Action}
+        \\ %
+        & \mathsf{|} & \mathsf{Action} \lpar \mathsf{NSExp} | \mathsf{CSExp} | \mathsf{NSExp} \rpar \mathsf{Action} %
+        \\ %
+        & \mathsf{|} & \mathsf{Action} \linter \mathsf{NSExp} |
+        \mathsf{NSExp} \rinter \mathsf{Action}
+        \\ %
+        & \mathsf{|} & \mathsf{Action} \hide \mathsf{CSExp} %
+        \ \mathsf{|} \ \mathsf{ParAction} (\mathsf{Exp^+})
+        \ \mathsf{|} \ \mu \mathsf{N} @ \mathsf{Action}
+        \\ %
+        & \mathsf{|} & \Comp \mathsf{Decl} @ \mathsf{Action} %
+        \ \mathsf{|} \ \Extchoice \mathsf{Decl} @ \mathsf{Action} %
+        \ \mathsf{|} \ \Intchoice \mathsf{Decl} @ \mathsf{Action} \\%
+        & \mathsf{|} & \lpar \mathsf{CSExp} \rpar \mathsf{Decl} @ \lpar \mathsf{NSExp} \rpar \mathsf{Action} %
+        \ \mathsf{|} \ \Interleave \mathsf{Decl} @ \linter \mathsf{NSExp} \rinter \mathsf{Action}%
+        \smallskip \\ %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \mathsf{Comm} & \quad \mathsf{::=} \quad & \mathsf{N} \ \mathsf{CParameter^*} %
+        \ \mathsf{|} \ \mathsf{N} \ ~[\mathsf{Exp}^+] ~\mathsf{CParameter^*} \\ %
+        \smallskip  %
+        \mathsf{CParameter} & \quad \mathsf{::=} \quad & ?\mathsf{N} \ %
+        \ \mathsf{|} \ ?\mathsf{N}:\mathsf{Pred} %
+        \ \mathsf{|} \ !\mathsf{Exp} %
+        \ \mathsf{|} \ \mathsf{.Exp} \\ %
+        \smallskip \\ %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \mathsf{Command} & \quad \mathsf{::=} \quad & \mathsf{N^+} := \mathsf{Exp^+} %
+        \ \mathsf{|} \ \circif\ \mathsf{GActions}\ \circfi %
+        \ \mathsf{|} \ \circvar\ \mathsf{Decl} @ \mathsf{Action}  \\%
+        & \mathsf{|} & \mathsf{N^+} : [~ \mathsf{Pred} , \mathsf{Pred} ~] %
+        \ \mathsf{|} \ \{\mathsf{Pred}\}%
+        \ \mathsf{|} \ [\mathsf{Pred}] \\%
+        & \mathsf{|} & \circval\ \mathsf{Decl} @ \mathsf{Action} %
+        \ \mathsf{|} \ \circres\ \mathsf{Decl} @ \mathsf{Action} %
+        \ \mathsf{|} \ \circvres\ \mathsf{Decl} @ \mathsf{Action} %
+        \smallskip \\ %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \mathsf{GActions} & %
+        \mathsf{::=} & \mathsf{Pred} \then \mathsf{Action} %
+        \ \mathsf{|} \ \mathsf{Pred} \then \mathsf{Action} \extchoice
+        \mathsf{GActions}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{syntax}
+
+\end{document}
