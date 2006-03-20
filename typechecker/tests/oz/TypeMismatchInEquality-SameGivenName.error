@@ -1,0 +1,21 @@
+\begin{zsection}
+ \SECTION TypeMismatchInEquality\_SameGivenName
+\end{zsection}
+
+Test that if two different given sets are declared in different
+classes, then the types are incompatible.
+
+\begin{class}{A}
+ [G]
+\end{class}
+
+\begin{class}{B}
+ [G]
+\end{class}
+
+\begin{axdef}
+  a : A\\
+  b : B
+\where
+  a.G = b.G
+\end{axdef}
