@@ -1031,10 +1031,6 @@ NAME =   {NOT_LB}*
   {PUNCTATION}
         {
           String result = addSpace();
-          if (getBooleanProperty(PROP_ADD_SPACE_BEFORE_PUNCTATION) &amp;&amp;
-              braceStack_.empty()) {
-            result += ZString.SPACE;
-          }
           result += yytext();
           if (braceStack_.empty()) addSpace_ = true;
           return result(result);
@@ -1112,10 +1108,6 @@ NAME =   {NOT_LB}*
   {PUNCTATION}
         {
           String result = addSpace();
-          if (getBooleanProperty(PROP_ADD_SPACE_BEFORE_PUNCTATION) &amp;&amp;
-              braceStack_.empty()) {
-            result += ZString.SPACE;
-          }
           result += yytext();
           if (braceStack_.empty()) addSpace_ = true;
           return result(result);
