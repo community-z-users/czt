@@ -45,7 +45,7 @@ public class SourceLocator
         return true;
       }
     }
-    String path = (String) manager.getProperties().get("czt.path");
+    String path = (String) manager.getProperty("czt.path");
     for (int i = 0; i < suffix_.length; i++) {
       String filename = path + "/" + name + suffix_[i];
       File file = new File(filename);
