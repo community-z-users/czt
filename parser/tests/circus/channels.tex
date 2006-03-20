@@ -1,0 +1,265 @@
+\documentclass{article}
+
+\usepackage{vmargin}
+\usepackage{circus}
+
+\setpapersize{A4}
+%\setmarginsrb{leftmargin}{topmargin}{rightmargin}{bottommargin}{headheight}{headsep}{footheight}{footskip}
+%\setmarginsrb{20mm}{10mm}{20mm}{10mm}{12pt}{11mm}{0pt}{11mm}
+%\setmarginsrb{25mm}{20mm}{25mm}{20mm}{12pt}{11mm}{0pt}{10mm}
+\setmarginsrb{40mm}{20mm}{40mm}{20mm}{12pt}{11mm}{0pt}{10mm}
+
+\newcommand{\grammar}[1]{\texttt{#1}}
+\newcommand{\code}[1]{\textsf{#1}}
+
+\begin{document}
+
+\title{\Circus\ Grammar Explained --- Channels}
+\author{Leonardo Freitas}
+\date{March 2006}
+
+\maketitle
+
+\begin{abstract}
+    \noindent This article documents the various ways one can declare \Circus\ channels and channel sets
+    using \LaTeX\ markup.  It also documents the open issues of the language related to these two syntactic
+    categories.
+\end{abstract}
+
+\begin{zsection}
+  \SECTION\ circus\_channels \parents\ circus\_toolkit
+\end{zsection}
+
+\section{Introduction}
+
+In this file, we explain the various aspect of \Circus\ related to channel
+declarations. At each section relevant to the grammar, we include its
+corresponding CUP rule.
+
+\Circus\ productions must be included within the \textsf{circus} \LaTeX\
+environment in order to be recognised by the parser. Therefore, to use \Circus\
+one needs to have the current version of the \textsf{circus.sty} \LaTeX\ style
+file.
+
+Amongst other commands, it contains all \Circus\ keywords, and some useful
+environments. Due to a unresolved issue in the current version (March, 2006),
+to get spacing right within the same paragraph, one needs to append a ``\%''
+symbol right after closing the environment (see the style file documentation
+for details).
+
+\begin{issue}
+   Make a suitable \texttt{circus.dtx} with nice and up-to-date \Circus\
+   typesetting commands, as well as embedded documentation.
+\end{issue}
+
+\section{\Circus\ channels --- \grammar{channelPara}}
+
+In \Circus\ channels are global paragraphs at section level. Other global
+paragraphs are channel sets, processes, and all other Z paragraphs.
+
+\subsection{Common channels --- \grammar{channelDecl}}
+
+Channels are declared in \Circus\ to specify synchronisation points. Channel
+types are any Z expression and they define the communication patterns to
+synchronise.
+
+Untyped channels are also allowed, they represent synchronisation points with
+the given type $Synch$. Thus, declaring a untyped channel has the same effect
+as declaring the channel with type $Synch$.
+
+Channels can be declared within \textsf{circus} \LaTeX\ environment, which are
+typeset as Z unboxed items like in the \textsf{zed} \LaTeX\ environment. As the
+Z standard, various unboxed \Circus\ items can be declared within the same
+environment, as long as they are separated by a \grammar{NL} token.
+
+\subsubsection{Typed channels}
+
+Let us define some typed channels
+%
+\begin{circus}
+  \circchannel\ a, b: \nat
+\end{circus}%
+%
+as well as typed channels with strokes.
+%
+\begin{circus}
+  \circchannel\ x_1~, r, q'~, y_2: \num
+\end{circus}%
+%
+Note that due to the Z standard idiosyncrasy regarding name lists with strokes
+and commas (\textit{i.e.}, \grammar{DECORWORD} or \grammar{DECLWORD} in CZT),
+we \textbf{*must*} include a hard space to separate the names (see Z Standard
+section 7.3). This is needed, for instance, to allow distinction between set
+extensions and a list of variable names in a declaration. The soft space
+through \verb'\ ' is optional, though.
+
+\subsubsection{Generic channels}
+
+Generic channels can also be declared with the formal generic parameters given
+right after the $\circchannel$ keyword (\verb'\circchnnel' in \LaTeX).
+%
+\begin{circus}
+   \circchannel\ [X, Y]\ g, h_1~, i: (X \rel Y)
+\end{circus}%
+%
+As before, names with decorations must have hard spaces before hitting a
+\texttt{COMMA} terminal token.
+
+\subsubsection{Synchronisation channels}
+
+Synchronisation channels are also possible. They are defined without a type
+expression and the parser introduce a $Synch$ \code{RefExpr} for it;~it comes
+from the \texttt{circus\_toolkit.tex} file.
+%
+\begin{circus}
+   \circchannel\ c, d \\
+   \circchannel\ z_2~, w_3
+\end{circus}%
+%
+This time, we left two declarations within the same Z boxes, but separated by a
+\grammar{NL} (new-line) token.
+
+\begin{issue}
+    Perhaps we shall remove the $Synch$ type from \texttt{circus\_toolkit} and
+    set it as a reserved word that the typechecker does not allow anyone to
+    use.
+
+    If that is the path to choose, we can to do this by extending the
+    directives of the parser.
+\end{issue}
+
+\subsection{Channels through schemas --- \grammar{channelFromDecl}}
+
+Another way of declaring typed channels is through schema references. Let us
+define a schema named $S$ with two channels $a$ and $b$
+%
+\begin{schema}{S}
+   a, b: \nat
+\where
+   a > b \land b \neq 0
+\end{schema}
+%
+With the $\circchannelfrom$ keyword (\verb'\circchnnelfrom' in \LaTeX), we can
+declare these channels in various ways, depending on the chosen decoration.
+%
+\begin{circus}
+   \circchannelfrom\ S \\
+   \circchannelfrom\ S_1
+\end{circus}%
+%
+These declarations include four channels of type $\nat$, namely:~$a$, $b$,
+$a_1$, and $b_1$.
+
+\begin{issue}
+What happen with the invariant of $S$? Should it be enforced on the communication patterns or just be ignored?
+\end{issue}
+
+\begin{issue}
+What about this kind of declaration?
+%
+\begin{circus}
+   \circchannelfrom\ S \cross S
+\end{circus}%
+%
+At the moment the grammar do allow this. The option is to restrict it to
+\code{RefExpr} only (\textit{i.e.}, reference expressions that could carry
+generic actuals).
+\end{issue}
+
+Another option is to have schemas with generic types.
+%
+\begin{schema}{T}[X]
+   x, y: \power~X
+\where
+   x \subseteq y
+\end{schema}
+%
+In this case, one can define the channels via the schema either
+by:~(i)~declaring the schema name with corresponding number of generic
+actuals;~(ii)~leaving the original generic formal parameters (possibly renaming
+them);~(iii)~letting the typechecker decide;~or (iii)~redefining the generic
+formal parameters in terms of a new pattern.
+%
+\begin{circus}
+    \circchannelfrom\ T[\nat] \\
+    \circchannelfrom\ [Y]\ T_1[Y] \\
+    \circchannelfrom\ T_2 \\
+    \circchannelfrom\ [A, B]\ T_3[A \cross B]
+\end{circus}%
+%
+It is the task of the typechecker to guarantee that either the instantiation or
+(re)definitions are type-correct. For each case we would have:
+%
+\begin{itemize}
+    \item[i] $\circchannel\ x, y: \power~\nat$
+    \item[ii] $\circchannel\ [Y]\ x_1~, y_1: \power~Y$
+    \item[iii] $\circchannel\ x_2~, y_2: \power~X$
+    \item[iv] $\circchannel\ [A, B]\ x_3~, y_3: \power~(A \cross B)$
+\end{itemize}
+%
+Thus, \textit{\textbf{(??)apart from the invariant of $T$(??)}},
+$\circchannelfrom$ is just syntactic sugar for a corresponding $\circchannel$
+declaration.
+
+\begin{issue}
+   The AST allows room for quite powerful use of generic types within channel
+   declaration from generic schemas via the two set of generic types on each
+   production (\textit{i.e.}, \code{AxPara} and \code{ChannelDecl}).
+
+   The burden is given to the typechecker to infer the appropriate generic
+   formals/actuals, as well as to match/update the lists of generic names (and
+   their corresponding type expressions).
+
+   Anyway, the only really tricky business is if we decide to restrict the
+   communication patterns with the corresponding schema invariant.
+\end{issue}
+
+\section{Channel sets --- \grammar{channelSetPara}}
+
+Channel sets defines an expression to represent a particular set of channel
+communication patterns. They are normally used as reference names for other
+\Circus\ operators that need channel within their use, such as parallel and
+hiding operators.
+
+Channel sets are given as a name and a corresponding expression.
+%
+%\begin{circus}
+%    \circchanset\ C1 ==
+%\end{circus}%
+%
+The channel set expressions mostly used are: set union, intersection and
+different;~set extensions;~reference expressions;~and application expressions.
+
+\begin{issue}
+  The restricted form of channel sets complicates the grammar in a great
+  extent because it demands filtering through the (very complex) expression
+  subtree, which also mixes with the predicate subtree.
+
+  If application expressions were not to be considered, the limitation would be
+  rather simple, as the other operations are easy to (hard) code. Nevertheless,
+  as one might like (or even require) to define a particular functions for
+  channel sets to be used over replicated operators, this category may not (cannot) be
+  avoided.
+
+  For example, this scenario might appear as a requirement when one needs to perform
+  synchronisation between disjoint set of channels amongst more than two processes,
+  in order to avoid multisynchronisation complexities.
+
+  Therefore, because of application expression, we need to include channel sets with mostly
+  all expressibility power of Z expressions. The best choice seems to reuse the
+  Z grammar for abbreviations (\textit{i.e.}, rule \grammar{abbreviationDefinition} encoded with \code{ConstDecl})
+  that is specially marked as a channel set abbreviation for typechecking (and maybe other) purposes.
+
+  This choice will also normalise the language with respect to generically
+  defined channels, as Z abbreviations already take care of generic formal and
+  actuals. \textbf{This would simplify the parser grammar as well as the AST structure in a grater
+  extend.} Furthermore, a nice side effect is the ability to have generic
+  operators as possible channel set functions!
+
+  On the other hand, if one wants to keep the restrictions, one possible
+  approach would be to leave the parser with the
+  \grammar{abbreviationDefinition} rule, but restrict its use through the type
+  checking of channel sets.
+\end{issue}
+
+\end{document}
