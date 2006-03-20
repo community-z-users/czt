@@ -238,7 +238,7 @@
     <xs:complexContent>
       <xs:extension base="Z:TermA">
         <xs:sequence>
-          <xs:element ref="Z:RefName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:ZRefName" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
