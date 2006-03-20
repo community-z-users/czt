@@ -2466,7 +2466,9 @@ declWordList ::=
         |
         declWordList:dwl COMMA opName:on
         {: 
-           dwl.add(strListToZDeclName(on, onleft, onright)); 
+           DeclName dn = strListToZDeclName(on, onleft, onright);
+           addLocAnn(dn, onleft, onright);
+           dwl.add(dn);
            RESULT = dwl;
         :} 
         |
