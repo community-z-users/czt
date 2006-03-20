@@ -18,7 +18,7 @@
  */
 package zsidekick;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.*;
@@ -38,13 +38,14 @@ public class GetChildrenVisitor
 
   public Term[] visitZSect(ZSect zSect)
   {
+    List<Para> result = new ArrayList();
     List<Para> children = zSect.getPara();
-    for (Iterator<Para> iter = children.iterator(); iter.hasNext();) {
-      Para para = iter.next();
-      if (para instanceof LatexMarkupPara || para instanceof NarrPara) {
-        iter.remove();
+    for (Para para : zSect.getPara()) {
+      if (! (para instanceof LatexMarkupPara) &&
+          ! (para instanceof NarrPara)) {
+        result.add(para);
       }
     }
-    return children.toArray(new Term[0]);
+    return result.toArray(new Term[0]);
   }
 }
