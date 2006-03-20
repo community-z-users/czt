@@ -140,6 +140,14 @@ action code
     protected JokerScanner jokerScanner_;
 </add:zpatt>
 
+<add:circus>
+    /**
+     * Reference expression to the type of synchronisation channels
+     * as declared in the circus_toolkit.tex file (i.e. "Synch").
+     */
+    protected RefExpr synchChannelTypeRefExpr_ = factory_.createRefExpr(factory_.createZRefName("Synch"));
+</add:circus>
+
     /**
      * Create an empty list.
      */
@@ -1075,7 +1083,7 @@ terminal
         // Channels
         CIRCCHAN, CIRCCHANFROM,
         // Channel and name sets
-        CHANSET, LCHANSET, RCHANSET, NAMESET, 
+        CIRCCHANSET, LCIRCCHANSET, RCIRCCHANSET, CIRCNAMESET, 
         // Processes
         CIRCPROC, CIRCBEGIN, CIRCSTATE, CIRCODOT, CIRCEND,
         LFLOOR, RFLOOR, ASSIGNMENT,
@@ -1083,7 +1091,7 @@ terminal
         INTERLEAVE, ALPHAPARALLEL, LPARALLEL, RPARALLEL,        
         BIGCIRCSEQ, BIGINTERLEAVE, BIGINTCHOICE, BIGEXTCHOICE,
         // Actions
-        SKIP, STOP, CHAOS,
+        CIRCSKIP, CIRCSTOP, CIRCCHAOS,
 </add:circus>
 <add:oz>
         DELTA, CLASS, GENCLASS, STATE, INIT, OPSCH, SDEF,
@@ -1372,6 +1380,9 @@ non terminal List /* ChannelDecl */
 non terminal ChannelDecl
     channelDecl, channelFromDecl;
 
+non terminal ChannelSet
+    channelSet;
+    
 non terminal ZDeclList zDeclListNoNL;
 
 //non terminal List /* VarDecl*/        
@@ -2161,13 +2172,19 @@ channelDecl ::=
         /* Synchronisation channels */
         nameList:nl
 	{:
-           VarDecl vd = factory_.createVarDecl(nl, null);
+           /* Note: //TODO: Check this on typechecker later.
+            *   It is the TypeChecker's Job to include
+            *   the RefExpr for the "Synch" given type
+            *   present in circus_toolkit.
+            */           
+           VarDecl vd = factory_.createVarDecl(nl, synchChannelTypeRefExpr_);
            RESULT = factory_.createChannelDecl(null, vd);
            addLocAnn(RESULT, nlleft, nlright);
 	:} 
         ;
 
 channelFromDecl ::=
+        /* Channels declared through Z schemas */
         expression:e
         {:
            InclDecl id = factory_.createInclDecl(e);
@@ -2175,6 +2192,7 @@ channelFromDecl ::=
            addLocAnn(RESULT, eleft, eright);
         :}
         |
+        /* Channels declared through generic Z schemas */
         LSQUARE:lsq nameList:nl RSQUARE expression:e
         {:
            InclDecl id = factory_.createInclDecl(e);
@@ -2182,6 +2200,42 @@ channelFromDecl ::=
            addLocAnn(RESULT, lsqleft, lsqright);
         :}
         ; 
+
+/// Channel Set Paragraph ////////////////////////////
+
+channelSetPara ::=         
+        CIRCCHANSET:ccs declName:dn DEFEQUAL:equal expression:e
+        {:
+           /*
+           ConstDecl cd = factory_.createConstDecl(dn, e);
+           addLocAnn(cd, equalleft, equalright);
+           ZDeclList decls = factory_.createZDeclList();
+           decls.add(cd);
+           ZSchText st = factory_.createZSchText(decls, null);
+           addLocAnn(st, dnleft, dnright);
+           RESULT = factory_.createAxPara(null, st, Box.OmitBox);
+           addLocAnn(RESULT, dnleft, dnright);
+           */
+           RESULT = null;//factory_.createChannelSetPara
+        :}
+        |        
+        CIRCCHANSET:ccs declName:dn formalParameters:fp DEFEQUAL:equal expression:e
+        {:
+           /*
+           ConstDecl cd = factory_.createConstDecl(dn, e);
+           addLocAnn(cd, equalleft, equalright);
+           ZDeclList decls = factory_.createZDeclList();
+           decls.add(cd);
+           ZSchText st = factory_.createZSchText(decls, null);
+           addLocAnn(st, dnleft, dnright);
+           RESULT = factory_.createAxPara(fp, st, Box.OmitBox);
+           addLocAnn(RESULT, dnleft, dnright);
+           */
+           RESULT = null;
+        :}
+        ;
+        
+/// Process Paragraph ////////////////////////////////
 
 processPara ::=
         /* Process paragraph definition */
@@ -2281,7 +2335,7 @@ circusAction ::=
         ;
 
 cspAction ::=
-        SKIP
+        CIRCSKIP
         ;
 
 </add:circus>     
