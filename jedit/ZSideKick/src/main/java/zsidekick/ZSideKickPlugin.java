@@ -27,8 +27,6 @@ public class ZSideKickPlugin
   public static final String OPTION_PREFIX = "options.zsidekick.";
   public static final String PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS =
     "ZSideKickPlugin.extractCommaOrSemiFromDecorwors";
-  public static final String PROP_SPACE_BEFORE_PUNCTATION =
-    "ZSideKickPlugin.addSpaceBeforeLatexPunctation";
   public static final String PROP_IGNORE_UNKNOWN_LATEX_COMMANDS =
     "ZSideKickPlugin.ignoreUnknownLatexCommands";
 }

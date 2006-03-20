@@ -130,9 +130,6 @@ public abstract class AbstractParser
       ZSideKickPlugin.PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS;
     String value = jEdit.getBooleanProperty(propname) ? "true" : "false";
     manager.setProperty(PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS, value);
-    propname = ZSideKickPlugin.PROP_SPACE_BEFORE_PUNCTATION;
-    value = jEdit.getBooleanProperty(propname) ? "true" : "false";
-    manager.setProperty(PROP_ADD_SPACE_BEFORE_PUNCTATION, value);
     propname = ZSideKickPlugin.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS;
     value = jEdit.getBooleanProperty(propname) ? "true" : "false";
     manager.setProperty(PROP_IGNORE_UNKNOWN_LATEX_COMMANDS, value);

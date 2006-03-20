@@ -29,16 +29,12 @@ public class OptionPane extends AbstractOptionPane
 {
   private final String EXTRACT_COMMA_OR_SEMI =
     ZSideKickPlugin.PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS;
-  private final String SPACE_BEFORE_PUNCTATION =
-    ZSideKickPlugin.PROP_SPACE_BEFORE_PUNCTATION;
   private final String IGNORE_UNKNOWN_LATEX_COMMANDS =
     ZSideKickPlugin.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS;
   private final String PROP_LABEL_STD_CONFORMANCE =
     ZSideKickPlugin.OPTION_PREFIX + "standardConformance";
   private final String PROP_LABEL_EXTRACT_COMMA_OR_SEMI =
     ZSideKickPlugin.OPTION_PREFIX + "extractCommaOrSemi";
-  private final String PROP_LABEL_ADD_SPACE_BEFORE_PUNCTATION =
-    ZSideKickPlugin.OPTION_PREFIX + "addSpaceBeforeLatexPunctation";
   private final String PROP_LABEL_IGNORE_UNKNOWN_LATEX_COMMANDS =
     ZSideKickPlugin.OPTION_PREFIX + "ignoreUnknownLatexCommands";
   private final String PROP_LABEL_RESET =
@@ -63,12 +59,6 @@ public class OptionPane extends AbstractOptionPane
     extractCommaOrSemi_.getModel().setSelected(value);
     addComponent(extractCommaOrSemi_);
 
-    spaceBeforePunctation_ =
-      new JCheckBox(jEdit.getProperty(PROP_LABEL_ADD_SPACE_BEFORE_PUNCTATION));
-    value = jEdit.getBooleanProperty(SPACE_BEFORE_PUNCTATION);
-    spaceBeforePunctation_.getModel().setSelected(value);
-    addComponent(spaceBeforePunctation_);
-
     String string =
       jEdit.getProperty(PROP_LABEL_IGNORE_UNKNOWN_LATEX_COMMANDS);
     ignoreUnknownLatexCommands_ = new JCheckBox(string);
@@ -87,8 +77,6 @@ public class OptionPane extends AbstractOptionPane
   {
     boolean value = extractCommaOrSemi_.getModel().isSelected();
     jEdit.setBooleanProperty(EXTRACT_COMMA_OR_SEMI, value);
-    value = spaceBeforePunctation_.getModel().isSelected();
-    jEdit.setBooleanProperty(SPACE_BEFORE_PUNCTATION, value);
     value = ignoreUnknownLatexCommands_.getModel().isSelected();
     jEdit.setBooleanProperty(IGNORE_UNKNOWN_LATEX_COMMANDS, value);
   }
