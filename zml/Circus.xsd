@@ -103,8 +103,8 @@
     <xs:annotation>
       <xs:documentation>
         <p>
-        A channel set paragraph that declares a name for a channel set expression.
-        Strokes are not allowed in channel set names, and this is ensured by the parser.
+        A channel set paragraph that declares a name for a channel set.
+        A channel set encapsulates a Z <code>Expr</code>.
         </p>
         <p>
         It represents the <b>channelset</b> <code>N == CSExpression</code> grammar rule, 
@@ -140,126 +140,36 @@
         Channels can be declared only through variable declaration or schema inclusion.
         <code>ConstDecl</code> is forbidden by the parser grammar rules.
         </p>
-        <p>
-        Invariant: <code>Decl</code> is always <code>VarDecl</code> or <code>InclDecl</code>.
-        </p>
       </xs:documentation>
     </xs:annotation>
   </xs:element>
 
   <!-- Channel Set Expressions -->
-  <xs:element name="ChannelSet" type="CIRCUS:ChannelSet" abstract="true">
+  <xs:element name="ChannelSet" type="CIRCUS:ChannelSet">
     <xs:annotation>
       <xs:documentation>
         <p>
-        An abstract channel set expression. It represents the <b>CSExpression</b> grammar rule.
+        An channel set expression is a special kind of expression used in Circus that is
+        not within the Z expressions subtree. It represents the <b>CSExpression</b> grammar rule.
         </p>
         <p>
         Although it is formed by a Z expression, channel set expressions cannot appear wherever a Z expression can;
-        they are only allowed in parallel operators. We have chosen to keep it separate from the <code>Expr</code>
-        tree for simplicity.
-        </p>
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  <xs:element name="BasicChannelSet" type="CIRCUS:BasicChannelSet" substitutionGroup="CIRCUS:ChannelSet">
-    <xs:annotation>
-      <xs:documentation>
-        <p>
-        A channel set expression containing a set of references to previously declared channel names (i.e. channel references).
-        It represents the grammar rules for empty and enumerated channel sets.
+        they are only allowed in some operators such parallelism and hiding. For this it encpasulates a Z expression
+        within the <code>ChannelSet</code> class.
         </p>
         <p>
-        As GnAST represents unbounded occurrences with <code>List</code>, the parser must enforce that 
-        given <code>RefName</code> are unique (i.e. forms a <code>Set</code>. A well typed <code>BasicChannelSet</code>
-        channel set must ensure that the given names refers to previously declared channel names.
-        </p>
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  <xs:element name="RefChannelSet" type="CIRCUS:RefChannelSet" substitutionGroup="CIRCUS:ChannelSet">
-    <xs:annotation>
-      <xs:documentation>
-        <p>
-        A channel set expression referencing a declared channel set paragraph. 
-        It represents the grammar rule for channel set reference.
+        The most common Z expressions used in channel sets are set extensions, the empty set, and application expressions.
+        The most common application expressions are set union, intersection, and diference. Other (possibly user defined) 
+        functions can also be used.
         </p>
         <p>
-        A well typed <code>RefChannelSet</code> must ensure that the given name refers to previously 
-        declared channel set.
-        </p>
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-
-  <!-- DESIGN DECISION + MODIFICATION:
-  
-    It is interesting to generalise channel and name set operations for any operation in Z, such as operators 
-    and function applications. Therefore, we have to encapsulate them as a Z Expr with the following production.
-    A similar change happens for NameSet. To avoid duplicated complexTypes, we have used the same complexTypes
-    structure for both ChannelSets and NameSets.
-    
-    The only expressions allowed are RefExpr for RefChannelSet, SetExpr for BasicChannelSet and ApplExpr for 
-    any operation needed.
-    As the grammar already have explicit productions for Channel sets, and to avoid mixing with the (rather complex) Z:Expr tree, 
-    we provide these classes separately here. The only complicated one we have no scape is ApplExpr as defined by the new 
-    ApplChannelSet element.     
- 
-  <xs:element name="ChannelSet2" type="CIRCUS:ChannelSet2" abstract="true" substitutionGroup="CIRCUS:ChannelSet">
-    <xs:annotation>
-      <xs:documentation>
-        An abstract binary channel set expression.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  <xs:element name="UnionChannelSet" type="CIRCUS:ChannelSet2" substitutionGroup="CIRCUS:ChannelSet2">
-    <xs:annotation>
-      <xs:documentation>
-        Set union over channel set expressions.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  <xs:element name="IntersectionChannelSet" type="CIRCUS:ChannelSet2" substitutionGroup="CIRCUS:ChannelSet2">
-    <xs:annotation>
-      <xs:documentation>
-        Set intersection over channel set expressions.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  <xs:element name="DifferenceChannelSet" type="CIRCUS:ChannelSet2" substitutionGroup="CIRCUS:ChannelSet2">
-    <xs:annotation>
-      <xs:documentation>
-        Set difference over channel set expressions.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  -->
-  <xs:element name="ApplChannelSet" type="CIRCUS:ApplChannelSet" substitutionGroup="CIRCUS:ChannelSet">
-    <xs:annotation>
-      <xs:documentation>
-        <p>
-        A channel set application. It represents the application of any Z function where the 
-        result is a set of names, through the encapsulation of an <code>ApplExpr</code>. 
-        It represents the grammar rules involving applied functions to channel sets.
-        </p>
-        <p>
-        As operators and function applications can sometimes be given as <code>RefExpr</code>, 
-        it is the task of the parser to generate the appropriate <code>RefExpr</code> or <code>ApplExpr</code> classes.
-        Moreover, a well typed <code>ApplChannelSet</code> can accept any parameter and must return a set of <code>RefName</code>s.
+        In any case, a channel set expression is well-typed only if the names it refer to are from previously declared channels,
+        or a previously declared channel set. That is, a well-typed <code>ChannelSet</code> must be a power type of previously declared
+        channel names.
         </p>
       </xs:documentation>
     </xs:annotation>
   </xs:element>  
-  <xs:element name="ChannelSetExpr" type="CIRCUS:ChannelSetExpr" substitutionGroup="Z:Expr">
-    <xs:annotation>
-      <xs:documentation>
-        <p>
-        A <code>ChannelSet</code> wrapped as a Z expression. This is necessary for the proper creation of
-        <code>ApplChannelSet</code> using functions and Z expressions.
-        </p>
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
         
   <!-- Process Description -->                
   <!-- DESIGN DECISION
@@ -751,8 +661,8 @@
     <xs:annotation>
       <xs:documentation>        
         <p>
-        A name set declaration that introduces a name for a name set expression.
-        Strokes are not allowed in channel set names, and this is ensured by the parser.
+        A name set paragraph that introduces a name for a name set.
+        A name set encapsulates a Z <code>Expr</code>.
         </p>
         <p>
         It represents the <b>nameset</b> <code>N == NSExpression</code> grammar rule, 
@@ -763,102 +673,28 @@
   </xs:element>
 
   <!-- Name Set Expressions -->
-  <xs:element name="NameSet" type="CIRCUS:NameSet" abstract="true">
+  <xs:element name="NameSet" type="CIRCUS:NameSet">
     <xs:annotation>
       <xs:documentation>        
         <p>
-        An abstract name set expression. It represents the <b>NSExpression</b> grammar rule.
+        A name set expression is a special kind of expression used in Circus that is
+        not within the Z expressions subtree. It represents the <b>NSExpression</b> grammar rule.
         </p>
         <p>
         Although it is formed by a Z expression, name set expressions cannot appear wherever a Z expression can;
-        they are only allowed in parallel operators. We have chosen to keep it separate from the <code>Expr</code>
-        tree for simplicity.
-        </p>
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  <xs:element name="BasicNameSet" type="CIRCUS:BasicNameSet" substitutionGroup="CIRCUS:NameSet">
-    <xs:annotation>
-      <xs:documentation>
-        <p>
-        A name set expression containing a set of references to user state declared names (i.e. state variable references).
-        It represents the grammar rules for empty and enumerated name sets.
+        they are only allowed in some operators such as parallelism. For this it encpasulates a Z expression
+        within the <code>NameSet</code> class.
         </p>
         <p>
-        As GnAST represents unbounded occurrences with <code>List</code>, the parser must enforce that 
-        given <code>RefName</code> are unique (i.e. forms a <code>Set</code>. A well typed <code>BasicNameSet</code>
-        channel set must ensure that the given names refers to previously declared channel names.
+        The most common Z expressions used in name sets are set extensions, the empty set, and application expressions.
+        The most common application expressions are set union, intersection, and diference. Other (possibly user defined) 
+        functions can also be used.
+        </p>
+        <p>
+        In any case, a name set expression is well-typed only if the names it refer to are from previously declared state variables,
+        or a previously declared name set. That is, a well-typed <code>NameSet</code> must be a power type of previously declared
+        state variable names.
         </p>        
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  <xs:element name="RefNameSet" type="CIRCUS:RefNameSet" substitutionGroup="CIRCUS:NameSet">
-    <xs:annotation>
-      <xs:documentation>
-        <p>
-        A name set expression referencing a declared name set paragraph. 
-        It represents the grammar rule for name set reference.
-        </p>
-        <p>
-        A well typed <code>RefNameSet</code> must ensure that the given name refers to previously 
-        declared name set.
-        </p>
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  <!-- See further comments at ChannelSet2
-  <xs:element name="NameSet2" type="CIRCUS:NameSet2" abstract="true" substitutionGroup="CIRCUS:NameSet">
-    <xs:annotation>
-      <xs:documentation>
-        An abstract binary name set expression.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  <xs:element name="UnionNameSet" type="CIRCUS:NameSet2" substitutionGroup="CIRCUS:NameSet2">
-    <xs:annotation>
-      <xs:documentation>
-        Set union over name set expressions.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  <xs:element name="IntersectionNameSet" type="CIRCUS:NameSet2" substitutionGroup="CIRCUS:NameSet2">
-    <xs:annotation>
-      <xs:documentation>
-        Set intersection over name set expressions.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  <xs:element name="DifferenceNameSet" type="CIRCUS:NameSet2" substitutionGroup="CIRCUS:NameSet2">
-    <xs:annotation>
-      <xs:documentation>
-        Set difference over name set expressions.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  -->
-  <xs:element name="ApplNameSet" type="CIRCUS:ApplNameSet" substitutionGroup="CIRCUS:NameSet">
-    <xs:annotation>
-      <xs:documentation>
-        <p>
-        A name set application. It represents the application of any Z function where the 
-        result is a set of names, through the encapsulation of an <code>ApplExpr</code>. 
-        It represents the grammar rules involving applied functions to name sets.
-        </p>
-        <p>
-        As operators and function applications can sometimes be given as <code>RefExpr</code>, 
-        it is the task of the parser to generate the appropriate <code>RefExpr</code> or <code>ApplExpr</code> classes.
-        Moreover, a well typed <code>ApplNameSet</code> can accept any parameter and must return a set of <code>RefName</code>s.
-        </p>
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  <xs:element name="NameSetExpr" type="CIRCUS:NameSetExpr" substitutionGroup="Z:Expr">
-    <xs:annotation>
-      <xs:documentation>
-        <p>
-        A <code>NameSet</code> wrapped as a Z expression. This is necessary for the proper creation of
-        <code>ApplNameSet</code> using functions and Z expressions.
-        </p>
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -1405,12 +1241,13 @@
       <xs:extension base="Z:Decl">
         <xs:sequence>
           <!-- Generic types, possibly empty -->
-          <xs:element ref="Z:DeclName" minOccurs="0" maxOccurs="unbounded"/>
-          <xs:element ref="Z:Decl"/>
+          <xs:element name="GenParam" type="Z:DeclName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:DeclName" minOccurs="1" maxOccurs="unbounded"/>
+          <xs:element ref="Z:Expr" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
-  </xs:complexType>
+  </xs:complexType> 
   
   <xs:complexType name="ChannelSetPara">
     <xs:complexContent>
@@ -1444,67 +1281,9 @@
   <!-- Channel Set Expression complexTypes -->
   <xs:complexType name="ChannelSet">
     <xs:complexContent>
-      <xs:extension base="Z:TermA"/>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="BasicChannelSet">
-    <xs:complexContent>
-      <xs:extension base="CIRCUS:ChannelSet">
-        <xs:sequence>
-          <!-- Changed to accommodate Z.xsd updates -->
-          <!-- <xs:element ref="Z:RefName" minOccurs="0" maxOccurs="unbounded"/> -->
-          <xs:element ref="Z:RefNameList"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="RefChannelSet">
-    <xs:complexContent>
-      <xs:extension base="CIRCUS:ChannelSet">
-        <xs:sequence>
-          <xs:element ref="Z:RefName"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <!--
-  <xs:complexType name="ChannelSet2">
-    <xs:complexContent>
-      <xs:extension base="CIRCUS:ChannelSet">
-        <xs:sequence>
-          <xs:element ref="CIRCUS:ChannelSet">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="LeftOperand"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element ref="CIRCUS:ChannelSet">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="RightOperand"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  -->
-  <xs:complexType name="ApplChannelSet">
-    <xs:complexContent>
-      <xs:extension base="CIRCUS:ChannelSet">
+      <xs:extension base="Z:TermA">
         <xs:sequence>
           <xs:element ref="Z:Expr"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>  
-  <xs:complexType name="ChannelSetExpr">
-    <xs:complexContent>
-      <xs:extension base="Z:Expr">
-        <xs:sequence>
-          <xs:element ref="CIRCUS:ChannelSet"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1859,46 +1638,13 @@
 <!-- Name Set Expression complexTypes -->
   <xs:complexType name="NameSet">
     <xs:complexContent>
-      <xs:extension base="Z:TermA"/>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="BasicNameSet">
-    <xs:complexContent>
-      <xs:extension base="CIRCUS:NameSet">
-        <xs:sequence>
-          <!-- <xs:element ref="Z:RefName" minOccurs="0" maxOccurs="unbounded"/> -->
-          <xs:element ref="Z:RefNameList"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="RefNameSet">
-    <xs:complexContent>
-      <xs:extension base="CIRCUS:NameSet">
-        <xs:sequence>
-          <xs:element ref="Z:RefName"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="ApplNameSet">
-    <xs:complexContent>
-      <xs:extension base="CIRCUS:NameSet">
+      <xs:extension base="Z:TermA">
         <xs:sequence>
           <xs:element ref="Z:Expr"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="NameSetExpr">
-    <xs:complexContent>
-      <xs:extension base="Z:Expr">
-        <xs:sequence>
-          <xs:element ref="CIRCUS:NameSet"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
+  </xs:complexType>  
   
   <!-- Action complexType -->     
   
