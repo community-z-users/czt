@@ -11,13 +11,13 @@
 
 <p>
   The Community Z Tools plugin displays a dockable window listing
-  important Z characters and Z constructs, plus several buttons for
-  running the CZT tools.    The plugin currently supports two markup 
-  formats for Z: the LaTeX markup and the Unicode markup.
+  important Z characters and Z constructs.  The plugin currently
+  supports two markup formats for Z: the LaTeX markup and the Unicode
+  markup.
 </p>
 
 <p>You can simply click on a Z character or construct to insert it
-  into your current buffer, using the currently selected markup.
+  into your current buffer.
   The top line ("Paragraphs") inserts complete Z paragraphs, with
   uppercase placeholders for the parts that you should fill in,
   while most of the other constructs insert just one Z symbol
@@ -34,50 +34,6 @@
   You should replace NAME by the name of your schema, TYPE by
   the generic type parameter(s), DECLS by a sequence of declarations
   and PREDS by a sequence of predicates.
-</p>
-
-<p>
-  The combo box at the left top corner of the plugin allows you to choose
-  which markup you wish to use.  
-  This is initialized to "LaTeX Markup" each time you start jEdit, but
-  you can change the markup at any time using this combo box.
-  The usual goal is to set it to reflect the contents of the buffer
-  you are editing.
-  Your choice of markup has two effects:
-<ol>
-  <li> It determines which kind of markup (LaTeX macros, or Unicode characters)
-       is inserted into the current buffer when you click on a Z construct
-       in the CZT plugin.</li>
-  <li> It determines which markup will be assumed by the CZT tools
-       when you click the Typecheck buttons or the other buttons.
-       <b>WARNING:</b> if you select "Unicode Markup", but then open a LaTeX
-       specification and typecheck it, it will be parsed under the assumption
-       that it contains Unicode markup, so all LaTeX constructs will be
-       treated as informal narrative.  To alert you to your mistake, the
-       warning "No Z constructs found" will be displayed in this case. 
-      </li>
-</ol>
-</p>
-
-<p>
-  The "Typecheck" button parses and typechecks the file in the current
-  buffer.  It always uses the file contents, rather than the current
-  buffer contents.  If the current buffer contains unsaved changes, you
-  will be asked whether you want to continue.  Saying "Yes" will continue
-  with the parsing using the on-disk version, which will not contain
-  your unsaved changes.  Saying "No" stops the parsing and allows you
-  to save the buffer.  The result of the typechecking is displayed in 
-  the jEdit status bar.  Any errors can be viewed using the ErrorList plugin.
-</p>
-
-<p>
-  The other two buttons in the CZT plugin convert the file in the
-  current buffer into other markup formats.  The specification can be
-  converted to Unicode if LaTeX markup is chosen (or into LaTeX if
-  Unicode markup is chosen), or can be translated into ZML -- XML
-  markup for Z.  If parsing and translating was successful, a new
-  temporary buffer containing the output of the conversion is opened.
-  In case of an error, the error list can be consulted.
 </p>
 
 <p><b>Hints:</b>
