@@ -127,7 +127,7 @@ public final class PrintUtils
   {
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
     Term tree = (Term) term.accept(toPrintTree);
-    ZmlScanner scanner = new ZmlScanner(tree);
+    ZmlScanner scanner = new ZmlScanner(tree, true);
     Unicode2OldLatex parser = new Unicode2OldLatex(new SectHeadScanner(scanner));
     parser.setSectionInfo(sectInfo);
     UnicodePrinter printer = new UnicodePrinter(out);
@@ -197,7 +197,7 @@ public final class PrintUtils
     catch (CommandException exception) {
       throw new CztException(exception);
     }
-    ZmlScanner scanner = new ZmlScanner(tree);
+    ZmlScanner scanner = new ZmlScanner(tree, true);
     scanner.prepend(new Symbol(Sym.TOKENSEQ));
     scanner.append(new Symbol(Sym.TOKENSEQ));
     Unicode2Latex parser = new Unicode2Latex(scanner);

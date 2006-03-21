@@ -53,6 +53,8 @@ public class ZPrintVisitor
              PrintParagraphVisitor,
              PrintPredicateVisitor, PrintExpressionVisitor
 {
+  private boolean translateDefEquals_ = false;
+
   /**
    * Creates a new Z print visitor.
    * The section information should be able to provide information of
@@ -61,6 +63,16 @@ public class ZPrintVisitor
   public ZPrintVisitor(ZPrinter printer)
   {
     super(printer);
+  }
+
+  public void setTranslateDefEquals(boolean value)
+  {
+    translateDefEquals_ = value;
+  }
+
+  public boolean getTranslateDefEquals()
+  {
+    return translateDefEquals_;
   }
 
   protected void print(TokenName tokenName, Object spelling)
@@ -260,9 +272,18 @@ public class ZPrintVisitor
 
   public Object visitConstDecl(ConstDecl constDecl)
   {
-    visit(constDecl.getDeclName());
-    print(Keyword.DEFEQUAL);
-    visit(constDecl.getExpr());
+    if (translateDefEquals_) {
+      visit(constDecl.getDeclName());
+      print(Keyword.COLON);
+      print(TokenName.LBRACE);
+      visit(constDecl.getExpr());
+      print(TokenName.RBRACE);
+    }
+    else {
+      visit(constDecl.getDeclName());
+      print(Keyword.DEFEQUAL);
+      visit(constDecl.getExpr());
+    }
     return null;
   }
 

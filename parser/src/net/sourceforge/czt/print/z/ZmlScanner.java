@@ -47,13 +47,13 @@ public class ZmlScanner
   protected List symbols_;
   private int pos_ = 0;
 
+  /**
+   * Creates a new ZML scanner.
+   */
   public ZmlScanner()
   {
   }
 
-  /**
-   * Creates a new ZML scanner.
-   */
   public ZmlScanner(Term term)
   {
     PrecedenceParenAnnVisitor precVisitor =
@@ -61,6 +61,21 @@ public class ZmlScanner
     term.accept(precVisitor);
     SymbolCollector collector = new SymbolCollector(Sym.class);
     ZPrintVisitor visitor = new ZPrintVisitor(collector);
+    term.accept(visitor);
+    symbols_ = collector.getSymbols();
+  }
+
+  /**
+   * Creates a new ZML scanner.
+   */
+  public ZmlScanner(Term term, boolean translateDefEquals)
+  {
+    PrecedenceParenAnnVisitor precVisitor =
+      new PrecedenceParenAnnVisitor();
+    term.accept(precVisitor);
+    SymbolCollector collector = new SymbolCollector(Sym.class);
+    ZPrintVisitor visitor = new ZPrintVisitor(collector);
+    visitor.setTranslateDefEquals(translateDefEquals);
     term.accept(visitor);
     symbols_ = collector.getSymbols();
   }
