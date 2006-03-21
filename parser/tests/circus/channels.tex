@@ -43,9 +43,13 @@ to get spacing right within the same paragraph, one needs to append a ``\%''
 symbol right after closing the environment (see the style file documentation
 for details).
 
-\begin{issue}
+\begin{issue}[creating \texttt{circus.sty} and \texttt{circus.dtx}]
    Make a suitable \texttt{circus.dtx} with nice and up-to-date \Circus\
    typesetting commands, as well as embedded documentation.
+
+   Join version of \texttt{circus.sty} and add literate documentation.
+   Also, gather the information for solving the spacing problem of the
+   \code{circus} environment.
 \end{issue}
 
 \section{\Circus\ channels --- \grammar{channelPara}}
@@ -59,10 +63,16 @@ parent.
   \SECTION\ circus\_channels \parents\ circus\_toolkit
 \end{zsection}%
 %
+% TODO: Why is this happening?
+%
+% Funny, if I leave the \begin{zsection}...\end{zsection} within the
+% verbatim environment, the parser is recognising it! It does not
+% happen with the \begin{circus}...\end{circus} environment though.
+%
 \begin{verbatim}
-\begin{zsection}
+begin{zsection}
     \SECTION\ circus\_channels \parents\ circus\_toolkit
-\end{zsection}
+end{zsection}
 \end{verbatim}
 %
 We include with each typeset text the corresponded \LaTeX\ code.
@@ -135,6 +145,38 @@ are right after the $\circchannel$ keyword.
 As before, names with decorations must have hard spaces before hitting a
 \texttt{COMMA} token, as shown above.
 
+\begin{issue}[type inference on generic channels usage]
+    In practice, how should generic actuals be instantiated for channels?
+    The implications are clear at parallel composition and implementation of
+    ``generically defined'' communications.
+
+    For example, in:
+
+    \[
+        \circchannel\ [X] c, d: X \\
+
+        \vdots \\
+
+        c?x \then d!x \then Skip [|c, d|] c.v \then d?x \then Skip
+    \]
+
+    Could the typechecker infer the types of both $c$ and $d$ to be the
+    type of $v$? In a multisychronisation scenario, however, this would
+    become a typechecking nightmare!
+
+    The suggestion is then to enforce generic actuals instantiation on
+    generically defined channels, so that no type inference is needed,
+    as in:
+
+    \[
+       c[\nat]?x \then d[\nat]!x \then Skip [|c[\nat], d[\nat]|] c[\nat].v \then d[\nat]?x \then Skip
+    \]
+
+    This involves a clumsy and too verbose specification, but simpler
+    typechecking. What would be the compromise? Just leave it out for the
+    moment?!
+\end{issue}
+
 \subsubsection{Synchronisation channels}
 
 Synchronisation channels are defined without a type expression. The parser
@@ -157,7 +199,10 @@ for translation to and from ZML. This name is defined as a given set in the
 This time, we left two declarations within the same Z box, but separated by a
 \grammar{NL} (new-line) token.
 
-\begin{issue}
+% SOLVED: Discussion in an e-mail with Tim and Mark (CZT), 20,21/03/2006
+%         (subject: Exception thrown while marshiling ZML with null Expr in VarDecl)
+%
+\begin{issue}[technicality about representation of $Synch$]
     Perhaps we shall remove the $Synch$ type from \texttt{circus\_toolkit} and
     set it as a reserved word that the typechecker does not allow anyone else to
     use.
@@ -203,11 +248,16 @@ ways, depending on the chosen decoration.
 These declarations include four channels of type $\nat$, namely:~$a$, $b$,
 $a_1$, and $b_1$.
 
-\begin{issue}
-What happen with the invariant of $S$? Should it be enforced on the communication patterns or just be ignored?
+% SOLVED: Invariants of schemas are ignored on channelFrom - Jim
+%
+\begin{issue}[invariant of schemas in channelFrom]
+  What happen with the invariant of $S$?
+  Should it be enforced on the communication patterns or just be ignored?
 \end{issue}
 
-\begin{issue}
+% SOLVED: Restricted to RefExpr only - Jim
+%
+\begin{issue}[channelFrom with any expression]
 What about this kind of declaration?
 %
 \begin{circus}
@@ -219,7 +269,7 @@ What about this kind of declaration?
         \circchannelfrom\ S \cross S
      \end{circus}%
 \end{verbatim}
-%
+
 At the moment the grammar does allow it. The option is to restrict it to
 \code{RefExpr} only (\textit{i.e.}, reference expressions that could carry
 generic actuals).
@@ -241,11 +291,12 @@ Another option is to have schemas with generic types.
      \end{schema}
 \end{verbatim}
 %
-In this case, one can define the channels via the schema either
-by:~(i)~declaring the schema name with corresponding number of generic
+In this case, one can define the channels from the schema via
+either:~(i)~declaring the schema name with corresponding number of generic
 actuals;~(ii)~leaving the original generic formal parameters (possibly renaming
 them);~(iii)~letting the typechecker decide;~or (iii)~redefining the generic
-formal parameters in terms of a new pattern.
+formal parameters of channel types in terms of a new pattern of formal
+parameters for the schema generic actuals.
 %
 \begin{circus}
     \circchannelfrom\ T[\nat] \\
@@ -253,6 +304,15 @@ formal parameters in terms of a new pattern.
     \circchannelfrom\ T_2 \\
     \circchannelfrom\ [A, B]\ T_3[A \cross B]
 \end{circus}%
+%
+\begin{verbatim}
+     \begin{circus}
+         \circchannelfrom\ T[\nat] \\
+         \circchannelfrom\ [Y]\ T_1[Y] \\
+         \circchannelfrom\ T_2 \\
+         \circchannelfrom\ [A, B]\ T_3[A \cross B]
+     \end{circus}%
+\end{verbatim}
 %
 It is the task of the typechecker to guarantee that either the instantiation or
 (re)definitions are type-correct. For each case we would have:
@@ -264,11 +324,13 @@ It is the task of the typechecker to guarantee that either the instantiation or
     \item[iv] $\circchannel\ [A, B]\ x_3~, y_3: \power~(A \cross B)$
 \end{itemize}
 %
-Thus, \textit{\textbf{(??)apart from the invariant of $T$(??)}},
-$\circchannelfrom$ is just syntactic sugar for a corresponding $\circchannel$
-declaration.
+Thus, $\circchannelfrom$ is just syntactic sugar for a corresponding
+$\circchannel$ declaration.
 
-\begin{issue}
+% SOLVED: Allow ``layered'' generics. Typechecker needs to sort it out
+%         and adjust the AST appropriately - Jim
+%
+\begin{issue}[desugaring $\circchannelfrom$ into $\circchannel$]
    The AST allows room for quite powerful use of generic types within channel
    declaration from generic schemas via the two set of generic types on each
    production (\textit{i.e.}, \code{AxPara} and \code{ChannelDecl}).
@@ -277,15 +339,16 @@ declaration.
    formals/actuals, as well as to match/update the lists of generic names (and
    their corresponding type expressions).
 
-   Anyway, the only really tricky business is if we decide to restrict the
-   communication patterns with the corresponding schema invariant.
+   Anyway, the possibly tricky business comes if we decide to restrict the
+   communication patterns with the corresponding schema invariant. As it
+   stands, it is left for the typechecker to solve.
 \end{issue}
 
 \section{Channel sets --- \grammar{channelSetPara}}
 
-Channel sets defines an expression to represent a particular set of channel
-communication patterns. They are normally used as reference names for other
-\Circus\ operators that need channel within their use, such as parallel and
+Channel sets defines an expression to represent a particular set of channels.
+They are normally used as reference names for other \Circus\ operators that
+have channel references as parts of their AST, such as the parallel and the
 hiding operators.
 
 Channel sets are given as a name and a corresponding expression.
@@ -295,17 +358,21 @@ Channel sets are given as a name and a corresponding expression.
 %\end{circus}%
 %
 The channel set expressions mostly used are: set union, intersection and
-different;~set extensions;~reference expressions;~and application expressions.
+difference expressions;~set extension expressions;~reference expressions;~and
+application expressions.
 
-\begin{issue}
-  The restricted form of channel sets complicates the grammar in a great
+% SOLVED: Generalise channel set expressions to allow any Z expression - Jim
+%         Should it simplify typechecking in a great extent?
+%
+\begin{issue}[generalising channel set expressions]
+  The restricted form of channel sets complicate the grammar in a great
   extent because it demands filtering through the (very complex) expression
   subtree, which also mixes with the predicate subtree.
 
   If application expressions were not to be considered, the limitation would be
-  rather simple, as the other operations are easy to (hard) code. Nevertheless,
-  as one might like (or even require) to define a particular functions for
-  channel sets to be used over replicated operators, this category may not (cannot) be
+  rather simple, as the other channel set expressions are easy to (hard) code. Nevertheless,
+  as one might like (or even require) to define particular functions for
+  channel sets to be used over replicated operators, application expressions may not (or cannot) be
   avoided.
 
   For example, this scenario might appear as a requirement when one needs to perform
@@ -314,19 +381,19 @@ different;~set extensions;~reference expressions;~and application expressions.
 
   Therefore, because of application expression, we need to include channel sets with mostly
   all expressibility power of Z expressions. The best choice seems to reuse the
-  Z grammar for abbreviations (\textit{i.e.}, rule \grammar{abbreviationDefinition} encoded with \code{ConstDecl})
-  that is specially marked as a channel set abbreviation for typechecking (and maybe other) purposes.
+  Z grammar for abbreviations, and encoded as an AST of \code{ChannelSet}
+  encapsulating a \code{ConstDecl}. This is useful for simplifying typechecking
+  (and perhaps other purposes).
 
   This choice will also normalise the language with respect to generically
   defined channels, as Z abbreviations already take care of generic formal and
-  actuals. \textbf{This would simplify the parser grammar as well as the AST structure in a grater
+  actual parameters. \textbf{This would simplify the parser grammar as well as the AST structure in a grater
   extend.} Furthermore, a nice side effect is the ability to have generic
   operators as possible channel set functions!
 
   On the other hand, if one wants to keep the restrictions, one possible
-  approach would be to leave the parser with the
-  \grammar{abbreviationDefinition} rule, but restrict its use through the type
-  checking of channel sets.
+  approach would be to leave the parser with Z abbreviations, but restrict
+  its use through the type checking of channel sets.
 \end{issue}
 
 \end{document}
