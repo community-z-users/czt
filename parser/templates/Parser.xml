@@ -1199,7 +1199,7 @@ non terminal DeclName
     declName,
     formalParameterName;
 
-non terminal List&lt;RefName&gt; refNameList;
+non terminal List&lt;ZRefName&gt; refNameList;
 non terminal ZRefName refName;
 
 non terminal ZRenameList renameList;
@@ -2642,7 +2642,7 @@ refNameList ::=
         refNameList:rnl COMMA DECORWORD:dw
         {:
            checkName(dw, dwleft, dwright);
-           RefName rn = factory_.createZRefName(dw.getName());
+           ZRefName rn = factory_.createZRefName(dw.getName());
            addLocAnn(rn, dwleft, dwright);
            rnl.add(rn);
            RESULT = rnl;
@@ -2651,7 +2651,7 @@ refNameList ::=
         |
         refNameList:rnl COMMA INITWORD:iw
         {:
-           RefName rn = factory_.createZRefName(OzString.INITWORD);
+           ZRefName rn = factory_.createZRefName(OzString.INITWORD);
            addLocAnn(rn, iwleft, iwright);
            rnl.add(rn);
            RESULT = rnl;
@@ -2661,7 +2661,7 @@ refNameList ::=
         DECORWORD:dw
         {:
            checkName(dw, dwleft, dwright);
-           RefName rn = factory_.createZRefName(dw.getName());
+           ZRefName rn = factory_.createZRefName(dw.getName());
            addLocAnn(rn, dwleft, dwright);
            RESULT = list(rn);
         :}
@@ -2669,7 +2669,7 @@ refNameList ::=
         |
         INITWORD:iw
         {:
-           RefName rn = factory_.createZRefName(OzString.INITWORD);
+           ZRefName rn = factory_.createZRefName(OzString.INITWORD);
            addLocAnn(rn, iwleft, iwright);
            RESULT = list(rn);
         :}

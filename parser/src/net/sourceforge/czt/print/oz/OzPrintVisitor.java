@@ -141,7 +141,7 @@ public class OzPrintVisitor
     if (visibilityList != null) {
       print(Keyword.PROJECT);
       print(TokenName.LPAREN);
-      printTermList(visibilityList.getRefName());
+      printTermList(visibilityList.getZRefName());
       print(TokenName.RPAREN);
       print(TokenName.NL);
     }
