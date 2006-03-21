@@ -202,7 +202,12 @@ action code
           latex.append("{" + command.getName() + "}");
         }
         else {
-          latex.append(command.getName() + " ");
+          if (command.getName().startsWith("\\")) {
+            latex.append(command.getName() + " ");
+          }
+          else {
+            latex.append(command.getName());
+          }
         }
         addRightSpace = command.addRightSpace();
       }
