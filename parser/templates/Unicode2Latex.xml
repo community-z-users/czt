@@ -82,6 +82,9 @@ action code
     map.put(ZString.NE, new LatexCommand("^{", ZString.NE, false, false));
     map.put(ZString.SW, new LatexCommand("}", ZString.SW, false, false));
     map.put(ZString.LL, new LatexCommand("\\_", ZString.LL, false, false));
+<add:oldz>
+    map.put(ZString.NEG, new LatexCommand("-", ZString.NEG, false, false));
+</add:oldz>
     return map;
   }
 
