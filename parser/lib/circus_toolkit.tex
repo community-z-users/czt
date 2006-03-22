@@ -2,41 +2,116 @@
   \SECTION circus\_toolkit \parents standard\_toolkit
 \end{zsection}
 
+% Mark-up directives for core language symbols are as follows.
+% The choice for pre, in, or post, has to do with how one wants
+% the character to be rendered. See Z Std A.2.3.2.
+%
+% By using keychars such as \circguard instead of %, one allows
+% appropriate rendering by both LaTeX and Unicode mark-ups.
+ 
+% Language keychars: 
+% TODO: Try to use just \circthen for both guards and prefixing?
+%
+%%Zprechar \circmu U+03BC
+%%Zinchar \circthen U+2192
+%%Zinchar \circelse U+25A1
+%%Zinchar \defs U+2259
+%%Zinchar \circguard U+0026
+
+% Sequence
+%
+%%Zinchar \circsemi ;
+%%Zprechar \Semi U+2A1F
+
+% Brackets
+%
+%%Zprechar \lchanset U+2983
+%%Zpostchar \rchanset U+2984
+
+% Process Indexing 
+%
+%%Zinchar \circindex U+2299
+%%Zchar \circlinst U+230A
+%%Zchar \circrinst U+230B
+
+% Parallel operators
+%
+%%Zinchar \lpar U+27E6
+%%Zinchar \rpar U+27E7
+%%Zinchar \linter U+27E6
+%%Zinchar \rinter U+27E7
+%%Zinchar \interleave U+2980
+%%Zprechar \Parallel U+2225
+%%Zprechar \Interleave U+2AFC 
+
+% Choice operators
+%
+%%Zinchar \extchoice U+25FB
+%%Zinchar \intchoice U+2293
+%%Zprechar \Extchoice U+25A1
+%%Zprechar \Intchoice U+2293
+
+% Prefixing
+%
+%%Zinchar \then U+2192
+
+% Alternatives          Observation
+%
+% \lpar         U+301A  Both options are like [|, rather than |[
+% \rpar         U+301B  Both options are like |], rather than ]|
+% \linter       U+301A  At the moment just like \lpar (find other later).
+% \rinter       U+301B  At the moment just like \rpar (find other later).
+% \circindex    U+2A00  (2A00=bigger version). Use circus.sty \circindex instead of LaTeX \odot.
+% \circlinst    U+23A3
+% \circrinst    U+23A6, U+300D
+% \Parallel     U+2016
+% \Interleave   U+2980  Small version of |||
+% \defs         U+225D  = with def on the top of it.
+% \Semi         U+2A3E
+
+
+% Language keywords:
+%
+
+% Guarded commands
+%
+%%Zpreword \circif if
+%%Zpreword \circfi fi
+
+% Channels
+%
 %%Zpreword \circchannel channel                            
 %%Zpreword \circchannelfrom channelfrom
+%%Zpreword \circchannelset channelset
+
+% Processes
+%
 %%Zpreword \circprocess process
 %%Zpreword \circbegin begin
 %%Zinword  \circstate state
 %%Zpostword \circend end
 
-%%Zinword \defs defs
-
-
-Synchronisation channels type.
-
+% Definitions
+%
+% TODO: Find the equivalent in LaTeX for this Unicode.
+%%Zinchar \gendj U+2A46
 \begin{zed}
-   [Synch]
+\function 40 leftassoc (\_~\gendj~\_)
 \end{zed}
 
-Old parser do not handle multiplication, so bridge it with the next axiomatic definition.
-\begin{axdef}
-   mult: \num \cross \num \fun \num
-\where
-   \forall a, b: \num @ mult~(a,b) = a * b
-\end{axdef}
-
-
 \begin{gendef}[X]
-    gendj: \power~(\power~X) \cross \power~(\power~X) \fun \power~X
+    \_ \gendj \_: \power~(\power~X) \cross \power~(\power~X) \fun \power~X
 \where
-    \forall S, P: \power~(\power X) @ gendj~(P, S) = (\bigcap~P)~\setminus~(\bigcup~(S~\setminus~P))
+    \forall S, P: \power~(\power X) @ P \gendj S = (\bigcap~P)~\setminus~(\bigcup~(S~\setminus~P))
 \end{gendef}
 
+% LaTeX equivalent is \otimes
+%%Zprechar \regions U+2A02
 \begin{gendef}[X]
-    regions: \power_1~(\power~X) \fun \power_1~(\power~X)
+    \regions: \power_1~(\power~X) \fun \power_1~(\power~X)
 \where
     \forall S: \power_1~(\power~X) @ \\
-      \t1 regions~S = \{ P: \power_1~(\power~X) | P \subseteq S @ gendj(P, S) \}~\setminus~\{\{\}\}
+      \t1 regions~S = \{~ P: \power_1~(\power~X) | P \subseteq S @ P \gendj S \}~\setminus~\{~ \emptyset ~\}
 \end{gendef}
 
 \begin{gendef}[X]
@@ -47,6 +122,8 @@ Old parser do not handle multiplication, so bridge it with the next axiomatic de
                 \t2 \lnot~(~\exists R: \power~X | R \in SS @ R \subset S~) \}
 \end{gendef}
 
+%TODO: Fix these functions when get to parallelism in the parser.
+%
 %<<<<<<< circus_toolkit.tex
 %%TODO: Fix UNICODE CHARACTER
 % Zinchar searrow U+2200
