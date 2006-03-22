@@ -140,14 +140,6 @@ action code
     protected JokerScanner jokerScanner_;
 </add:zpatt>
 
-<add:circus>
-    /**
-     * Reference expression to the type of synchronisation channels
-     * as declared in the circus_toolkit.tex file (i.e. "Synch").
-     */
-    protected RefExpr synchChannelTypeRefExpr_ = factory_.createRefExpr(factory_.createZRefName("Synch"));
-</add:circus>
-
     /**
      * Create an empty list.
      */
@@ -858,6 +850,61 @@ action code
        isOpExpr_.pop();
      }
 </add:oz>
+
+<add:circus>
+  
+    /**
+     * Returns whether the given expression is an empty set as a reference to
+     * <code>ZString.EMPTYSET</code>.
+     */
+    protected boolean isEmptySetRefExpr(Expr a) {
+        boolean result = (a instanceof RefExpr);        
+        if (result) {
+            RefExpr r = (RefExpr)a;
+            // false mixfix, as the result of createGenInst(...)
+            result = r.getMixfix() != null &amp;&amp; !r.getMixfix().booleanValue();
+            if (result) {
+                result = r.getZRefName().getWord().equals(ZString.EMPTYSET);
+            }
+        }        
+        return result;
+    }
+    
+    protected Expr validateChannelSetExpr(Expr e) {
+      Expr result = e;
+      // For reference empty sets transform them into basic set extension.
+      if (isEmptySetRefExpr(result)) {
+        result = createBasicChannelSetExpr(factory_.createZExprList());
+      } 
+      // For set extensions (possibly empty) or comprehension, report an error.
+      else if (result instanceof SetExpr || result instanceof SetCompExpr){
+        parser.report_error(CircusParseMessage.MSG_SETDISPLAY_NOTALLOWED_FORCHANNELSET,
+                            new Object[0], getLocation(result));
+      } 
+      return result;
+    }
+    
+    protected Expr createBasicChannelSetExpr(ZExprList zrl) {      
+      int errorIdx = -1;
+      Iterator&lt;Expr&gt; it = zrl.iterator(); 
+      while(it.hasNext() &amp;&amp; (errorIdx==-1)) {
+        // If any item at a particular index is not a RefExpr,
+        // return the error index and stop the loop.
+        if (!(it.next() instanceof RefExpr)) {
+          errorIdx++;
+        }
+      }      
+      BasicChannelSetExpr result = factory_.createBasicChannelSetExpr();      
+      if (errorIdx == -1) {
+        result.getZExprList().addAll(zrl);
+      } else {
+        parser.report_error(CircusParseMessage.MSG_REFEXPR_EXPECPTED_IN_BASICCHANNELSETEXPR,
+                            new Object[] { errorIdx }, getLocation(result));
+      }       
+      return result;
+    }
+    
+</add:circus>
 :}
 
 parser code
@@ -988,6 +1035,15 @@ parser code
     }
 
 </add:zpatt>
+<add:circus>
+    public void report_error(CircusParseMessage msg,
+                             Object[] params,
+                             LocInfo locInfo)
+    {
+      report_error(null, new CircusParseError(msg, params, locInfo));
+    }
+</add:circus>
+    
     /**
      * @throws ClassCastException if the object is not a ParseError
      */
@@ -2155,83 +2211,81 @@ channelDeclList ::=
 channelDecl ::=        
         /* Typed channels */
         declWordList:dwl COLON expression:e
-        {:
-           VarDecl vd = factory_.createVarDecl(dwl, e);
-           RESULT = factory_.createChannelDecl(null, vd);
+        {:           
+           RESULT = factory_.createChannelDecl(null, dwl, e);
            addLocAnn(RESULT, dwlleft, dwlright);
         :}
         |
         /* Generically defined channels */
-        LSQUARE:lsq nameList:nl RSQUARE declWordList:dwl COLON expression:e
-        {:            
-           VarDecl vd = factory_.createVarDecl(dwl, e);
-           RESULT = factory_.createChannelDecl(nl, vd);
-           addLocAnn(RESULT, lsqleft, lsqright);
+        formalParameters:fp declWordList:dwl COLON expression:e
+        {:                       
+           RESULT = factory_.createChannelDecl(fp, dwl, e);
+           addLocAnn(RESULT, fpleft, fpright);
         :}
         |
         /* Synchronisation channels */
         nameList:nl
-	{:
-           /* Note: //TODO: Check this on typechecker later.
-            *   It is the TypeChecker's Job to include
-            *   the RefExpr for the "Synch" given type
-            *   present in circus_toolkit.
-            */           
-           VarDecl vd = factory_.createVarDecl(nl, synchChannelTypeRefExpr_);
-           RESULT = factory_.createChannelDecl(null, vd);
+	{:                  
+           RESULT = factory_.createChannelDecl(null, nl, null);
            addLocAnn(RESULT, nlleft, nlright);
 	:} 
         ;
 
 channelFromDecl ::=
-        /* Channels declared through Z schemas */
-        expression:e
-        {:
-           InclDecl id = factory_.createInclDecl(e);
-           RESULT = factory_.createChannelDecl(null, id);
-           addLocAnn(RESULT, eleft, eright);
+        /* Generic channels declared through generic Z schemas with generic actuals */
+        formalParameters:fp refName:rn LSQUARE expressionList:el RSQUARE
+        {:  
+           RefExpr re = factory_.createRefExpr(rn, el, Boolean.FALSE);
+           RESULT = factory_.createChannelDecl(fp, null, re);
+           addLocAnn(RESULT, fpleft, fpright);
         :}
-        |
-        /* Channels declared through generic Z schemas */
-        LSQUARE:lsq nameList:nl RSQUARE expression:e
+        |        
+        /* Channels declared through generic Z schemas with generic actuals */                
+        refName:rn LSQUARE expressionList:el RSQUARE
         {:
-           InclDecl id = factory_.createInclDecl(e);
-           RESULT = factory_.createChannelDecl(nl, id);
-           addLocAnn(RESULT, lsqleft, lsqright);
+           RefExpr re = factory_.createRefExpr(rn, el, Boolean.FALSE);
+           RESULT = factory_.createChannelDecl(null, null, re);
+           addLocAnn(RESULT, rnleft, rnright);
+        :}
+        | 
+        /* Channels declared through Z schemas */                
+        refName:rn 
+        {:
+           RefExpr re = factory_.createRefExpr(rn);
+           RESULT = factory_.createChannelDecl(null, null, re);
+           addLocAnn(RESULT, rnleft, rnright);
         :}
         ; 
 
 /// Channel Set Paragraph ////////////////////////////
 
 channelSetPara ::=         
-        CIRCCHANSET:ccs declName:dn DEFEQUAL:equal expression:e
-        {:
-           /*
-           ConstDecl cd = factory_.createConstDecl(dn, e);
-           addLocAnn(cd, equalleft, equalright);
-           ZDeclList decls = factory_.createZDeclList();
-           decls.add(cd);
-           ZSchText st = factory_.createZSchText(decls, null);
-           addLocAnn(st, dnleft, dnright);
-           RESULT = factory_.createAxPara(null, st, Box.OmitBox);
-           addLocAnn(RESULT, dnleft, dnright);
-           */
-           RESULT = null;//factory_.createChannelSetPara
+        CIRCCHANSET:ccs declName:dn DEFEQUAL:equal channelSet:cs
+        {:                    
+           RESULT = factory_.createChannelSetPara(null, dn, cs);
+           addLocAnn(RESULT, ccsleft, ccsright);
         :}
         |        
-        CIRCCHANSET:ccs declName:dn formalParameters:fp DEFEQUAL:equal expression:e
+        CIRCCHANSET:ccs formalParameters:fp declName:dn DEFEQUAL:equal channelSet:cs
         {:
-           /*
-           ConstDecl cd = factory_.createConstDecl(dn, e);
-           addLocAnn(cd, equalleft, equalright);
-           ZDeclList decls = factory_.createZDeclList();
-           decls.add(cd);
-           ZSchText st = factory_.createZSchText(decls, null);
-           addLocAnn(st, dnleft, dnright);
-           RESULT = factory_.createAxPara(fp, st, Box.OmitBox);
+           RESULT = factory_.createChannelSetPara(fp, dn, cs);
+           addLocAnn(RESULT, ccsleft, ccsright);
+        :}
+        ;
+        
+channelSet ::=
+        declName:dn DEFEQUAL:equal LCIRCCHANSET optExpressionList:oel RCIRCCHANSET
+        {:
+           Expr e = validateChannelSetExpr(createBasicChannelSetExpr(oel));
+           RESULT = factory_.createChannelSet(e);
            addLocAnn(RESULT, dnleft, dnright);
-           */
-           RESULT = null;
+        :}
+        | 
+        expression:e
+        {:
+           e = validateChannelSetExpr(e);
+           RESULT = factory_.createChannelSet(e);
+           addLocAnn(RESULT, eleft, eright);
         :}
         ;
         
