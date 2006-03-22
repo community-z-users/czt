@@ -41,7 +41,7 @@ public interface CircusString extends ZString
 <xsl:apply-templates select="*"/>
 
   String CIRCCHAN = "channel";  
-  String CIRCCHANFROM = "channelFrom";
+  String CIRCCHANFROM = "channelfrom";
   String CIRCCHANSET = "channelset";
   String CIRCNAMESET = "nameset";  
   String CIRCPROC = "process";
