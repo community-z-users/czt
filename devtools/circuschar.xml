@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CIRCUSCHAR>
+  <SPECIAL>    
+    <BRACKET>
+      <char id="LCIRCCHANSET" hex="2983" description="left channel set parenthesis"/>
+      <char id="RCIRCCHANSET" hex="2984" description="right channel set parenthesis"/>
+    </BRACKET>    
+  </SPECIAL>
   <SYMBOL>
     <CORESYMBOL>
       <char id="PARALLEL" hex="2225" description="parallel"/>
