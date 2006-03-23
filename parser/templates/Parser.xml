@@ -894,7 +894,7 @@ action code
           errorIdx++;
         }
       }      
-      BasicChannelSetExpr result = factory_.createBasicChannelSetExpr();      
+      BasicChannelSetExpr result = factory_.createBasicChannelSetExpr(factory_.createZExprList());      
       if (errorIdx == -1) {
         result.getZExprList().addAll(zrl);
       } else {
@@ -2274,17 +2274,17 @@ channelSetPara ::=
         ;
         
 channelSet ::=
-        declName:dn DEFEQUAL:equal LCIRCCHANSET optExpressionList:oel RCIRCCHANSET
+        LCIRCCHANSET optExpressionList:oel RCIRCCHANSET
         {:
-           Expr e = validateChannelSetExpr(createBasicChannelSetExpr(oel));
+           Expr e = null;//validateChannelSetExpr(createBasicChannelSetExpr(oel));
            RESULT = factory_.createChannelSet(e);
-           addLocAnn(RESULT, dnleft, dnright);
+           addLocAnn(RESULT, oelleft, oelright);
         :}
         | 
         expression:e
         {:
-           e = validateChannelSetExpr(e);
-           RESULT = factory_.createChannelSet(e);
+           Expr eValid = validateChannelSetExpr(e);
+           RESULT = factory_.createChannelSet(eValid);
            addLocAnn(RESULT, eleft, eright);
         :}
         ;

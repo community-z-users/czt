@@ -188,7 +188,8 @@ NW = "\u2196" /* north west arrow */
 LL = "\u005F" /* low line */
 
 /* Bracket characters (6.4.4.3) */
-BRACKET = {LPAREN} | {RPAREN} | {LSQUARE} | {RSQUARE} | {LBRACE} | {RBRACE} | {LBIND} | {RBIND} | {LDATA} | {RDATA}
+BRACKET = {LPAREN} | {RPAREN} | {LSQUARE} | {RSQUARE} | {LBRACE} | {RBRACE} | {LBIND} | 
+          {RBIND} | {LDATA} | {RDATA} <add:circus> | {LCIRCCHANSET} | {RCIRCCHANSET} </add:circus>
 LPAREN = "\u0028"  /* left parenthesis */
 RPAREN = "\u0029"  /* right parenthesis */
 LSQUARE = "\u005B" /* left square bracket */
@@ -199,6 +200,10 @@ LBIND = "\u2989"   /* Z notation left binding bracket */
 RBIND = "\u298A"   /* Z notation right binding bracket */
 LDATA = "\u27EA"   /* mathmatical left double angle bracket */
 RDATA = "\u27EB"   /* mathmatical right double angle bracket */
+<add:circus>
+LCIRCCHANSET = "\u2983" /* channel set left bracket */
+RCIRCCHANSET = "\u2984" /* channel set right bracket */
+</add:circus>
 
 /* Box characters (6.4.4.3) */
 BOXCHAR = {ZEDCHAR} | {AXCHAR} | {SCHCHAR} | {GENCHAR} | {ENDCHAR}
@@ -250,7 +255,7 @@ JOKER = {JOKERCHAR}
 RULE = {RULECHAR}
 </add:zpatt>
 
-%state Z CLASS
+%state Z <add:oz>CLASS</add:oz>
 
 %%
 /* ------------------------Lexical Rules Section---------------------- */
@@ -348,6 +353,8 @@ RULE = {RULECHAR}
   {RBIND}       {  return symbol(Sym.RBIND); }
   {LDATA}       {  return symbol(Sym.LDATA); }
   {RDATA}       {  return symbol(Sym.RDATA); }
+  {LCIRCCHANSET} {  return symbol(Sym.LCIRCCHANSET); }
+  {RCIRCCHANSET} {  return symbol(Sym.RCIRCCHANSET); }
   {INSTROKE}    {  return symbol(Sym.INSTROKE); }
   {OUTSTROKE}   {  return symbol(Sym.OUTSTROKE); }
   {NEXTSTROKE}  {  return symbol(Sym.NEXTSTROKE); }
