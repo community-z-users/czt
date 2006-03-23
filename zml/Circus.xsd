@@ -1357,17 +1357,17 @@
     <xs:complexContent>
       <xs:extension base="Z:Decl">
         <xs:sequence>
-          <!-- Generic types, possibly empty -->
-          <xs:element name="GenParam" type="Z:DeclName" minOccurs="0" maxOccurs="unbounded"/>
-          <!-- List of channel names for channel, or null for channelFrom -->
-          <xs:element ref="Z:DeclName" minOccurs="0" maxOccurs="unbounded"/>
+          <!-- Generic types, possibly empty -->          
+          <xs:element name="GenFormals" type="Z:DeclName" minOccurs="0" maxOccurs="unbounded"/>
+          <!-- List of channel names for channel, or null for channelFrom -->        
+          <xs:element ref="Z:DeclName" minOccurs="0" maxOccurs="unbounded"/>                    
           <!-- Channel type for typed channels, null for synchronisation channels, or RefExpr for ChannelFrom -->
           <xs:element ref="Z:Expr" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
-  </xs:complexType> 
-  
+  </xs:complexType>           
+      
   <xs:complexType name="ChannelSetPara">
     <xs:complexContent>
       <xs:extension base="Z:Para">
@@ -2215,7 +2215,13 @@
     <xs:complexContent>
       <xs:extension base="Z:Type">
         <xs:sequence>
-          <xs:element name="GenFormals" type="Z:ZDeclName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:DeclName" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="GenFormals"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
           <!-- How to make this possibly empty? -->
           <xs:element ref="Z:Type2">
             <xs:annotation>
@@ -2279,7 +2285,13 @@
   <xs:complexType name="ProcessSignature" mixed="false">
     <xs:sequence>
       <xs:element name="ProcessName" type="Z:DeclName"/>
-      <xs:element name="GenFormals" type="Z:DeclName" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="Z:DeclName" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="GenFormals"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
       <xs:element ref="Z:Signature" minOccurs="0">
         <xs:annotation>
           <xs:appinfo>
