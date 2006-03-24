@@ -353,8 +353,10 @@ RULE = {RULECHAR}
   {RBIND}       {  return symbol(Sym.RBIND); }
   {LDATA}       {  return symbol(Sym.LDATA); }
   {RDATA}       {  return symbol(Sym.RDATA); }
+  <add:circus>
   {LCIRCCHANSET} {  return symbol(Sym.LCIRCCHANSET); }
   {RCIRCCHANSET} {  return symbol(Sym.RCIRCCHANSET); }
+  </add:circus>
   {INSTROKE}    {  return symbol(Sym.INSTROKE); }
   {OUTSTROKE}   {  return symbol(Sym.OUTSTROKE); }
   {NEXTSTROKE}  {  return symbol(Sym.NEXTSTROKE); }
