@@ -1135,19 +1135,30 @@ terminal
         JOKER, RULE, RULELINE, VDASH, PROVISO,
 </add:zpatt>
 <add:circus>
-        CIRCDEF,  
-        // Channels
-        CIRCCHAN, CIRCCHANFROM,
-        // Channel and name sets
-        CIRCCHANSET, LCIRCCHANSET, RCIRCCHANSET, CIRCNAMESET, 
-        // Processes
-        CIRCPROC, CIRCBEGIN, CIRCSTATE, CIRCODOT, CIRCEND,
-        LFLOOR, RFLOOR, ASSIGNMENT,
-        CIRCSEQ, EXTCHOICE, INTCHOICE, 
-        INTERLEAVE, ALPHAPARALLEL, LPARALLEL, RPARALLEL,        
-        BIGCIRCSEQ, BIGINTERLEAVE, BIGINTCHOICE, BIGEXTCHOICE,
-        // Actions
-        CIRCSKIP, CIRCSTOP, CIRCCHAOS,
+        /**
+         * For CSP, we follow the precedences from FDR's user manual v.2.82 June/2005.         
+         */
+        
+        // Keychars
+        CIRCDEF, CIRCINDEX, CIRCMU, CIRCTHEN, CIRCELSE, PREFIXTHEN, 
+        CIRCGUARD, CIRCSEQ, REPSEQ, INTERLEAVE, REPINTERLEAVE,
+        REPPARALLEL, HIDING, EXTCHOICE, REPEXTCHOICE, INTCHOICE,
+        REPINTCHOICE, 
+        
+        // Keywords
+        CIRCIF, CIRCFI, CIRCDO, CIRCOD, CIRCVAR, CIRCVAL,
+        CIRCRES, CIRCVRES, CIRCCHAN, CIRCCHANFROM, CIRCCHANSET,
+        CIRCNAMESET, CIRCPROC, CIRCBEGIN, CIRCEND, CIRCSTATE,
+        CIRCSKIP, CIRCSTOP, CIRCCHAOS, 
+        
+        // Brackets
+        LCIRCCHANSET, RCIRCCHANSET, CIRCLINST, CIRCRINST,
+        LPAR, RPAR, LINTER, RINTER, 
+        
+        // Special bracket terminals to overhide precedence of process renaming
+        // acording to how it is expected to be in CSP_M.
+        // USE _RENAME :)
+        
 </add:circus>
 <add:oz>
         DELTA, CLASS, GENCLASS, STATE, INIT, OPSCH, SDEF,
@@ -1408,10 +1419,11 @@ non terminal DeclList
 <add:circus>
 /// Circus constructs ///////////////////////////////////////////////
 non terminal Para
+    channelPara,
     channelSetPara,
     processPara,
-    channelPara,
     actionPara,
+    namesetPara, 
     unboxedInnerPara;
 
 non terminal List &lt; Para &gt;
@@ -1423,6 +1435,7 @@ non terminal CircusProcess
     processDesc, 
     paramProcess, 
     indexedProcess, 
+    processCall,
     process;
 
 non terminal CircusAction
@@ -1438,6 +1451,9 @@ non terminal ChannelDecl
 
 non terminal ChannelSet
     channelSet;
+    
+non terminal NameSet
+    nameSet;
     
 non terminal ZDeclList zDeclListNoNL;
 
@@ -1530,8 +1546,8 @@ precedence right        BAR;
 precedence left         TEXT;
 precedence left         <add:tcoz>LPAREN,</add:tcoz> RPAREN;
 precedence left         NL, SEMICOLON;
-precedence nonassoc     DEFEQUAL;
-precedence left         ALL, EXI, EXIONE, SPOT;
+precedence nonassoc     DEFEQUAL <add:circus>, CIRCDEF</add:circus>;
+precedence left         ALL, EXI, EXIONE, SPOT <add:circus>, CIRCINDEX </add:circus>;
 <add:oz>
 precedence left         DCNJ, DGCH, DSQC;
 precedence left         ASSOPARALLEL;
@@ -1546,6 +1562,29 @@ precedence left         PARALLEL<add:tcoz>, INTERLEAVE, INTERRUPT,
 TIMEOUT, TIMEEND</add:tcoz>;
 precedence left         GCH <add:tcoz>, INTCHOICE </add:tcoz>;
 </add:oz>
+<add:circus>
+/* From Z-Std(p.36): default is prefix op=rightassoc, postfix op=leftassoc */  
+
+precedence right        CIRCMU;
+precedence right        CIRCVAR;
+precedence nonassoc     CIRCDO, CIRCOD;
+precedence nonassoc     CIRCIF, CIRCFI, CIRCTHEN, CIRCELSE;
+precedence left         HIDING;
+precedence left         INTERLEAVE, REPINTERLEAVE;
+precedence nonassoc     LINTER, RINTER;
+precedence left         REPPARALLEL;
+precedence nonassoc     LPAR, RPAR;
+precedence left         INTCHOICE, REPINTCHOICE;
+precedence left         EXTCHOICE, REPEXTCHOICE;
+precedence left         CIRCSEQ, REPSEQ;
+precedence nonassoc     CIRCGUARD;
+precedence right        PREFIXTHEN;
+//CIRCVAL, CIRCRES, CIRCVRES, 
+//CIRCCHAN, CIRCCHANFROM, CIRCCHANSET,
+//CIRCNAMESET, CIRCPROC, CIRCBEGIN, CIRCEND, CIRCSTATE,
+//CIRCSKIP, CIRCSTOP, CIRCCHAOS,         
+//LCIRCCHANSET, RCIRCCHANSET, CIRCLINST, CIRCRINST,
+</add:circus>
 precedence left         IFF;
 precedence right        IMP;
 precedence left         OR;
@@ -1586,6 +1625,9 @@ precedence left         RULELINE;
 precedence left         DOT;
 precedence right        THETA;
 precedence left         LSQUARE, RSQUARE;
+<add:circus>
+precedence nonassoc     CIRCLINST, CIRCRINST;
+</add:circus>
 precedence left         DECORWORD <add:oz>, INITWORD</add:oz>;
 
 
@@ -2233,44 +2275,30 @@ channelDecl ::=
 
 channelFromDecl ::=
         /* Generic channels declared through generic Z schemas with generic actuals */
-        formalParameters:fp refName:rn LSQUARE expressionList:el RSQUARE
+        optFormalParameters:ofp refName:rn LSQUARE expressionList:el RSQUARE
         {:  
            RefExpr re = factory_.createRefExpr(rn, el, Boolean.FALSE);
-           RESULT = factory_.createChannelDecl(fp, null, re);
-           addLocAnn(RESULT, fpleft, fpright);
-        :}
-        |        
-        /* Channels declared through generic Z schemas with generic actuals */                
-        refName:rn LSQUARE expressionList:el RSQUARE
-        {:
-           RefExpr re = factory_.createRefExpr(rn, el, Boolean.FALSE);
-           RESULT = factory_.createChannelDecl(null, null, re);
-           addLocAnn(RESULT, rnleft, rnright);
-        :}
+           RESULT = factory_.createChannelDecl(ofp, null, re);
+           addLocAnn(RESULT, ofpleft, ofpright);
+        :}        
         | 
         /* Channels declared through Z schemas */                
-        refName:rn 
+        optFormalParameters:ofp refName:rn 
         {:
            RefExpr re = factory_.createRefExpr(rn);
-           RESULT = factory_.createChannelDecl(null, null, re);
-           addLocAnn(RESULT, rnleft, rnright);
+           RESULT = factory_.createChannelDecl(ofp, null, re);
+           addLocAnn(RESULT, ofpleft, ofpright);
         :}
         ; 
 
 /// Channel Set Paragraph ////////////////////////////
 
 channelSetPara ::=         
-        CIRCCHANSET:ccs declName:dn DEFEQUAL:equal channelSet:cs
+        CIRCCHANSET:ccs optFormalParameters:ofp declName:dn DEFEQUAL:equal channelSet:cs
         {:                    
-           RESULT = factory_.createChannelSetPara(null, dn, cs);
+           RESULT = factory_.createChannelSetPara(ofp, dn, cs);
            addLocAnn(RESULT, ccsleft, ccsright);
-        :}
-        |        
-        CIRCCHANSET:ccs formalParameters:fp declName:dn DEFEQUAL:equal channelSet:cs
-        {:
-           RESULT = factory_.createChannelSetPara(fp, dn, cs);
-           addLocAnn(RESULT, ccsleft, ccsright);
-        :}
+        :}        
         ;
         
 channelSet ::=
@@ -2289,29 +2317,223 @@ channelSet ::=
         :}
         ;
         
-/// Process Paragraph ////////////////////////////////
+/// Process Paragraphs ////////////////////////////////
 
 processPara ::=
-        /* Process paragraph definition */
-        CIRCPROC:cp declName:dn 
-           optFormalParameters:ofp CIRCDEF processDesc:pd
+        /* Process declaration */
+        CIRCPROC:cp optFormalParameters:ofp declName:dn CIRCDEF processDesc:pd
         {:
            //actionScanner_.clearTable();
-           RESULT = factory_.createProcessPara(dn, ofp, pd);
+           RESULT = factory_.createProcessPara(/*dn, pd, ofp*/);
            addLocAnn(RESULT, cpleft, cpright);
-        :}
+        :}        
         ;
 
 processDesc ::=
+        paramProcess:pp
+        {:
+            RESULT = pp;
+        :}
+        |
+        indexedProcess:ip
+        {:
+            RESULT = ip;
+        :}
+        |
         process:p
-        {: RESULT = p; :}
+        {:
+           RESULT = p;
+        :}
         ;
 
-process ::=
+paramProcess ::=
+        /* Parameterised process */
+        // TODO: Check whether here should be just VarDecl/InclDecl.
+        // PS: Z-Std accepts ConstDecl on DeclParts! Bizarre!
+        declPart:dp SPOT:sp process:p
+        {:
+            RESULT = factory_.createParamProcess(p, dp);
+            addLocAnn(RESULT, dpleft, dpright);
+        :}
+        ;
+        
+indexedProcess ::=  
+        declPart:dp CIRCINDEX:ci process:p
+        {: 
+            RESULT = factory_.createIndexedProcess(p, dp);
+            addLocAnn(RESULT, dpleft, dpright);
+        :}
+        ;
+        
+process ::=        
         CIRCBEGIN innerParaList:ipl1 CIRCSTATE expression:e
             innerParaList:ipl2 SPOT circusAction:ca CIRCEND
-        {: RESULT = null; :}
+        {: 
+           RESULT = null; 
+        :}
+        |        
+        /* Processes operator productions in precendence order */
+        process:p HIDING:h channelSet:cs
+        {:
+           RESULT = factory_.createHideProcess(p, cs);
+        :}        
+        | 
+        process:pl INTERLEAVE:in process:pr
+        {:
+            RESULT = factory_.createInterleaveProcess(pl, pr);
+            addLocAnn(RESULT, plleft, plright);
+        :}     
+        |
+        process:pl LPAR:lp channelSet:cs RPAR:rp process:pr
+        {:
+            RESULT = factory_.createParallelProcess(pl, pr, cs);
+            addLocAnn(RESULT, plleft, plright);
+        :}             
+        |
+        process:pl INTCHOICE:ic process:pr
+        {:
+            RESULT = factory_.createIntChoiceProcess(pl, pr);
+            addLocAnn(RESULT, plleft, plright);
+        :}
+        |
+        process:pl EXTCHOICE:cs process:pr
+        {:
+            RESULT = factory_.createExtChoiceProcess(pl, pr);
+            addLocAnn(RESULT, plleft, plright);
+        :}
+        |
+        process:pl CIRCSEQ:cs process:pr
+        {:
+            RESULT = factory_.createSeqProcess(pl, pr);
+            addLocAnn(RESULT, plleft, plright);
+        :}
+        /* Generate 5 conflicts because of predicate:guard!
+        | 
+        predicate:guard CIRCGUARD:cg process:p
+        {:
+            RESULT = factory_.createExtChoiceProcess(p, guard);
+            addLocAnn(RESULT, guardleft, guardright);
+        :}                
+         */  
+        /*
+        Will we havee prefixed processes?
+        |
+        communication:c PREFIXTHEN:pt process:p 
+        {:
+            RESULT = factory_.createPrefixingProcess();
+            addLocAnn(RESULT, cleft, cright);
+        :}
+         */
+        | 
+        /* Replicated processes productions in precendence order */
+        REPINTERLEAVE:ri declPart:dp SPOT:sp process:p
+        {:
+            RESULT = factory_.createInterleaveProcessIte(p, dp);
+            addLocAnn(RESULT, rileft, riright);
+        :}
+        | 
+        REPPARALLEL:rp declPart:dp LPAR channelSet:cs RPAR SPOT:sp process:p
+        {:
+            RESULT = factory_.createParallelProcessIte(p, dp, cs);
+            addLocAnn(RESULT, rpleft, rpright);
+        :}
+        | 
+        REPINTCHOICE:ri declPart:dp SPOT:sp process:p
+        {:
+            RESULT = factory_.createIntChoiceProcessIte(p, dp);
+            addLocAnn(RESULT, rileft, riright);
+        :}
+        | 
+        REPEXTCHOICE:re declPart:dp SPOT:sp process:p
+        {:
+            RESULT = factory_.createExtChoiceProcessIte(p, dp);
+            addLocAnn(RESULT, releft, reright);
+        :}
+        | 
+        REPSEQ:rs declPart:dp SPOT:sp process:p
+        {:
+            RESULT = factory_.createSeqProcessIte(p, dp);
+            addLocAnn(RESULT, rsleft, rsright);
+        :}        
+        | 
+        /* Indexed processes productions in precendence order */
+        REPINTERLEAVE:ri declPart:dp CIRCINDEX:ci process:p
+        {:
+            RESULT = factory_.createInterleaveProcessIdx(p, dp);
+            addLocAnn(RESULT, rileft, riright);
+        :}
+        | 
+        REPPARALLEL:rp declPart:dp LPAR channelSet:cs RPAR CIRCINDEX:ci process:p
+        {:
+            RESULT = factory_.createParallelProcessIdx(p, dp, cs);
+            addLocAnn(RESULT, rpleft, rpright);
+        :}
+        | 
+        REPINTCHOICE:ri declPart:dp CIRCINDEX:ci process:p
+        {:
+            RESULT = factory_.createIntChoiceProcessIdx(p, dp);
+            addLocAnn(RESULT, rileft, riright);
+        :}
+        | 
+        REPEXTCHOICE:re declPart:dp CIRCINDEX:ci process:p
+        {:
+            RESULT = factory_.createExtChoiceProcessIdx(p, dp);
+            addLocAnn(RESULT, releft, reright);
+        :}
+        | 
+        REPSEQ:rs declPart:dp CIRCINDEX:ci process:p
+        {:
+            RESULT = factory_.createSeqProcessIdx(p, dp);
+            addLocAnn(RESULT, rsleft, rsright);
+        :}
+        /* Process calls */        /* 5 conflicts.
+        |        
+        processCall:pc
+        {:
+            RESULT = pc;
+        :}     */   
         ;
+        
+// CONFLICTS        
+// processCall ::=                        
+//        /* Generic actuals instantiation */
+//        refName:rn LSQUARE expressionList:el RSQUARE
+//        {:
+//            /* The CallType is irrelevant and the parameters are null */
+//            RESULT = factory_.createCallProcess(rn, null, el, CallType.Param);
+//            addLocAnn(RESULT, rnleft, rnright);
+//        :}
+//        |
+//        refName:rn LPAREN expressionList:el RPAREN
+//        {:
+//            /* The CallType is Param and the generic actuals are null */
+//            RESULT = factory_.createCallProcess(rn, el, null, CallType.Param);
+//            addLocAnn(RESULT, rnleft, rnright);
+//        :}
+//        |
+//        refName:rn CIRCLINST expressionList:el CIRCRINST
+//        {:
+//            /* The CallType is Index and the generic actuals are null */
+//            RESULT = factory_.createCallProcess(rn, null, el, CallType.Index);
+//            addLocAnn(RESULT, rnleft, rnright);
+//        :}
+//        |
+//        refName:rn
+//        {:
+//            /* The CallType is irrelevant and both parameters and generic actuals are null */
+//            RESULT = factory_.createCallProcess(rn, null, null, CallType.Param);
+//            addLocAnn(RESULT, rnleft, rnright);
+//        :}
+//        ;
+//        // Should we accept N[Expr+](Expr+), N[Expr+]\lfoor Expr+ \rfloor ?
+//        
+//        /* generic instantiation */
+//        /* If inner_term is changed to refName
+//           (as in the grammar given in the Z Standard),
+//           rename expressions fail to parse. */
+//        //inner_term:it LSQUARE expressionList:el RSQUARE!! Is here the problem?
+
+/// Z paragraphs withing Process paragraphs ////////////////////////////////
 
 innerParaList ::=
         innerParaList:ipl optNL boxedParagraph:bp
@@ -2327,7 +2549,9 @@ innerParaList ::=
         :}
         |
         //empty
-        {: RESULT = list(); :}
+        {: 
+            RESULT = list(); 
+        :}
         ;
 
 unboxedInnerPara ::=
@@ -2343,14 +2567,52 @@ unboxedInnerPara ::=
            addLocAnn(RESULT, ftlleft, ftlright);
         :}
         |
-        actionPara:ap
-        {: RESULT = ap; :}
-/*
+        optFormalParameters:ofp CONJECTURE predicate:p
+        {:
+           RESULT = factory_.createConjPara(ofp, p);
+           addLocAnn(RESULT, ofpleft, ofpright);
+        :}
+        |
+        operatorTemplate:ot
+        {:
+           try {
+             opTable_.add(ot);
+           }
+           catch (OpTable.OperatorException e) {
+             final Symbol token = new Symbol(Sym.ZED, otleft, otright);
+             parser.report_error(ParseMessage.MSG_CANNOT_ADD_OP,
+                                 new Object[0],
+                                 getLocation(otleft, otright));
+           }
+           RESULT = ot;
+        :}
         |
         namesetPara:np
         {: RESULT = np; :}
-*/
+        |        
+        actionPara:ap
+        {: RESULT = ap; :}        
         ;
+
+/// Nameset paragraphs withing Process paragraphs ////////////////////////////////
+        
+namesetPara ::=         
+        CIRCNAMESET:cns declName:dn DEFEQUAL:equal nameSet:ns
+        {:                    
+           RESULT = factory_.createNameSetPara(dn, ns);
+           addLocAnn(RESULT, cnsleft, cnsright);
+        :}        
+        ;
+        
+nameSet ::=        
+        expression:e
+        {:           
+           RESULT = factory_.createNameSet(e);
+           addLocAnn(RESULT, eleft, eright);
+        :}
+        ;
+        
+/// Action paragraphs withing Process paragraphs ////////////////////////////////
 
 actionPara ::=
         declName:dn CIRCDEF paramAction:pa
