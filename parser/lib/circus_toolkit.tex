@@ -2,58 +2,64 @@
   \SECTION circus\_toolkit \parents standard\_toolkit
 \end{zsection}
 
+% TODO: Normalise the keywords and keychar latex names.
+%
 % Mark-up directives for core language symbols are as follows.
 % The choice for pre, in, or post, has to do with how one wants
 % the character to be rendered. See Z Std A.2.3.2.
 %
 % By using keychars such as \circguard instead of %, one allows
 % appropriate rendering by both LaTeX and Unicode mark-ups.
-
-% Language keychars:
-% TODO: Try to use just \circthen for both guards and prefixing?
 %
+% TODO: Use just \circthen for both guarded commands and prefixing?
+
+% CORESYMBOLS
+%
+%   Spivey's like definition symbol (or just \defs?)
+%%Zinchar \circdef U+2259
+%   Process indexing
+%%Zinchar \circindex U+2299
+%   Recursion
 %%Zprechar \circmu U+03BC
+%   Guarded command then
 %%Zinchar \circthen U+2192
+%   Guarded command else
 %%Zinchar \circelse U+25A1
-%%Zinchar \defs U+2259
+%   Prefixing 
+%%Zinchar \then U+2192
+%   Prefixing guards
 %%Zinchar \circguard U+0026
-
-% Sequence
-%
-%%Zinchar \circsemi ;
+%   Sequential composition
+%%Zinchar \circsemi U+003B
+%   Replicated sequential composition
 %%Zprechar \Semi U+2A1F
+%   Process interleave
+%%Zinchar \interleave U+2980
+%   Replicated parallelism
+%%Zprechar \Parallel U+2225
+%   Replicated interleaving
+%%Zprechar \Interleave U+2AFC
+%   Hiding
+%%Zinchar \hide U+005C
+%   External choice
+%%Zinchar \extchoice U+25FB
+%   Replicated external choice
+%%Zprechar \Extchoice U+25A1
+%   Internal choice
+%%Zinchar \intchoice U+2293
+%   Replicated internal choice
+%%Zprechar \Intchoice U+2293
 
 % Brackets
 %
 %%Zprechar \lchanset U+2983
 %%Zpostchar \rchanset U+2984
-
-% Process Indexing
-%
-%%Zinchar \circindex U+2299
 %%Zchar \circlinst U+230A
 %%Zchar \circrinst U+230B
-
-% Parallel operators
-%
 %%Zinchar \lpar U+27E6
 %%Zinchar \rpar U+27E7
 %%Zinchar \linter U+27E6
 %%Zinchar \rinter U+27E7
-%%Zinchar \interleave U+2980
-%%Zprechar \Parallel U+2225
-%%Zprechar \Interleave U+2AFC
-
-% Choice operators
-%
-%%Zinchar \extchoice U+25FB
-%%Zinchar \intchoice U+2293
-%%Zprechar \Extchoice U+25A1
-%%Zprechar \Intchoice U+2293
-
-% Prefixing
-%
-%%Zinchar \then U+2192
 
 % Alternatives          Observation
 %
@@ -72,27 +78,46 @@
 
 % Language keywords:
 %
-
 % Guarded commands
 %
 %%Zpreword \circif if
-%%Zpreword \circfi fi
-
-% Channels
+%%Zpostword \circfi fi
+%%Zpreword \circif do
+%%Zpostword \circfi od
+%%Zpreword \circcon con
+%%Zpreword \circvar var
+%%Zpreword \circval val
+%%Zpreword \circres res
+%%Zpreword \circvres vres
+%
+% Channel and name set
 %
 %%Zpreword \circchannel channel
 %%Zpreword \circchannelfrom channelfrom
 %%Zpreword \circchannelset channelset
-
+%%Zpreword \circnameset nameset
+%
 % Processes
 %
 %%Zpreword \circprocess process
 %%Zpreword \circbegin begin
 %%Zinword  \circstate state
 %%Zpostword \circend end
+%
+% Actions
+%
+%%Zword \Skip Skip
+%%Zword \Stop Stop
+%%Zword \Chaos Chaos
 
 % Definitions
 %
+
+%%Zchar \boolean U-0001D539
+\begin{zed}
+   \boolean ::= t | f
+\end{zed}
+
 % TODO: Find the equivalent in LaTeX for this Unicode.
 %%Zinchar \gendj U+2A46
 \begin{zed}
