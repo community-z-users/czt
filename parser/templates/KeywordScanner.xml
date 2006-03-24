@@ -177,22 +177,41 @@ public static long time = 0;
    result.put("actuator", new Integer(Sym.ACTUATOR));
 </add:tcoz>  
 <add:circus>
+   /* Circus symbolic keychars*/
+   result.put(CircusString.CIRCDEF, new Integer(Sym.CIRCDEF));  
+   result.put(CircusString.CIRCINDEX, new Integer(Sym.CIRCINDEX));
+   result.put(CircusString.CIRCMU, new Integer(Sym.CIRCMU));
+   result.put(CircusString.CIRCTHEN, new Integer(Sym.CIRCTHEN));
+   result.put(CircusString.CIRCELSE, new Integer(Sym.CIRCELSE));
+   result.put(CircusString.PREFIXTHEN, new Integer(Sym.PREFIXTHEN));
+   result.put(CircusString.CIRCGUARD, new Integer(Sym.CIRCGUARD));
+   result.put(CircusString.CIRCSEQ, new Integer(Sym.CIRCSEQ));
+   result.put(CircusString.REPSEQ, new Integer(Sym.REPSEQ));
+   result.put(CircusString.INTERLEAVE, new Integer(Sym.INTERLEAVE));
+   result.put(CircusString.REPINTERLEAVE, new Integer(Sym.REPINTERLEAVE));   
+   result.put(CircusString.REPPARALLEL, new Integer(Sym.REPPARALLEL));   
+   result.put(CircusString.HIDING, new Integer(Sym.HIDING));
+   result.put(CircusString.EXTCHOICE, new Integer(Sym.EXTCHOICE));
+   result.put(CircusString.REPEXTCHOICE, new Integer(Sym.REPEXTCHOICE));   
+   result.put(CircusString.INTCHOICE, new Integer(Sym.INTCHOICE));
+   result.put(CircusString.REPINTCHOICE, new Integer(Sym.REPINTCHOICE));   
+   
+   /* Circus language keywords*/
+   result.put(CircusString.CIRCIF, new Integer(Sym.CIRCIF));
+   result.put(CircusString.CIRCFI, new Integer(Sym.CIRCFI));
+   result.put(CircusString.CIRCDO, new Integer(Sym.CIRCDO));
+   result.put(CircusString.CIRCOD, new Integer(Sym.CIRCOD));
+   result.put(CircusString.CIRCVAR, new Integer(Sym.CIRCVAR));
+   result.put(CircusString.CIRCVAL, new Integer(Sym.CIRCVAL));
+   result.put(CircusString.CIRCRES, new Integer(Sym.CIRCRES));
+   result.put(CircusString.CIRCVRES, new Integer(Sym.CIRCVRES));
    result.put(CircusString.CIRCCHAN, new Integer(Sym.CIRCCHAN));
    result.put(CircusString.CIRCCHANFROM, new Integer(Sym.CIRCCHANFROM));
    result.put(CircusString.CIRCCHANSET, new Integer(Sym.CIRCCHANSET));
    result.put(CircusString.CIRCNAMESET, new Integer(Sym.CIRCNAMESET));
-/*
-   result.put(CircusString.LFLOOR, new Integer(Sym.LFLOOR));   
-   result.put(CircusString.RFLOOR, new Integer(Sym.LFLOOR));   
-  String CIRCVARCMD = "var";
-  String PARQUALIFIER_VAL = "val";
-  String PARQUALIFIER_RES = "res";
-  String PARQUALIFIER_VALRES = "valres";
-*/
-   result.put("defs", new Integer(Sym.CIRCDEF));  
    result.put(CircusString.CIRCPROC, new Integer(Sym.CIRCPROC));
    result.put(CircusString.CIRCBEGIN, new Integer(Sym.CIRCBEGIN));
-   result.put(CircusString.CIRCBEGIN, new Integer(Sym.CIRCEND));
+   result.put(CircusString.CIRCEND, new Integer(Sym.CIRCEND));
    result.put(CircusString.CIRCSTATE, new Integer(Sym.CIRCSTATE));
    result.put(CircusString.CIRCSKIP, new Integer(Sym.CIRCSKIP));
    result.put(CircusString.CIRCSTOP, new Integer(Sym.CIRCSTOP));

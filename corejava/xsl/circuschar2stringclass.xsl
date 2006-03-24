@@ -40,6 +40,14 @@ public interface CircusString extends ZString
 </xsl:text>
 <xsl:apply-templates select="*"/>
 
+  String CIRCIF = "if";
+  String CIRCFI = "fi";
+  String CIRCDO = "do";
+  String CIRCOD = "od";
+  String CIRCVAR = "var";
+  String CIRCVAL = "val";
+  String CIRCRES = "res";
+  String CIRCVRES = "vres";
   String CIRCCHAN = "channel";  
   String CIRCCHANFROM = "channelfrom";
   String CIRCCHANSET = "channelset";
@@ -51,11 +59,6 @@ public interface CircusString extends ZString
   String CIRCSKIP = "Skip";
   String CIRCSTOP = "Stop";
   String CIRCCHAOS = "Chaos";  
-  
-  String CIRCVARCMD = "var";
-  String CIRCPARQUALIFIER_VAL = "val";
-  String CIRCPARQUALIFIER_RES = "res";
-  String CIRCPARQUALIFIER_VALRES = "valres";
 }
 <xsl:text>
 </xsl:text>
