@@ -405,7 +405,7 @@
         It represents the grammar rules: <b>N(Expr+), N lfloor Expr+ rfloor</b>
         </p>
         <p>        
-        The invariant is as follows:        
+        The invariant is as follows:  TODO: THIS COMMENT NEEDS UPDATE (See Parser.xml)
         <ul>
           <li>N        = nonempty name, empty generic actuals, and empty parameters/indexes. </li>
           <li>N[Expr+] = nonempty name, nonempty generic actuals, and empty parameters/indexes. </li>
@@ -1390,14 +1390,24 @@
     <xs:complexContent>
       <xs:extension base="Z:Para">
         <xs:sequence>
-          <xs:element ref="Z:DeclName"/>
+          <!-- Although the syntax is \circprocess [X, Y] N \defs ...,
+               I couldn't figure out how to put the generics before the
+               name without causing an ambiguity complaint by the XML
+               validator :( -->
+          <xs:element ref="Z:DeclName">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="ProcessName"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
           <xs:element ref="Z:DeclName" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property name="GenFormals"/>
               </xs:appinfo>
             </xs:annotation>
-          </xs:element>
+          </xs:element>          
           <xs:element ref="CIRCUS:CircusProcess"/>
         </xs:sequence>
       </xs:extension>
