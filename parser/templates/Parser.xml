@@ -1305,7 +1305,7 @@ terminal
         CIRCUCOMMSHRIEK, PREFIXTHEN, // Just use DOT for the moment CIRCCOMMDOT, 
         CIRCGUARD, CIRCSEQ, REPSEQ, INTERLEAVE, REPINTERLEAVE,
         REPPARALLEL, HIDING, EXTCHOICE, REPEXTCHOICE, INTCHOICE,
-        REPINTCHOICE, 
+        REPINTCHOICE,
         
         // Keywords
         CIRCIF, CIRCFI, CIRCDO, CIRCOD, CIRCVAR, CIRCVAL,
@@ -1589,8 +1589,6 @@ non terminal Para
     unboxedInnerPara;
 
 non terminal List &lt; Para &gt;
-    unboxedInnerParaList,
-    unboxedInnerParaItemList,
     innerParaList;
 
 non terminal CircusProcess 
@@ -1603,10 +1601,17 @@ non terminal CircusProcess
 non terminal RenameList
     channelRenameList;
     
+non terminal DeclList
+    circusParams;
+    
 non terminal CircusAction
     paramAction,
     circusAction,
+    actionCall,
     cspAction;
+    
+non terminal Pred
+    guard;
     
 non terminal Communication
     communication;
@@ -1621,7 +1626,13 @@ non terminal Field
 non terminal CircusCommand
     command;    
 
-non terminal List /* ChannelDecl */    
+non terminal List&lt;GuardedAction&gt;
+    guardedCommands;
+    
+non terminal GuardedAction
+    guardedCommand;
+
+non terminal List&lt;ChannelDecl&gt;
     channelDeclList;
 
 non terminal ChannelDecl
@@ -2498,7 +2509,7 @@ processPara ::=
         CIRCPROC:cp optFormalParameters:ofp declName:dn CIRCDEF processDesc:pd
         {:
            //actionScanner_.clearTable();
-           RESULT = factory_.createProcessPara(/*dn, pd, ofp*/);
+           RESULT = factory_.createProcessPara(dn, ofp, pd);
            addLocAnn(RESULT, cpleft, cpright);
         :}        
         ;
@@ -2521,9 +2532,7 @@ processDesc ::=
         ;
 
 paramProcess ::=
-        /* Parameterised process */
-        // TODO: Check whether here should be just VarDecl/InclDecl.
-        // PS: Z-Std accepts ConstDecl on DeclParts! Bizarre!
+        /* Parameterised process */        
         declPart:dp SPOT:sp process:p
         {:
             RESULT = factory_.createParamProcess(p, dp);
@@ -2581,24 +2590,20 @@ process ::=
         {:
             RESULT = factory_.createSeqProcess(pl, pr);
             addLocAnn(RESULT, plleft, plright);
-        :}
-        /* Generate 5 conflicts because of predicate:guard!
+        :}        
         | 
-        predicate:guard CIRCGUARD:cg process:p
+        guard:g CIRCGUARD:cg process:p
         {:
-            RESULT = factory_.createExtChoiceProcess(p, guard);
-            addLocAnn(RESULT, guardleft, guardright);
-        :}                
-         */  
-        /*
-        Will we havee prefixed processes?
+            RESULT = factory_.createGuardedProcess(p, g);
+            addLocAnn(RESULT, gleft, gright);
+        :}                          
+        // TODO:CHECK Will we havee prefixed processes?
         |
         communication:comm PREFIXTHEN:pt process:p
         {:
             RESULT = factory_.createPrefixingProcess(p, comm);
             addLocAnn(RESULT, commleft, commright);
-        :}
-        */ 
+        :}        
         /*|         
         processDesc:pd LSQUARE:lsq channelRenameList:crl RSQUARE
         {: 
@@ -2667,12 +2672,12 @@ process ::=
             RESULT = factory_.createSeqProcessIdx(p, dp);
             addLocAnn(RESULT, rsleft, rsright);
         :}
-        /* Process calls */        /* 5 conflicts.
+        /* Process calls */   
         |        
         processCall:pc
         {:
             RESULT = pc;
-        :}     */   
+        :}    
         ;
         
 // CONFLICTS        
@@ -2815,11 +2820,11 @@ actionPara ::=
         ;
 
 paramAction ::=
-        declPart:dp SPOT paramAction:pa
+        circusParams:cp SPOT paramAction:pa
         {:
-            RESULT = factory_.createParamAction(pa, dp);
-            addLocAnn(RESULT, dpleft, dpright);
-        :}
+            RESULT = factory_.createParamAction(pa, cp);
+            addLocAnn(RESULT, cpleft, cpright);
+        :} 
         |
         circusAction:ca
         {: RESULT = ca; :}
@@ -2909,12 +2914,12 @@ cspAction ::=
             RESULT = factory_.createSeqAction(cal, car);
             addLocAnn(RESULT, calleft, calright);
         :}
-        /*|
-        predicate:guard CIRCGUARD:cg circusAction:ca
+        |
+        guard:g CIRCGUARD:cg circusAction:ca
         {:
-            RESULT = factory_.createGuardedAction(ca, guard);
-            addLocAnn(RESULT, guardleft, guardright);
-        :} */
+            RESULT = factory_.createGuardedAction(ca, g);
+            addLocAnn(RESULT, gleft, gright);
+        :}
         |
         communication:comm PREFIXTHEN:pt circusAction:ca
         {:
@@ -2946,7 +2951,7 @@ cspAction ::=
         {:
             RESULT = factory_.createParallelActionIte(ca, dp, cs, createEmptyNameSet());
             addLocAnn(RESULT, lpleft, lpright);
-        :} */
+        :}*/
         |
         REPINTCHOICE:ri declPart:dp SPOT:sp circusAction:ca
         {:
@@ -2965,8 +2970,41 @@ cspAction ::=
             RESULT = factory_.createSeqActionIte(ca, dp);
             addLocAnn(RESULT, rsleft, rsright);
         :}
+        |
+        actionCall:ac
+        {:
+            RESULT = ac;
+        :} 
         ;
 
+// CONFLICTS        
+actionCall ::=                        
+//        paramAction:pa LPAREN expressionList:el RPAREN
+//        {:
+//            RESULT = null;
+//        :}
+//        |
+/*        refName:rn LPAREN expressionList:el RPAREN
+        {:            
+            RESULT = factory_.createCallAction(rn, el);
+            addLocAnn(RESULT, rnleft, rnright);
+        :} 
+        | */
+        refName:rn
+        {:
+            RESULT = factory_.createCallAction(rn, null);
+            addLocAnn(RESULT, rnleft, rnright);
+        :}
+        ;
+       
+// Guards will never be an AndPred with And.NL or And.SEMI
+guard ::=
+       term:p
+       {: RESULT = pred(p); :}
+       ;        
+
+// Using optCommFields generates conflicts with action call because of 
+// the empty state after consumption of refName of the channel name.       
 communication ::=
         /* Synchronisation or communication without generic parameters */
         refName:rn optCommFields:ocf
@@ -3063,10 +3101,43 @@ command ::=
             addLocAnn(RESULT, rnlleft, rnlright);
         :}
         |
+        CIRCIF:cif guardedCommands:gcs CIRCFI:cfi
+        {:
+            RESULT = factory_.createIfGuardedCommand(gcs);
+            addLocAnn(RESULT, cifleft, cifright);
+        :}
+        |
+        CIRCDO:cdo guardedCommands:gcs CIRCOD:cod
+        {:
+            RESULT = factory_.createIfGuardedCommand(gcs);//createWhileGuardedCommand(gcs);
+            addLocAnn(RESULT, cdoleft, cdoright);
+        :}
+        |
         /* Variable declaration */
         CIRCVAR:cv declPart:dp SPOT circusAction:ca 
         {:
             RESULT = factory_.createVarDeclCommand(dp, ca);
+            addLocAnn(RESULT, cvleft, cvright);
+        :}
+        |
+        /* Value parameterised qualifier */
+        CIRCVAL:cv declPart:dp SPOT circusAction:ca 
+        {:
+            RESULT = null;//factory_.createVarDeclCommand(dp, ca);
+            addLocAnn(RESULT, cvleft, cvright);
+        :}
+        |
+        /* Result parameterised qualifier */
+        CIRCRES:cv declPart:dp SPOT circusAction:ca 
+        {:
+            RESULT = null;//factory_.createVarDeclCommand(dp, ca);
+            addLocAnn(RESULT, cvleft, cvright);
+        :}
+        |
+        /* Value result parameterised qualifier */
+        CIRCVRES:cv declPart:dp SPOT circusAction:ca 
+        {:
+            RESULT = null;//factory_.createVarDeclCommand(dp, ca);
             addLocAnn(RESULT, cvleft, cvright);
         :}
         | 
@@ -3091,6 +3162,34 @@ command ::=
             RESULT = factory_.createSpecStmtCommand(factory_.createZRefNameList(), pre, TRUE_PREDICATE);
             addLocAnn(RESULT, lbleft, lbright);
         :}*/
+        /* Coercion */ 
+        /*| conflicts
+        LSQUARE:ls predicate:post RSQUARE
+        {:
+            RESULT = factory_.createSpecStmtCommand(factory_.createZRefNameList(), TRUE_PREDICATE, post);
+            addLocAnn(RESULT, lsleft, lsright);
+        :}*/
+        ;
+        
+guardedCommands ::=      
+        guardedCommands:gcs CIRCELSE guardedCommand:g
+        {:
+           gcs.add(g);
+           RESULT = gcs;
+        :}
+        | 
+        guardedCommand:g
+        {:
+           RESULT = factory_.list(g);
+        :}
+        ;
+        
+guardedCommand ::=
+        guard:g CIRCTHEN circusAction:ca 
+        {:
+            RESULT = factory_.createGuardedAction(ca, g);
+            addLocAnn(RESULT, gleft, gright);
+        :}
         ;
         
 </add:circus>     
