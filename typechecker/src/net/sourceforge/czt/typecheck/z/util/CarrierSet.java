@@ -47,7 +47,7 @@ public class CarrierSet
     UnknownTypeVisitor<Term>
 {
   protected Factory factory_;
-  protected ZFactory zFactory_;
+  protected net.sourceforge.czt.z.util.Factory zFactory_;
 
   /** Don't throw an exception when a variable type is encountered. */
   protected boolean allowVariableTypes_;
@@ -70,7 +70,7 @@ public class CarrierSet
   public CarrierSet(ZFactory zFactory, boolean allowVariableTypes)
   {
     factory_ = new Factory(zFactory);
-    zFactory_ = zFactory;
+    zFactory_ = new  net.sourceforge.czt.z.util.Factory(zFactory);
     allowVariableTypes_ = allowVariableTypes;
   }
 

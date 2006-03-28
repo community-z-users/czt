@@ -42,12 +42,12 @@ public class CarrierSet
     ClassRefVisitor<Term>,
     VariableClassTypeVisitor<Term>
 {
-  protected OzFactory ozFactory_;
+  protected net.sourceforge.czt.oz.util.Factory ozFactory_;
 
   public CarrierSet()
   {
     super();
-    ozFactory_ = new net.sourceforge.czt.oz.impl.OzFactoryImpl();
+    ozFactory_ = new net.sourceforge.czt.oz.util.Factory();
   }
 
   public CarrierSet(boolean allowVariableTypes)
@@ -59,7 +59,7 @@ public class CarrierSet
   public CarrierSet(ZFactory zFactory, OzFactory ozFactory)
   {
     super(zFactory);
-    ozFactory_ = ozFactory;
+    ozFactory_ = new net.sourceforge.czt.oz.util.Factory(ozFactory);
   }
 
   public Term visitClassRefType(ClassRefType classRefType)

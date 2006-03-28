@@ -35,6 +35,7 @@ public class Factory
 {
   /** The ZFactory that is used to create wrapped types. */
   protected ZFactory zFactory_;
+  protected net.sourceforge.czt.z.util.Factory factory_;
 
   /** Used for generating unique ids in names. */
   protected int id_ = 0;
@@ -42,11 +43,13 @@ public class Factory
   public Factory()
   {
     zFactory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+    factory_ = new net.sourceforge.czt.z.util.Factory(zFactory_);
   }
 
   public Factory(ZFactory zFactory)
   {
     zFactory_ = zFactory;
+    factory_ = new net.sourceforge.czt.z.util.Factory(zFactory_);
   }
 
   public ZFactory getZFactory()
@@ -342,7 +345,7 @@ public class Factory
                                Boolean mixfix)
   {
     ZExprList zExprList = zFactory_.createZExprList(expr);
-    return zFactory_.createRefExpr(refName, zExprList, mixfix);
+    return factory_.createRefExpr(refName, zExprList, mixfix);
   }
 
   public InStroke createInStroke()
