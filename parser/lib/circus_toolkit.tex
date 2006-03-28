@@ -30,7 +30,7 @@
 %   Prefixing guards
 %%Zinchar \circguard U+0026
 %   Sequential composition
-%%Zinchar \circsemi U+003B
+%%Zinchar \circseq U+003B
 %   Replicated sequential composition
 %%Zprechar \Semi U+2A1F
 %   Process interleave
@@ -40,15 +40,15 @@
 %   Replicated interleaving
 %%Zprechar \Interleave U+2AFC
 %   Hiding
-%%Zinchar \hide U+005C
+%%Zinchar \circhide U+005C
 %   External choice
 %%Zinchar \extchoice U+25FB
 %   Replicated external choice
 %%Zprechar \Extchoice U+25A1
 %   Internal choice
 %%Zinchar \intchoice U+2293
-%   Replicated internal choice
-%%Zprechar \Intchoice U+2293
+%   Replicated internal choice TODO:FIX UNICODE! WRONG
+%%Zprechar \Intchoice U+2294
 
 % Brackets
 %
@@ -82,8 +82,8 @@
 %
 %%Zpreword \circif if
 %%Zpostword \circfi fi
-%%Zpreword \circif do
-%%Zpostword \circfi od
+%%Zpreword \circdo do
+%%Zpostword \circod od
 %%Zpreword \circcon con
 %%Zpreword \circvar var
 %%Zpreword \circval val
