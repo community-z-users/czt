@@ -854,8 +854,57 @@ action code
 <add:circus>
   
     /**
+     * Fly-weight Skip Action to be reused at every occurrence of primitive action Skip
+     */
+    private final SkipAction SKIP_ACTION = factory_.createSkipAction();
+
+    /**
+     * Fly-weight Skip Action to be reused at every occurrence of primitive action Stop
+     */
+    private final StopAction STOP_ACTION = factory_.createStopAction();
+
+    /**
+     * Fly-weight Skip Action to be reused at every occurrence of primitive action Chaos
+     */    
+    private final ChaosAction CHAOS_ACTION = factory_.createChaosAction();
+    
+    /**
+     * Fly-weight True predicate to be reused whenever necessary. For instance, c?x \then A
+     * or to differentiate inclusions such as in \{ S | true \} (inclusion) rather than 
+     * \{ S \} (singleton).
+     */    
+    private final Pred TRUE_PREDICATE = factory_.createTruePred();
+    
+    /**
+     * Default number of multisynchronisation occurrences for particular communication pattern.
+     * At the moment this feature is still experimental, and may disapear in the future.
+     */
+    private final Integer DEFAULT_MULTISYNCH = new Integer(0);
+    
+    /**
+     * Creates an empty (basic) channel set expression
+     */
+    protected Expr createEmptyChannelSetExpr() {
+      return factory_.createBasicChannelSetExpr(factory_.createZExprList());      
+    }
+    
+    /**
+     * Creates an empty channel set (i.e. ChannelSet with an empty basic channel set expression).
+     */
+    protected ChannelSet createEmptyChannelSet() {
+      return factory_.createChannelSet(createEmptyChannelSetExpr());
+    }
+    
+    /**
+     * Creates an empty name set (i.e. NameSet with an empty set expression).
+     */
+    protected NameSet createEmptyNameSet() {
+      return factory_.createNameSet(factory_.createSetExpr(factory_.createZExprList()));
+    }  
+    
+    /**
      * Returns whether the given expression is an empty set as a reference to
-     * <code>ZString.EMPTYSET</code>.
+     * &lt;code&gt;ZString.EMPTYSET&lt;/code&gt;.
      */
     protected boolean isEmptySetRefExpr(Expr a) {
         boolean result = (a instanceof RefExpr);        
@@ -870,20 +919,20 @@ action code
         return result;
     }
     
-    protected Expr validateChannelSetExpr(Expr e) {
-      Expr result = e;
-      // For reference empty sets transform them into basic set extension.
-      if (isEmptySetRefExpr(result)) {
-        result = createBasicChannelSetExpr(factory_.createZExprList());
-      } 
-      // For set extensions (possibly empty) or comprehension, report an error.
-      else if (result instanceof SetExpr || result instanceof SetCompExpr){
-        parser.report_error(CircusParseMessage.MSG_SETDISPLAY_NOTALLOWED_FORCHANNELSET,
-                            new Object[0], getLocation(result));
-      } 
-      return result;
-    }
-    
+    /**
+     * &lt;p&gt;
+     * Creates a &lt;code&gt;BasicChannelSetExpr&lt;/code&gt; based on the given list of expressions.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * The code ensures that all expressions within the expression list
+     * must be &lt;code&gt;RefExpr&lt;/code&gt;, as &lt;code&gt;BasicChannelSetExpr&lt;/code&gt;
+     * is just a set extension with special brackets.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * If something different from &lt;code&gt;RefExpr&lt;/code&gt; is found within &lt;code&gt;zrl&lt;/code&gt;,
+     * the a parsing error is thrown and the result is just an empty &lt;code&gt;BasicChannelSetExpr&lt;/code&gt;.
+     * &lt;/p&gt;
+     */
     protected Expr createBasicChannelSetExpr(ZExprList zrl) {      
       int errorIdx = -1;
       Iterator&lt;Expr&gt; it = zrl.iterator(); 
@@ -902,8 +951,120 @@ action code
                             new Object[] { errorIdx }, getLocation(result));
       }       
       return result;
+    } 
+    
+    /**
+     * &lt;p&gt;
+     * Validates the given Z expression as a valid channel set expression.
+     * &lt;/p&gt;
+     * &lt;p&gt; 
+     * The code returns the given expression but it ensures that &lt;code&gt;e&lt;/code&gt; 
+     * is neither a set extension, nor a set comprehension expression.
+     * If &lt;code&gt;e&lt;/code&gt; is one of those two, then a parsing error is thrown. 
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * Moreover, it automatically transforms a reference to the empty set expression
+     * (i.e. &lt;code&gt;\emptyset&lt;/code&gt;) to become an empty &lt;code&gt;BasicChannelSetExpr&lt;/code&gt;.
+     * Thus, something like &lt;code&gt;validateChannelSetExpr(RefExpr("\emptyset"))&lt;/code&gt;,
+     * returns &lt;code&gt;BasicChannelSetExpr(ZExprList())&lt;/code&gt;.
+     * &lt;/p&gt;
+     */
+    protected Expr validateChannelSetExpr(Expr e) {
+      Expr result = e;
+      // For reference empty sets transform them into basic set extension.
+      if (isEmptySetRefExpr(result)) {
+        result = createBasicChannelSetExpr(factory_.createZExprList());
+      } 
+      // For set extensions (possibly empty) or comprehension, report an error.
+      else if (result instanceof SetExpr || result instanceof SetCompExpr){
+        parser.report_error(CircusParseMessage.MSG_SETDISPLAY_NOTALLOWED_FORCHANNELSET,
+                            new Object[0], getLocation(result));
+      } 
+      return result;
     }
     
+    /**
+     * &lt;p&gt;
+     * Returns the communication type based on the pattern of the given list of communication fields.
+     * &lt;/p&gt;
+     * &lt;p&gt;       
+     * It returns: 
+     * &lt;ul&gt;
+     *    &lt;li&gt;&lt;code&gt;CommType.Synch&lt;/code&gt; if the list of fields is empty.
+     *    &lt;li&gt;&lt;code&gt;CommType.Input&lt;/code&gt; if the list of fields is not empty and contain only instances of &lt;code&gt;InputField&lt;/code&gt;.
+     *    &lt;li&gt;&lt;code&gt;CommType.Output&lt;/code&gt; if the list of fields is not empty and contain instances of either &lt;code&gt;DotField&lt;/code&gt; or &lt;code&gt;OutputField&lt;/code&gt;.
+     *    &lt;li&gt;&lt;code&gt;CommType.Mixed&lt;/code&gt; if the list of fields is not empty and contain at least one &lt;code&gt;InputField&lt;/code&gt; and either one &lt;code&gt;DotField&lt;/code&gt; or one &lt;code&gt;OutputField&lt;/code&gt;.
+     *    &lt;li&gt;&lt;code&gt;CommType.Mixed&lt;/code&gt; with a parser error if the list of fields is not empty but neither of the above patterns hold.
+     * &lt;/ul&gt;
+     * &lt;/p&gt;
+     */
+    private CommType retrieveCommType(List&lt;Field&gt; fields) {
+        CommType result;
+        if (fields.isEmpty())
+            result = CommType.Synch;
+        else {
+            Field f = null;
+            int input = 0;
+            int output = 0;
+            Iterator&lt;Field&gt; it = fields.iterator();
+            while(it.hasNext()) {
+                f = it.next();
+                if (f instanceof InputField)
+                    input++;
+                else if (f instanceof DotField)
+                    output++;
+            }
+            if (input &gt; 0 &amp;&amp; output &gt; 0)
+                result = CommType.Mixed;
+            else if (input &gt; 0 &amp;&amp; output == 0)
+                result = CommType.Input;
+            else if (input == 0 &amp;&amp; output &gt; 0)
+                result = CommType.Output;
+            else {
+                // This should never happen.
+                result = CommType.Mixed; // thrown an error.
+                assert f != null; // at least one field must have been checked.
+                parser.report_error(CircusParseMessage.MSG_UNKNOWN_COMMUNICATION_PATTERN,
+                            new Object[0], getLocation(f));
+            }                
+        }
+        return result;
+    }
+        
+    /**
+     * Checks whether the given lists have the same size. It returns a parser error if the 
+     * lists are of a different size. This method is called either through channel renaming or 
+     * an assignment command.
+     */
+    protected boolean checkListSizesAreEqual(int line, int column, 
+        List&lt;?&gt; l, List&lt;?&gt; r) {
+        boolean result = l.size() == r.size();
+        if (!result) {
+          parser.report_error(CircusParseMessage.MSG_UNBALANCED_LISTS,
+              new Object[] { l.size(), l.getClass().getTypeParameters()[0].getName(),
+                  r.size(), r.getClass().getTypeParameters()[0].getName() }, 
+                  getLocation(line, column));
+        }
+        return result;
+    }
+    
+    /**
+     * Creates a &lt;code&gt;ZRenameList&lt;/code&gt; containing &lt;code&gt;NewOldPairt&lt;/code&gt;
+     * elements for each list. That is, the elements at the same index on each list are paired to
+     * form one list of pairs. The method assumes the lists are of same size. If they are not, 
+     * the returned list is empty and a parsing error is generated.
+     */
+    protected ZRenameList createChannelRenameNewOldPairList(int line, int column,
+        List&lt;DeclName&gt; dnl, List&lt;ZRefName&gt; rnl) {
+        ZRenameList result = factory_.createZRenameList();
+        if (checkListSizesAreEqual(line, column, dnl, rnl)) {        
+          Iterator&lt;ZRefName&gt; it = rnl.iterator();
+          for(DeclName dn : dnl) {        
+            result.add(factory_.createNewOldPair(dn, it.next()));
+          } 
+        }
+        return result;
+    }
 </add:circus>
 :}
 
@@ -1140,7 +1301,8 @@ terminal
          */
         
         // Keychars
-        CIRCDEF, CIRCINDEX, CIRCMU, CIRCTHEN, CIRCELSE, PREFIXTHEN, 
+        CIRCDEF, CIRCINDEX, CIRCMU, CIRCTHEN, CIRCELSE, CIRCCOMMQUERY,
+        CIRCUCOMMSHRIEK, PREFIXTHEN, // Just use DOT for the moment CIRCCOMMDOT, 
         CIRCGUARD, CIRCSEQ, REPSEQ, INTERLEAVE, REPINTERLEAVE,
         REPPARALLEL, HIDING, EXTCHOICE, REPEXTCHOICE, INTCHOICE,
         REPINTCHOICE, 
@@ -1438,10 +1600,26 @@ non terminal CircusProcess
     processCall,
     process;
 
+non terminal RenameList
+    channelRenameList;
+    
 non terminal CircusAction
     paramAction,
     circusAction,
     cspAction;
+    
+non terminal Communication
+    communication;
+
+non terminal List&lt;Field&gt;    
+    optCommFields,
+    commFields;
+    
+non terminal Field
+    commField;
+    
+non terminal CircusCommand
+    command;    
 
 non terminal List /* ChannelDecl */    
     channelDeclList;
@@ -1454,11 +1632,6 @@ non terminal ChannelSet
     
 non terminal NameSet
     nameSet;
-    
-non terminal ZDeclList zDeclListNoNL;
-
-//non terminal List /* VarDecl*/        
-//    varDeclList;
 </add:circus>
 
 <add:oz>
@@ -1578,7 +1751,8 @@ precedence left         INTCHOICE, REPINTCHOICE;
 precedence left         EXTCHOICE, REPEXTCHOICE;
 precedence left         CIRCSEQ, REPSEQ;
 precedence nonassoc     CIRCGUARD;
-precedence right        PREFIXTHEN;
+precedence right        PREFIXTHEN, CIRCCOMMQUERY, CIRCUCOMMSHRIEK;
+//, CIRCCOMMDOT
 //CIRCVAL, CIRCRES, CIRCVRES, 
 //CIRCCHAN, CIRCCHANFROM, CIRCCHANSET,
 //CIRCNAMESET, CIRCPROC, CIRCBEGIN, CIRCEND, CIRCSTATE,
@@ -2304,7 +2478,7 @@ channelSetPara ::=
 channelSet ::=
         LCIRCCHANSET optExpressionList:oel RCIRCCHANSET
         {:
-           Expr e = null;//validateChannelSetExpr(createBasicChannelSetExpr(oel));
+           Expr e = validateChannelSetExpr(createBasicChannelSetExpr(oel));
            RESULT = factory_.createChannelSet(e);
            addLocAnn(RESULT, oelleft, oelright);
         :}
@@ -2376,6 +2550,7 @@ process ::=
         process:p HIDING:h channelSet:cs
         {:
            RESULT = factory_.createHideProcess(p, cs);
+           addLocAnn(RESULT, pleft, pright);
         :}        
         | 
         process:pl INTERLEAVE:in process:pr
@@ -2418,13 +2593,19 @@ process ::=
         /*
         Will we havee prefixed processes?
         |
-        communication:c PREFIXTHEN:pt process:p 
+        communication:comm PREFIXTHEN:pt process:p
         {:
-            RESULT = factory_.createPrefixingProcess();
-            addLocAnn(RESULT, cleft, cright);
+            RESULT = factory_.createPrefixingProcess(p, comm);
+            addLocAnn(RESULT, commleft, commright);
         :}
-         */
-        | 
+        */ 
+        /*|         
+        processDesc:pd LSQUARE:lsq channelRenameList:crl RSQUARE
+        {: 
+            RESULT = factory_.createRenameProcess(pd, crl);
+            addLocAnn(RESULT, pdleft, pdright);
+        :} %prec _RENAME */
+        |
         /* Replicated processes productions in precendence order */
         REPINTERLEAVE:ri declPart:dp SPOT:sp process:p
         {:
@@ -2594,66 +2775,324 @@ unboxedInnerPara ::=
         {: RESULT = ap; :}        
         ;
 
-/// Nameset paragraphs withing Process paragraphs ////////////////////////////////
+/// Special productions for process paragraphs ////////////////////////////////
         
-namesetPara ::=         
+channelRenameList ::=
+        nameList:nl COLON EQUALS refNameList:rnl
+        {:           
+           RESULT = factory_.createZRenameList(createChannelRenameNewOldPairList(nlleft, nlright, nl, rnl));
+           addLocAnn(RESULT, nlleft, nlright);
+        :}
+        ;   
+
+/// Nameset paragraphs withing Process paragraphs ////////////////////////////////
+
+namesetPara ::=
         CIRCNAMESET:cns declName:dn DEFEQUAL:equal nameSet:ns
-        {:                    
+        {:
            RESULT = factory_.createNameSetPara(dn, ns);
            addLocAnn(RESULT, cnsleft, cnsright);
-        :}        
+        :}
         ;
-        
-nameSet ::=        
+
+nameSet ::=
         expression:e
-        {:           
+        {:
            RESULT = factory_.createNameSet(e);
            addLocAnn(RESULT, eleft, eright);
         :}
         ;
-        
+
+
 /// Action paragraphs withing Process paragraphs ////////////////////////////////
 
 actionPara ::=
         declName:dn CIRCDEF paramAction:pa
         {:
-           //insert "dn" into the lookup
-           RESULT = null; 
+           RESULT = factory_.createActionPara(dn, pa);
+           addLocAnn(RESULT, dnleft, dnright);
         :}
         ;
 
 paramAction ::=
-        zDeclListNoNL:zdlnn SPOT paramAction:pa
-        {: RESULT = null; :}
+        declPart:dp SPOT paramAction:pa
+        {:
+            RESULT = factory_.createParamAction(pa, dp);
+            addLocAnn(RESULT, dpleft, dpright);
+        :}
         |
         circusAction:ca
         {: RESULT = ca; :}
         ;
-
-//a zDeclList that does not allow NLs between declarations
-zDeclListNoNL ::=
-        basicDeclaration:bd
-        {: RESULT = factory_.createZDeclList(list(bd)); :}
-        |
-        zDeclListNoNL:zdlnn SEMICOLON declaration:d
-        {:
-           zdlnn.add(d);
-           RESULT = zdlnn;
-        :}
-        ;
-
+        
 circusAction ::=
-        expression:e
-        {: RESULT = factory_.createSchExprAction(e); :}
+        /*expression:e
+        {: RESULT = factory_.createSchExprAction(e); :}*/
         |
         cspAction:ca
         {: RESULT = ca; :}
-        ;
-
+        |
+        command:c
+        {: RESULT = c; :}
+        ;        
+        
 cspAction ::=
-        CIRCSKIP
+        CIRCSKIP:sk
+        {:
+          RESULT = SKIP_ACTION;
+          addLocAnn(RESULT, skleft, skright);
+        :}
+        |
+        CIRCSTOP:sp
+        {:
+          RESULT = STOP_ACTION;
+          addLocAnn(RESULT, spleft, spright);
+        :}
+        |
+        CIRCCHAOS:cc
+        {:
+          RESULT = CHAOS_ACTION;
+          addLocAnn(RESULT, ccleft, ccright);
+        :}
+        |
+        CIRCMU:cm declName:dn SPOT circusAction:ca
+        {:
+            RESULT = factory_.createMuAction(ca, dn);
+            addLocAnn(RESULT, cmleft, cmright);
+        :}
+        |
+        /* Action operator productions in precendence order */
+        circusAction:ca HIDING:h channelSet:cs
+        {:
+           RESULT = factory_.createHideAction(ca, cs);
+           addLocAnn(RESULT, caleft, caright);
+        :}
+        |
+        circusAction:cal LINTER:li nameSet:nsl BAR nameSet:nsr RINTER:ri circusAction:car
+        {:
+            RESULT = factory_.createInterleaveAction(cal, car, nsl, nsr);
+            addLocAnn(RESULT, calleft, calright);
+        :}
+        |
+        circusAction:cal INTERLEAVE:il circusAction:car
+        {:
+            RESULT = factory_.createInterleaveAction(cal, car, createEmptyNameSet(), createEmptyNameSet());
+            addLocAnn(RESULT, calleft, calright);
+        :}
+        |
+        circusAction:cal LPAR:lp nameSet:nsl BAR channelSet:cs BAR nameSet:nsr RPAR:rp circusAction:car
+        {:
+            RESULT = factory_.createParallelAction(cal, car, nsl, nsr, cs);
+            addLocAnn(RESULT, calleft, calright);
+        :}
+        |
+        circusAction:cal LPAR:lp channelSet:cs RPAR:rp circusAction:car
+        {:
+            RESULT = factory_.createParallelAction(cal, car, createEmptyNameSet(), createEmptyNameSet(), cs);
+            addLocAnn(RESULT, calleft, calright);
+        :}
+        |
+        circusAction:cal INTCHOICE:ic circusAction:car
+        {:
+            RESULT = factory_.createIntChoiceAction(cal, car);
+            addLocAnn(RESULT, calleft, calright);
+        :}
+        |
+        circusAction:cal EXTCHOICE:cs circusAction:car
+        {:
+            RESULT = factory_.createExtChoiceAction(cal, car);
+            addLocAnn(RESULT, calleft, calright);
+        :}
+        |
+        circusAction:cal CIRCSEQ:cs circusAction:car
+        {:
+            RESULT = factory_.createSeqAction(cal, car);
+            addLocAnn(RESULT, calleft, calright);
+        :}
+        /*|
+        predicate:guard CIRCGUARD:cg circusAction:ca
+        {:
+            RESULT = factory_.createGuardedAction(ca, guard);
+            addLocAnn(RESULT, guardleft, guardright);
+        :} */
+        |
+        communication:comm PREFIXTHEN:pt circusAction:ca
+        {:
+            RESULT = factory_.createPrefixingAction(ca, comm);
+            addLocAnn(RESULT, commleft, commright);
+        :}
+        |
+        /* Replicated action productions in precendence order */
+        REPINTERLEAVE:ri declPart:dp LINTER nameSet:ns RINTER SPOT:sp circusAction:ca
+        {:
+            RESULT = factory_.createInterleaveActionIte(ca, dp, ns);
+            addLocAnn(RESULT, rileft, riright);
+        :}
+        |
+        REPINTERLEAVE:ri declPart:dp SPOT:sp circusAction:ca
+        {:
+            RESULT = factory_.createInterleaveActionIte(ca, dp, createEmptyNameSet());
+            addLocAnn(RESULT, rileft, riright);
+        :}
+        |
+        LPAR:lp channelSet:cs RPAR declPart:dp SPOT:sp LPAR nameSet:ns RPAR circusAction:ca
+        {:
+            RESULT = factory_.createParallelActionIte(ca, dp, ns, cs);
+            addLocAnn(RESULT, lpleft, lpright);
+        :}
+        /* This syntactic sugar is generating 3 conflicts; just leave it out for the moment.
+        |
+        LPAR:lp channelSet:cs RPAR declPart:dp SPOT:sp circusAction:ca
+        {:
+            RESULT = factory_.createParallelActionIte(ca, dp, cs, createEmptyNameSet());
+            addLocAnn(RESULT, lpleft, lpright);
+        :} */
+        |
+        REPINTCHOICE:ri declPart:dp SPOT:sp circusAction:ca
+        {:
+            RESULT = factory_.createIntChoiceActionIte(ca, dp);
+            addLocAnn(RESULT, rileft, riright);
+        :}
+        |
+        REPEXTCHOICE:re declPart:dp SPOT:sp circusAction:ca
+        {:
+            RESULT = factory_.createExtChoiceActionIte(ca, dp);
+            addLocAnn(RESULT, releft, reright);
+        :}
+        |
+        REPSEQ:rs declPart:dp SPOT:sp circusAction:ca
+        {:
+            RESULT = factory_.createSeqActionIte(ca, dp);
+            addLocAnn(RESULT, rsleft, rsright);
+        :}
         ;
 
+communication ::=
+        /* Synchronisation or communication without generic parameters */
+        refName:rn optCommFields:ocf
+        {:
+            RESULT = factory_.createCommunication(rn, null, ocf, retrieveCommType(ocf), DEFAULT_MULTISYNCH);
+            addLocAnn(RESULT, rnleft, rnright);
+        :}
+        |
+        /* Generic channels cannot be through synchronisation, hence commFields cannot be optional */
+        refName:rn LSQUARE expressionList:el RSQUARE commFields:cf
+        {:
+            RESULT = factory_.createCommunication(rn, el, cf, retrieveCommType(cf), DEFAULT_MULTISYNCH);
+            addLocAnn(RESULT, rnleft, rnright);
+        :}
+        ;
+
+optCommFields ::=
+        commFields:cf
+        {: RESULT = cf; :}
+        |
+        /* Synchronisation has empty communication fields */
+        {: RESULT = factory_.&lt;Field&gt;list(); :}
+        ;
+
+commFields ::=
+        commFields:cfs commField:cf
+        {:
+            assert cfs != null;
+            cfs.add(cf);
+            RESULT = cfs;
+        :}
+        |
+        commField:cf
+        {:
+            RESULT = factory_.list(cf);
+        :}
+        ;
+
+// Strangelly enough, this productions for FDR allows quite funny
+// rules, such as c?expr, or lamda and if terms within a communication pattern.
+// We decided to leave then out as they seem to be uncessary.
+commField ::=
+        /* Input communicatio as in: c?x */
+        CIRCCOMMQUERY:cq refName:rn
+        {:
+            RESULT = factory_.createInputField(rn, TRUE_PREDICATE);
+            addLocAnn(RESULT, cqleft, cqright);
+        :}
+        |
+        /* Input communicatio as in: c?x : P */
+        CIRCCOMMQUERY:cq refName:rn COLON predicate:p
+        {:
+            RESULT = factory_.createInputField(rn, p);
+            addLocAnn(RESULT, cqleft, cqright);
+        :}
+        |
+        /* Output communicatio as in: c!e */
+        CIRCUCOMMSHRIEK:cs expression:e
+        {:
+            RESULT = factory_.createOutputField(e);
+            addLocAnn(RESULT, csleft, csright);
+        :}
+        |
+        // Differently from FDR, we allow expressions to appear at dot fields as well.
+        /* Output communicaion as in: c.e */
+        DOT:dt expression:e
+        {:
+            // TODO: Create loads of examples with this comparing it
+            //       with the dot field ambiguity.
+            //
+            //       That is mainly to say when should the DOT be treated
+            //       as a tuple selection or not. Surprisingly there was
+            //       no conflict, but maybe we might need some sort of
+            //       precedence setting for this.
+            // TODO:URGENT!
+            RESULT = factory_.createDotField(e);
+            addLocAnn(RESULT, dtleft, dtright);
+        :}
+        ;
+        
+/// Command (Action) paragraphs (as part of Process paragraph) ////////////////////////////////
+
+command ::=
+        /* Variable assignment */
+        refNameList:rnl COLON EQUALS expressionList:el
+        {:
+            // If the lists are not with the same size, generate a parsing error
+            // and return an empty assignment.
+            if (checkListSizesAreEqual(rnlleft, rnlright, rnl, el))
+              RESULT = factory_.createAssignmentCommand(factory_.createZRefNameList(rnl), el);
+            else
+              RESULT = factory_.createAssignmentCommand(factory_.createZRefNameList(), 
+                  factory_.createZExprList());
+            addLocAnn(RESULT, rnlleft, rnlright);
+        :}
+        |
+        /* Variable declaration */
+        CIRCVAR:cv declPart:dp SPOT circusAction:ca 
+        {:
+            RESULT = factory_.createVarDeclCommand(dp, ca);
+            addLocAnn(RESULT, cvleft, cvright);
+        :}
+        | 
+        /* Specification statement */
+        refNameList:rnl COLON LSQUARE predicate:pre COMMA predicate:post RSQUARE
+        {:            
+            RESULT = factory_.createSpecStmtCommand(factory_.createZRefNameList(rnl), pre, post);
+            addLocAnn(RESULT, rnlleft, rnlright);
+        :}
+        |
+        /* Specification statement with empty frame*/
+        COLON:c LSQUARE predicate:pre COMMA predicate:post RSQUARE
+        {:            
+            RESULT = factory_.createSpecStmtCommand(factory_.createZRefNameList(), pre, post);
+            addLocAnn(RESULT, cleft, cright);
+        :}
+        /* Assumption */
+        /* Conflicts!
+        |                
+        LBRACE:lb predicate:pre RBRACE
+        {:
+            RESULT = factory_.createSpecStmtCommand(factory_.createZRefNameList(), pre, TRUE_PREDICATE);
+            addLocAnn(RESULT, lbleft, lbright);
+        :}*/
+        ;
+        
 </add:circus>     
                 
 /// schema text ///////////////////////////////////////////
@@ -2736,11 +3175,6 @@ basicDeclaration ::=
         |
         constDecl:cd
         {: RESULT = cd; :}
-<add:circus>
-        |
-        declWordList:dwl
-        {: RESULT = factory_.createVarDecl(dwl, null); :}
-</add:circus>
         ;
 
 varDecl ::= 
@@ -3916,7 +4350,7 @@ appendageList ::=
 appendage ::=
         stroke:s
         {: RESULT = s; :}
-        |
+        |        
         LSQUARE:lsq renameList:rnl RSQUARE
         {: RESULT = factory_.createRenameExpr(null, rnl); :}
         |
