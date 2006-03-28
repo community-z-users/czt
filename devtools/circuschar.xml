@@ -32,7 +32,7 @@
       <char id="REPEXTCHOICE" hex="25A1" description="Replicated external choice"/>
       <char id="INTCHOICE" hex="2293" description="Internal choice"/>
       <!-- TODO: Find appropriate unicode for replicated internal choice -->
-      <char id="REPINTCHOICE" hex="2293" description="Replicated internal choice (TODO:Change Unicode char)"/>
+      <char id="REPINTCHOICE" hex="2293" description="Replicated internal choice (TODO:Change Unicode char)"/>      
     </CORESYMBOL>
     <CIRCUSTOOLKITSYMBOL>      
       <char id="BOOLEAN" hex="1D539" description="mathematical double-struck capital B"/>
