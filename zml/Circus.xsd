@@ -2120,8 +2120,7 @@
   <xs:complexType name="QualifiedDecl">
     <xs:complexContent>
       <xs:extension base="Z:Decl">
-        <xs:sequence>          
-          <!-- Parser should enforce that elements are VarDecl -->
+        <xs:sequence>                    
           <xs:element ref="Z:DeclList"/>
         </xs:sequence>
         <xs:attribute name="ParamQualifier" type="CIRCUS:ParamQualifier" use="optional" default="Value"/>
