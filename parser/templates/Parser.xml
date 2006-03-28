@@ -1754,12 +1754,12 @@ precedence right        CIRCVAR;
 precedence nonassoc     CIRCDO, CIRCOD;
 precedence nonassoc     CIRCIF, CIRCFI, CIRCTHEN, CIRCELSE;
 precedence left         HIDING;
-precedence left         INTERLEAVE, REPINTERLEAVE;
+precedence left         INTERLEAVE;//, REPINTERLEAVE;
 precedence nonassoc     LINTER, RINTER;
-precedence left         REPPARALLEL;
+//precedence left         REPPARALLEL;
 precedence nonassoc     LPAR, RPAR;
-precedence left         INTCHOICE, REPINTCHOICE;
-precedence left         EXTCHOICE, REPEXTCHOICE;
+precedence left         INTCHOICE;//, REPINTCHOICE;
+precedence left         EXTCHOICE;//, REPEXTCHOICE;
 precedence left         CIRCSEQ, REPSEQ;
 precedence nonassoc     CIRCGUARD;
 precedence right        PREFIXTHEN, CIRCCOMMQUERY, CIRCUCOMMSHRIEK;
@@ -2515,7 +2515,7 @@ processPara ::=
         ;
 
 processDesc ::=
-        paramProcess:pp
+        /*paramProcess:pp
         {:
             RESULT = pp;
         :}
@@ -2524,7 +2524,7 @@ processDesc ::=
         {:
             RESULT = ip;
         :}
-        |
+        |*/
         process:p
         {:
            RESULT = p;
@@ -2681,7 +2681,7 @@ process ::=
         ;
         
 // CONFLICTS        
-// processCall ::=                        
+processCall ::=                        
 //        /* Generic actuals instantiation */
 //        refName:rn LSQUARE expressionList:el RSQUARE
 //        {:
@@ -2704,13 +2704,13 @@ process ::=
 //            addLocAnn(RESULT, rnleft, rnright);
 //        :}
 //        |
-//        refName:rn
-//        {:
-//            /* The CallType is irrelevant and both parameters and generic actuals are null */
-//            RESULT = factory_.createCallProcess(rn, null, null, CallType.Param);
-//            addLocAnn(RESULT, rnleft, rnright);
-//        :}
-//        ;
+        refName:rn
+        {:
+            /* The CallType is irrelevant and both parameters and generic actuals are null */
+            RESULT = factory_.createCallProcess(rn, null, null, CallType.Param);
+            addLocAnn(RESULT, rnleft, rnright);
+        :}
+        ;
 //        // Should we accept N[Expr+](Expr+), N[Expr+]\lfoor Expr+ \rfloor ?
 //        
 //        /* generic instantiation */
