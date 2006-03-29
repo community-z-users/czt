@@ -1579,7 +1579,7 @@ non terminal DeclList
 </add:zpatt>
 
 <add:circus>
-/// Circus constructs ///////////////////////////////////////////////
+/// Circus paragraphs ///////////////////////////////////////////////
 non terminal Para
     channelPara,
     channelSetPara,
@@ -1591,6 +1591,48 @@ non terminal Para
 non terminal List &lt; Para &gt;
     innerParaList;
 
+/// Circus channel definition ////////////////////////////////////////////////   
+non terminal List&lt;ChannelDecl&gt;
+    channelDeclList;
+
+non terminal ChannelDecl
+    channelDecl, channelFromDecl;
+
+non terminal ChannelSet
+    channelSet;
+    
+/// Circus channel set expression definition ////////////////////////////////
+
+non terminal Expr
+    cs_expression;
+
+non terminal ZDeclList
+    cs_letDefinitionList;
+
+non terminal ConstDecl
+    cs_letDefinition;    
+
+non terminal TermA
+    cs_term,    
+    cs_func_appl,
+    cs_inner_term,
+    cs_nofixApp,
+    cs_application,
+    cs_prefixApp,
+    cs_postfixApp,
+    cs_infixApp;
+
+non terminal List&lt;Object&gt;
+    cs_expSep;
+
+non terminal ZExprList
+    cs_optExpressionList,
+    cs_expressionList;
+    
+non terminal List&lt;ZRefName&gt;
+    optRefNameList;
+    
+/// Circus process definition ///////////////////////////////////////////////    
 non terminal CircusProcess 
     processDesc, 
     paramProcess, 
@@ -1603,16 +1645,19 @@ non terminal RenameList
     
 non terminal DeclList
     circusParams;
-    
+
+/// Circus action definition ///////////////////////////////////////////////        
 non terminal CircusAction
     paramAction,
     circusAction,
     actionCall,
     cspAction;
     
+/// Circus guard //////////////////////////////////////////////////////////        
 non terminal Pred
     guard;
-    
+   
+/// Circus communication /////////////////////////////////////////////////         
 non terminal Communication
     communication;
 
@@ -1622,7 +1667,8 @@ non terminal List&lt;Field&gt;
     
 non terminal Field
     commField;
-    
+
+/// Circus guarded commands /////////////////////////////////////////////////             
 non terminal CircusCommand
     command;    
 
@@ -1632,17 +1678,10 @@ non terminal List&lt;GuardedAction&gt;
 non terminal GuardedAction
     guardedCommand;
 
-non terminal List&lt;ChannelDecl&gt;
-    channelDeclList;
-
-non terminal ChannelDecl
-    channelDecl, channelFromDecl;
-
-non terminal ChannelSet
-    channelSet;
-    
+/// Circus name set definition /////////////////////////////////////////////
 non terminal NameSet
     nameSet;
+    
 </add:circus>
 
 <add:oz>
@@ -2487,20 +2526,374 @@ channelSetPara ::=
         ;
         
 channelSet ::=
-        LCIRCCHANSET optExpressionList:oel RCIRCCHANSET
+        /*LCIRCCHANSET:lc optRefNameList:ornl RCIRCCHANSET
         {:
-           Expr e = validateChannelSetExpr(createBasicChannelSetExpr(oel));
+           Expr e = null;//validateChannelSetExpr(createBasicChannelSetExpr(oel)); TODO:NOW
            RESULT = factory_.createChannelSet(e);
-           addLocAnn(RESULT, oelleft, oelright);
+           addLocAnn(RESULT, lcleft, lcright);
         :}
-        | 
+        | */
         expression:e
-        {:
-           Expr eValid = validateChannelSetExpr(e);
-           RESULT = factory_.createChannelSet(eValid);
+        {:           
+           RESULT = factory_.createChannelSet(e);
            addLocAnn(RESULT, eleft, eright);
         :}
         ;
+        
+/// Channel Set Expression ////////////////////////////        
+
+// Although there are no predicate mixed within the cs_expression subtree,
+// if we use cs_expression directly instead of cs_term, it causes conflicts.
+cs_expression ::=
+        cs_term:t
+        {: RESULT = expr(t); :}
+        ;
+        
+cs_term ::=
+        /* conditional */
+        IF:i predicate:p THEN cs_term:te ELSE cs_term:fe
+        {:
+           RESULT = factory_.createCondExpr(p, expr(te), expr(fe));
+           addLocAnn(RESULT, ileft, iright);
+        :}
+        |
+        /* function construction */
+        LAMBDA:lambda schemaText:st SPOT cs_term:t
+        {:
+           RESULT = factory_.createLambdaExpr(st, expr(t));
+           addLocAnn(RESULT, lambdaleft, lambdaright);
+        :} %prec LAMBDA
+        |
+        /* definite description */
+        MU:mu schemaText:st SPOT cs_term:t
+        {:
+           RESULT = factory_.createMuExpr(st, expr(t));
+           addLocAnn(RESULT, muleft, muright);
+        :} %prec MU
+        |
+        /* substitution expression */
+        LET:let cs_letDefinitionList:ldl SPOT cs_term:t
+        {:
+           ZSchText st = factory_.createZSchText(ldl, null);
+           RESULT = factory_.createLetExpr(st, expr(t));
+           addLocAnn(RESULT, letleft, letright);
+        :} %prec LET
+        |
+        /* application of operator function */
+        cs_application:a
+        {: RESULT = a; :}
+        |
+        /* application of non-operator function */
+       /* cs_func_appl:fa
+        {: RESULT = fa; :}*/
+        ;
+
+cs_letDefinitionList ::=
+        cs_letDefinitionList:ldl SEMICOLON cs_letDefinition:ld
+        {:
+           ldl.getDecl().add(ld);
+           RESULT = ldl;
+        :}
+        |
+        cs_letDefinition:ld
+        {: RESULT = factory_.createZDeclList(list(ld)); :}
+        ;
+
+cs_letDefinition ::=
+        declName:n DEFEQUAL:defequal cs_expression:e
+        {:
+           RESULT = factory_.createConstDecl(n, expr(e));
+           addLocAnn(RESULT, defequalleft, defequalright);
+        :}
+        ;
+
+cs_func_appl ::=
+        cs_func_appl:fa cs_inner_term:it
+        {:
+           RESULT = factory_.createApplExpr(expr(fa), expr(it), Boolean.FALSE);
+           addLocAnn(RESULT, faleft, itright);
+        :} %prec _APPLICATION
+        |
+        cs_inner_term:it
+        {: RESULT = it; :} %prec _APPLICATION
+        ;
+
+cs_inner_term ::=
+        /* channel set extension */
+        LCIRCCHANSET:lc optRefNameList:ornl RCIRCCHANSET:rc
+        {:
+           RESULT = null;//factory_.createBasicChannelSetExpr(ornl); TODO:NOW
+           addLocAnn(RESULT, lcleft, lcright);
+        :}
+        |
+        cs_nofixApp:nfa
+        {: RESULT = nfa; :} %prec _APPLICATION
+        |
+        /* generic instantiation */
+        /* If cs_inner_term is changed to refName
+           (as in the grammar given in the Z Standard),
+           rename expressions fail to parse. */
+        cs_inner_term:it LSQUARE expressionList:el RSQUARE
+        {:
+           RESULT = factory_.createRefExpr(refname(it), el, Boolean.FALSE);
+           addLocAnn(RESULT, itleft, itright);
+        :}
+        |
+        /* parenthesized cs_term */
+        LPAREN cs_expression:t RPAREN
+        {:
+           t.getAnns().add(factory_.createParenAnn());
+           RESULT = t;
+        :}
+        |
+        /* reference */
+        refName:rn
+        {:
+           RESULT = factory_.createRefExpr(rn);
+           addLocAnn(RESULT, rnleft, rnright);
+        :}
+        ;
+
+cs_nofixApp ::=
+        // Normal applications of op templates (no example, sorry ).
+        L:l cs_expSep:es cs_expression:t ER:er
+        {:
+           List&lt;String&gt; opName = list(l);
+           addExpSepName(opName, es);
+           opName.add(ARG_TOK);
+           opName.add(er);
+
+           ZExprList expList = factory_.createZExprList();
+           addExpSepExp(expList, es);
+           expList.add(t);
+           RESULT = localCreateMixfixExpr(opName, expList, lleft, lright);
+           addLocAnn(RESULT, lleft, lright);
+        :}
+        |
+        // This would allow something like ((&lt;,,&gt;)[...](&lt;x, y&gt;))? Maybe remove?
+        L:l cs_expSep:es cs_optExpressionList:oel SR:sr
+        {:
+           List&lt;String&gt; opName = list(l);
+           addExpSepName(opName, es);
+           opName.add(LISTARG_TOK);
+           opName.add(sr);
+
+           ZExprList expList = factory_.createZExprList();
+           addExpSepExp(expList, es);
+           Expr seq = factory_.createSequence(oel);
+           addLocAnn(seq, oelleft, oelright);
+           expList.add(seq);
+           RESULT = localCreateMixfixExpr(opName, expList, lleft, lright);
+           addLocAnn(RESULT, lleft, lright);
+        :}
+        ;
+
+// Prodcutions for cs_application uses cs_expression rather than cs_term as 
+// there are no predicate mixed in the cs_expression subtree. 
+cs_application ::=
+        cs_prefixApp:pa
+        {: RESULT = pa; :}
+        |
+        cs_postfixApp:pa
+        {: RESULT = pa; :}
+        |
+        cs_infixApp:ia
+        {: RESULT = ia; :}
+        ;
+
+cs_prefixApp ::=
+        PRE:pre cs_expression:t
+        {:
+           ZExprList exprs = factory_.createZExprList();
+           exprs.add(t);
+           RESULT = localCreateMixfixExpr(list(pre, ARG_TOK), exprs,
+                                          preleft, preright);
+           addLocAnn(RESULT, preleft, preright);
+        :}
+        |
+        L:l cs_expSep:es cs_expression:t1 ERE:ere cs_expression:t2
+        {:
+           List&lt;String&gt; opName = list(l);
+           addExpSepName(opName, es);
+           opName.add(ARG_TOK);
+           opName.add(ere);
+           opName.add(ARG_TOK);
+
+           ZExprList expList = factory_.createZExprList();
+           addExpSepExp(expList, es);
+           expList.add(t1);
+           expList.add(t2);
+           RESULT = localCreateMixfixExpr(opName, expList, lleft, lright);
+           addLocAnn(RESULT, lleft, lright);
+        :}
+        |
+        L:l cs_expSep:es cs_optExpressionList:oel SRE:sre cs_expression:t
+        {:
+           List&lt;String&gt; opName = list(l);
+           addExpSepName(opName, es);
+           opName.add(LISTARG_TOK);
+           opName.add(sre);
+           opName.add(ARG_TOK);
+
+           ZExprList expList = factory_.createZExprList();
+           addExpSepExp(expList, es);
+           Expr seq = factory_.createSequence(oel);
+           addLocAnn(seq, oelleft, oelright);
+           expList.add(seq);
+           //expList.add(factory_.createSequence(oel));
+           expList.add(t);
+           RESULT = localCreateMixfixExpr(opName, expList, lleft, lright);
+           addLocAnn(RESULT, lleft, lright);
+        :}
+        ;
+
+cs_postfixApp ::=
+        cs_expression:t POST:post
+        {:
+           ZExprList exprs = factory_.createZExprList();
+           exprs.add(t);
+           RESULT = localCreateMixfixExpr(list(ARG_TOK, post), exprs,
+                                          tleft, tright);
+           addLocAnn(RESULT, postleft, postright);
+        :}
+        |
+        cs_expression:t1 EL:el cs_expSep:es cs_expression:t2 ER:er
+        {:
+           List&lt;String&gt; opName = list(ARG_TOK);
+           opName.add(el);
+           addExpSepName(opName, es);
+           opName.add(ARG_TOK);
+           opName.add(er);
+
+           ZExprList expList = factory_.createZExprList();
+           expList.add(t1);
+           addExpSepExp(expList, es);
+           expList.add(t2);
+           RESULT = localCreateMixfixExpr(opName, expList, t1left, t1right);
+           addLocAnn(RESULT, elleft, elright);
+        :}
+        |
+        cs_expression:t EL:el cs_expSep:es cs_optExpressionList:oel SR:sr
+        {:
+           List&lt;String&gt; opName = list(ARG_TOK);
+           opName.add(el);
+           addExpSepName(opName, es);
+           opName.add(LISTARG_TOK);
+           opName.add(sr);
+
+           ZExprList expList = factory_.createZExprList();
+           expList.add(t);
+           addExpSepExp(expList, es);
+           Expr seq = factory_.createSequence(oel);
+           addLocAnn(seq, oelleft, oelright);
+           expList.add(seq);
+           //expList.add(factory_.createSequence(oel));
+           RESULT = localCreateMixfixExpr(opName, expList, tleft, tright);
+           addLocAnn(RESULT, elleft, elright);
+        :}
+        ;
+
+cs_infixApp ::=
+        cs_expression:lhs I:i cs_expression:rhs
+        {:
+           List&lt;String&gt; opName = list(ARG_TOK);
+           opName.add(i);
+           opName.add(ARG_TOK);
+           ZExprList exprs = factory_.createZExprList();
+           exprs.add(lhs);
+           exprs.add(rhs);
+           RESULT = localCreateMixfixExpr(opName, exprs,
+                                          lhsleft, lhsright);
+           addLocAnn(RESULT, ileft, iright);
+        :}
+        |
+        cs_expression:t1 EL:el cs_expSep:es cs_expression:t2 ERE:ere cs_expression:t3
+        {:
+           List&lt;String&gt; opName = list(ARG_TOK);
+           opName.add(el);
+           addExpSepName(opName, es);
+           opName.add(ARG_TOK);
+           opName.add(ere);
+           opName.add(ARG_TOK);
+
+           ZExprList expList = factory_.createZExprList();
+           expList.add(t1);
+           addExpSepExp(expList, es);
+           expList.add(t2);
+           expList.add(t3);
+           RESULT = localCreateMixfixExpr(opName, expList, t1left, t1right);
+           addLocAnn(RESULT, elleft, elright);
+        :}
+        |
+        cs_expression:t1 EL:el cs_expSep:es optExpressionList:oel SRE:sre cs_expression:t2
+        {:
+           List&lt;String&gt; opName = list(ARG_TOK);
+           opName.add(el);
+           addExpSepName(opName, es);
+           opName.add(LISTARG_TOK);
+           opName.add(sre);
+           opName.add(ARG_TOK);
+
+           ZExprList expList = factory_.createZExprList();
+           expList.add(t1);
+           addExpSepExp(expList, es);
+           Expr seq = factory_.createSequence(oel);
+           addLocAnn(seq, oelleft, oelright);
+           expList.add(seq);
+           expList.add(t2);
+           RESULT = localCreateMixfixExpr(opName, expList, t1left, t1right);
+           addLocAnn(RESULT, elleft, elright);
+        :}
+        ;
+
+cs_expSep ::=
+        //empty
+        {: RESULT = list(); :} %prec I
+        |
+        cs_expSep:exs cs_expression:t ES:es
+        {:
+           exs.add(list(t));
+           exs.add(es);
+           RESULT = exs;
+        :}
+        |
+        cs_expSep:exs cs_expressionList:el SS:ss
+        {:
+           exs.add(el);
+           exs.add(ss);
+           RESULT = exs;
+        :}
+        ;
+
+cs_optExpressionList ::=
+        //empty
+        {: RESULT = factory_.createZExprList(); :}
+        |
+        cs_expressionList:el
+        {: RESULT = el; :}
+        ;
+
+cs_expressionList ::=
+        cs_expressionList:el COMMA cs_expression:e
+        {:
+           el.add(e);
+           RESULT = el;
+        :}
+        |
+        cs_expression:e
+        {:
+           RESULT = factory_.createZExprList();
+           RESULT.add(e);
+        :}
+        ;
+
+optRefNameList ::=
+        //empty
+        {: RESULT = factory_.&lt;ZRefName&gt;list(); :}
+        |
+        refNameList:rnl
+        {: RESULT = rnl; :}
+        ;        
         
 /// Process Paragraphs ////////////////////////////////
 
