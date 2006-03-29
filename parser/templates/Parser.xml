@@ -532,7 +532,7 @@ action code
         // Done by callers: addLocAnn(result, line, column);
       }
 
-      return result;
+      return result;  
     }
 
     /**
@@ -1304,7 +1304,7 @@ terminal
         CIRCDEF, CIRCINDEX, CIRCMU, CIRCTHEN, CIRCELSE, CIRCCOMMQUERY,
         CIRCUCOMMSHRIEK, PREFIXTHEN, // Just use DOT for the moment CIRCCOMMDOT, 
         CIRCGUARD, CIRCSEQ, REPSEQ, INTERLEAVE, REPINTERLEAVE,
-        REPPARALLEL, HIDING, EXTCHOICE, REPEXTCHOICE, INTCHOICE,
+        REPPARALLEL, CIRCHIDING, EXTCHOICE, REPEXTCHOICE, INTCHOICE,
         REPINTCHOICE,
         
         // Keywords
@@ -1753,7 +1753,7 @@ precedence right        CIRCMU;
 precedence right        CIRCVAR;
 precedence nonassoc     CIRCDO, CIRCOD;
 precedence nonassoc     CIRCIF, CIRCFI, CIRCTHEN, CIRCELSE;
-precedence left         HIDING;
+precedence left         CIRCHIDING;
 precedence left         INTERLEAVE;//, REPINTERLEAVE;
 precedence nonassoc     LINTER, RINTER;
 //precedence left         REPPARALLEL;
@@ -2556,7 +2556,7 @@ process ::=
         :}
         |        
         /* Processes operator productions in precendence order */
-        process:p HIDING:h channelSet:cs
+        process:p CIRCHIDING:h channelSet:cs
         {:
            RESULT = factory_.createHideProcess(p, cs);
            addLocAnn(RESULT, pleft, pright);
@@ -2679,17 +2679,10 @@ process ::=
             RESULT = pc;
         :}    
         ;
-        
-// CONFLICTS        
+
 processCall ::=                        
-//        /* Generic actuals instantiation */
-//        refName:rn LSQUARE expressionList:el RSQUARE
-//        {:
-//            /* The CallType is irrelevant and the parameters are null */
-//            RESULT = factory_.createCallProcess(rn, null, el, CallType.Param);
-//            addLocAnn(RESULT, rnleft, rnright);
-//        :}
-//        |
+         /* Nongenertic parameterised process call with instantiations */
+// CONFLICTS WITH declPart of param/indexProc and guard of guardedProcess.
 //        refName:rn LPAREN expressionList:el RPAREN
 //        {:
 //            /* The CallType is Param and the generic actuals are null */
@@ -2697,21 +2690,46 @@ processCall ::=
 //            addLocAnn(RESULT, rnleft, rnright);
 //        :}
 //        |
-//        refName:rn CIRCLINST expressionList:el CIRCRINST
-//        {:
-//            /* The CallType is Index and the generic actuals are null */
-//            RESULT = factory_.createCallProcess(rn, null, el, CallType.Index);
-//            addLocAnn(RESULT, rnleft, rnright);
-//        :}
-//        |
+         /* Genertic parameterised process call with instantiations */
+        refName:rn LSQUARE expressionList:ga RSQUARE LPAREN expressionList:param RPAREN
+        {:
+            /* The CallType is Param and both generic actuals and indexes are not null */
+            RESULT = factory_.createCallProcess(rn, ga, param, CallType.Param);
+            addLocAnn(RESULT, rnleft, rnright);
+        :}
+        |
+        /* Nongeneric indexed process call with instantiations */
+        refName:rn CIRCLINST expressionList:idx CIRCRINST
+        {:
+            /* The CallType is Index and the generic actuals are null */
+            RESULT = factory_.createCallProcess(rn, null, idx, CallType.Index);
+            addLocAnn(RESULT, rnleft, rnright);
+        :}
+        |
+        /* Generic indexed process call with instantiations */
+        refName:rn LSQUARE expressionList:ga RSQUARE CIRCLINST expressionList:idx CIRCRINST
+        {:
+            /* The CallType is Index and both generic actuals and indexes are not null */
+            RESULT = factory_.createCallProcess(rn, ga, idx, CallType.Index);
+            addLocAnn(RESULT, rnleft, rnright);
+        :}
+        |        
+        /* Generic parameterless process call with instantiation */
+        refName:rn LSQUARE expressionList:ga RSQUARE
+        {:
+            /* The CallType is irrelevant and the parameters are null */
+            RESULT = factory_.createCallProcess(rn, ga, null, CallType.Param);
+            addLocAnn(RESULT, rnleft, rnright);
+        :}
+        |        
+        /* Nongeneric parameterless process call */
         refName:rn
         {:
-            /* The CallType is irrelevant and both parameters and generic actuals are null */
+            /* The CallType is irrelevant and both generic actuals and parameters are null */
             RESULT = factory_.createCallProcess(rn, null, null, CallType.Param);
             addLocAnn(RESULT, rnleft, rnright);
         :}
         ;
-//        // Should we accept N[Expr+](Expr+), N[Expr+]\lfoor Expr+ \rfloor ?
 //        
 //        /* generic instantiation */
 //        /* If inner_term is changed to refName
@@ -2867,7 +2885,7 @@ cspAction ::=
         :}
         |
         /* Action operator productions in precendence order */
-        circusAction:ca HIDING:h channelSet:cs
+        circusAction:ca CIRCHIDING:h channelSet:cs
         {:
            RESULT = factory_.createHideAction(ca, cs);
            addLocAnn(RESULT, caleft, caright);
