@@ -137,7 +137,8 @@
   <target name="compile" depends="init, generate-src, 
       z-UnicodeToLatex, oldz-UnicodeToLatex, oz-UnicodeToLatex"
           description="Compiles the sources.">
-    <javac source="1.5" srcdir="${src.dir}:${build.src.dir}"
+    <javac source="1.5"
+           srcdir="${src.dir}:${build.src.dir}" excludes="**/circus/**"
            destdir="${build.class.dir}"
            debug="${debug}" debuglevel="${debuglevel}" optimize="${optimize}">
       <classpath refid="classpath"/>
