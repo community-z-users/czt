@@ -1,5 +1,6 @@
 /*
-  Copyright (C) 2003, 2004, 2005 Tim Miller, Petra Malik
+  Copyright (C) 2003, 2004, 2005 Tim Miller
+  Copyright (C) 2003, 2004, 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -104,6 +105,24 @@ public class PrecedenceHandlingVisitor
     return o;
   }
 
+  protected Expr createExpr(WrappedExpr wrappedExpr)
+  {
+    final RefName refName = wrappedExpr.getRefName();
+    if (wrappedExpr.getExpr() instanceof ApplExpr) {
+      ZExprList zExprList = factory_.createZExprList();
+      RefExpr refExpr =
+        factory_.createRefExpr(refName, zExprList, Boolean.FALSE);
+      TupleExpr tupleExpr =
+        factory_.createTupleExpr(factory_.createZExprList());
+      return factory_.createApplExpr(refExpr, tupleExpr, Boolean.TRUE);
+    }
+    else if (wrappedExpr.getExpr() instanceof ProdExpr) {
+      return factory_.createProdExpr(factory_.createZExprList());
+    }
+    ZExprList zExprList = factory_.createZExprList();
+    return factory_.createRefExpr(refName, zExprList, Boolean.TRUE);
+  }
+
   protected Expr reorder(WrappedExpr wExpr)
   {
     //if we need to reorder wExpr and its subchild
@@ -113,52 +132,13 @@ public class PrecedenceHandlingVisitor
       WrappedExpr wChild = new WrappedExpr(wExpr.getList().get(0));
 
       //create the new parent
-      RefName childName = wChild.getRefName();
-      Expr newParent = null;
-      if (wChild.getExpr() instanceof ApplExpr) {
-        ZExprList zExprList = factory_.createZExprList();
-        RefExpr refExpr =
-          factory_.createRefExpr(childName, zExprList, Boolean.FALSE);
-        TupleExpr tupleExpr =
-          factory_.createTupleExpr(factory_.createZExprList());
-        newParent =
-          factory_.createApplExpr(refExpr, tupleExpr, Boolean.TRUE);
-      }
-      else if (wChild.getExpr() instanceof ProdExpr) {
-        newParent = factory_.createProdExpr(factory_.createZExprList());
-      }
-      else {
-        ZExprList zExprList = factory_.createZExprList();
-        newParent = factory_.createRefExpr(childName, zExprList, Boolean.TRUE);
-      }
-
+      Expr newParent = createExpr(wChild);
       if (hasParenAnn(wExpr.getExpr())) {
         newParent.getAnns().add(factory_.createParenAnn());
       }
 
       //create the new child
-      RefName parentName = wExpr.getRefName();
-      Expr newChild = null;
-      if (wExpr.getExpr() instanceof ApplExpr) {
-        ZExprList zExprList = factory_.createZExprList();
-        RefExpr refExpr = factory_.createRefExpr(parentName,
-                                                 zExprList,
-                                                 Boolean.FALSE);
-        TupleExpr tupleExpr =
-          factory_.createTupleExpr(factory_.createZExprList());
-        newChild = factory_.createApplExpr(refExpr,
-                                           tupleExpr,
-                                           Boolean.TRUE);
-      }
-      else if (wExpr.getExpr() instanceof ProdExpr) {
-        newChild = factory_.createProdExpr(factory_.createZExprList());
-      }
-      else {
-        ZExprList zExprList = factory_.createZExprList();
-        newChild = factory_.createRefExpr(parentName,
-                                          zExprList,
-                                          Boolean.TRUE);
-      }
+      Expr newChild = createExpr(wExpr);
 
       //the next block creates the new parent and child. This is
       //terribly messy
