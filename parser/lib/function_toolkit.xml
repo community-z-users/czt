@@ -158,7 +158,7 @@
                                             </Anns>
                                             <Word>f</Word>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="true">
+                                        <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="24" Line="19" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
@@ -169,7 +169,7 @@
                                                 <Word> _ ↔ _ </Word>
                                             </ZRefName>
                                             <ZExprList>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="22" Line="19" Loc="lib/function_toolkit.tex"/>
                                                     </Anns>
@@ -181,7 +181,7 @@
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="29" Line="19" Loc="lib/function_toolkit.tex"/>
                                                     </Anns>
@@ -219,7 +219,7 @@
                                                     </Anns>
                                                     <Word>q</Word>
                                                 </ZDeclName>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="49" Line="19" Loc="lib/function_toolkit.tex"/>
                                                     </Anns>
@@ -241,7 +241,7 @@
                                                 <Anns>
                                                     <LocAnn Col="54" Line="19" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="53" Line="19" Loc="lib/function_toolkit.tex"/>
                                                     </Anns>
@@ -261,7 +261,7 @@
                                                         <Anns>
                                                             <LocAnn Col="60" Line="19" Loc="lib/function_toolkit.tex"/>
                                                         </Anns>
-                                                        <RefExpr Mixfix="false">
+                                                        <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="59" Line="19" Loc="lib/function_toolkit.tex"/>
                                                             </Anns>
@@ -287,7 +287,7 @@
                                             <Anns>
                                                 <LocAnn Col="66" Line="19" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="65" Line="19" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
@@ -307,7 +307,7 @@
                                                     <Anns>
                                                         <LocAnn Col="72" Line="19" Loc="lib/function_toolkit.tex"/>
                                                     </Anns>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="71" Line="19" Loc="lib/function_toolkit.tex"/>
                                                         </Anns>
@@ -399,7 +399,7 @@ The terms ``function'' and ``partial function'' are synonymous.
                                             </Anns>
                                             <Word>f</Word>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="true">
+                                        <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="24" Line="35" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
@@ -410,7 +410,7 @@ The terms ``function'' and ``partial function'' are synonymous.
                                                 <Word> _ ↔ _ </Word>
                                             </ZRefName>
                                             <ZExprList>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="22" Line="35" Loc="lib/function_toolkit.tex"/>
                                                     </Anns>
@@ -422,7 +422,7 @@ The terms ``function'' and ``partial function'' are synonymous.
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="29" Line="35" Loc="lib/function_toolkit.tex"/>
                                                     </Anns>
@@ -460,7 +460,7 @@ The terms ``function'' and ``partial function'' are synonymous.
                                                     </Anns>
                                                     <Word>q</Word>
                                                 </ZDeclName>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="48" Line="35" Loc="lib/function_toolkit.tex"/>
                                                     </Anns>
@@ -487,7 +487,7 @@ The terms ``function'' and ``partial function'' are synonymous.
                                                 <Anns>
                                                     <LocAnn Col="53" Line="35" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="52" Line="35" Loc="lib/function_toolkit.tex"/>
                                                     </Anns>
@@ -507,7 +507,7 @@ The terms ``function'' and ``partial function'' are synonymous.
                                                         <Anns>
                                                             <LocAnn Col="59" Line="35" Loc="lib/function_toolkit.tex"/>
                                                         </Anns>
-                                                        <RefExpr Mixfix="false">
+                                                        <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="58" Line="35" Loc="lib/function_toolkit.tex"/>
                                                             </Anns>
@@ -532,7 +532,7 @@ The terms ``function'' and ``partial function'' are synonymous.
                                                 <Anns>
                                                     <LocAnn Col="68" Line="35" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="67" Line="35" Loc="lib/function_toolkit.tex"/>
                                                     </Anns>
@@ -552,7 +552,7 @@ The terms ``function'' and ``partial function'' are synonymous.
                                                         <Anns>
                                                             <LocAnn Col="74" Line="35" Loc="lib/function_toolkit.tex"/>
                                                         </Anns>
-                                                        <RefExpr Mixfix="false">
+                                                        <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="73" Line="35" Loc="lib/function_toolkit.tex"/>
                                                             </Anns>
@@ -634,7 +634,7 @@ The terms ``injection'' and ``partial injection'' are synonymous.
                             <Anns>
                                 <LocAnn Col="27" Line="52" Loc="lib/function_toolkit.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="25" Line="52" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
@@ -651,7 +651,7 @@ The terms ``injection'' and ``partial injection'' are synonymous.
                                     <LocAnn Col="25" Line="52" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
                                 <ZExprList>
-                                    <RefExpr Mixfix="true">
+                                    <RefExpr Explicit="true" Mixfix="true">
                                         <Anns>
                                             <LocAnn Col="17" Line="52" Loc="lib/function_toolkit.tex"/>
                                             <ParenAnn/>
@@ -663,7 +663,7 @@ The terms ``injection'' and ``partial injection'' are synonymous.
                                             <Word> _ ⤔ _ </Word>
                                         </ZRefName>
                                         <ZExprList>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="15" Line="52" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
@@ -675,7 +675,7 @@ The terms ``injection'' and ``partial injection'' are synonymous.
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="23" Line="52" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
@@ -689,7 +689,7 @@ The terms ``injection'' and ``partial injection'' are synonymous.
                                             </RefExpr>
                                         </ZExprList>
                                     </RefExpr>
-                                    <RefExpr Mixfix="true">
+                                    <RefExpr Explicit="true" Mixfix="true">
                                         <Anns>
                                             <LocAnn Col="36" Line="52" Loc="lib/function_toolkit.tex"/>
                                             <ParenAnn/>
@@ -701,7 +701,7 @@ The terms ``injection'' and ``partial injection'' are synonymous.
                                             <Word> _ → _ </Word>
                                         </ZRefName>
                                         <ZExprList>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="34" Line="52" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
@@ -713,7 +713,7 @@ The terms ``injection'' and ``partial injection'' are synonymous.
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="41" Line="52" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
@@ -801,7 +801,7 @@ that are also total functions from $X$ to $Y$.
                                             </Anns>
                                             <Word>f</Word>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="true">
+                                        <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="25" Line="67" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
@@ -812,7 +812,7 @@ that are also total functions from $X$ to $Y$.
                                                 <Word> _ ⇸ _ </Word>
                                             </ZRefName>
                                             <ZExprList>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="23" Line="67" Loc="lib/function_toolkit.tex"/>
                                                     </Anns>
@@ -824,7 +824,7 @@ that are also total functions from $X$ to $Y$.
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="31" Line="67" Loc="lib/function_toolkit.tex"/>
                                                     </Anns>
@@ -848,7 +848,7 @@ that are also total functions from $X$ to $Y$.
                                         <Anns>
                                             <LocAnn Col="40" Line="67" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="35" Line="67" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
@@ -860,7 +860,7 @@ that are also total functions from $X$ to $Y$.
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="40" Line="67" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
@@ -875,7 +875,7 @@ that are also total functions from $X$ to $Y$.
                                     </ApplExpr>
                                     <SetExpr>
                                         <ZExprList>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="44" Line="67" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
@@ -952,7 +952,7 @@ The terms ``surjection'' and ``partial surjection'' are synonymous.
                             <Anns>
                                 <LocAnn Col="28" Line="83" Loc="lib/function_toolkit.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="26" Line="83" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
@@ -969,7 +969,7 @@ The terms ``surjection'' and ``partial surjection'' are synonymous.
                                     <LocAnn Col="26" Line="83" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
                                 <ZExprList>
-                                    <RefExpr Mixfix="true">
+                                    <RefExpr Explicit="true" Mixfix="true">
                                         <Anns>
                                             <LocAnn Col="18" Line="83" Loc="lib/function_toolkit.tex"/>
                                             <ParenAnn/>
@@ -981,7 +981,7 @@ The terms ``surjection'' and ``partial surjection'' are synonymous.
                                             <Word> _ ⤀ _ </Word>
                                         </ZRefName>
                                         <ZExprList>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="16" Line="83" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
@@ -993,7 +993,7 @@ The terms ``surjection'' and ``partial surjection'' are synonymous.
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="25" Line="83" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
@@ -1007,7 +1007,7 @@ The terms ``surjection'' and ``partial surjection'' are synonymous.
                                             </RefExpr>
                                         </ZExprList>
                                     </RefExpr>
-                                    <RefExpr Mixfix="true">
+                                    <RefExpr Explicit="true" Mixfix="true">
                                         <Anns>
                                             <LocAnn Col="37" Line="83" Loc="lib/function_toolkit.tex"/>
                                             <ParenAnn/>
@@ -1019,7 +1019,7 @@ The terms ``surjection'' and ``partial surjection'' are synonymous.
                                             <Word> _ → _ </Word>
                                         </ZRefName>
                                         <ZExprList>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="35" Line="83" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
@@ -1031,7 +1031,7 @@ The terms ``surjection'' and ``partial surjection'' are synonymous.
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="42" Line="83" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
@@ -1107,7 +1107,7 @@ that are also total functions from $X$ to $Y$.
                             <Anns>
                                 <LocAnn Col="27" Line="98" Loc="lib/function_toolkit.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="25" Line="98" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
@@ -1124,7 +1124,7 @@ that are also total functions from $X$ to $Y$.
                                     <LocAnn Col="25" Line="98" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
                                 <ZExprList>
-                                    <RefExpr Mixfix="true">
+                                    <RefExpr Explicit="true" Mixfix="true">
                                         <Anns>
                                             <LocAnn Col="17" Line="98" Loc="lib/function_toolkit.tex"/>
                                             <ParenAnn/>
@@ -1136,7 +1136,7 @@ that are also total functions from $X$ to $Y$.
                                             <Word> _ ↠ _ </Word>
                                         </ZRefName>
                                         <ZExprList>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="15" Line="98" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
@@ -1148,7 +1148,7 @@ that are also total functions from $X$ to $Y$.
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="23" Line="98" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
@@ -1162,7 +1162,7 @@ that are also total functions from $X$ to $Y$.
                                             </RefExpr>
                                         </ZExprList>
                                     </RefExpr>
-                                    <RefExpr Mixfix="true">
+                                    <RefExpr Explicit="true" Mixfix="true">
                                         <Anns>
                                             <LocAnn Col="36" Line="98" Loc="lib/function_toolkit.tex"/>
                                             <ParenAnn/>
@@ -1174,7 +1174,7 @@ that are also total functions from $X$ to $Y$.
                                             <Word> _ ↣ _ </Word>
                                         </ZRefName>
                                         <ZExprList>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="34" Line="98" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
@@ -1186,7 +1186,7 @@ that are also total functions from $X$ to $Y$.
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="41" Line="98" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
@@ -1262,7 +1262,7 @@ that are also total injections from $X$ to $Y$.
                             <Anns>
                                 <LocAnn Col="26" Line="113" Loc="lib/function_toolkit.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="24" Line="113" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
@@ -1279,7 +1279,7 @@ that are also total injections from $X$ to $Y$.
                                     <LocAnn Col="24" Line="113" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
                                 <ZExprList>
-                                    <RefExpr Mixfix="true">
+                                    <RefExpr Explicit="true" Mixfix="true">
                                         <Anns>
                                             <LocAnn Col="17" Line="113" Loc="lib/function_toolkit.tex"/>
                                             <ParenAnn/>
@@ -1291,7 +1291,7 @@ that are also total injections from $X$ to $Y$.
                                             <Word> _ ⇸ _ </Word>
                                         </ZRefName>
                                         <ZExprList>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="15" Line="113" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
@@ -1303,7 +1303,7 @@ that are also total injections from $X$ to $Y$.
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="23" Line="113" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
@@ -1317,7 +1317,7 @@ that are also total injections from $X$ to $Y$.
                                             </RefExpr>
                                         </ZExprList>
                                     </RefExpr>
-                                    <RefExpr Mixfix="true">
+                                    <RefExpr Explicit="true" Mixfix="true">
                                         <Anns>
                                             <LocAnn Col="31" Line="113" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
@@ -1334,7 +1334,7 @@ that are also total injections from $X$ to $Y$.
                                                     <ParenAnn/>
                                                 </Anns>
                                                 <ZExprList>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="40" Line="113" Loc="lib/function_toolkit.tex"/>
                                                         </Anns>
@@ -1346,7 +1346,7 @@ that are also total injections from $X$ to $Y$.
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="49" Line="113" Loc="lib/function_toolkit.tex"/>
                                                         </Anns>
@@ -1423,7 +1423,7 @@ that are also finite sets.
                             <Anns>
                                 <LocAnn Col="28" Line="127" Loc="lib/function_toolkit.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="26" Line="127" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
@@ -1440,7 +1440,7 @@ that are also finite sets.
                                     <LocAnn Col="26" Line="127" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
                                 <ZExprList>
-                                    <RefExpr Mixfix="true">
+                                    <RefExpr Explicit="true" Mixfix="true">
                                         <Anns>
                                             <LocAnn Col="18" Line="127" Loc="lib/function_toolkit.tex"/>
                                             <ParenAnn/>
@@ -1452,7 +1452,7 @@ that are also finite sets.
                                             <Word> _ ⇻ _ </Word>
                                         </ZRefName>
                                         <ZExprList>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="16" Line="127" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
@@ -1464,7 +1464,7 @@ that are also finite sets.
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="24" Line="127" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
@@ -1478,7 +1478,7 @@ that are also finite sets.
                                             </RefExpr>
                                         </ZExprList>
                                     </RefExpr>
-                                    <RefExpr Mixfix="true">
+                                    <RefExpr Explicit="true" Mixfix="true">
                                         <Anns>
                                             <LocAnn Col="37" Line="127" Loc="lib/function_toolkit.tex"/>
                                             <ParenAnn/>
@@ -1490,7 +1490,7 @@ that are also finite sets.
                                             <Word> _ ⤔ _ </Word>
                                         </ZRefName>
                                         <ZExprList>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="35" Line="127" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
@@ -1502,7 +1502,7 @@ that are also finite sets.
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="43" Line="127" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
@@ -1585,7 +1585,7 @@ that are also finite functions from $X$ to $Y$.
                             <Anns>
                                 <LocAnn Col="16" Line="141" Loc="lib/function_toolkit.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="true">
+                            <RefExpr Explicit="true" Mixfix="true">
                                 <Anns>
                                     <LocAnn Col="27" Line="141" Loc="lib/function_toolkit.tex"/>
                                     <ParenAnn/>
@@ -1597,7 +1597,7 @@ that are also finite functions from $X$ to $Y$.
                                     <Word> _ ↔ _ </Word>
                                 </ZRefName>
                                 <ZExprList>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="25" Line="141" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
@@ -1613,7 +1613,7 @@ that are also finite functions from $X$ to $Y$.
                                         <Anns>
                                             <LocAnn Col="32" Line="141" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="39" Line="141" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
@@ -1647,7 +1647,7 @@ that are also finite functions from $X$ to $Y$.
                                     </Anns>
                                     <Word>f</Word>
                                 </ZDeclName>
-                                <RefExpr Mixfix="true">
+                                <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="15" Line="143" Loc="lib/function_toolkit.tex"/>
                                     </Anns>
@@ -1658,7 +1658,7 @@ that are also finite functions from $X$ to $Y$.
                                         <Word> _ ↔ _ </Word>
                                     </ZRefName>
                                     <ZExprList>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="13" Line="143" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
@@ -1674,7 +1674,7 @@ that are also finite functions from $X$ to $Y$.
                                             <Anns>
                                                 <LocAnn Col="20" Line="143" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="27" Line="143" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
@@ -1700,7 +1700,7 @@ that are also finite functions from $X$ to $Y$.
                             <Anns>
                                 <LocAnn Col="1" Line="144" Loc="lib/function_toolkit.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="11" Line="144" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
@@ -1712,7 +1712,7 @@ that are also finite functions from $X$ to $Y$.
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="1" Line="144" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
@@ -1748,7 +1748,7 @@ that are also finite functions from $X$ to $Y$.
                                             </Anns>
                                             <Word>q</Word>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="36" Line="144" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
@@ -1771,7 +1771,7 @@ that are also finite functions from $X$ to $Y$.
                                             <LocAnn Col="40" Line="144" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
                                         <ZExprList>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="40" Line="144" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
@@ -1783,7 +1783,7 @@ that are also finite functions from $X$ to $Y$.
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="47" Line="144" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
@@ -1797,7 +1797,7 @@ that are also finite functions from $X$ to $Y$.
                                             </RefExpr>
                                         </ZExprList>
                                     </TupleExpr>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="40" Line="144" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
@@ -1819,7 +1819,7 @@ that are also finite functions from $X$ to $Y$.
                                     <Anns>
                                         <LocAnn Col="55" Line="144" Loc="lib/function_toolkit.tex"/>
                                     </Anns>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="53" Line="144" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
@@ -1840,7 +1840,7 @@ that are also finite functions from $X$ to $Y$.
                                                 <Anns>
                                                     <LocAnn Col="52" Line="144" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="51" Line="144" Loc="lib/function_toolkit.tex"/>
                                                     </Anns>
@@ -1858,7 +1858,7 @@ that are also finite functions from $X$ to $Y$.
                                                 <Anns>
                                                     <LocAnn Col="61" Line="144" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="60" Line="144" Loc="lib/function_toolkit.tex"/>
                                                     </Anns>
@@ -1877,7 +1877,7 @@ that are also finite functions from $X$ to $Y$.
                                 </ApplExpr>
                                 <SetExpr>
                                     <ZExprList>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="66" Line="144" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
@@ -1956,7 +1956,7 @@ distinct pair yields sets with no members in common.
                             </Anns>
                             <Word> _ partition _ </Word>
                         </ZDeclName>
-                        <RefExpr Mixfix="true">
+                        <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="40" Line="158" Loc="lib/function_toolkit.tex"/>
                             </Anns>
@@ -1967,7 +1967,7 @@ distinct pair yields sets with no members in common.
                                 <Word> _ ↔ _ </Word>
                             </ZRefName>
                             <ZExprList>
-                                <RefExpr Mixfix="true">
+                                <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="24" Line="158" Loc="lib/function_toolkit.tex"/>
                                         <ParenAnn/>
@@ -1979,7 +1979,7 @@ distinct pair yields sets with no members in common.
                                         <Word> _ ↔ _ </Word>
                                     </ZRefName>
                                     <ZExprList>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="22" Line="158" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
@@ -1995,7 +1995,7 @@ distinct pair yields sets with no members in common.
                                             <Anns>
                                                 <LocAnn Col="29" Line="158" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="36" Line="158" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
@@ -2014,7 +2014,7 @@ distinct pair yields sets with no members in common.
                                     <Anns>
                                         <LocAnn Col="45" Line="158" Loc="lib/function_toolkit.tex"/>
                                     </Anns>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="52" Line="158" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
@@ -2047,7 +2047,7 @@ distinct pair yields sets with no members in common.
                                     </Anns>
                                     <Word>f</Word>
                                 </ZDeclName>
-                                <RefExpr Mixfix="true">
+                                <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="15" Line="160" Loc="lib/function_toolkit.tex"/>
                                     </Anns>
@@ -2058,7 +2058,7 @@ distinct pair yields sets with no members in common.
                                         <Word> _ ↔ _ </Word>
                                     </ZRefName>
                                     <ZExprList>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="13" Line="160" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
@@ -2074,7 +2074,7 @@ distinct pair yields sets with no members in common.
                                             <Anns>
                                                 <LocAnn Col="20" Line="160" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="27" Line="160" Loc="lib/function_toolkit.tex"/>
                                                 </Anns>
@@ -2104,7 +2104,7 @@ distinct pair yields sets with no members in common.
                                     <Anns>
                                         <LocAnn Col="35" Line="160" Loc="lib/function_toolkit.tex"/>
                                     </Anns>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="42" Line="160" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
@@ -2133,7 +2133,7 @@ distinct pair yields sets with no members in common.
                                     <LocAnn Col="1" Line="161" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
                                 <ZExprList>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="1" Line="161" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
@@ -2145,7 +2145,7 @@ distinct pair yields sets with no members in common.
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="14" Line="161" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
@@ -2159,7 +2159,7 @@ distinct pair yields sets with no members in common.
                                     </RefExpr>
                                 </ZExprList>
                             </TupleExpr>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="1" Line="161" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
@@ -2180,7 +2180,7 @@ distinct pair yields sets with no members in common.
                                 <Anns>
                                     <LocAnn Col="21" Line="161" Loc="lib/function_toolkit.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="31" Line="161" Loc="lib/function_toolkit.tex"/>
                                     </Anns>
@@ -2192,7 +2192,7 @@ distinct pair yields sets with no members in common.
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="21" Line="161" Loc="lib/function_toolkit.tex"/>
                                     </Anns>
@@ -2213,7 +2213,7 @@ distinct pair yields sets with no members in common.
                                     <Anns>
                                         <LocAnn Col="56" Line="161" Loc="lib/function_toolkit.tex"/>
                                     </Anns>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="39" Line="161" Loc="lib/function_toolkit.tex"/>
                                         </Anns>
@@ -2230,7 +2230,7 @@ distinct pair yields sets with no members in common.
                                             <LocAnn Col="54" Line="161" Loc="lib/function_toolkit.tex"/>
                                             <ParenAnn/>
                                         </Anns>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="49" Line="161" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
@@ -2242,7 +2242,7 @@ distinct pair yields sets with no members in common.
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="54" Line="161" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
@@ -2258,7 +2258,7 @@ distinct pair yields sets with no members in common.
                                 </ApplExpr>
                                 <SetExpr>
                                     <ZExprList>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="60" Line="161" Loc="lib/function_toolkit.tex"/>
                                             </Anns>
