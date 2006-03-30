@@ -69,7 +69,7 @@
                             </Anns>
                             <Word> _ foo _ </Word>
                         </ZDeclName>
-                        <RefExpr Mixfix="true">
+                        <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="41" Line="12" Loc="tests/z/twosects1.tex"/>
                             </Anns>
@@ -85,7 +85,7 @@
                                         <LocAnn Col="39" Line="12" Loc="tests/z/twosects1.tex"/>
                                     </Anns>
                                     <ZExprList>
-                                        <RefExpr Mixfix="true">
+                                        <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="17" Line="12" Loc="tests/z/twosects1.tex"/>
                                                 <ParenAnn/>
@@ -97,7 +97,7 @@
                                                 <Word> _ ↔ _ </Word>
                                             </ZRefName>
                                             <ZExprList>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="15" Line="12" Loc="tests/z/twosects1.tex"/>
                                                     </Anns>
@@ -109,7 +109,7 @@
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="22" Line="12" Loc="tests/z/twosects1.tex"/>
                                                     </Anns>
@@ -127,7 +127,7 @@
                                             <Anns>
                                                 <LocAnn Col="32" Line="12" Loc="tests/z/twosects1.tex"/>
                                             </Anns>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="39" Line="12" Loc="tests/z/twosects1.tex"/>
                                                 </Anns>
@@ -142,7 +142,7 @@
                                         </PowerExpr>
                                     </ZExprList>
                                 </ProdExpr>
-                                <RefExpr Mixfix="true">
+                                <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="50" Line="12" Loc="tests/z/twosects1.tex"/>
                                         <ParenAnn/>
@@ -154,7 +154,7 @@
                                         <Word> _ ↔ _ </Word>
                                     </ZRefName>
                                     <ZExprList>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="48" Line="12" Loc="tests/z/twosects1.tex"/>
                                             </Anns>
@@ -166,7 +166,7 @@
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="55" Line="12" Loc="tests/z/twosects1.tex"/>
                                             </Anns>
@@ -263,7 +263,7 @@
                             </Anns>
                             <Word> _ foo</Word>
                         </ZDeclName>
-                        <RefExpr Mixfix="true">
+                        <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="24" Line="26" Loc="tests/z/twosects1.tex"/>
                             </Anns>
@@ -274,7 +274,7 @@
                                 <Word> _ → _ </Word>
                             </ZRefName>
                             <ZExprList>
-                                <RefExpr Mixfix="true">
+                                <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="15" Line="26" Loc="tests/z/twosects1.tex"/>
                                         <ParenAnn/>
@@ -286,7 +286,7 @@
                                         <Word> _ ↔ _ </Word>
                                     </ZRefName>
                                     <ZExprList>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="13" Line="26" Loc="tests/z/twosects1.tex"/>
                                             </Anns>
@@ -298,7 +298,7 @@
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="20" Line="26" Loc="tests/z/twosects1.tex"/>
                                             </Anns>
@@ -312,7 +312,7 @@
                                         </RefExpr>
                                     </ZExprList>
                                 </RefExpr>
-                                <RefExpr Mixfix="true">
+                                <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="33" Line="26" Loc="tests/z/twosects1.tex"/>
                                         <ParenAnn/>
@@ -324,7 +324,7 @@
                                         <Word> _ ↔ _ </Word>
                                     </ZRefName>
                                     <ZExprList>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="31" Line="26" Loc="tests/z/twosects1.tex"/>
                                             </Anns>
@@ -336,7 +336,7 @@
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="38" Line="26" Loc="tests/z/twosects1.tex"/>
                                             </Anns>

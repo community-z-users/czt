@@ -213,6 +213,13 @@
     return createProdExpr(createZExprList(list(left, right)));
   }
 
+  public RefExpr createRefExpr(RefName refName,
+                               ZExprList zExprList,
+                               Boolean mixfix)
+  {
+    return factory_.createRefExpr(refName, zExprList, mixfix, false);
+  }
+
   /**
    * Creates a reference (expression) to the given name.
    * The mixfix child of the returned reference expression

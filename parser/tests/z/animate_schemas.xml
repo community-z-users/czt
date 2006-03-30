@@ -22,6 +22,9 @@ the constant undefnum should have an undefined left-hand-side.
 </Content>
     </NarrSect>
     <ZSect>
+        <Anns>
+            <LocAnn Col="1" Line="1" Loc="tests/z/animate_schemas.tex"/>
+        </Anns>
         <Name>Specification</Name>
         <Parent>
             <Word>standard_toolkit</Word>
@@ -43,7 +46,7 @@ the constant undefnum should have an undefined left-hand-side.
                             </Anns>
                             <Word>undefnum</Word>
                         </ZDeclName>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="14" Line="17" Loc="tests/z/animate_schemas.tex"/>
                             </Anns>
@@ -372,7 +375,7 @@ Equality.
                         </BindExpr>
                     </ZExprList>
                 </TupleExpr>
-                <RefExpr Mixfix="false">
+                <RefExpr Explicit="false" Mixfix="false">
                     <Anns>
                         <LocAnn Col="36" Line="26" Loc="tests/z/animate_schemas.tex"/>
                     </Anns>
@@ -604,7 +607,7 @@ Equality.
                                             </Anns>
                                             <Word>b</Word>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="76" Line="28" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -742,7 +745,7 @@ Equality.
                                             </Anns>
                                             <Word>b</Word>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="79" Line="29" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -759,7 +762,7 @@ Equality.
                             </BindExpr>
                         </ZExprList>
                     </TupleExpr>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="52" Line="29" Loc="tests/z/animate_schemas.tex"/>
                         </Anns>
@@ -1148,7 +1151,7 @@ Membership/equality with schemas (sets of bindings).
                                     <Anns>
                                         <LocAnn Col="55" Line="37" Loc="tests/z/animate_schemas.tex"/>
                                     </Anns>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="53" Line="37" Loc="tests/z/animate_schemas.tex"/>
                                         </Anns>
@@ -1191,7 +1194,7 @@ Membership/equality with schemas (sets of bindings).
                                     <LocAnn Col="65" Line="37" Loc="tests/z/animate_schemas.tex"/>
                                 </Anns>
                                 <ZExprList>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="65" Line="37" Loc="tests/z/animate_schemas.tex"/>
                                         </Anns>
@@ -1203,7 +1206,7 @@ Membership/equality with schemas (sets of bindings).
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="69" Line="37" Loc="tests/z/animate_schemas.tex"/>
                                         </Anns>
@@ -1217,7 +1220,7 @@ Membership/equality with schemas (sets of bindings).
                                     </RefExpr>
                                 </ZExprList>
                             </TupleExpr>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="65" Line="37" Loc="tests/z/animate_schemas.tex"/>
                                 </Anns>
@@ -1325,7 +1328,7 @@ Membership/equality with schemas (sets of bindings).
                                             <Anns>
                                                 <LocAnn Col="56" Line="38" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="54" Line="38" Loc="tests/z/animate_schemas.tex"/>
                                                 </Anns>
@@ -1368,7 +1371,7 @@ Membership/equality with schemas (sets of bindings).
                                             <LocAnn Col="66" Line="38" Loc="tests/z/animate_schemas.tex"/>
                                         </Anns>
                                         <ZExprList>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="66" Line="38" Loc="tests/z/animate_schemas.tex"/>
                                                 </Anns>
@@ -1380,7 +1383,7 @@ Membership/equality with schemas (sets of bindings).
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="70" Line="38" Loc="tests/z/animate_schemas.tex"/>
                                                 </Anns>
@@ -1394,7 +1397,7 @@ Membership/equality with schemas (sets of bindings).
                                             </RefExpr>
                                         </ZExprList>
                                     </TupleExpr>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="66" Line="38" Loc="tests/z/animate_schemas.tex"/>
                                         </Anns>
@@ -1461,7 +1464,7 @@ Membership/equality with schemas (sets of bindings).
                                             <Anns>
                                                 <LocAnn Col="12" Line="44" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="10" Line="44" Loc="tests/z/animate_schemas.tex"/>
                                                 </Anns>
@@ -1509,7 +1512,7 @@ Membership/equality with schemas (sets of bindings).
                                             <Anns>
                                                 <LocAnn Col="12" Line="45" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="10" Line="45" Loc="tests/z/animate_schemas.tex"/>
                                                 </Anns>
@@ -1555,7 +1558,7 @@ Membership/equality with schemas (sets of bindings).
                                             <Anns>
                                                 <LocAnn Col="5" Line="47" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="3" Line="47" Loc="tests/z/animate_schemas.tex"/>
                                                 </Anns>
@@ -1572,7 +1575,7 @@ Membership/equality with schemas (sets of bindings).
                                                     <LocAnn Col="3" Line="47" Loc="tests/z/animate_schemas.tex"/>
                                                 </Anns>
                                                 <ZExprList>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="3" Line="47" Loc="tests/z/animate_schemas.tex"/>
                                                         </Anns>
@@ -1584,7 +1587,7 @@ Membership/equality with schemas (sets of bindings).
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="7" Line="47" Loc="tests/z/animate_schemas.tex"/>
                                                         </Anns>
@@ -1615,7 +1618,7 @@ Membership/equality with schemas (sets of bindings).
                                         <Anns>
                                             <LocAnn Col="8" Line="48" Loc="tests/z/animate_schemas.tex"/>
                                         </Anns>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="3" Line="48" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -1634,7 +1637,7 @@ Membership/equality with schemas (sets of bindings).
                                                     <Anns>
                                                         <LocAnn Col="12" Line="48" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="10" Line="48" Loc="tests/z/animate_schemas.tex"/>
                                                         </Anns>
@@ -1651,7 +1654,7 @@ Membership/equality with schemas (sets of bindings).
                                                             <LocAnn Col="10" Line="48" Loc="tests/z/animate_schemas.tex"/>
                                                         </Anns>
                                                         <ZExprList>
-                                                            <RefExpr Mixfix="false">
+                                                            <RefExpr Explicit="false" Mixfix="false">
                                                                 <Anns>
                                                                     <LocAnn Col="10" Line="48" Loc="tests/z/animate_schemas.tex"/>
                                                                 </Anns>
@@ -1663,7 +1666,7 @@ Membership/equality with schemas (sets of bindings).
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
-                                                            <RefExpr Mixfix="false">
+                                                            <RefExpr Explicit="false" Mixfix="false">
                                                                 <Anns>
                                                                     <LocAnn Col="14" Line="48" Loc="tests/z/animate_schemas.tex"/>
                                                                 </Anns>
@@ -1736,7 +1739,7 @@ Membership/equality with schemas (sets of bindings).
                                             <Anns>
                                                 <LocAnn Col="16" Line="52" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="14" Line="52" Loc="tests/z/animate_schemas.tex"/>
                                                 </Anns>
@@ -1792,7 +1795,7 @@ Membership/equality with schemas (sets of bindings).
                                                     <Anns>
                                                         <LocAnn Col="43" Line="52" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="41" Line="52" Loc="tests/z/animate_schemas.tex"/>
                                                         </Anns>
@@ -1831,7 +1834,7 @@ Membership/equality with schemas (sets of bindings).
                                         <Anns>
                                             <LocAnn Col="59" Line="52" Loc="tests/z/animate_schemas.tex"/>
                                         </Anns>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="54" Line="52" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -1850,7 +1853,7 @@ Membership/equality with schemas (sets of bindings).
                                                     <Anns>
                                                         <LocAnn Col="63" Line="52" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="61" Line="52" Loc="tests/z/animate_schemas.tex"/>
                                                         </Anns>
@@ -1867,7 +1870,7 @@ Membership/equality with schemas (sets of bindings).
                                                             <LocAnn Col="61" Line="52" Loc="tests/z/animate_schemas.tex"/>
                                                         </Anns>
                                                         <ZExprList>
-                                                            <RefExpr Mixfix="false">
+                                                            <RefExpr Explicit="false" Mixfix="false">
                                                                 <Anns>
                                                                     <LocAnn Col="61" Line="52" Loc="tests/z/animate_schemas.tex"/>
                                                                 </Anns>
@@ -1884,7 +1887,7 @@ Membership/equality with schemas (sets of bindings).
                                                                     <LocAnn Col="68" Line="52" Loc="tests/z/animate_schemas.tex"/>
                                                                     <ParenAnn/>
                                                                 </Anns>
-                                                                <RefExpr Mixfix="false">
+                                                                <RefExpr Explicit="false" Mixfix="false">
                                                                     <Anns>
                                                                         <LocAnn Col="66" Line="52" Loc="tests/z/animate_schemas.tex"/>
                                                                     </Anns>
@@ -1907,7 +1910,7 @@ Membership/equality with schemas (sets of bindings).
                                                                             </Anns>
                                                                             <ZNumeral Value="10"/>
                                                                         </NumExpr>
-                                                                        <RefExpr Mixfix="false">
+                                                                        <RefExpr Explicit="false" Mixfix="false">
                                                                             <Anns>
                                                                                 <LocAnn Col="69" Line="52" Loc="tests/z/animate_schemas.tex"/>
                                                                             </Anns>
@@ -2044,7 +2047,7 @@ Membership/equality with schemas (sets of bindings).
                             <Anns>
                                 <LocAnn Col="11" Line="56" Loc="tests/z/animate_schemas.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="16" Line="56" Loc="tests/z/animate_schemas.tex"/>
                                 </Anns>
@@ -2084,7 +2087,7 @@ Membership/equality with schemas (sets of bindings).
                             <Anns>
                                 <LocAnn Col="12" Line="58" Loc="tests/z/animate_schemas.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="17" Line="58" Loc="tests/z/animate_schemas.tex"/>
                                 </Anns>
@@ -2117,7 +2120,7 @@ Membership/equality with schemas (sets of bindings).
                 <Anns>
                     <LocAnn Col="26" Line="61" Loc="tests/z/animate_schemas.tex"/>
                 </Anns>
-                <RefExpr Mixfix="false">
+                <RefExpr Explicit="false" Mixfix="false">
                     <Anns>
                         <LocAnn Col="21" Line="61" Loc="tests/z/animate_schemas.tex"/>
                     </Anns>
@@ -2131,7 +2134,7 @@ Membership/equality with schemas (sets of bindings).
                 </RefExpr>
                 <SetExpr>
                     <ZExprList>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="28" Line="61" Loc="tests/z/animate_schemas.tex"/>
                             </Anns>
@@ -2162,7 +2165,7 @@ Membership/equality with schemas (sets of bindings).
                 <Anns>
                     <LocAnn Col="27" Line="62" Loc="tests/z/animate_schemas.tex"/>
                 </Anns>
-                <RefExpr Mixfix="false">
+                <RefExpr Explicit="false" Mixfix="false">
                     <Anns>
                         <LocAnn Col="21" Line="62" Loc="tests/z/animate_schemas.tex"/>
                     </Anns>
@@ -2176,7 +2179,7 @@ Membership/equality with schemas (sets of bindings).
                 </RefExpr>
                 <SetExpr>
                     <ZExprList>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="29" Line="62" Loc="tests/z/animate_schemas.tex"/>
                             </Anns>
@@ -2229,7 +2232,7 @@ Membership/equality with schemas (sets of bindings).
                                     <Anns>
                                         <LocAnn Col="36" Line="64" Loc="tests/z/animate_schemas.tex"/>
                                     </Anns>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="34" Line="64" Loc="tests/z/animate_schemas.tex"/>
                                         </Anns>
@@ -2272,7 +2275,7 @@ Membership/equality with schemas (sets of bindings).
                             <Anns>
                                 <LocAnn Col="47" Line="64" Loc="tests/z/animate_schemas.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="52" Line="64" Loc="tests/z/animate_schemas.tex"/>
                                 </Anns>
@@ -2285,7 +2288,7 @@ Membership/equality with schemas (sets of bindings).
                                 <ZExprList/>
                             </RefExpr>
                         </PreExpr>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="59" Line="64" Loc="tests/z/animate_schemas.tex"/>
                             </Anns>
@@ -2345,7 +2348,7 @@ Membership/equality with schemas (sets of bindings).
                                             </Anns>
                                             <Word>x</Word>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="21" Line="68" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -2376,7 +2379,7 @@ Membership/equality with schemas (sets of bindings).
                                                     </Anns>
                                                     <Word>f</Word>
                                                 </ZDeclName>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="41" Line="68" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
@@ -2394,7 +2397,7 @@ Membership/equality with schemas (sets of bindings).
                                             <Anns>
                                                 <LocAnn Col="49" Line="68" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="48" Line="68" Loc="tests/z/animate_schemas.tex"/>
                                                 </Anns>
@@ -2412,7 +2415,7 @@ Membership/equality with schemas (sets of bindings).
                                                         <Anns>
                                                             <LocAnn Col="51" Line="68" Loc="tests/z/animate_schemas.tex"/>
                                                         </Anns>
-                                                        <RefExpr Mixfix="false">
+                                                        <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="50" Line="68" Loc="tests/z/animate_schemas.tex"/>
                                                             </Anns>
@@ -2429,7 +2432,7 @@ Membership/equality with schemas (sets of bindings).
                                                                 <LocAnn Col="50" Line="68" Loc="tests/z/animate_schemas.tex"/>
                                                             </Anns>
                                                             <ZExprList>
-                                                                <RefExpr Mixfix="false">
+                                                                <RefExpr Explicit="false" Mixfix="false">
                                                                     <Anns>
                                                                         <LocAnn Col="50" Line="68" Loc="tests/z/animate_schemas.tex"/>
                                                                     </Anns>
@@ -2458,7 +2461,7 @@ Membership/equality with schemas (sets of bindings).
                                         <Anns>
                                             <LocAnn Col="57" Line="68" Loc="tests/z/animate_schemas.tex"/>
                                         </Anns>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="56" Line="68" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -2523,7 +2526,7 @@ Membership/equality with schemas (sets of bindings).
                                             </Anns>
                                             <Word>x</Word>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="21" Line="69" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -2554,7 +2557,7 @@ Membership/equality with schemas (sets of bindings).
                                                     </Anns>
                                                     <Word>f</Word>
                                                 </ZDeclName>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="41" Line="69" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
@@ -2572,7 +2575,7 @@ Membership/equality with schemas (sets of bindings).
                                             <Anns>
                                                 <LocAnn Col="49" Line="69" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="48" Line="69" Loc="tests/z/animate_schemas.tex"/>
                                                 </Anns>
@@ -2590,7 +2593,7 @@ Membership/equality with schemas (sets of bindings).
                                                         <Anns>
                                                             <LocAnn Col="51" Line="69" Loc="tests/z/animate_schemas.tex"/>
                                                         </Anns>
-                                                        <RefExpr Mixfix="false">
+                                                        <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="50" Line="69" Loc="tests/z/animate_schemas.tex"/>
                                                             </Anns>
@@ -2607,7 +2610,7 @@ Membership/equality with schemas (sets of bindings).
                                                                 <LocAnn Col="50" Line="69" Loc="tests/z/animate_schemas.tex"/>
                                                             </Anns>
                                                             <ZExprList>
-                                                                <RefExpr Mixfix="false">
+                                                                <RefExpr Explicit="false" Mixfix="false">
                                                                     <Anns>
                                                                         <LocAnn Col="50" Line="69" Loc="tests/z/animate_schemas.tex"/>
                                                                     </Anns>
@@ -2636,7 +2639,7 @@ Membership/equality with schemas (sets of bindings).
                                         <Anns>
                                             <LocAnn Col="57" Line="69" Loc="tests/z/animate_schemas.tex"/>
                                         </Anns>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="56" Line="69" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -2701,7 +2704,7 @@ Membership/equality with schemas (sets of bindings).
                                             </Anns>
                                             <Word>x</Word>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="21" Line="70" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -2732,7 +2735,7 @@ Membership/equality with schemas (sets of bindings).
                                                     </Anns>
                                                     <Word>f</Word>
                                                 </ZDeclName>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="41" Line="70" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
@@ -2750,7 +2753,7 @@ Membership/equality with schemas (sets of bindings).
                                             <Anns>
                                                 <LocAnn Col="49" Line="70" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="48" Line="70" Loc="tests/z/animate_schemas.tex"/>
                                                 </Anns>
@@ -2768,7 +2771,7 @@ Membership/equality with schemas (sets of bindings).
                                                         <Anns>
                                                             <LocAnn Col="51" Line="70" Loc="tests/z/animate_schemas.tex"/>
                                                         </Anns>
-                                                        <RefExpr Mixfix="false">
+                                                        <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="50" Line="70" Loc="tests/z/animate_schemas.tex"/>
                                                             </Anns>
@@ -2785,7 +2788,7 @@ Membership/equality with schemas (sets of bindings).
                                                                 <LocAnn Col="50" Line="70" Loc="tests/z/animate_schemas.tex"/>
                                                             </Anns>
                                                             <ZExprList>
-                                                                <RefExpr Mixfix="false">
+                                                                <RefExpr Explicit="false" Mixfix="false">
                                                                     <Anns>
                                                                         <LocAnn Col="50" Line="70" Loc="tests/z/animate_schemas.tex"/>
                                                                     </Anns>
@@ -2814,7 +2817,7 @@ Membership/equality with schemas (sets of bindings).
                                         <Anns>
                                             <LocAnn Col="57" Line="70" Loc="tests/z/animate_schemas.tex"/>
                                         </Anns>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="56" Line="70" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -2879,7 +2882,7 @@ Membership/equality with schemas (sets of bindings).
                                             </Anns>
                                             <Word>x</Word>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="21" Line="71" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -2914,7 +2917,7 @@ Membership/equality with schemas (sets of bindings).
                                                     <Anns>
                                                         <LocAnn Col="42" Line="71" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="40" Line="71" Loc="tests/z/animate_schemas.tex"/>
                                                         </Anns>
@@ -2966,7 +2969,7 @@ Membership/equality with schemas (sets of bindings).
                                                         </Anns>
                                                         <Word>g</Word>
                                                     </ZDeclName>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="43" Line="72" Loc="tests/z/animate_schemas.tex"/>
                                                         </Anns>
@@ -2984,7 +2987,7 @@ Membership/equality with schemas (sets of bindings).
                                                 <Anns>
                                                     <LocAnn Col="51" Line="72" Loc="tests/z/animate_schemas.tex"/>
                                                 </Anns>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="50" Line="72" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
@@ -2998,7 +3001,7 @@ Membership/equality with schemas (sets of bindings).
                                                 </RefExpr>
                                                 <SetExpr>
                                                     <ZExprList>
-                                                        <RefExpr Mixfix="false">
+                                                        <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="52" Line="72" Loc="tests/z/animate_schemas.tex"/>
                                                             </Anns>
@@ -3018,7 +3021,7 @@ Membership/equality with schemas (sets of bindings).
                                             <Anns>
                                                 <LocAnn Col="57" Line="72" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="56" Line="72" Loc="tests/z/animate_schemas.tex"/>
                                                 </Anns>
@@ -3032,7 +3035,7 @@ Membership/equality with schemas (sets of bindings).
                                             </RefExpr>
                                             <SetExpr>
                                                 <ZExprList>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="58" Line="72" Loc="tests/z/animate_schemas.tex"/>
                                                         </Anns>
@@ -3090,7 +3093,7 @@ Membership/equality with schemas (sets of bindings).
                                             </Anns>
                                             <Word>x</Word>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="21" Line="73" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -3125,7 +3128,7 @@ Membership/equality with schemas (sets of bindings).
                                                     <Anns>
                                                         <LocAnn Col="42" Line="73" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="40" Line="73" Loc="tests/z/animate_schemas.tex"/>
                                                         </Anns>
@@ -3177,7 +3180,7 @@ Membership/equality with schemas (sets of bindings).
                                                         </Anns>
                                                         <Word>g</Word>
                                                     </ZDeclName>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="43" Line="74" Loc="tests/z/animate_schemas.tex"/>
                                                         </Anns>
@@ -3195,7 +3198,7 @@ Membership/equality with schemas (sets of bindings).
                                                 <Anns>
                                                     <LocAnn Col="51" Line="74" Loc="tests/z/animate_schemas.tex"/>
                                                 </Anns>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="50" Line="74" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
@@ -3209,7 +3212,7 @@ Membership/equality with schemas (sets of bindings).
                                                 </RefExpr>
                                                 <SetExpr>
                                                     <ZExprList>
-                                                        <RefExpr Mixfix="false">
+                                                        <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="52" Line="74" Loc="tests/z/animate_schemas.tex"/>
                                                             </Anns>
@@ -3229,7 +3232,7 @@ Membership/equality with schemas (sets of bindings).
                                             <Anns>
                                                 <LocAnn Col="57" Line="74" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="56" Line="74" Loc="tests/z/animate_schemas.tex"/>
                                                 </Anns>
@@ -3243,7 +3246,7 @@ Membership/equality with schemas (sets of bindings).
                                             </RefExpr>
                                             <SetExpr>
                                                 <ZExprList>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="58" Line="74" Loc="tests/z/animate_schemas.tex"/>
                                                         </Anns>
@@ -3286,7 +3289,7 @@ Membership/equality with schemas (sets of bindings).
                     <Anns>
                         <LocAnn Col="21" Line="77" Loc="tests/z/animate_schemas.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="77" Loc="tests/z/animate_schemas.tex"/>
                         </Anns>
@@ -3298,7 +3301,7 @@ Membership/equality with schemas (sets of bindings).
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="24" Line="77" Loc="tests/z/animate_schemas.tex"/>
                         </Anns>
@@ -3342,7 +3345,7 @@ Membership/equality with schemas (sets of bindings).
                     <Anns>
                         <LocAnn Col="21" Line="78" Loc="tests/z/animate_schemas.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="78" Loc="tests/z/animate_schemas.tex"/>
                         </Anns>
@@ -3354,7 +3357,7 @@ Membership/equality with schemas (sets of bindings).
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="24" Line="78" Loc="tests/z/animate_schemas.tex"/>
                         </Anns>
@@ -3400,7 +3403,7 @@ TODO: enable this when we have DNF normalisation?
                     <Anns>
                         <LocAnn Col="21" Line="81" Loc="tests/z/animate_schemas.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="81" Loc="tests/z/animate_schemas.tex"/>
                         </Anns>
@@ -3412,7 +3415,7 @@ TODO: enable this when we have DNF normalisation?
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="24" Line="81" Loc="tests/z/animate_schemas.tex"/>
                         </Anns>
@@ -3457,7 +3460,7 @@ TODO: this one needs pre-evaluation of the type 2..2
                     <Anns>
                         <LocAnn Col="21" Line="83" Loc="tests/z/animate_schemas.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="83" Loc="tests/z/animate_schemas.tex"/>
                         </Anns>
@@ -3469,7 +3472,7 @@ TODO: this one needs pre-evaluation of the type 2..2
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="24" Line="83" Loc="tests/z/animate_schemas.tex"/>
                         </Anns>
@@ -3514,7 +3517,7 @@ TODO: same difficulty as OnePoint3
                     <Anns>
                         <LocAnn Col="21" Line="85" Loc="tests/z/animate_schemas.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="85" Loc="tests/z/animate_schemas.tex"/>
                         </Anns>
@@ -3526,7 +3529,7 @@ TODO: same difficulty as OnePoint3
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="24" Line="85" Loc="tests/z/animate_schemas.tex"/>
                         </Anns>
@@ -3599,7 +3602,7 @@ echo Miscellaneous schema challenges
                                             <Anns>
                                                 <LocAnn Col="10" Line="91" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="8" Line="91" Loc="tests/z/animate_schemas.tex"/>
                                                 </Anns>
@@ -3650,7 +3653,7 @@ echo Miscellaneous schema challenges
                                                     </Anns>
                                                     <Word>i</Word>
                                                 </ZDeclName>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="14" Line="93" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
@@ -3674,7 +3677,7 @@ echo Miscellaneous schema challenges
                                                 <LocAnn Col="21" Line="93" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
                                             <ZExprList>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="22" Line="93" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
@@ -3686,7 +3689,7 @@ echo Miscellaneous schema challenges
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="24" Line="93" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
@@ -3711,7 +3714,7 @@ echo Miscellaneous schema challenges
                                                         <LocAnn Col="34" Line="93" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
                                                     <ZExprList>
-                                                        <RefExpr Mixfix="false">
+                                                        <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="35" Line="93" Loc="tests/z/animate_schemas.tex"/>
                                                             </Anns>
@@ -3795,7 +3798,7 @@ until it was fixed.
                         <ZSchText>
                             <ZDeclList>
                                 <InclDecl>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="46" Line="98" Loc="tests/z/animate_schemas.tex"/>
                                         </Anns>
@@ -3813,7 +3816,7 @@ until it was fixed.
                                 <Anns>
                                     <LocAnn Col="55" Line="98" Loc="tests/z/animate_schemas.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="54" Line="98" Loc="tests/z/animate_schemas.tex"/>
                                     </Anns>
@@ -3883,7 +3886,7 @@ until it was fixed.
                                             </Anns>
                                             <Word>items</Word>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="true">
+                                        <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="12" Line="101" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -3894,7 +3897,7 @@ until it was fixed.
                                                 <Word>seq _ </Word>
                                             </ZRefName>
                                             <ZExprList>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="17" Line="101" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
@@ -3919,7 +3922,7 @@ until it was fixed.
                                             </Anns>
                                             <Word>maxsize</Word>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="14" Line="102" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -3942,7 +3945,7 @@ until it was fixed.
                                             </Anns>
                                             <Word>currsize</Word>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="15" Line="103" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -3969,7 +3972,7 @@ until it was fixed.
                                                 <LocAnn Col="5" Line="105" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
                                             <ZExprList>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="5" Line="105" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
@@ -3981,7 +3984,7 @@ until it was fixed.
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="18" Line="105" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
@@ -3995,7 +3998,7 @@ until it was fixed.
                                                 </RefExpr>
                                             </ZExprList>
                                         </TupleExpr>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="5" Line="105" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -4012,7 +4015,7 @@ until it was fixed.
                                         <Anns>
                                             <LocAnn Col="14" Line="106" Loc="tests/z/animate_schemas.tex"/>
                                         </Anns>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="5" Line="106" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -4030,7 +4033,7 @@ until it was fixed.
                                                     <Anns>
                                                         <LocAnn Col="16" Line="106" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="16" Line="106" Loc="tests/z/animate_schemas.tex"/>
                                                         </Anns>
@@ -4047,7 +4050,7 @@ until it was fixed.
                                                             <LocAnn Col="24" Line="106" Loc="tests/z/animate_schemas.tex"/>
                                                             <ParenAnn/>
                                                         </Anns>
-                                                        <RefExpr Mixfix="false">
+                                                        <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="19" Line="106" Loc="tests/z/animate_schemas.tex"/>
                                                             </Anns>
@@ -4059,7 +4062,7 @@ until it was fixed.
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
-                                                        <RefExpr Mixfix="false">
+                                                        <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="24" Line="106" Loc="tests/z/animate_schemas.tex"/>
                                                             </Anns>
@@ -4119,7 +4122,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                             <Word>offheap</Word>
                                             <OutStroke/>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="15" Line="111" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -4133,7 +4136,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                         </RefExpr>
                                     </VarDecl>
                                     <InclDecl>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="5" Line="112" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -4168,7 +4171,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                         <LocAnn Col="5" Line="114" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
                                                     <ZExprList>
-                                                        <RefExpr Mixfix="false">
+                                                        <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="5" Line="114" Loc="tests/z/animate_schemas.tex"/>
                                                             </Anns>
@@ -4188,7 +4191,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                         </NumExpr>
                                                     </ZExprList>
                                                 </TupleExpr>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="5" Line="114" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
@@ -4223,7 +4226,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                 </Anns>
                                                                 <Word>v</Word>
                                                             </ZDeclName>
-                                                            <RefExpr Mixfix="false">
+                                                            <RefExpr Explicit="false" Mixfix="false">
                                                                 <Anns>
                                                                     <LocAnn Col="20" Line="115" Loc="tests/z/animate_schemas.tex"/>
                                                                 </Anns>
@@ -4250,7 +4253,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                     <LocAnn Col="27" Line="115" Loc="tests/z/animate_schemas.tex"/>
                                                                 </Anns>
                                                                 <ZExprList>
-                                                                    <RefExpr Mixfix="false">
+                                                                    <RefExpr Explicit="false" Mixfix="false">
                                                                         <Anns>
                                                                             <LocAnn Col="28" Line="115" Loc="tests/z/animate_schemas.tex"/>
                                                                         </Anns>
@@ -4262,7 +4265,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                         </ZRefName>
                                                                         <ZExprList/>
                                                                     </RefExpr>
-                                                                    <RefExpr Mixfix="false">
+                                                                    <RefExpr Explicit="false" Mixfix="false">
                                                                         <Anns>
                                                                             <LocAnn Col="30" Line="115" Loc="tests/z/animate_schemas.tex"/>
                                                                         </Anns>
@@ -4276,7 +4279,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                     </RefExpr>
                                                                 </ZExprList>
                                                             </TupleExpr>
-                                                            <RefExpr Mixfix="false">
+                                                            <RefExpr Explicit="false" Mixfix="false">
                                                                 <Anns>
                                                                     <LocAnn Col="37" Line="115" Loc="tests/z/animate_schemas.tex"/>
                                                                 </Anns>
@@ -4293,7 +4296,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                             <Anns>
                                                                 <LocAnn Col="51" Line="115" Loc="tests/z/animate_schemas.tex"/>
                                                             </Anns>
-                                                            <RefExpr Mixfix="false">
+                                                            <RefExpr Explicit="false" Mixfix="false">
                                                                 <Anns>
                                                                     <LocAnn Col="49" Line="115" Loc="tests/z/animate_schemas.tex"/>
                                                                 </Anns>
@@ -4311,7 +4314,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                         <Anns>
                                                                             <LocAnn Col="53" Line="115" Loc="tests/z/animate_schemas.tex"/>
                                                                         </Anns>
-                                                                        <RefExpr Mixfix="false">
+                                                                        <RefExpr Explicit="false" Mixfix="false">
                                                                             <Anns>
                                                                                 <LocAnn Col="53" Line="115" Loc="tests/z/animate_schemas.tex"/>
                                                                             </Anns>
@@ -4328,7 +4331,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                                 <LocAnn Col="64" Line="115" Loc="tests/z/animate_schemas.tex"/>
                                                                                 <ParenAnn/>
                                                                             </Anns>
-                                                                            <RefExpr Mixfix="false">
+                                                                            <RefExpr Explicit="false" Mixfix="false">
                                                                                 <Anns>
                                                                                     <LocAnn Col="59" Line="115" Loc="tests/z/animate_schemas.tex"/>
                                                                                 </Anns>
@@ -4340,7 +4343,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                                 </ZRefName>
                                                                                 <ZExprList/>
                                                                             </RefExpr>
-                                                                            <RefExpr Mixfix="false">
+                                                                            <RefExpr Explicit="false" Mixfix="false">
                                                                                 <Anns>
                                                                                     <LocAnn Col="64" Line="115" Loc="tests/z/animate_schemas.tex"/>
                                                                                 </Anns>
@@ -4367,7 +4370,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                         <Anns>
                                                             <LocAnn Col="18" Line="116" Loc="tests/z/animate_schemas.tex"/>
                                                         </Anns>
-                                                        <RefExpr Mixfix="false">
+                                                        <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="11" Line="116" Loc="tests/z/animate_schemas.tex"/>
                                                             </Anns>
@@ -4386,7 +4389,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                     <Anns>
                                                                         <LocAnn Col="53" Line="116" Loc="tests/z/animate_schemas.tex"/>
                                                                     </Anns>
-                                                                    <RefExpr Mixfix="false">
+                                                                    <RefExpr Explicit="false" Mixfix="false">
                                                                         <Anns>
                                                                             <LocAnn Col="20" Line="116" Loc="tests/z/animate_schemas.tex"/>
                                                                         </Anns>
@@ -4403,7 +4406,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                             <LocAnn Col="34" Line="116" Loc="tests/z/animate_schemas.tex"/>
                                                                             <ParenAnn/>
                                                                         </Anns>
-                                                                        <RefExpr Mixfix="false">
+                                                                        <RefExpr Explicit="false" Mixfix="false">
                                                                             <Anns>
                                                                                 <LocAnn Col="28" Line="116" Loc="tests/z/animate_schemas.tex"/>
                                                                             </Anns>
@@ -4420,7 +4423,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                                 <LocAnn Col="28" Line="116" Loc="tests/z/animate_schemas.tex"/>
                                                                             </Anns>
                                                                             <ZExprList>
-                                                                                <RefExpr Mixfix="false">
+                                                                                <RefExpr Explicit="false" Mixfix="false">
                                                                                     <Anns>
                                                                                         <LocAnn Col="28" Line="116" Loc="tests/z/animate_schemas.tex"/>
                                                                                     </Anns>
@@ -4442,7 +4445,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                                                 <LocAnn Col="46" Line="116" Loc="tests/z/animate_schemas.tex"/>
                                                                                             </Anns>
                                                                                             <ZExprList>
-                                                                                                <RefExpr Mixfix="false">
+                                                                                                <RefExpr Explicit="false" Mixfix="false">
                                                                                                     <Anns>
                                                                                                         <LocAnn Col="47" Line="116" Loc="tests/z/animate_schemas.tex"/>
                                                                                                     </Anns>
@@ -4454,7 +4457,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                                                     </ZRefName>
                                                                                                     <ZExprList/>
                                                                                                 </RefExpr>
-                                                                                                <RefExpr Mixfix="false">
+                                                                                                <RefExpr Explicit="false" Mixfix="false">
                                                                                                     <Anns>
                                                                                                         <LocAnn Col="49" Line="116" Loc="tests/z/animate_schemas.tex"/>
                                                                                                     </Anns>
@@ -4481,7 +4484,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                         <Anns>
                                                             <LocAnn Col="70" Line="116" Loc="tests/z/animate_schemas.tex"/>
                                                         </Anns>
-                                                        <RefExpr Mixfix="false">
+                                                        <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="61" Line="116" Loc="tests/z/animate_schemas.tex"/>
                                                             </Anns>
@@ -4496,7 +4499,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                         </RefExpr>
                                                         <SetExpr>
                                                             <ZExprList>
-                                                                <RefExpr Mixfix="false">
+                                                                <RefExpr Explicit="false" Mixfix="false">
                                                                     <Anns>
                                                                         <LocAnn Col="72" Line="116" Loc="tests/z/animate_schemas.tex"/>
                                                                     </Anns>
@@ -4518,7 +4521,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                             <Anns>
                                                 <LocAnn Col="15" Line="117" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="5" Line="117" Loc="tests/z/animate_schemas.tex"/>
                                                 </Anns>
@@ -4537,7 +4540,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                         <Anns>
                                                             <LocAnn Col="26" Line="117" Loc="tests/z/animate_schemas.tex"/>
                                                         </Anns>
-                                                        <RefExpr Mixfix="false">
+                                                        <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="17" Line="117" Loc="tests/z/animate_schemas.tex"/>
                                                             </Anns>
@@ -4554,7 +4557,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                 <LocAnn Col="17" Line="117" Loc="tests/z/animate_schemas.tex"/>
                                                             </Anns>
                                                             <ZExprList>
-                                                                <RefExpr Mixfix="false">
+                                                                <RefExpr Explicit="false" Mixfix="false">
                                                                     <Anns>
                                                                         <LocAnn Col="17" Line="117" Loc="tests/z/animate_schemas.tex"/>
                                                                     </Anns>
@@ -4583,7 +4586,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                         <Anns>
                                             <LocAnn Col="14" Line="118" Loc="tests/z/animate_schemas.tex"/>
                                         </Anns>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="5" Line="118" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -4598,7 +4601,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                         </RefExpr>
                                         <SetExpr>
                                             <ZExprList>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="16" Line="118" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
@@ -4655,7 +4658,7 @@ This was executable with Jaza after exists were expanded inline within schemas.
                             <ZSchText>
                                 <ZDeclList>
                                     <InclDecl>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="18" Line="123" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -4677,7 +4680,7 @@ This was executable with Jaza after exists were expanded inline within schemas.
                                         <Anns>
                                             <LocAnn Col="45" Line="123" Loc="tests/z/animate_schemas.tex"/>
                                         </Anns>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="37" Line="123" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -4704,7 +4707,7 @@ This was executable with Jaza after exists were expanded inline within schemas.
                                         <Anns>
                                             <LocAnn Col="62" Line="123" Loc="tests/z/animate_schemas.tex"/>
                                         </Anns>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="56" Line="123" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -4722,7 +4725,7 @@ This was executable with Jaza after exists were expanded inline within schemas.
                                                     <Anns>
                                                         <LocAnn Col="64" Line="123" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="64" Line="123" Loc="tests/z/animate_schemas.tex"/>
                                                         </Anns>
@@ -4784,7 +4787,7 @@ This was executable with Jaza after exists were expanded inline within schemas.
                     <Anns>
                         <LocAnn Col="21" Line="125" Loc="tests/z/animate_schemas.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="125" Loc="tests/z/animate_schemas.tex"/>
                         </Anns>
@@ -4796,7 +4799,7 @@ This was executable with Jaza after exists were expanded inline within schemas.
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="24" Line="125" Loc="tests/z/animate_schemas.tex"/>
                         </Anns>
@@ -4866,7 +4869,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                             </Anns>
                                             <Word>s</Word>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="true">
+                                        <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="20" Line="130" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -4877,7 +4880,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                 <Word>seq _ </Word>
                                             </ZRefName>
                                             <ZExprList>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="25" Line="130" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
@@ -4914,7 +4917,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                     <Anns>
                                                         <LocAnn Col="50" Line="130" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="45" Line="130" Loc="tests/z/animate_schemas.tex"/>
                                                         </Anns>
@@ -4926,7 +4929,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="50" Line="130" Loc="tests/z/animate_schemas.tex"/>
                                                         </Anns>
@@ -4951,7 +4954,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                 <LocAnn Col="54" Line="130" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
                                             <ZExprList>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="54" Line="130" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
@@ -4967,7 +4970,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                     <Anns>
                                                         <LocAnn Col="63" Line="130" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="61" Line="130" Loc="tests/z/animate_schemas.tex"/>
                                                         </Anns>
@@ -4979,7 +4982,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="63" Line="130" Loc="tests/z/animate_schemas.tex"/>
                                                         </Anns>
@@ -4994,7 +4997,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                 </ApplExpr>
                                             </ZExprList>
                                         </TupleExpr>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="54" Line="130" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -5049,7 +5052,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                             </Anns>
                                             <Word>deref</Word>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="true">
+                                        <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="24" Line="131" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -5060,7 +5063,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                 <Word>seq _ </Word>
                                             </ZRefName>
                                             <ZExprList>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="29" Line="131" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
@@ -5080,7 +5083,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                     <Anns>
                                         <LocAnn Col="42" Line="131" Loc="tests/z/animate_schemas.tex"/>
                                     </Anns>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="36" Line="131" Loc="tests/z/animate_schemas.tex"/>
                                         </Anns>
@@ -5098,7 +5101,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                 <Anns>
                                                     <LocAnn Col="44" Line="131" Loc="tests/z/animate_schemas.tex"/>
                                                 </Anns>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="44" Line="131" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
@@ -5205,7 +5208,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                             <ZSchText>
                                 <ZDeclList>
                                     <InclDecl>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="16" Line="132" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -5223,7 +5226,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                     <Anns>
                                         <LocAnn Col="28" Line="132" Loc="tests/z/animate_schemas.tex"/>
                                     </Anns>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="26" Line="132" Loc="tests/z/animate_schemas.tex"/>
                                         </Anns>
@@ -5248,7 +5251,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                     <ZSchText>
                                                         <ZDeclList>
                                                             <InclDecl>
-                                                                <RefExpr Mixfix="false">
+                                                                <RefExpr Explicit="false" Mixfix="false">
                                                                     <Anns>
                                                                         <LocAnn Col="35" Line="132" Loc="tests/z/animate_schemas.tex"/>
                                                                     </Anns>
@@ -5306,7 +5309,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                             <ZSchText>
                                 <ZDeclList>
                                     <InclDecl>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="16" Line="133" Loc="tests/z/animate_schemas.tex"/>
                                             </Anns>
@@ -5324,7 +5327,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                     <Anns>
                                         <LocAnn Col="28" Line="133" Loc="tests/z/animate_schemas.tex"/>
                                     </Anns>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="26" Line="133" Loc="tests/z/animate_schemas.tex"/>
                                         </Anns>
@@ -5342,7 +5345,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                 <Anns>
                                                     <LocAnn Col="50" Line="133" Loc="tests/z/animate_schemas.tex"/>
                                                 </Anns>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="30" Line="133" Loc="tests/z/animate_schemas.tex"/>
                                                     </Anns>
@@ -5365,7 +5368,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                         <ZSchText>
                                                             <ZDeclList>
                                                                 <InclDecl>
-                                                                    <RefExpr Mixfix="false">
+                                                                    <RefExpr Explicit="false" Mixfix="false">
                                                                         <Anns>
                                                                             <LocAnn Col="40" Line="133" Loc="tests/z/animate_schemas.tex"/>
                                                                         </Anns>
@@ -5417,7 +5420,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                     <Anns>
                         <LocAnn Col="21" Line="135" Loc="tests/z/animate_schemas.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="135" Loc="tests/z/animate_schemas.tex"/>
                         </Anns>
@@ -5429,7 +5432,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="24" Line="135" Loc="tests/z/animate_schemas.tex"/>
                         </Anns>
@@ -5473,7 +5476,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                     <Anns>
                         <LocAnn Col="21" Line="136" Loc="tests/z/animate_schemas.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="136" Loc="tests/z/animate_schemas.tex"/>
                         </Anns>
@@ -5485,7 +5488,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="24" Line="136" Loc="tests/z/animate_schemas.tex"/>
                         </Anns>

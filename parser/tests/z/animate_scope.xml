@@ -43,7 +43,7 @@ the constant undefnum should have an undefined left-hand-side.
                             </Anns>
                             <Word>undefnum</Word>
                         </ZDeclName>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="14" Line="17" Loc="tests/z/animate_scope.tex"/>
                             </Anns>
@@ -93,7 +93,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     </Anns>
                                     <Word>x</Word>
                                 </ZDeclName>
-                                <RefExpr Mixfix="true">
+                                <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="25" Line="22" Loc="tests/z/animate_scope.tex"/>
                                     </Anns>
@@ -139,7 +139,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         </Anns>
                                         <Word>x</Word>
                                     </ZDeclName>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="46" Line="22" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
@@ -154,7 +154,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 </VarDecl>
                             </ZDeclList>
                         </ZSchText>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="50" Line="22" Loc="tests/z/animate_scope.tex"/>
                             </Anns>
@@ -225,7 +225,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     </Anns>
                                     <Word>x</Word>
                                 </ZDeclName>
-                                <RefExpr Mixfix="true">
+                                <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="25" Line="23" Loc="tests/z/animate_scope.tex"/>
                                     </Anns>
@@ -271,7 +271,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         </Anns>
                                         <Word>x</Word>
                                     </ZDeclName>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="46" Line="23" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
@@ -294,7 +294,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="50" Line="23" Loc="tests/z/animate_scope.tex"/>
                                     </Anns>
                                     <ZExprList>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="50" Line="23" Loc="tests/z/animate_scope.tex"/>
                                             </Anns>
@@ -314,7 +314,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         </NumExpr>
                                     </ZExprList>
                                 </TupleExpr>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="50" Line="23" Loc="tests/z/animate_scope.tex"/>
                                     </Anns>
@@ -328,7 +328,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 </RefExpr>
                             </MemPred>
                         </ZSchText>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="58" Line="23" Loc="tests/z/animate_scope.tex"/>
                             </Anns>
@@ -401,7 +401,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     </Anns>
                                     <Word>x</Word>
                                 </ZDeclName>
-                                <RefExpr Mixfix="true">
+                                <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="25" Line="26" Loc="tests/z/animate_scope.tex"/>
                                     </Anns>
@@ -447,7 +447,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         </Anns>
                                         <Word>x</Word>
                                     </ZDeclName>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="46" Line="26" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
@@ -470,7 +470,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         </Anns>
                                         <Word>y</Word>
                                     </ZDeclName>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="50" Line="26" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
@@ -485,7 +485,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 </VarDecl>
                             </ZDeclList>
                         </ZSchText>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="54" Line="26" Loc="tests/z/animate_scope.tex"/>
                             </Anns>
@@ -556,7 +556,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     </Anns>
                                     <Word>x</Word>
                                 </ZDeclName>
-                                <RefExpr Mixfix="true">
+                                <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="25" Line="27" Loc="tests/z/animate_scope.tex"/>
                                     </Anns>
@@ -602,7 +602,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         </Anns>
                                         <Word>x</Word>
                                     </ZDeclName>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="46" Line="27" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
@@ -625,7 +625,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         </Anns>
                                         <Word>y</Word>
                                     </ZDeclName>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="50" Line="27" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
@@ -640,7 +640,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 </VarDecl>
                             </ZDeclList>
                         </ZSchText>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="54" Line="27" Loc="tests/z/animate_scope.tex"/>
                             </Anns>
@@ -703,7 +703,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     </Anns>
                                     <Word>x</Word>
                                 </ZDeclName>
-                                <RefExpr Mixfix="true">
+                                <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="25" Line="29" Loc="tests/z/animate_scope.tex"/>
                                     </Anns>
@@ -753,7 +753,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <Word>x</Word>
                                         <NextStroke/>
                                     </ZDeclName>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="49" Line="29" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
@@ -769,7 +769,7 @@ the constant undefnum should have an undefined left-hand-side.
                             </ZDeclList>
                         </ZSchText>
                         <ApplExpr Mixfix="true">
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <ZRefName>
                                     <Anns>
                                         <LocAnn Col="55" Line="29" Loc="tests/z/animate_scope.tex"/>
@@ -784,7 +784,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <Anns>
                                             <LocAnn Col="54" Line="29" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="53" Line="29" Loc="tests/z/animate_scope.tex"/>
                                             </Anns>
@@ -801,7 +801,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                 <LocAnn Col="53" Line="29" Loc="tests/z/animate_scope.tex"/>
                                             </Anns>
                                             <ZExprList>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="53" Line="29" Loc="tests/z/animate_scope.tex"/>
                                                     </Anns>
@@ -823,7 +823,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         </TupleExpr>
                                     </ApplExpr>
                                     <ApplExpr Mixfix="true">
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <ZRefName>
                                                 <Anns>
                                                     <LocAnn Col="57" Line="29" Loc="tests/z/animate_scope.tex"/>
@@ -834,7 +834,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         </RefExpr>
                                         <TupleExpr>
                                             <ZExprList>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="57" Line="29" Loc="tests/z/animate_scope.tex"/>
                                                     </Anns>
@@ -932,7 +932,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                     <Anns>
                         <LocAnn Col="38" Line="34" Loc="tests/z/animate_scope.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="37" Line="34" Loc="tests/z/animate_scope.tex"/>
                         </Anns>
@@ -1015,7 +1015,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                     <Anns>
                         <LocAnn Col="44" Line="35" Loc="tests/z/animate_scope.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="43" Line="35" Loc="tests/z/animate_scope.tex"/>
                         </Anns>
@@ -1029,7 +1029,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                     </RefExpr>
                     <SetExpr>
                         <ZExprList>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="45" Line="35" Loc="tests/z/animate_scope.tex"/>
                                 </Anns>
@@ -1108,7 +1108,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                     <Anns>
                                         <LocAnn Col="33" Line="41" Loc="tests/z/animate_scope.tex"/>
                                     </Anns>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="32" Line="41" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
@@ -1125,7 +1125,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                             <LocAnn Col="32" Line="41" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
                                         <ZExprList>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="32" Line="41" Loc="tests/z/animate_scope.tex"/>
                                                 </Anns>
@@ -1157,7 +1157,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                     </Anns>
                                     <Word>y</Word>
                                 </ZDeclName>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="40" Line="41" Loc="tests/z/animate_scope.tex"/>
                                     </Anns>
@@ -1180,7 +1180,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                             <Anns>
                                 <LocAnn Col="45" Line="41" Loc="tests/z/animate_scope.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="44" Line="41" Loc="tests/z/animate_scope.tex"/>
                                 </Anns>
@@ -1207,7 +1207,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                             <Anns>
                                 <LocAnn Col="55" Line="41" Loc="tests/z/animate_scope.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="54" Line="41" Loc="tests/z/animate_scope.tex"/>
                                 </Anns>
@@ -1309,7 +1309,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                     <Anns>
                                         <LocAnn Col="39" Line="44" Loc="tests/z/animate_scope.tex"/>
                                     </Anns>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="38" Line="44" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
@@ -1326,7 +1326,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                             <LocAnn Col="38" Line="44" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
                                         <ZExprList>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="38" Line="44" Loc="tests/z/animate_scope.tex"/>
                                                 </Anns>
@@ -1358,7 +1358,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                             <Anns>
                                 <LocAnn Col="45" Line="44" Loc="tests/z/animate_scope.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="44" Line="44" Loc="tests/z/animate_scope.tex"/>
                                 </Anns>
@@ -1385,7 +1385,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                             <Anns>
                                 <LocAnn Col="55" Line="44" Loc="tests/z/animate_scope.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="54" Line="44" Loc="tests/z/animate_scope.tex"/>
                                 </Anns>
@@ -1456,7 +1456,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                             </ConstDecl>
                         </ZDeclList>
                     </ZSchText>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="34" Line="49" Loc="tests/z/animate_scope.tex"/>
                         </Anns>
@@ -1543,7 +1543,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                         <Anns>
                             <LocAnn Col="41" Line="50" Loc="tests/z/animate_scope.tex"/>
                         </Anns>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="40" Line="50" Loc="tests/z/animate_scope.tex"/>
                             </Anns>
@@ -1560,7 +1560,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                 <LocAnn Col="40" Line="50" Loc="tests/z/animate_scope.tex"/>
                             </Anns>
                             <ZExprList>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="40" Line="50" Loc="tests/z/animate_scope.tex"/>
                                     </Anns>
@@ -1572,7 +1572,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="42" Line="50" Loc="tests/z/animate_scope.tex"/>
                                     </Anns>
@@ -1663,7 +1663,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                         <Anns>
                                             <LocAnn Col="44" Line="52" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="43" Line="52" Loc="tests/z/animate_scope.tex"/>
                                             </Anns>
@@ -1680,7 +1680,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                                 <LocAnn Col="43" Line="52" Loc="tests/z/animate_scope.tex"/>
                                             </Anns>
                                             <ZExprList>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="43" Line="52" Loc="tests/z/animate_scope.tex"/>
                                                     </Anns>
@@ -1712,7 +1712,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                         </Anns>
                                         <Word>y</Word>
                                     </ZDeclName>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="51" Line="52" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
@@ -1731,7 +1731,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                             <Anns>
                                 <LocAnn Col="58" Line="52" Loc="tests/z/animate_scope.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="57" Line="52" Loc="tests/z/animate_scope.tex"/>
                                 </Anns>
@@ -1752,7 +1752,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                         <Anns>
                                             <LocAnn Col="56" Line="52" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="55" Line="52" Loc="tests/z/animate_scope.tex"/>
                                             </Anns>
@@ -1775,7 +1775,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                                     </Anns>
                                                     <ZNumeral Value="7"/>
                                                 </NumExpr>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="57" Line="52" Loc="tests/z/animate_scope.tex"/>
                                                     </Anns>
@@ -1790,7 +1790,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                             </ZExprList>
                                         </TupleExpr>
                                     </ApplExpr>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="59" Line="52" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
@@ -1898,7 +1898,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                         <Anns>
                                             <LocAnn Col="50" Line="53" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="49" Line="53" Loc="tests/z/animate_scope.tex"/>
                                             </Anns>
@@ -1915,7 +1915,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                                 <LocAnn Col="49" Line="53" Loc="tests/z/animate_scope.tex"/>
                                             </Anns>
                                             <ZExprList>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="49" Line="53" Loc="tests/z/animate_scope.tex"/>
                                                     </Anns>
@@ -1943,7 +1943,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                             <Anns>
                                 <LocAnn Col="58" Line="53" Loc="tests/z/animate_scope.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="57" Line="53" Loc="tests/z/animate_scope.tex"/>
                                 </Anns>
@@ -1964,7 +1964,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                         <Anns>
                                             <LocAnn Col="56" Line="53" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="55" Line="53" Loc="tests/z/animate_scope.tex"/>
                                             </Anns>
@@ -1987,7 +1987,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                                     </Anns>
                                                     <ZNumeral Value="7"/>
                                                 </NumExpr>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="57" Line="53" Loc="tests/z/animate_scope.tex"/>
                                                     </Anns>
@@ -2002,7 +2002,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                             </ZExprList>
                                         </TupleExpr>
                                     </ApplExpr>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="59" Line="53" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
@@ -2066,7 +2066,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                 <Anns>
                                     <LocAnn Col="43" Line="57" Loc="tests/z/animate_scope.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="40" Line="57" Loc="tests/z/animate_scope.tex"/>
                                     </Anns>
@@ -2122,7 +2122,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                     <Anns>
                                         <LocAnn Col="76" Line="57" Loc="tests/z/animate_scope.tex"/>
                                     </Anns>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="73" Line="57" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
@@ -2143,7 +2143,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                                 <Anns>
                                                     <LocAnn Col="65" Line="57" Loc="tests/z/animate_scope.tex"/>
                                                 </Anns>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="65" Line="57" Loc="tests/z/animate_scope.tex"/>
                                                     </Anns>
@@ -2182,7 +2182,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                             <Anns>
                                 <LocAnn Col="88" Line="57" Loc="tests/z/animate_scope.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="87" Line="57" Loc="tests/z/animate_scope.tex"/>
                                 </Anns>
@@ -2199,7 +2199,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                     <LocAnn Col="87" Line="57" Loc="tests/z/animate_scope.tex"/>
                                 </Anns>
                                 <ZExprList>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="87" Line="57" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
@@ -2211,7 +2211,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="89" Line="57" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
@@ -2228,7 +2228,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                         </ApplExpr>
                         <SetExpr>
                             <ZExprList>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="91" Line="57" Loc="tests/z/animate_scope.tex"/>
                                     </Anns>
@@ -2282,7 +2282,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                     <Anns>
                                         <LocAnn Col="43" Line="58" Loc="tests/z/animate_scope.tex"/>
                                     </Anns>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="40" Line="58" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
@@ -2338,7 +2338,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                         <Anns>
                                             <LocAnn Col="78" Line="58" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="75" Line="58" Loc="tests/z/animate_scope.tex"/>
                                             </Anns>
@@ -2359,7 +2359,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                                     <Anns>
                                                         <LocAnn Col="67" Line="58" Loc="tests/z/animate_scope.tex"/>
                                                     </Anns>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="67" Line="58" Loc="tests/z/animate_scope.tex"/>
                                                         </Anns>
@@ -2398,7 +2398,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                 <Anns>
                                     <LocAnn Col="90" Line="58" Loc="tests/z/animate_scope.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="89" Line="58" Loc="tests/z/animate_scope.tex"/>
                                     </Anns>
@@ -2415,7 +2415,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                         <LocAnn Col="89" Line="58" Loc="tests/z/animate_scope.tex"/>
                                     </Anns>
                                     <ZExprList>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="89" Line="58" Loc="tests/z/animate_scope.tex"/>
                                             </Anns>
@@ -2427,7 +2427,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="91" Line="58" Loc="tests/z/animate_scope.tex"/>
                                             </Anns>
@@ -2444,7 +2444,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                             </ApplExpr>
                             <SetExpr>
                                 <ZExprList>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="93" Line="58" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
@@ -2499,7 +2499,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                     <Anns>
                                         <LocAnn Col="43" Line="59" Loc="tests/z/animate_scope.tex"/>
                                     </Anns>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="40" Line="59" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
@@ -2546,7 +2546,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                     <Anns>
                                         <LocAnn Col="66" Line="59" Loc="tests/z/animate_scope.tex"/>
                                     </Anns>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="63" Line="59" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
@@ -2567,7 +2567,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                                 <Anns>
                                                     <LocAnn Col="55" Line="59" Loc="tests/z/animate_scope.tex"/>
                                                 </Anns>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="55" Line="59" Loc="tests/z/animate_scope.tex"/>
                                                     </Anns>
@@ -2606,7 +2606,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                             <Anns>
                                 <LocAnn Col="78" Line="59" Loc="tests/z/animate_scope.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="77" Line="59" Loc="tests/z/animate_scope.tex"/>
                                 </Anns>
@@ -2623,7 +2623,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                     <LocAnn Col="77" Line="59" Loc="tests/z/animate_scope.tex"/>
                                 </Anns>
                                 <ZExprList>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="77" Line="59" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
@@ -2635,7 +2635,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="79" Line="59" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
@@ -2652,7 +2652,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                         </ApplExpr>
                         <SetExpr>
                             <ZExprList>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="81" Line="59" Loc="tests/z/animate_scope.tex"/>
                                     </Anns>
@@ -2702,7 +2702,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                 <Anns>
                                     <LocAnn Col="43" Line="60" Loc="tests/z/animate_scope.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="40" Line="60" Loc="tests/z/animate_scope.tex"/>
                                     </Anns>
@@ -2763,7 +2763,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                             <Anns>
                                                 <LocAnn Col="67" Line="60" Loc="tests/z/animate_scope.tex"/>
                                             </Anns>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="67" Line="60" Loc="tests/z/animate_scope.tex"/>
                                                 </Anns>
@@ -2801,7 +2801,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                             <Anns>
                                 <LocAnn Col="84" Line="60" Loc="tests/z/animate_scope.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="83" Line="60" Loc="tests/z/animate_scope.tex"/>
                                 </Anns>
@@ -2818,7 +2818,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                     <LocAnn Col="83" Line="60" Loc="tests/z/animate_scope.tex"/>
                                 </Anns>
                                 <ZExprList>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="83" Line="60" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
@@ -2830,7 +2830,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="85" Line="60" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>
@@ -2847,7 +2847,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                         </ApplExpr>
                         <SetExpr>
                             <ZExprList>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="87" Line="60" Loc="tests/z/animate_scope.tex"/>
                                     </Anns>
@@ -2951,7 +2951,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                             <Anns>
                                                 <LocAnn Col="21" Line="66" Loc="tests/z/animate_scope.tex"/>
                                             </Anns>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="28" Line="66" Loc="tests/z/animate_scope.tex"/>
                                                 </Anns>
@@ -2987,7 +2987,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                                     </Anns>
                                                     <Word>a</Word>
                                                 </ZDeclName>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="38" Line="66" Loc="tests/z/animate_scope.tex"/>
                                                     </Anns>
@@ -3023,7 +3023,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                                     <Anns>
                                                         <LocAnn Col="50" Line="66" Loc="tests/z/animate_scope.tex"/>
                                                     </Anns>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="57" Line="66" Loc="tests/z/animate_scope.tex"/>
                                                         </Anns>
@@ -3042,7 +3042,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                             <Anns>
                                                 <LocAnn Col="65" Line="66" Loc="tests/z/animate_scope.tex"/>
                                             </Anns>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="64" Line="66" Loc="tests/z/animate_scope.tex"/>
                                                 </Anns>
@@ -3056,7 +3056,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                             </RefExpr>
                                             <SetExpr>
                                                 <ZExprList>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="66" Line="66" Loc="tests/z/animate_scope.tex"/>
                                                         </Anns>
@@ -3100,7 +3100,7 @@ TODO: is this true?
                     <Anns>
                         <LocAnn Col="21" Line="70" Loc="tests/z/animate_scope.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="70" Loc="tests/z/animate_scope.tex"/>
                         </Anns>
@@ -3117,7 +3117,7 @@ TODO: is this true?
                             <LocAnn Col="24" Line="70" Loc="tests/z/animate_scope.tex"/>
                         </Anns>
                         <ZExprList>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="26" Line="70" Loc="tests/z/animate_scope.tex"/>
                                 </Anns>
@@ -3179,7 +3179,7 @@ TODO: is this true?
                                             </Anns>
                                             <Word>X</Word>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="9" Line="74" Loc="tests/z/animate_scope.tex"/>
                                             </Anns>
@@ -3197,7 +3197,7 @@ TODO: is this true?
                                     <Anns>
                                         <LocAnn Col="6" Line="76" Loc="tests/z/animate_scope.tex"/>
                                     </Anns>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="5" Line="76" Loc="tests/z/animate_scope.tex"/>
                                         </Anns>

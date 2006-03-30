@@ -402,14 +402,22 @@ more detail.
         A reference expression (C.6.21, C.6.28, C.6.29).
         <ul>
         <li>C.6.21 (Generic Operator Application).  For example: S \rel T.
-                In this case, mixfix is always true and the list of 
-                type expressions is non-empty (it contains [S,T]).</li>
-        <li>C.6.28 (Reference).  For example: \emptyset.
-                In this case, mixfix is always false and the list of 
-                type expressions is empty.</li>
+                In this case, mixfix and explicit are always true,
+                and the list of instantiating expressions is non-empty
+                (it contains [S,T]).</li>
+        <li>C.6.28 (Reference).  For example: \arithmos
+                In this case, mixfix and explicit are always false
+                and the list of instantiating expressions is empty.
+                Another example before typechecking is \emptyset.
+                The typechecker transforms \emptyset to a generic
+                instantiation and explicit remains false (see 13.2.3.3).</li>
         <li>C.6.29 (Generic Instantiation).  For example: \emptyset[T].
                 In this case, mixfix is always false and the list of 
-                type expressions is non-empty (it contains [T]).</li>
+                instantiating expressions is non-empty (it contains [T]).
+                The explicit attribute indicates whether the instantiating
+                expressions are explicitly given in the specification
+                (explicit is true) or whether they were inferred by the
+                typechecker (explicit is false).</li>
         </ul>
       </xs:documentation>
     </xs:annotation>
@@ -1422,6 +1430,8 @@ more detail.
           <xs:element ref="Z:ExprList"/>
         </xs:sequence>
         <xs:attribute name="Mixfix" type="xs:boolean"
+          use="optional" default="false"/>
+        <xs:attribute name="Explicit" type="xs:boolean"
           use="optional" default="false"/>
       </xs:extension>
     </xs:complexContent>

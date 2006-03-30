@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Spec Version="2.0" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://czt.sourceforge.net/zml">
     <ZSect>
+        <Anns>
+            <LocAnn Col="1" Line="1" Loc="tests/z/testOpNameInDecl.tex"/>
+        </Anns>
         <Name>Specification</Name>
         <Parent>
             <Word>standard_toolkit</Word>
@@ -40,9 +43,12 @@
                             <Word>x</Word>
                         </ZDeclName>
                         <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="13" Line="6" Loc="tests/z/testOpNameInDecl.tex"/>
+                            </Anns>
                             <Word>preOp _ </Word>
                         </ZDeclName>
-                        <RefExpr Mixfix="true">
+                        <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="23" Line="6" Loc="tests/z/testOpNameInDecl.tex"/>
                             </Anns>
@@ -53,7 +59,7 @@
                                 <Word> _ → _ </Word>
                             </ZRefName>
                             <ZExprList>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="18" Line="6" Loc="tests/z/testOpNameInDecl.tex"/>
                                     </Anns>
@@ -65,7 +71,7 @@
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="28" Line="6" Loc="tests/z/testOpNameInDecl.tex"/>
                                     </Anns>
@@ -113,7 +119,7 @@
                             </Anns>
                             <Word>x</Word>
                         </ZDeclName>
-                        <RefExpr Mixfix="true">
+                        <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="25" Line="10" Loc="tests/z/testOpNameInDecl.tex"/>
                             </Anns>
@@ -124,7 +130,7 @@
                                 <Word> _ → _ </Word>
                             </ZRefName>
                             <ZExprList>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="20" Line="10" Loc="tests/z/testOpNameInDecl.tex"/>
                                     </Anns>
@@ -136,7 +142,7 @@
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="30" Line="10" Loc="tests/z/testOpNameInDecl.tex"/>
                                     </Anns>

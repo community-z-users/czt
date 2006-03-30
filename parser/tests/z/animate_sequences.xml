@@ -46,7 +46,7 @@ the constant undefnum should have an undefined left-hand-side.
                             </Anns>
                             <Word>undefnum</Word>
                         </ZDeclName>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="14" Line="17" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -95,7 +95,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="12" Line="23" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="12" Line="23" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -181,7 +181,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="21" Line="29" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="29" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -200,7 +200,7 @@ the constant undefnum should have an undefined left-hand-side.
                         <ZExprList/>
                     </SetExpr>
                 </ApplExpr>
-                <RefExpr Mixfix="true">
+                <RefExpr Explicit="true" Mixfix="true">
                     <Anns>
                         <LocAnn Col="40" Line="29" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -211,7 +211,7 @@ the constant undefnum should have an undefined left-hand-side.
                         <Word>seq _ </Word>
                     </ZRefName>
                     <ZExprList>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="45" Line="29" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -246,7 +246,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="21" Line="30" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="30" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -265,7 +265,7 @@ the constant undefnum should have an undefined left-hand-side.
                         <ZExprList/>
                     </SetExpr>
                 </ApplExpr>
-                <RefExpr Mixfix="true">
+                <RefExpr Explicit="true" Mixfix="true">
                     <Anns>
                         <LocAnn Col="40" Line="30" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -276,7 +276,7 @@ the constant undefnum should have an undefined left-hand-side.
                         <Word>seq _ </Word>
                     </ZRefName>
                     <ZExprList>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="true" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="45" Line="30" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -287,7 +287,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Word>∅</Word>
                             </ZRefName>
                             <ZExprList>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="55" Line="30" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -325,7 +325,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="21" Line="32" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="32" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -358,7 +358,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </ZExprList>
                     </SetExpr>
                 </ApplExpr>
-                <RefExpr Mixfix="true">
+                <RefExpr Explicit="true" Mixfix="true">
                     <Anns>
                         <LocAnn Col="43" Line="32" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -369,7 +369,7 @@ the constant undefnum should have an undefined left-hand-side.
                         <Word>seq _ </Word>
                     </ZRefName>
                     <ZExprList>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="48" Line="32" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -409,7 +409,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="21" Line="33" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="21" Line="33" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -442,7 +442,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 </ZExprList>
                             </SetExpr>
                         </ApplExpr>
-                        <RefExpr Mixfix="true">
+                        <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="46" Line="33" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -453,7 +453,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Word>seq _ </Word>
                             </ZRefName>
                             <ZExprList>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="51" Line="33" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -470,7 +470,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </RefExpr>
                     </ZExprList>
                 </TupleExpr>
-                <RefExpr Mixfix="false">
+                <RefExpr Explicit="false" Mixfix="false">
                     <Anns>
                         <LocAnn Col="31" Line="33" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -504,7 +504,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="21" Line="35" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="35" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -563,7 +563,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </ZExprList>
                     </SetExpr>
                 </ApplExpr>
-                <RefExpr Mixfix="true">
+                <RefExpr Explicit="true" Mixfix="true">
                     <Anns>
                         <LocAnn Col="47" Line="35" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -574,7 +574,7 @@ the constant undefnum should have an undefined left-hand-side.
                         <Word>seq _ </Word>
                     </ZRefName>
                     <ZExprList>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="52" Line="35" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -609,7 +609,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="21" Line="36" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="36" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -668,7 +668,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </ZExprList>
                     </SetExpr>
                 </ApplExpr>
-                <RefExpr Mixfix="true">
+                <RefExpr Explicit="true" Mixfix="true">
                     <Anns>
                         <LocAnn Col="47" Line="36" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -684,7 +684,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="55" Line="36" Loc="tests/z/animate_sequences.tex"/>
                                 <ParenAnn/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="53" Line="36" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -744,7 +744,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="21" Line="37" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="21" Line="37" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -803,7 +803,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 </ZExprList>
                             </SetExpr>
                         </ApplExpr>
-                        <RefExpr Mixfix="true">
+                        <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="50" Line="37" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -819,7 +819,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="58" Line="37" Loc="tests/z/animate_sequences.tex"/>
                                         <ParenAnn/>
                                     </Anns>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="56" Line="37" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
@@ -855,7 +855,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </RefExpr>
                     </ZExprList>
                 </TupleExpr>
-                <RefExpr Mixfix="false">
+                <RefExpr Explicit="false" Mixfix="false">
                     <Anns>
                         <LocAnn Col="35" Line="37" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -891,7 +891,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="21" Line="41" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="41" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -910,7 +910,7 @@ the constant undefnum should have an undefined left-hand-side.
                         <ZExprList/>
                     </SetExpr>
                 </ApplExpr>
-                <RefExpr Mixfix="true">
+                <RefExpr Explicit="true" Mixfix="true">
                     <Anns>
                         <LocAnn Col="41" Line="41" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -921,7 +921,7 @@ the constant undefnum should have an undefined left-hand-side.
                         <Word>iseq _ </Word>
                     </ZRefName>
                     <ZExprList>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="47" Line="41" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -956,7 +956,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="21" Line="42" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="42" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -975,7 +975,7 @@ the constant undefnum should have an undefined left-hand-side.
                         <ZExprList/>
                     </SetExpr>
                 </ApplExpr>
-                <RefExpr Mixfix="true">
+                <RefExpr Explicit="true" Mixfix="true">
                     <Anns>
                         <LocAnn Col="41" Line="42" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -986,7 +986,7 @@ the constant undefnum should have an undefined left-hand-side.
                         <Word>iseq _ </Word>
                     </ZRefName>
                     <ZExprList>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="true" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="47" Line="42" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -997,7 +997,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Word>∅</Word>
                             </ZRefName>
                             <ZExprList>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="57" Line="42" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -1035,7 +1035,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="21" Line="44" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="44" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -1068,7 +1068,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </ZExprList>
                     </SetExpr>
                 </ApplExpr>
-                <RefExpr Mixfix="true">
+                <RefExpr Explicit="true" Mixfix="true">
                     <Anns>
                         <LocAnn Col="43" Line="44" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -1079,7 +1079,7 @@ the constant undefnum should have an undefined left-hand-side.
                         <Word>iseq _ </Word>
                     </ZRefName>
                     <ZExprList>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="49" Line="44" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -1119,7 +1119,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="21" Line="45" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="21" Line="45" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -1152,7 +1152,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 </ZExprList>
                             </SetExpr>
                         </ApplExpr>
-                        <RefExpr Mixfix="true">
+                        <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="46" Line="45" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -1163,7 +1163,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Word>iseq _ </Word>
                             </ZRefName>
                             <ZExprList>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="52" Line="45" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -1180,7 +1180,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </RefExpr>
                     </ZExprList>
                 </TupleExpr>
-                <RefExpr Mixfix="false">
+                <RefExpr Explicit="false" Mixfix="false">
                     <Anns>
                         <LocAnn Col="31" Line="45" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -1214,7 +1214,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="21" Line="47" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="47" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -1273,7 +1273,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </ZExprList>
                     </SetExpr>
                 </ApplExpr>
-                <RefExpr Mixfix="true">
+                <RefExpr Explicit="true" Mixfix="true">
                     <Anns>
                         <LocAnn Col="47" Line="47" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -1284,7 +1284,7 @@ the constant undefnum should have an undefined left-hand-side.
                         <Word>iseq _ </Word>
                     </ZRefName>
                     <ZExprList>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="53" Line="47" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -1319,7 +1319,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="21" Line="48" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="48" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -1378,7 +1378,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </ZExprList>
                     </SetExpr>
                 </ApplExpr>
-                <RefExpr Mixfix="true">
+                <RefExpr Explicit="true" Mixfix="true">
                     <Anns>
                         <LocAnn Col="47" Line="48" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -1394,7 +1394,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="56" Line="48" Loc="tests/z/animate_sequences.tex"/>
                                 <ParenAnn/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="54" Line="48" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -1454,7 +1454,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="21" Line="49" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="21" Line="49" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -1513,7 +1513,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 </ZExprList>
                             </SetExpr>
                         </ApplExpr>
-                        <RefExpr Mixfix="true">
+                        <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="50" Line="49" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -1529,7 +1529,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="59" Line="49" Loc="tests/z/animate_sequences.tex"/>
                                         <ParenAnn/>
                                     </Anns>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="57" Line="49" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
@@ -1565,7 +1565,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </RefExpr>
                     </ZExprList>
                 </TupleExpr>
-                <RefExpr Mixfix="false">
+                <RefExpr Explicit="false" Mixfix="false">
                     <Anns>
                         <LocAnn Col="35" Line="49" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -1604,7 +1604,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="21" Line="51" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="21" Line="51" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -1663,7 +1663,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 </ZExprList>
                             </SetExpr>
                         </ApplExpr>
-                        <RefExpr Mixfix="true">
+                        <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="50" Line="51" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -1674,7 +1674,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Word>iseq _ </Word>
                             </ZRefName>
                             <ZExprList>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="56" Line="51" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -1690,7 +1690,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </RefExpr>
                     </ZExprList>
                 </TupleExpr>
-                <RefExpr Mixfix="false">
+                <RefExpr Explicit="false" Mixfix="false">
                     <Anns>
                         <LocAnn Col="35" Line="51" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -1731,7 +1731,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="21" Line="55" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="21" Line="55" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -1750,7 +1750,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <ZExprList/>
                             </SetExpr>
                         </ApplExpr>
-                        <RefExpr Mixfix="true">
+                        <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="44" Line="55" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -1762,7 +1762,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <NumStroke Digit="1"/>
                             </ZRefName>
                             <ZExprList>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="51" Line="55" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -1778,7 +1778,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </RefExpr>
                     </ZExprList>
                 </TupleExpr>
-                <RefExpr Mixfix="false">
+                <RefExpr Explicit="false" Mixfix="false">
                     <Anns>
                         <LocAnn Col="29" Line="55" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -1816,7 +1816,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="21" Line="56" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="21" Line="56" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -1835,7 +1835,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <ZExprList/>
                             </SetExpr>
                         </ApplExpr>
-                        <RefExpr Mixfix="true">
+                        <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="44" Line="56" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -1847,7 +1847,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <NumStroke Digit="1"/>
                             </ZRefName>
                             <ZExprList>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="true" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="51" Line="56" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -1858,7 +1858,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <Word>∅</Word>
                                     </ZRefName>
                                     <ZExprList>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="61" Line="56" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
@@ -1876,7 +1876,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </RefExpr>
                     </ZExprList>
                 </TupleExpr>
-                <RefExpr Mixfix="false">
+                <RefExpr Explicit="false" Mixfix="false">
                     <Anns>
                         <LocAnn Col="29" Line="56" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -1910,7 +1910,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="21" Line="58" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="58" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -1943,7 +1943,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </ZExprList>
                     </SetExpr>
                 </ApplExpr>
-                <RefExpr Mixfix="true">
+                <RefExpr Explicit="true" Mixfix="true">
                     <Anns>
                         <LocAnn Col="43" Line="58" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -1955,7 +1955,7 @@ the constant undefnum should have an undefined left-hand-side.
                         <NumStroke Digit="1"/>
                     </ZRefName>
                     <ZExprList>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="50" Line="58" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -1990,7 +1990,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="21" Line="59" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="59" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -2023,7 +2023,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </ZExprList>
                     </SetExpr>
                 </ApplExpr>
-                <RefExpr Mixfix="true">
+                <RefExpr Explicit="true" Mixfix="true">
                     <Anns>
                         <LocAnn Col="43" Line="59" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -2040,7 +2040,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="53" Line="59" Loc="tests/z/animate_sequences.tex"/>
                                 <ParenAnn/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="51" Line="59" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -2096,7 +2096,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="21" Line="61" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="61" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -2155,7 +2155,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </ZExprList>
                     </SetExpr>
                 </ApplExpr>
-                <RefExpr Mixfix="true">
+                <RefExpr Explicit="true" Mixfix="true">
                     <Anns>
                         <LocAnn Col="47" Line="61" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -2172,7 +2172,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="57" Line="61" Loc="tests/z/animate_sequences.tex"/>
                                 <ParenAnn/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="55" Line="61" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -2232,7 +2232,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="21" Line="62" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="21" Line="62" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -2291,7 +2291,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 </ZExprList>
                             </SetExpr>
                         </ApplExpr>
-                        <RefExpr Mixfix="true">
+                        <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="50" Line="62" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -2308,7 +2308,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="60" Line="62" Loc="tests/z/animate_sequences.tex"/>
                                         <ParenAnn/>
                                     </Anns>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="58" Line="62" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
@@ -2344,7 +2344,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </RefExpr>
                     </ZExprList>
                 </TupleExpr>
-                <RefExpr Mixfix="false">
+                <RefExpr Explicit="false" Mixfix="false">
                     <Anns>
                         <LocAnn Col="35" Line="62" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -2378,7 +2378,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="21" Line="64" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="64" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -2399,7 +2399,7 @@ the constant undefnum should have an undefined left-hand-side.
                 </ApplExpr>
                 <SetExpr>
                     <ZExprList>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="true" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="39" Line="64" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -2415,7 +2415,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="67" Line="64" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
                                     <ZExprList>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="49" Line="64" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
@@ -2431,7 +2431,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <Anns>
                                                 <LocAnn Col="61" Line="64" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="67" Line="64" Loc="tests/z/animate_sequences.tex"/>
                                                 </Anns>
@@ -2471,7 +2471,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="21" Line="65" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="65" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -2557,7 +2557,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="37" Line="68" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="68" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -2573,7 +2573,7 @@ the constant undefnum should have an undefined left-hand-side.
                         <Anns>
                             <LocAnn Col="27" Line="68" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="27" Line="68" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -2638,7 +2638,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="43" Line="69" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="69" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -2654,7 +2654,7 @@ the constant undefnum should have an undefined left-hand-side.
                         <Anns>
                             <LocAnn Col="27" Line="69" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="27" Line="69" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -2745,7 +2745,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="34" Line="70" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="70" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -2815,7 +2815,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="40" Line="71" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="71" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -2904,7 +2904,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="53" Line="72" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="72" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -2936,7 +2936,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <Anns>
                                             <LocAnn Col="35" Line="72" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="33" Line="72" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
@@ -2976,7 +2976,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="46" Line="72" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
                             <ZExprList>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="47" Line="72" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -2992,7 +2992,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     <Anns>
                                         <LocAnn Col="50" Line="72" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="49" Line="72" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
@@ -3009,7 +3009,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="49" Line="72" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
                                         <ZExprList>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="49" Line="72" Loc="tests/z/animate_sequences.tex"/>
                                                 </Anns>
@@ -3065,7 +3065,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="35" Line="73" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="73" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -3081,7 +3081,7 @@ the constant undefnum should have an undefined left-hand-side.
                         <Anns>
                             <LocAnn Col="27" Line="73" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="27" Line="73" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -3103,7 +3103,7 @@ the constant undefnum should have an undefined left-hand-side.
                 </ApplExpr>
                 <SetExpr>
                     <ZExprList>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="45" Line="73" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -3140,7 +3140,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="37" Line="76" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="76" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -3156,7 +3156,7 @@ the constant undefnum should have an undefined left-hand-side.
                         <Anns>
                             <LocAnn Col="27" Line="76" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="27" Line="76" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -3192,7 +3192,7 @@ the constant undefnum should have an undefined left-hand-side.
                 </ApplExpr>
                 <SetExpr>
                     <ZExprList>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="47" Line="76" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -3227,7 +3227,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="43" Line="77" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="77" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -3243,7 +3243,7 @@ the constant undefnum should have an undefined left-hand-side.
                         <Anns>
                             <LocAnn Col="27" Line="77" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="27" Line="77" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -3309,7 +3309,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="53" Line="77" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="53" Line="77" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -3378,7 +3378,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="34" Line="78" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="78" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -3419,7 +3419,7 @@ the constant undefnum should have an undefined left-hand-side.
                 </ApplExpr>
                 <SetExpr>
                     <ZExprList>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="39" Line="78" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -3454,7 +3454,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="40" Line="79" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="79" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -3563,7 +3563,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="53" Line="80" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="80" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -3595,7 +3595,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <Anns>
                                             <LocAnn Col="35" Line="80" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="33" Line="80" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
@@ -3635,7 +3635,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="46" Line="80" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
                             <ZExprList>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="47" Line="80" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -3651,7 +3651,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     <Anns>
                                         <LocAnn Col="50" Line="80" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="49" Line="80" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
@@ -3668,7 +3668,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="49" Line="80" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
                                         <ZExprList>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="49" Line="80" Loc="tests/z/animate_sequences.tex"/>
                                                 </Anns>
@@ -3715,7 +3715,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <Anns>
                                                 <LocAnn Col="66" Line="80" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="64" Line="80" Loc="tests/z/animate_sequences.tex"/>
                                                 </Anns>
@@ -3755,7 +3755,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     <LocAnn Col="76" Line="80" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
                                 <ZExprList>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="77" Line="80" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
@@ -3771,7 +3771,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <Anns>
                                             <LocAnn Col="84" Line="80" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="83" Line="80" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
@@ -3793,7 +3793,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                         <LocAnn Col="81" Line="80" Loc="tests/z/animate_sequences.tex"/>
                                                         <ParenAnn/>
                                                     </Anns>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="80" Line="80" Loc="tests/z/animate_sequences.tex"/>
                                                         </Anns>
@@ -3810,7 +3810,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                             <LocAnn Col="80" Line="80" Loc="tests/z/animate_sequences.tex"/>
                                                         </Anns>
                                                         <ZExprList>
-                                                            <RefExpr Mixfix="false">
+                                                            <RefExpr Explicit="false" Mixfix="false">
                                                                 <Anns>
                                                                     <LocAnn Col="80" Line="80" Loc="tests/z/animate_sequences.tex"/>
                                                                 </Anns>
@@ -3866,7 +3866,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="59" Line="81" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="81" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -3883,7 +3883,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <LocAnn Col="58" Line="81" Loc="tests/z/animate_sequences.tex"/>
                             <ParenAnn/>
                         </Anns>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="26" Line="81" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -3895,7 +3895,7 @@ the constant undefnum should have an undefined left-hand-side.
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="true" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="31" Line="81" Loc="tests/z/animate_sequences.tex"/>
                                 <ParenAnn/>
@@ -3912,7 +3912,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="53" Line="81" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
                                     <ZExprList>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="41" Line="81" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
@@ -3924,7 +3924,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="53" Line="81" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
@@ -3944,7 +3944,7 @@ the constant undefnum should have an undefined left-hand-side.
                 </ApplExpr>
                 <SetExpr>
                     <ZExprList>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="63" Line="81" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -3981,7 +3981,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="37" Line="84" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="84" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -3997,7 +3997,7 @@ the constant undefnum should have an undefined left-hand-side.
                         <Anns>
                             <LocAnn Col="27" Line="84" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="27" Line="84" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -4062,7 +4062,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="43" Line="85" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="85" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -4078,7 +4078,7 @@ the constant undefnum should have an undefined left-hand-side.
                         <Anns>
                             <LocAnn Col="27" Line="85" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="27" Line="85" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -4169,7 +4169,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="34" Line="86" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="86" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -4239,7 +4239,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="40" Line="87" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="87" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -4328,7 +4328,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="53" Line="88" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="88" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -4360,7 +4360,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <Anns>
                                             <LocAnn Col="35" Line="88" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="33" Line="88" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
@@ -4400,7 +4400,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="46" Line="88" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
                             <ZExprList>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="47" Line="88" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -4416,7 +4416,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     <Anns>
                                         <LocAnn Col="50" Line="88" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="49" Line="88" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
@@ -4433,7 +4433,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="49" Line="88" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
                                         <ZExprList>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="49" Line="88" Loc="tests/z/animate_sequences.tex"/>
                                                 </Anns>
@@ -4489,7 +4489,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="53" Line="89" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="89" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -4501,7 +4501,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="true" Mixfix="false">
                         <Anns>
                             <LocAnn Col="27" Line="89" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -4517,7 +4517,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     <LocAnn Col="49" Line="89" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
                                 <ZExprList>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="37" Line="89" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
@@ -4529,7 +4529,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="49" Line="89" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
@@ -4548,7 +4548,7 @@ the constant undefnum should have an undefined left-hand-side.
                 </ApplExpr>
                 <SetExpr>
                     <ZExprList>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="57" Line="89" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -4585,7 +4585,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="38" Line="92" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="92" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -4601,7 +4601,7 @@ the constant undefnum should have an undefined left-hand-side.
                         <Anns>
                             <LocAnn Col="28" Line="92" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="28" Line="92" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -4637,7 +4637,7 @@ the constant undefnum should have an undefined left-hand-side.
                 </ApplExpr>
                 <SetExpr>
                     <ZExprList>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="48" Line="92" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -4672,7 +4672,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="44" Line="93" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="93" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -4688,7 +4688,7 @@ the constant undefnum should have an undefined left-hand-side.
                         <Anns>
                             <LocAnn Col="28" Line="93" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="28" Line="93" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -4754,7 +4754,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="54" Line="93" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="54" Line="93" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -4823,7 +4823,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="35" Line="94" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="94" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -4864,7 +4864,7 @@ the constant undefnum should have an undefined left-hand-side.
                 </ApplExpr>
                 <SetExpr>
                     <ZExprList>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="40" Line="94" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -4899,7 +4899,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="41" Line="95" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="95" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -5008,7 +5008,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="54" Line="96" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="96" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -5040,7 +5040,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <Anns>
                                             <LocAnn Col="36" Line="96" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="34" Line="96" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
@@ -5080,7 +5080,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="47" Line="96" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
                             <ZExprList>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="48" Line="96" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -5096,7 +5096,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     <Anns>
                                         <LocAnn Col="51" Line="96" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="50" Line="96" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
@@ -5113,7 +5113,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="50" Line="96" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
                                         <ZExprList>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="50" Line="96" Loc="tests/z/animate_sequences.tex"/>
                                                 </Anns>
@@ -5160,7 +5160,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <Anns>
                                                 <LocAnn Col="67" Line="96" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="65" Line="96" Loc="tests/z/animate_sequences.tex"/>
                                                 </Anns>
@@ -5200,7 +5200,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     <LocAnn Col="77" Line="96" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
                                 <ZExprList>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="78" Line="96" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
@@ -5216,7 +5216,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <Anns>
                                             <LocAnn Col="81" Line="96" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="80" Line="96" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
@@ -5233,7 +5233,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                 <LocAnn Col="80" Line="96" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
                                             <ZExprList>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="80" Line="96" Loc="tests/z/animate_sequences.tex"/>
                                                     </Anns>
@@ -5280,7 +5280,7 @@ the constant undefnum should have an undefined left-hand-side.
                     <Anns>
                         <LocAnn Col="60" Line="97" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="97" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -5297,7 +5297,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <LocAnn Col="59" Line="97" Loc="tests/z/animate_sequences.tex"/>
                             <ParenAnn/>
                         </Anns>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="26" Line="97" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -5309,7 +5309,7 @@ the constant undefnum should have an undefined left-hand-side.
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="true" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="32" Line="97" Loc="tests/z/animate_sequences.tex"/>
                                 <ParenAnn/>
@@ -5326,7 +5326,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="54" Line="97" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
                                     <ZExprList>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="42" Line="97" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
@@ -5338,7 +5338,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="54" Line="97" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
@@ -5358,7 +5358,7 @@ the constant undefnum should have an undefined left-hand-side.
                 </ApplExpr>
                 <SetExpr>
                     <ZExprList>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="64" Line="97" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -5401,7 +5401,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="21" Line="101" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="21" Line="101" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -5424,7 +5424,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="48" Line="101" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="48" Line="101" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -5485,7 +5485,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </ApplExpr>
                     </ZExprList>
                 </TupleExpr>
-                <RefExpr Mixfix="false">
+                <RefExpr Explicit="false" Mixfix="false">
                     <Anns>
                         <LocAnn Col="29" Line="101" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -5523,7 +5523,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="21" Line="102" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="21" Line="102" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -5560,7 +5560,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="50" Line="102" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="50" Line="102" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -5621,7 +5621,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </ApplExpr>
                     </ZExprList>
                 </TupleExpr>
-                <RefExpr Mixfix="false">
+                <RefExpr Explicit="false" Mixfix="false">
                     <Anns>
                         <LocAnn Col="31" Line="102" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -5659,7 +5659,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="21" Line="103" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="21" Line="103" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -5722,7 +5722,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="54" Line="103" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="54" Line="103" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -5783,7 +5783,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </ApplExpr>
                     </ZExprList>
                 </TupleExpr>
-                <RefExpr Mixfix="false">
+                <RefExpr Explicit="false" Mixfix="false">
                     <Anns>
                         <LocAnn Col="35" Line="103" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -5825,7 +5825,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Anns>
                                     <LocAnn Col="27" Line="104" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="27" Line="104" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -5862,7 +5862,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Anns>
                                     <LocAnn Col="56" Line="104" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="56" Line="104" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -5923,7 +5923,7 @@ the constant undefnum should have an undefined left-hand-side.
                             </ApplExpr>
                         </ZExprList>
                     </TupleExpr>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="37" Line="104" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -5966,7 +5966,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Anns>
                                     <LocAnn Col="27" Line="105" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="27" Line="105" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -6003,7 +6003,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Anns>
                                     <LocAnn Col="56" Line="105" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="56" Line="105" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -6064,7 +6064,7 @@ the constant undefnum should have an undefined left-hand-side.
                             </ApplExpr>
                         </ZExprList>
                     </TupleExpr>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="37" Line="105" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -6105,7 +6105,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="21" Line="108" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="21" Line="108" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -6128,7 +6128,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="48" Line="108" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="48" Line="108" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -6189,7 +6189,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </ApplExpr>
                     </ZExprList>
                 </TupleExpr>
-                <RefExpr Mixfix="false">
+                <RefExpr Explicit="false" Mixfix="false">
                     <Anns>
                         <LocAnn Col="29" Line="108" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -6227,7 +6227,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="21" Line="109" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="21" Line="109" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -6264,7 +6264,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="50" Line="109" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="50" Line="109" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -6325,7 +6325,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </ApplExpr>
                     </ZExprList>
                 </TupleExpr>
-                <RefExpr Mixfix="false">
+                <RefExpr Explicit="false" Mixfix="false">
                     <Anns>
                         <LocAnn Col="31" Line="109" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -6363,7 +6363,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="21" Line="110" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="21" Line="110" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -6426,7 +6426,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="54" Line="110" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="54" Line="110" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -6487,7 +6487,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </ApplExpr>
                     </ZExprList>
                 </TupleExpr>
-                <RefExpr Mixfix="false">
+                <RefExpr Explicit="false" Mixfix="false">
                     <Anns>
                         <LocAnn Col="35" Line="110" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -6529,7 +6529,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Anns>
                                     <LocAnn Col="27" Line="111" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="27" Line="111" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -6566,7 +6566,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Anns>
                                     <LocAnn Col="56" Line="111" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="56" Line="111" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -6627,7 +6627,7 @@ the constant undefnum should have an undefined left-hand-side.
                             </ApplExpr>
                         </ZExprList>
                     </TupleExpr>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="37" Line="111" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -6670,7 +6670,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Anns>
                                     <LocAnn Col="27" Line="112" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="27" Line="112" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -6707,7 +6707,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Anns>
                                     <LocAnn Col="56" Line="112" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="56" Line="112" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -6768,7 +6768,7 @@ the constant undefnum should have an undefined left-hand-side.
                             </ApplExpr>
                         </ZExprList>
                     </TupleExpr>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="37" Line="112" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -6809,7 +6809,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="21" Line="115" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="21" Line="115" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -6832,7 +6832,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="47" Line="115" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="47" Line="115" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -6893,7 +6893,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </ApplExpr>
                     </ZExprList>
                 </TupleExpr>
-                <RefExpr Mixfix="false">
+                <RefExpr Explicit="false" Mixfix="false">
                     <Anns>
                         <LocAnn Col="29" Line="115" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -6931,7 +6931,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="21" Line="116" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="21" Line="116" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -6968,7 +6968,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="49" Line="116" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="49" Line="116" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -7029,7 +7029,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </ApplExpr>
                     </ZExprList>
                 </TupleExpr>
-                <RefExpr Mixfix="false">
+                <RefExpr Explicit="false" Mixfix="false">
                     <Anns>
                         <LocAnn Col="31" Line="116" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -7067,7 +7067,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="21" Line="117" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="21" Line="117" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -7104,7 +7104,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="49" Line="117" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="49" Line="117" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -7165,7 +7165,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </ApplExpr>
                     </ZExprList>
                 </TupleExpr>
-                <RefExpr Mixfix="false">
+                <RefExpr Explicit="false" Mixfix="false">
                     <Anns>
                         <LocAnn Col="31" Line="117" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -7203,7 +7203,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="21" Line="118" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="21" Line="118" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -7240,7 +7240,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="49" Line="118" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="49" Line="118" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -7301,7 +7301,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </ApplExpr>
                     </ZExprList>
                 </TupleExpr>
-                <RefExpr Mixfix="false">
+                <RefExpr Explicit="false" Mixfix="false">
                     <Anns>
                         <LocAnn Col="31" Line="118" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -7339,7 +7339,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="21" Line="119" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="21" Line="119" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -7389,7 +7389,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="51" Line="119" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="51" Line="119" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -7450,7 +7450,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </ApplExpr>
                     </ZExprList>
                 </TupleExpr>
-                <RefExpr Mixfix="false">
+                <RefExpr Explicit="false" Mixfix="false">
                     <Anns>
                         <LocAnn Col="33" Line="119" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -7488,7 +7488,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="21" Line="120" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="21" Line="120" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -7538,7 +7538,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="51" Line="120" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="51" Line="120" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -7599,7 +7599,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </ApplExpr>
                     </ZExprList>
                 </TupleExpr>
-                <RefExpr Mixfix="false">
+                <RefExpr Explicit="false" Mixfix="false">
                     <Anns>
                         <LocAnn Col="33" Line="120" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -7637,7 +7637,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="21" Line="121" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="21" Line="121" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -7700,7 +7700,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <Anns>
                                 <LocAnn Col="53" Line="121" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="53" Line="121" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -7761,7 +7761,7 @@ the constant undefnum should have an undefined left-hand-side.
                         </ApplExpr>
                     </ZExprList>
                 </TupleExpr>
-                <RefExpr Mixfix="false">
+                <RefExpr Explicit="false" Mixfix="false">
                     <Anns>
                         <LocAnn Col="35" Line="121" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
@@ -7803,7 +7803,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Anns>
                                     <LocAnn Col="27" Line="122" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="27" Line="122" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -7853,7 +7853,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Anns>
                                     <LocAnn Col="57" Line="122" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="57" Line="122" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -7914,7 +7914,7 @@ the constant undefnum should have an undefined left-hand-side.
                             </ApplExpr>
                         </ZExprList>
                     </TupleExpr>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="39" Line="122" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -7957,7 +7957,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Anns>
                                     <LocAnn Col="27" Line="123" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="27" Line="123" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -8007,7 +8007,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Anns>
                                     <LocAnn Col="57" Line="123" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="57" Line="123" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -8068,7 +8068,7 @@ the constant undefnum should have an undefined left-hand-side.
                             </ApplExpr>
                         </ZExprList>
                     </TupleExpr>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="39" Line="123" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -8117,7 +8117,7 @@ Jaza: This does not optimize properly yet.
                                     </Anns>
                                     <Word>s</Word>
                                 </ZDeclName>
-                                <RefExpr Mixfix="true">
+                                <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="25" Line="127" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -8128,7 +8128,7 @@ Jaza: This does not optimize properly yet.
                                         <Word>seq _ </Word>
                                     </ZRefName>
                                     <ZExprList>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="30" Line="127" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
@@ -8157,7 +8157,7 @@ Jaza: This does not optimize properly yet.
                                         <LocAnn Col="37" Line="127" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
                                     <ZExprList>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="37" Line="127" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
@@ -8169,7 +8169,7 @@ Jaza: This does not optimize properly yet.
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="47" Line="127" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
@@ -8183,7 +8183,7 @@ Jaza: This does not optimize properly yet.
                                         </RefExpr>
                                     </ZExprList>
                                 </TupleExpr>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="37" Line="127" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -8209,7 +8209,7 @@ Jaza: This does not optimize properly yet.
                                             <Anns>
                                                 <LocAnn Col="58" Line="127" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="58" Line="127" Loc="tests/z/animate_sequences.tex"/>
                                                 </Anns>
@@ -8221,7 +8221,7 @@ Jaza: This does not optimize properly yet.
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="61" Line="127" Loc="tests/z/animate_sequences.tex"/>
                                                 </Anns>
@@ -8242,7 +8242,7 @@ Jaza: This does not optimize properly yet.
                                         </NumExpr>
                                     </ZExprList>
                                 </TupleExpr>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="61" Line="127" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -8316,7 +8316,7 @@ Jaza: This does not optimize properly yet.
                     <Anns>
                         <LocAnn Col="35" Line="130" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="130" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -8332,7 +8332,7 @@ Jaza: This does not optimize properly yet.
                         <Anns>
                             <LocAnn Col="27" Line="130" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="27" Line="130" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -8354,7 +8354,7 @@ Jaza: This does not optimize properly yet.
                 </ApplExpr>
                 <SetExpr>
                     <ZExprList>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="true" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="45" Line="130" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -8370,7 +8370,7 @@ Jaza: This does not optimize properly yet.
                                         <LocAnn Col="67" Line="130" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
                                     <ZExprList>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="55" Line="130" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
@@ -8382,7 +8382,7 @@ Jaza: This does not optimize properly yet.
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="67" Line="130" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
@@ -8421,7 +8421,7 @@ Jaza: This does not optimize properly yet.
                     <Anns>
                         <LocAnn Col="46" Line="131" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="131" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -8437,7 +8437,7 @@ Jaza: This does not optimize properly yet.
                         <Anns>
                             <LocAnn Col="27" Line="131" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="27" Line="131" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -8459,7 +8459,7 @@ Jaza: This does not optimize properly yet.
                                         <NumExpr>
                                             <ZNumeral Value="1"/>
                                         </NumExpr>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="35" Line="131" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
@@ -8478,7 +8478,7 @@ Jaza: This does not optimize properly yet.
                                         <NumExpr>
                                             <ZNumeral Value="2"/>
                                         </NumExpr>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="41" Line="131" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
@@ -8502,7 +8502,7 @@ Jaza: This does not optimize properly yet.
                             <Anns>
                                 <LocAnn Col="61" Line="131" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="56" Line="131" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -8519,7 +8519,7 @@ Jaza: This does not optimize properly yet.
                                     <LocAnn Col="56" Line="131" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
                                 <ZExprList>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="56" Line="131" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
@@ -8531,7 +8531,7 @@ Jaza: This does not optimize properly yet.
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="66" Line="131" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
@@ -8569,7 +8569,7 @@ Jaza: This does not optimize properly yet.
                     <Anns>
                         <LocAnn Col="57" Line="132" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="132" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -8585,7 +8585,7 @@ Jaza: This does not optimize properly yet.
                         <Anns>
                             <LocAnn Col="27" Line="132" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="27" Line="132" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -8607,7 +8607,7 @@ Jaza: This does not optimize properly yet.
                                         <NumExpr>
                                             <ZNumeral Value="1"/>
                                         </NumExpr>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="35" Line="132" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
@@ -8626,7 +8626,7 @@ Jaza: This does not optimize properly yet.
                                         <NumExpr>
                                             <ZNumeral Value="2"/>
                                         </NumExpr>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="41" Line="132" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
@@ -8645,7 +8645,7 @@ Jaza: This does not optimize properly yet.
                                         <NumExpr>
                                             <ZNumeral Value="3"/>
                                         </NumExpr>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="47" Line="132" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
@@ -8669,7 +8669,7 @@ Jaza: This does not optimize properly yet.
                             <Anns>
                                 <LocAnn Col="72" Line="132" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="67" Line="132" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -8686,7 +8686,7 @@ Jaza: This does not optimize properly yet.
                                     <LocAnn Col="67" Line="132" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
                                 <ZExprList>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="67" Line="132" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
@@ -8698,7 +8698,7 @@ Jaza: This does not optimize properly yet.
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
-                                    <RefExpr Mixfix="false">
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="77" Line="132" Loc="tests/z/animate_sequences.tex"/>
                                         </Anns>
@@ -8736,7 +8736,7 @@ Jaza: This does not optimize properly yet.
                     <Anns>
                         <LocAnn Col="59" Line="133" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="133" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -8752,7 +8752,7 @@ Jaza: This does not optimize properly yet.
                         <Anns>
                             <LocAnn Col="27" Line="133" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="27" Line="133" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -8774,7 +8774,7 @@ Jaza: This does not optimize properly yet.
                                         <NumExpr>
                                             <ZNumeral Value="1"/>
                                         </NumExpr>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="35" Line="133" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
@@ -8797,7 +8797,7 @@ Jaza: This does not optimize properly yet.
                                             <Anns>
                                                 <LocAnn Col="41" Line="133" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="41" Line="133" Loc="tests/z/animate_sequences.tex"/>
                                                 </Anns>
@@ -8842,7 +8842,7 @@ Jaza: This does not optimize properly yet.
                             <Anns>
                                 <LocAnn Col="69" Line="133" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="69" Line="133" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -8939,7 +8939,7 @@ Jaza: This does not optimize properly yet.
                     <Anns>
                         <LocAnn Col="30" Line="136" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="136" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -8960,7 +8960,7 @@ Jaza: This does not optimize properly yet.
                 </ApplExpr>
                 <SetExpr>
                     <ZExprList>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="true" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="35" Line="136" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -8976,7 +8976,7 @@ Jaza: This does not optimize properly yet.
                                         <LocAnn Col="57" Line="136" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
                                     <ZExprList>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="45" Line="136" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
@@ -8988,7 +8988,7 @@ Jaza: This does not optimize properly yet.
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="57" Line="136" Loc="tests/z/animate_sequences.tex"/>
                                             </Anns>
@@ -9027,7 +9027,7 @@ Jaza: This does not optimize properly yet.
                     <Anns>
                         <LocAnn Col="35" Line="137" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="137" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -9117,7 +9117,7 @@ Jaza: This does not optimize properly yet.
                     <Anns>
                         <LocAnn Col="41" Line="138" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="138" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -9181,7 +9181,7 @@ Jaza: This does not optimize properly yet.
                             <Anns>
                                 <LocAnn Col="46" Line="138" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="46" Line="138" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -9250,7 +9250,7 @@ Jaza: This does not optimize properly yet.
                     <Anns>
                         <LocAnn Col="42" Line="139" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="139" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -9314,7 +9314,7 @@ Jaza: This does not optimize properly yet.
                             <Anns>
                                 <LocAnn Col="47" Line="139" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="47" Line="139" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -9383,7 +9383,7 @@ Jaza: This does not optimize properly yet.
                     <Anns>
                         <LocAnn Col="41" Line="140" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="21" Line="140" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -9447,7 +9447,7 @@ Jaza: This does not optimize properly yet.
                             <Anns>
                                 <LocAnn Col="46" Line="140" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="46" Line="140" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -9520,7 +9520,7 @@ Jaza: This does not optimize properly yet.
                         <Anns>
                             <LocAnn Col="41" Line="141" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="21" Line="141" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -9587,7 +9587,7 @@ Jaza: This does not optimize properly yet.
                 </ApplExpr>
                 <SetExpr>
                     <ZExprList>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="50" Line="141" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -9626,7 +9626,7 @@ Jaza: This does not optimize properly yet.
                         <Anns>
                             <LocAnn Col="41" Line="142" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="21" Line="142" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -9693,7 +9693,7 @@ Jaza: This does not optimize properly yet.
                 </ApplExpr>
                 <SetExpr>
                     <ZExprList>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="50" Line="142" Loc="tests/z/animate_sequences.tex"/>
                             </Anns>
@@ -9730,7 +9730,7 @@ Jaza: This does not optimize properly yet.
                     <Anns>
                         <LocAnn Col="41" Line="145" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="33" Line="145" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -9751,7 +9751,7 @@ Jaza: This does not optimize properly yet.
                                 <Anns>
                                     <LocAnn Col="21" Line="145" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="21" Line="145" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -9837,7 +9837,7 @@ Jaza: This does not optimize properly yet.
                     <Anns>
                         <LocAnn Col="41" Line="146" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="33" Line="146" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -9858,7 +9858,7 @@ Jaza: This does not optimize properly yet.
                                 <Anns>
                                     <LocAnn Col="21" Line="146" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="21" Line="146" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -9971,7 +9971,7 @@ Jaza: This does not optimize properly yet.
                     <Anns>
                         <LocAnn Col="47" Line="147" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="39" Line="147" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -9992,7 +9992,7 @@ Jaza: This does not optimize properly yet.
                                 <Anns>
                                     <LocAnn Col="21" Line="147" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="21" Line="147" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -10082,7 +10082,7 @@ Jaza: This does not optimize properly yet.
                                     <LocAnn Col="58" Line="147" Loc="tests/z/animate_sequences.tex"/>
                                     <ParenAnn/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="56" Line="147" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -10187,7 +10187,7 @@ Jaza: This does not optimize properly yet.
                     <Anns>
                         <LocAnn Col="37" Line="148" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="29" Line="148" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -10208,7 +10208,7 @@ Jaza: This does not optimize properly yet.
                                 <Anns>
                                     <LocAnn Col="21" Line="148" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="21" Line="148" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -10227,7 +10227,7 @@ Jaza: This does not optimize properly yet.
                                     <ZExprList/>
                                 </SetExpr>
                             </ApplExpr>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="45" Line="148" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -10273,7 +10273,7 @@ Jaza: This does not optimize properly yet.
                     <Anns>
                         <LocAnn Col="41" Line="149" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="33" Line="149" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -10294,7 +10294,7 @@ Jaza: This does not optimize properly yet.
                                 <Anns>
                                     <LocAnn Col="21" Line="149" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="21" Line="149" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -10340,7 +10340,7 @@ Jaza: This does not optimize properly yet.
                                     </ZExprList>
                                 </SetExpr>
                             </ApplExpr>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="49" Line="149" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
@@ -10427,7 +10427,7 @@ Jaza: This does not optimize properly yet.
                     <Anns>
                         <LocAnn Col="26" Line="152" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="23" Line="152" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -10454,7 +10454,7 @@ Jaza: This does not optimize properly yet.
                                 <Anns>
                                     <LocAnn Col="35" Line="152" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="35" Line="152" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -10534,7 +10534,7 @@ Jaza: This does not optimize properly yet.
                     <Anns>
                         <LocAnn Col="27" Line="153" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="24" Line="153" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -10568,7 +10568,7 @@ Jaza: This does not optimize properly yet.
                                 <Anns>
                                     <LocAnn Col="36" Line="153" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="36" Line="153" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -10668,7 +10668,7 @@ Jaza: This does not optimize properly yet.
                     <Anns>
                         <LocAnn Col="27" Line="154" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="24" Line="154" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -10702,7 +10702,7 @@ Jaza: This does not optimize properly yet.
                                 <Anns>
                                     <LocAnn Col="36" Line="154" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="36" Line="154" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
@@ -10802,7 +10802,7 @@ Jaza: This does not optimize properly yet.
                     <Anns>
                         <LocAnn Col="29" Line="155" Loc="tests/z/animate_sequences.tex"/>
                     </Anns>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
                             <LocAnn Col="26" Line="155" Loc="tests/z/animate_sequences.tex"/>
                         </Anns>
@@ -10842,7 +10842,7 @@ Jaza: This does not optimize properly yet.
                                 <Anns>
                                     <LocAnn Col="38" Line="155" Loc="tests/z/animate_sequences.tex"/>
                                 </Anns>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="38" Line="155" Loc="tests/z/animate_sequences.tex"/>
                                     </Anns>
