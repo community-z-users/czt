@@ -108,8 +108,8 @@ public class PrecedenceHandlingVisitor
   protected Expr createExpr(WrappedExpr wrappedExpr)
   {
     final RefName refName = wrappedExpr.getRefName();
+    final ZExprList zExprList = factory_.createZExprList();
     if (wrappedExpr.getExpr() instanceof ApplExpr) {
-      ZExprList zExprList = factory_.createZExprList();
       RefExpr refExpr =
         factory_.createRefExpr(refName, zExprList, Boolean.FALSE);
       TupleExpr tupleExpr =
@@ -119,8 +119,8 @@ public class PrecedenceHandlingVisitor
     else if (wrappedExpr.getExpr() instanceof ProdExpr) {
       return factory_.createProdExpr(factory_.createZExprList());
     }
-    ZExprList zExprList = factory_.createZExprList();
-    return factory_.createRefExpr(refName, zExprList, Boolean.TRUE);
+    return factory_.createRefExpr(refName, zExprList,
+                                  Boolean.TRUE, Boolean.TRUE);
   }
 
   protected Expr reorder(WrappedExpr wExpr)
@@ -162,7 +162,7 @@ public class PrecedenceHandlingVisitor
       //add the new child expression to the end of new parent list
       wNewParentList.add(wNewChild.getExpr());
 
-      //recursively visit the parent to reorder ithe new child
+      //recursively visit the parent to reorder the new child
       return (Expr) wNewParent.getExpr().accept(this);
     }
     return wExpr.getExpr();

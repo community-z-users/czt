@@ -528,7 +528,7 @@ action code
         addLocAnn(((ApplExpr) result).getLeftExpr(), line, column);
       }
       else {
-        result = factory_.createRefExpr(rn, exprs, Boolean.TRUE);
+        result = factory_.createRefExpr(rn, exprs, Boolean.TRUE, Boolean.TRUE);
         // Done by callers: addLocAnn(result, line, column);
       }
 
@@ -2501,7 +2501,7 @@ channelFromDecl ::=
         /* Generic channels declared through generic Z schemas with generic actuals */
         optFormalParameters:ofp refName:rn LSQUARE expressionList:el RSQUARE
         {:  
-           RefExpr re = factory_.createRefExpr(rn, el, Boolean.FALSE);
+           RefExpr re = factory_.createRefExpr(rn, el, Boolean.FALSE, Boolean.TRUE);
            RESULT = factory_.createChannelDecl(ofp, null, re);
            addLocAnn(RESULT, ofpleft, ofpright);
         :}        
@@ -4766,7 +4766,7 @@ RSQUARE
            rename expressions fail to parse. */
         inner_term:it LSQUARE expressionList:el RSQUARE
         {:
-           RESULT = factory_.createRefExpr(refname(it), el, Boolean.FALSE);
+           RESULT = factory_.createRefExpr(refname(it), el, Boolean.FALSE, Boolean.TRUE);
            addLocAnn(RESULT, itleft, itright);
         :}
         |
@@ -5832,7 +5832,7 @@ inheritedClass ::=
         inheritedClass:ic LSQUARE expressionList:el RSQUARE
         {:
            RefName rn = refname(ic);
-           RESULT = factory_.createRefExpr(rn, el, Boolean.FALSE);
+           RESULT = factory_.createRefExpr(rn, el, Boolean.FALSE, Boolean.TRUE);
            addLocAnn(rn, icleft, icright);
            addLocAnn(RESULT, icleft, icright);
         :}
