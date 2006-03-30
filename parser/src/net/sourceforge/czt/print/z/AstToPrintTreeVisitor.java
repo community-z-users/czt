@@ -88,6 +88,8 @@ public class AstToPrintTreeVisitor
 {
   private ZFactory factory_ = new ZFactoryImpl();
 
+  private boolean oldZ_ = false;
+
   /**
    * The operator table of the current section.  It is
    * used to lookup precedence and associativity of user
@@ -146,6 +148,11 @@ public class AstToPrintTreeVisitor
   {
     opTable_ = (OpTable) sectInfo_.get(new Key(sectionName, OpTable.class));
     return (Term) term.accept(this);
+  }
+
+  public void setOldZ(boolean value)
+  {
+    oldZ_ = value;
   }
 
   /**
@@ -249,6 +256,20 @@ public class AstToPrintTreeVisitor
     return appl;
   }
 
+  protected PrintParagraph handleOldZ(List<Object> anns, PrintParagraph pp)
+  {
+    List newAnns = pp.getAnns();
+    if (oldZ_) {
+      for (Object o : anns) {
+        if (o instanceof AxPara) {
+          System.err.println("Add annotation to " + pp);
+          newAnns.add(visitAxPara((AxPara) o));
+        }
+      }
+    }
+    return pp;
+  }
+
   public Object visitAxPara(AxPara axPara)
   {
     List list = new ArrayList();
@@ -324,12 +345,12 @@ public class AstToPrintTreeVisitor
       list.add(TokenName.END);
     }
     else if (Box.SchBox.equals(box)) {
-      return handleSchemaDefinition(axPara);
+      return handleOldZ(axPara.getAnns(), handleSchemaDefinition(axPara));
     }
     else {
       throw new CztException("Unexpected Box " + box);
     }
-    return new PrintParagraph(list);
+    return handleOldZ(axPara.getAnns(), new PrintParagraph(list));
   }
 
   private PrintParagraph handleSchemaDefinition(AxPara axPara)

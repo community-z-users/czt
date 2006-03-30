@@ -125,7 +125,9 @@ public final class PrintUtils
 
   public static void printOldLatex(Term term, Writer out, SectionInfo sectInfo)
   {
+    term.accept(new ToSpiveyZVisitor());
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
+    toPrintTree.setOldZ(true);
     Term tree = (Term) term.accept(toPrintTree);
     ZmlScanner scanner = new ZmlScanner(tree, true);
     Unicode2OldLatex parser = new Unicode2OldLatex(new SectHeadScanner(scanner));
@@ -189,7 +191,9 @@ public final class PrintUtils
                                    SectionInfo sectInfo,
                                    String sectionName)
   {
+    term.accept(new ToSpiveyZVisitor());
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
+    toPrintTree.setOldZ(true);
     Term tree;
     try {
       tree = (Term) toPrintTree.run(term, sectionName);

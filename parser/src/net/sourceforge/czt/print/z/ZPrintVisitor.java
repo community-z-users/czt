@@ -804,6 +804,11 @@ public class ZPrintVisitor
 
   public Object visitPrintParagraph(PrintParagraph printParagraph)
   {
+    for (Object o : printParagraph.getAnns()) {
+      if (o instanceof PrintParagraph) {
+        visitPrintParagraph((PrintParagraph) o);
+      }
+    }
     Object[] array = printParagraph.getChildren();
     for (int i = 0; i < array.length; i++) {
       Object object = array[i];
@@ -896,7 +901,7 @@ public class ZPrintVisitor
     }
     else { // Mixfix == false
       visit(refExpr.getRefName());
-      if (refExpr.getZExprList().size() > 0) {
+      if (refExpr.getZExprList().size() > 0 && refExpr.getExplicit()) {
         print(TokenName.LSQUARE);
         printTermList(refExpr.getZExprList());
         print(TokenName.RSQUARE);
@@ -959,9 +964,15 @@ public class ZPrintVisitor
 
   public Object visitSchExpr(SchExpr schExpr)
   {
-    print(TokenName.LSQUARE);
-    visit(schExpr.getSchText());
-    print(TokenName.RSQUARE);
+    String name = (String) schExpr.getAnn(String.class);
+    if (name != null) {
+      print(TokenName.DECORWORD, new Decorword(name));
+    }
+    else {
+      print(TokenName.LSQUARE);
+      visit(schExpr.getSchText());
+      print(TokenName.RSQUARE);
+    }
     return null;
   }
 
