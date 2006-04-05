@@ -40,7 +40,9 @@ public interface CircusString extends ZString
 </xsl:text>
 <xsl:apply-templates select="*"/>
 
-  String CIRCIF = "if";
+  /* Reuse Z IF, see Parser.xml terminal section for an explanation.
+   * String CIRCIF = "ifg";  
+   */
   String CIRCFI = "fi";
   String CIRCDO = "do";
   String CIRCOD = "od";
@@ -58,7 +60,7 @@ public interface CircusString extends ZString
   String CIRCSTATE = "state";
   String CIRCSKIP = "Skip";
   String CIRCSTOP = "Stop";
-  String CIRCCHAOS = "Chaos";  
+  String CIRCCHAOS = "Chaos";    
 }
 <xsl:text>
 </xsl:text>
