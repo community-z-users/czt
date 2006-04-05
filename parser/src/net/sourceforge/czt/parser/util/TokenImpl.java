@@ -43,6 +43,7 @@ public class TokenImpl
 
   public String spelling()
   {
-    return getSpelling().toString();
+    Object o = getSpelling();
+    return o != null ? o.toString() : null;
   }
 }
