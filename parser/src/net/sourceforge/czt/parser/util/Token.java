@@ -20,7 +20,19 @@
 package net.sourceforge.czt.parser.util;
 
 /**
- * The token interface.
+ * <p>A token is an object with a name and an optional spelling, which is
+ * usually created by a lexer (or scanner) and subsequently used in a
+ * parser.  A typical Z token is LPAREN, which is created when the
+ * lexer finds a '('-character.  Another typical Z Token is DECORWORD,
+ * which is created when the lexer finds a decorated word like "x?".
+ * The DECORWORD token has usually a spelling associated, "x?" in the
+ * example above.</p>
+ *
+ * <p>It is convenient to allow any Object to be used as a spelling
+ * for a token.  For example, a NUMERAL token could have an Integer as
+ * spelling.  The <code>toString()</code> method of the spelling
+ * object should return the string from which the lexer created this
+ * token.
  *
  * @author Petra Malik
  */
