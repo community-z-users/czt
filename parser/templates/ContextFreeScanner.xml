@@ -41,6 +41,7 @@ import net.sourceforge.czt.parser.util.ScanException;
 <add:z> * Z</add:z>
 <add:print> * Z</add:print>
 <add:oz> * Object Z</add:oz>
+<add:circus> * Circus</add:circus>
 <add:tcoz> and TCOZ</add:tcoz>
  * specifications in unicode format.&lt;/p&gt;
  *
@@ -189,7 +190,11 @@ LL = "\u005F" /* low line */
 
 /* Bracket characters (6.4.4.3) */
 BRACKET = {LPAREN} | {RPAREN} | {LSQUARE} | {RSQUARE} | {LBRACE} | {RBRACE} | {LBIND} | 
-          {RBIND} | {LDATA} | {RDATA} <add:circus> | {LCIRCCHANSET} | {RCIRCCHANSET} </add:circus>
+          {RBIND} | {LDATA} | {RDATA}
+<add:circus> 
+          | {LCIRCCHANSET} | {RCIRCCHANSET} | {CIRCLINST} | {CIRCLINST} 
+          | {LPAR} | {RPAR} | {LINTER} | {RINTER}
+</add:circus>
 LPAREN = "\u0028"  /* left parenthesis */
 RPAREN = "\u0029"  /* right parenthesis */
 LSQUARE = "\u005B" /* left square bracket */
@@ -203,6 +208,12 @@ RDATA = "\u27EB"   /* mathmatical right double angle bracket */
 <add:circus>
 LCIRCCHANSET = "\u2983" /* channel set left bracket */
 RCIRCCHANSET = "\u2984" /* channel set right bracket */
+CIRCLINST = "\u230A" /* left indexed process instantiation angle bracket */
+CIRCRINST = "\u230B" /* left indexed process instantiation angle bracket */
+LPAR = "\u27E6" /* left parallel bracket */
+RPAR = "\u27E7" /* right parallel bracket */
+LINTER = "\u301A"   /* left interleave bracket */
+RINTER = "\u301B"   /* left interleave bracket */
 </add:circus>
 
 /* Box characters (6.4.4.3) */
@@ -355,7 +366,13 @@ RULE = {RULECHAR}
   {RDATA}       {  return symbol(Sym.RDATA); }
   <add:circus>
   {LCIRCCHANSET} {  return symbol(Sym.LCIRCCHANSET); }
-  {RCIRCCHANSET} {  return symbol(Sym.RCIRCCHANSET); }
+  {RCIRCCHANSET} {  return symbol(Sym.RCIRCCHANSET); }  
+  {CIRCLINST}    {  return symbol(Sym.CIRCLINST); }  
+  {CIRCRINST}    {  return symbol(Sym.CIRCRINST); }  
+  {LPAR}         {  return symbol(Sym.LPAR); }  
+  {RPAR}         {  return symbol(Sym.RPAR); }  
+  {LINTER}       {  return symbol(Sym.LINTER); }  
+  {RINTER}       {  return symbol(Sym.RINTER); }  
   </add:circus>
   {INSTROKE}    {  return symbol(Sym.INSTROKE); }
   {OUTSTROKE}   {  return symbol(Sym.OUTSTROKE); }
