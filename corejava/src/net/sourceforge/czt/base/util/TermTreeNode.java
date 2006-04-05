@@ -22,9 +22,11 @@ package net.sourceforge.czt.base.util;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Vector;
+import java.util.Arrays;
 import javax.swing.tree.TreeNode;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.ast.TermA;
 
 /**
  * A node of an AST that can be used as a tree node in a JTree.
@@ -49,9 +51,19 @@ public class TermTreeNode
   {
     if (node_ instanceof Term) {
       Term term = (Term) node_;
-      Object[] children = term.getChildren();
+      Object[] anns = null;
+      Object[] children = term.getChildren();      
+      if (term instanceof TermA)  {
+          TermA ta = (TermA)term;
+          if (ta.getAnns() != null) {
+            anns = ta.getAnns().toArray();
+          }
+      }
       if (index < children.length) {
         return new TermTreeNode(index, children[index], this);
+      }
+      else if (index < children.length+anns.length) {
+        return new TermTreeNode(index, anns[index-children.length], this);
       }
     }
     return null;
@@ -61,7 +73,14 @@ public class TermTreeNode
   {
     if (node_ instanceof Term) {
       Term term = (Term) node_;
-      return term.getChildren().length;
+      int result = term.getChildren().length;
+      if (term instanceof TermA) {
+        TermA ta = (TermA)term;
+        if (ta.getAnns() != null) {
+            result += ta.getAnns().size();
+        }
+      }
+      return result;
     }
     return 0;
   }
@@ -98,7 +117,7 @@ public class TermTreeNode
   public String toString()
   {
     if (node_ instanceof List) {
-      return "List";
+      return "List[" + ((List)node_).size()+ "]";
     }
     else if (node_ != null) {
       return node_.toString();
