@@ -26,8 +26,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.TermVisitor;
-import net.sourceforge.czt.base.visitor.VisitorUtils;
+import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.z.util.Factory;
@@ -42,6 +41,7 @@ import net.sourceforge.czt.z.visitor.*;
  */
 public class PrecedenceHandlingVisitor
   implements TermVisitor,
+             TermAVisitor,
              RefExprVisitor,
              ApplExprVisitor,
              ProdExprVisitor
@@ -73,6 +73,19 @@ public class PrecedenceHandlingVisitor
   public Object visitTerm(Term term)
   {
     return VisitorUtils.visitTerm(this, term, true);
+  }
+
+  /**
+   * Visits all of its children and copies annotations
+   * if necessary.
+   */
+  public Object visitTermA(TermA termA)
+  {
+    Term term = VisitorUtils.visitTerm(this, termA, true);
+    if (term instanceof TermA && term != termA) {
+      ((TermA) term).getAnns().addAll(termA.getAnns());
+    }
+    return term;
   }
 
   public Object visitRefExpr(RefExpr refExpr)
