@@ -37,13 +37,13 @@ import ${project.AstPackage}.*;
 #if($author) * @author ${author}
 #end
  */
-public interface ${class.Name}
+public interface ${class.Name}<R>
   extends
 #foreach($c in $classes)
 #if(! ${c.Abstract})
-    ${project.BasePackage}.visitor.${c.Name}Visitor,
+    ${project.BasePackage}.visitor.${c.Name}Visitor<R>,
 #end
 #end
-    net.sourceforge.czt.util.Visitor
+    net.sourceforge.czt.util.Visitor<R>
 {
 }
