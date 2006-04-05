@@ -35,7 +35,8 @@ import net.sourceforge.czt.z.ast.DeclName;
  * &lt;p&gt;This is a NL lexer
  * (part of context-sensitive lexis) for
 <add:z> * Z</add:z>
-<add:oz> * Object Z</add:oz><add:tcoz> and TCOZ</add:tcoz>
+<add:oz> * Object Z</add:oz>
+<add:circus>* Circus </add:circus><add:tcoz> and TCOZ</add:tcoz>
  * specifications in unicode format.&lt;/p&gt;
  */
 public class <class/>
@@ -69,6 +70,17 @@ public class <class/>
                 Sym.NEXTPRO, Sym.INTCHOICE, Sym.INTERLEAVE,
                 Sym.INTERRUPT, Sym.TIMEOUT, Sym.TIMEEND,               
 </add:tcoz>
+<add:circus>
+                /* Everything infix comes here */
+                Sym.CIRCDEF, Sym.CIRCINDEX, Sym.CIRCTHEN, Sym.CIRCELSE, 
+                Sym.PREFIXTHEN, Sym.PREFIXCOLON, 
+                /* Sym.CIRCGUARD, // removed, see Parser.xml terminal section for an explanation */
+                Sym.CIRCSEQ, Sym.INTERLEAVE, Sym.CIRCHIDING, 
+                Sym.EXTCHOICE, Sym.INTCHOICE,        
+                        
+                /* These three I am not sure where to put then TODO:CHECK */
+                Sym.CIRCBEGIN, Sym.CIRCEND, Sym.CIRCSTATE
+</add:circus>
     };
 
   /**
@@ -99,6 +111,19 @@ public class <class/>
 <add:tcoz>
                 Sym.DIL, Sym.DIC, Sym.DPARA,
 </add:tcoz>
+<add:circus>
+                /* Everything prefix comes here */
+                /* Sym.CIRCMU, Sym.REPSEQ, // removed, see Parser.xml terminal section for an explanation */
+                Sym.REPINTERLEAVE, Sym.REPPARALLEL, Sym.REPEXTCHOICE, 
+                Sym.REPINTCHOICE,                
+                
+                /* Sym.CIRCIF, // removed, see Parser.xml terminal section for an explanation */
+                Sym.CIRCDO, Sym.CIRCVAR, Sym.CIRCVAL,
+                Sym.CIRCRES, Sym.CIRCVRES, Sym.CIRCCHAN, Sym.CIRCCHANFROM, 
+                Sym.CIRCCHANSET, Sym.CIRCNAMESET, Sym.CIRCPROC,
+                
+                Sym.LCIRCCHANSET, Sym.CIRCLINST, Sym.LPAR, Sym.LINTER
+</add:circus>
     };
 
   /**
@@ -112,17 +137,27 @@ public class <class/>
 <add:oz>
                 Sym.CONTAINMENT
 </add:oz>
+<add:circus>
+                /* Everything posfix comes here */
+                Sym.CIRCFI, Sym.CIRCOD, /* Are these postfix or no fix? */
+
+                Sym.RCIRCCHANSET, Sym.CIRCRINST,  Sym.RPAR, Sym.RINTER
+</add:circus>
     };
+    /* These are NOFIX, hence not included 
+     *
+     * Sym.CIRCSKIP, Sym.CIRCSTOP, Sym.CIRCCHAOS,         
+     */
 
   /**
    * The token returned via the last call to #next_token,
-   * or <code>null</code> if #next_token has not yet been called.
+   * or &lt;code&gt;null&lt;/code&gt; if #next_token has not yet been called.
    */
   private Symbol symbol_ = null;
 
   /**
    * The token stream from which NL tokens are to be removed.
-   * Should never be <code>null</code>.
+   * Should never be &lt;code&gt;null&lt;/code&gt;.
    */
   private TokenStack tokens_;
 
