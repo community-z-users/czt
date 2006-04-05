@@ -246,13 +246,16 @@ public class AstToPrintTreeVisitor
         TupleExpr tuple = (TupleExpr) args;
         argList.addAll(tuple.getZExprList());
       }
-      return createOperatorApplication(opName, argList);
+      OperatorApplication result = createOperatorApplication(opName, argList);
+      result.getAnns().addAll(applExpr.getAnns());
+      return result;
     }
     final Expr leftExpr = (Expr) applExpr.getLeftExpr().accept(this);
     final Expr rightExpr = (Expr) applExpr.getRightExpr().accept(this);
     Application appl = new Application();
     appl.setLeftExpr(leftExpr);
     appl.setRightExpr(rightExpr);
+    appl.getAnns().addAll(applExpr.getAnns());
     return appl;
   }
 
@@ -463,8 +466,9 @@ public class AstToPrintTreeVisitor
       final OperatorName opName = refExpr.getZRefName().getOperatorName();
       final ZExprList argList =
         (ZExprList) refExpr.getZExprList().accept(this);
-      // TODO: preserve ParenAnn annotations?
-      return createOperatorApplication(opName, argList);
+      OperatorApplication result = createOperatorApplication(opName, argList);
+      result.getAnns().addAll(refExpr.getAnns());
+      return result;
     }
     return VisitorUtils.visitTerm(this, refExpr, true);
   }
