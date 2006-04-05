@@ -31,6 +31,7 @@ import java.util.Stack;
 
 import net.sourceforge.czt.java_cup.runtime.*;
 
+import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.parser.util.Decorword;
 import net.sourceforge.czt.parser.util.ParsePropertiesKeys;
 import net.sourceforge.czt.util.CztException;
@@ -56,7 +57,8 @@ import net.sourceforge.czt.circus.util.CircusString;
 /**
  * &lt;p&gt;This is a keyword lexer (part of context-sensitive lexis) for
 <add:z> * Z</add:z>
-<add:oz> * Object Z</add:oz><add:tcoz> and TCOZ</add:tcoz>
+<add:oz> * Object Z</add:oz>
+<add:circus> * Circus </add:circus><add:tcoz> and TCOZ</add:tcoz>
  * specifications in unicode format.&lt;/p&gt;
  *
  * &lt;p&gt;According to the ISO Standard for Z, the lexis for Z specifications
@@ -75,153 +77,181 @@ public class KeywordScanner
   implements Scanner
 {
   private SeparateDelimiter scanner_;
-  private Map &lt;String, Integer&gt; keywords_ = createKeywordMap();
+  private Map &lt;String, Integer&gt; keywords_ = new HashMap&lt;String, Integer&gt;();
   private Stack&lt;Symbol&gt; tokens_ = new Stack&lt;Symbol&gt;();
+  
+  private static final Map symbolMap_ = DebugUtils.getFieldMap(Sym.class);
 
 public static long time = 0;
 
   public KeywordScanner(ContextFreeScanner scanner, Properties properties)
   {
+    createKeywordMap();
     scanner_ = new SeparateDelimiter(scanner, properties);
   }
 
-  private Map&lt;String, Integer&gt; createKeywordMap()
+  private void createKeywordMap()
   {
-    Map&lt;String, Integer&gt; result = new HashMap&lt;String, Integer&gt;();
-
     // Z Standard 7.4.3 (Symbolic Keywords)
-    result.put(ZString.COLON, new Integer(Sym.COLON));
-    result.put(ZString.DEFEQUAL, new Integer(Sym.DEFEQUAL));
-    result.put(ZString.COMMA, new Integer(Sym.COMMA));
-    result.put(ZString.DEFFREE, new Integer(Sym.DEFFREE));
-    result.put(ZString.BAR, new Integer(Sym.BAR));
-    result.put(ZString.ANDALSO, new Integer(Sym.ANDALSO));
-    result.put(ZString.ZHIDE, new Integer(Sym.ZHIDE));
-    result.put(ZString.SLASH, new Integer(Sym.SLASH));
-    result.put(ZString.DOT, new Integer(Sym.DOT));
-    result.put(ZString.SEMICOLON, new Integer(Sym.SEMICOLON));
-    result.put(ZString.ARG, new Integer(Sym.ARG));
-    result.put(ZString.LISTARG, new Integer(Sym.LISTARG));
-    result.put(ZString.EQUALS, new Integer(Sym.EQUALS));
-    result.put(ZString.CONJECTURE, new Integer(Sym.CONJECTURE));
-    result.put(ZString.ALL, new Integer(Sym.ALL));
-    result.put(ZString.SPOT, new Integer(Sym.SPOT));
-    result.put(ZString.EXI, new Integer(Sym.EXI));
-    result.put(ZString.EXIONE, new Integer(Sym.EXIONE));
-    result.put(ZString.IFF, new Integer(Sym.IFF));
-    result.put(ZString.IMP, new Integer(Sym.IMP));
-    result.put(ZString.OR, new Integer(Sym.OR));
-    result.put(ZString.AND, new Integer(Sym.AND));
-    result.put(ZString.NOT, new Integer(Sym.NOT));
-    result.put(ZString.MEM, new Integer(Sym.MEM));
-    result.put(ZString.ZPROJ, new Integer(Sym.ZPROJ));
-    result.put(ZString.CROSS, new Integer(Sym.CROSS));
-    result.put(ZString.LAMBDA, new Integer(Sym.LAMBDA));
-    result.put(ZString.MU, new Integer(Sym.MU));
-    result.put(ZString.THETA, new Integer(Sym.THETA));
-    result.put(ZString.ZCOMP, new Integer(Sym.ZCOMP));
-    result.put(ZString.ZPIPE, new Integer(Sym.ZPIPE));
+    addKeywordMapping(ZString.COLON, Sym.COLON);
+    addKeywordMapping(ZString.DEFEQUAL, Sym.DEFEQUAL);
+    addKeywordMapping(ZString.COMMA, Sym.COMMA);
+    addKeywordMapping(ZString.DEFFREE, Sym.DEFFREE);
+    addKeywordMapping(ZString.BAR, Sym.BAR);
+    addKeywordMapping(ZString.ANDALSO, Sym.ANDALSO);
+    addKeywordMapping(ZString.ZHIDE, Sym.ZHIDE);
+    addKeywordMapping(ZString.SLASH, Sym.SLASH);
+    addKeywordMapping(ZString.DOT, Sym.DOT);
+    addKeywordMapping(ZString.SEMICOLON, Sym.SEMICOLON);
+    addKeywordMapping(ZString.ARG, Sym.ARG);
+    addKeywordMapping(ZString.LISTARG, Sym.LISTARG);
+    addKeywordMapping(ZString.EQUALS, Sym.EQUALS);
+    addKeywordMapping(ZString.CONJECTURE, Sym.CONJECTURE);
+    addKeywordMapping(ZString.ALL, Sym.ALL);
+    addKeywordMapping(ZString.SPOT, Sym.SPOT);
+    addKeywordMapping(ZString.EXI, Sym.EXI);
+    addKeywordMapping(ZString.EXIONE, Sym.EXIONE);
+    addKeywordMapping(ZString.IFF, Sym.IFF);
+    addKeywordMapping(ZString.IMP, Sym.IMP);
+    addKeywordMapping(ZString.OR, Sym.OR);
+    addKeywordMapping(ZString.AND, Sym.AND);
+    addKeywordMapping(ZString.NOT, Sym.NOT);
+    addKeywordMapping(ZString.MEM, Sym.MEM);
+    addKeywordMapping(ZString.ZPROJ, Sym.ZPROJ);
+    addKeywordMapping(ZString.CROSS, Sym.CROSS);
+    addKeywordMapping(ZString.LAMBDA, Sym.LAMBDA);
+    addKeywordMapping(ZString.MU, Sym.MU);
+    addKeywordMapping(ZString.THETA, Sym.THETA);
+    addKeywordMapping(ZString.ZCOMP, Sym.ZCOMP);
+    addKeywordMapping(ZString.ZPIPE, Sym.ZPIPE);
 
     // Z Standard 7.4.2 (Alphabetic Keywords)
-    result.put(ZString.ELSE, new Integer(Sym.ELSE));
-    result.put(ZString.FALSE, new Integer(Sym.FALSE));
-    result.put(ZString.FUNCTION, new Integer(Sym.FUNCTION));
-    result.put(ZString.GENERIC, new Integer(Sym.GENERIC));
-    result.put(ZString.IF, new Integer(Sym.IF));
-    result.put(ZString.LEFTASSOC, new Integer(Sym.LEFTASSOC));
-    result.put(ZString.LET, new Integer(Sym.LET));
-    result.put(ZString.PARENTS, new Integer(Sym.PARENTS));
-    result.put(ZString.POWER, new Integer(Sym.POWER));
-    result.put(ZString.PRE, new Integer(Sym.ZPRE));
-    result.put(ZString.RELATION, new Integer(Sym.RELATION));
-    result.put(ZString.RIGHTASSOC, new Integer(Sym.RIGHTASSOC));
-    result.put(ZString.SECTION, new Integer(Sym.SECTION));
-    result.put(ZString.THEN, new Integer(Sym.THEN));
-    result.put(ZString.TRUE, new Integer(Sym.TRUE));
+    addKeywordMapping(ZString.ELSE, Sym.ELSE);
+    addKeywordMapping(ZString.FALSE, Sym.FALSE);
+    addKeywordMapping(ZString.FUNCTION, Sym.FUNCTION);
+    addKeywordMapping(ZString.GENERIC, Sym.GENERIC);
+    addKeywordMapping(ZString.IF, Sym.IF);
+    addKeywordMapping(ZString.LEFTASSOC, Sym.LEFTASSOC);
+    addKeywordMapping(ZString.LET, Sym.LET);
+    addKeywordMapping(ZString.PARENTS, Sym.PARENTS);
+    addKeywordMapping(ZString.POWER, Sym.POWER);
+    addKeywordMapping(ZString.PRE, Sym.ZPRE);
+    addKeywordMapping(ZString.RELATION, Sym.RELATION);
+    addKeywordMapping(ZString.RIGHTASSOC, Sym.RIGHTASSOC);
+    addKeywordMapping(ZString.SECTION, Sym.SECTION);
+    addKeywordMapping(ZString.THEN, Sym.THEN);
+    addKeywordMapping(ZString.TRUE, Sym.TRUE);
 
 <add:zpatt>
-    result.put(ZString.VDASH, new Integer(Sym.VDASH));
-    result.put(ZPattString.PROVISO, new Integer(Sym.PROVISO));
+    addKeywordMapping(ZString.VDASH, Sym.VDASH);
+    addKeywordMapping(ZPattString.PROVISO, Sym.PROVISO);
 </add:zpatt>
 <add:oz>
-    result.put(ZString.DELTA, new Integer(Sym.DELTA));
-    result.put(OzString.GCH, new Integer(Sym.GCH));
-    result.put(OzString.PARALLEL, new Integer(Sym.PARALLEL));
-    result.put(OzString.ASSOPARALLEL, new Integer(Sym.ASSOPARALLEL));
-    result.put(OzString.DGCH, new Integer(Sym.DGCH));
-    result.put(OzString.DCNJ, new Integer(Sym.DCNJ));
-    result.put(OzString.CLASSUNION, new Integer(Sym.CLASSUNION));
-    result.put(OzString.SDEF, new Integer(Sym.SDEF));
-    result.put(OzString.POLY, new Integer(Sym.POLY));
-    result.put(OzString.CONTAINMENT, new Integer(Sym.CONTAINMENT));
-    result.put(OzString.INITWORD, new Integer(Sym.INITWORD));
+    addKeywordMapping(ZString.DELTA, Sym.DELTA);
+    addKeywordMapping(OzString.GCH, Sym.GCH);
+    addKeywordMapping(OzString.PARALLEL, Sym.PARALLEL);
+    addKeywordMapping(OzString.ASSOPARALLEL, Sym.ASSOPARALLEL);
+    addKeywordMapping(OzString.DGCH, Sym.DGCH);
+    addKeywordMapping(OzString.DCNJ, Sym.DCNJ);
+    addKeywordMapping(OzString.CLASSUNION, Sym.CLASSUNION);
+    addKeywordMapping(OzString.SDEF, Sym.SDEF);
+    addKeywordMapping(OzString.POLY, Sym.POLY);
+    addKeywordMapping(OzString.CONTAINMENT, Sym.CONTAINMENT);
+    addKeywordMapping(OzString.INITWORD, Sym.INITWORD);
 </add:oz>
 <add:tcoz>
-   result.put(TcozString.ATTIME, new Integer(Sym.ATTIME));
-   result.put(TcozString.NEXTPRO, new Integer(Sym.NEXTPRO));
-   result.put(TcozString.INTCHOICE, new Integer(Sym.INTCHOICE));
-   result.put(TcozString.DIC, new Integer(Sym.DIC));
-   result.put(TcozString.INTERLEAVE, new Integer(Sym.INTERLEAVE));
-   result.put(TcozString.DIL, new Integer(Sym.DIL));
-   result.put("waituntil", new Integer(Sym.WAITUNTIL));
-   result.put("deadline", new Integer(Sym.DEADLINE));
-   result.put("wait", new Integer(Sym.WAIT));
-   result.put(TcozString.INTERRUPT, new Integer(Sym.INTERRUPT));
-   result.put(TcozString.TIMEOUT, new Integer(Sym.TIMEOUT));
-   result.put(TcozString.TIMEEND, new Integer(Sym.TIMEEND));
-   result.put(TcozString.DPARA, new Integer(Sym.DPARA));
-   result.put(TcozString.NETTOPLEFT, new Integer(Sym.NETTOPLEFT));
-   result.put(TcozString.NETTOPRIGHT, new Integer(Sym.NETTOPRIGHT));
-   result.put("chan", new Integer(Sym.CHAN));
-   result.put("sensor", new Integer(Sym.SENSOR));
-   result.put("actuator", new Integer(Sym.ACTUATOR));
+    addKeywordMapping(TcozString.ATTIME, Sym.ATTIME);
+    addKeywordMapping(TcozString.NEXTPRO, Sym.NEXTPRO);
+    addKeywordMapping(TcozString.INTCHOICE, Sym.INTCHOICE);
+    addKeywordMapping(TcozString.DIC, Sym.DIC);
+    addKeywordMapping(TcozString.INTERLEAVE, Sym.INTERLEAVE);
+    addKeywordMapping(TcozString.DIL, Sym.DIL);
+    addKeywordMapping("waituntil", Sym.WAITUNTIL);
+    addKeywordMapping("deadline", Sym.DEADLINE);
+    addKeywordMapping("wait", Sym.WAIT);
+    addKeywordMapping(TcozString.INTERRUPT, Sym.INTERRUPT);
+    addKeywordMapping(TcozString.TIMEOUT, Sym.TIMEOUT);
+    addKeywordMapping(TcozString.TIMEEND, Sym.TIMEEND);
+    addKeywordMapping(TcozString.DPARA, Sym.DPARA);
+    addKeywordMapping(TcozString.NETTOPLEFT, Sym.NETTOPLEFT);
+    addKeywordMapping(TcozString.NETTOPRIGHT, Sym.NETTOPRIGHT);
+    addKeywordMapping("chan", Sym.CHAN);
+    addKeywordMapping("sensor", Sym.SENSOR);
+    addKeywordMapping("actuator", Sym.ACTUATOR);
 </add:tcoz>  
 <add:circus>
-   /* Circus symbolic keychars*/
-   result.put(CircusString.CIRCDEF, new Integer(Sym.CIRCDEF));  
-   result.put(CircusString.CIRCINDEX, new Integer(Sym.CIRCINDEX));
-   result.put(CircusString.CIRCMU, new Integer(Sym.CIRCMU));
-   //AS THE COMMENTED TOKENS HAVE THE SAME REPRESENTATION CHAR, IT LETS THE
-   //PARSER RECOGNISES WHAT IT SHOULDN'T! Ex: PREFIXTHEN for \fun, or HIDING for \setminus.
-   //DUE TO THEIR HIGHER TERMINAL PRECEDENCE WHEN COMPARED BETWEEN EACH OTHER.
-   //result.put(CircusString.CIRCTHEN, new Integer(Sym.CIRCTHEN));
-   //result.put(CircusString.CIRCELSE, new Integer(Sym.CIRCELSE));
-   //result.put(CircusString.PREFIXTHEN, new Integer(Sym.PREFIXTHEN));
-   result.put(CircusString.CIRCGUARD, new Integer(Sym.CIRCGUARD));
-   result.put(CircusString.CIRCSEQ, new Integer(Sym.CIRCSEQ));
-   //result.put(CircusString.REPSEQ, new Integer(Sym.REPSEQ));
-   result.put(CircusString.INTERLEAVE, new Integer(Sym.INTERLEAVE));
-   //result.put(CircusString.REPINTERLEAVE, new Integer(Sym.REPINTERLEAVE));   
-   //result.put(CircusString.REPPARALLEL, new Integer(Sym.REPPARALLEL));   
-   //result.put(CircusString.HIDING, new Integer(Sym.HIDING));
-   result.put(CircusString.EXTCHOICE, new Integer(Sym.EXTCHOICE));
-   //result.put(CircusString.REPEXTCHOICE, new Integer(Sym.REPEXTCHOICE));   
-   result.put(CircusString.INTCHOICE, new Integer(Sym.INTCHOICE));
-   //result.put(CircusString.REPINTCHOICE, new Integer(Sym.REPINTCHOICE));   
-   //result.put(CircusString.CIRCPARBAR, new Integer(Sym.CIRCPARBAR));
-   
-   /* Circus language keywords*/
-   result.put(CircusString.CIRCIF, new Integer(Sym.CIRCIF));
-   result.put(CircusString.CIRCFI, new Integer(Sym.CIRCFI));
-   result.put(CircusString.CIRCDO, new Integer(Sym.CIRCDO));
-   result.put(CircusString.CIRCOD, new Integer(Sym.CIRCOD));
-   result.put(CircusString.CIRCVAR, new Integer(Sym.CIRCVAR));
-   result.put(CircusString.CIRCVAL, new Integer(Sym.CIRCVAL));
-   result.put(CircusString.CIRCRES, new Integer(Sym.CIRCRES));
-   result.put(CircusString.CIRCVRES, new Integer(Sym.CIRCVRES));
-   result.put(CircusString.CIRCCHAN, new Integer(Sym.CIRCCHAN));
-   result.put(CircusString.CIRCCHANFROM, new Integer(Sym.CIRCCHANFROM));
-   result.put(CircusString.CIRCCHANSET, new Integer(Sym.CIRCCHANSET));
-   result.put(CircusString.CIRCNAMESET, new Integer(Sym.CIRCNAMESET));
-   result.put(CircusString.CIRCPROC, new Integer(Sym.CIRCPROC));
-   result.put(CircusString.CIRCBEGIN, new Integer(Sym.CIRCBEGIN));
-   result.put(CircusString.CIRCEND, new Integer(Sym.CIRCEND));
-   result.put(CircusString.CIRCSTATE, new Integer(Sym.CIRCSTATE));
-   result.put(CircusString.CIRCSKIP, new Integer(Sym.CIRCSKIP));
-   result.put(CircusString.CIRCSTOP, new Integer(Sym.CIRCSTOP));
-   result.put(CircusString.CIRCCHAOS, new Integer(Sym.CIRCCHAOS));
-</add:circus>
-    return result;
+    /* Circus symbolic keychars*/
+    addKeywordMapping(CircusString.PREFIXCOLON, Sym.PREFIXCOLON);
+    addKeywordMapping(CircusString.CIRCDEF, Sym.CIRCDEF);  
+    addKeywordMapping(CircusString.CIRCINDEX, Sym.CIRCINDEX);
+    addKeywordMapping(CircusString.CIRCMU, Sym.CIRCMU);
+    addKeywordMapping(CircusString.CIRCTHEN, Sym.CIRCTHEN);
+    addKeywordMapping(CircusString.CIRCELSE, Sym.CIRCELSE);
+    addKeywordMapping(CircusString.PREFIXTHEN, Sym.PREFIXTHEN);
+    /**
+     * Note: We are reusing ANDALSO instead. See Parser.xml terminal section for an explanation.
+     * addKeywordMapping(CircusString.CIRCGUARD, Sym.CIRCGUARD); 
+     */
+    addKeywordMapping(CircusString.CIRCSEQ, Sym.CIRCSEQ);
+    /**
+     * Note: We are reusing ZCOMP instead. See Parser.xml terminal section for an explanation.
+     * addKeywordMapping(CircusString.REPSEQ, Sym.REPSEQ);
+     */    
+    addKeywordMapping(CircusString.INTERLEAVE, Sym.INTERLEAVE);
+    addKeywordMapping(CircusString.REPINTERLEAVE, Sym.REPINTERLEAVE);   
+    addKeywordMapping(CircusString.REPPARALLEL, Sym.REPPARALLEL);   
+    addKeywordMapping(CircusString.CIRCHIDING, Sym.CIRCHIDING);
+    addKeywordMapping(CircusString.EXTCHOICE, Sym.EXTCHOICE);
+    addKeywordMapping(CircusString.REPEXTCHOICE, Sym.REPEXTCHOICE);   
+    addKeywordMapping(CircusString.INTCHOICE, Sym.INTCHOICE);
+    addKeywordMapping(CircusString.REPINTCHOICE, Sym.REPINTCHOICE);   
+    //addKeywordMapping(CircusString.CIRCPARBAR, Sym.CIRCPARBAR);   
+    
+    /* Circus language keywords*/
+    /**
+     * Note: We are reusing ZString.IF instead. See Parser.xml terminal section for an explanation.
+     * addKeywordMapping(CircusString.CIRCIF, Sym.CIRCIF);
+     */    
+    addKeywordMapping(CircusString.CIRCFI, Sym.CIRCFI);
+    addKeywordMapping(CircusString.CIRCDO, Sym.CIRCDO);
+    addKeywordMapping(CircusString.CIRCOD, Sym.CIRCOD);
+    addKeywordMapping(CircusString.CIRCVAR, Sym.CIRCVAR);
+    addKeywordMapping(CircusString.CIRCVAL, Sym.CIRCVAL);
+    addKeywordMapping(CircusString.CIRCRES, Sym.CIRCRES);
+    addKeywordMapping(CircusString.CIRCVRES, Sym.CIRCVRES);
+    addKeywordMapping(CircusString.CIRCCHAN, Sym.CIRCCHAN);
+    addKeywordMapping(CircusString.CIRCCHANFROM, Sym.CIRCCHANFROM);
+    addKeywordMapping(CircusString.CIRCCHANSET, Sym.CIRCCHANSET);
+    addKeywordMapping(CircusString.CIRCNAMESET, Sym.CIRCNAMESET);
+    addKeywordMapping(CircusString.CIRCPROC, Sym.CIRCPROC);
+    addKeywordMapping(CircusString.CIRCBEGIN, Sym.CIRCBEGIN);
+    addKeywordMapping(CircusString.CIRCEND, Sym.CIRCEND);
+    addKeywordMapping(CircusString.CIRCSTATE, Sym.CIRCSTATE);
+    addKeywordMapping(CircusString.CIRCSKIP, Sym.CIRCSKIP);
+    addKeywordMapping(CircusString.CIRCSTOP, Sym.CIRCSTOP);
+    addKeywordMapping(CircusString.CIRCCHAOS, Sym.CIRCCHAOS);
+</add:circus>    
+  }
+  
+  /**
+   * &lt;p&gt;
+   * Maps the given keyword string with a specific &lt;code&gt;Symbol&lt;/code&gt;
+   * by including it into the &lt;code&gt;keyword_&lt;/code&gt; map. 
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * If a previous mapping to same keyword already exists, a warning message is given.
+   * It is useful while debugging the parsers/scanners to ensure that the Unicode
+   * symbols used are indeed unique.
+   * &lt;/p&gt;
+   */
+  private void addKeywordMapping(String keyword, int symbol) {
+    Integer old = keywords_.put(keyword, new Integer(symbol));        
+    if (old != null) {
+      String logMessage = "Invalid keyword mapping [" + keyword + " -> " + 
+        symbolMap_.get(symbol) + ")]. The keyword " + keyword + 
+        " has already been mapped to token " + symbolMap_.get(old) + ".";
+      CztLogger.getLogger(KeywordScanner.class).severe(logMessage);
+    }
   }
 
   private Symbol toToken(Stroke stroke, int left, int right)
