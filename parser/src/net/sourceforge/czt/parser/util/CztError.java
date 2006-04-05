@@ -20,6 +20,12 @@
 package net.sourceforge.czt.parser.util;
 
 /**
+ * An error that contains enough information to be helpful to a user,
+ * that is, somebody who processes Z specification using CZT tools.
+ * Such an error should contain source, line, and column number
+ * information.  Typical examples of such errors are scan, parse, and
+ * typecheck errors.
+ *
  * @author Petra Malik
  */
 public interface CztError
