@@ -160,11 +160,14 @@ public class <class/>
     if (isStartOfAnonymousSpec) {
       // we are parsing an anonymous specification
       sectName_ = "Specification";
-      parents_ = "standard_toolkit<add:oz>, oz_toolkit</add:oz>";
+      parents_ = "standard_toolkit<add:oz>, oz_toolkit</add:oz><add:circus>, circus_toolkit</add:circus>";
       addMarkupFunction("prelude");
 <add:oz>
       addMarkupFunction("oz_toolkit");
 </add:oz>
+<add:circus>
+      addMarkupFunction("circus_toolkit");
+</add:circus>
       addMarkupFunction("standard_toolkit");
     }
     if (token.sym == LatexSym.EOF) {
@@ -185,6 +188,13 @@ public class <class/>
           addMarkupFunction("oz_toolkit");
         }
 </add:oz>
+<add:circus>
+        /* Educated guess that it is needed based on Oz code */
+        if (! sectName_.equals("prelude") &amp;&amp;
+            ! sectName_.equals("circus_toolkit")) {
+          addMarkupFunction("circus_toolkit");
+        }
+</add:circus>
         if (parents_ != null) {
           String[] parents = parents_.split(",");
           for (int i = 0; i &lt; parents.length; i++) {
