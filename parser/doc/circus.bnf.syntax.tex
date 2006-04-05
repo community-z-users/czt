@@ -1,61 +1,90 @@
 \documentclass{article}
 
+\usepackage{vmargin}
 \usepackage{circus}
+
+\setpapersize{A4}
+%\setmarginsrb{leftmargin}{topmargin}{rightmargin}{bottommargin}{headheight}{headsep}{footheight}{footskip}
+%\setmarginsrb{20mm}{10mm}{20mm}{10mm}{12pt}{11mm}{0pt}{11mm}
+%\setmarginsrb{25mm}{20mm}{25mm}{20mm}{12pt}{11mm}{0pt}{10mm}
+\setmarginsrb{40mm}{20mm}{40mm}{20mm}{12pt}{11mm}{0pt}{10mm}
 
 \begin{document}
 
 \begin{syntax}
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        \mathsf{Program} & \quad \mathsf{::=} \quad &
-        \mathsf{CircusPar^*}
+        \mathsf{Spec} & \quad \mathsf{::=} \quad &
+        \mathsf{CircusPara^*}
         \smallskip \\ %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        \mathsf{CircusPar} & \quad \mathsf{::=} \quad &
-        \mathsf{Par} \ \mathsf{|} \ \circchannel\ \mathsf{CDecl} \
-        \mathsf{|} \
-        \circchanset\ \mathsf{N} == \mathsf{CSExp} \ \mathsf{|} \ \mathsf{ProcDecl}
-        \smallskip \\ %
+        \mathsf{CircusPara} & \quad \mathsf{::=} \quad &
+        \mathsf{Para} \ \mathsf{|}\ \mathsf{ChannelPara} \ \mathsf{|}\ \mathsf{ChannelSetPara}\
+        \ \mathsf{|}\ \mathsf{ProcessPara} \\
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        \mathsf{CDecl} & \mathsf{::=} &
-        \mathsf{SimpleCDecl}\ \mathsf{|} \
-        \mathsf{SimpleCDecl};\mathsf{CDecl}
-        \\ %
-        \mathsf{SimpleCDecl} & \mathsf{::=} & \mathsf{N^+} \
-        \mathsf{|} \ \mathsf{N^+: Exp} \ \mathsf{|} \
-        \mathsf{[N^+]N^+:Exp} \ \mathsf{|} \
-        \mathsf{SchemaExp}
+        \mathsf{Para} & \quad \mathsf{::=} \quad & \mathsf{Abbrev}\ \mathsf{|}\
+        \mathsf{AxPara} \ \mathsf{|}\ \mathsf{GenAxPara}\ \mathsf{|}\
+        \mathsf{SchPara} \ \mathsf{|}\ \mathsf{GenSchPara}\ \\ & \mathsf{|} &
+        \mathsf{ConjPara} \ \mathsf{|}\ \mathsf{GenConjPara}\ \mathsf{|}\
+        \mathsf{FreeType} \ \mathsf{|}\ \mathsf{GivenSet}\ \mathsf{|}\
+        \mathsf{OpTemplate}\ \\
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \mathsf{ChannelPara} & \quad \mathsf{::=} \quad & \circchannel\ \mathsf{CDecl} \\%
+        \mathsf{CDecl} & \quad \mathsf{::=} \quad & \mathsf{SimpleCDecl}\ \mathsf{|} \ \mathsf{SimpleCDecl};\mathsf{CDecl} \\
+        \mathsf{SimpleCDecl} & \quad \mathsf{::=} \quad &
+        \mathsf{N^+} \  \mathsf{|} \ \mathsf{N^+: Exp} \ \mathsf{|} \ \mathsf{[N^+]\ N^+:Exp} \ \mathsf{|} \ \mathsf{N[Exp^+]} \\
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \mathsf{ChannelSetPara} & \quad \mathsf{::=} \quad & \circchannelset\ \mathsf{N} == \mathsf{CSExp} \\
+        %\mathsf{ProcDecl} \smallskip \\ %
         \\ %
         \mathsf{CSExp} & %
         \mathsf{::=} & \mathsf{ \lchanset ~ \rchanset } %
         \ \mathsf{|} \ \mathsf{ \lchanset N^+ \rchanset} %
-        \ \mathsf{|} \ \mathsf{N}
-        \ \mathsf{|} \ \mathsf{CSExp \cup CSExp} %
-        \ \mathsf{|} \ \mathsf{CSExp \cap CSExp}
-        \\ %
-        & \mathsf{|} & \mathsf{CSExp \setminus CSExp}
+        \ \mathsf{|} \ \mathsf{ApplExpr} %
+        \ \mathsf{|} \ \mathsf{N[Expr^+]}
         \smallskip \\ %
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        \mathsf{ProcDecl} & \quad \mathsf{::=} \quad & \mathsf{\circprocess\ N \defs ProcDef} \ \mathsf{|} \ \mathsf{\circprocess\ N[N^+] \defs ProcDef} %
+        \mathsf{ProcPara} & \quad \mathsf{::=} \quad & \mathsf{\circprocess\ N \circdef ProcDesc} \
+        \mathsf{|} \ \mathsf{\circprocess\ [N^+]\ N \circdef ProcDesc} %
         \\ %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        \mathsf{ProcDef} & %
-        \mathsf{::=} & \mathsf{ Decl @ ProcDef } %
-        \ \mathsf{|} \ \mathsf{ Decl \odot ProcDef } %
+        \mathsf{ProcDesc} & %
+        \mathsf{::=} & \mathsf{ QDecl @ ProcDesc } %
+        \ \mathsf{|} \ \mathsf{ QDecl \circindex ProcDesc } %
         \ \mathsf{|} \ \mathsf{ Proc } %
         \\ %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \mathsf{QDecl} & \quad \mathsf{::=} \quad & \mathsf{SimpleQDecl}\ \mathsf{|} \ \mathsf{SimpleQDecl};\mathsf{QDecl} \\
+        \mathsf{SimpleQDecl} & \quad \mathsf{::=} \quad & [\mathsf{Qualifier}]\ \mathsf{N^+: Exp} \\
+        \mathsf{Qualifier} & \quad \mathsf{::=} \quad & \circval | \circres | \circvres \\
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        \mathsf{Proc} & \mathsf{::=} & \mathsf{\circbegin\ PPar^*\
-        \circstate\ SchemaExp\ PPar^* @ Action\ \circend} %
-        \\ %
-        & \mathsf{|} & \mathsf{Proc; Proc}
-        \ \mathsf{|} \ \mathsf{Proc} \extchoice \mathsf{Proc}
-        \ \mathsf{|} \ \mathsf{Proc} \intchoice \mathsf{Proc}
-        \\ %
-        & \mathsf{|} & \mathsf{Proc} \lpar \mathsf{CSExp} \rpar \mathsf{Proc} %
+        \mathsf{Proc} & \mathsf{::=} & \mathsf{\circbegin\ PPara^*\
+        \circstate\ (N[Exp^*]\ PPara^* @ Action\ \circend} \\ %
+        & \mathsf{|} &  \mathsf{Proc} \hide \mathsf{CSExp}
         \ \mathsf{|} \ \mathsf{Proc} \interleave \mathsf{Proc} %
-        \ \mathsf{|} \ \mathsf{Proc} \hide \mathsf{CSExp}
+        \ \mathsf{|} \ \mathsf{Proc} \lpar \mathsf{CSExp} \rpar \mathsf{Proc} %
         \\ %
-        & \mathsf{|} & ( \mathsf{Decl @ ProcDef} ) ( \mathsf{Exp^+})%
+        & \mathsf{|} &
+        \mathsf{Proc} \intchoice \mathsf{Proc}
+        \ \mathsf{|} \ \mathsf{Proc} \extchoice \mathsf{Proc}
+        \ \mathsf{|} \ \mathsf{Proc} \circseq \mathsf{Proc}
+        \ \mathsf{|} \ \Interleave \mathsf{QDecl} @ \mathsf{Proc} %
+        \\ %
+        % Conflict @ RenameProc!
+        & \mathsf{|} & \lpar \mathsf{CSExp} \rpar \mathsf{QDecl} @ \mathsf{Proc}
+        \ \mathsf{|} \ \Intchoice \mathsf{Decl} @ \mathsf{Proc}
+        \ \mathsf{|} \ \Extchoice \mathsf{QDecl} @ \mathsf{Proc} %
+        \\ %
+        & \mathsf{|} & \Comp \mathsf{Decl} @ \mathsf{Proc} %
+        \ \mathsf{|} \ \Interleave \mathsf{QDecl} \circindex \mathsf{Proc} %
+        \ \mathsf{|} \ \lpar \mathsf{CSExp} \rpar \mathsf{QDecl} \circindex \mathsf{Proc}
+        \\
+        & \mathsf{|} &\Intchoice \mathsf{Decl} \circindex \mathsf{Proc}
+        \ \mathsf{|} \ \Extchoice \mathsf{QDecl} \circindex \mathsf{Proc} %
+        \ \mathsf{|} \ \Comp \mathsf{Decl} \circindex \mathsf{Proc} %
+        \\
+        & \mathsf{|} & ( Proc ) %
+        \ \mathsf{|}\
+        & & ( \mathsf{Decl @ ProcDef} ) ( \mathsf{Exp^+})%
         \ \mathsf{|} \ \mathsf{N} ( \mathsf{Exp^+} )
         \ \mathsf{|} \ \mathsf{N} %
         \\ %
@@ -64,12 +93,11 @@
         \ \mathsf{|} \ \mathsf{Proc} [ \mathsf{N^+} := \mathsf{N^+} ]
         \ \mathsf{|} \ \mathsf{N} [ \mathsf{Exp^+} ]
         \\ %
-        & \mathsf{|} & \Comp \mathsf{Decl} @ \mathsf{Proc} %
-        \ \mathsf{|} \ \Extchoice \mathsf{Decl} @ \mathsf{Proc} %
-        \ \mathsf{|} \ \Intchoice \mathsf{Decl} @ \mathsf{Proc}
+
+
+
         \\ %
-        & \mathsf{|} & \lpar \mathsf{CSExp} \rpar \mathsf{Decl} @ \mathsf{Proc} %
-        \ \mathsf{|} \ \Interleave \mathsf{Decl} @ \mathsf{Proc} %
+        & \mathsf{|} &  %
         \smallskip \\ %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         \mathsf{NSExp} & %
@@ -138,9 +166,6 @@
         & \mathsf{|} & \mathsf{N^+} : [~ \mathsf{Pred} , \mathsf{Pred} ~] %
         \ \mathsf{|} \ \{\mathsf{Pred}\}%
         \ \mathsf{|} \ [\mathsf{Pred}] \\%
-        & \mathsf{|} & \circval\ \mathsf{Decl} @ \mathsf{Action} %
-        \ \mathsf{|} \ \circres\ \mathsf{Decl} @ \mathsf{Action} %
-        \ \mathsf{|} \ \circvres\ \mathsf{Decl} @ \mathsf{Action} %
         \smallskip \\ %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         \mathsf{GActions} & %
