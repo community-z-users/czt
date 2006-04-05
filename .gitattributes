@@ -39,6 +39,8 @@ modeljunit/jdsl/tutorial/lesson07/support/data/ultrasparse_flights.dat -text svn
 modeljunit/jdsl/tutorial/lesson07/support/data/ultrasparse_graph.dat -text svneol=unset#application/octet-stream
 modeljunit/jdsl/tutorial/lesson07/support/images/map.gif -text
 parser/doc/parser.sxd -text
+parser/doc/z/Z[!!-~]Latex2Unicode[!!-~]JFlex[!!-~]States[!!-~]Diagram.pdf -text
+parser/doc/z/Z[!!-~]Latex2Unicode[!!-~]JFlex[!!-~]States[!!-~]Diagram.vsd -text
 parser/src/documentation/resources/images/cztlogo.jpg svneol=native#unset
 parser/src/documentation/resources/images/sflogo.png svneol=native#unset
 parser/src/net/sourceforge/czt/parser/z/doc-files/parser.jpg -text
