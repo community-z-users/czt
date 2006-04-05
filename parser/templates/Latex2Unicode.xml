@@ -59,7 +59,7 @@ import net.sourceforge.czt.parser.util.ScanException;
 
 /**
  * &lt;p&gt;
-*   The low-level latex to unicode scanner for <add:oz>Object </add:oz>Z<add:tcoz> and TCOZ</add:tcoz>.
+*   The low-level latex to unicode scanner for <add:oz>Object </add:oz>Z<add:circus> Circus </add:circus><add:tcoz> and TCOZ</add:tcoz>.
  *   See {@link LatexToUnicode} for a high level latex to unicode converter.
  * &lt;/p&gt;
  * &lt;p&gt;
