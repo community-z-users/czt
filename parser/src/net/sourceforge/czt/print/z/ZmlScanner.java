@@ -68,14 +68,13 @@ public class ZmlScanner
   /**
    * Creates a new ZML scanner.
    */
-  public ZmlScanner(Term term, boolean translateDefEquals)
+  public ZmlScanner(Term term, boolean zEves)
   {
     PrecedenceParenAnnVisitor precVisitor =
       new PrecedenceParenAnnVisitor();
     term.accept(precVisitor);
     SymbolCollector collector = new SymbolCollector(Sym.class);
-    ZPrintVisitor visitor = new ZPrintVisitor(collector);
-    visitor.setTranslateDefEquals(translateDefEquals);
+    ZPrintVisitor visitor = new ZPrintVisitor(collector, zEves);
     term.accept(visitor);
     symbols_ = collector.getSymbols();
   }

@@ -44,6 +44,13 @@ import net.sourceforge.czt.z.visitor.*;
 /**
  * A Z visitor used for printing.
  *
+ * If Z/EVES output is selected,
+ * <ul>
+ *  <li>constant declarations are translated into
+ *      variable declarations, and</li>
+ *  <li>LambdaExpr, MuExpr, and LetExpr are parenthesised.</li>
+ * </ul>
+ *
  * @author Petra Malik
  */
 public class ZPrintVisitor
@@ -53,7 +60,7 @@ public class ZPrintVisitor
              PrintParagraphVisitor,
              PrintPredicateVisitor, PrintExpressionVisitor
 {
-  private boolean translateDefEquals_ = false;
+  private boolean zEves_ = false;
 
   /**
    * Creates a new Z print visitor.
@@ -65,14 +72,10 @@ public class ZPrintVisitor
     super(printer);
   }
 
-  public void setTranslateDefEquals(boolean value)
+  public ZPrintVisitor(ZPrinter printer, boolean zEves)
   {
-    translateDefEquals_ = value;
-  }
-
-  public boolean getTranslateDefEquals()
-  {
-    return translateDefEquals_;
+    super(printer);
+    zEves_ = zEves;
   }
 
   protected void print(TokenName tokenName, Object spelling)
@@ -272,7 +275,7 @@ public class ZPrintVisitor
 
   public Object visitConstDecl(ConstDecl constDecl)
   {
-    if (translateDefEquals_) {
+    if (zEves_) {
       visit(constDecl.getDeclName());
       print(Keyword.COLON);
       print(TokenName.LBRACE);
@@ -515,7 +518,7 @@ public class ZPrintVisitor
 
   public Object visitLambdaExpr(LambdaExpr lambdaExpr)
   {
-    final boolean braces = lambdaExpr.getAnn(ParenAnn.class) != null;
+    final boolean braces = zEves_ || lambdaExpr.getAnn(ParenAnn.class) != null;
     if (braces) print(TokenName.LPAREN);
     print(Keyword.LAMBDA);
     visit(lambdaExpr.getSchText());
@@ -527,7 +530,7 @@ public class ZPrintVisitor
 
   public Object visitLetExpr(LetExpr letExpr)
   {
-    final boolean braces = letExpr.getAnn(ParenAnn.class) != null;
+    final boolean braces = zEves_ || letExpr.getAnn(ParenAnn.class) != null;
     if (braces) print(TokenName.LPAREN);
     print(Keyword.LET);
     visit(letExpr.getSchText());
@@ -556,7 +559,7 @@ public class ZPrintVisitor
   public Object visitMuExpr(MuExpr muExpr)
   {
     if (muExpr.getExpr() != null) {
-      final boolean braces = muExpr.getAnn(ParenAnn.class) != null;
+      final boolean braces = zEves_ || muExpr.getAnn(ParenAnn.class) != null;
       if (braces) print(TokenName.LPAREN);
       print(Keyword.MU);
       visit(muExpr.getSchText());
