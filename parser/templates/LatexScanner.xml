@@ -40,7 +40,7 @@ import net.sourceforge.czt.session.SectionManager;
  * into the unicode scanner.
  */
 /**
- * &lt;p&gt;A latex scanner for <add:oz>Object </add:oz> Z specifications.
+ * &lt;p&gt;A latex scanner for <add:oz>Object </add:oz> Z <add:circus> and Circus </add:circus>specifications.
  * It scans <add:oz>Object </add:oz> Z specifications
  * written in the LaTeX marku-up language as defined by the
  * international Z standard.  Note that the token values, like e.g.

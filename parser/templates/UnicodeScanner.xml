@@ -34,6 +34,7 @@ import net.sourceforge.czt.parser.util.ScanException;
  * &lt;p&gt;A scanner for lexing
 <add:z> * Z specifications</add:z>
 <add:oz> * Object Z specifications</add:oz>
+<add:circus>* Circus specification</add:circus>
 <add:tcoz> * TCOZ specifications</add:tcoz>
  * in unicode format.&lt;/p&gt;
  *

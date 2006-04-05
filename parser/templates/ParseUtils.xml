@@ -57,7 +57,7 @@ import net.sourceforge.czt.tcoz.jaxb.JaxbXmlReader;
 
 /**
  * Utilities for parsing <add:oz>Object</add:oz>
- *  <add:tcoz>TCO</add:tcoz>Z<add:zpatt>patt</add:zpatt> specifications.
+ *  <add:tcoz>TCO</add:tcoz>Z<add:zpatt>patt</add:zpatt> <add:circus> and Circus</add:circus> specifications.
  *
  * @author Petra Malik, Tim Miller
  */
@@ -106,7 +106,7 @@ public class <class/>
    * file endings and reads them using encoding "UTF-8".
    * A unicode parser is used for ".utf16" or ".UTF16"
    * file endings and is read using encoding "UTF-16".  Returns
-   * <code>null</code> if the file ending could not be identified.
+   * &lt;code&gt;null&lt;/code&gt; if the file ending could not be identified.
    *
    * @param filename the name of the file to be parsed
    * @return the root of the parsed AST.
@@ -461,8 +461,8 @@ public class <class/>
   }
 
   /**
-   * Get a <code>Command</code> object for use 
-   * in <code>SectionManager</code>
+   * Get a &lt;code&gt;Command&lt;/code&gt; object for use 
+   * in &lt;code&gt;SectionManager&lt;/code&gt;
    *
    * @return A command for parsing specifications.
    */
