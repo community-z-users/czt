@@ -4641,9 +4641,10 @@ inner_term ::=
         :}
         |
         /* characteristic definite description */
-        LPAREN MU schemaText:st RPAREN
+        LPAREN MU:mu schemaText:st RPAREN
         {:
            RESULT = factory_.createMuExpr(st, null);
+           addLocAnn(RESULT, muleft, muright);
            RESULT.getAnns().add(factory_.createParenAnn());
         :}
         |
