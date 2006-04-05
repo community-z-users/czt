@@ -290,12 +290,12 @@
   </xs:element>
   <!-- DESIGN DECISION:
     Originally the substitution group for ProcessIdx was ProcessD, hence the two subtrees for iterated and
-    indexed iterated processes were siblings. However, yet RI is not a simple syntactic sugar due to the 
-    special renaming that changes the channel types, one can see it as a replication followed by a kind of 
-    renaming. Therefore, by deriving from ProcessIte instead of ProcessD, we give the user the chance to reuse
-    visiting code for replication and then further add the necessary renaming functionality. If, on the other 
-    hand, a different treatment of replication becomes necessary, one just needs to ignore the superclass 
-    implementation from ProcessIte and provide a new one for the replication task.
+    indexed iterated processes were siblings. However, yet replicated and iterated processes are not simply 
+    syntactic sugar due to the special renaming that changes the channel types, one can see it as a replication 
+    followed by a kind of renaming. Therefore, by deriving from ProcessIte instead of ProcessD, we give the user 
+    the chance to reuse visiting code for replication and then further add the necessary renaming functionality. 
+    If, on the other hand, a different treatment of replication becomes necessary, one just needs to ignore the 
+    superclass implementation from ProcessIte and provide a new one for the replication task.
   -->
   <xs:element name="ProcessIdx" type="CIRCUS:ProcessIdx" abstract="true" substitutionGroup="CIRCUS:ProcessIte">
     <xs:annotation>
@@ -425,34 +425,12 @@
   </xs:element>
 
   <!-- Process :: Unary  -->  
-  <xs:element name="MuProcess" type="CIRCUS:MuProcess" substitutionGroup="CIRCUS:Process1">
-    <xs:annotation>
-      <xs:documentation>
-        <p>The mu operator defines a recursive process.</p>
-        <p>The parser must enforce that the given name does not have strokes.</p>
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  <xs:element name="GuardedProcess" type="CIRCUS:GuardedProcess" substitutionGroup="CIRCUS:Process1">
-    <xs:annotation>
-      <xs:documentation>
-        <p>The CSP guarded process defines a process guarded by a Z predicate.</p>
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
   <xs:element name="HideProcess" type="CIRCUS:HideProcess" substitutionGroup="CIRCUS:Process1">
     <xs:annotation>
       <xs:documentation>
         Circus process with event concealment through hiding.
       </xs:documentation>
     </xs:annotation>
-  </xs:element>
-  <xs:element name="PrefixingProcess" type="CIRCUS:PrefixingProcess" substitutionGroup="CIRCUS:Process1">
-    <xs:annotation>
-      <xs:documentation>
-        The CSP operator for processes prefixed with a communication.
-      </xs:documentation>
-    </xs:annotation>        
   </xs:element>
   <xs:element name="RenameProcess" type="CIRCUS:RenameProcess" substitutionGroup="CIRCUS:Process1">
     <xs:annotation>
@@ -1179,21 +1157,11 @@
     </xs:annotation>
   </xs:element>       
   
-  <!-- Parameterised Commands -->
-  <xs:element name="ParamCommand" type="CIRCUS:ParamCommand" substitutionGroup="CIRCUS:CircusCommand">
-    <xs:annotation>
-      <xs:documentation>
-        <p>
-        An abstract parameterised command action definition. 
-        It represents the grammar rule <b>(ParDeclaration @ Command)</b>
-        </p>
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>     
+  <!-- Circus declarations -->  
   <xs:element name="QualifiedDecl" type="CIRCUS:QualifiedDecl" substitutionGroup="Z:Decl">
     <xs:annotation>
       <xs:documentation>
-        A Z declaration with an additional qualifier attribute.
+        This is like <code>VarDecl</code>, but it includes qualifier attributes for each <code>DeclName</code>.
       </xs:documentation>
     </xs:annotation>
   </xs:element>      
@@ -1357,10 +1325,10 @@
     <xs:complexContent>
       <xs:extension base="Z:Decl">
         <xs:sequence>
-          <!-- Generic types, possibly empty -->          
-          <xs:element name="GenFormals" type="Z:DeclName" minOccurs="0" maxOccurs="unbounded"/>
+          <!-- Generic types, possibly empty but not null? -->                    
+          <xs:element name="GenFormals" type="Z:DeclName" minOccurs="0" maxOccurs="unbounded"/>          
           <!-- List of channel names for channel, or null for channelFrom -->        
-          <xs:element ref="Z:DeclName" minOccurs="0" maxOccurs="unbounded"/>                    
+          <xs:element ref="Z:DeclName" maxOccurs="unbounded"/>                    
           <!-- Channel type for typed channels, null for synchronisation channels, or RefExpr for ChannelFrom -->
           <xs:element ref="Z:Expr" minOccurs="0"/>
         </xs:sequence>
@@ -1448,8 +1416,8 @@
           <xs:element ref="Z:Decl" minOccurs="1" maxOccurs="unbounded"/> 
           -->
           <!-- 
-          In Circus, the possibilites are VarDecl and InclDecl only and the parser must rule out ConstDecl.
-          Implementations should consider at least VarDecl, and InclDecl could be avoid for simplicity.
+          In Circus, the only possibility is QualifiedDecl and the parser must rule others out.
+          ConstDecl and InclDecl are to be avoided, as parameters in CSP do not come from schemas.
           -->
           <xs:element ref="Z:DeclList"/>
         </xs:sequence>
@@ -1567,13 +1535,9 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:CircusProcess">
         <xs:sequence>          
-          <xs:element ref="Z:RefName"/>
-          <!-- Accommodate Z.xsd changes to use ExprList (Z Standard 12.2.12) 
-          <xs:element name="Actuals" type="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>
-          <xs:element name="GenActuals" type="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>
-          -->
-          <xs:element name="Actuals" type="Z:ExprList"/>
+          <xs:element ref="Z:RefName"/>          
           <xs:element name="GenActuals" type="Z:ExprList"/>
+          <xs:element name="Actuals" type="Z:ExprList"/>          
         </xs:sequence>
         <xs:attribute name="CallType" type="CIRCUS:CallType" use="optional" default="Param"/>
       </xs:extension>
@@ -1594,33 +1558,6 @@
   
 
   <!-- Process Definition :: Unary -->
-  <xs:complexType name="MuProcess">
-    <xs:complexContent>
-      <xs:extension base="CIRCUS:Process1">
-        <xs:sequence>
-          <xs:element ref="Z:DeclName"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="GuardedProcess">
-    <xs:complexContent>
-      <xs:extension base="CIRCUS:Process1">
-        <xs:sequence>
-          <xs:element ref="Z:Pred"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="PrefixingProcess">
-    <xs:complexContent>
-      <xs:extension base="CIRCUS:Process1">
-        <xs:sequence>
-          <xs:element ref="CIRCUS:Communication"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
   <xs:complexType name="HideProcess">
     <xs:complexContent>
       <xs:extension base="CIRCUS:Process1">
@@ -1828,8 +1765,8 @@
           <xs:element ref="Z:Decl" minOccurs="1" maxOccurs="unbounded"/> 
           -->
           <!-- 
-          In Circus, the possibilites are VarDecl and InclDecl only and the parser must rule out ConstDecl.
-          Implementations should consider at least VarDecl, and InclDecl could be avoid for simplicity.
+          In Circus, the only possibility is QualifiedDecl and the parser must rule others out.
+          ConstDecl and InclDecl are to be avoided, as parameters in CSP do not come from schemas.
           -->
           <xs:element ref="Z:DeclList"/>
         </xs:sequence>
@@ -2106,27 +2043,18 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <!-- Parameterised Commands complextype -->
-  <xs:complexType name="ParamCommand">
-    <xs:complexContent>
-      <xs:extension base="CIRCUS:CircusCommand">
-        <xs:sequence>
-          <xs:element ref="CIRCUS:QualifiedDecl" minOccurs="1" maxOccurs="unbounded"/>
-          <xs:element ref="CIRCUS:CircusCommand"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
+  <!-- Parameterised Commands complextype -->  
   <xs:complexType name="QualifiedDecl">
     <xs:complexContent>
       <xs:extension base="Z:Decl">
-        <xs:sequence>                    
-          <xs:element ref="Z:DeclList"/>
+        <xs:sequence>
+          <xs:element ref="Z:DeclName" minOccurs="1" maxOccurs="unbounded"/>
+          <xs:element ref="Z:Expr"/>
         </xs:sequence>
         <xs:attribute name="ParamQualifier" type="CIRCUS:ParamQualifier" use="optional" default="Value"/>
       </xs:extension>
     </xs:complexContent>
-  </xs:complexType>  
+  </xs:complexType>
   <xs:simpleType name="ParamQualifier">
     <xs:restriction base="xs:string">
       <xs:enumeration value="Value"/>
