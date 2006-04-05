@@ -15,24 +15,29 @@
   </SPECIAL>
   <SYMBOL>
     <CORESYMBOL>
+      <char id="PREFIXCOLON" hex="2236" description="prefix input field colon"/>
       <char id="CIRCDEF" hex="2259" description="Spivey's like definition symbol (or just \defs?)"/>
-      <char id="CIRCINDEX" hex="2225" description="Process indexing spot"/>
-      <char id="CIRCMU" hex="03BC" description="recursive (least fixed-point) operator"/>
-      <char id="CIRCTHEN" hex="2192" description="then for if guarded command"/>
-      <char id="CIRCELSE" hex="25A1" description="else for if guarded command"/>
-      <char id="PREFIXTHEN" hex="2192" description="prefixing"/>
+      <char id="CIRCINDEX" hex="2299" description="Process indexing spot or 2A00"/>
+      <char id="CIRCMU" hex="00B5" description="recursive (least fixed-point) operator"/>
+      <char id="CIRCTHEN" hex="27FC" description="then for if guarded command"/>
+      <char id="CIRCELSE" hex="25AF" description="else for if guarded command"/>
+      <char id="PREFIXTHEN" hex="27F6" description="prefixing"/>
+      <!-- REUSE ANDALSO, see Parser.xml terminal section for an explanation.
       <char id="CIRCGUARD" hex="0026" description="prefixing guard"/>
-      <char id="CIRCSEQ" hex="003B" description="sequential composition"/>      
+      -->
+      <char id="CIRCSEQ" hex="037E" description="sequential composition"/>      
+      <!-- REUSE ZCOMP, see Parser.xml terminal section for an explanation.
       <char id="REPSEQ" hex="2A1F" description="replicated sequential composition"/>      
+      -->
       <char id="INTERLEAVE" hex="2980" description="Process interleave"/>
       <char id="REPINTERLEAVE" hex="2AFC" description="Replicated interleave"/>
-      <char id="REPPARALLEL" hex="2225" description="Replicated Parallelism"/>      
-      <char id="HIDING" hex="005C" description="Hiding"/>
+      <char id="REPPARALLEL" hex="2225" description="Replicated Parallelism or 01C1"/>      
+      <char id="CIRCHIDING" hex="2AF5" description="Hiding operator"/>
       <char id="EXTCHOICE" hex="25FB" description="External choice"/>
       <char id="REPEXTCHOICE" hex="25A1" description="Replicated external choice"/>
       <char id="INTCHOICE" hex="2293" description="Internal choice"/>
       <!-- TODO: Find appropriate unicode for replicated internal choice -->
-      <char id="REPINTCHOICE" hex="2293" description="Replicated internal choice (TODO:Change Unicode char)"/>      
+      <char id="REPINTCHOICE" hex="2294" description="Replicated internal choice (TODO:Change Unicode char)"/>      
     </CORESYMBOL>
     <CIRCUSTOOLKITSYMBOL>      
       <char id="BOOLEAN" hex="1D539" description="mathematical double-struck capital B"/>
