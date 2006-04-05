@@ -31,7 +31,7 @@ import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.sourceforge.czt.java_cup.runtime.*;
+import net.sourceforge.czt.parser.util.*;
 
 <add:oz>
 import net.sourceforge.czt.oz.util.OzString;
@@ -102,17 +102,11 @@ import net.sourceforge.czt.parser.util.ScanException;
 %unicode
 %line
 %column
-%implements ParsePropertiesKeys, LatexMarkupParser.LatexScanner
-%cupsym LatexSym
-//%cup
-
-%implements net.sourceforge.czt.java_cup.runtime.Scanner
-%function next_token
-%type net.sourceforge.czt.java_cup.runtime.Symbol
-%eofval{
-  return  new net.sourceforge.czt.java_cup.runtime.Symbol(Sym.EOF);
-%eofval}
-%eofclose
+%char
+%implements ParsePropertiesKeys
+%implements LatexMarkupParser.LatexLexer
+%function next
+%type LocToken
 
 %{
   private static final Logger LOGGER = CztLogger.getLogger(<class/>.class);
@@ -216,13 +210,25 @@ import net.sourceforge.czt.parser.util.ScanException;
     return "true".equals(properties_.getProperty(propertyKey));
   }
 
-  /**
-   * Prints the given message to the output stream.
-   */
-  private Symbol result(String message)
+  private LocToken result(String spelling)
     throws IOException
   {
-    return new Symbol(LatexSym.UNICODE, yyline, yycolumn, message);
+    return new LocTokenImpl(LatexSym.UNICODE, spelling,
+                            yyline, yycolumn, yychar, yytext().length());
+  }
+
+  private LocToken result(LatexSym sym)
+    throws IOException
+  {
+    return new LocTokenImpl(sym, yytext(),
+                            yyline, yycolumn, yychar, yytext().length());
+  }
+
+  private LocToken result(LatexSym sym, String spelling)
+    throws IOException
+  {
+    return new LocTokenImpl(sym, spelling,
+                            yyline, yycolumn, yychar, yytext().length());
   }
 
   /**
@@ -549,7 +555,7 @@ NAME =   {NOT_LB}*
           yybegin(ZED);
           assert ! addSpace_;
           begin("zsection");
-          return new Symbol(LatexSym.SECT, yyline, yycolumn, ZString.ZED);
+          return result(LatexSym.SECT, ZString.ZED);
         }
 <add:zpatt>
   "\\begin" {IGNORE}* "{zedjoker}" {IGNORE}* "{"
@@ -617,31 +623,31 @@ NAME =   {NOT_LB}*
 </add:oz>
   ^{CHAR_MARKUP}
         {
-          return new Symbol(LatexSym.CHAR_MARKUP, yyline, yycolumn, yytext());
+          return result(LatexSym.CHAR_MARKUP);
         }
   ^{WORD_MARKUP}
         {
           yybegin(MARKUP);
           directive_ = true;
-          return new Symbol(LatexSym.WORD_MARKUP, yyline, yycolumn);
+          return result(LatexSym.WORD_MARKUP, null);
         }
   ^{INWORD_MARKUP}
         {
           yybegin(MARKUP);
           directive_ = true;
-          return new Symbol(LatexSym.INWORD_MARKUP, yyline, yycolumn);
+          return result(LatexSym.INWORD_MARKUP, null);
         }
   ^{PREWORD_MARKUP}
         {
           yybegin(MARKUP);
           directive_ = true;
-          return new Symbol(LatexSym.PREWORD_MARKUP, yyline, yycolumn);
+          return result(LatexSym.PREWORD_MARKUP, null);
         }
   ^{POSTWORD_MARKUP}
         {
           yybegin(MARKUP);
           directive_ = true;
-          return new Symbol(LatexSym.POSTWORD_MARKUP, yyline, yycolumn);
+          return result(LatexSym.POSTWORD_MARKUP, null);
         }
   {START_COMMENT}
         {
@@ -650,11 +656,11 @@ NAME =   {NOT_LB}*
 
   {TEXT}
         {
-          return new Symbol(LatexSym.TEXT, yyline, yycolumn, yytext());
+          return result(LatexSym.TEXT);
         }
   [^]
         {
-          return new Symbol(LatexSym.TEXT, yyline, yycolumn, yytext());
+          return result(LatexSym.TEXT);
         }
 }
 
@@ -665,7 +671,7 @@ NAME =   {NOT_LB}*
             yybegin(YYINITIAL);
             directive_ = false;            
             addSpace_ = false; // TODO: what about spaces?
-            return new Symbol(LatexSym.END_MARKUP, yyline, yycolumn);
+            return result(LatexSym.END_MARKUP);
           }
         }
 
@@ -695,7 +701,7 @@ NAME =   {NOT_LB}*
           }
 </add:oz>
           String result = addSpace() + ZString.END;
-          return new Symbol(LatexSym.END, yyline, yycolumn, result);
+          return result(LatexSym.END, result);
         }
   "\\end" {IGNORE}* "{gendef}"
         {
@@ -708,7 +714,7 @@ NAME =   {NOT_LB}*
           }
 </add:oz>
           String result = addSpace() + ZString.END;
-          return new Symbol(LatexSym.END, yyline, yycolumn, result);
+          return result(LatexSym.END, result);
         }
   "\\end" {IGNORE}* "{schema}"
         {
@@ -721,7 +727,7 @@ NAME =   {NOT_LB}*
           }
 </add:oz>
           String result = addSpace() + ZString.END;
-          return new Symbol(LatexSym.END, yyline, yycolumn, result);
+          return result(LatexSym.END, result);
         }
   "\\end" {IGNORE}* "{zed}"
         {
@@ -734,7 +740,7 @@ NAME =   {NOT_LB}*
           }
 </add:oz>
           String result = addSpace() + ZString.END;
-          return new Symbol(LatexSym.END, yyline, yycolumn, result);
+          return result(LatexSym.END, result);
         }
   "\\end" {IGNORE}* "{zsection}"
         {
@@ -747,7 +753,7 @@ NAME =   {NOT_LB}*
           }
 </add:oz>
           String result = addSpace() + ZString.END;
-          return new Symbol(LatexSym.END, yyline, yycolumn, result);
+          return result(LatexSym.END, result);
         }
 <add:zpatt>
   "\\end" {IGNORE}* "{zedjoker}"
@@ -755,14 +761,14 @@ NAME =   {NOT_LB}*
           end("zedjoker", yyline, yycolumn);
           yybegin(YYINITIAL);
           String result = addSpace() + ZString.END;
-          return new Symbol(LatexSym.END, yyline, yycolumn, result);
+          return result(LatexSym.END, result);
         }
   "\\end" {IGNORE}* "{zedrule}"
         {
           end("zedrule", yyline, yycolumn);
           yybegin(YYINITIAL);
           String result = addSpace() + ZString.END;
-          return new Symbol(LatexSym.END, yyline, yycolumn, result);
+          return result(LatexSym.END, result);
         }
 </add:zpatt>
 <add:circus>
@@ -771,7 +777,7 @@ NAME =   {NOT_LB}*
           end("circus", yyline, yycolumn);
              yybegin(YYINITIAL);
           String result = addSpace() + ZString.END;
-          return new Symbol(LatexSym.END, yyline, yycolumn, result);
+          return result(LatexSym.END, result);
         }
 </add:circus>
 <add:oz>
@@ -961,13 +967,13 @@ NAME =   {NOT_LB}*
         {
           String result = addSpace() + "section";
           addSpace_ = true;
-          return new Symbol(LatexSym.SECTION, yyline, yycolumn, result);
+          return result(LatexSym.SECTION, result);
         }
   "\\parents"
         {
           String result = addSpace() + ZString.SPACE + "parents";
           addSpace_ = true;
-          return new Symbol(LatexSym.PARENTS, yyline, yycolumn, result);
+          return result(LatexSym.PARENTS, result);
         }
   {COMMAND}
         {
@@ -1057,7 +1063,7 @@ NAME =   {NOT_LB}*
   {COMMAND}
         {
           yybegin(ZED);
-          return new Symbol(LatexSym.NAME, yyline, yycolumn, yytext());
+          return result(LatexSym.NAME);
         }
   .
         {
@@ -1089,7 +1095,7 @@ NAME =   {NOT_LB}*
   .|\n
        {
          // for now, do nothing
-         //return new Symbol(LatexSym.TEXT, yyline, yycolumn, yytext());
+         //return result(LatexSym.TEXT);
        }
 }
 </add:oz>

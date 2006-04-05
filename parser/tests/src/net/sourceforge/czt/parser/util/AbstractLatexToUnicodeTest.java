@@ -1,20 +1,20 @@
-/**
-Copyright 2003 Mark Utting
-This file is part of the czt project.
+/*
+  Copyright 2003, 2006 Petra Malik
+  This file is part of the czt project.
 
-The czt project contains free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+  The czt project contains free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
 
-The czt project is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+  The czt project is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with czt; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  You should have received a copy of the GNU General Public License
+  along with czt; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 package net.sourceforge.czt.parser.util;
@@ -36,15 +36,18 @@ public abstract class AbstractLatexToUnicodeTest
    * the latex string <code>in</code>
    * into the unicode string <code>out</code>.
    */
-  protected abstract void transforms(String in, String out);
+  protected abstract void transforms(String in, String out)
+    throws Exception;
 
   protected void transformsZed(String in, String out)
+    throws Exception
   {
     transforms("\\begin{zed}" + in + "\\end{zed}",
                ZString.ZED + out + ZString.END);
   }
 
   public void testHardSpace()
+    throws Exception
   {
     transformsZed("~", SPACE);
     transformsZed("\\,", SPACE);
@@ -66,6 +69,7 @@ public abstract class AbstractLatexToUnicodeTest
   }
 
   public void testSpecialCharacters()
+    throws Exception
   {
     transformsZed("[", "[");
     transformsZed("]", "]");
@@ -79,6 +83,7 @@ public abstract class AbstractLatexToUnicodeTest
   }
 
   public void testSymbolCharacters()
+    throws Exception
   {
     transformsZed("\\vdash", ZString.VDASH);
     transformsZed("\\land", SPACE + ZString.AND + SPACE);
@@ -97,6 +102,7 @@ public abstract class AbstractLatexToUnicodeTest
   }
 
   public void testPrechar()
+    throws Exception
   {
     String result = ZString.POWER + SPACE + "S";
     transformsZed("\\power S", result);
@@ -110,6 +116,7 @@ public abstract class AbstractLatexToUnicodeTest
   }
 
   public void testInchar()
+    throws Exception
   {
     transformsZed("\\subseteq",
                SPACE + ZString.SUBSETEQ + SPACE);
@@ -127,6 +134,7 @@ public abstract class AbstractLatexToUnicodeTest
    * chapter A.2.4.1 on page 81.
    */
   public void testGreekLetters()
+    throws Exception
   {
     transformsZed("\\Delta  S",
                ZString.DELTA + "S");
@@ -144,6 +152,7 @@ public abstract class AbstractLatexToUnicodeTest
    * chapter A.2.4.3 on page 82.
    */
   public void testSubscriptsAndSuperscripts()
+    throws Exception
   {
     transformsZed("x^1",
                "x" + ZString.SUP1);
@@ -180,6 +189,7 @@ public abstract class AbstractLatexToUnicodeTest
    * chapter A.2.4.4 Example 1 on page 83.
    */
   public void testPlusSign()
+    throws Exception
   {
     transformsZed("x+y", "x + y");
     transformsZed("x{+}y", "x+y");
@@ -195,6 +205,7 @@ public abstract class AbstractLatexToUnicodeTest
    * chapter A.2.4.4 Example 2 on page 83.
    */
   public void testRelations()
+    throws Exception
   {
     transformsZed("x=y", "x = y");
     transformsZed("x==y", "x == y");
@@ -211,18 +222,21 @@ public abstract class AbstractLatexToUnicodeTest
    * chapter A.2.4.5 on page 84.
    */
   public void testCorewords()
+    throws Exception
   {
     transformsZed("\\IF \\disjoint a \\THEN x = y \\mod z \\ELSE x = y \\div z",
                "if disjoint a then x = y mod z else x = y div z");
   }
 
   public void testComments()
+    throws Exception
   {
     transformsZed("% ignore \n   te   % ignore \n st  % \\end{zed}\n", "test");
     transformsZed("_% ignore\n1", ZString.SUB1);
   }
 
   public void testAxiomaticDescription()
+    throws Exception
   {
     transforms("\\begin{axdef}\\where\\end{axdef}",
                ZString.AX
@@ -231,6 +245,7 @@ public abstract class AbstractLatexToUnicodeTest
   }
 
   public void testSchemaDefinition()
+    throws Exception
   {
     transforms("\\begin{schema}{NAME}\\where\\end{schema}",
                ZString.SCH + "NAME"
@@ -240,6 +255,7 @@ public abstract class AbstractLatexToUnicodeTest
   }
 
   public void testGenericAxiomaticDescription()
+    throws Exception
   {
     transforms("\\begin{gendef}[Formals]\\where\\end{gendef}",
                ZString.AXCHAR + ZString.GENCHAR
@@ -249,6 +265,7 @@ public abstract class AbstractLatexToUnicodeTest
   }
 
   public void testGenericSchemaDefinition()
+    throws Exception
   {
     transforms("\\begin{schema}{NAME}[Formals]\\where\\end{schema}",
                ZString.SCHCHAR + ZString.GENCHAR + "NAME"

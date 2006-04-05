@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (C) 2004, 2005 Petra Malik
+<scanner xmlns:add="http://czt.sourceforge.net/templates/additional">
+/*
+  Copyright (C) 2004, 2005, 2006 Petra Malik
   This file is part of the CZT project: http://czt.sourceforge.net
 
   The CZT project contains free software; you can redistribute it and/or
@@ -16,17 +17,13 @@
   You should have received a copy of the GNU General Public License along
   with CZT; if not, write to the Free Software Foundation, Inc.,
   59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
--->
-
-<scanner xmlns:add="http://czt.sourceforge.net/templates/additional">
+*/
 
 package <package/>;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import net.sourceforge.czt.java_cup.runtime.Scanner;
-import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.session.*;
@@ -46,14 +43,14 @@ import net.sourceforge.czt.z.util.ZChar;
  * AFTER it is defined in a markup directive.
  */
 public class <class/>
-  implements Scanner
+  implements Lexer
 {
   private static ZFactory factory_ = new ZFactoryImpl();
 
   /**
    * The latex to unicode scanner that provides the input.
    */
-  private LatexScanner scanner_;
+  private LatexLexer lexer_;
 
   /**
    * Section information.
@@ -88,7 +85,7 @@ public class <class/>
   /**
    * The token returned by the last call to method next_token.
    */
-  private Symbol symbol_ = null;
+  private LocToken symbol_ = null;
 
   private String source_ = null;
 
@@ -98,9 +95,9 @@ public class <class/>
    * &lt;code&gt; 
    * net.sourceforge.czt.parser.util. LatexMarkupFunction.class&lt;/code&gt;.
    */
-  public <class/>(LatexScanner scanner, SectionInfo sectInfo)
+  public <class/>(LatexLexer lexer, SectionInfo sectInfo)
   {
-    scanner_ = scanner;
+    lexer_ = lexer;
     sectInfo_ = sectInfo;
   }
 
@@ -121,12 +118,11 @@ public class <class/>
    * @param parent the name of the parent specification.
    */
   private void addMarkupFunction(String parent)
-    throws MarkupException
   {
     if (markupFunction_ == null) {
       markupFunction_ = new LatexMarkupFunction(sectName_);
       markupFunctions_.put(sectName_, markupFunction_);
-      scanner_.setMarkupFunction(markupFunction_);
+      lexer_.setMarkupFunction(markupFunction_);
     }
     LatexMarkupFunction markupFunction =
       (LatexMarkupFunction) markupFunctions_.get(parent);
@@ -142,21 +138,35 @@ public class <class/>
       }
     }
     if (markupFunction != null) {
-      markupFunction_.add(markupFunction);
+      try {
+        markupFunction_.add(markupFunction);
+      }
+      catch (MarkupException e) {
+        throw new RuntimeException(e);
+      }
     }
   }
 
-  public Symbol next_token()
-    throws Exception
+  private boolean is(LocToken token, LatexSym sym)
   {
-    Symbol token = scanner_.next_token();
-    boolean isStartOfAnonymousSpec = sectName_ == null &amp;&amp;
-        (token.sym == LatexSym.CHAR_MARKUP ||
-         token.sym == LatexSym.WORD_MARKUP ||
-         token.sym == LatexSym.INWORD_MARKUP ||
-         token.sym == LatexSym.PREWORD_MARKUP ||
-         token.sym == LatexSym.POSTWORD_MARKUP ||
-         token.sym == LatexSym.UNICODE);
+    return token.getName().equals(sym.toString());
+  }
+
+  public LocToken next()
+    throws IOException
+  {
+    final LocToken token = lexer_.next();
+    if (token == null) {
+      updateLatexMarkupFunction();
+      return token;
+    }
+    final boolean isStartOfAnonymousSpec = sectName_ == null &amp;&amp;
+        (is(token, LatexSym.CHAR_MARKUP) ||
+         is(token, LatexSym.WORD_MARKUP) ||
+         is(token, LatexSym.INWORD_MARKUP) ||
+         is(token, LatexSym.PREWORD_MARKUP) ||
+         is(token, LatexSym.POSTWORD_MARKUP) ||
+         is(token, LatexSym.UNICODE));
     if (isStartOfAnonymousSpec) {
       // we are parsing an anonymous specification
       sectName_ = "Specification";
@@ -170,15 +180,12 @@ public class <class/>
 </add:circus>
       addMarkupFunction("standard_toolkit");
     }
-    if (token.sym == LatexSym.EOF) {
-      updateLatexMarkupFunction();
-    }
     if (sectHead_) { // we are just parsing a section header
-      if (token.sym == LatexSym.END) { // end of section header
+      if (is(token, LatexSym.END)) { // end of section header
         sectName_ = sectName_.trim();
         markupFunction_ = new LatexMarkupFunction(sectName_);
         markupFunctions_.put(sectName_, markupFunction_);
-        scanner_.setMarkupFunction(markupFunction_);
+        lexer_.setMarkupFunction(markupFunction_);
         if (! sectName_.equals("prelude")) {
           addMarkupFunction("prelude");
         }
@@ -206,55 +213,60 @@ public class <class/>
         }
         sectHead_ = false;
       }
-      else if (token.sym == LatexSym.SECTION) { // section token
+      else if (is(token, LatexSym.SECTION)) { // section token
         // start parsing section name
         sectName_ = "";
       }
-      else if (token.sym == LatexSym.PARENTS) { // parents token
+      else if (is(token, LatexSym.PARENTS)) { // parents token
         // start parsing parents
         parents_ = "";
       }
       else {
         if (parents_ != null) {
-          parents_ += token.value;
+          parents_ += token.spelling();
         }
         else if (sectName_ != null) {
-          sectName_ += token.value;
+          sectName_ += token.spelling();
         }
         else {
-          System.err.println("Unexpected token '" + token.value +
+          System.err.println("Unexpected token '" + token.spelling() +
                              "' within a section header.");
         }
       }
     }
-    else if (token.sym == LatexSym.SECT) { // begin of a section header
+    else if (is(token, LatexSym.SECT)) { // begin of a section header
       updateLatexMarkupFunction();
       sectHead_ = true;
       parents_ = null;
       sectName_ = null;
     }
-    else if (token.sym == LatexSym.CHAR_MARKUP) {
-      Directive directive = parseCharMarkupDirective((String) token.value,
-                                                     token.left);
+    else if (is(token, LatexSym.CHAR_MARKUP)) {
+      Directive directive = parseCharMarkupDirective(token.spelling(),
+                                                     token.getLine());
       if (directive != null) {
-        markupFunction_.add(directive);
+        try {
+          markupFunction_.add(directive);
+        }
+        catch (MarkupException e) {
+          throw new RuntimeException(e);
+        }
       }
-      return next_token();
+      return next();
     }
-    else if (token.sym == LatexSym.WORD_MARKUP) {
-      parseWordMarkup(DirectiveType.NONE, token.left);
+    else if (is(token, LatexSym.WORD_MARKUP)) {
+      parseWordMarkup(DirectiveType.NONE, token.getLine());
     }
-    else if (token.sym == LatexSym.INWORD_MARKUP) {
-      parseWordMarkup(DirectiveType.IN, token.left);
+    else if (is(token, LatexSym.INWORD_MARKUP)) {
+      parseWordMarkup(DirectiveType.IN, token.getLine());
     }
-    else if (token.sym == LatexSym.PREWORD_MARKUP) {
-      parseWordMarkup(DirectiveType.PRE, token.left);
+    else if (is(token, LatexSym.PREWORD_MARKUP)) {
+      parseWordMarkup(DirectiveType.PRE, token.getLine());
     }
-    else if (token.sym == LatexSym.POSTWORD_MARKUP) {
-      parseWordMarkup(DirectiveType.POST, token.left);
+    else if (is(token, LatexSym.POSTWORD_MARKUP)) {
+      parseWordMarkup(DirectiveType.POST, token.getLine());
     }
     check(symbol_, token);
-    if (token != null &amp;&amp; token.value != null) {
+    if (token.spelling() != null) {
       symbol_ = token;
     }
     return token;
@@ -269,14 +281,14 @@ public class <class/>
     }
   }
 
-  private void check(Symbol t1, Symbol t2)
+  private void check(LocToken t1, LocToken t2)
   {
     final String message = "WARNING: Possible missing hard space at line "
-      + t2.left + " column " + t2.right + " in " + source_;
+      + t2.getLine() + " column " + t2.getColumn() + " in " + source_;
     if (t1 != null &amp;&amp; t2 != null) {
-      if (t1.sym == LatexSym.UNICODE &amp;&amp; t2.sym == LatexSym.UNICODE) {
-        String s1 = (String) t1.value;
-        String s2 = (String) t2.value;
+      if (is(t1, LatexSym.UNICODE) &amp;&amp; is(t2, LatexSym.UNICODE)) {
+        String s1 = t1.spelling();
+        String s2 = t2.spelling();
         if (s1 != null &amp;&amp; s1.length() > 0 &amp;&amp;
             s2 != null &amp;&amp; s2.length() > 0) {
           final ZChar[] zchars1 = ZChar.toZChars(s1);
@@ -301,7 +313,7 @@ public class <class/>
   }
 
   private void parseWordMarkup(DirectiveType type, int line)
-    throws Exception
+    throws IOException
   {
     String name = parseName();
     String latex = parseUnicode();
@@ -309,29 +321,34 @@ public class <class/>
     directive.getAnns().add(factory_.createLocAnn(null,
                                                   new Integer(line),
                                                   null));
-    markupFunction_.add(directive);
+    try {
+      markupFunction_.add(directive);
+    }
+    catch (MarkupException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private String parseName()
-    throws Exception
+    throws IOException
   {
-    Symbol token = scanner_.next_token();
-    if (token.sym == LatexSym.NAME) {
-      return (String) token.value;
+    LocToken token = lexer_.next();
+    if (is(token, LatexSym.NAME)) {
+      return token.spelling();
     }
     System.err.println("Error while parsing markup directive.");
     return null;
   }
 
   private String parseUnicode()
-    throws Exception
+    throws IOException
   {
     String result = "";
-    Symbol token = scanner_.next_token();
-    while (token.sym != LatexSym.END_MARKUP &amp;&amp;
-           token.sym != LatexSym.EOF) {
-      result += token.value;
-      token = scanner_.next_token();
+    LocToken token = lexer_.next();
+    while (token != null &amp;&amp;
+           ! is(token, LatexSym.END_MARKUP)) {
+      result += token.spelling();
+      token = lexer_.next();
     }
     return result;
   }
@@ -388,8 +405,8 @@ public class <class/>
     return null;
   }
 
-  public interface LatexScanner
-    extends Scanner
+  public interface LatexLexer
+    extends Lexer
   {
     void setMarkupFunction(LatexMarkupFunction markupFunction);
   }
