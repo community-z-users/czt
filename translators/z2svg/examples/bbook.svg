@@ -59,7 +59,7 @@ function select(evt)
 	if (inSelected(selText.parentNode) && curWff.parentNode != null) {
 		do {
 			curWff = curWff.parentNode;
-		} while (curWff.getAttributeNS(null, "sel") != "1");
+		} while (curWff.getAttributeNS(null, "sel") != "true");
 	} else {
 		curWff = selText.parentNode;
 	}
@@ -70,55 +70,57 @@ function select(evt)
 </script>
 
 <rect x="10" y="10" width="400" height="200" fill="silver" outline="none" onclick="deselect()"/>
-<g id="wff_root" fill="black" sel="1">
-  <line x1="30" y1="50" x2="45" y2="50" stroke="black"
-    onclick="deselect()"/>
-  <line x1="130" y1="50" x2="220" y2="50" stroke="black"
-    onclick="deselect()"/>
-  <line x1="220" y1="50" x2="220" y2="60" stroke="black"
-    onclick="deselect()"/>
-  <g sel="1"><text x="50" y="50" font-family="CZT"
-    onclick="select(evt)">BirthdayBook</text></g>
-  <g sel="1">
-    <g sel="0">
-      <g sel="1"><text x="50" y="80" font-family="CZT"
+<g id="wff_root" fill="black" sel="true">
+  <g sel="false">
+    <line x1="30" y1="50" x2="45" y2="50" stroke="black"
+      onclick="deselect()"/>
+    <g sel="true"><text x="50" y="50" font-family="CZT"
+      onclick="select(evt)">BirthdayBook</text></g>
+    <line x1="130" y1="50" x2="220" y2="50" stroke="black"
+      onclick="deselect()"/>
+    <line x1="220" y1="50" x2="220" y2="60" stroke="black"
+      onclick="deselect()"/>
+  </g>
+  <g sel="true">
+    <g sel="false">
+      <g sel="true"><text x="50" y="80" font-family="CZT"
         onclick="select(evt)">known</text></g>
       <text x="95" y="80" font-family="CZT"
         onclick="select(evt)">:</text>
-      <g sel="1">
+      <g sel="true">
         <text x="105" y="80" font-family="CZT"
           onclick="select(evt)">&#x2119;</text>
-        <g sel="1">
+        <g sel="true">
           <text x="115" y="80" font-family="CZT"
             onclick="select(evt)">NAME</text>
         </g>
       </g>
     </g>
-    <g sel="0">
-      <g sel="1"><text x="50" y="100" font-family="CZT"
+    <g sel="false">
+      <g sel="true"><text x="50" y="100" font-family="CZT"
         onclick="select(evt)">birthday</text></g>
       <text x="105" y="100" font-family="CZT"
         onclick="select(evt)">:</text>
-      <g sel="1">
-        <g sel="1"><text x="115" y="100" font-family="CZT"
+      <g sel="true">
+        <g sel="true"><text x="115" y="100" font-family="CZT"
           onclick="select(evt)">NAME</text></g>
-        <g sel="1"><text x="155" y="100" font-family="CZT"
+        <g sel="true"><text x="155" y="100" font-family="CZT"
           onclick="select(evt)">&#x21F8;</text></g>
-        <g sel="1"><text x="175" y="100" font-family="CZT"
+        <g sel="true"><text x="175" y="100" font-family="CZT"
           onclick="select(evt)">DATE</text></g>
       </g>
     </g>
     <line x1="30" y1="110" x2="90" y2="110" stroke="black"
       onclick="deselect()"/>
-    <g sel="1">
-      <g sel="1"><text x="50" y="130" font-family="CZT"
+    <g sel="true">
+      <g sel="true"><text x="50" y="130" font-family="CZT"
         onclick="select(evt)">known</text></g>
       <text x="95" y="130" font-family="CZT"
         onclick="select(evt)">=</text>
-      <g sel="1">
-        <g sel="1"><text x="110" y="130" font-family="CZT"
+      <g sel="true">
+        <g sel="true"><text x="110" y="130" font-family="CZT"
           onclick="select(evt)">dom</text></g>
-        <g sel="1"><text x="140" y="130" font-family="CZT"
+        <g sel="true"><text x="140" y="130" font-family="CZT"
           onclick="select(evt)">birthday</text></g>
       </g>
     </g>
