@@ -1,13 +1,14 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
-"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 
 <svg
 width="100%"
 height="200"
 version="1.1"
+baseProfile="full"
 onload="init()"
-xmlns="http://www.w3.org/2000/svg">
+xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink"
+xmlns:ev="http://www.w3.org/2001/xml-events">
 
 <script type="text/ecmascript">
 <![CDATA[
@@ -28,12 +29,12 @@ function init()
 // inSelected -- is the given wff in the current wff?
 function inSelected(wff)
 {
-	if (wff.getAttribute("id") == "wff_root" || curWff == null) {
+	if (wff.getAttributeNS(null, "id") == "wff_root" || curWff == null) {
 		return (false);
 	} else if (wff == curWff) {
 		return (true);
 	} else {
-		return (inSelected(wff.getParentNode()));
+		return (inSelected(wff.parentNode));
 	}
 }
 
@@ -42,7 +43,7 @@ function inSelected(wff)
 function deselect()
 {
 	if (curWff != null) {
-		curWff.removeAttribute("fill");
+		curWff.removeAttributeNS(null, "fill");
 	}
 	curWff = null;
 }
@@ -51,16 +52,16 @@ function deselect()
 // This is the handler for event onclick on a text.
 function select(evt)
 {
-	var selText = evt.getTarget();
+	var selText = evt.target;
 	if (curWff != null) {
-		curWff.removeAttribute("fill");
+		curWff.removeAttributeNS(null, "fill");
 	}
-	if (inSelected(selText.getParentNode()) && curWff.getParentNode() != null) {
-		curWff = curWff.getParentNode();
+	if (inSelected(selText.parentNode) && curWff.parentNode != null) {
+		curWff = curWff.parentNode;
 	} else {
-		curWff = selText.getParentNode();
+		curWff = selText.parentNode;
 	}
-	curWff.setAttribute("fill", "white");
+	curWff.setAttributeNS(null, "fill", "white");
 }
 
 ]]>
