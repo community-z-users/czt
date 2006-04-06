@@ -258,8 +258,10 @@ public final class VisitorUtils
     Class[] interfaces = visitorClass.getInterfaces();
     for (int i = 0; i < methods.length; i++) {
       String methodName = methods[i].getName();
-      if (methodName.startsWith("visit")) {
-        String interfaceName = methodName.substring(5) + "Visitor";
+      final String visitMethodStart = "visit";
+      if (methodName.startsWith(visitMethodStart)) {
+        String interfaceName =
+          methodName.substring(visitMethodStart.length()) + "Visitor";
         boolean found = false;
         for (int j = 0; j < interfaces.length && !found; j++) {
           found = interfaces[j].getName().endsWith(interfaceName);

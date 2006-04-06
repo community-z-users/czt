@@ -48,7 +48,8 @@ public final class ZUtils
     if (term instanceof ZDeclName) {
       return (ZDeclName) term;
     }
-    final String message = "Expected a ZDeclName but found " + String.valueOf(term);
+    final String message =
+      "Expected a ZDeclName but found " + String.valueOf(term);
     throw new UnsupportedAstClassException(message);
   }
 
@@ -57,7 +58,8 @@ public final class ZUtils
     if (term instanceof ZRefName) {
       return (ZRefName) term;
     }
-    final String message = "Expected a ZRefName but found " + String.valueOf(term);
+    final String message =
+      "Expected a ZRefName but found " + String.valueOf(term);
     throw new UnsupportedAstClassException(message);
   }
 
@@ -66,44 +68,48 @@ public final class ZUtils
     if (term instanceof ZNumeral) {
       return (ZNumeral) term;
     }
-    final String message = "Expected a ZNumeral but found " + String.valueOf(term);
+    final String message =
+      "Expected a ZNumeral but found " + String.valueOf(term);
     throw new UnsupportedAstClassException(message);
   }
-  
-  public static ZExprList assertZExprList(Term term) 
+
+  public static ZExprList assertZExprList(Term term)
   {
     if (term instanceof ZExprList) {
       return (ZExprList) term;
     }
-    final String message = "Expected a ZExprList but found " + String.valueOf(term);
+    final String message =
+      "Expected a ZExprList but found " + String.valueOf(term);
     throw new UnsupportedAstClassException(message);
   }
-  
-   public static ZDeclList assertZDeclList(Term term) 
+
+  public static ZDeclList assertZDeclList(Term term)
   {
     if (term instanceof ZDeclList) {
-        return (ZDeclList) term;
+      return (ZDeclList) term;
     }
-    final String message = "Expected a ZDeclList but found " + String.valueOf(term);
+    final String message =
+      "Expected a ZDeclList but found " + String.valueOf(term);
     throw new UnsupportedAstClassException(message);
   }
-  
-  public static ZRefNameList assertZRefNameList(Term term) 
+
+  public static ZRefNameList assertZRefNameList(Term term)
   {
     if (term instanceof ZRefNameList) {
-        return (ZRefNameList) term;
+      return (ZRefNameList) term;
     }
     final String message =
       "Expected a ZRefNameList but found " + String.valueOf(term);
     throw new UnsupportedAstClassException(message);
   }
-  
-  public static ZSchText assertZSchText(Term term) 
+
+  public static ZSchText assertZSchText(Term term)
   {
     if (term instanceof ZSchText) {
       return (ZSchText) term;
     }
-    final String message = "Expected a ZSchText but found " + String.valueOf(term);
+    final String message =
+      "Expected a ZSchText but found " + String.valueOf(term);
     throw new UnsupportedAstClassException(message);
   }
 }

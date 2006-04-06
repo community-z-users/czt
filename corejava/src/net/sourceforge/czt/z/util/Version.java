@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Mark Utting
+  Copyright (C) 2005, 2006 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -26,12 +26,12 @@ package net.sourceforge.czt.z.util;
  */
 public interface Version
 {
-  public static final String Z_MAJOR_VERSION_NUMBER = "2";
-  public static final String Z_MINOR_VERSION_NUMBER = "0";
+  String Z_MAJOR_VERSION_NUMBER = "2";
+  String Z_MINOR_VERSION_NUMBER = "0";
 
-  public static final String ZML_VERSION =
+  String ZML_VERSION =
     Z_MAJOR_VERSION_NUMBER + "." + Z_MINOR_VERSION_NUMBER;
-  public static final String Z_SCHEMA_LOCATION =
+  String Z_SCHEMA_LOCATION =
     "http://czt.sourceforge.net/zml/Z_" + Z_MAJOR_VERSION_NUMBER +
     "_" + Z_MINOR_VERSION_NUMBER + ".xsd";
 }

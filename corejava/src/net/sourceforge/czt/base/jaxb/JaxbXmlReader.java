@@ -36,7 +36,7 @@ import net.sourceforge.czt.util.ReflectiveVisitor;
  * @author Petra Malik
  */
 public class JaxbXmlReader
-  implements net.sourceforge.czt.base.util.XmlReader
+  implements XmlReader
 {
   /**
    * The visitor for transforming a JAXB tree into an AST.

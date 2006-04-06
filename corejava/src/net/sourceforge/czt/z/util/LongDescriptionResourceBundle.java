@@ -27,7 +27,7 @@ import java.util.ListResourceBundle;
 public class LongDescriptionResourceBundle
   extends ListResourceBundle
 {
-  private static final Object[][] contents_ = computeContents();
+  private static final Object[][] CONTENTS = computeContents();
 
   private static Object[][] computeContents()
   {
@@ -43,6 +43,6 @@ public class LongDescriptionResourceBundle
 
   public Object[][] getContents()
   {
-    return contents_;
+    return CONTENTS;
   }
 }
