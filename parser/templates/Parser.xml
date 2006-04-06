@@ -296,7 +296,7 @@ action code
 
     private LocInfo getLocation(int line, int column)
     {
-      return new LocInfo(file_, line, column);
+      return new LocInfoImpl(file_, line, column);
     }
 
     private LocInfo getLocation(TermA termA)
@@ -676,7 +676,7 @@ action code
         Object [] args = { "Operator table",
                            section };
         parser.report_error(ParseMessage.MSG_OF_PARENT_NOT_FOUND,
-                            args, new LocInfo(file_, line, column));
+                            args, new LocInfoImpl(file_, line, column));
         return null;
       }
     }
@@ -720,7 +720,7 @@ action code
         Object [] args = { "Joker table",
                            section };
         parser.report_error(ParseMessage.MSG_OF_PARENT_NOT_FOUND,
-                            args, new LocInfo(file_, line, column));
+                            args, new LocInfoImpl(file_, line, column));
         return null;
       }
     }
@@ -1251,7 +1251,7 @@ parser code
 
     protected LocInfo getLocation(Symbol token)
     {
-      return new LocInfo(file_, token.left, token.right);
+      return new LocInfoImpl(file_, token.left, token.right);
     }
 
     protected LocInfo getLocation(TermA termA)
@@ -1267,9 +1267,9 @@ parser code
         if (line > 0) line = line - 1;
         int column = locAnn.getCol();
         if (column > 0) column = column - 1;
-        return new LocInfo(file_, line, column);
+        return new LocInfoImpl(file_, line, column);
       }
-      return new LocInfo(file_, -1, -1);
+      return new LocInfoImpl(file_, -1, -1);
     }
 :}
 

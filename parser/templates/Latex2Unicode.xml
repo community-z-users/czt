@@ -353,7 +353,7 @@ import net.sourceforge.czt.parser.util.ScanException;
                              int line,
                              int column)
   {
-    final LocInfo locInfo = new LocInfo(source, line, column);
+    final LocInfo locInfo = new LocInfoImpl(source, line, column);
     final Object[] args = { arg0, locInfo, };
     LOGGER.logrb(Level.WARNING,
                  getClass().toString(),
@@ -369,7 +369,7 @@ import net.sourceforge.czt.parser.util.ScanException;
                            int line,
                            int column)
   {
-    final LocInfo locInfo = new LocInfo(source, line, column);
+    final LocInfo locInfo = new LocInfoImpl(source, line, column);
     final Object[] args = { arg0, locInfo, };
     LOGGER.logrb(Level.SEVERE,
                  getClass().toString(),

@@ -29,9 +29,7 @@ package net.sourceforge.czt.parser.util;
  * @author Petra Malik
  */
 public interface CztError
+  extends LocInfo
 {
-  int getLine();
-  int getColumn();
-  String getSource();
   String getMessage();
 }

@@ -20,14 +20,39 @@
 package net.sourceforge.czt.parser.util;
 
 /**
- * Information about location in a source document, like location,
- * line and column number, etc.
- *
  * @author Petra Malik
  */
-public interface LocInfo
+public class LocInfoImpl
+  implements LocInfo
 {
-  int getLine();
-  int getColumn();
-  String getSource();
+  private String source_;
+  private int line_;
+  private int column_;
+
+  public LocInfoImpl(String source, int line, int column)
+  {
+    source_ = source;
+    line_ = line;
+    column_ = column;
+  }
+
+  public String getSource()
+  {
+    return source_;
+  }
+
+  public int getLine()
+  {
+    return line_;
+  }
+
+  public int getColumn()
+  {
+    return column_;
+  }
+
+  public String toString()
+  {
+    return "in " + source_ + " line " + line_ + " column " + column_;
+  }
 }
