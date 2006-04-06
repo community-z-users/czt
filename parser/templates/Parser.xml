@@ -1304,10 +1304,13 @@ terminal
         JOKER, RULE, RULELINE, VDASH, PROVISO,
 </add:zpatt>
 <add:circus>
+        // Environment chars
+        CIRCUSPROCESS,
+        
         /**
          * For CSP, we follow the precedences from FDR's user manual v.2.82 June/2005.         
-         */
-        
+         */      
+         
         // Keychars
         CIRCDEF, CIRCINDEX, CIRCMU, CIRCTHEN, CIRCELSE, PREFIXTHEN, PREFIXCOLON,
         CIRCSEQ, INTERLEAVE, REPINTERLEAVE, REPPARALLEL, CIRCHIDING, 
@@ -1339,7 +1342,7 @@ terminal
         // Keywords
         CIRCFI, CIRCDO, CIRCOD, CIRCVAR, CIRCVAL,
         CIRCRES, CIRCVRES, CIRCCHAN, CIRCCHANFROM, CIRCCHANSET,
-        CIRCNAMESET, CIRCPROC, CIRCBEGIN, CIRCEND, CIRCSTATE,
+        CIRCNAMESET, CIRCPROC, CIRCPROCESSENV, CIRCBEGIN, CIRCEND, CIRCSTATE,
         CIRCSKIP, CIRCSTOP, CIRCCHAOS, _CIRCIF, 
         
         /* Note:
@@ -1625,7 +1628,7 @@ non terminal Para
     unboxedInnerPara;
 
 non terminal List &lt; Para &gt;
-    innerParaList;
+    optInnerCircParaList;
 
 /// Circus channel definition ////////////////////////////////////////////////   
 non terminal List&lt;ChannelDecl&gt;
@@ -1669,7 +1672,8 @@ non terminal CircusProcess
     processDesc, 
     paramProcess, 
     indexedProcess, 
-    basicProcess,
+    unboxedBasicProcess,
+    boxedBasicProcess,
     processCall,    
     process;
 
@@ -2566,9 +2570,9 @@ channelFromDecl ::=
 /// Channel Set Paragraph ////////////////////////////
 
 channelSetPara ::=         
-        CIRCCHANSET:ccs optFormalParameters:ofp declName:dn DEFEQUAL:equal channelSet:cs
+        CIRCCHANSET:ccs optFormalParameters:ofp name:n DEFEQUAL:equal channelSet:cs
         {:                    
-           RESULT = factory_.createChannelSetPara(ofp, dn, cs);
+           RESULT = factory_.createChannelSetPara(ofp, n, cs);
            addLocAnn(RESULT, ccsleft, ccsright);
         :}        
         ;
@@ -2644,7 +2648,7 @@ channelSet ::=
 //        ;
 //
 //cs_letDefinition ::=
-//        declName:n DEFEQUAL:defequal cs_expression:e
+//        name:n DEFEQUAL:defequal cs_expression:e
 //        {:
 //           RESULT = factory_.createConstDecl(n, expr(e));
 //           addLocAnn(RESULT, defequalleft, defequalright);
@@ -2939,13 +2943,12 @@ channelSet ::=
 
 processPara ::=
         /* Process declaration */
-        CIRCPROC:cp optFormalParameters:ofp declName:dn CIRCDEF processDesc:pd
-        {:
-           //actionScanner_.clearTable();
-           RESULT = factory_.createProcessPara(dn, ofp, pd);
+        CIRCPROC:cp optFormalParameters:ofp name:n CIRCDEF processDesc:pd
+        {:           
+           RESULT = factory_.createProcessPara(n, ofp, pd);
            addLocAnn(RESULT, cpleft, cpright);
-        :}        
-        ;
+        :}                
+        ;        
 
 processDesc ::=
         paramProcess:pp
@@ -2981,11 +2984,11 @@ indexedProcess ::=
         :}
         ;
         
-process ::= 
-        basicProcess:bp
+process ::=       
+        unboxedBasicProcess:bp
         {:
             RESULT = bp;
-        :} 
+        :}
         |
         /* Processes operator productions in precendence order */
         process:p CIRCHIDING:h channelSet:cs
@@ -3107,10 +3110,10 @@ process ::=
             RESULT = pc;
         :} 
         ;
-
-basicProcess ::=        
-        CIRCBEGIN innerParaList:ipl1 CIRCSTATE expression:e
-            innerParaList:ipl2 SPOT circusAction:ca CIRCEND
+        
+unboxedBasicProcess ::=        
+        CIRCBEGIN optInnerCircParaList:ipl1 CIRCSTATE expression:e
+            optInnerCircParaList:ipl2 SPOT circusAction:ca CIRCEND
         {: 
            RESULT = null; 
         :}
@@ -3253,14 +3256,14 @@ circusParamNameList ::=
 
 /// Z paragraphs withing Process paragraphs ////////////////////////////////
 
-innerParaList ::=
-        innerParaList:ipl optNL boxedParagraph:bp
+optInnerCircParaList ::=
+        optInnerCircParaList:ipl optNL boxedParagraph:bp
         {:
            ipl.add(bp);
            RESULT = ipl;
         :}
         |
-        innerParaList:ipl NL unboxedInnerPara:uip
+        optInnerCircParaList:ipl NL unboxedInnerPara:uip
         {:
            ipl.add(uip);
            RESULT = ipl;
@@ -3312,6 +3315,17 @@ unboxedInnerPara ::=
         {: RESULT = ap; :}        
         ;
 
+/// Boxed basic process paragraphs ////////////////////////////////
+
+//boxedBasicProcessPara ::=        
+//        |
+//        CIRCPROCESSENV:cpe name:n optNL optFormalParameters:ofp basicProcess:bp END 
+//        {:
+//            RESULT = factory_.createProcessPara(n, ofp, bp);
+//            addLocAnn(RESULT, cpeleft, cperight);
+//        :} 
+//        ;        
+        
 /// Special productions for process paragraphs ////////////////////////////////
         
 channelRenameList ::=
@@ -3325,9 +3339,9 @@ channelRenameList ::=
 /// Nameset paragraphs withing Process paragraphs ////////////////////////////////
 
 namesetPara ::=
-        CIRCNAMESET:cns declName:dn DEFEQUAL:equal nameSet:ns
+        CIRCNAMESET:cns name:n DEFEQUAL:equal nameSet:ns
         {:
-           RESULT = factory_.createNameSetPara(dn, ns);
+           RESULT = factory_.createNameSetPara(n, ns);
            addLocAnn(RESULT, cnsleft, cnsright);
         :}
         ;
@@ -3344,13 +3358,13 @@ nameSet ::=
 /// Action paragraphs withing Process paragraphs ////////////////////////////////
 
 actionPara ::=
-        declName:dn CIRCDEF paramAction:pa
+        name:n CIRCDEF paramAction:pa
         {:
-           RESULT = factory_.createActionPara(dn, pa);
-           addLocAnn(RESULT, dnleft, dnright);
+           RESULT = factory_.createActionPara(n, pa);
+           addLocAnn(RESULT, nleft, nright);
         :}
         ;
-
+        
 paramAction ::=
         circusParamDeclList:cp SPOT paramAction:pa
         {:
@@ -3368,7 +3382,7 @@ circusAction ::=
          * The main source of conflicts is due to RefName that 
          * can come from predicates of guards, calls, and channels
          * from prefixing (communication fields).
-         */
+         */         
         cspAction:ca
         {: RESULT = ca; :}
         |
@@ -3395,9 +3409,9 @@ cspAction ::=
           addLocAnn(RESULT, ccleft, ccright);
         :}
         |
-        CIRCMU:cm declName:dn SPOT circusAction:ca
+        CIRCMU:cm name:n SPOT circusAction:ca
         {:
-            RESULT = factory_.createMuAction(ca, dn);
+            RESULT = factory_.createMuAction(ca, n);
             addLocAnn(RESULT, cmleft, cmright);
         :}
         |
