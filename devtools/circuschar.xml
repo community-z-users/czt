@@ -12,6 +12,10 @@
       <char id="LINTER" hex="27E6" description="left interleave bracket"/>
       <char id="RINTER" hex="27E7" description="right interleave bracket"/>      
     </BRACKET>    
+    <BOXCHAR>
+      <char id="CIRCUSCHAR" hex="2501" description="box drawings thick horizontal for circus environments. Like ZEDCHAR"/>      
+      <char id="CIRCUSPROCESSCHAR " hex="250F" description="box drawings thick down and right. Like SCHCHAR"/>            
+    </BOXCHAR>
   </SPECIAL>
   <SYMBOL>
     <CORESYMBOL>
