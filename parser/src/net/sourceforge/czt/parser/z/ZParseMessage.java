@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Petra Malik
+  Copyright (C) 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -17,13 +17,13 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.parser.util;
+package net.sourceforge.czt.parser.z;
 
 /**
  * An enumeration of possible parse/scan messages, warnings, and
  * errors that may occur during a parse.
  */
-public enum ParseMessage
+public enum ZParseMessage
 {
   MSG_EXPR_EXPECTED ("Expression expected"),
   MSG_EXPR_EXPECTED_FOUND_PRED ("Expression expected; found predicate"),
@@ -50,13 +50,13 @@ public enum ParseMessage
   private final String message_;
   private final String explanation_;
 
-  ParseMessage(String message)
+  ZParseMessage(String message)
   {
     message_ = message;
     explanation_ = null;
   }
 
-  ParseMessage(String message, String explanation)
+  ZParseMessage(String message, String explanation)
   {
     message_ = message;
     explanation_ = explanation;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright (C) 2003, 2004, 2005 Petra Malik, Tim Miller
+     Copyright (C) 2003, 2004, 2005, 2006 Petra Malik, Tim Miller
      This file is part of the CZT project: http://czt.sourceforge.net
 
      The CZT project contains free software; you can redistribute it and/or
@@ -54,8 +54,8 @@ import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.parser.util.LatexSym;
 import net.sourceforge.czt.parser.util.LocInfo;
 import net.sourceforge.czt.parser.util.ParsePropertiesKeys;
-import net.sourceforge.czt.parser.util.ParseMessage;
 import net.sourceforge.czt.parser.util.ScanException;
+import net.sourceforge.czt.parser.z.ZParseMessage;
 
 /**
  * &lt;p&gt;
@@ -112,7 +112,7 @@ import net.sourceforge.czt.parser.util.ScanException;
   private static final Logger LOGGER = CztLogger.getLogger(<class/>.class);
 
   private static String RESOURCE_NAME =
-    "net.sourceforge.czt.parser.util.ParseResources";
+    "net.sourceforge.czt.parser.z.ZParseResourceBundle";
 
   /**
    * &lt;p&gt;
@@ -347,7 +347,7 @@ import net.sourceforge.czt.parser.util.ScanException;
     return result;
   }
 
-  private void reportWarning(ParseMessage msg,
+  private void reportWarning(ZParseMessage msg,
                              String arg0,
                              String source,
                              int line,
@@ -363,7 +363,7 @@ import net.sourceforge.czt.parser.util.ScanException;
                  args);
   }
 
-  private void reportError(ParseMessage msg,
+  private void reportError(ZParseMessage msg,
                            String arg0,
                            String source,
                            int line,
@@ -385,11 +385,11 @@ import net.sourceforge.czt.parser.util.ScanException;
                                          int column)
   {
     if (getBooleanProperty(PROP_IGNORE_UNKNOWN_LATEX_COMMANDS)) {
-      reportWarning(ParseMessage.MSG_UNKNOWN_LATEX_COMMAND,
+      reportWarning(ZParseMessage.MSG_UNKNOWN_LATEX_COMMAND,
                     command, source, line, column);
     }
     else {
-      reportError(ParseMessage.MSG_UNKNOWN_LATEX_COMMAND,
+      reportError(ZParseMessage.MSG_UNKNOWN_LATEX_COMMAND,
                   command, source, line, column);
     }
   }
@@ -402,13 +402,13 @@ import net.sourceforge.czt.parser.util.ScanException;
   private void end(String name, int line, int column)
   {
     if (openBeginCommands_.empty()) {
-      reportError(ParseMessage.MSG_UNMATCHED_BEGIN_END,
+      reportError(ZParseMessage.MSG_UNMATCHED_BEGIN_END,
                   name, source_, line, column);
     }
     else {
       String openCommand = openBeginCommands_.pop();
       if (! name.equals(openCommand)) {
-        reportError(ParseMessage.MSG_UNMATCHED_BEGIN_END,
+        reportError(ZParseMessage.MSG_UNMATCHED_BEGIN_END,
                     openCommand, source_, line, column);
       }
     }
@@ -1001,7 +1001,7 @@ NAME =   {NOT_LB}*
         {
           String result = "";
           if (braceStack_.empty()) {
-            reportError(ParseMessage.MSG_UNMATCHED_BRACES,
+            reportError(ZParseMessage.MSG_UNMATCHED_BRACES,
                         "}", source_, yyline, yycolumn);
             return result(result);
           }
@@ -1068,7 +1068,7 @@ NAME =   {NOT_LB}*
   .
         {
           yybegin(YYINITIAL);
-          reportError(ParseMessage.MSG_UNEXPECTED_TOKEN,
+          reportError(ZParseMessage.MSG_UNEXPECTED_TOKEN,
                       yytext(), source_, yyline, yycolumn);
         }
 }
@@ -1137,7 +1137,7 @@ NAME =   {NOT_LB}*
   .
         {
           yybegin(YYINITIAL);
-          reportError(ParseMessage.MSG_UNEXPECTED_TOKEN,
+          reportError(ZParseMessage.MSG_UNEXPECTED_TOKEN,
                       yytext(), source_, yyline, yycolumn);
         }
 }

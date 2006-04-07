@@ -61,6 +61,7 @@ import net.sourceforge.czt.tcoz.util.Factory;
 </add:tcoz>
 
 import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
@@ -247,7 +248,7 @@ action code
       if (unmatched != null) {
         final LocInfo locInfo = getLocation(line, column);
         final Object[] params = { unmatched };
-        parser.report_error(ParseMessage.MSG_UNMATCHED_WORDGLUE,
+        parser.report_error(ZParseMessage.MSG_UNMATCHED_WORDGLUE,
                             params, locInfo);
       }
     }
@@ -279,7 +280,7 @@ action code
       if (dn.getStroke().size() != 0) {
         final LocInfo locInfo = getLocation(line, column);
         final Object[] params = { name };
-  	parser.report_error(ParseMessage.MSG_STROKE_IN_OPNAME,
+  	parser.report_error(ZParseMessage.MSG_STROKE_IN_OPNAME,
                             params, locInfo);
       }
       Operator result = factory_.createOperator(dn.getWord());
@@ -290,7 +291,7 @@ action code
     {
       final LocInfo locInfo = getLocation(line, column);
       final Object [] params = {name};
-      parser.report_error(ParseMessage.MSG_OPNAME_AS_DECLWORD,
+      parser.report_error(ZParseMessage.MSG_OPNAME_AS_DECLWORD,
                           params, locInfo);
     }
 
@@ -317,7 +318,7 @@ action code
         return factory_.createZDeclName(opName.getWord(), opName.getStroke());
       }
       catch (OperatorName.OperatorNameException e) {
-        parser.report_error(ParseMessage.MSG_OPNAME_ERROR,
+        parser.report_error(ZParseMessage.MSG_OPNAME_ERROR,
                             new Object[0],
                             getLocation(line, column));
         return null;
@@ -341,7 +342,7 @@ action code
       }
       catch (OperatorName.OperatorNameException e) {
         final String message = "Syntax error: " + e.getMessage();
-        parser.report_error(ParseMessage.MSG_OPNAME_ERROR,
+        parser.report_error(ZParseMessage.MSG_OPNAME_ERROR,
                             new Object[0],
                             getLocation(line, column));
         return null;
@@ -371,7 +372,7 @@ action code
       }
       else {
         //I don't think that this is possible...?
-        parser.report_error(ParseMessage.MSG_PRED_EXPECTED,
+        parser.report_error(ZParseMessage.MSG_PRED_EXPECTED,
                             new Object[0], getLocation(t));
       }
       return result;
@@ -409,16 +410,16 @@ action code
         if (locAnn != null) result.getAnns().add(locAnn);
 </add:oz>
 <add:z>
-        parser.report_error(ParseMessage.MSG_EXPR_EXPECTED_FOUND_PRED,
+        parser.report_error(ZParseMessage.MSG_EXPR_EXPECTED_FOUND_PRED,
                             new Object [0], getLocation(t));
 </add:z>
 <add:zpatt>
-        parser.report_error(ParseMessage.MSG_EXPR_EXPECTED_FOUND_PRED,
+        parser.report_error(ZParseMessage.MSG_EXPR_EXPECTED_FOUND_PRED,
                             new Object [0], getLocation(t));
 </add:zpatt>
       }
       else {
-        parser.report_error(ParseMessage.MSG_EXPR_EXPECTED, 
+        parser.report_error(ZParseMessage.MSG_EXPR_EXPECTED, 
                             new Object [0], getLocation(t));
       }
       return result;
@@ -443,7 +444,7 @@ action code
         if (locAnn != null) result.getAnns().add(locAnn);
       }
       else {
-        parser.report_error(ParseMessage.MSG_OPEXPR_EXPECTED,
+        parser.report_error(ZParseMessage.MSG_OPEXPR_EXPECTED,
                             new Object[0], getLocation(t));
       }
       return result;
@@ -465,13 +466,13 @@ action code
         RefExpr re = (RefExpr) t;
 
         if (re.getZExprList().size() > 0) {
-          parser.report_error(ParseMessage.MSG_REFNAME_NO_PARAMS_EXPECTED,
+          parser.report_error(ZParseMessage.MSG_REFNAME_NO_PARAMS_EXPECTED,
                               new Object [0], getLocation(re));
         }
         result = re.getRefName();
       }
       else {
-        parser.report_error(ParseMessage.MSG_REFNAME_EXPECTED,
+        parser.report_error(ZParseMessage.MSG_REFNAME_EXPECTED,
                             new Object [0], getLocation(t));
       }
 
@@ -675,7 +676,7 @@ action code
       catch (CommandException e) {
         Object [] args = { "Operator table",
                            section };
-        parser.report_error(ParseMessage.MSG_OF_PARENT_NOT_FOUND,
+        parser.report_error(ZParseMessage.MSG_OF_PARENT_NOT_FOUND,
                             args, new LocInfoImpl(file_, line, column));
         return null;
       }
@@ -702,7 +703,7 @@ action code
         opTable_ = new OpTable(section, parentOpTables);
       }
       catch (OpTable.OperatorException e) {
-        parser.report_error(ParseMessage.MSG_CANNOT_MERGE_OPTABLES,
+        parser.report_error(ZParseMessage.MSG_CANNOT_MERGE_OPTABLES,
                             new Object[0],
                             getLocation(line, column));
      }
@@ -719,7 +720,7 @@ action code
       catch (CommandException e) {
         Object [] args = { "Joker table",
                            section };
-        parser.report_error(ParseMessage.MSG_OF_PARENT_NOT_FOUND,
+        parser.report_error(ZParseMessage.MSG_OF_PARENT_NOT_FOUND,
                             args, new LocInfoImpl(file_, line, column));
         return null;
       }
@@ -955,7 +956,7 @@ action code
       if (errorIdx == -1) {
         result.getZExprList().addAll(zrl);
       } else {
-        parser.report_error(CircusParseMessage.MSG_REFEXPR_EXPECPTED_IN_BASICCHANNELSETEXPR,
+        parser.report_error(CircusZParseMessage.MSG_REFEXPR_EXPECPTED_IN_BASICCHANNELSETEXPR,
                             new Object[] { errorIdx }, getLocation(result));
       }       
       return result;
@@ -985,7 +986,7 @@ action code
       } 
       // For set extensions (possibly empty) or comprehension, report an error.
       else if (result instanceof SetExpr || result instanceof SetCompExpr){
-        parser.report_error(CircusParseMessage.MSG_SETDISPLAY_NOTALLOWED_FORCHANNELSET,
+        parser.report_error(CircusZParseMessage.MSG_SETDISPLAY_NOTALLOWED_FORCHANNELSET,
                             new Object[0], getLocation(result));
       } 
       return result;
@@ -1032,7 +1033,7 @@ action code
                 // This should never happen.
                 result = CommType.Mixed; // thrown an error.
                 assert f != null; // at least one field must have been checked.
-                parser.report_error(CircusParseMessage.MSG_UNKNOWN_COMMUNICATION_PATTERN,
+                parser.report_error(CircusZParseMessage.MSG_UNKNOWN_COMMUNICATION_PATTERN,
                             new Object[0], getLocation(f));
             }                
         }
@@ -1048,7 +1049,7 @@ action code
         List&lt;?&gt; l, List&lt;?&gt; r) {
         boolean result = l.size() == r.size();
         if (!result) {
-          parser.report_error(CircusParseMessage.MSG_UNBALANCED_LISTS,
+          parser.report_error(CircusZParseMessage.MSG_UNBALANCED_LISTS,
               new Object[] { l.size(), l.getClass().getTypeParameters()[0].getName(),
                   r.size(), r.getClass().getTypeParameters()[0].getName() }, 
                   getLocation(line, column));
@@ -1078,9 +1079,6 @@ action code
 
 parser code
 {:
-    private final static String RESOURCE_NAME =
-      "net.sourceforge.czt.parser.util.ParseResources";
-
     private static final Map symbolMap_ = DebugUtils.getFieldMap(Sym.class);
 
     public Symbol parse() throws java.lang.Exception
@@ -1100,7 +1098,7 @@ parser code
      * The list of parse errors.
      * Not empty if and only if an error has occured during parsing.
      */
-    protected List&lt;ParseError&gt; errorList_ = new ArrayList&lt;ParseError&gt;();
+    protected List&lt;ZParseError&gt; errorList_ = new ArrayList&lt;ZParseError&gt;();
 
     private OperatorScanner opScanner_;
     private NewlineScanner nlScanner_;
@@ -1180,15 +1178,15 @@ parser code
     }
 
     /**
-     * @throws ClassCastException if the object is not a ParseError
+     * @throws ClassCastException if the object is not a ZParseError
      */
     public void report_error(String message, Object object)
     {
-      ParseError error = (ParseError) object;
+      ZParseError error = (ZParseError) object;
       errorList_.add(error);
     }
 
-    public void report_error(ParseMessage msg,
+    public void report_error(ZParseMessage msg,
                              Object[] params,
                              LocInfo locInfo)
     {
@@ -1205,16 +1203,16 @@ parser code
 
 </add:zpatt>
 <add:circus>
-    public void report_error(CircusParseMessage msg,
+    public void report_error(CircusZParseMessage msg,
                              Object[] params,
                              LocInfo locInfo)
     {
-      report_error(null, new CircusParseError(msg, params, locInfo));
+      report_error(null, new CircusZParseError(msg, params, locInfo));
     }
 </add:circus>
     
     /**
-     * @throws ClassCastException if the object is not a ParseError
+     * @throws ClassCastException if the object is not a ZParseError
      */
     public void report_fatal_error(String message, Object param)
       throws ParseException
@@ -1234,9 +1232,9 @@ parser code
       report_fatal_error("Syntax error", createSyntaxError(token));
     }
 
-    protected ParseError createSyntaxError(Symbol token)
+    protected ZParseError createSyntaxError(Symbol token)
     {
-      return new ZParseError(ParseMessage.MSG_SYNTAX_ERROR,
+      return new ZParseError(ZParseMessage.MSG_SYNTAX_ERROR,
                              new Object[] { toObject(token) },
                              getLocation(token));
     }
@@ -2172,7 +2170,7 @@ unboxedParagraphItem ::=
            }
            catch (OpTable.OperatorException e) {
              final Symbol token = new Symbol(Sym.ZED, otleft, otright);
-             parser.report_error(ParseMessage.MSG_CANNOT_ADD_OP,
+             parser.report_error(ZParseMessage.MSG_CANNOT_ADD_OP,
                                  new Object[0],
                                  getLocation(otleft, otright));
            }
@@ -2460,7 +2458,7 @@ nofixTemplate ::=
         LPAREN DECORWORD:n optWordOperandList:ol RPAREN:rp
         {:
            if (ol.size() &lt; 1) {
-             parser.report_error(ParseMessage.MSG_UNEXPECTED_TOKEN,
+             parser.report_error(ZParseMessage.MSG_UNEXPECTED_TOKEN,
                                  new Object[] {"RPAREN"},
                                  getLocation(rpleft, rpright));
            }
@@ -3301,7 +3299,7 @@ unboxedInnerPara ::=
            }
            catch (OpTable.OperatorException e) {
              final Symbol token = new Symbol(Sym.ZED, otleft, otright);
-             parser.report_error(ParseMessage.MSG_CANNOT_ADD_OP,
+             parser.report_error(ZParseMessage.MSG_CANNOT_ADD_OP,
                                  new Object[0],
                                  getLocation(otleft, otright));
            }
@@ -5895,7 +5893,7 @@ class ::=
              Object next = iter.next();
              if (next instanceof State) {
                if (s != null) {
-                 parser.report_error(ParseMessage.MSG_DUPLICATE_STATE,
+                 parser.report_error(ZParseMessage.MSG_DUPLICATE_STATE,
                                      new Object[] { next },
                                      getLocation(chleft, chright));
                }
@@ -5904,7 +5902,7 @@ class ::=
              }
              else if (next instanceof InitialState) {
                if (is != null) {
-                 parser.report_error(ParseMessage.MSG_DUPLICATE_INIT,
+                 parser.report_error(ZParseMessage.MSG_DUPLICATE_INIT,
                                      new Object[] { next },
                                      getLocation(chleft, chright));
                }

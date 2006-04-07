@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Petra Malik
+  Copyright (C) 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -17,18 +17,23 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.parser.util;
+package net.sourceforge.czt.parser.z;
+
+import net.sourceforge.czt.parser.util.LocInfo;
+import net.sourceforge.czt.parser.util.ParseError;
 
 /**
  * A Z parse error.
+ *
+ * @author Petra Malik
  */
 public class ZParseError
   extends ParseError
 {
   private static String RESOURCE_NAME =
-    "net.sourceforge.czt.parser.util.ParseResources";
+    "net.sourceforge.czt.parser.z.ParseResourceBundle";
 
-  public ZParseError(ParseMessage msg, Object[] params, LocInfo locInfo)
+  public ZParseError(ZParseMessage msg, Object[] params, LocInfo locInfo)
   {
     super(msg.toString(), params, locInfo);
   }

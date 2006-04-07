@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Petra Malik
+  Copyright (C) 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -17,20 +17,20 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.parser.util;
+package net.sourceforge.czt.parser.z;
 
 import java.util.ListResourceBundle;
 
-public class ParseResources
+public class ZParseResourceBundle
   extends ListResourceBundle
 {
   private static final Object[][] contents_ = computeContents();
 
   private static Object[][] computeContents()
   {
-    Object[][] result = new Object[ParseMessage.values().length][2];
+    Object[][] result = new Object[ZParseMessage.values().length][2];
     int i = 0;
-    for (ParseMessage msg : ParseMessage.values()) {
+    for (ZParseMessage msg : ZParseMessage.values()) {
       result[i][0] = msg.toString();
       result[i][1] = msg.getMessage();
       i++;
