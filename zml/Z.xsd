@@ -14,7 +14,7 @@
       specifications written in the ISO Standard Z notation.
       $Id$
 
-      Copyright (C) 2003, 2004, 2005 Mark Utting
+      Copyright (C) 2003, 2004, 2005, 2006 Mark Utting
       This file is part of the Community Z Tools (CZT) project.
 
       The CZT project contains free software; you can
@@ -906,6 +906,11 @@ more detail.
     <xs:annotation>
       <xs:documentation>
         Location annotations define the source-code location of a construct.
+        The Line and Col numbers, if present, refer to the start of the
+        construct.  The Start number, if present, gives the position of
+        the start of the construct from the beginning of the document,
+        and the Length number gives the number of characters from the 
+        beginning of the construct to the end.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -1713,6 +1718,8 @@ more detail.
         <xs:attribute name="Loc" type="xs:anyURI" use="optional"/>
         <xs:attribute name="Line" type="xs:nonNegativeInteger" use="optional"/>
         <xs:attribute name="Col" type="xs:nonNegativeInteger" use="optional"/>
+        <xs:attribute name="Start" type="xs:nonNegativeInteger" use="optional"/>
+        <xs:attribute name="Length" type="xs:nonNegativeInteger" use="optional"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>

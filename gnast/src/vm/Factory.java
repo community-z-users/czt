@@ -343,3 +343,8 @@
   {
     return createTupleExpr(createZExprList(list(left, right)));
   }
+
+  public LocAnn createLocAnn(String source, Integer line, Integer col)
+  {
+    return createLocAnn(source, line, col, null, null);
+  }
