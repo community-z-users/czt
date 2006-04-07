@@ -1100,7 +1100,7 @@ parser code
      * The list of parse errors.
      * Not empty if and only if an error has occured during parsing.
      */
-    protected List errorList_ = new ArrayList();
+    protected List&lt;ParseError&gt; errorList_ = new ArrayList&lt;ParseError&gt;();
 
     private OperatorScanner opScanner_;
     private NewlineScanner nlScanner_;

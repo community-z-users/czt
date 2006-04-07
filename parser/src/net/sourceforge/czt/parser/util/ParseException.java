@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004 Petra Malik
+  Copyright (C) 2004, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -32,36 +32,34 @@ import net.sourceforge.czt.session.CommandException;
 public class ParseException
   extends CommandException
 {
-  private List errorList_;
+  private List<ParseError> errorList_;
 
   /**
    * Constructs a new parse exception with the specified message, source
    * line number and column number.
    */
-  public ParseException(List errorList)
+  public ParseException(List<ParseError> errorList)
   {
     errorList_ = errorList;
   }
 
-  public List getErrorList()
+  public List<ParseError> getErrorList()
   {
     return errorList_;
   }
 
   public void printErrorList()
   {
-    for (Iterator iter = errorList_.iterator(); iter.hasNext(); ) {
-      Object next = iter.next();
-      System.err.println(next.toString());
+    for (ParseError parseError : errorList_) {
+      System.err.println(parseError.toString());
     }
   }
 
   public String getMessage()
   {
     StringBuffer result = new StringBuffer();
-    for (Iterator iter = errorList_.iterator(); iter.hasNext(); ) {
-      Object next = iter.next();
-      result.append("\n" + next.toString());
+    for (ParseError parseError : errorList_) {
+      result.append("\n" + parseError.toString());
     }
     return result.toString();
   }
