@@ -14,12 +14,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
+import net.sourceforge.czt.parser.util.CztErrorList;
 
 /**
  *
  * @author leo
  */
-public class TypeErrorException extends RuntimeException {    
+public class TypeErrorException extends RuntimeException
+  implements CztErrorList {    
     
     private final List<ErrorAnn> fErrors = new ArrayList<ErrorAnn>();
     
@@ -36,5 +38,9 @@ public class TypeErrorException extends RuntimeException {
     
     public List<ErrorAnn> errors() {
         return Collections.unmodifiableList(fErrors);
+    }
+
+    public List<ErrorAnn> getErrors() {
+        return errors();
     }
 }

@@ -72,21 +72,8 @@ public abstract class AbstractParser
     catch (CommandException exception) {
       errorSource.clear();
       Throwable cause = exception.getCause();
-      if (cause instanceof ParseException) {
-        List errors = ((ParseException) cause).getErrorList();
-        for (Iterator iter = errors.iterator(); iter.hasNext(); ) {
-          Object next = iter.next();
-          ParseError parseError = (ParseError) next;
-          errorSource.addError(ErrorSource.ERROR,
-                               buffer.getPath(),
-                               parseError.getLine() - 1,
-                               parseError.getColumn() - 1,
-                               0,
-                               parseError.getMessage());
-        }
-      }
-      else if (cause instanceof TypeErrorException) {
-        List<ErrorAnn> errors = ((TypeErrorException) cause).errors();
+      if (cause instanceof CztErrorList) {
+        List<? extends CztError> errors = ((CztErrorList) cause).getErrors();
         printErrors(errors, buffer, errorSource);
       }
       else if (cause instanceof IOException) {
@@ -111,16 +98,17 @@ public abstract class AbstractParser
     return data;
   }
 
-  protected void printErrors(List<? extends ErrorAnn> errors,
+  protected void printErrors(List<? extends CztError> errors,
                              Buffer buffer,
                              DefaultErrorSource errorSource)
   {
-    for (ErrorAnn errorAnn : errors) {
+    for (CztError error : errors) {
       errorSource.addError(ErrorSource.ERROR,
                            buffer.getPath(),
-                           errorAnn.getLine() - 1,
-                           errorAnn.getColumn() - 1, 0,
-                           errorAnn.toString());
+                           error.getLine() - 1,
+                           error.getColumn() - 1,
+                           0,
+                           error.getMessage());
     }
   }
 

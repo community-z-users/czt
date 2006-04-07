@@ -31,6 +31,7 @@ import net.sourceforge.czt.session.CommandException;
  */
 public class ParseException
   extends CommandException
+  implements CztErrorList
 {
   private List<ParseError> errorList_;
 
@@ -44,6 +45,11 @@ public class ParseException
   }
 
   public List<ParseError> getErrorList()
+  {
+    return errorList_;
+  }
+
+  public List<ParseError> getErrors()
   {
     return errorList_;
   }
