@@ -25,6 +25,7 @@ import java.text.MessageFormat;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.typecheck.z.util.CarrierSet;
 
@@ -32,6 +33,7 @@ import net.sourceforge.czt.typecheck.z.util.CarrierSet;
  * A class for annotating terms associated with error messages.
  */
 public class ErrorAnn
+  implements CztError
 {
   private static String RESOURCE_NAME =
     "net.sourceforge.czt.typecheck.z.TypeCheckResources";
@@ -133,6 +135,18 @@ public class ErrorAnn
     return markup_;
   }
 
+  public String getMessage()
+  {
+    //format the parameters and write into the message
+    String formatted [] = new String[params_.length];
+    for (int i = 0; i < params_.length; i++) {
+      formatted[i] = format(params_[i], sectInfo_, sectName_);
+    }
+    String localised = RESOURCE_BUNDLE.getString(errorMessage_.toString());
+    MessageFormat form = new MessageFormat(localised);
+    return form.format(formatted);
+  }
+
   public String toString()
   {
     String result = new String();
@@ -155,14 +169,7 @@ public class ErrorAnn
     MessageFormat form = new MessageFormat(localised);
     result += form.format(args) + ": ";
 
-    //format the parameters and write into the message
-    String formatted [] = new String[params_.length];
-    for (int i = 0; i < params_.length; i++) {
-      formatted[i] = format(params_[i], sectInfo_, sectName_);
-    }
-    localised = RESOURCE_BUNDLE.getString(errorMessage_.toString());
-    form = new MessageFormat(localised);
-    result += form.format(formatted);
+    result += getMessage();
 
     return result;
   }
@@ -205,4 +212,3 @@ public class ErrorAnn
     PrintUtils.print(term, writer, sectInfo, sectName, markup);
   }
 }
-
