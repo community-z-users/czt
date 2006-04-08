@@ -10,7 +10,7 @@ xmlns="http://www.w3.org/2000/svg"
 xmlns:xlink="http://www.w3.org/1999/xlink"
 xmlns:ev="http://www.w3.org/2001/xml-events">
 
-<script type="text/ecmascript" xlink:href="../src/wffs.es">
+<script type="text/ecmascript" xlink:href="../src/wffs.es"/>
 
 <rect x="10" y="10" width="400" height="200" fill="silver" outline="none" onclick="deselect()"/>
 <g id="wff_root" fill="black" sel="true">
