@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<svg
+width="100%"
+height="500"
+version="1.1"
+baseProfile="full"
+onload="init()"
+xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink"
+xmlns:ev="http://www.w3.org/2001/xml-events">
+
+<script type="text/ecmascript">
+<![CDATA[
+
+// This file is an example SVG+JavaScript document for displaying
+// a Z paragraph in which well-formed formulae can be selected by
+// clicking the mouse.  Contributed to CZT by Ian Toyn and Petra Malik.
+
+// Global state:
+var curWff = null;		// The currently selected well-formed formula
+
+// init -- initialisation of global state.
+// This is the handler for event onload.
+function init()
+{
+}
+
+// inSelected -- is the given wff in the current wff?
+function inSelected(wff)
+{
+	if (wff.getAttributeNS(null, "id") == "wff_root" || curWff == null) {
+		return (false);
+	} else if (wff == curWff) {
+		return (true);
+	} else {
+		return (inSelected(wff.parentNode));
+	}
+}
+
+// deselect -- make there be no current selection.
+// This is the handler for event onclick on the background rect.
+function deselect()
+{
+	if (curWff != null) {
+		curWff.removeAttributeNS(null, "fill");
+	}
+	curWff = null;
+}
+
+// select -- adjust the current selection appropriately.
+// This is the handler for event onclick on a text.
+function select(evt)
+{
+	var selText = evt.target;
+	if (curWff != null) {
+		curWff.removeAttributeNS(null, "fill");
+	}
+	if (inSelected(selText) && curWff.parentNode != null) {
+		do {
+			curWff = curWff.parentNode;
+		} while (curWff.getAttributeNS(null, "sel") != "true");
+	} else {
+		if (selText.getAttributeNS(null, "sel" != "true")) {
+			curWff = selText.parentNode;
+		} else {
+			curWff = selText;
+		}
+	}
+	curWff.setAttributeNS(null, "fill", "white");
+}
+
+]]>
+</script>
+
+<rect x="10" y="10" width="400" height="500" fill="silver" outline="none" onclick="deselect()"/>
+<line x1="30" y1="50" x2="45" y2="50" stroke="black"
+      onclick="deselect()"/>
+<line x1="130" y1="50" x2="220" y2="50" stroke="black"
+      onclick="deselect()"/>
+<line x1="220" y1="50" x2="220" y2="60" stroke="black"
+      onclick="deselect()"/>
+<line x1="30" y1="110" x2="90" y2="110" stroke="black"
+      onclick="deselect()"/>
+<line x1="220" y1="140" x2="220" y2="130" stroke="black"
+    onclick="deselect()"/>
+<line x1="30" y1="140" x2="220" y2="140" stroke="black"
+    onclick="deselect()"/>
+<line x1="30" y1="50" x2="30" y2="140" stroke="black"
+    onclick="deselect()"/>
+
+<text id="wff_root" sel="true" fill="black" font-family="CZT" x="50" y="50">
+  <tspan sel="true" onclick="select(evt)">BirthdayBook</tspan>
+  <tspan sel="true">
+    <tspan x="50" dy="30">
+      <tspan sel="true" onclick="select(evt)">known</tspan>
+      <tspan onclick="select(evt)">:</tspan>
+      <tspan sel="true">
+        <tspan sel="true" onclick="select(evt)">&#x2119;</tspan>
+        <tspan sel="true" onclick="select(evt)">NAME</tspan>
+      </tspan>
+    </tspan>
+    <tspan sel="false" x="50" dy="20">
+      <tspan sel="true" onclick="select(evt)">birthday</tspan>
+      <tspan onclick="select(evt)">:</tspan>
+      <tspan sel="true">
+        <tspan sel="true" onclick="select(evt)">NAME</tspan>
+        <tspan sel="true" onclick="select(evt)">&#x21F8;</tspan>
+        <tspan sel="true" onclick="select(evt)">DATE</tspan>
+      </tspan>
+    </tspan>
+    <tspan sel="true" x="50" dy="30">
+      <tspan sel="true" onclick="select(evt)">known</tspan>
+      <tspan onclick="select(evt)">=</tspan>
+      <tspan sel="true">
+        <tspan sel="true" onclick="select(evt)">dom</tspan>
+        <tspan sel="true" onclick="select(evt)">birthday</tspan>
+      </tspan>
+    </tspan>
+  </tspan>
+</text>
+
+<text id="wff_root" sel="true" fill="black" font-family="CZT" x="50" y="200">
+  <tspan sel="true" onclick="select(evt)">exec_inst</tspan>
+  
+  <tspan x="50" dy="30" id="net.sourceforge.czt.z.impl.InclDeclImpl@585bce45" sel="true">
+    <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@5d1d7cb4">
+      <tspan sel="true" onclick="select(evt)">ΔSystem</tspan>
+    </tspan>
+  </tspan>
+
+  <tspan x="50" dy="20" id="net.sourceforge.czt.z.impl.VarDeclImpl@12ab277f" sel="true">
+    <tspan sel="true" onclick="select(evt)">inst?</tspan>
+    <tspan onclick="select(evt)">:</tspan>
+    <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@5ac777f" sel="true">
+      <tspan id="RefNameInstruction" sel="true">
+        <tspan sel="true" onclick="select(evt)">Instruction</tspan>
+      </tspan>
+    </tspan>
+  </tspan>
+
+  <tspan x="50" dy="20" id="net.sourceforge.czt.z.impl.VarDeclImpl@fcc5da9d" sel="true">
+    <tspan sel="true" onclick="select(evt)">base?</tspan>
+    <tspan onclick="select(evt)">:</tspan>
+    <tspan id="net.sourceforge.czt.print.ast.OperatorApplication@266877cc" sel="true">
+      <tspan id="net.sourceforge.czt.z.impl.NumExprImpl@ab0efa0f">
+        <tspan id="net.sourceforge.czt.z.impl.ZNumeralImpl@fe6c5bf8">
+          <tspan sel="true" onclick="select(evt)">1</tspan>
+        </tspan>
+      </tspan>
+      <tspan sel="true" onclick="select(evt)">..</tspan>
+      <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@877037fc" sel="true">
+      <tspan sel="true" onclick="select(evt)">mem_size</tspan>
+    </tspan>
+  </tspan>
+
+
+  <tspan x="50" dy="30" id="net.sourceforge.czt.z.impl.ExistsPredImpl@8b139e7e" sel="true">
+    <tspan sel="true" onclick="select(evt)">∃</tspan>
+    <tspan id="net.sourceforge.czt.z.impl.ZSchTextImpl@d5d03ebc" sel="true">
+      <tspan id="List" sel="true">
+        <tspan id="net.sourceforge.czt.z.impl.VarDeclImpl@34f10010" sel="true">
+          <tspan sel="true" onclick="select(evt)">label</tspan>
+          <tspan sel="true" onclick="select(evt)">:</tspan>
+          <tspan id="net.sourceforge.czt.z.impl.PowerExprImpl@f5479ebd" sel="true">
+            <tspan sel="true" onclick="select(evt)">ℙ</tspan>
+            <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@85a46865">
+              <tspan sel="true" onclick="select(evt)">LABEL</tspan>
+            </tspan>
+          </tspan>
+        </tspan>
+        <tspan sel="true" onclick="select(evt)">;</tspan>
+        <tspan id="net.sourceforge.czt.z.impl.VarDeclImpl@42eba12f" sel="true">
+          <tspan sel="true" onclick="select(evt)">name</tspan>
+          <tspan sel="true" onclick="select(evt)">:</tspan>
+          <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@94896675">
+            <tspan sel="true" onclick="select(evt)">INST_NAME</tspan>
+          </tspan>
+        </tspan>
+        <tspan sel="true" onclick="select(evt)">;</tspan>
+        <tspan id="net.sourceforge.czt.z.impl.VarDeclImpl@718266f3" sel="true">
+          <tspan sel="true" onclick="select(evt)">params</tspan>
+          <tspan sel="true" onclick="select(evt)">:</tspan>
+          <tspan id="net.sourceforge.czt.print.ast.OperatorApplication@266877cc" sel="true">
+            <tspan sel="true" onclick="select(evt)">seq</tspan>
+            <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@67cd54fa">
+              <tspan sel="true" onclick="select(evt)">OPERAND</tspan>
+            </tspan>
+          </tspan>
+        </tspan>
+      </tspan>
+      <tspan sel="true" onclick="select(evt)">|</tspan>
+      <tspan id="net.sourceforge.czt.print.ast.PrintPredicate@4c2569f8" sel="true">
+        <tspan id="net.sourceforge.czt.print.ast.PrintPredicate@4c2569f8" sel="true">
+          <tspan id="net.sourceforge.czt.print.ast.PrintPredicate@4c2569f8" sel="true">
+            <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@5ad8d885" sel="true">
+              <tspan sel="true" onclick="select(evt)">label</tspan>
+            </tspan>
+            <tspan sel="true" onclick="select(evt)">=</tspan>
+            <tspan id="net.sourceforge.czt.z.impl.BindSelExprImpl@96e37060" sel="true">
+              <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@3c5cc076" sel="true">
+                <tspan sel="true" onclick="select(evt)">inst?</tspan>
+              </tspan>
+              <tspan sel="true" onclick="select(evt)">.</tspan>
+              <tspan sel="true" onclick="select(evt)">label</tspan>
+            </tspan>
+          </tspan>
+          <tspan sel="true" onclick="select(evt)">∧</tspan>
+          <tspan id="net.sourceforge.czt.print.ast.PrintPredicate@4c2569f8" sel="true">
+            <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@1fdc4a5c" sel="true">
+              <tspan sel="true" onclick="select(evt)">name</tspan>
+            </tspan>
+            <tspan sel="true" onclick="select(evt)">=</tspan>
+            <tspan id="net.sourceforge.czt.z.impl.BindSelExprImpl@5be6e237" sel="true">
+              <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@3c5cc076" sel="true">
+                <tspan sel="true" onclick="select(evt)">inst?</tspan>
+              </tspan>
+              <tspan sel="true" onclick="select(evt)">.</tspan>
+              <tspan sel="true" onclick="select(evt)">name</tspan>
+            </tspan>
+          </tspan>
+        </tspan>
+        <tspan sel="true" onclick="select(evt)">∧</tspan>
+        <tspan id="net.sourceforge.czt.print.ast.PrintPredicate@4c2569f8" sel="true">
+          <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@a46ff697" sel="true">
+            <tspan sel="true" onclick="select(evt)">params</tspan>
+          </tspan>
+          <tspan sel="true" onclick="select(evt)">=</tspan>
+          <tspan id="net.sourceforge.czt.z.impl.BindSelExprImpl@e07a8e72" sel="true">
+            <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@3c5cc076" sel="true">
+              <tspan sel="true" onclick="select(evt)">inst?</tspan>
+            </tspan>
+            <tspan sel="true" onclick="select(evt)">.</tspan>
+            <tspan sel="true" onclick="select(evt)">params</tspan>
+          </tspan>
+        </tspan>
+      </tspan>
+    </tspan>
+    <tspan sel="true" onclick="select(evt)">⦁</tspan>
+    <tspan id="net.sourceforge.czt.z.impl.ImpliesPredImpl@e44c05f3" sel="true">
+      <tspan id="net.sourceforge.czt.z.impl.OrPredImpl@ac21050c" sel="true">
+        <tspan id="net.sourceforge.czt.z.impl.ExprPredImpl@72b0c9e9" sel="true">
+          <tspan id="net.sourceforge.czt.z.impl.OrExprImpl@d3f785c5" sel="true">
+            <tspan id="net.sourceforge.czt.z.impl.OrExprImpl@59fb1426" sel="true">
+              <tspan id="net.sourceforge.czt.z.impl.OrExprImpl@808a5ea2" sel="true">
+                <tspan id="net.sourceforge.czt.z.impl.OrExprImpl@527073c2" sel="true">
+                  <tspan id="net.sourceforge.czt.z.impl.OrExprImpl@88ca3d83" sel="true">
+                    <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@62602ad2">
+                      <tspan sel="true" onclick="select(evt)">Add</tspan>
+                    </tspan>
+                    <tspan sel="true" onclick="select(evt)">∨</tspan>
+                    <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@636584b1">
+                      <tspan sel="true" onclick="select(evt)">Sub</tspan>
+                    </tspan>
+                  </tspan>
+                  <tspan sel="true" onclick="select(evt)">∨</tspan>
+                  <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@e8a5f7e1">
+                    <tspan sel="true" onclick="select(evt)">Mult</tspan>
+                  </tspan>
+                </tspan>
+                <tspan sel="true" onclick="select(evt)">∨</tspan>
+                <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@628cfac2">
+                  <tspan sel="true" onclick="select(evt)">Div</tspan>
+                </tspan>
+              </tspan>
+              <tspan sel="true" onclick="select(evt)">∨</tspan>
+              <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@af1399de">
+                <tspan sel="true" onclick="select(evt)">Print</tspan>
+              </tspan>
+            </tspan>
+            <tspan sel="true" onclick="select(evt)">∨</tspan>
+            <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@d99242db" sel="true">
+              <tspan sel="true" onclick="select(evt)">Load_Const</tspan>
+            </tspan>
+          </tspan>
+        </tspan>
+        <tspan sel="true" onclick="select(evt)">∨</tspan>
+        <tspan id="net.sourceforge.czt.print.ast.PrintPredicate@4c2569f8" sel="true">
+          <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@1fdc4a5c" sel="true">
+            <tspan sel="true" onclick="select(evt)">name</tspan>
+          </tspan>
+          <tspan sel="true" onclick="select(evt)">∈</tspan>
+          <tspan id="net.sourceforge.czt.z.impl.SetExprImpl@b2938b3a" sel="true">
+            <tspan sel="true" onclick="select(evt)">{</tspan>
+            <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@1d3269f7" sel="true">
+              <tspan sel="true" onclick="select(evt)">load</tspan>
+            </tspan>
+            <tspan sel="true" onclick="select(evt)">,</tspan>
+            <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@ee4d8b32" sel="true">
+              <tspan sel="true" onclick="select(evt)">store</tspan>
+            </tspan>
+            <tspan sel="true" onclick="select(evt)">}</tspan>
+          </tspan>
+        </tspan>
+      </tspan>
+      <tspan sel="true" onclick="select(evt)">⇒</tspan>
+      <tspan id="net.sourceforge.czt.z.impl.ExprPredImpl@9024d222" sel="true">
+        <tspan id="net.sourceforge.czt.z.impl.ExistsExprImpl@fe35126c" sel="true">
+          <tspan sel="true" onclick="select(evt)">(</tspan>
+          <tspan sel="true" onclick="select(evt)">∃</tspan>
+          <tspan id="net.sourceforge.czt.z.impl.ZSchTextImpl@51736c73" sel="true">
+            <tspan id="List" sel="true">
+              <tspan id="net.sourceforge.czt.z.impl.VarDeclImpl@2bb15b5d" sel="true">
+                <tspan sel="true" onclick="select(evt)">p</tspan>
+                <tspan sel="true" onclick="select(evt)">:</tspan>
+                <tspan id="net.sourceforge.czt.print.ast.OperatorApplication@266877cc" sel="true">
+                  <tspan sel="true" onclick="select(evt)">seq</tspan>
+                  <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@67cd54fa" sel="true">
+                    <tspan sel="true" onclick="select(evt)">OPERAND</tspan>
+                  </tspan>
+                </tspan>
+              </tspan>
+            </tspan>
+            <tspan sel="true" onclick="select(evt)">|</tspan>
+            <tspan id="net.sourceforge.czt.print.ast.PrintPredicate@4c2569f8" sel="true">
+              <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@5e9eeb01">
+                <tspan sel="true" onclick="select(evt)">p</tspan>
+              </tspan>
+              <tspan sel="true" onclick="select(evt)">=</tspan>
+              <tspan id="net.sourceforge.czt.print.ast.OperatorApplication@266877cc" sel="true">
+                <tspan sel="true" onclick="select(evt)">⟨</tspan>
+                <tspan id="net.sourceforge.czt.print.ast.Application@58ec6063" sel="true">
+                  <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@a46ff697">
+                    <tspan sel="true" onclick="select(evt)">params</tspan>
+                  </tspan>
+                  <tspan id="net.sourceforge.czt.z.impl.NumExprImpl@ab0efa0f" sel="true">
+                    <tspan sel="true" onclick="select(evt)">(</tspan>
+                    <tspan sel="true" onclick="select(evt)">1</tspan>
+                    <tspan sel="true" onclick="select(evt)">)</tspan>
+                  </tspan>
+                </tspan>
+                <tspan sel="true" onclick="select(evt)">,</tspan>
+                <tspan id="net.sourceforge.czt.print.ast.Application@58331368" sel="true">
+                  <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@525ad135" sel="true">
+                    <tspan sel="true" onclick="select(evt)">constant</tspan>
+                  </tspan>
+                  <tspan id="net.sourceforge.czt.print.ast.OperatorApplication@266877cc" sel="true">
+                    <tspan sel="true" onclick="select(evt)">(</tspan>
+                    <tspan id="net.sourceforge.czt.print.ast.Application@c12a6495" sel="true">
+                      <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@6549c972" sel="true">
+                        <tspan sel="true" onclick="select(evt)">val</tspan>
+                      </tspan>
+                      <tspan id="net.sourceforge.czt.print.ast.Application@58ecd4c2" sel="true">
+                        <tspan sel="true" onclick="select(evt)">(</tspan>
+                        <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@a46ff697" sel="true">
+                          <tspan sel="true" onclick="select(evt)">params</tspan>
+                        </tspan>
+                        <tspan id="net.sourceforge.czt.z.impl.NumExprImpl@ab0efdd0" sel="true">
+                          <tspan sel="true" onclick="select(evt)">(</tspan>
+                          <tspan sel="true" onclick="select(evt)">2</tspan>
+                          <tspan sel="true" onclick="select(evt)">)</tspan>
+                        </tspan>
+                        <tspan sel="true" onclick="select(evt)">)</tspan>
+                      </tspan>
+                    </tspan>
+                    <tspan sel="true" onclick="select(evt)">+</tspan>
+                    <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@2fb36a41">
+                      <tspan sel="true" onclick="select(evt)">base?</tspan>
+                    </tspan>
+                    <tspan sel="true" onclick="select(evt)">)</tspan>
+                  </tspan>
+                </tspan>
+                <tspan sel="true" onclick="select(evt)">⟩</tspan>
+              </tspan>
+            </tspan>
+          </tspan>
+          <tspan sel="true" onclick="select(evt)">⦁</tspan>
+          <tspan id="net.sourceforge.czt.z.impl.OrExprImpl@c826a79" sel="true">
+            <tspan id="net.sourceforge.czt.z.impl.RenameExprImpl@52c71cb4" sel="true">
+              <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@e6975617">
+                <tspan sel="true" onclick="select(evt)">Load</tspan>
+              </tspan>
+              <tspan sel="true" onclick="select(evt)">[</tspan>
+              <tspan id="net.sourceforge.czt.z.impl.NewOldPairImpl@77300df1" sel="true">
+                <tspan sel="true" onclick="select(evt)">p</tspan>
+                <tspan sel="true" onclick="select(evt)">/</tspan>
+                <tspan sel="true" onclick="select(evt)">params</tspan>
+              </tspan>
+              <tspan sel="true" onclick="select(evt)">]</tspan>
+            </tspan>
+            <tspan sel="true" onclick="select(evt)">∨</tspan>
+            <tspan id="net.sourceforge.czt.z.impl.RenameExprImpl@45b1ef19" sel="true">
+              <tspan id="net.sourceforge.czt.z.impl.RefExprImpl@51862312">
+                <tspan sel="true" onclick="select(evt)">Store</tspan>
+              </tspan>
+              <tspan sel="true" onclick="select(evt)">[</tspan>
+              <tspan id="net.sourceforge.czt.z.impl.NewOldPairImpl@77300df1" sel="true">
+                <tspan sel="true" onclick="select(evt)">p</tspan>
+                <tspan sel="true" onclick="select(evt)">/</tspan>
+                <tspan sel="true" onclick="select(evt)">params</tspan>
+              </tspan>
+              <tspan sel="true" onclick="select(evt)">]</tspan>
+            </tspan>
+          </tspan>
+          <tspan sel="true" onclick="select(evt)">)</tspan>
+        </tspan>
+      </tspan>
+    </tspan>
+  </tspan>
+</tspan>
+</text>
+</svg>
