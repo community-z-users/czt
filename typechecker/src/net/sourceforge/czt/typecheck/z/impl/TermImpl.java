@@ -18,7 +18,9 @@
 */
 package net.sourceforge.czt.typecheck.z.impl;
 
-import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.base.ast.ListTerm;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.impl.ListTermImpl;
 import net.sourceforge.czt.base.visitor.*;
 
 /**
@@ -59,5 +61,23 @@ public abstract class TermImpl
   {
     String s = "Term";
     return s.hashCode();
+  }
+
+  public ListTerm<Object> getAnns()
+  {
+    ListTerm<Object> result = new ListTermImpl<Object>();
+    if (term_ != null) {
+      result = term_.getAnns();
+    }
+    return result;
+  }
+
+  public Object getAnn(Class aClass)
+  {
+    Object result = null;
+    if (term_ != null) {
+      result = term_.getAnn(aClass);
+    }
+    return result;
   }
 }

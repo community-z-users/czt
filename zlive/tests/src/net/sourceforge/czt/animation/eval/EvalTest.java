@@ -48,7 +48,7 @@ public abstract class EvalTest extends TestCase
   }
   
   /** Get the LocAnn of a term, or null if it does not have one. */
-  public static LocAnn getLocAnn(TermA term)
+  public static LocAnn getLocAnn(Term term)
   {
     List anns = term.getAnns();
     Iterator i = anns.iterator();

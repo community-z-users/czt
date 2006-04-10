@@ -1,5 +1,5 @@
 #*
-Copyright (C) 2003, 2004, 2005 Petra Malik
+Copyright (C) 2003, 2004, 2005, 2006 Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -85,11 +85,11 @@ public class $class.Name
     return Logger.getLogger(getClassName());
   }
 
-  private net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType visitAnnotations(List list)
+  private net.sourceforge.czt.z.jaxb.gen.Term.AnnsType visitAnnotations(List list)
     throws javax.xml.bind.JAXBException
   {
-      net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-        annsObjectFactory_.createTermAAnnsType();
+      net.sourceforge.czt.z.jaxb.gen.Term.AnnsType anns =
+        annsObjectFactory_.createTermAnnsType();
     List newlist = anns.getany();
     for (Iterator iter = list.iterator(); iter.hasNext();) {
       Object obj = iter.next();
@@ -295,7 +295,6 @@ public class $class.Name
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-#if($c.isInstanceOf("TermA"))
     try {
       if (zedObject.getAnns() != null) {
         List list = zedObject.getAnns();
@@ -312,7 +311,6 @@ public class $class.Name
       getLogger().warning(message);
       // throw new CztException(message, exception);
     }
-#end
 
     getLogger().exiting(getClassName(), "visit${c.Name}", jaxbObject);
     createElement_ = true;

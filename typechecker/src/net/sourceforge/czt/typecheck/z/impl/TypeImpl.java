@@ -27,7 +27,7 @@ import net.sourceforge.czt.z.visitor.*;
  * if they have a value.
  */
 public abstract class TypeImpl
-  extends TermAImpl
+  extends TermImpl
   implements Type
 {
   protected TypeImpl(Type type)

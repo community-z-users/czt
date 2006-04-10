@@ -289,7 +289,7 @@
 
   <xs:complexType name="Deduction">
     <xs:complexContent>
-      <xs:extension base="Z:TermA">
+      <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element ref="P:Binding" minOccurs="0" maxOccurs="unbounded"/>
           <xs:element ref="P:Sequent" minOccurs="0" maxOccurs="unbounded"/>
@@ -300,11 +300,15 @@
   </xs:complexType>
 
   <!-- The hierarchy of sequents -->
-  <xs:complexType name="SequentContext"/>
+  <xs:complexType name="SequentContext">
+    <xs:complexContent>
+      <xs:extension base="Z:Term"/>
+    </xs:complexContent>
+  </xs:complexType>
 
   <xs:complexType name="Sequent">
     <xs:complexContent>
-      <xs:extension base="Z:TermA">
+      <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element ref="P:SequentContext"/>
         </xs:sequence>
@@ -474,7 +478,11 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="Binding" mixed="false"/>
+  <xs:complexType name="Binding">
+    <xs:complexContent>
+      <xs:extension base="Z:RefName"/>
+    </xs:complexContent>
+  </xs:complexType>
   <xs:complexType name="JokerExprBinding">
     <xs:complexContent>
       <xs:extension base="P:Binding">

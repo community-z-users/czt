@@ -57,7 +57,7 @@ abstract public class Checker<R>
    */
   public R visitTerm(Term term)
   {
-    String position = position((TermA) term);
+    String position = position(term);
     logger().warning(this.getClass().getName() +
                      " being asked to visit " +
                      term.getClass().getName() +
@@ -65,29 +65,29 @@ abstract public class Checker<R>
     return null;
   }
 
-  //adds a type annotation created from a type to a TermA
-  protected void addTypeAnn(TermA termA, Type type)
+  //adds a type annotation created from a type to a Term
+  protected void addTypeAnn(Term term, Type type)
   {
     assert type != null;
-    TypeAnn typeAnn = (TypeAnn) termA.getAnn(TypeAnn.class);
+    TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
     if (typeAnn == null) {
       typeAnn = factory().createTypeAnn(type);
-      termA.getAnns().add(typeAnn);
+      term.getAnns().add(typeAnn);
     }
     else {
       typeAnn.setType(type);
     }
   }
 
-  //adds a signature annotation create from a signature to a TermA
-  protected void addSignatureAnn(TermA termA, Signature signature)
+  //adds a signature annotation create from a signature to a Term
+  protected void addSignatureAnn(Term term, Signature signature)
   {
     assert signature != null;
     SignatureAnn signatureAnn =
-      (SignatureAnn) termA.getAnn(SignatureAnn.class);
+      (SignatureAnn) term.getAnn(SignatureAnn.class);
     if (signatureAnn == null) {
       signatureAnn = factory().createSignatureAnn(signature);
-      termA.getAnns().add(signatureAnn);
+      term.getAnns().add(signatureAnn);
     }
     else {
       Signature oldSignature = (Signature) signatureAnn.getSignature();
@@ -101,27 +101,27 @@ abstract public class Checker<R>
     }
   }
 
-  protected TypeAnn getTypeAnn(TermA termA)
+  protected TypeAnn getTypeAnn(Term term)
   {
-    TypeAnn typeAnn = (TypeAnn) termA.getAnn(TypeAnn.class);
+    TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
     if (typeAnn == null) {
       typeAnn = factory().createTypeAnn();
-      addAnn(termA, typeAnn);
+      addAnn(term, typeAnn);
     }
     return typeAnn;
   }
 
-  protected Type2 getType2FromAnns(TermA termA)
+  protected Type2 getType2FromAnns(Term term)
   {
-    Type annType = getTypeFromAnns(termA);
+    Type annType = getTypeFromAnns(term);
     Type2 result = unwrapType(annType);
     return result;
   }
 
-  protected Type getTypeFromAnns(TermA termA)
+  protected Type getTypeFromAnns(Term term)
   {
     Type result = factory().createUnknownType();
-    TypeAnn typeAnn = (TypeAnn) termA.getAnn(TypeAnn.class);
+    TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
 
     if (typeAnn != null) {
       result = typeAnn.getType();
@@ -137,9 +137,9 @@ abstract public class Checker<R>
 
   //add an error as an annotation to the term. Return true if and only
   //if this error is not already added to this term
-  protected boolean addErrorAnn(TermA termA, ErrorAnn errorAnn)
+  protected boolean addErrorAnn(Term term, ErrorAnn errorAnn)
   {
-    for (Object ann : termA.getAnns()) {
+    for (Object ann : term.getAnns()) {
       if (ann instanceof ErrorAnn) {
         ErrorAnn existingAnn = (ErrorAnn) ann;
         if (errorAnn.getErrorMessage().equals(existingAnn.getErrorMessage())) {
@@ -147,46 +147,46 @@ abstract public class Checker<R>
         }
       }
     }
-    termA.getAnns().add(errorAnn);
+    term.getAnns().add(errorAnn);
     return true;
   }
 
   //add an error to the list of error messages, and as an annotation to the term
-  protected void error(TermA termA, ErrorAnn errorAnn)
+  protected void error(Term term, ErrorAnn errorAnn)
   {
-    boolean added = addErrorAnn(termA, errorAnn);
+    boolean added = addErrorAnn(term, errorAnn);
     if (added) error(errorAnn);
   }
 
-  protected void error(TermA termA, ErrorMessage error, Object [] params)
+  protected void error(Term term, ErrorMessage error, Object [] params)
   {
-    ErrorAnn errorAnn = errorAnn(termA, error, params);
-    error(termA, errorAnn);
+    ErrorAnn errorAnn = errorAnn(term, error, params);
+    error(term, errorAnn);
   }
 
-  protected void error(TermA termA, String error, Object [] params)
+  protected void error(Term term, String error, Object [] params)
   {
-    ErrorAnn errorAnn = errorAnn(termA, error, params);
-    error(termA, errorAnn);
+    ErrorAnn errorAnn = errorAnn(term, error, params);
+    error(term, errorAnn);
   }
 
-  protected ErrorAnn errorAnn(TermA termA, ErrorMessage error, Object [] params)
+  protected ErrorAnn errorAnn(Term term, ErrorMessage error, Object [] params)
   {
-    ErrorAnn errorAnn = exprChecker().errorAnn(termA, error.toString(), params);
+    ErrorAnn errorAnn = exprChecker().errorAnn(term, error.toString(), params);
     return errorAnn;
   }
 
-  protected ErrorAnn errorAnn(TermA termA, String error, Object [] params)
+  protected ErrorAnn errorAnn(Term term, String error, Object [] params)
   {
     ErrorAnn errorAnn = new ErrorAnn(error, params, sectInfo(),
-                                     sectName(), nearestLocAnn(termA),
-                                     termA, markup());
+                                     sectName(), nearestLocAnn(term),
+                                     term, markup());
     return errorAnn;
   }
 
-  protected void removeError(TermA termA)
+  protected void removeError(Term term)
   {
-    List anns = termA.getAnns();
+    List anns = term.getAnns();
     for (Iterator iter = anns.iterator(); iter.hasNext(); ) {
       Object ann = iter.next();
       if (ann instanceof ErrorAnn) {
@@ -226,12 +226,12 @@ abstract public class Checker<R>
     PrintUtils.print(term, writer, sectInfo, sectName, markup());
   }
 
-  //get the position of a TermA from its annotations
-  protected String position(TermA termA)
+  //get the position of a Term from its annotations
+  protected String position(Term term)
   {
     String result = "Unknown location: ";
 
-    LocAnn locAnn = nearestLocAnn(termA);
+    LocAnn locAnn = nearestLocAnn(term);
     if (locAnn != null) {
       result = "\"" + locAnn.getLoc() + "\", ";
       result += "line " + locAnn.getLine() + ": ";
@@ -244,15 +244,15 @@ abstract public class Checker<R>
   }
 
   //find the closest LocAnn
-  protected LocAnn nearestLocAnn(TermA termA)
+  protected LocAnn nearestLocAnn(Term term)
   {
-    LocAnn result = (LocAnn) termA.getAnn(LocAnn.class);
+    LocAnn result = (LocAnn) term.getAnn(LocAnn.class);
 
     if (result == null) {
-      for (int i = 0; i < termA.getChildren().length; i++) {
-        Object next = termA.getChildren()[i];
-        if (next instanceof TermA) {
-          LocAnn nextLocAnn = nearestLocAnn((TermA) next);
+      for (int i = 0; i < term.getChildren().length; i++) {
+        Object next = term.getChildren()[i];
+        if (next instanceof Term) {
+          LocAnn nextLocAnn = nearestLocAnn((Term) next);
           return nextLocAnn;
         }
       }
@@ -342,9 +342,9 @@ abstract public class Checker<R>
 
   //set the markup from the LocAnn of a term, using LATEX if the
   //markup cannot be determined from the location
-  protected void setMarkup(TermA termA)
+  protected void setMarkup(Term term)
   {
-    LocAnn locAnn = (LocAnn) termA.getAnn(LocAnn.class);
+    LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
     if (locAnn != null) {
       String fileName = locAnn.getLoc();
       Markup markup = ParseUtils.getMarkup(fileName);
@@ -439,9 +439,9 @@ abstract public class Checker<R>
     //post-check any previously unresolved expressions
     List<ErrorAnn> paraErrors = factory().list();
     for (Object next : paraErrors()) {
-      if (next instanceof TermA) {
-        TermA termA = (TermA) next;
-        ErrorAnn errorAnn = termA.accept(postChecker());
+      if (next instanceof Term) {
+        Term term = (Term) next;
+        ErrorAnn errorAnn = term.accept(postChecker());
         if (errorAnn != null) {
           paraErrors.add(errorAnn);
         }
@@ -457,7 +457,7 @@ abstract public class Checker<R>
 
   protected boolean checkPair(NameTypePair first,
                               NameTypePair second,
-                              List<TermA> termList,
+                              List<Term> termList,
                               String errorMessage)
   {
     boolean result = true;
@@ -498,7 +498,7 @@ abstract public class Checker<R>
   {
     for (NameTypePair pairA : pairsA) {
       if (namesEqual(pairA.getZDeclName(), pair.getZDeclName())) {
-        checkPair(pairA, pair, factory().<TermA>list(),
+        checkPair(pairA, pair, factory().<Term>list(),
                   ErrorMessage.TYPE_MISMATCH_IN_SIGNATURE.toString());
         return;
       }
@@ -509,16 +509,16 @@ abstract public class Checker<R>
   //precondition: pairsA is sorted
   protected void insertSort(List<NameTypePair> pairsA,
                             List<NameTypePair> pairsB,
-                            TermA termA)
+                            Term term)
   {
-    insertSort(pairsA, pairsA, factory().list(termA),
+    insertSort(pairsA, pairsA, factory().list(term),
                ErrorMessage.TYPE_MISMATCH_IN_SIGNATURE.toString());
   }
 
   //precondition: pairsA is sorted
   protected void insertSort(List<NameTypePair> pairsA,
                                List<NameTypePair> pairsB,
-                               List<TermA> termList,
+                               List<Term> termList,
                                String errorMessage)
   {
     for (NameTypePair pair : pairsB) {
@@ -529,7 +529,7 @@ abstract public class Checker<R>
   //precondition: pairs is sorted
   protected void insertSort(List<NameTypePair> pairs,
                             NameTypePair pair,
-                            List<TermA> termList,
+                            List<Term> termList,
                             String errorMessage)
   {
     int i = 0;
@@ -547,21 +547,21 @@ abstract public class Checker<R>
   }
 
   protected void checkForDuplicates(List<NameTypePair> pairs,
-                                    TermA termA)
+                                    Term term)
   {
-    checkForDuplicates(pairs, termA,
+    checkForDuplicates(pairs, term,
                        ErrorMessage.TYPE_MISMATCH_IN_SIGNATURE.toString());
   }
 
   //check for type mismatches in a list of decls. Add an ErrorAnn to
   //any name that is in error
   protected void checkForDuplicates(List<NameTypePair> pairs,
-                                    TermA termA,
+                                    Term term,
                                     String errorMessage)
   {
-    List<TermA> termList = factory().list();
-    if (termA != null) {
-      termList.add(termA);
+    List<Term> termList = factory().list();
+    if (term != null) {
+      termList.add(term);
     }
     checkForDuplicates(pairs, termList, errorMessage);
   }
@@ -569,7 +569,7 @@ abstract public class Checker<R>
   //check for type mismatches in a list of decls. Add an ErrorAnn to
   //any name that is in error
   protected void checkForDuplicates(List<NameTypePair> pairs,
-                                    List<TermA> termList,
+                                    List<Term> termList,
                                     String errorMessage)
   {
     for (int i = 0; i < pairs.size(); i++) {
@@ -653,7 +653,7 @@ abstract public class Checker<R>
   }
 
   protected Signature createCompSig(Signature lSig, Signature rSig,
-                                    TermA termA, String errorMessage)
+                                    Term term, String errorMessage)
   {
     //b3 and b4 correspond to the variable names "\Beta_3" and
     //"\Beta_4" in the standard
@@ -675,8 +675,8 @@ abstract public class Checker<R>
         Type2 rType = unwrapType(rPair.getType());
         UResult unified = unify(fType, rType);
         if (unified == FAIL) {
-          Object [] params = {termA, sName, fType, rName, rType};
-          error(termA, errorMessage, params);
+          Object [] params = {term, sName, fType, rName, rType};
+          error(term, errorMessage, params);
         }
         removeObject(b3Pairs, foundPair);
         removeObject(b4Pairs, rPair);
@@ -688,7 +688,7 @@ abstract public class Checker<R>
   }
 
   protected Signature createPipeSig(Signature lSig, Signature rSig,
-                                    TermA termA, String errorMessage)
+                                    Term term, String errorMessage)
   {
     //b3 and b4 correspond to the variable names "\Beta_3" and
     //"\Beta_4" in the standard
@@ -709,8 +709,8 @@ abstract public class Checker<R>
           Type2 rType = unwrapType(rPair.getType());
           UResult unified = unify(fType, rType);
           if (unified == FAIL) {
-            Object [] params = {termA, sName, fType, rName, rType};
-            error(termA, errorMessage, params);
+            Object [] params = {term, sName, fType, rName, rType};
+            error(term, errorMessage, params);
           }
           removeObject(b3Pairs, foundPair);
           removeObject(b4Pairs, rPair);
@@ -724,7 +724,7 @@ abstract public class Checker<R>
   }
 
   protected Signature createHideSig(Signature signature,
-                                    List<RefName> refNames, TermA termA)
+                                    List<RefName> refNames, Term term)
   {
     //create a new name/type pair list
     List<NameTypePair> pairs = signature.getNameTypePair();
@@ -738,8 +738,8 @@ abstract public class Checker<R>
 
       //if this is name is not in the schema, raise an error
       if (rPair == null) {
-        Object [] params = {termA, zDeclName};
-        error(termA, ErrorMessage.NON_EXISTENT_NAME_IN_HIDEEXPR, params);
+        Object [] params = {term, zDeclName};
+        error(term, ErrorMessage.NON_EXISTENT_NAME_IN_HIDEEXPR, params);
       }
       //if it is in the schema, remove it
       else {
@@ -757,7 +757,7 @@ abstract public class Checker<R>
 
   //check for duplicate names in a list of renames
   protected void checkForDuplicateRenames(List<NewOldPair> renamePairs,
-                                          TermA termA, String errorMessage)
+                                          Term term, String errorMessage)
   {
     //first check for duplicate renames
     List<ZRefName> oldNames = factory().list();
@@ -765,8 +765,8 @@ abstract public class Checker<R>
       ZRefName oldName = pair.getZRefName();
       //if the old name is duplicated, raise an error
       if (oldNames.contains(oldName)) {
-        Object [] params = {termA, oldName};
-        error(termA, errorMessage, params);
+        Object [] params = {term, oldName};
+        error(term, errorMessage, params);
       }
       oldNames.add(oldName);
     }
@@ -840,9 +840,9 @@ abstract public class Checker<R>
 
   protected Signature createRenameSig(Signature signature,
                                       List<NewOldPair> renamePairs,
-                                      TermA termA, String errorMessage)
+                                      Term term, String errorMessage)
   {
-    checkForDuplicateRenames(renamePairs, termA, errorMessage);
+    checkForDuplicateRenames(renamePairs, term, errorMessage);
     Signature result = rename(signature, renamePairs);
     return result;
   }
@@ -1293,13 +1293,9 @@ abstract public class Checker<R>
 
   protected void removeTypeAnns(Term term)
   {
-    //remove the type annotation
-    if (term instanceof TermA) {
-      TermA termA = (TermA) term;
-      Object ann = termA.getAnn(TypeAnn.class);
-      if (ann != null) {
-        removeAnn(termA, ann);
-      }
+    Object ann = term.getAnn(TypeAnn.class);
+    if (ann != null) {
+      removeAnn(term, ann);
     }
 
     //do the same for the children
@@ -1314,35 +1310,27 @@ abstract public class Checker<R>
 
   protected void removeErrorAnns(Term term)
   {
-    //remove the type annotation
-    if (term instanceof TermA) {
-      TermA termA = (TermA) term;
-      Object ann = termA.getAnn(ErrorAnn.class);
-      while (ann != null) {
-        removeAnn(termA, ann);
-        ann = termA.getAnn(ErrorAnn.class);
-      }
+    Object ann = term.getAnn(ErrorAnn.class);
+    while (ann != null) {
+      removeAnn(term, ann);
+      ann = term.getAnn(ErrorAnn.class);
     }
   }
 
   protected void removeErrorAndTypeAnns(Term term)
   {
-    //remove the type annotation
-    if (term instanceof TermA) {
-      TermA termA = (TermA) term;
-      Object ann = termA.getAnn(TypeAnn.class);
-      if (ann != null) {
-        removeAnn(termA, ann);
-      }
-      ann = termA.getAnn(SignatureAnn.class);
-      if (ann != null) {
-        removeAnn(termA, ann);
-      }
-      ann = termA.getAnn(ErrorAnn.class);
-      while (ann != null) {
-        removeAnn(termA, ann);
-        ann = termA.getAnn(ErrorAnn.class);
-      }
+    Object ann = term.getAnn(TypeAnn.class);
+    if (ann != null) {
+      removeAnn(term, ann);
+    }
+    ann = term.getAnn(SignatureAnn.class);
+    if (ann != null) {
+      removeAnn(term, ann);
+    }
+    ann = term.getAnn(ErrorAnn.class);
+    while (ann != null) {
+      removeAnn(term, ann);
+      ann = term.getAnn(ErrorAnn.class);
     }
 
     //do the same for the children

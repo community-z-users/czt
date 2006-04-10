@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2005 Petra Malik
+  Copyright (C) 2004, 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -26,9 +26,7 @@ import net.sourceforge.czt.java_cup.runtime.*;
 import junit.framework.*;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.ast.TermA;
 import net.sourceforge.czt.base.visitor.TermVisitor;
-import net.sourceforge.czt.base.visitor.TermAVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.parser.Examples;
 import net.sourceforge.czt.session.SectionManager;
@@ -365,18 +363,12 @@ public abstract class AbstractParserTest
 }
 
 class DeleteLocVisitor
-  implements TermVisitor, TermAVisitor
+  implements TermVisitor
 {
   public Object visitTerm(Term term)
   {
     VisitorUtils.visitTerm(this, term);
-    return null;
-  }
-
-  public Object visitTermA(TermA termA)
-  {
-    VisitorUtils.visitTerm(this, termA);
-    LocAnn locAnn = (LocAnn) termA.getAnn(LocAnn.class);
+    LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
     if (locAnn != null) locAnn.setLoc(null);
     return null;
   }

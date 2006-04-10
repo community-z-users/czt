@@ -48,9 +48,9 @@ public class ErrorAnn
 
   public ErrorAnn(String errorMessage, Object [] params,
                   SectionInfo sectInfo, String sectName,
-                  LocAnn locAnn, TermA termA, Markup markup)
+                  LocAnn locAnn, Term term, Markup markup)
   {
-    super(errorMessage, params, sectInfo, sectName, locAnn, termA, markup);
+    super(errorMessage, params, sectInfo, sectName, locAnn, term, markup);
   }
 
   protected CarrierSet getCarrierSet()

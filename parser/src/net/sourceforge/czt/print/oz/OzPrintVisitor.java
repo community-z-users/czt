@@ -497,15 +497,15 @@ public class OzPrintVisitor
     throw new UnsupportedOperationException("Unexpected term ClassSig.");
   }
 
-  protected void printLPAREN(TermA termA)
+  protected void printLPAREN(Term term)
   {
-    final boolean braces = termA.getAnn(ParenAnn.class) != null;
+    final boolean braces = term.getAnn(ParenAnn.class) != null;
     if (braces) print(TokenName.LPAREN);
   }
 
-  protected void printRPAREN(TermA termA)
+  protected void printRPAREN(Term term)
   {
-    final boolean braces = termA.getAnn(ParenAnn.class) != null;
+    final boolean braces = term.getAnn(ParenAnn.class) != null;
     if (braces) print(TokenName.RPAREN);
   }
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2003, 2004, 2005 Petra Malik
+  Copyright (C) 2003, 2004, 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -391,7 +391,7 @@ public class SchemaProject
    *                  (it may contain the package name).
    * @return the GnastClass with that name, or <code>null</code>
    *         if a GnastClass with that name could not be found.
-   * @czt.todo What about Term and TermA?
+   * @czt.todo What about Term?
    * @czt.todo Should it really be possible to support names
    *           containing package info?
    */
@@ -780,7 +780,7 @@ public class SchemaProject
         if (c != null) {
           erg = c.getAllProperties();
         }
-        else if (ext.equals("Term") || ext.equals("TermA")) {
+        else if (ext.equals("Term")) {
           erg = new ArrayList<Object>();
         }
       }
@@ -878,7 +878,7 @@ public class SchemaProject
      *           imported project.
      * @czt.todo Currently, this method changes the member
      *           variable extends_ (when it finds a type whos
-     *           name is TermA).  This is very dangerous and
+     *           name is Term).  This is very dangerous and
      *           unintuitive.  Think of a better way to handle
      *           this.
      */
@@ -896,8 +896,8 @@ public class SchemaProject
 
       List<Object> erg = new Vector<Object>();
 
-      if (typeName.equals("TermA")) {
-        extends_ = "TermA";
+      if (typeName.equals("Term")) {
+        extends_ = "Term";
       }
       else if (! typeName.equals(extends_)) {
         Node startNode = getComplexTypeNode(typeName);

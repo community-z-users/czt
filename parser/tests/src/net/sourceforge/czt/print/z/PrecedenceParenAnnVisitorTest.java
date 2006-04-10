@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2005 Petra Malik
+  Copyright (C) 2004, 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -88,7 +88,7 @@ public class PrecedenceParenAnnVisitorTest
         new PrecedenceParenAnnVisitor();
       setOperatorTable(visitor);
       tree.accept(visitor);
-      TermA secondArg = (TermA) tree.getChildren()[1];
+      Term secondArg = (Term) tree.getChildren()[1];
       Assert.assertTrue(secondArg.getAnn(ParenAnn.class) != null);
     }
     catch (CommandException exception) {

@@ -1385,7 +1385,7 @@
   <!-- Channel Set Expression complexTypes -->
   <xs:complexType name="ChannelSet">
     <xs:complexContent>
-      <xs:extension base="Z:TermA">
+      <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element ref="Z:Expr"/>
         </xs:sequence>
@@ -1396,7 +1396,7 @@
   <!-- Process Definition complexType -->
   <xs:complexType name="CircusProcess">
     <xs:complexContent>
-      <xs:extension base="Z:TermA"/>
+      <xs:extension base="Z:Term"/>
     </xs:complexContent>
   </xs:complexType>  
   <xs:complexType name="Process1">
@@ -1711,7 +1711,7 @@
 <!-- Name Set Expression complexTypes -->
   <xs:complexType name="NameSet">
     <xs:complexContent>
-      <xs:extension base="Z:TermA">
+      <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element ref="Z:Expr"/>
         </xs:sequence>
@@ -1723,7 +1723,7 @@
   
   <xs:complexType name="CircusAction">
     <xs:complexContent>
-      <xs:extension base="Z:TermA"/>
+      <xs:extension base="Z:Term"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="Action1">
@@ -1965,7 +1965,7 @@
   <!-- CSP Communication complexType -->
   <xs:complexType name="Communication">
     <xs:complexContent>
-      <xs:extension base="Z:TermA">
+      <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element name="ChanName" type="Z:RefName"/>
           <!-- <xs:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"> -->
@@ -2008,7 +2008,7 @@
   <!-- CSP Communication parameters complexType -->
   <xs:complexType name="Field">
     <xs:complexContent>
-      <xs:extension base="Z:TermA"/>
+      <xs:extension base="Z:Term"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="InputField">
@@ -2218,33 +2218,36 @@
     </xs:complexContent>
   </xs:complexType>    
   
-  <!-- mixfix set to false (i.e. no Anns) to follow the structure of Z:Signature -->
-  <xs:complexType name="ProcessSignature" mixed="false">
-    <xs:sequence>
-      <xs:element name="ProcessName" type="Z:DeclName"/>
-      <xs:element ref="Z:DeclName" minOccurs="0" maxOccurs="unbounded">
+  <xs:complexType name="ProcessSignature">
+    <xs:complexContent>
+      <xs:extension base="Z:Term">
+        <xs:sequence>
+          <xs:element name="ProcessName" type="Z:DeclName"/>
+          <xs:element ref="Z:DeclName" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property name="GenFormals"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
-      <xs:element ref="Z:Signature" minOccurs="0">
-        <xs:annotation>
-          <xs:appinfo>
-            <jaxb:property name="ParamsOrIndexes"/>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>      
-      <xs:element ref="Z:ZRefNameList">
-        <xs:annotation>
-          <xs:appinfo>
-            <jaxb:property name="UsedChannels"/>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-    </xs:sequence>
-    <xs:attribute name="Kind" type="CIRCUS:ProcessKind" use="optional" default="Parameterised"/>
+          <xs:element ref="Z:Signature" minOccurs="0">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="ParamsOrIndexes"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>      
+          <xs:element ref="Z:ZRefNameList">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="UsedChannels"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="Kind" type="CIRCUS:ProcessKind" use="optional" default="Parameterised"/>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>   
 
   <!-- A process might have neither formal parameters nor indexes, hence minOccurs="0" for Signature below. 
@@ -2290,32 +2293,36 @@
       </xs:extension>
     </xs:complexContent>    
   </xs:complexType>
-  <xs:complexType name="ActionSignature" mixed="false">
-    <xs:sequence>
-      <xs:element name="ActionName" type="Z:DeclName"/>
-      <!-- Action formal parameters are treated as the first local variables -->
-      <xs:element ref="Z:Signature">
-        <xs:annotation>
-          <xs:appinfo>
-            <jaxb:property name="FormalParams"/>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-      <xs:element ref="Z:Signature">
-        <xs:annotation>
-          <xs:appinfo>
-            <jaxb:property name="LocalVars"/>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-      <xs:element ref="Z:ZRefNameList">
-        <xs:annotation>
-          <xs:appinfo>
-            <jaxb:property name="UsedChannels"/>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-    </xs:sequence>
+  <xs:complexType name="ActionSignature">
+    <xs:complexContent>
+      <xs:extension base="Z:Term">
+        <xs:sequence>
+          <xs:element name="ActionName" type="Z:DeclName"/>
+          <!-- Action formal parameters are treated as the first local variables -->
+          <xs:element ref="Z:Signature">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="FormalParams"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="Z:Signature">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="LocalVars"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="Z:ZRefNameList">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="UsedChannels"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
         
 </xs:schema>

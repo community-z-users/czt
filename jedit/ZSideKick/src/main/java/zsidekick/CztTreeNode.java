@@ -58,16 +58,13 @@ public class CztTreeNode
   static private Position getStart(Term term, Buffer buffer)
   {
     int start = 0;
-    if (term instanceof TermA) {
-      TermA termA = (TermA) term;
-      LocAnn locAnn = (LocAnn) termA.getAnn(LocAnn.class);
-      if (locAnn != null) {
-        try {
-          start = buffer.getLineStartOffset(locAnn.getLine() - 1)
-            + locAnn.getCol();
-        }
-        catch(IndexOutOfBoundsException e) {
-        }
+    LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
+    if (locAnn != null) {
+      try {
+        start = buffer.getLineStartOffset(locAnn.getLine() - 1)
+          + locAnn.getCol();
+      }
+      catch(IndexOutOfBoundsException e) {
       }
     }
     return buffer.createPosition(start);

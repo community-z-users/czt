@@ -22,6 +22,8 @@ package net.sourceforge.czt.rules.unification;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.ast.ListTerm;
+import net.sourceforge.czt.base.impl.ListTermImpl;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 
 class LispWrapper
@@ -30,6 +32,11 @@ class LispWrapper
   /** list_ is of type Term! */
   private List list_;
   private String name_;
+
+  /**
+   * A list of annotations.
+   */
+  private ListTerm<Object> anns_ = new ListTermImpl<Object>();
 
   /**
    * Throws ClassCastException if list is not an instance of Term.
@@ -66,5 +73,20 @@ class LispWrapper
   public Term create(Object[] args)
   {
     throw new UnsupportedOperationException();
+  }
+
+  public ListTerm<Object> getAnns()
+  {
+    return anns_;
+  }
+
+  public Object getAnn(Class aClass)
+  {
+    for (Object annotation : anns_) {
+      if (aClass.isInstance(annotation)) {
+        return annotation;
+      }
+    }
+    return null;
   }
 }

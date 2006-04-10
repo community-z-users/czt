@@ -101,32 +101,32 @@ abstract public class Checker<R>
     typeChecker_.primary_.clear();
   }
 
-  protected void error(TermA termA, ErrorMessage error, Object [] params)
+  protected void error(Term term, ErrorMessage error, Object [] params)
   {
-    ErrorAnn errorAnn = this.errorAnn(termA, error, params);
-    error(termA, errorAnn);
+    ErrorAnn errorAnn = this.errorAnn(term, error, params);
+    error(term, errorAnn);
   }
 
-  protected void error(TermA termA,
+  protected void error(Term term,
                        net.sourceforge.czt.typecheck.z.ErrorMessage error,
                        Object [] params)
   {
-    ErrorAnn errorAnn = this.errorAnn(termA, error.toString(), params);
-    error(termA, errorAnn);
+    ErrorAnn errorAnn = this.errorAnn(term, error.toString(), params);
+    error(term, errorAnn);
   }
 
-  protected ErrorAnn errorAnn(TermA termA, ErrorMessage error, Object [] params)
+  protected ErrorAnn errorAnn(Term term, ErrorMessage error, Object [] params)
   {
     ErrorAnn errorAnn = new ErrorAnn(error.toString(), params, sectInfo(),
-                                     sectName(), nearestLocAnn(termA),
+                                     sectName(), nearestLocAnn(term),
                                      markup());
     return errorAnn;
   }
 
-  protected ErrorAnn errorAnn(TermA termA, String error, Object [] params)
+  protected ErrorAnn errorAnn(Term term, String error, Object [] params)
   {
     ErrorAnn errorAnn = new ErrorAnn(error, params, sectInfo(),
-                                     sectName(), nearestLocAnn(termA),
+                                     sectName(), nearestLocAnn(term),
                                      markup());
     return errorAnn;
   }
@@ -338,7 +338,7 @@ abstract public class Checker<R>
           factory().list(sourceSignature.getNameTypePair());
         insert(conjoinedPairs, existingSignature.getNameTypePair());
         //conjoinedPairs.addAll(existingSignature.getNameTypePair());
-        List<TermA> params = factory().list();
+        List<Term> params = factory().list();
         params.add(expr);
         params.add(sourceName);
         checkForDuplicates(conjoinedPairs, params,
@@ -402,19 +402,19 @@ abstract public class Checker<R>
   }
 
   //merge two class signatures and place result in newSig
-  protected void merge(ClassSig newSig, ClassSig oldSig, TermA termA)
+  protected void merge(ClassSig newSig, ClassSig oldSig, Term term)
   {
     //merge the attributes
     List<NameTypePair> attrDecls = newSig.getAttribute();
     insert(attrDecls, oldSig.getAttribute());
     //attrDecls.addAll(oldSig.getAttribute());
-    checkForDuplicates(attrDecls, termA, ErrorMessage.INCOMPATIBLE_OVERRIDING);
+    checkForDuplicates(attrDecls, term, ErrorMessage.INCOMPATIBLE_OVERRIDING);
 
     //merge the state signature
     List<NameTypePair> stateDecls = newSig.getState().getNameTypePair();
     //stateDecls.addAll(oldSig.getState().getNameTypePair());
     insert(stateDecls, oldSig.getState().getNameTypePair());
-    checkForDuplicates(stateDecls, termA, ErrorMessage.INCOMPATIBLE_OVERRIDING);
+    checkForDuplicates(stateDecls, term, ErrorMessage.INCOMPATIBLE_OVERRIDING);
 
     //merge the operations
     List<NameSignaturePair> newPairs = newSig.getOperation();
@@ -427,7 +427,7 @@ abstract public class Checker<R>
       else {
         UResult unified = unify(oldPair.getSignature(), newPair.getSignature());
         if (unified == FAIL) {
-          Object [] params = {zDeclName, termA};
+          Object [] params = {zDeclName, term};
           error(zDeclName, ErrorMessage.INCOMPATIBLE_OVERRIDING, params);
         }
       }
@@ -462,10 +462,10 @@ abstract public class Checker<R>
   }
 
   protected void checkForDuplicates(List<NameTypePair> pairs,
-                                    TermA termA,
+                                    Term term,
                                     ErrorMessage error)
   {
-    checkForDuplicates(pairs, termA, error.toString());
+    checkForDuplicates(pairs, term, error.toString());
   }
 
   //check for duplicate names a class paragraph
@@ -486,7 +486,7 @@ abstract public class Checker<R>
   //check for duplicates in a class paragraph, and that names in the
   //visibility list are names of features in the class
   protected void checkClassSig(ClassSig cSig,
-                               TermA termA,
+                               Term term,
                                VisibilityList visibilityList,
                                ErrorMessage errorMessage)
   {
@@ -514,7 +514,7 @@ abstract public class Checker<R>
         ZDeclName second = declNames.get(j);
         if (namesEqual(first, second) &&
             !idsEqual(first.getId(), second.getId())) {
-          Object [] params = {first, termA};
+          Object [] params = {first, term};
           error(first, errorMessage, params);
         }
       }
@@ -608,7 +608,7 @@ abstract public class Checker<R>
   }
 
   protected Signature createPloSig(Signature lSig, Signature rSig,
-                                   TermA termA, String errorMessage)
+                                   Term term, String errorMessage)
   {
     //b3 and b4 correspond to the variable names "\Beta_3" and
     //"\Beta_4" in the standard for piping expr
@@ -630,8 +630,8 @@ abstract public class Checker<R>
           Type2 rType = unwrapType(rPair.getType());
           UResult unified = unify(fType, rType);
           if (unified == FAIL) {
-            Object [] params = {termA, sName, fType, rName, rType};
-            error(termA, errorMessage, params);
+            Object [] params = {term, sName, fType, rName, rType};
+            error(term, errorMessage, params);
           }
           b4Pairs.remove(rPair);
         }

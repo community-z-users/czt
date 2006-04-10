@@ -24,7 +24,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.TermAVisitor;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.parser.util.Decorword;
@@ -78,7 +77,6 @@ import net.sourceforge.czt.z.visitor.*;
  */
 public class AstToPrintTreeVisitor
   implements TermVisitor,
-             TermAVisitor,
              AndPredVisitor,
              ApplExprVisitor,
              AxParaVisitor,
@@ -164,14 +162,8 @@ public class AstToPrintTreeVisitor
   public Object visitTerm(Term term)
   {
     Term result = (Term) VisitorUtils.visitTerm(this, term, true);
-    return result;
-  }
-
-  public Object visitTermA(TermA termA)
-  {
-    TermA result = (TermA) VisitorUtils.visitTerm(this, termA, true);
-    if (result != termA) {
-      result.getAnns().addAll(termA.getAnns());
+    if (result != term) {
+      result.getAnns().addAll(term.getAnns());
     }
     return result;
   }

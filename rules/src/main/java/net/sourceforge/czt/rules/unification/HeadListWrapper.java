@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Mark Utting
+  Copyright (C) 2005, 2006 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -22,6 +22,8 @@ package net.sourceforge.czt.rules.unification;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.ast.ListTerm;
+import net.sourceforge.czt.base.impl.ListTermImpl;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.zpatt.ast.*;
@@ -37,6 +39,11 @@ class HeadListWrapper
 {
   private HeadList headList_;
   private String name_;
+
+  /**
+   * A list of annotations.
+   */
+  private ListTerm<Object> anns_ = new ListTermImpl<Object>();
 
   public HeadListWrapper(HeadList headList, String name)
   {
@@ -79,5 +86,20 @@ class HeadListWrapper
   public Term create(Object[] args)
   {
     throw new UnsupportedOperationException();
+  }
+
+  public ListTerm<Object> getAnns()
+  {
+    return anns_;
+  }
+
+  public Object getAnn(Class aClass)
+  {
+    for (Object annotation : anns_) {
+      if (aClass.isInstance(annotation)) {
+        return annotation;
+      }
+    }
+    return null;
   }
 }

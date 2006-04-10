@@ -1,20 +1,20 @@
 /*
-Copyright (C) 2004 Petra Malik
-This file is part of the czt project.
+  Copyright (C) 2004, 2006 Petra Malik
+  This file is part of the czt project.
 
-The czt project contains free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+  The czt project contains free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
 
-The czt project is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+  The czt project is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with czt; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  You should have received a copy of the GNU General Public License
+  along with czt; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 package net.sourceforge.czt.print.z;
@@ -23,7 +23,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.ast.TermA;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.print.ast.*;
@@ -109,8 +108,8 @@ public class PrecedenceParenAnnVisitor
             addParenAnnIfNecessary(elem, prec);
           }
         }
-        else if (child instanceof TermA) {
-          addParenAnnIfNecessary((TermA) child, prec);
+        else if (child instanceof Term) {
+          addParenAnnIfNecessary((Term) child, prec);
         }
       }
     }
@@ -193,8 +192,8 @@ public class PrecedenceParenAnnVisitor
    */
   protected void addParenAnnIfNecessary(Object object, Precedence parentPrec)
   {
-    if (object instanceof TermA) {
-      addParenAnnIfNecessary((TermA) object, parentPrec);
+    if (object instanceof Term) {
+      addParenAnnIfNecessary((Term) object, parentPrec);
     }
   }
 
@@ -203,20 +202,20 @@ public class PrecedenceParenAnnVisitor
    * if the precedence of the parent is greater than
    * the precedence of the given term.
    *
-   * @param termA the term to which annotations are added, if necessary.
+   * @param term the term to which annotations are added, if necessary.
    * @param parentPrec the precedence of the parent.
    */
-  protected void addParenAnnIfNecessary(TermA termA, Precedence parentPrec)
+  protected void addParenAnnIfNecessary(Term term, Precedence parentPrec)
   {
-    Precedence prec = precedence(termA);
+    Precedence prec = precedence(term);
     if (prec != null && parentPrec.compareTo(prec) > 0) {
-      addParenAnn(termA);
+      addParenAnn(term);
     }
   }
 
-  protected void addParenAnn(TermA termA)
+  protected void addParenAnn(Term term)
   {
-    termA.getAnns().add(factory_.createParenAnn());
+    term.getAnns().add(factory_.createParenAnn());
   }
 
   public Precedence precedence(Term t)

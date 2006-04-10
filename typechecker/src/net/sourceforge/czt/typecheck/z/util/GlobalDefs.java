@@ -159,26 +159,26 @@ public class GlobalDefs
   }
 
   /**
-   * Adds an annotation to a <code>TermA</code>
-   * @param termA the <code>TermA</code> to which to add the annotation.
+   * Adds an annotation to a <code>Term</code>
+   * @param term the <code>Term</code> to which to add the annotation.
    * @param ann the annotation to add.
    */
-  public static void addAnn(TermA termA, Object ann)
+  public static void addAnn(Term term, Object ann)
   {
     if (ann != null) {
-      termA.getAnns().add(ann);
+      term.getAnns().add(ann);
     }
   }
 
   /**
-   * Removes an annotation from a <code>TermA</code>
-   * @param termA the <code>TermA</code> from which to remove the annotation.
+   * Removes an annotation from a <code>Term</code>
+   * @param term the <code>Term</code> from which to remove the annotation.
    * @param ann the annotation to remove.
    */
-  public static void removeAnn(TermA termA, Object ann)
+  public static void removeAnn(Term term, Object ann)
   {
     if (ann != null) {
-      List anns = termA.getAnns();
+      List anns = term.getAnns();
       for (Iterator iter = anns.iterator(); iter.hasNext(); ) {
         Object next = iter.next();
         if (next == ann) {
@@ -190,14 +190,14 @@ public class GlobalDefs
 
   /**
    * Removes all annotations of a particular class from a
-   * <code>TermA</code>
-   * @param termA the <code>TermA</code> from which to remove the
+   * <code>Term</code>
+   * @param term the <code>Term</code> from which to remove the
    * annotations.
    * @param aClass the class of annotations to remove.
    */
-  public static void removeAnn(TermA termA, Class aClass)
+  public static void removeAnn(Term term, Class aClass)
   {
-    List anns = termA.getAnns();
+    List anns = term.getAnns();
     for (Iterator iter = anns.iterator(); iter.hasNext(); ) {
       Object ann = iter.next();
       if (aClass.isInstance(ann)) {
@@ -207,11 +207,11 @@ public class GlobalDefs
   }
 
   /**
-   * Copies annoatations from one <code>TermA</code> to another
-   * @param src the <code>TermA</code> from which to read the annotations.
-   * @param dest the <code>TermA</code> to which to add the annotations.
+   * Copies annoatations from one <code>Term</code> to another
+   * @param src the <code>Term</code> from which to read the annotations.
+   * @param dest the <code>Term</code> to which to add the annotations.
    */
-  public static void copyAnns(TermA src, TermA dest)
+  public static void copyAnns(Term src, Term dest)
   {
     dest.getAnns().addAll(src.getAnns());
   }

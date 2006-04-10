@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
      Copyright (C) 2003, 2004, 2005 Tim Miller
-     Copyright (C) 2004, 2005 Petra Malik
+     Copyright (C) 2004, 2005, 2006 Petra Malik
      This file is part of the CZT project.
 
      The CZT project contains free software;
@@ -300,9 +300,9 @@ action code
       return new LocInfoImpl(file_, line, column);
     }
 
-    private LocInfo getLocation(TermA termA)
+    private LocInfo getLocation(Term term)
     {
-      return parser.getLocation(termA);
+      return parser.getLocation(term);
     }
 
     /**
@@ -350,9 +350,9 @@ action code
     }
 
     /**
-     * Converts a TermA to a Pred.
+     * Converts a Term to a Pred.
      */
-    protected Pred pred(TermA t)
+    protected Pred pred(Term t)
       throws ParseException
     {
       Pred result = null;
@@ -379,9 +379,9 @@ action code
     }
 
     /**
-     * Converts an TermA to an Expr.
+     * Converts an Term to an Expr.
      */
-    protected Expr expr(TermA t)
+    protected Expr expr(Term t)
       throws ParseException
     {
       Expr result = null;
@@ -427,9 +427,9 @@ action code
 
 <add:oz>
     /**
-     * Converts an TermA to an OpExpr.
+     * Converts an Term to an OpExpr.
      */
-    protected OpExpr opExpr(TermA t)
+    protected OpExpr opExpr(Term t)
       throws ParseException
     {
       OpExpr result = null;
@@ -452,9 +452,9 @@ action code
 </add:oz>
 
     /**
-     * Converts a TermA to a RefName.
+     * Converts a Term to a RefName.
      */
-    protected RefName refname(TermA t)
+    protected RefName refname(Term t)
       throws ParseException
     {
       RefName result = null;
@@ -809,16 +809,16 @@ action code
       return sect;
     }
 
-    private void addLocAnn(TermA termA, int line, int column)
+    private void addLocAnn(Term term, int line, int column)
     {
       LocAnn locAnn =
         factory_.createLocAnn(file_, line + 1, column + 1);
-      LocAnn existingAnn = (LocAnn) termA.getAnn(LocAnn.class);
+      LocAnn existingAnn = (LocAnn) term.getAnn(LocAnn.class);
       if (existingAnn != null) {
         assert locAnn.equals(existingAnn);
         return;
       }
-      termA.getAnns().add(locAnn);
+      term.getAnns().add(locAnn);
     }
 
 <add:oz>
@@ -1252,9 +1252,9 @@ parser code
       return new LocInfoImpl(file_, token.left, token.right);
     }
 
-    protected LocInfo getLocation(TermA termA)
+    protected LocInfo getLocation(Term term)
     {
-      LocAnn locAnn = (LocAnn) termA.getAnn(LocAnn.class);
+      LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
       return getLocation(locAnn);
     }
 
@@ -1496,7 +1496,7 @@ non terminal Stroke stroke;
 non terminal And
     sep;   
 
-non terminal TermA
+non terminal Term
     term,
     septerm,
     func_appl,
@@ -1600,7 +1600,7 @@ non terminal Sequent
     provisoSequent,
     predSequent;
 
-non terminal TermA jokerRef;
+non terminal Term jokerRef;
 
 non terminal Expr baseType;
 
@@ -1762,10 +1762,10 @@ non terminal DeclList
 non terminal InitialState
     initialState;
 
-non terminal TermA
+non terminal Term
     innerPara;
 
-non terminal List /* TODO: use generics here! TermA */
+non terminal List /* TODO: use generics here! Term */
     innerParaList;
 
 non terminal DeltaList

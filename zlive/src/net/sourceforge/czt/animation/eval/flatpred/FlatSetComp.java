@@ -24,7 +24,6 @@ import java.math.*;
 
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.impl.TermAImpl;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;

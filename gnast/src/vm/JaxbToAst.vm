@@ -1,5 +1,5 @@
 #*
-Copyright 2003, 2005 Petra Malik
+Copyright 2003, 2005, 2006 Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -120,7 +120,7 @@ public class ${class.Name}#if($ImportProject)
 #end
 #end
     ${c.Name} erg = m${factory.Name}_.create${c.Name}(#varList(${c.AllProperties}));
-#if($c.isInstanceOf("TermA"))
+
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
@@ -131,7 +131,7 @@ public class ${class.Name}#if($ImportProject)
         annsList.add(o);
       }
     }
-#end
+
     getLogger().exiting("${class.Name}", "visit${c.Name}", erg);
     return erg;
   }

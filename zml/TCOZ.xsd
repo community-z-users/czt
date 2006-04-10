@@ -229,7 +229,7 @@
   </xs:complexType>
   <xs:complexType name="EventSet">
     <xs:complexContent>
-      <xs:extension base="Z:TermA">
+      <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element name="Event" type="Z:Expr" maxOccurs="unbounded"/>
         </xs:sequence>
@@ -308,7 +308,7 @@
   </xs:complexType>
   <xs:complexType name="Connection">
     <xs:complexContent>
-      <xs:extension base="Z:TermA">
+      <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element name="LeftProcess" type="Z:RefName" maxOccurs="unbounded"/>
           <xs:element name="RightProcess" type="Z:RefName" maxOccurs="unbounded"/>
@@ -319,7 +319,7 @@
   </xs:complexType>
   <xs:complexType name="Event">
     <xs:complexContent>
-      <xs:extension base="Z:TermA">
+      <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element name="ChannelName" type="Z:RefName"/>
           <xs:element ref="Z:Expr" minOccurs="0"/>

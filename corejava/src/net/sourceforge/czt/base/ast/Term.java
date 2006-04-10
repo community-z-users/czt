@@ -1,20 +1,20 @@
 /*
-Copyright 2003 Mark Utting
-This file is part of the czt project.
+  Copyright 2003, 2006 Mark Utting
+  This file is part of the czt project.
 
-The czt project contains free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+  The czt project contains free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
 
-The czt project is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+  The czt project is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with czt; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  You should have received a copy of the GNU General Public License
+  along with czt; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 package net.sourceforge.czt.base.ast;
@@ -27,6 +27,13 @@ import net.sourceforge.czt.util.Visitor;
  * <p>This is the base interface for all Z constructs (also called term)
  * and thus for the AST for Z.  It contains methods that each Z term
  * must provide.</p>
+ *
+ * <p>Annotations can be used by tools to provide, for instance, type
+ * information, location information, ect.  They can be used to attach
+ * any type of information to a Z term.</p>
+ *
+ * <p>Note that annotations are NOT considered as children of a term,
+ * that means they are not returned via the {@link #getChildren}-method.</p>
  *
  * @author Petra Malik
  * @see net.sourceforge.czt.base.ast
@@ -77,4 +84,22 @@ public interface Term
    * @see #getChildren
    */
   Term create(Object[] args);
+
+  /**
+   * <p>Returns a list of annotations.</p>
+   *
+   * <p>To add or remove elements, use the methods provided by
+   * the List interface (that's why there is no need for a setter
+   * method).</p>
+   *
+   * @return a list of annotations (should never be <code>null</code>).
+   */
+  ListTerm getAnns();
+
+  /**
+   * <p>Returns one of the <code>aClass</code> annotations of this
+   * term, or <code>null</code> if the term does not contain an
+   * annotation of this type.
+   */
+  Object getAnn(Class aClass);
 }

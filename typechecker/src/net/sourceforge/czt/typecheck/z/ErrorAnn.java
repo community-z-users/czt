@@ -56,7 +56,7 @@ public class ErrorAnn
   protected LocAnn locAnn_;
 
   /** The term that is in error. */
-  protected TermA termA_;
+  protected Term term_;
 
   /** The markup to be printed. */
   protected Markup markup_;
@@ -70,14 +70,14 @@ public class ErrorAnn
 
   public ErrorAnn(String errorMessage, Object [] params,
                   SectionInfo sectInfo, String sectName,
-                  LocAnn locAnn, TermA termA, Markup markup)
+                  LocAnn locAnn, Term term, Markup markup)
   {
     errorMessage_ = errorMessage;
     params_ = params;
     sectInfo_ = sectInfo;
     sectName_ = new String(sectName);
     locAnn_ = locAnn;
-    termA_ = termA;
+    term_ = term;
     markup_ = markup;
   }
 
@@ -115,14 +115,14 @@ public class ErrorAnn
     return null;
   }
 
-  public void setTerm(TermA termA)
+  public void setTerm(Term term)
   {
-    termA_ = termA;
+    term_ = term;
   }
 
-  public TermA getTerm()
+  public Term getTerm()
   {
-    return termA_;
+    return term_;
   }
 
   public void setMarkup(Markup markup)

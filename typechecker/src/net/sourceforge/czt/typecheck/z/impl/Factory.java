@@ -90,17 +90,13 @@ public class Factory
   //copy the LocAnn and TypeEnvAnn from term1 to term2
   public static void copyAnns(Term term1, Term term2)
   {
-    if (term1 instanceof TermA && term2 instanceof TermA) {
-      TermA termA1 = (TermA) term1;
-      TermA termA2 = (TermA) term2;
-      LocAnn locAnn = (LocAnn) termA1.getAnn(LocAnn.class);
-      if (locAnn != null) {
-        termA2.getAnns().add(locAnn);
-      }
-      UndeclaredAnn uAnn = (UndeclaredAnn) termA1.getAnn(UndeclaredAnn.class);
-      if (uAnn != null) {
-        termA2.getAnns().add(uAnn);
-      }
+    LocAnn locAnn = (LocAnn) term1.getAnn(LocAnn.class);
+    if (locAnn != null) {
+      term2.getAnns().add(locAnn);
+    }
+    UndeclaredAnn uAnn = (UndeclaredAnn) term1.getAnn(UndeclaredAnn.class);
+    if (uAnn != null) {
+      term2.getAnns().add(uAnn);
     }
   }
 
@@ -386,7 +382,7 @@ public class Factory
     return new Integer(id_++);
   }
 
-  public void copyLocAnn(TermA src, TermA dest)
+  public void copyLocAnn(Term src, Term dest)
   {
     Object locAnn = src.getAnn(LocAnn.class);
     if (locAnn != null) {

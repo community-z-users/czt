@@ -236,7 +236,7 @@
   </xs:complexType>
   <xs:complexType name="VisibilityList">
     <xs:complexContent>
-      <xs:extension base="Z:TermA">
+      <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element ref="Z:ZRefName" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
@@ -245,7 +245,7 @@
   </xs:complexType>
   <xs:complexType name="State">
     <xs:complexContent>
-      <xs:extension base="Z:TermA">
+      <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element ref="OZ:PrimaryDecl" minOccurs="0"/>
           <xs:element ref="OZ:SecondaryDecl" minOccurs="0"/>
@@ -257,7 +257,7 @@
   </xs:complexType>
   <xs:complexType name="PrimaryDecl">
     <xs:complexContent>
-      <xs:extension base="Z:TermA">
+      <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element ref="Z:DeclList"/>
         </xs:sequence>
@@ -266,7 +266,7 @@
   </xs:complexType>
   <xs:complexType name="SecondaryDecl">
     <xs:complexContent>
-      <xs:extension base="Z:TermA">
+      <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element ref="Z:DeclList"/>
         </xs:sequence>
@@ -275,7 +275,7 @@
   </xs:complexType>
   <xs:complexType name="InitialState">
     <xs:complexContent>
-      <xs:extension base="Z:TermA">
+      <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element ref="Z:Pred" minOccurs="0"/>
         </xs:sequence>
@@ -285,7 +285,7 @@
   </xs:complexType>
   <xs:complexType name="Operation">
     <xs:complexContent>
-      <xs:extension base="Z:TermA">
+      <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element name="OpName" type="Z:DeclName"/>
           <xs:element ref="OZ:OpExpr"/>
@@ -296,7 +296,7 @@
   </xs:complexType>
   <xs:complexType name="DeltaList">
     <xs:complexContent>
-      <xs:extension base="Z:TermA">
+      <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element ref="Z:RefName" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
@@ -305,7 +305,7 @@
   </xs:complexType>
   <xs:complexType name="OpText">
     <xs:complexContent>
-      <xs:extension base="Z:TermA">
+      <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element ref="OZ:DeltaList" minOccurs="0"/>
           <xs:element ref="Z:SchText"/>
@@ -364,7 +364,7 @@
   </xs:complexType>
   <xs:complexType name="OpExpr">
     <xs:complexContent>
-      <xs:extension base="Z:TermA"/>
+      <xs:extension base="Z:Term"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="OpExpr2">
@@ -425,16 +425,20 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="ClassSig">
-    <xs:sequence>
-      <xs:element name="Classes" type="OZ:ClassRef" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="State" type="Z:Signature" minOccurs="0"/>
-      <xs:element name="Attribute" type="Z:NameTypePair" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="Operation" type="OZ:NameSignaturePair" minOccurs="0" maxOccurs="unbounded"/>
-    </xs:sequence>
+    <xs:complexContent>
+      <xs:extension base="Z:Term">
+        <xs:sequence>
+          <xs:element name="Classes" type="OZ:ClassRef" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="State" type="Z:Signature" minOccurs="0"/>
+          <xs:element name="Attribute" type="Z:NameTypePair" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="Operation" type="OZ:NameSignaturePair" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="ClassRef">
     <xs:complexContent>
-      <xs:extension base="Z:TermA">
+      <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element ref="Z:RefName"/>
           <xs:element ref="Z:Type2" minOccurs="0" maxOccurs="unbounded">
@@ -449,10 +453,14 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="NameSignaturePair" mixed="false">
-    <xs:sequence>
-      <xs:element ref="Z:DeclName" minOccurs="0"/>
-      <xs:element ref="Z:Signature"/>
-    </xs:sequence>
+  <xs:complexType name="NameSignaturePair">
+    <xs:complexContent>
+      <xs:extension base="Z:Term">
+        <xs:sequence>
+          <xs:element ref="Z:DeclName" minOccurs="0"/>
+          <xs:element ref="Z:Signature"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
 </xs:schema>

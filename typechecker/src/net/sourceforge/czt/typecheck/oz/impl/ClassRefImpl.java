@@ -29,7 +29,7 @@ import net.sourceforge.czt.typecheck.z.impl.*;
  * if they have a value.
  */
 public class ClassRefImpl
-  extends TermAImpl
+  extends TermImpl
   implements ClassRef
 {
   protected ClassRefImpl(ClassRef classRef)

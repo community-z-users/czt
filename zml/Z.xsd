@@ -895,7 +895,7 @@ more detail.
         annotations -- those defined for standard Z and the various
 	extensions of standard Z.  This gives us the ability to add
         attributes to all such annotations in the future.  However,
-        note that the Anns list within each TermA object is not limited
+        note that the Anns list within each Term object is not limited
         to just the subclasses of Ann -- arbitrary objects are allowed,
         so that new kinds of annotations can be added without having to
 	define them in an XML schema etc.  
@@ -1035,7 +1035,7 @@ more detail.
   </xs:element>
 
   <!-- Definitions of the complexTypes used above (same order as above) -->
-  <xs:complexType name="TermA" mixed="false">
+  <xs:complexType name="Term" mixed="false">
     <xs:annotation>
       <xs:documentation>
         Supertype of all ANNOTATED Z constructs.
@@ -1054,7 +1054,7 @@ more detail.
   </xs:complexType>
   <xs:complexType name="Spec">
     <xs:complexContent>
-      <xs:extension base="Z:TermA">
+      <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element ref="Z:Sect" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
@@ -1068,7 +1068,7 @@ more detail.
   </xs:complexType>
   <xs:complexType name="Sect">
     <xs:complexContent>
-      <xs:extension base="Z:TermA"/>
+      <xs:extension base="Z:Term"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="ZSect">
@@ -1102,7 +1102,7 @@ more detail.
   </xs:complexType>
   <xs:complexType name="Para">
     <xs:complexContent>
-      <xs:extension base="Z:TermA"/>
+      <xs:extension base="Z:Term"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="AxPara">
@@ -1196,7 +1196,7 @@ more detail.
   </xs:complexType>
   <xs:complexType name="Directive">
     <xs:complexContent>
-      <xs:extension base="Z:TermA">
+      <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element name="Command" type="xs:string"/>
           <xs:element name="Unicode" type="xs:string"/>
@@ -1225,7 +1225,7 @@ more detail.
   </xs:complexType>
   <xs:complexType name="Decl">
     <xs:complexContent>
-      <xs:extension base="Z:TermA"/>
+      <xs:extension base="Z:Term"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="ConstDecl">
@@ -1259,7 +1259,7 @@ more detail.
   </xs:complexType>
   <xs:complexType name="DeclName">
     <xs:complexContent>
-      <xs:extension base="Z:TermA"/>
+      <xs:extension base="Z:Term"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="ZDeclName">
@@ -1275,7 +1275,7 @@ more detail.
   </xs:complexType>
   <xs:complexType name="RefName">
     <xs:complexContent>
-      <xs:extension base="Z:TermA"/>
+      <xs:extension base="Z:Term"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="ZRefName">
@@ -1289,7 +1289,11 @@ more detail.
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="Stroke" mixed="false"/>
+  <xs:complexType name="Stroke">
+    <xs:complexContent>
+      <xs:extension base="Z:Term"/>
+    </xs:complexContent>
+  </xs:complexType>
   <xs:complexType name="NumStroke">
     <xs:complexContent>
       <xs:extension base="Z:Stroke">
@@ -1305,7 +1309,7 @@ more detail.
   </xs:simpleType>
   <xs:complexType name="Numeral">
     <xs:complexContent>
-      <xs:extension base="Z:TermA"/>
+      <xs:extension base="Z:Term"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="ZNumeral">
@@ -1317,7 +1321,7 @@ more detail.
   </xs:complexType>
   <xs:complexType name="Expr">
     <xs:complexContent>
-      <xs:extension base="Z:TermA"/>
+      <xs:extension base="Z:Term"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="Expr1">
@@ -1514,7 +1518,7 @@ more detail.
   </xs:complexType>
   <xs:complexType name="ExprList">
     <xs:complexContent>
-      <xs:extension base="Z:TermA"/>
+      <xs:extension base="Z:Term"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="ZExprList">
@@ -1528,7 +1532,7 @@ more detail.
   </xs:complexType>
   <xs:complexType name="RenameList">
     <xs:complexContent>
-      <xs:extension base="Z:TermA"/>
+      <xs:extension base="Z:Term"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="ZRenameList">
@@ -1542,7 +1546,7 @@ more detail.
   </xs:complexType>
   <xs:complexType name="RefNameList">
     <xs:complexContent>
-      <xs:extension base="Z:TermA"/>
+      <xs:extension base="Z:Term"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="ZRefNameList">
@@ -1556,7 +1560,7 @@ more detail.
   </xs:complexType>
   <xs:complexType name="Pred">
     <xs:complexContent>
-      <xs:extension base="Z:TermA"/>
+      <xs:extension base="Z:Term"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="Fact">
@@ -1655,7 +1659,7 @@ more detail.
   </xs:simpleType>
   <xs:complexType name="SchText">
     <xs:complexContent>
-      <xs:extension base="Z:TermA"/>
+      <xs:extension base="Z:Term"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="ZSchText">
@@ -1670,7 +1674,7 @@ more detail.
   </xs:complexType>
   <xs:complexType name="DeclList">
     <xs:complexContent>
-      <xs:extension base="Z:TermA"/>
+      <xs:extension base="Z:Term"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="ZDeclList">
@@ -1684,7 +1688,7 @@ more detail.
   </xs:complexType>
   <xs:complexType name="Parent">
     <xs:complexContent>
-      <xs:extension base="Z:TermA">
+      <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element name="Word" type="xs:string"/>
         </xs:sequence>
@@ -1693,7 +1697,7 @@ more detail.
   </xs:complexType>
   <xs:complexType name="Freetype">
     <xs:complexContent>
-      <xs:extension base="Z:TermA">
+      <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element ref="Z:DeclName"/>
           <xs:element ref="Z:Branch" maxOccurs="unbounded"/>
@@ -1703,7 +1707,7 @@ more detail.
   </xs:complexType>
   <xs:complexType name="Branch">
     <xs:complexContent>
-      <xs:extension base="Z:TermA">
+      <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element ref="Z:DeclName"/>
           <xs:element ref="Z:Expr" minOccurs="0"/>
@@ -1711,7 +1715,11 @@ more detail.
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="Ann" mixed="false"/>
+  <xs:complexType name="Ann">
+    <xs:complexContent>
+      <xs:extension base="Z:Term"/>
+    </xs:complexContent>
+  </xs:complexType>
   <xs:complexType name="LocAnn">
     <xs:complexContent>
       <xs:extension base="Z:Ann">
@@ -1762,7 +1770,7 @@ more detail.
   </xs:complexType>
   <xs:complexType name="Type">
     <xs:complexContent>
-      <xs:extension base="Z:TermA"/>
+      <xs:extension base="Z:Term"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="Type2">
@@ -1850,12 +1858,20 @@ more detail.
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="Signature" mixed="false">
-    <xs:sequence>
-      <xs:element ref="Z:NameTypePair" minOccurs="0" maxOccurs="unbounded"/>
-    </xs:sequence>
+  <xs:complexType name="Signature">
+    <xs:complexContent>
+      <xs:extension base="Z:Term">
+        <xs:sequence>
+          <xs:element ref="Z:NameTypePair" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="Oper" mixed="false"/>
+  <xs:complexType name="Oper">
+    <xs:complexContent>
+      <xs:extension base="Z:Term"/>
+    </xs:complexContent>
+  </xs:complexType>
   <xs:complexType name="Operator">
     <xs:complexContent>
       <xs:extension base="Z:Oper">
@@ -1872,35 +1888,47 @@ more detail.
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="NameTypePair" mixed="false">
-    <xs:sequence>
-      <xs:element ref="Z:DeclName"/>
-      <xs:element ref="Z:Type"/>
-    </xs:sequence>
+  <xs:complexType name="NameTypePair">
+    <xs:complexContent>
+      <xs:extension base="Z:Term">
+        <xs:sequence>
+          <xs:element ref="Z:DeclName"/>
+          <xs:element ref="Z:Type"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="NameSectTypeTriple" mixed="false">
-    <xs:sequence>
-      <xs:element ref="Z:DeclName"/>
-      <xs:element name="Sect" type="xs:string"/>
-      <xs:element ref="Z:Type"/>
-    </xs:sequence>
+    <xs:complexContent>
+      <xs:extension base="Z:Term">
+        <xs:sequence>
+          <xs:element ref="Z:DeclName"/>
+          <xs:element name="Sect" type="xs:string"/>
+          <xs:element ref="Z:Type"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="NewOldPair" mixed="false">
-    <xs:sequence>
-      <xs:element ref="Z:DeclName">
-        <xs:annotation>
-          <xs:appinfo>
-            <jaxb:property name="NewName"/>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-      <xs:element ref="Z:RefName">
-        <xs:annotation>
-          <xs:appinfo>
-            <jaxb:property name="OldName"/>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:element>
-    </xs:sequence>
+  <xs:complexType name="NewOldPair">
+    <xs:complexContent>
+      <xs:extension base="Z:Term">
+        <xs:sequence>
+          <xs:element ref="Z:DeclName">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="NewName"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="Z:RefName">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="OldName"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
 </xs:schema>

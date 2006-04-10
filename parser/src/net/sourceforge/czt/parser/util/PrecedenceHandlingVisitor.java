@@ -41,7 +41,6 @@ import net.sourceforge.czt.z.visitor.*;
  */
 public class PrecedenceHandlingVisitor
   implements TermVisitor,
-             TermAVisitor,
              RefExprVisitor,
              ApplExprVisitor,
              ProdExprVisitor
@@ -68,24 +67,13 @@ public class PrecedenceHandlingVisitor
   }
 
   /**
-   * Visits all of its children.
+   * Visits all of its children and copies annotations.
    */
   public Object visitTerm(Term term)
   {
-    return VisitorUtils.visitTerm(this, term, true);
-  }
-
-  /**
-   * Visits all of its children and copies annotations
-   * if necessary.
-   */
-  public Object visitTermA(TermA termA)
-  {
-    Term term = VisitorUtils.visitTerm(this, termA, true);
-    if (term instanceof TermA && term != termA) {
-      ((TermA) term).getAnns().addAll(termA.getAnns());
-    }
-    return term;
+    Term result = VisitorUtils.visitTerm(this, term, true);
+    if (result != term) result.getAnns().addAll(term.getAnns());
+    return result;
   }
 
   public Object visitRefExpr(RefExpr refExpr)
@@ -262,20 +250,11 @@ public class PrecedenceHandlingVisitor
     return result;
   }
 
-  //returns true if and only if the specified TermA has a
+  //returns true if and only if the specified Term has a
   //ParenAnn in its annotations
-  private boolean hasParenAnn(TermA termA)
+  private boolean hasParenAnn(Term term)
   {
-    //get the list of annotations
-    List anns = termA.getAnns();
-
-    for (Iterator iter = anns.iterator(); iter.hasNext(); ) {
-      //if the next annotation is a ParenAnn
-      if (iter.next() instanceof ParenAnn) {
-        return true;
-      }
-    }
-    return false;
+    return (term.getAnn(ParenAnn.class) != null);
   }
 
   /**

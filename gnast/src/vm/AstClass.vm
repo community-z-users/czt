@@ -1,5 +1,5 @@
 #*
-Copyright 2003, 2005 Petra Malik
+Copyright 2003, 2005, 2006 Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -187,10 +187,6 @@ public class ${class.ImplName}
     if (v instanceof ${class.Name}Visitor) {
       ${class.Name}Visitor<R> visitor = (${class.Name}Visitor<R>) v;
       return visitor.visit${class.Name}(this);
-    }
-    if (v instanceof TermAVisitor) {
-      TermAVisitor<R> visitor = (TermAVisitor<R>) v;
-      return visitor.visitTermA(this);
     }
     if (v instanceof TermVisitor) {
       TermVisitor<R> visitor = (TermVisitor<R>) v;

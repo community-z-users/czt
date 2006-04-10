@@ -25,7 +25,6 @@ import java.util.Vector;
 import javax.swing.tree.TreeNode;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.ast.TermA;
 
 /**
  * A node of an AST that can be used as a tree node in a JTree.
@@ -52,11 +51,8 @@ public class TermTreeNode
       Term term = (Term) node_;
       Object[] anns = null;
       Object[] children = term.getChildren();
-      if (term instanceof TermA)  {
-        TermA ta = (TermA) term;
-        if (ta.getAnns() != null) {
-          anns = ta.getAnns().toArray();
-        }
+      if (term.getAnns() != null) {
+        anns = term.getAnns().toArray();
       }
       if (index < children.length) {
         return new TermTreeNode(index, children[index], this);
@@ -73,11 +69,8 @@ public class TermTreeNode
     if (node_ instanceof Term) {
       Term term = (Term) node_;
       int result = term.getChildren().length;
-      if (term instanceof TermA) {
-        TermA ta = (TermA) term;
-        if (ta.getAnns() != null) {
-          result += ta.getAnns().size();
-        }
+      if (term.getAnns() != null) {
+        result += term.getAnns().size();
       }
       return result;
     }

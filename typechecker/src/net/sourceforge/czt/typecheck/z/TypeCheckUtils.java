@@ -24,7 +24,6 @@ import java.util.List;
 
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.ast.TermA;
 import net.sourceforge.czt.base.util.MarshalException;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.session.*;
@@ -285,7 +284,7 @@ public class TypeCheckUtils
 
         if (printTypes) {
 	  SectTypeEnvAnn sectTypeEnvAnn =
-	    (SectTypeEnvAnn) ((TermA) term).getAnn(SectTypeEnvAnn.class);
+	    (SectTypeEnvAnn) term.getAnn(SectTypeEnvAnn.class);
 	  if (sectTypeEnvAnn != null) {
 	    printTypes(sectTypeEnvAnn);
 	  }

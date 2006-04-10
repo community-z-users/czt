@@ -18,6 +18,8 @@
 */
 package net.sourceforge.czt.typecheck.z.impl;
 
+import net.sourceforge.czt.base.ast.ListTerm;
+import net.sourceforge.czt.base.impl.ListTermImpl;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -29,6 +31,11 @@ public class SignatureAnnImpl
   extends TermImpl
   implements SignatureAnn
 {
+  /**
+   * A list of annotations.
+   */
+  private ListTerm<Object> anns_ = new ListTermImpl<Object>();
+
   protected SignatureAnnImpl(SignatureAnn signatureAnn)
   {
     super(signatureAnn);
@@ -91,5 +98,20 @@ public class SignatureAnnImpl
       hashCode += constant * getSignature().hashCode();
     }
     return hashCode;
+  }
+
+  public ListTerm<Object> getAnns()
+  {
+    return anns_;
+  }
+
+  public Object getAnn(Class aClass)
+  {
+    for (Object annotation : anns_) {
+      if (aClass.isInstance(annotation)) {
+        return annotation;
+      }
+    }
+    return null;
   }
 }

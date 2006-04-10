@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2005 Mark Utting
+  Copyright (C) 2004, 2005, 2006 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -43,6 +43,11 @@ public class ListTermImpl<E>
    */
   /*@ non_null @*/
   private List<E> list_ = new ArrayList<E>();
+
+  /**
+   * A list of annotations.
+   */
+  private List anns_ = new ArrayList();
 
   /**
    * Constructs an empty list term that accepts all Objects.
@@ -155,5 +160,22 @@ public class ListTermImpl<E>
       result.add((E) args[i]);
     }
     return result;
+  }
+
+  public ListTerm<Object> getAnns()
+  {
+    ListTermImpl result = new ListTermImpl();
+    result.addAll(anns_);
+    return result;
+  }
+
+  public Object getAnn(Class aClass)
+  {
+    for (Object annotation : anns_) {
+      if (aClass.isInstance(annotation)) {
+        return annotation;
+      }
+    }
+    return null;
   }
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004 Petra Malik
+  Copyright (C) 2004, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -28,18 +28,12 @@ import net.sourceforge.czt.base.visitor.*;
  * @author Petra Malik
  */
 public class DeleteAnnVisitor
-  implements TermVisitor, TermAVisitor
+  implements TermVisitor
 {
   public Object visitTerm(Term term)
   {
     VisitorUtils.visitTerm(this, term);
-    return null;
-  }
-
-  public Object visitTermA(TermA termA)
-  {
-    visitTerm(termA);
-    termA.getAnns().clear();
+    term.getAnns().clear();
     return null;
   }
 }

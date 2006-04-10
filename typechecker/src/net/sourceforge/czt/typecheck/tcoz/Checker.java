@@ -54,20 +54,20 @@ abstract public class Checker<R>
     return typeChecker_.tcozFactory_;
   }
 
-  protected void error(TermA termA,
+  protected void error(Term term,
 		       net.sourceforge.czt.typecheck.oz.ErrorMessage error,
 		       Object [] params)
   {
-    ErrorAnn errorAnn = this.errorAnn(termA, error, params);
-    error(termA, errorAnn);
+    ErrorAnn errorAnn = this.errorAnn(term, error, params);
+    error(term, errorAnn);
   }
 
-  protected void error(TermA termA,
+  protected void error(Term term,
                        net.sourceforge.czt.typecheck.z.ErrorMessage error,
                        Object [] params)
   {
-    ErrorAnn errorAnn = this.errorAnn(termA, error.toString(), params);
-    error(termA, errorAnn);
+    ErrorAnn errorAnn = this.errorAnn(term, error.toString(), params);
+    error(term, errorAnn);
   }
 
 

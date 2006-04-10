@@ -1,5 +1,5 @@
 /*
-  Copyright 2003, 2005 Petra Malik
+  Copyright 2003, 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -330,12 +330,6 @@ public class Project
       }
       if (objectId.equals("TermImpl")) {
         return new JObjectImpl("TermImpl", "net.sourceforge.czt.base.impl");
-      }
-      if (objectId.equals("TermA")) {
-        return new JObjectImpl("TermA", "net.sourceforge.czt.base.ast");
-      }
-      if (objectId.equals("TermAImpl")) {
-        return new JObjectImpl("TermAImpl", "net.sourceforge.czt.base.impl");
       }
       String objectName = project_.getClassName(objectId);
       String objectPackage = project_.getPackage(objectId);

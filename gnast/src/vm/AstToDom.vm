@@ -1,5 +1,5 @@
 #*
-Copyright (C) 2003, 2004 Petra Malik
+Copyright (C) 2003, 2004, 2006 Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -101,7 +101,6 @@ public class $class.Name
     final String ns = "$NS";
     Element elem = getDocument().createElementNS(ns, "$c.Name");
     try {
-#if($c.isInstanceOf("TermA"))
       if (zedObject.getAnns().size() > 0) {
         Node anns = getDocument().createElementNS(ns, "Anns");
         for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
@@ -116,7 +115,6 @@ public class $class.Name
         }
         elem.appendChild(anns);
       }
-#end
 #foreach($prop in $c.AllProperties)
 #if($prop.Name == 'Content')
       Node content = getDocument().createElementNS(ns, "Content");
