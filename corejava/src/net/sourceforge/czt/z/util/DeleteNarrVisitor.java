@@ -1,26 +1,25 @@
 /*
-Copyright 2004 Mark Utting
-This file is part of the czt project.
+  Copyright 2004, 2006 Mark Utting
+  This file is part of the czt project.
 
-The czt project contains free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+  The czt project contains free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
 
-The czt project is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+  The czt project is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with czt; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  You should have received a copy of the GNU General Public License
+  along with czt; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 package net.sourceforge.czt.z.util;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
@@ -29,16 +28,42 @@ import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
+/**
+ * A term visitor that removes all narrative paragraphs and
+ * sections from a specification.
+ *
+ * @author Petra Malik
+ */
 public class DeleteNarrVisitor
-  implements TermVisitor, SpecVisitor, ZSectVisitor
+  implements TermVisitor<Term>,
+             NarrParaVisitor<Term>,
+             NarrSectVisitor<Term>,
+             SpecVisitor<Term>,
+             ZSectVisitor<Term>
 {
   /**
-   * Returns the given term.  No iteration is needed since
-   * Narrative are only possible in specifications or sections.
+   * @return the given term unchanged.  No iteration is needed since
+   *         narratives are only possible in specifications or sections.
    */
-  public Object visitTerm(Term term)
+  public Term visitTerm(Term term)
   {
     return term;
+  }
+
+  /**
+   * @return {@code null}
+   */
+  public Term visitNarrPara(NarrPara narrPara)
+  {
+    return null;
+  }
+
+  /**
+   * @return {@code null}
+   */
+  public Term visitNarrSect(NarrSect narrSect)
+  {
+    return null;
   }
 
   /**
@@ -49,22 +74,19 @@ public class DeleteNarrVisitor
    * was found.  Otherwise, a new specification is created containing
    * non-narrative sections returned by the visit calls.
    */
-  public Object visitSpec(Spec spec)
+  public Term visitSpec(Spec spec)
   {
-    List sects = spec.getSect();
-    List newSects = new ArrayList();
-    for (Iterator iter = sects.iterator(); iter.hasNext();) {
-      Sect sect = (Sect) ((Sect) iter.next()).accept(this);
-      if (! (sect instanceof NarrSect)) newSects.add(sect);
+    Spec newSpec = (Spec) spec.create(spec.getChildren());
+    List<Sect> newSects = newSpec.getSect();
+    newSects.clear();
+    for (Sect sect : spec.getSect()) {
+      sect = (Sect) sect.accept(this);
+      if (sect != null) newSects.add(sect);
     }
-    if (sects.equals(newSects)) {
+    if (spec.getSect().equals(newSects)) {
       return spec;
     }
-    Spec result = (Spec) spec.create(spec.getChildren());
-    sects = result.getSect();
-    sects.clear();
-    sects.addAll(newSects);
-    return result;
+    return newSpec;
   }
 
   /**
@@ -74,21 +96,19 @@ public class DeleteNarrVisitor
    * containing all paragraphs contained by <code>zSect</code>
    * but narrative paragraphs.
    */
-  public Object visitZSect(ZSect zSect)
+  public Term visitZSect(ZSect zSect)
   {
-    List paras = zSect.getPara();
-    List newParas = new ArrayList();
-    for (Iterator iter = paras.iterator(); iter.hasNext();) {
-      Para para = (Para) iter.next();
-      if (! (para instanceof NarrPara)) newParas.add(para);
+    ZSect newZSect = (ZSect) zSect.create(zSect.getChildren());
+    List<Para> newParas = newZSect.getPara();
+    newParas.clear();
+    List<Para> paras = zSect.getPara();
+    for (Para para : paras) {
+      para = (Para) para.accept(this);
+      if (para != null) newParas.add(para);
     }
     if (paras.equals(newParas)) {
       return zSect;
     }
-    ZSect result = (ZSect) zSect.create(zSect.getChildren());
-    paras = result.getPara();
-    paras.clear();
-    paras.addAll(newParas);
-    return result;
+    return newZSect;
   }
 }
