@@ -149,7 +149,7 @@ public final class ProverUtils
 
     public Object visitHeadDeclList(HeadDeclList headDeclList)
     {
-      ZDeclList zDeclList = (ZDeclList)
+      ZDeclList zDeclList =
         VisitorUtils.visitTerm(this, headDeclList.getZDeclList(), false);
       zDeclList = (ZDeclList) zDeclList.create(zDeclList.getChildren());
       ZDeclList rest =

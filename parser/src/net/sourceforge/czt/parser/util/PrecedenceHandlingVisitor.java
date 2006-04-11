@@ -72,7 +72,6 @@ public class PrecedenceHandlingVisitor
   public Object visitTerm(Term term)
   {
     Term result = VisitorUtils.visitTerm(this, term, true);
-    if (result != term) result.getAnns().addAll(term.getAnns());
     return result;
   }
 

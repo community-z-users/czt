@@ -67,34 +67,44 @@ public final class VisitorUtils
   }
 
   /**
-   * <p>Visits all the terms and lists contained in this array
-   * using the accept-method of term
-   * with the provided visitor as argument.</p>
+   * <p>Visits all the terms (instances of {@link Term}) contained in
+   * the array by calling the {@link Term#accept accept-method} with
+   * the provided visitor as argument.  The array is changed to
+   * contain the results of the visit calls.  The return value
+   * indicates whether the array has changed, i.e., whether the return
+   * value of one of the visit calls was different to the term to
+   * which the accept method was applied.</p>
    *
-   * <p>Note that arrays inside the given array are not visited.</p>
-   *
-   * @param visitor the Visitor used for visiting the Term elements.
-   * @param array the array to be visited.
-   * @throws NullPointerException if <code>array</code> is <code>null</code>.
+   * @param visitor the visitor used for visiting the terms.
+   * @param array the array (should not be <code>null</code>) to be visited,
+   *              updated to contain the results of the visit calls.
+   * @return whether the array has changed or not.
    */
-  public static void visitArray(Visitor visitor, Object[] array)
+  public static boolean visitArray(Visitor visitor, Object[] array)
   {
+    boolean hasChanged = false;
     Object[] arguments = {visitor, array };
     getLogger().entering(getClassName(), "visitArray", arguments);
     for (int i = 0; i < array.length; i++) {
-      Object object = array[i];
+      final Object object = array[i];
       if (object instanceof Term) {
-        ((Term) object).accept(visitor);
+        final Object result = ((Term) object).accept(visitor);
+        if (result != object) {
+          array[i] = result;
+          hasChanged = true;
+        }
       }
     }
+    return hasChanged;
   }
 
   /**
-   * <p>Visits a term by visiting all its children returned via
-   * the getChildren method of Term.  The returned term has the
-   * return values of the correpsonding visit-calls as children.</p>
+   * <p>Visits a term by visiting all its children returned via its
+   * {@link Term#getChildren getChildren method}.  The returned term
+   * has the return values of the correpsonding visit-calls as
+   * children.  Annotations are preserved.</p>
    *
-   * @param visitor the Visitor used for visiting the term.
+   * @param visitor the Visitor used for visiting the children of the term.
    * @param term the term to be visited.
    * @param share a flag used to indicate whether a term whos children are
    *              returned unchanged by the visitor should be shared
@@ -107,27 +117,21 @@ public final class VisitorUtils
    *         the new children.
    * @throws NullPointerException if <code>term</code> is <code>null</code>.
    */
-  public static Term visitTerm(Visitor visitor, Term term, boolean share)
+  public static <T extends Term> T visitTerm(Visitor visitor,
+                                             T term,
+                                             boolean share)
   {
     Object[] arguments = {visitor, term, Boolean.valueOf(share)};
     getLogger().entering(getClassName(), "visitTerm", arguments);
-    boolean changed = false;
     Object[] args = term.getChildren();
-    for (int i = 0; i < args.length; i++) {
-      if (args[i] instanceof Term) {
-        Object object = ((Term) args[i]).accept(visitor);
-        if (object != args[i]) {
-          args[i] = object;
-          changed = true;
-        }
-      }
-    }
+    boolean changed = visitArray(visitor, args);
     if (!changed && share) {
       getLogger().exiting(getClassName(), "visitTerm", term);
       return term;
     }
     getLogger().fine("Term has changed.");
-    Term newTerm = term.create(args);
+    T newTerm = (T) term.create(args);
+    newTerm.getAnns().addAll(term.getAnns());
     getLogger().exiting(getClassName(), "visitTerm", newTerm);
     return newTerm;
   }
@@ -140,12 +144,7 @@ public final class VisitorUtils
   {
     Object[] arguments = {visitor, term};
     getLogger().entering(getClassName(), "visitTerm", arguments);
-    Object[] args = term.getChildren();
-    for (int i = 0; i < args.length; i++) {
-      if (args[i] instanceof Term) {
-        ((Term) args[i]).accept(visitor);
-      }
-    }
+    visitArray(visitor, term.getChildren());
   }
 
   /**

@@ -161,11 +161,7 @@ public class AstToPrintTreeVisitor
    */
   public Object visitTerm(Term term)
   {
-    Term result = (Term) VisitorUtils.visitTerm(this, term, true);
-    if (result != term) {
-      result.getAnns().addAll(term.getAnns());
-    }
-    return result;
+    return VisitorUtils.visitTerm(this, term, true);
   }
 
   public Object visitAndPred(AndPred andPred)
