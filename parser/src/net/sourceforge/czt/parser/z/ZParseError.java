@@ -20,7 +20,7 @@
 package net.sourceforge.czt.parser.z;
 
 import net.sourceforge.czt.parser.util.LocInfo;
-import net.sourceforge.czt.parser.util.ParseError;
+import net.sourceforge.czt.parser.util.CztErrorImpl;
 
 /**
  * A Z parse error.
@@ -28,10 +28,10 @@ import net.sourceforge.czt.parser.util.ParseError;
  * @author Petra Malik
  */
 public class ZParseError
-  extends ParseError
+  extends CztErrorImpl
 {
   private static String RESOURCE_NAME =
-    "net.sourceforge.czt.parser.z.ParseResourceBundle";
+    "net.sourceforge.czt.parser.z.ZParseResourceBundle";
 
   public ZParseError(ZParseMessage msg, Object[] params, LocInfo locInfo)
   {
