@@ -291,7 +291,7 @@ public abstract class FlatPred extends PredImpl
       Subtypes that need more specific initialisation could
       override this.
   */
-  public /*@non_null@*/ Term create(/*@non_null@*/ Object[] newargs)
+  public /*@non_null@*/ Pred create(/*@non_null@*/ Object[] newargs)
   {
     try {
       ArrayList<ZRefName> args = new ArrayList<ZRefName>(newargs.length);
@@ -300,7 +300,7 @@ public abstract class FlatPred extends PredImpl
       Class[] paramTypes = {args.getClass()};
       Constructor cons = this.getClass().getConstructor(paramTypes);
       Object[] params = {args};
-      return (Term)cons.newInstance(params);
+      return (Pred) cons.newInstance(params);
     }
     catch (Exception e) {
       throw new IllegalArgumentException ("Bad arguments to create",e);

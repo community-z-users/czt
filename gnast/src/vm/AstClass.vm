@@ -200,7 +200,7 @@ public class ${class.ImplName}
     return list_.toArray();
   }
 
-  public Term create(Object[] args)
+  public ${class.ImplName} create(Object[] args)
   {
     ${class.ImplName} result = new ${class.ImplName}();
     for (int i = 0; i < args.length; i++) {
@@ -290,9 +290,9 @@ public#abstract($class) class ${class.ImplName}
   /**
    * Returns a new object of this class.
    */
-  public ${term} ${methodName}(Object[] args)
+  public ${class.ImplName} ${methodName}(Object[] args)
   {
-    ${class.Name} zedObject = null;
+    ${class.ImplName} zedObject = null;
     try {
 #foreach($prop in $class.AllProperties)
 #set($counter = $velocityCount - 1)

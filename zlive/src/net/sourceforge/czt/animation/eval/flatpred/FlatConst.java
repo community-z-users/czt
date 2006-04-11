@@ -114,7 +114,7 @@ public class FlatConst extends FlatPred
     return result;
   }
 
-  public /*@non_null@*/ Term create(/*@non_null@*/ Object[] newargs)
+  public /*@non_null@*/ FlatConst create(/*@non_null@*/ Object[] newargs)
   {
     return new FlatConst((ZRefName)newargs[0], (Expr)newargs[1]);
   }

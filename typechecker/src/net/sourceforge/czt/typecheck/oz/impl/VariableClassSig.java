@@ -151,7 +151,7 @@ public class VariableClassSig
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  public VariableClassSig create(Object[] args)
   {
     VariableClassSig zedObject = null;
     return zedObject;

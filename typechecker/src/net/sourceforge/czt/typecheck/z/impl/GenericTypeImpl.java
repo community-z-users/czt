@@ -77,10 +77,10 @@ public class GenericTypeImpl
     return genericType.toString();
   }
 
-  public net.sourceforge.czt.base.ast.Term create(Object [] args)
+  public GenericTypeImpl create(Object [] args)
   {
     GenericType genericType = (GenericType) term_.create(args);
-    GenericType result = new GenericTypeImpl(genericType);
+    GenericTypeImpl result = new GenericTypeImpl(genericType);
     return result;
   }
 

@@ -83,10 +83,10 @@ public class NameSectTypeTripleImpl
     return result;
   }
 
-  public net.sourceforge.czt.base.ast.Term create(Object [] args)
+  public NameSectTypeTripleImpl create(Object [] args)
   {
     NameSectTypeTriple triple = (NameSectTypeTriple) term_.create(args);
-    NameSectTypeTriple result = new NameSectTypeTripleImpl(triple);
+    NameSectTypeTripleImpl result = new NameSectTypeTripleImpl(triple);
     return result;
   }
 

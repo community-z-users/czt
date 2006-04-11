@@ -115,7 +115,7 @@ public class VariableType
     return result;
   }
 
-  public Term create(Object[] args)
+  public VariableType create(Object[] args)
   {
     VariableType zedObject = null;
     try {

@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2005 Petra Malik
+  Copyright (C) 2004, 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -88,7 +88,7 @@ public class OperatorApplication
     return args_.toArray();
   }
 
-  public Term create(Object[] children)
+  public OperatorApplication create(Object[] children)
   {
     List argList = new ArrayList();
     for (int i = 0; i < children.length; i++) {

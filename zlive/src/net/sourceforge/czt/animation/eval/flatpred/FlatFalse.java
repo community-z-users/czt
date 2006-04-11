@@ -65,7 +65,7 @@ public class FlatFalse extends FlatPred
     return new Object[0];
   }
 
-  public /*@non_null@*/ Term create(/*@non_null@*/ Object[] newargs)
+  public /*@non_null@*/ FlatFalse create(/*@non_null@*/ Object[] newargs)
   {
     return new FlatFalse();
   }

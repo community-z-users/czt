@@ -73,10 +73,10 @@ public class NameSignaturePairImpl
     return result;
   }
 
-  public net.sourceforge.czt.base.ast.Term create(Object [] args)
+  public NameSignaturePairImpl create(Object [] args)
   {
     NameSignaturePair pair = (NameSignaturePair) term_.create(args);
-    NameSignaturePair result = new NameSignaturePairImpl(pair);
+    NameSignaturePairImpl result = new NameSignaturePairImpl(pair);
     return result;
   }
 

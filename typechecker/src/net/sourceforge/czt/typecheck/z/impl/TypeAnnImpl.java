@@ -53,10 +53,10 @@ public class TypeAnnImpl
     return result;
   }
 
-  public net.sourceforge.czt.base.ast.Term create(Object [] args)
+  public TypeAnnImpl create(Object [] args)
   {
     TypeAnn typeAnn = (TypeAnn) term_.create(args);
-    TypeAnn result = new TypeAnnImpl(typeAnn);
+    TypeAnnImpl result = new TypeAnnImpl(typeAnn);
     return result;
   }
 

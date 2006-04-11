@@ -50,7 +50,7 @@ public class EmptyDeclListImpl
     }
   }
 
-  public Term create(Object[] args)
+  public EmptyDeclListImpl create(Object[] args)
   {
     return new EmptyDeclListImpl();
   }

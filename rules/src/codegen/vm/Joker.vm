@@ -145,7 +145,7 @@ public class ${classname}
     throw new UnsupportedOperationException();
   }
 
-  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  public ${classname} create(Object[] args)
   {
     throw new UnsupportedOperationException();
   }

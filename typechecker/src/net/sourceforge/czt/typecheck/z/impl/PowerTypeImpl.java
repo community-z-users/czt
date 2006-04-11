@@ -53,10 +53,10 @@ public class PowerTypeImpl
     return result;
   }
 
-  public net.sourceforge.czt.base.ast.Term create(Object [] args)
+  public PowerTypeImpl create(Object [] args)
   {
     PowerType powerType = (PowerType) term_.create(args);
-    PowerType result = new PowerTypeImpl(powerType);
+    PowerTypeImpl result = new PowerTypeImpl(powerType);
     return result;
   }
 

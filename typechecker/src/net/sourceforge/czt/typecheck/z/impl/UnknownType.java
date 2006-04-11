@@ -174,7 +174,7 @@ public class UnknownType
     return super.accept(v);
   }
 
-  public Term create(java.lang.Object[] args)
+  public UnknownType create(java.lang.Object[] args)
   {
     UnknownType zedObject = null;
     try {

@@ -51,10 +51,10 @@ public class ProdTypeImpl
     return result;
   }
 
-  public net.sourceforge.czt.base.ast.Term create(Object [] args)
+  public ProdTypeImpl create(Object [] args)
   {
     ProdType prodType = (ProdType) term_.create(args);
-    ProdType result = new ProdTypeImpl(prodType);
+    ProdTypeImpl result = new ProdTypeImpl(prodType);
     return result;
   }
 

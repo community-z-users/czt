@@ -53,10 +53,10 @@ public class SchemaTypeImpl
     return result;
   }
 
-  public net.sourceforge.czt.base.ast.Term create(Object [] args)
+  public SchemaTypeImpl create(Object [] args)
   {
     SchemaType schemaType = (SchemaType) term_.create(args);
-    SchemaType result = new SchemaTypeImpl(schemaType);
+    SchemaTypeImpl result = new SchemaTypeImpl(schemaType);
     return result;
   }
 

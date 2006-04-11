@@ -80,10 +80,10 @@ public class ClassRefImpl
     return result;
   }
 
-  public net.sourceforge.czt.base.ast.Term create(Object [] args)
+  public ClassRefImpl create(Object [] args)
   {
     ClassRef classRef = (ClassRef) term_.create(args);
-    ClassRef result = new ClassRefImpl(classRef);
+    ClassRefImpl result = new ClassRefImpl(classRef);
     return result;
   }
 

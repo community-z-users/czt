@@ -60,10 +60,10 @@ public class SignatureAnnImpl
     return result;
   }
 
-  public net.sourceforge.czt.base.ast.Term create(Object [] args)
+  public SignatureAnnImpl create(Object [] args)
   {
     SignatureAnn signatureAnn = (SignatureAnn) term_.create(args);
-    SignatureAnn result = new SignatureAnnImpl(signatureAnn);
+    SignatureAnnImpl result = new SignatureAnnImpl(signatureAnn);
     return result;
   }
 

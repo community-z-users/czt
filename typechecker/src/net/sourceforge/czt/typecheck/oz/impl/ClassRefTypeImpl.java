@@ -77,10 +77,10 @@ public class ClassRefTypeImpl
     return result;
   }
 
-  public net.sourceforge.czt.base.ast.Term create(Object [] args)
+  public ClassRefTypeImpl create(Object [] args)
   {
     ClassRefType classRefType = (ClassRefType) term_.create(args);
-    ClassRefType result = new ClassRefTypeImpl(classRefType);
+    ClassRefTypeImpl result = new ClassRefTypeImpl(classRefType);
     return result;
   }
 

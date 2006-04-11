@@ -49,7 +49,7 @@ public class ClassPolyTypeImpl
     return result;
   }
 
-  public net.sourceforge.czt.base.ast.Term create(Object [] args)
+  public ClassPolyType create(Object [] args)
   {
     ClassPolyType classPolyType = (ClassPolyType) term_.create(args);
     ClassPolyType result = new ClassPolyTypeImpl(classPolyType);

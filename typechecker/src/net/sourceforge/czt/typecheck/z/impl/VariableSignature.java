@@ -128,7 +128,7 @@ public class VariableSignature
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+  public VariableSignature create(Object[] args)
   {
     VariableSignature zedObject = null;
     try {

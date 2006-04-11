@@ -71,10 +71,10 @@ public class NameTypePairImpl
     return result;
   }
 
-  public net.sourceforge.czt.base.ast.Term create(Object [] args)
+  public NameTypePairImpl create(Object [] args)
   {
     NameTypePair pair = (NameTypePair) term_.create(args);
-    NameTypePair result = new NameTypePairImpl(pair);
+    NameTypePairImpl result = new NameTypePairImpl(pair);
     return result;
   }
 

@@ -36,10 +36,10 @@ public class ClassUnionTypeImpl
     super(classUnionType);
   }
 
-  public net.sourceforge.czt.base.ast.Term create(Object [] args)
+  public ClassUnionTypeImpl create(Object [] args)
   {
     ClassUnionType classUnionType = (ClassUnionType) term_.create(args);
-    ClassUnionType result = new ClassUnionTypeImpl(classUnionType);
+    ClassUnionTypeImpl result = new ClassUnionTypeImpl(classUnionType);
     return result;
   }
 

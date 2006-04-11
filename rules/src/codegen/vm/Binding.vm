@@ -47,7 +47,7 @@ public class ${classname}
     super.set${jokername}(joker);
   }
 
-  public Term create(Object[] args)
+  public ${classname} create(Object[] args)
   {
     throw new UnsupportedOperationException();
   }
