@@ -36,6 +36,13 @@ public class LocInfoImpl
     column_ = column;
   }
 
+  public LocInfoImpl(LocInfo locInfo)
+  {
+    source_ = locInfo.getSource();
+    line_ = locInfo.getLine();
+    column_ = locInfo.getColumn();
+  }
+
   public String getSource()
   {
     return source_;
@@ -53,6 +60,10 @@ public class LocInfoImpl
 
   public String toString()
   {
-    return "in " + source_ + " line " + line_ + " column " + column_;
+    StringBuffer result = new StringBuffer();
+    if (source_ != null) result.append("\"" + source_ + "\"");
+    if (line_ >= 0) result.append(" line " + line_);
+    if (column_ >=0) result.append(" column " + column_);
+    return result.toString();
   }
 }

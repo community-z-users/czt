@@ -22,7 +22,6 @@ package net.sourceforge.czt.parser.util;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sourceforge.czt.parser.z.ZParseError;
 import net.sourceforge.czt.session.CommandException;
 
 /**
@@ -34,30 +33,30 @@ public class ParseException
   extends CommandException
   implements CztErrorList
 {
-  private List<ZParseError> errorList_;
+  private List<CztError> errorList_;
 
   /**
    * Constructs a new parse exception with the specified message, source
    * line number and column number.
    */
-  public ParseException(List<ZParseError> errorList)
+  public ParseException(List<CztError> errorList)
   {
     errorList_ = errorList;
   }
 
-  public List<ZParseError> getErrorList()
+  public List<CztError> getErrorList()
   {
     return errorList_;
   }
 
-  public List<ZParseError> getErrors()
+  public List<CztError> getErrors()
   {
     return errorList_;
   }
 
   public void printErrorList()
   {
-    for (ZParseError parseError : errorList_) {
+    for (CztError parseError : errorList_) {
       System.err.println(parseError.toString());
     }
   }
@@ -65,7 +64,7 @@ public class ParseException
   public String getMessage()
   {
     StringBuffer result = new StringBuffer();
-    for (ZParseError parseError : errorList_) {
+    for (CztError parseError : errorList_) {
       result.append("\n" + parseError.toString());
     }
     return result.toString();

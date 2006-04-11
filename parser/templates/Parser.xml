@@ -42,14 +42,17 @@ import net.sourceforge.czt.base.ast.*;
 <add:zpatt>
 import net.sourceforge.czt.zpatt.util.Factory;
 import net.sourceforge.czt.zpatt.ast.*;
+import net.sourceforge.czt.parser.z.ZParseError;
 </add:zpatt>
 <add:circus>
 import net.sourceforge.czt.circus.util.Factory;
 import net.sourceforge.czt.circus.ast.*;
+import net.sourceforge.czt.parser.z.ZParseError;
 </add:circus>
 <add:oz>
 import net.sourceforge.czt.oz.util.OzString;
 import net.sourceforge.czt.oz.ast.*;
+import net.sourceforge.czt.parser.z.ZParseError;
 </add:oz>
 <add:ozz>
 import net.sourceforge.czt.oz.util.Factory;
@@ -58,6 +61,7 @@ import net.sourceforge.czt.oz.util.Factory;
 import net.sourceforge.czt.tcoz.util.TcozString;
 import net.sourceforge.czt.tcoz.ast.*;
 import net.sourceforge.czt.tcoz.util.Factory;
+import net.sourceforge.czt.parser.z.ZParseError;
 </add:tcoz>
 
 import net.sourceforge.czt.parser.util.*;
@@ -1098,8 +1102,8 @@ parser code
      * The list of parse errors.
      * Not empty if and only if an error has occured during parsing.
      */
-    protected List&lt;ZParseError&gt; errorList_ = new ArrayList&lt;ZParseError&gt;();
-
+    protected List&lt;CztError&gt; errorList_ =
+      new ArrayList&lt;CztError&gt;();
     private OperatorScanner opScanner_;
     private NewlineScanner nlScanner_;
 <add:zpatt>
@@ -1178,11 +1182,11 @@ parser code
     }
 
     /**
-     * @throws ClassCastException if the object is not a ZParseError
+     * @throws ClassCastException if the object is not a CztError
      */
     public void report_error(String message, Object object)
     {
-      ZParseError error = (ZParseError) object;
+      CztError error = (CztError) object;
       errorList_.add(error);
     }
 
@@ -1212,7 +1216,7 @@ parser code
 </add:circus>
     
     /**
-     * @throws ClassCastException if the object is not a ZParseError
+     * @throws ClassCastException if the object is not a CztError
      */
     public void report_fatal_error(String message, Object param)
       throws ParseException
@@ -1232,7 +1236,7 @@ parser code
       report_fatal_error("Syntax error", createSyntaxError(token));
     }
 
-    protected ZParseError createSyntaxError(Symbol token)
+    protected CztError createSyntaxError(Symbol token)
     {
       return new ZParseError(ZParseMessage.MSG_SYNTAX_ERROR,
                              new Object[] { toObject(token) },

@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2005 Petra Malik
+  Copyright (C) 2004, 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -20,13 +20,15 @@
 package net.sourceforge.czt.parser.zpatt;
 
 import net.sourceforge.czt.parser.util.LocInfo;
-import net.sourceforge.czt.parser.util.ParseError;
+import net.sourceforge.czt.parser.util.CztErrorImpl;
 
 /**
- * A parse error.
+ * A Z pattern parse error.
+ *
+ * @author Petra Malik
  */
 public class ZpattParseError
-  extends ParseError
+  extends CztErrorImpl
 {
   private static String RESOURCE_NAME =
     "net.sourceforge.czt.parser.zpatt.ZpattParseResources";

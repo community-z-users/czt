@@ -9,12 +9,13 @@
 package net.sourceforge.czt.parser.circus;
 
 import net.sourceforge.czt.parser.util.LocInfo;
-import net.sourceforge.czt.parser.util.ParseError;
+import net.sourceforge.czt.parser.util.CztErrorImpl;
 
 /**
  * A parse error.
  */
-public class CircusParseError extends ParseError
+public class CircusParseError
+  extends CztErrorImpl
 {
   private static String RESOURCE_NAME =
     "net.sourceforge.czt.parser.circus.CircusParseResources";
