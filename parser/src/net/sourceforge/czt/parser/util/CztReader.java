@@ -25,9 +25,9 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
- * A reader for a list of Symbol.  In addition to the usual Reader
+ * A reader for a list of tokens.  In addition to the usual Reader
  * functionality there are getLine and getColumn methods that use
- * the line and column number provided by Symbol.
+ * the line and column number provided by the token.
  *
  * @author Petra Malik
  */
@@ -56,12 +56,12 @@ public class CztReader
   /**
    * Maps character numbers to line numbers.
    */
-  private TreeMap lineMap_ = new TreeMap();
+  private TreeMap<Integer,Integer> lineMap_ = new TreeMap<Integer,Integer>();
 
   /**
    * Maps character numbers to column numbers.
    */
-  private TreeMap columnMap_ = new TreeMap();
+  private TreeMap<Integer,Integer> columnMap_ = new TreeMap<Integer,Integer>();
 
   /**
    * Create a new character-stream reader
@@ -104,8 +104,8 @@ public class CztReader
       }
       if (s.spelling() != null) {
         buffer_ += s.spelling();
-        lineMap_.put(new Integer(charNum_), new Integer(s.getLine()));
-        columnMap_.put(new Integer(charNum_), new Integer(s.getColumn()));
+        lineMap_.put(charNum_, s.getLine());
+        columnMap_.put(charNum_, s.getColumn());
         charNum_ += s.spelling().length();
       }
     }
@@ -118,35 +118,27 @@ public class CztReader
 
   public int getLine(int charNum)
   {
-    Integer iCharNum = new Integer(charNum);
-    Integer result = (Integer) lineMap_.get(iCharNum);
-    if (result == null) {
-      SortedMap map = lineMap_.headMap(new Integer(charNum));
-      try {
-        Integer lastKey = (Integer) map.lastKey();
-        result = (Integer) map.get(lastKey);
-      }
-      catch (NoSuchElementException e) {
-        return 0;
-      }
-    }
-    return result.intValue();
+    return get(lineMap_, charNum);
   }
 
   public int getColumn(int charNum)
   {
-    Integer iCharNum = new Integer(charNum);
-    Integer result = (Integer) columnMap_.get(iCharNum);
+    return get(columnMap_, charNum);
+  }
+
+  protected int get(TreeMap<Integer,Integer> map, int value)
+  {
+    Integer result = map.get(value);
     if (result == null) {
-      SortedMap map = columnMap_.headMap(new Integer(charNum));
+      SortedMap<Integer,Integer> smap = columnMap_.headMap(value);
       try {
-        Integer lastKey = (Integer) map.lastKey();
-        result = (Integer) map.get(lastKey);
+        Integer lastKey = smap.lastKey();
+        result = smap.get(lastKey);
       }
       catch (NoSuchElementException e) {
         return 0;
       }
     }
-    return result.intValue();
+    return result;
   }
 }
