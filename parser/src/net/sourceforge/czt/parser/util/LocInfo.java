@@ -29,5 +29,7 @@ public interface LocInfo
 {
   int getLine();
   int getColumn();
+  int getStart();
+  int getLength();
   String getSource();
 }

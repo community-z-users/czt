@@ -54,14 +54,9 @@ public class CztReader
   private int charNum_ = 0;
 
   /**
-   * Maps character numbers to line numbers.
+   * Maps character numbers to LocInfo.
    */
-  private TreeMap<Integer,Integer> lineMap_ = new TreeMap<Integer,Integer>();
-
-  /**
-   * Maps character numbers to column numbers.
-   */
-  private TreeMap<Integer,Integer> columnMap_ = new TreeMap<Integer,Integer>();
+  private TreeMap<Integer,LocInfo> map_ = new TreeMap<Integer,LocInfo>();
 
   /**
    * Create a new character-stream reader
@@ -104,8 +99,7 @@ public class CztReader
       }
       if (s.spelling() != null) {
         buffer_ += s.spelling();
-        lineMap_.put(charNum_, s.getLine());
-        columnMap_.put(charNum_, s.getColumn());
+        map_.put(charNum_, s.getLocation());
         charNum_ += s.spelling().length();
       }
     }
@@ -118,25 +112,30 @@ public class CztReader
 
   public int getLine(int charNum)
   {
-    return get(lineMap_, charNum);
+    return get(charNum).getLine();
   }
 
   public int getColumn(int charNum)
   {
-    return get(columnMap_, charNum);
+    return get(charNum).getColumn();
   }
 
-  protected int get(TreeMap<Integer,Integer> map, int value)
+  public LocInfo getLocation(int charNum)
   {
-    Integer result = map.get(value);
+    return get(charNum);
+  }
+
+  protected LocInfo get(int value)
+  {
+    LocInfo result = map_.get(value);
     if (result == null) {
-      SortedMap<Integer,Integer> smap = columnMap_.headMap(value);
+      SortedMap<Integer,LocInfo> smap = map_.headMap(value);
       try {
         Integer lastKey = smap.lastKey();
         result = smap.get(lastKey);
       }
       catch (NoSuchElementException e) {
-        return 0;
+        return new LocInfoImpl(null, -1, -1);
       }
     }
     return result;

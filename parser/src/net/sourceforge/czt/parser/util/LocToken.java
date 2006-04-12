@@ -22,8 +22,5 @@ package net.sourceforge.czt.parser.util;
 public interface LocToken
   extends Token
 {
-  int getLine();
-  int getColumn();
-  int getChar();
-  int getLength();
+  LocInfo getLocation();
 }

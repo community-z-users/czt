@@ -213,22 +213,22 @@ import net.sourceforge.czt.parser.z.ZParseMessage;
   private LocToken result(String spelling)
     throws IOException
   {
-    return new LocTokenImpl(LatexSym.UNICODE, spelling,
-                            yyline, yycolumn, yychar, yytext().length());
+    return result(LatexSym.UNICODE, spelling);
   }
 
   private LocToken result(LatexSym sym)
     throws IOException
   {
-    return new LocTokenImpl(sym, yytext(),
-                            yyline, yycolumn, yychar, yytext().length());
+    return result(sym, yytext());
   }
 
   private LocToken result(LatexSym sym, String spelling)
     throws IOException
   {
-    return new LocTokenImpl(sym, spelling,
-                            yyline, yycolumn, yychar, yytext().length());
+    LocInfo location = new LocInfoImpl(getSource(),
+                                       yyline, yycolumn,
+                                       yychar, yytext().length());
+    return new LocTokenImpl(sym, spelling, location);
   }
 
   /**

@@ -241,7 +241,7 @@ public class <class/>
     }
     else if (is(token, LatexSym.CHAR_MARKUP)) {
       Directive directive = parseCharMarkupDirective(token.spelling(),
-                                                     token.getLine());
+                                                     token.getLocation());
       if (directive != null) {
         try {
           markupFunction_.add(directive);
@@ -253,16 +253,16 @@ public class <class/>
       return next();
     }
     else if (is(token, LatexSym.WORD_MARKUP)) {
-      parseWordMarkup(DirectiveType.NONE, token.getLine());
+      parseWordMarkup(DirectiveType.NONE, token.getLocation());
     }
     else if (is(token, LatexSym.INWORD_MARKUP)) {
-      parseWordMarkup(DirectiveType.IN, token.getLine());
+      parseWordMarkup(DirectiveType.IN, token.getLocation());
     }
     else if (is(token, LatexSym.PREWORD_MARKUP)) {
-      parseWordMarkup(DirectiveType.PRE, token.getLine());
+      parseWordMarkup(DirectiveType.PRE, token.getLocation());
     }
     else if (is(token, LatexSym.POSTWORD_MARKUP)) {
-      parseWordMarkup(DirectiveType.POST, token.getLine());
+      parseWordMarkup(DirectiveType.POST, token.getLocation());
     }
     check(symbol_, token);
     if (token.spelling() != null) {
@@ -282,8 +282,9 @@ public class <class/>
 
   private void check(LocToken t1, LocToken t2)
   {
+    final LocInfo loc = t2.getLocation();
     final String message = "WARNING: Possible missing hard space at line "
-      + t2.getLine() + " column " + t2.getColumn() + " in " + source_;
+      + loc.getLine() + " column " + loc.getColumn() + " in " + source_;
     if (t1 != null &amp;&amp; t2 != null) {
       if (is(t1, LatexSym.UNICODE) &amp;&amp; is(t2, LatexSym.UNICODE)) {
         String s1 = t1.spelling();
@@ -311,14 +312,14 @@ public class <class/>
     }
   }
 
-  private void parseWordMarkup(DirectiveType type, int line)
+  private void parseWordMarkup(DirectiveType type, LocInfo location)
     throws IOException
   {
     String name = parseName();
     String latex = parseUnicode();
     Directive directive = factory_.createDirective(name, latex, type);
-    directive.getAnns().add(factory_.createLocAnn(null,
-                                                  new Integer(line),
+    directive.getAnns().add(factory_.createLocAnn(location.getSource(),
+                                                  location.getLine(),
                                                   null));
     try {
       markupFunction_.add(directive);
@@ -352,7 +353,8 @@ public class <class/>
     return result;
   }
 
-  public static Directive parseCharMarkupDirective(String directive, int line)
+  public static Directive parseCharMarkupDirective(String directive,
+                                                   LocInfo loc)
   {
     String[] splitted = directive.split("[ \t]+");
     final int expectedLength = 3;
@@ -378,8 +380,8 @@ public class <class/>
         char[] chars = Character.toChars(decimal);
         String unicode = new String(chars);
         Directive d = factory_.createDirective(name, unicode, type);
-        d.getAnns().add(factory_.createLocAnn(null,
-                                              new Integer(line),
+        d.getAnns().add(factory_.createLocAnn(loc.getSource(),
+                                              loc.getLine(),
                                               null));
         return d;
       }
@@ -392,8 +394,8 @@ public class <class/>
         char[] chars = Character.toChars(decimal);
         String unicode = new String(chars);
         Directive d = factory_.createDirective(name, unicode, type);
-        d.getAnns().add(factory_.createLocAnn(null,
-                                              new Integer(line),
+        d.getAnns().add(factory_.createLocAnn(loc.getSource(),
+                                              loc.getLine(),
                                               null));
         return d;
       }

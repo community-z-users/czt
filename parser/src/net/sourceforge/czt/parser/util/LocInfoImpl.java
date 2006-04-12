@@ -28,12 +28,27 @@ public class LocInfoImpl
   private String source_;
   private int line_;
   private int column_;
+  private int start_;
+  private int length_;
+
+  public LocInfoImpl(String source,
+                     int line, int column,
+                     int start, int length)
+  {
+    source_ = source;
+    line_ = line;
+    column_ = column;
+    start_ = start;
+    length_ = length;
+  }
 
   public LocInfoImpl(String source, int line, int column)
   {
     source_ = source;
     line_ = line;
     column_ = column;
+    start_ = -1;
+    length_ = -1;
   }
 
   public LocInfoImpl(LocInfo locInfo)
@@ -41,6 +56,8 @@ public class LocInfoImpl
     source_ = locInfo.getSource();
     line_ = locInfo.getLine();
     column_ = locInfo.getColumn();
+    start_ = locInfo.getStart();
+    length_ = locInfo.getLength();
   }
 
   public String getSource()
@@ -56,6 +73,16 @@ public class LocInfoImpl
   public int getColumn()
   {
     return column_;
+  }
+
+  public int getStart()
+  {
+    return start_;
+  }
+
+  public int getLength()
+  {
+    return length_;
   }
 
   public String toString()

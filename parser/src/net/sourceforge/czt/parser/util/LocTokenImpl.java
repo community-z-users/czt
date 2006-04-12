@@ -23,38 +23,16 @@ public class LocTokenImpl
   extends TokenImpl
   implements LocToken
 {
-  private int line_;
-  private int column_;
-  private int char_;
-  private int length_;
+  private LocInfo locInfo_;
 
-  public LocTokenImpl(Token token, Object spelling,
-                      int line, int column, int charPos, int length)
+  public LocTokenImpl(Token token, Object spelling, LocInfo locInfo)
   {
     super(token, spelling);
-    line_ = line;
-    column_ = column;
-    char_ = charPos;
-    length_ = length;
+    locInfo_ = locInfo;
   }
 
-  public int getLine()
+  public LocInfo getLocation()
   {
-    return line_;
-  }
-
-  public int getColumn()
-  {
-    return column_;
-  }
-
-  public int getChar()
-  {
-    return char_;
-  }
-
-  public int getLength()
-  {
-    return length_;
+    return locInfo_;
   }
 }
