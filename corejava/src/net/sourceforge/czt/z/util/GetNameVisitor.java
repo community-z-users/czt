@@ -19,6 +19,8 @@
 
 package net.sourceforge.czt.z.util;
 
+import java.util.List;
+
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
@@ -33,52 +35,53 @@ public class GetNameVisitor
              ConstDeclVisitor<String>,
              FreeParaVisitor<String>,
              FreetypeVisitor<String>,
+             GivenParaVisitor<String>,
              ListTermVisitor<String>,
              VarDeclVisitor<String>,
              ZDeclListVisitor<String>,
              ZDeclNameVisitor<String>,
              ZSchTextVisitor<String>
 {
+  private final String LIST_SEPARATOR = ", ";
+
   public String visitAxPara(AxPara axPara)
   {
-    return axPara.getSchText().accept(this);
+    return visit(axPara.getSchText());
   }
 
   public String visitConstDecl(ConstDecl constDecl)
   {
-    return constDecl.getDeclName().accept(this);
+    return visit(constDecl.getDeclName());
   }
 
   public String visitFreePara(FreePara freePara)
   {
-    return freePara.getFreetype().accept(this);
+    return visit(freePara.getFreetype());
   }
 
   public String visitFreetype(Freetype freetype)
   {
-    return freetype.getDeclName().accept(this);
+    return visit(freetype.getDeclName());
+  }
+
+  public String visitGivenPara(GivenPara givenPara)
+  {
+    return visit(givenPara.getDeclName());
   }
 
   public String visitListTerm(ListTerm listTerm)
   {
-    if (listTerm.size() > 0) {
-      Object obj = listTerm.get(0);
-      if (obj instanceof Term) {
-        return ((Term) obj).accept(this);
-      }
-    }
-    return null;
+    return visitList(listTerm);
   }
 
   public String visitVarDecl(VarDecl varDecl)
   {
-    return varDecl.getDeclName().accept(this);
+    return visit(varDecl.getDeclName());
   }
 
   public String visitZDeclList(ZDeclList zDeclList)
   {
-    if (zDeclList.size() > 0) return zDeclList.get(0).accept(this);
-    return null;
+    return visitList(zDeclList);
   }
 
   public String visitZDeclName(ZDeclName zDeclName)
@@ -93,6 +96,25 @@ public class GetNameVisitor
 
   public String visitZSchText(ZSchText zSchText)
   {
-    return zSchText.getDeclList().accept(this);
+    return visit(zSchText.getDeclList());
+  }
+
+  protected String visit(Term term)
+  {
+    return term.accept(this);
+  }
+
+  protected String visitList(List<? extends Term> list)
+  {
+    final StringBuffer result = new StringBuffer();
+    String separator = "";
+    for (Term term : list) {
+      final String next = term.accept(this);
+      if (next != null && ! "".equals(next)) {
+        result.append(separator + next);
+        separator = LIST_SEPARATOR;
+      }
+    }
+    return result.toString();
   }
 }
