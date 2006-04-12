@@ -120,6 +120,16 @@ public class ErrorAnn
     term_ = term;
   }
 
+  public int getStart()
+  {
+    return -1;
+  }
+
+  public int getLength()
+  {
+    return -1;
+  }
+
   public Term getTerm()
   {
     return term_;
