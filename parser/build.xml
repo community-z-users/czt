@@ -846,6 +846,12 @@
       <param name="add" expression="{zpatt}"/>
     </xslt>
     <xslt
+      in="templates/SymMap.xml"
+      out="${build.src.zpatt.dir}/SymMap.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
+    </xslt>
+    <xslt
       in="templates/ContextFreeScanner.xml"
       out="${build.src.zpatt.dir}/ContextFreeScanner.jflex"
       style="${czt.home}/devtools/template2text.xsl">
@@ -904,6 +910,12 @@
       <param name="class" expression="KeywordScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
       <param name="add" expression="{circus}"/>
+    </xslt>
+    <xslt
+      in="templates/SymMap.xml"
+      out="${build.src.circus.dir}/SymMap.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="package" expression="net.sourceforge.czt.parser.circus"/>
     </xslt>
     <xslt
       in="templates/ContextFreeScanner.xml"
@@ -966,6 +978,12 @@
       <param name="add" expression="{oz}"/>
     </xslt>
     <xslt
+      in="templates/SymMap.xml"
+      out="${build.src.oz.dir}/SymMap.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="package" expression="net.sourceforge.czt.parser.oz"/>
+    </xslt>
+    <xslt
       in="templates/ContextFreeScanner.xml"
       out="${build.src.oz.dir}/ContextFreeScanner.jflex"
       style="${czt.home}/devtools/template2text.xsl">
@@ -1025,6 +1043,12 @@
       <param name="class" expression="KeywordScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.tcoz"/>
       <param name="add" expression="{oz},{tcoz}"/>
+    </xslt>
+    <xslt
+      in="templates/SymMap.xml"
+      out="${build.src.tcoz.dir}/SymMap.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="package" expression="net.sourceforge.czt.parser.tcoz"/>
     </xslt>
     <xslt
       in="templates/ContextFreeScanner.xml"

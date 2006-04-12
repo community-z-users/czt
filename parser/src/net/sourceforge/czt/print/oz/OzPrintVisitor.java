@@ -139,7 +139,7 @@ public class OzPrintVisitor
   public Object visitVisibilityList(VisibilityList visibilityList)
   {
     if (visibilityList != null) {
-      print(Keyword.PROJECT);
+      print(Keyword.ZPROJ);
       print(TokenName.LPAREN);
       printTermList(visibilityList.getZRefName());
       print(TokenName.RPAREN);
@@ -448,7 +448,7 @@ public class OzPrintVisitor
   {
     printLPAREN(hideOpExpr);
     visit(hideOpExpr.getOpExpr());
-    print(Keyword.HIDE);
+    print(Keyword.ZHIDE);
     print(TokenName.LPAREN);
     visit(hideOpExpr.getRefNameList());
     print(TokenName.RPAREN);

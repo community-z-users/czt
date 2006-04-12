@@ -347,7 +347,7 @@ public class ZPrintVisitor
   {
     final boolean braces = existsExpr.getAnn(ParenAnn.class) != null;
     if (braces) print(TokenName.LPAREN);
-    print(Keyword.EXISTS);
+    print(Keyword.EXI);
     visit(existsExpr.getSchText());
     print(Keyword.SPOT);
     visit(existsExpr.getExpr());
@@ -359,7 +359,7 @@ public class ZPrintVisitor
   {
     final boolean braces = existsPred.getAnn(ParenAnn.class) != null;
     if (braces) print(TokenName.LPAREN);
-    print(Keyword.EXISTS);
+    print(Keyword.EXI);
     visit(existsPred.getSchText());
     print(Keyword.SPOT);
     visit(existsPred.getPred());
@@ -386,7 +386,7 @@ public class ZPrintVisitor
   {
     final boolean braces = forallExpr.getAnn(ParenAnn.class) != null;
     if (braces) print(TokenName.LPAREN);
-    print(Keyword.FORALL);
+    print(Keyword.ALL);
     visit(forallExpr.getSchText());
     print(Keyword.SPOT);
     visit(forallExpr.getExpr());
@@ -398,7 +398,7 @@ public class ZPrintVisitor
   {
     final boolean braces = forallPred.getAnn(ParenAnn.class) != null;
     if (braces) print(TokenName.LPAREN);
-    print(Keyword.FORALL);
+    print(Keyword.ALL);
     visit(forallPred.getSchText());
     print(Keyword.SPOT);
     visit(forallPred.getPred());
@@ -452,7 +452,7 @@ public class ZPrintVisitor
     final boolean braces = hideExpr.getAnn(ParenAnn.class) != null;
     if (braces) print(TokenName.LPAREN);
     visit(hideExpr.getExpr());
-    print(Keyword.HIDE);
+    print(Keyword.ZHIDE);
     print(TokenName.LPAREN);
     printTermList(hideExpr.getZRefNameList());
     print(TokenName.RPAREN);
@@ -487,7 +487,7 @@ public class ZPrintVisitor
     final boolean braces = impliesExpr.getAnn(ParenAnn.class) != null;
     if (braces) print(TokenName.LPAREN);
     visit(impliesExpr.getLeftExpr());
-    print(Keyword.IMPLIES);
+    print(Keyword.IMP);
     visit(impliesExpr.getRightExpr());
     if (braces) print(TokenName.RPAREN);
     return null;
@@ -498,7 +498,7 @@ public class ZPrintVisitor
     final boolean braces = impliesPred.getAnn(ParenAnn.class) != null;
     if (braces) print(TokenName.LPAREN);
     visit(impliesPred.getLeftPred());
-    print(Keyword.IMPLIES);
+    print(Keyword.IMP);
     visit(impliesPred.getRightPred());
     if (braces) print(TokenName.RPAREN);
     return null;
@@ -579,7 +579,7 @@ public class ZPrintVisitor
   public Object visitNewOldPair(NewOldPair pair)
   {
     visit(pair.getNewName());
-    print(Keyword.RENAME);
+    print(Keyword.SLASH);
     visit(pair.getOldName());
     return null;
   }
@@ -784,7 +784,7 @@ public class ZPrintVisitor
   {
     final boolean braces = powerExpr.getAnn(ParenAnn.class) != null;
     if (braces) print(TokenName.LPAREN);
-    print(Keyword.POWERSET);
+    print(Keyword.POWER);
     visit(powerExpr.getExpr());
     if (braces) print(TokenName.RPAREN);
     return null;
@@ -799,7 +799,7 @@ public class ZPrintVisitor
   {
     final boolean braces = preExpr.getAnn(ParenAnn.class) != null;
     if (braces) print(TokenName.LPAREN);
-    print(Keyword.PRE);
+    print(Keyword.ZPRE);
     visit(preExpr.getExpr());
     if (braces) print(TokenName.RPAREN);
     return null;
@@ -886,7 +886,7 @@ public class ZPrintVisitor
     final boolean braces = projExpr.getAnn(ParenAnn.class) != null;
     if (braces) print(TokenName.LPAREN);
     visit(projExpr.getLeftExpr());
-    print(Keyword.PROJECT);
+    print(Keyword.ZPROJ);
     visit(projExpr.getRightExpr());
     if (braces) print(TokenName.RPAREN);
     return null;
