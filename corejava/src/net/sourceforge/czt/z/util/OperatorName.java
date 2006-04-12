@@ -100,8 +100,7 @@ public class OperatorName
     list_ = list;
     Boolean expectArgument = null;
     StringBuffer name = new StringBuffer();
-    for (Iterator iter = list.iterator(); iter.hasNext(); ) {
-      String opPart = (String) iter.next();
+    for (String opPart : list) {
       if (opPart.equals(ZString.ARG) ||
           opPart.equals(ZString.ARG_TOK)) {
         if (Boolean.FALSE.equals(expectArgument)) {
