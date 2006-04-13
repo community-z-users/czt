@@ -35,9 +35,7 @@ import net.sourceforge.czt.animation.eval.*;
 *
 * FlatSetComp(decls,pred,expr) implements {decls|pred@expr}
 */
-public class FlatSetComp
-  extends FlatPred
-  implements EvalSet
+public class FlatSetComp extends FlatEvalSet
 {
   /** The most recent variable bounds information. */
   protected Bounds bounds_;
@@ -186,7 +184,7 @@ public class FlatSetComp
   *
   * @return an Iterator object which returns each member of the set.
   */
-  public Iterator<Expr> members()
+  public Iterator<Expr> iterator()
   {
     if (knownMembers_ == null) {
       // generate all members.
@@ -209,9 +207,9 @@ public class FlatSetComp
   /** TODO: see if we can use bounds information about element
    *  to reduce the size of the subset that we return?
    */
-  public Iterator<Expr> subsetMembers(ZRefName element)
+  public Iterator<Expr> subsetIterator(ZRefName element)
   {
-    return members();
+    return iterator();
   }
 
   /** Does the actual evaluation.
@@ -247,14 +245,16 @@ public class FlatSetComp
   * @return   true iff e is a member of the set.
   */
   //@ requires evalMode_ != null;
-  public boolean isMember(Expr e)
+  public boolean contains(Object e)
   {
     assert(evalMode_ != null);
+    if ( ! (e instanceof Expr))
+      throw new RuntimeException("illegal non-Expr object "+e+" cannot be in "+this);
     Envir env = evalMode_.getEnvir();
     // Add the expected answer to the environment.
     // This allows the predicates inside the set to CHECK the result
     // rather than generating all possible results.
-    env = env.add(resultName_, e);
+    env = env.add(resultName_, (Expr)e);
     Mode m = predsOne_.chooseMode(env);
     if (m == null)
       throw new EvalException("Cannot even test member of SetComp: " + this);

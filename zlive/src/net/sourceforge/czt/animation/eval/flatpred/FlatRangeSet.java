@@ -39,13 +39,8 @@ import net.sourceforge.czt.animation.eval.*;
 * these objects to represent the set of naturals and the set of
 * integers etc.
 */
-public class FlatRangeSet
-  extends FlatPred
-  implements EvalSet
-{
-  private static final Logger sLogger
-	= Logger.getLogger("net.sourceforge.czt.animation.eval");
-	  
+public class FlatRangeSet extends FlatEvalSet
+{  
   protected Factory factory_ = new Factory();
 
   /** The most recent variable bounds information. */
@@ -106,25 +101,25 @@ public class FlatRangeSet
 
   public BigInteger getLower()
   {
-    sLogger.entering("FlatRangeSet", "getLower");
+    LOG.entering("FlatRangeSet", "getLower");
     BigInteger result = null;
     if (lower_ != null)
       result = lower_;
     else if (lowerArg_ >= 0 && bounds_ != null)
       result = bounds_.getLower(args.get(lowerArg_));
-	sLogger.exiting("FlatRangeSet", "getLower", result);
+	LOG.exiting("FlatRangeSet", "getLower", result);
     return result;
   }
 
   public BigInteger getUpper()
   {
-    sLogger.entering("FlatRangeSet", "getUpper");
+    LOG.entering("FlatRangeSet", "getUpper");
 	BigInteger result = null;
     if (upper_ != null)
       result = upper_;
     if (upperArg_ >= 0 && bounds_ != null)
       result = bounds_.getUpper(args.get(upperArg_));
-	sLogger.exiting("FlatRangeSet", "getUpper", result);
+	LOG.exiting("FlatRangeSet", "getUpper", result);
     return result;
   }
 
@@ -276,7 +271,7 @@ public class FlatRangeSet
   * @return an Iterator object.
   */
   //@ requires getMode() != null;
-  public Iterator<Expr> members()
+  public Iterator<Expr> iterator()
   {
     assert(evalMode_ != null);
     Envir env = evalMode_.getEnvir();
@@ -294,7 +289,7 @@ public class FlatRangeSet
    *  This methods has no side-effects, so does not change the
    *  set returned by the usual members() method.
    */
-  public Iterator<Expr> subsetMembers(ZRefName element)
+  public Iterator<Expr> subsetIterator(ZRefName element)
   {
     assert evalMode_ != null;
     assert bounds_ != null;
@@ -350,7 +345,7 @@ public class FlatRangeSet
   * @return   true iff e is a member of the set.
   */
   //@ requires getMode() != null;
-  public boolean isMember(Expr e)
+  public boolean contains(Object e)
   {
     assert evalMode_ != null;
     Envir env = evalMode_.getEnvir();

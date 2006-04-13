@@ -29,7 +29,7 @@ import net.sourceforge.czt.z.ast.ZRefName;
  *
  * This defines the interface to all different kinds of set objects.
  */
-public interface EvalSet extends Expr {
+public interface EvalSet extends Expr, Set<Expr> {
 
   /** Default estimate for the approximate size of an unknown set. */
   public double UNKNOWN_SIZE = 1000000.0;
@@ -71,7 +71,7 @@ public interface EvalSet extends Expr {
    *
    * @return an Iterator object.
    */
-  public Iterator<Expr> members();
+  public Iterator<Expr> iterator();
   
   /** Iterate through all members of this set that might
    *  equal element (which need not be known yet).
@@ -79,13 +79,13 @@ public interface EvalSet extends Expr {
    *
    * @return an Iterator object.
    */
-  public Iterator<Expr> subsetMembers(ZRefName element);
+  public Iterator<Expr> subsetIterator(ZRefName element);
   
   /** Tests for membership of the set.
    * @param e  The fully evaluated expression.
    * @return   true iff e is a member of the set.
    */
-  public boolean isMember(Expr e);
+  public boolean contains(Object e);
 
   /**Tests for the equality of any two sets.
      Here, the equality is based upon both the sets

@@ -131,7 +131,7 @@ public class FlatMember extends FlatPred
         // we only do the membership test once
         solutionsReturned++;
         Expr arg1 = evalMode_.getEnvir().lookup(element);
-        if (set_.isMember(arg1))
+        if (set_.contains(arg1))
           result = true;
       }
     }
@@ -139,7 +139,7 @@ public class FlatMember extends FlatPred
       // iterate through the members of set_
       if (solutionsReturned == 0) {
         // set up the iterator...
-        current_ = set_.subsetMembers(element);
+        current_ = set_.subsetIterator(element);
       }
       assert current_ != null;
       solutionsReturned++;

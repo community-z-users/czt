@@ -82,7 +82,7 @@ extends FlatPred
       solutionsReturned++;
       Expr set = evalMode_.getEnvir().lookup(setName);
       assert set instanceof EvalSet;
-      Iterator it = ((EvalSet)set).members();
+      Iterator it = ((EvalSet)set).iterator();
       BigInteger i = new BigInteger("0");
       while(it.hasNext()) {
         it.next();

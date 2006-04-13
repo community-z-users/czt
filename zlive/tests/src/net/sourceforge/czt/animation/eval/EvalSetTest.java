@@ -123,11 +123,11 @@ public class EvalSetTest
     EvalSet resultSet = (EvalSet) m.getEnvir().lookup(s);
     Assert.assertTrue(resultSet != null);
     Assert.assertEquals(0.0,resultSet.estSize(),ACCURACY);
-    Iterator it = resultSet.members();
+    Iterator it = resultSet.iterator();
     Assert.assertTrue(it != null);
     Assert.assertFalse(it.hasNext());
-    Assert.assertFalse(resultSet.isMember(i10));
-    Assert.assertFalse(resultSet.isMember(i12));
+    Assert.assertFalse(resultSet.contains(i10));
+    Assert.assertFalse(resultSet.contains(i12));
     Assert.assertFalse(emptySet.nextEvaluation());
   }
   
@@ -151,14 +151,14 @@ public class EvalSetTest
     Assert.assertTrue(temp.contains(k));
     Assert.assertTrue(temp.contains(s));
     //Checking the isMember() method
-    Assert.assertFalse(resultSet.isMember(i9));
-    Assert.assertTrue(resultSet.isMember(i10));
-    Assert.assertTrue(resultSet.isMember(i11));
-    Assert.assertTrue(resultSet.isMember(i12));
-    Assert.assertFalse(resultSet.isMember(i13));
+    Assert.assertFalse(resultSet.contains(i9));
+    Assert.assertTrue(resultSet.contains(i10));
+    Assert.assertTrue(resultSet.contains(i11));
+    Assert.assertTrue(resultSet.contains(i12));
+    Assert.assertFalse(resultSet.contains(i13));
     //Checking the members() method
     Set<Expr> allElements = new HashSet<Expr>();
-    Iterator<Expr> it = resultSet.members();
+    Iterator<Expr> it = resultSet.iterator();
     //All the elements of in the set are added to a HashSet
     while (it.hasNext())
       allElements.add(it.next());

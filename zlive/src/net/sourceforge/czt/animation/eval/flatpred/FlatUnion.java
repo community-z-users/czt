@@ -36,7 +36,7 @@ import net.sourceforge.czt.animation.eval.EvalSet;
  * 
  * @author leo and marku
  */
-public class FlatUnion extends FlatPred implements EvalSet {
+public class FlatUnion extends FlatEvalSet {
 
     /** The most recent variable bounds information. */
     protected Bounds bounds_;
@@ -214,17 +214,17 @@ public class FlatUnion extends FlatPred implements EvalSet {
      * @return an Iterator object.
      */
     //@requires solutionsReturned > 0;
-    public Iterator<Expr> members()
+    public Iterator<Expr> iterator()
     {
       assert solutionsReturned > 0;  // nextEvaluation() must have succeeded.
       if (knownMembers_ == null) {
         // generate all members from BOTH sets.
         // Any duplicates will be removed, thanks to the HashSet.
         knownMembers_ = new HashSet<Expr>();
-        Iterator<Expr> elems = leftSet_.members();
+        Iterator<Expr> elems = leftSet_.iterator();
         while (elems.hasNext())
           knownMembers_.add(elems.next());
-        elems = rightSet_.members();
+        elems = rightSet_.iterator();
         while (elems.hasNext())
           knownMembers_.add(elems.next());
       }
@@ -237,16 +237,16 @@ public class FlatUnion extends FlatPred implements EvalSet {
      *
      * @return an Iterator object.
      */
-    public Iterator<Expr> subsetMembers(ZRefName element)
+    public Iterator<Expr> subsetIterator(ZRefName element)
     {
       assert solutionsReturned > 0;  // nextEvaluation() must have succeeded.
       Set<Expr> subset = new HashSet<Expr>();
       // generate all subset members from BOTH sets.
       // Any duplicates will be removed, thanks to the HashSet.
-      Iterator<Expr> elems = leftSet_.subsetMembers(element);
+      Iterator<Expr> elems = leftSet_.subsetIterator(element);
       while (elems.hasNext())
         subset.add(elems.next());
-      elems = rightSet_.subsetMembers(element);
+      elems = rightSet_.subsetIterator(element);
       while (elems.hasNext())
         subset.add(elems.next());
       return subset.iterator();
@@ -257,9 +257,9 @@ public class FlatUnion extends FlatPred implements EvalSet {
      * @return   true iff e is a member of the set.
      */
     //@ requires solutionsReturned > 0;
-    public boolean isMember(Expr e)
+    public boolean contains(Object e)
     {
-      return leftSet_.isMember(e) || rightSet_.isMember(e);
+      return leftSet_.contains(e) || rightSet_.contains(e);
     }
 
     /**Tests for the equality of any two sets.

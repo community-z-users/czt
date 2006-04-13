@@ -35,9 +35,7 @@ import net.sourceforge.czt.animation.eval.*;
 *
 * FlatDiscreteSet(A,s) implements {Elements of ArrayList A} = s
 */
-public class FlatDiscreteSet
-extends FlatPred
-implements EvalSet
+public class FlatDiscreteSet extends FlatEvalSet
 {
   protected Factory factory_ = new Factory();
 
@@ -165,7 +163,7 @@ implements EvalSet
   *
   * @return an Iterator object.
   */
-  public Iterator<Expr> members() {
+  public Iterator<Expr> iterator() {
     assert solutionsReturned > 0;
     if(iterateSet_ == null) {
       iterateSet_ = new HashSet<Expr>();
@@ -182,9 +180,9 @@ implements EvalSet
   }
 
   /** For FlatDiscreteSet, subsetMembers(...) is the same as members(). */
-  public Iterator<Expr> subsetMembers(ZRefName element)
+  public Iterator<Expr> subsetIterator(ZRefName element)
   {
-    return members();
+    return iterator();
   }
 
   /** Does the actual evaluation */
@@ -214,11 +212,11 @@ implements EvalSet
 
   /** Tests for membership of the set.
    *  This can only be called AFTER nextEvaluation().
-   *   
+   *
    * @param e  The fully evaluated expression.
    * @return   true iff e is a member of the set.
    */
-  public boolean isMember(/*@non_null@*/Expr e)
+  public boolean contains(Object e)
   {
     assert (e != null);
     assert solutionsReturned > 0;

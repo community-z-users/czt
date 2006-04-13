@@ -306,28 +306,4 @@ public abstract class FlatPred extends PredImpl
       throw new IllegalArgumentException ("Bad arguments to create",e);
     }
   }
-  
-  /** Equality of an EvalSet with another EvalSet or Set. */
-  public boolean equalsEvalSet(/*@non_null@*/EvalSet s1, Object s2) {
-    Set elems1 = new HashSet();
-    Iterator it = s1.members();
-    while (it.hasNext()) {
-      Object value = it.next();
-      elems1.add(value);
-    }
-    Set elems2 = null;
-    if (s2 instanceof Set)
-      elems2 = (Set)s2;
-    else if (s2 instanceof EvalSet) {
-      elems2 = new HashSet();
-      it = ((EvalSet)s2).members();
-      while (it.hasNext()) {
-        Object value = it.next();
-        elems2.add(value);
-      }
-    } else {
-      return false;
-    }
-    return elems1.equals(elems2);
-  }
 }

@@ -198,7 +198,7 @@ public class ZLive
     if (m == null) {
       final String message =
         "Cannot find mode to evaluate " + pred +
-        " (" + TextUI.printTerm(pred, markup_) + ")";
+        " (" + printTerm(pred, markup_) + ")";
       throw new EvalException(message);
     }
     predlist_.setMode(m);
@@ -236,7 +236,7 @@ public class ZLive
     if (m == null) {
       final String message =
         "Cannot find mode to evaluate " + expr +
-        " (" + TextUI.printTerm(expr, markup_) + ")";
+        " (" + printTerm(expr, markup_) + ")";
       throw new EvalException(message);
     }
     predlist_.setMode(m);
@@ -277,13 +277,72 @@ public class ZLive
       }
     }
 
-  private void print(Term t, Writer writer) throws IOException
+  /** Prints an evaluated expression as a standard text string.
+   */
+  public void printTerm(PrintStream out, Term term, Markup markup)
   {
-    ZLiveToAstVisitor toAst = new ZLiveToAstVisitor();
-    Term ast = (Term) t.accept(toAst);
-    //writer.write(ast);
-    PrintUtils.printUnicode(ast, writer, sectman_);
-    writer.write("\n");
+    PrintWriter writer = new PrintWriter(out);
+    printTerm(writer, term, markup);
+    writer.flush();
+  }
+
+  /** Writes an evaluated expression as a standard text string. 
+   */
+  public void printTerm(PrintWriter out, Term term, Markup markup)
+  {
+    if (term instanceof NumExpr) {
+      NumExpr num = (NumExpr) term;
+      ZNumeral znum = (ZNumeral) num.getNumeral();
+      out.print(znum.getValue());
+    }
+    else if (term instanceof EvalSet) {
+      EvalSet set = (EvalSet) term;
+      out.print("{ ");
+      Iterator<Expr> i = set.iterator();
+      while (i.hasNext()) {
+        printTerm(out, (Expr) i.next(), markup);
+        if (i.hasNext())
+          out.print(", ");
+      }
+      out.print(" }");
+    }
+    else {
+      if (Markup.LATEX.equals(markup)) {
+        try {
+          PrintUtils.printLatex(term, out, getSectionManager(),
+                                getCurrentSection());
+          out.flush();
+          return;
+        }
+        catch (Exception e) {
+          e.printStackTrace(System.err);
+        }
+      }
+      try {
+        PrintUtils.printUnicode(term, out, getSectionManager());
+        out.flush();
+        return;
+      }
+      catch (Exception e) {
+        e.printStackTrace(System.err);
+      }
+      out.print(term);
+    }
+    out.flush();
+  }
+
+  /** Converts the given term to a String. */
+  public String printTerm(Term term, Markup markup)
+  {
+    StringWriter stringWriter = new StringWriter();
+    printTerm(new PrintWriter(stringWriter), term, markup);
+    return stringWriter.toString();
+  }
+
+  /** Converts the given term to a String, using the current markup. */
+  public String printTerm(Term term)
+  {
+    return printTerm(term, getMarkup());
   }
 
   public static void main(String args[])

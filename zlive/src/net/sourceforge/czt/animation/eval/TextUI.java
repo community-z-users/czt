@@ -203,6 +203,7 @@ public class TextUI {
   public static void printHelp(PrintWriter out)
   {
     out.println("\n--------------- ZLive Help ---------------");
+    out.println("load \"filename\" -- Read a Z specification into ZLive");
     out.println("eval <expr>       -- Evaluate an expression");
     out.println("evalp <pred>      -- Evaluate a predicate (synonym for eval)");
     out.println("why               -- Print out the internal code of the last command");
@@ -234,7 +235,7 @@ public class TextUI {
     else if (term instanceof EvalSet) {
       EvalSet set = (EvalSet) term;
       out.print("{ ");
-      Iterator<Expr> i = set.members();
+      Iterator<Expr> i = set.iterator();
       while (i.hasNext()) {
         printTerm(out, (Expr) i.next(), markup);
         if (i.hasNext())
