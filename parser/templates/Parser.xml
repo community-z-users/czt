@@ -825,6 +825,20 @@ action code
       term.getAnns().add(locAnn);
     }
 
+    private void addLocAnn(Term term, LocInfo start, LocInfo end)
+    {
+      LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
+      if (locAnn == null) {
+        locAnn = factory_.createLocAnn();
+        term.getAnns().add(locAnn);
+      }
+      locAnn.setLoc(file_);
+      locAnn.setLine(start.getLine());
+      locAnn.setCol(start.getColumn());
+      locAnn.setStart(start.getStart());
+      locAnn.setLength(end.getStart() - start.getStart() + end.getLength());
+    }
+
 <add:oz>
     /**
      * Reset the isOpExpr_ stack.
@@ -1289,7 +1303,7 @@ init with
 
 scan with {: return local_next_token(); :};
 
-terminal
+terminal LocInfo
         THETA, MU, LAMBDA,
         NEXTSTROKE, OUTSTROKE, INSTROKE,
         LPAREN, RPAREN, LSQUARE, RSQUARE, LBIND, RBIND,
@@ -2123,8 +2137,12 @@ narrParagraph ::=
         ;
 
 unboxedParagraphList ::=
-        ZED unboxedParagraphItemList:uil END
-        {: RESULT = uil; :}
+        ZED:zed unboxedParagraphItemList:uil END:end
+        {: if (uil.size() == 1) {
+             addLocAnn(uil.get(0), zed, end);
+           }
+           RESULT = uil;
+        :}
         |        
         ZED error END
         {:
@@ -2202,24 +2220,24 @@ basicTypeDefinition ::=
         ;
 
 schema ::=
-        SCH:sch name:n optNL schemaText:st END
+        SCH:sch name:n optNL schemaText:st END:end
         {:
            RESULT = factory_.createSchema(n, null, st);
-           addLocAnn(RESULT, schleft, schright);
+           addLocAnn(RESULT, sch, end);
         :}
         |
-        GENSCH:gensch name:n optNL formalParameters:fp schemaText:st END
+        GENSCH:gensch name:n optNL formalParameters:fp schemaText:st END:end
         {:
            RESULT = factory_.createSchema(n, fp, st);
-           addLocAnn(RESULT, genschleft, genschright);
+           addLocAnn(RESULT, gensch, end);
         :}
         ;       
 
 genericAxDefinition ::= 
-        GENAX:genax formalParameters:fp schemaText:st END
+        GENAX:genax formalParameters:fp schemaText:st END:end
         {:
            RESULT = factory_.createAxPara(fp, st, Box.AxBox);
-           addLocAnn(RESULT, genaxleft, genaxright);
+           addLocAnn(RESULT, genax, end);
         :}
         ;
 
@@ -2237,10 +2255,10 @@ formalParameters ::=
         ;
 
 axiomaticDefinition ::= 
-        AX:ax schemaText:st END
+        AX:ax schemaText:st END:end
         {:
            RESULT = factory_.createAxPara(null, st, Box.AxBox);
-           addLocAnn(RESULT, axleft, axright);
+           addLocAnn(RESULT, ax, end);
         :}
         ;
 
