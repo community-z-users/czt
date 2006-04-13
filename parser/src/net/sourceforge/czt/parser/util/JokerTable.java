@@ -77,8 +77,8 @@ public class JokerTable
     JokerType kind = jokers.getKind();
     List<String> names = jokers.getName();
     for (String name : names) {
-      final int line = locAnn.getLine();
-      final int col = locAnn.getCol();
+      final Integer line = locAnn.getLine();
+      final Integer col = locAnn.getCol();
       final String loc = locAnn.getLoc();
       addTokenType(name, kind, line, col, loc);
     }
@@ -93,7 +93,7 @@ public class JokerTable
   private void addTokenType(String name, JokerType type, String loc)
     throws JokerException
   {
-    addTokenType(name, type, -1, -1, loc);
+    addTokenType(name, type, null, null, loc);
   }
 
   /**
@@ -103,15 +103,15 @@ public class JokerTable
    * exists.
    */
   private void addTokenType(String name, JokerType kind,
-                            int line, int col, String loc)
+                            Integer line, Integer col, String loc)
     throws JokerException
   {
     final JokerType existingType =
       (JokerType) jokers_.get(name);
     if (existingType != null) {
       String message = "Duplicate joker name " + name;
-      if (line >= 0)  message += " at line " + line;
-      if (col >= 0) message += " column " + col;
+      if (line != null && line >= 0)  message += " at line " + line;
+      if (col != null && col >= 0) message += " column " + col;
       message += " in " + loc;
       throw new JokerException(message);
     }
