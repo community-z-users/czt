@@ -906,11 +906,11 @@ more detail.
     <xs:annotation>
       <xs:documentation>
         Location annotations define the source-code location of a construct.
-        The Line and Col numbers, if present, refer to the start of the
-        construct.  The Start number, if present, gives the position of
-        the start of the construct from the beginning of the document,
-        and the Length number gives the number of characters from the 
-        beginning of the construct to the end.
+        The Line and Col numbers, if present, refer to an identifying
+        element within the construct.  The Start number, if present,
+        gives the position of the start of the construct from the beginning
+        of the document, and the Length number gives the number of characters
+        from the beginning of the construct to the end.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
