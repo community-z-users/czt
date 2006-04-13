@@ -83,8 +83,6 @@ public class KeywordScanner
   
   private static final Map symbolMap_ = DebugUtils.getFieldMap(Sym.class);
 
-public static long time = 0;
-
   public KeywordScanner(ContextFreeScanner scanner, Properties properties)
   {
     createKeywordMap();
