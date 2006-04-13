@@ -26,6 +26,7 @@ import net.sourceforge.czt.java_cup.runtime.*;
 import junit.framework.*;
 
 import net.sourceforge.czt.parser.util.Decorword;
+import net.sourceforge.czt.parser.util.LocInt;
 import net.sourceforge.czt.z.util.ZString;
 
 /**
@@ -70,7 +71,7 @@ public class UnicodeScannerTest extends TestCase
   {
     Symbol symbol = lexer_.next_token();
     Assert.assertEquals(Sym.NUMERAL, symbol.sym);
-    Assert.assertEquals(integer, symbol.value);
+    Assert.assertEquals(integer, ((LocInt) symbol.value).getInteger());
   }
 
   private void nextIsInStroke()
@@ -92,7 +93,7 @@ public class UnicodeScannerTest extends TestCase
   {
     Symbol symbol = lexer_.next_token();
     Assert.assertEquals(Sym.NUMSTROKE, symbol.sym);
-    Assert.assertEquals(num, symbol.value);
+    Assert.assertEquals(num, ((LocInt) symbol.value).getInteger());
   }
 
   private void nextIsNl()

@@ -19,6 +19,8 @@
 
 package net.sourceforge.czt.parser.util;
 
+import net.sourceforge.czt.z.ast.LocAnn;
+
 /**
  * @author Petra Malik
  */
@@ -26,10 +28,19 @@ public class LocInfoImpl
   implements LocInfo
 {
   private String source_;
-  private int line_;
-  private int column_;
-  private int start_;
-  private int length_;
+  private int line_ = -1;
+  private int column_ = -1;
+  private int start_ = -1;
+  private int length_ = -1;
+
+  public LocInfoImpl(LocAnn locAnn)
+  {
+    source_ = locAnn.getLoc();
+    if (locAnn.getLine() != null) line_ = locAnn.getLine();
+    if (locAnn.getCol() != null) column_ = locAnn.getCol();
+    if (locAnn.getStart() != null) start_ = locAnn.getStart();
+    if (locAnn.getLength() != null) length_ = locAnn.getLength();
+  }
 
   public LocInfoImpl(String source,
                      int line, int column,
@@ -47,8 +58,6 @@ public class LocInfoImpl
     source_ = source;
     line_ = line;
     column_ = column;
-    start_ = -1;
-    length_ = -1;
   }
 
   public LocInfoImpl(LocInfo locInfo)

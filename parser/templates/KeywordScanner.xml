@@ -269,7 +269,9 @@ public class KeywordScanner
         logMessage =
           "Returning " + token.intValue() + " instead.";
         CztLogger.getLogger(KeywordScanner.class).finer(logMessage);
-        return new Symbol(token.intValue(), symbol.left, symbol.right);
+        return new Symbol(token.intValue(),
+                          symbol.left, symbol.right,
+                          decorword.getLocation());
       }
     }
     return symbol;

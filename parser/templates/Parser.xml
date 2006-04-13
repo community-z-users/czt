@@ -825,18 +825,101 @@ action code
       term.getAnns().add(locAnn);
     }
 
+    private void addLocAnn(Term term, LocInfo locInfo)
+    {
+      if (locInfo != null) {
+        LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
+        if (locAnn == null) {
+          locAnn = factory_.createLocAnn();
+          term.getAnns().add(locAnn);
+        }
+        locAnn.setLoc(file_);
+        if (locInfo.getLine() >= 0) locAnn.setLine(locInfo.getLine());
+        if (locInfo.getColumn() >= 0) locAnn.setCol(locInfo.getColumn());
+        if (locInfo.getStart() >= 0) locAnn.setStart(locInfo.getStart());
+        if (locInfo.getLength() >= 0) locAnn.setLength(locInfo.getLength());
+      }
+    }
+
+    private void addLocAnn(Term term, Term t2)
+    {
+      addLocAnn(term, getLocAnn(t2));
+    }
+
+    private int computeLength(LocInfo start, LocInfo end)
+    {
+      final int startStart = start.getStart();
+      final int endStart = end.getStart();
+      final int endLength = end.getLength();
+      if (startStart >= 0 &amp;&amp;
+          endStart >= 0 &amp;&amp;
+          endLength >= 0) {
+        return endStart - startStart + endLength;
+      }
+      return -1;
+    }
+
     private void addLocAnn(Term term, LocInfo start, LocInfo end)
     {
-      LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
-      if (locAnn == null) {
-        locAnn = factory_.createLocAnn();
-        term.getAnns().add(locAnn);
+      if (start != null &amp;&amp; end != null) {
+        addLocAnn(term, new LocInfoImpl(start.getSource(),
+                                        start.getLine(),
+                                        start.getColumn(),
+                                        start.getStart(),
+                                        computeLength(start, end)));
       }
-      locAnn.setLoc(file_);
-      locAnn.setLine(start.getLine());
-      locAnn.setCol(start.getColumn());
-      locAnn.setStart(start.getStart());
-      locAnn.setLength(end.getStart() - start.getStart() + end.getLength());
+    }
+
+    private void addLocAnn(Term term, Term start, LocInfo end)
+    {
+      addLocAnn(term, getLocAnn(start), end);
+    }
+
+    private void addLocAnn(Term term, LocInfo start, Term end)
+    {
+       addLocAnn(term, start, getLocAnn(end));
+    }
+
+    private void addLocAnn(Term term, Term start, Term end)
+    {
+      addLocAnn(term, getLocAnn(start), getLocAnn(end));
+    }
+
+    private void addLocAnn(Term term, int line, int column,
+                           LocInfo start, LocInfo end)
+    {
+      if (start != null &amp;&amp; end != null) {
+        addLocAnn(term, new LocInfoImpl(start.getSource(),
+                                        line,
+                                        column,
+                                        start.getStart(),
+                                        computeLength(start, end)));
+      }
+    }
+
+    private void addLocAnn(Term term, int line, int column,
+                           Term start, LocInfo end)
+    {
+      addLocAnn(term, line, column, getLocAnn(start), end);
+    }
+
+    private void addLocAnn(Term term, int line, int column,
+                           LocInfo start, Term end)
+    {
+       addLocAnn(term, line, column, start, getLocAnn(end));
+    }
+
+    private void addLocAnn(Term term, int line, int column,
+                           Term start, Term end)
+    {
+      addLocAnn(term, line, column, getLocAnn(start), getLocAnn(end));
+    }
+
+    private LocInfo getLocAnn(Term term)
+    {
+      LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
+      if (locAnn == null) return null;
+      return new LocInfoImpl(locAnn);
     }
 
 <add:oz>
@@ -1279,10 +1362,10 @@ parser code
     protected LocInfo getLocation(LocAnn locAnn)
     {
       if (locAnn != null) {
-        int line = locAnn.getLine();
-        if (line > 0) line = line - 1;
-        int column = locAnn.getCol();
-        if (column > 0) column = column - 1;
+        Integer line = locAnn.getLine();
+        if (line != null &amp;&amp; line > 0) line = line - 1;
+        Integer column = locAnn.getCol();
+        if (column != null &amp;&amp; column > 0) column = column - 1;
         return new LocInfoImpl(file_, line, column);
       }
       return new LocInfoImpl(file_, -1, -1);
@@ -1397,7 +1480,7 @@ terminal String
         TEXT, PREP, PRE, POSTP, POST, IP, I, LP, L, ELP, EL, ERP, ER,
         SRP, SR, EREP, ERE, SREP, SRE, ES, SS;
 
-terminal Integer NUMERAL, NUMSTROKE;
+terminal LocInt NUMERAL, NUMSTROKE;
 
 terminal Decorword
 <add:oz>
@@ -2055,7 +2138,7 @@ parentList ::=
         {:
            checkName(dw, dwleft, dwright);
            Parent p = factory_.createParent(dw.getName());
-           addLocAnn(p, dwleft, dwright);
+           addLocAnn(p, dw.getLocation());
            pl.add(p);
            RESULT = pl;
         :}
@@ -2064,7 +2147,7 @@ parentList ::=
         {:
            checkName(dw, dwleft, dwright);
            Parent p = factory_.createParent(dw.getName());
-           addLocAnn(p, dwleft, dwright);
+           addLocAnn(p, dw.getLocation());
            RESULT = list(p);
         :}
         ;
@@ -2418,7 +2501,7 @@ catTemplate ::=
         NUMERAL:pr assoc:a infixTemplate:it
         {:
            RESULT = factory_.createOptempPara();
-           RESULT.setPrec(pr);
+           RESULT.setPrec(pr.getInteger());
            RESULT.getOper().addAll(it);
            RESULT.setAssoc(a);
         :}
@@ -3259,7 +3342,7 @@ circusParamNameList ::=
         {: 
            checkName(dw, dwleft, dwright);
            DeclName dn = factory_.createZDeclName(dw.getName());
-           addLocAnn(dn, dwleft, dwright);
+           addLocAnn(dn, dw.getLocation());
            dwl.add(dn); 
            RESULT = dwl;
         :}     
@@ -3268,7 +3351,7 @@ circusParamNameList ::=
         {:
            checkName(dw, dwleft, dwright);
            DeclName dn = factory_.createZDeclName(dw.getName());
-           addLocAnn(dn, dwleft, dwright);
+           addLocAnn(dn, dw.getLocation());
            RESULT = list(dn); 
         :}        
         ;        
@@ -3912,7 +3995,7 @@ nameList ::=
         {: 
            checkName(dw, dwleft, dwright);
            DeclName dn = factory_.createZDeclName(dw.getName());
-           addLocAnn(dn, dwleft, dwright);
+           addLocAnn(dn, dw.getLocation());
            nl.add(dn);
            RESULT = nl;
         :}
@@ -3921,7 +4004,7 @@ nameList ::=
         {: 
            checkName(dw, dwleft, dwright);
            DeclName dn = factory_.createZDeclName(dw.getName());
-           addLocAnn(dn, dwleft, dwright);
+           addLocAnn(dn, dw.getLocation());
            RESULT = list(dn);
         :}
         ;
@@ -3931,7 +4014,7 @@ name ::=
         {:
            checkName(dw, dwleft, dwright);
            RESULT = factory_.createZDeclName(dw.getName());
-           addLocAnn(RESULT, dwleft, dwright);
+           addLocAnn(RESULT, dw.getLocation());
         :}
 <add:oz>
         |
@@ -3949,7 +4032,7 @@ declWordList ::=
         {: 
            checkName(dw, dwleft, dwright);
            DeclName dn = factory_.createZDeclName(dw.getName());
-           addLocAnn(dn, dwleft, dwright);
+           addLocAnn(dn, dw.getLocation());
            dwl.add(dn); 
            RESULT = dwl;
         :}
@@ -3978,7 +4061,7 @@ declWordList ::=
         {:
            checkName(dw, dwleft, dwright);
            DeclName dn = factory_.createZDeclName(dw.getName());
-           addLocAnn(dn, dwleft, dwright);
+           addLocAnn(dn, dw.getLocation());
            RESULT = list(dn); 
         :}
         |      
@@ -4055,7 +4138,7 @@ declName ::=
         {:
            checkName(dw, dwleft, dwright);
            RESULT = factory_.createZDeclName(dw.getName());
-           addLocAnn(RESULT, dwleft, dwright);
+           addLocAnn(RESULT, dw.getLocation());
         :}
         |
 <add:oz>
@@ -4079,7 +4162,7 @@ refNameList ::=
         {:
            checkName(dw, dwleft, dwright);
            ZRefName rn = factory_.createZRefName(dw.getName());
-           addLocAnn(rn, dwleft, dwright);
+           addLocAnn(rn, dw.getLocation());
            rnl.add(rn);
            RESULT = rnl;
         :}        
@@ -4098,7 +4181,7 @@ refNameList ::=
         {:
            checkName(dw, dwleft, dwright);
            ZRefName rn = factory_.createZRefName(dw.getName());
-           addLocAnn(rn, dwleft, dwright);
+           addLocAnn(rn, dw.getLocation());
            RESULT = list(rn);
         :}
         <add:oz>
@@ -4117,7 +4200,7 @@ refName ::=
         {:
            checkName(dw, dwleft, dwright);
            RESULT = factory_.createZRefName(dw.getName());
-           addLocAnn(RESULT, dwleft, dwright);
+           addLocAnn(RESULT, dw.getLocation());
         :}        
         <add:oz>
         |
@@ -4437,6 +4520,7 @@ formalParameterName ::=
         {: 
            checkName(dw, dwleft, dwright);
            RESULT = factory_.createZDeclName(dw.getName());
+           addLocAnn(RESULT, dw.getLocation());
         :}
 <add:oz>
         |
@@ -4515,7 +4599,7 @@ septerm ::=
         septerm:lhs sep:s term:rhs
         {:
            RESULT = factory_.createAndPred(pred(lhs), pred(rhs), s);
-           addLocAnn(RESULT, sleft, sright);
+           addLocAnn(RESULT, sleft, sright, lhs, rhs);
         :}
 	|
 	term:t
@@ -4527,7 +4611,7 @@ term ::=
         IF:i predicate:p THEN term:te ELSE term:fe
         {:
            RESULT = factory_.createCondExpr(p, expr(te), expr(fe));
-           addLocAnn(RESULT, ileft, iright);
+           addLocAnn(RESULT, i, fe);
         :}
         |
         /* (schema) universal quantification */
@@ -4539,7 +4623,7 @@ term ::=
            else {
              RESULT = factory_.createForallPred(st, pred(t));
            }
-           addLocAnn(RESULT, allleft, allright);
+           addLocAnn(RESULT, all, t);
         :}
         |
         /* (schema) existential quantification */
@@ -4551,7 +4635,7 @@ term ::=
            else {
              RESULT = factory_.createExistsPred(st, pred(t));
            }
-           addLocAnn(RESULT, exileft, exiright);
+           addLocAnn(RESULT, exi, t);
         :}
         |
         /* (schema) unique existential quantification */
@@ -4563,21 +4647,21 @@ term ::=
            else {
              RESULT = factory_.createExists1Pred(st, pred(t));
            }
-           addLocAnn(RESULT, exioneleft, exioneright);
+           addLocAnn(RESULT, exione, t);
         :}
         |
         /* function construction */
         LAMBDA:lambda schemaText:st SPOT term:t
         {:
            RESULT = factory_.createLambdaExpr(st, expr(t));
-           addLocAnn(RESULT, lambdaleft, lambdaright);
+           addLocAnn(RESULT, lambda, t);
         :} %prec LAMBDA
         |
         /* definite description */
         MU:mu schemaText:st SPOT term:t
         {:
            RESULT = factory_.createMuExpr(st, expr(t));
-           addLocAnn(RESULT, muleft, muright);
+           addLocAnn(RESULT, mu, t);
         :} %prec MU
         |
         /* substitution expression */
@@ -4585,7 +4669,7 @@ term ::=
         {: 
            ZSchText st = factory_.createZSchText(ldl, null);
            RESULT = factory_.createLetExpr(st, expr(t));
-           addLocAnn(RESULT, letleft, letright);
+           addLocAnn(RESULT, let, t);
         :} %prec LET
         |
         /* (schema) equivalence */
@@ -4597,7 +4681,7 @@ term ::=
           else {
             RESULT = factory_.createIffPred(pred(lhs), pred(rhs));
           }
-          addLocAnn(RESULT, iffleft, iffright);
+          addLocAnn(RESULT, iffleft, iffright, lhs, rhs);
         :}
         |
         /* (schema) implication */
@@ -4609,7 +4693,7 @@ term ::=
           else {
             RESULT = factory_.createImpliesPred(pred(lhs), pred(rhs));
           }
-          addLocAnn(RESULT, impleft, impright);
+          addLocAnn(RESULT, impleft, impright, lhs, rhs);
         :}
         |
         /* (schema) disjunction */
@@ -4621,7 +4705,7 @@ term ::=
           else {
             RESULT = factory_.createOrPred(pred(lhs), pred(rhs));
           }
-          addLocAnn(RESULT, orleft, orright);
+          addLocAnn(RESULT, orleft, orright, lhs, rhs);
         :}
         |
         /* (schema) conjunction */
@@ -4639,7 +4723,7 @@ term ::=
           else {
             RESULT = factory_.createAndPred(pred(lhs), pred(rhs), And.Wedge);
           }
-          addLocAnn(RESULT, andleft, andright);
+          addLocAnn(RESULT, andleft, andright, lhs, rhs);
         :}
         |
         /* (schema) negation */
@@ -4651,7 +4735,7 @@ term ::=
           else {
             RESULT = factory_.createNegPred(pred(t));
           }
-          addLocAnn(RESULT, notleft, notright);
+          addLocAnn(RESULT, not, t);
         :}
         |
         /* schema composition */
@@ -4667,18 +4751,18 @@ term ::=
 <add:oz>
            }
 </add:oz>
-           addLocAnn(RESULT, compleft, compright);
+           addLocAnn(RESULT, compleft, compright, lhs, rhs);
         :}
         |
         /* schema piping */
         term:lhs ZPIPE:pipe term:rhs
         {:
            RESULT = factory_.createPipeExpr(expr(lhs), expr(rhs));
-           addLocAnn(RESULT, pipeleft, piperight);
+           addLocAnn(RESULT, pipeleft, piperight, lhs, rhs);
         :}
         |
         /* schema hiding */
-        term:t ZHIDE:hide LPAREN refNameList:rnl RPAREN
+        term:t ZHIDE:hide LPAREN refNameList:rnl RPAREN:rparen
         {:
            ZRefNameList zRefNameList = factory_.createZRefNameList(rnl);
 <add:oz>
@@ -4691,12 +4775,12 @@ term ::=
 <add:oz>
            }
 </add:oz>
-           addLocAnn(RESULT, hideleft, hideright);
+           addLocAnn(RESULT, hideleft, hideright, t, rparen);
         :}
         |
 <add:zpatt>
         /* schema hiding */
-        term:t ZHIDE:hide LPAREN JOKERNAMELIST:jnl RPAREN
+        term:t ZHIDE:hide LPAREN JOKERNAMELIST:jnl RPAREN:rparen
         {:
            ZRefName rn = factory_.createZRefName(jnl, null);
            List&lt;RefName&gt; rnl = list((RefName) rn);
@@ -4704,7 +4788,7 @@ term ::=
 
 
            RESULT = factory_.createHideExpr(expr(t), zRefNameList);
-           addLocAnn(RESULT, hideleft, hideright);
+           addLocAnn(RESULT, hideleft, hideright, t, rparen);
         :}
         |
 </add:zpatt>
@@ -4712,28 +4796,29 @@ term ::=
         term:lhs ZPROJ:proj term:rhs
         {:
            RESULT = factory_.createProjExpr(expr(lhs), expr(rhs));
-           addLocAnn(RESULT, projleft, projright);
+           addLocAnn(RESULT, projleft, projright, lhs, rhs);
         :}
         |
         /* schema precondition */
         ZPRE:pre term:t
         {:
            RESULT = factory_.createPreExpr(expr(t));
-           addLocAnn(RESULT, preleft, preright);
+           addLocAnn(RESULT, pre, t);
         :}
         |
         /* powerset */
         POWER:power term:t
         {:
            RESULT = factory_.createPowerExpr(expr(t));
-           addLocAnn(RESULT, powerleft, powerright);
+           addLocAnn(RESULT, power, t);
         :}
         |
         /* Cartesian product */
         prodExpressionList:pel
         {:
            RESULT = factory_.createProdExpr(pel);
-           addLocAnn(RESULT, pelleft, pelright);
+           addLocAnn(RESULT, pelleft, pelright,
+                     pel.get(0), pel.get(pel.size() -1));
         :}
         |
         /* relation operator application */
@@ -4753,7 +4838,7 @@ term ::=
         term:lhs CLASSUNION:classunion term:rhs
         {:
            RESULT = factory_.createClassUnionExpr(expr(lhs), expr(rhs));
-           addLocAnn(RESULT, lhsleft, lhsright);
+           addLocAnn(RESULT, lhs, rhs);
         :}
         |
         /* polymorphism expression */
@@ -4779,7 +4864,7 @@ func_appl ::=
         func_appl:fa inner_term:it
         {:
            RESULT = factory_.createApplExpr(expr(fa), expr(it), Boolean.FALSE);
-           addLocAnn(RESULT, faleft, itright);
+           addLocAnn(RESULT, fa, it);
         :} %prec _APPLICATION
         |
         inner_term:it
@@ -4788,39 +4873,39 @@ func_appl ::=
 
 inner_term ::=
         /* set extension */
-        LBRACE:lbrace optExpressionList:oel RBRACE
+        LBRACE:lbrace optExpressionList:oel RBRACE:rbrace
         {:
            RESULT = factory_.createSetExpr(oel);
-           addLocAnn(RESULT, lbraceleft, lbraceright);
+           addLocAnn(RESULT, lbrace, rbrace);
         :}
         |
         /* set comprehension */
-        LBRACE:lbrace schemaText:st SPOT expression:e RBRACE
+        LBRACE:lbrace schemaText:st SPOT expression:e RBRACE:rbrace
         {:
            RESULT = factory_.createSetCompExpr(st, e);
-           addLocAnn(RESULT, lbraceleft, lbraceright);
+           addLocAnn(RESULT, lbrace, rbrace);
         :}
 	|
         /*  characteristic set comprehension */
-        LBRACE:lbrace schemaTextNoExpression:stne RBRACE
+        LBRACE:lbrace schemaTextNoExpression:stne RBRACE:rbrace
         {:
            RESULT = factory_.createSetCompExpr(stne, null);
-           addLocAnn(RESULT, lbraceleft, lbraceright);
+           addLocAnn(RESULT, lbrace, rbrace);
         :}
 	|
         /* tuple extension */
-        LPAREN:lparen expressionList:el COMMA expression:e RPAREN
+        LPAREN:lparen expressionList:el COMMA expression:e RPAREN:rparen
         {: 
            el.add(e);
            RESULT = factory_.createTupleExpr(el);
-           addLocAnn(RESULT, lparenleft, lparenright);
+           addLocAnn(RESULT, lparen, rparen);
         :}
         |
         /* characteristic definite description */
-        LPAREN MU:mu schemaText:st RPAREN
+        LPAREN:lparen MU:mu schemaText:st RPAREN:rparen
         {:
            RESULT = factory_.createMuExpr(st, null);
-           addLocAnn(RESULT, muleft, muright);
+           addLocAnn(RESULT, muleft, muright, lparen, rparen);
            RESULT.getAnns().add(factory_.createParenAnn());
         :}
         |
@@ -4831,14 +4916,14 @@ inner_term ::=
         {: RESULT = nfa; :} %prec _APPLICATION
         |
         /* binding extension */
-        LBIND:lbind optConstDeclList:cdl RBIND
+        LBIND:lbind optConstDeclList:cdl RBIND:rbind
         {:
            RESULT = factory_.createBindExpr(cdl);
-           addLocAnn(RESULT, lbindleft, lbindright);
+           addLocAnn(RESULT, lbind, rbind);
         :}
         |
         /* empty schema construction */
-        LSQUARE:lsq RSQUARE
+        LSQUARE:lsq RSQUARE:rsq
         {:
            DeclList dl = factory_.createZDeclList();
            SchText st = factory_.createZSchText(dl, null);
@@ -4853,7 +4938,7 @@ inner_term ::=
 <add:oz>
            }
 </add:oz>
-           addLocAnn(RESULT, lsqleft, lsqright);
+           addLocAnn(RESULT, lsq, rsq);
         :}
         |
         /* schema construction */
@@ -4864,7 +4949,7 @@ inner_term ::=
           schemaTextNoExpression:stne
           /* pop the stack now the expr has been parsed */
 //          <add:oz> {: popIsOpExpr(); :} </add:oz> 
-RSQUARE
+RSQUARE:rsq
         {:
 <add:oz>
            if (isOpExpr()) {
@@ -4877,7 +4962,7 @@ RSQUARE
 <add:oz>
            }
 </add:oz>
-           addLocAnn(RESULT, lsqleft, lsqright);
+           addLocAnn(RESULT, lsq, rsq);
         :}
         |
         /* binding selection */
@@ -4893,15 +4978,16 @@ RSQUARE
 <add:oz>
            }
 </add:oz>
-           addLocAnn(RESULT, dotleft, dotright);
+           addLocAnn(RESULT, dotleft, dotright, it, rn);
         :}
         |
         /* tuple selection */
         inner_term:it DOT:dot NUMERAL:n
         {:
-           ZNumeral numeral = factory_.createZNumeral(n);
+           ZNumeral numeral = factory_.createZNumeral(n.getInteger());
+           addLocAnn(numeral, n.getLocation());
            RESULT = factory_.createTupleSelExpr(expr(it), numeral);
-           addLocAnn(RESULT, dotleft, dotright);
+           addLocAnn(RESULT, dotleft, dotright, it, n.getLocation());
         :}
         |
         /* schema decoration */
@@ -4919,36 +5005,36 @@ RSQUARE
            else {
              RESULT = factory_.createDecorExpr(expr(it), s);
            }
-           addLocAnn(RESULT, itleft, itright);
+           addLocAnn(RESULT, it, s);
         :}
         |
         /* binding construction */
         THETA:theta inner_term:it
         {:
            RESULT = factory_.createThetaExpr(expr(it), null);
-           addLocAnn(RESULT, thetaleft, thetaright);
+           addLocAnn(RESULT, theta, it);
         :}
         |
         /* function application with schema expr as argument */
-        inner_term:it LSQUARE schemaTextNoExpression:st RSQUARE 
+        inner_term:it LSQUARE schemaTextNoExpression:st RSQUARE:rsquare
            optAppendageList:oal
         {:
            RESULT = createSchApplExpr(expr(it), st, oal);
-           addLocAnn(RESULT, itleft, itright);
+           addLocAnn(RESULT, it, rsquare);
         :}
         |
         /* generic instantiation */
         /* If inner_term is changed to refName
            (as in the grammar given in the Z Standard),
            rename expressions fail to parse. */
-        inner_term:it LSQUARE expressionList:el RSQUARE
+        inner_term:it LSQUARE expressionList:el RSQUARE:rsquare
         {:
            RESULT = factory_.createRefExpr(refname(it), el, Boolean.FALSE, Boolean.TRUE);
-           addLocAnn(RESULT, itleft, itright);
+           addLocAnn(RESULT, it, rsquare);
         :}
         |
         /* schema renaming */
-        inner_term:it LSQUARE renameList:rnl RSQUARE
+        inner_term:it LSQUARE renameList:rnl RSQUARE:rsquare
         {:
 <add:oz>
            if (isOpExpr()) {
@@ -4960,21 +5046,24 @@ RSQUARE
 <add:oz>
            }
 </add:oz>
-           addLocAnn(RESULT, itleft, itright);
+           addLocAnn(RESULT, it, rsquare);
         :} %prec _RENAME
         |
         /* number literal */
         NUMERAL:n
         {:
-           ZNumeral numeral = factory_.createZNumeral(n);
+           ZNumeral numeral = factory_.createZNumeral(n.getInteger());
+           addLocAnn(numeral, n.getLocation());
            RESULT = factory_.createNumExpr(numeral);
-           addLocAnn(RESULT, nleft, nright);
+           addLocAnn(RESULT, n.getLocation());
         :}
         |
         /* parenthesized expression/predicate */
-        LPAREN septerm:t RPAREN
+        LPAREN:lparen septerm:t RPAREN:rparen
         {:
-           t.getAnns().add(factory_.createParenAnn());
+           ParenAnn parenAnn = factory_.createParenAnn();
+           addLocAnn(parenAnn, lparen, rparen);
+           t.getAnns().add(parenAnn);
            RESULT = t;
         :}
         |
@@ -4982,21 +5071,21 @@ RSQUARE
         refName:rn
         {:
            RESULT = factory_.createRefExpr(rn);
-           addLocAnn(RESULT, rnleft, rnright);
+           addLocAnn(RESULT, rn);
         :}
         |
         /* truth */
         TRUE:t
         {:
            RESULT = factory_.createTruePred();
-           addLocAnn(RESULT, tleft, tright);
+           addLocAnn(RESULT, t);
         :}
         |
         /* falsity */
         FALSE:f
         {:
            RESULT = factory_.createFalsePred();
-           addLocAnn(RESULT, fleft, fright);
+           addLocAnn(RESULT, f);
         :}
 <add:oz>
         |
@@ -5046,7 +5135,8 @@ appendage ::=
         |
         DOT NUMERAL:n
         {:
-           ZNumeral numeral = factory_.createZNumeral(n);
+           ZNumeral numeral = factory_.createZNumeral(n.getInteger());
+           addLocAnn(numeral, n.getLocation());
            RESULT = factory_.createTupleSelExpr(null, numeral);
         :}
         ;
@@ -5123,22 +5213,34 @@ letDefinition ::=
         declName:n DEFEQUAL:defequal expression:e
         {:
            RESULT = factory_.createConstDecl(n,e);
-           addLocAnn(RESULT, defequalleft, defequalright);
+           addLocAnn(RESULT, defequalleft, defequalright, n, e);
         :}
         ;
 
 stroke ::=
-        INSTROKE
-        {: RESULT = factory_.createInStroke(); :}
+        INSTROKE:is
+        {:
+           RESULT = factory_.createInStroke();
+           addLocAnn(RESULT, is);
+        :}
         |
-        OUTSTROKE
-        {: RESULT = factory_.createOutStroke(); :}
+        OUTSTROKE:os
+        {:
+           RESULT = factory_.createOutStroke();
+           addLocAnn(RESULT, os);
+        :}
         |
-        NEXTSTROKE
-        {: RESULT = factory_.createNextStroke(); :}
+        NEXTSTROKE:ns
+        {:
+           RESULT = factory_.createNextStroke();
+           addLocAnn(RESULT, ns);
+        :}
         |
         NUMSTROKE:ns
-        {: RESULT = factory_.createNumStroke(ns); :}
+        {:
+           RESULT = factory_.createNumStroke(ns.getInteger());
+           addLocAnn(RESULT, ns.getLocation());
+        :}
         ;
 
 renameList ::= 
@@ -5154,7 +5256,10 @@ renameList ::=
 
 rename ::=
         declName:lhs SLASH refName:rhs
-        {: RESULT = factory_.createNewOldPair(lhs, rhs); :}
+        {:
+           RESULT = factory_.createNewOldPair(lhs, rhs);
+           addLocAnn(RESULT, lhs, rhs);
+        :}
         ;
 
 

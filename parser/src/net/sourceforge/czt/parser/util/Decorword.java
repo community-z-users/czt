@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Petra Malik
+  Copyright (C) 2005, 2006 Petra Malik
   This file is part of the czt project: http://czt.sourceforge.net
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -31,6 +31,8 @@ import net.sourceforge.czt.z.util.ZChar;
 /**
  * Note that the wordpart of a decorword can be empty,
  * which does not represent a DECORWORD in the ISO Z standard.
+ *
+ * @author Petra Malik
  */
 public class Decorword
 {
@@ -38,11 +40,18 @@ public class Decorword
   private String name_;
   private String word_;
   private List<Stroke> strokes_ = new ArrayList<Stroke>();
+  private LocInfo locInfo_;
 
   /**
    * @throws IllegalArgumentException if the list of strokes
                                       contains an unknown stroke type.
    */
+  public Decorword(String word, List strokes, LocInfo locInfo)
+  {
+    this(word, strokes);
+    locInfo_ = locInfo;
+  }
+
   public Decorword(String word, List strokes)
   {
     word_ = word;
@@ -71,6 +80,12 @@ public class Decorword
       }
     }
     name_ = buffer.toString();
+  }
+
+  public Decorword(String decorword, LocInfo locInfo)
+  {
+    this(decorword);
+    locInfo_ = locInfo;
   }
 
   public Decorword(String decorword)
@@ -158,6 +173,16 @@ public class Decorword
       return stack.pop();
     }
     return null;
+  }
+
+  public void setLocation(LocInfo locInfo)
+  {
+    locInfo_ = locInfo;
+  }
+
+  public LocInfo getLocation()
+  {
+    return locInfo_;
   }
 
   public String toString()

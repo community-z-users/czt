@@ -510,7 +510,7 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
  </add:oz>
                    END_MARKUP, TOKENSEQ;
 terminal ZSect     SECTHEAD;
-terminal Integer   NUMERAL, NUMSTROKE;
+terminal LocInt    NUMERAL, NUMSTROKE;
 terminal String    TEXT,
                    CHAR_MARKUP, WORD_MARKUP, INWORD_MARKUP, PREWORD_MARKUP,
                    POSTWORD_MARKUP;
@@ -732,16 +732,20 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
              |
              NUMSTROKE:i
              {:
-                String latex = "^" + i.toString();
-                String unicode = ZString.SE + i.toString() + ZString.NW;
+                final Integer num = i.getInteger();
+                final String numString = num.toString();
+                String latex = "^" + numString;
+                String unicode = ZString.SE + numString + ZString.NW;
                 RESULT =
                   new LatexCommand(latex, unicode, false, false);
              :}
              |
              NUMERAL:i
              {:
+                final Integer num = i.getInteger();
+                final String numString = num.toString();
                 RESULT =
-                  new LatexCommand(i.toString(), i.toString(), false, false);
+                  new LatexCommand(numString, numString, false, false);
              :}
              |
              paren:s

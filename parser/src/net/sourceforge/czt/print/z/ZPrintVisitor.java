@@ -27,10 +27,7 @@ import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.base.util.*;
-import net.sourceforge.czt.parser.util.Decorword;
-import net.sourceforge.czt.parser.util.OpTable;
-import net.sourceforge.czt.parser.util.Token;
-import net.sourceforge.czt.parser.util.TokenImpl;
+import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.Keyword;
 import net.sourceforge.czt.parser.z.TokenName;
 import net.sourceforge.czt.print.ast.*;
@@ -654,13 +651,13 @@ public class ZPrintVisitor
 
   public Object visitZNumeral(ZNumeral zNumeral)
   {
-    print(TokenName.NUMERAL, Integer.valueOf(zNumeral.getValue().toString()));
+    print(TokenName.NUMERAL, new LocInt(Integer.valueOf(zNumeral.getValue().toString()), null));
     return null;
   }
 
   public Object visitNumStroke(NumStroke numStroke)
   {
-    print(TokenName.NUMSTROKE, numStroke.getDigit());
+    print(TokenName.NUMSTROKE, new LocInt(numStroke.getDigit(), null));
     return null;
   }
 
@@ -708,7 +705,7 @@ public class ZPrintVisitor
       print(Keyword.RELATION);
     }
     if (optempPara.getPrec() != null) {
-      print(TokenName.NUMERAL, optempPara.getPrec());
+      print(TokenName.NUMERAL, new LocInt(optempPara.getPrec(), null));
     }
     final Assoc assoc = optempPara.getAssoc();
     if (Assoc.Left.equals(assoc)) {

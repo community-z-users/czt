@@ -31,12 +31,7 @@ package <package/>;
 import java.io.*;
 import net.sourceforge.czt.java_cup.runtime.*;
 
-import net.sourceforge.czt.parser.util.CztReader;
-import net.sourceforge.czt.parser.util.DebugUtils;
-import net.sourceforge.czt.parser.util.Decorword;
-import net.sourceforge.czt.parser.util.LocInfo;
-import net.sourceforge.czt.parser.util.LocInfoImpl;
-import net.sourceforge.czt.parser.util.ScanException;
+import net.sourceforge.czt.parser.util.*;
 
 /**
  * &lt;p&gt;The context-free lexer for
@@ -387,11 +382,15 @@ RULE = {RULECHAR}
   {OUTSTROKE}   {  return symbol(Sym.OUTSTROKE); }
   {NEXTSTROKE}  {  return symbol(Sym.NEXTSTROKE); }
   {SE} {DIGIT} {NW}
-                {  Integer digit = new Integer(yytext().substring(1,2));
-                   return symbol(Sym.NUMSTROKE, digit);
+                {
+                   LocInt locInt =
+                     new LocInt(yytext().substring(1,2), getLocation());
+                   return symbol(Sym.NUMSTROKE, locInt);
                 }
-  {NUMERAL}     {  return symbol(Sym.NUMERAL, new Integer(yytext())); }
-  {DECORWORD}   {  return symbol(Sym.DECORWORD, new Decorword(yytext())); }
+  {NUMERAL}     {  return symbol(Sym.NUMERAL,
+                                 new LocInt(yytext(), getLocation())); }
+  {DECORWORD}   {  return symbol(Sym.DECORWORD,
+                                 new Decorword(yytext(), getLocation())); }
 
   /* error fallback */
   .             {
