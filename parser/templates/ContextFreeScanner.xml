@@ -34,6 +34,8 @@ import net.sourceforge.czt.java_cup.runtime.*;
 import net.sourceforge.czt.parser.util.CztReader;
 import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.parser.util.Decorword;
+import net.sourceforge.czt.parser.util.LocInfo;
+import net.sourceforge.czt.parser.util.LocInfoImpl;
 import net.sourceforge.czt.parser.util.ScanException;
 
 /**
@@ -112,7 +114,7 @@ import net.sourceforge.czt.parser.util.ScanException;
    */
   private Symbol symbol(int type)
   {
-    return new Symbol(type, getLine(), getColumn());
+    return new Symbol(type, getLine(), getColumn(), getLocation());
   }
 
   /**
@@ -144,6 +146,13 @@ import net.sourceforge.czt.parser.util.ScanException;
     return yycolumn;
   }
 
+  private LocInfo getLocation()
+  {
+    if (reader_ != null) {
+      return reader_.getLocation(yychar);
+    }
+    return new LocInfoImpl(null, yyline, yycolumn, yychar, yytext().length());
+  }
 %}
    
 /***********************************************************************
