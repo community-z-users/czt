@@ -174,7 +174,7 @@ function prettyWff(wff, x, y, indent, maxheight)
 				}
 			}
 		} else if (wff.tagName == "line" && wff.getBBox().height > 0) {
-			// Not horizontal, so can't be layed out with text.
+			// Not horizontal, so can't be laid out with text.
 		} else {
 			advance = parseFloat(wff.getAttributeNS(null, "need"));
 			if (wff.hasAttributeNS(null, "space")) {
