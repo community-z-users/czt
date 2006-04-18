@@ -207,7 +207,7 @@ xmlns:ev="http://www.w3.org/2001/xml-events">
             <g id="net.sourceforge.czt.z.impl.ZSchTextImpl@51736c73" sel="true">
               <g id="List" sel="true">
                 <g id="net.sourceforge.czt.z.impl.VarDeclImpl@2bb15b5d" sel="false">
-                  <g> sel="true">
+                  <g sel="true">
                     <text font-family="CZT" onclick="select(evt)" space="5">p</text>
                   </g>
                   <text font-family="CZT" onclick="select(evt)" space="5">:</text>
