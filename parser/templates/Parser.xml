@@ -2351,13 +2351,13 @@ abbreviationDefinition ::=
         declName:dn DEFEQUAL:equal expression:e
         {:
            ConstDecl cd = factory_.createConstDecl(dn, e);
-           addLocAnn(cd, equalleft, equalright);
+           addLocAnn(cd, equalleft, equalright, dn, e);
            ZDeclList decls = factory_.createZDeclList();
            decls.add(cd);
            ZSchText st = factory_.createZSchText(decls, null);
-           addLocAnn(st, dnleft, dnright);
+           addLocAnn(st, dn, e);
            RESULT = factory_.createAxPara(null, st, Box.OmitBox);
-           addLocAnn(RESULT, dnleft, dnright);
+           addLocAnn(st, dn, e);
         :}
         |
         //TODO: check this. Should be name:n, but the toolkit won't parse
@@ -2365,13 +2365,13 @@ abbreviationDefinition ::=
         declName:dn formalParameters:fp DEFEQUAL:equal expression:e
         {:
            ConstDecl cd = factory_.createConstDecl(dn, e);
-           addLocAnn(cd, equalleft, equalright);
+           addLocAnn(cd, equalleft, equalright, dn, e);
            ZDeclList decls = factory_.createZDeclList();
            decls.add(cd);
            ZSchText st = factory_.createZSchText(decls, null);
-           addLocAnn(st, dnleft, dnright);
+           addLocAnn(st, cd, e);
            RESULT = factory_.createAxPara(fp, st, Box.OmitBox);
-           addLocAnn(RESULT, dnleft, dnright);
+           addLocAnn(RESULT, dn, e);
         :}
         |
         genName:gn DEFEQUAL:equal expression:e
@@ -2379,12 +2379,13 @@ abbreviationDefinition ::=
            DeclName dn = gn.getFirst();
            List&lt;DeclName&gt; fp = gn.getSecond();
            ConstDecl cd = factory_.createConstDecl(dn, e);
-           addLocAnn(cd, equalleft, equalright);
+           addLocAnn(cd, equalleft, equalright, dn, e);
            ZDeclList decls = factory_.createZDeclList();
            decls.add(cd);
            ZSchText st = factory_.createZSchText(decls, null);
+           addLocAnn(st, dn, e);
            RESULT = factory_.createAxPara(fp, st, Box.OmitBox);
-           addLocAnn(RESULT, gnleft, gnright);
+           addLocAnn(RESULT, dn, e);
         :}
         ;
 
@@ -3923,7 +3924,9 @@ declaration ::=
 
 schemaTextNoExpression ::=
         optDeclPart:dp BAR predicate:p
-        {: RESULT = factory_.createZSchText(dp, p); :}
+        {:
+           RESULT = factory_.createZSchText(dp, p);
+        :}
         |
         zDeclList:zdl sep declaration:d
 	{:
@@ -3950,7 +3953,12 @@ varDecl ::=
         declWordList:dwl COLON:colon expression:e
         {:
            RESULT = factory_.createVarDecl(dwl, e);
-           addLocAnn(RESULT, colonleft, colonright);
+           if (dwl.size() > 0) {
+             addLocAnn(RESULT, colonleft, colonright, dwl.get(0), e);
+           }
+           else {
+             addLocAnn(RESULT, colon, e);
+           }
         :}
 <add:zpatt>
         |
@@ -3967,7 +3975,7 @@ constDecl ::=
         declName:dn DEFEQUAL:defequal expression:e
         {:
            RESULT = factory_.createConstDecl(dn, e);
-           addLocAnn(RESULT, defequalleft, defequalright);
+           addLocAnn(RESULT, defequalleft, defequalright, dn, e);
         :}
 <add:zpatt>
         |
