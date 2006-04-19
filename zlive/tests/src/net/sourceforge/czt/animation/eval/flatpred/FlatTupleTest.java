@@ -19,23 +19,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.*;
-import java.math.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import junit.framework.*;
-
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.impl.ZFactoryImpl;
-import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.parser.z.ParseUtils;
-import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.util.ParseException;
-import net.sourceforge.czt.animation.eval.*;
-import net.sourceforge.czt.animation.eval.flatpred.*;
+import junit.framework.Assert;
+import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.ZTestCase;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.NumExpr;
+import net.sourceforge.czt.z.ast.TupleExpr;
+import net.sourceforge.czt.z.ast.ZRefName;
 
 
 /**
@@ -80,14 +73,14 @@ public class FlatTupleTest
 
   public void testPartialI0()
   {
-    Envir envL = empty.add(l,i10);
+    Envir envL = empty.plus(l,i10);
     Assert.assertNull("should not return a mode", pred.chooseMode(envL));
   }
 
   public void testIO()
   {
     //Adding all the elements in the tuple to the environment
-    Envir envLMNOP = empty.add(l,i10).add(m,i11).add(n,i12).add(o,i13).add(p,i14);
+    Envir envLMNOP = empty.plus(l,i10).plus(m,i11).plus(n,i12).plus(o,i13).plus(p,i14);
     Mode mode = null;
     Assert.assertFalse(envLMNOP.isDefined(z));
     mode = pred.chooseMode(envLMNOP);
@@ -118,9 +111,9 @@ public class FlatTupleTest
 
   public void testOI()
   {
-    Envir envABCDE = empty.add(a,i10).add(b,i11).add(c,i12).add(d,i13).add(e,i14);
+    Envir envABCDE = empty.plus(a,i10).plus(b,i11).plus(c,i12).plus(d,i13).plus(e,i14);
     Mode mode = null;
-    ArrayList tempList = new ArrayList();
+    ArrayList<ZRefName> tempList = new ArrayList<ZRefName>();
     tempList.add(a);
     tempList.add(b);
     tempList.add(c);
@@ -134,7 +127,7 @@ public class FlatTupleTest
     tempTuple.nextEvaluation();
     Assert.assertTrue(tempMode.getEnvir().lookup(w) instanceof TupleExpr);
     //Adding z to the Envir with its value as the temporary tuple created above
-    Envir envABCDEZ = envABCDE.add(z,tempMode.getEnvir().lookup(w));
+    Envir envABCDEZ = envABCDE.plus(z,tempMode.getEnvir().lookup(w));
     mode = pred.chooseMode(envABCDEZ);
     Assert.assertTrue(mode != null);
     Assert.assertTrue(mode.getEnvir().isDefined(l));
@@ -163,9 +156,9 @@ public class FlatTupleTest
   
   public void testPartialOI()
   {
-    Envir envABCDE = empty.add(a,i10).add(b,i11).add(c,i12).add(d,i13).add(e,i14);
+    Envir envABCDE = empty.plus(a,i10).plus(b,i11).plus(c,i12).plus(d,i13).plus(e,i14);
     Mode mode = null;
-    ArrayList tempList = new ArrayList();
+    ArrayList<ZRefName> tempList = new ArrayList<ZRefName>();
     tempList.add(a);
     tempList.add(b);
     tempList.add(c);
@@ -179,9 +172,9 @@ public class FlatTupleTest
     tempTuple.nextEvaluation();
     Assert.assertTrue(tempMode.getEnvir().lookup(w) instanceof TupleExpr);
     //Adding z to the Envir with its value as the temporary tuple created above
-    Envir envABCDEZ = envABCDE.add(z,tempMode.getEnvir().lookup(w));
+    Envir envABCDEZ = envABCDE.plus(z,tempMode.getEnvir().lookup(w));
     //Adding the ZRefName m to the envir, which is compliant with its corresponding value in the tuple
-    Envir envABCDEZM = envABCDEZ.add(m,i11);
+    Envir envABCDEZM = envABCDEZ.plus(m,i11);
     mode = pred.chooseMode(envABCDEZM);
     Assert.assertTrue(mode != null);
     Assert.assertTrue(mode.getEnvir().isDefined(l));
@@ -208,7 +201,7 @@ public class FlatTupleTest
     Assert.assertFalse(pred.nextEvaluation());
     
     //Adding the ZRefName m to the envir, which is NOT compliant with its corresponding value in the tuple
-    Envir envABCDEZMN = envABCDEZM.add(n,i13);
+    Envir envABCDEZMN = envABCDEZM.plus(n,i13);
     mode = null;
     mode = pred.chooseMode(envABCDEZMN);
     Assert.assertTrue(mode != null);

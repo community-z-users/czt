@@ -23,17 +23,11 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.HashSet;
 import java.util.List;
-import java.util.logging.Logger;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.z.ast.BindExpr;
-import net.sourceforge.czt.z.ast.ConstDecl;
-import net.sourceforge.czt.z.ast.Decl;
-import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.ZDeclName;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
 
 /**
@@ -87,7 +81,7 @@ public class FlatBinding extends FlatPred
           solutions = 0.5;
         for (int i = 0; i < args.size() - 1; i++) {
           if (!inputs.get(i))
-            env = env.add(args.get(i), null);
+            env = env.plus(args.get(i), null);
         }
         m = new Mode(env, inputs, solutions);
       }

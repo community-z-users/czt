@@ -18,12 +18,12 @@
 */
 package net.sourceforge.czt.animation.eval;
 
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.animation.eval.*;
 
 
 public class UndefException extends EvalException
 {
+  private static final long serialVersionUID = -2352335421540783834L;
+
   /** Constructs a new exception with null as its detail message. */
   public UndefException()
   { super(); }

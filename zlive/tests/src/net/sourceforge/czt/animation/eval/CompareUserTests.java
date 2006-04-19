@@ -1,19 +1,18 @@
 package net.sourceforge.czt.animation.eval;
 
-import java.util.*;
 import java.io.*;
 import java.net.URL;
+import java.util.ArrayList;
 
 
 /** This program compares two versions of usertest results, to show
-the number of tests gained or lost from first to the second version*/
-
+ *  the number of tests gained or lost from first to the second version.
+ */
 public class CompareUserTests
 {
   private static String versionDirectoryName1,versionDirectoryName2;
-  private static ArrayList passedTests1,passedTests2;
-  private static ArrayList gainedTests,lostTests;
-  private static FileOutputStream outStream;
+  private static ArrayList<Integer> passedTests1,passedTests2;
+  private static ArrayList<Integer> gainedTests,lostTests;
   private static PrintStream out;
   
   protected static URL getTestExample(String name) {
@@ -77,8 +76,6 @@ public class CompareUserTests
   {
     int passedCounter1 = 0;
     int passedCounter2 = 0;
-    int gainedCounter = 0;
-    int lostCounter = 0;
     while((passedCounter1<passedTests1.size())&&(passedCounter2<passedTests2.size())) {
       if (((Integer)passedTests1.get(passedCounter1)).intValue() == ((Integer)passedTests2.get(passedCounter2)).intValue()) {
         passedCounter1++;
@@ -103,8 +100,6 @@ public class CompareUserTests
       gainedTests.add(passedTests2.get(passedCounter2));
       passedCounter2++;
     }
-    gainedCounter=0;
-    lostCounter=0;
   }
   
   
@@ -115,8 +110,8 @@ public class CompareUserTests
 	                 +shortName+"Test.txt";
     passedTests1 = readPassedTests(versionDirectoryName1,fileName);
     passedTests2 = readPassedTests(versionDirectoryName2,fileName);
-    gainedTests = new ArrayList();
-    lostTests = new ArrayList();
+    gainedTests = new ArrayList<Integer>();
+    lostTests = new ArrayList<Integer>();
     sortArrays();
     writetoOutputFile(shortName);
   }
@@ -125,13 +120,13 @@ public class CompareUserTests
       In fact, the resulting array contains the line numbers (from
       the original .tex file, of the passed tests.
   */
-  private static ArrayList readPassedTests(String dir, String fileName)
+  private static ArrayList<Integer> readPassedTests(String dir, String fileName)
     throws IOException
   {
     File inputFile = new File(dir,fileName);
     FileReader inStream = new FileReader(inputFile);
     BufferedReader reader = new BufferedReader(inStream);
-    ArrayList passed = new ArrayList();
+    ArrayList<Integer> passed = new ArrayList<Integer>();
     String line = reader.readLine();
     while (line != null) {
 	if (line.startsWith("Passed test:")
@@ -160,7 +155,7 @@ public class CompareUserTests
   public static void main (String args[])
   throws IOException
   {
-    String userdir = System.getProperty("user.dir");
+    //String userdir = System.getProperty("user.dir");
     if(args.length == 2) {
       versionDirectoryName1 = args[0];
       versionDirectoryName2 = args[1];

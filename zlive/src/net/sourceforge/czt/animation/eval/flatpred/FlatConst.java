@@ -22,19 +22,16 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 
 import net.sourceforge.czt.animation.eval.Envir;
-import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.ZNumeral;
 import net.sourceforge.czt.z.ast.ZRefName;
-import net.sourceforge.czt.z.util.Factory;
 
 /** FlatPlus implements the var = const predicate. */
 public class FlatConst extends FlatPred
 {
   protected Expr constant_;
-  private Factory factory_ = new Factory();
   
   public FlatConst(ZRefName a, Expr b)
   {

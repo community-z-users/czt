@@ -19,16 +19,17 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.util.*;
-import java.math.*;
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.List;
 
-import net.sourceforge.czt.util.*;
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.TupleExpr;
+import net.sourceforge.czt.z.ast.ZExprList;
+import net.sourceforge.czt.z.ast.ZRefName;
 import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.animation.eval.*;
 
 /**
 * @author Mark Utting
@@ -65,7 +66,7 @@ public class FlatTuple extends FlatPred
           solutions = Mode.MAYBE_ONE_SOLUTION;
         for(int i=0;i<args.size()-1;i++) {
           if ( ! inputs.get(i))
-            env = env.add(args.get(i),null);
+            env = env.plus(args.get(i),null);
         }
         m = new Mode(env, inputs, solutions);
       }

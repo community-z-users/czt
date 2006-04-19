@@ -19,17 +19,18 @@
 package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.lang.reflect.Constructor;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.logging.Logger;
 
-import net.sourceforge.czt.util.*;
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.ZRefName;
 import net.sourceforge.czt.z.impl.PredImpl;
-import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.animation.eval.*;
-import net.sourceforge.czt.animation.eval.flatpred.*;
 
 /** FlatPred is the base class of the flattened predicates used in ZLive.
     Each flattened predicate can be evaluated in one or more different
@@ -184,7 +185,7 @@ public abstract class FlatPred extends PredImpl
     else if (inputs.cardinality() == args.size() - 1 
         && ! inputs.get(args.size()-1)) {
       solutions = Mode.ONE_SOLUTION;
-      env = env.add(args.get(args.size()-1), null);
+      env = env.plus(args.get(args.size()-1), null);
     }
     Mode m = null;
     if (solutions > 0.0)
@@ -208,7 +209,7 @@ public abstract class FlatPred extends PredImpl
       // add the output variable into the environment
       for (int i = 0; i < args.size(); i++) {
         if ( ! inputs.get(i))
-          env = env.add(args.get(i), null);
+          env = env.plus(args.get(i), null);
       }
     }
     Mode m = null;

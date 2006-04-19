@@ -19,16 +19,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.util.*;
-import java.math.*;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Iterator;
 
-import net.sourceforge.czt.util.*;
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.EvalSet;
+import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.ZRefName;
 import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.animation.eval.*;
 
 /**
 * @author Mark Utting

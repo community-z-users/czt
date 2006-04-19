@@ -81,7 +81,7 @@ public class Flatten
   private List<FlatPred> flat_;
 
   /** The set of builtin binary relations handled by ZLive */
-  static final Set<String> knownRelations = new HashSet();
+  static final Set<String> knownRelations = new HashSet<String>();
   
   private static final Logger sLogger
   = Logger.getLogger("net.sourceforge.czt.animation.eval");

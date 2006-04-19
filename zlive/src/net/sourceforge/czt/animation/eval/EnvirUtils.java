@@ -25,8 +25,8 @@ public class EnvirUtils {
     }
     
     public static Envir copy(Envir a) {
-        ArrayList n = new ArrayList();
-        ArrayList e = new ArrayList();
+        ArrayList<ZRefName> n = new ArrayList<ZRefName>();
+        ArrayList<Expr> e = new ArrayList<Expr>();
         Envir result = new Envir();
         Envir env = a;
         while (env != null) {
@@ -42,7 +42,7 @@ public class EnvirUtils {
                 li.hasPrevious() && lj.hasPrevious(); ) {
             ZRefName name = (ZRefName)li.previous();
             Expr expr = (Expr)lj.previous();
-            result = result.add(name, expr);
+            result = result.plus(name, expr);
         }
         return result;
     }
@@ -53,7 +53,7 @@ public class EnvirUtils {
         Envir env = b;
         while (env != null) {
             if (env.name_ != null && !result.isDefined(env.name_)) {
-                result = result.add(env.name_, env.expr_);
+                result = result.plus(env.name_, env.expr_);
             }
             env = env.nextEnv;
         }
@@ -81,8 +81,8 @@ public class EnvirUtils {
         return true;
     }
     
-    public static Set names(Envir one) {
-        Set result = new HashSet();
+    public static Set<ZRefName> names(Envir one) {
+        Set<ZRefName> result = new HashSet<ZRefName>();
         Envir env = one;
         while (env != null) {
             if (one.name_ != null)
@@ -92,8 +92,8 @@ public class EnvirUtils {
         return result;
     }
     
-    public static List exprs(Envir one) {
-        List result = new ArrayList();
+    public static List<Expr> exprs(Envir one) {
+        List<Expr> result = new ArrayList<Expr>();
         Envir env = one;
         while (env != null) {
             if (one.name_ != null)

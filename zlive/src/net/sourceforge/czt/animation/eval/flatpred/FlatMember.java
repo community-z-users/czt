@@ -19,18 +19,17 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.util.*;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.Iterator;
 import java.util.logging.Logger;
-import java.math.*;
 
-import net.sourceforge.czt.util.*;
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.animation.eval.*;
-import net.sourceforge.czt.animation.eval.flatpred.*;
+import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.EvalSet;
+import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.ZRefName;
 
 /**
 * @author Mark Utting
@@ -103,7 +102,7 @@ public class FlatMember extends FlatPred
           solns = ((EvalSet)e).estSubsetSize(env, elemName);
         else
           solns = Double.POSITIVE_INFINITY;
-        Envir newEnv = env.add(elemName, null);
+        Envir newEnv = env.plus(elemName, null);
         m = new Mode(newEnv, inputs, solns);
       }
     }

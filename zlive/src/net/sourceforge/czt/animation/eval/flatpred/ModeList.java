@@ -18,10 +18,12 @@
 */
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.util.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.animation.eval.*;
-import net.sourceforge.czt.animation.eval.flatpred.*;
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.Iterator;
+import java.util.List;
+
+import net.sourceforge.czt.animation.eval.Envir;
 
 /** A subclass of Mode that records modes for compound structures.
  *  In addition to the usual mode information, it records a list

@@ -120,22 +120,10 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
   
   /** Equality of an EvalSet with another EvalSet or Set. */
   public boolean equalsEvalSet(/*@non_null@*/EvalSet s1, Object s2) {
-    Set elems1 = new HashSet();
-    Iterator it = s1.iterator();
-    while (it.hasNext()) {
-      Object value = it.next();
-      elems1.add(value);
-    }
-    Set elems2 = null;
-    if (s2 instanceof Set)
-      elems2 = (Set)s2;
-    else if (s2 instanceof EvalSet) {
-      elems2 = new HashSet();
-      it = ((EvalSet)s2).iterator();
-      while (it.hasNext()) {
-        Object value = it.next();
-        elems2.add(value);
-      }
+    Set<Expr> elems1 = new HashSet<Expr>(s1);
+    Set<Expr> elems2 = null;
+    if (s2 instanceof EvalSet) {
+      elems2 = new HashSet<Expr>((EvalSet) s2);
     } else {
       return false;
     }

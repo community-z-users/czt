@@ -20,10 +20,10 @@ package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.math.BigInteger;
 import java.util.HashMap;
-import java.lang.StringBuffer;
-import java.util.logging.*;
-import net.sourceforge.czt.z.ast.ZRefName;
+import java.util.logging.Logger;
+
 import net.sourceforge.czt.animation.eval.EvalSet;
+import net.sourceforge.czt.z.ast.ZRefName;
 
 /** Maintains lower and upper bounds for integer variables.
  *  This is a helper class for the range-inference pass of

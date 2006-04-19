@@ -19,10 +19,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import junit.framework.*;
 import java.math.BigInteger;
 
-import net.sourceforge.czt.animation.eval.ZLive;
+import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.ZTestCase;
 
 /** Tests the Bounds class. */

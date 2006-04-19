@@ -18,8 +18,6 @@
 */
 package net.sourceforge.czt.animation.eval;
 
-import java.io.*;
-import java.util.*;
 import java.util.logging.*;
 
 /** This is a Logger formatter that prints readable indented messages.

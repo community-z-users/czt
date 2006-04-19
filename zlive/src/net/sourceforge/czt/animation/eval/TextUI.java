@@ -19,23 +19,24 @@
 package net.sourceforge.czt.animation.eval;
 
 import java.io.*;
-import java.util.*;
-import java.util.logging.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import net.sourceforge.czt.animation.eval.*;
-import net.sourceforge.czt.animation.eval.flatpred.*;
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.parser.util.DefinitionTable;
+import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
+import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.z.ast.*;
 
 public class TextUI {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.animation.eval");
+  private static Logger LOG 
+    = Logger.getLogger("net.sourceforge.czt.animation.eval");
   
   protected static ZLive zlive_ = new ZLive();
 
@@ -154,7 +155,7 @@ public class TextUI {
            }
          }
          else {
-           out.println("DEBUG: evaluating " + term);
+           LOG.fine("Starting to evaluate: " + term);
            Term result = null;
            try
            {

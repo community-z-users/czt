@@ -18,16 +18,24 @@
 */
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
-import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.animation.eval.*;
-import net.sourceforge.czt.print.z.PrintUtils;
+import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.EvalException;
+import net.sourceforge.czt.animation.eval.Flatten;
+import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.Factory;
 
 /** Manages a list of FlatPred predicates.
  *  Provides methods for adding declarations and predicates

@@ -18,19 +18,19 @@
 */
 package net.sourceforge.czt.animation.eval;
 
-import java.io.*;
-import java.util.*;
-import java.util.logging.*;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Iterator;
+import java.util.logging.Logger;
 
-import net.sourceforge.czt.animation.eval.flatpred.*;
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.parser.util.*;
-import net.sourceforge.czt.parser.z.ParseUtils;
+import net.sourceforge.czt.animation.eval.flatpred.FlatPred;
+import net.sourceforge.czt.animation.eval.flatpred.FlatPredList;
+import net.sourceforge.czt.animation.eval.flatpred.Mode;
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.typecheck.z.ErrorAnn;
-import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
-import net.sourceforge.czt.util.*;
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
 

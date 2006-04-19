@@ -19,24 +19,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.*;
-import java.math.*;
-
-import junit.framework.*;
-
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.impl.ZFactoryImpl;
-import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.parser.z.ParseUtils;
-import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.util.ParseException;
-import net.sourceforge.czt.animation.eval.*;
-import net.sourceforge.czt.animation.eval.flatpred.*;
+import junit.framework.Assert;
+import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.ZTestCase;
 
 
 /**
@@ -56,27 +41,27 @@ public class FlatDivTest
 
   public void testIOO()
   {
-    Envir envX = empty.add(x,i10);
+    Envir envX = empty.plus(x,i10);
     Assert.assertNull("should not return a mode", pred.chooseMode(envX));
   }
 
   public void testOIO()
   {
-    Envir envY = empty.add(y,i10);
+    Envir envY = empty.plus(y,i10);
     Assert.assertNull("should not return a mode", pred.chooseMode(envY));
   }
 
   public void testOOI()
   {
-    Envir envZ = empty.add(z,i10);
+    Envir envZ = empty.plus(z,i10);
     Assert.assertNull("should not return a mode", pred.chooseMode(envZ));
   }
 
   public void testIII()
   {
-    Envir envX = empty.add(x,i10);
-    Envir envXY = envX.add(y,in3);
-    Envir envXYZ = envXY.add(z,in4);
+    Envir envX = empty.plus(x,i10);
+    Envir envXY = envX.plus(y,in3);
+    Envir envXYZ = envXY.plus(z,in4);
     Mode m = pred.chooseMode(envXYZ);
     Assert.assertTrue(m != null);
     Assert.assertEquals(true, m.isInput(0));
@@ -100,8 +85,8 @@ public class FlatDivTest
 
   public void testIIO()
   {
-    Envir envX = empty.add(x,in6);
-    Envir envXY = envX.add(y,in5);
+    Envir envX = empty.plus(x,in6);
+    Envir envXY = envX.plus(y,in5);
     Mode m = pred.chooseMode(envXY);
     Assert.assertTrue(m != null);
     Assert.assertEquals(true, m.isInput(0));
@@ -126,16 +111,16 @@ public class FlatDivTest
 
   public void testIOI()
   {
-    Envir envX = empty.add(x,in5);
-    Envir envXZ = envX.add(z,i10);
+    Envir envX = empty.plus(x,in5);
+    Envir envXZ = envX.plus(z,i10);
     Assert.assertNull("should not return a mode", pred.chooseMode(envXZ));
   }
 
   public void testOII()
   {
-    Envir envY = empty.add(y,in6);
-    Envir envYZ = envY.add(z,in3);
-    Assert.assertNull("should not return a mode", pred.chooseMode(envY));
+    Envir envY = empty.plus(y,in6);
+    Envir envYZ = envY.plus(z,in3);
+    Assert.assertNull("should not return a mode", pred.chooseMode(envYZ));
   }
 }
 

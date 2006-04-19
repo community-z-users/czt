@@ -18,9 +18,8 @@
 */
 package net.sourceforge.czt.animation.eval;
 
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.animation.eval.*;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.ZRefName;
 
 /** An Environment is conceptually a mapping from variable names
     (ZRefName) to values (Expr).
@@ -100,12 +99,18 @@ public class Envir
     throw new EvalException("illegal Envir setValue: "+name+"="+newvalue);
   }
 
-  /** Add a name and value to the environment.
-      @param  name  The name to add.
-      @param  value The value to which name will be bound.  Can be null.
-      @return The new extended environment
+  /** Create a new Envir which equals this one, plus an extra name,value pair.
+   *  It is quite common to set the value to null, which means that
+   *  the actual value of that name will be set later, using the 
+   *  setValue method.  Typically, the name,value pair is created
+   *  once, then setValue is used to give the name many different
+   *  values during the search for a solution to some predicate.
+   *  
+   *  @param  name  The name to add.
+   *  @param  value The value to which name will be bound.  Can be null.
+   *  @return The new extended environment
   */
-  public Envir add(/*@non_null@*/ZRefName name, Expr value)
+  public Envir plus(/*@non_null@*/ZRefName name, Expr value)
   {
     Envir result = new Envir();
     result.nextEnv = this;

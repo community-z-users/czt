@@ -19,20 +19,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval;
 
-import java.util.*;
-import java.math.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import junit.framework.*;
-
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.z.ast.*;
+import junit.framework.Assert;
+import junit.framework.TestCase;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.Stroke;
+import net.sourceforge.czt.z.ast.ZRefName;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.parser.z.ParseUtils;
-import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.util.ParseException;
-import net.sourceforge.czt.animation.eval.*;
 
 
 /**
@@ -45,18 +41,18 @@ public class EnvirTest
 {
   private Factory factory_ = new Factory(new ZFactoryImpl());
 
-  private List emptyList = new ArrayList();
+  private List<Stroke> emptyList = new ArrayList<Stroke>();
   private Envir empty = new Envir();
   private Envir empty2 = new Envir();
   private ZRefName x = factory_.createZRefName("x",emptyList,null);
   private ZRefName y = factory_.createZRefName("y",emptyList,null);
   private Expr i10 = factory_.createNumExpr(factory_.createZNumeral(10));
   private Expr i20 = factory_.createNumExpr(factory_.createZNumeral(20));
-  private Envir x10 = empty.add(x,i10);
-  private Envir x10b = empty.add(x,i10);
-  private Envir x20 = empty.add(x,i20);
-  private Envir y10 = empty.add(y,i10);
-  private Envir x10x20 = x20.add(x,i10);
+  private Envir x10 = empty.plus(x,i10);
+  private Envir x10b = empty.plus(x,i10);
+  private Envir x20 = empty.plus(x,i20);
+  private Envir y10 = empty.plus(y,i10);
+  private Envir x10x20 = x20.plus(x,i10);
   
   public void testEqualsEmptyEmpty()
   {

@@ -19,23 +19,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.*;
-import java.math.*;
-
-import junit.framework.*;
-
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.impl.ZFactoryImpl;
-import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.parser.z.ParseUtils;
-import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.util.ParseException;
-import net.sourceforge.czt.animation.eval.*;
-import net.sourceforge.czt.animation.eval.flatpred.*;
+import junit.framework.Assert;
+import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.ZTestCase;
 
 
 /**
@@ -55,8 +41,8 @@ public class FlatNegateTest
 
   public void testII()
   {
-    Envir envX = empty.add(x,i10);
-    Envir envXY = envX.add(y,in10);
+    Envir envX = empty.plus(x,i10);
+    Envir envXY = envX.plus(y,in10);
     Mode m = pred.chooseMode(envXY);
     Assert.assertTrue(m != null);
     Assert.assertEquals(true, m.isInput(0));
@@ -76,7 +62,7 @@ public class FlatNegateTest
 
   public void testIO()
   {
-    Envir envX = empty.add(x,i10);
+    Envir envX = empty.plus(x,i10);
     Mode m = pred.chooseMode(envX);
     Assert.assertTrue(m != null);
     Assert.assertEquals(true, m.isInput(0));
@@ -92,7 +78,7 @@ public class FlatNegateTest
 
   public void testOI()
   {
-    Envir envY = empty.add(y,in10);
+    Envir envY = empty.plus(y,in10);
     Mode m = pred.chooseMode(envY);
     Assert.assertTrue(m != null);
     Assert.assertEquals(false, m.isInput(0));

@@ -19,22 +19,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.*;
-import java.math.*;
-
-import junit.framework.*;
-
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.parser.z.ParseUtils;
-import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.util.ParseException;
-import net.sourceforge.czt.animation.eval.*;
-import net.sourceforge.czt.animation.eval.flatpred.*;
+import junit.framework.Assert;
+import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.ZTestCase;
+import net.sourceforge.czt.z.ast.NumExpr;
+import net.sourceforge.czt.z.ast.ZRefName;
 
 
 /**
@@ -73,7 +62,7 @@ public class FlatMemberTest
 
   public void testOI()
   {
-    Envir env = empty.add(w,i20);
+    Envir env = empty.plus(w,i20);
     Mode m = mem.chooseMode(env);
     Assert.assertNull(m);
   }
@@ -81,9 +70,9 @@ public class FlatMemberTest
   /** Test 20 \in 10..40  and 5 \notin 10..40. */
   public void testII()
   {
-    Envir env = empty.add(x,i10);
-    env = env.add(y,i40);
-    env = env.add(w,i20);
+    Envir env = empty.plus(x,i10);
+    env = env.plus(y,i40);
+    env = env.plus(w,i20);
     Mode setMode = set.chooseMode(env);
     Assert.assertTrue(setMode != null);
     Mode memMode = mem.chooseMode(setMode.getEnvir());
@@ -107,8 +96,8 @@ public class FlatMemberTest
   /** Test w \in 10..15. */
   public void testIO()
   {
-    Envir env = empty.add(x,i10);
-    env = env.add(y,i15);
+    Envir env = empty.plus(x,i10);
+    env = env.plus(y,i15);
     Mode setMode = set.chooseMode(env);
     Assert.assertTrue(setMode != null);
     Mode memMode = mem.chooseMode(setMode.getEnvir());

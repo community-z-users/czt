@@ -65,7 +65,6 @@ public class FlatBindingTest
     exprs.add(y);
     FlatPred pred = new FlatBinding(names,exprs,z);
 
-    int interval = 2;
     FlatPredModel iut = new FlatPredModel(pred, new ZRefName[] {x,y,z},
                             "OII,IOI,IIO,III",
                             new Eval(1, "???", i3, i4, bind),
@@ -73,6 +72,7 @@ public class FlatBindingTest
                             );
     ModelTestCase model = new ModelTestCase(iut);
     /*
+    int interval = 2;
     CoverageHistory actions = new CoverageHistory(new ActionCoverage(), interval);
     CoverageHistory states = new CoverageHistory(new StateCoverage(), interval);
     CoverageHistory trans = new CoverageHistory(new TransitionCoverage(), interval);

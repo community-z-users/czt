@@ -165,7 +165,7 @@ public class FlatPredModel implements FsmModel
     // Now add the inputs into env.
     for (int i=0; i < names_.length; i++)
       if (isInput[i])
-        env_ = env_.add(names_[i], null);
+        env_ = env_.plus(names_[i], null);
     boolean shouldWork = validModes_.contains(inout);
 
     mode_ = pred_.chooseMode(env_);

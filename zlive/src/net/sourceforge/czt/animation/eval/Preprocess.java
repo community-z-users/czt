@@ -18,27 +18,21 @@
 */
 package net.sourceforge.czt.animation.eval;
 
-import static net.sourceforge.czt.rules.ProverUtils.collectConjectures;
-
-import java.io.*;
+import java.io.IOException;
 import java.net.URL;
-import java.util.*;
-import java.util.logging.*;
 
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.ParseException;
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.typecheck.z.ErrorAnn;
-import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
-import net.sourceforge.czt.zpatt.util.Factory;
-import net.sourceforge.czt.zpatt.ast.PredSequent;
-import net.sourceforge.czt.zpatt.ast.Rule;
-import net.sourceforge.czt.rules.CopyVisitor;
 import net.sourceforge.czt.rules.Rewrite;
 import net.sourceforge.czt.rules.RuleTable;
 import net.sourceforge.czt.rules.ProverUtils.GetZSectNameVisitor;
-import net.sourceforge.czt.rules.ast.ProverFactory;
-import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.UrlSource;
+import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
+import net.sourceforge.czt.z.ast.Spec;
 
 /** Preprocesses a term to get it ready for evaluation.
  *  This unfolds some Z constructs into simpler ones,
@@ -52,10 +46,6 @@ public class Preprocess
   
   private RuleTable rules_;
   
-  private Factory factory_;
-  
-  private Rewrite rewrite_;
-  
   public Preprocess(SectionManager sectman)
   {
     sectman_ = sectman;
@@ -67,8 +57,6 @@ public class Preprocess
   public void setRules(String rulesFile)
     throws IOException, ParseException, CommandException
   {
-    // do we need to use a fresh factory each time?
-    factory_ = new Factory(new ProverFactory());
     
     URL url = getClass().getResource(rulesFile);
     if (url == null)

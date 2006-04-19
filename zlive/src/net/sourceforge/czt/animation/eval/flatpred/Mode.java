@@ -19,9 +19,8 @@
 package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.util.BitSet;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.animation.eval.*;
-import net.sourceforge.czt.animation.eval.flatpred.*;
+
+import net.sourceforge.czt.animation.eval.Envir;
 
 /** A Mode object contains information about one way of executing a FlatPred.
     It contains statistics about the number of solutions expected when

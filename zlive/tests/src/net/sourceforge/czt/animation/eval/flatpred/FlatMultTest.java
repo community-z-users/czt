@@ -63,10 +63,10 @@ public class FlatMultTest
     CoverageHistory states = new CoverageHistory(new StateCoverage(), interval);
     CoverageHistory trans = new CoverageHistory(new TransitionCoverage(), interval);
     CoverageHistory tpair = new CoverageHistory(new TransitionPairCoverage(), interval);
-    model.addCoverageMetric(actions);
-    model.addCoverageMetric(states);
-    model.addCoverageMetric(trans);
-    model.addCoverageMetric(tpair);
+    ModelTestCase.addCoverageMetric(actions);
+    ModelTestCase.addCoverageMetric(states);
+    ModelTestCase.addCoverageMetric(trans);
+    ModelTestCase.addCoverageMetric(tpair);
     model.randomWalk(1500);
 
     // We print a vertical table of coverage statistics.
@@ -108,27 +108,27 @@ public class FlatMultTest
 
   public void testIOO()
   {
-    Envir envX = empty.add(x,i10);
+    Envir envX = empty.plus(x,i10);
     Assert.assertNull("should not return a mode", pred.chooseMode(envX));
   }
 
   public void testOIO()
   {
-    Envir envY = empty.add(y,i10);
+    Envir envY = empty.plus(y,i10);
     Assert.assertNull("should not return a mode", pred.chooseMode(envY));
   }
 
   public void testOOI()
   {
-    Envir envZ = empty.add(z,i10);
+    Envir envZ = empty.plus(z,i10);
     Assert.assertNull("should not return a mode", pred.chooseMode(envZ));
   }
 
   public void testIII()
   {
-    Envir envX = empty.add(x,i10);
-    Envir envXY = envX.add(y,i20);
-    Envir envXYZ = envXY.add(z,i200);
+    Envir envX = empty.plus(x,i10);
+    Envir envXY = envX.plus(y,i20);
+    Envir envXYZ = envXY.plus(z,i200);
     Mode m = pred.chooseMode(envXYZ);
     Assert.assertTrue(m != null);
     Assert.assertEquals(true, m.isInput(0));
@@ -149,8 +149,8 @@ public class FlatMultTest
 
   public void testIIO()
   {
-    Envir envX = empty.add(x,i10);
-    Envir envXY = envX.add(y,i20);
+    Envir envX = empty.plus(x,i10);
+    Envir envXY = envX.plus(y,i20);
     Mode m = pred.chooseMode(envXY);
     Assert.assertTrue(m != null);
     Assert.assertEquals(true, m.isInput(0));
@@ -167,8 +167,8 @@ public class FlatMultTest
 
   public void testIOI()
   {
-    Envir envX = empty.add(x,i10);
-    Envir envXZ = envX.add(z,i200);
+    Envir envX = empty.plus(x,i10);
+    Envir envXZ = envX.plus(z,i200);
     Mode m = pred.chooseMode(envXZ);
     Assert.assertTrue(m != null);
     Assert.assertEquals(true, m.isInput(0));
@@ -185,8 +185,8 @@ public class FlatMultTest
 
   public void testOII()
   {
-    Envir envY = empty.add(y,i20);
-    Envir envYZ = envY.add(z,i200);
+    Envir envY = empty.plus(y,i20);
+    Envir envYZ = envY.plus(z,i200);
     Mode m = pred.chooseMode(envYZ);
     Assert.assertTrue(m != null);
     Assert.assertEquals(false, m.isInput(0));

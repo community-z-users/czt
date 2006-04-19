@@ -18,19 +18,12 @@
 */
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.util.*;
-import java.math.*;
-import net.sourceforge.czt.util.*;
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.OperatorName;
-import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.animation.eval.*;
-import net.sourceforge.czt.animation.eval.flatpred.*;
+import net.sourceforge.czt.animation.eval.UndefException;
+import net.sourceforge.czt.util.Visitor;
 
-/** This overrides the forall evaluation algorithm. */
+/** This implements the exists quantifier.
+ *  It overrides the forall evaluation algorithm.
+ */
 public class FlatExists extends FlatForall
 {
   public FlatExists(FlatPredList sch, FlatPredList body)

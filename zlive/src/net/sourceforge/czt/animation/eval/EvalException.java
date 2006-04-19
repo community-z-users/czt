@@ -18,11 +18,12 @@
 */
 package net.sourceforge.czt.animation.eval;
 
-import net.sourceforge.czt.z.ast.*;
 
 
 public class EvalException extends RuntimeException
 {
+  private static final long serialVersionUID = 7893437293919758363L;
+
   /** Constructs a new exception with null as its detail message. */
   public EvalException()
   { super(); }

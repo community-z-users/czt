@@ -18,17 +18,17 @@
 */
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.util.*;
-import java.math.*;
-import java.io.*;
-import net.sourceforge.czt.util.*;
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.z.ast.*;
+import java.math.BigInteger;
+import java.util.ArrayList;
+
+import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.EvalException;
+import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.NumExpr;
+import net.sourceforge.czt.z.ast.RefName;
+import net.sourceforge.czt.z.ast.ZRefName;
 import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.animation.eval.*;
-import net.sourceforge.czt.animation.eval.flatpred.*;
 
 /** FlatMult implements the a*b=c predicate.
  *  TODO: make it handle the IOI and OII cases more conservatively

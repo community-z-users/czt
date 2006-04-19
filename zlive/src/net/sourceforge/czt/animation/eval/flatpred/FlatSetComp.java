@@ -19,16 +19,19 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.util.*;
-import java.math.*;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
-import net.sourceforge.czt.util.*;
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
+import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.EvalException;
+import net.sourceforge.czt.animation.eval.EvalSet;
+import net.sourceforge.czt.animation.eval.ZLive;
+import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.animation.eval.*;
 
 /**
 * @author Mark Utting
@@ -254,7 +257,7 @@ public class FlatSetComp extends FlatEvalSet
     // Add the expected answer to the environment.
     // This allows the predicates inside the set to CHECK the result
     // rather than generating all possible results.
-    env = env.add(resultName_, (Expr)e);
+    env = env.plus(resultName_, (Expr)e);
     Mode m = predsOne_.chooseMode(env);
     if (m == null)
       throw new EvalException("Cannot even test member of SetComp: " + this);

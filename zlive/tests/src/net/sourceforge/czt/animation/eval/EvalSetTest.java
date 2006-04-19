@@ -19,21 +19,21 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.*;
-import java.math.*;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
-import junit.framework.*;
-
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.parser.z.ParseUtils;
-import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.util.ParseException;
-import net.sourceforge.czt.animation.eval.flatpred.*;
+import junit.framework.Assert;
+import net.sourceforge.czt.animation.eval.flatpred.Bounds;
+import net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet;
+import net.sourceforge.czt.animation.eval.flatpred.FlatPred;
+import net.sourceforge.czt.animation.eval.flatpred.FlatPredList;
+import net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet;
+import net.sourceforge.czt.animation.eval.flatpred.Mode;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.ZRefName;
 
 
 /**
@@ -54,10 +54,10 @@ public class EvalSetTest
 
   // several environments used during testing.
   protected Envir envEmpty = new Envir();
-  protected Envir envI  = envEmpty.add(i,i10);
-  protected Envir envJ  = envEmpty.add(j,i11);
-  protected Envir envK  = envEmpty.add(k,i12);
-  protected Envir envIJK = envEmpty.add(i,i10).add(j,i11).add(k,i12);
+  protected Envir envI  = envEmpty.plus(i,i10);
+  protected Envir envJ  = envEmpty.plus(j,i11);
+  protected Envir envK  = envEmpty.plus(k,i12);
+  protected Envir envIJK = envEmpty.plus(i,i10).plus(j,i11).plus(k,i12);
 
   // The two EvalSets that we will test.
   /** Subclasses must initialise this FlatPredList so that it

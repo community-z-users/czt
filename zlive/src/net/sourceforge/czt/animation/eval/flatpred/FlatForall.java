@@ -18,18 +18,16 @@
 */
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.logging.Logger;
-import java.math.*;
-import net.sourceforge.czt.util.*;
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.OperatorName;
-import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.animation.eval.*;
-import net.sourceforge.czt.animation.eval.flatpred.*;
+
+import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.z.ast.ZDeclName;
+import net.sourceforge.czt.z.ast.ZRefName;
 
 public class FlatForall extends FlatPred
 {
@@ -52,7 +50,7 @@ public class FlatForall extends FlatPred
     body_ = body;
     
     // freeVars_ := sch.freeVars + (body.freeVars - sch.boundVars)
-    freeVars_ = new HashSet(schText_.freeVars());
+    freeVars_ = new HashSet<ZRefName>(schText_.freeVars());
     sLogger.fine("schText freevars = "+schText_.freeVars());
     sLogger.fine("schText boundvars = "+schText_.boundVars());
     sLogger.fine("body freevars = "+body_.freeVars());
@@ -110,7 +108,7 @@ public class FlatForall extends FlatPred
     return result;
   }
 
-  public Set freeVars()
+  public Set<ZRefName> freeVars()
   { return freeVars_; }
 
   //@ requires mode instanceof ModeList;
