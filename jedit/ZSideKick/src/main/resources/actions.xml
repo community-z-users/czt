@@ -5,83 +5,22 @@
 <ACTIONS>
   <ACTION NAME="zsidekick.toLatex">
     <CODE>
-      parsedData = sidekick.SideKickParsedData.getParsedData(view);
-      if (parsedData instanceof zsidekick.ParsedData &amp;&amp;
-          parsedData.getManager() != null) {
-        manager = parsedData.getManager();
-        key = new net.sourceforge.czt.session.Key(buffer.getPath(),
-          net.sourceforge.czt.print.util.LatexString.class);
-        latex = manager.get(key);
-        buffer = org.gjt.sp.jedit.jEdit.newFile(view);
-        buffer.setStringProperty("encoding",
-                                 System.getProperty( "file.encoding"));
-        buffer.setMode(latex.getExtension() + "latex");
-        buffer.insert(0, latex.toString());
-      }
-      else {
-        message = "Buffer hasn't been parsed by a CZT parser.";
-        javax.swing.JOptionPane.showMessageDialog(null, message);
-      }
+      zsidekick.ZSideKickActions.toLatex(view);
     </CODE>
   </ACTION>
   <ACTION NAME="zsidekick.toOldLatex">
     <CODE>
-      parsedData = sidekick.SideKickParsedData.getParsedData(view);
-      if (parsedData instanceof zsidekick.ParsedData &amp;&amp;
-          parsedData.getManager() != null) {
-        manager = parsedData.getManager();
-        key = new net.sourceforge.czt.session.Key(buffer.getPath(),
-          net.sourceforge.czt.print.util.OldLatexString.class);
-        latex = manager.get(key);
-        buffer = org.gjt.sp.jedit.jEdit.newFile(view);
-        buffer.setStringProperty("encoding",
-                                 System.getProperty( "file.encoding"));
-        buffer.setMode("tex");
-        buffer.insert(0, latex.toString());
-      }
-      else {
-        message = "Buffer hasn't been parsed by a CZT parser.";
-        javax.swing.JOptionPane.showMessageDialog(null, message);
-      }
+      zsidekick.ZSideKickActions.toOldLatex(view);
     </CODE>
   </ACTION>
   <ACTION NAME="zsidekick.toUnicode">
     <CODE>
-      parsedData = sidekick.SideKickParsedData.getParsedData(view);
-      if (parsedData instanceof zsidekick.ParsedData &amp;&amp;
-          parsedData.getManager() != null) {
-        manager = parsedData.getManager();
-        key = new net.sourceforge.czt.session.Key(buffer.getPath(),
-          net.sourceforge.czt.print.util.UnicodeString.class);
-        unicode = manager.get(key);
-        buffer = org.gjt.sp.jedit.jEdit.newFile(view);
-        buffer.setStringProperty("encoding", "UTF-16");
-        buffer.setMode(unicode.getExtension());
-        buffer.insert(0, unicode.toString());
-      }
-      else {
-        message = "Buffer hasn't been parsed by a CZT parser.";
-        javax.swing.JOptionPane.showMessageDialog(null, message);
-      }
+      zsidekick.ZSideKickActions.toUnicode(view);
     </CODE>
   </ACTION>
   <ACTION NAME="zsidekick.toXml">
     <CODE>
-      parsedData = sidekick.SideKickParsedData.getParsedData(view);
-      if (parsedData instanceof zsidekick.ParsedData &amp;&amp;
-          parsedData.getManager() != null) {
-        manager = parsedData.getManager();
-        key = new net.sourceforge.czt.session.Key(buffer.getPath(),
-          net.sourceforge.czt.print.util.XmlString.class);
-        unicode = manager.get(key);
-        buffer = org.gjt.sp.jedit.jEdit.newFile(view);
-        buffer.setStringProperty("encoding", "UTF-8");
-        buffer.insert(0, unicode.toString());
-      }
-      else {
-        message = "Buffer hasn't been parsed by a CZT parser.";
-        javax.swing.JOptionPane.showMessageDialog(null, message);
-      }
+      zsidekick.ZSideKickActions.toXml(view);
     </CODE>
   </ACTION>
 </ACTIONS>
