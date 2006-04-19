@@ -98,4 +98,25 @@ public class ZSideKickActions
       buffer.insert(0, xml.toString());
     }
   }
+
+  public static WffHighlight getWffHighlight(View view)
+  {
+    for (Object o : view.getTextArea().getPainter().getExtensions()) {
+      if (o instanceof WffHighlight) {
+	return (WffHighlight) o;
+      }
+    }
+    final String message = "No highlighter for wffs found.";
+    view.getStatus().setMessage(message);
+    view.getToolkit().beep();
+    return null;
+  }
+
+  public static void highlightNextWff(View view)
+  {
+    WffHighlight wffHighlight = getWffHighlight(view);
+    if (wffHighlight != null) {
+      wffHighlight.next();
+    }
+  }
 }

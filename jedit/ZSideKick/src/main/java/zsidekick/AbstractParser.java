@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.gjt.sp.jedit.*;
+import org.gjt.sp.jedit.textarea.TextAreaPainter;
 import errorlist.*;
 import sidekick.*;
 
@@ -37,9 +38,24 @@ public abstract class AbstractParser
   extends SideKickParser
   implements ParsePropertiesKeys
 {
+  WffHighlight wffHighlight_;
+
   public AbstractParser(String name)
   {
     super(name);
+  }
+
+  public void activate(EditPane editPane)
+  {
+    super.activate(editPane);
+    wffHighlight_ = new WffHighlight(editPane.getTextArea());
+    editPane.getTextArea().getPainter().addExtension(wffHighlight_);
+  }
+
+  public void deactivate(EditPane editPane)
+  {
+    super.deactivate(editPane);
+    editPane.getTextArea().getPainter().removeExtension(wffHighlight_);
   }
 
   public abstract Markup getMarkup();
@@ -50,6 +66,7 @@ public abstract class AbstractParser
                                   DefaultErrorSource errorSource)
   {
     ParsedData data = new ParsedData(buffer.getName());
+    Spec spec = null;
     try {
       SectionManager manager = getManager();
       final String name = buffer.getPath();
@@ -58,7 +75,7 @@ public abstract class AbstractParser
       source.setEncoding(buffer.getStringProperty("encoding"));
       source.setMarkup(getMarkup());
       manager.put(new Key(name, Source.class), source);
-      Spec spec = (Spec) manager.get(new Key(name, Spec.class));
+      spec = (Spec) manager.get(new Key(name, Spec.class));
       if (spec.getSect().size() > 0) {
         data.addData(spec, manager, buffer);
         for (Sect sect : spec.getSect()) {
@@ -95,6 +112,7 @@ public abstract class AbstractParser
                              message);
       }
     }
+    wffHighlight_.setSpec(spec);
     return data;
   }
 

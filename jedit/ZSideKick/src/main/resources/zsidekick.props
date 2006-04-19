@@ -17,13 +17,15 @@ plugin.zsidekick.ZSideKickPlugin.depend.3=plugin sidekick.SideKickPlugin 0.3
 plugin.zsidekick.ZSideKickPlugin.menu=zsidekick.toLatex \
                                       zsidekick.toOldLatex \
                                       zsidekick.toUnicode \
-                                      zsidekick.toXml
+                                      zsidekick.toXml \
+                                      zsidekick.nextWff
 
 # action labels
 zsidekick.toLatex.label=Convert to Latex mark-up
 zsidekick.toOldLatex.label=Convert to old Latex mark-up
 zsidekick.toUnicode.label=Convert to Unicode mark-up
 zsidekick.toXml.label=Convert to XML
+zsidekick.nextWff.label=Highlight next wff
 
 # Option pane
 plugin.zsidekick.ZSideKickPlugin.option-pane=zsidekick
