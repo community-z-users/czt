@@ -885,6 +885,16 @@ action code
       return getLocation(line, column, getLocation(start), getLocation(end));
     }
 
+    private LocInfo getLocation(List&lt;LocString&gt; list)
+    {
+      if (list != null &amp;&amp; list.size() > 0) {
+        if (list.size() == 1) return list.get(0).getLocation();
+        return getLocation(list.get(0).getLocation(),
+                           list.get(list.size() - 1).getLocation());
+      }
+      return null;
+    }
+
 <add:oz>
     /**
      * Reset the isOpExpr_ stack.
@@ -1493,7 +1503,7 @@ non terminal ConstDecl
 non terminal List&lt;Freetype&gt; freeTypeList;
 non terminal Freetype freeTypeDefinition;
 
-non terminal List&lt;String&gt;
+non terminal List&lt;LocString&gt;
     narrWordList;
 
 non terminal OptempPara operatorTemplate;
@@ -1990,7 +2000,7 @@ narrSect ::=
 	narrWordList:nwl
 	{:
            RESULT = factory_.createNarrSect(nwl);
-           addLocAnn(RESULT, getLocation(nwlleft, nwlright));
+           addLocAnn(RESULT, getLocation(nwl));
         :}
         ;
 
@@ -2178,7 +2188,7 @@ narrParagraph ::=
         narrWordList:nwl
         {:
            RESULT = factory_.createNarrPara(nwl);
-           addLocAnn(RESULT, getLocation(nwlleft, nwlright));
+           addLocAnn(RESULT, getLocation(nwl));
         :}
         ;
 
@@ -2403,12 +2413,12 @@ branch ::=
 narrWordList ::=
         narrWordList:nwl TEXT:t  
         {:
-           nwl.add(t.getString());
+           nwl.add(t);
            RESULT = nwl;
         :}
         |
         TEXT:t
-        {: RESULT = list(t.getString()); :}
+        {: RESULT = list(t); :}
         ;
 
 // operator templates  /////////////////////////////////////////////////////

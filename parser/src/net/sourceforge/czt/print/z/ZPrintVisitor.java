@@ -609,7 +609,7 @@ public class ZPrintVisitor
   {
     StringBuffer txt = new StringBuffer();
     for (Iterator iter = list.iterator(); iter.hasNext();) {
-      txt.append((String) iter.next());
+      txt.append(iter.next().toString());
     }
     print(TokenName.TEXT, new LocString(txt.toString(), null));
   }
