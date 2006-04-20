@@ -26,8 +26,7 @@ import org.gjt.sp.jedit.textarea.*;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
-import net.sourceforge.czt.z.ast.LocAnn;
-import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor;
 
 public class WffHighlight
@@ -35,8 +34,7 @@ public class WffHighlight
 {
   private JEditTextArea textArea_;
   private Spec spec_;
-  private Stack<Term> stack_;
-  private Term highlightedTerm_;
+  private Stack<Term> stack_ = new Stack<Term>();
   private int matchStart_ = -1;
   private int matchEnd_ = -1;
 
@@ -47,11 +45,16 @@ public class WffHighlight
 
   public String getToolTipText(int x, int y)
   {
-    if (highlightedTerm_ != null) {
-      int offset = textArea_.xyToOffset(x, y);
-      if (matchStart_ <= offset && offset <= matchEnd_) {
-	return highlightedTerm_.accept(new ConcreteSyntaxDescriptionVisitor());
-      }
+    final int offset = textArea_.xyToOffset(x, y);
+    if (matchStart_ <= offset && offset <= matchEnd_) {
+      Term term = stack_.peek();
+      String msg = term.accept(new ConcreteSyntaxDescriptionVisitor());
+      final TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
+      if (typeAnn != null) msg += " of type " + typeAnn.getType().toString();
+      final SectTypeEnvAnn sectTypeEnvAnn =
+        (SectTypeEnvAnn) term.getAnn(TypeEnvAnn.class);
+      if (sectTypeEnvAnn != null) msg += " with " + sectTypeEnvAnn.toString();
+      return msg;
     }
     return null;
   }
@@ -89,37 +92,41 @@ public class WffHighlight
   public void setSpec(Spec spec)
   {
     spec_ = spec;
-    highlightedTerm_ = null;
+    stack_.clear();
     textArea_.repaint();
+  }
+
+  /**
+   * Checks whether this contains useful location information.
+   */
+  private static boolean isLocation(LocAnn locAnn)
+  {
+    return locAnn != null &&
+      locAnn.getStart() != null &&
+      locAnn.getLength() != null;
   }
 
   public void next()
   {
-    if (highlightedTerm_ == null) {
-      stack_ =
-	spec_.accept(new FindWffVisitor(textArea_.getCaretPosition()));
-      if (stack_ != null) {
-	highlightedTerm_ = stack_.pop();
-	LocAnn locAnn = (LocAnn) highlightedTerm_.getAnn(LocAnn.class);
-	matchStart_ = locAnn.getStart();
-	matchEnd_ = locAnn.getStart() + locAnn.getLength();
-      }
-    }
-    else if (stack_.empty()) {
-      highlightedTerm_ = null;
-      matchStart_ = -1;
-      matchEnd_ = -1;
+    final int caretPos = textArea_.getCaretPosition();
+    if (stack_.empty() || caretPos < matchStart_ || caretPos > matchEnd_) {
+      spec_.accept(new FindWffVisitor(caretPos, stack_));
     }
     else {
-      highlightedTerm_ = stack_.pop();
-      LocAnn locAnn = (LocAnn) highlightedTerm_.getAnn(LocAnn.class);
-      if (locAnn != null && locAnn.getStart() != null) {
-	matchStart_ = locAnn.getStart();
-	if (locAnn.getLength() != null) {
-	  matchEnd_ = matchStart_ + locAnn.getLength();
-	}
+      stack_.pop();
+    }
+    while (! stack_.empty()) {
+      final Term term = stack_.pop();
+      final LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
+      if (isLocation(locAnn)) {
+        stack_.push(term);
+        matchStart_ = locAnn.getStart();
+        matchEnd_ = matchStart_ + locAnn.getLength();
+        textArea_.repaint();
+        return;
       }
     }
+    matchStart_ = matchEnd_ = -1;
     textArea_.repaint();
   }
 
@@ -144,17 +151,18 @@ public class WffHighlight
   }
 
   static class FindWffVisitor
-    implements TermVisitor<Stack<Term>>
+    implements TermVisitor
   {
     private int position_;
-    private Stack<Term> stack_ = new Stack<Term>();
+    private Stack<Term> stack_;
 
-    public FindWffVisitor(int position)
+    public FindWffVisitor(int position, Stack<Term> stack)
     {
       position_ = position;
+      stack_ = stack;
     }
 
-    public Stack<Term> visitTerm(Term term)
+    public Object visitTerm(Term term)
     {
       LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
       if (locAnn != null && locAnn.getStart() != null) {
@@ -168,14 +176,9 @@ public class WffHighlight
       }
       stack_.push(term);
       for (Object o : term.getChildren()) {
-	if (o instanceof Term) {
-	  Stack<Term> s = ((Term) o).accept(this);
-	  if (s != null) return s;
-	}
+	if (o instanceof Term && ((Term) o).accept(this) != null) return term;
       }
-      if (locAnn != null &&
-	  locAnn.getStart() != null
-	  && locAnn.getLength() != null) return stack_;
+      if (isLocation(locAnn)) return term;
       stack_.pop();
       return null;
     }
