@@ -108,26 +108,28 @@ public class WffHighlight
 
   public void next()
   {
-    final int caretPos = textArea_.getCaretPosition();
-    if (stack_.empty() || caretPos < matchStart_ || caretPos > matchEnd_) {
-      spec_.accept(new FindWffVisitor(caretPos, stack_));
-    }
-    else {
-      stack_.pop();
-    }
-    while (! stack_.empty()) {
-      final Term term = stack_.pop();
-      final LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
-      if (isLocation(locAnn)) {
-        stack_.push(term);
-        matchStart_ = locAnn.getStart();
-        matchEnd_ = matchStart_ + locAnn.getLength();
-        textArea_.repaint();
-        return;
+    if (spec_ != null) {
+      final int caretPos = textArea_.getCaretPosition();
+      if (stack_.empty() || caretPos < matchStart_ || caretPos > matchEnd_) {
+        spec_.accept(new FindWffVisitor(caretPos, stack_));
       }
+      else {
+        stack_.pop();
+      }
+      while (! stack_.empty()) {
+        final Term term = stack_.pop();
+        final LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
+        if (isLocation(locAnn)) {
+          stack_.push(term);
+          matchStart_ = locAnn.getStart();
+          matchEnd_ = matchStart_ + locAnn.getLength();
+          textArea_.repaint();
+          return;
+        }
+      }
+      matchStart_ = matchEnd_ = -1;
+      textArea_.repaint();
     }
-    matchStart_ = matchEnd_ = -1;
-    textArea_.repaint();
   }
 
   private int getStartOffset(int screenLine, int start)
