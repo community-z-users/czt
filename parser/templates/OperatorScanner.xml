@@ -172,9 +172,11 @@ public class <class/>
         }
         assert type != -1;
       }
+      LocString locName = new LocString(name, decorword.getLocation());
       result = (type == -1) ? symbol : new Symbol(type, 
                                                   symbol.left, 
-                                                  symbol.right, name);
+                                                  symbol.right,
+                                                  locName);
     }
     else {
       result = symbol;

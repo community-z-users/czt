@@ -304,7 +304,10 @@ RULE = {RULECHAR}
                    yybegin(Z); return symbol(Sym.GENCLASS); }
   </add:oz>
 
-  {TEXT}        {  return symbol(Sym.TEXT, yytext()); }
+  {TEXT}        {
+                   LocString value = new LocString(yytext(), getLocation());
+                   return symbol(Sym.TEXT, value);
+                }
 
   .             {
                    String message = "Unexpected character outside para &lt;" + yytext() + "&gt;";

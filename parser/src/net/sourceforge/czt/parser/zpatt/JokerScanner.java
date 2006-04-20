@@ -1,5 +1,6 @@
 /*
-  Copyright (C) 2005 Tim Miller, Petra Malik
+  Copyright (C) 2005 Tim Miller
+  Copyright (C) 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -92,7 +93,8 @@ public class JokerScanner
     }
     Symbol result = null;
     if (symbol.sym == Sym.DECORWORD || symbol.sym == Sym.DECLWORD) {
-      String name = ((Decorword) symbol.value).getName();
+      Decorword decorword = (Decorword) symbol.value;
+      String name = decorword.getName();
       assert table_ != null;
       JokerType jokertype = table_.getTokenType(name);
       int type = -1;
@@ -114,9 +116,11 @@ public class JokerScanner
         }
         assert type != -1;
       }
+      LocString locName = new LocString(name, decorword.getLocation());
       result = (type == -1) ? symbol : new Symbol(type, 
                                                   symbol.left, 
-                                                  symbol.right, name);
+                                                  symbol.right,
+                                                  locName);
     }
     else {
       result = symbol;

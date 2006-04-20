@@ -511,8 +511,8 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    END_MARKUP, TOKENSEQ;
 terminal ZSect     SECTHEAD;
 terminal LocInt    NUMERAL, NUMSTROKE;
-terminal String    TEXT,
-                   CHAR_MARKUP, WORD_MARKUP, INWORD_MARKUP, PREWORD_MARKUP,
+terminal LocString TEXT;
+terminal String    CHAR_MARKUP, WORD_MARKUP, INWORD_MARKUP, PREWORD_MARKUP,
                    POSTWORD_MARKUP;
 terminal Decorword DECORWORD;
 
@@ -537,7 +537,7 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
 
    narrWordList ::=
              TEXT:t narrWordList
-             {: parser.write(t); :}
+             {: parser.write(t.getString()); :}
              |
              // empty
              ;
@@ -596,7 +596,7 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
    para ::=  markup
              |
              TEXT:t
-             {: parser.write(t); :}
+             {: parser.write(t.getString()); :}
              |
              ZED tokenSeq:s END
              {:

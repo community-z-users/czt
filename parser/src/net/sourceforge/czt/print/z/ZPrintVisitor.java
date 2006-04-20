@@ -611,7 +611,7 @@ public class ZPrintVisitor
     for (Iterator iter = list.iterator(); iter.hasNext();) {
       txt.append((String) iter.next());
     }
-    print(TokenName.TEXT, txt.toString());
+    print(TokenName.TEXT, new LocString(txt.toString(), null));
   }
 
   public Object visitNegExpr(NegExpr negExpr)
