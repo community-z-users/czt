@@ -184,6 +184,16 @@ public class FlatRangeSet extends FlatEvalSet
   }
 */
 
+  /** This should only be called after nextEvaluation(). */
+  public int size()
+  {
+    assert 0 < solutionsReturned;
+    if (lower_ == null || upper_ == null)
+      return Integer.MAX_VALUE;
+    else
+      return upper_.subtract(lower_).add(BigInteger.ONE).intValue();
+  }
+
   /** Auxiliary function for calculating the size of the range set.
    *  @param low  Bottom of the range, or null if no limit.
    *  @param high Top of the range, or null if no limit.
@@ -236,12 +246,12 @@ public class FlatRangeSet extends FlatEvalSet
     return estSize(evalMode_.getEnvir());
   }
 
-  private class setIterator implements Iterator<Expr>
+  private class RangeSetIterator implements Iterator<Expr>
   {
     protected BigInteger current_;
     protected BigInteger highest_;
     
-    public setIterator(BigInteger low, BigInteger high)
+    public RangeSetIterator(BigInteger low, BigInteger high)
     {
       assert(low != null);
       assert(high != null);
@@ -280,7 +290,7 @@ public class FlatRangeSet extends FlatEvalSet
     upper_ = getBound(env, upperArg_);
     if (lower_ == null || upper_ == null)
       throw new EvalException("Unbounded integer range "+this);
-    return new setIterator(lower_, upper_);
+    return new RangeSetIterator(lower_, upper_);
   }
 
   /** This uses bounds information about element (if any)
@@ -313,7 +323,7 @@ public class FlatRangeSet extends FlatEvalSet
     if (low == null || high == null)
       throw new EvalException("Unbounded integer "+element+" in "+this);
     
-    return new setIterator(low, high);
+    return new RangeSetIterator(low, high);
   }
 
   /** Does the actual evaluation */
@@ -339,6 +349,11 @@ public class FlatRangeSet extends FlatEvalSet
       }
     }
     return result;
+  }
+
+  protected Expr nextMember()
+  {
+    throw new RuntimeException("FlatRangeSet should never call nextMember");
   }
 
   /** Tests for membership of the set.

@@ -47,11 +47,14 @@ public class FlatUnion extends FlatEvalSet {
     /** The right-hand EvalSet, once known. */
     private EvalSet rightSet_;
 
-    /** The set of member values in the resulting set. */
-    protected Set<Expr> knownMembers_;
-    //@invariant leftSet_ == null ==> knownMembers_ == null;
-    //@invariant rightSet_ == null ==> knownMembers_ == null;
-    
+    /** Used by nextMember to iterate through both sets. */
+    private Iterator<Expr> memberIterator_ = null;
+
+    /** Used by nextMember to know which set it is iterating through. 
+     *  1 means leftSet_, 2 means rightSet_
+     */
+    private int membersFrom_ = 0;
+
     /** Creates a new instance of FlatUnion */
     public FlatUnion(ZRefName a, ZRefName b, ZRefName s)
     {
@@ -85,6 +88,10 @@ public class FlatUnion extends FlatEvalSet {
           evalMode_.getEnvir().setValue(args.get(2),this);
           result = true;
         }
+        
+        // now set up nextMember to start iterating through leftSet_
+        memberIterator_ = leftSet_.iterator();
+        membersFrom_ = 1;
       }
       return result;
     }
@@ -205,35 +212,30 @@ public class FlatUnion extends FlatEvalSet {
       else
         return EvalSet.UNKNOWN_SIZE;
     }
-    
-    /** Iterate through all members of the set.
-     *  It guarantees that there will be no duplicates.
-     *  TODO: the members of the sets could be generated lazily,
-     *  rather than immediately within this method.
-     *
-     * @return an Iterator object.
-     */
-    //@requires solutionsReturned > 0;
-    public Iterator<Expr> iterator()
-    {
-      assert solutionsReturned > 0;  // nextEvaluation() must have succeeded.
-      if (knownMembers_ == null) {
-        // generate all members from BOTH sets.
-        // Any duplicates will be removed, thanks to the HashSet.
-        knownMembers_ = new HashSet<Expr>();
-        Iterator<Expr> elems = leftSet_.iterator();
-        while (elems.hasNext())
-          knownMembers_.add(elems.next());
-        elems = rightSet_.iterator();
-        while (elems.hasNext())
-          knownMembers_.add(elems.next());
+
+  protected Expr nextMember()
+  {
+    assert solutionsReturned > 0; // nextEvaluation() must have succeeded.
+    while (memberIterator_ != null) {
+      if (memberIterator_.hasNext())
+        return memberIterator_.next();
+      else if (membersFrom_ == 1) {
+        memberIterator_ = rightSet_.iterator();
+        membersFrom_++;
       }
-      return knownMembers_.iterator();
+      else {
+        memberIterator_ = null;
+        membersFrom_++;
+      }
     }
+    return null;
+  }
 
     /** Iterate through all members of this set that might
-     *  equal element (which need not be known yet).
+     *  equal element (which must be fully evaluated).
      *  The result will contain no duplicates.
+     *  However, both subsets will be built before the
+     *  iterator returns, so this might be expensive on space.
      *
      * @return an Iterator object.
      */

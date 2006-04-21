@@ -45,8 +45,8 @@ public class FlatDiscreteSet extends FlatEvalSet
   /** The most recent variable bounds information. */
   protected Bounds bounds_;
 
-  /** Contains the enumerated members of the set. */
-  protected Set<Expr> iterateSet_;
+  /** The number of expressions returned by nextMember() */
+  private int membersReturned;
 
   public FlatDiscreteSet(List<ZRefName> elements, ZRefName set)
   {
@@ -55,7 +55,6 @@ public class FlatDiscreteSet extends FlatEvalSet
     args = new ArrayList<ZRefName>(noDups);
     args.add(set);
     solutionsReturned = -1;
-    iterateSet_ = null;
   }
 
   //@ requires newargs.size() >= 1;
@@ -157,31 +156,6 @@ public class FlatDiscreteSet extends FlatEvalSet
     return estSize(env);
   }
 
-  /** Iterate through all members of the set.
-  *   It guarantees that there will be no duplicates.
-  *   Note: this method must only be called AFTER
-  *   nextEvaluation(), because all free variables of the
-  *   set must be instantiated before we can enumerate the members
-  *   of the set.
-  *
-  * @return an Iterator object.
-  */
-  public Iterator<Expr> iterator() {
-    assert solutionsReturned > 0;
-    if(iterateSet_ == null) {
-      iterateSet_ = new HashSet<Expr>();
-      Envir env = evalMode_.getEnvir();
-      int numExprs = args.size() - 1;
-      for (int i = 0; i < numExprs; i++) {
-        ZRefName var = args.get(i);
-        Expr value = (Expr)env.lookup(var);
-        assert value != null;
-        iterateSet_.add(value);
-      }
-    }
-    return iterateSet_.iterator();
-  }
-
   /** For FlatDiscreteSet, subsetMembers(...) is the same as members(). */
   public Iterator<Expr> subsetIterator(ZRefName element)
   {
@@ -197,7 +171,6 @@ public class FlatDiscreteSet extends FlatEvalSet
       assert evalMode_.isInput(i);
     boolean result = false;
     ZRefName set = args.get(args.size()-1);
-    iterateSet_ = null;
     if(solutionsReturned==0)
     {
       solutionsReturned++;
@@ -210,28 +183,20 @@ public class FlatDiscreteSet extends FlatEvalSet
         result = true;
       }
     }
+    membersReturned = 0;
     return result;
   }
 
-  /** Tests for membership of the set.
-   *  This can only be called AFTER nextEvaluation().
-   *
-   * @param e  The fully evaluated expression.
-   * @return   true iff e is a member of the set.
-   */
-  public boolean contains(Object e)
+  protected Expr nextMember()
   {
-    assert (e != null);
     assert solutionsReturned > 0;
-    boolean result = false;
     int numExprs = args.size() - 1;
+    if (membersReturned == numExprs)
+      return null;
     Envir env = evalMode_.getEnvir();
-    for (int i = 0; ! result && i < numExprs; i++) {
-      ZRefName var = args.get(i);
-      Expr value = (Expr)env.lookup(var);
-      if(e.equals(value))
-        result = true;
-    }
+    ZRefName var = args.get(membersReturned);
+    Expr result = env.lookup(var);
+    membersReturned++;
     return result;
   }
 

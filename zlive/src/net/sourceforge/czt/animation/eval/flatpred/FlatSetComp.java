@@ -56,8 +56,11 @@ public class FlatSetComp extends FlatEvalSet
   /** The fresh ZRefName which will be bound to a member of the set. */
   protected ZRefName resultName_;
 
-  /** The set of member values in the resulting set. */
-  protected Set<Expr> knownMembers_;
+  /** The generated environment that contains the output values.
+   *  When this is non-null, it means that we are in the process
+   *  of lazily evaluating the members of the set.
+   */
+  protected Envir outputEnvir_ = null;
   
   /** FlatSetComp(D,P,E,S) implements {D|P@E} = S.
    * 
@@ -95,7 +98,6 @@ public class FlatSetComp extends FlatEvalSet
     args = new ArrayList<ZRefName>(predsAll_.freeVars());
     args.add(set);  // TODO: could set already be in args?
     solutionsReturned = -1;
-    knownMembers_ = null;
   }
 
   public boolean inferBounds(Bounds bnds)
@@ -180,31 +182,25 @@ public class FlatSetComp extends FlatEvalSet
     return estSize(env);
   }
   
-  /** Iterate through all members of the set.
-  *  It guarantees that there will be no duplicates.
-  *  
-  *  TODO: generate the members lazily, as requested by the iterator.
-  *
-  * @return an Iterator object which returns each member of the set.
+  /** Returns members of the set, one by one.
+   *  This must only be called after nextEvaluation() has returned true.
   */
-  public Iterator<Expr> iterator()
+  public Expr nextMember()
   {
-    if (knownMembers_ == null) {
-      // generate all members.
+    if (outputEnvir_ == null) {
       // TODO: use the ORIGINAL env, not this one which has 'set' added.
-      // TODO: we could generate the members lazily?
       Envir env0 = evalMode_.getEnvir();
       Mode m = predsAll_.chooseMode(env0);
       if (m == null)
         throw new EvalException("Cannot generate members of SetComp: " + this);
-      knownMembers_ = new HashSet<Expr>();
       predsAll_.setMode(m);
       predsAll_.startEvaluation();
-      Envir env = predsAll_.getOutputEnvir();
-      while (predsAll_.nextEvaluation())
-        knownMembers_.add(env.lookup(resultName_));
+      outputEnvir_ = predsAll_.getOutputEnvir();
     }
-    return knownMembers_.iterator();
+    if (predsAll_.nextEvaluation())
+      return outputEnvir_.lookup(resultName_);
+    else
+      return null;
   }
 
   /** TODO: see if we can use bounds information about element
@@ -226,7 +222,7 @@ public class FlatSetComp extends FlatEvalSet
     assert evalMode_ != null;
     assert solutionsReturned >= 0;
     boolean result = false;
-    knownMembers_ = null; // force members to be recalculated
+    outputEnvir_ = null; // force members to be recalculated
     ZRefName set = args.get(args.size()-1);
     if(solutionsReturned==0)
     {

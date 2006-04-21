@@ -18,29 +18,175 @@
 */
 package net.sourceforge.czt.animation.eval.flatpred;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
-import net.sourceforge.czt.animation.eval.EvalException;
 import net.sourceforge.czt.animation.eval.EvalSet;
+import net.sourceforge.czt.animation.eval.ExprComparator;
 import net.sourceforge.czt.z.ast.Expr;
 
 /** FlatEvalSet is a subclass of FlatPred that implements
  *  the EvalSet interface.  It provides default implementations
- *  of several of the Set methods.
+ *  of several of the Set methods.  It also provides a lazy-evaluation
+ *  mechanism that uses the memberList and memberSet data structures
+ *  to record which members of the set have already been evaluated
+ *  and to remove duplicates.  The contains() and iterator() methods
+ *  are implemented on top of this lazy evaluation mechanism, but
+ *  subclasses are free to override those methods and avoid the
+ *  lazy evaluation mechanism if they can do it more efficiently
+ *  (like FlatRangeSet).
+ *  
+ *  TODO: implement hashCode and equals properly.
  */
 public abstract class FlatEvalSet extends FlatPred implements EvalSet
 {
+  /** True iff all members of the set have been evaluated. */
+  protected boolean fullyEvaluated = false;
+  //@invariant fullyEvaluated ==> memberList != null;
+  
   /** The list of known members so far.
-   *  This contains no duplicates.
+   *  This is guaranteed to contain no duplicates.
    *  In some implementations of EvalSet, it will be filled
    *  up lazily as the members of the set are requested.
+   *  TODO: to save a little space, we could delete memberList, once
+   *  fullyEvaluated becomes true and there are no iterators using it.
    */
-  protected List<Expr> knownMembers;
+  protected List<Expr> memberList;
   
+  /** All the known members of the set.  
+   *  If memberSet and memberList are both non-null,
+   *  then they contain exactly the same elements.  
+   *  If memberSet is non-null, but memberList is null,
+   *  then memberSet contains the complete set.
+   */
+  protected SortedSet<Expr> memberSet;
+  //@invariant memberList==null <==> memberSet==null;
+  //@invariant memberList!=null ==> memberList.size()==memberSet.size();
+  
+  /** Returns the next expression in the set.
+   *  This is used during the first evaluation of
+   *  the set.  Once this returns null, the set is
+   *  fully evaluated and its elements are all stored
+   *  in fullSet.
+   * @return The next Expr, or null if there are no more.
+   */
+  protected abstract Expr nextMember();
+
+  /** Evaluates the next member of the set and inserts it into 
+   *  memberList and memberSet.  Returns true iff it found and
+   *  inserted a new member, or false if the set has been
+   *  fully evaluated (in which case, fullyEvaluated will have
+   *  been set to true as well).
+   */
+  private /*synchronized*/ boolean insertMember()
+  {
+    if (memberList == null) {
+      assert memberSet == null;
+      memberList = new ArrayList<Expr>();
+      memberSet = new TreeSet<Expr>(new ExprComparator());
+    }
+    while (true) {
+      Expr next = nextMember();
+      if (next == null) {
+        fullyEvaluated = true;
+        return false;
+      }
+      if ( ! memberSet.contains(next)) {
+        memberSet.add(next);
+        memberList.add(next);
+        return true;
+      }
+    }
+  }
+  
+  /** This ensures that the set is completely evaluated and
+   *  stored in the memberSet data structure.
+   */
+  protected void evaluateFully()
+  {
+    while (insertMember())
+    {
+      // do nothing
+    }
+    assert fullyEvaluated;
+  }
+
+  /** A lazy iterator through memberList.
+   *  It calls insertMember() to fill up memberList when necessary.
+   */
+  private class EvalSetIterator implements Iterator<Expr>
+  {
+    /** The number of entries in memberList that have already been returned. */
+    int done;
+    
+    public EvalSetIterator()
+    {
+      done = 0;
+    }
+
+    public /*synchronized*/ boolean hasNext()
+    {
+      return (memberList != null && done < memberList.size())
+        || insertMember();
+    }
+
+    public Expr next()
+    {
+      assert done < memberList.size();
+      Expr result = memberList.get(done);
+      done++;
+      return result;
+    }
+
+    public void remove()
+    {
+      throw new UnsupportedOperationException(
+          "The Remove Operation is not supported");
+    }
+  }
+
+  /** Iterate through all members of the set.
+   *   It guarantees that there will be no duplicates.
+   *   Note: this method must only be called AFTER
+   *   nextEvaluation(), because all free variables of the
+   *   set must be instantiated before we can enumerate the members
+   *   of the set.
+   *
+   * @return an expression iterator.
+   */
+  public Iterator<Expr> iterator()
+  {
+    if (fullyEvaluated)
+      return memberSet.iterator();
+    else
+      return new EvalSetIterator();
+  }
+
+  public /*synchronized*/ boolean contains(Object obj)
+  {
+    if (memberSet != null && memberSet.contains(obj))
+      return true;
+    else {
+      // evaluate the rest of the set
+      assert memberList==null || memberList.size()==memberSet.size();
+      int done = 0;
+      if (memberList != null)
+        done = memberList.size();
+      while (insertMember()) {
+        if (memberList.get(done).equals(obj))
+          return true;
+        done++;
+      }
+    }
+    return false;
+  }
+
   /** Throws UnsupportedOperationException. */
   public boolean add(Expr o)
   {
@@ -61,13 +207,19 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
 
   public boolean containsAll(Collection<?> c)
   {
-    return false;
+    for (Object obj : c)
+      if ( ! this.contains(obj))
+        return false;
+    return true;
   }
 
-  public boolean isEmpty()
+  public /*synchronized*/ boolean isEmpty()
   {
-    Iterator<Expr> i = iterator();
-    return i.hasNext();
+    // return size() == 0;   //
+    if (memberList != null && memberList.size() > 0)
+      return true;
+    else
+      return insertMember();
   }
 
   /** Throws UnsupportedOperationException. */
@@ -95,16 +247,22 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
    */
   public int size()
   {
-    return 0; // Integer.MAX_VALUE;  // TODO
+    if ( ! fullyEvaluated) {
+      // TODO: trap exceptions due to infinite sets and
+      //    return Integer.MAX_VALUE instead of looping forever.
+      while (insertMember())
+      {
+        // do nothing
+      }
+    }
+    return memberSet.size();
   }
 
   /** Returns an array containing all of the elements in this set. */
   public Object[] toArray()
   {
-    int size = size(); // forces full evaluation
-    if (size == Integer.MAX_VALUE)
-      throw new EvalException("Set too large/infinite "+this);
-    return knownMembers.toArray();
+    evaluateFully();
+    return memberSet.toArray();
   }
 
   /** Returns an array containing all of the elements in this set.
@@ -112,13 +270,13 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
    *  of the specified array. */
   public <T> T[] toArray(T[] a)
   {
-    int size = size(); // forces full evaluation
-    if (size == Integer.MAX_VALUE)
-      throw new EvalException("Set too large/infinite "+this);
-    return knownMembers.toArray(a);
+    evaluateFully();
+    return memberSet.toArray(a);
   }
   
-  /** Equality of an EvalSet with another EvalSet or Set. */
+  /** Equality of an EvalSet with another EvalSet or Set.
+   *  TODO: implement equals directly.  Allow finite.equals(infinite) etc.
+   */
   public boolean equalsEvalSet(/*@non_null@*/EvalSet s1, Object s2) {
     Set<Expr> elems1 = new HashSet<Expr>(s1);
     Set<Expr> elems2 = null;
