@@ -348,6 +348,15 @@ action code
       }
     }
 
+    protected List&lt;String&gt; toStringList(List&lt;LocString&gt; list)
+    {
+      List&lt;String&gt; result = new ArrayList&lt;String&gt;();
+      for (LocString ls : list) {
+        result.add(ls.getString());
+      }
+      return result;
+    }
+
     /**
      * Converts a Term to a Pred.
      */
@@ -1465,7 +1474,7 @@ non terminal Spec
     input,
     specification;
 
-non terminal Sect
+non terminal NarrSect
     narrSect;
 
 non terminal ZSect
@@ -1999,7 +2008,7 @@ narrSect ::=
 	|
 	narrWordList:nwl
 	{:
-           RESULT = factory_.createNarrSect(nwl);
+           RESULT = factory_.createNarrSect(toStringList(nwl));
            addLocAnn(RESULT, getLocation(nwl));
         :}
         ;
@@ -2187,7 +2196,7 @@ boxedParagraph ::=
 narrParagraph ::=
         narrWordList:nwl
         {:
-           RESULT = factory_.createNarrPara(nwl);
+           RESULT = factory_.createNarrPara(toStringList(nwl));
            addLocAnn(RESULT, getLocation(nwl));
         :}
         ;
