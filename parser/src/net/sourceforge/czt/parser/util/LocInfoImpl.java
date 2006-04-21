@@ -35,11 +35,13 @@ public class LocInfoImpl
 
   public LocInfoImpl(LocAnn locAnn)
   {
-    source_ = locAnn.getLoc();
-    if (locAnn.getLine() != null) line_ = locAnn.getLine();
-    if (locAnn.getCol() != null) column_ = locAnn.getCol();
-    if (locAnn.getStart() != null) start_ = locAnn.getStart();
-    if (locAnn.getLength() != null) length_ = locAnn.getLength();
+    if (locAnn != null) {
+      source_ = locAnn.getLoc();
+      if (locAnn.getLine() != null) line_ = locAnn.getLine();
+      if (locAnn.getCol() != null) column_ = locAnn.getCol();
+      if (locAnn.getStart() != null) start_ = locAnn.getStart();
+      if (locAnn.getLength() != null) length_ = locAnn.getLength();
+    }
   }
 
   public LocInfoImpl(String source,
