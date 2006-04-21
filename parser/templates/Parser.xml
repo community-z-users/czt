@@ -270,23 +270,23 @@ action code
       return factory_.createZSchText(factory_.createZDeclList(decl), pred);
     }
 
-    private Operator createOperator(Decorword decorword, int line, int column)
+    private Operator createOperator(Decorword decorword)
       throws ParseException
     {
-      return createOperator(decorword.getName(), line, column);
+      return createOperator(decorword.getName(), decorword.getLocation());
     }
 
-    private Operator createOperator(String name, int line, int column)
+    private Operator createOperator(String name, LocInfo locInfo)
       throws ParseException
     {
       final ZDeclName dn = factory_.createZDeclName(name);
       if (dn.getStroke().size() != 0) {
-        final LocInfo locInfo = getLocation(line, column);
         final Object[] params = { name };
   	parser.report_error(ZParseMessage.MSG_STROKE_IN_OPNAME,
                             params, locInfo);
       }
       Operator result = factory_.createOperator(dn.getWord());
+      addLocAnn(result, locInfo);
       return result;
     }
 
@@ -2512,14 +2512,14 @@ assoc ::=
 prefixTemplate ::=
         LPAREN DECORWORD:n optWordOperandList:ol varg:v RPAREN
         {:
-           ol.add(0, createOperator(n, nleft, nright));
+           ol.add(0, createOperator(n));
            ol.add(v);
            RESULT = ol; 
         :}
 	|
 	LPAREN POWER:p varg:v RPAREN
 	{:
-           RESULT = list(createOperator(ZString.POWER, pleft, pright), v);
+           RESULT = list(createOperator(ZString.POWER, p), v);
 	:}
         ;
 
@@ -2527,7 +2527,7 @@ prefixTemplate ::=
 postfixTemplate ::=
         LPAREN varg:v DECORWORD:n optWordOperandList:ol RPAREN
         {:
-           ol.add(0, createOperator(n, nleft, nright));
+           ol.add(0, createOperator(n));
            ol.add(0, v);
            RESULT = ol; 
         :}
@@ -2537,7 +2537,7 @@ postfixTemplate ::=
 infixTemplate ::=
         LPAREN varg:v1 DECORWORD:n optWordOperandList:ol varg:v2 RPAREN
         {:
-           ol.add(0, createOperator(n, nleft, nright));
+           ol.add(0, createOperator(n));
            ol.add(0, v1);
            ol.add(v2);
            RESULT = ol; 
@@ -2553,7 +2553,7 @@ nofixTemplate ::=
                                  new Object[] {"RPAREN"},
                                  getLocation(rpleft, rpright));
            }
-           ol.add(0, createOperator(n, nleft, nright));
+           ol.add(0, createOperator(n));
            RESULT = ol;
         :}
         ;
@@ -2566,7 +2566,7 @@ optWordOperandList ::=
         optWordOperandList:wl templateTag:t DECORWORD:n
         {:
            wl.add(t);
-           wl.add(createOperator(n, nleft, nright));
+           wl.add(createOperator(n));
            RESULT = wl;
         :}
         ;
