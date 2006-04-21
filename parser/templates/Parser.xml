@@ -1343,14 +1343,7 @@ parser code
 
     protected LocInfo getLocation(LocAnn locAnn)
     {
-      if (locAnn != null) {
-        Integer line = locAnn.getLine();
-        if (line != null &amp;&amp; line > 0) line = line - 1;
-        Integer column = locAnn.getCol();
-        if (column != null &amp;&amp; column > 0) column = column - 1;
-        return new LocInfoImpl(file_, line, column);
-      }
-      return new LocInfoImpl(file_, -1, -1);
+      return new LocInfoImpl(locAnn);
     }
 :}
 
