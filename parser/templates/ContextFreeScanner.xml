@@ -144,7 +144,14 @@ import net.sourceforge.czt.parser.util.*;
   private LocInfo getLocation()
   {
     if (reader_ != null) {
-      return reader_.getLocation(yychar);
+      LocInfo startLoc = reader_.getLocation(yychar);
+      LocInfo endLoc = reader_.getLocation(yychar + yytext().length() - 1);
+      int start = startLoc.getStart();
+      return new LocInfoImpl(startLoc.getSource(),
+                             startLoc.getLine(),
+                             startLoc.getColumn(),
+                             start,
+                             endLoc.getStart() + endLoc.getLength() - start);
     }
     return new LocInfoImpl(null, yyline, yycolumn, yychar, yytext().length());
   }
