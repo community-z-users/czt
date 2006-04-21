@@ -30,8 +30,7 @@ import net.sourceforge.czt.z.visitor.*;
  * @author Petra Malik
  */
 public class GetNameVisitor
-  implements ZSectVisitor<String>,
-             AxParaVisitor<String>,
+  implements AxParaVisitor<String>,
              ConstDeclVisitor<String>,
              FreeParaVisitor<String>,
              FreetypeVisitor<String>,
@@ -40,7 +39,9 @@ public class GetNameVisitor
              VarDeclVisitor<String>,
              ZDeclListVisitor<String>,
              ZDeclNameVisitor<String>,
-             ZSchTextVisitor<String>
+             ZRefNameVisitor<String>,
+             ZSchTextVisitor<String>,
+             ZSectVisitor<String>
 {
   private final String LIST_SEPARATOR = ", ";
 
@@ -89,14 +90,19 @@ public class GetNameVisitor
     return zDeclName.getWord();
   }
 
-  public String visitZSect(ZSect zSect)
+  public String visitZRefName(ZRefName zRefName)
   {
-    return zSect.getName();
+    return zRefName.getWord();
   }
 
   public String visitZSchText(ZSchText zSchText)
   {
     return visit(zSchText.getDeclList());
+  }
+
+  public String visitZSect(ZSect zSect)
+  {
+    return zSect.getName();
   }
 
   protected String visit(Term term)
