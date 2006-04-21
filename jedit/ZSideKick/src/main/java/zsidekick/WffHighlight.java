@@ -111,6 +111,7 @@ public class WffHighlight
     if (spec_ != null) {
       final int caretPos = textArea_.getCaretPosition();
       if (stack_.empty() || caretPos < matchStart_ || caretPos > matchEnd_) {
+        stack_.clear();
         spec_.accept(new FindWffVisitor(caretPos, stack_));
       }
       else {
@@ -177,7 +178,9 @@ public class WffHighlight
 	}
       }
       stack_.push(term);
-      for (Object o : term.getChildren()) {
+      Object[] children = term.getChildren();
+      for (int i = children.length - 1; i >= 0; i--) {
+        Object o = children[i];
 	if (o instanceof Term && ((Term) o).accept(this) != null) return term;
       }
       if (isLocation(locAnn)) return term;
