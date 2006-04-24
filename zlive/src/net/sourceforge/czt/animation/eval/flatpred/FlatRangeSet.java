@@ -339,6 +339,7 @@ public class FlatRangeSet extends FlatEvalSet
     if(solutionsReturned==0)
     {
       solutionsReturned++;
+      resetResult();
       if (evalMode_.isInput(setArg_)) {
         Expr otherSet = env.lookup(setName);
         result = equals(otherSet);

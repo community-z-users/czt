@@ -227,6 +227,7 @@ public class FlatSetComp extends FlatEvalSet
     if(solutionsReturned==0)
     {
       solutionsReturned++;
+      resetResult();
       if (evalMode_.isInput(args.size()-1)) {
         Expr otherSet = evalMode_.getEnvir().lookup(set);
         result = equals(otherSet);

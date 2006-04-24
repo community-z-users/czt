@@ -21,6 +21,7 @@ package net.sourceforge.czt.animation.eval;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.z.ast.BindExpr;
@@ -33,6 +34,9 @@ import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZExprList;
 
 /** A comparator for evaluated Z expressions.
+ *  The compare method defines a total order over evaluated Z expressions,
+ *  such that the inferred equivalence relation is semantic equality
+ *  of the Z expressions.
  * 
  * @author marku
  */
@@ -45,7 +49,10 @@ public class ExprComparator implements Comparator<Expr>
   private static final int TUPLEEXPR = 4;
   private static final int BINDEXPR = 5;
   private static final int SETEXPR = 6;
-  
+
+  public static final int LESSTHAN = -1;
+  public static final int EQUAL = 0;
+  public static final int GREATERTHAN = 1;
 
   /** A comparator that compares just the name part of ConstDecls.
    *  This is useful for sorting lists of ConstDecl objects.
@@ -62,6 +69,15 @@ public class ExprComparator implements Comparator<Expr>
   
   private static ConstDeclComparator constDeclSorter = new ConstDeclComparator();
 
+  /** Converts an integer difference into -1, 0, or +1. */
+  public int sign(int difference)
+  {
+    if (difference < 0)
+      return LESSTHAN;
+    if (difference > 0)
+      return GREATERTHAN;
+    return EQUAL;
+  }
 
   /* This orders evaluated ZLive expressions.
    * @throws RuntimeException if 
@@ -69,23 +85,15 @@ public class ExprComparator implements Comparator<Expr>
    */
   public int compare(Expr arg0, Expr arg1)
   {
-    final int LESSTHAN = -1;
-    final int EQUAL = 0;
-    final int GREATERTHAN = 1;
-    int result;
     int type0 = exprType(arg0);
     int type1 = exprType(arg1);
-    if (type0 < type1)
-      result = LESSTHAN;
-    else if (type0 > type1)
-      result = GREATERTHAN;
-    else {
-      result = EQUAL; // until we find otherwise
+    int result = sign(type0 - type1);
+    if (result == EQUAL) {
       switch (type0) {
         case NUMEXPR:
           NumExpr num0 = (NumExpr)arg0;
           NumExpr num1 = (NumExpr)arg1;
-          result = num0.getValue().compareTo(num1.getValue());
+          result = sign(num0.getValue().compareTo(num1.getValue()));
           break;
 
         case FREETYPE0:
@@ -94,7 +102,7 @@ public class ExprComparator implements Comparator<Expr>
           Branch free1 = (Branch)arg1;
           String name0 = free0.getZDeclName().toString();
           String name1 = free1.getZDeclName().toString();
-          result = name0.compareTo(name1);
+          result = sign(name0.compareTo(name1));
           if (result == EQUAL && type0 == FREETYPE1)
             result = compare(free0.getExpr(), free1.getExpr());
           break;
@@ -102,11 +110,8 @@ public class ExprComparator implements Comparator<Expr>
         case TUPLEEXPR:
           ZExprList tuple0 = ((TupleExpr)arg0).getZExprList();
           ZExprList tuple1 = ((TupleExpr)arg1).getZExprList();
-          if (tuple0.size() < tuple1.size())
-            result = LESSTHAN;
-          else if (tuple0.size() > tuple1.size())
-            result = GREATERTHAN;
-          else {
+          result = sign(tuple0.size() - tuple1.size());
+          if (result == EQUAL) {
             int size = tuple0.size();
             for (int i=0; result==EQUAL && i<size; i++)
               result = compare(tuple0.get(i), tuple1.get(i));
@@ -116,11 +121,8 @@ public class ExprComparator implements Comparator<Expr>
         case BINDEXPR:
           ZDeclList decls0 = ((BindExpr)arg0).getZDeclList();
           ZDeclList decls1 = ((BindExpr)arg1).getZDeclList();
-          if (decls0.size() < decls1.size())
-            result = LESSTHAN;
-          else if (decls0.size() > decls1.size())
-            result = GREATERTHAN;
-          else {
+          result = sign(decls0.size() - decls1.size());
+          if (result == EQUAL) {
             // sort the names, then compare them one by one.
             int size = decls0.size();
             List<ConstDecl> binding0 = new ArrayList<ConstDecl>(size);
@@ -136,12 +138,31 @@ public class ExprComparator implements Comparator<Expr>
             for (int i=0; result==EQUAL && i<size; i++) {
               String n0 = binding0.get(i).getZDeclName().toString();
               String n1 = binding1.get(i).getZDeclName().toString();
-              result = n0.compareTo(n1);
+              result = sign(n0.compareTo(n1));
             }
             
             // compare all the values
             for (int i=0; result==EQUAL && i<size; i++)
               result = compare(binding0.get(i).getExpr(), binding1.get(i).getExpr());
+          }
+          break;
+
+        case SETEXPR:
+          EvalSet set0 = (EvalSet)arg0;
+          EvalSet set1 = (EvalSet)arg1;
+          System.out.println("set compare: "+set0+", "+set1);
+          result = sign(set0.size() - set1.size());
+          if (result == EQUAL) {
+            Iterator<Expr> members0 = set0.iterator();
+            Iterator<Expr> members1 = set1.iterator();
+            while (result == EQUAL && members0.hasNext()) {
+              assert members1.hasNext();
+              Expr mem0 = members0.next();
+              Expr mem1 = members1.next();
+              System.out.println("set compare members: "+mem0+", "+mem1);
+              result = compare(mem0, mem1);
+            }
+            assert members0.hasNext() == members1.hasNext();
           }
           break;
 
@@ -176,10 +197,10 @@ public class ExprComparator implements Comparator<Expr>
     }
     if (e instanceof TupleExpr)
       return TUPLEEXPR;
-    if (e instanceof EvalSet)
-      return SETEXPR;
     if (e instanceof BindExpr)
       return BINDEXPR;
+    if (e instanceof EvalSet)
+      return SETEXPR;
     throw new RuntimeException("Unknown/unevaluated expr type: "+e.getClass());
   }
 }

@@ -78,6 +78,7 @@ public class FlatUnion extends FlatEvalSet {
       boolean result = false;
       if (solutionsReturned == 0) {
         solutionsReturned++;
+        resetResult();
         boolean inputsKnown = findSets();
         assert inputsKnown;
         

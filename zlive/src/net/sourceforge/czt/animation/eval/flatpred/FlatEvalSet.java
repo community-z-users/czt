@@ -117,6 +117,16 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
     assert fullyEvaluated;
   }
 
+  /** This resets any cached results from previous evaluations.
+   *  This should be called by nextEvaluation in each subclass.
+   */
+  protected void resetResult()
+  {
+    fullyEvaluated = false;
+    memberList = null;
+    memberSet = null;
+  }
+
   /** A lazy iterator through memberList.
    *  It calls insertMember() to fill up memberList when necessary.
    */
