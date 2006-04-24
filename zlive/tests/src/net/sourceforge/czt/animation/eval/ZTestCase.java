@@ -102,6 +102,7 @@ public class ZTestCase extends TestCase
   protected NumExpr i29 = factory_.createNumExpr(29);
   protected NumExpr i30 = factory_.createNumExpr(30);
   
+  /** Convenience method for creating expressions for testing. */
   public Expr parseExpr(String latexString)
   {
     try {
@@ -109,7 +110,7 @@ public class ZTestCase extends TestCase
       e.setMarkup(Markup.LATEX);
       return (Expr) ParseUtils.parseExpr(e, null, zlive_.getSectionManager());
     } catch (Exception e) {
-      Assert.fail("Error parsing expr: " + latexString);
+      Assert.fail("Error parsing expr: " + latexString + ".  Error="+e);
     }
     // not reached
     return null;
