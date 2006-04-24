@@ -30,8 +30,6 @@ import net.sourceforge.czt.animation.eval.*;
 public class ZLiveConsole
   extends Shell
 {
-  protected static ZLive zlive_ = new ZLive();
-
   public ZLiveConsole()
   {
     super(ZLivePlugin.NAME);
