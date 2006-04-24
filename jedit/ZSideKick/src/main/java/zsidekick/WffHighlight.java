@@ -48,13 +48,7 @@ public class WffHighlight
     final int offset = textArea_.xyToOffset(x, y);
     if (matchStart_ <= offset && offset <= matchEnd_) {
       Term term = stack_.peek();
-      String msg = term.accept(new ConcreteSyntaxDescriptionVisitor());
-      final TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
-      if (typeAnn != null) msg += " of type " + typeAnn.getType().toString();
-      final SectTypeEnvAnn sectTypeEnvAnn =
-        (SectTypeEnvAnn) term.getAnn(TypeEnvAnn.class);
-      if (sectTypeEnvAnn != null) msg += " with " + sectTypeEnvAnn.toString();
-      return msg;
+      return term.accept(new ConcreteSyntaxDescriptionVisitor());
     }
     return null;
   }

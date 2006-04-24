@@ -19,6 +19,7 @@
 package zsidekick;
 
 import org.gjt.sp.jedit.*;
+import org.gjt.sp.jedit.textarea.*;
 import sidekick.SideKickParsedData;
 
 import net.sourceforge.czt.base.ast.*;
@@ -118,31 +119,61 @@ public class ZSideKickActions
     }
   }
 
+  public static Type getTypeForCurrentWff(View view)
+  {
+    WffHighlight wffHighlight = getWffHighlight(view);
+    if (wffHighlight != null) {
+      Term term = wffHighlight.getSelectedWff();
+      TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
+      if (typeAnn != null) return typeAnn.getType();
+      else reportError(view, "Selected formula doesn't have a type");
+    }
+    return null;
+  }
+
+  public static void insertTypeForCurrentWff(View view)
+  {
+    Type type = getTypeForCurrentWff(view);
+    if (type != null) {
+      final String text = type.toString();
+      final JEditTextArea textArea = view.getTextArea();
+      final int caretPos = textArea.getCaretPosition();
+      Selection selection = new Selection.Range(caretPos,
+                                                caretPos + text.length());
+      textArea.setSelectedText(text);
+      textArea.setSelection(selection);
+    }
+  }
+
   public static void gotoDefinition(View view)
   {
-    Term term = getWffHighlight(view).getSelectedWff();
-    if (term instanceof ZRefName) {
-      ZRefName refName = (ZRefName) term;
-      DeclName declName = refName.getDecl();
-      LocAnn locAnn = (LocAnn) declName.getAnn(LocAnn.class);
-      if (locAnn != null && locAnn.getLoc() != null) {
-        if (locAnn.getLoc().equals(view.getBuffer().getPath()) &&
-            locAnn.getStart() != null) {
-          view.getTextArea().setCaretPosition(locAnn.getStart());
+    WffHighlight wffHighlight = getWffHighlight(view);
+    if (wffHighlight != null) {
+      Term term = wffHighlight.getSelectedWff();
+      if (term instanceof ZRefName) {
+        ZRefName refName = (ZRefName) term;
+        DeclName declName = refName.getDecl();
+        LocAnn locAnn = (LocAnn) declName.getAnn(LocAnn.class);
+        if (locAnn != null && locAnn.getLoc() != null) {
+          if (locAnn.getLoc().equals(view.getBuffer().getPath()) &&
+              locAnn.getStart() != null) {
+            view.getTextArea().setCaretPosition(locAnn.getStart());
+          }
+          else {
+            String message = "Defined in " + locAnn.getLoc();
+            if (locAnn.getLine() != null) message += " line " + locAnn.getLine();
+            reportMessage(view, message);
+          }
         }
         else {
-          String message = "Defined in " + locAnn.getLoc();
-          if (locAnn.getLine() != null) message += " line " + locAnn.getLine();
-          reportMessage(view, message);
+          final String message =
+            "Could not find location information for declaring name";
+          reportError(view, message);
         }
       }
       else {
-        reportError(view,
-                    "Could not find location information for declaring name");
+        reportError(view, "Highlighted term is not a referencing name");
       }
-    }
-    else {
-      reportError(view, "Highlighted term is not a referencing name");
     }
   }
 

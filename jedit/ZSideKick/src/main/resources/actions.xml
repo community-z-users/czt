@@ -33,4 +33,9 @@
       zsidekick.ZSideKickActions.gotoDefinition(view);
     </CODE>
   </ACTION>
+  <ACTION NAME="zsidekick.insertTypeForCurrentWff">
+    <CODE>
+      zsidekick.ZSideKickActions.insertTypeForCurrentWff(view);
+    </CODE>
+  </ACTION>
 </ACTIONS>
