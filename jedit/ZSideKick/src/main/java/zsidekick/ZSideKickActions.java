@@ -21,8 +21,10 @@ package zsidekick;
 import org.gjt.sp.jedit.*;
 import sidekick.SideKickParsedData;
 
+import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.print.util.*;
 import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.z.ast.*;
 
 public class ZSideKickActions
 {
@@ -32,9 +34,7 @@ public class ZSideKickActions
     if (data instanceof ParsedData) {
       return (ParsedData) data;
     }
-    final String message = "Buffer hasn't been parsed by a CZT parser.";
-    view.getStatus().setMessage(message);
-    view.getToolkit().beep();
+    reportError(view, "Buffer hasn't been parsed by a CZT parser.");
     return null;
   }
 
@@ -106,9 +106,7 @@ public class ZSideKickActions
 	return (WffHighlight) o;
       }
     }
-    final String message = "No highlighter for wffs found.";
-    view.getStatus().setMessage(message);
-    view.getToolkit().beep();
+    reportError(view, "No highlighter for wffs found.");
     return null;
   }
 
@@ -119,4 +117,43 @@ public class ZSideKickActions
       wffHighlight.next();
     }
   }
+
+  public static void gotoDefinition(View view)
+  {
+    Term term = getWffHighlight(view).getSelectedWff();
+    if (term instanceof ZRefName) {
+      ZRefName refName = (ZRefName) term;
+      DeclName declName = refName.getDecl();
+      LocAnn locAnn = (LocAnn) declName.getAnn(LocAnn.class);
+      if (locAnn != null && locAnn.getLoc() != null) {
+        if (locAnn.getLoc().equals(view.getBuffer().getPath()) &&
+            locAnn.getStart() != null) {
+          view.getTextArea().setCaretPosition(locAnn.getStart());
+        }
+        else {
+          String message = "Defined in " + locAnn.getLoc();
+          if (locAnn.getLine() != null) message += " line " + locAnn.getLine();
+          reportMessage(view, message);
+        }
+      }
+      else {
+        reportError(view,
+                    "Could not find location information for declaring name");
+      }
+    }
+    else {
+      reportError(view, "Highlighted term is not a referencing name");
+    }
+  }
+
+  public static void reportMessage(View view, String message)
+  {
+    view.getStatus().setMessage(message);
+  }
+
+  public static void reportError(View view, String message)
+  {
+    view.getStatus().setMessage(message);
+    view.getToolkit().beep();
+ }
 }

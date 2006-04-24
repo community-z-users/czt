@@ -133,6 +133,12 @@ public class WffHighlight
     }
   }
 
+  public Term getSelectedWff()
+  {
+    if (stack_.empty()) return null;
+    return stack_.peek();
+  }
+
   private int getStartOffset(int screenLine, int start)
   {
     final int startLine = textArea_.getScreenLineOfOffset(start);

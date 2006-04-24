@@ -28,4 +28,9 @@
       zsidekick.ZSideKickActions.highlightNextWff(view);
     </CODE>
   </ACTION>
+  <ACTION NAME="zsidekick.gotoDefinition">
+    <CODE>
+      zsidekick.ZSideKickActions.gotoDefinition(view);
+    </CODE>
+  </ACTION>
 </ACTIONS>

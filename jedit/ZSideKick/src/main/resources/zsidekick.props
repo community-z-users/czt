@@ -18,7 +18,8 @@ plugin.zsidekick.ZSideKickPlugin.menu=zsidekick.toLatex \
                                       zsidekick.toOldLatex \
                                       zsidekick.toUnicode \
                                       zsidekick.toXml \
-                                      zsidekick.nextWff
+                                      zsidekick.nextWff \
+                                      zsidekick.gotoDefinition
 
 # action labels
 zsidekick.toLatex.label=Convert to Latex mark-up
@@ -26,6 +27,7 @@ zsidekick.toOldLatex.label=Convert to old Latex mark-up
 zsidekick.toUnicode.label=Convert to Unicode mark-up
 zsidekick.toXml.label=Convert to XML
 zsidekick.nextWff.label=Highlight next wff
+zsidekick.gotoDefinition.label=Goto definition of selected referencing name
 
 # Option pane
 plugin.zsidekick.ZSideKickPlugin.option-pane=zsidekick
