@@ -61,10 +61,10 @@ import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
  *  <p>TODO:
  *    <ul>
  *      <li> DONE: record coverage statistics and make them accessible via an API.</li>
- *      <li> separate out the MBT traversal algorithms, the model manager and 
+ *      <li> DONE: separate out the MBT traversal algorithms, the model manager and 
  *  the coverage metrics into separate classes and make the methods 
  *  non-static.</li>
- *      <li> build the graph *during* the random walk traversal.</li>
+ *      <li> DONE: build the graph *during* the random walk traversal.</li>
  *      <li> add more test generation algorithms, such as greedy random.</li>
  *    </ul>
  *    Acknowledgements: This model-based testing library uses the
