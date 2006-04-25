@@ -33,7 +33,7 @@ import net.sourceforge.czt.z.ast.ZSchText;
 
 
 /**
- * A (JUnit) test class for testing the FlatSetComp class.
+ * A (JUnit) test class for testing the FlatMu class.
  *
  * @author Mark Utting
  */

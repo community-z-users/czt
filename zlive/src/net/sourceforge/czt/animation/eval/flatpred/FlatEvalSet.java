@@ -46,6 +46,8 @@ import net.sourceforge.czt.z.ast.Expr;
  */
 public abstract class FlatEvalSet extends FlatPred implements EvalSet
 {
+  protected static ExprComparator comparator = new ExprComparator();
+  
   /** True iff all members of the set have been evaluated. */
   protected boolean fullyEvaluated = false;
   //@invariant fullyEvaluated ==> memberList != null;
@@ -243,13 +245,13 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
   {
     throw new UnsupportedOperationException();
   }
-  
+
   /** Throws UnsupportedOperationException. */
   public boolean retainAll(Collection<?> c)
   {
     throw new UnsupportedOperationException();
   }
-  
+
   /** Returns the exact size (cardinality) of the set.
    *  This forces all the members to be evaluated if they
    *  were not already evaluated.
@@ -288,13 +290,9 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
    *  TODO: implement equals directly.  Allow finite.equals(infinite) etc.
    */
   public boolean equalsEvalSet(/*@non_null@*/EvalSet s1, Object s2) {
-    Set<Expr> elems1 = new HashSet<Expr>(s1);
-    Set<Expr> elems2 = null;
-    if (s2 instanceof EvalSet) {
-      elems2 = new HashSet<Expr>((EvalSet) s2);
-    } else {
+    if (s2 instanceof EvalSet)
+      return comparator.compare(s1, (EvalSet)s2) == 0;
+    else
       return false;
-    }
-    return elems1.equals(elems2);
   }
 }

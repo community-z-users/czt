@@ -27,6 +27,7 @@ import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NumExpr;
+import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.ZRefName;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.z.util.Factory;
@@ -111,6 +112,20 @@ public class ZTestCase extends TestCase
       return (Expr) ParseUtils.parseExpr(e, null, zlive_.getSectionManager());
     } catch (Exception e) {
       Assert.fail("Error parsing expr: " + latexString + ".  Error="+e);
+    }
+    // not reached
+    return null;
+  }
+  
+  /** Convenience method for creating predicates for testing. */
+  public Pred parsePred(String latexString)
+  {
+    try {
+      Source e = new StringSource(latexString);
+      e.setMarkup(Markup.LATEX);
+      return (Pred) ParseUtils.parsePred(e, null, zlive_.getSectionManager());
+    } catch (Exception e) {
+      Assert.fail("Error parsing pred: " + latexString + ".  Error="+e);
     }
     // not reached
     return null;

@@ -111,4 +111,12 @@ public class Mode
     return "Mode{" + inputs_.toString() + " " + solutions_
 	 + " envir=" + postEnvir_.toString() + "}";
   }
+  
+  /** Two modes are equivalent if they have the same 
+   *  input-output behaviour.
+   */
+  public boolean equivalent(Mode other)
+  {
+    return inputs_.equals(other.inputs_);
+  }
 }

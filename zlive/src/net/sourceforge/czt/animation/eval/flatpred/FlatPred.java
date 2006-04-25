@@ -84,7 +84,13 @@ public abstract class FlatPred extends PredImpl
       after it has been called.
     */
   protected int solutionsReturned = -1;
-  
+
+  /** Default constructor for subclasses to call. */
+  protected FlatPred()
+  {
+    args = new ArrayList<ZRefName>();
+  }
+
   /** Get the mode that has been set for evaluation purposes. */
   //@ ensures \result == evalMode_;
   public /*@pure@*/ Mode getMode()

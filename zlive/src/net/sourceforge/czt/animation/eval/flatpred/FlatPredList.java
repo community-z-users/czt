@@ -147,20 +147,20 @@ public class FlatPredList
     if (freeVars_ == null) {
       freeVars_ = new HashSet<ZRefName>();
       for (FlatPred flat : predlist_) {
-	for (ZRefName var : flat.freeVars()) {
-	  if ( ! zlive_.isNewName(var)) {
-	    ZDeclName dvar = (ZDeclName) var.getDecl(); //TODO: check cast
-	    if (dvar == null)
-	      // TODO: this should never happen, because all ZRefNames
-	      // should be linked to a DeclName after typechecking.
-	      // For now, we create the corresponding ZDeclName
-	      dvar = factory_.createZDeclName(var.getWord(),
-					    var.getStroke(),
-					    null);
-	    if ( ! boundVars_.contains(dvar))
-	      freeVars_.add(var);
-	  }
-	}
+        for (ZRefName var : flat.freeVars()) {
+          if ( ! zlive_.isNewName(var)) {
+            ZDeclName dvar = (ZDeclName) var.getDecl(); //TODO: check cast
+            if (dvar == null)
+              // TODO: this should never happen, because all ZRefNames
+              // should be linked to a DeclName after typechecking.
+              // For now, we create the corresponding ZDeclName
+              dvar = factory_.createZDeclName(var.getWord(),
+                  var.getStroke(),
+                  null);
+            if ( ! boundVars_.contains(dvar))
+              freeVars_.add(var);
+          }
+        }
       }
     }
     return freeVars_;

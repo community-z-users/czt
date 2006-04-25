@@ -237,7 +237,16 @@ public class Flatten
   }
 
   /////////////// TODO: implement these, or unfold them //////////////////
-  public ZRefName visitOrPred(OrPred p) { return notYet(p); }
+  public ZRefName visitOrPred(OrPred p)
+  {
+    FlatPredList left = new FlatPredList(zlive_);
+    left.addPred(p.getLeftPred());
+    FlatPredList right = new FlatPredList(zlive_);
+    right.addPred(p.getRightPred());
+    flat_.add(new FlatOr(left, right));
+    return null;
+  }
+  
   public ZRefName visitImpliesPred(ImpliesPred p) { return notYet(p); }
   public ZRefName visitIffPred(IffPred p) { return notYet(p); }
   public ZRefName visitNegPred(NegPred p) {

@@ -114,6 +114,7 @@
           <include name="**/*Test.java"/>
           <exclude name="**/Animate*Test.java"/> <!-- see usertest target -->
           <exclude name="**/EvalTest.java"/>  <!-- an abstract superclass -->
+          <exclude name="**/FlatOrTest.java"/> <!-- not fully implemented yet -->
         </fileset>
       </batchtest>
       <classpath>
