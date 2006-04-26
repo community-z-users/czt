@@ -35,14 +35,14 @@ public class CompareUserTests
       int lostCounter = 0;
       int gainedCounter = 0;
       out.println("animate_"+fileType.toLowerCase()+".tex");
-      int counter = 1;
+      int counter = 0;
       String temp;
       if (gainedTests.size()>0){
         do {
           temp = in.readLine();
           if(temp!=null) {
             if(((Integer)gainedTests.get(gainedCounter)).intValue() == counter) {
-              out.println("+ Line "+(counter)+": "+temp);
+              out.println("+ Line "+counter+": "+temp);
               gainedCounter++;
             }
             counter++;
@@ -51,7 +51,7 @@ public class CompareUserTests
       }
       
       in.close();
-      counter = 1;
+      counter = 0;
       inStream = new InputStreamReader(fileName.openStream());
       in = new BufferedReader(inStream);
       
@@ -60,7 +60,7 @@ public class CompareUserTests
           temp = in.readLine();
           if(temp!=null) {
             if(((Integer)lostTests.get(lostCounter)).intValue() == counter) {
-              out.println("- Line "+(counter)+": "+temp);
+              out.println("- Line "+counter+": "+temp);
               lostCounter++;
             }
             counter++;
