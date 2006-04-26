@@ -907,10 +907,16 @@ more detail.
       <xs:documentation>
         Location annotations define the source-code location of a construct.
         The Line and Col numbers, if present, refer to an identifying
-        element within the construct.  The Start number, if present,
-        gives the position of the start of the construct from the beginning
-        of the document, and the Length number gives the number of characters
-        from the beginning of the construct to the end.
+        token within the construct, such as the equality token of an
+	equality predicate, or the opening brace of a set comprehension.
+	The Line and Col numbers start from (0,0), so may need adjusting
+	to give correct positions in various editors.
+	The Start number, if present, gives the position of the start 
+	of the construct from the beginning of the document (0 means
+	the first character of the document), and the Length number gives
+	the number of characters from the beginning of the construct to 
+	the end.  The Length may be zero if the construct exists in
+	one markup, but is not visible in another markup.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
