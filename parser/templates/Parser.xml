@@ -2065,6 +2065,17 @@ section ::=
            header.getPara().addAll(pl);
            RESULT = updateZSect(header, opTable_
              <add:zpatt>, jokerTable_ </add:zpatt>);
+           if (pl.size() > 0) {
+             LocInfo loc = getLocation(pl.get(pl.size() - 1));
+             LocAnn locAnn = (LocAnn) RESULT.getAnn(LocAnn.class);
+             if (loc.getStart() >= 0 &amp;&amp;
+                 loc.getLength() >= 0  &amp;&amp;
+                 locAnn.getStart() != null) {
+               final int length =
+                 loc.getStart() + loc.getLength() - locAnn.getStart();
+               locAnn.setLength(length);
+             }
+           }
         :}
         ;
 
@@ -2093,7 +2104,7 @@ sectionHeader ::=
            resetJokerTable(name, p, pleft, pright);
 </add:zpatt>
            RESULT = createZSect(name, p);
-           addLocAnn(RESULT, getLocation(sleft, sright));
+           addLocAnn(RESULT, s);
         :}
         ;
 
@@ -2234,7 +2245,7 @@ unboxedParagraphItem ::=
         freeTypeList:ftl
         {:
            RESULT = factory_.createFreePara(ftl);
-           addLocAnn(RESULT, getLocation(ftlleft, ftlright));
+           addLocAnn(RESULT, getLocation(ftl.get(0), ftl.get(ftl.size() - 1)));
         :}
         |
         optFormalParameters:ofp CONJECTURE predicate:p
@@ -2383,7 +2394,8 @@ freeTypeDefinition ::=
         name:n DEFFREE:deffree branchList:bl
         {:
            RESULT = factory_.createFreetype(n, bl);
-           addLocAnn(RESULT, getLocation(deffreeleft, deffreeright));
+           addLocAnn(RESULT, getLocation(deffreeleft, deffreeright,
+                                         n, bl.get(bl.size() - 1)));
         :}
         ;
 
@@ -2402,13 +2414,13 @@ branch ::=
         declName:dn
         {:
            RESULT = factory_.createBranch(dn, null);
-           addLocAnn(RESULT, getLocation(dnleft, dnright));
+           addLocAnn(RESULT, getLocation(dn));
         :}
         |
-        declName:dn LDATA expression:e RDATA
+        declName:dn LDATA expression:e RDATA:rdata
         {:
            RESULT = factory_.createBranch(dn, e);
-           addLocAnn(RESULT, getLocation(dnleft, dnright));
+           addLocAnn(RESULT, getLocation(dn, rdata));
         :}
         ;
 
@@ -3367,7 +3379,7 @@ unboxedInnerPara ::=
         freeTypeList:ftl
         {:
            RESULT = factory_.createFreePara(ftl);
-           addLocAnn(RESULT, getLocation(ftlleft, ftlright));
+           addLocAnn(RESULT, getLocation(ftl.get(0), ftl.get(ftl.size() - 1)));
         :}
         |
         optFormalParameters:ofp CONJECTURE predicate:p
@@ -6196,7 +6208,10 @@ innerPara ::=
         {: RESULT = gtd; :}
         |
         freeTypeList:ftl
-        {: RESULT = factory_.createFreePara(ftl); :}
+        {:
+           RESULT = factory_.createFreePara(ftl);
+           addLocAnn(RESULT, getLocation(ftl.get(0), ftl.get(ftl.size() - 1)));
+        :}
         |
         abbreviationDefinition:ad
         {: RESULT = ad; :}

@@ -118,6 +118,7 @@ public class <class/>
     // and set lookup_ to false.
     if (result.sym == Sym.ZED) {
       if (lookAhead_.sym == Sym.SECTION) {
+        lookAhead_.value = result.value;
         lookup_ = false;
         result = lookAhead_;
         lookAhead_ = scanner_.next_token();
