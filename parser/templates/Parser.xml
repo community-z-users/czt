@@ -2332,7 +2332,7 @@ abbreviationDefinition ::=
            ZSchText st = factory_.createZSchText(decls, null);
            addLocAnn(st, getLocation(dn, e));
            RESULT = factory_.createAxPara(null, st, Box.OmitBox);
-           addLocAnn(st, getLocation(dn, e));
+           addLocAnn(RESULT, getLocation(dn, e));
         :}
         |
         //TODO: check this. Should be name:n, but the toolkit won't parse
