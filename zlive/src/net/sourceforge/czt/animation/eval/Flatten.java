@@ -243,8 +243,8 @@ public class Flatten
     left.addPred(p.getLeftPred());
     FlatPredList right = new FlatPredList(zlive_);
     right.addPred(p.getRightPred());
-    //flat_.add(new FlatOr(left, right));
-    return notYet(p);
+    flat_.add(new FlatOr(left, right));
+    return null;
   }
   
   public ZRefName visitImpliesPred(ImpliesPred p) { return notYet(p); }
