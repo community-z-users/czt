@@ -112,8 +112,8 @@
 
   <target name="bin.czt" depends="init, czt"
     description="Build a binary release">
-    <!--    <property name="binrelease.dir" value="czt-bin-${DSTAMP}"/> -->
-    <property name="binrelease.dir" value="${bin.release.name}"/>
+    <property name="binrelease.dir" value="czt-bin-${DSTAMP}"/>
+    <!--    <property name="binrelease.dir" value="${bin.release.name}"/> -->
     <property name="binrelease.build.dir" value="build"/>
     <mkdir dir="${binrelease.build.dir}"/>
     <mkdir dir="${binrelease.dir}"/>
