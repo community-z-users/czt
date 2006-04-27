@@ -52,28 +52,13 @@ public class FlatTuple extends FlatPred
   {
     this(newargs.subList(0,newargs.size()-1),newargs.get(newargs.size()-1));
   }
-  
-  /** Chooses the mode in which the predicate can be evaluated.*/
-  public Mode chooseMode(/*@non_null@*/ Envir env)
+
+  /** Same modes as FlatBinding */
+  public Mode chooseMode(Envir env)
   {
-    Mode m = modeFunction(env);
-    if (m == null) {
-      BitSet inputs = getInputs(env);
-      double solutions = 0.0;
-      if (inputs.get(args_.size()-1)) {
-        solutions = Mode.ONE_SOLUTION;
-        if (inputs.cardinality() > 1)
-          solutions = Mode.MAYBE_ONE_SOLUTION;
-        for(int i=0;i<args_.size()-1;i++) {
-          if ( ! inputs.get(i))
-            env = env.plus(args_.get(i),null);
-        }
-        m = new Mode(env, inputs, solutions);
-      }
-    }
-    return m;
+    return modeCollection(env);
   }
-  
+
   /** Does the actual evaluation */
   public boolean nextEvaluation()
   {

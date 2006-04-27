@@ -66,27 +66,10 @@ public class FlatBinding extends FlatPred
     solutionsReturned_ = -1;
   }
 
-  /** Same modes as FlatTuple
-   * TODO: move this code up to FlatPred
-   */
+  /** Same modes as FlatTuple */
   public Mode chooseMode(Envir env)
   {
-    Mode m = modeFunction(env);
-    if (m == null) {
-      BitSet inputs = getInputs(env);
-      double solutions = 0.0;
-      if (inputs.get(args_.size() - 1)) {
-        solutions = 1.0;
-        if (inputs.cardinality() > 1)
-          solutions = 0.5;
-        for (int i = 0; i < args_.size() - 1; i++) {
-          if (!inputs.get(i))
-            env = env.plus(args_.get(i), null);
-        }
-        m = new Mode(env, inputs, solutions);
-      }
-    }
-    return m;
+    return modeCollection(env);
   }
 
   /** Checks that the binding is an input, or ALL the other parameters are inputs. */

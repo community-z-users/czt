@@ -234,6 +234,30 @@ public abstract class FlatPred
       m = new Mode(env, inputs, solutions);
     return m;
   }
+  
+  /** A default implementation of chooseMode.
+   *  Useful when the last argument is a collection (tuple/binding)
+   *  that contains all the other arguments.
+   */
+  public Mode modeCollection(Envir env)
+  {
+    Mode m = modeFunction(env);
+    if (m == null) {
+      BitSet inputs = getInputs(env);
+      double solutions = 0.0;
+      if (inputs.get(args_.size()-1)) {
+        solutions = Mode.ONE_SOLUTION;
+        if (inputs.cardinality() > 1)
+          solutions = Mode.MAYBE_ONE_SOLUTION;
+        for(int i=0;i<args_.size()-1;i++) {
+          if ( ! inputs.get(i))
+            env = env.plus(args_.get(i),null);
+        }
+        m = new Mode(env, inputs, solutions);
+      }
+    }
+    return m;
+  }
 
   /** Set the mode that will be used to evaluate this predicate.
    @param mode Must be one of the modes returned previously by chooseMode.
