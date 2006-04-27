@@ -153,21 +153,28 @@ public class ZSideKickActions
       if (term instanceof ZRefName) {
         ZRefName refName = (ZRefName) term;
         DeclName declName = refName.getDecl();
-        LocAnn locAnn = (LocAnn) declName.getAnn(LocAnn.class);
-        if (locAnn != null && locAnn.getLoc() != null) {
-          if (locAnn.getLoc().equals(view.getBuffer().getPath()) &&
-              locAnn.getStart() != null) {
-            view.getTextArea().setCaretPosition(locAnn.getStart());
+        if (declName != null) {
+          LocAnn locAnn = (LocAnn) declName.getAnn(LocAnn.class);
+          if (locAnn != null && locAnn.getLoc() != null) {
+            if (locAnn.getLoc().equals(view.getBuffer().getPath()) &&
+                locAnn.getStart() != null) {
+              view.getTextArea().setCaretPosition(locAnn.getStart());
+            }
+            else {
+              String message = "Defined in " + locAnn.getLoc();
+              if (locAnn.getLine() != null)
+                message += " line " + locAnn.getLine();
+              reportMessage(view, message);
+            }
           }
           else {
-            String message = "Defined in " + locAnn.getLoc();
-            if (locAnn.getLine() != null) message += " line " + locAnn.getLine();
-            reportMessage(view, message);
+            final String message =
+              "Could not find location information for declaring name";
+            reportError(view, message);
           }
         }
         else {
-          final String message =
-            "Could not find location information for declaring name";
+          final String message = "Could not find a declaration";
           reportError(view, message);
         }
       }
