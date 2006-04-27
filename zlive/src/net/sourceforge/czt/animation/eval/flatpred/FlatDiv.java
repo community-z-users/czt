@@ -106,12 +106,11 @@ public class FlatDiv extends FlatPred
   
   ///////////////////////// Pred methods ///////////////////////
 
-  public Object accept(Visitor visitor)
+  public <R> R accept(Visitor<R> visitor)
   {
-    if (visitor instanceof FlatDivVisitor) {
-      FlatDivVisitor flatDivVisitor = (FlatDivVisitor) visitor;
-      return flatDivVisitor.visitFlatDiv(this);
-    }
-    return super.accept(visitor);
+    if (visitor instanceof FlatDivVisitor)
+      return ((FlatDivVisitor<R>) visitor).visitFlatDiv(this);
+    else
+      return super.accept(visitor);
   }
 }

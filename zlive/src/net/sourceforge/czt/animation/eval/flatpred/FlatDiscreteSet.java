@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Set;
 
 import net.sourceforge.czt.animation.eval.Envir;
-import net.sourceforge.czt.animation.eval.EvalSet;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZRefName;
@@ -194,13 +193,12 @@ public class FlatDiscreteSet extends FlatEvalSet
 
   ///////////////////////// Pred methods ///////////////////////
 
-  public Object accept(Visitor visitor)
+  public <R> R accept(Visitor<R> visitor)
   {
-    if (visitor instanceof FlatDiscreteSetVisitor) {
-      FlatDiscreteSetVisitor flatDiscreteSetVisitor = (FlatDiscreteSetVisitor) visitor;
-      return flatDiscreteSetVisitor.visitFlatDiscreteSet(this);
-    }
-    return super.accept(visitor);
+    if (visitor instanceof FlatDiscreteSetVisitor)
+      return ((FlatDiscreteSetVisitor<R>) visitor).visitFlatDiscreteSet(this);
+    else
+      return super.accept(visitor);
   }
 
   /** True iff two EvalSets contain the same elements. */

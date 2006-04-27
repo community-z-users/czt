@@ -21,7 +21,6 @@ package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
@@ -151,12 +150,11 @@ public class FlatMember extends FlatPred
 
   ///////////////////////// Pred methods ///////////////////////
 
-  public Object accept(Visitor visitor)
+  public <R> R accept(Visitor<R> visitor)
   {
-    if (visitor instanceof FlatMemberVisitor) {
-      FlatMemberVisitor flatMemberVisitor = (FlatMemberVisitor) visitor;
-      return flatMemberVisitor.visitFlatMember(this);
-    }
-    return super.accept(visitor);
+    if (visitor instanceof FlatMemberVisitor)
+      return ((FlatMemberVisitor<R>) visitor).visitFlatMember(this);
+    else
+      return super.accept(visitor);
   }
 }

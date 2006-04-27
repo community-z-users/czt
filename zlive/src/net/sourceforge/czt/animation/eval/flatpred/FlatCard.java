@@ -105,11 +105,10 @@ extends FlatPred
   
   ///////////////////////// Pred methods ///////////////////////
   
-  public Object accept(Visitor visitor)
+  public <R> R accept(Visitor<R> visitor)
   {
     if (visitor instanceof FlatCardVisitor) {
-      FlatCardVisitor flatCardVisitor = (FlatCardVisitor) visitor;
-      return flatCardVisitor.visitFlatCard(this);
+      return ((FlatCardVisitor<R>) visitor).visitFlatCard(this);
     }
     return super.accept(visitor);
   }

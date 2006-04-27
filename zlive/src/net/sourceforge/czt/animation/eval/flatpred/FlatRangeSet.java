@@ -388,13 +388,12 @@ public class FlatRangeSet extends FlatEvalSet
   }
   ///////////////////////// Pred methods ///////////////////////
 
-  public Object accept(Visitor visitor)
+  public <R> R accept(Visitor<R> visitor)
   {
-    if (visitor instanceof FlatRangeSetVisitor) {
-      FlatRangeSetVisitor flatPlusVisitor = (FlatRangeSetVisitor) visitor;
-      return flatPlusVisitor.visitFlatRangeSet(this);
-    }
-    return super.accept(visitor);
+    if (visitor instanceof FlatRangeSetVisitor)
+      return ((FlatRangeSetVisitor<R>) visitor).visitFlatRangeSet(this);
+    else
+      return super.accept(visitor);
   }
 
   /** This implementation of equals handles two RangeSets efficiently.

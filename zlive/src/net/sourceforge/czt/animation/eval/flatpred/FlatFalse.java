@@ -19,7 +19,6 @@
 package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.util.ArrayList;
-import java.util.BitSet;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.util.Visitor;
@@ -63,12 +62,11 @@ public class FlatFalse extends FlatPred
     return new FlatFalse();
   }
  
-  public Object accept(Visitor visitor)
+  public <R> R accept(Visitor<R> visitor)
   {
-    if (visitor instanceof FlatFalseVisitor) {
-      FlatFalseVisitor v = (FlatFalseVisitor) visitor;
-      return v.visitFlatFalse(this);
-    }
-    return super.accept(visitor);
+    if (visitor instanceof FlatFalseVisitor)
+      return ((FlatFalseVisitor<R>) visitor).visitFlatFalse(this);
+    else
+      return super.accept(visitor);
   }
 }

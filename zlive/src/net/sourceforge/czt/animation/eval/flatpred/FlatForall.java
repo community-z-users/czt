@@ -167,12 +167,11 @@ public class FlatForall extends FlatPred
 
   ///////////////////////// Pred methods ///////////////////////
 
-  public Object accept(Visitor visitor)
+  public <R> R accept(Visitor<R> visitor)
   {
-    if (visitor instanceof FlatForallVisitor) {
-      FlatForallVisitor flatForallVisitor = (FlatForallVisitor) visitor;
-      return flatForallVisitor.visitFlatForall(this);
-    }
-    return super.accept(visitor);
+    if (visitor instanceof FlatForallVisitor)
+      return ((FlatForallVisitor<R>) visitor).visitFlatForall(this);
+    else
+      return super.accept(visitor);
   }
 }

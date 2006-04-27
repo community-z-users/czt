@@ -20,7 +20,6 @@
 package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;

@@ -138,12 +138,11 @@ public class FlatPlus extends FlatPred
 
   ///////////////////////// Pred methods ///////////////////////
 
-  public Object accept(Visitor visitor)
+  public <R> R accept(Visitor<R> visitor)
   {
-    if (visitor instanceof FlatPlusVisitor) {
-      FlatPlusVisitor flatPlusVisitor = (FlatPlusVisitor) visitor;
-      return flatPlusVisitor.visitFlatPlus(this);
-    }
-    return super.accept(visitor);
+    if (visitor instanceof FlatPlusVisitor)
+      return ((FlatPlusVisitor<R>) visitor).visitFlatPlus(this);
+    else
+      return super.accept(visitor);
   }
 }

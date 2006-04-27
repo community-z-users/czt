@@ -20,7 +20,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.HashSet;
 import java.util.List;
 
@@ -148,12 +147,11 @@ public class FlatBinding extends FlatPred
 
   ///////////////////////// Pred methods ///////////////////////
 
-  public Object accept(Visitor visitor)
+  public <R> R accept(Visitor<R> visitor)
   {
-    if (visitor instanceof FlatBindingVisitor) {
-      FlatBindingVisitor flatBindingVisitor = (FlatBindingVisitor) visitor;
-      return flatBindingVisitor.visitFlatBinding(this);
-    }
-    return super.accept(visitor);
+    if (visitor instanceof FlatBindingVisitor)
+      return ((FlatBindingVisitor<R>) visitor).visitFlatBinding(this);
+    else
+      return super.accept(visitor);
   }
 }

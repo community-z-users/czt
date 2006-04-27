@@ -19,7 +19,6 @@
 package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -52,14 +51,15 @@ import net.sourceforge.czt.z.util.Factory;
  *  </p>
  *  <pre>
  *  // Stage 1: Setup.
- *  predlist = new FlatPredList( ...a Flatten object...);
- *  ... now add decls, preds, and expressions...
- *  RefName resultName = predlist.addExpr(expr);
+ *  predlist = new FlatPredList(zlive_instance);
+ *  // now add decls, predicates, expressions etc.
+ *  ZRefName resultName = predlist.addExpr(expr);
  *  Envir env0 = new Envir(); // empty environment
  *
  *  // Stage 2: Optimisation.
- *  // Ask the FlatPredList to optimise itself for
- *  // efficient evaluation, given the inputs in env0.
+ *  predlist.inferBounds(new Bounds()); // does some static analysis
+ *  // Ask the FlatPredList to optimise itself for efficient
+ *  // evaluation, given the inputs in env0 (none in this case).
  *  Mode m = predlist.chooseMode(env0);
  *  if (m == null)
  *    throw new EvalException("Cannot find mode to evaluate " + expr);
@@ -69,9 +69,8 @@ import net.sourceforge.czt.z.util.Factory;
  *  predlist.startEvaluation();
  *  while (predlist.nextEvaluation())
  *      // lookup the result and do something with it.
- *      System.out.println(predlist.getOutputEnvir().lookup(resultName));
+ *      System.out.println(predlist.getEnvir().lookup(resultName));
  *  </pre>
- * @czt.todo make this inherit from FlatPred.
  */
 public class FlatPredList extends FlatPred
 {
@@ -325,7 +324,7 @@ public class FlatPredList extends FlatPred
     inferBounds(new Bounds()); // TODO: make the client responsible for this?
     
     List<Mode> submodes = new ArrayList<Mode>();
-    int numArgs = getArgs().size();  // forces freeVars_ and args_ to be evaluated.
+    getArgs();  // forces freeVars_ and args_ to be evaluated.
     Envir env = env0;
     double cost = Mode.ONE_SOLUTION;
     Iterator<FlatPred> it = predlist_.iterator();

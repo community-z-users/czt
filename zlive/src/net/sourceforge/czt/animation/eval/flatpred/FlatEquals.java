@@ -102,11 +102,11 @@ public class FlatEquals extends FlatPred
 
   ///////////////////////// Pred methods ///////////////////////
 
-  public Object accept(Visitor visitor)
+  public <R> R accept(Visitor<R> visitor)
   {
-    if (visitor instanceof FlatEqualsVisitor) {
-      return ((FlatEqualsVisitor) visitor).visitFlatEquals(this);
-    }
-    return super.accept(visitor);
+    if (visitor instanceof FlatEqualsVisitor)
+      return ((FlatEqualsVisitor<R>) visitor).visitFlatEquals(this);
+    else
+      return super.accept(visitor);
   }
 }

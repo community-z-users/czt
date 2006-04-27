@@ -83,12 +83,11 @@ public class FlatNot extends FlatPred
     return "FlatNot( " + predlist_.toString() + " )";
   }
   
-  public Object accept(Visitor visitor)
+  public <R> R accept(Visitor<R> visitor)
   {
-    if (visitor instanceof FlatNotVisitor) {
-      FlatNotVisitor flatNotVisitor = (FlatNotVisitor) visitor;
-      return flatNotVisitor.visitFlatNot(this);
-    }
-    return super.accept(visitor);
+    if (visitor instanceof FlatNotVisitor)
+      return ((FlatNotVisitor<R>) visitor).visitFlatNot(this);
+    else
+      return super.accept(visitor);
   }
 }

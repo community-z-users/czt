@@ -20,7 +20,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.List;
 
 import net.sourceforge.czt.animation.eval.Envir;
@@ -114,12 +113,11 @@ public class FlatTuple extends FlatPred
   
   ///////////////////////// Pred methods ///////////////////////
   
-  public Object accept(Visitor visitor)
+  public <R> R accept(Visitor<R> visitor)
   {
-    if (visitor instanceof FlatTupleVisitor) {
-      FlatTupleVisitor flatTupleVisitor = (FlatTupleVisitor) visitor;
-      return flatTupleVisitor.visitFlatTuple(this);
-    }
-    return super.accept(visitor);
+    if (visitor instanceof FlatTupleVisitor)
+      return ((FlatTupleVisitor<R>) visitor).visitFlatTuple(this);
+    else
+      return super.accept(visitor);
   }
 }

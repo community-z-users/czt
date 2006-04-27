@@ -111,12 +111,11 @@ public class FlatMod extends FlatPred
   
   ///////////////////////// Pred methods ///////////////////////
 
-  public Object accept(Visitor visitor)
+  public <R> R accept(Visitor<R> visitor)
   {
-    if (visitor instanceof FlatModVisitor) {
-      FlatModVisitor flatModVisitor = (FlatModVisitor) visitor;
-      return flatModVisitor.visitFlatMod(this);
-    }
-    return super.accept(visitor);
+    if (visitor instanceof FlatModVisitor)
+      return ((FlatModVisitor<R>) visitor).visitFlatMod(this);
+    else
+      return super.accept(visitor);
   }
 }

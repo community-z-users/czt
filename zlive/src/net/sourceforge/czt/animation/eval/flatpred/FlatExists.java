@@ -61,12 +61,11 @@ public class FlatExists extends FlatForall
 
   ///////////////////////// Pred methods ///////////////////////
 
-  public Object accept(Visitor visitor)
+  public <R> R accept(Visitor<R> visitor)
   {
-    if (visitor instanceof FlatExistsVisitor) {
-      FlatExistsVisitor flatExistsVisitor = (FlatExistsVisitor) visitor;
-      return flatExistsVisitor.visitFlatExists(this);
-    }
-    return super.accept(visitor);
+    if (visitor instanceof FlatExistsVisitor)
+      return ((FlatExistsVisitor<R>) visitor).visitFlatExists(this);
+    else
+      return super.accept(visitor);
   }
 }

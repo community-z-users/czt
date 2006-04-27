@@ -116,11 +116,10 @@ public class FlatConst extends FlatPred
     return new FlatConst((ZRefName)newargs[0], (Expr)newargs[1]);
   }
  
-  public Object accept(Visitor visitor)
+  public <R> R accept(Visitor<R> visitor)
   {
     if (visitor instanceof FlatConstVisitor) {
-      FlatConstVisitor v = (FlatConstVisitor) visitor;
-      return v.visitFlatConst(this);
+      return ((FlatConstVisitor<R>) visitor).visitFlatConst(this);
     }
     return super.accept(visitor);
   }

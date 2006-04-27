@@ -125,12 +125,11 @@ public class FlatLessThan extends FlatPred
 
   ///////////////////////// Pred methods ///////////////////////
 
-  public Object accept(Visitor visitor)
+  public <R> R accept(Visitor<R> visitor)
   {
-    if (visitor instanceof FlatLessThanVisitor) {
-      FlatLessThanVisitor v = (FlatLessThanVisitor) visitor;
-      return v.visitFlatLessThan(this);
-    }
-    return super.accept(visitor);
+    if (visitor instanceof FlatLessThanVisitor)
+      return ((FlatLessThanVisitor<R>) visitor).visitFlatLessThan(this);
+    else
+      return super.accept(visitor);
   }
 }

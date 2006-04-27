@@ -87,12 +87,11 @@ public class FlatTupleSel extends FlatPred
 
   ///////////////////////// Pred methods ///////////////////////
 
-  public Object accept(Visitor visitor)
+  public <R> R accept(Visitor<R> visitor)
   {
-    if (visitor instanceof FlatTupleSelVisitor) {
-      FlatTupleSelVisitor flatPlusVisitor = (FlatTupleSelVisitor) visitor;
-      return flatPlusVisitor.visitFlatTupleSel(this);
-    }
-    return super.accept(visitor);
+    if (visitor instanceof FlatTupleSelVisitor)
+      return ((FlatTupleSelVisitor<R>) visitor).visitFlatTupleSel(this);
+    else
+      return super.accept(visitor);
   }
 }

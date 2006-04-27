@@ -158,12 +158,11 @@ public class FlatMu extends FlatPred
 
   ///////////////////////// Pred methods ///////////////////////
 
-  public Object accept(Visitor visitor)
+  public <R> R accept(Visitor<R> visitor)
   {
-    if (visitor instanceof FlatMuVisitor) {
-      FlatMuVisitor flatMuVisitor = (FlatMuVisitor) visitor;
-      return flatMuVisitor.visitFlatMu(this);
-    }
-    return super.accept(visitor);
+    if (visitor instanceof FlatMuVisitor)
+      return ((FlatMuVisitor<R>) visitor).visitFlatMu(this);
+    else
+      return super.accept(visitor);
   }
 }

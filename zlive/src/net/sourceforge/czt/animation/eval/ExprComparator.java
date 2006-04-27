@@ -32,7 +32,6 @@ import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZExprList;
-import net.sourceforge.czt.z.ast.ZRefName;
 
 /** A comparator for evaluated Z expressions.
  *  The compare method defines a total order over evaluated Z expressions,

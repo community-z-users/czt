@@ -21,17 +21,19 @@ package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalException;
 import net.sourceforge.czt.animation.eval.EvalSet;
 import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.ast.Decl;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.RefExpr;
+import net.sourceforge.czt.z.ast.ZRefName;
 
 /**
 * @author Mark Utting
@@ -257,13 +259,12 @@ public class FlatSetComp extends FlatEvalSet
 
   ///////////////////////// Pred methods ///////////////////////
 
-  public Object accept(Visitor visitor)
+  public <R> R accept(Visitor<R> visitor)
   {
-    if (visitor instanceof FlatSetCompVisitor) {
-      FlatSetCompVisitor flatVisitor = (FlatSetCompVisitor) visitor;
-      return flatVisitor.visitFlatSetComp(this);
-    }
-    return super.accept(visitor);
+    if (visitor instanceof FlatSetCompVisitor)
+      return ((FlatSetCompVisitor<R>) visitor).visitFlatSetComp(this);
+    else
+      return super.accept(visitor);
   }
 
   /** True iff two EvalSets contain the same elements. */

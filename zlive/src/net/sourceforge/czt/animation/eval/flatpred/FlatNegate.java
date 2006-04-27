@@ -113,12 +113,11 @@ public class FlatNegate extends FlatPred
 
   ///////////////////////// Pred methods ///////////////////////
 
-  public Object accept(Visitor visitor)
+  public <R> R accept(Visitor<R> visitor)
   {
-    if (visitor instanceof FlatNegateVisitor) {
-      FlatNegateVisitor flatPlusVisitor = (FlatNegateVisitor) visitor;
-      return flatPlusVisitor.visitFlatNegate(this);
-    }
-    return super.accept(visitor);
+    if (visitor instanceof FlatNegateVisitor)
+      return ((FlatNegateVisitor<R>) visitor).visitFlatNegate(this);
+    else
+      return super.accept(visitor);
   }
 }

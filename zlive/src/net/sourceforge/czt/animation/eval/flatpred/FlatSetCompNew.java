@@ -6,16 +6,21 @@
 
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.util.BitSet;
 import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.animation.eval.Envir;
-import net.sourceforge.czt.animation.eval.EnvirUtils;
 import net.sourceforge.czt.animation.eval.EvalException;
 import net.sourceforge.czt.animation.eval.Flatten;
 import net.sourceforge.czt.animation.eval.ZLive;
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.ast.Decl;
+import net.sourceforge.czt.z.ast.DeclName;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.RefExpr;
+import net.sourceforge.czt.z.ast.VarDecl;
+import net.sourceforge.czt.z.ast.ZDeclName;
+import net.sourceforge.czt.z.ast.ZRefName;
 import net.sourceforge.czt.z.util.Factory;
 
 /**
