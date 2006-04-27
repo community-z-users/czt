@@ -74,7 +74,7 @@ extends FlatPred
   {
     assert evalMode_ != null;
     assert solutionsReturned_ >= 0;
-    assert evalMode_.isInput(0);
+    assert evalMode_.isInput(args_.get(0));
     boolean result = false;
     ZRefName setName = args_.get(0);
     if(solutionsReturned_==0)
@@ -89,7 +89,7 @@ extends FlatPred
         i = i.add(BigInteger.ONE);
       }
       Expr size = factory_.createNumExpr(i.intValue()); // TODO: allow BigInteger here
-      if (evalMode_.isInput(1)) {
+      if (evalMode_.isInput(args_.get(1))) {
         Expr thisSize = evalMode_.getEnvir().lookup(args_.get(1));
         if(thisSize.equals(size))
           result = true;

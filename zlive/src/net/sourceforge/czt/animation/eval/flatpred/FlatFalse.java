@@ -36,8 +36,7 @@ public class FlatFalse extends FlatPred
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
-    BitSet inputs = new BitSet();
-    return new Mode(env,inputs,0.0);
+    return new Mode(env,args_,0.0);
   }
 
   /** Does the actual evaluation */

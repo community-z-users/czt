@@ -92,6 +92,7 @@ public class FlatSetCompNew extends FlatSetComp {
         //}
     }
     
+    /*
     public Mode chooseMode(Envir env) {
         Mode m = super.chooseMode(env);
         if (m == null) {
@@ -123,4 +124,5 @@ public class FlatSetCompNew extends FlatSetComp {
             m.getEnvir().setValue(args_.get(args_.size()-1), this);
         return m;
     }
+    */
 }

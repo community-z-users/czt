@@ -75,11 +75,11 @@ public class FlatBinding extends FlatPred
   /** Checks that the binding is an input, or ALL the other parameters are inputs. */
   private boolean assertInputArgs()
   {
-    boolean result = evalMode_.isInput(args_.size() - 1);
+    boolean result = evalMode_.isInput(getLastArg());
     if (!result) {
       result = true;
       for (int i = 0; result && i < args_.size() - 1; i++)
-        result = evalMode_.isInput(i);
+        result = evalMode_.isInput(args_.get(i));
     }
     return result;
   }
@@ -98,7 +98,7 @@ public class FlatBinding extends FlatPred
       Envir env = evalMode_.getEnvir();
 
       //The case where the binding itself is an input
-      if (evalMode_.isInput(args_.size() - 1)) {
+      if (evalMode_.isInput(getLastArg())) {
         BindExpr bindExpr = (BindExpr) env.lookup(bindName);
         List<Decl> bindingsList = bindExpr.getZDeclList().getDecl();
         //no. of elements in env.binding should be same as bindNames

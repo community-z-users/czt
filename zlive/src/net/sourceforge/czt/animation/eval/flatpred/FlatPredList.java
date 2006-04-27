@@ -325,10 +325,7 @@ public class FlatPredList extends FlatPred
     inferBounds(new Bounds()); // TODO: make the client responsible for this?
     
     List<Mode> submodes = new ArrayList<Mode>();
-    int numArgs = getArgs().size();  // forces freeVars to be evaluated.
-    BitSet inputs = new BitSet(numArgs);
-    if (numArgs > 0)
-      inputs.set(0, numArgs-1);  // all are inputs (true) by default.
+    int numArgs = getArgs().size();  // forces freeVars_ and args_ to be evaluated.
     Envir env = env0;
     double cost = Mode.ONE_SOLUTION;
     Iterator<FlatPred> it = predlist_.iterator();
@@ -343,25 +340,11 @@ public class FlatPredList extends FlatPred
       }
       submodes.add(m);
       env = m.getEnvir();
-      List<ZRefName> fpArgs = fp.getArgs();
-      for (int i=fpArgs.size()-1; i>=0; i--) {
-        ZRefName var = fpArgs.get(i);
-        if ( ! m.isInput(i) && freeVars_.contains(var)) {
-          // mark outvar as an output
-          int varPos=0;
-          // if we go into an infinite loop here, then args and
-          // freeVars are inconsistent, so we deserve the
-          // exception that we will get! 
-          while ( ! args_.get(varPos).equals(var))
-            varPos++;
-          inputs.clear(varPos);
-        }
-      }
       cost *= m.getSolutions();
       LOG.finer(this.hashCode()+" "+fp+" gives cost="+cost
-          +" and inputs="+inputs);
+          +" and outputs="+m.getOutputs());
     }
-    ModeList result = new ModeList(env, inputs, cost, submodes);
+    ModeList result = new ModeList(env, args_, cost, submodes);
     LOG.exiting("FlatPredList","chooseMode",result);
     return result;
   }

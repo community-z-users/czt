@@ -1,6 +1,6 @@
 /*
   ZLive - A Z animator -- Part of the CZT Project.
-  Copyright 2004 Mark Utting
+  Copyright 2006 Mark Utting
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -18,14 +18,18 @@
 */
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.util.BitSet;
+import java.util.List;
+import java.util.Set;
 
 import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.z.ast.ZRefName;
 
 /** A Mode object contains information about one way of executing a FlatPred.
     It contains statistics about the number of solutions expected when
     the FlatPred is executed, plus an updated environment which contains
     any variables created by the FlatPred.
+    
+    @author marku
  */
 public class Mode
 {
@@ -40,36 +44,57 @@ public class Mode
    */
   public static double MAYBE_ONE_SOLUTION = 0.5;
 
-  
-  /** Constructor for Mode objects. */
-  //@ requires solns > 0.0;
-  public Mode(/*@non_null@*/Envir postEnv,
-               /*@non_null@*/BitSet inputs,
-               double solns) {
-    postEnvir_ = postEnv;
-    solutions_ = solns;
-    inputs_ = inputs;
-  }
-
-  /** The input/output directions of the mode.
-      This is an array of booleans -- if the i'th entry is true
-      then the i'th variable managed by this FlatPred is an input,
-      otherwise it is an output.
-  */
-  protected /*@spec_public non_null@*/ BitSet inputs_;
-
-  /** Is the i'th argument an input. */
-  //@ requires 0 <= argnum;
-  //@ requires argnum < getNumArgs();
-  public /*@pure@*/ boolean isInput(int argnum)
-  { return inputs_.get(argnum); }
-
   /** The expected number of solutions. */
   protected /*@spec_public@*/ double solutions_;
   //@ invariant solutions_ > 0.0;
 
+  /** The environment before executing the FlatPred. */
+  protected /*@spec_public@*/ Envir preEnvir_;
+  
   /** The environment after executing the FlatPred. */
   protected /*@spec_public@*/ Envir postEnvir_;
+
+  /** A copy of the arguments of this FlatPred.
+   *  These are just saved for convenience, so that we
+   *  can provide the isInput(int) method.
+   */
+  protected List<ZRefName> args_;
+
+  /** Constructor for Mode objects. */
+  //@ requires solns > 0.0;
+  public Mode(/*@non_null@*/Envir preEnv,
+               /*@non_null@*/List<ZRefName> args,
+               double solns) {
+    preEnvir_ = preEnv;
+    postEnvir_ = preEnv;
+    solutions_ = solns;
+    args_ = args;
+    for (ZRefName name : args) {
+      if ( ! preEnvir_.isDefined(name))
+        postEnvir_ = postEnvir_.plus(name, null);
+    }
+  }
+
+  /** Is the given argument an input? */
+  public /*@pure@*/ boolean isInput(ZRefName arg)
+  {
+    return preEnvir_.isDefined(arg)
+      && ! postEnvir_.isDefinedSince(preEnvir_, arg);
+  }
+  
+  /** A convenience version of isInput that takes the
+   *  position of the variable in the FlatPred getArgs() list.
+   */
+  public /*@pure@*/ boolean isInput(int pos)
+  {
+    return isInput(args_.get(pos));
+  }
+
+  /** Is the given argument an output? */
+  public /*@pure@*/ boolean isOutput(ZRefName arg)
+  {
+    return postEnvir_.isDefinedSince(preEnvir_, arg);
+  }
 
   /** The estimated number of solutions that the FlatPred will produce.
       The result will always be positive.  It is an approximation of how many
@@ -90,6 +115,11 @@ public class Mode
   public void setSolutions(double solns)
   { solutions_ = solns; }
 
+  /** Get the input environment of this Mode. */
+  //@ requires true;
+  //@ ensures \result == preEnvir_;
+  public /*@pure@*/ Envir getEnvir0()
+  { return preEnvir_; }
 
   /** Get the environment that includes any output variables of FlatPred. */
   //@ requires true;
@@ -97,26 +127,35 @@ public class Mode
   public /*@pure@*/ Envir getEnvir()
   { return postEnvir_; }
 
+  /** Gives the variables added to the environment by this mode. */
+  public /*@pure@*/ Set<ZRefName> getOutputs()
+  {
+    return postEnvir_.definedSince(preEnvir_);
+  }
+
+  /** Gives the number of output variables. */
+  public /*@pure@*/ int numOutputs()
+  {
+    return postEnvir_.definedSince(preEnvir_).size(); // TODO optimize
+  }
+
   public String toString()
   {
-    /*
-    StringBuffer io = new StringBuffer();
-    for (Boolean input : inputs_) {
-      if ( ((Boolean)input).booleanValue() )
-	io.append("i");
-      else
-	io.append("O");
+    StringBuffer result = new StringBuffer();
+    result.append("Mode{");
+    for (ZRefName name : postEnvir_.definedSince(preEnvir_)) {
+      result.append(name.toString()); // TODO: ZRefName.toString()
+      result.append(" ");
     }
-    */
-    return "Mode{" + inputs_.toString() + " " + solutions_
-	 + " envir=" + postEnvir_.toString() + "}";
+    result.append(solutions_);
+    result.append("}");
+    return result.toString();
   }
-  
-  /** Two modes are equivalent if they have the same 
-   *  input-output behaviour.
+
+  /** Two modes are compatible if they have the same outputs.
    */
-  public boolean equivalent(Mode other)
+  public boolean compatible(/*@non_null@*/Mode other)
   {
-    return inputs_.equals(other.inputs_);
+    return getOutputs().equals(other.getOutputs());
   }
 }

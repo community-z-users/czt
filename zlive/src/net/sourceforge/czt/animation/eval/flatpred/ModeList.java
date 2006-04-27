@@ -19,11 +19,11 @@
 package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.z.ast.ZRefName;
 
 /** A subclass of Mode that records modes for compound structures.
  *  In addition to the usual mode information, it records a list
@@ -40,19 +40,19 @@ public class ModeList extends Mode
   /** Constructor for ModeList objects.
    */
   //@ requires solns > 0.0;
-  public ModeList(/*@non_null@*/Envir postEnvir,
-		  /*@non_null@*/BitSet inputs,
+  public ModeList(/*@non_null@*/Envir env0,
+		  /*@non_null@*/List<ZRefName> args,
 		  double solns,
 		  /*@non_null@*/List<Mode> subModes)
   {
-    super(postEnvir,inputs,solns);
+    super(env0, args, solns);
     subModes_ = subModes;
   }
 
   /** A copy constructor. */
   public ModeList(/*@non_null@*/Mode mode)
   {
-    this(mode.postEnvir_, mode.inputs_, mode.solutions_,
+    this(mode.preEnvir_, mode.args_, mode.solutions_,
         new ArrayList<Mode>());
   }
 

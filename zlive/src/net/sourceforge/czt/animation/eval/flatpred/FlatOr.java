@@ -71,15 +71,14 @@ public class FlatOr extends FlatPred
     Mode leftMode = left_.chooseMode(env);
     Mode rightMode = right_.chooseMode(env);
     if (leftMode != null && rightMode != null
-        && leftMode.equivalent(rightMode)) {
+        && leftMode.compatible(rightMode)) {
       double solutions = leftMode.getSolutions() + rightMode.getSolutions();
       List<Mode> modes = new ArrayList<Mode>(2);
       modes.add(leftMode);
       modes.add(rightMode);
       // TODO: investigate why leftMode.inputs_ is legal here -- should be protected.
       // TODO: unify leftMode.inputs and rightMode.inputs here!!!
-      result = new ModeList(leftMode.getEnvir(), leftMode.inputs_, solutions,
-          modes);
+      result = new ModeList(env, args_, solutions, modes);
     }
     return result;
   }

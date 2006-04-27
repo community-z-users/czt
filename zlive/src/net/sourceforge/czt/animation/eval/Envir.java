@@ -18,6 +18,9 @@
 */
 package net.sourceforge.czt.animation.eval;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZRefName;
 
@@ -64,19 +67,48 @@ public class Envir
         && a.getWord().equals(b.getWord())
         && a.getStroke().equals(b.getStroke());
   }
-  
-  /** See if a name is defined in the Environment. 
-   @return true if the name exists, false if it does not exist.
-   */
-  public/*@pure@*/boolean isDefined(/*@non_null@*/ZRefName want) {
+
+  /** Return the set of newly defined names. */
+  public /*@pure@*/ Set<ZRefName> definedSince(/*@non_null@*/Envir env0)
+  {
+    Set<ZRefName> result = new HashSet<ZRefName>();
     Envir env = this;
-    while (env != null) {
+    while (env != null && env != env0) {
+      if (env.name_ != null)
+        result.add(env.name_);
+      env = env.nextEnv;
+    }
+    return result;
+  }
+
+  /** See if a name is recently defined in the Environment.
+   *  
+   *  @return true if the name is defined in this environment, but not in env0.
+   */
+  public /*@pure@*/ boolean isDefinedSince(
+      /*@non_null@*/Envir env0,
+      /*@non_null@*/ZRefName want) {
+    Envir env = this;
+    while (env != null && env != env0) {
       if (sameName(want, env.name_))
         return true;
       env = env.nextEnv;
     }
     return false;
   }
+
+  /** See if a name is defined in the Environment. 
+  @return true if the name exists, false if it does not exist.
+  */
+ public/*@pure@*/boolean isDefined(/*@non_null@*/ZRefName want) {
+   Envir env = this;
+   while (env != null) {
+     if (sameName(want, env.name_))
+       return true;
+     env = env.nextEnv;
+   }
+   return false;
+ }
 
   /** Update the value of a name in the Environment. 
       WARNING: this destructively changes the Environment

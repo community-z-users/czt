@@ -74,7 +74,7 @@ public class FlatConst extends FlatPred
     if(solutionsReturned_ == 0)
     {
       solutionsReturned_++;
-      if (evalMode_.isInput(0)) {
+      if (evalMode_.isInput(args_.get(0))) {
         Expr a = evalMode_.getEnvir().lookup(args_.get(0));
         if(a.equals(constant_))
           result = true;

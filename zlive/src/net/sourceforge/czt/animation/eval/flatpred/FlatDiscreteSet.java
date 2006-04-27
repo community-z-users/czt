@@ -160,15 +160,13 @@ public class FlatDiscreteSet extends FlatEvalSet
   {
     assert evalMode_ != null;
     assert solutionsReturned_ >= 0;
-    for (int i=0;i<args_.size()-1;i++)
-      assert evalMode_.isInput(i);
     boolean result = false;
     ZRefName set = args_.get(args_.size()-1);
     if(solutionsReturned_==0)
     {
       solutionsReturned_++;
       resetResult();
-      if (evalMode_.isInput(args_.size()-1)) {
+      if (evalMode_.isInput(getLastArg())) {
         Expr otherSet = evalMode_.getEnvir().lookup(set);
         result = equals(otherSet);
       } else {

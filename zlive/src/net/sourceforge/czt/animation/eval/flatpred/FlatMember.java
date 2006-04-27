@@ -85,28 +85,25 @@ public class FlatMember extends FlatPred
     // the set must be defined in env.
     ZRefName setName = args_.get(0);
     ZRefName elemName = args_.get(1);
-    BitSet inputs = getInputs(env);
-    Mode m = null;
+    Mode result = new Mode(env, args_, Mode.MAYBE_ONE_SOLUTION);
     // is the set an input?
-    if (inputs.get(0)) {
-      // is the element an input as well?
-      if (inputs.get(1)) {
-        m = new Mode(env, inputs, 0.5);
-      } else {
+    if (result.isInput(setName)) {
+      if (result.isOutput(elemName)) {
+        // We will have to generate all members.
         // the actual EvalSet object will be available at evaluation
         // time, but we check to see if it is already available.
         // If it is, we can get better estimates.
-        double solns = 0.0;
         Expr e = env.lookup(setName);
         if (e != null && e instanceof EvalSet)
-          solns = ((EvalSet)e).estSubsetSize(env, elemName);
+          result.setSolutions(((EvalSet)e).estSubsetSize(env, elemName));
         else
-          solns = Double.POSITIVE_INFINITY;
-        Envir newEnv = env.plus(elemName, null);
-        m = new Mode(newEnv, inputs, solns);
+          result.setSolutions(Double.POSITIVE_INFINITY);
       }
     }
-    return m;
+    else {
+      result = null;
+    }
+    return result;
   }
  
   public void startEvaluation()

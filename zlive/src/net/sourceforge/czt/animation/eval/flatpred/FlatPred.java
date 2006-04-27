@@ -99,6 +99,14 @@ public abstract class FlatPred
   {
     return args_;
   }
+  
+  /** Get the variable at the end of getArgs().
+   *  This is usually the output' of this FlatPred.
+   */
+  public ZRefName getLastArg()
+  {
+    return args_.get(args_.size() - 1);
+  }
 
   /** Get the mode that has been set for evaluation purposes. */
   //@ ensures \result == evalMode_;
@@ -158,81 +166,49 @@ public abstract class FlatPred
    */
   public abstract Mode chooseMode( /*@non_null@*/Envir env);
 
-  /** Look up the environment to see which args are inputs. 
-   @param env     The environment to lookup
-   @return        The number of inputs.
-   */
-  protected BitSet getInputs(/*@non_null@*/Envir env)
-  {
-    BitSet inputs = new BitSet();
-    for (int i = 0; i < args_.size(); i++) {
-      if (env.isDefined(args_.get(i))) {
-        inputs.set(i);
-      }
-    }
-    return inputs;
-  }
-
   /** A default implementation of chooseMode.
    This returns mode IIIIII.. only.
    That is, all elements in the args list must be defined in env.
    */
   protected Mode modeAllDefined(/*@non_null@*/Envir env)
   {
-    BitSet inputs = getInputs(env);
-    double solutions = 0.0;
-    if (inputs.cardinality() == args_.size())
-      solutions = Mode.MAYBE_ONE_SOLUTION;
-    Mode m = null;
-    if (solutions > 0.0)
-      m = new Mode(env, inputs, solutions);
-    return m;
+    Mode result = new Mode(env, args_, Mode.MAYBE_ONE_SOLUTION);
+    if (result.numOutputs() == 0)
+      return result;
+    else
+      return null;
   }
 
   /** A default implementation of chooseMode.
-   This returns modes IIII... and III...O only.
-   That is, all inputs to the function must be defined in env.
+   *  This returns modes IIII... and III...O only.
+   *  That is, all inputs to the function must be defined in env.
    */
   protected Mode modeFunction(/*@non_null@*/Envir env)
   {
-    BitSet inputs = getInputs(env);
-    double solutions = 0.0;
-    if (inputs.cardinality() == args_.size())
-      solutions = Mode.MAYBE_ONE_SOLUTION;
-    else if (inputs.cardinality() == args_.size() - 1
-        && !inputs.get(args_.size() - 1)) {
-      solutions = Mode.ONE_SOLUTION;
-      env = env.plus(args_.get(args_.size() - 1), null);
-    }
-    Mode m = null;
-    if (solutions > 0.0)
-      m = new Mode(env, inputs, solutions);
-    return m;
+    Mode result = new Mode(env, args_, Mode.ONE_SOLUTION);
+    if (result.numOutputs() == 0)
+      result.setSolutions(Mode.MAYBE_ONE_SOLUTION);
+    else if (result.numOutputs() != 1
+        || ! result.isOutput(getLastArg()))
+      result = null;
+    return result;
   }
 
   /** A default implementation of chooseMode.
-   For example, with 3 args, this returns modes III(0.5), 
-   OII(1.0), IOI(1.0), IIO(1.0).
-   That is, n-1 args must be defined in env.
+   *  For example, with 3 args, this returns modes III(0.5), 
+   *  OII(1.0), IOI(1.0), IIO(1.0).
+   *  That is, n-1 args must be defined in env.
    */
   protected Mode modeOneOutput(/*@non_null@*/Envir env)
   {
-    BitSet inputs = getInputs(env);
-    double solutions = 0.0;
-    if (inputs.cardinality() == args_.size())
-      solutions = Mode.MAYBE_ONE_SOLUTION;
-    else if (inputs.cardinality() == args_.size() - 1) {
-      solutions = Mode.ONE_SOLUTION;
-      // add the output variable into the environment
-      for (int i = 0; i < args_.size(); i++) {
-        if (!inputs.get(i))
-          env = env.plus(args_.get(i), null);
-      }
-    }
-    Mode m = null;
-    if (solutions > 0.0)
-      m = new Mode(env, inputs, solutions);
-    return m;
+    Mode result = new Mode(env, args_, 0.0);
+    if (result.numOutputs() == 0)
+      result.setSolutions(Mode.MAYBE_ONE_SOLUTION);
+    else if (result.numOutputs() == 1)
+      result.setSolutions(Mode.ONE_SOLUTION);
+    else
+      result = null;
+    return result;
   }
   
   /** A default implementation of chooseMode.
@@ -241,22 +217,13 @@ public abstract class FlatPred
    */
   public Mode modeCollection(Envir env)
   {
-    Mode m = modeFunction(env);
-    if (m == null) {
-      BitSet inputs = getInputs(env);
-      double solutions = 0.0;
-      if (inputs.get(args_.size()-1)) {
-        solutions = Mode.ONE_SOLUTION;
-        if (inputs.cardinality() > 1)
-          solutions = Mode.MAYBE_ONE_SOLUTION;
-        for(int i=0;i<args_.size()-1;i++) {
-          if ( ! inputs.get(i))
-            env = env.plus(args_.get(i),null);
-        }
-        m = new Mode(env, inputs, solutions);
-      }
+    Mode result = modeFunction(env);
+    if (result == null && env.isDefined(getLastArg())) {
+      result = new Mode(env, args_, Mode.MAYBE_ONE_SOLUTION);
+      if (result.numOutputs() == args_.size() - 1)
+        result.setSolutions(Mode.ONE_SOLUTION);
     }
-    return m;
+    return result;
   }
 
   /** Set the mode that will be used to evaluate this predicate.

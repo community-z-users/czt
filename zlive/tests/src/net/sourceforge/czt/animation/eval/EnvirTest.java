@@ -19,16 +19,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import junit.framework.Assert;
-import junit.framework.TestCase;
-import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.Stroke;
 import net.sourceforge.czt.z.ast.ZRefName;
-import net.sourceforge.czt.z.impl.ZFactoryImpl;
-import net.sourceforge.czt.z.util.Factory;
 
 
 /**
@@ -37,22 +32,36 @@ import net.sourceforge.czt.z.util.Factory;
  * @author Mark Utting
  */
 public class EnvirTest
-  extends TestCase
+  extends ZTestCase
 {
-  private Factory factory_ = new Factory(new ZFactoryImpl());
-
-  private List<Stroke> emptyList = new ArrayList<Stroke>();
   private Envir empty = new Envir();
   private Envir empty2 = new Envir();
-  private ZRefName x = factory_.createZRefName("x",emptyList,null);
-  private ZRefName y = factory_.createZRefName("y",emptyList,null);
-  private Expr i10 = factory_.createNumExpr(factory_.createZNumeral(10));
-  private Expr i20 = factory_.createNumExpr(factory_.createZNumeral(20));
   private Envir x10 = empty.plus(x,i10);
   private Envir x10b = empty.plus(x,i10);
   private Envir x20 = empty.plus(x,i20);
   private Envir y10 = empty.plus(y,i10);
   private Envir x10x20 = x20.plus(x,i10);
+  private Envir x10y20 = x10.plus(y,i20);
+  
+  public void testIsDefined()
+  {
+    Assert.assertTrue(x10y20.isDefined(x));
+    Assert.assertTrue(x10y20.isDefined(y));
+    Assert.assertFalse(x10.isDefined(y));
+  }
+
+  public void testIsDefinedSince()
+  {
+    Assert.assertFalse(x10y20.isDefinedSince(x10,x));
+    Assert.assertTrue(x10y20.isDefinedSince(x10,y));
+  }
+  
+  public void testDefinedSince()
+  {
+    Set<ZRefName> result = new HashSet<ZRefName>();
+    result.add(y);
+    Assert.assertEquals(result, x10y20.definedSince(x10));
+  }
   
   public void testEqualsEmptyEmpty()
   {
@@ -61,12 +70,12 @@ public class EnvirTest
   
   public void testEqualsx10x20()
   {
-    Assert.assertTrue(!x10.equals(x20));
+    Assert.assertFalse(x10.equals(x20));
   }
   
   public void testEqualsx10y10()
   {
-    Assert.assertTrue(!x10.equals(y10));
+    Assert.assertFalse(x10.equals(y10));
   }
  
   public void testEqualsx10x10b()
@@ -76,17 +85,17 @@ public class EnvirTest
   
   public void testEqualsEmptyx10()
   {
-    Assert.assertTrue(!empty.equals(x10));
+    Assert.assertFalse(empty.equals(x10));
   }
   
   public void testEqualsx10Empty()
   {
-    Assert.assertTrue(!x10.equals(empty));
+    Assert.assertFalse(x10.equals(empty));
   }
   
   public void testEqualsx10x20x10()
   {
-    Assert.assertTrue(!x10x20.equals(x10));
+    Assert.assertFalse(x10x20.equals(x10));
   }
   
   public void testLookupxEmpty()
@@ -100,14 +109,29 @@ public class EnvirTest
   
   public void testLookupxx10()
   {
-    Assert.assertTrue(x10.lookup(x).equals(i10));
+    Assert.assertEquals(i10, x10.lookup(x));
   }
 
   public void testLookupxx10x20()
   {
-    Assert.assertTrue(x10x20.lookup(x).equals(i10));
+    Assert.assertEquals(i10, x10x20.lookup(x));
   }
 
+  public void testSetValueOldest()
+  {
+    Envir env = new Envir().plus(x,i10).plus(y,i20);
+    env.setValue(x,i5);
+    Assert.assertEquals(i5, env.lookup(x));
+    Assert.assertEquals(i20, env.lookup(y));
+  }
+
+  public void testSetValueNewest()
+  {
+    Envir env = new Envir().plus(x,i10).plus(y,i20);
+    env.setValue(y,i5);
+    Assert.assertEquals(i5, env.lookup(y));
+    Assert.assertEquals(i10, env.lookup(x));
+  }
 }
 
   
