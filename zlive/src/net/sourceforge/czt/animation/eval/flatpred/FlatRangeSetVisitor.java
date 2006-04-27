@@ -24,12 +24,12 @@ import net.sourceforge.czt.util.Visitor;
 /**
  * A FlatRangeSet visitor.
  */
-public interface FlatRangeSetVisitor extends Visitor
+public interface FlatRangeSetVisitor<R> extends Visitor<R>
 {
   /**
    * Visits a FlatRangeSet
    * @param  term the FlatRangeSet to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitFlatRangeSet(FlatRangeSet term);
+  public R visitFlatRangeSet(FlatRangeSet term);
 }

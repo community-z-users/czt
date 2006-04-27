@@ -18,18 +18,25 @@
 */
 package net.sourceforge.czt.animation.eval.flatpred;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalSet;
+import net.sourceforge.czt.animation.eval.EvalSetVisitor;
 import net.sourceforge.czt.animation.eval.ExprComparator;
+import net.sourceforge.czt.base.ast.ListTerm;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.impl.ListTermImpl;
+import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.z.ast.Ann;
 import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.ZRefName;
 
 /** FlatEvalSet is a subclass of FlatPred that implements
  *  the EvalSet interface.  It provides default implementations
@@ -70,6 +77,11 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
   protected SortedSet<Expr> memberSet;
   //@invariant memberList==null <==> memberSet==null;
   //@invariant memberList!=null ==> memberList.size()==memberSet.size();
+
+  /** There seems to be no reason to need annotations,
+   *  but the interface forces us to have a non-null list.
+   */
+  private ListTerm<Ann> anns_ = new ListTermImpl<Ann>();
   
   /** Returns the next expression in the set.
    *  This is used during the first evaluation of
@@ -294,5 +306,50 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
       return comparator.compare(s1, (EvalSet)s2) == 0;
     else
       return false;
+  }
+
+  public double estSize()
+  {
+    assert(evalMode_ != null);
+    // TODO: should use the ORIGINAL env here, rather than this
+    // output env, which may have a few extra vars added.
+    return estSize(evalMode_.getEnvir());
+  }
+
+  /** Returns an empty list of children. */
+  public Object[] getChildren()
+  {
+    return new Object[0];
+  }
+
+  /** Throws a RuntimeException. */
+  public Term create(Object[] args)
+  {
+    throw new RuntimeException("EvalSet::create not allowed");
+  }
+
+  /** A copy of the TermImpl implementation. */
+  public ListTerm<Ann> getAnns()
+  {
+    return anns_;
+  }
+
+  /** A copy of the TermImpl implementation. */
+  public Object getAnn(Class aClass)
+  {
+    for (Object annotation : anns_) {
+      if (aClass.isInstance(annotation)) {
+        return annotation;
+      }
+    }
+    return null;
+  }
+  
+  public <R> R accept(Visitor<R> visitor)
+  {
+    if (visitor instanceof EvalSetVisitor)
+      return ((EvalSetVisitor<R>)visitor).visitEvalSet(this);
+    else
+      return null;
   }
 }

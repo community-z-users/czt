@@ -24,12 +24,12 @@ import net.sourceforge.czt.util.Visitor;
 /**
  * A FlatNot visitor.
  */
-public interface FlatNotVisitor extends Visitor
+public interface FlatNotVisitor<R> extends Visitor<R>
 {
   /**
    * Visits a FlatNot
    * @param  term the FlatNot to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitFlatNot(FlatNot term);
+  public R visitFlatNot(FlatNot term);
 }

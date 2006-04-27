@@ -12,7 +12,7 @@ import net.sourceforge.czt.util.Visitor;
  *
  * @author leo
  */
-public interface FlatBindingVisitor extends Visitor {
+public interface FlatBindingVisitor<R> extends Visitor<R> {
    
-    public Object visitFlatBinding(FlatBinding term);
+    public R visitFlatBinding(FlatBinding term);
 }

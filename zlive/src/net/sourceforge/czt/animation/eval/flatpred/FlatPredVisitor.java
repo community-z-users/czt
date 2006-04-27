@@ -24,12 +24,12 @@ import net.sourceforge.czt.util.Visitor;
 /**
  * A FlatPred visitor.
  */
-public interface FlatPredVisitor extends Visitor
+public interface FlatPredVisitor<R> extends Visitor<R>
 {
   /**
    * Visits a FlatPred.
    * @param  term the FlatPred to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitFlatPred(FlatPred term);
+  public R visitFlatPred(FlatPred term);
 }

@@ -24,12 +24,12 @@ import net.sourceforge.czt.util.Visitor;
 /**
  * A FlatDiv visitor.
  */
-public interface FlatDivVisitor extends Visitor
+public interface FlatDivVisitor<R> extends Visitor<R>
 {
   /**
    * Visits a FlatDiv.
    * @param  term the FlatDiv to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitFlatDiv(FlatDiv term);
+  public R visitFlatDiv(FlatDiv term);
 }

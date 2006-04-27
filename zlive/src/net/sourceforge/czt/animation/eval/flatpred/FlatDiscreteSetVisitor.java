@@ -24,12 +24,12 @@ import net.sourceforge.czt.util.Visitor;
 /**
  * A FlatDiscreteSet visitor.
  */
-public interface FlatDiscreteSetVisitor extends Visitor
+public interface FlatDiscreteSetVisitor<R> extends Visitor<R>
 {
   /**
    * Visits a FlatDiscreteSet
    * @param  term the FlatDiscreteSet to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitFlatDiscreteSet(FlatDiscreteSet term);
+  public R visitFlatDiscreteSet(FlatDiscreteSet term);
 }

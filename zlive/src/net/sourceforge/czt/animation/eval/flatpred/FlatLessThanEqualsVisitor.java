@@ -22,14 +22,14 @@ package net.sourceforge.czt.animation.eval.flatpred;
 import net.sourceforge.czt.util.Visitor;
 
 /**
- * A FlatLessThanEquals visitor.
+ * A FlatLessThanEquals Visitor.
  */
-public interface FlatLessThanEqualsVisitor extends Visitor
+public interface FlatLessThanEqualsVisitor<R> extends Visitor<R>
 {
   /**
    * Visits a FlatLessThanEquals.
    * @param  term the FlatLessThanEquals to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitFlatLessThanEquals(FlatLessThanEquals term);
+  public R visitFlatLessThanEquals(FlatLessThanEquals term);
 }

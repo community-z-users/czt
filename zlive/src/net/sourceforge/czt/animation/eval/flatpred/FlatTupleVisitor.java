@@ -24,12 +24,12 @@ import net.sourceforge.czt.util.Visitor;
 /**
  * A FlatTuple visitor.
  */
-public interface FlatTupleVisitor extends Visitor
+public interface FlatTupleVisitor<R> extends Visitor<R>
 {
   /**
    * Visits a FlatTuple
    * @param  term the FlatTuple to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitFlatTuple(FlatTuple term);
+  public R visitFlatTuple(FlatTuple term);
 }

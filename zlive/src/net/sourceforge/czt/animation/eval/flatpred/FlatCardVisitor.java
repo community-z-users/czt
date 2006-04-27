@@ -24,12 +24,12 @@ import net.sourceforge.czt.util.Visitor;
 /**
  * A FlatCard visitor.
  */
-public interface FlatCardVisitor extends Visitor
+public interface FlatCardVisitor<R> extends Visitor<R>
 {
   /**
    * Visits a FlatCard.
    * @param  term the FlatCard to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitFlatCard(FlatCard term);
+  public R visitFlatCard(FlatCard term);
 }

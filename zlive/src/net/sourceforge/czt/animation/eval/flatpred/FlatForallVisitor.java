@@ -24,12 +24,12 @@ import net.sourceforge.czt.util.Visitor;
 /**
  * A FlatForall visitor.
  */
-public interface FlatForallVisitor extends Visitor
+public interface FlatForallVisitor<R> extends Visitor<R>
 {
   /**
    * Visits a FlatForall
    * @param  term the FlatForall to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitFlatForall(FlatForall term);
+  public R visitFlatForall(FlatForall term);
 }

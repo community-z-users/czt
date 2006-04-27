@@ -24,12 +24,12 @@ import net.sourceforge.czt.util.Visitor;
 /**
  * A FlatEquals visitor.
  */
-public interface FlatEqualsVisitor extends Visitor
+public interface FlatEqualsVisitor<R> extends Visitor<R>
 {
   /**
    * Visits a FlatEquals.
    * @param  term the FlatEquals to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitFlatEquals(FlatEquals term);
+  public R visitFlatEquals(FlatEquals term);
 }

@@ -166,14 +166,6 @@ public class FlatSetComp extends FlatEvalSet
     return est;
   }
 
-  /** Estimate the size of the set. */
-  public double estSize()
-  {
-    assert(evalMode_ != null);
-    // TODO: should use the ORIGINAL env here, not this one (which has 'set' added).
-   return estSize(evalMode_.getEnvir());
-  }
-
   /** TODO: try and get a better size estimate by equating
    *  elem to the result of the set before estimating its size?
    */

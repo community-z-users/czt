@@ -24,12 +24,12 @@ import net.sourceforge.czt.util.Visitor;
 /**
  * A FlatExists visitor.
  */
-public interface FlatExistsVisitor extends Visitor
+public interface FlatExistsVisitor<R> extends Visitor<R>
 {
   /**
    * Visits a FlatExists
    * @param  term the FlatExists to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitFlatExists(FlatExists term);
+  public R visitFlatExists(FlatExists term);
 }

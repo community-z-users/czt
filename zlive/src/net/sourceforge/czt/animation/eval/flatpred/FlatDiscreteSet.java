@@ -142,13 +142,6 @@ public class FlatDiscreteSet extends FlatEvalSet
   {
     return (double) (args.size() - 1);
   }
-  
-  /** Estimate the size of the set. */
-  public double estSize()
-  {
-    assert(evalMode_ != null);
-    return estSize(evalMode_.getEnvir());
-  }
 
   /** For FlatDiscreteSet, the estSubsetSize is the same as estSize. */
   public double estSubsetSize(Envir env, ZRefName elem)
@@ -162,7 +155,7 @@ public class FlatDiscreteSet extends FlatEvalSet
     return iterator();
   }
 
-  /** Does the actual evaluation */
+  /** Does the actual evaluation. */
   public boolean nextEvaluation()
   {
     assert evalMode_ != null;
@@ -214,9 +207,6 @@ public class FlatDiscreteSet extends FlatEvalSet
 
   /** True iff two EvalSets contain the same elements. */
   public boolean equals(Object otherSet) {
-    if (otherSet instanceof EvalSet)
-      return equalsEvalSet(this,(EvalSet)otherSet);
-    else
-      return false;
+      return equalsEvalSet(this,otherSet);
   }
 }

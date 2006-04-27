@@ -239,13 +239,6 @@ public class FlatRangeSet extends FlatEvalSet
     return setSize(low, high);
   }
 
-  /** Estimate the size of the set after setMode(). */
-  public double estSize()
-  {
-    assert(evalMode_ != null);
-    return estSize(evalMode_.getEnvir());
-  }
-
   private class RangeSetIterator implements Iterator<Expr>
   {
     protected BigInteger current_;
@@ -455,10 +448,8 @@ public class FlatRangeSet extends FlatEvalSet
       else
         return (lower_ == null || lower_.equals(rset.lower_))
             && (upper_ == null || upper_.equals(rset.upper_));
-    } else if (other instanceof EvalSet) {
+    } 
+    else
       return equalsEvalSet(this,(EvalSet)other);
-    } else {
-      return false;
-    }
   }
 }

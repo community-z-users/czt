@@ -24,12 +24,12 @@ import net.sourceforge.czt.util.Visitor;
 /**
  * A FlatNegate visitor.
  */
-public interface FlatNegateVisitor extends Visitor
+public interface FlatNegateVisitor<R> extends Visitor<R>
 {
   /**
    * Visits a FlatNegate.
    * @param  term the FlatNegate to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitFlatNegate(FlatNegate term);
+  public R visitFlatNegate(FlatNegate term);
 }

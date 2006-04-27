@@ -24,13 +24,13 @@ import net.sourceforge.czt.util.Visitor;
 /**
  * A FlatOr visitor.
  */
-public interface FlatOrVisitor extends Visitor
+public interface FlatOrVisitor<R> extends Visitor<R>
 {
   /**
    * Visits a FlatOr
    * @param  term the FlatOr to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitFlatOr(FlatOr term);
+  public R visitFlatOr(FlatOr term);
 }
 

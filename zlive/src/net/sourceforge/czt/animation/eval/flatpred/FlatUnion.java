@@ -270,9 +270,9 @@ public class FlatUnion extends FlatEvalSet {
        having the same elements, not taking into consideration
        the duplication of elements.
      */
-    public boolean equals(Object o)
+    public boolean equals(Object obj)
     {
-      return equalsEvalSet(this, o);
+      return equalsEvalSet(this, obj);
     }
     
     

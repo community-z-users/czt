@@ -19,19 +19,35 @@
 
 package net.sourceforge.czt.animation.eval;
 
-import net.sourceforge.czt.animation.eval.flatpred.*;
-import net.sourceforge.czt.base.ast.*;
+import java.util.List;
+
+import net.sourceforge.czt.animation.eval.flatpred.FlatConst;
+import net.sourceforge.czt.animation.eval.flatpred.FlatConstVisitor;
+import net.sourceforge.czt.animation.eval.flatpred.FlatEquals;
+import net.sourceforge.czt.animation.eval.flatpred.FlatEqualsVisitor;
+import net.sourceforge.czt.animation.eval.flatpred.FlatMult;
+import net.sourceforge.czt.animation.eval.flatpred.FlatMultVisitor;
+import net.sourceforge.czt.animation.eval.flatpred.FlatNegate;
+import net.sourceforge.czt.animation.eval.flatpred.FlatNegateVisitor;
+import net.sourceforge.czt.animation.eval.flatpred.FlatPlus;
+import net.sourceforge.czt.animation.eval.flatpred.FlatPlusVisitor;
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
-import net.sourceforge.czt.util.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.OperatorName;
+import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.RefExpr;
+import net.sourceforge.czt.z.ast.ZRefName;
 import net.sourceforge.czt.z.util.Factory;
+import net.sourceforge.czt.z.util.OperatorName;
 import net.sourceforge.czt.z.util.ZString;
 
 /**
  * Converts an AST containing classes that are internal to zlive
  * and converts it into a standard Z AST.
+ * TODO:  this class is currently unused and incomplete.
+ *        It will need to have lots of visit methods added before
+ *        it is usable.
  */
 public class ZLiveToAstVisitor
   implements TermVisitor,
@@ -50,26 +66,26 @@ public class ZLiveToAstVisitor
 
   public Object visitFlatConst(FlatConst flatConst)
   {
-    Object[] children = flatConst.getChildren();
-    Expr leftExpr = factory_.createRefExpr((ZRefName) children[0]);
-    Expr rightExpr = (Expr) children[1];
+    List<ZRefName> children = flatConst.getArgs();
+    Expr leftExpr = factory_.createRefExpr(children.get(0));
+    Expr rightExpr = (Expr) children.get(1);
     return factory_.createEquality(leftExpr, rightExpr);
   }
 
   public Object visitFlatEquals(FlatEquals flatEquals)
   {
-    Object[] children = flatEquals.getChildren();
-    Expr leftExpr = factory_.createRefExpr((ZRefName) children[0]);
-    Expr rightExpr = factory_.createRefExpr((ZRefName) children[1]);
+    List<ZRefName> children = flatEquals.getArgs();
+    Expr leftExpr = factory_.createRefExpr(children.get(0));
+    Expr rightExpr = factory_.createRefExpr(children.get(1));
     return factory_.createEquality(leftExpr, rightExpr);
   }
 /*
   public Object visitFlatLessThan(FlatLessThan less)
   {
     try {
-      Object[] children = less.getChildren();
-      ZRefName a = (ZRefName) children[0];
-      ZRefName b = (ZRefName) children[1];
+      List<ZRefName> children = less.getArgs();
+      ZRefName a = children.get(0);
+      ZRefName b = children.get(1);
       final OperatorName.Fixity infix = OperatorName.Fixity.INFIX;
       OperatorName opName = new OperatorName(ZString.LESS, null, infix);
       ZRefName refName = factory_.createZRefName(opName.getWord(), null);
@@ -85,9 +101,9 @@ public class ZLiveToAstVisitor
   public Object visitFlatLessThanEquals(FlatLessThanEquals lt)
   {
     try {
-      Object[] children = lt.getChildren();
-      ZRefName a = (ZRefName) children[0];
-      ZRefName b = (ZRefName) children[1];
+      List<ZRefName> children = lt.getArgs();
+      ZRefName a = children.get(0);
+      ZRefName b = children.get(1);
       final OperatorName.Fixity infix = OperatorName.Fixity.INFIX;
       OperatorName opName = new OperatorName(ZString.LEQ, null, infix);
       ZRefName refName = factory_.createZRefName(opName.getWord(), null);
@@ -103,10 +119,10 @@ public class ZLiveToAstVisitor
   public Object visitFlatMult(FlatMult flatMult)
   {
     try {
-      Object[] children = flatMult.getChildren();
-      ZRefName a = (ZRefName) children[0];
-      ZRefName b = (ZRefName) children[1];
-      ZRefName c = (ZRefName) children[2];
+      List<ZRefName> children = flatMult.getArgs();
+      ZRefName a = children.get(0);
+      ZRefName b = children.get(1);
+      ZRefName c = children.get(2);
       final OperatorName.Fixity infix = OperatorName.Fixity.INFIX;
       OperatorName opName = new OperatorName(ZString.MULT, null, infix);
       ZRefName refName = factory_.createZRefName(opName.getWord(), null);
@@ -124,9 +140,9 @@ public class ZLiveToAstVisitor
   public Object visitFlatNegate(FlatNegate flatNegate)
   {
     try {
-      Object[] children = flatNegate.getChildren();
-      ZRefName a = (ZRefName) children[0];
-      ZRefName b = (ZRefName) children[1];
+      List<ZRefName> children = flatNegate.getArgs();
+      ZRefName a = children.get(0);
+      ZRefName b = children.get(1);
       final OperatorName.Fixity fix = OperatorName.Fixity.PREFIX;
       OperatorName opName = new OperatorName(ZString.NEG, null, fix);
       ZRefName refName = factory_.createZRefName(opName.getWord(), null);
@@ -143,10 +159,10 @@ public class ZLiveToAstVisitor
   public Object visitFlatPlus(FlatPlus flatPlus)
   {
     try {
-      Object[] children = flatPlus.getChildren();
-      ZRefName a = (ZRefName) children[0];
-      ZRefName b = (ZRefName) children[1];
-      ZRefName c = (ZRefName) children[2];
+      List<ZRefName> children = flatPlus.getArgs();
+      ZRefName a = children.get(0);
+      ZRefName b = children.get(1);
+      ZRefName c = children.get(2);
       final OperatorName.Fixity infix = OperatorName.Fixity.INFIX;
       OperatorName opName = new OperatorName(ZString.PLUS, null, infix);
       ZRefName refName = factory_.createZRefName(opName.getWord(), null);

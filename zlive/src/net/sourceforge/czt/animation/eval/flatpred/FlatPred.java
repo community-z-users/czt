@@ -18,19 +18,17 @@
 */
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.ZRefName;
-import net.sourceforge.czt.z.impl.PredImpl;
 
 /** FlatPred is the base class of the flattened predicates used in ZLive.
     Each flattened predicate can be evaluated in one or more different
@@ -59,7 +57,7 @@ import net.sourceforge.czt.z.impl.PredImpl;
     compared, which gives more flexibility in the searching algorithms
     that use modes.
  */
-public abstract class FlatPred extends PredImpl
+public abstract class FlatPred
 {
   protected static final Logger LOG
   = Logger.getLogger("net.sourceforge.czt.animation.eval");
@@ -89,6 +87,14 @@ public abstract class FlatPred extends PredImpl
   protected FlatPred()
   {
     args = new ArrayList<ZRefName>();
+  }
+
+  /** Get the list of variables that this predicate depends upon.
+   *  This should be treated as a read-only list.
+   */
+  public List<ZRefName> getArgs()
+  {
+    return args;
   }
 
   /** Get the mode that has been set for evaluation purposes. */
@@ -275,42 +281,11 @@ public abstract class FlatPred extends PredImpl
       should override this to call more specific visitXXX methods
       (and should call super to handle the remaining cases).
   */
-  public Object accept(Visitor visitor)
+  public <R> R accept(Visitor<R> visitor)
   {
     if (visitor instanceof FlatPredVisitor)
-      return ((FlatPredVisitor)visitor).visitFlatPred(this);
+      return ((FlatPredVisitor<R>)visitor).visitFlatPred(this);
     else
-      return super.accept(visitor);
-  }
-
-  /** Returns the args of this FlatPred.
-      The default implementation just returns args.
-      Subclasses that have additional arguments should override this method.
-  */
-  public /*@non_null@*/ Object[] getChildren()
-  {
-     return args.toArray();
-  }
-
-  /** Creates a new FlatPred of the same type as this one.
-      The default implementation uses reflection to call the
-      FlatXXX(Object[] args) constructor of the subclass.
-      Subtypes that need more specific initialisation could
-      override this.
-  */
-  public /*@non_null@*/ Pred create(/*@non_null@*/ Object[] newargs)
-  {
-    try {
-      ArrayList<ZRefName> args = new ArrayList<ZRefName>(newargs.length);
-      for (int i = 0; i < newargs.length; i++)
-        args.set(i, (ZRefName)newargs[i]);
-      Class[] paramTypes = {args.getClass()};
-      Constructor cons = this.getClass().getConstructor(paramTypes);
-      Object[] params = {args};
-      return (Pred) cons.newInstance(params);
-    }
-    catch (Exception e) {
-      throw new IllegalArgumentException ("Bad arguments to create",e);
-    }
+      return null;
   }
 }

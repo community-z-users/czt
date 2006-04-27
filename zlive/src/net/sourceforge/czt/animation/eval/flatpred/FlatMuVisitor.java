@@ -24,12 +24,12 @@ import net.sourceforge.czt.util.Visitor;
 /**
  * A FlatMu visitor.
  */
-public interface FlatMuVisitor extends Visitor
+public interface FlatMuVisitor<R> extends Visitor<R>
 {
   /**
    * Visits a FlatMu
    * @param  term the FlatMu to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitFlatMu(FlatMu term);
+  public R visitFlatMu(FlatMu term);
 }
