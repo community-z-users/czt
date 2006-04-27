@@ -93,7 +93,7 @@ public class ErrorAnn
 
   public int getLine()
   {
-    if (locAnn_ != null) {
+    if (locAnn_ != null && locAnn_.getLine() != null) {
       return locAnn_.getLine();
     }
     return -1;
@@ -101,7 +101,7 @@ public class ErrorAnn
 
   public int getColumn()
   {
-    if (locAnn_ != null) {
+    if (locAnn_ != null && locAnn_.getCol() != null) {
       return locAnn_.getCol();
     }
     return -1;
@@ -122,11 +122,17 @@ public class ErrorAnn
 
   public int getStart()
   {
+    if (locAnn_ != null && locAnn_.getStart() != null) {
+      return locAnn_.getStart();
+    }
     return -1;
   }
 
   public int getLength()
   {
+    if (locAnn_ != null && locAnn_.getLength() != null) {
+      return locAnn_.getLength();
+    }
     return -1;
   }
 
