@@ -8,24 +8,38 @@
     <section>
       <title>About CZT</title>
       <p>
-        The Community Z Tools (CZT) project is a set of tools for
-        editing, typechecking and animating formal specifications
-        written in the Z specification language.
+        The Community Z Tools (CZT) project is an open-source Java
+        framework for building formal methods tools for Z and Z
+        dialects.  It includes a set of tools for parsing,
+        typechecking, transforming, animating and printing ISO
+        Standard Z conforming specifications in LaTeX, Unicode and XML
+        formats.
       </p>
       <p>
-        For historical reasons, there are two bundles on the sourceforge
-        web-site.  The bundle "corejava" is deprecated and contains
-        only old releases of corejava.  The bundle "czt" is a collection
-        of tools like parser and typechecker, and also contains "corejava".
+        The latest version includes parser, typechecker and printer
+        for Z and Object Z, an animator for Z (supports only a
+        restricted subset of Z) as well as jEdit plugins that give
+        WYSIWYG editing of Z specifications and easy access to
+        the CZT tools.
+      </p>
+      <p>
+        Source releases can be downloaded from <link
+          href="http://sourceforge.net/project/showfiles.php?group_id=86250">
+          Sourceforge
+        </link>
+        There are three bundles on this web-site.  The
+        bundle "corejava" is deprecated and contains only old releases
+        of corejava.  The bundle "czt" is a collection of all the
+        tools that we consider mature enough to be distributed, and
+        also contains "corejava".  The bundle "typechecker" contains a
+        stand-alone typechecker for Z and Object Z specifications.<br/>
+        Binary releases can be downloaded from <link
+          href="http://www.cs.waikato.ac.nz/~petra/">Petra's web-site
+        </link>.
       </p>
     </section>
     <section>
       <title>Source Releases</title>
-      <p>
-        This manual assumes you want to install czt_0_4 or czt_0_3.
-        <link href="installation.html">Here</link> are installation
-        instructions for the older czt releases czt_0_1 and czt_0_2.
-      </p>
       <section>
         <title>Prerequisites</title>
         <p>
@@ -34,23 +48,20 @@
         <ul>
           <li>
             <link href="site:jdk">
-              Java 2 SDK 1.5 or higher
+              Java 2 SDK 1.5
             </link>
           </li>
           <li>
-            <link href="site:ant">Ant 1.6 or higher</link>
-          </li>
-          <li>
-            <link href="site:beanshell">BeanShell</link>
+            <link href="site:ant">Ant 1.6</link>
           </li>
           <li>
             <link href="site:jflex">
-              JFlex 1.4.1 or higher
+              JFlex 1.4.1
             </link>
           </li>
           <li>
             <link href="site:jwsdp">
-              JWSDP 1.5 or higher
+              JWSDP 1.6
             </link>
           </li>
         </ul>
