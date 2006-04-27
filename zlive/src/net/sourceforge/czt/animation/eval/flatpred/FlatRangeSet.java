@@ -75,18 +75,18 @@ public class FlatRangeSet extends FlatEvalSet
    */
   public FlatRangeSet(ZRefName lowerBound, ZRefName upperBound, ZRefName set)
   {
-    args = new ArrayList<ZRefName>();
+    args_ = new ArrayList<ZRefName>();
     if (lowerBound != null) {
-      lowerArg_ = args.size();
-      args.add(lowerBound);
+      lowerArg_ = args_.size();
+      args_.add(lowerBound);
     }
     if (upperBound != null) {
-      upperArg_ = args.size();
-      args.add(upperBound);
+      upperArg_ = args_.size();
+      args_.add(upperBound);
     }
-    setArg_ = args.size();
-    args.add(set);
-    solutionsReturned = -1;
+    setArg_ = args_.size();
+    args_.add(set);
+    solutionsReturned_ = -1;
   }
 
   /** Saves the Bounds information for later use.
@@ -97,7 +97,7 @@ public class FlatRangeSet extends FlatEvalSet
   public boolean inferBounds(Bounds bnds)
   {
     bounds_ = bnds;
-    return bnds.setEvalSet(args.get(setArg_),this);
+    return bnds.setEvalSet(args_.get(setArg_),this);
   }
 
   public BigInteger getLower()
@@ -107,7 +107,7 @@ public class FlatRangeSet extends FlatEvalSet
     if (lower_ != null)
       result = lower_;
     else if (lowerArg_ >= 0 && bounds_ != null)
-      result = bounds_.getLower(args.get(lowerArg_));
+      result = bounds_.getLower(args_.get(lowerArg_));
 	LOG.exiting("FlatRangeSet", "getLower", result);
     return result;
   }
@@ -119,7 +119,7 @@ public class FlatRangeSet extends FlatEvalSet
     if (upper_ != null)
       result = upper_;
     if (upperArg_ >= 0 && bounds_ != null)
-      result = bounds_.getUpper(args.get(upperArg_));
+      result = bounds_.getUpper(args_.get(upperArg_));
 	LOG.exiting("FlatRangeSet", "getUpper", result);
     return result;
   }
@@ -142,7 +142,7 @@ public class FlatRangeSet extends FlatEvalSet
     Mode m = modeFunction(env);
     // bind (set |-> this), so that size estimates work better.
     if (m != null)
-      m.getEnvir().setValue(args.get(setArg_), this);
+      m.getEnvir().setValue(args_.get(setArg_), this);
     return m;
   }
 
@@ -158,7 +158,7 @@ public class FlatRangeSet extends FlatEvalSet
   {
     if (boundArg < 0)
       return null;
-    ZRefName bound = args.get(boundArg);
+    ZRefName bound = args_.get(boundArg);
     BigInteger result = null;
     Expr e = null;
     if (env != null)
@@ -187,7 +187,7 @@ public class FlatRangeSet extends FlatEvalSet
   /** This should only be called after nextEvaluation(). */
   public int size()
   {
-    assert 0 < solutionsReturned;
+    assert 0 < solutionsReturned_;
     if (lower_ == null || upper_ == null)
       return Integer.MAX_VALUE;
     else
@@ -323,15 +323,15 @@ public class FlatRangeSet extends FlatEvalSet
   public boolean nextEvaluation()
   {
     assert evalMode_ != null;
-    assert solutionsReturned >= 0;
+    assert solutionsReturned_ >= 0;
     Envir env = evalMode_.getEnvir();
     boolean result = false;
     lower_ = getBound(env, lowerArg_);
     upper_ = getBound(env, upperArg_);
-    ZRefName setName = args.get(setArg_);
-    if(solutionsReturned==0)
+    ZRefName setName = args_.get(setArg_);
+    if(solutionsReturned_==0)
     {
-      solutionsReturned++;
+      solutionsReturned_++;
       resetResult();
       if (evalMode_.isInput(setArg_)) {
         Expr otherSet = env.lookup(setName);
@@ -375,14 +375,14 @@ public class FlatRangeSet extends FlatEvalSet
     if (lowerArg_ < 0)
       result.append("-");
     else
-      result.append(args.get(lowerArg_));
+      result.append(args_.get(lowerArg_));
     result.append(",");
     if (upperArg_ < 0)
       result.append("-");
     else
-      result.append(args.get(upperArg_));
+      result.append(args_.get(upperArg_));
     result.append(",");
-    result.append(args.get(setArg_));
+    result.append(args_.get(setArg_));
     result.append(")");
     return result.toString();
   }

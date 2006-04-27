@@ -58,13 +58,13 @@ public class FlatUnion extends FlatEvalSet {
     /** Creates a new instance of FlatUnion */
     public FlatUnion(ZRefName a, ZRefName b, ZRefName s)
     {
-      args = new ArrayList<ZRefName>();
-      args.add(a);
-      args.add(b);
-      args.add(s);
+      args_ = new ArrayList<ZRefName>();
+      args_.add(a);
+      args_.add(b);
+      args_.add(s);
       leftSet_ = null;
       rightSet_ = null;
-      solutionsReturned = -1;
+      solutionsReturned_ = -1;
     }
 
     public Mode chooseMode(Envir env) {
@@ -74,19 +74,19 @@ public class FlatUnion extends FlatEvalSet {
     
     public boolean nextEvaluation() {
       assert(evalMode_ != null);
-      assert(solutionsReturned >= 0);
+      assert(solutionsReturned_ >= 0);
       boolean result = false;
-      if (solutionsReturned == 0) {
-        solutionsReturned++;
+      if (solutionsReturned_ == 0) {
+        solutionsReturned_++;
         resetResult();
         boolean inputsKnown = findSets();
         assert inputsKnown;
         
         if (evalMode_.isInput(2)) {
-          result = this.equals(evalMode_.getEnvir().lookup(args.get(2)));
+          result = this.equals(evalMode_.getEnvir().lookup(args_.get(2)));
         }
         else {
-          evalMode_.getEnvir().setValue(args.get(2),this);
+          evalMode_.getEnvir().setValue(args_.get(2),this);
           result = true;
         }
         
@@ -106,8 +106,8 @@ public class FlatUnion extends FlatEvalSet {
       if (leftSet_ == null || rightSet_ == null) {
         Envir env = getEnvir();
         if (env != null) {
-          leftSet_ = (EvalSet) env.lookup(args.get(0));
-          rightSet_ = (EvalSet) env.lookup(args.get(1));
+          leftSet_ = (EvalSet) env.lookup(args_.get(0));
+          rightSet_ = (EvalSet) env.lookup(args_.get(1));
         }
       }
       return leftSet_ != null && rightSet_ != null;
@@ -125,15 +125,15 @@ public class FlatUnion extends FlatEvalSet {
     public boolean inferBounds(Bounds bnds)
     {
       bounds_ = bnds;
-      return bnds.setEvalSet(args.get(args.size()-1), this);
+      return bnds.setEvalSet(args_.get(args_.size()-1), this);
     }
 
     /** The lower bound on numeric elements, if any, else null. */
     public BigInteger getLower()
     {
       BigInteger result = null;
-      ZRefName a = args.get(0);
-      ZRefName b = args.get(1);
+      ZRefName a = args_.get(0);
+      ZRefName b = args_.get(1);
       EvalSet left = (EvalSet) bounds_.getEvalSet(a);
       EvalSet right = (EvalSet) bounds_.getEvalSet(b);
       if (left != null && right != null) {
@@ -149,8 +149,8 @@ public class FlatUnion extends FlatEvalSet {
     public BigInteger getUpper()
     {
       BigInteger result = null;
-      ZRefName a = args.get(0);
-      ZRefName b = args.get(1);
+      ZRefName a = args_.get(0);
+      ZRefName b = args_.get(1);
       EvalSet left = (EvalSet) bounds_.getEvalSet(a);
       EvalSet right = (EvalSet) bounds_.getEvalSet(b);
       if (left != null && right != null) {
@@ -192,8 +192,8 @@ public class FlatUnion extends FlatEvalSet {
     /** Estimate the size of the set in a given environment. */
     public double estSize(Envir env)
     {
-      EvalSet left = (EvalSet) env.lookup(args.get(0));
-      EvalSet right = (EvalSet) env.lookup((args.get(1)));
+      EvalSet left = (EvalSet) env.lookup(args_.get(0));
+      EvalSet right = (EvalSet) env.lookup((args_.get(1)));
       if (left != null && right != null) {
         return left.estSize() + right.estSize();
         }
@@ -206,8 +206,8 @@ public class FlatUnion extends FlatEvalSet {
      */
     public double estSubsetSize(Envir env, ZRefName elem)
     {
-      EvalSet left = (EvalSet) env.lookup(args.get(0));
-      EvalSet right = (EvalSet) env.lookup((args.get(1)));
+      EvalSet left = (EvalSet) env.lookup(args_.get(0));
+      EvalSet right = (EvalSet) env.lookup((args_.get(1)));
       if (left != null && right != null)
         return left.estSubsetSize(env, elem) + right.estSubsetSize(env, elem);
       else
@@ -216,7 +216,7 @@ public class FlatUnion extends FlatEvalSet {
 
   protected Expr nextMember()
   {
-    assert solutionsReturned > 0; // nextEvaluation() must have succeeded.
+    assert solutionsReturned_ > 0; // nextEvaluation() must have succeeded.
     while (memberIterator_ != null) {
       if (memberIterator_.hasNext())
         return memberIterator_.next();
@@ -242,7 +242,7 @@ public class FlatUnion extends FlatEvalSet {
      */
     public Iterator<Expr> subsetIterator(ZRefName element)
     {
-      assert solutionsReturned > 0;  // nextEvaluation() must have succeeded.
+      assert solutionsReturned_ > 0;  // nextEvaluation() must have succeeded.
       Set<Expr> subset = new HashSet<Expr>();
       // generate all subset members from BOTH sets.
       // Any duplicates will be removed, thanks to the HashSet.

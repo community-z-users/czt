@@ -52,9 +52,9 @@ public class FlatDiscreteSet extends FlatEvalSet
   {
     // remove duplicate ZRefNames
     Set<ZRefName> noDups = new HashSet<ZRefName>(elements);
-    args = new ArrayList<ZRefName>(noDups);
-    args.add(set);
-    solutionsReturned = -1;
+    args_ = new ArrayList<ZRefName>(noDups);
+    args_.add(set);
+    solutionsReturned_ = -1;
   }
 
   //@ requires newargs.size() >= 1;
@@ -69,7 +69,7 @@ public class FlatDiscreteSet extends FlatEvalSet
   public boolean inferBounds(Bounds bnds)
   {
     bounds_ = bnds;
-    return bnds.setEvalSet(args.get(args.size()-1), this);
+    return bnds.setEvalSet(args_.get(args_.size()-1), this);
   }
 
   /** Calculates minimum of the lower bounds of all the elements.
@@ -81,13 +81,13 @@ public class FlatDiscreteSet extends FlatEvalSet
   {
     if (bounds_ == null)
       return null;
-    int numElems = args.size()-1;
+    int numElems = args_.size()-1;
     if (numElems <= 0)
       return null;
     // calculate min of all the elements (null = -infinity).
-    BigInteger result = bounds_.getLower(args.get(0));
+    BigInteger result = bounds_.getLower(args_.get(0));
     for (int i=1; result != null && i < numElems; i++) {
-      BigInteger tmp = bounds_.getLower(args.get(i));
+      BigInteger tmp = bounds_.getLower(args_.get(i));
       if (tmp == null)
 	result = tmp;
       else
@@ -105,13 +105,13 @@ public class FlatDiscreteSet extends FlatEvalSet
   {
     if (bounds_ == null)
       return null;
-    int numElems = args.size()-1;
+    int numElems = args_.size()-1;
     if (numElems <= 0)
       return null;
     // calculate max of all the elements (null = infinity).
-    BigInteger result = bounds_.getUpper(args.get(0));
+    BigInteger result = bounds_.getUpper(args_.get(0));
     for (int i=1; result != null && i < numElems; i++) {
-      BigInteger tmp = bounds_.getUpper(args.get(i));
+      BigInteger tmp = bounds_.getUpper(args_.get(i));
       if (tmp == null)
 	result = tmp;
       else
@@ -126,7 +126,7 @@ public class FlatDiscreteSet extends FlatEvalSet
     Mode m = modeFunction(env);
     // bind (set |-> this), so that size estimates work better.
     if (m != null)
-      m.getEnvir().setValue(args.get(args.size()-1), this);
+      m.getEnvir().setValue(args_.get(args_.size()-1), this);
     return m;
   }
 
@@ -134,13 +134,13 @@ public class FlatDiscreteSet extends FlatEvalSet
    */
   public BigInteger maxSize()
   {
-    return BigInteger.valueOf(args.size()-1);
+    return BigInteger.valueOf(args_.size()-1);
   }
 
   /** Estimate the size of the set. */
   public double estSize(Envir env)
   {
-    return (double) (args.size() - 1);
+    return (double) (args_.size() - 1);
   }
 
   /** For FlatDiscreteSet, the estSubsetSize is the same as estSize. */
@@ -159,16 +159,16 @@ public class FlatDiscreteSet extends FlatEvalSet
   public boolean nextEvaluation()
   {
     assert evalMode_ != null;
-    assert solutionsReturned >= 0;
-    for (int i=0;i<args.size()-1;i++)
+    assert solutionsReturned_ >= 0;
+    for (int i=0;i<args_.size()-1;i++)
       assert evalMode_.isInput(i);
     boolean result = false;
-    ZRefName set = args.get(args.size()-1);
-    if(solutionsReturned==0)
+    ZRefName set = args_.get(args_.size()-1);
+    if(solutionsReturned_==0)
     {
-      solutionsReturned++;
+      solutionsReturned_++;
       resetResult();
-      if (evalMode_.isInput(args.size()-1)) {
+      if (evalMode_.isInput(args_.size()-1)) {
         Expr otherSet = evalMode_.getEnvir().lookup(set);
         result = equals(otherSet);
       } else {
@@ -183,12 +183,12 @@ public class FlatDiscreteSet extends FlatEvalSet
 
   protected Expr nextMember()
   {
-    assert solutionsReturned > 0;
-    int numExprs = args.size() - 1;
+    assert solutionsReturned_ > 0;
+    int numExprs = args_.size() - 1;
     if (membersReturned == numExprs)
       return null;
     Envir env = evalMode_.getEnvir();
-    ZRefName var = args.get(membersReturned);
+    ZRefName var = args_.get(membersReturned);
     Expr result = env.lookup(var);
     membersReturned++;
     return result;

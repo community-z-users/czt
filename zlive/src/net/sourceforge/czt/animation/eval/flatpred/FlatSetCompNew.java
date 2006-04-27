@@ -98,9 +98,9 @@ public class FlatSetCompNew extends FlatSetComp {
             
             // Create the Env I = freeVars() + env
             BitSet inputs = getInputs(env);
-            for(int i=0;i<args.size();i++) {
+            for(int i=0;i<args_.size();i++) {
                 if ( ! (inputs.get(i)) == false)
-                    env = env.plus(args.get(i),null);
+                    env = env.plus(args_.get(i),null);
             }
             bodyMode_ = null; // reset bodyMode
             Envir D = EnvirUtils.copy(declsEnv_);
@@ -120,7 +120,7 @@ public class FlatSetCompNew extends FlatSetComp {
         }
         // bind (set |-> this), so that size estimates work better.
         if (m != null)
-            m.getEnvir().setValue(args.get(args.size()-1), this);
+            m.getEnvir().setValue(args_.get(args_.size()-1), this);
         return m;
     }
 }

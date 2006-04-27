@@ -60,10 +60,10 @@ public class FlatBinding extends FlatPred
           "FlatBinding contains duplicate names: " + names);
 
     bindNames = names;
-    args = new ArrayList<ZRefName>();
-    args.addAll(exprs);
-    args.add(bind);
-    solutionsReturned = -1;
+    args_ = new ArrayList<ZRefName>();
+    args_.addAll(exprs);
+    args_.add(bind);
+    solutionsReturned_ = -1;
   }
 
   /** Same modes as FlatTuple
@@ -75,13 +75,13 @@ public class FlatBinding extends FlatPred
     if (m == null) {
       BitSet inputs = getInputs(env);
       double solutions = 0.0;
-      if (inputs.get(args.size() - 1)) {
+      if (inputs.get(args_.size() - 1)) {
         solutions = 1.0;
         if (inputs.cardinality() > 1)
           solutions = 0.5;
-        for (int i = 0; i < args.size() - 1; i++) {
+        for (int i = 0; i < args_.size() - 1; i++) {
           if (!inputs.get(i))
-            env = env.plus(args.get(i), null);
+            env = env.plus(args_.get(i), null);
         }
         m = new Mode(env, inputs, solutions);
       }
@@ -92,10 +92,10 @@ public class FlatBinding extends FlatPred
   /** Checks that the binding is an input, or ALL the other parameters are inputs. */
   private boolean assertInputArgs()
   {
-    boolean result = evalMode_.isInput(args.size() - 1);
+    boolean result = evalMode_.isInput(args_.size() - 1);
     if (!result) {
       result = true;
-      for (int i = 0; result && i < args.size() - 1; i++)
+      for (int i = 0; result && i < args_.size() - 1; i++)
         result = evalMode_.isInput(i);
     }
     return result;
@@ -104,18 +104,18 @@ public class FlatBinding extends FlatPred
   public boolean nextEvaluation()
   {
     assert (evalMode_ != null);
-    assert (solutionsReturned >= 0);
+    assert (solutionsReturned_ >= 0);
     assert (assertInputArgs());
     boolean result = false;
-    if (solutionsReturned == 0) {
+    if (solutionsReturned_ == 0) {
       //bindName contains the ZRefName which refers to the bind Expression in the env
-      ZRefName bindName = args.get(args.size() - 1);
+      ZRefName bindName = args_.get(args_.size() - 1);
 
-      solutionsReturned++;
+      solutionsReturned_++;
       Envir env = evalMode_.getEnvir();
 
       //The case where the binding itself is an input
-      if (evalMode_.isInput(args.size() - 1)) {
+      if (evalMode_.isInput(args_.size() - 1)) {
         BindExpr bindExpr = (BindExpr) env.lookup(bindName);
         List<Decl> bindingsList = bindExpr.getZDeclList().getDecl();
         //no. of elements in env.binding should be same as bindNames
@@ -124,7 +124,7 @@ public class FlatBinding extends FlatPred
               +bindingsList.size()+" and "+bindNames.size());
         result = true;  // we start optimistic
         for (int i = 0; i < bindNames.size(); i++) {
-          ZRefName exprName = args.get(i);
+          ZRefName exprName = args_.get(i);
           ZDeclName boundName = bindNames.get(i);
           // find the corresponding boundName in bindingsList
           // TODO: this is O(N^2) in the length of the binding lists.
@@ -153,7 +153,7 @@ public class FlatBinding extends FlatPred
         result = true;
         List<Decl> declList = new ArrayList<Decl>(bindNames.size());
         for (int i = 0; i < bindNames.size(); i++) {
-          ConstDecl cdecl = factory_.createConstDecl(bindNames.get(i), env.lookup(args.get(i)));
+          ConstDecl cdecl = factory_.createConstDecl(bindNames.get(i), env.lookup(args_.get(i)));
           declList.add(cdecl);
         }
         Expr bindExpr = factory_.createBindExpr(factory_.createZDeclList(declList));

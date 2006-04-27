@@ -52,9 +52,7 @@ import net.sourceforge.czt.z.ast.ZRefName;
  *  TODO: implement hashCode and equals properly.
  */
 public abstract class FlatEvalSet extends FlatPred implements EvalSet
-{
-  protected static ExprComparator comparator = new ExprComparator();
-  
+{  
   /** True iff all members of the set have been evaluated. */
   protected boolean fullyEvaluated = false;
   //@invariant fullyEvaluated ==> memberList != null;
@@ -103,7 +101,7 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
     if (memberList == null) {
       assert memberSet == null;
       memberList = new ArrayList<Expr>();
-      memberSet = new TreeSet<Expr>(new ExprComparator());
+      memberSet = new TreeSet<Expr>(ExprComparator.create());
     }
     while (true) {
       Expr next = nextMember();
@@ -303,7 +301,7 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
    */
   public boolean equalsEvalSet(/*@non_null@*/EvalSet s1, Object s2) {
     if (s2 instanceof EvalSet)
-      return comparator.compare(s1, (EvalSet)s2) == 0;
+      return ExprComparator.create().compare(s1, (EvalSet)s2) == 0;
     else
       return false;
   }

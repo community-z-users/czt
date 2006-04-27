@@ -38,10 +38,10 @@ public class FlatTupleSel extends FlatPred
     if (i <= 0)
       throw new CztException("Illegal tuple selection index: " + i);
     selection = i;
-    args = new ArrayList<ZRefName>(2);
-    args.add(tuple);
-    args.add(result);
-    solutionsReturned = -1;
+    args_ = new ArrayList<ZRefName>(2);
+    args_.add(tuple);
+    args_.add(result);
+    solutionsReturned_ = -1;
   }
   
   /** Chooses the mode in which the predicate can be evaluated.*/
@@ -55,12 +55,12 @@ public class FlatTupleSel extends FlatPred
   throws EvalException
   {
     assert(evalMode_ != null);
-    assert(solutionsReturned >= 0);
+    assert(solutionsReturned_ >= 0);
     boolean result = false;
-    if(solutionsReturned == 0) {
-      solutionsReturned++;
+    if(solutionsReturned_ == 0) {
+      solutionsReturned_++;
       if (evalMode_.isInput(0)) {
-        Expr expr = evalMode_.getEnvir().lookup(args.get(0));
+        Expr expr = evalMode_.getEnvir().lookup(args_.get(0));
 	if ( ! (expr instanceof TupleExpr))
 	  throw new EvalException("Tuple selection cannot handle non-tuple: " + expr);
 	TupleExpr tuple = (TupleExpr) expr;
@@ -71,12 +71,12 @@ public class FlatTupleSel extends FlatPred
 
 	if (evalMode_.isInput(1)) {
 	  // Now check selected against the output
-	  Expr output = evalMode_.getEnvir().lookup(args.get(1));
+	  Expr output = evalMode_.getEnvir().lookup(args_.get(1));
 	  result = output.equals(selected);
 	}
 	else {
 	  // Now assign selected to the result
-          evalMode_.getEnvir().setValue(args.get(1), selected);
+          evalMode_.getEnvir().setValue(args_.get(1), selected);
           result = true;
         }
       }

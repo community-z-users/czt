@@ -31,9 +31,9 @@ public class FlatNot extends FlatPred
 
   public FlatNot(FlatPredList fps)
   {
-    args = new ArrayList<ZRefName>(fps.freeVars());
+    args_ = new ArrayList<ZRefName>(fps.freeVars());
     predlist_ = fps;
-    solutionsReturned = -1;
+    solutionsReturned_ = -1;
   }
 
   /** Chooses the mode in which the predicate can be evaluated.*/
@@ -69,8 +69,8 @@ public class FlatNot extends FlatPred
   public boolean nextEvaluation()
   {
     assert(evalMode_ != null);
-    if (solutionsReturned == 0) {
-      solutionsReturned++;
+    if (solutionsReturned_ == 0) {
+      solutionsReturned_++;
       return !(predlist_.nextEvaluation());
     }
     return false;

@@ -35,17 +35,17 @@ public class FlatNegate extends FlatPred
 
   public FlatNegate(ZRefName a, ZRefName b)
   {
-    args = new ArrayList<ZRefName>(2);
-    args.add(a);
-    args.add(b);
-    solutionsReturned = -1;
+    args_ = new ArrayList<ZRefName>(2);
+    args_.add(a);
+    args_.add(b);
+    solutionsReturned_ = -1;
   }
 
   public boolean inferBounds(Bounds bnds)
   {
     boolean changed = false;
-    ZRefName a = args.get(0);
-    ZRefName b = args.get(1);
+    ZRefName a = args_.get(0);
+    ZRefName b = args_.get(1);
 
     BigInteger aLower = bnds.getLower(a);
     BigInteger aUpper = bnds.getUpper(a);
@@ -77,33 +77,33 @@ public class FlatNegate extends FlatPred
   public boolean nextEvaluation()
   {
     assert(evalMode_ != null);
-    assert(solutionsReturned >= 0);
+    assert(solutionsReturned_ >= 0);
     boolean result = false;
-    if(solutionsReturned==0)
+    if(solutionsReturned_==0)
     {
-      solutionsReturned++;
+      solutionsReturned_++;
       if (evalMode_.isInput(0) && evalMode_.isInput(1)) {
-        Expr a = evalMode_.getEnvir().lookup(args.get(0));
-        Expr b = evalMode_.getEnvir().lookup(args.get(1));
+        Expr a = evalMode_.getEnvir().lookup(args_.get(0));
+        Expr b = evalMode_.getEnvir().lookup(args_.get(1));
         BigInteger x = ((NumExpr)a).getValue();
         BigInteger y = ((NumExpr)b).getValue();
         if(x.negate().equals(y))
           result = true;
       }
       else if (evalMode_.isInput(0)) {
-        Expr a = evalMode_.getEnvir().lookup(args.get(0));
+        Expr a = evalMode_.getEnvir().lookup(args_.get(0));
         BigInteger x = ((NumExpr)a).getValue();
         BigInteger y = x.negate();
         Expr b = factory_.createNumExpr(y);
-        evalMode_.getEnvir().setValue(args.get(1),b);
+        evalMode_.getEnvir().setValue(args_.get(1),b);
         result = true;
       }
       else if (evalMode_.isInput(1)) {
-        Expr b = evalMode_.getEnvir().lookup(args.get(1));
+        Expr b = evalMode_.getEnvir().lookup(args_.get(1));
         BigInteger y = ((NumExpr)b).getValue();
         BigInteger x = y.negate();
         Expr a = factory_.createNumExpr(x);
-        evalMode_.getEnvir().setValue(args.get(0),a);
+        evalMode_.getEnvir().setValue(args_.get(0),a);
         result = true;
       }
     }

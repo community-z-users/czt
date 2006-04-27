@@ -30,7 +30,7 @@ public class FlatFalse extends FlatPred
 {
   public FlatFalse()
   { 
-    args = new ArrayList<ZRefName>();
+    args_ = new ArrayList<ZRefName>();
   }
   
   /** Chooses the mode in which the predicate can be evaluated.*/

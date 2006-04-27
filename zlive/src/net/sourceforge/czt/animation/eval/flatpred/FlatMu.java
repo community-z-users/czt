@@ -45,10 +45,10 @@ public class FlatMu extends FlatPred
     resultName_ = result;
     freeVars_ = new HashSet<ZRefName>(schText_.freeVars());
     // HashSet has removed duplicates
-    args = new ArrayList<ZRefName>(freeVars_);
-    args.add(resultName_);
+    args_ = new ArrayList<ZRefName>(freeVars_);
+    args_.add(resultName_);
     freeVars_.add(resultName_); // result of the mu is also a free var.
-    solutionsReturned = -1;
+    solutionsReturned_ = -1;
     sLogger.exiting("FlatMu","FlatMu");
   }
 
@@ -109,8 +109,8 @@ public class FlatMu extends FlatPred
     boolean result = false;
     Envir env = evalMode_.getEnvir();
     Envir schEnv = ((ModeList)evalMode_).get(0).getEnvir();
-    if (solutionsReturned == 0) {
-      solutionsReturned++;
+    if (solutionsReturned_ == 0) {
+      solutionsReturned_++;
       Expr value = null;
       schText_.startEvaluation();
       while (schText_.nextEvaluation()) {
@@ -133,7 +133,7 @@ public class FlatMu extends FlatPred
         sLogger.throwing("FlatMu","nextEvaluation",ex);
         throw ex;
       }
-      if (evalMode_.isInput(args.size()-1)) {
+      if (evalMode_.isInput(args_.size()-1)) {
         if (value.equals(env.lookup(resultName_)))
           result = true;
       }

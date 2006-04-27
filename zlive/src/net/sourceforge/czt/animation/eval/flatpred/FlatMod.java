@@ -37,11 +37,11 @@ public class FlatMod extends FlatPred
 
   public FlatMod(ZRefName a, ZRefName b, ZRefName c)
   {
-    args = new ArrayList<ZRefName>(3);
-    args.add(a);
-    args.add(b);
-    args.add(c);
-    solutionsReturned = -1;
+    args_ = new ArrayList<ZRefName>(3);
+    args_.add(a);
+    args_.add(b);
+    args_.add(c);
+    solutionsReturned_ = -1;
   }
 
   /** Chooses the mode in which the predicate can be evaluated.*/
@@ -71,18 +71,18 @@ public class FlatMod extends FlatPred
   throws EvalException
   {
     assert(evalMode_ != null);
-    assert(solutionsReturned >= 0);
+    assert(solutionsReturned_ >= 0);
     boolean result = false;
-    if(solutionsReturned == 0) {
-      solutionsReturned++;
+    if(solutionsReturned_ == 0) {
+      solutionsReturned_++;
       if (evalMode_.isInput(0) && evalMode_.isInput(1) && evalMode_.isInput(2)) {
-        Expr a = evalMode_.getEnvir().lookup(args.get(0));
-        Expr b = evalMode_.getEnvir().lookup(args.get(1));
-        Expr c = evalMode_.getEnvir().lookup(args.get(2));
+        Expr a = evalMode_.getEnvir().lookup(args_.get(0));
+        Expr b = evalMode_.getEnvir().lookup(args_.get(1));
+        Expr c = evalMode_.getEnvir().lookup(args_.get(2));
         BigInteger x = ((NumExpr)a).getValue();
         BigInteger y = ((NumExpr)b).getValue();
         if(y.equals(BigInteger.ZERO)) {
-	  throw new UndefException(args.get(0) + " mod 0");
+	  throw new UndefException(args_.get(0) + " mod 0");
         }
         else {
           BigInteger z = ((NumExpr)c).getValue();
@@ -91,17 +91,17 @@ public class FlatMod extends FlatPred
         }
       }
       else if (evalMode_.isInput(0) && evalMode_.isInput(1)) {
-        Expr a = evalMode_.getEnvir().lookup(args.get(0));
-        Expr b = evalMode_.getEnvir().lookup(args.get(1));
+        Expr a = evalMode_.getEnvir().lookup(args_.get(0));
+        Expr b = evalMode_.getEnvir().lookup(args_.get(1));
         BigInteger x = ((NumExpr)a).getValue();
         BigInteger y = ((NumExpr)b).getValue();
         if(y.equals(BigInteger.ZERO)) {
-	  throw new UndefException(args.get(0) + " mod 0");
+	  throw new UndefException(args_.get(0) + " mod 0");
         }
         else {
           BigInteger z = specialMod(x,y);
           Expr c = factory_.createNumExpr(z);
-          evalMode_.getEnvir().setValue(args.get(2),c);
+          evalMode_.getEnvir().setValue(args_.get(2),c);
           result = true;
         }
       }

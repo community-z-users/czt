@@ -39,7 +39,7 @@ public class ExprComparatorTest extends ZTestCase
   protected void setUp() throws Exception
   {
     super.setUp();
-    sut = new ExprComparator();
+    sut = ExprComparator.create();
     exprs = new ArrayList<Expr>();
     positions = new ArrayList<Integer>();
     exprs.add(parseExpr("0"));  positions.add(0);

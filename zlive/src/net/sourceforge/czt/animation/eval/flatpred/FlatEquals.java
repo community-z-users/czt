@@ -31,18 +31,18 @@ public class FlatEquals extends FlatPred
 {
   public FlatEquals(ZRefName a, ZRefName b)
   {
-    args = new ArrayList<ZRefName>(2);
-    args.add(a);
-    args.add(b);
-    solutionsReturned = -1;
+    args_ = new ArrayList<ZRefName>(2);
+    args_.add(a);
+    args_.add(b);
+    solutionsReturned_ = -1;
   }
 
   /** Copies integer bounds from each arg to the other. */
   public boolean inferBounds(Bounds bnds)
   {
     boolean changed = false;
-    ZRefName left = args.get(0);
-    ZRefName right = args.get(1);
+    ZRefName left = args_.get(0);
+    ZRefName right = args_.get(1);
 
     // get all existing bounds, BEFORE we start adding bounds.
     BigInteger lmin = bnds.getLower(left);
@@ -75,25 +75,25 @@ public class FlatEquals extends FlatPred
   public boolean nextEvaluation()
   {
     assert(evalMode_ != null);
-    assert(solutionsReturned >= 0);
+    assert(solutionsReturned_ >= 0);
     boolean result = false;
-    if(solutionsReturned==0)
+    if(solutionsReturned_==0)
     {
-      solutionsReturned++;
+      solutionsReturned_++;
       if (evalMode_.isInput(0) && evalMode_.isInput(1)) {
-        Expr a = evalMode_.getEnvir().lookup(args.get(0));
-        Expr b = evalMode_.getEnvir().lookup(args.get(1));
+        Expr a = evalMode_.getEnvir().lookup(args_.get(0));
+        Expr b = evalMode_.getEnvir().lookup(args_.get(1));
         if(a.equals(b))
           result = true;
       }
       else if (evalMode_.isInput(0)) {
-        Expr a = evalMode_.getEnvir().lookup(args.get(0));
-        evalMode_.getEnvir().setValue(args.get(1),a);
+        Expr a = evalMode_.getEnvir().lookup(args_.get(0));
+        evalMode_.getEnvir().setValue(args_.get(1),a);
         result = true;
       }
       else if (evalMode_.isInput(1)) {
-        Expr b = evalMode_.getEnvir().lookup(args.get(1));
-        evalMode_.getEnvir().setValue(args.get(0),b);
+        Expr b = evalMode_.getEnvir().lookup(args_.get(1));
+        evalMode_.getEnvir().setValue(args_.get(0),b);
         result = true;
       }
     }

@@ -42,17 +42,17 @@ extends FlatPred
   
   public FlatCard(ZRefName set, ZRefName size)
   {
-    args = new ArrayList<ZRefName>(2);
-    args.add(set);
-    args.add(size);
-    solutionsReturned = -1;
+    args_ = new ArrayList<ZRefName>(2);
+    args_.add(set);
+    args_.add(size);
+    solutionsReturned_ = -1;
   }
 
   public boolean inferBounds(Bounds bnds)
   {
 	boolean changed = false;
-	ZRefName setName = args.get(0);
-	ZRefName sizeName = args.get(1);
+	ZRefName setName = args_.get(0);
+	ZRefName sizeName = args_.get(1);
 	EvalSet set = bnds.getEvalSet(setName);
 	if (set != null) {
       BigInteger maxSize = set.maxSize();
@@ -73,13 +73,13 @@ extends FlatPred
   public boolean nextEvaluation()
   {
     assert evalMode_ != null;
-    assert solutionsReturned >= 0;
+    assert solutionsReturned_ >= 0;
     assert evalMode_.isInput(0);
     boolean result = false;
-    ZRefName setName = args.get(0);
-    if(solutionsReturned==0)
+    ZRefName setName = args_.get(0);
+    if(solutionsReturned_==0)
     {
-      solutionsReturned++;
+      solutionsReturned_++;
       Expr set = evalMode_.getEnvir().lookup(setName);
       assert set instanceof EvalSet;
       Iterator it = ((EvalSet)set).iterator();
@@ -90,13 +90,13 @@ extends FlatPred
       }
       Expr size = factory_.createNumExpr(i.intValue()); // TODO: allow BigInteger here
       if (evalMode_.isInput(1)) {
-        Expr thisSize = evalMode_.getEnvir().lookup(args.get(1));
+        Expr thisSize = evalMode_.getEnvir().lookup(args_.get(1));
         if(thisSize.equals(size))
           result = true;
       }
       else {
         // assign this object (an EvalSet) to the output variable.
-        evalMode_.getEnvir().setValue(args.get(1),size);
+        evalMode_.getEnvir().setValue(args_.get(1),size);
         result = true;
       }
     }

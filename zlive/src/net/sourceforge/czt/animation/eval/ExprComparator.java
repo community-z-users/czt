@@ -32,11 +32,13 @@ import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZExprList;
+import net.sourceforge.czt.z.ast.ZRefName;
 
 /** A comparator for evaluated Z expressions.
  *  The compare method defines a total order over evaluated Z expressions,
  *  such that the inferred equivalence relation is semantic equality
- *  of the Z expressions.
+ *  of the Z expressions.  This class uses the singleton pattern,
+ *  so use the create() method to get an instance.
  * 
  * @author marku
  */
@@ -53,6 +55,18 @@ public class ExprComparator implements Comparator<Expr>
   public static final int LESSTHAN = -1;
   public static final int EQUAL = 0;
   public static final int GREATERTHAN = 1;
+
+  private static ExprComparator singleton_ = new ExprComparator();
+  
+  public static ExprComparator create()
+  {
+    return singleton_;
+  }
+
+  /** Use createComparator() to get an instance. */
+  private ExprComparator()
+  {
+  }
 
   /** A comparator that compares just the name part of ConstDecls.
    *  This is useful for sorting lists of ConstDecl objects.
@@ -80,7 +94,7 @@ public class ExprComparator implements Comparator<Expr>
   }
 
   /* This orders evaluated ZLive expressions.
-   * @throws RuntimeException if 
+   * @throws RuntimeException if it sees an unknown/non-evaluated Expr.
    * @see java.util.Comparator#compare(T, T)
    */
   public int compare(Expr arg0, Expr arg1)

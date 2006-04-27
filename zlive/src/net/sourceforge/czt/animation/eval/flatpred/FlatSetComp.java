@@ -95,9 +95,9 @@ public class FlatSetComp extends FlatEvalSet
     predsOne_.addPred(eq);
 
     // Calculate free vars of preds_.
-    args = new ArrayList<ZRefName>(predsAll_.freeVars());
-    args.add(set);  // TODO: could set already be in args?
-    solutionsReturned = -1;
+    args_ = new ArrayList<ZRefName>(predsAll_.freeVars());
+    args_.add(set);  // TODO: could set already be in args?
+    solutionsReturned_ = -1;
   }
 
   public boolean inferBounds(Bounds bnds)
@@ -107,7 +107,7 @@ public class FlatSetComp extends FlatEvalSet
     boolean changeAll = predsAll_.inferBounds(bnds);
     boolean changeOne = predsOne_.inferBounds(bnds);
     assert changeAll == changeOne;
-    changeAll |= bnds.setEvalSet(args.get(args.size()-1), this);
+    changeAll |= bnds.setEvalSet(args_.get(args_.size()-1), this);
     bounds_ = bnds;
     return changeAll;
   }
@@ -145,11 +145,11 @@ public class FlatSetComp extends FlatEvalSet
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
     LOG.entering("FlatSetComp","chooseMode",env);
-    LOG.fine("args = "+args+" freevars="+this.freeVars_);
+    LOG.fine("args = "+args_+" freevars="+this.freeVars_);
     Mode m = modeFunction(env);
     // bind (set |-> this), so that size estimates work better.
     if (m != null)
-      m.getEnvir().setValue(args.get(args.size()-1), this);
+      m.getEnvir().setValue(args_.get(args_.size()-1), this);
     LOG.exiting("FlatSetComp","chooseMode",m);
     return m;
   }
@@ -212,15 +212,15 @@ public class FlatSetComp extends FlatEvalSet
   public boolean nextEvaluation()
   {
     assert evalMode_ != null;
-    assert solutionsReturned >= 0;
+    assert solutionsReturned_ >= 0;
     boolean result = false;
     outputEnvir_ = null; // force members to be recalculated
-    ZRefName set = args.get(args.size()-1);
-    if(solutionsReturned==0)
+    ZRefName set = args_.get(args_.size()-1);
+    if(solutionsReturned_==0)
     {
-      solutionsReturned++;
+      solutionsReturned_++;
       resetResult();
-      if (evalMode_.isInput(args.size()-1)) {
+      if (evalMode_.isInput(args_.size()-1)) {
         Expr otherSet = evalMode_.getEnvir().lookup(set);
         result = equals(otherSet);
       } else {
@@ -273,6 +273,6 @@ public class FlatSetComp extends FlatEvalSet
   
   /** @czt.todo Change this to a printCode method. */
   public String toString() {
-    return "{ " + predsAll_.toString() + " @ " + resultName_ + " } = " + args.get(args.size()-1);
+    return "{ " + predsAll_.toString() + " @ " + resultName_ + " } = " + args_.get(args_.size()-1);
   }
 }

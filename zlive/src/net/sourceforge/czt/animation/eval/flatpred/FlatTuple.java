@@ -42,9 +42,9 @@ public class FlatTuple extends FlatPred
   
   public FlatTuple(List<ZRefName> elements, ZRefName tuple)
   {
-    args = new ArrayList<ZRefName>(elements);
-    args.add(tuple);
-    solutionsReturned = -1;
+    args_ = new ArrayList<ZRefName>(elements);
+    args_.add(tuple);
+    solutionsReturned_ = -1;
   }
   
   //@ requires newargs.size() >= 1;
@@ -60,13 +60,13 @@ public class FlatTuple extends FlatPred
     if (m == null) {
       BitSet inputs = getInputs(env);
       double solutions = 0.0;
-      if (inputs.get(args.size()-1)) {
+      if (inputs.get(args_.size()-1)) {
         solutions = Mode.ONE_SOLUTION;
         if (inputs.cardinality() > 1)
           solutions = Mode.MAYBE_ONE_SOLUTION;
-        for(int i=0;i<args.size()-1;i++) {
+        for(int i=0;i<args_.size()-1;i++) {
           if ( ! inputs.get(i))
-            env = env.plus(args.get(i),null);
+            env = env.plus(args_.get(i),null);
         }
         m = new Mode(env, inputs, solutions);
       }
@@ -78,26 +78,26 @@ public class FlatTuple extends FlatPred
   public boolean nextEvaluation()
   {
     assert (evalMode_ != null);
-    assert (solutionsReturned >= 0);
+    assert (solutionsReturned_ >= 0);
     // @czt.todo package these assertions into a separate function.
-    if(!evalMode_.isInput(args.size()-1)) {
-      for (int i=0;i<args.size()-1;i++) 
+    if(!evalMode_.isInput(args_.size()-1)) {
+      for (int i=0;i<args_.size()-1;i++) 
         assert (evalMode_.isInput(i));
     }
     boolean result = false;
     //tupleName contains the ZRefName which refers to the tuple Expression in the env
-    ZRefName tupleName = args.get(args.size()-1);
-    if(solutionsReturned==0) {
-      solutionsReturned++;
+    ZRefName tupleName = args_.get(args_.size()-1);
+    if(solutionsReturned_==0) {
+      solutionsReturned_++;
       //The case where the tuple itself is an input
-      if(evalMode_.isInput(args.size()-1)) {
+      if(evalMode_.isInput(args_.size()-1)) {
         Expr tupleExpr = evalMode_.getEnvir().lookup(tupleName);
         List<Expr> memberList = ((TupleExpr)tupleExpr).getZExprList();
         //no. of elements in env.tuple should be same as that passed as inputs
-        if(memberList.size() == args.size()-1) {
+        if(memberList.size() == args_.size()-1) {
           boolean flag = true;
           for(int i=0;i<memberList.size();i++) {
-	    ZRefName elem = args.get(i);
+	    ZRefName elem = args_.get(i);
 	    Object value = evalMode_.getEnvir().lookup(elem);
             //if value of elem is unknown (null), we do envir(elem) := value from tuple
             if(value == null) {
@@ -118,8 +118,8 @@ public class FlatTuple extends FlatPred
       else {
         result = true;
         ZExprList exprList = factory_.createZExprList();
-        for(int i=0;i<args.size()-1;i++)
-          exprList.add(evalMode_.getEnvir().lookup(args.get(i)));
+        for(int i=0;i<args_.size()-1;i++)
+          exprList.add(evalMode_.getEnvir().lookup(args_.get(i)));
         Expr tupleExpr = factory_.createTupleExpr(exprList);
         evalMode_.getEnvir().setValue(tupleName,tupleExpr);
       }

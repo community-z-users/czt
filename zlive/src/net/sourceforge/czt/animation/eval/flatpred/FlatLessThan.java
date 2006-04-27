@@ -36,17 +36,17 @@ public class FlatLessThan extends FlatPred
   
   public FlatLessThan(ZRefName a, ZRefName b)
   {
-    args = new ArrayList<ZRefName>(2);
-    args.add(a);
-    args.add(b);
-    solutionsReturned = -1;
+    args_ = new ArrayList<ZRefName>(2);
+    args_.add(a);
+    args_.add(b);
+    solutionsReturned_ = -1;
   }
 
   public boolean inferBounds(Bounds bnds)
   {
     boolean changed = false;
-    ZRefName left = args.get(0);
-    ZRefName right = args.get(1);
+    ZRefName left = args_.get(0);
+    ZRefName right = args_.get(1);
 
     // propagate upper bound from right to left.
     BigInteger rmax = bnds.getUpper(right);
@@ -73,7 +73,7 @@ public class FlatLessThan extends FlatPred
   
   public void startEvaluation() 
   {
-    solutionsReturned=0;
+    solutionsReturned_=0;
     next=null;
   }
 
@@ -81,13 +81,13 @@ public class FlatLessThan extends FlatPred
   public boolean nextEvaluation()
   {
     assert(evalMode_ != null);
-    assert (solutionsReturned >= 0);
+    assert (solutionsReturned_ >= 0);
     boolean result = false;
-    solutionsReturned++;
+    solutionsReturned_++;
     if (evalMode_.isInput(0) && evalMode_.isInput(1)) {
-      if (solutionsReturned == 1) {
-        Expr a = evalMode_.getEnvir().lookup(args.get(0));
-        Expr b = evalMode_.getEnvir().lookup(args.get(1));
+      if (solutionsReturned_ == 1) {
+        Expr a = evalMode_.getEnvir().lookup(args_.get(0));
+        Expr b = evalMode_.getEnvir().lookup(args_.get(1));
         BigInteger x = ((NumExpr) a).getValue();
         BigInteger y = ((NumExpr) b).getValue();
         if (x.compareTo(y) < 0)
@@ -96,7 +96,7 @@ public class FlatLessThan extends FlatPred
     }
     else if (evalMode_.isInput(0)) {
       if (next == null) {
-        Expr a = evalMode_.getEnvir().lookup(args.get(0));
+        Expr a = evalMode_.getEnvir().lookup(args_.get(0));
         BigInteger x = ((NumExpr) a).getValue();
         next = x.add(BigInteger.ONE);
       }
@@ -104,12 +104,12 @@ public class FlatLessThan extends FlatPred
         next = next.add(BigInteger.ONE);
       BigInteger y = next;
       Expr b = factory_.createNumExpr(y);
-      evalMode_.getEnvir().setValue(args.get(1), b);
+      evalMode_.getEnvir().setValue(args_.get(1), b);
       result = true;
     }
     else if (evalMode_.isInput(1)) {
       if (next == null) {
-        Expr b = evalMode_.getEnvir().lookup(args.get(1));
+        Expr b = evalMode_.getEnvir().lookup(args_.get(1));
         BigInteger y = ((NumExpr) b).getValue();
         next = y.subtract(BigInteger.ONE);
       }
@@ -117,7 +117,7 @@ public class FlatLessThan extends FlatPred
         next = next.subtract(BigInteger.ONE);
       BigInteger x = next;
       Expr a = factory_.createNumExpr(x);
-      evalMode_.getEnvir().setValue(args.get(0), a);
+      evalMode_.getEnvir().setValue(args_.get(0), a);
       result = true;
     }
     return result;

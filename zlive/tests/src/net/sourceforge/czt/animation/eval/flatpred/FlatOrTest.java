@@ -21,6 +21,7 @@ package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.io.FileNotFoundException;
 
+import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.ZTestCase;
 import net.sourceforge.czt.modeljunit.ModelTestCase;
 import net.sourceforge.czt.z.ast.ZRefName;
@@ -34,14 +35,28 @@ import net.sourceforge.czt.z.ast.ZRefName;
 public class FlatOrTest
   extends ZTestCase
 {
-  public void testOrFF()
+  public void testOr1()
   throws FileNotFoundException
   {
     FlatPredList left = new FlatPredList(zlive_);
     left.addPred(parsePred("z=x"));
+    System.out.println("left.args="+left.getArgs());
+    Assert.assertEquals(2, left.getArgs().size());
+    Assert.assertEquals(x, left.getArgs().get(0));
+    Assert.assertEquals(z, left.getArgs().get(1));
     FlatPredList right = new FlatPredList(zlive_);
     right.addPred(parsePred("z \\in \\{x+1,y+1\\}"));
+    System.out.println("right.args="+right.getArgs());
+    Assert.assertEquals(3, right.getArgs().size());
+    Assert.assertEquals(x, right.getArgs().get(0));
+    Assert.assertEquals(y, right.getArgs().get(1));
+    Assert.assertEquals(z, right.getArgs().get(2));
     FlatPred pred = new FlatOr(left, right);
+    System.out.println("pred.args="+pred.getArgs());
+    Assert.assertEquals(3, pred.getArgs().size());
+    Assert.assertEquals(x, pred.getArgs().get(0));
+    Assert.assertEquals(y, pred.getArgs().get(1));
+    Assert.assertEquals(z, pred.getArgs().get(2));
 
     FlatPredModel iut =
       new FlatPredModel(pred,

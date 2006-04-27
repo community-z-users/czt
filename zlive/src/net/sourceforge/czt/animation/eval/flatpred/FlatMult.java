@@ -39,11 +39,11 @@ public class FlatMult extends FlatPred
   private Factory factory_ = new Factory();
   public FlatMult(ZRefName a, ZRefName b, ZRefName c)
   {
-    args = new ArrayList<ZRefName>(3);
-    args.add(a);
-    args.add(b);
-    args.add(c);
-    solutionsReturned = -1;
+    args_ = new ArrayList<ZRefName>(3);
+    args_.add(a);
+    args_.add(b);
+    args_.add(c);
+    solutionsReturned_ = -1;
   }
 
   /** Chooses the mode in which the predicate can be evaluated.*/
@@ -57,14 +57,14 @@ public class FlatMult extends FlatPred
         throws EvalException
   {
     assert(evalMode_ != null);
-    assert(solutionsReturned >= 0);
+    assert(solutionsReturned_ >= 0);
     boolean result = false;
-    if(solutionsReturned == 0) {
-      solutionsReturned++;
+    if(solutionsReturned_ == 0) {
+      solutionsReturned_++;
       if (evalMode_.isInput(0) && evalMode_.isInput(1) && evalMode_.isInput(2)) {
-        Expr a = evalMode_.getEnvir().lookup(args.get(0));
-        Expr b = evalMode_.getEnvir().lookup(args.get(1));
-        Expr c = evalMode_.getEnvir().lookup(args.get(2));
+        Expr a = evalMode_.getEnvir().lookup(args_.get(0));
+        Expr b = evalMode_.getEnvir().lookup(args_.get(1));
+        Expr c = evalMode_.getEnvir().lookup(args_.get(2));
         BigInteger x = ((NumExpr)a).getValue();
         BigInteger y = ((NumExpr)b).getValue();
         BigInteger z = ((NumExpr)c).getValue();
@@ -72,21 +72,21 @@ public class FlatMult extends FlatPred
           result = true;
       }
       else if (evalMode_.isInput(0) && evalMode_.isInput(1)) {
-        Expr a = evalMode_.getEnvir().lookup(args.get(0));
-        Expr b = evalMode_.getEnvir().lookup(args.get(1));
+        Expr a = evalMode_.getEnvir().lookup(args_.get(0));
+        Expr b = evalMode_.getEnvir().lookup(args_.get(1));
         BigInteger x = ((NumExpr)a).getValue();
         BigInteger y = ((NumExpr)b).getValue();
         BigInteger z = x.multiply(y);
         Expr c = factory_.createNumExpr(z);
-        evalMode_.getEnvir().setValue(args.get(2),c);
+        evalMode_.getEnvir().setValue(args_.get(2),c);
         result = true;
       }
       else if (evalMode_.isInput(1) && evalMode_.isInput(2)) {
-        Expr b = evalMode_.getEnvir().lookup(args.get(1));
-        Expr c = evalMode_.getEnvir().lookup(args.get(2));
+        Expr b = evalMode_.getEnvir().lookup(args_.get(1));
+        Expr c = evalMode_.getEnvir().lookup(args_.get(2));
         BigInteger y = ((NumExpr)b).getValue();
         if(y.equals(BigInteger.ZERO)) {
-          throw new EvalException("Cannot solve multiplication by 0: " + (RefName)args.get(1));
+          throw new EvalException("Cannot solve multiplication by 0: " + (RefName)args_.get(1));
         }
         else {
           BigInteger z = ((NumExpr)c).getValue();
@@ -94,17 +94,17 @@ public class FlatMult extends FlatPred
           // we must check that this does indeed satisfy x*y=z.
           if (x.multiply(y).equals(z)) {
             Expr a = factory_.createNumExpr(x);
-            evalMode_.getEnvir().setValue(args.get(0),a);
+            evalMode_.getEnvir().setValue(args_.get(0),a);
             result = true;
           }
         }
       }
       else if (evalMode_.isInput(0) && evalMode_.isInput(2)) {
-        Expr a = evalMode_.getEnvir().lookup(args.get(0));
-        Expr c = evalMode_.getEnvir().lookup(args.get(2));
+        Expr a = evalMode_.getEnvir().lookup(args_.get(0));
+        Expr c = evalMode_.getEnvir().lookup(args_.get(2));
         BigInteger x = ((NumExpr)a).getValue();
         if(x.equals(BigInteger.ZERO)) {
-          throw new EvalException("Cannot solve multiplication by 0: " + args.get(0));
+          throw new EvalException("Cannot solve multiplication by 0: " + args_.get(0));
         }
         else {
           BigInteger z = ((NumExpr)c).getValue();
@@ -112,7 +112,7 @@ public class FlatMult extends FlatPred
           // we must check that this does indeed satisfy x*y=z.
           if (x.multiply(y).equals(z)) {
             Expr b = factory_.createNumExpr(y);
-            evalMode_.getEnvir().setValue(args.get(1),b);
+            evalMode_.getEnvir().setValue(args_.get(1),b);
             result = true;
           }
         }

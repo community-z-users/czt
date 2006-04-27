@@ -55,17 +55,17 @@ public class FlatMember extends FlatPred
    */
   public FlatMember(ZRefName set, ZRefName element)
   {
-    args = new ArrayList<ZRefName>(2);
-    args.add(set);
-    args.add(element);
-    solutionsReturned = -1;
+    args_ = new ArrayList<ZRefName>(2);
+    args_.add(set);
+    args_.add(element);
+    solutionsReturned_ = -1;
   }
 
   public boolean inferBounds(Bounds bnds)
   {
 	sLogger.entering("FlatMember", "inferBounds", bnds);
-	ZRefName setName = args.get(0);
-	ZRefName elemName = args.get(1);
+	ZRefName setName = args_.get(0);
+	ZRefName elemName = args_.get(1);
 	EvalSet set = bnds.getEvalSet(setName);
 	boolean changed = false;
 	if (set != null) {
@@ -83,8 +83,8 @@ public class FlatMember extends FlatPred
   public Mode chooseMode(Envir env)
   {
     // the set must be defined in env.
-    ZRefName setName = args.get(0);
-    ZRefName elemName = args.get(1);
+    ZRefName setName = args_.get(0);
+    ZRefName elemName = args_.get(1);
     BitSet inputs = getInputs(env);
     Mode m = null;
     // is the set an input?
@@ -112,23 +112,23 @@ public class FlatMember extends FlatPred
   public void startEvaluation()
   {
     super.startEvaluation();
-    assert solutionsReturned == 0;
-    set_ = (EvalSet)evalMode_.getEnvir().lookup(args.get(0));
+    assert solutionsReturned_ == 0;
+    set_ = (EvalSet)evalMode_.getEnvir().lookup(args_.get(0));
     assert(set_ != null);
   }
   
   public boolean nextEvaluation() {
     assert evalMode_ != null;
-    assert solutionsReturned >= 0;
+    assert solutionsReturned_ >= 0;
     assert set_ != null;
     boolean result = false;
-    ZRefName element = args.get(1);
+    ZRefName element = args_.get(1);
     if (evalMode_.isInput(1)) {
       // do a membership test
       current_ = null;
-      if (solutionsReturned == 0) {
+      if (solutionsReturned_ == 0) {
         // we only do the membership test once
-        solutionsReturned++;
+        solutionsReturned_++;
         Expr arg1 = evalMode_.getEnvir().lookup(element);
         if (set_.contains(arg1))
           result = true;
@@ -136,12 +136,12 @@ public class FlatMember extends FlatPred
     }
     else {
       // iterate through the members of set_
-      if (solutionsReturned == 0) {
+      if (solutionsReturned_ == 0) {
         // set up the iterator...
         current_ = set_.subsetIterator(element);
       }
       assert current_ != null;
-      solutionsReturned++;
+      solutionsReturned_++;
       if (current_.hasNext()) {
         Expr value = (Expr)current_.next();
         evalMode_.getEnvir().setValue(element, value);

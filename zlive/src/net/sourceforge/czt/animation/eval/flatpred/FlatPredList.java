@@ -18,23 +18,29 @@
 */
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.io.BufferedWriter;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalException;
 import net.sourceforge.czt.animation.eval.Flatten;
 import net.sourceforge.czt.animation.eval.ZLive;
+import net.sourceforge.czt.animation.eval.ZRefNameComparator;
 import net.sourceforge.czt.session.CommandException;
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.ast.ConstDecl;
+import net.sourceforge.czt.z.ast.Decl;
+import net.sourceforge.czt.z.ast.DeclName;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.VarDecl;
+import net.sourceforge.czt.z.ast.ZDeclName;
+import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.util.Factory;
 
 /** Manages a list of FlatPred predicates.
@@ -67,11 +73,8 @@ import net.sourceforge.czt.z.util.Factory;
  *  </pre>
  * @czt.todo make this inherit from FlatPred.
  */
-public class FlatPredList
+public class FlatPredList extends FlatPred
 {
-  private static final Logger LOG
-  = Logger.getLogger("net.sourceforge.czt.animation.eval");
-
   /** Maximum number of bounds-inference passes done over the list. */
   protected static final int inferPasses_ = 5;
 
@@ -86,11 +89,6 @@ public class FlatPredList
   protected/*@non_null@*/Set<ZDeclName> boundVars_
     = new HashSet<ZDeclName>();
   
-  /** Records the free variables used within this predicate.
-   *  This is calculated and cached by the freeVars() method.
-   */
-  protected Set<ZRefName> freeVars_;
-  
   /** The ZLive animator that owns/uses this FlatPred list. */
   private /*@non_null@*/ ZLive zlive_;
   
@@ -98,16 +96,6 @@ public class FlatPredList
   /*@non_null@*/ Flatten flatten_;
   
   protected /*@non_null@*/ Factory factory_;
-  
-  /** A Writer interface to System.out.
-   *  TODO: allow this to be set by clients and/or passed to printCode().
-   */
-  protected Writer writer
-    = new BufferedWriter(new OutputStreamWriter(System.out));
-
-  private final static BitSet empty_ = new BitSet();
-  
-  private ModeList evalMode_;
 
   /** The number of solutions that have been returned by nextEvaluation().
   This is -1 before startEvaluation() is called and 0 immediately
@@ -142,8 +130,14 @@ public class FlatPredList
   public /*@non_null@*/ Set<ZDeclName> boundVars()
   { return boundVars_; }
 
-  /** Returns the free variables of all the FlatPreds. */
-  public /*@non_null@*/ Set<ZRefName> freeVars() {
+  /** Returns the free variables of all the FlatPreds.
+   *  This must not be called until after all addPred/Expr
+   *  calls have been done.  The first time it is called, it
+   *  calculates the free variables as the union of the free
+   *  variables of all the FlatPreds in the list.
+   *  It also sets the args list to contain these same variables.
+   */
+  @Override public /*@non_null@*/ Set<ZRefName> freeVars() {
     if (freeVars_ == null) {
       freeVars_ = new HashSet<ZRefName>();
       for (FlatPred flat : predlist_) {
@@ -162,27 +156,46 @@ public class FlatPredList
           }
         }
       }
+      args_ = new ArrayList<ZRefName>(freeVars_);
+      Collections.sort(args_, ZRefNameComparator.create()); // so the order is reproducible
     }
     return freeVars_;
+  }
+
+  /** @inheritDoc
+   *  The first time this is called, it calculates freeVars and
+   *  sets <code>args</code> to contain the same set of variables.
+   */
+  @Override public List<ZRefName> getArgs()
+  {
+    if (freeVars_ == null)
+      freeVars();  // calculate freeVars and args.
+    return args_;
   }
 
   /** Add one FlatPred to the FlatPred list.
    *  This is a low-level method, and addDecl or addPred
    *  should usually be used in preference to this method.
-   *  This method should be called before chooseMode is called.
+   *  This method should be called before chooseMode 
+   *  or freeVars are called.
    *
    * @param flat  the FlatPred to add.
    */
-  public void add(/*@non_null@*/FlatPred flat) {
+  public void add(/*@non_null@*/FlatPred flat)
+  {
+    assert freeVars_ == null;
     predlist_.add(flat);
   }
 
   /** Adds a whole schema text to the FlatPred list.
-   *  This method should be called before chooseMode is called.
+   *  This method should be called before chooseMode 
+   *  or freeVars are called.
    *
    * @param stext 
    */
-  public void addSchText(/*@non_null@*/ZSchText stext) {
+  public void addSchText(/*@non_null@*/ZSchText stext)
+  {
+    assert freeVars_ == null;
     for (Decl d : stext.getZDeclList())
       addDecl(d);
     Pred p = stext.getPred();
@@ -193,11 +206,14 @@ public class FlatPredList
   /** Adds one declaration to the FlatPred list.
    *  This converts x,y:T into x \in T \land y \in T.
    *  (More precisely, into: tmp=T; x \in tmp; y \in tmp).
-   *  This method should be called before chooseMode is called.
+   *  This method should be called before chooseMode
+   *  or freeVars are called.
    *
    * @param decl  May declare several variables.
    */
-  public void addDecl(/*@non_null@*/Decl decl) {
+  public void addDecl(/*@non_null@*/Decl decl)
+  {
+    assert freeVars_ == null;
     try {
       if (decl instanceof VarDecl) {
         VarDecl vdecl = (VarDecl) decl;
@@ -228,11 +244,14 @@ public class FlatPredList
   }
 
   /** Adds one predicate to the FlatPred list.
-   *  This method should be called before chooseMode is called.
+   *  This method should be called before chooseMode
+   *  or freeVars are called.
    *
    * @param pred  The Pred to flatten and add.
    */
-  public void addPred(/*@non_null@*/Pred pred) {
+  public void addPred(/*@non_null@*/Pred pred)
+  {
+    assert freeVars_ == null;
     try {
       flatten_.flattenPred(pred,predlist_);
     }
@@ -242,7 +261,8 @@ public class FlatPredList
   }
 
   /** Adds one expression to the FlatPred list.
-   *  This method should be called before chooseMode is called.
+   *  This method should be called before chooseMode
+   *  or freeVars are called.
    *  Returns the 'result' name that will be bound to the result
    *  of the expression after evaluation.  That is,
    *  after chooseMode, startEvaluation and nextEvaluation have
@@ -252,7 +272,9 @@ public class FlatPredList
    * @param expr  The Expr to flatten and add.
    * @return      The result name.
    */
-  public ZRefName addExpr(/*@non_null@*/Expr expr) {
+  public ZRefName addExpr(/*@non_null@*/Expr expr)
+  {
+    assert freeVars_ == null;
     try {
       return flatten_.flattenExpr(expr,predlist_);
     }
@@ -303,12 +325,16 @@ public class FlatPredList
     inferBounds(new Bounds()); // TODO: make the client responsible for this?
     
     List<Mode> submodes = new ArrayList<Mode>();
+    int numArgs = getArgs().size();  // forces freeVars to be evaluated.
+    BitSet inputs = new BitSet(numArgs);
+    if (numArgs > 0)
+      inputs.set(0, numArgs-1);  // all are inputs (true) by default.
     Envir env = env0;
     double cost = Mode.ONE_SOLUTION;
-    Iterator<FlatPred> i = predlist_.iterator();
+    Iterator<FlatPred> it = predlist_.iterator();
     LOG.finer(this.hashCode()+" starting");
-    while (i.hasNext()) {
-      FlatPred fp = (FlatPred)i.next();
+    while (it.hasNext()) {
+      FlatPred fp = (FlatPred)it.next();
       Mode m = fp.chooseMode(env);
       if (m == null) {
         LOG.finer("no mode for "+fp+" with env="+env);
@@ -317,10 +343,25 @@ public class FlatPredList
       }
       submodes.add(m);
       env = m.getEnvir();
+      List<ZRefName> fpArgs = fp.getArgs();
+      for (int i=fpArgs.size()-1; i>=0; i--) {
+        ZRefName var = fpArgs.get(i);
+        if ( ! m.isInput(i) && freeVars_.contains(var)) {
+          // mark outvar as an output
+          int varPos=0;
+          // if we go into an infinite loop here, then args and
+          // freeVars are inconsistent, so we deserve the
+          // exception that we will get! 
+          while ( ! args_.get(varPos).equals(var))
+            varPos++;
+          inputs.clear(varPos);
+        }
+      }
       cost *= m.getSolutions();
-      LOG.finer(this.hashCode()+" "+fp+" gives cost="+cost);
+      LOG.finer(this.hashCode()+" "+fp+" gives cost="+cost
+          +" and inputs="+inputs);
     }
-    ModeList result = new ModeList(env, empty_, cost, submodes);
+    ModeList result = new ModeList(env, inputs, cost, submodes);
     LOG.exiting("FlatPredList","chooseMode",result);
     return result;
   }
@@ -332,11 +373,11 @@ public class FlatPredList
   //@ ensures evalMode_ == mode;
   public void setMode(/*@non_null@*/Mode mode)
   {
-    evalMode_ = (ModeList)mode;
+    evalMode_ = mode;
 
     // set modes of all the flatpreds in the list.
     Iterator<FlatPred> preds = predlist_.iterator();
-    Iterator<Mode> modes = evalMode_.iterator();
+    Iterator<Mode> modes = ((ModeList)evalMode_).iterator();
     while (preds.hasNext())
       ((FlatPred)preds.next()).setMode((Mode)modes.next());
 
@@ -416,27 +457,6 @@ public class FlatPredList
     return curr == end;
   }
 
-  /** Prints the list of FlatPreds used in the last call
-    * to evalPred or evalExpr.
-    */
-  public void printCode()
-  {
-    try {
-      for (Iterator<FlatPred> i = predlist_.iterator(); i.hasNext(); ) {
-        FlatPred p = (FlatPred) i.next();
-        writer.write("Print flat " + p.toString() + "\n");
-        //print(p, writer);
-        //writer.write("Printed flat " + p.toString() + "\n");
-      }
-      writer.write("End of the loop\n");
-      writer.flush();
-      //writer.close();
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
   public String toString() {
     StringBuffer result = new StringBuffer();
     for (Iterator<FlatPred> i = predlist_.iterator(); i.hasNext(); ) {
@@ -447,15 +467,4 @@ public class FlatPredList
     }
     return result.toString();
   }
-  
-  /**
-  private void print(Term t, Writer writer) throws IOException
-  {
-    ZLiveToAstVisitor toAst = new ZLiveToAstVisitor();
-    Term ast = (Term) t.accept(toAst);
-    //writer.write(ast);
-    PrintUtils.printUnicode(ast, writer, sectman_);
-    writer.write("\n");
-  }
-  */
 }

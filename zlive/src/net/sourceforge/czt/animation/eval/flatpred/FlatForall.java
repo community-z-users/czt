@@ -64,8 +64,8 @@ public class FlatForall extends FlatPred
     }
     sLogger.fine("freevars = "+freeVars_);
     freeVars_ = new HashSet<ZRefName>();  // TODO: remove this when above name comparison works properly
-    args = new ArrayList<ZRefName>(freeVars_);
-    solutionsReturned = -1;
+    args_ = new ArrayList<ZRefName>(freeVars_);
+    solutionsReturned_ = -1;
     sLogger.exiting("FlatForall","FlatForall");
   }
 
