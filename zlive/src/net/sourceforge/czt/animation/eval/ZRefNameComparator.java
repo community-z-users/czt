@@ -18,20 +18,8 @@
 */
 package net.sourceforge.czt.animation.eval;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
 
-import net.sourceforge.czt.z.ast.BindExpr;
-import net.sourceforge.czt.z.ast.Branch;
-import net.sourceforge.czt.z.ast.ConstDecl;
-import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.NumExpr;
-import net.sourceforge.czt.z.ast.TupleExpr;
-import net.sourceforge.czt.z.ast.ZDeclList;
-import net.sourceforge.czt.z.ast.ZExprList;
 import net.sourceforge.czt.z.ast.ZRefName;
 
 /** A comparator for evaluated Z expressions.
