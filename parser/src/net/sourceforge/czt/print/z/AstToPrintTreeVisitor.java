@@ -623,8 +623,7 @@ public class AstToPrintTreeVisitor
       }
     }
     int pos = 0;
-    for (Iterator iter = op.iterator(); iter.hasNext();) {
-      final String opPart = (String) iter.next();
+    for (String opPart : op.getWords()) {
       if (opPart.equals(ZString.ARG)) {
         result.add(visit((Term) args.get(pos)));
         pos++;
@@ -656,7 +655,7 @@ public class AstToPrintTreeVisitor
         pos++;
       }
       else {
-        result.add(opPart);
+        result.add(new Decorword(opPart, op.getStroke()).toString());
       }
     }
     return result;

@@ -32,16 +32,14 @@ public class OperatorNameTest
   extends TestCase
 {
   public void testPlusOp()
+    throws OperatorName.OperatorNameException
   {
     String plusName = ZString.ARG_TOK + ZString.PLUS + ZString.ARG_TOK;
-    try {
-      OperatorName op = new OperatorName(plusName, null);
-      Iterator iter = op.iterator();
-      Assert.assertTrue(iter.hasNext());
-      Assert.assertEquals(iter.next(), ZString.ARG);
-    }
-    catch (OperatorName.OperatorNameException e) {
-      fail("Should not throw OperatorNameException!");
-    }
+    OperatorName op = new OperatorName(plusName, null);
+    String[] words = op.getWords();
+    Assert.assertTrue(words.length == 3);
+    Assert.assertEquals(words[0], ZString.ARG);
+    Assert.assertEquals(words[1], ZString.PLUS);
+    Assert.assertEquals(words[2], ZString.ARG);
   }
 }

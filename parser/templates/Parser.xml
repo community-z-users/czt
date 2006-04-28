@@ -307,6 +307,54 @@ action code
       return parser.getLocation(term);
     }
 
+    private OperatorName createOperatorName(List&lt;String&gt; list)
+      throws OperatorName.OperatorNameException
+    {
+      final String errorMessage = list + " is not an operator name.";
+      if (list.size() &lt;= 1) {
+        throw new OperatorName.OperatorNameException(errorMessage);
+      }
+      List&lt;Stroke&gt; strokes = null;
+      Boolean expectArgument = null;
+      StringBuilder stringBuilder = new StringBuilder();
+      for (String opPart : list) {
+        if (opPart.equals(ZString.ARG) ||
+            opPart.equals(ZString.ARG_TOK)) {
+          if (Boolean.FALSE.equals(expectArgument)) {
+            throw new OperatorName.OperatorNameException(errorMessage);
+          }
+          stringBuilder.append(ZString.ARG_TOK);
+          expectArgument = Boolean.FALSE;
+        }
+        else if (opPart.equals(ZString.LISTARG) ||
+                 opPart.equals(ZString.LISTARG_TOK)) {
+          if (Boolean.FALSE.equals(expectArgument)) {
+            throw new OperatorName.OperatorNameException(errorMessage);
+          }
+          stringBuilder.append(ZString.LISTARG_TOK);
+          expectArgument = Boolean.FALSE;
+        }
+        else {
+          if (Boolean.TRUE.equals(expectArgument)) {
+            throw new OperatorName.OperatorNameException(errorMessage);
+          }
+          ZDeclName declName = factory_.createZDeclName(opPart);
+          stringBuilder.append(declName.getWord());
+          if (strokes == null) {
+            strokes = declName.getStroke();
+          }
+          else if (! strokes.equals(declName.getStroke())) {
+            final String message =
+              "The component names of an operator must have the " +
+              "same decorations.";
+            throw new OperatorName.OperatorNameException(message);
+          }
+          expectArgument = Boolean.TRUE;
+        }
+      }
+      return new OperatorName(stringBuilder.toString(), strokes);
+    }
+
     /**
      * Converts a list of String objects to a DeclName object.
      */
@@ -315,7 +363,7 @@ action code
       throws ParseException
     {
       try {
-        OperatorName opName = new OperatorName(list);
+        OperatorName opName = createOperatorName(list);
         return factory_.createZDeclName(opName.getWord(), opName.getStroke());
       }
       catch (OperatorName.OperatorNameException e) {
@@ -333,7 +381,7 @@ action code
       throws ParseException
     {
       try {
-        OperatorName opName = new OperatorName(list);
+        OperatorName opName = createOperatorName(list);
         RefName result =
           factory_.createZRefName(opName.getWord(), opName.getStroke());
         addLocAnn(result, loc);

@@ -294,8 +294,13 @@ public class ZPrintVisitor
       printDecorword(new Decorword(declName.getWord(), declName.getStroke()));
       return null;
     }
-    for (Iterator<String> iter = op.iterator(); iter.hasNext();) {
-      printDecorword(iter.next());
+    for (String wordPart : op.getWords()) {
+      if (wordPart.equals(ZString.LISTARG) || wordPart.equals(ZString.ARG)) {
+        printDecorword(wordPart);
+      }
+      else {
+        printDecorword(new Decorword(wordPart, op.getStroke()));
+      }
     }
     return null;
   }
@@ -934,12 +939,17 @@ public class ZPrintVisitor
     OperatorName op = refName.getOperatorName();
     if (op == null) {
       print(TokenName.DECORWORD,
-             new Decorword(refName.getWord(), refName.getStroke()));
+            new Decorword(refName.getWord(), refName.getStroke()));
       return null;
     }
     print(TokenName.LPAREN);
-    for (Iterator iter = op.iterator(); iter.hasNext(); ) {
-      print(TokenName.DECORWORD, new Decorword((String) iter.next()));
+    for (String wordPart : op.getWords()) {
+      if (wordPart.equals(ZString.LISTARG) || wordPart.equals(ZString.ARG)) {
+        printDecorword(wordPart);
+      }
+      else {
+        printDecorword(new Decorword(wordPart, op.getStroke()));
+      }
     }
     print(TokenName.RPAREN);
     return null;
@@ -1170,8 +1180,7 @@ public class ZPrintVisitor
       }
     }
     int pos = 0;
-    for (Iterator iter = op.iterator(); iter.hasNext();) {
-      final String opPart = (String) iter.next();
+    for (String opPart : op.getWords()) {
       if (opPart.equals(ZString.ARG)) {
         visit((Term) args.get(pos));
         pos++;
@@ -1199,25 +1208,10 @@ public class ZPrintVisitor
         pos++;
       }
       else {
-        print(TokenName.DECORWORD, new Decorword(opPart));
-        //              opPart + strokeListToString(op.getStroke()));
+        print(TokenName.DECORWORD, new Decorword(opPart, op.getStroke()));
       }
     }
     return null;
-  }
-
-  /**
-   * Transforms a list of strokes into a (unicode) string.
-   */
-  private String strokeListToString(List strokes)
-  {
-    StringBuffer result = new StringBuffer();
-    for (Iterator iter = strokes.iterator(); iter.hasNext();)
-    {
-      Stroke stroke = (Stroke) iter.next();
-      result.append(stroke.toString());
-    }
-    return result.toString();
   }
 
   protected void printTermList(List list)

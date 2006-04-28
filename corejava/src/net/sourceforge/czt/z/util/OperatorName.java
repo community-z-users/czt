@@ -26,7 +26,6 @@ import java.util.StringTokenizer;
 
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.Factory;
 
 /**
  * An operator name.
@@ -52,8 +51,7 @@ public class OperatorName
 
   /**
    * The string list representation of this operator name,
-   * for instance ["_", "+", "_"].
-   * All word parts of the operator name must have the same strokes.
+   * for instance ["_", "+", "_"] but without strokes.
    */
   private List<String> list_;
 
@@ -69,7 +67,7 @@ public class OperatorName
   {
     word_ = name;
     strokes_ = strokes;
-    list_ = wordToList(name, strokes);
+    list_ = wordToList(name);
   }
 
   /**
@@ -90,46 +88,6 @@ public class OperatorName
     this(name.getWord(), name.getStroke());
   }
 
-  public OperatorName(List<String> list)
-    throws OperatorNameException
-  {
-    final String errorMessage = list + " is not an operator name.";
-    if (list.size() <= 1) {
-      throw new OperatorNameException(errorMessage);
-    }
-    list_ = list;
-    Boolean expectArgument = null;
-    StringBuffer name = new StringBuffer();
-    for (String opPart : list) {
-      if (opPart.equals(ZString.ARG) ||
-          opPart.equals(ZString.ARG_TOK)) {
-        if (Boolean.FALSE.equals(expectArgument)) {
-          throw new OperatorNameException(errorMessage);
-        }
-        name.append(ZString.ARG_TOK);
-        expectArgument = Boolean.FALSE;
-      }
-      else if (opPart.equals(ZString.LISTARG) ||
-               opPart.equals(ZString.LISTARG_TOK)) {
-        if (Boolean.FALSE.equals(expectArgument)) {
-          throw new OperatorNameException(errorMessage);
-        }
-        name.append(ZString.LISTARG_TOK);
-        expectArgument = Boolean.FALSE;
-      }
-      else {
-        if (Boolean.TRUE.equals(expectArgument)) {
-          throw new OperatorNameException(errorMessage);
-        }
-        ZDeclName declName = factory_.createZDeclName(opPart);
-        name.append(declName.getWord());
-        checkStrokes(declName.getStroke());
-        expectArgument = Boolean.TRUE;
-      }
-    }
-    word_ = name.toString();
-  }
-
   /**
    * Create some operator name from a single operator word.
    *
@@ -144,17 +102,17 @@ public class OperatorName
     if (Fixity.INFIX.equals(fixity)) {
       word_ = ZString.ARG_TOK + name + ZString.ARG_TOK;
       strokes_ = strokes;
-      list_ = wordToList(word_, strokes);
+      list_ = wordToList(word_);
     }
     else if (Fixity.PREFIX.equals(fixity)) {
       word_ = name + ZString.ARG_TOK;
       strokes_ = strokes;
-      list_ = wordToList(word_,strokes);
+      list_ = wordToList(word_);
     }
     else if (Fixity.POSTFIX.equals(fixity)) {
       word_ = ZString.ARG_TOK + name;
       strokes_ = strokes;
-      list_ = wordToList(word_,strokes);
+      list_ = wordToList(word_);
     }
     else throw new UnsupportedOperationException();
   }
@@ -164,11 +122,10 @@ public class OperatorName
    * and checks whether operator tokens and argument tokens
    * are alternatingly.
    */
-  private static List<String> wordToList(String name, List strokeList)
+  private static List<String> wordToList(String name)
     throws OperatorNameException
   {
     final String errorMessage = name + " is not an operator name.";
-    final String strokes = strokeListToString(strokeList);
     List<String> result = new ArrayList<String>();
     StringTokenizer tokenizer = new StringTokenizer(name);
     Boolean expectArgument = null;
@@ -187,7 +144,7 @@ public class OperatorName
           if (Boolean.TRUE.equals(expectArgument)) {
             throw new OperatorNameException(errorMessage);
           }
-          result.add(token + strokes);
+          result.add(token);
           expectArgument = Boolean.TRUE;
         }
       }
@@ -213,20 +170,6 @@ public class OperatorName
     return result.toString();
   }
 
-  private void checkStrokes(List strokes)
-    throws OperatorNameException
-  {
-    if (strokes_ == null) {
-      strokes_ = strokes;
-    }
-    else if (! strokes_.equals(strokes)) {
-      final String message =
-        "The component names of an operator must have the " +
-        "same decorations.";
-      throw new OperatorNameException(message);
-    }
-  }
-
   public String getWord()
   {
     return word_;
@@ -235,11 +178,6 @@ public class OperatorName
   public List getStroke()
   {
     return strokes_;
-  }
-
-  public Iterator<String> iterator()
-  {
-    return list_.iterator();
   }
 
   /**
@@ -279,6 +217,11 @@ public class OperatorName
       if (lastIsArg) return Fixity.PREFIX;
       else           return Fixity.NOFIX;
     }
+  }
+
+  public String[] getWords()
+  {
+    return list_.toArray(new String[0]);
   }
 
   public String toString()
