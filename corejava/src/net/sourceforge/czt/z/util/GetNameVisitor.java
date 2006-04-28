@@ -19,10 +19,8 @@
 
 package net.sourceforge.czt.z.util;
 
-import java.util.List;
-
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
+import net.sourceforge.czt.base.ast.ListTerm;
+import net.sourceforge.czt.base.visitor.ListTermVisitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -30,6 +28,7 @@ import net.sourceforge.czt.z.visitor.*;
  * @author Petra Malik
  */
 public class GetNameVisitor
+  extends PrintVisitor
   implements AxParaVisitor<String>,
              ConstDeclVisitor<String>,
              FreeParaVisitor<String>,
@@ -38,12 +37,10 @@ public class GetNameVisitor
              ListTermVisitor<String>,
              VarDeclVisitor<String>,
              ZDeclListVisitor<String>,
-             ZDeclNameVisitor<String>,
-             ZRefNameVisitor<String>,
              ZSchTextVisitor<String>,
              ZSectVisitor<String>
 {
-  private final String LIST_SEPARATOR = ", ";
+  private static final String LIST_SEPARATOR = ", ";
 
   public String visitAxPara(AxPara axPara)
   {
@@ -72,7 +69,7 @@ public class GetNameVisitor
 
   public String visitListTerm(ListTerm listTerm)
   {
-    return visitList(listTerm);
+    return visitList(listTerm, LIST_SEPARATOR);
   }
 
   public String visitVarDecl(VarDecl varDecl)
@@ -82,17 +79,7 @@ public class GetNameVisitor
 
   public String visitZDeclList(ZDeclList zDeclList)
   {
-    return visitList(zDeclList);
-  }
-
-  public String visitZDeclName(ZDeclName zDeclName)
-  {
-    return zDeclName.getWord();
-  }
-
-  public String visitZRefName(ZRefName zRefName)
-  {
-    return zRefName.getWord();
+    return visitList(zDeclList, LIST_SEPARATOR);
   }
 
   public String visitZSchText(ZSchText zSchText)
@@ -103,24 +90,5 @@ public class GetNameVisitor
   public String visitZSect(ZSect zSect)
   {
     return zSect.getName();
-  }
-
-  protected String visit(Term term)
-  {
-    return term.accept(this);
-  }
-
-  protected String visitList(List<? extends Term> list)
-  {
-    final StringBuffer result = new StringBuffer();
-    String separator = "";
-    for (Term term : list) {
-      final String next = term.accept(this);
-      if (next != null && ! "".equals(next)) {
-        result.append(separator + next);
-        separator = LIST_SEPARATOR;
-      }
-    }
-    return result.toString();
   }
 }
