@@ -19,7 +19,6 @@
 
 package net.sourceforge.czt.z.util;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
