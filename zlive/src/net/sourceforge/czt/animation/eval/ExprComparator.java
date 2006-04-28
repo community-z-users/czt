@@ -24,6 +24,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sourceforge.czt.animation.eval.flatpred.FlatGivenSet;
 import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.Branch;
 import net.sourceforge.czt.z.ast.ConstDecl;
@@ -45,11 +46,13 @@ public class ExprComparator implements Comparator<Expr>
 {
   // TODO: handle members of given types
   private static final int NUMEXPR = 1;
-  private static final int FREETYPE0 = 2; // a branch with no expression
-  private static final int FREETYPE1 = 3; // a branch with an expression
-  private static final int TUPLEEXPR = 4;
-  private static final int BINDEXPR = 5;
-  private static final int SETEXPR = 6;
+  private static final int GIVENVALUE = 2;
+  private static final int GIVENSET = 3;
+  private static final int FREETYPE0 = 4; // a branch with no expression
+  private static final int FREETYPE1 = 5; // a branch with an expression
+  private static final int TUPLEEXPR = 6;
+  private static final int BINDEXPR = 7;
+  private static final int SETEXPR = 8;
 
   public static final int LESSTHAN = -1;
   public static final int EQUAL = 0;
@@ -109,6 +112,18 @@ public class ExprComparator implements Comparator<Expr>
           result = sign(num0.getValue().compareTo(num1.getValue()));
           break;
 
+        case GIVENVALUE:
+          String given0 = ((GivenValue)arg0).getValue();
+          String given1 = ((GivenValue)arg1).getValue();
+          result = sign(given0.compareTo(given1));
+          break;
+
+        case GIVENSET:
+          String givenset0 = ((FlatGivenSet)arg0).getName();
+          String givenset1 = ((FlatGivenSet)arg1).getName();
+          result = sign(givenset0.compareTo(givenset1));
+          break;
+          
         case FREETYPE0:
         case FREETYPE1:
           Branch free0 = (Branch)arg0;
@@ -202,6 +217,10 @@ public class ExprComparator implements Comparator<Expr>
   {
     if (e instanceof NumExpr)
       return NUMEXPR;
+    if (e instanceof GivenValue)
+      return GIVENVALUE;
+    if (e instanceof FlatGivenSet)
+      return GIVENSET;
     if (e instanceof Branch) {
       if (((Branch)e).getExpr() == null)
         return FREETYPE0;

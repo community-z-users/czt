@@ -30,8 +30,6 @@ import net.sourceforge.czt.z.ast.ZRefName;
  *  of Mode objects for the subcomponents of the main flatpred object.
  *  For example, this is used to record the modes of the schema text
  *  and body of a universal quantifier.
- *
- *  @czt.todo: decide what the inputs of a compound mode should be.
  */
 public class ModeList extends Mode
 {

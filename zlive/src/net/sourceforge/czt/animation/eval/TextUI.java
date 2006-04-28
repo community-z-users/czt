@@ -18,21 +18,44 @@
 */
 package net.sourceforge.czt.animation.eval;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.sourceforge.czt.animation.eval.flatpred.FlatGivenSet;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.print.z.PrintUtils;
-import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.session.FileSource;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.SourceLocator;
+import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.ast.ConjPara;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.ExprPred;
+import net.sourceforge.czt.z.ast.LocAnn;
+import net.sourceforge.czt.z.ast.NumExpr;
+import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.Sect;
+import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
+import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.ast.ZNumeral;
+import net.sourceforge.czt.z.ast.ZSect;
 
 public class TextUI {
   private static Logger LOG 
@@ -60,10 +83,11 @@ public class TextUI {
     while (!finished) {
       System.out.print("zlive> ");
       str = br.readLine();
+      str.trim();
       if (str == null || str.equals("quit") || str.equals("exit"))
         finished = true;
       else if (!str.equals("")) {
-        String parts[] = str.split(" ",2);
+        String parts[] = str.split(" +",2);
         processCmd(parts[0],parts.length > 1 ? parts[1] : "");
       }
     }
@@ -94,15 +118,19 @@ public class TextUI {
          if (args == null || "".equals(args)) {
            out.println("markup = " + zlive_.getMarkup());
            out.println("section = " + zlive_.getCurrentSection());
+           out.println("givensetsize = " + zlive_.getGivenSetSize());
          }
          else {
-           final String parts[] = args.split(" ", 2);
+           final String parts[] = args.split(" +", 2);
            final String value = parts.length > 1 ? parts[1] : "";
            if ("markup".equals(parts[0])) {
              zlive_.setMarkup(value);
            }
            else if ("section".equals(parts[0])) {
              zlive_.setCurrentSection(value);
+           }
+           else if ("givensetsize".equals(parts[0])) {
+             zlive_.setGivenSetSize(value);
            }
            else {
              out.println("Unknown setting " + parts[0]);
@@ -124,6 +152,29 @@ public class TextUI {
          if (sectName != null) {
            out.println("Setting section to " + sectName);
            zlive_.setCurrentSection(sectName);
+         }
+       }
+       else if (cmd.equals("conjectures")) {
+         final String section = zlive_.getCurrentSection();
+         if (section != null) {
+           ZSect sect = (ZSect) manager.get(new Key(section, ZSect.class));
+           for (Para par : sect.getPara())
+             if (par instanceof ConjPara) {
+               LocAnn loc = (LocAnn) par.getAnn(LocAnn.class);
+               if (loc != null) {
+                 out.println("Conjecture on line "+loc.getLine());
+               }
+               try {
+                 ConjPara conj = (ConjPara) par;
+                 printTerm(out, zlive_.evalPred( conj.getPred() ), zlive_.getMarkup());
+                 out.println();
+               }
+               catch (Exception e) {
+                 out.println("Error: "+e);
+                 e.printStackTrace(out);
+               }
+           }
+           out.println();
          }
        }
        else if (cmd.equals("env")) {
@@ -156,27 +207,27 @@ public class TextUI {
          }
          else {
            LOG.fine("Starting to evaluate: " + term);
-           Term result = null;
            try
            {
+             Term result = null;
              if (isPred)
                result = zlive_.evalPred( (Pred)term );
              else
                result = zlive_.evalExpr( (Expr)term );
+             if (result != null)
+               printTerm(out, result, markup);
+             out.println();
            }
            catch (UndefException ex)
            {
-             out.print("Undefined!  " + ex.getMessage());
+             out.println("Undefined!  " + ex.getMessage());
            }
            catch (EvalException ex)
            {
-             out.print("Error: evaluation too difficult/large: "
+             out.println();
+             out.println("Error: evaluation too difficult/large: "
                        + ex.getMessage()); 
            }
-           if (result != null)
-             printTerm(out, result, markup);
-           out.println();
-           out.flush();
          }
        }
       else {
@@ -186,10 +237,17 @@ public class TextUI {
     catch (SourceLocator.SourceLocatorException e) {
       out.println("Cannot find source for section '" + e.getName() + "'");
     }
+    catch (NumberFormatException e) {
+      out.println("Error: " + e);
+    }
+    catch (IllegalArgumentException e) {
+      out.println("Error: " + e);
+    }
     catch (Exception e) {
       out.println("Error: " + e);
       e.printStackTrace(out);
     }
+    out.flush();
   }
 
   /** Prints help/usage message */
@@ -204,7 +262,7 @@ public class TextUI {
   public static void printHelp(PrintWriter out)
   {
     out.println("\n--------------- ZLive Help ---------------");
-    out.println("load \"filename\" -- Read a Z specification into ZLive");
+    out.println("load file.tex     -- Read a Z specification into ZLive");
     out.println("eval <expr>       -- Evaluate an expression");
     out.println("evalp <pred>      -- Evaluate a predicate (synonym for eval)");
     out.println("why               -- Print out the internal code of the last command");
@@ -212,6 +270,7 @@ public class TextUI {
     out.println("set <var> <value> -- Sets <var> to <value>.");
     out.println("version           -- Display the version of ZLive");
     out.println("quit              -- Exit the ZLive program");
+    out.println();
     out.flush();
   }
 
@@ -232,6 +291,12 @@ public class TextUI {
       NumExpr num = (NumExpr) term;
       ZNumeral znum = (ZNumeral) num.getNumeral();
       out.print(znum.getValue());
+    }
+    else if (term instanceof GivenValue) {
+      out.print(((GivenValue)term).getValue());
+    }
+    else if (term instanceof FlatGivenSet) {
+      out.print(((FlatGivenSet)term).getName());
     }
     else if (term instanceof EvalSet) {
       EvalSet set = (EvalSet) term;

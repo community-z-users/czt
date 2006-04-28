@@ -133,7 +133,7 @@ public class FlatSetComp extends FlatEvalSet
   /** Returns null for now -- because it is quite complex to calculate
    *  maximum size of a set comprehension.
    *  
-   *  TODO: estimate maximum size.
+   *  @czt.todo estimate maximum size.
    */
   public BigInteger maxSize()
   {
@@ -168,7 +168,7 @@ public class FlatSetComp extends FlatEvalSet
     return est;
   }
 
-  /** TODO: try and get a better size estimate by equating
+  /** @czt.todo try and get a better size estimate by equating
    *  elem to the result of the set before estimating its size?
    */
   public double estSubsetSize(Envir env, ZRefName elem)
@@ -197,7 +197,7 @@ public class FlatSetComp extends FlatEvalSet
       return null;
   }
 
-  /** TODO: see if we can use bounds information about element
+  /** @czt.todo see if we can use bounds information about element
    *  to reduce the size of the subset that we return?
    */
   public Iterator<Expr> subsetIterator(ZRefName element)

@@ -86,6 +86,38 @@ public class Flatten
   private static final Logger sLogger
   = Logger.getLogger("net.sourceforge.czt.animation.eval");
 
+  /** True if expr is a given set.
+   *  We rely on the type annotations to determine this.
+   */
+  public boolean isGivenSet(Expr expr)
+  {
+    Object ann = expr.getAnn(TypeAnn.class);
+    if (ann == null)
+      return false;
+    Type type = ((TypeAnn)ann).getType();
+    if ( ! (type instanceof PowerType))
+      return false;
+    type = ((PowerType)type).getType();
+    if (type instanceof GivenType)
+      return true;
+    else
+      return false;
+  }
+  
+  /** True if expr is a member of a given set.
+   *  We rely on the type annotations to determine this.
+   */
+  public boolean isGivenValue(Expr expr)
+  {
+    Object ann = expr.getAnn(TypeAnn.class);
+    if (ann == null)
+      return false; // shouldn't happen
+    Type type = ((TypeAnn)ann).getType();
+    if (type instanceof GivenType)
+      return true;
+    else
+      return false;
+  }
 
   /** Throws a 'not yet implemented' exception. */
   protected ZRefName notYet(Term t) {
@@ -359,23 +391,32 @@ public class Flatten
       flat_.add(new FlatRangeSet(zeroName,null,result));
     }
     else if ( result.toString().equals(ZString.NAT
-    		+ ZString.SE + "1" + ZString.NW)) {
-        result = zlive_.createNewName();
-        ZRefName oneName = zlive_.createNewName();
-        Expr one = zlive_.getFactory().createNumExpr(1);
-        flat_.add(new FlatConst(oneName, one));
-        flat_.add(new FlatRangeSet(oneName,null,result));
-      }
+        + ZString.SE + "1" + ZString.NW)) {
+      result = zlive_.createNewName();
+      ZRefName oneName = zlive_.createNewName();
+      Expr one = zlive_.getFactory().createNumExpr(1);
+      flat_.add(new FlatConst(oneName, one));
+      flat_.add(new FlatRangeSet(oneName,null,result));
+    }
     else if (result.getWord().equals(ZString.NUM)
-          && result.getStroke().isEmpty()) {
-        result = zlive_.createNewName();
-        flat_.add(new FlatRangeSet(null,null,result));
-      }
+        && result.getStroke().isEmpty()) {
+      result = zlive_.createNewName();
+      flat_.add(new FlatRangeSet(null,null,result));
+    }
     else if (result.getWord().equals(ZString.ARITHMOS)
-          && result.getStroke().isEmpty()) {
-        result = zlive_.createNewName();
-        flat_.add(new FlatRangeSet(null,null,result));
-      }
+        && result.getStroke().isEmpty()) {
+      result = zlive_.createNewName();
+      flat_.add(new FlatRangeSet(null,null,result));
+    }
+    else if (isGivenSet(e)) {
+      flat_.add(new FlatGivenSet(result,result.getWord(),zlive_));
+    }
+    else if (isGivenValue(e)) {
+      result = zlive_.createNewName();
+      flat_.add(
+          new FlatConst(result,
+          new GivenValue(e.getZRefName().getWord())));
+    }
     else {
       // Try to unfold this name via a (non-generic) definition.
       DefinitionTable.Definition def = table_.lookup(e.getRefName().toString());

@@ -61,7 +61,8 @@ public class ZLive
 
   private String sectName_;
   private Markup markup_ = Markup.LATEX;
-
+  private int givenSetSize_ = Integer.MAX_VALUE;
+  
   /** Generates a fresh temporary name. */
   public ZRefName createNewName()
   {
@@ -153,6 +154,20 @@ public class ZLive
   public void setMarkup(String markup)
   {
       markup_ = Enum.valueOf(Markup.class, markup);
+  }
+  
+  public int getGivenSetSize()
+  {
+    return givenSetSize_;
+  }
+
+  /**
+   * @throws NumberFormatException if the argument 
+   *  string is not a positive integer.
+   */
+  public void setGivenSetSize(String value)
+  {
+    givenSetSize_ = Integer.parseInt(value);
   }
 
   public void setMarkup(Markup markup)
