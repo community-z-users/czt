@@ -23,6 +23,7 @@ import org.gjt.sp.jedit.textarea.*;
 import sidekick.SideKickParsedData;
 
 import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.oz.util.*;
 import net.sourceforge.czt.print.util.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
@@ -135,7 +136,7 @@ public class ZSideKickActions
   {
     Type type = getTypeForCurrentWff(view);
     if (type != null) {
-      final String text = type.toString();
+      final String text = type.accept(new PrintVisitor());
       final JEditTextArea textArea = view.getTextArea();
       final int caretPos = textArea.getCaretPosition();
       Selection selection = new Selection.Range(caretPos,
