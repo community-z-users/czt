@@ -18,11 +18,26 @@
 */
 package net.sourceforge.czt.animation.eval;
 
+import net.sourceforge.czt.base.ast.Term;
+
 
 
 public class EvalException extends RuntimeException
 {
   private static final long serialVersionUID = 7893437293919758363L;
+
+  /** The optional term (may be null) related to the problem. */
+  protected Term problem_;
+
+  /** The term (usually an Expr or Pred) related to the problem.
+   *  May be null.
+   *
+   * @return Term
+   */
+  public Term getTerm()
+  {
+    return problem_;
+  }
 
   /** Constructs a new exception with null as its detail message. */
   public EvalException()
@@ -32,9 +47,25 @@ public class EvalException extends RuntimeException
   public EvalException(String message)
   { super(message); }
 
+  /** Constructs a new exception with the specified detail message. */
+  public EvalException(String message, Term problem)
+  {
+    this(message);
+    problem_ = problem;
+  }
+
   /** Constructs a new exception with the specified detail message and cause.*/
   public EvalException(String message, Throwable cause)
-  { super(message, cause); }
+  {
+    super(message, cause);
+  }
+
+  /** Constructs a new exception with the specified detail message and cause.*/
+  public EvalException(String message, Throwable cause, Term problem)
+  {
+    this(message, cause);
+    problem_ = problem;
+  }
 
   /** Constructs a new exception with the specified cause and detail message.
       The detail message will be (cause==null ? null : cause.toString()),

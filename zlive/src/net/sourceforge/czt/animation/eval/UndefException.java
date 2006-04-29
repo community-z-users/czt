@@ -18,6 +18,8 @@
 */
 package net.sourceforge.czt.animation.eval;
 
+import net.sourceforge.czt.base.ast.Term;
+
 
 
 public class UndefException extends EvalException
@@ -32,10 +34,18 @@ public class UndefException extends EvalException
   public UndefException(String message)
   { super(message); }
 
+  /** Constructs a new exception with the specified detail message. */
+  public UndefException(String message, Term problem)
+  { super(message, problem); }
+  
   /** Constructs a new exception with the specified detail message and cause.*/
   public UndefException(String message, Throwable cause)
   { super(message, cause); }
 
+  /** Constructs a new exception with the specified detail message and cause.*/
+  public UndefException(String message, Throwable cause, Term problem)
+  { super(message, cause, problem); }
+  
   /** Constructs a new exception with the specified cause and detail message.
       The detail message will be (cause==null ? null : cause.toString()),
       which typically contains the class and detail message of cause.

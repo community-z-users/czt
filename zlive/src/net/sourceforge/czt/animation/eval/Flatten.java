@@ -88,8 +88,15 @@ public class Flatten
 
   /** True if expr is a given set.
    *  We rely on the type annotations to determine this.
+   *  But this is not enough, since x:\power CAR will have
+   *  the same type as CAR.  
+   *  
+   *  TODO: The best way of identifying given sets would be
+   *  to scan all the GivenParas and put those names into
+   *  the definition table.  Probably something similar
+   *  should be done with freetype names.
    */
-  public boolean isGivenSet(Expr expr)
+  public boolean isGivenSet(RefExpr expr)
   {
     Object ann = expr.getAnn(TypeAnn.class);
     if (ann == null)
@@ -98,25 +105,40 @@ public class Flatten
     if ( ! (type instanceof PowerType))
       return false;
     type = ((PowerType)type).getType();
-    if (type instanceof GivenType)
-      return true;
-    else
+    if ( ! (type instanceof GivenType))
       return false;
+    GivenType gtype = (GivenType) type;
+    if (gtype.getName().getWord().equals(ZString.ARITHMOS))
+      return false;
+    
+    System.out.println("GivenSet "+gtype.getName().getWord()+".");
+    return true;
   }
   
   /** True if expr is a member of a given set.
    *  We rely on the type annotations to determine this.
+   *  As for isGivenSet, this is not enough, since in \forall x:CAR,
+   *  we want to leave x as a normal variable, rather than 
+   *  converting it into a GivenValue.
+   *  TODO: only classify global constants like this.
+   *      (do this by putting appropriately typed global constants
+   *      and freetype branches into the definition table, bound to
+   *      a corresponding GivenValue).
    */
-  public boolean isGivenValue(Expr expr)
+  public boolean isGivenValue(RefExpr expr)
   {
     Object ann = expr.getAnn(TypeAnn.class);
     if (ann == null)
       return false; // shouldn't happen
     Type type = ((TypeAnn)ann).getType();
-    if (type instanceof GivenType)
-      return true;
-    else
+    if ( ! (type instanceof GivenType))
       return false;
+    GivenType gtype = (GivenType) type;
+    if (gtype.getName().getWord().equals(ZString.ARITHMOS))
+      return false;
+    
+    System.out.println("GivenValue "+gtype.getName().getWord()+".");
+    return true;
   }
 
   /** Throws a 'not yet implemented' exception. */
@@ -126,9 +148,7 @@ public class Flatten
 
   /** Throws a 'not yet implemented' exception. */
   protected ZRefName notYet(Term t, String msg) {
-    throw new RuntimeException("Flatten does not yet handle: " + t
-			       + " (" + TextUI.printTerm(t, zlive_.getMarkup())
-                               + ") " + msg);
+    throw new EvalException("ZLive does not handle "+t.getClass().getName()+" yet. " + msg, t);
   }
 
   public Flatten(ZLive zlive)
