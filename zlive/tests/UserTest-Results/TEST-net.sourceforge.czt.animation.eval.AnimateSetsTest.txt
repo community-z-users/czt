@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateSetsTest
-Tests run: 259, Failures: 71, Errors: 1, Time elapsed: 100.115 sec
+Tests run: 259, Failures: 71, Errors: 1, Time elapsed: 73.469 sec
 ------------- Standard Output ---------------
 loaded rule setminus
 loaded rule taildef
@@ -69,422 +69,422 @@ Passed test:animate_sets.tex:48
 Passed test:animate_sets.tex:49
 Passed test:animate_sets.tex:50
 Passed test:animate_sets.tex:51
-set compare: FlatRangeSet(tmp712,tmp713,tmp711), FlatDiscreteSet(tmp714)
+set compare: FlatRangeSet(tmp720,tmp721,tmp719), FlatDiscreteSet(tmp722)
 Passed test:animate_sets.tex:52
-set compare: FlatRangeSet(tmp716,tmp717,tmp715), FlatDiscreteSet(tmp718)
+set compare: FlatRangeSet(tmp724,tmp725,tmp723), FlatDiscreteSet(tmp726)
 Passed test:animate_sets.tex:53
 Passed test:animate_sets.tex:54
-set compare: FlatUnion(tmp726,tmp727,tmp725), FlatDiscreteSet(tmp728)
+set compare: FlatUnion(tmp734,tmp735,tmp733), FlatDiscreteSet(tmp736)
 Passed test:animate_sets.tex:59
-set compare: FlatUnion(tmp730,tmp734,tmp729), FlatDiscreteSet(tmp737,tmp735,tmp736,tmp738)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare: FlatUnion(tmp738,tmp742,tmp737), FlatDiscreteSet(tmp744,tmp743,tmp745,tmp746)
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
 Passed test:animate_sets.tex:60
-set compare: FlatUnion(tmp743,tmp744,tmp739), FlatDiscreteSet(tmp746,tmp747,tmp745,tmp748)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare: FlatUnion(tmp751,tmp752,tmp747), FlatDiscreteSet(tmp753,tmp755,tmp754,tmp756)
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
 Passed test:animate_sets.tex:61
-set compare: FlatUnion(tmp750,tmp751,tmp749), FlatDiscreteSet(tmp763,tmp762,tmp761,tmp764)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare: FlatUnion(tmp758,tmp759,tmp757), FlatDiscreteSet(tmp770,tmp771,tmp769,tmp772)
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
 Passed test:animate_sets.tex:62
-set compare: FlatUnion(tmp766,tmp776,tmp765), FlatRangeSet(tmp778,tmp779,tmp777)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare: FlatUnion(tmp774,tmp784,tmp773), FlatRangeSet(tmp786,tmp787,tmp785)
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
 Passed test:animate_sets.tex:63
-set compare: FlatUnion(tmp782,tmp784,tmp780), FlatDiscreteSet(tmp785,tmp786)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
+set compare: FlatUnion(tmp790,tmp792,tmp788), FlatDiscreteSet(tmp793,tmp794)
+set compare members: 1, 1
 Passed test:animate_sets.tex:65
-set compare: FlatUnion(tmp789,tmp790,tmp787), FlatRangeSet(tmp794,tmp795,tmp793)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79548ee, net.sourceforge.czt.z.impl.NumExprImpl@79548ee
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
+set compare: FlatUnion(tmp797,tmp798,tmp795), FlatRangeSet(tmp802,tmp803,tmp801)
+set compare members: 0, 0
+set compare members: 1, 1
+set compare members: 2, 2
 Passed test:animate_sets.tex:66
-set compare: FlatUnion(tmp797,tmp801,tmp796), FlatDiscreteSet(tmp804,tmp802,tmp803,tmp805)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79548ee, net.sourceforge.czt.z.impl.NumExprImpl@79548ee
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
+set compare: FlatUnion(tmp805,tmp809,tmp804), FlatDiscreteSet(tmp812,tmp811,tmp810,tmp813)
+set compare members: 0, 0
+set compare members: 1, 1
+set compare members: 2, 2
 Passed test:animate_sets.tex:67
-set compare: FlatUnion(tmp810,tmp815,tmp806), FlatRangeSet(tmp817,tmp818,tmp816)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79548ee, net.sourceforge.czt.z.impl.NumExprImpl@79548ee
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79557f2, net.sourceforge.czt.z.impl.NumExprImpl@79557f2
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955bb3, net.sourceforge.czt.z.impl.NumExprImpl@7955bb3
+set compare: FlatUnion(tmp818,tmp823,tmp814), FlatRangeSet(tmp825,tmp826,tmp824)
+set compare members: 0, 0
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
+set compare members: 4, 4
+set compare members: 5, 5
 Passed test:animate_sets.tex:69
-set compare: FlatUnion(tmp823,tmp827,tmp819), FlatRangeSet(tmp829,tmp830,tmp828)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79557f2, net.sourceforge.czt.z.impl.NumExprImpl@79557f2
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955bb3, net.sourceforge.czt.z.impl.NumExprImpl@7955bb3
+set compare: FlatUnion(tmp831,tmp835,tmp827), FlatRangeSet(tmp837,tmp838,tmp836)
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
+set compare members: 4, 4
+set compare members: 5, 5
 Passed test:animate_sets.tex:70
-set compare: FlatUnion(tmp835,tmp836,tmp831), FlatRangeSet(tmp840,tmp841,tmp839)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79548ee, net.sourceforge.czt.z.impl.NumExprImpl@79548ee
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79557f2, net.sourceforge.czt.z.impl.NumExprImpl@79557f2
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955bb3, net.sourceforge.czt.z.impl.NumExprImpl@7955bb3
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955f74, net.sourceforge.czt.z.impl.NumExprImpl@7955f74
+set compare: FlatUnion(tmp843,tmp844,tmp839), FlatRangeSet(tmp848,tmp849,tmp847)
+set compare members: 0, 0
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
+set compare members: 4, 4
+set compare members: 5, 5
+set compare members: 6, 6
 Passed test:animate_sets.tex:71
-set compare: FlatUnion(tmp843,tmp849,tmp842), FlatRangeSet(tmp851,tmp852,tmp850)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79548ee, net.sourceforge.czt.z.impl.NumExprImpl@79548ee
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79557f2, net.sourceforge.czt.z.impl.NumExprImpl@79557f2
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955bb3, net.sourceforge.czt.z.impl.NumExprImpl@7955bb3
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955f74, net.sourceforge.czt.z.impl.NumExprImpl@7955f74
+set compare: FlatUnion(tmp851,tmp857,tmp850), FlatRangeSet(tmp859,tmp860,tmp858)
+set compare members: 0, 0
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
+set compare members: 4, 4
+set compare members: 5, 5
+set compare members: 6, 6
 Passed test:animate_sets.tex:72
-set compare: FlatUnion(tmp857,tmp858,tmp853), FlatDiscreteSet(tmp869,tmp870,tmp868,tmp871)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare: FlatUnion(tmp865,tmp866,tmp861), FlatDiscreteSet(tmp877,tmp878,tmp876,tmp879)
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
 Passed test:animate_sets.tex:74
-set compare: FlatUnion(tmp873,tmp886,tmp872), FlatDiscreteSet(tmp888,tmp889,tmp887,tmp890)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare: FlatUnion(tmp881,tmp894,tmp880), FlatDiscreteSet(tmp896,tmp897,tmp895,tmp898)
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
 Passed test:animate_sets.tex:75
-set compare: FlatUnion(tmp892,tmp902,tmp891), { tmp915==1, tmp916==10, FlatRangeSet(tmp915,tmp916,tmp914), FlatMember(tmp914,x), tmp920==4, FlatLessThan(x,tmp920), FlatEquals(tmp913,x) @ tmp913 } = tmp912
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare: FlatUnion(tmp900,tmp910,tmp899), { tmp923==1, tmp924==10, FlatRangeSet(tmp923,tmp924,tmp922), FlatMember(tmp922,x), tmp928==4, FlatLessThan(x,tmp928), FlatEquals(tmp921,x) @ tmp921 } = tmp920
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
 Passed test:animate_sets.tex:76
-set compare: FlatUnion(tmp923,tmp933,tmp922), FlatDiscreteSet(tmp951,tmp948,tmp947,tmp950,tmp949,tmp952)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79557f2, net.sourceforge.czt.z.impl.NumExprImpl@79557f2
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7956ab7, net.sourceforge.czt.z.impl.NumExprImpl@7956ab7
+set compare: FlatUnion(tmp931,tmp941,tmp930), FlatDiscreteSet(tmp955,tmp958,tmp957,tmp959,tmp956,tmp960)
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
+set compare members: 4, 4
+set compare members: 9, 9
 Passed test:animate_sets.tex:77
-set compare: { tmp955==5, FlatDiscreteSet(tmp955,tmp956), FlatMember(tmp956,x), tmp959==5, FlatDiscreteSet(tmp959,tmp960), FlatNot( FlatMember(tmp960,x) ), FlatEquals(tmp954,x) @ tmp954 } = tmp953, { tmp965==5, FlatDiscreteSet(tmp965,tmp966), FlatMember(tmp966,x), tmp969==5, FlatDiscreteSet(tmp969,tmp970), FlatNot( FlatMember(tmp970,x) ), FlatEquals(tmp964,x) @ tmp964 } = tmp963
+set compare: { tmp963==5, FlatDiscreteSet(tmp963,tmp964), FlatMember(tmp964,x), tmp967==5, FlatDiscreteSet(tmp967,tmp968), FlatNot( FlatMember(tmp968,x) ), FlatEquals(tmp962,x) @ tmp962 } = tmp961, { tmp973==5, FlatDiscreteSet(tmp973,tmp974), FlatMember(tmp974,x), tmp977==5, FlatDiscreteSet(tmp977,tmp978), FlatNot( FlatMember(tmp978,x) ), FlatEquals(tmp972,x) @ tmp972 } = tmp971
 Passed test:animate_sets.tex:96
-set compare: FlatUnion(tmp974,tmp984,tmp973), FlatUnion(tmp986,tmp996,tmp985)
+set compare: FlatUnion(tmp982,tmp992,tmp981), FlatUnion(tmp994,tmp1004,tmp993)
 Passed test:animate_sets.tex:97
-set compare: FlatUnion(tmp998,tmp1009,tmp997), FlatUnion(tmp1011,tmp1022,tmp1010)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
+set compare: FlatUnion(tmp1006,tmp1017,tmp1005), FlatUnion(tmp1019,tmp1030,tmp1018)
+set compare members: 1, 1
 Passed test:animate_sets.tex:98
-set compare: FlatUnion(tmp1024,tmp1037,tmp1023), FlatUnion(tmp1039,tmp1052,tmp1038)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79557f2, net.sourceforge.czt.z.impl.NumExprImpl@79557f2
+set compare: FlatUnion(tmp1032,tmp1045,tmp1031), FlatUnion(tmp1047,tmp1060,tmp1046)
+set compare members: 2, 2
+set compare members: 3, 3
+set compare members: 4, 4
 Passed test:animate_sets.tex:99
-set compare: FlatUnion(tmp1054,tmp1070,tmp1053), FlatUnion(tmp1072,tmp1088,tmp1071)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79557f2, net.sourceforge.czt.z.impl.NumExprImpl@79557f2
+set compare: FlatUnion(tmp1062,tmp1078,tmp1061), FlatUnion(tmp1080,tmp1096,tmp1079)
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
+set compare members: 4, 4
 Passed test:animate_sets.tex:100
-set compare: FlatUnion(tmp1090,tmp1115,tmp1089), FlatUnion(tmp1126,tmp1151,tmp1125)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79557f2, net.sourceforge.czt.z.impl.NumExprImpl@79557f2
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955bb3, net.sourceforge.czt.z.impl.NumExprImpl@7955bb3
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955f74, net.sourceforge.czt.z.impl.NumExprImpl@7955f74
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79566f6, net.sourceforge.czt.z.impl.NumExprImpl@79566f6
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7956e78, net.sourceforge.czt.z.impl.NumExprImpl@7956e78
+set compare: FlatUnion(tmp1098,tmp1123,tmp1097), FlatUnion(tmp1134,tmp1159,tmp1133)
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
+set compare members: 4, 4
+set compare members: 5, 5
+set compare members: 6, 6
+set compare members: 8, 8
+set compare members: 10, 10
 Passed test:animate_sets.tex:101
-set compare: FlatDiscreteSet(tmp1161,tmp1171), FlatDiscreteSet(tmp1172,tmp1182)
-set compare members: { tmp1163==5, FlatDiscreteSet(tmp1163,tmp1164), FlatMember(tmp1164,x), tmp1167==5, FlatDiscreteSet(tmp1167,tmp1168), FlatNot( FlatMember(tmp1168,x) ), FlatEquals(tmp1162,x) @ tmp1162 } = tmp1161, { tmp1174==5, FlatDiscreteSet(tmp1174,tmp1175), FlatMember(tmp1175,x), tmp1178==5, FlatDiscreteSet(tmp1178,tmp1179), FlatNot( FlatMember(tmp1179,x) ), FlatEquals(tmp1173,x) @ tmp1173 } = tmp1172
-set compare: { tmp1163==5, FlatDiscreteSet(tmp1163,tmp1164), FlatMember(tmp1164,x), tmp1167==5, FlatDiscreteSet(tmp1167,tmp1168), FlatNot( FlatMember(tmp1168,x) ), FlatEquals(tmp1162,x) @ tmp1162 } = tmp1161, { tmp1174==5, FlatDiscreteSet(tmp1174,tmp1175), FlatMember(tmp1175,x), tmp1178==5, FlatDiscreteSet(tmp1178,tmp1179), FlatNot( FlatMember(tmp1179,x) ), FlatEquals(tmp1173,x) @ tmp1173 } = tmp1172
+set compare: FlatDiscreteSet(tmp1169,tmp1179), FlatDiscreteSet(tmp1180,tmp1190)
+set compare members: { tmp1171==5, FlatDiscreteSet(tmp1171,tmp1172), FlatMember(tmp1172,x), tmp1175==5, FlatDiscreteSet(tmp1175,tmp1176), FlatNot( FlatMember(tmp1176,x) ), FlatEquals(tmp1170,x) @ tmp1170 } = tmp1169, { tmp1182==5, FlatDiscreteSet(tmp1182,tmp1183), FlatMember(tmp1183,x), tmp1186==5, FlatDiscreteSet(tmp1186,tmp1187), FlatNot( FlatMember(tmp1187,x) ), FlatEquals(tmp1181,x) @ tmp1181 } = tmp1180
+set compare: { tmp1171==5, FlatDiscreteSet(tmp1171,tmp1172), FlatMember(tmp1172,x), tmp1175==5, FlatDiscreteSet(tmp1175,tmp1176), FlatNot( FlatMember(tmp1176,x) ), FlatEquals(tmp1170,x) @ tmp1170 } = tmp1169, { tmp1182==5, FlatDiscreteSet(tmp1182,tmp1183), FlatMember(tmp1183,x), tmp1186==5, FlatDiscreteSet(tmp1186,tmp1187), FlatNot( FlatMember(tmp1187,x) ), FlatEquals(tmp1181,x) @ tmp1181 } = tmp1180
 Passed test:animate_sets.tex:102
-set compare: FlatUnion(tmp1184,tmp1188,tmp1183), FlatDiscreteSet(tmp1190,tmp1189,tmp1191,tmp1192)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79557f2, net.sourceforge.czt.z.impl.NumExprImpl@79557f2
+set compare: FlatUnion(tmp1192,tmp1196,tmp1191), FlatDiscreteSet(tmp1198,tmp1197,tmp1199,tmp1200)
+set compare members: 2, 2
+set compare members: 3, 3
+set compare members: 4, 4
 Passed test:animate_sets.tex:103
-set compare: FlatUnion(tmp1194,tmp1195,tmp1193), { tmp1212==5, tmp1213==10, FlatRangeSet(tmp1212,tmp1213,tmp1211), FlatMember(tmp1211,x), tmp1218==2, FlatMod(x,tmp1218,tmp1217), tmp1219==0, FlatEquals(tmp1217,tmp1219), FlatEquals(tmp1210,x) @ tmp1210 } = tmp1209
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955f74, net.sourceforge.czt.z.impl.NumExprImpl@7955f74
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79566f6, net.sourceforge.czt.z.impl.NumExprImpl@79566f6
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7956e78, net.sourceforge.czt.z.impl.NumExprImpl@7956e78
+set compare: FlatUnion(tmp1202,tmp1203,tmp1201), { tmp1220==5, tmp1221==10, FlatRangeSet(tmp1220,tmp1221,tmp1219), FlatMember(tmp1219,x), tmp1226==2, FlatMod(x,tmp1226,tmp1225), tmp1227==0, FlatEquals(tmp1225,tmp1227), FlatEquals(tmp1218,x) @ tmp1218 } = tmp1217
+set compare members: 6, 6
+set compare members: 8, 8
+set compare members: 10, 10
 Passed test:animate_sets.tex:104
-set compare: FlatUnion(tmp1224,tmp1225,tmp1223), FlatRangeSet(tmp1229,tmp1230,tmp1228)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79548ee, net.sourceforge.czt.z.impl.NumExprImpl@79548ee
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare: FlatUnion(tmp1232,tmp1233,tmp1231), FlatRangeSet(tmp1237,tmp1238,tmp1236)
+set compare members: 0, 0
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
 Passed test:animate_sets.tex:105
-set compare: FlatUnion(tmp1232,tmp1243,tmp1231), FlatDiscreteSet(tmp1244,tmp1254)
-set compare members: { tmp1236==1, tmp1237==10, FlatRangeSet(tmp1236,tmp1237,tmp1235), FlatMember(tmp1235,x), tmp1241==6, FlatLessThan(x,tmp1241), FlatEquals(tmp1234,x) @ tmp1234 } = tmp1233, { tmp1247==1, tmp1248==10, FlatRangeSet(tmp1247,tmp1248,tmp1246), FlatMember(tmp1246,x), tmp1252==6, FlatLessThan(x,tmp1252), FlatEquals(tmp1245,x) @ tmp1245 } = tmp1244
-set compare: { tmp1236==1, tmp1237==10, FlatRangeSet(tmp1236,tmp1237,tmp1235), FlatMember(tmp1235,x), tmp1241==6, FlatLessThan(x,tmp1241), FlatEquals(tmp1234,x) @ tmp1234 } = tmp1233, { tmp1247==1, tmp1248==10, FlatRangeSet(tmp1247,tmp1248,tmp1246), FlatMember(tmp1246,x), tmp1252==6, FlatLessThan(x,tmp1252), FlatEquals(tmp1245,x) @ tmp1245 } = tmp1244
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79557f2, net.sourceforge.czt.z.impl.NumExprImpl@79557f2
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955bb3, net.sourceforge.czt.z.impl.NumExprImpl@7955bb3
+set compare: FlatUnion(tmp1240,tmp1251,tmp1239), FlatDiscreteSet(tmp1252,tmp1262)
+set compare members: { tmp1244==1, tmp1245==10, FlatRangeSet(tmp1244,tmp1245,tmp1243), FlatMember(tmp1243,x), tmp1249==6, FlatLessThan(x,tmp1249), FlatEquals(tmp1242,x) @ tmp1242 } = tmp1241, { tmp1255==1, tmp1256==10, FlatRangeSet(tmp1255,tmp1256,tmp1254), FlatMember(tmp1254,x), tmp1260==6, FlatLessThan(x,tmp1260), FlatEquals(tmp1253,x) @ tmp1253 } = tmp1252
+set compare: { tmp1244==1, tmp1245==10, FlatRangeSet(tmp1244,tmp1245,tmp1243), FlatMember(tmp1243,x), tmp1249==6, FlatLessThan(x,tmp1249), FlatEquals(tmp1242,x) @ tmp1242 } = tmp1241, { tmp1255==1, tmp1256==10, FlatRangeSet(tmp1255,tmp1256,tmp1254), FlatMember(tmp1254,x), tmp1260==6, FlatLessThan(x,tmp1260), FlatEquals(tmp1253,x) @ tmp1253 } = tmp1252
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
+set compare members: 4, 4
+set compare members: 5, 5
 Passed test:animate_sets.tex:106
-set compare: FlatUnion(tmp1256,tmp1262,tmp1255), FlatDiscreteSet(tmp1264,tmp1263,tmp1265)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
+set compare: FlatUnion(tmp1264,tmp1270,tmp1263), FlatDiscreteSet(tmp1272,tmp1271,tmp1273)
+set compare members: 1, 1
+set compare members: 2, 2
 Passed test:animate_sets.tex:109
-set compare: FlatUnion(tmp1268,tmp1272,tmp1266), FlatRangeSet(tmp1274,tmp1275,tmp1273)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79557f2, net.sourceforge.czt.z.impl.NumExprImpl@79557f2
+set compare: FlatUnion(tmp1276,tmp1280,tmp1274), FlatRangeSet(tmp1282,tmp1283,tmp1281)
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
+set compare members: 4, 4
 Passed test:animate_sets.tex:110
-set compare: FlatUnion(tmp1277,tmp1291,tmp1276), FlatDiscreteSet(tmp1292,tmp1293)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
+set compare: FlatUnion(tmp1285,tmp1299,tmp1284), FlatDiscreteSet(tmp1300,tmp1301)
+set compare members: 1, 1
 Passed test:animate_sets.tex:111
-set compare: FlatDiscreteSet(tmp1294,tmp1295), FlatDiscreteSet(tmp1296,tmp1297)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
+set compare: FlatDiscreteSet(tmp1302,tmp1303), FlatDiscreteSet(tmp1304,tmp1305)
+set compare members: 1, 1
 Passed test:animate_sets.tex:112
-set compare: { tmp1301==0, tmp1302==3, FlatRangeSet(tmp1301,tmp1302,tmp1300), FlatDiscreteSet(tmp1300,tmp1303), FlatMember(tmp1303,s), FlatRangeSet(-,-,tmp1308), FlatMember(tmp1308,x), FlatMember(s,x), FlatEquals(tmp1299,x) @ tmp1299 } = tmp1298, FlatDiscreteSet(tmp1312,tmp1311,tmp1310,tmp1313,tmp1314)
-set compare: FlatUnion(tmp1318,tmp1323,tmp1315), FlatDiscreteSet(tmp1324,tmp1327)
-set compare: FlatDiscreteSet(tmp1321,tmp1320,tmp1319,tmp1322), FlatDiscreteSet(tmp1316,tmp1317)
-set compare: FlatDiscreteSet(tmp1321,tmp1320,tmp1319,tmp1322), FlatDiscreteSet(tmp1316,tmp1317)
-set compare: FlatUnion(tmp1332,tmp1336,tmp1328), FlatDiscreteSet(tmp1337,tmp1340)
-set compare: FlatRangeSet(tmp1334,tmp1335,tmp1333), FlatRangeSet(tmp1330,tmp1331,tmp1329)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79548ee, net.sourceforge.czt.z.impl.NumExprImpl@79548ee
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
-set compare members: FlatRangeSet(tmp1330,tmp1331,tmp1329), FlatRangeSet(tmp1338,tmp1339,tmp1337)
-set compare: FlatRangeSet(tmp1330,tmp1331,tmp1329), FlatRangeSet(tmp1338,tmp1339,tmp1337)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79548ee, net.sourceforge.czt.z.impl.NumExprImpl@79548ee
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare: { tmp1309==0, tmp1310==3, FlatRangeSet(tmp1309,tmp1310,tmp1308), FlatDiscreteSet(tmp1308,tmp1311), FlatMember(tmp1311,s), FlatRangeSet(-,-,tmp1316), FlatMember(tmp1316,x), FlatMember(s,x), FlatEquals(tmp1307,x) @ tmp1307 } = tmp1306, FlatDiscreteSet(tmp1321,tmp1320,tmp1318,tmp1319,tmp1322)
+set compare: FlatUnion(tmp1326,tmp1331,tmp1323), FlatDiscreteSet(tmp1332,tmp1335)
+set compare: FlatDiscreteSet(tmp1327,tmp1329,tmp1328,tmp1330), FlatDiscreteSet(tmp1324,tmp1325)
+set compare: FlatDiscreteSet(tmp1327,tmp1329,tmp1328,tmp1330), FlatDiscreteSet(tmp1324,tmp1325)
+set compare: FlatUnion(tmp1340,tmp1344,tmp1336), FlatDiscreteSet(tmp1345,tmp1348)
+set compare: FlatRangeSet(tmp1342,tmp1343,tmp1341), FlatRangeSet(tmp1338,tmp1339,tmp1337)
+set compare members: 0, 0
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
+set compare members: FlatRangeSet(tmp1338,tmp1339,tmp1337), FlatRangeSet(tmp1346,tmp1347,tmp1345)
+set compare: FlatRangeSet(tmp1338,tmp1339,tmp1337), FlatRangeSet(tmp1346,tmp1347,tmp1345)
+set compare members: 0, 0
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
 Passed test:animate_sets.tex:115
-set compare: FlatUnion(tmp1345,tmp1346,tmp1341), FlatUnion(tmp1364,tmp1365,tmp1360)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79557f2, net.sourceforge.czt.z.impl.NumExprImpl@79557f2
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955f74, net.sourceforge.czt.z.impl.NumExprImpl@7955f74
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79566f6, net.sourceforge.czt.z.impl.NumExprImpl@79566f6
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7956e78, net.sourceforge.czt.z.impl.NumExprImpl@7956e78
+set compare: FlatUnion(tmp1353,tmp1354,tmp1349), FlatUnion(tmp1372,tmp1373,tmp1368)
+set compare members: 2, 2
+set compare members: 3, 3
+set compare members: 4, 4
+set compare members: 6, 6
+set compare members: 8, 8
+set compare members: 10, 10
 Passed test:animate_sets.tex:118
-set compare: FlatUnion(tmp1380,tmp1397,tmp1379), FlatUnion(tmp1402,tmp1403,tmp1398)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79557f2, net.sourceforge.czt.z.impl.NumExprImpl@79557f2
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955f74, net.sourceforge.czt.z.impl.NumExprImpl@7955f74
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79566f6, net.sourceforge.czt.z.impl.NumExprImpl@79566f6
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7956e78, net.sourceforge.czt.z.impl.NumExprImpl@7956e78
+set compare: FlatUnion(tmp1388,tmp1405,tmp1387), FlatUnion(tmp1410,tmp1411,tmp1406)
+set compare members: 2, 2
+set compare members: 3, 3
+set compare members: 4, 4
+set compare members: 6, 6
+set compare members: 8, 8
+set compare members: 10, 10
 Passed test:animate_sets.tex:119
-set compare: FlatUnion(tmp1421,tmp1422,tmp1417), { tmp1435==1, tmp1436==10, FlatRangeSet(tmp1435,tmp1436,tmp1434), FlatMember(tmp1434,x), tmp1440==6, FlatLessThan(x,tmp1440), FlatEquals(tmp1433,x) @ tmp1433 } = tmp1432
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79557f2, net.sourceforge.czt.z.impl.NumExprImpl@79557f2
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955bb3, net.sourceforge.czt.z.impl.NumExprImpl@7955bb3
+set compare: FlatUnion(tmp1429,tmp1430,tmp1425), { tmp1443==1, tmp1444==10, FlatRangeSet(tmp1443,tmp1444,tmp1442), FlatMember(tmp1442,x), tmp1448==6, FlatLessThan(x,tmp1448), FlatEquals(tmp1441,x) @ tmp1441 } = tmp1440
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
+set compare members: 4, 4
+set compare members: 5, 5
 Passed test:animate_sets.tex:120
-set compare: FlatUnion(tmp1443,tmp1457,tmp1442), FlatUnion(tmp1461,tmp1475,tmp1460)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79548ee, net.sourceforge.czt.z.impl.NumExprImpl@79548ee
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955f74, net.sourceforge.czt.z.impl.NumExprImpl@7955f74
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79566f6, net.sourceforge.czt.z.impl.NumExprImpl@79566f6
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7956e78, net.sourceforge.czt.z.impl.NumExprImpl@7956e78
+set compare: FlatUnion(tmp1451,tmp1465,tmp1450), FlatUnion(tmp1469,tmp1483,tmp1468)
+set compare members: 0, 0
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
+set compare members: 6, 6
+set compare members: 8, 8
+set compare members: 10, 10
 Passed test:animate_sets.tex:121
-set compare: FlatUnion(tmp1479,tmp1484,tmp1478), FlatRangeSet(tmp1486,tmp1487,tmp1485)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79548ee, net.sourceforge.czt.z.impl.NumExprImpl@79548ee
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79557f2, net.sourceforge.czt.z.impl.NumExprImpl@79557f2
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955bb3, net.sourceforge.czt.z.impl.NumExprImpl@7955bb3
+set compare: FlatUnion(tmp1487,tmp1492,tmp1486), FlatRangeSet(tmp1494,tmp1495,tmp1493)
+set compare members: 0, 0
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
+set compare members: 4, 4
+set compare members: 5, 5
 Passed test:animate_sets.tex:122
-set compare: FlatUnion(tmp1489,tmp1503,tmp1488), FlatUnion(tmp1514,tmp1524,tmp1513)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79557f2, net.sourceforge.czt.z.impl.NumExprImpl@79557f2
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955bb3, net.sourceforge.czt.z.impl.NumExprImpl@7955bb3
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955f74, net.sourceforge.czt.z.impl.NumExprImpl@7955f74
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79566f6, net.sourceforge.czt.z.impl.NumExprImpl@79566f6
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7956e78, net.sourceforge.czt.z.impl.NumExprImpl@7956e78
+set compare: FlatUnion(tmp1497,tmp1511,tmp1496), FlatUnion(tmp1522,tmp1532,tmp1521)
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
+set compare members: 4, 4
+set compare members: 5, 5
+set compare members: 6, 6
+set compare members: 8, 8
+set compare members: 10, 10
 Passed test:animate_sets.tex:123
-set compare: FlatUnion(tmp1539,tmp1542,tmp1538), FlatUnion(tmp1546,tmp1549,tmp1545)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79548ee, net.sourceforge.czt.z.impl.NumExprImpl@79548ee
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare: FlatUnion(tmp1547,tmp1550,tmp1546), FlatUnion(tmp1554,tmp1557,tmp1553)
+set compare members: 0, 0
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
 Passed test:animate_sets.tex:124
-set compare: FlatUnion(tmp1553,tmp1572,tmp1552), FlatUnion(tmp1583,tmp1593,tmp1582)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79557f2, net.sourceforge.czt.z.impl.NumExprImpl@79557f2
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955bb3, net.sourceforge.czt.z.impl.NumExprImpl@7955bb3
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955f74, net.sourceforge.czt.z.impl.NumExprImpl@7955f74
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79566f6, net.sourceforge.czt.z.impl.NumExprImpl@79566f6
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7956e78, net.sourceforge.czt.z.impl.NumExprImpl@7956e78
+set compare: FlatUnion(tmp1561,tmp1580,tmp1560), FlatUnion(tmp1591,tmp1601,tmp1590)
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
+set compare members: 4, 4
+set compare members: 5, 5
+set compare members: 6, 6
+set compare members: 8, 8
+set compare members: 10, 10
 Passed test:animate_sets.tex:125
-set compare: { FlatDiscreteSet(tmp1652), FlatMember(tmp1652,x), FlatDiscreteSet(tmp1654), FlatMember(tmp1654,x), FlatEquals(tmp1651,x) @ tmp1651 } = tmp1650, FlatDiscreteSet(tmp1656)
+set compare: { FlatDiscreteSet(tmp1660), FlatMember(tmp1660,x), FlatDiscreteSet(tmp1662), FlatMember(tmp1662,x), FlatEquals(tmp1659,x) @ tmp1659 } = tmp1658, FlatDiscreteSet(tmp1664)
 Passed test:animate_sets.tex:137
-set compare: { FlatDiscreteSet(tmp1659), FlatMember(tmp1659,x), tmp1661==1, tmp1662==2, tmp1663==3, FlatDiscreteSet(tmp1661,tmp1663,tmp1662,tmp1664), FlatMember(tmp1664,x), FlatEquals(tmp1658,x) @ tmp1658 } = tmp1657, FlatDiscreteSet(tmp1669)
+set compare: { FlatDiscreteSet(tmp1667), FlatMember(tmp1667,x), tmp1669==1, tmp1670==2, tmp1671==3, FlatDiscreteSet(tmp1671,tmp1670,tmp1669,tmp1672), FlatMember(tmp1672,x), FlatEquals(tmp1666,x) @ tmp1666 } = tmp1665, FlatDiscreteSet(tmp1677)
 Passed test:animate_sets.tex:138
-set compare: { tmp1672==1, tmp1673==2, tmp1674==3, FlatDiscreteSet(tmp1673,tmp1674,tmp1672,tmp1675), FlatMember(tmp1675,x), FlatDiscreteSet(tmp1680), FlatMember(tmp1680,x), FlatEquals(tmp1671,x) @ tmp1671 } = tmp1670, FlatDiscreteSet(tmp1682)
+set compare: { tmp1680==1, tmp1681==2, tmp1682==3, FlatDiscreteSet(tmp1682,tmp1680,tmp1681,tmp1683), FlatMember(tmp1683,x), FlatDiscreteSet(tmp1688), FlatMember(tmp1688,x), FlatEquals(tmp1679,x) @ tmp1679 } = tmp1678, FlatDiscreteSet(tmp1690)
 Passed test:animate_sets.tex:139
-set compare: { FlatDiscreteSet(tmp1685), FlatMember(tmp1685,x), { tmp1690==1, tmp1691==10, FlatRangeSet(tmp1690,tmp1691,tmp1689), FlatMember(tmp1689,x), tmp1695==4, FlatLessThan(x,tmp1695), FlatEquals(tmp1688,x) @ tmp1688 } = tmp1687, FlatMember(tmp1687,x), FlatEquals(tmp1684,x) @ tmp1684 } = tmp1683, FlatDiscreteSet(tmp1707)
+set compare: { FlatDiscreteSet(tmp1693), FlatMember(tmp1693,x), { tmp1698==1, tmp1699==10, FlatRangeSet(tmp1698,tmp1699,tmp1697), FlatMember(tmp1697,x), tmp1703==4, FlatLessThan(x,tmp1703), FlatEquals(tmp1696,x) @ tmp1696 } = tmp1695, FlatMember(tmp1695,x), FlatEquals(tmp1692,x) @ tmp1692 } = tmp1691, FlatDiscreteSet(tmp1715)
 Passed test:animate_sets.tex:140
-set compare: { { tmp1713==1, tmp1714==10, FlatRangeSet(tmp1713,tmp1714,tmp1712), FlatMember(tmp1712,x), tmp1718==4, FlatLessThan(x,tmp1718), FlatEquals(tmp1711,x) @ tmp1711 } = tmp1710, FlatMember(tmp1710,x), FlatDiscreteSet(tmp1730), FlatMember(tmp1730,x), FlatEquals(tmp1709,x) @ tmp1709 } = tmp1708, FlatDiscreteSet(tmp1732)
+set compare: { { tmp1721==1, tmp1722==10, FlatRangeSet(tmp1721,tmp1722,tmp1720), FlatMember(tmp1720,x), tmp1726==4, FlatLessThan(x,tmp1726), FlatEquals(tmp1719,x) @ tmp1719 } = tmp1718, FlatMember(tmp1718,x), FlatDiscreteSet(tmp1738), FlatMember(tmp1738,x), FlatEquals(tmp1717,x) @ tmp1717 } = tmp1716, FlatDiscreteSet(tmp1740)
 Passed test:animate_sets.tex:141
-set compare: { tmp1735==1, FlatDiscreteSet(tmp1735,tmp1736), FlatMember(tmp1736,x), tmp1739==1, FlatEquals(x,tmp1739), FlatEquals(tmp1734,x) @ tmp1734 } = tmp1733, FlatDiscreteSet(tmp1741,tmp1742)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
+set compare: { tmp1743==1, FlatDiscreteSet(tmp1743,tmp1744), FlatMember(tmp1744,x), tmp1747==1, FlatEquals(x,tmp1747), FlatEquals(tmp1742,x) @ tmp1742 } = tmp1741, FlatDiscreteSet(tmp1749,tmp1750)
+set compare members: 1, 1
 Passed test:animate_sets.tex:143
-set compare: { tmp1745==1, FlatDiscreteSet(tmp1745,tmp1746), FlatMember(tmp1746,x), tmp1750==0, tmp1751==2, FlatRangeSet(tmp1750,tmp1751,tmp1749), FlatMember(tmp1749,x), FlatEquals(tmp1744,x) @ tmp1744 } = tmp1743, FlatDiscreteSet(tmp1755,tmp1756)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
+set compare: { tmp1753==1, FlatDiscreteSet(tmp1753,tmp1754), FlatMember(tmp1754,x), tmp1758==0, tmp1759==2, FlatRangeSet(tmp1758,tmp1759,tmp1757), FlatMember(tmp1757,x), FlatEquals(tmp1752,x) @ tmp1752 } = tmp1751, FlatDiscreteSet(tmp1763,tmp1764)
+set compare members: 1, 1
 Passed test:animate_sets.tex:144
-set compare: { tmp1760==0, tmp1761==2, FlatRangeSet(tmp1760,tmp1761,tmp1759), FlatMember(tmp1759,x), tmp1765==1, FlatEquals(x,tmp1765), FlatEquals(tmp1758,x) @ tmp1758 } = tmp1757, FlatDiscreteSet(tmp1767,tmp1768)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
+set compare: { tmp1768==0, tmp1769==2, FlatRangeSet(tmp1768,tmp1769,tmp1767), FlatMember(tmp1767,x), tmp1773==1, FlatEquals(x,tmp1773), FlatEquals(tmp1766,x) @ tmp1766 } = tmp1765, FlatDiscreteSet(tmp1775,tmp1776)
+set compare members: 1, 1
 Passed test:animate_sets.tex:145
-set compare: { tmp1771==1, tmp1772==2, tmp1773==3, FlatDiscreteSet(tmp1773,tmp1771,tmp1772,tmp1774), FlatMember(tmp1774,x), tmp1779==5, tmp1780==4, tmp1781==5, tmp1782==0, FlatDiscreteSet(tmp1782,tmp1779,tmp1780,tmp1781,tmp1783), FlatMember(tmp1783,x), FlatEquals(tmp1770,x) @ tmp1770 } = tmp1769, FlatDiscreteSet(tmp1789)
+set compare: { tmp1779==1, tmp1780==2, tmp1781==3, FlatDiscreteSet(tmp1779,tmp1780,tmp1781,tmp1782), FlatMember(tmp1782,x), tmp1787==5, tmp1788==4, tmp1789==5, tmp1790==0, FlatDiscreteSet(tmp1790,tmp1787,tmp1788,tmp1789,tmp1791), FlatMember(tmp1791,x), FlatEquals(tmp1778,x) @ tmp1778 } = tmp1777, FlatDiscreteSet(tmp1797)
 Passed test:animate_sets.tex:147
-set compare: { tmp1792==1, tmp1793==2, tmp1794==3, FlatDiscreteSet(tmp1794,tmp1792,tmp1793,tmp1795), FlatMember(tmp1795,x), tmp1800==3, tmp1801==4, tmp1802==5, FlatDiscreteSet(tmp1802,tmp1800,tmp1801,tmp1803), FlatMember(tmp1803,x), FlatEquals(tmp1791,x) @ tmp1791 } = tmp1790, FlatDiscreteSet(tmp1808,tmp1809)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare: { tmp1800==1, tmp1801==2, tmp1802==3, FlatDiscreteSet(tmp1802,tmp1800,tmp1801,tmp1803), FlatMember(tmp1803,x), tmp1808==3, tmp1809==4, tmp1810==5, FlatDiscreteSet(tmp1809,tmp1808,tmp1810,tmp1811), FlatMember(tmp1811,x), FlatEquals(tmp1799,x) @ tmp1799 } = tmp1798, FlatDiscreteSet(tmp1816,tmp1817)
+set compare members: 3, 3
 Passed test:animate_sets.tex:148
-set compare: { tmp1812==1, tmp1813==2, tmp1814==3, FlatDiscreteSet(tmp1813,tmp1814,tmp1812,tmp1815), FlatMember(tmp1815,x), tmp1821==0, tmp1822==6, FlatRangeSet(tmp1821,tmp1822,tmp1820), FlatMember(tmp1820,x), FlatEquals(tmp1811,x) @ tmp1811 } = tmp1810, FlatDiscreteSet(tmp1826,tmp1827,tmp1828,tmp1829)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare: { tmp1820==1, tmp1821==2, tmp1822==3, FlatDiscreteSet(tmp1822,tmp1820,tmp1821,tmp1823), FlatMember(tmp1823,x), tmp1829==0, tmp1830==6, FlatRangeSet(tmp1829,tmp1830,tmp1828), FlatMember(tmp1828,x), FlatEquals(tmp1819,x) @ tmp1819 } = tmp1818, FlatDiscreteSet(tmp1836,tmp1834,tmp1835,tmp1837)
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
 Passed test:animate_sets.tex:149
-set compare: { tmp1833==0, tmp1834==6, FlatRangeSet(tmp1833,tmp1834,tmp1832), FlatMember(tmp1832,x), tmp1838==1, tmp1839==2, tmp1840==3, FlatDiscreteSet(tmp1838,tmp1840,tmp1839,tmp1841), FlatMember(tmp1841,x), FlatEquals(tmp1831,x) @ tmp1831 } = tmp1830, FlatDiscreteSet(tmp1847,tmp1848,tmp1846,tmp1849)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare: { tmp1841==0, tmp1842==6, FlatRangeSet(tmp1841,tmp1842,tmp1840), FlatMember(tmp1840,x), tmp1846==1, tmp1847==2, tmp1848==3, FlatDiscreteSet(tmp1847,tmp1848,tmp1846,tmp1849), FlatMember(tmp1849,x), FlatEquals(tmp1839,x) @ tmp1839 } = tmp1838, FlatDiscreteSet(tmp1855,tmp1856,tmp1854,tmp1857)
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
 Passed test:animate_sets.tex:150
-set compare: { tmp1852==1, tmp1853==2, tmp1854==3, FlatDiscreteSet(tmp1852,tmp1853,tmp1854,tmp1855), FlatMember(tmp1855,x), { tmp1863==1, tmp1864==10, FlatRangeSet(tmp1863,tmp1864,tmp1862), FlatMember(tmp1862,x), tmp1868==4, FlatLessThan(x,tmp1868), FlatEquals(tmp1861,x) @ tmp1861 } = tmp1860, FlatMember(tmp1860,x), FlatEquals(tmp1851,x) @ tmp1851 } = tmp1850, FlatDiscreteSet(tmp1881,tmp1882,tmp1880,tmp1883)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare: { tmp1860==1, tmp1861==2, tmp1862==3, FlatDiscreteSet(tmp1861,tmp1860,tmp1862,tmp1863), FlatMember(tmp1863,x), { tmp1871==1, tmp1872==10, FlatRangeSet(tmp1871,tmp1872,tmp1870), FlatMember(tmp1870,x), tmp1876==4, FlatLessThan(x,tmp1876), FlatEquals(tmp1869,x) @ tmp1869 } = tmp1868, FlatMember(tmp1868,x), FlatEquals(tmp1859,x) @ tmp1859 } = tmp1858, FlatDiscreteSet(tmp1889,tmp1890,tmp1888,tmp1891)
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
 Passed test:animate_sets.tex:152
-set compare: { { tmp1889==1, tmp1890==10, FlatRangeSet(tmp1889,tmp1890,tmp1888), FlatMember(tmp1888,x), tmp1894==4, FlatLessThan(x,tmp1894), FlatEquals(tmp1887,x) @ tmp1887 } = tmp1886, FlatMember(tmp1886,x), tmp1906==1, tmp1907==2, tmp1908==3, FlatDiscreteSet(tmp1906,tmp1908,tmp1907,tmp1909), FlatMember(tmp1909,x), FlatEquals(tmp1885,x) @ tmp1885 } = tmp1884, FlatDiscreteSet(tmp1916,tmp1914,tmp1915,tmp1917)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare: { { tmp1897==1, tmp1898==10, FlatRangeSet(tmp1897,tmp1898,tmp1896), FlatMember(tmp1896,x), tmp1902==4, FlatLessThan(x,tmp1902), FlatEquals(tmp1895,x) @ tmp1895 } = tmp1894, FlatMember(tmp1894,x), tmp1914==1, tmp1915==2, tmp1916==3, FlatDiscreteSet(tmp1916,tmp1914,tmp1915,tmp1917), FlatMember(tmp1917,x), FlatEquals(tmp1893,x) @ tmp1893 } = tmp1892, FlatDiscreteSet(tmp1922,tmp1924,tmp1923,tmp1925)
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
 Passed test:animate_sets.tex:153
-set compare: { { tmp1923==1, tmp1924==10, FlatRangeSet(tmp1923,tmp1924,tmp1922), FlatMember(tmp1922,x), tmp1928==4, FlatLessThan(x,tmp1928), FlatEquals(tmp1921,x) @ tmp1921 } = tmp1920, FlatMember(tmp1920,x), { tmp1943==1, tmp1944==10, FlatRangeSet(tmp1943,tmp1944,tmp1942), FlatMember(tmp1942,x), tmp1948==4, FlatLessThan(x,tmp1948), FlatEquals(tmp1941,x) @ tmp1941 } = tmp1940, FlatMember(tmp1940,x), FlatEquals(tmp1919,x) @ tmp1919 } = tmp1918, { tmp1963==1, tmp1964==10, FlatRangeSet(tmp1963,tmp1964,tmp1962), FlatMember(tmp1962,x), tmp1968==4, FlatLessThan(x,tmp1968), FlatEquals(tmp1961,x) @ tmp1961 } = tmp1960
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare: { { tmp1931==1, tmp1932==10, FlatRangeSet(tmp1931,tmp1932,tmp1930), FlatMember(tmp1930,x), tmp1936==4, FlatLessThan(x,tmp1936), FlatEquals(tmp1929,x) @ tmp1929 } = tmp1928, FlatMember(tmp1928,x), { tmp1951==1, tmp1952==10, FlatRangeSet(tmp1951,tmp1952,tmp1950), FlatMember(tmp1950,x), tmp1956==4, FlatLessThan(x,tmp1956), FlatEquals(tmp1949,x) @ tmp1949 } = tmp1948, FlatMember(tmp1948,x), FlatEquals(tmp1927,x) @ tmp1927 } = tmp1926, { tmp1971==1, tmp1972==10, FlatRangeSet(tmp1971,tmp1972,tmp1970), FlatMember(tmp1970,x), tmp1976==4, FlatLessThan(x,tmp1976), FlatEquals(tmp1969,x) @ tmp1969 } = tmp1968
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
 Passed test:animate_sets.tex:154
-set compare: { { tmp1975==1, tmp1976==10, FlatRangeSet(tmp1975,tmp1976,tmp1974), FlatMember(tmp1974,x), tmp1980==4, FlatLessThan(x,tmp1980), FlatEquals(tmp1973,x) @ tmp1973 } = tmp1972, FlatMember(tmp1972,x), { tmp1995==1, tmp1996==10, FlatRangeSet(tmp1995,tmp1996,tmp1994), FlatMember(tmp1994,x), FlatMult(x,x,tmp2000), tmp2001==10, FlatLessThan(tmp2000,tmp2001), FlatMult(x,x,tmp2004), FlatEquals(tmp1993,tmp2004) @ tmp1993 } = tmp1992, FlatMember(tmp1992,x), FlatEquals(tmp1971,x) @ tmp1971 } = tmp1970, FlatDiscreteSet(tmp2020,tmp2021)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
+set compare: { { tmp1983==1, tmp1984==10, FlatRangeSet(tmp1983,tmp1984,tmp1982), FlatMember(tmp1982,x), tmp1988==4, FlatLessThan(x,tmp1988), FlatEquals(tmp1981,x) @ tmp1981 } = tmp1980, FlatMember(tmp1980,x), { tmp2003==1, tmp2004==10, FlatRangeSet(tmp2003,tmp2004,tmp2002), FlatMember(tmp2002,x), FlatMult(x,x,tmp2008), tmp2009==10, FlatLessThan(tmp2008,tmp2009), FlatMult(x,x,tmp2012), FlatEquals(tmp2001,tmp2012) @ tmp2001 } = tmp2000, FlatMember(tmp2000,x), FlatEquals(tmp1979,x) @ tmp1979 } = tmp1978, FlatDiscreteSet(tmp2028,tmp2029)
+set compare members: 1, 1
 Passed test:animate_sets.tex:155
-set compare: { tmp2025==1, tmp2026==3, FlatRangeSet(tmp2025,tmp2026,tmp2024), FlatMember(tmp2024,x), tmp2031==4, tmp2032==9, FlatRangeSet(tmp2031,tmp2032,tmp2030), FlatMember(tmp2030,x), FlatEquals(tmp2023,x) @ tmp2023 } = tmp2022, FlatDiscreteSet(tmp2036)
+set compare: { tmp2033==1, tmp2034==3, FlatRangeSet(tmp2033,tmp2034,tmp2032), FlatMember(tmp2032,x), tmp2039==4, tmp2040==9, FlatRangeSet(tmp2039,tmp2040,tmp2038), FlatMember(tmp2038,x), FlatEquals(tmp2031,x) @ tmp2031 } = tmp2030, FlatDiscreteSet(tmp2044)
 Passed test:animate_sets.tex:157
-set compare: { tmp2040==1, tmp2041==3, FlatRangeSet(tmp2040,tmp2041,tmp2039), FlatMember(tmp2039,x), tmp2046==3, tmp2047==9, FlatRangeSet(tmp2046,tmp2047,tmp2045), FlatMember(tmp2045,x), FlatEquals(tmp2038,x) @ tmp2038 } = tmp2037, FlatDiscreteSet(tmp2051,tmp2052)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare: { tmp2048==1, tmp2049==3, FlatRangeSet(tmp2048,tmp2049,tmp2047), FlatMember(tmp2047,x), tmp2054==3, tmp2055==9, FlatRangeSet(tmp2054,tmp2055,tmp2053), FlatMember(tmp2053,x), FlatEquals(tmp2046,x) @ tmp2046 } = tmp2045, FlatDiscreteSet(tmp2059,tmp2060)
+set compare members: 3, 3
 Passed test:animate_sets.tex:158
-set compare: { tmp2056==1, tmp2057==3, FlatRangeSet(tmp2056,tmp2057,tmp2055), FlatMember(tmp2055,x), tmp2062==2, tmp2063==9, FlatRangeSet(tmp2062,tmp2063,tmp2061), FlatMember(tmp2061,x), FlatEquals(tmp2054,x) @ tmp2054 } = tmp2053, FlatDiscreteSet(tmp2067,tmp2068,tmp2069)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare: { tmp2064==1, tmp2065==3, FlatRangeSet(tmp2064,tmp2065,tmp2063), FlatMember(tmp2063,x), tmp2070==2, tmp2071==9, FlatRangeSet(tmp2070,tmp2071,tmp2069), FlatMember(tmp2069,x), FlatEquals(tmp2062,x) @ tmp2062 } = tmp2061, FlatDiscreteSet(tmp2076,tmp2075,tmp2077)
+set compare members: 2, 2
+set compare members: 3, 3
 Passed test:animate_sets.tex:159
-set compare: { tmp2073==1, tmp2074==3, FlatRangeSet(tmp2073,tmp2074,tmp2072), FlatMember(tmp2072,x), tmp2079==0, tmp2080==9, FlatRangeSet(tmp2079,tmp2080,tmp2078), FlatMember(tmp2078,x), FlatEquals(tmp2071,x) @ tmp2071 } = tmp2070, FlatDiscreteSet(tmp2085,tmp2086,tmp2084,tmp2087)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare: { tmp2081==1, tmp2082==3, FlatRangeSet(tmp2081,tmp2082,tmp2080), FlatMember(tmp2080,x), tmp2087==0, tmp2088==9, FlatRangeSet(tmp2087,tmp2088,tmp2086), FlatMember(tmp2086,x), FlatEquals(tmp2079,x) @ tmp2079 } = tmp2078, FlatDiscreteSet(tmp2093,tmp2094,tmp2092,tmp2095)
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
 Passed test:animate_sets.tex:160
-set compare: { tmp2091==1, tmp2092==3, FlatRangeSet(tmp2091,tmp2092,tmp2090), FlatMember(tmp2090,x), tmp2097==0, tmp2098==3, FlatRangeSet(tmp2097,tmp2098,tmp2096), FlatMember(tmp2096,x), FlatEquals(tmp2089,x) @ tmp2089 } = tmp2088, FlatDiscreteSet(tmp2104,tmp2103,tmp2102,tmp2105)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare: { tmp2099==1, tmp2100==3, FlatRangeSet(tmp2099,tmp2100,tmp2098), FlatMember(tmp2098,x), tmp2105==0, tmp2106==3, FlatRangeSet(tmp2105,tmp2106,tmp2104), FlatMember(tmp2104,x), FlatEquals(tmp2097,x) @ tmp2097 } = tmp2096, FlatDiscreteSet(tmp2111,tmp2110,tmp2112,tmp2113)
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
 Passed test:animate_sets.tex:161
-set compare: { tmp2109==1, tmp2110==3, FlatRangeSet(tmp2109,tmp2110,tmp2108), FlatMember(tmp2108,x), tmp2115==0, tmp2116==1, FlatRangeSet(tmp2115,tmp2116,tmp2114), FlatMember(tmp2114,x), FlatEquals(tmp2107,x) @ tmp2107 } = tmp2106, FlatDiscreteSet(tmp2120,tmp2121)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
+set compare: { tmp2117==1, tmp2118==3, FlatRangeSet(tmp2117,tmp2118,tmp2116), FlatMember(tmp2116,x), tmp2123==0, tmp2124==1, FlatRangeSet(tmp2123,tmp2124,tmp2122), FlatMember(tmp2122,x), FlatEquals(tmp2115,x) @ tmp2115 } = tmp2114, FlatDiscreteSet(tmp2128,tmp2129)
+set compare members: 1, 1
 Passed test:animate_sets.tex:162
-set compare: { tmp2125==1, tmp2126==3, FlatRangeSet(tmp2125,tmp2126,tmp2124), FlatMember(tmp2124,x), tmp2132==3, FlatNegate(tmp2132,tmp2131), tmp2133==0, FlatRangeSet(tmp2131,tmp2133,tmp2130), FlatMember(tmp2130,x), FlatEquals(tmp2123,x) @ tmp2123 } = tmp2122, FlatDiscreteSet(tmp2138)
+set compare: { tmp2133==1, tmp2134==3, FlatRangeSet(tmp2133,tmp2134,tmp2132), FlatMember(tmp2132,x), tmp2140==3, FlatNegate(tmp2140,tmp2139), tmp2141==0, FlatRangeSet(tmp2139,tmp2141,tmp2138), FlatMember(tmp2138,x), FlatEquals(tmp2131,x) @ tmp2131 } = tmp2130, FlatDiscreteSet(tmp2146)
 Passed test:animate_sets.tex:163
-set compare: { tmp2142==1, tmp2143==3, FlatRangeSet(tmp2142,tmp2143,tmp2141), FlatMember(tmp2141,x), tmp2148==0, tmp2150==1, FlatNegate(tmp2150,tmp2149), FlatRangeSet(tmp2148,tmp2149,tmp2147), FlatMember(tmp2147,x), FlatEquals(tmp2140,x) @ tmp2140 } = tmp2139, FlatDiscreteSet(tmp2155)
+set compare: { tmp2150==1, tmp2151==3, FlatRangeSet(tmp2150,tmp2151,tmp2149), FlatMember(tmp2149,x), tmp2156==0, tmp2158==1, FlatNegate(tmp2158,tmp2157), FlatRangeSet(tmp2156,tmp2157,tmp2155), FlatMember(tmp2155,x), FlatEquals(tmp2148,x) @ tmp2148 } = tmp2147, FlatDiscreteSet(tmp2163)
 Passed test:animate_sets.tex:164
-set compare: { tmp2159==0, FlatRangeSet(tmp2159,-,tmp2158), FlatMember(tmp2158,x), tmp2163==4, tmp2164==6, FlatRangeSet(tmp2163,tmp2164,tmp2162), FlatMember(tmp2162,x), FlatEquals(tmp2157,x) @ tmp2157 } = tmp2156, FlatDiscreteSet(tmp2169,tmp2168,tmp2170,tmp2171)
-set compare: { tmp2175==0, FlatRangeSet(tmp2175,-,tmp2174), FlatMember(tmp2174,x), tmp2180==3, FlatNegate(tmp2180,tmp2179), tmp2181==0, FlatRangeSet(tmp2179,tmp2181,tmp2178), FlatMember(tmp2178,x), FlatEquals(tmp2173,x) @ tmp2173 } = tmp2172, FlatDiscreteSet(tmp2186,tmp2187)
-set compare: { tmp2191==0, FlatRangeSet(tmp2191,-,tmp2190), FlatMember(tmp2190,x), tmp2196==3, FlatNegate(tmp2196,tmp2195), tmp2198==1, FlatNegate(tmp2198,tmp2197), FlatRangeSet(tmp2195,tmp2197,tmp2194), FlatMember(tmp2194,x), FlatEquals(tmp2189,x) @ tmp2189 } = tmp2188, FlatDiscreteSet(tmp2204)
-set compare: { FlatRangeSet(-,-,tmp2207), FlatMember(tmp2207,x), tmp2210==0, FlatRangeSet(tmp2210,-,tmp2209), FlatMember(tmp2209,x), FlatEquals(tmp2206,x) @ tmp2206 } = tmp2205, FlatRangeSet(tmp2214,-,tmp2213)
-set compare: { tmp2218==0, FlatRangeSet(tmp2218,-,tmp2217), FlatMember(tmp2217,x), tmp2222==1, FlatRangeSet(tmp2222,-,tmp2221), FlatMember(tmp2221,x), FlatEquals(tmp2216,x) @ tmp2216 } = tmp2215, FlatRangeSet(tmp2226,-,tmp2225)
-set compare: { FlatRangeSet(-,-,tmp2229), FlatMember(tmp2229,x), tmp2231==1, tmp2232==3, tmp2233==5, FlatDiscreteSet(tmp2232,tmp2231,tmp2233,tmp2234), FlatMember(tmp2234,x), FlatEquals(tmp2228,x) @ tmp2228 } = tmp2227, FlatDiscreteSet(tmp2241,tmp2239,tmp2240,tmp2242)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955bb3, net.sourceforge.czt.z.impl.NumExprImpl@7955bb3
+set compare: { tmp2167==0, FlatRangeSet(tmp2167,-,tmp2166), FlatMember(tmp2166,x), tmp2171==4, tmp2172==6, FlatRangeSet(tmp2171,tmp2172,tmp2170), FlatMember(tmp2170,x), FlatEquals(tmp2165,x) @ tmp2165 } = tmp2164, FlatDiscreteSet(tmp2176,tmp2177,tmp2178,tmp2179)
+set compare: { tmp2183==0, FlatRangeSet(tmp2183,-,tmp2182), FlatMember(tmp2182,x), tmp2188==3, FlatNegate(tmp2188,tmp2187), tmp2189==0, FlatRangeSet(tmp2187,tmp2189,tmp2186), FlatMember(tmp2186,x), FlatEquals(tmp2181,x) @ tmp2181 } = tmp2180, FlatDiscreteSet(tmp2194,tmp2195)
+set compare: { tmp2199==0, FlatRangeSet(tmp2199,-,tmp2198), FlatMember(tmp2198,x), tmp2204==3, FlatNegate(tmp2204,tmp2203), tmp2206==1, FlatNegate(tmp2206,tmp2205), FlatRangeSet(tmp2203,tmp2205,tmp2202), FlatMember(tmp2202,x), FlatEquals(tmp2197,x) @ tmp2197 } = tmp2196, FlatDiscreteSet(tmp2212)
+set compare: { FlatRangeSet(-,-,tmp2215), FlatMember(tmp2215,x), tmp2218==0, FlatRangeSet(tmp2218,-,tmp2217), FlatMember(tmp2217,x), FlatEquals(tmp2214,x) @ tmp2214 } = tmp2213, FlatRangeSet(tmp2222,-,tmp2221)
+set compare: { tmp2226==0, FlatRangeSet(tmp2226,-,tmp2225), FlatMember(tmp2225,x), tmp2230==1, FlatRangeSet(tmp2230,-,tmp2229), FlatMember(tmp2229,x), FlatEquals(tmp2224,x) @ tmp2224 } = tmp2223, FlatRangeSet(tmp2234,-,tmp2233)
+set compare: { FlatRangeSet(-,-,tmp2237), FlatMember(tmp2237,x), tmp2239==1, tmp2240==3, tmp2241==5, FlatDiscreteSet(tmp2241,tmp2239,tmp2240,tmp2242), FlatMember(tmp2242,x), FlatEquals(tmp2236,x) @ tmp2236 } = tmp2235, FlatDiscreteSet(tmp2249,tmp2247,tmp2248,tmp2250)
+set compare members: 1, 1
+set compare members: 3, 3
+set compare members: 5, 5
 Passed test:animate_sets.tex:175
-set compare: { FlatRangeSet(-,-,tmp2245), FlatMember(tmp2245,x), tmp2247==3, FlatLessThan(x,tmp2247), tmp2248==0, FlatLessThan(tmp2248,x), FlatEquals(tmp2244,x) @ tmp2244 } = tmp2243, FlatDiscreteSet(tmp2252,tmp2251,tmp2253)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
+set compare: { FlatRangeSet(-,-,tmp2253), FlatMember(tmp2253,x), tmp2255==3, FlatLessThan(x,tmp2255), tmp2256==0, FlatLessThan(tmp2256,x), FlatEquals(tmp2252,x) @ tmp2252 } = tmp2251, FlatDiscreteSet(tmp2260,tmp2259,tmp2261)
+set compare members: 1, 1
+set compare members: 2, 2
 Passed test:animate_sets.tex:176
-set compare: { FlatRangeSet(-,-,tmp2256), FlatMember(tmp2256,x), tmp2258==3, FlatLessThan(x,tmp2258), tmp2259==0, FlatLessThan(tmp2259,x), tmp2260==2, FlatLessThan(tmp2260,x), FlatEquals(tmp2255,x) @ tmp2255 } = tmp2254, FlatDiscreteSet(tmp2264)
+set compare: { FlatRangeSet(-,-,tmp2264), FlatMember(tmp2264,x), tmp2266==3, FlatLessThan(x,tmp2266), tmp2267==0, FlatLessThan(tmp2267,x), tmp2268==2, FlatLessThan(tmp2268,x), FlatEquals(tmp2263,x) @ tmp2263 } = tmp2262, FlatDiscreteSet(tmp2272)
 Passed test:animate_sets.tex:177
-set compare: { tmp2285==0, FlatRangeSet(tmp2285,-,tmp2284), FlatMember(tmp2284,x), FlatMember(tmp2284,y), FlatPlus(x,y,tmp2288), tmp2289==2, FlatEquals(tmp2288,tmp2289), tmp2290==4, FlatLessThanEquals(x,tmp2290), FlatTuple(x,y,tmp2294), FlatEquals(tmp2283,tmp2294) @ tmp2283 } = tmp2282, FlatDiscreteSet(tmp2304,tmp2298,tmp2301,tmp2305)
+set compare: { tmp2293==0, FlatRangeSet(tmp2293,-,tmp2292), FlatMember(tmp2292,x), FlatMember(tmp2292,y), FlatPlus(x,y,tmp2296), tmp2297==2, FlatEquals(tmp2296,tmp2297), tmp2298==4, FlatLessThanEquals(x,tmp2298), FlatTuple(x,y,tmp2302), FlatEquals(tmp2291,tmp2302) @ tmp2291 } = tmp2290, FlatDiscreteSet(tmp2312,tmp2309,tmp2306,tmp2313)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601003df, net.sourceforge.czt.z.impl.TupleExprImpl@601003df
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@601da701
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@602b4a23, net.sourceforge.czt.z.impl.TupleExprImpl@602b4a23
 Passed test:animate_sets.tex:199
-set compare: { tmp2309==0, FlatRangeSet(tmp2309,-,tmp2308), FlatMember(tmp2308,x), FlatMember(tmp2308,y), FlatPlus(x,y,tmp2312), tmp2313==2, FlatEquals(tmp2312,tmp2313), tmp2314==4, FlatLessThanEquals(y,tmp2314), FlatTuple(x,y,tmp2318), FlatEquals(tmp2307,tmp2318) @ tmp2307 } = tmp2306, FlatDiscreteSet(tmp2325,tmp2328,tmp2322,tmp2329)
+set compare: { tmp2317==0, FlatRangeSet(tmp2317,-,tmp2316), FlatMember(tmp2316,x), FlatMember(tmp2316,y), FlatPlus(x,y,tmp2320), tmp2321==2, FlatEquals(tmp2320,tmp2321), tmp2322==4, FlatLessThanEquals(y,tmp2322), FlatTuple(x,y,tmp2326), FlatEquals(tmp2315,tmp2326) @ tmp2315 } = tmp2314, FlatDiscreteSet(tmp2336,tmp2333,tmp2330,tmp2337)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601003df, net.sourceforge.czt.z.impl.TupleExprImpl@601003df
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@601da701
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@602b4a23, net.sourceforge.czt.z.impl.TupleExprImpl@602b4a23
 Passed test:animate_sets.tex:202
-set compare: { tmp2333==0, FlatRangeSet(tmp2333,-,tmp2332), FlatMember(tmp2332,x), FlatMember(tmp2332,y), FlatPlus(y,tmp2336,x), tmp2337==1, FlatEquals(tmp2336,tmp2337), tmp2338==2, FlatLessThanEquals(y,tmp2338), FlatTuple(x,y,tmp2342), FlatEquals(tmp2331,tmp2342) @ tmp2331 } = tmp2330, FlatDiscreteSet(tmp2346,tmp2352,tmp2349,tmp2353)
+set compare: { tmp2341==0, FlatRangeSet(tmp2341,-,tmp2340), FlatMember(tmp2340,x), FlatMember(tmp2340,y), FlatPlus(y,tmp2344,x), tmp2345==1, FlatEquals(tmp2344,tmp2345), tmp2346==2, FlatLessThanEquals(y,tmp2346), FlatTuple(x,y,tmp2350), FlatEquals(tmp2339,tmp2350) @ tmp2339 } = tmp2338, FlatDiscreteSet(tmp2354,tmp2357,tmp2360,tmp2361)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601d32a2, net.sourceforge.czt.z.impl.TupleExprImpl@601d32a2
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@602bbe82, net.sourceforge.czt.z.impl.TupleExprImpl@602bbe82
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@603a4a62, net.sourceforge.czt.z.impl.TupleExprImpl@603a4a62
 Passed test:animate_sets.tex:205
-set compare: { tmp2357==0, FlatRangeSet(tmp2357,-,tmp2356), FlatMember(tmp2356,x), FlatMember(tmp2356,y), FlatPlus(y,tmp2360,x), tmp2361==1, FlatEquals(tmp2360,tmp2361), tmp2362==2, FlatLessThanEquals(x,tmp2362), FlatTuple(x,y,tmp2366), FlatEquals(tmp2355,tmp2366) @ tmp2355 } = tmp2354, FlatDiscreteSet(tmp2370,tmp2373,tmp2374)
+set compare: { tmp2365==0, FlatRangeSet(tmp2365,-,tmp2364), FlatMember(tmp2364,x), FlatMember(tmp2364,y), FlatPlus(y,tmp2368,x), tmp2369==1, FlatEquals(tmp2368,tmp2369), tmp2370==2, FlatLessThanEquals(x,tmp2370), FlatTuple(x,y,tmp2374), FlatEquals(tmp2363,tmp2374) @ tmp2363 } = tmp2362, FlatDiscreteSet(tmp2381,tmp2378,tmp2382)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601d32a2, net.sourceforge.czt.z.impl.TupleExprImpl@601d32a2
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@602bbe82, net.sourceforge.czt.z.impl.TupleExprImpl@602bbe82
 Passed test:animate_sets.tex:208
-set compare: { tmp2378==0, FlatRangeSet(tmp2378,-,tmp2377), FlatMember(tmp2377,x), FlatMember(tmp2377,y), tmp2381==3, FlatTuple(x,tmp2381,tmp2382), tmp2383==2, FlatTuple(tmp2383,y,tmp2384), FlatEquals(tmp2382,tmp2384), FlatTuple(x,y,tmp2389), FlatEquals(tmp2376,tmp2389) @ tmp2376 } = tmp2375, FlatDiscreteSet(tmp2393,tmp2394)
-set compare: { tmp2398==0, FlatRangeSet(tmp2398,-,tmp2397), FlatMember(tmp2397,x), FlatMember(tmp2397,y), FlatTuple(x,y,tmp2401), FlatMu(tmp2402==3, FlatDiscreteSet(tmp2402,tmp2403), FlatMember(tmp2403,x), FlatMember(tmp2403,y), FlatTuple(x,y,tmp2404) @ tmp2404), FlatEquals(tmp2401,tmp2404), FlatTuple(x,y,tmp2409), FlatEquals(tmp2396,tmp2409) @ tmp2396 } = tmp2395, FlatDiscreteSet(tmp2413,tmp2414)
-set compare: { FlatDiscreteSet(tmp2417), FlatMember(tmp2417,x), FlatDiscreteSet(tmp2419), FlatNot( FlatMember(tmp2419,x) ), FlatEquals(tmp2416,x) @ tmp2416 } = tmp2415, FlatDiscreteSet(tmp2421)
+set compare: { tmp2386==0, FlatRangeSet(tmp2386,-,tmp2385), FlatMember(tmp2385,x), FlatMember(tmp2385,y), tmp2389==3, FlatTuple(x,tmp2389,tmp2390), tmp2391==2, FlatTuple(tmp2391,y,tmp2392), FlatEquals(tmp2390,tmp2392), FlatTuple(x,y,tmp2397), FlatEquals(tmp2384,tmp2397) @ tmp2384 } = tmp2383, FlatDiscreteSet(tmp2401,tmp2402)
+set compare: { tmp2406==0, FlatRangeSet(tmp2406,-,tmp2405), FlatMember(tmp2405,x), FlatMember(tmp2405,y), FlatTuple(x,y,tmp2409), FlatMu(tmp2410==3, FlatDiscreteSet(tmp2410,tmp2411), FlatMember(tmp2411,x), FlatMember(tmp2411,y), FlatTuple(x,y,tmp2412) @ tmp2412), FlatEquals(tmp2409,tmp2412), FlatTuple(x,y,tmp2417), FlatEquals(tmp2404,tmp2417) @ tmp2404 } = tmp2403, FlatDiscreteSet(tmp2421,tmp2422)
+set compare: { FlatDiscreteSet(tmp2425), FlatMember(tmp2425,x), FlatDiscreteSet(tmp2427), FlatNot( FlatMember(tmp2427,x) ), FlatEquals(tmp2424,x) @ tmp2424 } = tmp2423, FlatDiscreteSet(tmp2429)
 Passed test:animate_sets.tex:220
-set compare: { FlatDiscreteSet(tmp2424), FlatMember(tmp2424,x), tmp2426==1, tmp2427==2, tmp2428==3, FlatDiscreteSet(tmp2428,tmp2426,tmp2427,tmp2429), FlatNot( FlatMember(tmp2429,x) ), FlatEquals(tmp2423,x) @ tmp2423 } = tmp2422, FlatDiscreteSet(tmp2434)
+set compare: { FlatDiscreteSet(tmp2432), FlatMember(tmp2432,x), tmp2434==1, tmp2435==2, tmp2436==3, FlatDiscreteSet(tmp2435,tmp2436,tmp2434,tmp2437), FlatNot( FlatMember(tmp2437,x) ), FlatEquals(tmp2431,x) @ tmp2431 } = tmp2430, FlatDiscreteSet(tmp2442)
 Passed test:animate_sets.tex:221
-set compare: { tmp2437==1, tmp2438==2, tmp2439==3, FlatDiscreteSet(tmp2438,tmp2437,tmp2439,tmp2440), FlatMember(tmp2440,x), FlatDiscreteSet(tmp2445), FlatNot( FlatMember(tmp2445,x) ), FlatEquals(tmp2436,x) @ tmp2436 } = tmp2435, FlatDiscreteSet(tmp2449,tmp2447,tmp2448,tmp2450)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare: { tmp2445==1, tmp2446==2, tmp2447==3, FlatDiscreteSet(tmp2446,tmp2447,tmp2445,tmp2448), FlatMember(tmp2448,x), FlatDiscreteSet(tmp2453), FlatNot( FlatMember(tmp2453,x) ), FlatEquals(tmp2444,x) @ tmp2444 } = tmp2443, FlatDiscreteSet(tmp2457,tmp2456,tmp2455,tmp2458)
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
 Passed test:animate_sets.tex:222
-set compare: { FlatDiscreteSet(tmp2453), FlatMember(tmp2453,x), { tmp2458==1, tmp2459==10, FlatRangeSet(tmp2458,tmp2459,tmp2457), FlatMember(tmp2457,x), tmp2463==4, FlatLessThan(x,tmp2463), FlatEquals(tmp2456,x) @ tmp2456 } = tmp2455, FlatNot( FlatMember(tmp2455,x) ), FlatEquals(tmp2452,x) @ tmp2452 } = tmp2451, FlatDiscreteSet(tmp2475)
+set compare: { FlatDiscreteSet(tmp2461), FlatMember(tmp2461,x), { tmp2466==1, tmp2467==10, FlatRangeSet(tmp2466,tmp2467,tmp2465), FlatMember(tmp2465,x), tmp2471==4, FlatLessThan(x,tmp2471), FlatEquals(tmp2464,x) @ tmp2464 } = tmp2463, FlatNot( FlatMember(tmp2463,x) ), FlatEquals(tmp2460,x) @ tmp2460 } = tmp2459, FlatDiscreteSet(tmp2483)
 Passed test:animate_sets.tex:223
-set compare: { { tmp2481==1, tmp2482==10, FlatRangeSet(tmp2481,tmp2482,tmp2480), FlatMember(tmp2480,x), tmp2486==4, FlatLessThan(x,tmp2486), FlatEquals(tmp2479,x) @ tmp2479 } = tmp2478, FlatMember(tmp2478,x), FlatDiscreteSet(tmp2498), FlatNot( FlatMember(tmp2498,x) ), FlatEquals(tmp2477,x) @ tmp2477 } = tmp2476, { tmp2503==1, tmp2504==10, FlatRangeSet(tmp2503,tmp2504,tmp2502), FlatMember(tmp2502,x), tmp2508==4, FlatLessThan(x,tmp2508), FlatEquals(tmp2501,x) @ tmp2501 } = tmp2500
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare: { { tmp2489==1, tmp2490==10, FlatRangeSet(tmp2489,tmp2490,tmp2488), FlatMember(tmp2488,x), tmp2494==4, FlatLessThan(x,tmp2494), FlatEquals(tmp2487,x) @ tmp2487 } = tmp2486, FlatMember(tmp2486,x), FlatDiscreteSet(tmp2506), FlatNot( FlatMember(tmp2506,x) ), FlatEquals(tmp2485,x) @ tmp2485 } = tmp2484, { tmp2511==1, tmp2512==10, FlatRangeSet(tmp2511,tmp2512,tmp2510), FlatMember(tmp2510,x), tmp2516==4, FlatLessThan(x,tmp2516), FlatEquals(tmp2509,x) @ tmp2509 } = tmp2508
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
 Passed test:animate_sets.tex:224
-set compare: { tmp2512==1, FlatDiscreteSet(tmp2512,tmp2513), FlatMember(tmp2513,x), tmp2516==1, FlatDiscreteSet(tmp2516,tmp2517), FlatNot( FlatMember(tmp2517,x) ), FlatEquals(tmp2511,x) @ tmp2511 } = tmp2510, FlatDiscreteSet(tmp2520)
+set compare: { tmp2520==1, FlatDiscreteSet(tmp2520,tmp2521), FlatMember(tmp2521,x), tmp2524==1, FlatDiscreteSet(tmp2524,tmp2525), FlatNot( FlatMember(tmp2525,x) ), FlatEquals(tmp2519,x) @ tmp2519 } = tmp2518, FlatDiscreteSet(tmp2528)
 Passed test:animate_sets.tex:226
-set compare: { tmp2523==1, FlatDiscreteSet(tmp2523,tmp2524), FlatMember(tmp2524,x), tmp2528==0, tmp2529==2, FlatRangeSet(tmp2528,tmp2529,tmp2527), FlatNot( FlatMember(tmp2527,x) ), FlatEquals(tmp2522,x) @ tmp2522 } = tmp2521, FlatDiscreteSet(tmp2533)
+set compare: { tmp2531==1, FlatDiscreteSet(tmp2531,tmp2532), FlatMember(tmp2532,x), tmp2536==0, tmp2537==2, FlatRangeSet(tmp2536,tmp2537,tmp2535), FlatNot( FlatMember(tmp2535,x) ), FlatEquals(tmp2530,x) @ tmp2530 } = tmp2529, FlatDiscreteSet(tmp2541)
 Passed test:animate_sets.tex:227
-set compare: { tmp2537==0, tmp2538==2, FlatRangeSet(tmp2537,tmp2538,tmp2536), FlatMember(tmp2536,x), tmp2542==1, FlatDiscreteSet(tmp2542,tmp2543), FlatNot( FlatMember(tmp2543,x) ), FlatEquals(tmp2535,x) @ tmp2535 } = tmp2534, FlatDiscreteSet(tmp2546,tmp2547,tmp2548)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79548ee, net.sourceforge.czt.z.impl.NumExprImpl@79548ee
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
+set compare: { tmp2545==0, tmp2546==2, FlatRangeSet(tmp2545,tmp2546,tmp2544), FlatMember(tmp2544,x), tmp2550==1, FlatDiscreteSet(tmp2550,tmp2551), FlatNot( FlatMember(tmp2551,x) ), FlatEquals(tmp2543,x) @ tmp2543 } = tmp2542, FlatDiscreteSet(tmp2555,tmp2554,tmp2556)
+set compare members: 0, 0
+set compare members: 2, 2
 Passed test:animate_sets.tex:228
-set compare: { tmp2551==1, tmp2552==2, tmp2553==3, FlatDiscreteSet(tmp2553,tmp2551,tmp2552,tmp2554), FlatMember(tmp2554,x), tmp2559==5, tmp2560==4, tmp2561==5, tmp2562==0, FlatDiscreteSet(tmp2561,tmp2559,tmp2560,tmp2562,tmp2563), FlatNot( FlatMember(tmp2563,x) ), FlatEquals(tmp2550,x) @ tmp2550 } = tmp2549, FlatDiscreteSet(tmp2570,tmp2571,tmp2569,tmp2572)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare: { tmp2559==1, tmp2560==2, tmp2561==3, FlatDiscreteSet(tmp2561,tmp2559,tmp2560,tmp2562), FlatMember(tmp2562,x), tmp2567==5, tmp2568==4, tmp2569==5, tmp2570==0, FlatDiscreteSet(tmp2570,tmp2568,tmp2567,tmp2569,tmp2571), FlatNot( FlatMember(tmp2571,x) ), FlatEquals(tmp2558,x) @ tmp2558 } = tmp2557, FlatDiscreteSet(tmp2579,tmp2577,tmp2578,tmp2580)
+set compare members: 1, 1
+set compare members: 2, 2
+set compare members: 3, 3
 Passed test:animate_sets.tex:230
-set compare: { tmp2575==1, tmp2576==2, tmp2577==3, FlatDiscreteSet(tmp2577,tmp2576,tmp2575,tmp2578), FlatMember(tmp2578,x), tmp2583==3, tmp2584==4, tmp2585==5, FlatDiscreteSet(tmp2585,tmp2583,tmp2584,tmp2586), FlatNot( FlatMember(tmp2586,x) ), FlatEquals(tmp2574,x) @ tmp2574 } = tmp2573, FlatRangeSet(tmp2592,tmp2593,tmp2591)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
+set compare: { tmp2583==1, tmp2584==2, tmp2585==3, FlatDiscreteSet(tmp2585,tmp2583,tmp2584,tmp2586), FlatMember(tmp2586,x), tmp2591==3, tmp2592==4, tmp2593==5, FlatDiscreteSet(tmp2592,tmp2593,tmp2591,tmp2594), FlatNot( FlatMember(tmp2594,x) ), FlatEquals(tmp2582,x) @ tmp2582 } = tmp2581, FlatRangeSet(tmp2600,tmp2601,tmp2599)
+set compare members: 1, 1
+set compare members: 2, 2
 Passed test:animate_sets.tex:231
-set compare: { tmp2596==1, tmp2597==2, tmp2598==3, FlatDiscreteSet(tmp2597,tmp2596,tmp2598,tmp2599), FlatMember(tmp2599,x), tmp2605==0, tmp2606==6, FlatRangeSet(tmp2605,tmp2606,tmp2604), FlatNot( FlatMember(tmp2604,x) ), FlatEquals(tmp2595,x) @ tmp2595 } = tmp2594, FlatDiscreteSet(tmp2610)
+set compare: { tmp2604==1, tmp2605==2, tmp2606==3, FlatDiscreteSet(tmp2604,tmp2606,tmp2605,tmp2607), FlatMember(tmp2607,x), tmp2613==0, tmp2614==6, FlatRangeSet(tmp2613,tmp2614,tmp2612), FlatNot( FlatMember(tmp2612,x) ), FlatEquals(tmp2603,x) @ tmp2603 } = tmp2602, FlatDiscreteSet(tmp2618)
 Passed test:animate_sets.tex:232
-set compare: { tmp2614==0, tmp2615==6, FlatRangeSet(tmp2614,tmp2615,tmp2613), FlatMember(tmp2613,x), tmp2619==1, tmp2620==2, tmp2621==3, FlatDiscreteSet(tmp2620,tmp2621,tmp2619,tmp2622), FlatNot( FlatMember(tmp2622,x) ), FlatEquals(tmp2612,x) @ tmp2612 } = tmp2611, FlatDiscreteSet(tmp2633,tmp2627,tmp2630,tmp2628,tmp2631,tmp2632,tmp2629,tmp2634)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79548ee, net.sourceforge.czt.z.impl.NumExprImpl@79548ee
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79557f2, net.sourceforge.czt.z.impl.NumExprImpl@79557f2
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955bb3, net.sourceforge.czt.z.impl.NumExprImpl@7955bb3
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955f74, net.sourceforge.czt.z.impl.NumExprImpl@7955f74
+set compare: { tmp2622==0, tmp2623==6, FlatRangeSet(tmp2622,tmp2623,tmp2621), FlatMember(tmp2621,x), tmp2627==1, tmp2628==2, tmp2629==3, FlatDiscreteSet(tmp2627,tmp2628,tmp2629,tmp2630), FlatNot( FlatMember(tmp2630,x) ), FlatEquals(tmp2620,x) @ tmp2620 } = tmp2619, FlatDiscreteSet(tmp2640,tmp2635,tmp2639,tmp2638,tmp2636,tmp2641,tmp2637,tmp2642)
+set compare members: 0, 0
+set compare members: 4, 4
+set compare members: 5, 5
+set compare members: 6, 6
 Passed test:animate_sets.tex:233
-set compare: { tmp2637==1, tmp2638==2, tmp2639==3, FlatDiscreteSet(tmp2639,tmp2638,tmp2637,tmp2640), FlatMember(tmp2640,x), { tmp2648==1, tmp2649==10, FlatRangeSet(tmp2648,tmp2649,tmp2647), FlatMember(tmp2647,x), tmp2653==4, FlatLessThan(x,tmp2653), FlatEquals(tmp2646,x) @ tmp2646 } = tmp2645, FlatNot( FlatMember(tmp2645,x) ), FlatEquals(tmp2636,x) @ tmp2636 } = tmp2635, FlatDiscreteSet(tmp2665)
+set compare: { tmp2645==1, tmp2646==2, tmp2647==3, FlatDiscreteSet(tmp2647,tmp2646,tmp2645,tmp2648), FlatMember(tmp2648,x), { tmp2656==1, tmp2657==10, FlatRangeSet(tmp2656,tmp2657,tmp2655), FlatMember(tmp2655,x), tmp2661==4, FlatLessThan(x,tmp2661), FlatEquals(tmp2654,x) @ tmp2654 } = tmp2653, FlatNot( FlatMember(tmp2653,x) ), FlatEquals(tmp2644,x) @ tmp2644 } = tmp2643, FlatDiscreteSet(tmp2673)
 Passed test:animate_sets.tex:235
-set compare: { { tmp2671==1, tmp2672==10, FlatRangeSet(tmp2671,tmp2672,tmp2670), FlatMember(tmp2670,x), tmp2676==4, FlatLessThan(x,tmp2676), FlatEquals(tmp2669,x) @ tmp2669 } = tmp2668, FlatMember(tmp2668,x), tmp2688==1, tmp2689==2, tmp2690==3, FlatDiscreteSet(tmp2689,tmp2688,tmp2690,tmp2691), FlatNot( FlatMember(tmp2691,x) ), FlatEquals(tmp2667,x) @ tmp2667 } = tmp2666, FlatDiscreteSet(tmp2696)
+set compare: { { tmp2679==1, tmp2680==10, FlatRangeSet(tmp2679,tmp2680,tmp2678), FlatMember(tmp2678,x), tmp2684==4, FlatLessThan(x,tmp2684), FlatEquals(tmp2677,x) @ tmp2677 } = tmp2676, FlatMember(tmp2676,x), tmp2696==1, tmp2697==2, tmp2698==3, FlatDiscreteSet(tmp2697,tmp2696,tmp2698,tmp2699), FlatNot( FlatMember(tmp2699,x) ), FlatEquals(tmp2675,x) @ tmp2675 } = tmp2674, FlatDiscreteSet(tmp2704)
 Passed test:animate_sets.tex:236
-set compare: { { tmp2702==1, tmp2703==10, FlatRangeSet(tmp2702,tmp2703,tmp2701), FlatMember(tmp2701,x), tmp2707==4, FlatLessThan(x,tmp2707), FlatEquals(tmp2700,x) @ tmp2700 } = tmp2699, FlatMember(tmp2699,x), { tmp2722==1, tmp2723==10, FlatRangeSet(tmp2722,tmp2723,tmp2721), FlatMember(tmp2721,x), tmp2727==4, FlatLessThan(x,tmp2727), FlatEquals(tmp2720,x) @ tmp2720 } = tmp2719, FlatNot( FlatMember(tmp2719,x) ), FlatEquals(tmp2698,x) @ tmp2698 } = tmp2697, FlatDiscreteSet(tmp2739)
+set compare: { { tmp2710==1, tmp2711==10, FlatRangeSet(tmp2710,tmp2711,tmp2709), FlatMember(tmp2709,x), tmp2715==4, FlatLessThan(x,tmp2715), FlatEquals(tmp2708,x) @ tmp2708 } = tmp2707, FlatMember(tmp2707,x), { tmp2730==1, tmp2731==10, FlatRangeSet(tmp2730,tmp2731,tmp2729), FlatMember(tmp2729,x), tmp2735==4, FlatLessThan(x,tmp2735), FlatEquals(tmp2728,x) @ tmp2728 } = tmp2727, FlatNot( FlatMember(tmp2727,x) ), FlatEquals(tmp2706,x) @ tmp2706 } = tmp2705, FlatDiscreteSet(tmp2747)
 Passed test:animate_sets.tex:237
-set compare: { { tmp2745==1, tmp2746==10, FlatRangeSet(tmp2745,tmp2746,tmp2744), FlatMember(tmp2744,x), tmp2750==4, FlatLessThan(x,tmp2750), FlatEquals(tmp2743,x) @ tmp2743 } = tmp2742, FlatMember(tmp2742,x), { tmp2765==1, tmp2766==10, FlatRangeSet(tmp2765,tmp2766,tmp2764), FlatMember(tmp2764,x), FlatMult(x,x,tmp2770), tmp2771==10, FlatLessThan(tmp2770,tmp2771), FlatMult(x,x,tmp2774), FlatEquals(tmp2763,tmp2774) @ tmp2763 } = tmp2762, FlatNot( FlatMember(tmp2762,x) ), FlatEquals(tmp2741,x) @ tmp2741 } = tmp2740, FlatRangeSet(tmp2791,tmp2792,tmp2790)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare: { { tmp2753==1, tmp2754==10, FlatRangeSet(tmp2753,tmp2754,tmp2752), FlatMember(tmp2752,x), tmp2758==4, FlatLessThan(x,tmp2758), FlatEquals(tmp2751,x) @ tmp2751 } = tmp2750, FlatMember(tmp2750,x), { tmp2773==1, tmp2774==10, FlatRangeSet(tmp2773,tmp2774,tmp2772), FlatMember(tmp2772,x), FlatMult(x,x,tmp2778), tmp2779==10, FlatLessThan(tmp2778,tmp2779), FlatMult(x,x,tmp2782), FlatEquals(tmp2771,tmp2782) @ tmp2771 } = tmp2770, FlatNot( FlatMember(tmp2770,x) ), FlatEquals(tmp2749,x) @ tmp2749 } = tmp2748, FlatRangeSet(tmp2799,tmp2800,tmp2798)
+set compare members: 2, 2
+set compare members: 3, 3
 Passed test:animate_sets.tex:238
 Passed test:animate_sets.tex:244
 Passed test:animate_sets.tex:245
@@ -492,90 +492,90 @@ Passed test:animate_sets.tex:246
 Passed test:animate_sets.tex:247
 Passed test:animate_sets.tex:248
 Passed test:animate_sets.tex:249
-set compare: FlatDiscreteSet(tmp2922), FlatDiscreteSet(tmp2923)
+set compare: FlatDiscreteSet(tmp2930), FlatDiscreteSet(tmp2931)
 Passed test:animate_sets.tex:255
-set compare: FlatDiscreteSet(tmp2924), { FlatDiscreteSet(tmp2927), FlatMember(tmp2927,x), FlatDiscreteSet(tmp2929), FlatMember(tmp2929,x), FlatEquals(tmp2926,x) @ tmp2926 } = tmp2925
+set compare: FlatDiscreteSet(tmp2932), { FlatDiscreteSet(tmp2935), FlatMember(tmp2935,x), FlatDiscreteSet(tmp2937), FlatMember(tmp2937,x), FlatEquals(tmp2934,x) @ tmp2934 } = tmp2933
 Passed test:animate_sets.tex:256
-set compare: FlatDiscreteSet(tmp2931,tmp2932,tmp2933), FlatDiscreteSet(tmp2934,tmp2935,tmp2936)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79548ee, net.sourceforge.czt.z.impl.NumExprImpl@79548ee
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
+set compare: FlatDiscreteSet(tmp2939,tmp2940,tmp2941), FlatDiscreteSet(tmp2942,tmp2943,tmp2944)
+set compare members: 0, 0
+set compare members: 1, 1
 Passed test:animate_sets.tex:257
-set compare: FlatDiscreteSet(tmp2937,tmp2938,tmp2939), { tmp2942==0, tmp2943==1, FlatDiscreteSet(tmp2942,tmp2943,tmp2944), FlatMember(tmp2944,x), tmp2948==0, tmp2949==1, FlatDiscreteSet(tmp2949,tmp2948,tmp2950), FlatMember(tmp2950,x), FlatEquals(tmp2941,x) @ tmp2941 } = tmp2940
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79548ee, net.sourceforge.czt.z.impl.NumExprImpl@79548ee
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
+set compare: FlatDiscreteSet(tmp2945,tmp2946,tmp2947), { tmp2950==0, tmp2951==1, FlatDiscreteSet(tmp2951,tmp2950,tmp2952), FlatMember(tmp2952,x), tmp2956==0, tmp2957==1, FlatDiscreteSet(tmp2956,tmp2957,tmp2958), FlatMember(tmp2958,x), FlatEquals(tmp2949,x) @ tmp2949 } = tmp2948
+set compare members: 0, 0
+set compare members: 1, 1
 Passed test:animate_sets.tex:258
-set compare: FlatDiscreteSet(tmp2959,tmp2958,tmp2960), FlatDiscreteSet(tmp2964,tmp2962,tmp2965)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@795452d
-set compare: FlatDiscreteSet(tmp2954,tmp2956,tmp2957), FlatDiscreteSet(tmp2959,tmp2958,tmp2960)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@795452d, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare: FlatDiscreteSet(tmp2954,tmp2956,tmp2957), FlatDiscreteSet(tmp2959,tmp2958,tmp2960)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@795452d, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare: FlatDiscreteSet(tmp2954,tmp2956,tmp2957), FlatDiscreteSet(tmp2964,tmp2962,tmp2965)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@795452d, net.sourceforge.czt.z.impl.NumExprImpl@795452d
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
+set compare: FlatDiscreteSet(tmp2966,tmp2967,tmp2968), FlatDiscreteSet(tmp2970,tmp2972,tmp2973)
+set compare members: 1, -1
+set compare: FlatDiscreteSet(tmp2964,tmp2962,tmp2965), FlatDiscreteSet(tmp2966,tmp2967,tmp2968)
+set compare members: -1, 1
+set compare: FlatDiscreteSet(tmp2964,tmp2962,tmp2965), FlatDiscreteSet(tmp2966,tmp2967,tmp2968)
+set compare members: -1, 1
+set compare: FlatDiscreteSet(tmp2964,tmp2962,tmp2965), FlatDiscreteSet(tmp2970,tmp2972,tmp2973)
+set compare members: -1, -1
+set compare members: 1, 1
 Passed test:animate_sets.tex:259
-set compare: FlatDiscreteSet(tmp2997,tmp2996,tmp2998), FlatDiscreteSet(tmp2978,tmp2976,tmp2979)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@795452d
-set compare: FlatDiscreteSet(tmp2994,tmp2992,tmp2995), FlatDiscreteSet(tmp2997,tmp2996,tmp2998)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@795452d, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare: FlatDiscreteSet(tmp2994,tmp2992,tmp2995), FlatDiscreteSet(tmp2997,tmp2996,tmp2998)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@795452d, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare: FlatDiscreteSet(tmp2994,tmp2992,tmp2995), FlatDiscreteSet(tmp2978,tmp2976,tmp2979)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@795452d, net.sourceforge.czt.z.impl.NumExprImpl@795452d
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare: FlatDiscreteSet(tmp3002,tmp3000,tmp3003), FlatDiscreteSet(tmp2978,tmp2976,tmp2979)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@795452d, net.sourceforge.czt.z.impl.NumExprImpl@795452d
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
+set compare: FlatDiscreteSet(tmp3004,tmp3005,tmp3006), FlatDiscreteSet(tmp2986,tmp2984,tmp2987)
+set compare members: 1, -1
+set compare: FlatDiscreteSet(tmp3002,tmp3000,tmp3003), FlatDiscreteSet(tmp3004,tmp3005,tmp3006)
+set compare members: -1, 1
+set compare: FlatDiscreteSet(tmp3002,tmp3000,tmp3003), FlatDiscreteSet(tmp3004,tmp3005,tmp3006)
+set compare members: -1, 1
+set compare: FlatDiscreteSet(tmp3002,tmp3000,tmp3003), FlatDiscreteSet(tmp2986,tmp2984,tmp2987)
+set compare members: -1, -1
+set compare members: 1, 1
+set compare: FlatDiscreteSet(tmp3010,tmp3008,tmp3011), FlatDiscreteSet(tmp2986,tmp2984,tmp2987)
+set compare members: -1, -1
+set compare members: 1, 1
 Passed test:animate_sets.tex:261
-set compare: FlatDiscreteSet(tmp3007,tmp3008,tmp3010), FlatDiscreteSet(tmp3013,tmp3012,tmp3015)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@795452d, net.sourceforge.czt.z.impl.NumExprImpl@795452d
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79548ee, net.sourceforge.czt.z.impl.NumExprImpl@79548ee
+set compare: FlatDiscreteSet(tmp3015,tmp3016,tmp3018), FlatDiscreteSet(tmp3020,tmp3021,tmp3023)
+set compare members: -1, -1
+set compare members: 0, 0
 Passed test:animate_sets.tex:265
-set compare: FlatDiscreteSet(tmp3017,tmp3016,tmp3018), FlatDiscreteSet(tmp3026,tmp3027,tmp3028)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79548ee, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare: FlatDiscreteSet(tmp3022,tmp3023,tmp3024), FlatDiscreteSet(tmp3017,tmp3016,tmp3018)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@79548ee
-set compare: FlatDiscreteSet(tmp3022,tmp3023,tmp3024), FlatDiscreteSet(tmp3017,tmp3016,tmp3018)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@79548ee
-set compare: FlatDiscreteSet(tmp3022,tmp3023,tmp3024), FlatDiscreteSet(tmp3026,tmp3027,tmp3028)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare: FlatDiscreteSet(tmp3020,tmp3019,tmp3021), FlatDiscreteSet(tmp3017,tmp3016,tmp3018)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@79548ee
-set compare: FlatDiscreteSet(tmp3020,tmp3019,tmp3021), FlatDiscreteSet(tmp3022,tmp3023,tmp3024)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare: FlatDiscreteSet(tmp3020,tmp3019,tmp3021), FlatDiscreteSet(tmp3017,tmp3016,tmp3018)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@79548ee
-set compare: FlatDiscreteSet(tmp3020,tmp3019,tmp3021), FlatDiscreteSet(tmp3022,tmp3023,tmp3024)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7955070
-set compare: FlatDiscreteSet(tmp3020,tmp3019,tmp3021), FlatDiscreteSet(tmp3026,tmp3027,tmp3028)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
+set compare: FlatDiscreteSet(tmp3024,tmp3025,tmp3026), FlatDiscreteSet(tmp3035,tmp3034,tmp3036)
+set compare members: 0, 1
+set compare: FlatDiscreteSet(tmp3031,tmp3030,tmp3032), FlatDiscreteSet(tmp3024,tmp3025,tmp3026)
+set compare members: 2, 0
+set compare: FlatDiscreteSet(tmp3031,tmp3030,tmp3032), FlatDiscreteSet(tmp3024,tmp3025,tmp3026)
+set compare members: 2, 0
+set compare: FlatDiscreteSet(tmp3031,tmp3030,tmp3032), FlatDiscreteSet(tmp3035,tmp3034,tmp3036)
+set compare members: 2, 1
+set compare: FlatDiscreteSet(tmp3028,tmp3027,tmp3029), FlatDiscreteSet(tmp3024,tmp3025,tmp3026)
+set compare members: 1, 0
+set compare: FlatDiscreteSet(tmp3028,tmp3027,tmp3029), FlatDiscreteSet(tmp3031,tmp3030,tmp3032)
+set compare members: 1, 2
+set compare: FlatDiscreteSet(tmp3028,tmp3027,tmp3029), FlatDiscreteSet(tmp3024,tmp3025,tmp3026)
+set compare members: 1, 0
+set compare: FlatDiscreteSet(tmp3028,tmp3027,tmp3029), FlatDiscreteSet(tmp3031,tmp3030,tmp3032)
+set compare members: 1, 2
+set compare: FlatDiscreteSet(tmp3028,tmp3027,tmp3029), FlatDiscreteSet(tmp3035,tmp3034,tmp3036)
+set compare members: 1, 1
 Passed test:animate_sets.tex:268
-set compare: FlatDiscreteSet(tmp3031,tmp3029,tmp3033), FlatDiscreteSet(tmp3040,tmp3042,tmp3044)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@795452d, net.sourceforge.czt.z.impl.NumExprImpl@795452d
+set compare: FlatDiscreteSet(tmp3037,tmp3039,tmp3041), FlatDiscreteSet(tmp3048,tmp3050,tmp3052)
+set compare members: -1, -1
 Passed test:animate_sets.tex:272
-set compare: FlatDiscreteSet(tmp3055,tmp3057,tmp3059), FlatDiscreteSet(tmp3063,tmp3061,tmp3065)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@795452d, net.sourceforge.czt.z.impl.NumExprImpl@702a99f
-set compare: FlatDiscreteSet(tmp3045,tmp3047,tmp3049), FlatDiscreteSet(tmp3055,tmp3057,tmp3059)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@702a99f, net.sourceforge.czt.z.impl.NumExprImpl@795452d
-set compare: FlatDiscreteSet(tmp3045,tmp3047,tmp3049), FlatDiscreteSet(tmp3055,tmp3057,tmp3059)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@702a99f, net.sourceforge.czt.z.impl.NumExprImpl@795452d
-set compare: FlatDiscreteSet(tmp3045,tmp3047,tmp3049), FlatDiscreteSet(tmp3063,tmp3061,tmp3065)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@702a99f, net.sourceforge.czt.z.impl.NumExprImpl@702a99f
+set compare: FlatDiscreteSet(tmp3063,tmp3065,tmp3067), FlatDiscreteSet(tmp3069,tmp3071,tmp3073)
+set compare members: -1, -9999
+set compare: FlatDiscreteSet(tmp3055,tmp3053,tmp3057), FlatDiscreteSet(tmp3063,tmp3065,tmp3067)
+set compare members: -9999, -1
+set compare: FlatDiscreteSet(tmp3055,tmp3053,tmp3057), FlatDiscreteSet(tmp3063,tmp3065,tmp3067)
+set compare members: -9999, -1
+set compare: FlatDiscreteSet(tmp3055,tmp3053,tmp3057), FlatDiscreteSet(tmp3069,tmp3071,tmp3073)
+set compare members: -9999, -9999
 Passed test:animate_sets.tex:281
-set compare: FlatDiscreteSet(tmp3074,tmp3076,tmp3078), FlatDiscreteSet(tmp3066,tmp3067,tmp3068)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@74bf766, net.sourceforge.czt.z.impl.NumExprImpl@79548ee
-set compare: FlatDiscreteSet(tmp3069,tmp3071,tmp3073), FlatDiscreteSet(tmp3074,tmp3076,tmp3078)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@702a99f, net.sourceforge.czt.z.impl.NumExprImpl@74bf766
-set compare: FlatDiscreteSet(tmp3069,tmp3071,tmp3073), FlatDiscreteSet(tmp3074,tmp3076,tmp3078)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@702a99f, net.sourceforge.czt.z.impl.NumExprImpl@74bf766
-set compare: FlatDiscreteSet(tmp3069,tmp3071,tmp3073), FlatDiscreteSet(tmp3066,tmp3067,tmp3068)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@702a99f, net.sourceforge.czt.z.impl.NumExprImpl@79548ee
-set compare: FlatDiscreteSet(tmp3081,tmp3079,tmp3083), FlatDiscreteSet(tmp3074,tmp3076,tmp3078)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@795452d, net.sourceforge.czt.z.impl.NumExprImpl@74bf766
-set compare: FlatDiscreteSet(tmp3081,tmp3079,tmp3083), FlatDiscreteSet(tmp3074,tmp3076,tmp3078)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@795452d, net.sourceforge.czt.z.impl.NumExprImpl@74bf766
-set compare: FlatDiscreteSet(tmp3081,tmp3079,tmp3083), FlatDiscreteSet(tmp3066,tmp3067,tmp3068)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@795452d, net.sourceforge.czt.z.impl.NumExprImpl@79548ee
+set compare: FlatDiscreteSet(tmp3082,tmp3084,tmp3086), FlatDiscreteSet(tmp3074,tmp3075,tmp3076)
+set compare members: -5000, 0
+set compare: FlatDiscreteSet(tmp3077,tmp3079,tmp3081), FlatDiscreteSet(tmp3082,tmp3084,tmp3086)
+set compare members: -9999, -5000
+set compare: FlatDiscreteSet(tmp3077,tmp3079,tmp3081), FlatDiscreteSet(tmp3082,tmp3084,tmp3086)
+set compare members: -9999, -5000
+set compare: FlatDiscreteSet(tmp3077,tmp3079,tmp3081), FlatDiscreteSet(tmp3074,tmp3075,tmp3076)
+set compare members: -9999, 0
+set compare: FlatDiscreteSet(tmp3089,tmp3087,tmp3091), FlatDiscreteSet(tmp3082,tmp3084,tmp3086)
+set compare members: -1, -5000
+set compare: FlatDiscreteSet(tmp3089,tmp3087,tmp3091), FlatDiscreteSet(tmp3082,tmp3084,tmp3086)
+set compare members: -1, -5000
+set compare: FlatDiscreteSet(tmp3089,tmp3087,tmp3091), FlatDiscreteSet(tmp3074,tmp3075,tmp3076)
+set compare members: -1, 0
 Passed test:animate_sets.tex:282
 Passed test:animate_sets.tex:287
 Passed undef test: animate_sets.tex:288
@@ -594,30 +594,30 @@ Passed test:animate_sets.tex:383
 Passed test:animate_sets.tex:384
 Passed test:animate_sets.tex:385
 Passed test:animate_sets.tex:386
-set compare: FlatDiscreteSet(tmp3514), FlatDiscreteSet(tmp3517)
-set compare: FlatDiscreteSet(tmp3519,tmp3518,tmp3522), FlatDiscreteSet(tmp3517)
-set compare: FlatDiscreteSet(tmp3519,tmp3518,tmp3522), FlatDiscreteSet(tmp3517)
-set compare: FlatDiscreteSet(tmp3515,tmp3516), FlatDiscreteSet(tmp3517)
-set compare: FlatDiscreteSet(tmp3515,tmp3516), FlatDiscreteSet(tmp3519,tmp3518,tmp3522)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
+set compare: FlatDiscreteSet(tmp3523,tmp3524), FlatDiscreteSet(tmp3525)
+set compare: FlatDiscreteSet(tmp3523,tmp3524), FlatDiscreteSet(tmp3525)
+set compare: FlatDiscreteSet(tmp3522), FlatDiscreteSet(tmp3525)
+set compare: FlatDiscreteSet(tmp3526,tmp3527,tmp3530), FlatDiscreteSet(tmp3525)
+set compare: FlatDiscreteSet(tmp3526,tmp3527,tmp3530), FlatDiscreteSet(tmp3523,tmp3524)
+set compare members: 2, 2
 Passed test:animate_sets.tex:387
-set compare: { tmp3533==0, FlatRangeSet(tmp3533,-,tmp3532), FlatMember(tmp3532,x), tmp3537==3, tmp3538==5, tmp3539==3, FlatDiscreteSet(tmp3537,tmp3539,tmp3538,tmp3540), FlatCard(tmp3540,tmp3536), FlatLessThan(x,tmp3536), FlatEquals(tmp3531,x) @ tmp3531 } = tmp3530, FlatDiscreteSet(tmp3546,tmp3547,tmp3548)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79548ee, net.sourceforge.czt.z.impl.NumExprImpl@79548ee
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
+set compare: { tmp3541==0, FlatRangeSet(tmp3541,-,tmp3540), FlatMember(tmp3540,x), tmp3545==3, tmp3546==5, tmp3547==3, FlatDiscreteSet(tmp3546,tmp3545,tmp3547,tmp3548), FlatCard(tmp3548,tmp3544), FlatLessThan(x,tmp3544), FlatEquals(tmp3539,x) @ tmp3539 } = tmp3538, FlatDiscreteSet(tmp3554,tmp3555,tmp3556)
+set compare members: 0, 0
+set compare members: 1, 1
 Passed test:animate_sets.tex:397
-set compare: { tmp3552==0, FlatRangeSet(tmp3552,-,tmp3551), FlatMember(tmp3551,x), tmp3557==3, tmp3558==5, FlatRangeSet(tmp3557,tmp3558,tmp3556), FlatCard(tmp3556,tmp3555), FlatLessThan(x,tmp3555), FlatEquals(tmp3550,x) @ tmp3550 } = tmp3549, FlatDiscreteSet(tmp3564,tmp3565,tmp3563,tmp3566)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79548ee, net.sourceforge.czt.z.impl.NumExprImpl@79548ee
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
+set compare: { tmp3560==0, FlatRangeSet(tmp3560,-,tmp3559), FlatMember(tmp3559,x), tmp3565==3, tmp3566==5, FlatRangeSet(tmp3565,tmp3566,tmp3564), FlatCard(tmp3564,tmp3563), FlatLessThan(x,tmp3563), FlatEquals(tmp3558,x) @ tmp3558 } = tmp3557, FlatDiscreteSet(tmp3573,tmp3572,tmp3571,tmp3574)
+set compare members: 0, 0
+set compare members: 1, 1
+set compare members: 2, 2
 Passed test:animate_sets.tex:398
 Passed test:animate_sets.tex:403
 Passed test:animate_sets.tex:404
 Passed test:animate_sets.tex:405
 Passed test:animate_sets.tex:406
 Passed test:animate_sets.tex:407
-set compare: FlatDiscreteSet(tmp3600,tmp3602,tmp3601,tmp3603), FlatDiscreteSet(tmp3605,tmp3606,tmp3607)
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
-set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare: FlatDiscreteSet(tmp3609,tmp3610,tmp3608,tmp3611), FlatDiscreteSet(tmp3614,tmp3613,tmp3615)
+set compare members: 1, 1
+set compare members: 3, 3
 Passed test:animate_sets.tex:408
 Passed test:animate_sets.tex:409
 Passed test:animate_sets.tex:410
@@ -640,668 +640,668 @@ Passed test:animate_sets.tex:426
 Passed test:animate_sets.tex:427
 Passed test:animate_sets.tex:428
 Passed test:animate_sets.tex:429
-set compare: FlatDiscreteSet(tmp3806), FlatDiscreteSet(tmp3807,tmp3808)
+set compare: FlatDiscreteSet(tmp3814), FlatDiscreteSet(tmp3815,tmp3816)
 Passed test:animate_sets.tex:433
-set compare: FlatDiscreteSet(tmp3818,tmp3820,tmp3819,tmp3821), FlatDiscreteSet(tmp3825,tmp3824,tmp3823,tmp3822,tmp3826)
+set compare: FlatDiscreteSet(tmp3828,tmp3827,tmp3826,tmp3829), FlatDiscreteSet(tmp3830,tmp3833,tmp3832,tmp3831,tmp3834)
 Passed test:animate_sets.tex:434
-set compare: FlatDiscreteSet(tmp3835,tmp3836,tmp3834,tmp3837), FlatRangeSet(tmp3839,tmp3840,tmp3838)
+set compare: FlatDiscreteSet(tmp3843,tmp3844,tmp3842,tmp3845), FlatRangeSet(tmp3847,tmp3848,tmp3846)
 Passed test:animate_sets.tex:435
-set compare: FlatDiscreteSet(tmp3857,tmp3856,tmp3855,tmp3858), { tmp3862==1, FlatRangeSet(tmp3862,-,tmp3861), FlatMember(tmp3861,x), tmp3865==5, FlatLessThanEquals(x,tmp3865), tmp3866==2, FlatNot( FlatEquals(x,tmp3866) ), FlatEquals(tmp3860,x) @ tmp3860 } = tmp3859
+set compare: FlatDiscreteSet(tmp3865,tmp3863,tmp3864,tmp3866), { tmp3870==1, FlatRangeSet(tmp3870,-,tmp3869), FlatMember(tmp3869,x), tmp3873==5, FlatLessThanEquals(x,tmp3873), tmp3874==2, FlatNot( FlatEquals(x,tmp3874) ), FlatEquals(tmp3868,x) @ tmp3868 } = tmp3867
 Passed test:animate_sets.tex:436
 Passed test:animate_sets.tex:443
 Passed test:animate_sets.tex:444
-set compare: FlatRangeSet(tmp3905,tmp3906,tmp3904), { tmp3910==0, FlatRangeSet(tmp3910,-,tmp3909), FlatMember(tmp3909,x), tmp3913==5, FlatLessThanEquals(x,tmp3913), FlatEquals(tmp3908,x) @ tmp3908 } = tmp3907
+set compare: FlatRangeSet(tmp3913,tmp3914,tmp3912), { tmp3918==0, FlatRangeSet(tmp3918,-,tmp3917), FlatMember(tmp3917,x), tmp3921==5, FlatLessThanEquals(x,tmp3921), FlatEquals(tmp3916,x) @ tmp3916 } = tmp3915
 Passed test:animate_sets.tex:445
-set compare: { tmp3932==1, tmp3933==3, FlatRangeSet(tmp3932,tmp3933,tmp3931), FlatMember(tmp3931,x), tmp3937==2, FlatNot( FlatEquals(x,tmp3937) ), FlatEquals(tmp3930,x) @ tmp3930 } = tmp3929, FlatDiscreteSet(tmp3941,tmp3939,tmp3940,tmp3942)
+set compare: { tmp3940==1, tmp3941==3, FlatRangeSet(tmp3940,tmp3941,tmp3939), FlatMember(tmp3939,x), tmp3945==2, FlatNot( FlatEquals(x,tmp3945) ), FlatEquals(tmp3938,x) @ tmp3938 } = tmp3937, FlatDiscreteSet(tmp3947,tmp3949,tmp3948,tmp3950)
 Passed test:animate_sets.tex:448
-set compare: { tmp3959==1, tmp3960==3, FlatRangeSet(tmp3959,tmp3960,tmp3958), FlatMember(tmp3958,x), tmp3964==2, FlatNot( FlatEquals(x,tmp3964) ), FlatEquals(tmp3957,x) @ tmp3957 } = tmp3956, FlatRangeSet(tmp3967,tmp3968,tmp3966)
+set compare: { tmp3967==1, tmp3968==3, FlatRangeSet(tmp3967,tmp3968,tmp3966), FlatMember(tmp3966,x), tmp3972==2, FlatNot( FlatEquals(x,tmp3972) ), FlatEquals(tmp3965,x) @ tmp3965 } = tmp3964, FlatRangeSet(tmp3975,tmp3976,tmp3974)
 Passed test:animate_sets.tex:449
-set compare: { tmp3990==1, tmp3991==3, FlatRangeSet(tmp3990,tmp3991,tmp3989), FlatMember(tmp3989,x), tmp3995==2, FlatNot( FlatEquals(x,tmp3995) ), FlatEquals(tmp3988,x) @ tmp3988 } = tmp3987, { tmp4000==1, FlatRangeSet(tmp4000,-,tmp3999), FlatMember(tmp3999,x), tmp4003==3, FlatLessThanEquals(x,tmp4003), FlatEquals(tmp3998,x) @ tmp3998 } = tmp3997
+set compare: { tmp3998==1, tmp3999==3, FlatRangeSet(tmp3998,tmp3999,tmp3997), FlatMember(tmp3997,x), tmp4003==2, FlatNot( FlatEquals(x,tmp4003) ), FlatEquals(tmp3996,x) @ tmp3996 } = tmp3995, { tmp4008==1, FlatRangeSet(tmp4008,-,tmp4007), FlatMember(tmp4007,x), tmp4011==3, FlatLessThanEquals(x,tmp4011), FlatEquals(tmp4006,x) @ tmp4006 } = tmp4005
 Passed test:animate_sets.tex:450
-set compare: FlatDiscreteSet(tmp4012,tmp4011,tmp4013,tmp4014), FlatRangeSet(tmp4016,-,tmp4015)
+set compare: FlatDiscreteSet(tmp4020,tmp4019,tmp4021,tmp4022), FlatRangeSet(tmp4024,-,tmp4023)
 Passed test:animate_sets.tex:453
 Passed test:animate_sets.tex:454
-set compare: { tmp4042==1, tmp4043==3, FlatRangeSet(tmp4042,tmp4043,tmp4041), FlatMember(tmp4041,x), tmp4047==2, FlatNot( FlatEquals(x,tmp4047) ), FlatEquals(tmp4040,x) @ tmp4040 } = tmp4039, FlatRangeSet(tmp4050,-,tmp4049)
+set compare: { tmp4050==1, tmp4051==3, FlatRangeSet(tmp4050,tmp4051,tmp4049), FlatMember(tmp4049,x), tmp4055==2, FlatNot( FlatEquals(x,tmp4055) ), FlatEquals(tmp4048,x) @ tmp4048 } = tmp4047, FlatRangeSet(tmp4058,-,tmp4057)
 Passed test:animate_sets.tex:455
 Passed test:animate_sets.tex:456
 Passed test:animate_sets.tex:457
 Passed test:animate_sets.tex:458
 ------------- ---------------- ---------------
 
-Testcase: animate_sets.tex:33 took 0.138 sec
-Testcase: animate_sets.tex:34 took 0.127 sec
-Testcase: animate_sets.tex:35 took 0.125 sec
-Testcase: animate_sets.tex:36 took 0.19 sec
-Testcase: animate_sets.tex:37 took 0.06 sec
-Testcase: animate_sets.tex:38 took 0.057 sec
-Testcase: animate_sets.tex:39 took 0.171 sec
-Testcase: animate_sets.tex:40 took 0.059 sec
-Testcase: animate_sets.tex:41 took 0.122 sec
-Testcase: animate_sets.tex:44 took 0.214 sec
-Testcase: animate_sets.tex:45 took 0.146 sec
-Testcase: animate_sets.tex:46 took 0.145 sec
-Testcase: animate_sets.tex:47 took 0.144 sec
-Testcase: animate_sets.tex:48 took 0.211 sec
-Testcase: animate_sets.tex:49 took 0.146 sec
-Testcase: animate_sets.tex:50 took 0.211 sec
-Testcase: animate_sets.tex:51 took 0.214 sec
-Testcase: animate_sets.tex:52 took 0.165 sec
-Testcase: animate_sets.tex:53 took 0.165 sec
-Testcase: animate_sets.tex:54 took 0.255 sec
-Testcase: animate_sets.tex:59 took 0.194 sec
-Testcase: animate_sets.tex:60 took 0.332 sec
-Testcase: animate_sets.tex:61 took 0.331 sec
-Testcase: animate_sets.tex:62 took 0.502 sec
-Testcase: animate_sets.tex:63 took 0.52 sec
-Testcase: animate_sets.tex:65 took 0.274 sec
-Testcase: animate_sets.tex:66 took 0.405 sec
-Testcase: animate_sets.tex:67 took 0.38 sec
-Testcase: animate_sets.tex:69 took 0.431 sec
-Testcase: animate_sets.tex:70 took 0.418 sec
-Testcase: animate_sets.tex:71 took 0.443 sec
-Testcase: animate_sets.tex:72 took 0.442 sec
-Testcase: animate_sets.tex:74 took 0.57 sec
-Testcase: animate_sets.tex:75 took 0.561 sec
-Testcase: animate_sets.tex:76 took 0.906 sec
-Testcase: animate_sets.tex:77 took 0.984 sec
-Testcase: animate_sets.tex:96 took 0.446 sec
-Testcase: animate_sets.tex:97 took 0.682 sec
-Testcase: animate_sets.tex:98 took 0.726 sec
-Testcase: animate_sets.tex:99 took 0.809 sec
-Testcase: animate_sets.tex:100 took 1.103 sec
-Testcase: animate_sets.tex:101 took 2.036 sec
-Testcase: animate_sets.tex:102 took 0.502 sec
-Testcase: animate_sets.tex:103 took 0.306 sec
-Testcase: animate_sets.tex:104 took 0.787 sec
-Testcase: animate_sets.tex:105 took 0.371 sec
-Testcase: animate_sets.tex:106 took 0.695 sec
-Testcase: animate_sets.tex:109 took 0.374 sec
-Testcase: animate_sets.tex:110 took 0.365 sec
-Testcase: animate_sets.tex:111 took 0.528 sec
-Testcase: animate_sets.tex:112 took 0.145 sec
-Testcase: animate_sets.tex:113 took 0.415 sec
+Testcase: animate_sets.tex:33 took 0.094 sec
+Testcase: animate_sets.tex:34 took 0.093 sec
+Testcase: animate_sets.tex:35 took 0.094 sec
+Testcase: animate_sets.tex:36 took 0.141 sec
+Testcase: animate_sets.tex:37 took 0.031 sec
+Testcase: animate_sets.tex:38 took 0.047 sec
+Testcase: animate_sets.tex:39 took 0.125 sec
+Testcase: animate_sets.tex:40 took 0.047 sec
+Testcase: animate_sets.tex:41 took 0.093 sec
+Testcase: animate_sets.tex:44 took 0.157 sec
+Testcase: animate_sets.tex:45 took 0.109 sec
+Testcase: animate_sets.tex:46 took 0.094 sec
+Testcase: animate_sets.tex:47 took 0.094 sec
+Testcase: animate_sets.tex:48 took 0.156 sec
+Testcase: animate_sets.tex:49 took 0.125 sec
+Testcase: animate_sets.tex:50 took 0.172 sec
+Testcase: animate_sets.tex:51 took 0.172 sec
+Testcase: animate_sets.tex:52 took 0.125 sec
+Testcase: animate_sets.tex:53 took 0.125 sec
+Testcase: animate_sets.tex:54 took 0.188 sec
+Testcase: animate_sets.tex:59 took 0.14 sec
+Testcase: animate_sets.tex:60 took 0.25 sec
+Testcase: animate_sets.tex:61 took 0.25 sec
+Testcase: animate_sets.tex:62 took 0.36 sec
+Testcase: animate_sets.tex:63 took 0.39 sec
+Testcase: animate_sets.tex:65 took 0.203 sec
+Testcase: animate_sets.tex:66 took 0.313 sec
+Testcase: animate_sets.tex:67 took 0.266 sec
+Testcase: animate_sets.tex:69 took 0.328 sec
+Testcase: animate_sets.tex:70 took 0.312 sec
+Testcase: animate_sets.tex:71 took 0.328 sec
+Testcase: animate_sets.tex:72 took 0.328 sec
+Testcase: animate_sets.tex:74 took 0.438 sec
+Testcase: animate_sets.tex:75 took 0.453 sec
+Testcase: animate_sets.tex:76 took 0.703 sec
+Testcase: animate_sets.tex:77 took 0.75 sec
+Testcase: animate_sets.tex:96 took 0.328 sec
+Testcase: animate_sets.tex:97 took 0.5 sec
+Testcase: animate_sets.tex:98 took 0.532 sec
+Testcase: animate_sets.tex:99 took 0.609 sec
+Testcase: animate_sets.tex:100 took 0.828 sec
+Testcase: animate_sets.tex:101 took 1.5 sec
+Testcase: animate_sets.tex:102 took 0.375 sec
+Testcase: animate_sets.tex:103 took 0.234 sec
+Testcase: animate_sets.tex:104 took 0.579 sec
+Testcase: animate_sets.tex:105 took 0.265 sec
+Testcase: animate_sets.tex:106 took 0.531 sec
+Testcase: animate_sets.tex:109 took 0.266 sec
+Testcase: animate_sets.tex:110 took 0.266 sec
+Testcase: animate_sets.tex:111 took 0.406 sec
+Testcase: animate_sets.tex:112 took 0.109 sec
+Testcase: animate_sets.tex:113 took 0.297 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp1308)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp1308)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp1316)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp1316)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:114 took 0.428 sec
+Testcase: animate_sets.tex:114 took 0.313 sec
 	FAILED
 null
-junit.framework.AssertionFailedError
+junit.framework.AssertionFailedError: null
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:103)
 
-Testcase: animate_sets.tex:115 took 0.54 sec
-Testcase: animate_sets.tex:118 took 1.056 sec
-Testcase: animate_sets.tex:119 took 1.052 sec
-Testcase: animate_sets.tex:120 took 0.722 sec
-Testcase: animate_sets.tex:121 took 1.118 sec
-Testcase: animate_sets.tex:122 took 0.393 sec
-Testcase: animate_sets.tex:123 took 1.417 sec
-Testcase: animate_sets.tex:124 took 0.692 sec
-Testcase: animate_sets.tex:125 took 1.578 sec
-Testcase: animate_sets.tex:128 took 0.196 sec
+Testcase: animate_sets.tex:115 took 0.406 sec
+Testcase: animate_sets.tex:118 took 0.781 sec
+Testcase: animate_sets.tex:119 took 0.781 sec
+Testcase: animate_sets.tex:120 took 0.532 sec
+Testcase: animate_sets.tex:121 took 0.828 sec
+Testcase: animate_sets.tex:122 took 0.281 sec
+Testcase: animate_sets.tex:123 took 1.031 sec
+Testcase: animate_sets.tex:124 took 0.532 sec
+Testcase: animate_sets.tex:125 took 1.156 sec
+Testcase: animate_sets.tex:128 took 0.14 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp1609,-,tmp1608)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp1609,-,tmp1608)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp1617,-,tmp1616)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp1617,-,tmp1616)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:129 took 0.238 sec
+Testcase: animate_sets.tex:129 took 0.172 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp1616,-,tmp1615)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp1616,-,tmp1615)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp1624,-,tmp1623)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp1624,-,tmp1623)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:130 took 0.32 sec
+Testcase: animate_sets.tex:130 took 0.235 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp1625,-,tmp1624)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp1625,-,tmp1624)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp1633,-,tmp1632)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp1633,-,tmp1632)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:131 took 0.475 sec
+Testcase: animate_sets.tex:131 took 0.359 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp1635,-,tmp1634)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp1635,-,tmp1634)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp1643,-,tmp1642)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp1643,-,tmp1642)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:137 took 0.166 sec
-Testcase: animate_sets.tex:138 took 0.234 sec
-Testcase: animate_sets.tex:139 took 0.235 sec
-Testcase: animate_sets.tex:140 took 0.407 sec
-Testcase: animate_sets.tex:141 took 0.422 sec
-Testcase: animate_sets.tex:143 took 0.258 sec
-Testcase: animate_sets.tex:144 took 0.317 sec
-Testcase: animate_sets.tex:145 took 0.314 sec
-Testcase: animate_sets.tex:147 took 0.314 sec
-Testcase: animate_sets.tex:148 took 0.322 sec
-Testcase: animate_sets.tex:149 took 0.403 sec
-Testcase: animate_sets.tex:150 took 0.399 sec
-Testcase: animate_sets.tex:152 took 0.79 sec
-Testcase: animate_sets.tex:153 took 0.548 sec
-Testcase: animate_sets.tex:154 took 0.894 sec
-Testcase: animate_sets.tex:155 took 0.892 sec
-Testcase: animate_sets.tex:157 took 0.343 sec
-Testcase: animate_sets.tex:158 took 0.37 sec
-Testcase: animate_sets.tex:159 took 0.39 sec
-Testcase: animate_sets.tex:160 took 0.41 sec
-Testcase: animate_sets.tex:161 took 0.408 sec
-Testcase: animate_sets.tex:162 took 0.369 sec
-Testcase: animate_sets.tex:163 took 0.406 sec
-Testcase: animate_sets.tex:164 took 0.401 sec
-Testcase: animate_sets.tex:166 took 0.321 sec
+Testcase: animate_sets.tex:137 took 0.125 sec
+Testcase: animate_sets.tex:138 took 0.172 sec
+Testcase: animate_sets.tex:139 took 0.172 sec
+Testcase: animate_sets.tex:140 took 0.297 sec
+Testcase: animate_sets.tex:141 took 0.297 sec
+Testcase: animate_sets.tex:143 took 0.187 sec
+Testcase: animate_sets.tex:144 took 0.234 sec
+Testcase: animate_sets.tex:145 took 0.235 sec
+Testcase: animate_sets.tex:147 took 0.234 sec
+Testcase: animate_sets.tex:148 took 0.235 sec
+Testcase: animate_sets.tex:149 took 0.281 sec
+Testcase: animate_sets.tex:150 took 0.297 sec
+Testcase: animate_sets.tex:152 took 0.406 sec
+Testcase: animate_sets.tex:153 took 0.406 sec
+Testcase: animate_sets.tex:154 took 0.656 sec
+Testcase: animate_sets.tex:155 took 0.672 sec
+Testcase: animate_sets.tex:157 took 0.266 sec
+Testcase: animate_sets.tex:158 took 0.266 sec
+Testcase: animate_sets.tex:159 took 0.281 sec
+Testcase: animate_sets.tex:160 took 0.312 sec
+Testcase: animate_sets.tex:161 took 0.297 sec
+Testcase: animate_sets.tex:162 took 0.281 sec
+Testcase: animate_sets.tex:163 took 0.313 sec
+Testcase: animate_sets.tex:164 took 0.312 sec
+Testcase: animate_sets.tex:166 took 0.235 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2159,-,tmp2158)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2159,-,tmp2158)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2167,-,tmp2166)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2167,-,tmp2166)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:167 took 0.333 sec
+Testcase: animate_sets.tex:167 took 0.25 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2175,-,tmp2174)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2175,-,tmp2174)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2183,-,tmp2182)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2183,-,tmp2182)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:168 took 0.366 sec
+Testcase: animate_sets.tex:168 took 0.265 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2191,-,tmp2190)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2191,-,tmp2190)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2199,-,tmp2198)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2199,-,tmp2198)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:169 took 0.166 sec
+Testcase: animate_sets.tex:169 took 0.125 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp2207)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp2207)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp2215)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp2215)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:170 took 0.172 sec
+Testcase: animate_sets.tex:170 took 0.125 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2218,-,tmp2217)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2218,-,tmp2217)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2226,-,tmp2225)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2226,-,tmp2225)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:175 took 0.285 sec
-Testcase: animate_sets.tex:176 took 0.375 sec
-Testcase: animate_sets.tex:177 took 0.464 sec
-Testcase: animate_sets.tex:180 took 0.723 sec
+Testcase: animate_sets.tex:175 took 0.204 sec
+Testcase: animate_sets.tex:176 took 0.281 sec
+Testcase: animate_sets.tex:177 took 0.344 sec
+Testcase: animate_sets.tex:180 took 0.546 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ProdExprImpl@1b8de7a7 (( \{ 2 \} \cross ( 0 \upto 1 ) )) 
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ProdExprImpl@1b8de7a7 (( \{ 2 \} \cross ( 0 \upto 1 ) )) 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:184 took 0.426 sec
+Testcase: animate_sets.tex:184 took 0.329 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c817794a (\power \nat) 
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c817794a (\power \nat) 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:188 took 0.846 sec
+Testcase: animate_sets.tex:188 took 0.625 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c817794a (\power \nat) 
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c817794a (\power \nat) 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:195 took 0.665 sec
+Testcase: animate_sets.tex:195 took 0.515 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c817794a (\power \nat) 
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c817794a (\power \nat) 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:199 took 0.584 sec
-Testcase: animate_sets.tex:202 took 0.59 sec
-Testcase: animate_sets.tex:205 took 0.594 sec
-Testcase: animate_sets.tex:208 took 0.536 sec
-Testcase: animate_sets.tex:211 took 0.335 sec
+Testcase: animate_sets.tex:199 took 0.453 sec
+Testcase: animate_sets.tex:202 took 0.438 sec
+Testcase: animate_sets.tex:205 took 0.453 sec
+Testcase: animate_sets.tex:208 took 0.391 sec
+Testcase: animate_sets.tex:211 took 0.265 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2378,-,tmp2377)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2378,-,tmp2377)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2386,-,tmp2385)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2386,-,tmp2385)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:214 took 0.346 sec
+Testcase: animate_sets.tex:214 took 0.25 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2398,-,tmp2397)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2398,-,tmp2397)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2406,-,tmp2405)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2406,-,tmp2405)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:220 took 0.214 sec
-Testcase: animate_sets.tex:221 took 0.284 sec
-Testcase: animate_sets.tex:222 took 0.345 sec
-Testcase: animate_sets.tex:223 took 0.459 sec
-Testcase: animate_sets.tex:224 took 0.692 sec
-Testcase: animate_sets.tex:226 took 0.276 sec
-Testcase: animate_sets.tex:227 took 0.329 sec
-Testcase: animate_sets.tex:228 took 0.37 sec
-Testcase: animate_sets.tex:230 took 0.432 sec
-Testcase: animate_sets.tex:231 took 0.441 sec
-Testcase: animate_sets.tex:232 took 0.369 sec
-Testcase: animate_sets.tex:233 took 0.516 sec
-Testcase: animate_sets.tex:235 took 0.527 sec
-Testcase: animate_sets.tex:236 took 0.53 sec
-Testcase: animate_sets.tex:237 took 0.708 sec
-Testcase: animate_sets.tex:238 took 1.017 sec
-Testcase: animate_sets.tex:242 took 0.084 sec
+Testcase: animate_sets.tex:220 took 0.156 sec
+Testcase: animate_sets.tex:221 took 0.204 sec
+Testcase: animate_sets.tex:222 took 0.265 sec
+Testcase: animate_sets.tex:223 took 0.328 sec
+Testcase: animate_sets.tex:224 took 0.516 sec
+Testcase: animate_sets.tex:226 took 0.219 sec
+Testcase: animate_sets.tex:227 took 0.25 sec
+Testcase: animate_sets.tex:228 took 0.265 sec
+Testcase: animate_sets.tex:230 took 0.313 sec
+Testcase: animate_sets.tex:231 took 0.328 sec
+Testcase: animate_sets.tex:232 took 0.281 sec
+Testcase: animate_sets.tex:233 took 0.391 sec
+Testcase: animate_sets.tex:235 took 0.406 sec
+Testcase: animate_sets.tex:236 took 0.422 sec
+Testcase: animate_sets.tex:237 took 0.625 sec
+Testcase: animate_sets.tex:238 took 0.781 sec
+Testcase: animate_sets.tex:242 took 0.063 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2798,-,tmp2797)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2798,-,tmp2797)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2806,-,tmp2805)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2806,-,tmp2805)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:243 took 0.084 sec
+Testcase: animate_sets.tex:243 took 0.062 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2805,-,tmp2804)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2805,-,tmp2804)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2813,-,tmp2812)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2813,-,tmp2812)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:244 took 0.156 sec
-Testcase: animate_sets.tex:245 took 0.461 sec
-Testcase: animate_sets.tex:246 took 0.382 sec
-Testcase: animate_sets.tex:247 took 0.385 sec
-Testcase: animate_sets.tex:248 took 0.457 sec
-Testcase: animate_sets.tex:249 took 0.408 sec
-Testcase: animate_sets.tex:250 took 0.152 sec
-	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2907,-,tmp2906)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2907,-,tmp2906)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
-
-Testcase: animate_sets.tex:251 took 0.339 sec
+Testcase: animate_sets.tex:244 took 0.125 sec
+Testcase: animate_sets.tex:245 took 0.328 sec
+Testcase: animate_sets.tex:246 took 0.281 sec
+Testcase: animate_sets.tex:247 took 0.297 sec
+Testcase: animate_sets.tex:248 took 0.344 sec
+Testcase: animate_sets.tex:249 took 0.312 sec
+Testcase: animate_sets.tex:250 took 0.11 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2915,-,tmp2914)
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2915,-,tmp2914)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:255 took 0.077 sec
-Testcase: animate_sets.tex:256 took 0.168 sec
-Testcase: animate_sets.tex:257 took 0.154 sec
-Testcase: animate_sets.tex:258 took 0.284 sec
-Testcase: animate_sets.tex:259 took 0.322 sec
-Testcase: animate_sets.tex:261 took 0.581 sec
-Testcase: animate_sets.tex:265 took 0.313 sec
-Testcase: animate_sets.tex:268 took 0.273 sec
-Testcase: animate_sets.tex:272 took 0.51 sec
-Testcase: animate_sets.tex:281 took 0.681 sec
-Testcase: animate_sets.tex:282 took 0.675 sec
-Testcase: animate_sets.tex:287 took 0.184 sec
-Testcase: animate_sets.tex:288 took 0.125 sec
-Testcase: animate_sets.tex:289 took 0.061 sec
-Testcase: animate_sets.tex:291 took 0.318 sec
+Testcase: animate_sets.tex:251 took 0.25 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3111,-,tmp3110)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3111,-,tmp3110)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2923,-,tmp2922)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp2923,-,tmp2922)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:292 took 0.301 sec
+Testcase: animate_sets.tex:255 took 0.062 sec
+Testcase: animate_sets.tex:256 took 0.125 sec
+Testcase: animate_sets.tex:257 took 0.11 sec
+Testcase: animate_sets.tex:258 took 0.218 sec
+Testcase: animate_sets.tex:259 took 0.235 sec
+Testcase: animate_sets.tex:261 took 0.578 sec
+Testcase: animate_sets.tex:265 took 0.234 sec
+Testcase: animate_sets.tex:268 took 0.203 sec
+Testcase: animate_sets.tex:272 took 0.391 sec
+Testcase: animate_sets.tex:281 took 0.5 sec
+Testcase: animate_sets.tex:282 took 0.484 sec
+Testcase: animate_sets.tex:287 took 0.141 sec
+Testcase: animate_sets.tex:288 took 0.094 sec
+Testcase: animate_sets.tex:289 took 0.047 sec
+Testcase: animate_sets.tex:291 took 0.234 sec
 	FAILED
-Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3128,-,tmp3127)
-junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3128,-,tmp3127)
-	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:133)
-
-Testcase: animate_sets.tex:293 took 0.361 sec
-Testcase: animate_sets.tex:295 took 0.324 sec
-	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3163,-,tmp3162)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3163,-,tmp3162)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3119,-,tmp3118)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3119,-,tmp3118)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:296 took 0.322 sec
+Testcase: animate_sets.tex:292 took 0.219 sec
 	FAILED
-Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3180,-,tmp3179)
-junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3180,-,tmp3179)
+Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3136,-,tmp3135)
+junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3136,-,tmp3135)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:133)
 
-Testcase: animate_sets.tex:297 took 0.314 sec
+Testcase: animate_sets.tex:293 took 0.281 sec
+Testcase: animate_sets.tex:295 took 0.234 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3171,-,tmp3170)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3171,-,tmp3170)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
+
+Testcase: animate_sets.tex:296 took 0.235 sec
+	FAILED
+Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3188,-,tmp3187)
+junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3188,-,tmp3187)
+	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:133)
+
+Testcase: animate_sets.tex:297 took 0.25 sec
 	Caused an ERROR
 Flatten does not yet handle: net.sourceforge.czt.z.impl.LambdaExprImpl@b69f6277 (( \lambda x : \nat | x < 5 @ x + 1 )) 
 java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.LambdaExprImpl@b69f6277 (( \lambda x : \nat | x < 5 @ x + 1 )) 
-	at net.sourceforge.czt.animation.eval.Flatten.notYet(Flatten.java:97)
-	at net.sourceforge.czt.animation.eval.Flatten.notYet(Flatten.java:92)
-	at net.sourceforge.czt.animation.eval.Flatten.visitTerm(Flatten.java:229)
+	at net.sourceforge.czt.animation.eval.Flatten.notYet(Flatten.java:142)
+	at net.sourceforge.czt.animation.eval.Flatten.notYet(Flatten.java:137)
+	at net.sourceforge.czt.animation.eval.Flatten.visitTerm(Flatten.java:274)
 	at net.sourceforge.czt.animation.eval.Flatten.visitTerm(Flatten.java:45)
 	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:42)
 	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:89)
 	at net.sourceforge.czt.z.impl.QntExprImpl.accept(QntExprImpl.java:115)
 	at net.sourceforge.czt.z.impl.Qnt1ExprImpl.accept(Qnt1ExprImpl.java:89)
 	at net.sourceforge.czt.z.impl.LambdaExprImpl.accept(LambdaExprImpl.java:99)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:141)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addDecl(FlatPredList.java:205)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addSchText(FlatPredList.java:187)
-	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:491)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:186)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addDecl(FlatPredList.java:220)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addSchText(FlatPredList.java:199)
+	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:545)
 	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:45)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:110)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:141)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExpr(FlatPredList.java:257)
-	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:233)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:186)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExpr(FlatPredList.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:248)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:299 took 0.306 sec
+Testcase: animate_sets.tex:299 took 0.218 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3198,-,tmp3197)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3198,-,tmp3197)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3206,-,tmp3205)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3206,-,tmp3205)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:300 took 0.24 sec
+Testcase: animate_sets.tex:300 took 0.188 sec
 	FAILED
-Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3217,-,tmp3216)
-junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3217,-,tmp3216)
+Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3225,-,tmp3224)
+junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3225,-,tmp3224)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:133)
 
-Testcase: animate_sets.tex:302 took 0.551 sec
+Testcase: animate_sets.tex:302 took 0.406 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3235,-,tmp3234)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3235,-,tmp3234)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3243,-,tmp3242)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3243,-,tmp3242)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:303 took 0.487 sec
+Testcase: animate_sets.tex:303 took 0.375 sec
 	FAILED
-Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3256,-,tmp3255)
-junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3256,-,tmp3255)
+Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3264,-,tmp3263)
+junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3264,-,tmp3263)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:133)
 
-Testcase: animate_sets.tex:304 took 0.491 sec
+Testcase: animate_sets.tex:304 took 0.375 sec
 	FAILED
-Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3276,-,tmp3275)
-junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3276,-,tmp3275)
+Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3284,-,tmp3283)
+junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3284,-,tmp3283)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:133)
 
-Testcase: animate_sets.tex:306 took 0.384 sec
+Testcase: animate_sets.tex:306 took 0.281 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3296,-,tmp3295)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3296,-,tmp3295)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3304,-,tmp3303)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3304,-,tmp3303)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:308 took 0.328 sec
+Testcase: animate_sets.tex:308 took 0.25 sec
 	FAILED
-Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3315,-,tmp3314)
-junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3315,-,tmp3314)
+Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3323,-,tmp3322)
+junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3323,-,tmp3322)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:133)
 
-Testcase: animate_sets.tex:310 took 0.336 sec
+Testcase: animate_sets.tex:310 took 0.25 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3330,-,tmp3329)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3330,-,tmp3329)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3338,-,tmp3337)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3338,-,tmp3337)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:311 took 0.35 sec
+Testcase: animate_sets.tex:311 took 0.25 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3345,-,tmp3344)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3345,-,tmp3344)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3353,-,tmp3352)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp3353,-,tmp3352)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:315 took 0.124 sec
+Testcase: animate_sets.tex:315 took 0.094 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@83e4500d (\power \{ \}) 
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@83e4500d (\power \{ \}) 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:316 took 0.083 sec
+Testcase: animate_sets.tex:316 took 0.063 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@83e4500d (\power \{ \}) 
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@83e4500d (\power \{ \}) 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:317 took 0.102 sec
+Testcase: animate_sets.tex:317 took 0.078 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@fb599d9a (\power \{ 1 \}) 
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@fb599d9a (\power \{ 1 \}) 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:318 took 0.14 sec
+Testcase: animate_sets.tex:318 took 0.094 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@e3b7279b (\power \{ 1 , 2 , 3 \}) 
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@e3b7279b (\power \{ 1 , 2 , 3 \}) 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:319 took 0.183 sec
+Testcase: animate_sets.tex:319 took 0.14 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@83e4500d (\power \{ \}) 
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@83e4500d (\power \{ \}) 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:320 took 0.203 sec
+Testcase: animate_sets.tex:320 took 0.141 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@83e4500d (\power \{ \}) 
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@83e4500d (\power \{ \}) 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:321 took 0.205 sec
+Testcase: animate_sets.tex:321 took 0.156 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@fb599d9a (\power \{ 1 \}) 
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@fb599d9a (\power \{ 1 \}) 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:322 took 0.242 sec
+Testcase: animate_sets.tex:322 took 0.172 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@e3b7279b (\power \{ 1 , 2 , 3 \}) 
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@e3b7279b (\power \{ 1 , 2 , 3 \}) 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:323 took 0.121 sec
+Testcase: animate_sets.tex:323 took 0.094 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@fb599d9a (\power \{ 1 \}) 
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@fb599d9a (\power \{ 1 \}) 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:324 took 0.16 sec
+Testcase: animate_sets.tex:324 took 0.109 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@e3b7279b (\power \{ 1 , 2 , 3 \}) 
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@e3b7279b (\power \{ 1 , 2 , 3 \}) 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:325 took 0.223 sec
+Testcase: animate_sets.tex:325 took 0.172 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@fb599d9a (\power \{ 1 \}) 
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@fb599d9a (\power \{ 1 \}) 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:326 took 0.181 sec
+Testcase: animate_sets.tex:326 took 0.125 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@e3b7279b (\power \{ 1 , 2 , 3 \}) 
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@e3b7279b (\power \{ 1 , 2 , 3 \}) 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:327 took 0.304 sec
+Testcase: animate_sets.tex:327 took 0.219 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@e3b7279b (\power \{ 1 , 2 , 3 \}) 
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@e3b7279b (\power \{ 1 , 2 , 3 \}) 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:328 took 0.199 sec
+Testcase: animate_sets.tex:328 took 0.14 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@e3b7279b (\power \{ 1 , 2 , 3 \}) 
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@e3b7279b (\power \{ 1 , 2 , 3 \}) 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:329 took 0.282 sec
+Testcase: animate_sets.tex:329 took 0.203 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@e3b7279b (\power \{ 1 , 2 , 3 \}) 
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@e3b7279b (\power \{ 1 , 2 , 3 \}) 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:330 took 0.083 sec
+Testcase: animate_sets.tex:330 took 0.063 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c817794a (\power \nat) 
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c817794a (\power \nat) 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:331 took 0.105 sec
+Testcase: animate_sets.tex:331 took 0.078 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c817794a (\power \nat) 
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c817794a (\power \nat) 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:332 took 0.141 sec
+Testcase: animate_sets.tex:332 took 0.094 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c817794a (\power \nat) 
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c817794a (\power \nat) 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:334 took 0.104 sec
+Testcase: animate_sets.tex:334 took 0.078 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@1d7f4c4b ({\power}_{1} \{ \}) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@1d7f4c4b ({\power}_{1} \{ \}) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:335 took 0.169 sec
+Testcase: animate_sets.tex:335 took 0.125 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@1d7f4c4b ({\power}_{1} \{ \}) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@1d7f4c4b ({\power}_{1} \{ \}) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:336 took 0.187 sec
+Testcase: animate_sets.tex:336 took 0.125 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@94f499d8 ({\power}_{1} \{ 1 \}) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@94f499d8 ({\power}_{1} \{ 1 \}) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:337 took 0.226 sec
+Testcase: animate_sets.tex:337 took 0.171 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@7d5223d9 ({\power}_{1} \{ 1 , 2 , 3 \}) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@7d5223d9 ({\power}_{1} \{ 1 , 2 , 3 \}) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:338 took 0.185 sec
+Testcase: animate_sets.tex:338 took 0.125 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@1d7f4c4b ({\power}_{1} \{ \}) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@1d7f4c4b ({\power}_{1} \{ \}) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:339 took 0.207 sec
+Testcase: animate_sets.tex:339 took 0.157 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@1d7f4c4b ({\power}_{1} \{ \}) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@1d7f4c4b ({\power}_{1} \{ \}) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:340 took 0.208 sec
+Testcase: animate_sets.tex:340 took 0.156 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@94f499d8 ({\power}_{1} \{ 1 \}) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@94f499d8 ({\power}_{1} \{ 1 \}) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:341 took 0.247 sec
+Testcase: animate_sets.tex:341 took 0.172 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@7d5223d9 ({\power}_{1} \{ 1 , 2 , 3 \}) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@7d5223d9 ({\power}_{1} \{ 1 , 2 , 3 \}) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:342 took 0.122 sec
+Testcase: animate_sets.tex:342 took 0.094 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@94f499d8 ({\power}_{1} \{ 1 \}) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@94f499d8 ({\power}_{1} \{ 1 \}) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:343 took 0.162 sec
+Testcase: animate_sets.tex:343 took 0.109 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@7d5223d9 ({\power}_{1} \{ 1 , 2 , 3 \}) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@7d5223d9 ({\power}_{1} \{ 1 , 2 , 3 \}) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:344 took 0.225 sec
+Testcase: animate_sets.tex:344 took 0.172 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@94f499d8 ({\power}_{1} \{ 1 \}) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@94f499d8 ({\power}_{1} \{ 1 \}) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:345 took 0.181 sec
+Testcase: animate_sets.tex:345 took 0.125 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@7d5223d9 ({\power}_{1} \{ 1 , 2 , 3 \}) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@7d5223d9 ({\power}_{1} \{ 1 , 2 , 3 \}) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:346 took 0.306 sec
+Testcase: animate_sets.tex:346 took 0.234 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@7d5223d9 ({\power}_{1} \{ 1 , 2 , 3 \}) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@7d5223d9 ({\power}_{1} \{ 1 , 2 , 3 \}) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:347 took 0.199 sec
+Testcase: animate_sets.tex:347 took 0.141 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@7d5223d9 ({\power}_{1} \{ 1 , 2 , 3 \}) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@7d5223d9 ({\power}_{1} \{ 1 , 2 , 3 \}) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:348 took 0.291 sec
+Testcase: animate_sets.tex:348 took 0.203 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@7d5223d9 ({\power}_{1} \{ 1 , 2 , 3 \}) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@7d5223d9 ({\power}_{1} \{ 1 , 2 , 3 \}) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:349 took 0.239 sec
+Testcase: animate_sets.tex:349 took 0.187 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c817794a (\power \nat) 
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@c817794a (\power \nat) 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:350 took 0.186 sec
+Testcase: animate_sets.tex:350 took 0.125 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@37830c50 (\power \nat _{1}) 
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@37830c50 (\power \nat _{1}) 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sets.tex:358 took 0.145 sec
-Testcase: animate_sets.tex:360 took 0.299 sec
-Testcase: animate_sets.tex:362 took 0.475 sec
-Testcase: animate_sets.tex:368 took 0.218 sec
-Testcase: animate_sets.tex:370 took 0.663 sec
-Testcase: animate_sets.tex:372 took 0.347 sec
-Testcase: animate_sets.tex:378 took 0.181 sec
-Testcase: animate_sets.tex:380 took 0.374 sec
-Testcase: animate_sets.tex:382 took 0.239 sec
-Testcase: animate_sets.tex:383 took 0.234 sec
-Testcase: animate_sets.tex:384 took 0.233 sec
-Testcase: animate_sets.tex:385 took 0.222 sec
-Testcase: animate_sets.tex:386 took 0.326 sec
-Testcase: animate_sets.tex:387 took 0.399 sec
-Testcase: animate_sets.tex:393 took 0.088 sec
+Testcase: animate_sets.tex:358 took 0.11 sec
+Testcase: animate_sets.tex:360 took 0.219 sec
+Testcase: animate_sets.tex:362 took 0.359 sec
+Testcase: animate_sets.tex:368 took 0.156 sec
+Testcase: animate_sets.tex:370 took 0.485 sec
+Testcase: animate_sets.tex:372 took 0.25 sec
+Testcase: animate_sets.tex:378 took 0.14 sec
+Testcase: animate_sets.tex:380 took 0.266 sec
+Testcase: animate_sets.tex:382 took 0.172 sec
+Testcase: animate_sets.tex:383 took 0.172 sec
+Testcase: animate_sets.tex:384 took 0.171 sec
+Testcase: animate_sets.tex:385 took 0.157 sec
+Testcase: animate_sets.tex:386 took 0.234 sec
+Testcase: animate_sets.tex:387 took 0.297 sec
+Testcase: animate_sets.tex:393 took 0.062 sec
 	FAILED
-Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(-,-,tmp3526)
-junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(-,-,tmp3526)
+Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(-,-,tmp3534)
+junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(-,-,tmp3534)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:133)
 
-Testcase: animate_sets.tex:394 took 0.088 sec
+Testcase: animate_sets.tex:394 took 0.063 sec
 	FAILED
-Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp3529,-,tmp3528)
-junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp3529,-,tmp3528)
+Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp3537,-,tmp3536)
+junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range FlatRangeSet(tmp3537,-,tmp3536)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:133)
 
-Testcase: animate_sets.tex:397 took 0.438 sec
-Testcase: animate_sets.tex:398 took 0.447 sec
-Testcase: animate_sets.tex:403 took 0.102 sec
-Testcase: animate_sets.tex:404 took 0.117 sec
-Testcase: animate_sets.tex:405 took 0.22 sec
-Testcase: animate_sets.tex:406 took 0.25 sec
-Testcase: animate_sets.tex:407 took 0.449 sec
-Testcase: animate_sets.tex:408 took 0.237 sec
-Testcase: animate_sets.tex:409 took 0.218 sec
-Testcase: animate_sets.tex:410 took 0.269 sec
-Testcase: animate_sets.tex:411 took 0.272 sec
-Testcase: animate_sets.tex:412 took 0.321 sec
-Testcase: animate_sets.tex:413 took 0.311 sec
-Testcase: animate_sets.tex:414 took 0.276 sec
-Testcase: animate_sets.tex:415 took 0.291 sec
-Testcase: animate_sets.tex:416 took 0.332 sec
-Testcase: animate_sets.tex:417 took 0.5 sec
-Testcase: animate_sets.tex:418 took 0.295 sec
-Testcase: animate_sets.tex:419 took 0.382 sec
-Testcase: animate_sets.tex:420 took 0.429 sec
-Testcase: animate_sets.tex:421 took 0.475 sec
-Testcase: animate_sets.tex:422 took 0.386 sec
-Testcase: animate_sets.tex:423 took 0.453 sec
-Testcase: animate_sets.tex:424 took 0.156 sec
-Testcase: animate_sets.tex:425 took 0.191 sec
-Testcase: animate_sets.tex:426 took 0.353 sec
-Testcase: animate_sets.tex:427 took 0.159 sec
-Testcase: animate_sets.tex:428 took 0.226 sec
-Testcase: animate_sets.tex:429 took 0.414 sec
-Testcase: animate_sets.tex:433 took 0.251 sec
-Testcase: animate_sets.tex:434 took 0.516 sec
-Testcase: animate_sets.tex:435 took 0.742 sec
-Testcase: animate_sets.tex:436 took 0.947 sec
-Testcase: animate_sets.tex:443 took 0.593 sec
-Testcase: animate_sets.tex:444 took 0.782 sec
-Testcase: animate_sets.tex:445 took 0.729 sec
-Testcase: animate_sets.tex:448 took 0.86 sec
-Testcase: animate_sets.tex:449 took 0.938 sec
-Testcase: animate_sets.tex:450 took 1.016 sec
-Testcase: animate_sets.tex:453 took 0.361 sec
-Testcase: animate_sets.tex:454 took 0.422 sec
-Testcase: animate_sets.tex:455 took 0.73 sec
-Testcase: animate_sets.tex:456 took 0.32 sec
-Testcase: animate_sets.tex:457 took 0.425 sec
-Testcase: animate_sets.tex:458 took 0.749 sec
+Testcase: animate_sets.tex:397 took 0.281 sec
+Testcase: animate_sets.tex:398 took 0.328 sec
+Testcase: animate_sets.tex:403 took 0.078 sec
+Testcase: animate_sets.tex:404 took 0.079 sec
+Testcase: animate_sets.tex:405 took 0.156 sec
+Testcase: animate_sets.tex:406 took 0.172 sec
+Testcase: animate_sets.tex:407 took 0.328 sec
+Testcase: animate_sets.tex:408 took 0.172 sec
+Testcase: animate_sets.tex:409 took 0.156 sec
+Testcase: animate_sets.tex:410 took 0.187 sec
+Testcase: animate_sets.tex:411 took 0.188 sec
+Testcase: animate_sets.tex:412 took 0.234 sec
+Testcase: animate_sets.tex:413 took 0.235 sec
+Testcase: animate_sets.tex:414 took 0.203 sec
+Testcase: animate_sets.tex:415 took 0.203 sec
+Testcase: animate_sets.tex:416 took 0.234 sec
+Testcase: animate_sets.tex:417 took 0.219 sec
+Testcase: animate_sets.tex:418 took 0.219 sec
+Testcase: animate_sets.tex:419 took 0.281 sec
+Testcase: animate_sets.tex:420 took 0.313 sec
+Testcase: animate_sets.tex:421 took 0.359 sec
+Testcase: animate_sets.tex:422 took 0.281 sec
+Testcase: animate_sets.tex:423 took 0.344 sec
+Testcase: animate_sets.tex:424 took 0.109 sec
+Testcase: animate_sets.tex:425 took 0.141 sec
+Testcase: animate_sets.tex:426 took 0.25 sec
+Testcase: animate_sets.tex:427 took 0.109 sec
+Testcase: animate_sets.tex:428 took 0.157 sec
+Testcase: animate_sets.tex:429 took 0.265 sec
+Testcase: animate_sets.tex:433 took 0.188 sec
+Testcase: animate_sets.tex:434 took 0.359 sec
+Testcase: animate_sets.tex:435 took 0.375 sec
+Testcase: animate_sets.tex:436 took 0.672 sec
+Testcase: animate_sets.tex:443 took 0.422 sec
+Testcase: animate_sets.tex:444 took 0.422 sec
+Testcase: animate_sets.tex:445 took 0.484 sec
+Testcase: animate_sets.tex:448 took 0.625 sec
+Testcase: animate_sets.tex:449 took 0.672 sec
+Testcase: animate_sets.tex:450 took 0.734 sec
+Testcase: animate_sets.tex:453 took 0.25 sec
+Testcase: animate_sets.tex:454 took 0.282 sec
+Testcase: animate_sets.tex:455 took 0.531 sec
+Testcase: animate_sets.tex:456 took 0.234 sec
+Testcase: animate_sets.tex:457 took 0.313 sec
+Testcase: animate_sets.tex:458 took 0.547 sec

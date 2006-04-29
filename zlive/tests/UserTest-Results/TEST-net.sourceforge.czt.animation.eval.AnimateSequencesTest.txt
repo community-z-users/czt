@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateSequencesTest
-Tests run: 87, Failures: 58, Errors: 2, Time elapsed: 42.548 sec
+Tests run: 87, Failures: 58, Errors: 2, Time elapsed: 31.391 sec
 ------------- Standard Output ---------------
 loaded rule setminus
 loaded rule taildef
@@ -52,9 +52,9 @@ loaded rule domain
 loaded rule lastdef
 loaded rule num1
 loaded rule maplet
-set compare: FlatDiscreteSet(tmp6884), FlatDiscreteSet(tmp6885)
+set compare: FlatDiscreteSet(tmp6892), FlatDiscreteSet(tmp6893)
 Passed test:animate_sequences.tex:63
-set compare: FlatDiscreteSet(tmp6888,tmp6889), FlatDiscreteSet(tmp6892,tmp6893)
+set compare: FlatDiscreteSet(tmp6896,tmp6897), FlatDiscreteSet(tmp6900,tmp6901)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601e8fbf, net.sourceforge.czt.z.impl.TupleExprImpl@601e8fbf
 Passed test:animate_sequences.tex:64
 Passed test:animate_sequences.tex:67
@@ -63,18 +63,18 @@ Passed test:animate_sequences.tex:69
 Passed test:animate_sequences.tex:70
 Passed test:animate_sequences.tex:71
 Passed undef test: animate_sequences.tex:72
-set compare: { tmp6966==1, tmp6968==1, tmp6970==1, tmp6971==2, FlatTuple(tmp6970,tmp6971,tmp6972), FlatDiscreteSet(tmp6972,tmp6973), FlatCard(tmp6973,tmp6969), FlatPlus(tmp6968,tmp6967,tmp6969), FlatRangeSet(tmp6966,tmp6967,tmp6965), FlatMember(tmp6965,n), FlatMu(tmp6984==1, tmp6985==2, FlatTuple(tmp6984,tmp6985,tmp6986), FlatDiscreteSet(tmp6986,tmp6987), FlatMember(tmp6987,p), FlatTupleSel(p,tmp6988), tmp6990==1, FlatPlus(n,tmp6990,tmp6989), FlatEquals(tmp6988,tmp6989), FlatTupleSel(p,tmp6991) @ tmp6991), FlatTuple(n,tmp6991,tmp6992), FlatEquals(tmp6964,tmp6992) @ tmp6964 } = tmp6963, FlatDiscreteSet(tmp7003)
+set compare: { tmp6974==1, tmp6976==1, tmp6978==1, tmp6979==2, FlatTuple(tmp6978,tmp6979,tmp6980), FlatDiscreteSet(tmp6980,tmp6981), FlatCard(tmp6981,tmp6977), FlatPlus(tmp6976,tmp6975,tmp6977), FlatRangeSet(tmp6974,tmp6975,tmp6973), FlatMember(tmp6973,n), FlatMu(tmp6992==1, tmp6993==2, FlatTuple(tmp6992,tmp6993,tmp6994), FlatDiscreteSet(tmp6994,tmp6995), FlatMember(tmp6995,p), FlatTupleSel(p,tmp6996), tmp6998==1, FlatPlus(n,tmp6998,tmp6997), FlatEquals(tmp6996,tmp6997), FlatTupleSel(p,tmp6999) @ tmp6999), FlatTuple(n,tmp6999,tmp7000), FlatEquals(tmp6972,tmp7000) @ tmp6972 } = tmp6971, FlatDiscreteSet(tmp7011)
 Passed test:animate_sequences.tex:75
-set compare: { tmp7007==1, tmp7009==1, tmp7011==1, tmp7012==2, FlatTuple(tmp7011,tmp7012,tmp7013), tmp7014==2, tmp7015==4, FlatTuple(tmp7014,tmp7015,tmp7016), tmp7017==3, tmp7018==6, FlatTuple(tmp7017,tmp7018,tmp7019), FlatDiscreteSet(tmp7016,tmp7013,tmp7019,tmp7020), FlatCard(tmp7020,tmp7010), FlatPlus(tmp7009,tmp7008,tmp7010), FlatRangeSet(tmp7007,tmp7008,tmp7006), FlatMember(tmp7006,n), FlatMu(tmp7037==1, tmp7038==2, FlatTuple(tmp7037,tmp7038,tmp7039), tmp7040==2, tmp7041==4, FlatTuple(tmp7040,tmp7041,tmp7042), tmp7043==3, tmp7044==6, FlatTuple(tmp7043,tmp7044,tmp7045), FlatDiscreteSet(tmp7045,tmp7042,tmp7039,tmp7046), FlatMember(tmp7046,p), FlatTupleSel(p,tmp7047), tmp7049==1, FlatPlus(n,tmp7049,tmp7048), FlatEquals(tmp7047,tmp7048), FlatTupleSel(p,tmp7050) @ tmp7050), FlatTuple(n,tmp7050,tmp7051), FlatEquals(tmp7005,tmp7051) @ tmp7005 } = tmp7004, FlatDiscreteSet(tmp7070,tmp7073,tmp7074)
+set compare: { tmp7015==1, tmp7017==1, tmp7019==1, tmp7020==2, FlatTuple(tmp7019,tmp7020,tmp7021), tmp7022==2, tmp7023==4, FlatTuple(tmp7022,tmp7023,tmp7024), tmp7025==3, tmp7026==6, FlatTuple(tmp7025,tmp7026,tmp7027), FlatDiscreteSet(tmp7027,tmp7024,tmp7021,tmp7028), FlatCard(tmp7028,tmp7018), FlatPlus(tmp7017,tmp7016,tmp7018), FlatRangeSet(tmp7015,tmp7016,tmp7014), FlatMember(tmp7014,n), FlatMu(tmp7045==1, tmp7046==2, FlatTuple(tmp7045,tmp7046,tmp7047), tmp7048==2, tmp7049==4, FlatTuple(tmp7048,tmp7049,tmp7050), tmp7051==3, tmp7052==6, FlatTuple(tmp7051,tmp7052,tmp7053), FlatDiscreteSet(tmp7047,tmp7053,tmp7050,tmp7054), FlatMember(tmp7054,p), FlatTupleSel(p,tmp7055), tmp7057==1, FlatPlus(n,tmp7057,tmp7056), FlatEquals(tmp7055,tmp7056), FlatTupleSel(p,tmp7058) @ tmp7058), FlatTuple(n,tmp7058,tmp7059), FlatEquals(tmp7013,tmp7059) @ tmp7013 } = tmp7012, FlatDiscreteSet(tmp7078,tmp7081,tmp7082)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601f041e, net.sourceforge.czt.z.impl.TupleExprImpl@601f041e
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@602e045d, net.sourceforge.czt.z.impl.TupleExprImpl@602e045d
 Passed test:animate_sequences.tex:76
-set compare: { tmp7078==1, tmp7080==1, tmp7082==1, tmp7083==2, FlatTuple(tmp7082,tmp7083,tmp7084), FlatDiscreteSet(tmp7084,tmp7085), FlatCard(tmp7085,tmp7081), FlatPlus(tmp7080,tmp7079,tmp7081), FlatRangeSet(tmp7078,tmp7079,tmp7077), FlatMember(tmp7077,n), FlatMu(tmp7096==1, tmp7097==2, FlatTuple(tmp7096,tmp7097,tmp7098), FlatDiscreteSet(tmp7098,tmp7099), FlatMember(tmp7099,p), FlatTupleSel(p,tmp7100), tmp7102==1, FlatPlus(n,tmp7102,tmp7101), FlatEquals(tmp7100,tmp7101), FlatTupleSel(p,tmp7103) @ tmp7103), FlatTuple(n,tmp7103,tmp7104), FlatEquals(tmp7076,tmp7104) @ tmp7076 } = tmp7075, FlatDiscreteSet(tmp7115)
+set compare: { tmp7086==1, tmp7088==1, tmp7090==1, tmp7091==2, FlatTuple(tmp7090,tmp7091,tmp7092), FlatDiscreteSet(tmp7092,tmp7093), FlatCard(tmp7093,tmp7089), FlatPlus(tmp7088,tmp7087,tmp7089), FlatRangeSet(tmp7086,tmp7087,tmp7085), FlatMember(tmp7085,n), FlatMu(tmp7104==1, tmp7105==2, FlatTuple(tmp7104,tmp7105,tmp7106), FlatDiscreteSet(tmp7106,tmp7107), FlatMember(tmp7107,p), FlatTupleSel(p,tmp7108), tmp7110==1, FlatPlus(n,tmp7110,tmp7109), FlatEquals(tmp7108,tmp7109), FlatTupleSel(p,tmp7111) @ tmp7111), FlatTuple(n,tmp7111,tmp7112), FlatEquals(tmp7084,tmp7112) @ tmp7084 } = tmp7083, FlatDiscreteSet(tmp7123)
 Passed test:animate_sequences.tex:77
-set compare: { tmp7119==1, tmp7121==1, tmp7123==1, tmp7124==2, FlatTuple(tmp7123,tmp7124,tmp7125), tmp7126==2, tmp7127==4, FlatTuple(tmp7126,tmp7127,tmp7128), FlatDiscreteSet(tmp7128,tmp7125,tmp7129), FlatCard(tmp7129,tmp7122), FlatPlus(tmp7121,tmp7120,tmp7122), FlatRangeSet(tmp7119,tmp7120,tmp7118), FlatMember(tmp7118,n), FlatMu(tmp7143==1, tmp7144==2, FlatTuple(tmp7143,tmp7144,tmp7145), tmp7146==2, tmp7147==4, FlatTuple(tmp7146,tmp7147,tmp7148), FlatDiscreteSet(tmp7148,tmp7145,tmp7149), FlatMember(tmp7149,p), FlatTupleSel(p,tmp7150), tmp7152==1, FlatPlus(n,tmp7152,tmp7151), FlatEquals(tmp7150,tmp7151), FlatTupleSel(p,tmp7153) @ tmp7153), FlatTuple(n,tmp7153,tmp7154), FlatEquals(tmp7117,tmp7154) @ tmp7117 } = tmp7116, FlatDiscreteSet(tmp7170,tmp7171)
+set compare: { tmp7127==1, tmp7129==1, tmp7131==1, tmp7132==2, FlatTuple(tmp7131,tmp7132,tmp7133), tmp7134==2, tmp7135==4, FlatTuple(tmp7134,tmp7135,tmp7136), FlatDiscreteSet(tmp7136,tmp7133,tmp7137), FlatCard(tmp7137,tmp7130), FlatPlus(tmp7129,tmp7128,tmp7130), FlatRangeSet(tmp7127,tmp7128,tmp7126), FlatMember(tmp7126,n), FlatMu(tmp7151==1, tmp7152==2, FlatTuple(tmp7151,tmp7152,tmp7153), tmp7154==2, tmp7155==4, FlatTuple(tmp7154,tmp7155,tmp7156), FlatDiscreteSet(tmp7153,tmp7156,tmp7157), FlatMember(tmp7157,p), FlatTupleSel(p,tmp7158), tmp7160==1, FlatPlus(n,tmp7160,tmp7159), FlatEquals(tmp7158,tmp7159), FlatTupleSel(p,tmp7161) @ tmp7161), FlatTuple(n,tmp7161,tmp7162), FlatEquals(tmp7125,tmp7162) @ tmp7125 } = tmp7124, FlatDiscreteSet(tmp7178,tmp7179)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601f041e, net.sourceforge.czt.z.impl.TupleExprImpl@601f041e
 Passed test:animate_sequences.tex:78
-set compare: { tmp7175==1, tmp7177==1, { tmp7182==1, tmp7183==10, FlatRangeSet(tmp7182,tmp7183,tmp7181), FlatMember(tmp7181,x), tmp7188==2, FlatMult(x,tmp7188,tmp7187), FlatTuple(x,tmp7187,tmp7189), FlatEquals(tmp7180,tmp7189) @ tmp7180 } = tmp7179, FlatCard(tmp7179,tmp7178), FlatPlus(tmp7177,tmp7176,tmp7178), FlatRangeSet(tmp7175,tmp7176,tmp7174), FlatMember(tmp7174,n), FlatMu({ tmp7216==1, tmp7217==10, FlatRangeSet(tmp7216,tmp7217,tmp7215), FlatMember(tmp7215,x), tmp7222==2, FlatMult(x,tmp7222,tmp7221), FlatTuple(x,tmp7221,tmp7223), FlatEquals(tmp7214,tmp7223) @ tmp7214 } = tmp7213, FlatMember(tmp7213,p), FlatTupleSel(p,tmp7227), tmp7229==1, FlatPlus(n,tmp7229,tmp7228), FlatEquals(tmp7227,tmp7228), FlatTupleSel(p,tmp7230) @ tmp7230), FlatTuple(n,tmp7230,tmp7231), FlatEquals(tmp7173,tmp7231) @ tmp7173 } = tmp7172, { tmp7255==1, tmp7256==9, FlatRangeSet(tmp7255,tmp7256,tmp7254), FlatMember(tmp7254,x), tmp7262==1, FlatPlus(x,tmp7262,tmp7261), tmp7263==2, FlatMult(tmp7261,tmp7263,tmp7260), FlatTuple(x,tmp7260,tmp7264), FlatEquals(tmp7253,tmp7264) @ tmp7253 } = tmp7252
+set compare: { tmp7183==1, tmp7185==1, { tmp7190==1, tmp7191==10, FlatRangeSet(tmp7190,tmp7191,tmp7189), FlatMember(tmp7189,x), tmp7196==2, FlatMult(x,tmp7196,tmp7195), FlatTuple(x,tmp7195,tmp7197), FlatEquals(tmp7188,tmp7197) @ tmp7188 } = tmp7187, FlatCard(tmp7187,tmp7186), FlatPlus(tmp7185,tmp7184,tmp7186), FlatRangeSet(tmp7183,tmp7184,tmp7182), FlatMember(tmp7182,n), FlatMu({ tmp7224==1, tmp7225==10, FlatRangeSet(tmp7224,tmp7225,tmp7223), FlatMember(tmp7223,x), tmp7230==2, FlatMult(x,tmp7230,tmp7229), FlatTuple(x,tmp7229,tmp7231), FlatEquals(tmp7222,tmp7231) @ tmp7222 } = tmp7221, FlatMember(tmp7221,p), FlatTupleSel(p,tmp7235), tmp7237==1, FlatPlus(n,tmp7237,tmp7236), FlatEquals(tmp7235,tmp7236), FlatTupleSel(p,tmp7238) @ tmp7238), FlatTuple(n,tmp7238,tmp7239), FlatEquals(tmp7181,tmp7239) @ tmp7181 } = tmp7180, { tmp7263==1, tmp7264==9, FlatRangeSet(tmp7263,tmp7264,tmp7262), FlatMember(tmp7262,x), tmp7270==1, FlatPlus(x,tmp7270,tmp7269), tmp7271==2, FlatMult(tmp7269,tmp7271,tmp7268), FlatTuple(x,tmp7268,tmp7272), FlatEquals(tmp7261,tmp7272) @ tmp7261 } = tmp7260
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601f041e, net.sourceforge.czt.z.impl.TupleExprImpl@601f041e
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@602e045d, net.sourceforge.czt.z.impl.TupleExprImpl@602e045d
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@603d049c, net.sourceforge.czt.z.impl.TupleExprImpl@603d049c
@@ -92,429 +92,429 @@ Passed test:animate_sequences.tex:85
 Passed test:animate_sequences.tex:86
 Passed test:animate_sequences.tex:87
 Passed undef test: animate_sequences.tex:88
-set compare: { tmp7413==1, tmp7414==2, FlatTuple(tmp7413,tmp7414,tmp7415), FlatDiscreteSet(tmp7415,tmp7416), FlatMember(tmp7416,r), FlatTupleSel(r,tmp7421), tmp7423==1, tmp7424==2, FlatTuple(tmp7423,tmp7424,tmp7425), FlatDiscreteSet(tmp7425,tmp7426), FlatCard(tmp7426,tmp7422), FlatNot( FlatMember(tmp7422,tmp7421) ), FlatEquals(tmp7412,r) @ tmp7412 } = tmp7411, FlatDiscreteSet(tmp7433)
-set compare: { tmp7436==1, tmp7437==2, FlatTuple(tmp7436,tmp7437,tmp7438), tmp7439==2, tmp7440==4, FlatTuple(tmp7439,tmp7440,tmp7441), tmp7442==3, tmp7443==6, FlatTuple(tmp7442,tmp7443,tmp7444), FlatDiscreteSet(tmp7444,tmp7438,tmp7441,tmp7445), FlatMember(tmp7445,r), FlatTupleSel(r,tmp7456), tmp7458==1, tmp7459==2, FlatTuple(tmp7458,tmp7459,tmp7460), tmp7461==2, tmp7462==4, FlatTuple(tmp7461,tmp7462,tmp7463), tmp7464==3, tmp7465==6, FlatTuple(tmp7464,tmp7465,tmp7466), FlatDiscreteSet(tmp7463,tmp7466,tmp7460,tmp7467), FlatCard(tmp7467,tmp7457), FlatNot( FlatMember(tmp7457,tmp7456) ), FlatEquals(tmp7435,r) @ tmp7435 } = tmp7434, FlatDiscreteSet(tmp7485,tmp7482,tmp7486)
-set compare: { tmp7489==1, tmp7490==2, FlatTuple(tmp7489,tmp7490,tmp7491), FlatDiscreteSet(tmp7491,tmp7492), FlatMember(tmp7492,r), FlatTupleSel(r,tmp7497), tmp7499==1, tmp7500==2, FlatTuple(tmp7499,tmp7500,tmp7501), FlatDiscreteSet(tmp7501,tmp7502), FlatCard(tmp7502,tmp7498), FlatNot( FlatMember(tmp7498,tmp7497) ), FlatEquals(tmp7488,r) @ tmp7488 } = tmp7487, FlatDiscreteSet(tmp7509)
-set compare: { tmp7512==1, tmp7513==2, FlatTuple(tmp7512,tmp7513,tmp7514), tmp7515==2, tmp7516==4, FlatTuple(tmp7515,tmp7516,tmp7517), FlatDiscreteSet(tmp7514,tmp7517,tmp7518), FlatMember(tmp7518,r), FlatTupleSel(r,tmp7526), tmp7528==1, tmp7529==2, FlatTuple(tmp7528,tmp7529,tmp7530), tmp7531==2, tmp7532==4, FlatTuple(tmp7531,tmp7532,tmp7533), FlatDiscreteSet(tmp7530,tmp7533,tmp7534), FlatCard(tmp7534,tmp7527), FlatNot( FlatMember(tmp7527,tmp7526) ), FlatEquals(tmp7511,r) @ tmp7511 } = tmp7510, FlatDiscreteSet(tmp7546,tmp7547)
-set compare: { { tmp7553==1, tmp7554==10, FlatRangeSet(tmp7553,tmp7554,tmp7552), FlatMember(tmp7552,x), tmp7559==2, FlatMult(x,tmp7559,tmp7558), FlatTuple(x,tmp7558,tmp7560), FlatEquals(tmp7551,tmp7560) @ tmp7551 } = tmp7550, FlatMember(tmp7550,r), FlatTupleSel(r,tmp7578), { tmp7583==1, tmp7584==10, FlatRangeSet(tmp7583,tmp7584,tmp7582), FlatMember(tmp7582,x), tmp7589==2, FlatMult(x,tmp7589,tmp7588), FlatTuple(x,tmp7588,tmp7590), FlatEquals(tmp7581,tmp7590) @ tmp7581 } = tmp7580, FlatCard(tmp7580,tmp7579), FlatNot( FlatMember(tmp7579,tmp7578) ), FlatEquals(tmp7549,r) @ tmp7549 } = tmp7548, { tmp7613==1, tmp7614==9, FlatRangeSet(tmp7613,tmp7614,tmp7612), FlatMember(tmp7612,x), tmp7619==2, FlatMult(x,tmp7619,tmp7618), FlatTuple(x,tmp7618,tmp7620), FlatEquals(tmp7611,tmp7620) @ tmp7611 } = tmp7610
+set compare: { tmp7421==1, tmp7422==2, FlatTuple(tmp7421,tmp7422,tmp7423), FlatDiscreteSet(tmp7423,tmp7424), FlatMember(tmp7424,r), FlatTupleSel(r,tmp7429), tmp7431==1, tmp7432==2, FlatTuple(tmp7431,tmp7432,tmp7433), FlatDiscreteSet(tmp7433,tmp7434), FlatCard(tmp7434,tmp7430), FlatNot( FlatMember(tmp7430,tmp7429) ), FlatEquals(tmp7420,r) @ tmp7420 } = tmp7419, FlatDiscreteSet(tmp7441)
+set compare: { tmp7444==1, tmp7445==2, FlatTuple(tmp7444,tmp7445,tmp7446), tmp7447==2, tmp7448==4, FlatTuple(tmp7447,tmp7448,tmp7449), tmp7450==3, tmp7451==6, FlatTuple(tmp7450,tmp7451,tmp7452), FlatDiscreteSet(tmp7452,tmp7446,tmp7449,tmp7453), FlatMember(tmp7453,r), FlatTupleSel(r,tmp7464), tmp7466==1, tmp7467==2, FlatTuple(tmp7466,tmp7467,tmp7468), tmp7469==2, tmp7470==4, FlatTuple(tmp7469,tmp7470,tmp7471), tmp7472==3, tmp7473==6, FlatTuple(tmp7472,tmp7473,tmp7474), FlatDiscreteSet(tmp7468,tmp7474,tmp7471,tmp7475), FlatCard(tmp7475,tmp7465), FlatNot( FlatMember(tmp7465,tmp7464) ), FlatEquals(tmp7443,r) @ tmp7443 } = tmp7442, FlatDiscreteSet(tmp7493,tmp7490,tmp7494)
+set compare: { tmp7497==1, tmp7498==2, FlatTuple(tmp7497,tmp7498,tmp7499), FlatDiscreteSet(tmp7499,tmp7500), FlatMember(tmp7500,r), FlatTupleSel(r,tmp7505), tmp7507==1, tmp7508==2, FlatTuple(tmp7507,tmp7508,tmp7509), FlatDiscreteSet(tmp7509,tmp7510), FlatCard(tmp7510,tmp7506), FlatNot( FlatMember(tmp7506,tmp7505) ), FlatEquals(tmp7496,r) @ tmp7496 } = tmp7495, FlatDiscreteSet(tmp7517)
+set compare: { tmp7520==1, tmp7521==2, FlatTuple(tmp7520,tmp7521,tmp7522), tmp7523==2, tmp7524==4, FlatTuple(tmp7523,tmp7524,tmp7525), FlatDiscreteSet(tmp7525,tmp7522,tmp7526), FlatMember(tmp7526,r), FlatTupleSel(r,tmp7534), tmp7536==1, tmp7537==2, FlatTuple(tmp7536,tmp7537,tmp7538), tmp7539==2, tmp7540==4, FlatTuple(tmp7539,tmp7540,tmp7541), FlatDiscreteSet(tmp7538,tmp7541,tmp7542), FlatCard(tmp7542,tmp7535), FlatNot( FlatMember(tmp7535,tmp7534) ), FlatEquals(tmp7519,r) @ tmp7519 } = tmp7518, FlatDiscreteSet(tmp7554,tmp7555)
+set compare: { { tmp7561==1, tmp7562==10, FlatRangeSet(tmp7561,tmp7562,tmp7560), FlatMember(tmp7560,x), tmp7567==2, FlatMult(x,tmp7567,tmp7566), FlatTuple(x,tmp7566,tmp7568), FlatEquals(tmp7559,tmp7568) @ tmp7559 } = tmp7558, FlatMember(tmp7558,r), FlatTupleSel(r,tmp7586), { tmp7591==1, tmp7592==10, FlatRangeSet(tmp7591,tmp7592,tmp7590), FlatMember(tmp7590,x), tmp7597==2, FlatMult(x,tmp7597,tmp7596), FlatTuple(x,tmp7596,tmp7598), FlatEquals(tmp7589,tmp7598) @ tmp7589 } = tmp7588, FlatCard(tmp7588,tmp7587), FlatNot( FlatMember(tmp7587,tmp7586) ), FlatEquals(tmp7557,r) @ tmp7557 } = tmp7556, { tmp7621==1, tmp7622==9, FlatRangeSet(tmp7621,tmp7622,tmp7620), FlatMember(tmp7620,x), tmp7627==2, FlatMult(x,tmp7627,tmp7626), FlatTuple(x,tmp7626,tmp7628), FlatEquals(tmp7619,tmp7628) @ tmp7619 } = tmp7618
 Passed undef test: animate_sequences.tex:96
 Passed test:animate_sequences.tex:100
 Passed test:animate_sequences.tex:101
 Passed test:animate_sequences.tex:102
 Passed test:animate_sequences.tex:103
 Passed test:animate_sequences.tex:104
-set compare: FlatDiscreteSet(tmp7713), FlatDiscreteSet(tmp7714)
+set compare: FlatDiscreteSet(tmp7721), FlatDiscreteSet(tmp7722)
 Passed test:animate_sequences.tex:129
 ------------- ---------------- ---------------
 
-Testcase: animate_sequences.tex:28 took 0.107 sec
+Testcase: animate_sequences.tex:28 took 0.079 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@84108912 (\seq \nat) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@84108912 (\seq \nat) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:29 took 0.1 sec
+Testcase: animate_sequences.tex:29 took 0.078 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@3fdd5fd5 (\seq \{ \}) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@3fdd5fd5 (\seq \{ \}) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:31 took 0.163 sec
+Testcase: animate_sequences.tex:31 took 0.125 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@84108912 (\seq \nat) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@84108912 (\seq \nat) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:32 took 0.287 sec
+Testcase: animate_sequences.tex:32 took 0.218 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@f37c1c18 (\seq \nat _{1}) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@f37c1c18 (\seq \nat _{1}) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:34 took 0.28 sec
+Testcase: animate_sequences.tex:34 took 0.204 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@84108912 (\seq \nat) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@84108912 (\seq \nat) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:35 took 0.366 sec
+Testcase: animate_sequences.tex:35 took 0.265 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@b9cc8817 (\seq ( 1 \upto 5 )) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@b9cc8817 (\seq ( 1 \upto 5 )) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:36 took 0.502 sec
+Testcase: animate_sequences.tex:36 took 0.375 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@b9cc8817 (\seq ( 1 \upto 5 )) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@b9cc8817 (\seq ( 1 \upto 5 )) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:40 took 0.1 sec
+Testcase: animate_sequences.tex:40 took 0.063 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@87834cee (\iseq \nat) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@87834cee (\iseq \nat) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:41 took 0.098 sec
+Testcase: animate_sequences.tex:41 took 0.078 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@435023b1 (\iseq \{ \}) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@435023b1 (\iseq \{ \}) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:43 took 0.163 sec
+Testcase: animate_sequences.tex:43 took 0.125 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@87834cee (\iseq \nat) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@87834cee (\iseq \nat) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:44 took 0.289 sec
+Testcase: animate_sequences.tex:44 took 0.203 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@f6eedff4 (\iseq \nat _{1}) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@f6eedff4 (\iseq \nat _{1}) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:46 took 0.281 sec
+Testcase: animate_sequences.tex:46 took 0.203 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@87834cee (\iseq \nat) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@87834cee (\iseq \nat) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:47 took 0.369 sec
+Testcase: animate_sequences.tex:47 took 0.265 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@bd3f4bf3 (\iseq ( 1 \upto 5 )) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@bd3f4bf3 (\iseq ( 1 \upto 5 )) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:48 took 0.498 sec
+Testcase: animate_sequences.tex:48 took 0.375 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@bd3f4bf3 (\iseq ( 1 \upto 5 )) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@bd3f4bf3 (\iseq ( 1 \upto 5 )) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:50 took 0.413 sec
+Testcase: animate_sequences.tex:50 took 0.297 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@87834cee (\iseq \nat) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@87834cee (\iseq \nat) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:54 took 0.228 sec
+Testcase: animate_sequences.tex:54 took 0.172 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@9de574eb (seq_{1}~\nat) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@9de574eb (seq_{1}~\nat) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:55 took 0.225 sec
+Testcase: animate_sequences.tex:55 took 0.172 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@59b24bae (seq_{1} \{ \}) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@59b24bae (seq_{1} \{ \}) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:57 took 0.162 sec
+Testcase: animate_sequences.tex:57 took 0.125 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@9de574eb (seq_{1}~\nat) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@9de574eb (seq_{1}~\nat) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:58 took 0.248 sec
+Testcase: animate_sequences.tex:58 took 0.172 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@d3a173f0 (seq_{1} ( 1 \upto 5 )) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@d3a173f0 (seq_{1} ( 1 \upto 5 )) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:60 took 0.369 sec
+Testcase: animate_sequences.tex:60 took 0.281 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@d3a173f0 (seq_{1} ( 1 \upto 5 )) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@d3a173f0 (seq_{1} ( 1 \upto 5 )) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:61 took 0.499 sec
+Testcase: animate_sequences.tex:61 took 0.359 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@d3a173f0 (seq_{1} ( 1 \upto 5 )) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@d3a173f0 (seq_{1} ( 1 \upto 5 )) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:63 took 0.093 sec
-Testcase: animate_sequences.tex:64 took 0.213 sec
-Testcase: animate_sequences.tex:67 took 0.219 sec
-Testcase: animate_sequences.tex:68 took 0.347 sec
-Testcase: animate_sequences.tex:69 took 0.201 sec
-Testcase: animate_sequences.tex:70 took 0.263 sec
-Testcase: animate_sequences.tex:71 took 0.43 sec
-Testcase: animate_sequences.tex:72 took 0.1 sec
-Testcase: animate_sequences.tex:75 took 0.763 sec
-Testcase: animate_sequences.tex:76 took 1.172 sec
-Testcase: animate_sequences.tex:77 took 0.702 sec
-Testcase: animate_sequences.tex:78 took 0.898 sec
-Testcase: animate_sequences.tex:79 took 1.658 sec
-Testcase: animate_sequences.tex:80 took 0.617 sec
-Testcase: animate_sequences.tex:83 took 0.347 sec
-Testcase: animate_sequences.tex:84 took 0.598 sec
-Testcase: animate_sequences.tex:85 took 0.313 sec
-Testcase: animate_sequences.tex:86 took 0.434 sec
-Testcase: animate_sequences.tex:87 took 0.787 sec
-Testcase: animate_sequences.tex:88 took 0.137 sec
-Testcase: animate_sequences.tex:91 took 0.483 sec
+Testcase: animate_sequences.tex:63 took 0.079 sec
+Testcase: animate_sequences.tex:64 took 0.156 sec
+Testcase: animate_sequences.tex:67 took 0.172 sec
+Testcase: animate_sequences.tex:68 took 0.25 sec
+Testcase: animate_sequences.tex:69 took 0.14 sec
+Testcase: animate_sequences.tex:70 took 0.188 sec
+Testcase: animate_sequences.tex:71 took 0.328 sec
+Testcase: animate_sequences.tex:72 took 0.078 sec
+Testcase: animate_sequences.tex:75 took 0.563 sec
+Testcase: animate_sequences.tex:76 took 0.875 sec
+Testcase: animate_sequences.tex:77 took 0.531 sec
+Testcase: animate_sequences.tex:78 took 0.672 sec
+Testcase: animate_sequences.tex:79 took 1.265 sec
+Testcase: animate_sequences.tex:80 took 0.469 sec
+Testcase: animate_sequences.tex:83 took 0.266 sec
+Testcase: animate_sequences.tex:84 took 0.437 sec
+Testcase: animate_sequences.tex:85 took 0.219 sec
+Testcase: animate_sequences.tex:86 took 0.328 sec
+Testcase: animate_sequences.tex:87 took 0.578 sec
+Testcase: animate_sequences.tex:88 took 0.11 sec
+Testcase: animate_sequences.tex:91 took 0.359 sec
 	FAILED
 Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
 junit.framework.AssertionFailedError: Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:92 took 0.873 sec
+Testcase: animate_sequences.tex:92 took 0.656 sec
 	FAILED
 Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
 junit.framework.AssertionFailedError: Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:93 took 0.433 sec
+Testcase: animate_sequences.tex:93 took 0.328 sec
 	FAILED
 Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
 junit.framework.AssertionFailedError: Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:94 took 0.628 sec
+Testcase: animate_sequences.tex:94 took 0.453 sec
 	FAILED
 Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
 junit.framework.AssertionFailedError: Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:95 took 1.191 sec
+Testcase: animate_sequences.tex:95 took 0.891 sec
 	FAILED
 Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
 junit.framework.AssertionFailedError: Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:96 took 0.332 sec
-Testcase: animate_sequences.tex:100 took 0.325 sec
-Testcase: animate_sequences.tex:101 took 0.397 sec
-Testcase: animate_sequences.tex:102 took 0.522 sec
-Testcase: animate_sequences.tex:103 took 0.422 sec
-Testcase: animate_sequences.tex:104 took 0.419 sec
-Testcase: animate_sequences.tex:107 took 0.472 sec
+Testcase: animate_sequences.tex:96 took 0.266 sec
+Testcase: animate_sequences.tex:100 took 0.234 sec
+Testcase: animate_sequences.tex:101 took 0.281 sec
+Testcase: animate_sequences.tex:102 took 0.375 sec
+Testcase: animate_sequences.tex:103 took 0.297 sec
+Testcase: animate_sequences.tex:104 took 0.313 sec
+Testcase: animate_sequences.tex:107 took 0.343 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:108 took 0.539 sec
+Testcase: animate_sequences.tex:108 took 0.391 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:109 took 0.665 sec
+Testcase: animate_sequences.tex:109 took 0.5 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:110 took 0.562 sec
+Testcase: animate_sequences.tex:110 took 0.406 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:111 took 0.562 sec
+Testcase: animate_sequences.tex:111 took 0.422 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:114 took 0.573 sec
+Testcase: animate_sequences.tex:114 took 0.422 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:115 took 0.64 sec
+Testcase: animate_sequences.tex:115 took 0.469 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:116 took 0.642 sec
+Testcase: animate_sequences.tex:116 took 0.469 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:117 took 0.64 sec
+Testcase: animate_sequences.tex:117 took 0.484 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:118 took 0.708 sec
+Testcase: animate_sequences.tex:118 took 0.531 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:119 took 0.707 sec
+Testcase: animate_sequences.tex:119 took 0.516 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:120 took 0.776 sec
+Testcase: animate_sequences.tex:120 took 0.578 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:121 took 0.73 sec
+Testcase: animate_sequences.tex:121 took 0.531 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:122 took 0.733 sec
+Testcase: animate_sequences.tex:122 took 0.547 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@fb81144d (\seq \num) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:126 took 0.785 sec
+Testcase: animate_sequences.tex:126 took 0.578 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@84108912 (\seq \nat) generic
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.RefExprImpl@84108912 (\seq \nat) generic
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:129 took 0.12 sec
-Testcase: animate_sequences.tex:130 took 1.272 sec
+Testcase: animate_sequences.tex:129 took 0.078 sec
+Testcase: animate_sequences.tex:130 took 0.953 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@3326ff6a (\dcat \{ ( 1 , \{ ( 1 , 2 ) , ( 2 , 4 ) , ( 3 , 6 ) \} ) , ( 2 , \{ ( 1 , 2 ) , ( 2 , 4 ) , ( 3 , 6 ) \} ) \}) ?/
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@3326ff6a (\dcat \{ ( 1 , \{ ( 1 , 2 ) , ( 2 , 4 ) , ( 3 , 6 ) \} ) , ( 2 , \{ ( 1 , 2 ) , ( 2 , 4 ) , ( 3 , 6 ) \} ) \}) ?/
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:131 took 1.344 sec
+Testcase: animate_sequences.tex:131 took 1 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@d79df32e (\dcat \{ ( 1 , \{ ( 1 , 2 ) , ( 2 , 4 ) , ( 3 , 6 ) \} ) , ( 2 , \{ ( 1 , 2 ) , ( 2 , 4 ) , ( 3 , 6 ) \} ) , ( 3 , \{ \} ) \}) ?/
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@d79df32e (\dcat \{ ( 1 , \{ ( 1 , 2 ) , ( 2 , 4 ) , ( 3 , 6 ) \} ) , ( 2 , \{ ( 1 , 2 ) , ( 2 , 4 ) , ( 3 , 6 ) \} ) , ( 3 , \{ \} ) \}) ?/
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:132 took 0.865 sec
+Testcase: animate_sequences.tex:132 took 0.641 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@267be36a (\dcat \{ ( 1 , \{ ( 1 , 2 ) , ( 2 , 4 ) , ( 3 , 6 ) \} ) , ( 2 , \{ ( 1 , 3 ) \} ) \}) ?/
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@267be36a (\dcat \{ ( 1 , \{ ( 1 , 2 ) , ( 2 , 4 ) , ( 3 , 6 ) \} ) , ( 2 , \{ ( 1 , 3 ) \} ) \}) ?/
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:135 took 0.151 sec
+Testcase: animate_sequences.tex:135 took 0.125 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@95f7c4c6 (squash \{ \}) squash
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@95f7c4c6 (squash \{ \}) squash
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:136 took 0.272 sec
+Testcase: animate_sequences.tex:136 took 0.203 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@d4332084 (squash \{ ( 3 , 4 ) \}) squash
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@d4332084 (squash \{ ( 3 , 4 ) \}) squash
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:137 took 0.412 sec
+Testcase: animate_sequences.tex:137 took 0.297 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@90949f28 (squash \{ ( 3 , 4 ) , ( 4 , 3 ) \}) squash
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@90949f28 (squash \{ ( 3 , 4 ) , ( 4 , 3 ) \}) squash
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:138 took 0.412 sec
+Testcase: animate_sequences.tex:138 took 0.297 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@6ac16ace (squash \{ ( 3 , 4 ) , ( 42 , 3 ) \}) squash
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@6ac16ace (squash \{ ( 3 , 4 ) , ( 42 , 3 ) \}) squash
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:139 took 0.413 sec
+Testcase: animate_sequences.tex:139 took 0.312 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@26c828a6 (squash \{ ( 3 , 4 ) , ( 2 , 3 ) \}) squash
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@26c828a6 (squash \{ ( 3 , 4 ) , ( 2 , 3 ) \}) squash
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:140 took 0.26 sec
+Testcase: animate_sequences.tex:140 took 0.188 sec
 	Caused an ERROR
 Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@5bae63e7 (squash \{ ( 3 , 4 ) , ( 3 , 3 ) \}) squash
 java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@5bae63e7 (squash \{ ( 3 , 4 ) , ( 3 , 3 ) \}) squash
-	at net.sourceforge.czt.animation.eval.Flatten.notYet(Flatten.java:97)
-	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:468)
+	at net.sourceforge.czt.animation.eval.Flatten.notYet(Flatten.java:142)
+	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:522)
 	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:45)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:110)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:141)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addDecl(FlatPredList.java:205)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addSchText(FlatPredList.java:187)
-	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:491)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:186)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addDecl(FlatPredList.java:220)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addSchText(FlatPredList.java:199)
+	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:545)
 	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:45)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:110)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:141)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExpr(FlatPredList.java:257)
-	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:233)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:186)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExpr(FlatPredList.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:248)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sequences.tex:141 took 0.261 sec
+Testcase: animate_sequences.tex:141 took 0.203 sec
 	Caused an ERROR
 Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@ef24a209 (squash \{ ( 0 , 4 ) , ( 2 , 3 ) \}) squash
 java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@ef24a209 (squash \{ ( 0 , 4 ) , ( 2 , 3 ) \}) squash
-	at net.sourceforge.czt.animation.eval.Flatten.notYet(Flatten.java:97)
-	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:468)
+	at net.sourceforge.czt.animation.eval.Flatten.notYet(Flatten.java:142)
+	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:522)
 	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:45)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:110)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:141)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addDecl(FlatPredList.java:205)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addSchText(FlatPredList.java:187)
-	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:491)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:186)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addDecl(FlatPredList.java:220)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addSchText(FlatPredList.java:199)
+	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:545)
 	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:45)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:110)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:141)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExpr(FlatPredList.java:257)
-	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:233)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:186)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExpr(FlatPredList.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:248)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sequences.tex:144 took 0.411 sec
+Testcase: animate_sequences.tex:144 took 0.313 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@4a3e22d4 (squash \{ r : \{ ( 1 , 3 ) , ( 2 , 5 ) \} | r . 2 \in \{ \} \}) squash
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@4a3e22d4 (squash \{ r : \{ ( 1 , 3 ) , ( 2 , 5 ) \} | r . 2 \in \{ \} \}) squash
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:145 took 0.49 sec
+Testcase: animate_sequences.tex:145 took 0.359 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@656e81a3 (squash \{ r : \{ ( 1 , 3 ) , ( 2 , 5 ) \} | r . 2 \in \{ 5 \} \}) squash
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@656e81a3 (squash \{ r : \{ ( 1 , 3 ) , ( 2 , 5 ) \} | r . 2 \in \{ 5 \} \}) squash
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:146 took 0.824 sec
+Testcase: animate_sequences.tex:146 took 0.609 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@35fdb9f4 (squash \{ r : \{ ( 1 , 3 ) , ( 2 , 5 ) , ( 3 , 7 ) , ( 4 , 6 ) , ( 5 , 9 ) \} | r . 2 \in ( 5 \upto 6 ) \}) squash
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@35fdb9f4 (squash \{ r : \{ ( 1 , 3 ) , ( 2 , 5 ) , ( 3 , 7 ) , ( 4 , 6 ) , ( 5 , 9 ) \} | r . 2 \in ( 5 \upto 6 ) \}) squash
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:147 took 0.287 sec
+Testcase: animate_sequences.tex:147 took 0.219 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@92dd7cf6 (squash \{ r : \{ \} | r . 2 \in \nat \}) squash
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@92dd7cf6 (squash \{ r : \{ \} | r . 2 \in \nat \}) squash
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:148 took 0.537 sec
+Testcase: animate_sequences.tex:148 took 0.391 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@c7ea1477 (squash \{ r : \{ ( 1 , 3 ) , ( 2 , 5 ) \} | r . 2 \in \nat \}) squash
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@c7ea1477 (squash \{ r : \{ ( 1 , 3 ) , ( 2 , 5 ) \} | r . 2 \in \nat \}) squash
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:151 took 0.414 sec
+Testcase: animate_sequences.tex:151 took 0.312 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@1557e793 (squash \{ r : \{ ( 1 , 3 ) , ( 2 , 5 ) \} | r . 1 \in \{ \} \}) squash
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@1557e793 (squash \{ r : \{ ( 1 , 3 ) , ( 2 , 5 ) \} | r . 1 \in \{ \} \}) squash
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:152 took 0.496 sec
+Testcase: animate_sequences.tex:152 took 0.36 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@910392e6 (squash \{ r : \{ ( 1 , 3 ) , ( 2 , 5 ) \} | r . 1 \in \{ 1 \} \}) squash
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@910392e6 (squash \{ r : \{ ( 1 , 3 ) , ( 2 , 5 ) \} | r . 1 \in \{ 1 \} \}) squash
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:153 took 0.492 sec
+Testcase: animate_sequences.tex:153 took 0.375 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@f8e4bfc5 (squash \{ r : \{ ( 1 , 3 ) , ( 2 , 5 ) \} | r . 1 \in \{ 2 \} \}) squash
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@f8e4bfc5 (squash \{ r : \{ ( 1 , 3 ) , ( 2 , 5 ) \} | r . 1 \in \{ 2 \} \}) squash
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_sequences.tex:154 took 0.988 sec
+Testcase: animate_sequences.tex:154 took 0.562 sec
 	FAILED
 Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@3f0cd2b6 (squash \{ r : \{ ( 1 , 3 ) , ( 2 , 5 ) , ( 3 , 7 ) , ( 4 , 6 ) , ( 5 , 9 ) \} | r . 1 \in \{ 2 , 4 \} \}) squash
 junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@3f0cd2b6 (squash \{ r : \{ ( 1 , 3 ) , ( 2 , 5 ) , ( 3 , 7 ) , ( 4 , 6 ) , ( 5 , 9 ) \} | r . 1 \in \{ 2 , 4 \} \}) squash
