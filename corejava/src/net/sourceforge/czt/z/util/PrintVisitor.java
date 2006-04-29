@@ -193,8 +193,11 @@ public class PrintVisitor
     final StringBuilder result = new StringBuilder();
     String sep = "";
     for (Term term : list) {
-      result.append(separator + visit(term));
-      sep = separator;
+      String string = visit(term);
+      if (string != null) {
+        result.append(sep + string);
+        sep = separator;
+      }
     }
     return result.toString();
   }
