@@ -65,9 +65,6 @@ public class TextUI {
   /** The animator engine */
   protected ZLive zlive_;
   
-  /** The current input */
-  protected BufferedReader input_;
-  
   /** The current output */
   protected PrintWriter output_;
 
@@ -75,6 +72,12 @@ public class TextUI {
   public ZLive getZLive()
   {
     return zlive_;
+  }
+
+  /** Set the current output writer. */
+  public void setOutput(/*@non_null*/PrintWriter output)
+  {
+    output_ = output;
   }
 
   /** main entry point, which runs ZLive with System.in and System.out. */
@@ -88,25 +91,34 @@ public class TextUI {
     // save log messages into zlive.log, using our human-readable format
     ZFormatter.startLogging("zlive.log", Level.FINEST);
 
-    TextUI ui = new TextUI(new ZLive(), input, output);
-    ui.mainLoop();
+    TextUI ui = new TextUI(new ZLive(), output);
+    ui.mainLoop(input);
   }
 
-  public TextUI(ZLive zlive, BufferedReader input, PrintWriter output)
+  /** Constructs a new ZLive textual user interface.
+   *  If the output PrintWriter is null, then System.out
+   *  is used as the default output device.
+   *  
+   * @param zlive  The animation engine.
+   * @param output The output writer (optional).
+   */
+  public TextUI(ZLive zlive, PrintWriter output)
   {
     zlive_ = zlive;
-    input_ = input;
-    output_ = output;
+    if (output == null)
+      output_ = new PrintWriter(System.out, true); // with autoflush
+    else
+      output_ = output;
   }
 
   /** The main read-process loop. */
-  public void mainLoop()
+  public void mainLoop(BufferedReader input)
   throws IOException
   {
     while (true) {
       output_.print("zlive> ");
       output_.flush();
-      String str = input_.readLine();
+      String str = input.readLine();
       str.trim();
       if (str == null || str.equals("quit") || str.equals("exit"))
         break;
