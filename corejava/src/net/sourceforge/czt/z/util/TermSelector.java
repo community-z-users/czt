@@ -23,10 +23,13 @@ import java.util.Stack;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
 
 /**
+ * This class provides methods to select terms in an AST based on the
+ * location annotations of the terms and a given position, which is
+ * usually the position of a pointing device like a caret.
+ *
  * @author Petra Malik
  */
 public class TermSelector
@@ -35,8 +38,10 @@ public class TermSelector
   private Stack<Term> stack_ = new Stack<Term>();
 
   /**
+   * Creates a new TermSelector with the given root term.
+   *
    * @param root The non-null root of the AST from which the search and
-   *             selection algorithm start.
+   *             selection algorithms start.
    */
   public TermSelector(Term root)
   {
@@ -44,12 +49,38 @@ public class TermSelector
     root_ = root;
   }
 
+  /**
+   * Returns the currently selected term, or <code>null</code> if none
+   * is currently selected.
+   *
+   * @return the currently selected term.  If it is not <code>null</code>,
+   *         the returned term has non-<code>null</code> start and length
+   *         notation annotations.
+   */
   public Term getSelectedTerm()
   {
     if (stack_.empty()) return null;
     return stack_.peek();
   }
 
+  /**
+   * <p>Computes the new term to be selected based on the given position.
+   * This works as follows:</p>
+   *
+   * <p>If no term is currently selected or the given position is
+   * outside the currently selected term, this method tries to find a
+   * term in the tree with non-<code>null</code> start and length
+   * location annotations so that <code>start <= position <= start +
+   * length</code>.  It makes also sure that this newly selected term
+   * doesn't have a descendant with non-<code>null</code> start and
+   * length location annotation for which <code>start <= position <=
+   * start + length</code> holds.</p>
+   *
+   * <p>If the given position is inside the currently selected term,
+   * the closest ancestor with non-<code>null</code> start and length
+   * location annotation is selected.  If there doesn't exist such an
+   * ancestor, the next selected term is set to <code>null</code>.
+   */
   public boolean next(int position)
   {
     if (stack_.empty()) {
@@ -100,19 +131,19 @@ public class TermSelector
     {
       LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
       if (locAnn != null && locAnn.getStart() != null) {
-	if (position_ < locAnn.getStart()) {
-	  return false;
-	}
-	if (locAnn.getLength() != null &&
-	    position_ > locAnn.getStart() + locAnn.getLength()) {
-	  return false;
-	}
+        if (position_ < locAnn.getStart()) {
+          return false;
+        }
+        if (locAnn.getLength() != null &&
+            position_ > locAnn.getStart() + locAnn.getLength()) {
+          return false;
+        }
       }
       stack_.push(term);
       Object[] children = term.getChildren();
       for (int i = children.length - 1; i >= 0; i--) {
         Object o = children[i];
-	if (o instanceof Term && ((Term) o).accept(this)) return true;
+        if (o instanceof Term && ((Term) o).accept(this)) return true;
       }
       if (isLocation(locAnn)) return true;
       stack_.pop();
