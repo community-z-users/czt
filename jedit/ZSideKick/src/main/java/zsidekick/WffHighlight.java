@@ -28,15 +28,13 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor;
+import net.sourceforge.czt.z.util.TermSelector;
 
 public class WffHighlight
   extends TextAreaExtension
 {
   private JEditTextArea textArea_;
-  private Spec spec_;
-  private Stack<Term> stack_ = new Stack<Term>();
-  private int matchStart_ = -1;
-  private int matchEnd_ = -1;
+  private TermSelector termSelector_;
 
   public WffHighlight(JEditTextArea textArea)
   {
@@ -45,10 +43,14 @@ public class WffHighlight
 
   public String getToolTipText(int x, int y)
   {
-    final int offset = textArea_.xyToOffset(x, y);
-    if (matchStart_ <= offset && offset <= matchEnd_) {
-      Term term = stack_.peek();
-      return term.accept(new ConcreteSyntaxDescriptionVisitor());
+    if (termSelector_ != null && termSelector_.getSelectedTerm() != null) {
+      final int offset = textArea_.xyToOffset(x, y);
+      final Term term = termSelector_.getSelectedTerm();
+      final LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
+      if (locAnn.getStart() <= offset &&
+          offset <= locAnn.getStart() + locAnn.getLength()) {
+        return term.accept(new ConcreteSyntaxDescriptionVisitor());
+      }
     }
     return null;
   }
@@ -56,37 +58,42 @@ public class WffHighlight
   public void paintValidLine(Graphics2D gfx, int screenLine,
 			     int physicalLine, int start, int end, int y)
   {
-    if(matchStart_ < end && matchEnd_ >= start) { // spec_ != null) {
-      final int matchStartLine = textArea_.getScreenLineOfOffset(matchStart_);
-      final int matchEndLine = textArea_.getScreenLineOfOffset(matchEnd_);
-      final int height = textArea_.getPainter().getFontMetrics().getHeight();
-      final int x1 = getStartOffset(screenLine, matchStart_);
-      final int x2 = getEndOffset(screenLine, matchEnd_);
+    if (termSelector_ != null && termSelector_.getSelectedTerm() != null) {
+      final Term term = termSelector_.getSelectedTerm();
+      final LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
+      final int matchStart = locAnn.getStart();
+      final int matchEnd = locAnn.getStart() + locAnn.getLength();
+      if (matchStart < end && matchEnd >= start) {
+        final int matchStartLine = textArea_.getScreenLineOfOffset(matchStart);
+        final int matchEndLine = textArea_.getScreenLineOfOffset(matchEnd);
+        final int height = textArea_.getPainter().getFontMetrics().getHeight();
+        final int x1 = getStartOffset(screenLine, matchStart);
+        final int x2 = getEndOffset(screenLine, matchEnd);
 
-      gfx.setColor(textArea_.getPainter().getStructureHighlightColor());
-      gfx.drawLine(x1, y, x1, y + height - 1);
-      gfx.drawLine(x2, y, x2, y + height - 1);
+        gfx.setColor(textArea_.getPainter().getStructureHighlightColor());
+        gfx.drawLine(x1, y, x1, y + height - 1);
+        gfx.drawLine(x2, y, x2, y + height - 1);
 
-      if(matchStartLine == screenLine || screenLine == 0) {
-	gfx.drawLine(x1, y, x2, y);
-      }
-      else {
-	int prevX1 = getStartOffset(screenLine - 1, matchStart_);
-	int prevX2 = getEndOffset(screenLine - 1, matchEnd_);
-	gfx.drawLine(Math.min(x1, prevX1), y, Math.max(x1, prevX1), y);
-	gfx.drawLine(Math.min(x2, prevX2), y, Math.max(x2, prevX2), y);
-      }
+        if(matchStartLine == screenLine || screenLine == 0) {
+          gfx.drawLine(x1, y, x2, y);
+        }
+        else {
+          int prevX1 = getStartOffset(screenLine - 1, matchStart);
+          int prevX2 = getEndOffset(screenLine - 1, matchEnd);
+          gfx.drawLine(Math.min(x1, prevX1), y, Math.max(x1, prevX1), y);
+          gfx.drawLine(Math.min(x2, prevX2), y, Math.max(x2, prevX2), y);
+        }
 
-      if(matchEndLine == screenLine) {
-	gfx.drawLine(x1, y + height - 1, x2, y + height - 1);
+        if(matchEndLine == screenLine) {
+          gfx.drawLine(x1, y + height - 1, x2, y + height - 1);
+        }
       }
     }
   }
 
   public void setSpec(Spec spec)
   {
-    spec_ = spec;
-    stack_.clear();
+    termSelector_ = new TermSelector(spec);
     textArea_.repaint();
   }
 
@@ -102,35 +109,19 @@ public class WffHighlight
 
   public void next()
   {
-    if (spec_ != null) {
-      final int caretPos = textArea_.getCaretPosition();
-      if (stack_.empty() || caretPos < matchStart_ || caretPos > matchEnd_) {
-        stack_.clear();
-        spec_.accept(new FindWffVisitor(caretPos, stack_));
-      }
-      else {
-        stack_.pop();
-      }
-      while (! stack_.empty()) {
-        final Term term = stack_.pop();
-        final LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
-        if (isLocation(locAnn)) {
-          stack_.push(term);
-          matchStart_ = locAnn.getStart();
-          matchEnd_ = matchStart_ + locAnn.getLength();
-          textArea_.repaint();
-          return;
-        }
-      }
-      matchStart_ = matchEnd_ = -1;
+    if (termSelector_ != null) {
+      termSelector_.next(textArea_.getCaretPosition());
       textArea_.repaint();
     }
   }
 
   public Term getSelectedWff()
   {
-    if (stack_.empty()) return null;
-    return stack_.peek();
+    Term result = null;
+    if (termSelector_ != null) {
+      result = termSelector_.getSelectedTerm();
+    }
+    return result;
   }
 
   private int getStartOffset(int screenLine, int start)
@@ -151,41 +142,5 @@ public class WffHighlight
     }
     return
       textArea_.offsetToXY(textArea_.getScreenLineEndOffset(screenLine) - 1).x;
-  }
-
-  static class FindWffVisitor
-    implements TermVisitor
-  {
-    private int position_;
-    private Stack<Term> stack_;
-
-    public FindWffVisitor(int position, Stack<Term> stack)
-    {
-      position_ = position;
-      stack_ = stack;
-    }
-
-    public Object visitTerm(Term term)
-    {
-      LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
-      if (locAnn != null && locAnn.getStart() != null) {
-	if (position_ < locAnn.getStart()) {
-	  return null;
-	}
-	if (locAnn.getLength() != null &&
-	    position_ > locAnn.getStart() + locAnn.getLength()) {
-	  return null;
-	}
-      }
-      stack_.push(term);
-      Object[] children = term.getChildren();
-      for (int i = children.length - 1; i >= 0; i--) {
-        Object o = children[i];
-	if (o instanceof Term && ((Term) o).accept(this) != null) return term;
-      }
-      if (isLocation(locAnn)) return term;
-      stack_.pop();
-      return null;
-    }
   }
 }
