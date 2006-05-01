@@ -20,7 +20,6 @@
 package net.sourceforge.czt.jedit.zlive;
 
 import java.io.*;
-import java.util.*;
 
 import org.gjt.sp.jedit.*;
 import console.*;
@@ -30,9 +29,14 @@ import net.sourceforge.czt.animation.eval.*;
 public class ZLiveConsole
   extends Shell
 {
+  private ZLive zlive_;
+  private TextUI ui;
+  
   public ZLiveConsole()
   {
     super(ZLivePlugin.NAME);
+    zlive_ = new ZLive();
+    ui = new TextUI(zlive_, null);
   }
 
   public void printInfoMessage(Output output)
@@ -55,9 +59,8 @@ public class ZLiveConsole
     if (! command.equals("")) {
       String parts[] = command.split(" ",2);
       StringWriter out = new StringWriter();
-      TextUI.processCmd(parts[0],
-                        parts.length > 1 ? parts[1] : "",
-                        new PrintWriter(out));
+      ui.setOutput(new PrintWriter(out));
+      ui.processCmd(parts[0], parts.length > 1 ? parts[1] : "");
       output.writeAttrs(null, out.toString());
     }
     output.commandDone();
