@@ -43,13 +43,15 @@ public class WffHighlight
 
   public String getToolTipText(int x, int y)
   {
-    if (termSelector_ != null && termSelector_.getSelectedTerm() != null) {
-      final int offset = textArea_.xyToOffset(x, y);
+    if (termSelector_ != null) {
       final Term term = termSelector_.getSelectedTerm();
-      final LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
-      if (locAnn.getStart() <= offset &&
-          offset <= locAnn.getStart() + locAnn.getLength()) {
-        return term.accept(new ConcreteSyntaxDescriptionVisitor());
+      if (term != null) {
+        final int offset = textArea_.xyToOffset(x, y);
+        final LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
+        if (locAnn.getStart() <= offset &&
+            offset <= locAnn.getStart() + locAnn.getLength()) {
+          return term.accept(new ConcreteSyntaxDescriptionVisitor());
+        }
       }
     }
     return null;
