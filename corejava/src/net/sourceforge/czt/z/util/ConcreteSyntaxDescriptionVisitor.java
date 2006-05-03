@@ -67,10 +67,13 @@ public class ConcreteSyntaxDescriptionVisitor
   public String visitTerm(Term term)
   {
     ConcreteSyntaxSymbol symbol = term.accept(visitor_);
-    String localized =
-      ResourceBundle.getBundle(resourceName_).getString(symbol.toString());
-    String name = term.accept(nameVisitor_);
-    if (name != null) return localized + " \"" + name + "\"";
-    else return localized;
+    if (symbol != null) {
+      String localized =
+        ResourceBundle.getBundle(resourceName_).getString(symbol.toString());
+      String name = term.accept(nameVisitor_);
+      if (name != null) return localized + " \"" + name + "\"";
+      else return localized;
+    }
+    return null;
   }
 }
