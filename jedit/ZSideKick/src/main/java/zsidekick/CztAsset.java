@@ -31,7 +31,7 @@ public class CztAsset
   public CztAsset(String name, String description,
                   Position start, Position end)
   {
-    super(name);
+    super(name == null ? "unknown" : name);
     description_ = description;
     setStart(start);
     setEnd(end);
