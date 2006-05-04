@@ -25,7 +25,17 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
-/**
+/**A convenience class for printing SIMPLE terms as strings.
+ * This simple printer does not handle predicates or expressions,
+ * just types, names, numbers, etc.
+ * It generally returns human-readable strings (ASCII), but
+ * produces some Unicode characters for some ZRefNames/ZDeclNames.
+ * However, types are printed using ASCII notation.  
+ * <p>
+ * For more sophisticated printing of arbitrary terms, you
+ * should use the SectionManager class in the session project
+ * and ask it for a UnicodeString or LatexString class.
+ * </p>
  * @author Petra Malik
  */
 public class PrintVisitor
