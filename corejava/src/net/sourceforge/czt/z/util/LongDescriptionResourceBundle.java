@@ -21,7 +21,11 @@ package net.sourceforge.czt.z.util;
 
 import java.util.ListResourceBundle;
 
-/**
+/** This resource bundle translates ConcreteSyntaxSymbol
+ *  elements into long human-readable descriptions.
+ *  The resulting strings (typically 20-40 characters long)
+ *  can be displayed as a summary of the meaning of each Z construct.
+ *
  * @author Petra Malik
  */
 public class LongDescriptionResourceBundle

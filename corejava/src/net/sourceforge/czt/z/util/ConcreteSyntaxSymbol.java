@@ -21,7 +21,15 @@ package net.sourceforge.czt.z.util;
 
 /**
  * An enumeration of concrete syntax symbols.
- *
+ * These are based on the concrete syntax productions in
+ * the Z standard, plus a few extra symbols for the
+ * CZT extensions, such as unparsed paragraphs and various
+ * lists and pairs etc.
+ * <p>
+ * The {@link ConcreteSyntaxSymbolVisitor} in this package can be
+ * used to classify most kinds of AST nodes as one of these 
+ * symbols.
+ * </p>
  * @author Petra Malik
  */
 public enum ConcreteSyntaxSymbol

@@ -112,7 +112,9 @@ public class TermSelector
       locAnn.getLength() != null;
   }
 
-  /**
+  /** This visitor searches down an AST to find the smallest
+   *  subtree that contains the given cursor position.
+   *  
    * None of the methods in this class should ever return <code>null</code>.
    */
   static class FindTermVisitor

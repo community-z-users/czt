@@ -21,7 +21,13 @@ package net.sourceforge.czt.z.util;
 
 import java.util.ListResourceBundle;
 
-/**
+/** This resource bundle translates {@link ConcreteSyntaxSymbol}
+ *  elements into short descriptions.
+ *  Currently, the resulting string (typically 4-14 characters long)
+ *  is simply the name of the ConcreteSyntaxSymbol itself.
+ *  This can be used as a very short summary of the AST node,
+ *  for example, in an outline editor in JEdit or Eclipse.
+ *
  * @author Petra Malik
  */
 public class ShortDescriptionResourceBundle

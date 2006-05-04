@@ -25,13 +25,31 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.util.Visitor;
 
+/** This class is useful for creating human-readable summaries
+ *  of AST nodes.  It is typically used to generate a short (or long)
+ *  description of the currently selected AST node within a Z editor.
+ *  <p>
+ *  It uses a visitor to classify a given AST node 
+ *  into a {@link ConcreteSyntaxSymbol}, then a resource bundle (the default 
+ *  is "net.sourceforge.czt.z.util.LongDescriptionResourceBundle") 
+ *  to translate this ConcreteSyntaxSymbol into a human-readable
+ *  string that describes the kind of AST node.  It then appends to 
+ *  this string the result of applying a `name visitor' to the AST node,
+ *  so that we can see the main names declared/used that AST node.
+ *  The default name visitor is {@link GetNameVisitor}.
+ *  </p>
+ * 
+ * @author petra
+ */
 public class ConcreteSyntaxDescriptionVisitor
   implements TermVisitor<String>
 {
   private String resourceName_ =
     "net.sourceforge.czt.z.util.LongDescriptionResourceBundle";
+
   private Visitor<ConcreteSyntaxSymbol> visitor_ =
     new ConcreteSyntaxSymbolVisitor();
+
   private Visitor<String> nameVisitor_ = new GetNameVisitor();
 
   public ConcreteSyntaxDescriptionVisitor()
